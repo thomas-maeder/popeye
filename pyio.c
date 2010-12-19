@@ -2576,14 +2576,13 @@ static char *ParsePlay(char *tok,
       assert(branch_find_slice(STSeriesFork,proxy)!=no_slice);
 
       {
+        slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
         slice_index const
-            inverter = branch_find_slice(STMoveInverterSeriesFilter,next);
-        slice_index const played = branch_find_slice(STSeriesMovePlayed,
-                                                     inverter);
-        stip_length_type const length = slices[played].u.branch.length;
-        stip_length_type const min_length = slices[played].u.branch.min_length;
-        slice_index const parrying = alloc_series_move_slice(length+1,
-                                                             min_length+1);
+            inverter = branch_find_slice(STMoveInverterSeriesFilter,ready);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,inverter);
+        stip_length_type const length = slices[ready].u.branch.length;
+        stip_length_type const min_length = slices[ready].u.branch.min_length;
+        slice_index const parrying = alloc_series_move_slice(length,min_length);
         convert_to_parry_series_branch(next,parrying);
         pipe_link(parrying,played);
 

@@ -53,7 +53,7 @@ stip_length_type key_writer_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = defense_can_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-  max_variation_length[nbply+1] = result>n ? n : result;
+  max_variation_length[nbply+1] = result<n ? result : n;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

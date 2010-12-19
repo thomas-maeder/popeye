@@ -448,6 +448,7 @@ slice_index branch_find_slice(SliceType type, slice_index si)
   boolean slices_visited[max_nr_slices] = { false };
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 

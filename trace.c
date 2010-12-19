@@ -260,12 +260,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReadyForDefense:
       case STContinuationSolver:
       case STCheckDetector:
-      case STTrySolver:
       case STDefenseMove:
       case STDefenseMovePlayed:
       case STKillerMoveCollector:
       case STKillerMoveFinalDefenseMove:
-      case STRefutationsCollector:
       case STAttackHashed:
       case STHelpRoot:
       case STHelpMove:
@@ -276,8 +274,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesMove:
       case STSeriesMoveToGoal:
       case STReadyForSeriesMove:
-      case STSeriesMovePlayed:
-      case STSeriesMoveDealtWith:
       case STHelpHashed:
       case STSeriesHashed:
       case STStopOnShortSolutionsHelpFilter:
@@ -341,7 +337,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDefenseDealtWith:
       case STHelpMovePlayed:
       case STHelpMoveLegalityChecked:
+      case STSeriesMovePlayed:
       case STSeriesMoveLegalityChecked:
+      case STSeriesMoveDealtWith:
+      case STTrySolver:
+      case STRefutationsCollector:
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:

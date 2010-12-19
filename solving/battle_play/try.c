@@ -73,21 +73,16 @@ void set_max_nr_refutations(unsigned int mnr)
 }
 
 /* Allocate a STTrySolver defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_try_solver(stip_length_type length,
-                                            stip_length_type min_length)
+static slice_index alloc_try_solver(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STTrySolver,length,min_length);
+  result = alloc_pipe(STTrySolver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -113,7 +108,6 @@ stip_length_type try_solver_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
-  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -129,7 +123,7 @@ stip_length_type try_solver_defend_in_n(slice_index si,
     defense_can_defend_in_n(next,n,n_max_unsolvable);
     are_we_solving_refutations = false;
 
-    result = length+2;
+    result = n+2;
   }
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -159,7 +153,6 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
-  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -172,10 +165,10 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
 
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
-  if (result<=length)
+  if (result<=n)
   {
     if (table_length(refutations)>0)
-      result = length+2;
+      result = n+2;
   }
   else
   {
@@ -190,22 +183,16 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
 }
 
 /* Allocate a STRefutationsCollector slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static
-slice_index alloc_refutations_collector_slice(stip_length_type length,
-                                              stip_length_type min_length)
+static slice_index alloc_refutations_collector_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STRefutationsCollector,length,min_length);
+  result = alloc_pipe(STRefutationsCollector);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -236,8 +223,6 @@ refutations_collector_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  assert(n==slices[si].u.branch.length);
 
   if (are_we_solving_refutations)
   {
@@ -308,19 +293,18 @@ refutations_collector_solve_in_n(slice_index si,
 static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle+1) /* in (s)#1, tries don't make sense */
+  /* in (s)#1, tries don't make sense */
+  if (slices[si].u.branch.length>slack_length_battle+1)
   {
     slice_index const prototypes[] =
     {
-      alloc_try_solver(length-1,min_length-1),
-      alloc_refutations_collector_slice(length-2,min_length-2)
+      alloc_try_solver(),
+      alloc_refutations_collector_slice()
     };
 
     enum

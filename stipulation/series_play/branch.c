@@ -208,9 +208,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
                                            slack_length_series+1,
                                            slack_length_series+1);
     slice_index const move_to_goal = alloc_series_move_to_goal_slice(goal);
-    slice_index const played = alloc_branch(STSeriesMovePlayed,
-                                            slack_length_series,
-                                            slack_length_series);
+    slice_index const played = alloc_pipe(STSeriesMovePlayed);
     pipe_append(slices[si].prev,ready);
     pipe_append(ready,move_to_goal);
     pipe_append(move_to_goal,played);
@@ -235,9 +233,7 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const checked = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt = alloc_branch(STSeriesMoveDealtWith,
-                                           slack_length_series,
-                                           slack_length_series);
+    slice_index const dealt = alloc_pipe(STSeriesMoveDealtWith);
     pipe_append(si,checked);
     pipe_append(checked,dealt);
   }
@@ -288,19 +284,15 @@ slice_index alloc_series_branch(stip_length_type length,
 
   {
     slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
-                                            length,min_length);
+    slice_index const dealt2 = alloc_pipe(STSeriesMoveDealtWith);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            length,min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
-                                             length-1,min_length-1);
+    slice_index const played1 = alloc_pipe(STSeriesMovePlayed);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
-                                            length-1,min_length-1);
+    slice_index const dealt1 = alloc_pipe(STSeriesMoveDealtWith);
     slice_index const inverter = alloc_move_inverter_series_filter();
-    slice_index const played2 = alloc_branch(STSeriesMovePlayed,
-                                             length-1,min_length-1);
+    slice_index const played2 = alloc_pipe(STSeriesMovePlayed);
 
     pipe_link(checked2,dealt2);
     pipe_link(dealt2,ready);

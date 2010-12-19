@@ -299,9 +299,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_branch, /* STReadyForSeriesMove */
-  slice_structure_branch, /* STSeriesMovePlayed */
+  slice_structure_pipe,   /* STSeriesMovePlayed */
   slice_structure_pipe,   /* STSeriesMoveLegalityChecked */
-  slice_structure_branch, /* STSeriesMoveDealtWith */
+  slice_structure_pipe,   /* STSeriesMoveDealtWith */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
@@ -340,20 +340,20 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
-  slice_structure_branch, /* STTrySolver */
+  slice_structure_pipe,   /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_branch, /* STThreatEnforcer */
   slice_structure_branch, /* STThreatCollector */
-  slice_structure_branch, /* STRefutationsCollector */
+  slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_branch, /* STDoubleMateAttackerFilter */
   slice_structure_branch, /* STDoubleMateHelpFilter */
   slice_structure_branch, /* STDoubleMateSeriesFilter */
   slice_structure_branch, /* STCounterMateAttackerFilter */
   slice_structure_branch, /* STCounterMateHelpFilter */
   slice_structure_branch, /* STCounterMateSeriesFilter */
-  slice_structure_branch, /* STNoShortVariations */
+  slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
   slice_structure_branch, /* STAttackMoveToGoal */
   slice_structure_pipe,   /* STKillerMoveCollector */
@@ -1557,9 +1557,7 @@ static structure_traversers_visitors exact_makers[] =
   { STHelpMoveDealtWith,          &make_exact_help_branch   },
   { STSeriesMove,                 &make_exact_series_branch },
   { STSeriesFork,                 &make_exact_series_branch },
-  { STReadyForSeriesMove,         &make_exact_series_branch },
-  { STSeriesMovePlayed,           &make_exact_series_branch },
-  { STSeriesMoveDealtWith,        &make_exact_series_branch }
+  { STReadyForSeriesMove,         &make_exact_series_branch }
 };
 
 enum
@@ -2125,9 +2123,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
     &stip_traverse_moves_move_slice,            /* STSeriesMoveToGoal */
     &stip_traverse_moves_branch_slice,          /* STReadyForSeriesMove */
-    &stip_traverse_moves_branch_slice,          /* STSeriesMovePlayed */
+    &stip_traverse_moves_pipe,                  /* STSeriesMovePlayed */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
-    &stip_traverse_moves_branch_slice,          /* STSeriesMoveDealtWith */
+    &stip_traverse_moves_pipe,                  /* STSeriesMoveDealtWith */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
