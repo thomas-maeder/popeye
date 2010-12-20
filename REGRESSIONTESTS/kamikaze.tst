@@ -128,7 +128,7 @@ originally occupied by the other exchanger
 
               empile:       48033
             jouecoup:       47461
-        orig_rbechec:       11833
+        orig_rbechec:       11838
         orig_rnechec:           0
 solution finished. 
 

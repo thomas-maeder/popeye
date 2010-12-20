@@ -177,11 +177,12 @@ static void root_branch_insert_slices_recursive(slice_index si,
           break;
         else if (rank_next>prototype_rank)
         {
-          pipe_append(si,copy_slice(prototypes[0]));
+          slice_index const copy = copy_slice(prototypes[0]);
+          pipe_append(si,copy);
           if (nr_prototypes>1)
-            root_branch_insert_slices_recursive(si,
+            root_branch_insert_slices_recursive(copy,
                                                 prototypes+1,nr_prototypes-1,
-                                                base);
+                                                prototype_rank+1);
           break;
         }
         else
@@ -339,6 +340,7 @@ void leaf_branch_insert_slices_nested(slice_index si,
   {
     SliceType const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_leaf_slice_rank(prototype_type);
+
     if (prototype_rank==no_leaf_slice_type)
     {
       if (nr_prototypes>1)
@@ -347,30 +349,33 @@ void leaf_branch_insert_slices_nested(slice_index si,
     else
       do
       {
-        if (slices[si].type==STProxy)
-          si = slices[si].u.pipe.next;
-        else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+        slice_index const next = slices[si].u.pipe.next;
+        if (slices[next].type==STProxy)
+          si = next;
+        else if (slices[next].type==STQuodlibet
+                 || slices[next].type==STReciprocal)
         {
-          leaf_branch_insert_slices_nested(slices[si].u.binary.op1,
+          leaf_branch_insert_slices_nested(slices[next].u.binary.op1,
                                            prototypes,nr_prototypes);
-          leaf_branch_insert_slices_nested(slices[si].u.binary.op2,
+          leaf_branch_insert_slices_nested(slices[next].u.binary.op2,
                                            prototypes,nr_prototypes);
           break;
         }
         else
         {
-          unsigned int const rank_si = get_leaf_slice_rank(slices[si].type);
-          if (rank_si==nr_leaf_slice_rank_order_elmts)
+          unsigned int const rank_next = get_leaf_slice_rank(slices[next].type);
+          if (rank_next==no_leaf_slice_type)
             break;
-          else if (rank_si>prototype_rank)
+          else if (rank_next>prototype_rank)
           {
-            pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+            slice_index const copy = copy_slice(prototypes[0]);
+            pipe_append(si,copy);
             if (nr_prototypes>1)
-              leaf_branch_insert_slices_nested(si,prototypes+1,nr_prototypes-1);
+              leaf_branch_insert_slices_nested(copy,prototypes+1,nr_prototypes-1);
             break;
           }
           else
-            si = slices[si].u.pipe.next;
+            si = next;
         }
       } while (prototype_type!=slices[si].type);
   }

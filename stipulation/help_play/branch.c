@@ -14,6 +14,7 @@
 static slice_index const help_slice_rank_order[] =
 {
   STReadyForHelpMove,
+  STHelpFork,
   STHelpHashed,
   STEnPassantHelpFilter,
   STCastlingHelpFilter,
@@ -108,11 +109,12 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
           break;
         else if (rank_next>prototype_rank)
         {
-          pipe_append(si,copy_slice(prototypes[0]));
+          slice_index const copy = copy_slice(prototypes[0]);
+          pipe_append(si,copy);
           if (nr_prototypes>1)
-            help_branch_insert_slices_recursive(si,
+            help_branch_insert_slices_recursive(copy,
                                                 prototypes+1,nr_prototypes-1,
-                                                prototype_rank);
+                                                prototype_rank+1);
           break;
         }
         else

@@ -39,6 +39,7 @@ static void instrument_goal_exchange_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
+    slice_index const proxy_tested = alloc_proxy_slice();
     slice_index const tested = branch_find_slice(STGoalReachedTested,si);
     slice_index const proxy_special = alloc_proxy_slice();
     /* reusing the special exchange detection created for Anticirce */
@@ -49,10 +50,12 @@ static void instrument_goal_exchange_filter(slice_index si,
     slice_index const filter = alloc_anticirce_exchange_filter_slice();
 
     assert(tested!=no_slice);
+    pipe_append(slices[tested].prev,proxy_tested);
+
     pipe_link(slices[si].prev,
               alloc_quodlibet_slice(proxy_filter,proxy_special));
     pipe_link(proxy_special,special);
-    pipe_link(special,tested);
+    pipe_link(special,proxy_tested);
 
     pipe_link(proxy_filter,filter);
     pipe_link(filter,si);

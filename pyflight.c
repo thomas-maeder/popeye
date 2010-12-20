@@ -1,7 +1,7 @@
 #include "pyflight.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
@@ -209,8 +209,12 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,alloc_maxflight_guard_slice());
   stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_maxflight_guard_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -218,7 +222,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 
 static structure_traversers_visitors maxflight_guards_inserters[] =
 {
-  { STAttackDealtWith, &maxflight_guard_inserter }
+  { STReadyForAttack, &maxflight_guard_inserter }
 };
 
 enum

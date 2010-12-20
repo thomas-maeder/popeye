@@ -177,11 +177,12 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           break;
         else if (rank_next>prototype_rank)
         {
-          pipe_append(si,copy_slice(prototypes[0]));
+          slice_index const copy = copy_slice(prototypes[0]);
+          pipe_append(si,copy);
           if (nr_prototypes>1)
-            battle_branch_insert_slices_recursive(si,
+            battle_branch_insert_slices_recursive(copy,
                                                   prototypes+1,nr_prototypes-1,
-                                                  prototype_rank);
+                                                  prototype_rank+1);
           break;
         }
         else

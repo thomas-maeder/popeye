@@ -20,6 +20,7 @@
 static slice_index const series_slice_rank_order[] =
 {
   STReadyForSeriesMove,
+  STSeriesFork,
   STParryFork,
   STSeriesHashed,
   STDoubleMateSeriesFilter,
@@ -39,8 +40,12 @@ static slice_index const series_slice_rank_order[] =
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
   STSeriesMoveDealtWith,
+  STSeriesFork,
+  STMoveInverterSolvableFilter,
   STMoveInverterSeriesFilter,
-  STSeriesMovePlayed
+  STSeriesMovePlayed,
+  STSelfCheckGuard,
+  STSeriesMoveDealtWith
 };
 
 enum
@@ -121,11 +126,12 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
           break;
         else if (rank_next>prototype_rank)
         {
-          pipe_append(si,copy_slice(prototypes[0]));
+          slice_index const copy = copy_slice(prototypes[0]);
+          pipe_append(si,copy);
           if (nr_prototypes>1)
-            series_branch_insert_slices_recursive(si,
+            series_branch_insert_slices_recursive(copy,
                                                   prototypes+1,nr_prototypes-1,
-                                                  prototype_rank);
+                                                  prototype_rank+1);
           break;
         }
         else
