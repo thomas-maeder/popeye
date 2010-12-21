@@ -1989,8 +1989,8 @@ trace.h:
 pyflight$(OBJ_SUFFIX): pyflight.c pyflight.h stipulation/battle_play/defense_play.h \
  pyslice.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h pyboard.h \
  pybitmsk.h pypiece.h pyenum.h pylang.h stipulation/goals/goals.h \
- boolean.h py.h pyenum.h pypipe.h pystip.h pyslice.h stipulation/branch.h \
- pystip.h trace.h
+ boolean.h py.h pyenum.h pypipe.h pystip.h pyslice.h \
+ stipulation/battle_play/branch.h pystip.h trace.h
 
 pyflight.h:
 
@@ -2034,7 +2034,7 @@ pystip.h:
 
 pyslice.h:
 
-stipulation/branch.h:
+stipulation/battle_play/branch.h:
 
 pystip.h:
 
