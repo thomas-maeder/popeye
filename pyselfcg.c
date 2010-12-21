@@ -355,6 +355,7 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
+  if (slices[si].u.branch.length>slack_length_battle)
   {
     slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
     battle_branch_insert_slices(si,&prototype,1);
