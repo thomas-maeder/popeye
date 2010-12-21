@@ -142,9 +142,7 @@
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
-    ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STDoubleMateHelpFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STDoubleMateSeriesFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STCounterMateHelpFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \
@@ -345,9 +343,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STThreatEnforcer */
   slice_structure_branch, /* STThreatCollector */
   slice_structure_pipe,   /* STRefutationsCollector */
-  slice_structure_branch, /* STDoubleMateAttackerFilter */
-  slice_structure_branch, /* STDoubleMateHelpFilter */
-  slice_structure_branch, /* STDoubleMateSeriesFilter */
+  slice_structure_pipe,   /* STDoubleMateFilter */
   slice_structure_branch, /* STCounterMateAttackerFilter */
   slice_structure_branch, /* STCounterMateHelpFilter */
   slice_structure_branch, /* STCounterMateSeriesFilter */
@@ -1923,9 +1919,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
   &stip_traverse_structure_pipe,            /* STThreatCollector */
   &stip_traverse_structure_pipe,            /* STRefutationsCollector */
-  &stip_traverse_structure_pipe,            /* STDoubleMateAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STDoubleMateHelpFilter */
-  &stip_traverse_structure_pipe,            /* STDoubleMateSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STDoubleMateFilter */
   &stip_traverse_structure_pipe,            /* STCounterMateAttackerFilter */
   &stip_traverse_structure_pipe,            /* STCounterMateHelpFilter */
   &stip_traverse_structure_pipe,            /* STCounterMateSeriesFilter */
@@ -2165,9 +2159,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STThreatEnforcer */
     &stip_traverse_moves_pipe,                  /* STThreatCollector */
     &stip_traverse_moves_pipe,                  /* STRefutationsCollector */
-    &stip_traverse_moves_pipe,                  /* STDoubleMateAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STDoubleMateHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STDoubleMateSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STDoubleMateFilter */
     &stip_traverse_moves_pipe,                  /* STCounterMateAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STCounterMateHelpFilter */
     &stip_traverse_moves_pipe,                  /* STCounterMateSeriesFilter */

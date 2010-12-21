@@ -23,7 +23,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesFork,
   STParryFork,
   STSeriesHashed,
-  STDoubleMateSeriesFilter,
+  STDoubleMateFilter,
   STCounterMateSeriesFilter,
   STSeriesMove,
   STSeriesMoveToGoal,

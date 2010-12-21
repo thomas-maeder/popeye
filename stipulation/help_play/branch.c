@@ -16,6 +16,7 @@ static slice_index const help_slice_rank_order[] =
   STReadyForHelpMove,
   STHelpFork,
   STHelpHashed,
+  STDoubleMateFilter,
   STEnPassantHelpFilter,
   STCastlingHelpFilter,
   STHelpMove,

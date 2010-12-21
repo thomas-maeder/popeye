@@ -14,7 +14,7 @@
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/goals/countermate/series_filter.h"
-#include "stipulation/goals/doublemate/series_filter.h"
+#include "stipulation/goals/doublemate/filter.h"
 #include "optimisations/goals/castling/series_filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
@@ -129,7 +129,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       result = countermate_series_filter_solve_in_n(si,n);
       break;
 
-    case STDoubleMateSeriesFilter:
+    case STDoubleMateFilter:
       result = doublemate_series_filter_solve_in_n(si,n);
       break;
 
@@ -293,7 +293,7 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = countermate_series_filter_has_solution_in_n(si,n);
       break;
 
-    case STDoubleMateSeriesFilter:
+    case STDoubleMateFilter:
       result = doublemate_series_filter_has_solution_in_n(si,n);
       break;
 

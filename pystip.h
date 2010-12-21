@@ -111,9 +111,7 @@
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
     /* slices enforcing prerequisites of some stipulations */           \
-    ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STDoubleMateHelpFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STDoubleMateSeriesFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STCounterMateHelpFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \

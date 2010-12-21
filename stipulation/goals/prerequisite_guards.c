@@ -5,9 +5,7 @@
 #include "stipulation/goals/countermate/attacker_filter.h"
 #include "stipulation/goals/countermate/help_filter.h"
 #include "stipulation/goals/countermate/series_filter.h"
-#include "stipulation/goals/doublemate/attacker_filter.h"
-#include "stipulation/goals/doublemate/help_filter.h"
-#include "stipulation/goals/doublemate/series_filter.h"
+#include "stipulation/goals/doublemate/filter.h"
 
 #include "trace.h"
 
@@ -26,8 +24,7 @@ void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_doublemate:
-      pipe_append(slices[si].prev,
-                  alloc_doublemate_attacker_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
       break;
 
     case goal_countermate:
@@ -56,8 +53,7 @@ void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_doublemate:
-      pipe_append(slices[si].prev,
-                  alloc_doublemate_help_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
       break;
 
     case goal_countermate:
@@ -86,8 +82,7 @@ void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_doublemate:
-      pipe_append(slices[si].prev,
-                  alloc_doublemate_series_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
       break;
 
     case goal_countermate:
