@@ -73,26 +73,6 @@ void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type move_inverter_root_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
 has_solution_type move_inverter_solve(slice_index si)
 {
   has_solution_type result;
