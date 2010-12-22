@@ -27,7 +27,7 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/filter.h"
-#include "stipulation/goals/countermate/attacker_filter.h"
+#include "stipulation/goals/countermate/filter.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
@@ -184,6 +184,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                             n_max_unsolvable);
       break;
 
+    case STCounterMateFilter:
+      result = countermate_attacker_filter_has_solution_in_n(si,
+                                                             n,
+                                                             n_max_unsolvable);
+      break;
+
     case STEnPassantAttackerFilter:
       result = enpassant_attacker_filter_has_solution_in_n(si,
                                                            n,n_max_unsolvable);
@@ -192,12 +198,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STCastlingAttackerFilter:
       result = castling_attacker_filter_has_solution_in_n(si,
                                                           n,n_max_unsolvable);
-      break;
-
-    case STCounterMateAttackerFilter:
-      result = countermate_attacker_filter_has_solution_in_n(si,
-                                                             n,
-                                                             n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
@@ -419,16 +419,16 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = doublemate_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STCounterMateFilter:
+      result = countermate_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STEnPassantAttackerFilter:
       result = enpassant_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STCastlingAttackerFilter:
       result = castling_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STCounterMateAttackerFilter:
-      result = countermate_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:

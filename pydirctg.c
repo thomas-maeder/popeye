@@ -8,41 +8,6 @@
 
 #include <assert.h>
 
-
-static void direct_guards_inserter_attack(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  slice_index const * const to_goal = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const fork = alloc_attack_fork_slice(length,min_length,
-                                                     *to_goal);
-    pipe_append(si,fork);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors direct_guards_inserters[] =
-{
-  { STReadyForAttack, &direct_guards_inserter_attack }
-};
-
-enum
-{
-  nr_direct_guards_inserters = (sizeof direct_guards_inserters
-                                / sizeof direct_guards_inserters[0])
-};
-
 /* Instrument a branch with slices dealing with direct play
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
@@ -60,11 +25,10 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
 
   assert(slices[proxy_to_goal].type==STProxy);
 
-  stip_structure_traversal_init(&st,&proxy_to_goal);
-  stip_structure_traversal_override(&st,
-                                    direct_guards_inserters,
-                                    nr_direct_guards_inserters);
-  stip_traverse_structure(si,&st);
+  {
+    slice_index const prototype = alloc_attack_fork_slice(proxy_to_goal);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceStipulation(si);
 

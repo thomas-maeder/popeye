@@ -55,7 +55,7 @@ static slice_index const slice_rank_order[] =
   STDegenerateTree,
   STAttackFindShortest,
   STCastlingAttackerFilter,
-  STCounterMateAttackerFilter,
+  STCounterMateFilter,
   STDoubleMateFilter,
   STEnPassantAttackerFilter,
   STAttackRoot,

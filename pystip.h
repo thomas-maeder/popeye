@@ -112,9 +112,7 @@
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
-    ENUMERATOR(STCounterMateHelpFilter),  /* enforces precondition for counter-mate */ \
-    ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \

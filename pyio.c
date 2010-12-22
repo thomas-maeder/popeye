@@ -2807,6 +2807,7 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_battle_branch(length+1,min_length);
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
+          pipe_append(proxy_avoided_defense,alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided_defense);
@@ -2867,6 +2868,7 @@ static char *ParsePlay(char *tok,
           pipe_append(proxy_avoided_attack,alloc_not_slice());
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
+          pipe_append(proxy_avoided_defense,alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters(branch,

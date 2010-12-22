@@ -8,24 +8,18 @@
 #include <assert.h>
 
 /* Allocate a STRootAttackFork slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_next identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_root_attack_fork_slice(stip_length_type length,
-                                         stip_length_type min_length,
-                                         slice_index proxy_to_next)
+slice_index alloc_root_attack_fork_slice(slice_index proxy_to_next)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_next);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STRootAttackFork,length,min_length,proxy_to_next);
+  result = alloc_branch_fork(STRootAttackFork,0,0,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -53,7 +47,7 @@ void root_attack_fork_reduce_to_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond a series fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -64,7 +58,6 @@ void stip_traverse_moves_root_attack_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_init_full_length(si,st);
   stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
   stip_traverse_moves_pipe(si,st);
 

@@ -9,24 +9,18 @@
 #include <assert.h>
 
 /* Allocate a STAttackFork slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_next identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_attack_fork_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index proxy_to_next)
+slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_next);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STAttackFork,length,min_length,proxy_to_next);
+  result = alloc_branch_fork(STAttackFork,0,0,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -41,8 +35,6 @@ slice_index alloc_attack_fork_slice(stip_length_type length,
 void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
   root_insertion_state_type * const state = st->param;
-  stip_length_type const length = slices[si].u.branch_fork.length;
-  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index attack_root;
   slice_index root_to_goal;
@@ -56,7 +48,7 @@ void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  attack_root = alloc_root_attack_fork_slice(length,min_length,root_to_goal);
+  attack_root = alloc_root_attack_fork_slice(root_to_goal);
   pipe_link(attack_root,state->result);
   state->result = attack_root;
 
@@ -73,8 +65,6 @@ void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining<=slack_length_battle+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);

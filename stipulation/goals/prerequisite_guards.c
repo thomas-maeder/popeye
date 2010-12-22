@@ -2,9 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/goals/countermate/attacker_filter.h"
-#include "stipulation/goals/countermate/help_filter.h"
-#include "stipulation/goals/countermate/series_filter.h"
+#include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 
 #include "trace.h"
@@ -13,9 +11,6 @@
 
 void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal.type);
@@ -28,8 +23,7 @@ void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
       break;
 
     case goal_countermate:
-      pipe_append(slices[si].prev,
-                  alloc_countermate_attacker_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_countermate_attacker_filter_slice());
       break;
 
     default:
@@ -42,9 +36,6 @@ void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
 
 void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal.type);
@@ -57,8 +48,7 @@ void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
       break;
 
     case goal_countermate:
-      pipe_append(slices[si].prev,
-                  alloc_countermate_help_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_countermate_attacker_filter_slice());
       break;
 
     default:
@@ -71,8 +61,6 @@ void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
 
 void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -86,8 +74,7 @@ void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
       break;
 
     case goal_countermate:
-       pipe_append(slices[si].prev,
-                   alloc_countermate_series_filter_slice(length,min_length));
+       pipe_append(slices[si].prev,alloc_countermate_attacker_filter_slice());
       break;
 
     default:

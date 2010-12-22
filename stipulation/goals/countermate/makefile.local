@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = attacker_filter.c help_filter.c series_filter.c reached_tester.c
+CFILES = filter.c reached_tester.c
 
-INCLUDES = attacker_filter.h help_filter.h series_filter.h reached_tester.h
+INCLUDES = filter.h reached_tester.h
 
 include makefile.rules $(CURRPWD)depend

@@ -155,9 +155,8 @@ has_solution_type slice_solve(slice_index si)
       result = goal_notcheck_reached_tester_solve(si);
       break;
 
-    case STAttackRoot:
     case STReadyForAttack:
-    case STAttackFork:
+    case STAttackRoot:
     case STAttackFindShortest:
     case STAttackMove:
     case STAttackMoveToGoal:
@@ -167,7 +166,6 @@ has_solution_type slice_solve(slice_index si)
     case STVariationWriter:
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
-    case STCounterMateAttackerFilter:
     case STKeepMatingGuardAttackerFilter:
       result = attack_solve(si);
       break;
@@ -201,7 +199,6 @@ has_solution_type slice_solve(slice_index si)
     case STHelpFork:
     case STHelpHashed:
     case STStopOnShortSolutionsHelpFilter:
-    case STCounterMateHelpFilter:
     case STEnPassantHelpFilter:
     case STCastlingHelpFilter:
       result = help_solve(si);
@@ -441,8 +438,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = reflex_attack_solver_has_solution(si);
       break;
 
+    case STReadyForAttack:
     case STAttackRoot:
-    case STAttackFork:
     case STAttackFindShortest:
     case STAttackMove:
     case STAttackMoveToGoal:
@@ -456,7 +453,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STVariationWriter:
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
-    case STCounterMateAttackerFilter:
       result = attack_has_solution(si);
       break;
 
@@ -471,7 +467,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STHelpMove:
     case STHelpMoveToGoal:
     case STHelpHashed:
-    case STCounterMateHelpFilter:
     case STEnPassantHelpFilter:
     case STCastlingHelpFilter:
       result = help_has_solution(si);

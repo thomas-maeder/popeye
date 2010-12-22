@@ -46,10 +46,8 @@ void optimise_final_attack_move(slice_index si, Goal goal)
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_attack_fork_slice(length,min_length,proxy1);
+    slice_index const fork = alloc_attack_fork_slice(proxy1);
     slice_index const last_attack = alloc_attack_move_to_goal_slice(goal);
     slice_index const proxy2 = alloc_proxy_slice();
 

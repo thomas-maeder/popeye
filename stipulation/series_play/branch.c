@@ -24,7 +24,7 @@ static slice_index const series_slice_rank_order[] =
   STParryFork,
   STSeriesHashed,
   STDoubleMateFilter,
-  STCounterMateSeriesFilter,
+  STCounterMateFilter,
   STSeriesMove,
   STSeriesMoveToGoal,
   STContinuationSolver, /* occurs in direct pser stipulations */

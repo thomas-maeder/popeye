@@ -37,7 +37,7 @@ static slice_index const root_slice_rank_order[] =
   STRootAttackFork,
   STAttackRoot,
   STCastlingAttackerFilter,
-  STCounterMateAttackerFilter,
+  STCounterMateFilter,
   STDoubleMateFilter,
   STAttackMoveToGoal,
   STHelpRoot,

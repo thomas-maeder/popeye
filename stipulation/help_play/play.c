@@ -13,7 +13,7 @@
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
-#include "stipulation/goals/countermate/help_filter.h"
+#include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "optimisations/goals/enpassant/help_filter.h"
 #include "optimisations/goals/castling/help_filter.h"
@@ -155,7 +155,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_help_filter_solve_in_n(si,n);
       break;
 
-    case STCounterMateHelpFilter:
+    case STCounterMateFilter:
       result = countermate_help_filter_solve_in_n(si,n);
       break;
 
@@ -303,7 +303,7 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_help_filter_has_solution_in_n(si,n);
       break;
 
-    case STCounterMateHelpFilter:
+    case STCounterMateFilter:
       result = countermate_help_filter_has_solution_in_n(si,n);
       break;
 

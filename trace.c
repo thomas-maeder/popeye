@@ -240,9 +240,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STCounterMateAttackerFilter:
-      case STCounterMateHelpFilter:
-      case STCounterMateSeriesFilter:
       case STEnPassantAttackerFilter:
       case STEnPassantDefenderFilter:
       case STEnPassantHelpFilter:
@@ -409,6 +406,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STCheckDetector:
       case STKillerMoveCollector:
       case STDoubleMateFilter:
+      case STCounterMateFilter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
