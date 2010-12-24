@@ -208,11 +208,34 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
   return result;
 }
 
+/* Remove the superfluous (and disturbing) STRestartGuard slice from the branch
+ * where we attempt to directly reach the goal
+ */
+static void remove_guard_from_direct_attack(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  slice_index fork_guard;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  fork_guard = branch_find_slice(STRestartGuard,
+                                 slices[si].u.branch_fork.towards_goal);
+  assert(fork_guard!=no_slice);
+  pipe_remove(fork_guard);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
  */
 void stip_insert_restart_guards(slice_index si)
 {
+  stip_structure_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -221,6 +244,12 @@ void stip_insert_restart_guards(slice_index si)
     slice_index const prototype = alloc_restart_guard();
     root_branch_insert_slices(si,&prototype,1);
   }
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STRootAttackFork,
+                                           &remove_guard_from_direct_attack);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

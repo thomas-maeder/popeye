@@ -140,23 +140,9 @@ static void insert_maxsolutions_help_filter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[next].prev==si)
-    /* we are part of a loop
-     */
-    pipe_append(si,alloc_maxsolutions_help_filter());
-  else
   {
-    slice_index const next_pred = slices[next].prev;
-    if (slices[next_pred].type==STMaxSolutionsHelpFilter)
-      /* we are attached to a loop; a STMaxSolutionsHelpFilter slice
-       * has been inserted in the loop before next; attach to it
-       */
-      pipe_set_successor(si,next_pred);
-    else
-      /* we are attached to something else; e.g. the help move is at
-       * the beginning of set play in series self play
-       */
-      pipe_append(si,alloc_maxsolutions_help_filter());
+    slice_index const prototype = alloc_maxsolutions_help_filter();
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -176,21 +162,9 @@ static void insert_maxsolutions_series_filter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[next].prev==si)
-    /* we are part of a loop
-     */
-    pipe_append(si,alloc_maxsolutions_series_filter());
-  else
   {
-    /* we are attached to a loop
-     */
-    slice_index const next_pred = slices[next].prev;
-    assert(slices[next_pred].type==STMaxSolutionsSeriesFilter);
-
-    /* a STMaxSolutionsSeriesFilter slice has been inserted in the
-     * loop before next; attach to it
-     */
-    pipe_set_successor(si,next_pred);
+    slice_index const prototype = alloc_maxsolutions_series_filter();
+    series_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -207,7 +181,30 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(si,alloc_maxsolutions_root_defender_filter());
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_maxsolutions_root_defender_filter()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_maxsolutions_root_defender_filter()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
+                              prototypes,nr_prototypes);
+  }
 
   /* don't recurse further; we don't want to instrument leaves */
 
@@ -224,9 +221,10 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,alloc_maxsolutions_solvable_filter());
-
-  /* don't recurse further; we don't want to instrument leaves */
+  {
+    slice_index const prototype = alloc_maxsolutions_solvable_filter();
+    leaf_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -234,13 +232,11 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STHelpMove,         &insert_maxsolutions_help_filter          },
-  { STHelpMoveToGoal,   &insert_maxsolutions_help_filter          },
-  { STSeriesMove,       &insert_maxsolutions_series_filter        },
-  { STSeriesMoveToGoal, &insert_maxsolutions_series_filter        },
-  { STLeaf,             &insert_maxsolutions_solvable_filter      },
-  { STAttackRoot,       &insert_maxsolutions_root_defender_filter },
-  { STAttackMoveToGoal, &insert_maxsolutions_root_defender_filter }
+  { STMaxSolutionsRootDefenderFilter, &stip_structure_visitor_noop              },
+  { STReadyForHelpMove,               &insert_maxsolutions_help_filter          },
+  { STReadyForSeriesMove,             &insert_maxsolutions_series_filter        },
+  { STRootAttackFork,                 &insert_maxsolutions_root_defender_filter },
+  { STGoalReachedTested,              &insert_maxsolutions_solvable_filter      }
 };
 
 enum
@@ -263,16 +259,23 @@ void stip_insert_maxsolutions_filters(slice_index si)
 
   TraceStipulation(si);
 
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_maxsolutions_root_solvable_filter()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     maxsolutions_filter_inserters,
                                     nr_maxsolutions_filter_inserters);
   stip_traverse_structure(si,&st);
-
-  {
-    slice_index const prototype = alloc_maxsolutions_root_solvable_filter();
-    root_branch_insert_slices(si,&prototype,1);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
