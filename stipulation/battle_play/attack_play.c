@@ -115,6 +115,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = attack_hashed_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STReadyForSeriesMove:
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
@@ -359,6 +360,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_fork_solve_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STReadyForSeriesMove:
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:

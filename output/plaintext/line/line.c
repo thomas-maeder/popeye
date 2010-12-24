@@ -91,7 +91,6 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
     state->root_slice = si;
 
   stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_end_of_phase_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -184,6 +183,11 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
                                     line_slice_inserters,
                                     nr_line_slice_inserters);
   stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototype = alloc_end_of_phase_writer_slice();
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

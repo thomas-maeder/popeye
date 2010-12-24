@@ -1,5 +1,6 @@
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
@@ -107,7 +108,7 @@ void increase_nr_found_solutions(void)
 }
 
 /* Have we found the maximum allowed number of solutions since the
- * last invokation of reset_nr_found_solutions()? 
+ * last invokation of reset_nr_found_solutions()?
  * @return true iff the allowed maximum number of solutions have been found
  */
 boolean max_nr_solutions_found_in_phase(void)
@@ -249,35 +250,6 @@ enum
    / sizeof maxsolutions_filter_inserters[0])
 };
 
-/* Insert a STMaxSolutionsRootSolvableFilter slice before some slice
- */
-static void insert_root_solvable_filter(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(slices[si].prev,alloc_maxsolutions_root_solvable_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors maxsolutions_initialiser_inserters[] =
-{
-  { STReadyForAttack,   &insert_root_solvable_filter },
-  { STHelpRoot,         &insert_root_solvable_filter },
-  { STSeriesRoot,       &insert_root_solvable_filter }
-};
-
-enum
-{
-  nr_maxsolutions_initialiser_inserters =
-  (sizeof maxsolutions_initialiser_inserters
-   / sizeof maxsolutions_initialiser_inserters[0])
-};
-
 /* Instrument a stipulation with STMaxSolutions*Filter slices
  * @param si identifies slice where to start
  */
@@ -297,11 +269,10 @@ void stip_insert_maxsolutions_filters(slice_index si)
                                     nr_maxsolutions_filter_inserters);
   stip_traverse_structure(si,&st);
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    maxsolutions_initialiser_inserters,
-                                    nr_maxsolutions_initialiser_inserters);
-  stip_traverse_structure(si,&st);
+  {
+    slice_index const prototype = alloc_maxsolutions_root_solvable_filter();
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

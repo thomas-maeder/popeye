@@ -25,6 +25,7 @@ boolean intelligent_solvable_root_solve_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STHelpRoot:
     case STHelpShortcut:
     case STHelpFork:
     case STHelpHashed:
@@ -33,6 +34,7 @@ boolean intelligent_solvable_root_solve_in_n(slice_index si,
       result = help_solve_in_n(si,n)<=n;
       break;
 
+    case STSeriesRoot:
     case STSeriesFork:
     case STSeriesShortcut:
     case STSeriesHashed:
