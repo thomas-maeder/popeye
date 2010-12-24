@@ -10,51 +10,22 @@
 
 #include <assert.h>
 
-typedef enum
-{
-  illegal_selfcheck_writer_not_inserted,
-  illegal_selfcheck_writer_inserted
-} illegal_selfcheck_writer_insertion_state;
-
-typedef struct
-{
-    slice_index root_slice;
-    Goal goal;
-    illegal_selfcheck_writer_insertion_state selfcheck_writer_state;
-} line_slices_insertion_state;
-
-static void instrument_leaf(slice_index si, stip_structure_traversal *st)
-{
-  line_slices_insertion_state const * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",state->goal.type);
-  assert(state->goal.type!=no_goal);
-  assert(state->root_slice!=no_slice);
-  pipe_append(slices[si].prev,
-              alloc_line_writer_slice(state->root_slice,state->goal));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_goal_reached_testing(slice_index si,
                                             stip_structure_traversal *st)
 {
-  line_slices_insertion_state * const state = st->param;
+  slice_index const * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(state->goal.type==no_goal);
-  state->goal = slices[si].u.goal_writer.goal;
-  TraceValue("%u\n",state->goal.type);
   stip_traverse_structure_children(si,st);
-  state->goal.type = no_goal;
+
+  {
+    slice_index const prototype = alloc_line_writer_slice(*root_slice,
+                                                          slices[si].u.goal_writer.goal);
+    leaf_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -63,14 +34,14 @@ static void instrument_goal_reached_testing(slice_index si,
 static void instrument_move_inverter(slice_index si,
                                      stip_structure_traversal *st)
 {
-  line_slices_insertion_state * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->root_slice==no_slice)
-    state->root_slice = si;
+  if (*root_slice==no_slice)
+    *root_slice = si;
 
   stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_output_plaintext_line_move_inversion_counter_slice());
@@ -81,14 +52,14 @@ static void instrument_move_inverter(slice_index si,
 
 static void instrument_root(slice_index si, stip_structure_traversal *st)
 {
-  line_slices_insertion_state * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->root_slice==no_slice)
-    state->root_slice = si;
+  if (*root_slice==no_slice)
+    *root_slice = si;
 
   stip_traverse_structure_children(si,st);
 
@@ -121,38 +92,13 @@ static void instrument_series_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
-{
-  line_slices_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->selfcheck_writer_state==illegal_selfcheck_writer_inserted)
-    stip_traverse_structure_children(si,st);
-  else
-  {
-    state->selfcheck_writer_state = illegal_selfcheck_writer_inserted;
-    stip_traverse_structure_children(si,st);
-    state->selfcheck_writer_state = illegal_selfcheck_writer_not_inserted;
-
-    pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                     &instrument_series_fork           },
-  { STGoalReachedTesting,             &instrument_goal_reached_testing  },
-  { STLeaf,                           &instrument_leaf                  },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
-  { STHelpRoot,                       &instrument_root                  },
-  { STSeriesRoot,                     &instrument_root                  },
-  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer }
+  { STSeriesFork,                 &instrument_series_fork           },
+  { STGoalReachedTesting,         &instrument_goal_reached_testing  },
+  { STMoveInverterSolvableFilter, &instrument_move_inverter         },
+  { STHelpRoot,                   &instrument_root                  },
+  { STSeriesRoot,                 &instrument_root                  }
 };
 
 enum
@@ -168,25 +114,30 @@ enum
 void stip_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
-  line_slices_insertion_state state = { no_slice,
-                                        { no_goal, initsquare },
-                                        illegal_selfcheck_writer_not_inserted
-                                      };
+  slice_index root_slice = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,&root_slice);
   stip_structure_traversal_override(&st,
                                     line_slice_inserters,
                                     nr_line_slice_inserters);
   stip_traverse_structure(si,&st);
 
   {
-    slice_index const prototype = alloc_end_of_phase_writer_slice();
-    root_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] =
+    {
+        alloc_illegal_selfcheck_writer_slice(),
+        alloc_end_of_phase_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
