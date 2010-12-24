@@ -61,6 +61,7 @@ static slice_index const slice_rank_order[] =
   STAttackRoot,
   STAttackMove,
   STAttackMoveToGoal,
+  STMaxTimeDefenderFilter,
   STMaxSolutionsRootDefenderFilter,
   STRestartGuard,
   STAttackMovePlayed,

@@ -349,7 +349,6 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/maxsolutions/root_defender_filter.h \
- optimisations/maxtime/root_defender_filter.h \
  optimisations/maxtime/defender_filter.h \
  optimisations/goals/enpassant/defender_filter.h \
  output/plaintext/tree/check_writer.h \
@@ -404,8 +403,6 @@ optimisations/killer_move/final_defense_move.h:
 optimisations/killer_move/collector.h:
 
 optimisations/maxsolutions/root_defender_filter.h:
-
-optimisations/maxtime/root_defender_filter.h:
 
 optimisations/maxtime/defender_filter.h:
 

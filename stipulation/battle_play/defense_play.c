@@ -21,7 +21,6 @@
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
-#include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
 #include "output/plaintext/tree/check_writer.h"
@@ -142,10 +141,6 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STRestartGuard:
       result = restart_guard_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STMaxTimeRootDefenderFilter:
-      result = maxtime_root_defender_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STContinuationWriter:
