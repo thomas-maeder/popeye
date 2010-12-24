@@ -2,6 +2,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "trace.h"
@@ -14,8 +15,6 @@
  */
 void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",proxy_to_goal);
