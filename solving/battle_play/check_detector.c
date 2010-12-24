@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/check_detector.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -105,7 +104,10 @@ static void check_detector_prepend(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(slices[si].prev,alloc_check_detector_slice());
+  {
+    slice_index const prototype = alloc_check_detector_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -113,9 +115,7 @@ static void check_detector_prepend(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STAttackDealtWith, &check_detector_prepend      },
-  { STHelpRoot,        &stip_structure_visitor_noop },
-  { STSeriesRoot,      &stip_structure_visitor_noop }
+  { STAttackMoveLegalityChecked, &check_detector_prepend }
 };
 
 enum
