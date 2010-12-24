@@ -29,13 +29,11 @@ solution (which is a short solution in 1->ser-h#3)
 
  24  (Rh1-h4 )
   1.Rh1-h4   1.Be4*d3=wB   2.Rc4*h4=wR Bd3-c4 # 
- 25  (Rh1-h3 )
- 26  (Rh1-h2 )
 
-              empile:        3451
-            jouecoup:        2249
-        orig_rbechec:         519
-        orig_rnechec:        2005
+              empile:        3271
+            jouecoup:        2051
+        orig_rbechec:         517
+        orig_rnechec:        2003
 solving interrupted. 
 
 
@@ -842,5 +840,71 @@ checks weren't indicated on the moving reaching a goal
         orig_rbechec:           0
         orig_rnechec:           4
 solution finished. 
+
+
+
+only example so far of a help stipulation with option stoponshort
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .  -P   .   .   .   .   3
+|                                   |
+2  -P  -P   .   P   .   .   .   P   2
+|                                   |
+1  -R  -B   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#3                        3 + 7
+
+  1.h2-h4 g7-g5   2.h4*g5 Bb1-c2 # 
+
+              empile:          63
+            jouecoup:          64
+        orig_rbechec:          43
+        orig_rnechec:           0
+solving interrupted. 
+
+
+
+only example so far of a series stipulation with option stoponshort
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .  -P  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#3                      2 + 4
+
+  1.g2-g4   2.g4-g5 # 
+
+              empile:          17
+            jouecoup:          19
+        orig_rbechec:           7
+        orig_rnechec:           9
+solving interrupted. 
 
 

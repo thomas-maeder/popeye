@@ -5,7 +5,7 @@
 #include "pystip.h"
 
 /* This module provides functionality dealing with the filter slices
- * implement the stoponshortsolutions option and command line parameter. 
+ * implement the stoponshortsolutions option and command line parameter.
  * Slices of this type make sure that solving stops after the maximum
  * time has elapsed
  */
@@ -29,8 +29,7 @@ boolean has_short_solution_been_found_in_problem(void);
  */
 void reset_short_solution_found_in_phase(void);
 
-/* Reset the internal state to "no short solution found" in the
- * current phase
+/* Has a short solution been found in the current phase?
  */
 boolean has_short_solution_been_found_in_phase(void);
 

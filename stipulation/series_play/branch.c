@@ -20,6 +20,10 @@
 static slice_index const series_slice_rank_order[] =
 {
   STReadyForSeriesMove,
+  STStopOnShortSolutionsInitialiser,
+  STSeriesRoot,
+  STIntelligentSeriesFilter,
+  STSeriesShortcut,
   STSeriesFork,
   STParryFork,
   STSeriesHashed,
@@ -32,7 +36,7 @@ static slice_index const series_slice_rank_order[] =
   STDefenseMove,        /* occurs in direct pser stipulations */
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
-  STStopOnShortSolutionsSeriesFilter,
+  STStopOnShortSolutionsFilter,
   STGoalReachableGuardSeriesFilter,
   STPiecesParalysingMateFilter,
   STRestartGuard,

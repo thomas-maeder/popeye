@@ -34,7 +34,9 @@ static slice_index const root_slice_rank_order[] =
   STStipulationReflexAttackSolver,
   STReadyForAttack,
   STReadyForHelpMove,
+  STReadyForSeriesMove,
   STRootAttackFork,
+  STStopOnShortSolutionsInitialiser,
   STAttackRoot,
   STCastlingAttackerFilter,
   STCounterMateFilter,
@@ -42,6 +44,7 @@ static slice_index const root_slice_rank_order[] =
   STAttackMoveToGoal,
   STHelpRoot,
   STSeriesRoot,
+  STStopOnShortSolutionsFilter,
   STIntelligentHelpFilter,
   STIntelligentSeriesFilter,
   STHelpShortcut,
@@ -60,6 +63,8 @@ static slice_index const root_slice_rank_order[] =
   STAttackMoveShoeHorningDone,
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
+  STHelpMoveLegalityChecked,
+  STSeriesMoveLegalityChecked,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
   STAttackMoveFiltered,
@@ -168,6 +173,13 @@ static void root_branch_insert_slices_recursive(slice_index si,
                                             prototypes,nr_prototypes,
                                             base);
         break;
+      }
+      else if (slices[next].type==STSetplayFork)
+      {
+        root_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                            prototypes,nr_prototypes,
+                                            base);
+        si = next;
       }
       else
       {

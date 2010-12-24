@@ -50,7 +50,7 @@
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
-#include "optimisations/stoponshortsolutions/root_solvable_filter.h"
+#include "optimisations/stoponshortsolutions/initialiser.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
@@ -198,7 +198,6 @@ has_solution_type slice_solve(slice_index si)
     case STHelpMoveToGoal:
     case STHelpFork:
     case STHelpHashed:
-    case STStopOnShortSolutionsHelpFilter:
     case STEnPassantHelpFilter:
     case STCastlingHelpFilter:
       result = help_solve(si);
@@ -212,7 +211,6 @@ has_solution_type slice_solve(slice_index si)
     case STSeriesMoveToGoal:
     case STSeriesFork:
     case STSeriesHashed:
-    case STStopOnShortSolutionsSeriesFilter:
     case STCastlingSeriesFilter:
       result = series_solve(si);
       break;
@@ -249,8 +247,8 @@ has_solution_type slice_solve(slice_index si)
       result = maxsolutions_solvable_filter_solve(si);
       break;
 
-    case STStopOnShortSolutionsRootSolvableFilter:
-      result = stoponshortsolutions_root_solvable_filter_solve(si);
+    case STStopOnShortSolutionsInitialiser:
+      result = stoponshortsolutions_initialiser_solve(si);
       break;
 
     case STIllegalSelfcheckWriter:

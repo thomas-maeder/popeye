@@ -20,7 +20,7 @@
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
-#include "optimisations/stoponshortsolutions/help_filter.h"
+#include "optimisations/stoponshortsolutions/filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -151,8 +151,8 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_help_filter_solve_in_n(si,n);
       break;
 
-    case STStopOnShortSolutionsHelpFilter:
-      result = stoponshortsolutions_help_filter_solve_in_n(si,n);
+    case STStopOnShortSolutionsFilter:
+      result = stoponshortsolutions_help_solve_in_n(si,n);
       break;
 
     case STCounterMateFilter:
@@ -299,8 +299,8 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_help_filter_has_solution_in_n(si,n);
       break;
 
-    case STStopOnShortSolutionsHelpFilter:
-      result = stoponshortsolutions_help_filter_has_solution_in_n(si,n);
+    case STStopOnShortSolutionsFilter:
+      result = stoponshortsolutions_help_has_solution_in_n(si,n);
       break;
 
     case STCounterMateFilter:

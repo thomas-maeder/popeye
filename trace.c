@@ -268,8 +268,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReadyForSeriesMove:
       case STHelpHashed:
       case STSeriesHashed:
-      case STStopOnShortSolutionsHelpFilter:
-      case STStopOnShortSolutionsSeriesFilter:
+      case STStopOnShortSolutionsFilter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
@@ -350,7 +349,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsRootDefenderFilter:
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:
-      case STStopOnShortSolutionsRootSolvableFilter:
+      case STStopOnShortSolutionsInitialiser:
       case STMaxNrNonTrivial:
       case STMaxNrNonChecks:
       case STMaxNrNonTrivialCounter:

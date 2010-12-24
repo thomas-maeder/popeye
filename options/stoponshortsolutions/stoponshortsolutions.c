@@ -1,10 +1,11 @@
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
-#include "optimisations/stoponshortsolutions/root_solvable_filter.h"
-#include "optimisations/stoponshortsolutions/help_filter.h"
-#include "optimisations/stoponshortsolutions/series_filter.h"
+#include "optimisations/stoponshortsolutions/initialiser.h"
+#include "optimisations/stoponshortsolutions/filter.h"
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/series_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -70,8 +71,7 @@ void reset_short_solution_found_in_phase(void)
   TraceFunctionResultEnd();
 }
 
-/* Reset the internal state to "no short solution found" in the
- * current phase
+/* Has a short solution been found in the current phase?
  */
 boolean has_short_solution_been_found_in_phase(void)
 {
@@ -86,164 +86,7 @@ boolean has_short_solution_been_found_in_phase(void)
   return result;
 }
 
-/* Insert STStopOnShortSolutions*Filter starting at a slice
- * @param si identifies slice where to start
- * @note this is an indirectly recursive function
- */
-static void insert_filters(slice_index si);
-
-/* Insert a STStopOnShortSolutionsHelpFilter slice
- */
-static void insert_stoponshortsolutions_help_root(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STStopOnShortSolutionsHelpFilter)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_stoponshortsolutions_help_filter(length,min_length));
-  }
-
-  {
-    slice_index const fork = branch_find_slice(STHelpFork,si);
-    if (fork!=no_slice)
-      insert_filters(slices[fork].u.branch_fork.towards_goal);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STStopOnShortSolutionsHelpFilter slice
- */
-static void insert_stoponshortsolutions_help_move(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STStopOnShortSolutionsHelpFilter)
-  {
-    stip_length_type const length = slices[si].u.branch.length-1;
-    stip_length_type const min_length = slices[si].u.branch.min_length-1;
-    pipe_append(si,alloc_stoponshortsolutions_help_filter(length,min_length));
-  }
-
-  {
-    slice_index const fork = branch_find_slice(STHelpFork,si);
-    if (fork!=no_slice)
-      insert_filters(slices[fork].u.branch_fork.towards_goal);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STStopOnShortSolutionsSeriesFilter slice
- */
-static
-void insert_stoponshortsolutions_series_root(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STStopOnShortSolutionsSeriesFilter)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_stoponshortsolutions_series_filter(length,min_length));
-  }
-
-  {
-    slice_index const fork = branch_find_slice(STSeriesFork,si);
-    if (fork!=no_slice)
-      insert_filters(slices[fork].u.branch_fork.towards_goal);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STStopOnShortSolutionsSeriesFilter slice
- */
-static
-void insert_stoponshortsolutions_series_move(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STStopOnShortSolutionsSeriesFilter)
-  {
-    stip_length_type const length = slices[si].u.branch.length-1;
-    stip_length_type const min_length = slices[si].u.branch.min_length-1;
-    pipe_append(si,alloc_stoponshortsolutions_series_filter(length,min_length));
-  }
-
-  {
-    slice_index const fork = branch_find_slice(STSeriesFork,si);
-    if (fork!=no_slice)
-      insert_filters(slices[fork].u.branch_fork.towards_goal);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
-{
-  { STHelpRoot,                         &insert_stoponshortsolutions_help_root   },
-  { STHelpMove,                         &insert_stoponshortsolutions_help_move   },
-  { STHelpMoveToGoal,                   &insert_stoponshortsolutions_help_move   },
-  { STSeriesRoot,                       &insert_stoponshortsolutions_series_root },
-  { STSeriesMove,                       &insert_stoponshortsolutions_series_move },
-  { STSeriesMoveToGoal,                 &insert_stoponshortsolutions_series_move },
-  { STStopOnShortSolutionsRootSolvableFilter, &stip_structure_visitor_noop  },
-  { STStopOnShortSolutionsHelpFilter,         &stip_structure_visitor_noop  },
-  { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  },
-  { STGoalReachedTesting,                     &stip_structure_visitor_noop  }
-};
-
-enum
-{
-  nr_stoponshortsolutions_filter_inserters =
-  (sizeof stoponshortsolutions_filter_inserters
-   / sizeof stoponshortsolutions_filter_inserters[0])
-};
-
-/* Insert STStopOnShortSolutions*Filter starting at a slice
- * @param si identifies slice where to start
- * @note this is an indirectly recursive function
- */
-static void insert_filters(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    stoponshortsolutions_filter_inserters,
-                                    nr_stoponshortsolutions_filter_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STStopOnShortSolutionsRootSolvableFilter slice before some slice
- */
-static void insert_root_solvable_filter(slice_index si,
-                                        stip_structure_traversal *st)
+static void insert_help_filter(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
 
@@ -251,9 +94,51 @@ static void insert_root_solvable_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_stoponshortsolutions_root_solvable_filter());
-  insert_filters(si);
+  stip_traverse_structure_children(si,st);
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prototypes[] =
+    {
+      alloc_stoponshortsolutions_filter(length,min_length)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    help_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  *inserted = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_series_filter(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prototypes[] =
+    {
+      alloc_stoponshortsolutions_filter(length,min_length)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    series_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
 
   *inserted = true;
 
@@ -264,8 +149,8 @@ static void insert_root_solvable_filter(slice_index si,
 static
 structure_traversers_visitors stoponshortsolutions_initialiser_inserters[] =
 {
-  { STHelpRoot,   &insert_root_solvable_filter },
-  { STSeriesRoot, &insert_root_solvable_filter }
+  { STReadyForHelpMove,   &insert_help_filter   },
+  { STReadyForSeriesMove, &insert_series_filter }
 };
 
 enum
@@ -295,6 +180,18 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
                                     stoponshortsolutions_initialiser_inserters,
                                     nr_stoponshortsolutions_initialiser_inserters);
   stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_stoponshortsolutions_initialiser_slice(),
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

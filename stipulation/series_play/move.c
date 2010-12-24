@@ -45,13 +45,16 @@ void ready_for_series_move_make_root(slice_index si,
   root_insertion_state_type * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index copy;
   slice_index new_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  copy = copy_slice(si);
   new_root = alloc_series_root_slice(length,min_length);
+  pipe_link(copy,new_root);
 
   if (length==slack_length_series)
     pipe_set_successor(new_root,slices[si].u.pipe.next);
@@ -64,7 +67,7 @@ void ready_for_series_move_make_root(slice_index si,
     pipe_link(shortcut,state->result);
   }
 
-  state->result = new_root;
+  state->result = copy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

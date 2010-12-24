@@ -32,7 +32,6 @@
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/killer_move/collector.h"
-#include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"

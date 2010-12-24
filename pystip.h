@@ -153,9 +153,8 @@
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
+    ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
+    ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \

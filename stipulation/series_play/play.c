@@ -19,7 +19,7 @@
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
-#include "optimisations/stoponshortsolutions/series_filter.h"
+#include "optimisations/stoponshortsolutions/filter.h"
 #include "pyint.h"
 #include "trace.h"
 
@@ -121,8 +121,8 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_series_filter_solve_in_n(si,n);
       break;
 
-    case STStopOnShortSolutionsSeriesFilter:
-      result = stoponshortsolutions_series_filter_solve_in_n(si,n);
+    case STStopOnShortSolutionsFilter:
+      result = stoponshortsolutions_series_solve_in_n(si,n);
       break;
 
     case STCounterMateFilter:
@@ -285,8 +285,8 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_series_filter_has_solution_in_n(si,n);
       break;
 
-    case STStopOnShortSolutionsSeriesFilter:
-      result = stoponshortsolutions_series_filter_has_solution_in_n(si,n);
+    case STStopOnShortSolutionsFilter:
+      result = stoponshortsolutions_series_has_solution_in_n(si,n);
       break;
 
     case STCounterMateFilter:

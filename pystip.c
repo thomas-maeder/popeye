@@ -182,9 +182,8 @@
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
-    ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
+    ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
+    ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
@@ -381,9 +380,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxSolutionsRootDefenderFilter */
   slice_structure_pipe,   /* STMaxSolutionsHelpFilter */
   slice_structure_pipe,   /* STMaxSolutionsSeriesFilter */
-  slice_structure_pipe,   /* STStopOnShortSolutionsRootSolvableFilter */
-  slice_structure_branch, /* STStopOnShortSolutionsHelpFilter */
-  slice_structure_branch, /* STStopOnShortSolutionsSeriesFilter */
+  slice_structure_pipe,   /* STStopOnShortSolutionsInitialiser */
+  slice_structure_branch, /* STStopOnShortSolutionsFilter */
   slice_structure_pipe,   /* STAmuMateFilter */
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
@@ -1955,9 +1953,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsInitialiser */
+  &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsFilter */
   &stip_traverse_structure_pipe,            /* STAmuMateFilter */
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
@@ -2193,9 +2190,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsRootDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsHelpFilter */
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsSeriesFilter */
-    &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsRootSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsInitialiser */
+    &stip_traverse_moves_branch_slice,          /* STStopOnShortSolutionsFilter */
     &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */

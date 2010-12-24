@@ -76,10 +76,8 @@ void killer_move_optimise_final_defense_move(slice_index si, Goal goal)
   TraceValue("%u\n",enabled[slices[si].starter]);
   if (enabled[slices[si].starter])
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_defense_fork_slice(length,min_length,proxy);
+    slice_index const fork = alloc_defense_fork_slice(proxy);
     slice_index const last_defense = alloc_defense_move_against_goal_slice();
 
     pipe_append(slices[si].prev,fork);

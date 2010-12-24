@@ -1393,7 +1393,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  conditions/ultraschachzwang/goal_filter.h \
  optimisations/maxsolutions/root_solvable_filter.h \
  optimisations/maxsolutions/solvable_filter.h \
- optimisations/stoponshortsolutions/root_solvable_filter.h \
+ optimisations/stoponshortsolutions/initialiser.h \
  optimisations/intelligent/duplicate_avoider.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/end_of_phase_writer.h \
@@ -1547,7 +1547,7 @@ optimisations/maxsolutions/root_solvable_filter.h:
 
 optimisations/maxsolutions/solvable_filter.h:
 
-optimisations/stoponshortsolutions/root_solvable_filter.h:
+optimisations/stoponshortsolutions/initialiser.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 
@@ -1613,6 +1613,7 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/proxy.h pypipe.h stipulation/goals/goals.h \
  boolean.h py.h pyenum.h stipulation/branch.h pystip.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_move_to_goal.h \
  stipulation/battle_play/attack_fork.h trace.h
 
@@ -1637,6 +1638,8 @@ pyenum.h:
 stipulation/branch.h:
 
 pystip.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_move_to_goal.h:
 

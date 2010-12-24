@@ -156,7 +156,7 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  optimisations/intelligent/series_filter.h \
  optimisations/maxtime/series_filter.h \
  optimisations/maxsolutions/series_filter.h \
- optimisations/stoponshortsolutions/series_filter.h pyint.h trace.h
+ optimisations/stoponshortsolutions/filter.h pyint.h trace.h
 
 stipulation/series_play/play.h:
 
@@ -200,7 +200,7 @@ optimisations/maxtime/series_filter.h:
 
 optimisations/maxsolutions/series_filter.h:
 
-optimisations/stoponshortsolutions/series_filter.h:
+optimisations/stoponshortsolutions/filter.h:
 
 pyint.h:
 

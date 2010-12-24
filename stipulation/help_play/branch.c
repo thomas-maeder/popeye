@@ -14,6 +14,10 @@
 static slice_index const help_slice_rank_order[] =
 {
   STReadyForHelpMove,
+  STStopOnShortSolutionsInitialiser,
+  STHelpRoot,
+  STIntelligentHelpFilter,
+  STHelpShortcut,
   STHelpFork,
   STHelpHashed,
   STDoubleMateFilter,
@@ -23,7 +27,7 @@ static slice_index const help_slice_rank_order[] =
   STHelpMoveToGoal,
   STMaxTimeHelpFilter,
   STMaxSolutionsHelpFilter,
-  STStopOnShortSolutionsHelpFilter,
+  STStopOnShortSolutionsFilter,
   STGoalReachableGuardHelpFilter,
   STHelpMovePlayed,
   STSelfCheckGuard,

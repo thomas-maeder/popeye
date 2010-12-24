@@ -179,4 +179,20 @@ pieces white ba2 pc6
        black kg8
 option nowk
 
+next
+
+title only example so far of a help stipulation with option stoponshort
+pieces white kd1 pd2h2
+       black ra1 bb1 pa2b2b3d3g7
+stip hs#3
+option stoponshort nobk
+
+next
+
+title only example so far of a series stipulation with option stoponshort
+pieces white kh4 pg2
+       black kh6 pg6g7h7
+stip ser-#3
+option stoponshort
+
 end
