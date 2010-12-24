@@ -1,6 +1,6 @@
 optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX): \
  optimisations/maxsolutions/maxsolutions.c \
- optimisations/maxsolutions/maxsolutions.h pypipe.h \
+ optimisations/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
  optimisations/maxsolutions/root_solvable_filter.h \
  optimisations/maxsolutions/solvable_filter.h \
  optimisations/maxsolutions/root_defender_filter.h \
@@ -10,6 +10,8 @@ optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX): \
 optimisations/maxsolutions/maxsolutions.h:
 
 pypipe.h:
+
+stipulation/branch.h:
 
 optimisations/maxsolutions/root_solvable_filter.h:
 
