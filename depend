@@ -1086,10 +1086,11 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pyenum.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h pyslice.h pymsg.h pyint.h pydata.h \
- pyslice.h pystip.h stipulation/help_play/branch.h pystip.h pybrafrk.h \
- pyproof.h stipulation/help_play/play.h stipulation/series_play/play.h \
- pypipe.h pyintslv.h pymovenb.h stipulation/battle_play/defense_play.h \
- stipulation/branch.h optimisations/intelligent/help_filter.h \
+ pyslice.h pystip.h stipulation/help_play/branch.h pystip.h \
+ stipulation/help_play/play.h stipulation/series_play/branch.h \
+ stipulation/series_play/play.h pybrafrk.h pyproof.h pypipe.h pyintslv.h \
+ pymovenb.h stipulation/battle_play/defense_play.h stipulation/branch.h \
+ optimisations/intelligent/help_filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
@@ -1144,13 +1145,15 @@ stipulation/help_play/branch.h:
 
 pystip.h:
 
+stipulation/help_play/play.h:
+
+stipulation/series_play/branch.h:
+
+stipulation/series_play/play.h:
+
 pybrafrk.h:
 
 pyproof.h:
-
-stipulation/help_play/play.h:
-
-stipulation/series_play/play.h:
 
 pypipe.h:
 
@@ -1851,7 +1854,9 @@ pykeepmt$(OBJ_SUFFIX): pykeepmt.c pykeepmt.h stipulation/battle_play/attack_play
  stipulation/help_play/play.h boolean.h pystip.h pydata.h pyproc.h py4.h \
  py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
  pylang.h stipulation/goals/goals.h py.h pyenum.h pypipe.h pystip.h \
- pyslice.h stipulation/series_play/play.h trace.h
+ pyslice.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/series_play/branch.h \
+ stipulation/series_play/play.h trace.h
 
 pykeepmt.h:
 
@@ -1900,6 +1905,12 @@ pypipe.h:
 pystip.h:
 
 pyslice.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/series_play/branch.h:
 
 stipulation/series_play/play.h:
 

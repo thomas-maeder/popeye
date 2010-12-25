@@ -445,16 +445,14 @@ trace.h:
 stipulation/battle_play/check_detector$(OBJ_SUFFIX): \
  stipulation/battle_play/check_detector.c \
  stipulation/battle_play/check_detector.h pydata.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_play.h trace.h
+ stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
+ trace.h
 
 stipulation/battle_play/check_detector.h:
 
 pydata.h:
 
 pypipe.h:
-
-stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
