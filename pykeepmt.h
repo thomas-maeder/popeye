@@ -10,10 +10,10 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STKeepMatingFilter slices
  * @param si identifies slice where to start
  */
-void stip_insert_keepmating_guards(slice_index si);
+void stip_insert_keepmating_filters(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -26,7 +26,7 @@ void stip_insert_keepmating_guards(slice_index si);
  *            n+2 no solution found
  */
 stip_length_type
-keepmating_guard_direct_has_solution_in_n(slice_index si,
+keepmating_filter_attack_has_solution_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable);
 
@@ -41,7 +41,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-keepmating_guard_direct_solve_in_n(slice_index si,
+keepmating_filter_attack_solve_in_n(slice_index si,
                                    stip_length_type n,
                                    stip_length_type n_max_unsolvable);
 
@@ -57,7 +57,7 @@ keepmating_guard_direct_solve_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type keepmating_guard_defend_in_n(slice_index si,
+stip_length_type keepmating_filter_defend_in_n(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
 
@@ -72,7 +72,7 @@ stip_length_type keepmating_guard_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-keepmating_guard_can_defend_in_n(slice_index si,
+keepmating_filter_can_defend_in_n(slice_index si,
                                  stip_length_type n,
                                  stip_length_type n_max_unsolvable);
 
@@ -85,7 +85,7 @@ keepmating_guard_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
+stip_length_type keepmating_filter_help_solve_in_n(slice_index si,
                                                   stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
@@ -97,9 +97,9 @@ stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
+stip_length_type keepmating_filter_help_has_solution_in_n(slice_index si,
                                                          stip_length_type n);
-  
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -109,7 +109,7 @@ stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
+stip_length_type keepmating_filter_series_solve_in_n(slice_index si,
                                                     stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
@@ -121,7 +121,7 @@ stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
+stip_length_type keepmating_filter_series_has_solution_in_n(slice_index si,
                                                            stip_length_type n);
 
 #endif

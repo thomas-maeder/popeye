@@ -109,8 +109,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = reflex_defender_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STKeepMatingGuardDefenderFilter:
-      result = keepmating_guard_defend_in_n(si,n,n_max_unsolvable);
+    case STKeepMatingFilter:
+      result = keepmating_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMaxFlightsquares:
@@ -296,8 +296,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = selfcheck_guard_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STKeepMatingGuardDefenderFilter:
-      result = keepmating_guard_can_defend_in_n(si,n,n_max_unsolvable);
+    case STKeepMatingFilter:
+      result = keepmating_filter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMaxFlightsquares:

@@ -28,6 +28,7 @@ static slice_index const help_slice_rank_order[] =
   STMaxTimeHelpFilter,
   STMaxSolutionsHelpFilter,
   STStopOnShortSolutionsFilter,
+  STKeepMatingFilter,
   STGoalReachableGuardHelpFilter,
   STHelpMovePlayed,
   STSelfCheckGuard,

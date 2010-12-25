@@ -166,7 +166,6 @@ has_solution_type slice_solve(slice_index si)
     case STVariationWriter:
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
-    case STKeepMatingGuardAttackerFilter:
       result = attack_solve(si);
       break;
 
@@ -443,10 +442,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STAttackMoveToGoal:
     case STDefenseDealtWith:
     case STSelfDefense:
-    case STKeepMatingGuardAttackerFilter:
-    case STKeepMatingGuardDefenderFilter:
-    case STKeepMatingGuardHelpFilter:
-    case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
     case STVariationWriter:
     case STEnPassantAttackerFilter:

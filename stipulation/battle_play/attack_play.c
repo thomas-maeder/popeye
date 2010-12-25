@@ -148,9 +148,9 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = selfcheck_guard_attack_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STKeepMatingGuardAttackerFilter:
-      result = keepmating_guard_direct_has_solution_in_n(si,
-                                                         n,n_max_unsolvable);
+    case STKeepMatingFilter:
+      result = keepmating_filter_attack_has_solution_in_n(si,
+                                                          n,n_max_unsolvable);
       break;
 
     case STDegenerateTree:
@@ -392,8 +392,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = selfcheck_guard_attack_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STKeepMatingGuardAttackerFilter:
-      result = keepmating_guard_direct_solve_in_n(si,n,n_max_unsolvable);
+    case STKeepMatingFilter:
+      result = keepmating_filter_attack_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivialCounter:

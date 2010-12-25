@@ -93,8 +93,8 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       result = reflex_series_filter_solve_in_n(si,n);
       break;
 
-    case STKeepMatingGuardSeriesFilter:
-      result = keepmating_guard_series_solve_in_n(si,n);
+    case STKeepMatingFilter:
+      result = keepmating_filter_series_solve_in_n(si,n);
       break;
 
     case STIntelligentSeriesFilter:
@@ -261,8 +261,8 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = reflex_series_filter_has_solution_in_n(si,n);
       break;
 
-    case STKeepMatingGuardSeriesFilter:
-      result = keepmating_guard_series_has_solution_in_n(si,n);
+    case STKeepMatingFilter:
+      result = keepmating_filter_series_has_solution_in_n(si,n);
       break;
 
     case STGoalReachableGuardSeriesFilter:

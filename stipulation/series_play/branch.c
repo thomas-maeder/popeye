@@ -38,6 +38,7 @@ static slice_index const series_slice_rank_order[] =
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsFilter,
+  STKeepMatingFilter,
   STGoalReachableGuardSeriesFilter,
   STPiecesParalysingMateFilter,
   STRestartGuard,
@@ -117,11 +118,11 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
         series_branch_insert_slices_recursive(slices[next].u.binary.op1,
-                                            prototypes,nr_prototypes,
-                                            base);
+                                              prototypes,nr_prototypes,
+                                              base);
         series_branch_insert_slices_recursive(slices[next].u.binary.op2,
-                                            prototypes,nr_prototypes,
-                                            base);
+                                              prototypes,nr_prototypes,
+                                              base);
         break;
       }
       else

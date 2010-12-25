@@ -163,10 +163,7 @@
     ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardSeriesFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
-    ENUMERATOR(STKeepMatingGuardAttackerFilter), /* deals with option KeepMatingPiece */ \
-    ENUMERATOR(STKeepMatingGuardDefenderFilter), /* deals with option KeepMatingPiece */ \
-    ENUMERATOR(STKeepMatingGuardHelpFilter), /* deals with option KeepMatingPiece */ \
-    ENUMERATOR(STKeepMatingGuardSeriesFilter), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
@@ -361,10 +358,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalReachableGuardHelpFilter */
   slice_structure_pipe,   /* STGoalReachableGuardSeriesFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
-  slice_structure_pipe,   /* STKeepMatingGuardAttackerFilter */
-  slice_structure_pipe,   /* STKeepMatingGuardDefenderFilter */
-  slice_structure_pipe,   /* STKeepMatingGuardHelpFilter */
-  slice_structure_pipe,   /* STKeepMatingGuardSeriesFilter */
+  slice_structure_pipe,   /* STKeepMatingFilter */
   slice_structure_pipe,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STDegenerateTree */
   slice_structure_fork,   /* STMaxNrNonTrivial */
@@ -1934,10 +1928,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_pipe,            /* STGoalReachableGuardSeriesFilter */
   &stip_traverse_structure_pipe,            /* STIntelligentDuplicateAvoider */
-  &stip_traverse_structure_pipe,            /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_pipe,            /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STKeepMatingFilter */
   &stip_traverse_structure_pipe,            /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,            /* STDegenerateTree */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivial */
@@ -2171,10 +2162,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalReachableGuardHelpFilter */
     &stip_traverse_moves_pipe,                  /* STGoalReachableGuardSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STIntelligentDuplicateAvoider */
-    &stip_traverse_moves_pipe,                  /* STKeepMatingGuardAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STKeepMatingGuardDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STKeepMatingGuardHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STKeepMatingGuardSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STKeepMatingFilter */
     &stip_traverse_moves_pipe,                  /* STMaxFlightsquares */
     &stip_traverse_moves_pipe,                  /* STDegenerateTree */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivial */

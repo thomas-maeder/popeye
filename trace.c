@@ -298,10 +298,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.shortcut.short_sols,done_slices);
         break;
 
-      case STKeepMatingGuardAttackerFilter:
-      case STKeepMatingGuardDefenderFilter:
-      case STKeepMatingGuardHelpFilter:
-      case STKeepMatingGuardSeriesFilter:
+      case STKeepMatingFilter:
         Trace_pipe(si);
         fprintf(stdout,"mating:%s ",
                 Side_names[slices[si].u.keepmating_guard.mating]);

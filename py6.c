@@ -2763,7 +2763,7 @@ static Token iterate_twins(Token prev_token)
 
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
-        stip_insert_keepmating_guards(root_slice);
+        stip_insert_keepmating_filters(root_slice);
 
       stip_optimise_final_moves(root_slice);
 

@@ -1,22 +1,22 @@
 #include "pykeepmt.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
 
 
-/* **************** Initialisation ***************
- */
-
-/* Allocate a STKeepMatingGuardAttackerFilter slice
+/* Allocate a STKeepMatingFilter slice
  * @param mating mating side
  * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
+static slice_index alloc_keepmating_filter_slice(Side mating)
 {
   slice_index result;
 
@@ -24,7 +24,7 @@ static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
   TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeepMatingGuardAttackerFilter);
+  result = alloc_pipe(STKeepMatingFilter);
   slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
@@ -32,72 +32,6 @@ static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Allocate a STKeepMatingGuardDefenderFilter slice
- * @param mating mating side
- * @return identifier of allocated slice
- */
-static slice_index alloc_keepmating_guard_defender_filter(Side mating)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,mating,"");
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STKeepMatingGuardDefenderFilter);
-  slices[result].u.keepmating_guard.mating = mating;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STKeepMatingGuardHelpFilter slice
- * @param side mating side
- * @return identifier of allocated slice
- */
-static slice_index alloc_keepmating_guard_help_filter(Side mating)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,mating,"");
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STKeepMatingGuardHelpFilter);
-  slices[result].u.keepmating_guard.mating = mating;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STKeepMatingGuardSeriesFilter slice
- * @param side mating side
- * @return identifier of allocated slice
- */
-static slice_index alloc_keepmating_guard_series_filter(Side mating)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,mating,"");
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STKeepMatingGuardSeriesFilter);
-  slices[result].u.keepmating_guard.mating = mating;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* **************** Implementation of interface Direct ***************
- */
 
 /* Determine whether the mating side still has a piece that could
  * deliver the mate.
@@ -125,9 +59,9 @@ static boolean is_a_mating_piece_left(Side mating_side)
  *            n+2 no solution found
  */
 stip_length_type
-keepmating_guard_direct_has_solution_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+keepmating_filter_attack_has_solution_in_n(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -163,9 +97,9 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-keepmating_guard_direct_solve_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+keepmating_filter_attack_solve_in_n(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -189,9 +123,6 @@ keepmating_guard_direct_solve_in_n(slice_index si,
   return result;
 }
 
-/* **************** Implementation of interface DirectDefender **********
- */
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -204,9 +135,9 @@ keepmating_guard_direct_solve_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type keepmating_guard_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+stip_length_type keepmating_filter_defend_in_n(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -242,9 +173,9 @@ stip_length_type keepmating_guard_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-keepmating_guard_can_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+keepmating_filter_can_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -269,10 +200,6 @@ keepmating_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
-
-/* **************** Implementation of interface Help ***************
- */
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -282,8 +209,8 @@ keepmating_guard_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
-                                                  stip_length_type n)
+stip_length_type keepmating_filter_help_solve_in_n(slice_index si,
+                                                   stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -315,8 +242,8 @@ stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
-                                                         stip_length_type n)
+stip_length_type keepmating_filter_help_has_solution_in_n(slice_index si,
+                                                          stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -339,9 +266,6 @@ stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* **************** Implementation of interface Series ***************
- */
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -351,8 +275,8 @@ stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
-                                                    stip_length_type n)
+stip_length_type keepmating_filter_series_solve_in_n(slice_index si,
+                                                     stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -384,8 +308,8 @@ stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
-                                                           stip_length_type n)
+stip_length_type keepmating_filter_series_has_solution_in_n(slice_index si,
+                                                            stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -418,13 +342,33 @@ stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
 typedef struct
 {
   boolean for_side[nr_sides];
-  unsigned int nr_moves_passed;
-} keepmatingguard_insertion_state_type;
+} insertion_state_type;
 
-static void keepmating_guards_inserter_goal(slice_index si,
+static slice_index alloc_appropriate_filter(insertion_state_type const *state)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (state->for_side[White]+state->for_side[Black]==1)
+  {
+    Side const side = state->for_side[White] ? White : Black;
+    result = alloc_keepmating_filter_slice(side);
+  }
+  else
+    result = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void keepmating_filter_inserter_goal(slice_index si,
                                             stip_structure_traversal *st)
 {
-  keepmatingguard_insertion_state_type * const state = st->param;
+  insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -436,14 +380,12 @@ static void keepmating_guards_inserter_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_quodlibet(slice_index si,
+static void keepmating_filter_inserter_quodlibet(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  keepmatingguard_insertion_state_type * const state = st->param;
-  keepmatingguard_insertion_state_type state1 = { { false, false },
-                                                  state->nr_moves_passed };
-  keepmatingguard_insertion_state_type state2 = { { false, false },
-                                                  state->nr_moves_passed };
+  insertion_state_type * const state = st->param;
+  insertion_state_type state1 = { { false, false } };
+  insertion_state_type state2 = { { false, false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -464,14 +406,12 @@ static void keepmating_guards_inserter_quodlibet(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_reciprocal(slice_index si,
+static void keepmating_filter_inserter_reciprocal(slice_index si,
                                                   stip_structure_traversal *st)
 {
-  keepmatingguard_insertion_state_type * const state = st->param;
-  keepmatingguard_insertion_state_type state1 = { { false, false },
-                                                  state->nr_moves_passed };
-  keepmatingguard_insertion_state_type state2 = { { false, false },
-                                                  state->nr_moves_passed };
+  insertion_state_type * const state = st->param;
+  insertion_state_type state1 = { { false, false } };
+  insertion_state_type state2 = { { false, false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -493,7 +433,7 @@ static void keepmating_guards_inserter_reciprocal(slice_index si,
 }
 
 static
-void keepmating_guards_inserter_branch_fork(slice_index si,
+void keepmating_filter_inserter_branch_fork(slice_index si,
                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -511,145 +451,23 @@ void keepmating_guards_inserter_branch_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_defender(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  keepmatingguard_insertion_state_type const * const state = st->param;
-  slice_index guard = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (state->nr_moves_passed>0)
-  {
-    if (state->for_side[White])
-      guard = alloc_keepmating_guard_attacker_filter(White);
-    else if (state->for_side[Black])
-      guard = alloc_keepmating_guard_attacker_filter(Black);
-
-    if (guard!=no_slice)
-    {
-      slices[guard].starter = slices[si].starter;
-      pipe_append(slices[si].prev,guard);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
-void keepmating_guards_inserter_battle_fork(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* towards goal first, to detect the mating side */
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void keepmating_guards_inserter_attacker(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  keepmatingguard_insertion_state_type const * const state = st->param;
-  slice_index guard = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (state->nr_moves_passed>0)
-  {
-    if (state->for_side[White])
-      guard = alloc_keepmating_guard_defender_filter(White);
-    else if (state->for_side[Black])
-      guard = alloc_keepmating_guard_defender_filter(Black);
-
-    if (guard!=no_slice)
-    {
-      slices[guard].starter = slices[si].starter;
-      pipe_append(slices[si].prev,guard);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void keepmating_guards_remember_move(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  keepmatingguard_insertion_state_type * const state = st->param;
-
-  ++state->nr_moves_passed;
-  stip_traverse_structure_children(si,st);
-  --state->nr_moves_passed;
-}
-
-static void keepmating_guards_inserter_help_move(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  keepmatingguard_insertion_state_type const * const state = st->param;
-  slice_index guard = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  keepmating_guards_remember_move(si,st);
-
-  if (state->nr_moves_passed>0)
-  {
-    if (state->for_side[White])
-      guard = alloc_keepmating_guard_help_filter(White);
-    else if (state->for_side[Black])
-      guard = alloc_keepmating_guard_help_filter(Black);
-
-    if (guard!=no_slice)
-    {
-      slices[guard].starter = advers(slices[si].starter);
-      pipe_append(si,guard);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void keepmating_guards_inserter_series_move(slice_index si,
+static void keepmating_filter_inserter_battle_move(slice_index si,
                                                    stip_structure_traversal *st)
 {
-  keepmatingguard_insertion_state_type const * const state = st->param;
-  slice_index guard = no_slice;
+  insertion_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  keepmating_guards_remember_move(si,st);
+  stip_traverse_structure_children(si,st);
 
-  if (state->nr_moves_passed>0)
   {
-    if (state->for_side[White])
-      guard = alloc_keepmating_guard_series_filter(White);
-    else if (state->for_side[Black])
-      guard = alloc_keepmating_guard_series_filter(Black);
-
-    if (guard!=no_slice)
+    slice_index const prototype = alloc_appropriate_filter(state);
+    if (prototype!=no_slice)
     {
-      slices[guard].starter = advers(slices[si].starter);
-      pipe_append(si,guard);
+      slices[prototype].starter = slices[si].starter;
+      battle_branch_insert_slices(si,&prototype,1);
     }
   }
 
@@ -657,38 +475,83 @@ static void keepmating_guards_inserter_series_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors keepmating_guards_inserters[] =
+static void keepmating_filter_inserter_help_move(slice_index si,
+                                                 stip_structure_traversal *st)
 {
-  { STAttackMove,                       &keepmating_guards_remember_move        },
-  { STDefenseMove,                      &keepmating_guards_remember_move        },
-  { STAttackMoveFiltered,               &keepmating_guards_inserter_attacker    },
-  { STDefenseMoveFiltered,              &keepmating_guards_inserter_defender    },
-  { STHelpMove,                         &keepmating_guards_inserter_help_move   },
-  { STHelpMoveToGoal,                   &keepmating_guards_inserter_help_move   },
-  { STHelpFork,                         &keepmating_guards_inserter_branch_fork },
-  { STSeriesMove,                       &keepmating_guards_inserter_series_move },
-  { STSeriesMoveToGoal,                 &keepmating_guards_inserter_series_move },
-  { STSeriesFork,                       &keepmating_guards_inserter_branch_fork },
-  { STReciprocal,                       &keepmating_guards_inserter_reciprocal  },
-  { STQuodlibet,                        &keepmating_guards_inserter_quodlibet   },
-  { STReflexAttackerFilter,             &keepmating_guards_inserter_battle_fork },
-  { STReflexDefenderFilter,             &keepmating_guards_inserter_battle_fork },
-  { STSelfDefense,                      &keepmating_guards_inserter_battle_fork },
-  { STDefenseFork,                      &keepmating_guards_inserter_battle_fork }
+  insertion_state_type const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_appropriate_filter(state);
+    if (prototype!=no_slice)
+    {
+      slices[prototype].starter = advers(slices[si].starter);
+      help_branch_insert_slices(si,&prototype,1);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void keepmating_filter_inserter_series_move(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  insertion_state_type const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_appropriate_filter(state);
+    if (prototype!=no_slice)
+    {
+      slices[prototype].starter = advers(slices[si].starter);
+      series_branch_insert_slices(si,&prototype,1);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors keepmating_filter_inserters[] =
+{
+  { STReadyForAttack,       &keepmating_filter_inserter_battle_move },
+  { STReadyForDefense,      &keepmating_filter_inserter_battle_move },
+  { STReadyForHelpMove,     &keepmating_filter_inserter_help_move   },
+  { STReadyForSeriesMove,   &keepmating_filter_inserter_series_move },
+  { STReciprocal,           &keepmating_filter_inserter_reciprocal  },
+  { STQuodlibet,            &keepmating_filter_inserter_quodlibet   },
+  { STHelpFork,             &keepmating_filter_inserter_branch_fork },
+  { STSeriesFork,           &keepmating_filter_inserter_branch_fork },
+  { STReflexAttackerFilter, &keepmating_filter_inserter_branch_fork },
+  { STReflexDefenderFilter, &keepmating_filter_inserter_branch_fork },
+  { STSelfDefense,          &keepmating_filter_inserter_branch_fork },
+  { STDefenseFork,          &keepmating_filter_inserter_branch_fork },
+  { STGoalReachedTesting,   &keepmating_filter_inserter_goal        }
 };
 
 enum
 {
-  nr_keepmating_guards_inserters = (sizeof keepmating_guards_inserters
-                                    / sizeof keepmating_guards_inserters[0])
+  nr_keepmating_filter_inserters = (sizeof keepmating_filter_inserters
+                                    / sizeof keepmating_filter_inserters[0])
 };
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STKeepMatingFilter slices
  * @param si identifies slice where to start
  */
-void stip_insert_keepmating_guards(slice_index si)
+void stip_insert_keepmating_filters(slice_index si)
 {
-  keepmatingguard_insertion_state_type state = { { false, false }, 0};
+  insertion_state_type state = { { false, false } };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -698,12 +561,9 @@ void stip_insert_keepmating_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &keepmating_guards_inserter_goal);
   stip_structure_traversal_override(&st,
-                                    keepmating_guards_inserters,
-                                    nr_keepmating_guards_inserters);
+                                    keepmating_filter_inserters,
+                                    nr_keepmating_filter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
