@@ -1897,103 +1897,6 @@ void closehash(void)
   }
 } /* closehash */
 
-/* Allocate a STAttackHashed slice
- * @param length maximal number of half moves until goal
- * @param min_length minimal number of half moves until goal
- * @param proxy_to_goal identifies proxy slice leading towards gaol
- * @return identifier of allocated slice
- */
-static slice_index alloc_attack_hashed_slice(stip_length_type length,
-                                             stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STAttackHashed,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STHelpHashed slice
- * @param length maximal number of half moves until goal
- * @param min_length minimal number of half moves until goal
- * @param proxy_to_goal identifies proxy slice leading towards gaol
- * @return identifier of allocated slice
- */
-static slice_index alloc_help_hashed_slice(stip_length_type length,
-                                           stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STHelpHashed,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STHelpHashed slice for a ST{Branch,Leaf}Help slice
- * and insert it before the slice
- * @param si identifies ST{Branch,Leaf}Help slice
- * @param length maximum number of half moves to provide for
- * @param min_length minimum number of half moves to provide for
- */
-static void insert_help_hashed_slice(slice_index si,
-                                     stip_length_type length,
-                                     stip_length_type min_length)
-{
-  slice_index const prev = slices[si].prev;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-
-  if (slices[prev].type!=STHelpHashed)
-    pipe_append(prev,alloc_help_hashed_slice(length,min_length));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Allocate a STSeriesHashed slice for a STSeriesMove slice
- * and insert it before the slice
- * @param si identifies STSeriesMove slice
- * @param length maximum number of half moves to provide for
- * @param min_length minimum number of half moves to provide for
- */
-static void insert_series_hashed_slice(slice_index si,
-                                       stip_length_type length,
-                                       stip_length_type min_length)
-{
-  slice_index const prev = slices[si].prev;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  if (slices[prev].type!=STSeriesHashed)
-    pipe_append(prev,alloc_branch(STSeriesHashed,length,min_length));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -2013,7 +1916,8 @@ static void insert_hash_element_attack_move(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prototype = alloc_attack_hashed_slice(length-1,min_length-1);
+    slice_index const prototype = alloc_branch(STAttackHashed,
+                                               length-1,min_length-1);
     battle_branch_insert_slices(si,&prototype,1);
   }
 
@@ -2041,6 +1945,31 @@ static boolean is_goal_move_oriented(Goal goal)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Allocate a STHelpHashed slice for a ST{Branch,Leaf}Help slice
+ * and insert it before the slice
+ * @param si identifies ST{Branch,Leaf}Help slice
+ * @param length maximum number of half moves to provide for
+ * @param min_length minimum number of half moves to provide for
+ */
+static void insert_help_hashed_slice(slice_index si,
+                                     stip_length_type length,
+                                     stip_length_type min_length)
+{
+  slice_index const prev = slices[si].prev;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+
+  if (slices[prev].type!=STHelpHashed)
+    pipe_append(prev,alloc_branch(STHelpHashed,length,min_length));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Traverse a slice while inserting hash elements
@@ -2091,6 +2020,31 @@ static void insert_hash_element_help_move_to_goal(slice_index si,
     insert_help_hashed_slice(si,length,min_length);
   }
   stip_traverse_moves_move_slice(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Allocate a STSeriesHashed slice for a STSeriesMove slice
+ * and insert it before the slice
+ * @param si identifies STSeriesMove slice
+ * @param length maximum number of half moves to provide for
+ * @param min_length minimum number of half moves to provide for
+ */
+static void insert_series_hashed_slice(slice_index si,
+                                       stip_length_type length,
+                                       stip_length_type min_length)
+{
+  slice_index const prev = slices[si].prev;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  if (slices[prev].type!=STSeriesHashed)
+    pipe_append(prev,alloc_branch(STSeriesHashed,length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
