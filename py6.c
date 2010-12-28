@@ -539,7 +539,7 @@ static void find_restricted_side_help_root(slice_index si,
   is_restricted_type * const is_restricted = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   Side const starter = slices[si].starter;
-  Side const restricted_side = ((length-slack_length_help)%2==1
+  Side const restricted_side = ((length-slack_length_help)%2==0
                                 ? advers(starter)
                                 : starter);
 
@@ -2607,6 +2607,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STDefenseMove,        &optimise_final_moves_defense_move },
   { STHelpMove,           &optimise_final_moves_help_move    },
+  { STAttackMoveToGoal,   &swallow_goal                      },
   { STHelpMoveToGoal,     &swallow_goal                      },
   { STGoalReachedTesting, &optimise_final_moves_goal         }
 };

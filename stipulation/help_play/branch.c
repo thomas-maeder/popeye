@@ -228,7 +228,7 @@ slice_index help_branch_shorten(slice_index si)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of initial slice of allocated help branch
  */
-static slice_index alloc_help_branch_odd(stip_length_type length,
+static slice_index alloc_help_branch_even(stip_length_type length,
                                           stip_length_type min_length)
 {
   slice_index result;
@@ -295,13 +295,10 @@ static slice_index find_fork_pos(slice_index si, stip_length_type n)
   result = branch_find_slice(STReadyForHelpMove,si);
   assert(result!=no_slice);
 
-  if ((slices[result].u.branch.length-slack_length_help)%2
-      !=(n-slack_length_help)%2)
+  if ((n-slack_length_help)%2==1)
   {
     result = branch_find_slice(STReadyForHelpMove,result);
     assert(result!=no_slice);
-    assert((slices[result].u.branch.length-slack_length_help)%2
-           ==(n-slack_length_help)%2);
   }
 
   TraceFunctionExit(__func__);
@@ -352,12 +349,12 @@ slice_index alloc_help_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if ((length-slack_length_help)%2==1)
-    result = alloc_help_branch_odd(length,min_length);
+  if ((length-slack_length_help)%2==0)
+    result = alloc_help_branch_even(length,min_length);
   else
   {
     /* this indirect approach avoids some code duplication */
-    slice_index const branch = alloc_help_branch_odd(length+1,min_length+1);
+    slice_index const branch = alloc_help_branch_even(length+1,min_length+1);
     result = help_branch_shorten(branch);
   }
 
