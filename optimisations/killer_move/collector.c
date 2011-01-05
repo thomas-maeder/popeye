@@ -11,8 +11,19 @@
 
 static void remember_killer_move()
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   kpilcd[nbply] = move_generation_stack[nbcou].departure;
   kpilca[nbply] = move_generation_stack[nbcou].arrival;
+
+  TraceValue("%u",nbply);
+  TraceSquare(kpilcd[nbply]);
+  TraceSquare(kpilca[nbply]);
+  TraceText("\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a STKillerMoveCollector slice.
