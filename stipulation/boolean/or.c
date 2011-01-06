@@ -117,7 +117,7 @@ quodlibet_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = attack_has_solution_in_n(op1,n,n_max_unsolvable);
-  if (result>n)
+  if (result<=slack_length_battle-2 || result>n)
     result = attack_has_solution_in_n(op2,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -133,8 +133,8 @@ quodlibet_has_solution_in_n(slice_index si,
 has_solution_type quodlibet_solve(slice_index si)
 {
   has_solution_type result;
-  has_solution_type found_solution_op1;
-  has_solution_type found_solution_op2;
+  has_solution_type result1;
+  has_solution_type result2;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
 
@@ -142,13 +142,31 @@ has_solution_type quodlibet_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* avoid short-cut boolean evaluation */
-  found_solution_op1 = slice_solve(op1);
-  found_solution_op2 = slice_solve(op2);
+  result1 = slice_solve(op1);
+  result2 = slice_solve(op2);
 
-  result = (found_solution_op1>found_solution_op2
-            ? found_solution_op1
-            : found_solution_op2);
+  switch (result1)
+  {
+    case opponent_self_check:
+      if (result2==has_solution)
+        result = has_solution;
+      else
+        result = opponent_self_check;
+      break;
+
+    case has_no_solution:
+      result = result2;
+      break;
+
+    case has_solution:
+      result = has_solution;
+      break;
+
+    default:
+      assert(0);
+      result = opponent_self_check;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
