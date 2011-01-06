@@ -700,7 +700,8 @@ stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
 
 typedef struct
 {
-    slice_index to_be_avoided[2];
+    slice_index avoided_defense;
+    slice_index avoided_attack;
 } init_param;
 
 /* In battle play, insert a STReflexAttackFilter slice before a
@@ -721,8 +722,7 @@ static void reflex_guards_inserter_attack(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const idx = (length-slack_length_battle-1)%2;
-    slice_index const proxy_to_avoided = param->to_be_avoided[idx];
+    slice_index const proxy_to_avoided = param->avoided_attack;
     slice_index const filter = alloc_reflex_attacker_filter(length,min_length,
                                                             proxy_to_avoided);
     pipe_append(si,filter);
@@ -751,8 +751,7 @@ static void reflex_guards_inserter_defense(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const idx = (length-slack_length_battle-1)%2;
-    slice_index const proxy_to_avoided = param->to_be_avoided[idx];
+    slice_index const proxy_to_avoided = param->avoided_defense;
     pipe_append(slices[si].prev,
                 alloc_reflex_defender_filter(length,min_length,
                                              proxy_to_avoided));
@@ -807,7 +806,7 @@ void slice_insert_reflex_filters(slice_index si,
                                  slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
-  init_param param = { { proxy_to_avoided_defense, proxy_to_avoided_attack } };
+  init_param param = { proxy_to_avoided_defense, proxy_to_avoided_attack };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -843,8 +842,6 @@ static void reflex_guards_inserter_help(slice_index si,
   init_param * const param = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const idx = (length+1-slack_length_help)%2;
-  slice_index const proxy_to_avoided = param->to_be_avoided[idx];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -853,9 +850,12 @@ static void reflex_guards_inserter_help(slice_index si,
   stip_traverse_structure_children(si,st);
 
   /* in general, only one side is bound to deliver reflexmate */
-  if (proxy_to_avoided!=no_slice)
+  if ((length-slack_length_help)%2==1)
+  {
+    slice_index const proxy_to_avoided = param->avoided_defense;
     pipe_append(slices[si].prev,
                 alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -869,7 +869,7 @@ static void reflex_guards_inserter_series(slice_index si,
                                           stip_structure_traversal *st)
 {
   init_param * const param = st->param;
-  slice_index const proxy_to_avoided = param->to_be_avoided[0];
+  slice_index const proxy_to_avoided = param->avoided_defense;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -905,10 +905,9 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    stip_length_type const idx = (length-slack_length_battle-1)%2;
     pipe_append(slices[si].prev,
                 alloc_reflex_defender_filter(length,min_length,
-                                             param->to_be_avoided[idx]));
+                                             param->avoided_defense));
   }
 
   TraceFunctionExit(__func__);
@@ -939,7 +938,7 @@ void slice_insert_reflex_filters_semi(slice_index si,
                                       slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
-  init_param param;
+  init_param param = { proxy_to_avoided, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -949,9 +948,6 @@ void slice_insert_reflex_filters_semi(slice_index si,
   TraceStipulation(si);
 
   assert(slices[proxy_to_avoided].type==STProxy);
-
-  param.to_be_avoided[0] = proxy_to_avoided;
-  param.to_be_avoided[1] = no_slice;
 
   stip_structure_traversal_init(&st,&param);
   stip_structure_traversal_override_single(&st,
