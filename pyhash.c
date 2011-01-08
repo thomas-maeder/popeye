@@ -257,47 +257,6 @@ typedef struct
     unsigned int valueOffset;
 } slice_initializer_state;
 
-/* Initialise a slice_properties element representing an attacking move
- * @param si root slice of subtree
- * @param length maximum number of attacker's half-moves (+slack)
- * @param sis state of slice properties initialisation
- */
-static void init_slice_property_attack(slice_index si,
-                                       unsigned int length,
-                                       slice_initializer_state *sis)
-{
-  unsigned int const size = bit_width((length+1-slack_length_battle)/2);
-  data_type const mask = (1<<size)-1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",sis->nrBitsLeft);
-  TraceFunctionParam("%u",sis->valueOffset);
-  TraceFunctionParamListEnd();
-
-  sis->valueOffset -= size;
-  TraceValue("%u",size);
-  TraceValue("->%u\n",sis->valueOffset);
-
-  slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->valueOffset;
-  TraceValue("%u\n",slice_properties[si].valueOffset);
-
-  assert(sis->nrBitsLeft>=size);
-  sis->nrBitsLeft -= size;
-  slice_properties[si].u.d.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskNoSucc = mask << sis->nrBitsLeft;
-
-  assert(sis->nrBitsLeft>=size);
-  sis->nrBitsLeft -= size;
-  slice_properties[si].u.d.offsetSucc = sis->nrBitsLeft;
-  slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise a slice_properties element representing help play
  * @param si root slice of subtree
  * @param length number of half moves of help slice
@@ -484,10 +443,41 @@ static void init_slice_properties_attack_hashed(slice_index si,
 {
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  unsigned int const size = bit_width((length-min_length+1)/2);
+  data_type const mask = (1<<size)-1;
 
-  init_slice_property_attack(si,length,sis);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",length);
+  TraceValue("%u",sis->nrBitsLeft);
+  TraceValue("%u\n",sis->valueOffset);
+
+  sis->valueOffset -= size;
+  TraceValue("%u",size);
+  TraceValue("->%u\n",sis->valueOffset);
+
+  slice_properties[si].size = size;
+  slice_properties[si].valueOffset = sis->valueOffset;
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.d.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.d.maskNoSucc = mask << sis->nrBitsLeft;
+
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.d.offsetSucc = sis->nrBitsLeft;
+  slice_properties[si].u.d.maskSucc = mask << sis->nrBitsLeft;
+
   hash_slices[nr_hash_slices++] = si;
   stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the slice_properties array
@@ -587,7 +577,7 @@ static boolean find_slice_with_nonstandard_min_length(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result = min_length==length && length>slack_length_battle+2;
+        result = min_length>=length-1 && length>slack_length_battle+2;
         break;
 
       case STHelpHashed:
@@ -685,9 +675,9 @@ static void init_slice_properties(slice_index si)
 static hashElement_union_t template_element;
 
 
-static void set_value_attack_nosucc(hashElement_union_t *hue,
-                                    slice_index si,
-                                    hash_value_type val)
+static void set_value_attack_nosuccess(hashElement_union_t *hue,
+                                       slice_index si,
+                                       hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const bits = val << offset;
@@ -711,9 +701,9 @@ static void set_value_attack_nosucc(hashElement_union_t *hue,
   TraceFunctionResultEnd();
 }
 
-static void set_value_attack_succ(hashElement_union_t *hue,
-                                  slice_index si,
-                                  hash_value_type val)
+static void set_value_attack_success(hashElement_union_t *hue,
+                                     slice_index si,
+                                     hash_value_type val)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const bits = val << offset;
@@ -790,8 +780,8 @@ static void set_value_series(hashElement_union_t *hue,
   TraceFunctionResultEnd();
 }
 
-static hash_value_type get_value_attack_succ(hashElement_union_t const *hue,
-                                             slice_index si)
+static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
+                                                slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
   unsigned int const mask = slice_properties[si].u.d.maskSucc;
@@ -809,8 +799,8 @@ static hash_value_type get_value_attack_succ(hashElement_union_t const *hue,
   return result;
 }
 
-static hash_value_type get_value_attack_nosucc(hashElement_union_t const *hue,
-                                               slice_index si)
+static hash_value_type get_value_attack_nosuccess(hashElement_union_t const *hue,
+                                                  slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
   unsigned int const mask = slice_properties[si].u.d.maskNoSucc;
@@ -875,22 +865,22 @@ static hash_value_type own_value_of_data_attack(hashElement_union_t const *hue,
 {
   stip_length_type const length = slices[si].u.branch.length;
   hash_value_type result;
-  hash_value_type succ;
-  hash_value_type nosucc;
-  hash_value_type succ_neg;
+  hash_value_type success;
+  hash_value_type nosuccess;
+  hash_value_type success_neg;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",hue);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  succ = get_value_attack_succ(hue,si);
-  nosucc = get_value_attack_nosucc(hue,si);
+  success = get_value_attack_success(hue,si);
+  nosuccess = get_value_attack_nosuccess(hue,si);
 
-  assert(succ<=length);
-  succ_neg = length-succ;
+  assert(success<=length);
+  success_neg = length-success;
 
-  result = succ_neg>nosucc ? succ_neg : nosucc;
+  result = success_neg>nosuccess ? success_neg : nosuccess;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1614,8 +1604,9 @@ static void init_elements(hashElement_union_t *hue)
       case STAttackHashed:
       {
         stip_length_type const length = slices[si].u.branch.length;
-        set_value_attack_nosucc(hue,si,0);
-        set_value_attack_succ(hue,si,(length+1-slack_length_battle)/2);
+        stip_length_type const min_length = slices[si].u.branch.min_length;
+        set_value_attack_nosuccess(hue,si,0);
+        set_value_attack_success(hue,si,(length-min_length+1)/2);
         break;
       }
 
@@ -1902,26 +1893,23 @@ void closehash(void)
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_attack_move(slice_index si,
-                                            stip_moves_traversal *st)
+                                            stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_init_full_length(si,st);
-
-  TraceValue("%u",st->remaining);
-  TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length && st->remaining>slack_length_battle)
+  if (length>slack_length_battle+1)
   {
-    stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STAttackHashed,
                                                length-1,min_length-1);
     battle_branch_insert_slices(si,&prototype,1);
   }
 
-  stip_traverse_moves_move_slice(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2106,7 +2094,6 @@ static moves_traversers_visitors const hash_element_inserters[] =
 {
   /* no need to hash the introductory move of the set play */
   { STSetplayFork,      &stip_traverse_moves_pipe                },
-  { STDefenseMove,      &insert_hash_element_attack_move         },
   { STHelpMove,         &insert_hash_element_help_move           },
   { STHelpMoveToGoal,   &insert_hash_element_help_move_to_goal   },
   { STSeriesMove,       &insert_hash_element_series_move         },
@@ -2119,12 +2106,26 @@ enum
   = sizeof hash_element_inserters / sizeof hash_element_inserters[0]
 };
 
+static structure_traversers_visitors const hash_element_inserters2[] =
+{
+  /* no need to hash the introductory move of the set play */
+  { STSetplayFork,     &stip_traverse_structure_pipe    },
+  { STReadyForDefense, &insert_hash_element_attack_move }
+};
+
+enum
+{
+  nr_hash_element_inserters2
+  = sizeof hash_element_inserters2 / sizeof hash_element_inserters2[0]
+};
+
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start
  */
 void stip_insert_hash_slices(slice_index si)
 {
   stip_moves_traversal st;
+  stip_structure_traversal st2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2138,91 +2139,14 @@ void stip_insert_hash_slices(slice_index si)
                                 nr_hash_element_inserters);
   stip_traverse_moves(si,&st);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember that the current position does not have a solution in a
- * number of half-moves
- * @param si index of slice where the current position was reached
- * @param n number of half-moves
- */
-static void addtohash_dir_nosucc(slice_index si, stip_length_type n)
-{
-  HashBuffer const * const hb = &hashBuffers[nbply];
-  hash_value_type const val = (n+1-slack_length_battle)/2;
-  dhtElement *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_attack_nosucc(hue,si,val);
-  }
-  else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_attack_nosucc(hue,si)<val)
-      set_value_attack_nosucc(hue,si,val);
-  }
+  stip_structure_traversal_init(&st2,0);
+  stip_structure_traversal_override(&st2,
+                                    hash_element_inserters2,
+                                    nr_hash_element_inserters2);
+  stip_traverse_structure(si,&st2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-
-#if defined(HASHRATE)
-  if (dhtKeyCount(pyhash)%1000 == 0)
-    HashStats(3, "\n");
-#endif /*HASHRATE*/
-}
-
-/* Remember that the current position has a solution in a number of
- * half-moves
- * @param si index of slice where the current position was reached
- * @param n number of half-moves
- */
-static void addtohash_dir_succ(slice_index si, stip_length_type n)
-{
-  HashBuffer const * const hb = &hashBuffers[nbply];
-  hash_value_type const val = (n-1-slack_length_battle)/2;
-  dhtElement *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-  {
-    hashElement_union_t * const
-        hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_attack_succ(hue,si,val);
-  }
-  else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_attack_succ(hue,si)>val)
-      set_value_attack_succ(hue,si,val);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-
-#if defined(HASHRATE)
-  if (dhtKeyCount(pyhash)%1000 == 0)
-    HashStats(3, "\n");
-#endif /*HASHRATE*/
 }
 
 /* Try to solve in n half-moves after a defense.
@@ -2247,12 +2171,104 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  if (slices[si].u.branch.min_length>slack_length_battle)
+  {
+    slices[si].u.branch.min_length -= 2;
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+    slices[si].u.branch.min_length += 2;
+  }
+  else
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Remember that the current position does not have a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ * @param n number of half-moves
+ */
+static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
+{
+  HashBuffer const * const hb = &hashBuffers[nbply];
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  hash_value_type const val = (n+1-min_length)/2;
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
+    set_value_attack_nosuccess(hue,si,val);
+  }
+  else
+  {
+    hashElement_union_t * const hue = (hashElement_union_t *)he;
+    if (get_value_attack_nosuccess(hue,si)<val)
+      set_value_attack_nosuccess(hue,si,val);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
+/* Remember that the current position has a solution in a number of
+ * half-moves
+ * @param si index of slice where the current position was reached
+ * @param n number of half-moves
+ */
+static void addtohash_battle_success(slice_index si, stip_length_type n)
+{
+  HashBuffer const * const hb = &hashBuffers[nbply];
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  hash_value_type const val = (n+1-min_length)/2 - 1;
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    hashElement_union_t * const
+        hue = (hashElement_union_t *)allocDHTelement(hb);
+    set_value_attack_success(hue,si,val);
+  }
+  else
+  {
+    hashElement_union_t * const hue = (hashElement_union_t *)he;
+    if (get_value_attack_success(hue,si)>val)
+      set_value_attack_success(hue,si,val);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
 }
 
 static
@@ -2269,11 +2285,19 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
-  if (result<=n)
-    addtohash_dir_succ(si,result);
+  if (slices[si].u.branch.min_length>slack_length_battle)
+  {
+    slices[si].u.branch.min_length -= 2;
+    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    slices[si].u.branch.min_length += 2;
+  }
   else
-    addtohash_dir_nosucc(si,n);
+    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+
+  if (result<=n)
+    addtohash_battle_success(si,result);
+  else
+    addtohash_battle_nosuccess(si,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2297,7 +2321,6 @@ attack_hashed_has_solution_in_n(slice_index si,
                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  HashBuffer * const hb = &hashBuffers[nbply];
   dhtElement const *he;
 
   TraceFunctionEntry(__func__);
@@ -2311,34 +2334,31 @@ attack_hashed_has_solution_in_n(slice_index si,
   if (!isHashBufferValid[nbply])
     (*encode)();
 
-  he = dhtLookupElement(pyhash,hb);
+  he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
     result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    stip_length_type const parity = (n-slack_length_battle+1)%2;
+    stip_length_type const parity = (n-min_length)%2;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
-    hash_value_type const val_nosucc = get_value_attack_nosucc(hue,si);
-    stip_length_type const
-        n_nosucc = 2*val_nosucc + slack_length_battle-1 + parity;
-    if (n_nosucc>=n)
+    hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,si);
+    stip_length_type const n_nosuccess = 2*val_nosuccess + min_length-parity;
+    if (n_nosuccess>=n)
       result = n+2;
     else
     {
-      hash_value_type const val_succ = get_value_attack_succ(hue,si);
-      stip_length_type const
-          n_succ = 2*val_succ + slack_length_battle+1 + parity;
-      if (n_succ<=n && n-n_succ<=length-min_length)
-        result = n_succ;
+      hash_value_type const val_success = get_value_attack_success(hue,si);
+      stip_length_type const n_success = 2*val_success + min_length+2-parity;
+      if (n_success<=n)
+        result = n_success;
       else
       {
-        if (n_max_unsolvable<n_nosucc)
-          n_max_unsolvable = n_nosucc;
+        if (n_max_unsolvable<n_nosuccess)
+          n_max_unsolvable = n_nosuccess;
         result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
       }
     }
@@ -2382,9 +2402,9 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
     hash_value_type const val = (n+1-slack_length_help)/2;
-    hash_value_type const nosucc = get_value_help(hue,si);
-    if (nosucc>=val
-        && (nosucc+slices[si].u.branch.min_length
+    hash_value_type const nosuccess = get_value_help(hue,si);
+    if (nosuccess>=val
+        && (nosuccess+slices[si].u.branch.min_length
             <=val+slices[si].u.branch.length))
     {
       ifHASHRATE(use_pos++);
@@ -2548,9 +2568,9 @@ static boolean inhash_series(slice_index si, stip_length_type n)
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
     hash_value_type const val = n-slack_length_series;
-    hash_value_type const nosucc = get_value_series(hue,si);
-    if (nosucc>=val
-        && (nosucc+slices[si].u.branch.min_length
+    hash_value_type const nosuccess = get_value_series(hue,si);
+    if (nosuccess>=val
+        && (nosuccess+slices[si].u.branch.min_length
             <=val+slices[si].u.branch.length))
     {
       ifHASHRATE(use_pos++);
