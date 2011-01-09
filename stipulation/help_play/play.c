@@ -356,7 +356,9 @@ has_solution_type help_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
   stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const parity = (full_length-min_length)%2;
+  stip_length_type len = min_length+parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

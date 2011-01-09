@@ -22,7 +22,7 @@ slice_index alloc_help_move_to_goal_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STHelpMoveToGoal,
-                        slack_length_help+1,slack_length_help+1);
+                        slack_length_help+1,slack_length_help);
   slices[result].u.branch.imminent_goal = goal;
 
   TraceFunctionExit(__func__);
@@ -103,7 +103,7 @@ static boolean find_solution(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slack_length_help;
   boolean result = false;
-  
+
   while (encore())
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && help_has_solution_in_n(next,length)==length)

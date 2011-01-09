@@ -81,6 +81,7 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
+  st->remaining = 0;
   stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);

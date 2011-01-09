@@ -52,7 +52,7 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (min_length<slack_length_help-1)
+  if (min_length<slack_length_help)
     min_length += 2;
 
   new_root = alloc_help_root_slice(length,min_length);

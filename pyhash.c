@@ -257,38 +257,6 @@ typedef struct
     unsigned int valueOffset;
 } slice_initializer_state;
 
-/* Initialise a slice_properties element representing help play
- * @param si root slice of subtree
- * @param length number of half moves of help slice
- * @param sis state of slice properties initialisation
- */
-static void init_slice_property_help(slice_index si,
-                                     unsigned int length,
-                                     slice_initializer_state *sis)
-{
-  unsigned int const size = bit_width((length+1)/2);
-  data_type const mask = (1<<size)-1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->valueOffset;
-  TraceValue("%u",size);
-  TraceValue("%08x",mask);
-  TraceValue("%u\n",slice_properties[si].valueOffset);
-
-  assert(sis->nrBitsLeft>=size);
-  sis->nrBitsLeft -= size;
-  slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* Initialise a slice_properties element representing series play
  * @param si root slice of subtree
  * @param length number of half moves of series slice
@@ -480,6 +448,38 @@ static void init_slice_properties_attack_hashed(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Initialise a slice_properties element representing help play
+ * @param si root slice of subtree
+ * @param length number of half moves of help slice
+ * @param sis state of slice properties initialisation
+ */
+static void init_slice_property_help(slice_index si,
+                                     slice_initializer_state *sis)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  unsigned int const size = bit_width((length-min_length+1)/2+1);
+  data_type const mask = (1<<size)-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_properties[si].size = size;
+  slice_properties[si].valueOffset = sis->valueOffset;
+  TraceValue("%u",size);
+  TraceValue("%08x",mask);
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -512,7 +512,7 @@ static void init_slice_properties_hashed_help(slice_index si,
       stip_traverse_structure(sibling,st);
     }
 
-    init_slice_property_help(si,length-slack_length_help,sis);
+    init_slice_property_help(si,sis);
   }
 
   stip_traverse_structure_children(si,st);
@@ -744,13 +744,14 @@ static void set_value_help(hashElement_union_t *hue,
   TraceFunctionParamListEnd();
   TraceValue("%u",slice_properties[si].size);
   TraceValue("%u",offset);
-  TraceValue("%08x ",mask);
-  TraceValue("pre:%08x ",e->data);
-  TraceValue("%08x\n",bits);
+  TraceValue("0x%08x ",mask);
+  TraceValue("0x%08x ",&e->data);
+  TraceValue("pre:0x%08x ",e->data);
+  TraceValue("0x%08x\n",bits);
   assert((bits&mask)==bits);
   e->data &= ~mask;
   e->data |= bits;
-  TraceValue("post:%08x\n",e->data);
+  TraceValue("post:0x%08x\n",e->data);
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -827,8 +828,10 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   data_type const result = (e->data & mask) >> offset;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceValue("%08x ",mask);
-  TraceValue("%08x\n",e->data);
+  TraceValue("%u",offset);
+  TraceValue("0x%08x ",mask);
+  TraceValue("0x%08x ",&e->data);
+  TraceValue("0x%08x\n",e->data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2004,7 +2007,7 @@ static void insert_hash_element_help_move_to_goal(slice_index si,
   if (!is_goal_move_oriented(goal))
   {
     stip_length_type const length = slack_length_help+1;
-    stip_length_type const min_length = slack_length_help+1;
+    stip_length_type const min_length = slack_length_help;
     insert_help_hashed_slice(si,length,min_length);
   }
   stip_traverse_moves_move_slice(si,st);
@@ -2401,11 +2404,12 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    hash_value_type const val = (n+1-slack_length_help)/2;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    hash_value_type const val = (n+1-min_length)/2;
     hash_value_type const nosuccess = get_value_help(hue,si);
-    if (nosuccess>=val
-        && (nosuccess+slices[si].u.branch.min_length
-            <=val+slices[si].u.branch.length))
+    TraceValue("%u",min_length);
+    TraceValue("%u\n",val);
+    if (nosuccess>=val)
     {
       ifHASHRATE(use_pos++);
       result = true;
@@ -2428,7 +2432,8 @@ static boolean inhash_help(slice_index si, stip_length_type n)
 static void addtohash_help(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  hash_value_type const val = (n+1-slack_length_help)/2;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  hash_value_type const val = (n+1-min_length)/2;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2438,6 +2443,9 @@ static void addtohash_help(slice_index si, stip_length_type n)
 
   TraceValue("%u\n",nbply);
   assert(isHashBufferValid[nbply]);
+
+  TraceValue("%u",min_length);
+  TraceValue("%u\n",val);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2485,10 +2493,14 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
     result = n+2;
   else
   {
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
-
-    /* self check test should be over when we arrive here */
-    assert(result<=n+2);
+    if (slices[si].u.branch.min_length>slack_length_help)
+    {
+      slices[si].u.branch.min_length -= 2;
+      result = help_solve_in_n(slices[si].u.pipe.next,n);
+      slices[si].u.branch.min_length += 2;
+    }
+    else
+      result = help_solve_in_n(slices[si].u.pipe.next,n);
 
     if (result==n+2)
       addtohash_help(si,n);
@@ -2525,7 +2537,15 @@ stip_length_type hashed_help_has_solution_in_n(slice_index si,
     result = n+2;
   else
   {
-    result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+    if (slices[si].u.branch.min_length>slack_length_help)
+    {
+      slices[si].u.branch.min_length -= 2;
+      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+      slices[si].u.branch.min_length += 2;
+    }
+    else
+      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+
     if (result>n)
       addtohash_help(si,n);
   }

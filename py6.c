@@ -539,7 +539,7 @@ static void find_restricted_side_help_root(slice_index si,
   is_restricted_type * const is_restricted = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   Side const starter = slices[si].starter;
-  Side const restricted_side = ((length-slack_length_help)%2==0
+  Side const restricted_side = ((length-slack_length_help)%2==1
                                 ? advers(starter)
                                 : starter);
 

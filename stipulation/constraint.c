@@ -850,7 +850,7 @@ static void reflex_guards_inserter_help(slice_index si,
   stip_traverse_structure_children(si,st);
 
   /* in general, only one side is bound to deliver reflexmate */
-  if ((length-slack_length_help)%2==1)
+  if ((length-slack_length_help)%2==0)
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
     pipe_append(slices[si].prev,
