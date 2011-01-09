@@ -5,6 +5,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
+#include "stipulation/battle_play/continuation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -74,18 +75,16 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
+    slice_index const next = slices[si].u.pipe.next;
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
-    slice_index const filtered = alloc_pipe(STAttackMoveFiltered);
-    slice_index const solver = alloc_branch(STContinuationSolver,
-                                            slack_length_battle,
-                                            slack_length_battle-1);
     slice_index const dealt = alloc_pipe(STAttackDealtWith);
+    slice_index const solver = alloc_continuation_solver_slice(slack_length_battle,
+                                                               slack_length_battle-1);
 
-    pipe_link(dealt,slices[si].u.pipe.next);
-    pipe_link(filtered,solver);
-    pipe_link(solver,dealt);
-    pipe_link(checked,filtered);
     pipe_link(si,checked);
+    pipe_link(checked,dealt);
+    pipe_link(dealt,solver);
+    pipe_link(solver,next);
   }
 
   TraceFunctionExit(__func__);

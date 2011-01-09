@@ -6,7 +6,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_move_played.h \
  stipulation/battle_play/defense_move_legality_checked.h \
- stipulation/battle_play/ready_for_defense.h trace.h
+ stipulation/battle_play/ready_for_defense.h \
+ stipulation/battle_play/continuation.h trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -29,6 +30,8 @@ stipulation/battle_play/defense_move_played.h:
 stipulation/battle_play/defense_move_legality_checked.h:
 
 stipulation/battle_play/ready_for_defense.h:
+
+stipulation/battle_play/continuation.h:
 
 trace.h:
 stipulation/battle_play/fork$(OBJ_SUFFIX): stipulation/battle_play/fork.c \

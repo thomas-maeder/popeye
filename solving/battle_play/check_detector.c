@@ -95,8 +95,8 @@ check_detector_can_defend_in_n(slice_index si,
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void check_detector_prepend(slice_index si,
-                                   stip_structure_traversal *st)
+static void check_detector_insert(slice_index si,
+                                  stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -113,16 +113,17 @@ static void check_detector_prepend(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors continuation_handler_inserters[] =
+static structure_traversers_visitors check_detector_inserters[] =
 {
-  { STAttackMoveLegalityChecked, &check_detector_prepend }
+  { STReadyForAttack,  &check_detector_insert },
+  /* for check in diagram position in option postkey: */
+  { STAttackDealtWith, &check_detector_insert }
 };
 
 enum
 {
-  nr_continuation_handler_inserters =
-  (sizeof continuation_handler_inserters
-   / sizeof continuation_handler_inserters[0])
+  nr_check_detector_inserters =
+  (sizeof check_detector_inserters / sizeof check_detector_inserters[0])
 };
 
 /* Instrument the stipulation representation so that it can deal with
@@ -141,8 +142,8 @@ void stip_insert_check_detectors(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
-                                    continuation_handler_inserters,
-                                    nr_continuation_handler_inserters);
+                                    check_detector_inserters,
+                                    nr_check_detector_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

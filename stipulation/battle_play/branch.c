@@ -9,6 +9,7 @@
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/continuation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -74,7 +75,7 @@ static slice_index const slice_rank_order[] =
   STKeepMatingFilter,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
-  STAttackMoveFiltered,
+  STAttackDealtWith,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
@@ -83,7 +84,6 @@ static slice_index const slice_rank_order[] =
   STDefenseRoot,
   STCheckDetector,
   STMaxFlightsquares,
-  STAttackDealtWith,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
@@ -164,7 +164,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                               base);
         break;
       }
-      else if (slices[next].type==STAttackFork)
+      else if (slices[next].type==STRootAttackFork
+               || slices[next].type==STAttackFork)
       {
         battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                               prototypes,nr_prototypes,
@@ -370,10 +371,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const aplayed = alloc_pipe(STAttackMovePlayed);
     slice_index const ashoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
-    slice_index const afiltered = alloc_pipe(STAttackMoveFiltered);
-    slice_index const solver = alloc_branch(STContinuationSolver,
-                                            length-1,min_length-1);
     slice_index const adealt = alloc_pipe(STAttackDealtWith);
+    slice_index const solver = alloc_continuation_solver_slice(length-1,
+                                                               min_length-1);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
@@ -389,10 +389,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(attack,aplayed);
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,checked);
-    pipe_link(checked,afiltered);
-    pipe_link(afiltered,solver);
-    pipe_link(solver,adealt);
-    pipe_link(adealt,dready);
+    pipe_link(checked,adealt);
+    pipe_link(adealt,solver);
+    pipe_link(solver,dready);
     pipe_link(dready,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);

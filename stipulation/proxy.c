@@ -36,7 +36,6 @@ static boolean is_proxy(slice_index si)
     case STAttackMovePlayed:
     case STAttackMoveShoeHorningDone:
     case STAttackMoveLegalityChecked:
-    case STAttackMoveFiltered:
     case STAttackDealtWith:
     case STDefenseMovePlayed:
     case STDefenseMoveShoeHorningDone:
