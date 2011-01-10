@@ -752,9 +752,9 @@ static void reflex_guards_inserter_defense(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
-    pipe_append(slices[si].prev,
-                alloc_reflex_defender_filter(length,min_length,
-                                             proxy_to_avoided));
+    slice_index const prototype = alloc_reflex_defender_filter(length,min_length,
+                                                               proxy_to_avoided);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -905,9 +905,9 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(slices[si].prev,
-                alloc_reflex_defender_filter(length,min_length,
-                                             param->avoided_defense));
+    slice_index const prototype = alloc_reflex_defender_filter(length,min_length,
+                                                               param->avoided_defense);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

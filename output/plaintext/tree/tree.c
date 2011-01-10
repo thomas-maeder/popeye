@@ -268,7 +268,6 @@ static void instrument_defense_root(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_end_of_phase_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_refuting_variation_writer_slice()
     };
@@ -294,7 +293,9 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
+
   pipe_append(si,alloc_output_plaintext_tree_move_inversion_counter_slice());
+  pipe_append(si,alloc_end_of_phase_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -330,14 +331,7 @@ static void instrument_setplay_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
   insert_illegal_selfcheck_writer(slices[si].u.branch_fork.towards_goal);
-
-  {
-    slice_index end_of_phase = alloc_end_of_phase_writer_slice();
-    pipe_link(end_of_phase,slices[si].u.branch_fork.towards_goal);
-    slices[si].u.branch_fork.towards_goal = end_of_phase;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

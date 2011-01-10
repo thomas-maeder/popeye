@@ -91,8 +91,24 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void substitute_defense_root(slice_index si,
-                                    stip_structure_traversal *st)
+static void remove_continuation_solver(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remove the STContinuationSolver slice not used in postkey play
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void prepend_defense_root(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -102,7 +118,7 @@ static void substitute_defense_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_replace(si,alloc_defense_root_slice(length,min_length));
+  pipe_append(slices[si].prev,alloc_defense_root_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -110,8 +126,9 @@ static void substitute_defense_root(slice_index si,
 
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
+  { STReadyForDefense,    &prepend_defense_root        },
   { STAttackMovePlayed,   &stip_structure_visitor_noop },
-  { STContinuationSolver, &substitute_defense_root     },
+  { STContinuationSolver, &remove_continuation_solver  },
   { STHelpRoot,           &stip_structure_visitor_noop },
   { STSeriesRoot,         &stip_structure_visitor_noop }
 };

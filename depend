@@ -2108,7 +2108,8 @@ pythreat$(OBJ_SUFFIX): pythreat.c pythreat.h stipulation/battle_play/defense_pla
  pyslice.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h pyboard.h \
  pybitmsk.h pypiece.h pyenum.h pylang.h stipulation/goals/goals.h \
  boolean.h py.h pyenum.h pypipe.h pystip.h pyslice.h stipulation/branch.h \
- pystip.h stipulation/battle_play/attack_play.h \
+ pystip.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h \
  stipulation/battle_play/check_detector.h \
  stipulation/battle_play/defense_play.h trace.h
 
@@ -2157,6 +2158,8 @@ pyslice.h:
 stipulation/branch.h:
 
 pystip.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 

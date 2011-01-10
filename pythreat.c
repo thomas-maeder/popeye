@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/check_detector.h"
 #include "trace.h"
@@ -248,8 +249,8 @@ static void maxthreatlength_guard_inserter(slice_index si,
     boolean * const inserted = st->param;
     slice_index const
         to_attacker = branch_find_slice(STDefenseMoveLegalityChecked,si);
-    pipe_append(slices[si].prev,
-                alloc_maxthreatlength_guard(length,to_attacker));
+    slice_index const prototype = alloc_maxthreatlength_guard(length,to_attacker);
+    battle_branch_insert_slices(si,&prototype,1);
     *inserted = true;
   }
 

@@ -21,7 +21,6 @@
 static slice_index const slice_rank_order[] =
 {
   STReflexDefenderFilter,
-  STReadyForDefense,
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
@@ -76,6 +75,7 @@ static slice_index const slice_rank_order[] =
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
   STAttackDealtWith,
+  STReadyForDefense,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
@@ -146,6 +146,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
+      if (next==no_slice)
+        break;
       if (slices[next].type==STGoalReachedTesting)
       {
         leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
@@ -312,6 +314,8 @@ slice_index alloc_defense_branch(stip_length_type length,
   {
     slice_index const dready = alloc_ready_for_defense_slice(length,
                                                              min_length);
+    slice_index const solver = alloc_continuation_solver_slice(length,
+                                                               min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const dplayed = alloc_defense_move_played_slice(length-1,
                                                                 min_length-1);
@@ -321,7 +325,8 @@ slice_index alloc_defense_branch(stip_length_type length,
       dchecked = alloc_defense_move_legality_checked_slice();
     slice_index const dfiltered = alloc_pipe(STDefenseMoveFiltered);
     slice_index const ddealt = alloc_pipe(STDefenseDealtWith);
-    pipe_link(dready,defense);
+    pipe_link(dready,solver);
+    pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
     pipe_link(dshoehorned,dchecked);
@@ -372,10 +377,10 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const ashoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
     slice_index const adealt = alloc_pipe(STAttackDealtWith);
-    slice_index const solver = alloc_continuation_solver_slice(length-1,
-                                                               min_length-1);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
+    slice_index const solver = alloc_continuation_solver_slice(length-1,
+                                                               min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
     slice_index const dplayed = alloc_defense_move_played_slice(length-2,
@@ -390,9 +395,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,checked);
     pipe_link(checked,adealt);
-    pipe_link(adealt,solver);
-    pipe_link(solver,dready);
-    pipe_link(dready,defense);
+    pipe_link(adealt,dready);
+    pipe_link(dready,solver);
+    pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
 
