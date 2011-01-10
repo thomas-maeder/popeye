@@ -1,6 +1,8 @@
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/series_play/branch.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
@@ -132,8 +134,6 @@ boolean max_nr_solutions_found_in_phase(void)
 static void insert_maxsolutions_help_filter(slice_index si,
                                             stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -154,8 +154,6 @@ static void insert_maxsolutions_help_filter(slice_index si,
 static void insert_maxsolutions_series_filter(slice_index si,
                                               stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
