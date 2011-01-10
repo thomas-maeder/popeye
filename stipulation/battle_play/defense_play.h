@@ -37,18 +37,4 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_max_unsolvable);
 
-/* Try to defend after an attacking move
- * @param si slice index
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 no solution found
- */
-boolean defense_defend(slice_index si);
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @return true iff there is >=1 refutation
- */
-boolean defense_can_defend(slice_index si);
-
 #endif

@@ -29,7 +29,7 @@ slice_index alloc_ready_for_defense_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a defense end slice 
+/* Traversal of the moves beyond a defense end slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -47,6 +47,55 @@ void stip_traverse_moves_ready_for_defense(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type ready_for_defense_solve(slice_index si)
+{
+  has_solution_type result;
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (defense_defend_in_n(next,length,n_max_unsolvable)>length
+            ? has_no_solution
+            : has_solution);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type ready_for_defense_has_solution(slice_index si)
+{
+  has_solution_type result;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (defense_can_defend_in_n(si,length,n_max_unsolvable)>length
+            ? has_no_solution
+            : has_solution);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to defend after an attacking move
@@ -83,7 +132,7 @@ ready_for_defense_defend_in_n(slice_index si,
     slice_index const next = slices[si].u.branch.next;
     result = defense_defend_in_n(next,n,n_max_unsolvable);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

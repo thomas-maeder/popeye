@@ -15,12 +15,24 @@
 slice_index alloc_ready_for_defense_slice(stip_length_type length,
                                           stip_length_type min_length);
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond a slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_ready_for_defense(slice_index si,
                                            stip_moves_traversal *st);
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type ready_for_defense_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type ready_for_defense_has_solution(slice_index si);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

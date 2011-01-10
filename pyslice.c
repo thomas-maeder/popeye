@@ -6,7 +6,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
@@ -26,6 +26,7 @@
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
+#include "stipulation/goals/any/reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -155,6 +156,10 @@ has_solution_type slice_solve(slice_index si)
       result = goal_notcheck_reached_tester_solve(si);
       break;
 
+    case STGoalAnyReachedTester:
+      result = goal_any_reached_tester_solve(si);
+      break;
+
     case STReadyForAttack:
     case STAttackRoot:
     case STAttackFindShortest:
@@ -174,8 +179,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STReadyForDefense:
-    case STContinuationSolver:
-      result = defense_defend(si) ? has_no_solution : has_solution;
+      result = ready_for_defense_solve(si);
       break;
 
     case STHelpRoot:
@@ -408,6 +412,10 @@ has_solution_type slice_has_solution(slice_index si)
       result = goal_notcheck_reached_tester_has_solution(si);
       break;
 
+    case STGoalAnyReachedTester:
+      result = goal_any_reached_tester_has_solution(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_solution(si);
       break;
@@ -438,11 +446,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = attack_has_solution(si);
       break;
 
-    case STContinuationSolver:
     case STReadyForDefense:
-    case STDefenseMove:
-    case STEnPassantDefenderFilter:
-      result = defense_can_defend(si) ? has_no_solution : has_solution;
+      result = ready_for_defense_has_solution(si);
       break;
 
     case STHelpRoot:
