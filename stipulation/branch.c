@@ -76,7 +76,6 @@ static slice_index const root_slice_rank_order[] =
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
   STAttackDealtWith,
-  STDefenseRoot,
   STReadyForDefense,
   STContinuationSolver,
   STKeyWriter,

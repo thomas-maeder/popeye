@@ -22,7 +22,6 @@
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \
-    ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \

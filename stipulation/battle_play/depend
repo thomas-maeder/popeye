@@ -514,28 +514,13 @@ trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX): \
  stipulation/battle_play/postkeyplay.c \
  stipulation/battle_play/postkeyplay.h pypipe.h \
- stipulation/battle_play/branch.h stipulation/battle_play/defense_root.h \
- trace.h
+ stipulation/battle_play/branch.h trace.h
 
 stipulation/battle_play/postkeyplay.h:
 
 pypipe.h:
 
 stipulation/battle_play/branch.h:
-
-stipulation/battle_play/defense_root.h:
-
-trace.h:
-stipulation/battle_play/defense_root$(OBJ_SUFFIX): \
- stipulation/battle_play/defense_root.c \
- stipulation/battle_play/defense_root.h stipulation/branch.h \
- stipulation/battle_play/defense_play.h trace.h
-
-stipulation/battle_play/defense_root.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/defense_play.h:
 
 trace.h:
 stipulation/battle_play/defense_move_played$(OBJ_SUFFIX): \

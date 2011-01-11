@@ -1365,8 +1365,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/attack_root.h pystip.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/defense_root.h stipulation/help_play/play.h \
+ stipulation/battle_play/ready_for_defense.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/help_play/root.h stipulation/series_play/play.h \
  stipulation/series_play/root.h stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
@@ -1381,10 +1381,11 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/exchange_by_rebirth/reached_tester.h \
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h \
- stipulation/goals/notcheck/reached_tester.h pybrafrk.h pyquodli.h \
- pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
- pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
- pieces/attributes/paralysing/mate_filter.h \
+ stipulation/goals/notcheck/reached_tester.h \
+ stipulation/goals/any/reached_tester.h pybrafrk.h pyquodli.h pyrecipr.h \
+ pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
+ stipulation/battle_play/defense_play.h pyselfgd.h pyselfcg.h pykeepmt.h \
+ pypipe.h pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
  conditions/circe/circuit_by_rebirth_special.h \
@@ -1460,9 +1461,9 @@ stipulation/battle_play/attack_root.h:
 
 pystip.h:
 
-stipulation/battle_play/defense_play.h:
+stipulation/battle_play/ready_for_defense.h:
 
-stipulation/battle_play/defense_root.h:
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/play.h:
 
@@ -1500,6 +1501,8 @@ stipulation/goals/immobile/reached_tester.h:
 
 stipulation/goals/notcheck/reached_tester.h:
 
+stipulation/goals/any/reached_tester.h:
+
 pybrafrk.h:
 
 pyquodli.h:
@@ -1515,6 +1518,8 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 pyreflxg.h:
+
+stipulation/battle_play/defense_play.h:
 
 pyselfgd.h:
 
@@ -1619,7 +1624,7 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
  stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_move_to_goal.h \
  stipulation/battle_play/attack_fork.h \
- stipulation/battle_play/continuation.h \
+ stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/defense_play.h trace.h
 
 pydirctg.h:
@@ -1650,7 +1655,7 @@ stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/attack_fork.h:
 
-stipulation/battle_play/continuation.h:
+stipulation/battle_play/ready_for_defense.h:
 
 stipulation/battle_play/defense_play.h:
 

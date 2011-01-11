@@ -7,7 +7,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/ready_for_defense.h"
-#include "stipulation/battle_play/defense_root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
@@ -172,10 +171,6 @@ has_solution_type slice_solve(slice_index si)
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
       result = attack_solve(si);
-      break;
-
-    case STDefenseRoot:
-      result = defense_root_solve(si);
       break;
 
     case STReadyForDefense:

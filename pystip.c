@@ -60,7 +60,6 @@
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \
-    ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
@@ -254,7 +253,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STAttackFindShortest */
-  slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STDefenseMove */
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
@@ -1822,7 +1820,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackRoot */
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
-  &stip_traverse_structure_pipe,            /* STDefenseRoot */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
@@ -2055,7 +2052,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STAttackRoot */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */
-    &stip_traverse_moves_branch_slice,          /* STDefenseRoot */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */

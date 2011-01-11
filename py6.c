@@ -518,8 +518,8 @@ static void find_restricted_side_attack_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void find_restricted_side_defense_root(slice_index si,
-                                              stip_structure_traversal *st)
+static void find_restricted_side_defense(slice_index si,
+                                         stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
 
@@ -556,9 +556,9 @@ static void find_restricted_side_help_root(slice_index si,
 
 static structure_traversers_visitors restricted_side_finders[] =
 {
-  { STAttackRoot,  &find_restricted_side_attack_root  },
-  { STDefenseRoot, &find_restricted_side_defense_root },
-  { STHelpRoot,    &find_restricted_side_help_root    }
+  { STAttackRoot,      &find_restricted_side_attack_root },
+  { STReadyForDefense, &find_restricted_side_defense     },
+  { STHelpRoot,        &find_restricted_side_help_root   }
 };
 
 enum
