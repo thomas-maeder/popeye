@@ -295,7 +295,6 @@ static slice_index const leaf_slice_rank_order[] =
   STAttackDealtWith,
   STDefenseMoveFiltered,
   STReadyForDefense,
-  STContinuationSolver,
   STKeyWriter,
   STContinuationWriter,
   STVariationWriter,

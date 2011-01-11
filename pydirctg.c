@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
-#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "trace.h"
 
@@ -81,14 +80,11 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
     slice_index const dealt = alloc_pipe(STAttackDealtWith);
     slice_index const ready = alloc_ready_for_defense_slice(slack_length_battle+1,
                                                             slack_length_battle);
-    slice_index const solver = alloc_continuation_solver_slice(slack_length_battle+1,
-                                                               slack_length_battle);
 
     pipe_link(si,checked);
     pipe_link(checked,dealt);
     pipe_link(dealt,ready);
-    pipe_link(ready,solver);
-    pipe_link(solver,next);
+    pipe_link(ready,next);
   }
 
   TraceFunctionExit(__func__);
