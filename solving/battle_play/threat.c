@@ -421,22 +421,22 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
   if (length>slack_length_battle+1)
   {
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
-
-    slice_index const prototypes[] =
+    if (ready!=no_slice)
     {
-      alloc_threat_solver_slice(length,min_length,ready),
-      alloc_threat_enforcer_slice(),
-      alloc_threat_collector_slice()
-    };
+      slice_index const prototypes[] =
+      {
+        alloc_threat_solver_slice(length,min_length,ready),
+        alloc_threat_enforcer_slice(),
+        alloc_threat_collector_slice()
+      };
 
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
 
-    assert(ready!=no_slice);
-
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    }
   }
 
   TraceFunctionExit(__func__);

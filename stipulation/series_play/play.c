@@ -5,7 +5,7 @@
 #include "pykeepmt.h"
 #include "pyselfcg.h"
 #include "pymovenb.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/root.h"
@@ -62,12 +62,13 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STContinuationSolver:
+    case STReadyForDefense:
     {
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_max_unsovlable = slack_length_battle-1;
-      result = (defense_defend_in_n(si,n_battle,n_max_unsovlable)<=n_battle
+      result = (ready_for_defense_defend_in_n(si,n_battle,n_max_unsovlable)
+                <=n_battle
                 ? n
                 : n+1);
       break;
@@ -230,14 +231,15 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = series_shortcut_has_solution_in_n(si,n);
       break;
 
-    case STContinuationSolver:
+    case STReadyForDefense:
     {
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
       stip_length_type const
-          nr_moves_needed = defense_can_defend_in_n(si,
-                                                    n_battle,n_max_unsolvable);
+          nr_moves_needed = ready_for_defense_can_defend_in_n(si,
+                                                              n_battle,
+                                                              n_max_unsolvable);
       if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
         result = n+1;
       else

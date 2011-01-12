@@ -111,6 +111,7 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/series_play/branch.h"
@@ -2599,12 +2600,16 @@ static char *ParsePlay(char *tok,
       if (dummy!=no_slice)
       {
         slice_index const
+            ready = alloc_ready_for_defense_slice(slack_length_battle+2,
+                                                  slack_length_battle+2);
+        slice_index const
             solver = alloc_continuation_solver_slice(slack_length_battle+2,
                                                      slack_length_battle+2);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
-        convert_to_parry_series_branch(next,solver);
+        convert_to_parry_series_branch(next,ready);
+        pipe_link(ready,solver);
         pipe_link(solver,def);
         pipe_link(def,played);
 
