@@ -94,11 +94,11 @@ static void instrument_series_fork(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                 &instrument_series_fork           },
-  { STGoalReachedTesting,         &instrument_goal_reached_testing  },
-  { STMoveInverterSolvableFilter, &instrument_move_inverter         },
-  { STHelpRoot,                   &instrument_root                  },
-  { STSeriesRoot,                 &instrument_root                  }
+  { STSeriesFork,         &instrument_series_fork          },
+  { STGoalReachedTesting, &instrument_goal_reached_testing },
+  { STMoveInverter,       &instrument_move_inverter        },
+  { STHelpRoot,           &instrument_root                 },
+  { STSeriesRoot,         &instrument_root                 }
 };
 
 enum

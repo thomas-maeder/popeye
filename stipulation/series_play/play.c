@@ -4,13 +4,13 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
-#include "pymovein.h"
 #include "pymovenb.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/move.h"
+#include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -57,7 +57,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpMove:
     {
-      stip_length_type const n_help = n-slack_length_series+slack_length_help;
+      stip_length_type const n_help = n+slack_length_help-slack_length_series;
       result = help_solve_in_n(si,n_help)==n_help ? n : n+1;
       break;
     }
@@ -85,8 +85,8 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       result = hashed_series_solve_in_n(si,n);
       break;
 
-    case STMoveInverterSeriesFilter:
-      result = move_inverter_series_solve_in_n(si,n);
+    case STSeriesDummyMove:
+      result = series_dummy_move_solve_in_n(si,n);
       break;
 
     case STReflexSeriesFilter:
@@ -193,7 +193,7 @@ has_solution_type series_solve(slice_index si)
       break;
     }
     else
-      ++len;
+      len += 2;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -273,8 +273,8 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = selfcheck_guard_series_has_solution_in_n(si,n);
       break;
 
-    case STMoveInverterSeriesFilter:
-      result = move_inverter_series_has_solution_in_n(si,n);
+    case STSeriesDummyMove:
+      result = series_dummy_move_has_solution_in_n(si,n);
       break;
 
     case STMaxTimeSeriesFilter:

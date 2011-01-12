@@ -29,7 +29,7 @@ stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.parry_fork.next,n+1)-1;
+    result = series_solve_in_n(slices[si].u.parry_fork.next,n);
   else
     result = series_solve_in_n(slices[si].u.parry_fork.non_parrying,n);
 
@@ -60,7 +60,7 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n+1)-1;
+    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n);
   else
     result = series_has_solution_in_n(slices[si].u.parry_fork.non_parrying,n);
 
@@ -105,20 +105,18 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   TraceStipulation(si);
 
   {
-    slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                   si);
-    slice_index const dealt = branch_find_slice(STSeriesMoveDealtWith,
-                                                inverter);
-    slice_index const parry_fork = alloc_parry_fork(inverter);
+    slice_index const dummy = branch_find_slice(STSeriesDummyMove,si);
+    slice_index const dealt = branch_find_slice(STSeriesMoveDealtWith,dummy);
+    slice_index const parry_fork = alloc_parry_fork(dummy);
 
-    assert(inverter!=no_slice);
+    assert(dummy!=no_slice);
     assert(dealt!=no_slice);
 
-    pipe_link(slices[inverter].prev,parry_fork);
+    pipe_link(slices[dummy].prev,parry_fork);
     pipe_link(parry_fork,parrying);
 
-    slice_set_predecessor(inverter,no_slice);
-    pipe_set_successor(inverter,dealt);
+    slice_set_predecessor(dummy,no_slice);
+    pipe_set_successor(dummy,dealt);
   }
 
   TraceFunctionExit(__func__);

@@ -11,12 +11,12 @@ static slice_index const root_slice_rank_order[] =
 {
   STProxy,
   STSetplayFork,
-  STMoveInverterSolvableFilter,
+  STMoveInverter,
   STEndOfPhaseWriter,
   STOutputPlaintextTreeMoveInversionCounter,
   STOutputPlaintextLineMoveInversionCounter,
   /* in hXN.5 with set play, there are 2 move inversions in a row! */
-  STMoveInverterSolvableFilter,
+  STMoveInverter,
   STOutputPlaintextLineMoveInversionCounter,
   STReflexAttackerFilter,
   STReadyForAttack,

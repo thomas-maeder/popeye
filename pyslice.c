@@ -218,7 +218,7 @@ has_solution_type slice_solve(slice_index si)
       result = reflex_attack_solver_solve(si);
       break;
 
-    case STMoveInverterSolvableFilter:
+    case STMoveInverter:
       result = move_inverter_solve(si);
       break;
 
@@ -454,7 +454,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = help_has_solution(si);
       break;
 
-    case STMoveInverterSolvableFilter:
+    case STMoveInverter:
       result = move_inverter_has_solution(si);
       break;
 

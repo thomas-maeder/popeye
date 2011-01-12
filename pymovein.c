@@ -1,43 +1,22 @@
 #include "pymovein.h"
 #include "pyslice.h"
-#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"
 #endif
 
-#include <assert.h>
-
-/* Allocate a STMoveInverterSolvableFilter slice.
+/* Allocate a STMoveInverter slice.
  * @return index of allocated slice
  */
-slice_index alloc_move_inverter_solvable_filter(void)
+slice_index alloc_move_inverter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMoveInverterSolvableFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STMoveInverterSeriesFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_move_inverter_series_filter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STMoveInverterSeriesFilter);
+  result = alloc_pipe(STMoveInverter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -113,59 +92,6 @@ has_solution_type move_inverter_has_solution(slice_index si)
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param pipe slice index
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type move_inverter_series_solve_in_n(slice_index pipe,
-                                                 stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  result = series_solve_in_n(slices[pipe].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type move_inverter_series_has_solution_in_n(slice_index si,
-                                                        stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = series_has_solution_in_n(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
@@ -185,32 +111,12 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side
-                            ? no_side:
-                            advers(next_starter));
+                            ? no_side
+                            : advers(next_starter));
   }
 
   TraceValue("->%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Retrieve the starting side of a slice
- * @param si slice index
- * @return current starting side of slice si
- */
-Side move_inverter_get_starter(slice_index si)
-{
-  Side result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }

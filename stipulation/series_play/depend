@@ -1,15 +1,14 @@
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
- stipulation/series_play/branch.h pyslice.h pymovein.h \
- stipulation/goals/goals.h stipulation/series_play/play.h pypipe.h \
- stipulation/branch.h stipulation/proxy.h stipulation/series_play/fork.h \
+ stipulation/series_play/branch.h pyslice.h stipulation/goals/goals.h \
+ stipulation/series_play/play.h pypipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/series_play/fork.h \
  stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
- stipulation/series_play/shortcut.h trace.h
+ stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
+ trace.h
 
 stipulation/series_play/branch.h:
 
 pyslice.h:
-
-pymovein.h:
 
 stipulation/goals/goals.h:
 
@@ -26,6 +25,8 @@ stipulation/series_play/fork.h:
 stipulation/series_play/move.h:
 
 stipulation/series_play/move_to_goal.h:
+
+stipulation/series_play/dummy_move.h:
 
 stipulation/series_play/shortcut.h:
 
@@ -91,6 +92,18 @@ trace.h:
 stipulation/branch.h:
 
 stipulation/series_play/play.h:
+stipulation/series_play/dummy_move$(OBJ_SUFFIX): \
+ stipulation/series_play/dummy_move.c \
+ stipulation/series_play/dummy_move.h stipulation/series_play/play.h \
+ pypipe.h trace.h
+
+stipulation/series_play/dummy_move.h:
+
+stipulation/series_play/play.h:
+
+pypipe.h:
+
+trace.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
  stipulation/series_play/fork.h pybrafrk.h stipulation/branch.h \
  stipulation/series_play/branch.h stipulation/series_play/play.h \
@@ -145,10 +158,11 @@ stipulation/proxy.h:
 trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/play.h stipulation/help_play/play.h pyhash.h \
- pyreflxg.h pykeepmt.h pyselfcg.h pymovein.h pymovenb.h \
+ pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h \
  stipulation/battle_play/defense_play.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/series_play/root.h \
- stipulation/series_play/move.h stipulation/series_play/shortcut.h \
+ stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
+ stipulation/series_play/shortcut.h \
  stipulation/series_play/move_to_goal.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
@@ -170,8 +184,6 @@ pykeepmt.h:
 
 pyselfcg.h:
 
-pymovein.h:
-
 pymovenb.h:
 
 stipulation/battle_play/defense_play.h:
@@ -183,6 +195,8 @@ stipulation/series_play/parry_fork.h:
 stipulation/series_play/root.h:
 
 stipulation/series_play/move.h:
+
+stipulation/series_play/dummy_move.h:
 
 stipulation/series_play/shortcut.h:
 

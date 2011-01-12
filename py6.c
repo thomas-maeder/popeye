@@ -2063,7 +2063,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpMovePlayed:
     case STHelpMoveLegalityChecked:
     case STHelpMoveDealtWith:
-    case STMoveInverterSolvableFilter:
+    case STMoveInverter:
     case STGoalReachedTesting:
     case STProxy:
     {
@@ -2117,7 +2117,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
       {
-        slice_index const inverter = alloc_move_inverter_solvable_filter();
+        slice_index const inverter = alloc_move_inverter_slice();
         slice_index const proxy2 = alloc_proxy_slice();
         slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
@@ -2133,7 +2133,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       break;
     }
 
-    case STMoveInverterSolvableFilter:
+    case STMoveInverter:
     {
       /* starting side is already inverted - just allow color change
        * by removing the inverter

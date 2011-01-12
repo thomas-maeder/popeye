@@ -92,6 +92,7 @@
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
+    ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STSeriesMovePlayed),                                     \
     ENUMERATOR(STSeriesMoveLegalityChecked),                            \
@@ -130,8 +131,7 @@
     ENUMERATOR(STNot),             /* logical NOT */                    \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
-    ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
+    ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
@@ -285,6 +285,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSeriesShortcut */
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
+  slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_pipe,   /* STSeriesMovePlayed */
   slice_structure_pipe,   /* STSeriesMoveLegalityChecked */
@@ -323,8 +324,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuard */
-  slice_structure_pipe,   /* STMoveInverterSolvableFilter */
-  slice_structure_pipe,   /* STMoveInverterSeriesFilter */
+  slice_structure_pipe,   /* STMoveInverter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
@@ -1236,7 +1236,7 @@ static void install_postkey_slice(slice_index si, slice_index postkey_slice)
   TraceFunctionParam("%u",postkey_slice);
   TraceFunctionParamListEnd();
 
-  inverter = alloc_move_inverter_solvable_filter();
+  inverter = alloc_move_inverter_slice();
   pipe_link(inverter,postkey_slice);
   pipe_link(si,inverter);
 
@@ -1324,17 +1324,17 @@ slice_index stip_make_setplay(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STAttackMove,                 &attack_move_apply_setplay            },
-  { STDefenseMove,                &stip_structure_visitor_noop          },
-  { STHelpMove,                   &help_move_apply_setplay              },
-  { STHelpFork,                   &stip_traverse_structure_pipe         },
-  { STSeriesMove,                 &series_move_apply_setplay            },
-  { STSeriesFork,                 &stip_structure_visitor_noop          },
-  { STMoveInverterSolvableFilter, &move_inverter_apply_setplay          },
-  { STHelpShortcut,               &stip_traverse_structure_pipe         },
-  { STSeriesShortcut,             &stip_traverse_structure_pipe         },
-  { STReflexAttackerFilter,       &stip_traverse_structure_pipe         },
-  { STReflexDefenderFilter,       &reflex_defender_filter_apply_setplay }
+  { STAttackMove,           &attack_move_apply_setplay            },
+  { STDefenseMove,          &stip_structure_visitor_noop          },
+  { STHelpMove,             &help_move_apply_setplay              },
+  { STHelpFork,             &stip_traverse_structure_pipe         },
+  { STSeriesMove,           &series_move_apply_setplay            },
+  { STSeriesFork,           &stip_structure_visitor_noop          },
+  { STMoveInverter,         &move_inverter_apply_setplay          },
+  { STHelpShortcut,         &stip_traverse_structure_pipe         },
+  { STSeriesShortcut,       &stip_traverse_structure_pipe         },
+  { STReflexAttackerFilter, &stip_traverse_structure_pipe         },
+  { STReflexDefenderFilter, &reflex_defender_filter_apply_setplay }
 };
 
 enum
@@ -1357,7 +1357,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   TraceFunctionParam("%u",setplay_slice);
   TraceFunctionParamListEnd();
 
-  set = alloc_move_inverter_solvable_filter();
+  set = alloc_move_inverter_slice();
   link_to_branch(set,setplay_slice);
 
   if (slices[next].prev==si)
@@ -1565,24 +1565,24 @@ void stip_make_exact(slice_index si)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STAttackRoot,                     &attack_move_detect_starter   },
-  { STAttackMove,                     &attack_move_detect_starter   },
-  { STAttackMoveToGoal,               &attack_move_detect_starter   },
-  { STDefenseMove,                    &defense_move_detect_starter  },
-  { STHelpMove,                       &help_move_detect_starter     },
-  { STSeriesMove,                     &series_move_detect_starter   },
-  { STSeriesMoveToGoal,               &series_move_detect_starter   },
-  { STReciprocal,                     &reci_detect_starter          },
-  { STQuodlibet,                      &quodlibet_detect_starter     },
-  { STMoveInverterSolvableFilter,     &move_inverter_detect_starter },
-  { STMoveInverterSeriesFilter,       &move_inverter_detect_starter },
-  { STHelpShortcut,                   &pipe_detect_starter          },
-  { STSeriesShortcut,                 &pipe_detect_starter          },
-  { STParryFork,                      &pipe_detect_starter          },
+  { STAttackRoot,       &attack_move_detect_starter   },
+  { STAttackMove,       &attack_move_detect_starter   },
+  { STAttackMoveToGoal, &attack_move_detect_starter   },
+  { STDefenseMove,      &defense_move_detect_starter  },
+  { STHelpMove,         &help_move_detect_starter     },
+  { STSeriesMove,       &series_move_detect_starter   },
+  { STSeriesMoveToGoal, &series_move_detect_starter   },
+  { STSeriesDummyMove,  &series_move_detect_starter   },
+  { STReciprocal,       &reci_detect_starter          },
+  { STQuodlibet,        &quodlibet_detect_starter     },
+  { STMoveInverter,     &move_inverter_detect_starter },
+  { STHelpShortcut,     &pipe_detect_starter          },
+  { STSeriesShortcut,   &pipe_detect_starter          },
+  { STParryFork,        &pipe_detect_starter          },
   /* .to_attacker has different starter -> detect starter from .next
    * only */
-  { STThreatSolver,                   &pipe_detect_starter          },
-  { STMaxThreatLength,                &pipe_detect_starter          }
+  { STThreatSolver,     &pipe_detect_starter          },
+  { STMaxThreatLength,  &pipe_detect_starter          }
 };
 
 enum
@@ -1684,8 +1684,8 @@ static SliceType starter_inverters[] =
   STHelpMoveToGoal,
   STSeriesMove,
   STSeriesMoveToGoal,
-  STMoveInverterSolvableFilter,
-  STMoveInverterSeriesFilter
+  STSeriesDummyMove,
+  STMoveInverter
 };
 
 enum
@@ -1852,6 +1852,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
+  &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMovePlayed */
   &stip_traverse_structure_pipe,            /* STSeriesMoveLegalityChecked */
@@ -1890,8 +1891,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STCheckDetector */
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
-  &stip_traverse_structure_pipe,            /* STMoveInverterSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STMoveInverter */
   &stip_traverse_structure_battle_fork,     /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
@@ -2084,6 +2084,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
     &stip_traverse_moves_move_slice,            /* STSeriesMoveToGoal */
+    &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
     &stip_traverse_moves_branch_slice,          /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                  /* STSeriesMovePlayed */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
@@ -2122,8 +2123,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STCheckDetector */
     &stip_traverse_moves_pipe,                  /* STNot */
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
-    &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STMoveInverter */
     &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */

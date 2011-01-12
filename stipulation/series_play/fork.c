@@ -80,7 +80,7 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st)
 
   stip_traverse_moves_branch_init_full_length(si,st);
 
-  if (st->remaining==slack_length_series)
+  if (st->remaining<=slack_length_series+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
@@ -111,7 +111,7 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_series);
 
-  if (n==slack_length_series)
+  if (n<=slack_length_series+1)
     switch (slice_solve(to_goal))
     {
       case has_solution:

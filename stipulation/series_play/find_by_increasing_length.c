@@ -30,7 +30,7 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a series root slice 
+/* Traversal of the moves beyond a series root slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -73,7 +73,7 @@ has_solution_type series_root_solve(slice_index si)
   {
     if (series_solve_in_n(next,len)==len)
       result = has_solution;
-    ++len;
+    len += 2;
   }
 
   TraceFunctionExit(__func__);

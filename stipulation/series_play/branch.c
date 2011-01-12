@@ -1,6 +1,5 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
-#include "pymovein.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -9,6 +8,7 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_to_goal.h"
+#include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/shortcut.h"
 #include "trace.h"
 
@@ -29,7 +29,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
-  STMoveInverterSeriesFilter,
+  STSeriesDummyMove,
   STSeriesMove,
   STSeriesMoveToGoal,
   STContinuationSolver, /* occurs in direct pser stipulations */
@@ -47,8 +47,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesMoveLegalityChecked,
   STSeriesMoveDealtWith,
   STSeriesFork,
-  STMoveInverterSolvableFilter,
-  STMoveInverterSeriesFilter,
+  STSeriesDummyMove,
   STSeriesMovePlayed,
   STSelfCheckGuard,
   STSeriesMoveDealtWith
@@ -303,7 +302,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const played1 = alloc_pipe(STSeriesMovePlayed);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dealt1 = alloc_pipe(STSeriesMoveDealtWith);
-    slice_index const inverter = alloc_move_inverter_series_filter();
+    slice_index const dummy = alloc_series_dummy_move_slice();
     slice_index const played2 = alloc_pipe(STSeriesMovePlayed);
 
     pipe_link(checked2,dealt2);
@@ -312,8 +311,8 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(move,played1);
     pipe_link(played1,checked1);
     pipe_link(checked1,dealt1);
-    pipe_link(dealt1,inverter);
-    pipe_link(inverter,played2);
+    pipe_link(dealt1,dummy);
+    pipe_link(dummy,played2);
     pipe_link(played2,checked2);
 
     result = checked2;

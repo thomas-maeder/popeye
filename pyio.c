@@ -1869,7 +1869,8 @@ static char *ParseLength(char *tok,
         }
         else
         {
-          *length += slack_length_series-1;
+          *length *= 2;
+          *length += slack_length_series-2;
           *min_length = slack_length_series+1;
         }
         break;
@@ -2236,7 +2237,7 @@ static void attach_help_branch(stip_length_type length,
 
   if ((length-slack_length_help)%2==1)
   {
-    slice_index const inverter = alloc_move_inverter_solvable_filter();
+    slice_index const inverter = alloc_move_inverter_slice();
     slice_index const inverter_proxy = alloc_proxy_slice();
     pipe_link(proxy,inverter);
     pipe_link(inverter,inverter_proxy);
@@ -2351,8 +2352,8 @@ static char *ParsePlay(char *tok,
       if (result!=0 && slices[proxy_next].u.pipe.next!=no_slice)
       {
         /* >=1 move of starting side required */
-        stip_length_type const min_length = 1+slack_length_series;
-        slice_index const branch = alloc_series_branch(intro_len
+        stip_length_type const min_length = 2+slack_length_series;
+        slice_index const branch = alloc_series_branch(2*intro_len
                                                        +slack_length_series,
                                                        min_length);
         series_branch_set_next_slice(branch,proxy_next);
@@ -2384,7 +2385,7 @@ static char *ParsePlay(char *tok,
       result = ParseLength(tok,STSeriesMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const mi = alloc_move_inverter_solvable_filter();
+        slice_index const mi = alloc_move_inverter_slice();
         slice_index const guard = alloc_selfcheck_guard_solvable_filter();
         slice_index const branch = alloc_series_branch(length,min_length);
         pipe_link(mi,guard);
@@ -2548,12 +2549,10 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                     next);
-      if (inverter!=no_slice)
+      slice_index const dummy = branch_find_slice(STSeriesDummyMove,next);
+      if (dummy!=no_slice)
       {
-        slice_index const played = branch_find_slice(STSeriesMovePlayed,
-                                                     inverter);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
         stip_length_type const length = slices[played].u.branch.length;
         stip_length_type const min_length = slices[played].u.branch.min_length;
         slice_index const parrying = alloc_series_move_slice(length+1,
@@ -2576,9 +2575,8 @@ static char *ParsePlay(char *tok,
 
       {
         slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
-        slice_index const
-            inverter = branch_find_slice(STMoveInverterSeriesFilter,ready);
-        slice_index const played = branch_find_slice(STSeriesMovePlayed,inverter);
+        slice_index const dummy = branch_find_slice(STSeriesDummyMove,ready);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
         stip_length_type const length = slices[ready].u.branch.length;
         stip_length_type const min_length = slices[ready].u.branch.min_length;
         slice_index const parrying = alloc_series_move_slice(length,min_length);
@@ -2597,17 +2595,15 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                     next);
-      if (inverter!=no_slice)
+      slice_index const dummy = branch_find_slice(STSeriesDummyMove,next);
+      if (dummy!=no_slice)
       {
         slice_index const
             solver = alloc_continuation_solver_slice(slack_length_battle+2,
                                                      slack_length_battle+2);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
-        slice_index const played = branch_find_slice(STSeriesMovePlayed,
-                                                     inverter);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
         convert_to_parry_series_branch(next,solver);
         pipe_link(solver,def);
         pipe_link(def,played);
@@ -3348,7 +3344,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
     slice_index const operand = slices[proxy].u.pipe.next;
     if (tok!=0 && operand!=no_slice)
     {
-      slice_index const inverter = alloc_move_inverter_solvable_filter();
+      slice_index const inverter = alloc_move_inverter_slice();
       slice_index const guard = alloc_selfcheck_guard_solvable_filter();
       pipe_append(proxy,inverter);
       pipe_link(inverter,guard);

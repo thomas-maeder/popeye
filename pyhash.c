@@ -2054,7 +2054,7 @@ static void insert_hash_element_series_move(slice_index si,
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length)
+  if (st->remaining+1<st->full_length)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;

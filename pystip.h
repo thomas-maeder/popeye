@@ -56,6 +56,7 @@
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
+    ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STSeriesMovePlayed),                                     \
     ENUMERATOR(STSeriesMoveLegalityChecked),                            \
@@ -97,8 +98,7 @@
     /* auxiliary slices */                                              \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
-    ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
+    ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     /* solver slices */                                                 \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \

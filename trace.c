@@ -308,8 +308,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STSelfCheckGuard:
       case STProxy:
-      case STMoveInverterSolvableFilter:
-      case STMoveInverterSeriesFilter:
+      case STMoveInverter:
       case STNot:
       case STGoalReachedTested:
       case STAttackMovePlayed:
@@ -322,6 +321,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDefenseDealtWith:
       case STHelpMovePlayed:
       case STHelpMoveLegalityChecked:
+      case STSeriesDummyMove:
       case STSeriesMovePlayed:
       case STSeriesMoveLegalityChecked:
       case STSeriesMoveDealtWith:

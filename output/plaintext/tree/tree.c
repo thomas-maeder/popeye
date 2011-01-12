@@ -356,7 +356,7 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors writer_inserters[] =
 {
   { STRootAttackFork,                &instrument_root_attack_fork     },
-  { STMoveInverterSolvableFilter,    &instrument_move_inverter        },
+  { STMoveInverter,                  &instrument_move_inverter        },
   { STTrySolver,                     &instrument_try_solver           },
   { STThreatSolver,                  &instrument_threat_solver        },
   { STDefenseMove,                   &instrument_defense_move         },

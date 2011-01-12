@@ -2375,8 +2375,7 @@ pydata.h:
 trace.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pyposit.h pyboard.h \
  pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
- stipulation/goals/goals.h boolean.h py.h pyenum.h \
- stipulation/series_play/play.h pystip.h pyslice.h pypipe.h trace.h
+ stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h trace.h
 
 pymovein.h:
 
@@ -2407,12 +2406,6 @@ boolean.h:
 py.h:
 
 pyenum.h:
-
-stipulation/series_play/play.h:
-
-pystip.h:
-
-pyslice.h:
 
 pypipe.h:
 
