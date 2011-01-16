@@ -3136,7 +3136,7 @@ static boolean series_too_short(stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (OptFlag[restart])
-    result = (n+2-slack_length_series)/2<get_restart_number();
+    result = (n+1-slack_length_series)/2<get_restart_number();
   else
     result = false;
 

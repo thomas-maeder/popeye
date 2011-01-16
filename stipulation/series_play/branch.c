@@ -193,8 +193,9 @@ void shorten_series_pipe(slice_index pipe)
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  --slices[pipe].u.branch.length;
-  --slices[pipe].u.branch.min_length;
+  slices[pipe].u.branch.length -= 2;
+  if (slices[pipe].u.branch.min_length>slack_length_series+1)
+    slices[pipe].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -25,7 +25,7 @@ slice_index alloc_series_shortcut(stip_length_type length,
   TraceFunctionParam("%u",short_sols);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STSeriesShortcut,length,min_length); 
+  result = alloc_branch(STSeriesShortcut,length,min_length);
   slices[result].u.shortcut.short_sols = short_sols;
 
   TraceFunctionExit(__func__);
@@ -53,7 +53,7 @@ void stip_traverse_structure_series_shortcut(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a series shortcut slice 
+/* Traversal of the moves beyond a series shortcut slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -64,7 +64,7 @@ void stip_traverse_moves_series_shortcut(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==slack_length_series)
+  if (st->remaining<slack_length_series+2)
     stip_traverse_moves(slices[si].u.shortcut.short_sols,st);
   else
     stip_traverse_moves_pipe(si,st);

@@ -56,7 +56,7 @@ void ready_for_series_move_make_root(slice_index si,
   new_root = alloc_series_root_slice(length,min_length);
   pipe_link(copy,new_root);
 
-  if (length==slack_length_series)
+  if (length<slack_length_series+2)
     pipe_set_successor(new_root,slices[si].u.pipe.next);
   else
   {
@@ -65,6 +65,7 @@ void ready_for_series_move_make_root(slice_index si,
     stip_traverse_structure_children(si,st);
     assert(state->result!=no_slice);
     pipe_link(shortcut,state->result);
+    shorten_series_pipe(si);
   }
 
   state->result = copy;
@@ -87,6 +88,7 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
 
   assert(state->result==no_slice);
   state->result = copy_slice(si);
+  shorten_series_pipe(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

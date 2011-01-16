@@ -257,37 +257,6 @@ typedef struct
     unsigned int valueOffset;
 } slice_initializer_state;
 
-/* Initialise a slice_properties element representing series play
- * @param si root slice of subtree
- * @param length number of half moves of series slice
- * @param sis state of slice properties initialisation
- */
-static void init_slice_property_series(slice_index si,
-                                       unsigned int length,
-                                       slice_initializer_state *sis)
-{
-  unsigned int const size = bit_width(length);
-  data_type const mask = (1<<size)-1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParamListEnd();
-
-  sis->valueOffset -= size;
-
-  slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->valueOffset;
-
-  assert(sis->nrBitsLeft>=size);
-  sis->nrBitsLeft -= size;
-  slice_properties[si].u.s.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.s.maskNoSucc = mask << sis->nrBitsLeft;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a pipe for which we don't
  * have a more specialised function
@@ -532,12 +501,24 @@ static void init_slice_properties_hashed_series(slice_index si,
 {
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  unsigned int const size = bit_width((length-min_length)/2+1);
+  data_type const mask = (1<<size)-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_slice_property_series(si,length-slack_length_series,sis);
+  sis->valueOffset -= size;
+
+  slice_properties[si].size = size;
+  slice_properties[si].valueOffset = sis->valueOffset;
+
+  assert(sis->nrBitsLeft>=size);
+  sis->nrBitsLeft -= size;
+  slice_properties[si].u.s.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.s.maskNoSucc = mask << sis->nrBitsLeft;
+
   hash_slices[nr_hash_slices++] = si;
 
   stip_traverse_structure_children(si,st);
@@ -2587,11 +2568,12 @@ static boolean inhash_series(slice_index si, stip_length_type n)
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    hash_value_type const val = n-slack_length_series;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    hash_value_type const val = (n-min_length)/2+1;
     hash_value_type const nosuccess = get_value_series(hue,si);
-    if (nosuccess>=val
-        && (nosuccess+slices[si].u.branch.min_length
-            <=val+slices[si].u.branch.length))
+    TraceValue("%u",min_length);
+    TraceValue("%u\n",val);
+    if (nosuccess>=val)
     {
       ifHASHRATE(use_pos++);
       result = true;
@@ -2614,7 +2596,8 @@ static boolean inhash_series(slice_index si, stip_length_type n)
 static void addtohash_series(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  hash_value_type const val = n-slack_length_series;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  hash_value_type const val = (n-min_length)/2+1;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2671,7 +2654,14 @@ stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n)
     result = n+1;
   else
   {
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    if (slices[si].u.branch.min_length>slack_length_series+1)
+    {
+      slices[si].u.branch.min_length -= 2;
+      result = series_solve_in_n(slices[si].u.pipe.next,n);
+      slices[si].u.branch.min_length += 2;
+    }
+    else
+      result = series_solve_in_n(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
     assert(result<=n+1);
@@ -2711,7 +2701,14 @@ stip_length_type hashed_series_has_solution_in_n(slice_index si,
     result = n+1;
   else
   {
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+    if (slices[si].u.branch.min_length>slack_length_series+1)
+    {
+      slices[si].u.branch.min_length -= 2;
+      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+      slices[si].u.branch.min_length += 2;
+    }
+    else
+      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
     assert(result<=n+1);

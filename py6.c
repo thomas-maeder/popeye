@@ -2510,7 +2510,7 @@ static void optimise_final_moves_defense_move(slice_index si,
 
     stip_traverse_moves_move_slice(si,st);
 
-    if (st->remaining<=slack_length_battle+2)
+    if (st->remaining==slack_length_battle+1)
     {
       if (state->goal.type!=no_goal)
         killer_move_optimise_final_defense_move(si,state->goal);
@@ -2609,6 +2609,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STHelpMove,           &optimise_final_moves_help_move    },
   { STAttackMoveToGoal,   &swallow_goal                      },
   { STHelpMoveToGoal,     &swallow_goal                      },
+  { STSeriesMoveToGoal,   &swallow_goal                      },
   { STGoalReachedTesting, &optimise_final_moves_goal         }
 };
 

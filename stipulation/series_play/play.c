@@ -66,11 +66,12 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
     {
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
-      stip_length_type const n_max_unsovlable = slack_length_battle-1;
-      result = (ready_for_defense_defend_in_n(si,n_battle,n_max_unsovlable)
-                <=n_battle
-                ? n
-                : n+1);
+      stip_length_type const n_max_unsolvable = slack_length_battle-1;
+      stip_length_type const nr_moves_needed = ready_for_defense_defend_in_n(si,n_battle,n_max_unsolvable);
+      if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
+        result = n+1;
+      else
+        result = nr_moves_needed+slack_length_series-slack_length_battle;
       break;
     }
 

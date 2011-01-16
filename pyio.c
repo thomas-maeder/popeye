@@ -1871,7 +1871,7 @@ static char *ParseLength(char *tok,
         else
         {
           *length *= 2;
-          *length += slack_length_series-2;
+          *length += slack_length_series-1;
           *min_length = slack_length_series+1;
         }
         break;
@@ -2272,7 +2272,7 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
-    slice_index const branch = alloc_series_branch(length+1,min_length);
+    slice_index const branch = alloc_series_branch(length,min_length);
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help);
     help_branch_set_next_slice(help,slack_length_help+1,proxy_next);
@@ -2308,7 +2308,7 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
-    slice_index const series = alloc_series_branch(length+1,min_length);
+    slice_index const series = alloc_series_branch(length,min_length);
     slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                             slack_length_battle);
     slice_index const
@@ -2388,7 +2388,7 @@ static char *ParsePlay(char *tok,
       {
         slice_index const mi = alloc_move_inverter_slice();
         slice_index const guard = alloc_selfcheck_guard_solvable_filter();
-        slice_index const branch = alloc_series_branch(length,min_length);
+        slice_index const branch = alloc_series_branch(length-2,min_length);
         pipe_link(mi,guard);
         pipe_link(guard,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
@@ -2533,7 +2533,7 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STSeriesMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const branch = alloc_series_branch(length,min_length-1);
+          slice_index const branch = alloc_series_branch(length,min_length);
           stip_make_series_goal_branch(proxy_next);
           series_branch_set_goal_slice(branch,proxy_next);
           pipe_set_successor(proxy,branch);
@@ -2599,14 +2599,13 @@ static char *ParsePlay(char *tok,
       slice_index const dummy = branch_find_slice(STSeriesDummyMove,next);
       if (dummy!=no_slice)
       {
-        slice_index const
-            ready = alloc_ready_for_defense_slice(slack_length_battle+2,
-                                                  slack_length_battle+2);
-        slice_index const
-            solver = alloc_continuation_solver_slice(slack_length_battle+2,
-                                                     slack_length_battle+2);
-        slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
-                                                         slack_length_battle+2);
+        stip_length_type const length = slack_length_battle+2;
+        stip_length_type const min_length = slack_length_battle+2;
+        slice_index const ready = alloc_ready_for_defense_slice(length,
+                                                                min_length);
+        slice_index const solver = alloc_continuation_solver_slice(length,
+                                                                   min_length);
+        slice_index const def = alloc_defense_move_slice(length,min_length);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
         convert_to_parry_series_branch(next,ready);
         pipe_link(ready,solver);
