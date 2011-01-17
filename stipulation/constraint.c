@@ -294,7 +294,7 @@ reflex_defender_filter_defend_in_n(slice_index si,
   if (n_max_unsolvable<=slack_length_battle
       && length-min_length+1>=n-slack_length_battle
       && slice_solve(avoided)==has_no_solution)
-    result = slack_length_battle+1;
+    result = n;
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
 
@@ -336,7 +336,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   if (n_max_unsolvable<=slack_length_battle
       && length-min_length+1>=n-slack_length_battle
       && slice_has_solution(avoided)==has_no_solution)
-    result = slack_length_battle+1;
+    result = n;
   else
     result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 

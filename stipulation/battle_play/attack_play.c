@@ -215,7 +215,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STLeaf:
-      result = slack_length_battle;
+      result = n;
       break;
 
     default:
@@ -447,7 +447,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STLeaf:
-      result = slack_length_battle;
+      result = n;
       break;
 
     default:
