@@ -121,6 +121,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   non_trivial_count[nbply+1] = 0;
