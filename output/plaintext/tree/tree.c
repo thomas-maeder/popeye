@@ -184,8 +184,8 @@ static void instrument_defense_move(slice_index si,
 static void instrument_self_defense(slice_index si,
                                     stip_structure_traversal *st)
 {
-  stip_length_type const length = 2;
-  stip_length_type const min_length = 0;
+  stip_length_type const length = slack_length_battle;
+  stip_length_type const min_length = slack_length_battle-2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
