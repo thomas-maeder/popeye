@@ -10,6 +10,7 @@
 #include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/dead_end.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -21,6 +22,7 @@
 static slice_index const slice_rank_order[] =
 {
   STReflexDefenderFilter,
+  STBattleDeadEnd,
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
@@ -52,6 +54,7 @@ static slice_index const slice_rank_order[] =
   STReflexAttackerFilter,
   STRootAttackFork,
   STAttackFork,
+  STSaveUselessLastMove,
   STDegenerateTree,
   STAttackFindShortest,
   STCastlingAttackerFilter,
@@ -358,7 +361,7 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_battle);
-  assert(min_length>slack_length_battle);
+  assert(min_length>=slack_length_battle);
 
   {
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
@@ -399,6 +402,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
+
+    if ((length-slack_length_battle)%2==1)
+      pipe_append(solver,alloc_battle_play_dead_end_slice());
 
     result = dchecked;
   }

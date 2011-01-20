@@ -45,7 +45,7 @@ void defense_move_played_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>=slack_length_battle)
+  if (length>=slack_length_battle-1)
   {
     stip_length_type const length_h = (length+1-slack_length_battle
                                        +slack_length_help);

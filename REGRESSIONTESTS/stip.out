@@ -250,10 +250,10 @@ Loesung beendet.
                           4.Le7-d8
                               4...0-0
 
-              empile:     3687216
-            jouecoup:      770631
-        orig_rbechec:      405010
-        orig_rnechec:      529839
+              empile:     2858587
+            jouecoup:      399593
+        orig_rbechec:      389778
+        orig_rnechec:      140105
 Loesung beendet. 
 
 
@@ -1011,10 +1011,10 @@ d) exact-#4
                       3...Sb7-d8
                           4.Sd2-e4 #
 
-              empile:       41404
-            jouecoup:       24664
-        orig_rbechec:       16511
-        orig_rnechec:        9762
+              empile:       41104
+            jouecoup:       24527
+        orig_rbechec:       16475
+        orig_rnechec:        9629
 Loesung beendet. 
 
 
@@ -1084,10 +1084,10 @@ d) exact-#4
                       3...Ke5-f5
                           4.La8-e4 #
 
-              empile:      439910
-            jouecoup:      190894
-        orig_rbechec:      115192
-        orig_rnechec:      100592
+              empile:      441045
+            jouecoup:      191214
+        orig_rbechec:      115325
+        orig_rnechec:      100915
 Loesung beendet. 
 
 
@@ -1164,10 +1164,10 @@ d) exact-#4
                       3...c5-c4
                           4.d5-d6 #
 
-              empile:       77672
-            jouecoup:       42221
-        orig_rbechec:       23298
-        orig_rnechec:       23473
+              empile:       77706
+            jouecoup:       42233
+        orig_rbechec:       23302
+        orig_rnechec:       23485
 Loesung beendet. 
 
 
@@ -1593,10 +1593,10 @@ Loesung beendet.
           2.Kc6-c5
               2...h2*g1=RO +
 
-              empile:       11189
-            jouecoup:       13670
-        orig_rbechec:       12159
-        orig_rnechec:        2697
+              empile:        9504
+            jouecoup:       12198
+        orig_rbechec:       12146
+        orig_rnechec:        1234
 Loesung beendet. 
 
 
@@ -2871,10 +2871,10 @@ Loesung beendet.
     Aber
       1...Kc3*d2 !
 
-              empile:        6955
-            jouecoup:        2751
-        orig_rbechec:        2721
-        orig_rnechec:        1530
+              empile:        4983
+            jouecoup:        2062
+        orig_rbechec:        2032
+        orig_rnechec:        1107
 Loesung beendet. 
 
 

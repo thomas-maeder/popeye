@@ -99,7 +99,7 @@ root_attack_fork_solve_in_n(slice_index si,
 
     {
       stip_length_type const
-          result_next = attack_solve_in_n(next,n,slack_length_battle+1);
+          result_next = attack_solve_in_n(next,n,slack_length_battle);
       if (result_next<result)
         result = result_next;
     }

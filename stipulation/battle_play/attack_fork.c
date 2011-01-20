@@ -108,7 +108,7 @@ attack_fork_has_solution_in_n(slice_index si,
     if (result>slack_length_battle+1)
       result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
                                         n,
-                                        slack_length_battle+1);
+                                        slack_length_battle);
   }
   else
     result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
@@ -151,7 +151,7 @@ stip_length_type attack_fork_solve_in_n(slice_index si,
                                slack_length_battle+1,slack_length_battle);
     if (result>slack_length_battle+1)
       result = attack_solve_in_n(slices[si].u.branch_fork.next,
-                                 n,slack_length_battle+1);
+                                 n,slack_length_battle);
   }
   else
     result = attack_solve_in_n(slices[si].u.branch_fork.next,

@@ -286,20 +286,24 @@ refutations_collector_solve_in_n(slice_index si,
   return result;
 }
 
-/* Insert try handler slices into the stipulation
+/* Insert try handler slices into the stipulation if applicable
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
  */
 static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
+  slice_index defense_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* in (s)#1, tries don't make sense */
-  if (slices[si].u.branch.length>slack_length_battle+1)
+  stip_traverse_structure_children(si,st);
+
+  defense_move = branch_find_slice(STDefenseMove,si);
+  if (defense_move!=no_slice
+      && slices[defense_move].u.branch.length>slack_length_battle)
   {
     slice_index const prototypes[] =
     {
@@ -340,8 +344,7 @@ boolean stip_insert_try_handlers(slice_index si)
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,
-                                           STAttackRoot,
-                                           &insert_try_handlers);
+                                           STAttackRoot,&insert_try_handlers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

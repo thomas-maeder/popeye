@@ -41,9 +41,7 @@ void stip_traverse_moves_ready_for_defense(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_branch_init_full_length(si,st);
-
-  if (st->remaining>slack_length_battle)
-    stip_traverse_moves_pipe(si,st);
+  stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -116,6 +114,7 @@ ready_for_defense_defend_in_n(slice_index si,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -124,14 +123,7 @@ ready_for_defense_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
-
-  if (n==slack_length_battle)
-    result = slack_length_battle+4;
-  else
-  {
-    slice_index const next = slices[si].u.branch.next;
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
-  }
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -164,11 +156,7 @@ ready_for_defense_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
-
-  if (n==slack_length_battle)
-    result = slack_length_battle+4;
-  else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

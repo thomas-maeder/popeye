@@ -81,6 +81,10 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = postkeyplay_suppressor_defend_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STBattleDeadEnd:
+      result = battle_play_dead_end_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STThreatCollector:
       result = threat_collector_defend_in_n(si,n,n_max_unsolvable);
       break;
@@ -265,6 +269,9 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = threat_solver_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STBattleDeadEnd:
+      result = battle_play_dead_end_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
 
     case STThreatCollector:
       result = threat_collector_can_defend_in_n(si,n,n_max_unsolvable);

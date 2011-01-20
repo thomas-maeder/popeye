@@ -147,6 +147,7 @@
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "optimisations/save_useless_last_move/save_useless_last_move.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -2640,6 +2641,8 @@ static void stip_optimise_final_moves(slice_index si)
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
+
+  stip_insert_save_useless_last_move_optimisation(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

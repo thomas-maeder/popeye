@@ -268,6 +268,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpHashed:
       case STSeriesHashed:
       case STStopOnShortSolutionsFilter:
+      case STVariationWriter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
@@ -363,7 +364,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
       case STContinuationWriter:
-      case STVariationWriter:
       case STRefutationWriter:
       case STRefutingVariationWriter:
       case STGoalMateReachedTester:
@@ -401,6 +401,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKillerMoveCollector:
       case STDoubleMateFilter:
       case STCounterMateFilter:
+      case STSaveUselessLastMove:
+      case STBattleDeadEnd:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

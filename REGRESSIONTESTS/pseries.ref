@@ -24,7 +24,7 @@
 
   1.Rh4*h7 + Qg8*h7   2.Qh3*h7 # 
 
-              empile:        1675
+              empile:        1676
             jouecoup:        1060
         orig_rbechec:         124
         orig_rnechec:        1057
@@ -235,14 +235,14 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-#3                     3 + 9
 
-  1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 # 
-  1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
   1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 # 
+  1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
+  1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 # 
 
-              empile:       11054
-            jouecoup:        5527
-        orig_rbechec:        2247
-        orig_rnechec:        5496
+              empile:       12488
+            jouecoup:        5994
+        orig_rbechec:        2682
+        orig_rnechec:        5528
 solution finished. 
 
 
@@ -271,13 +271,13 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-#6                     5 + 6
 
-  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
+  1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
 
-              empile:     3154301
-            jouecoup:     1898614
-        orig_rbechec:      780045
-        orig_rnechec:     1829922
+              empile:     4572366
+            jouecoup:     2646894
+        orig_rbechec:     1564690
+        orig_rnechec:     1665631
 solution finished. 
 
 
@@ -309,10 +309,10 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
   1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 # 
 
-              empile:  2044633039
-            jouecoup:   819121759
-        orig_rbechec:   780360409
-        orig_rnechec:   536348107
+              empile:  2088195274
+            jouecoup:   912859385
+        orig_rbechec:   856509194
+        orig_rnechec:   539259063
 solution finished. 
 
 
@@ -389,10 +389,10 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  11  (Kc2-d1 )
  12  (Kc2-b1 + )
 
-              empile:    15033800
-            jouecoup:     4798799
-        orig_rbechec:     4198279
-        orig_rnechec:     3306630
+              empile:    13971497
+            jouecoup:     5088511
+        orig_rbechec:     4490291
+        orig_rnechec:     2986471
 solution finished. 
 
 
@@ -442,10 +442,10 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
  18  (Bd5-e6 )
  19  (Bd5-c6 )
 
-              empile:   333412448
-            jouecoup:   134011263
-        orig_rbechec:   128380561
-        orig_rnechec:    87177724
+              empile:   330630071
+            jouecoup:   137112821
+        orig_rbechec:   131278554
+        orig_rnechec:    84927082
 solution finished. 
 
 

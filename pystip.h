@@ -40,6 +40,7 @@
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
+    ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
@@ -115,6 +116,7 @@
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
+    ENUMERATOR(STSaveUselessLastMove), /* avoid useless moves at end of branch */ \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
@@ -334,7 +336,7 @@ extern Slice slices[max_nr_slices];
  */
 enum
 {
-  slack_length_battle = 2, /* half moves */
+  slack_length_battle = 3, /* half moves */
   slack_length_help = 2,   /* half moves */
   slack_length_series = 1  /* half moves */
 };

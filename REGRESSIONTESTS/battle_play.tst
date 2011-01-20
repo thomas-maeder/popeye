@@ -605,10 +605,10 @@ s#1 with incomplete set play (not given)
    1.Rc3-c4 !
       1...b3-b2 #
 
-              empile:          82
-            jouecoup:          63
-        orig_rbechec:          64
-        orig_rnechec:          24
+              empile:          78
+            jouecoup:          59
+        orig_rbechec:          60
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -641,10 +641,10 @@ solution finished.
    1.h3-h4 !
       1...b3-b2 #
 
-              empile:         127
-            jouecoup:         115
-        orig_rbechec:         117
-        orig_rnechec:          31
+              empile:         124
+            jouecoup:         112
+        orig_rbechec:         114
+        orig_rnechec:          28
 solution finished. 
 
 
@@ -911,7 +911,7 @@ solution finished.
               empile:        2835
             jouecoup:        1193
         orig_rbechec:        1484
-        orig_rnechec:         716
+        orig_rnechec:         722
 solution finished. 
 
 
@@ -1118,10 +1118,10 @@ solution finished.
    1.Kb1-a1 !
       1...Se1-c2 #
 
-              empile:          34
-            jouecoup:          30
+              empile:          30
+            jouecoup:          29
         orig_rbechec:          29
-        orig_rnechec:           8
+        orig_rnechec:           7
 solution finished. 
 
 
@@ -1222,10 +1222,10 @@ solution finished.
           2.Sc1-e2
               2...b3-b2 #
 
-              empile:          70
-            jouecoup:          54
+              empile:          52
+            jouecoup:          44
         orig_rbechec:          43
-        orig_rnechec:          19
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -1258,10 +1258,10 @@ solution finished.
           2.Bc2-b1
               2...b3-b2 #
 
-              empile:         740
-            jouecoup:         313
+              empile:         331
+            jouecoup:         217
         orig_rbechec:         190
-        orig_rnechec:         155
+        orig_rnechec:          59
 solution finished. 
 
 
@@ -1294,10 +1294,10 @@ exact r#2 that would have a solution in 1
           2.Ra8-a2
               2...c2-c1=Q #
 
-              empile:        1192
-            jouecoup:         703
+              empile:         866
+            jouecoup:         627
         orig_rbechec:         581
-        orig_rnechec:         251
+        orig_rnechec:         175
 solution finished. 
 
 
@@ -1364,10 +1364,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        1712
-            jouecoup:        1180
-        orig_rbechec:         682
-        orig_rnechec:         620
+              empile:        1236
+            jouecoup:         793
+        orig_rbechec:         713
+        orig_rnechec:         224
 solution finished. 
 
 
@@ -1402,10 +1402,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:       29753
-            jouecoup:       10793
-        orig_rbechec:        5979
-        orig_rnechec:        5704
+              empile:       11465
+            jouecoup:        6712
+        orig_rbechec:        5969
+        orig_rnechec:        1620
 solution finished. 
 
 
@@ -1465,8 +1465,8 @@ a r#2 solution does not solve an exact r#3
 +---a---b---c---d---e---f---g---h---+
   exact-r#3                   2 + 1
 
-              empile:        1784
-            jouecoup:         599
+              empile:        1406
+            jouecoup:         581
         orig_rbechec:         564
         orig_rnechec:           0
 solution finished. 
@@ -1511,10 +1511,10 @@ would have to deliver mate (issue 2843251)
               2...d2*e1=Q #
               2...d2*e1=R #
 
-              empile:         676
-            jouecoup:         481
+              empile:         567
+            jouecoup:         400
         orig_rbechec:         364
-        orig_rnechec:         185
+        orig_rnechec:         104
 solution finished. 
 
 
@@ -1578,10 +1578,10 @@ solution finished.
    1.Bg7-h6 !
       1...b3-b2 #
 
-              empile:         116
-            jouecoup:          70
+              empile:         104
+            jouecoup:          59
         orig_rbechec:          59
-        orig_rnechec:          21
+        orig_rnechec:          10
 solution finished. 
 
 
@@ -1646,10 +1646,10 @@ semi-r#2 with short solution; White needn't deliver mate immediately
    1.Bg7-h6 !
       1...b3-b2 #
 
-              empile:         260
-            jouecoup:         180
+              empile:         225
+            jouecoup:         165
         orig_rbechec:         154
-        orig_rnechec:          44
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -1748,10 +1748,10 @@ solution finished.
 
    1.Kd1*c2 !
 
-              empile:       79588
-            jouecoup:       40364
-        orig_rbechec:       33623
-        orig_rnechec:       14969
+              empile:       63043
+            jouecoup:       37073
+        orig_rbechec:       33610
+        orig_rnechec:       11684
 solution finished. 
 
 

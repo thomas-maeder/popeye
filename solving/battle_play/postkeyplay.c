@@ -154,7 +154,7 @@ static void insert_postkeyplay_suppressor(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle+1)
+  if (length>slack_length_battle)
   {
     slice_index const prototype = alloc_postkeyplay_suppressor_slice();
     battle_branch_insert_slices(si,&prototype,1);

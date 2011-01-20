@@ -32,6 +32,7 @@
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/killer_move/collector.h"
+#include "optimisations/save_useless_last_move/save_useless_last_move.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
@@ -212,6 +213,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STKillerMoveCollector:
       result = killer_move_collector_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STSaveUselessLastMove:
+      result = save_useless_last_move_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -444,6 +449,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STKillerMoveCollector:
       result = killer_move_collector_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STSaveUselessLastMove:
+      result = save_useless_last_move_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:

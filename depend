@@ -368,7 +368,8 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  optimisations/killer_move/final_defense_move.h \
  optimisations/maxtime/maxtime.h \
  optimisations/maxsolutions/maxsolutions.h \
- optimisations/stoponshortsolutions/stoponshortsolutions.h
+ optimisations/stoponshortsolutions/stoponshortsolutions.h \
+ optimisations/save_useless_last_move/save_useless_last_move.h
 
 py.h:
 
@@ -529,6 +530,8 @@ optimisations/maxtime/maxtime.h:
 optimisations/maxsolutions/maxsolutions.h:
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+optimisations/save_useless_last_move/save_useless_last_move.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pyenum.h pydata.h pymsg.h pyslice.h pystip.h pyquodli.h pyrecipr.h \

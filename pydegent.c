@@ -122,11 +122,11 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n>max_length_short_solutions+parity)
+  if (n>max_length_short_solutions+2-parity)
   {
-    if (max_length_short_solutions>=slack_length_battle+3)
+    if (max_length_short_solutions>=slack_length_battle+2)
     {
-      stip_length_type const n_interm = max_length_short_solutions-2+parity;
+      stip_length_type const n_interm = max_length_short_solutions-parity;
       result = delegate_has_solution_in_n(si,n_interm,n_min,n_max_unsolvable);
       if (result>n_interm)
         result = delegate_has_solution_in_n(si,n,n,n_interm);

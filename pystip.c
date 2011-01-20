@@ -78,6 +78,7 @@
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
+    ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -144,6 +145,7 @@
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
+    ENUMERATOR(STSaveUselessLastMove), /* avoid useless moves at end of branch */ \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
@@ -271,6 +273,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
   slice_structure_pipe,   /* STDefenseMoveFiltered */
+  slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -337,6 +340,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCounterMateFilter */
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
+  slice_structure_pipe,   /* STSaveUselessLastMove */
   slice_structure_branch, /* STAttackMoveToGoal */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_branch, /* STKillerMoveFinalDefenseMove */
@@ -792,6 +796,7 @@ stip_length_type get_max_nr_moves(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(si);
   stip_moves_traversal_init(&st,&result);
   stip_moves_traversal_override(&st,
                                 get_max_nr_moves_functions,
@@ -1838,6 +1843,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STDefenseMoveFiltered */
+  &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -1904,6 +1910,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STCounterMateFilter */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
+  &stip_traverse_structure_pipe,            /* STSaveUselessLastMove */
   &stip_traverse_structure_pipe,            /* STAttackMoveToGoal */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
@@ -2070,6 +2077,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveFiltered */
+    &stip_traverse_moves_pipe,                  /* STBattleDeadEnd */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_move_slice,            /* STHelpMove */
@@ -2136,6 +2144,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STCounterMateFilter */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
+    &stip_traverse_moves_pipe,                  /* STSaveUselessLastMove */
     &stip_traverse_moves_move_slice,            /* STAttackMoveToGoal */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_move_slice,            /* STKillerMoveFinalDefenseMove */

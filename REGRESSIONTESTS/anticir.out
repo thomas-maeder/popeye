@@ -588,10 +588,10 @@ Loesung beendet.
           2.b7*a8=S[wSa8->b1]
               2...Lf5*b1[sLb1->c8] #
 
-              empile:       16859
-            jouecoup:       12038
-        orig_rbechec:       10662
-        orig_rnechec:        1912
+              empile:       13887
+            jouecoup:       11397
+        orig_rbechec:       10660
+        orig_rnechec:        1273
 Loesung beendet. 
 
 
@@ -1133,10 +1133,10 @@ Loesung beendet.
           2.Dh4*g4[wDg4->d1]
               2...e2*d1=S[sSd1->g8] #
 
-              empile:       79627
-            jouecoup:       65112
-        orig_rbechec:       60004
-        orig_rnechec:        8466
+              empile:       73117
+            jouecoup:       63138
+        orig_rbechec:       59796
+        orig_rnechec:        6686
 Loesung beendet. 
 
 
@@ -1498,10 +1498,10 @@ Loesung beendet.
           2.Se6-g7
               2...Ld4-e5 #
 
-              empile:      329595
-            jouecoup:      271467
-        orig_rbechec:      257350
-        orig_rnechec:       24788
+              empile:      305340
+            jouecoup:      267095
+        orig_rbechec:      256905
+        orig_rnechec:       20835
 Loesung beendet. 
 
 
@@ -1704,10 +1704,10 @@ Loesung beendet.
                   3.Tf1-g1
                       3...f2-f1=S #
 
-              empile:      172764
-            jouecoup:      147383
-        orig_rbechec:      121902
-        orig_rnechec:       38828
+              empile:      153491
+            jouecoup:      136421
+        orig_rbechec:      124821
+        orig_rnechec:       25504
 Loesung beendet. 
 
 
@@ -1953,10 +1953,10 @@ Loesung beendet.
                   3.De5-e1
                       3...Dd1-b3 #
 
-              empile:      356096
-            jouecoup:      206032
-        orig_rbechec:      188134
-        orig_rnechec:       50495
+              empile:      313170
+            jouecoup:      205948
+        orig_rbechec:      195412
+        orig_rnechec:       43939
 Loesung beendet. 
 
 

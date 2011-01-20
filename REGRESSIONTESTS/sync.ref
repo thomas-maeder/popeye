@@ -132,10 +132,10 @@ a)
                                   5.Kc4-b3
                                       5...a5-a4 +
 
-              empile:      104217
-            jouecoup:       63241
-        orig_rbechec:       25439
-        orig_rnechec:       39487
+              empile:       68507
+            jouecoup:       48389
+        orig_rbechec:       28299
+        orig_rnechec:       22032
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -152,10 +152,10 @@ b) BlackSynchronMover
                                           6.Kc3-c2
                                               6...a2-a1=S +
 
-              empile:        1648
-            jouecoup:         970
-        orig_rbechec:         411
-        orig_rnechec:         570
+              empile:        1574
+            jouecoup:         940
+        orig_rbechec:         439
+        orig_rnechec:         512
 solution finished. 
 
 
