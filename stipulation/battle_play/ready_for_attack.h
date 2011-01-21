@@ -17,7 +17,7 @@
 slice_index alloc_ready_for_attack_slice(stip_length_type length,
                                          stip_length_type min_length);
 
-/* Traversal of the moves beyond a attack end slice 
+/* Traversal of the moves beyond a attack end slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -61,13 +61,6 @@ stip_length_type
 ready_for_attack_solve_in_n(slice_index si,
                             stip_length_type n,
                             stip_length_type n_max_unsolvable);
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void ready_for_attack_detect_starter(slice_index si,
-                                     stip_structure_traversal *st);
 
 /* Spin off set play
  * @param si slice index

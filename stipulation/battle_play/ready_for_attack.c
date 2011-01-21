@@ -29,7 +29,7 @@ slice_index alloc_ready_for_attack_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a attack end slice 
+/* Traversal of the moves beyond a attack end slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -166,25 +166,4 @@ ready_for_attack_solve_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void ready_for_attack_detect_starter(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    stip_traverse_structure_pipe(si,st);
-    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
