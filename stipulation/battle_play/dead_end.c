@@ -51,12 +51,7 @@ battle_play_dead_end_has_solution_in_n(slice_index si,
   if (n==slack_length_battle)
     result = slack_length_battle+2;
   else
-  {
-    if (n_max_unsolvable<slack_length_battle)
-      n_max_unsolvable = slack_length_battle;
-
     result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -92,12 +87,7 @@ battle_play_dead_end_solve_in_n(slice_index si,
   if (n==slack_length_battle)
     result = slack_length_battle+2;
   else
-  {
-    if (n_max_unsolvable<slack_length_battle)
-      n_max_unsolvable = slack_length_battle;
-
     result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

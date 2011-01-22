@@ -100,7 +100,7 @@ attack_fork_has_solution_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable==slack_length_battle)
+  if (n_max_unsolvable<=slack_length_battle)
   {
     result = attack_has_solution_in_n(slices[si].u.branch_fork.towards_goal,
                                       slack_length_battle+1,
@@ -145,7 +145,7 @@ stip_length_type attack_fork_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable==slack_length_battle)
+  if (n_max_unsolvable<=slack_length_battle)
   {
     result = attack_solve_in_n(slices[si].u.branch_fork.towards_goal,
                                slack_length_battle+1,slack_length_battle);

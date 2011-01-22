@@ -92,7 +92,7 @@ root_attack_fork_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable==slack_length_battle)
+  if (n_max_unsolvable<=slack_length_battle)
   {
     result = attack_solve_in_n(to_goal,
                                slack_length_battle+1,slack_length_battle);

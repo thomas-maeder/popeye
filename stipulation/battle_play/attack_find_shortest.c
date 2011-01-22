@@ -66,7 +66,9 @@ attack_find_shortest_has_solution_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const n_min = n_max_unsolvable+1;
+  stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
+                                  ? slack_length_battle+1
+                                  : n_max_unsolvable+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -105,7 +107,9 @@ attack_find_shortest_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = n_max_unsolvable+1;
+  stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
+                                  ? slack_length_battle+1
+                                  : n_max_unsolvable+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
