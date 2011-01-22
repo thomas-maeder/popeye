@@ -32,6 +32,12 @@ void stip_traverse_moves_ready_for_attack(slice_index si,
 void ready_for_attack_reduce_to_postkey_play(slice_index si,
                                              stip_structure_traversal *st);
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves

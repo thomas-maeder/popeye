@@ -72,6 +72,36 @@ void ready_for_attack_reduce_to_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_make_root(si,st);
+
+  assert(slices[state->result].type==STReadyForAttack);
+  if (slices[state->result].u.branch.min_length>slack_length_battle+1)
+  {
+    slice_index const root_attack_fork = branch_find_slice(STRootAttackFork,
+                                                           state->result);
+    if (root_attack_fork!=no_slice)
+    {
+      dealloc_slices(slices[root_attack_fork].u.branch_fork.towards_goal);
+      pipe_remove(root_attack_fork);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
