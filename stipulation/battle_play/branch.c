@@ -405,7 +405,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
 
-    if (min_length>slack_length_battle)
+    if (min_length>slack_length_battle+1)
       pipe_append(aready,
                   alloc_min_length_attack_filter_slice(length,min_length));
 
