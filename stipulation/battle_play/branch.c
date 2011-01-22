@@ -52,6 +52,7 @@ static slice_index const slice_rank_order[] =
   STDefenseDealtWith,
   STStipulationReflexAttackSolver,
   STReadyForAttack,
+  STBattleDeadEnd,
   STMinLengthAttackFilter,
   STReflexAttackerFilter,
   STRootAttackFork,
@@ -298,37 +299,35 @@ slice_index alloc_attack_branch(stip_length_type length,
 }
 
 /* Allocate a branch consisting mainly of an defense move
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies slice where the defense branch leads to
  * @return index of entry slice to allocated branch
  */
-slice_index alloc_defense_branch(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index next)
+slice_index alloc_defense_branch(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
   {
-    slice_index const dready = alloc_ready_for_defense_slice(length,
-                                                             min_length);
-    slice_index const solver = alloc_continuation_solver_slice(length,
-                                                               min_length);
-    slice_index const defense = alloc_defense_move_slice(length,min_length);
-    slice_index const dplayed = alloc_defense_move_played_slice(length-1,
-                                                                min_length-1);
+    slice_index const dready = alloc_ready_for_defense_slice(slack_length_battle+1,
+                                                             slack_length_battle+1);
+    slice_index const solver = alloc_continuation_solver_slice(slack_length_battle+1,
+                                                               slack_length_battle+1);
+    slice_index const defense = alloc_defense_move_slice(slack_length_battle+1,
+                                                         slack_length_battle+1);
+    slice_index const dplayed = alloc_defense_move_played_slice(slack_length_battle,
+                                                                slack_length_battle);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 length-1,min_length-1);
+                                                 slack_length_battle,
+                                                 slack_length_battle);
     slice_index const
       dchecked = alloc_defense_move_legality_checked_slice();
     slice_index const dfiltered = alloc_pipe(STDefenseMoveFiltered);
     slice_index const ddealt = alloc_pipe(STDefenseDealtWith);
+    slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
+                                                            slack_length_battle);
+    slice_index const deadend = alloc_battle_play_dead_end_slice();
+
     pipe_link(dready,solver);
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
@@ -336,7 +335,8 @@ slice_index alloc_defense_branch(stip_length_type length,
     pipe_link(dshoehorned,dchecked);
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,ddealt);
-    pipe_link(ddealt,next);
+    pipe_link(ddealt,aready);
+    pipe_link(aready,deadend);
 
     result = dready;
   }
@@ -411,6 +411,8 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     if ((length-slack_length_battle)%2==1)
       pipe_append(solver,alloc_battle_play_dead_end_slice());
+
+    pipe_append(aready,alloc_battle_play_dead_end_slice());
 
     result = dchecked;
   }

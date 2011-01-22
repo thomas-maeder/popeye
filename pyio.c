@@ -2362,12 +2362,7 @@ static char *ParseSerS(char *tok,
   if (result!=0)
   {
     slice_index const series = alloc_series_branch(length,min_length);
-    slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
-                                                            slack_length_battle);
-    slice_index const
-        defense_branch = alloc_defense_branch(slack_length_battle+1,
-                                              slack_length_battle+1,
-                                              aready);
+    slice_index const defense_branch = alloc_defense_branch();
     slice_make_self_goal_branch(proxy_next);
     slice_insert_self_guards(defense_branch,proxy_next);
     series_branch_set_next_slice(series,defense_branch);
@@ -2467,12 +2462,7 @@ static char *ParsePlay(char *tok,
         result = ParseSeriesLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
-          slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
-                                                                  slack_length_battle);
-          slice_index const
-              defense_branch = alloc_defense_branch(slack_length_battle+1,
-                                                    slack_length_battle+1,
-                                                    aready);
+          slice_index const defense_branch = alloc_defense_branch();
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           /* in ser-hs, the series is 1 half-move longer than in usual
@@ -2756,12 +2746,7 @@ static char *ParsePlay(char *tok,
         result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
-          slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
-                                                                  slack_length_battle);
-          slice_index const
-              defense_branch = alloc_defense_branch(slack_length_battle+1,
-                                                    slack_length_battle+1,
-                                                    aready);
+          slice_index const defense_branch = alloc_defense_branch();
           slice_index const branch = alloc_help_branch(length,min_length);
           help_branch_set_next_slice(branch,slack_length_help+1,defense_branch);
           slice_make_self_goal_branch(proxy_next);

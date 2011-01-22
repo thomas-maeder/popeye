@@ -191,6 +191,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/root_attack_fork.h \
  stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
  stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
+ stipulation/battle_play/dead_end.h \
  stipulation/battle_play/min_length_attack_filter.h \
  stipulation/series_play/play.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
@@ -256,6 +257,8 @@ stipulation/battle_play/threat.h:
 stipulation/battle_play/try.h:
 
 stipulation/battle_play/postkeyplay.h:
+
+stipulation/battle_play/dead_end.h:
 
 stipulation/battle_play/min_length_attack_filter.h:
 

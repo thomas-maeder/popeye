@@ -1210,6 +1210,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                           &defense_move_reduce_to_postkey_play           },
   { STReadyForAttack,                        &trash_for_postkey_play                        },
+  { STBattleDeadEnd,                         &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,                 &trash_for_postkey_play                        },
   { STRootAttackFork,                        &root_attack_fork_reduce_to_postkey_play       },
   { STAttackRoot,                            &trash_for_postkey_play                        },

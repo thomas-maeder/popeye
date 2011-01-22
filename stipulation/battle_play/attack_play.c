@@ -25,6 +25,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
+#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_attack_filter.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -94,6 +95,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STReadyForAttack:
       result = ready_for_attack_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STBattleDeadEnd:
+      result = battle_play_dead_end_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthAttackFilter:
@@ -360,6 +365,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STReadyForAttack:
       result = ready_for_attack_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STBattleDeadEnd:
+      result = battle_play_dead_end_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthAttackFilter:
