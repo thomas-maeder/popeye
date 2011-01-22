@@ -269,6 +269,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesHashed:
       case STStopOnShortSolutionsFilter:
       case STVariationWriter:
+      case STMinLengthAttackFilter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {

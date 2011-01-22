@@ -41,6 +41,7 @@
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
+    ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
@@ -488,11 +489,6 @@ boolean stip_ends_in(slice_index si, goal_type goal);
  *         the unique goal otherwise
  */
 Goal find_unique_goal(slice_index si);
-
-/* Make the stipulation exact
- * @param si identifies slice where to start
- */
-void stip_make_exact(slice_index si);
 
 typedef enum
 {

@@ -723,10 +723,17 @@ static void reflex_guards_inserter_attack(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_attack;
-    slice_index const filter = alloc_reflex_attacker_filter(length,min_length,
-                                                            proxy_to_avoided);
-    pipe_append(si,filter);
-    pipe_append(slices[si].prev,alloc_reflex_attack_solver(proxy_to_avoided));
+
+    {
+      slice_index const prototype = alloc_reflex_attacker_filter(length,min_length,
+                                                                 proxy_to_avoided);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+
+    {
+      slice_index const prototype = alloc_reflex_attack_solver(proxy_to_avoided);
+      battle_branch_insert_slices(slices[si].prev,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);

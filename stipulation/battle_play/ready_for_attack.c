@@ -131,17 +131,10 @@ ready_for_attack_has_solution_in_n(slice_index si,
     result = slack_length_battle+2;
   else
   {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const length = slices[si].u.branch.length;
-    slice_index const min_length = slices[si].u.branch.min_length;
-
     if (n_max_unsolvable<slack_length_battle)
       n_max_unsolvable = slack_length_battle;
 
-    if (n_max_unsolvable+length-min_length<n-1)
-      n_max_unsolvable = n-(length-min_length)-1;
-
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);
@@ -179,17 +172,10 @@ ready_for_attack_solve_in_n(slice_index si,
     result = slack_length_battle+2;
   else
   {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const length = slices[si].u.branch.length;
-    slice_index const min_length = slices[si].u.branch.min_length;
-
     if (n_max_unsolvable<slack_length_battle)
       n_max_unsolvable = slack_length_battle;
 
-    if (n_max_unsolvable+length-min_length<n-1)
-      n_max_unsolvable = n-(length-min_length)-1;
-
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);

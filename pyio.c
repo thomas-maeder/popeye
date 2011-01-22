@@ -1791,10 +1791,13 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
   , { "a=>b", goal_atob                }
 };
 
-static char *ParseLength(char *tok,
-                         SliceType type,
-                         stip_length_type *length,
-                         stip_length_type *min_length)
+typedef enum
+{
+  play_length_minimum,
+  play_length_exact
+} play_length_type;
+
+static char *ParseLength(char *tok, stip_length_type *length)
 {
   char *end;
   unsigned long tmp_length;
@@ -1822,63 +1825,109 @@ static char *ParseLength(char *tok,
   else
   {
     *length = tmp_length;
-
     tok = end;
+  }
 
-    switch (type)
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseBattleLength(char *tok, stip_length_type *length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  tok = ParseLength(tok,length);
+  if (tok!=0)
+  {
+    if (*length==0)
     {
-      case STHelpMove:
-        /* we count half moves in help play */
-        *length *= 2;
-        *length += slack_length_help;
+      IoErrorMsg(WrongInt,0);
+      tok = 0;
+    }
+    else
+    {
+      /* we count half moves in battle play */
+      *length *= 2;
+      *length += slack_length_battle-1;
+    }
+  }
 
-        if (strncmp(tok,".5",2)==0)
-        {
-          ++*length;
-          tok += 2;
-          *min_length = slack_length_help;
-        }
-        else
-          *min_length = slack_length_help+1;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
 
-        if (*length<slack_length_help)
-        {
-          IoErrorMsg(WrongInt,0);
-          tok = 0;
-        }
-        break;
+static char *ParseHelpLength(char *tok,
+                             stip_length_type *length,
+                             stip_length_type *min_length,
+                             play_length_type play_length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
-      case STAttackMove:
-        if (*length==0)
-        {
-          IoErrorMsg(WrongInt,0);
-          tok = 0;
-        }
-        else
-        {
-          *length *= 2;
-          *length += slack_length_battle-1;
-          *min_length = slack_length_battle+1;
-        }
-        break;
+  tok = ParseLength(tok,length);
+  if (tok!=0)
+  {
+    /* we count half moves in help play */
+    *length *= 2;
+    *length += slack_length_help;
 
-      case STSeriesMove:
-        if (*length==0)
-        {
-          IoErrorMsg(WrongInt,0);
-          tok = 0;
-        }
-        else
-        {
-          *length *= 2;
-          *length += slack_length_series-1;
-          *min_length = slack_length_series+1;
-        }
-        break;
+    if (strncmp(tok,".5",2)==0)
+    {
+      ++*length;
+      tok += 2;
+      *min_length = slack_length_help;
+    }
+    else
+      *min_length = slack_length_help+1;
 
-      default:
-        assert(0);
-        break;
+    if (*length<slack_length_help)
+    {
+      IoErrorMsg(WrongInt,0);
+      tok = 0;
+    }
+    else if (play_length==play_length_exact)
+      *min_length = *length-1;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseSeriesLength(char *tok,
+                               stip_length_type *length,
+                               stip_length_type *min_length,
+                               play_length_type play_length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  tok = ParseLength(tok,length);
+  if (tok!=0)
+  {
+    if (*length==0)
+    {
+      IoErrorMsg(WrongInt,0);
+      tok = 0;
+    }
+    else
+    {
+      /* we count half moves in series play */
+      *length *= 2;
+      *length += slack_length_series-1;
+      if (play_length==play_length_minimum)
+        *min_length = slack_length_series+1;
+      else
+        *min_length = *length;
     }
   }
 
@@ -2257,7 +2306,9 @@ static void attach_help_branch(stip_length_type length,
  * @param proxy_next identifes proxy slice to append to series
  * @return input after stipulation if successful, 0 otherwise
  */
-static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
+static char *ParseSerH(char *tok,
+                       slice_index proxy, slice_index proxy_next,
+                       play_length_type play_length)
 {
   stip_length_type length;
   stip_length_type min_length;
@@ -2269,7 +2320,7 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
   TraceFunctionParam("%u",proxy_next);
   TraceFunctionParamListEnd();
 
-  result = ParseLength(tok,STSeriesMove,&length,&min_length);
+  result = ParseSeriesLength(tok,&length,&min_length,play_length);
   if (result!=0)
   {
     slice_index const branch = alloc_series_branch(length,min_length);
@@ -2293,7 +2344,9 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
  * @param proxy_next identifes proxy slice to append to series
  * @return input after stipulation if successful, 0 otherwise
  */
-static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
+static char *ParseSerS(char *tok,
+                       slice_index proxy, slice_index proxy_next,
+                       play_length_type play_length)
 {
   stip_length_type length;
   stip_length_type min_length;
@@ -2305,7 +2358,7 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
   TraceFunctionParam("%u",proxy_next);
   TraceFunctionParamListEnd();
 
-  result = ParseLength(tok,STSeriesMove,&length,&min_length);
+  result = ParseSeriesLength(tok,&length,&min_length,play_length);
   if (result!=0)
   {
     slice_index const series = alloc_series_branch(length,min_length);
@@ -2329,7 +2382,8 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
 
 static char *ParsePlay(char *tok,
                        slice_index root_slice_hook,
-                       slice_index proxy)
+                       slice_index proxy,
+                       play_length_type play_length)
 {
   /* seriesmovers with introductory moves */
   char *arrowpos = strstr(tok,"->");
@@ -2349,7 +2403,7 @@ static char *ParsePlay(char *tok,
     else
     {
       slice_index const proxy_next = alloc_proxy_slice();
-      result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next);
+      result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next,play_length);
       if (result!=0 && slices[proxy_next].u.pipe.next!=no_slice)
       {
         /* >=1 move of starting side required */
@@ -2365,12 +2419,9 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("exact-", tok, 6) == 0)
   {
-    result = ParsePlay(tok+6,root_slice_hook,proxy);
+    result = ParsePlay(tok+6,root_slice_hook,proxy,play_length_exact);
     if (result!=0)
-    {
       OptFlag[nothreat] = true;
-      stip_make_exact(root_slice_hook);
-    }
   }
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
@@ -2383,7 +2434,7 @@ static char *ParsePlay(char *tok,
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STSeriesMove,&length,&min_length);
+      result = ParseSeriesLength(tok,&length,&min_length,play_length);
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice();
@@ -2413,7 +2464,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STSeriesMove,&length,&min_length);
+        result = ParseSeriesLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
@@ -2459,7 +2510,7 @@ static char *ParsePlay(char *tok,
       slice_index const next = slices[proxy_next].u.pipe.next;
       if (next!=no_slice)
       {
-        result = ParseSerH(tok,proxy,proxy_next);
+        result = ParseSerH(tok,proxy,proxy_next,play_length);
         if (result!=0)
         {
           assert(slices[next].type==STGoalReachedTesting);
@@ -2483,7 +2534,7 @@ static char *ParsePlay(char *tok,
       slice_index const next = slices[proxy_next].u.pipe.next;
       if (next!=no_slice)
       {
-        result = ParseSerS(tok,proxy,proxy_next);
+        result = ParseSerS(tok,proxy,proxy_next,play_length);
         if (result!=0)
           stip_impose_starter(proxy_next,White);
 
@@ -2505,7 +2556,7 @@ static char *ParsePlay(char *tok,
 
       assert(slices[proxy_next].u.pipe.next!=no_slice);
 
-      result = ParseSerH(tok,proxy,proxy_next);
+      result = ParseSerH(tok,proxy,proxy_next,play_length);
       if (result!=0)
       {
         slice_make_direct_goal_branch(proxy_avoided);
@@ -2530,7 +2581,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STSeriesMove,&length,&min_length);
+        result = ParseSeriesLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const branch = alloc_series_branch(length,min_length);
@@ -2546,7 +2597,7 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("phser-",tok,6) == 0)
   {
-    result = ParsePlay(tok+2,root_slice_hook,proxy); /* skip over ph */
+    result = ParsePlay(tok+2,root_slice_hook,proxy,play_length); /* skip over ph */
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
@@ -2568,7 +2619,7 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("pser-h",tok,6) == 0)
   {
-    result = ParsePlay(tok+1,root_slice_hook,proxy);
+    result = ParsePlay(tok+1,root_slice_hook,proxy,play_length);
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
@@ -2592,7 +2643,7 @@ static char *ParsePlay(char *tok,
   else if (strncmp("pser-",tok,5) == 0)
   {
     /* this deals with all kinds of non-help parry series */
-    result = ParsePlay(tok+1,root_slice_hook,proxy);
+    result = ParsePlay(tok+1,root_slice_hook,proxy,play_length);
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
@@ -2626,7 +2677,7 @@ static char *ParsePlay(char *tok,
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STHelpMove,&length,&min_length);
+      result = ParseHelpLength(tok2,&length,&min_length,play_length);
       length -= 1;
       min_length -= 1;
 
@@ -2652,7 +2703,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
@@ -2677,7 +2728,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
@@ -2702,7 +2753,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
@@ -2734,7 +2785,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
@@ -2770,7 +2821,7 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type length;
         stip_length_type min_length;
-        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
@@ -2795,11 +2846,13 @@ static char *ParsePlay(char *tok,
 
       {
         stip_length_type length;
-        stip_length_type min_length;
-        result = ParseLength(tok,STAttackMove,&length,&min_length);
+        result = ParseBattleLength(tok,&length);
         if (result!=0)
         {
-          slice_index const branch = alloc_battle_branch(length,min_length-1);
+          stip_length_type const min_length = (play_length==play_length_minimum
+                                               ? slack_length_battle+1
+                                               : length-1);
+          slice_index const branch = alloc_battle_branch(length,min_length);
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
           pipe_append(proxy_avoided_defense,alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle));
@@ -2825,10 +2878,12 @@ static char *ParsePlay(char *tok,
       if (next!=no_slice)
       {
         stip_length_type length;
-        stip_length_type min_length;
-        result = ParseLength(tok,STAttackMove,&length,&min_length);
+        result = ParseBattleLength(tok,&length);
         if (result!=0)
         {
+          stip_length_type const min_length = (play_length==play_length_minimum
+                                               ? slack_length_battle+1
+                                               : length);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(branch,proxy_next);
@@ -2851,11 +2906,13 @@ static char *ParsePlay(char *tok,
 
       {
         stip_length_type length;
-        stip_length_type min_length;
-        result = ParseLength(tok,STAttackMove,&length,&min_length);
+        result = ParseBattleLength(tok,&length);
         if (result!=0)
         {
-          slice_index const branch = alloc_battle_branch(length,min_length-1);
+          stip_length_type  const min_length = (play_length==play_length_minimum
+                                                ? slack_length_battle+1
+                                                : length-1);
+          slice_index const branch = alloc_battle_branch(length,min_length);
 
           slice_index const
               proxy_avoided_attack = stip_deep_copy(proxy_avoided_defense);
@@ -2888,10 +2945,12 @@ static char *ParsePlay(char *tok,
       if (next!=no_slice)
       {
         stip_length_type length;
-        stip_length_type min_length;
-        result = ParseLength(tok,STAttackMove,&length,&min_length);
+        result = ParseBattleLength(tok,&length);
         if (result!=0)
         {
+          stip_length_type  const min_length = (play_length==play_length_minimum
+                                                ? slack_length_battle+1
+                                                : length-1);
           slice_index const branch = alloc_battle_branch(length,min_length);
           slice_make_direct_goal_branch(proxy_next);
           slice_insert_direct_guards(branch,proxy_next);
@@ -2919,7 +2978,7 @@ static char *ParseStip(slice_index root_slice_hook)
   TraceFunctionParamListEnd();
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,root_slice_hook,root_slice_hook))
+  if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))
   {
     if (slices[root_slice_hook].u.pipe.next!=no_slice
         && ActStip[0]=='\0')

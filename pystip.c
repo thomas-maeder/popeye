@@ -79,6 +79,7 @@
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
+    ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -274,6 +275,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
   slice_structure_pipe,   /* STDefenseMoveFiltered */
   slice_structure_pipe,   /* STBattleDeadEnd */
+  slice_structure_branch, /* STMinLengthAttackFilter */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -1208,6 +1210,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                           &defense_move_reduce_to_postkey_play           },
   { STReadyForAttack,                        &trash_for_postkey_play                        },
+  { STMinLengthAttackFilter,                 &trash_for_postkey_play                        },
   { STRootAttackFork,                        &root_attack_fork_reduce_to_postkey_play       },
   { STAttackRoot,                            &trash_for_postkey_play                        },
   { STAttackMovePlayed,                      &trash_for_postkey_play                        },
@@ -1462,111 +1465,6 @@ boolean stip_ends_in(slice_index si, goal_type goal)
   TraceFunctionResult("%u",search.result);
   TraceFunctionResultEnd();
   return search.result;
-}
-
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_battle_branch(slice_index branch,
-                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParamListEnd();
-
-  slices[branch].u.branch.min_length = slices[branch].u.branch.length-1;
-
-  stip_traverse_structure_children(branch,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_help_branch(slice_index branch,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParamListEnd();
-
-  slices[branch].u.branch.min_length = slices[branch].u.branch.length-1;
-
-  stip_traverse_structure_children(branch,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Make a branch exact
- * @param branch identifies the branch
- * @param st address of structure defining traversal
- */
-static void make_exact_series_branch(slice_index branch,
-                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParamListEnd();
-
-  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
-
-  stip_traverse_structure_children(branch,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors exact_makers[] =
-{
-  { STAttackMove,                 &make_exact_battle_branch },
-  { STAttackFindShortest,         &make_exact_battle_branch },
-  { STDefenseMove,                &make_exact_battle_branch },
-  { STReadyForAttack,             &make_exact_battle_branch },
-  { STReadyForDefense,            &make_exact_battle_branch },
-  { STDefenseMovePlayed,          &make_exact_battle_branch },
-  { STReflexHelpFilter,           &make_exact_help_branch   },
-  { STReflexSeriesFilter,         &make_exact_series_branch },
-  { STReflexAttackerFilter,       &make_exact_battle_branch },
-  { STReflexDefenderFilter,       &make_exact_battle_branch },
-  { STSelfDefense,                &make_exact_battle_branch },
-  { STHelpMove,                   &make_exact_help_branch   },
-  { STHelpFork,                   &make_exact_help_branch   },
-  { STReadyForHelpMove,           &make_exact_help_branch   },
-  { STHelpMoveDealtWith,          &make_exact_help_branch   },
-  { STSeriesMove,                 &make_exact_series_branch },
-  { STSeriesFork,                 &make_exact_series_branch },
-  { STReadyForSeriesMove,         &make_exact_series_branch }
-};
-
-enum
-{
-  nr_exact_makers = sizeof exact_makers / sizeof exact_makers[0]
-};
-
-/* Make the stipulation exact
- * @param si identifies slice where to start
- */
-void stip_make_exact(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,exact_makers,nr_exact_makers);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static structure_traversers_visitors starter_detectors[] =
@@ -1845,6 +1743,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STDefenseMoveFiltered */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
+  &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2079,6 +1978,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveFiltered */
     &stip_traverse_moves_pipe,                  /* STBattleDeadEnd */
+    &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_move_slice,            /* STHelpMove */

@@ -11,6 +11,7 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/dead_end.h"
+#include "stipulation/battle_play/min_length_attack_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -51,6 +52,7 @@ static slice_index const slice_rank_order[] =
   STDefenseDealtWith,
   STStipulationReflexAttackSolver,
   STReadyForAttack,
+  STMinLengthAttackFilter,
   STReflexAttackerFilter,
   STRootAttackFork,
   STAttackFork,
@@ -296,7 +298,7 @@ slice_index alloc_attack_branch(stip_length_type length,
 }
 
 /* Allocate a branch consisting mainly of an defense move
- * @param  length maximum number of half-moves of slice (+ slack)
+ * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies slice where the defense branch leads to
  * @return index of entry slice to allocated branch
@@ -402,6 +404,10 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
+
+    if (min_length>slack_length_battle)
+      pipe_append(aready,
+                  alloc_min_length_attack_filter_slice(length,min_length));
 
     if ((length-slack_length_battle)%2==1)
       pipe_append(solver,alloc_battle_play_dead_end_slice());
