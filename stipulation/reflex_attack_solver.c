@@ -157,12 +157,8 @@ reflex_attack_solver_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations
-      && slice_has_solution(avoided)==has_no_solution)
-  {
-    slice_solve(avoided);
+  if (slice_solve(avoided)==has_no_solution)
     result = n+2;
-  }
   else
     result = attack_solve_in_n(next,n,n_max_unsolvable);
 

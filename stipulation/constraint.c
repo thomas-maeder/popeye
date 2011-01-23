@@ -92,11 +92,26 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
 void reflex_attacker_filter_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
+  root_insertion_state_type * const state = st->param;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index solver;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  solver = alloc_reflex_attack_solver(avoided);
+
   stip_traverse_structure_pipe(si,st);
+  pipe_link(solver,state->result);
+  state->result = solver;
+
+  if (slices[si].u.pipe.next==no_slice)
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -200,7 +215,9 @@ reflex_attacker_filter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(avoided))
+  switch (n==n_max_unsolvable
+          ? slice_solve(avoided) /* we are solving refutations */
+          : slice_has_solution(avoided))
   {
     case opponent_self_check:
       result = slack_length_battle-2;
@@ -723,17 +740,9 @@ static void reflex_guards_inserter_attack(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_attack;
-
-    {
-      slice_index const prototype = alloc_reflex_attacker_filter(length,min_length,
-                                                                 proxy_to_avoided);
-      battle_branch_insert_slices(si,&prototype,1);
-    }
-
-    {
-      slice_index const prototype = alloc_reflex_attack_solver(proxy_to_avoided);
-      battle_branch_insert_slices(slices[si].prev,&prototype,1);
-    }
+    slice_index const prototype = alloc_reflex_attacker_filter(length,min_length,
+                                                               proxy_to_avoided);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
