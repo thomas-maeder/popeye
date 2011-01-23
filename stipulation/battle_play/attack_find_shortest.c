@@ -76,8 +76,6 @@ attack_find_shortest_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_battle);
-
   for (result = n_min+(n-n_min)%2; result<=n; result += 2)
     if (attack_has_solution_in_n(next,result,n_max_unsolvable)<=result)
       break;
@@ -116,8 +114,6 @@ attack_find_shortest_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  assert(n>slack_length_battle);
 
   for (result = n_min+(n-n_min)%2; result<=n; result += 2)
     if (attack_solve_in_n(next,result,n_max_unsolvable)<=result)

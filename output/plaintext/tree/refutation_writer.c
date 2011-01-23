@@ -84,7 +84,7 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
   if (are_we_solving_refutations)
   {
     output_plaintext_tree_remember_move_decoration(attack_key);
-    result = attack_solve_in_n(next,slack_length_battle,n_max_unsolvable);
+    result = attack_solve_in_n(next,n,n);
   }
   else
     result = attack_solve_in_n(next,n,n_max_unsolvable);

@@ -411,8 +411,8 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     if ((length-slack_length_battle)%2==1)
       pipe_append(solver,alloc_battle_play_dead_end_slice());
-
-    pipe_append(aready,alloc_battle_play_dead_end_slice());
+    else
+      pipe_append(aready,alloc_battle_play_dead_end_slice());
 
     result = dchecked;
   }

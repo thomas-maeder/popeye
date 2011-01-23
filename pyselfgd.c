@@ -74,7 +74,8 @@ self_defense_direct_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle)
+  if (n_max_unsolvable<slack_length_battle
+      || n<=n_max_unsolvable) /* exact refutation */
   {
     result = attack_has_solution_in_n(to_goal,n,n_max_unsolvable);
     if (result>n)
@@ -125,7 +126,8 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle)
+  if (n_max_unsolvable<slack_length_battle
+      || n<=n_max_unsolvable) /* exact refutation */
   {
     result = attack_solve_in_n(to_goal,n,n_max_unsolvable);
     if (result>n)

@@ -161,8 +161,7 @@ reflex_attack_solver_solve_in_n(slice_index si,
       && slice_has_solution(avoided)==has_no_solution)
   {
     slice_solve(avoided);
-    assert(n==slack_length_battle);
-    result = slack_length_battle+2;
+    result = n+2;
   }
   else
     result = attack_solve_in_n(next,n,n_max_unsolvable);
