@@ -51,18 +51,6 @@ stip_length_type try_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==n_max_unsolvable)
-  {
-    /* refutations never lead to play that is too short to be
-     * interesting */
-    max_variation_length[nbply+1] = slack_length_battle+1;
-
-    Message(NewLine);
-    sprintf(GlobalStr,"%*c",4,blank);
-    StdString(GlobalStr);
-    Message(But);
-  }
-
   result = defense_can_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -78,6 +66,7 @@ stip_length_type try_writer_can_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -95,7 +84,18 @@ stip_length_type try_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (table_length(refutations)>0)
+  if (n==n_max_unsolvable)
+  {
+    /* refutations never lead to play that is too short to be
+     * interesting */
+    max_variation_length[nbply+1] = slack_length_battle+1;
+
+    Message(NewLine);
+    sprintf(GlobalStr,"%*c",4,blank);
+    StdString(GlobalStr);
+    Message(But);
+  }
+  else if (table_length(refutations)>0)
     /* override the decoration attack_key just set by slice
      * STKeyWriter */
     output_plaintext_tree_remember_move_decoration(attack_try);

@@ -208,6 +208,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -360,6 +361,7 @@ max_nr_nontrivial_counter_has_solution_in_n(slice_index si,
  * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
@@ -411,6 +413,7 @@ static slice_index alloc_max_nr_noncheck_guard(void)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found

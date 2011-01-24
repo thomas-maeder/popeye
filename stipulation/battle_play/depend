@@ -588,11 +588,14 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/dead_end$(OBJ_SUFFIX): stipulation/battle_play/dead_end.c \
  stipulation/battle_play/dead_end.h pypipe.h \
+ stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h trace.h
 
 stipulation/battle_play/dead_end.h:
 
 pypipe.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
 

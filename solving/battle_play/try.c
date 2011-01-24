@@ -97,6 +97,7 @@ static slice_index alloc_try_solver(void)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -120,7 +121,7 @@ stip_length_type try_solver_defend_in_n(slice_index si,
     defense_defend_in_n(next,n,n_max_unsolvable);
 
     are_we_solving_refutations = true;
-    defense_can_defend_in_n(next,n,n);
+    defense_defend_in_n(next,n,n);
     are_we_solving_refutations = false;
 
     result = n+2;
@@ -224,25 +225,15 @@ refutations_collector_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations)
-  {
-    if (is_current_move_in_table(refutations))
-      attack_solve_in_n(next,n,n);
+  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
 
-    result = n;
-  }
-  else
+  if (result>n)
   {
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
-
-    if (result>n)
-    {
-      assert(get_top_table()==refutations);
-      TraceValue("%u\n",get_top_table());
-      append_to_top_table();
-      if (table_length(get_top_table())<=user_set_max_nr_refutations)
-        result = n;
-    }
+    assert(get_top_table()==refutations);
+    TraceValue("%u\n",get_top_table());
+    append_to_top_table();
+    if (table_length(get_top_table())<=user_set_max_nr_refutations)
+      result = n;
   }
 
   TraceFunctionExit(__func__);
@@ -256,6 +247,7 @@ refutations_collector_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
@@ -275,10 +267,23 @@ refutations_collector_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(refutations))
-    result = n+2;
+  if (are_we_solving_refutations)
+  {
+    if (is_current_move_in_table(refutations))
+    {
+      attack_solve_in_n(next,n,n);
+      result = n+2;
+    }
+    else
+      result = n;
+  }
   else
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+  {
+    if (is_current_move_in_table(refutations))
+      result = n+2;
+    else
+      result = attack_solve_in_n(next,n,n_max_unsolvable);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

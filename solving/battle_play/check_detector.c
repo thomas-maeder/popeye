@@ -34,6 +34,7 @@ static slice_index alloc_check_detector_slice(void)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -51,7 +52,9 @@ stip_length_type check_detector_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  attack_gives_check[nbply] = echecc(nbply,slices[si].starter);
+  /* no need to detect check if we are solving refutations */
+  attack_gives_check[nbply] = (n>n_max_unsolvable
+                               && echecc(nbply,slices[si].starter));
   result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

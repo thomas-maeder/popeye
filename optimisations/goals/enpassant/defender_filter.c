@@ -30,7 +30,7 @@ slice_index alloc_enpassant_defender_filter_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a defense end slice 
+/* Traversal of the moves beyond a defense end slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -57,6 +57,7 @@ void stip_traverse_moves_enpassant_defender_filter(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -84,7 +85,7 @@ enpassant_defender_filter_defend_in_n(slice_index si,
     slice_index const next = slices[si].u.branch.next;
     result = defense_defend_in_n(next,slack_length_battle+1,n_max_unsolvable);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

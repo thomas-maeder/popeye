@@ -124,6 +124,7 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -143,25 +144,30 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  /* we already know whether the attack move has delivered check, so
-     let's deal with that first */
-  if (attack_gives_check[nbply])
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
-  else if (max_len_threat==0)
-    result = n+4;
+  if (n==n_max_unsolvable)
+    result = defense_defend_in_n(next,n,n);
   else
   {
-    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
-    if (n>=n_max)
+    /* we already know whether the attack move has delivered check, so
+       let's deal with that first */
+    if (attack_gives_check[nbply])
+      result = defense_defend_in_n(next,n,n_max_unsolvable);
+    else if (max_len_threat==0)
+      result = n+4;
+    else
     {
-      if (is_threat_too_long(si,n,n_max))
-        result = n+4;
+      stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
+      if (n>=n_max)
+      {
+        if (is_threat_too_long(si,n,n_max))
+          result = n+4;
+        else
+          result = defense_defend_in_n(next,n,n_max_unsolvable);
+      }
       else
+        /* remainder of play is too short for max_len_threat to apply */
         result = defense_defend_in_n(next,n,n_max_unsolvable);
     }
-    else
-      /* remainder of play is too short for max_len_threat to apply */
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);
@@ -194,7 +200,7 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  /* determine whether the attack move has delivered check is
+  /* determining whether the attack move has delivered check is
      expensive, so let's try to avoid it */
   if (max_len_threat==0)
   {

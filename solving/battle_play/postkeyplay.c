@@ -28,6 +28,7 @@ static slice_index alloc_postkeyplay_suppressor_slice(void)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -39,6 +40,7 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -46,7 +48,10 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = n;
+  if (n==n_max_unsolvable)
+    result = defense_defend_in_n(next,n,n);
+  else
+    result = n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

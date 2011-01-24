@@ -105,6 +105,7 @@ threat_enforcer_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
@@ -204,6 +205,7 @@ static slice_index alloc_threat_solver_slice(stip_length_type length,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -329,6 +331,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
@@ -348,22 +351,27 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",threats_ply);
-  threats[threats_ply] = allocate_table();
-
-  if (!attack_gives_check[nbply])
+  if (n==n_max_unsolvable)
+    result = defense_defend_in_n(next,n,n);
+  else
   {
-    threat_activities[threats_ply] = threat_solving;
-    threat_lengths[threats_ply] = solve_threats(si,n-1);
-    threat_activities[threats_ply] = threat_idle;
+    TraceValue("%u\n",threats_ply);
+    threats[threats_ply] = allocate_table();
+
+    if (!attack_gives_check[nbply])
+    {
+      threat_activities[threats_ply] = threat_solving;
+      threat_lengths[threats_ply] = solve_threats(si,n-1);
+      threat_activities[threats_ply] = threat_idle;
+    }
+
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
+
+    assert(get_top_table()==threats[threats_ply]);
+    free_table();
+    threat_lengths[threats_ply] = no_threats_found;
+    threats[threats_ply] = table_nil;
   }
-
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
-
-  assert(get_top_table()==threats[threats_ply]);
-  free_table();
-  threat_lengths[threats_ply] = no_threats_found;
-  threats[threats_ply] = table_nil;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -376,6 +384,7 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
