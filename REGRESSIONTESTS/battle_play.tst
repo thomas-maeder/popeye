@@ -1748,10 +1748,10 @@ solution finished.
 
    1.Kd1*c2 !
 
-              empile:       62996
-            jouecoup:       37029
-        orig_rbechec:       33609
-        orig_rnechec:       11640
+              empile:       62961
+            jouecoup:       37000
+        orig_rbechec:       33580
+        orig_rnechec:       11634
 solution finished. 
 
 

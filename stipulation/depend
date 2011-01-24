@@ -36,15 +36,12 @@ pybrafrk.h:
 
 trace.h:
 stipulation/reflex_attack_solver$(OBJ_SUFFIX): stipulation/reflex_attack_solver.c \
- stipulation/reflex_attack_solver.h pybrafrk.h pypipe.h \
- stipulation/battle_play/try.h trace.h
+ stipulation/reflex_attack_solver.h pybrafrk.h pypipe.h trace.h
 
 stipulation/reflex_attack_solver.h:
 
 pybrafrk.h:
 
 pypipe.h:
-
-stipulation/battle_play/try.h:
 
 trace.h:

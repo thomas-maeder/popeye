@@ -12,10 +12,6 @@
  * Exposed for read-only access only */
 table refutations;
 
-/* are we currently solving refutations?
- * Exposed for read-only access only */
-extern boolean are_we_solving_refutations;
-
 /* Read the maximum number of refutations that the user is interested
  * to see
  * @param tok input token from which to read the number

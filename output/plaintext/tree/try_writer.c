@@ -51,7 +51,7 @@ stip_length_type try_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations)
+  if (n==n_max_unsolvable)
   {
     /* refutations never lead to play that is too short to be
      * interesting */

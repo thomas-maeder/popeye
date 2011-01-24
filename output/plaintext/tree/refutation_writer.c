@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/try.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "trace.h"
@@ -81,7 +80,7 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations)
+  if (n==n_max_unsolvable)
   {
     output_plaintext_tree_remember_move_decoration(attack_key);
     result = attack_solve_in_n(next,n,n);

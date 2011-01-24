@@ -20,7 +20,7 @@ table refutations;
 static unsigned int user_set_max_nr_refutations;
 
 /* are we currently solving refutations? */
-boolean are_we_solving_refutations;
+static boolean are_we_solving_refutations;
 
 /* Read the maximum number of refutations that the user is interested
  * to see
@@ -120,7 +120,7 @@ stip_length_type try_solver_defend_in_n(slice_index si,
     defense_defend_in_n(next,n,n_max_unsolvable);
 
     are_we_solving_refutations = true;
-    defense_can_defend_in_n(next,n,n_max_unsolvable);
+    defense_can_defend_in_n(next,n,n);
     are_we_solving_refutations = false;
 
     result = n+2;
@@ -227,7 +227,7 @@ refutations_collector_has_solution_in_n(slice_index si,
   if (are_we_solving_refutations)
   {
     if (is_current_move_in_table(refutations))
-      attack_solve_in_n(next,n,n_max_unsolvable);
+      attack_solve_in_n(next,n,n);
 
     result = n;
   }

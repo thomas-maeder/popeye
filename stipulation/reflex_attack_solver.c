@@ -1,7 +1,6 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/battle_play/try.h"
 #include "trace.h"
 
 #include <assert.h>
