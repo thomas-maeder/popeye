@@ -25,10 +25,10 @@
 
   1.Sb1-c3 d7-d6   2.Sc3-d5 Sb8-d7   3.Sd5*e7 Sd7-f6   4.Se7*g8 Sf6*g8 dia 
 
-              empile:       52143
-            jouecoup:       52151
-        orig_rbechec:         536
-        orig_rnechec:        2821
+              empile:       51794
+            jouecoup:       51802
+        orig_rbechec:         535
+        orig_rnechec:        2820
 Loesung beendet. 
 
 
@@ -60,8 +60,8 @@ Loesung beendet.
 
   1.Sg1-f3 e7-e5   2.Sf3*e5 Sg8-e7   3.Se5*d7 Se7-c6   4.Sd7*b8 Sc6*b8 dia 
 
-              empile:        4412
-            jouecoup:        4420
+              empile:        4387
+            jouecoup:        4395
         orig_rbechec:          38
         orig_rnechec:         237
 Loesung beendet. 
@@ -149,10 +149,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:      160019
-            jouecoup:      160031
-        orig_rbechec:        6202
-        orig_rnechec:       10502
+              empile:      152451
+            jouecoup:      152463
+        orig_rbechec:        5932
+        orig_rnechec:       10266
 Loesung beendet. 
 
 
@@ -205,10 +205,10 @@ a)
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:      261425
-            jouecoup:      261604
-        orig_rbechec:       23306
-        orig_rnechec:        9980
+              empile:      239811
+            jouecoup:      239990
+        orig_rbechec:       22107
+        orig_rnechec:        9275
 b) dia7.5
 
  21  (h2-h4 )
@@ -233,10 +233,10 @@ b) dia7.5
  39  (Sb1-c3 )
  40  (Sb1-a3 )
 
-              empile:      827640
-            jouecoup:      827820
-        orig_rbechec:       71804
-        orig_rnechec:       27314
+              empile:      762442
+            jouecoup:      762622
+        orig_rbechec:       68054
+        orig_rnechec:       25687
 Loesung beendet. 
 
 
@@ -287,10 +287,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:      147253
-            jouecoup:      147271
-        orig_rbechec:        5666
-        orig_rnechec:       10748
+              empile:      137032
+            jouecoup:      137050
+        orig_rbechec:        5294
+        orig_rnechec:       10313
 Loesung beendet. 
 
 
@@ -485,10 +485,10 @@ Loesung beendet.
 
   1.e2-e3 d7-d6   2.Dd1-h5 Lc8-g4   3.e3-e4 Lg4-d1   4.Dh5*d1 dia 
 
-              empile:       33681
-            jouecoup:       33688
-        orig_rbechec:        2032
-        orig_rnechec:        2114
+              empile:       31430
+            jouecoup:       31437
+        orig_rbechec:        2017
+        orig_rnechec:        2002
 Loesung beendet. 
 
 
@@ -519,10 +519,82 @@ Loesung beendet.
 
   1.c2-c3 e7-e6   2.Dd1-a4 Ke8-e7   3.b2-b3 d7-d6   4.Da4-e8 + Ke7*e8 dia 
 
-              empile:       59852
-            jouecoup:       59860
-        orig_rbechec:        3263
+              empile:       57414
+            jouecoup:       57422
+        orig_rbechec:        3143
         orig_rnechec:        3318
+Loesung beendet. 
+
+
+
+             Tibor Orban
+          Die Schwalbe 1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B  -B   .   .   .  -B  -B  -B   7
+|                                   |
+6   .   .  -B   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   B   B   .   B   B   B   2
+|                                   |
+1   T   S   L   D   K   .   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia4                      15 + 15
+
+  1.e2-e4 c7-c6   2.Lf1-b5 e7-e6   3.Lb5*c6 d7*c6 dia 
+  1.e2-e4 c7-c6   2.Lf1-c4 e7-e6   3.Lc4*e6 d7*e6 dia 
+  1.e2-e4 e7-e6   2.Lf1-b5 c7-c6   3.Lb5*c6 d7*c6 dia 
+  1.e2-e4 e7-e6   2.Lf1-c4 c7-c6   3.Lc4*e6 d7*e6 dia 
+  1.e2-e4 e7-e6   2.Lf1-b5 Ke8-e7   3.Lb5*d7 c7-c6   4.Ld7-e8 Ke7*e8 dia 
+
+              empile:      234725
+            jouecoup:      234757
+        orig_rbechec:       12876
+        orig_rnechec:       13134
+Loesung beendet. 
+
+
+
+             Tibor Orban
+          Die Schwalbe 1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -T  -S  -L  -D  -K  -L  -S  -T   8
+|                                   |
+7  -B  -B   .   .   .  -B  -B  -B   7
+|                                   |
+6   .   .  -B   .  -B   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   B   B   .   B   B   B   2
+|                                   |
+1   T   S   L   D   K   .   S   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-dia4                15 + 15
+
+  1.e2-e4 e7-e6   2.Lf1-b5 Ke8-e7   3.Lb5*d7 c7-c6   4.Ld7-e8 Ke7*e8 dia 
+
+              empile:      226366
+            jouecoup:      226374
+        orig_rbechec:       12491
+        orig_rnechec:       12699
 Loesung beendet. 
 
 

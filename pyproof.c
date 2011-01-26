@@ -95,7 +95,8 @@ void ProofEncode(stip_length_type validity_value)
   if (even)
     *bp++ = pieces+(15<<(CHAR_BIT/2));
 
-  *bp++ = castling_flag[nbply];
+  assert(validity_value<=(1<<CHAR_BIT));
+  *bp++ = (byte)(validity_value);
 
   if (CondFlag[duellist]) {
     *bp++ = (byte)(whduell[nbply] - square_a1);
