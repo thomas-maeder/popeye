@@ -639,8 +639,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	Alternatively, the minimal and maximal number of half moves
 	can be indicated, separated by a comma (example
-	3,3h). Currently, if the minimal number is given, the two
-	numbers have to be equal - the result is an exact stipulation.
+	3,3h).
 
 	direct branch:
 	   Notation example:  4d [at most 2 half moves by attacker and

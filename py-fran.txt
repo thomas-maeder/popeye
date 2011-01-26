@@ -643,8 +643,6 @@ simples:
 
 	Alternativement, le nombre de demi-coups minimal est maximal
 	peuvent etre indiques, separes par une virgule (p.ex. 3,3h).
-	Actuellement, le nombre minimal doit etre egal au nombre
-	maximal s'il est indique; il en resulte un enonce exact.
 
 	branche directe:
 	   Exemple:           4d  [2 demi-coups par attaquant et defendeur]

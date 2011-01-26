@@ -664,9 +664,7 @@ Kommandos:
 
 	Alternativ koennen (durch Komma getrennt) die minimal und
 	maximal erlaubte Anzahl Halbzuege angegeben werden
-	(z.B. 3,3h).  Gegenwaertig muss die minimale Anzahl mit der
-	maximalen Anzahl uebereinstimmen, wenn sie angegeben wird - es
-	resultiert eine exakte Forderung.
+	(z.B. 3,3h).
 
 	direkter Ast:
 	   Notationsbeispiel: 4d  [hoechstens je 2 Halbzuege von
