@@ -2734,10 +2734,10 @@ a)
 
   1.0-0   2.Tf8-f7=wT   3.Dg6-e6=wD De6-e8 # 
 
-              empile:       23709
-            jouecoup:       22136
+              empile:       23672
+            jouecoup:       22099
         orig_rbechec:           0
-        orig_rnechec:       22295
+        orig_rnechec:       22256
 b) sTh8-->h6
 
   1.Ke8-d8   2.Dg6-f7=wD   3.Th6-e6=wT Te6-e8 # 
@@ -3433,10 +3433,10 @@ Loesung beendet.
 
   1.Lf8-g7 Ke6-d6   2.Sg8-f6 Kd6-e6   3.0-0 Ke6-e7 z 
 
-              empile:     1116253
-            jouecoup:      154038
-        orig_rbechec:       27911
-        orig_rnechec:      128640
+              empile:     1115836
+            jouecoup:      153943
+        orig_rbechec:       27865
+        orig_rnechec:      128590
 Loesung beendet. 
 
 

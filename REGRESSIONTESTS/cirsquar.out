@@ -98,10 +98,10 @@ Loesung beendet.
   1.Kg5-g4 La5-c7   2.Kg4-h3 Lc7-h2   3.Kh3*h2 [+wLh3] Sh4-f3 +   4.Kh2-h1 Lh3-g2 # 
   1.Kg5-f6 Sh4-g6   2.Kf6*g6 [+wSf6] La5-b4   3.Kg6-g7 Lb4-f8 +   4.Kg7-h8 Lf8-g7 # 
 
-              empile:     1332039
-            jouecoup:      748441
+              empile:     1332023
+            jouecoup:      748425
         orig_rbechec:      252476
-        orig_rnechec:      596158
+        orig_rnechec:      596142
 Loesung beendet. 
 
 
@@ -247,10 +247,10 @@ Loesung beendet.
 
   1.Kh1-g2   2.Kg2-f1   3.Kf1-e2   4.Ke2-d3   5.Kd3-e4   6.Ke4-e5   7.Ke5-f6   8.Kf6-g7   9.Kg7*h8 [+sSd4]  10.Kh8-g7  11.Kg7-f6  12.Kf6-e5  13.Ke5-e4  14.Ke4-d3  15.Kd3-d2  16.Kd2-e1  17.Ke1-f1  18.Kf1*g1 [+sLc5]  19.Kg1-f2  20.Kf2-e3 z 
 
-              empile:        7948
-            jouecoup:        5111
-        orig_rbechec:        5091
-        orig_rnechec:        3912
+              empile:        7889
+            jouecoup:        5060
+        orig_rbechec:        5040
+        orig_rnechec:        3895
 Loesung beendet. 
 
 

@@ -111,18 +111,18 @@ a)
 
   1...f7-f8=T   2.b2-b1=D Tf8-f5   3.Db1*f5=wD Df5-f7 = 
 
-              empile:      322685
-            jouecoup:      132769
-        orig_rbechec:       62691
-        orig_rnechec:      121327
+              empile:      322631
+            jouecoup:      132746
+        orig_rbechec:       62679
+        orig_rnechec:      121305
 b) wKf4-->f6
 
   1...f7-f8=S   2.b2-b1=L Sf8-h7   3.Lb1*h7=wL Lh7-g6 = 
 
-              empile:      206351
-            jouecoup:       88855
-        orig_rbechec:       42056
-        orig_rnechec:       80256
+              empile:      206313
+            jouecoup:       88836
+        orig_rbechec:       42045
+        orig_rnechec:       80240
 Loesung beendet. 
 
 
@@ -155,10 +155,10 @@ Loesung beendet.
   1...c7-c8=S   2.g2-g1=L Sc8-b6   3.Lg1*b6=wL Kd5-c6 = 
   1...c7-c8=T   2.g2-g1=D Tc8-c5   3.Dg1*c5=wD Kd5-c6 = 
 
-              empile:      407979
-            jouecoup:      172525
-        orig_rbechec:       77287
-        orig_rnechec:      159592
+              empile:      407920
+            jouecoup:      172499
+        orig_rbechec:       77275
+        orig_rnechec:      159566
 Loesung beendet. 
 
 

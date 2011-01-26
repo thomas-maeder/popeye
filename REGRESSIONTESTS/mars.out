@@ -304,10 +304,10 @@ Loesung beendet.
 
   1...a7-a8=T   2.c2-c1=S c7-c8=L +   3.Kg2-h1 b7-b8=D # 
 
-              empile:      475029
-            jouecoup:      238392
-        orig_rbechec:       17432
-        orig_rnechec:      235980
+              empile:      474997
+            jouecoup:      238372
+        orig_rbechec:       17430
+        orig_rnechec:      235960
 Loesung beendet. 
 
 
@@ -378,10 +378,10 @@ Loesung beendet.
 
   1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8   9.Kf8-e8  10.Ke8-d8  11.Kd8-c8  12.Kc8-b8  13.Kb8-a7  14.Ka7-a6  15.Ka6-a5  16.Ka5-a4  17.Ka4-a3  18.Ka3-a2  19.Ka2-b1  20.Kb1-c1 Ka1-b1 = 
 
-              empile:        3194
-            jouecoup:         728
-        orig_rbechec:         609
-        orig_rnechec:         708
+              empile:        3050
+            jouecoup:         692
+        orig_rbechec:         575
+        orig_rnechec:         672
 Loesung beendet. 
 
 
@@ -563,10 +563,10 @@ Loesung beendet.
 
   1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7 [+sBb8] # 
 
-              empile:        6671
-            jouecoup:        2748
-        orig_rbechec:         855
-        orig_rnechec:        2706
+              empile:        6643
+            jouecoup:        2736
+        orig_rbechec:         849
+        orig_rnechec:        2696
 Loesung beendet. 
 
 
@@ -645,10 +645,10 @@ a)
 
   1.Kd7-c6   2.Kc6-b5   3.Kb5-a4   1.e7-e8=L   2.f7-f8=T # 
 
-              empile:      168398
-            jouecoup:       95019
-        orig_rbechec:       16219
-        orig_rnechec:       95001
+              empile:      168164
+            jouecoup:       94842
+        orig_rbechec:       16054
+        orig_rnechec:       94824
 b) MarsSpiegelCirce
 
   1.Kd7-e6   2.Ke6-f5   3.Kf5-g4   1.f7-f8=T   2.e7-e8=L # 
@@ -765,18 +765,18 @@ a)
 
   1...f7-f8=T   2.Ke6-f7 e7-e8=S   3.Kf7-g8 Se8-g7   4.Kg8-h8 Tf8-g8 # 
 
-              empile:     2110847
-            jouecoup:     1065729
-        orig_rbechec:       65392
-        orig_rnechec:     1015851
+              empile:     2110819
+            jouecoup:     1065707
+        orig_rbechec:       65381
+        orig_rnechec:     1015840
 b) sKe6-->d5
 
   1...f7-f8=L   2.Kd5-c4 Lf8-g7   3.Kc4-b3 Lg7-c3   4.Kb3-c2 e7-e8=D # 
 
-              empile:     2342852
-            jouecoup:     1175775
-        orig_rbechec:       72685
-        orig_rnechec:     1120875
+              empile:     2342803
+            jouecoup:     1175751
+        orig_rbechec:       72672
+        orig_rnechec:     1120862
 Loesung beendet. 
 
 

@@ -178,10 +178,10 @@ a)
 
   1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 # 
 
-              empile:        1929
-            jouecoup:         918
+              empile:        1921
+            jouecoup:         910
         orig_rbechec:         288
-        orig_rnechec:         914
+        orig_rnechec:         906
 b) sSb8-->c8
 
   1.Sc8-b6   2.Sb6-a4   3.Sa4*b2 [+wDd1] Dd1-a4 # 

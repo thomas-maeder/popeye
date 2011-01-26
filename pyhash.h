@@ -29,9 +29,9 @@ typedef union
 
 extern HashBuffer hashBuffers[maxply+1];
 
-extern boolean isHashBufferValid[maxply+1];
+extern stip_length_type hashBufferValidity[maxply+1];
 
-void validateHashBuffer(void);
+void validateHashBuffer(stip_length_type validity_value);
 
 /* if (guard) invalidate hash buffer for ply nbply
  * (making guard a parameter prevents it from being evaluated

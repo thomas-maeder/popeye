@@ -708,10 +708,10 @@ Loesung beendet.
 
   1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 # 
 
-              empile:     5697227
-            jouecoup:     4230221
-        orig_rbechec:      291967
-        orig_rnechec:     4230215
+              empile:     5697116
+            jouecoup:     4230125
+        orig_rbechec:      291919
+        orig_rnechec:     4230119
 Loesung beendet. 
 
 
@@ -751,9 +751,9 @@ Loesung beendet.
   4  (g3*f4-b8=L [+sLf8] )
   5  (La3-f8 )
 
-              empile:       85658
-            jouecoup:       45048
-        orig_rbechec:       25823
+              empile:       85633
+            jouecoup:       45038
+        orig_rbechec:       25813
         orig_rnechec:       20046
 Loesung beendet. 
 

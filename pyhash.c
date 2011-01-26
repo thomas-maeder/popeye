@@ -122,8 +122,6 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
-static boolean is_there_slice_with_nonstandard_min_length;
-
 /* Minimal value of a hash table element.
  * compresshash() will remove all elements with a value less than
  * minimalElementValueAfterCompression, and increase
@@ -140,16 +138,21 @@ static slice_index hash_slices[max_nr_slices];
 
 HashBuffer hashBuffers[maxply+1];
 
-boolean isHashBufferValid[maxply+1];
+stip_length_type hashBufferValidity[maxply+1];
 
-void validateHashBuffer(void)
+enum
 {
-  isHashBufferValid[nbply] = true;
+  HASHBUFFER_INVALID = 0
+};
+
+void validateHashBuffer(stip_length_type validity_value)
+{
+  hashBufferValidity[nbply] = validity_value;
 }
 
 void invalidateHashBuffer(void)
 {
-  isHashBufferValid[nbply] = false;
+  hashBufferValidity[nbply] = HASHBUFFER_INVALID;
 }
 
 #if defined(TESTHASH)
@@ -177,7 +180,7 @@ enum
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
-static void (*encode)(void);
+static void (*encode)(stip_length_type validity_value);
 
 typedef unsigned int data_type;
 
@@ -542,45 +545,6 @@ enum
                                      / sizeof slice_properties_initalisers[0])
 };
 
-static boolean find_slice_with_nonstandard_min_length(void)
-{
-  boolean result = false;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i<nr_hash_slices && !result; ++i)
-  {
-    slice_index const si = hash_slices[i];
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    switch (slices[si].type)
-    {
-      case STAttackHashed:
-        result = min_length>=length-1 && length>slack_length_battle+2;
-        break;
-
-      case STHelpHashed:
-        result = min_length==length && length>slack_length_help+2;
-        break;
-
-      case STSeriesHashed:
-        result = min_length==length && length>slack_length_series+1;
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Reduce the value offsets for the hash slices to the minimal
  * possible value. This is important in order for
  * minimalElementValueAfterCompression not to grow too high in
@@ -639,9 +603,6 @@ static void init_slice_properties(slice_index si)
                                     slice_properties_initalisers,
                                     nr_slice_properties_initalisers);
   stip_traverse_structure(si,&st);
-
-  is_there_slice_with_nonstandard_min_length
-      = find_slice_with_nonstandard_min_length();
 
   minimiseValueOffset();
 
@@ -1249,7 +1210,7 @@ static unsigned int estimateNumberOfHoles(void)
 static unsigned int TellCommonEncodePosLeng(unsigned int len,
                                             unsigned int nbr_p)
 {
-  len++; /* Castling_Flag */
+  len += 2; /* Castling_Flag, validity_value */
 
   if (CondFlag[haanerchess])
   {
@@ -1291,9 +1252,6 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     len++;
 
   if (OptFlag[nontrivial])
-    len++;
-
-  if (is_there_slice_with_nonstandard_min_length)
     len++;
 
   if (CondFlag[disparate])
@@ -1346,7 +1304,7 @@ static unsigned int TellSmallEncodePosLeng(void)
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
-static byte *CommonEncode(byte *bp)
+static byte *CommonEncode(byte *bp, stip_length_type validity_value)
 {
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
@@ -1400,8 +1358,8 @@ static byte *CommonEncode(byte *bp)
     }
   }
 
-  if (is_there_slice_with_nonstandard_min_length)
-    *bp++ = (byte)(nbply);
+  assert(validity_value<=(1<<CHAR_BIT));
+  *bp++ = (byte)(validity_value);
 
   if (ep[nbply]!=initsquare)
     *bp++ = (byte)(ep[nbply] - square_a1);
@@ -1445,7 +1403,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
 }
 extern size_t fxfMINSIZE;
 
-static void LargeEncode(void)
+static void LargeEncode(stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
@@ -1458,7 +1416,7 @@ static void LargeEncode(void)
   TraceFunctionParamListEnd();
 
   /* detect cases where we encode the same position twice */
-  assert(!isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]!=validity_value);
 
   /* clear the bits for storing the position of pieces */
   memset(position,0,nr_rows_on_board);
@@ -1487,12 +1445,12 @@ static void LargeEncode(void)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp);
+  bp = CommonEncode(bp,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
-  validateHashBuffer();
+  validateHashBuffer(validity_value);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1519,7 +1477,7 @@ static byte *SmallEncodePiece(byte *bp,
   return bp;
 }
 
-static void SmallEncode(void)
+static void SmallEncode(stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
@@ -1532,7 +1490,7 @@ static void SmallEncode(void)
   TraceFunctionParamListEnd();
 
   /* detect cases where we encode the same position twice */
-  assert(!isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]!=validity_value);
 
   for (row=0; row<nr_rows_on_board; row++, a_square += onerow)
   {
@@ -1558,12 +1516,12 @@ static void SmallEncode(void)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp);
+  bp = CommonEncode(bp,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
-  validateHashBuffer();
+  validateHashBuffer(validity_value);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2180,6 +2138,7 @@ static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
   hash_value_type const val = (n+1-min_length)/2;
   dhtElement *he;
 
@@ -2188,8 +2147,7 @@ static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2222,6 +2180,7 @@ static void addtohash_battle_success(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
   hash_value_type const val = (n+1-min_length)/2 - 1;
   dhtElement *he;
 
@@ -2230,8 +2189,7 @@ static void addtohash_battle_success(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2307,6 +2265,8 @@ attack_hashed_has_solution_in_n(slice_index si,
 {
   stip_length_type result;
   dhtElement const *he;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2316,8 +2276,8 @@ attack_hashed_has_solution_in_n(slice_index si,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (!isHashBufferValid[nbply])
-    (*encode)();
+  if (hashBufferValidity[nbply]!=validity_value)
+    (*encode)(validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
@@ -2325,7 +2285,6 @@ attack_hashed_has_solution_in_n(slice_index si,
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     stip_length_type const parity = (n-min_length)%2;
 
     /* It is more likely that a position has no solution. */
@@ -2367,16 +2326,16 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   boolean result;
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-
-  if (!isHashBufferValid[nbply])
-    (*encode)();
+  if (hashBufferValidity[nbply]!=validity_value)
+    (*encode)(validity_value);
 
   ifHASHRATE(use_all++);
 
@@ -2386,7 +2345,6 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     hash_value_type const val = (n+1-min_length)/2;
     hash_value_type const nosuccess = get_value_help(hue,si);
     TraceValue("%u",min_length);
@@ -2415,6 +2373,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
   hash_value_type const val = (n+1-min_length)/2;
   dhtElement *he;
 
@@ -2423,11 +2382,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
-
-  TraceValue("%u",min_length);
-  TraceValue("%u\n",val);
+  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
@@ -2550,16 +2505,16 @@ static boolean inhash_series(slice_index si, stip_length_type n)
   boolean result;
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-
-  if (!isHashBufferValid[nbply])
-    (*encode)();
+  if (hashBufferValidity[nbply]!=validity_value)
+    (*encode)(validity_value);
 
   ifHASHRATE(use_all++);
 
@@ -2569,7 +2524,6 @@ static boolean inhash_series(slice_index si, stip_length_type n)
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     hash_value_type const val = (n-min_length)/2+1;
     hash_value_type const nosuccess = get_value_series(hue,si);
     TraceValue("%u",min_length);
@@ -2598,6 +2552,7 @@ static void addtohash_series(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const validity_value = min_length/2+1;
   hash_value_type const val = (n-min_length)/2+1;
   dhtElement *he;
 
@@ -2606,8 +2561,7 @@ static void addtohash_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]==validity_value);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)

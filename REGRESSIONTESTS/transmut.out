@@ -133,18 +133,18 @@ a) sKf8-->a4
 
   1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=wT [+wSb1] Sb1-c3 # 
 
-              empile:      128821
-            jouecoup:       72810
-        orig_rbechec:       14188
-        orig_rnechec:       72225
+              empile:      128815
+            jouecoup:       72801
+        orig_rbechec:       14186
+        orig_rnechec:       72216
 b) wKa2-->f2
 
   1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=wD [+wLc1] Lc1-a3 # 
 
-              empile:      129785
-            jouecoup:       73081
-        orig_rbechec:        9875
-        orig_rnechec:       72101
+              empile:      129776
+            jouecoup:       73069
+        orig_rbechec:        9873
+        orig_rnechec:       72089
 Loesung beendet. 
 
 

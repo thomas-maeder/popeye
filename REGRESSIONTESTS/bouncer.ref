@@ -263,10 +263,10 @@ a)
   1...Sa1-c2   2.rB2f3-c3 Sc2-a3   3.rB2c3-e3 Sa3-c4 +   4.rB2e3-e6 Sc4-e5   5.rB2e6-e7 Se5-c6 # 
   1...Sa1-b3   2.rB2f3-c3 Sb3-c1   3.rB2c3-c5 Sc1-d3 +   4.rB2c5-f5 Sd3-e5   5.rB2f5-g5 Se5-f3 # 
 
-              empile:        3938
-            jouecoup:        3783
+              empile:        3932
+            jouecoup:        3777
         orig_rbechec:           0
-        orig_rnechec:        3058
+        orig_rnechec:        3056
 b) brB2f3-->d1
 
   1...Sa1-c2   2.rB2d1-d2 Sc2-e3   3.rB2d2-d4 Se3-g4   4.rB2d4-a4 Sg4-e5   5.rB2a4-b4 Se5-c6 # 
@@ -279,10 +279,10 @@ c) brB2f3-->f2
 
   1...Sa1-b3   2.rB2f2-c2 Sb3-c1   3.rB2c2-c3 Sc1-b3   4.rB2c3-d3 Sb3-d4   5.rB2d3-d2 Sd4-f3 # 
 
-              empile:        5025
-            jouecoup:        4785
+              empile:        5019
+            jouecoup:        4779
         orig_rbechec:           0
-        orig_rnechec:        3822
+        orig_rnechec:        3820
 solution finished. 
 
 
@@ -314,10 +314,10 @@ solution finished.
   1...Kc5-b4   2.B1c2-b1 Kb4-b3   3.Kd3-d2 B1c4-d5   4.Kd2-c1 Bd6-f4 # 
   1...B1c4-b5 +   2.Kd3-c3 B1b5-b1   3.Kc3-b3 Kc5-b6   4.Kb3-a4 B1b1-a2 # 
 
-              empile:    10212198
-            jouecoup:     8101073
-        orig_rbechec:      768727
-        orig_rnechec:     7905817
+              empile:    10212148
+            jouecoup:     8101035
+        orig_rbechec:      768706
+        orig_rnechec:     7905797
 solution finished. 
 
 

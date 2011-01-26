@@ -1,10 +1,10 @@
 /******************** MODIFICATIONS to pyproof.h **************************
 **
 ** Date       Who  What
-** 
+**
 ** 1995/10/31 TLi  Original
-** 
-**************************** End of List ******************************/ 
+**
+**************************** End of List ******************************/
 
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
@@ -13,7 +13,7 @@
 
 /* Encode the hash key for the current position
  */
-void ProofEncode(void);
+void ProofEncode(stip_length_type min_length);
 
 /* Initialise the proof module for the current target position
  * @param si identifies start slice

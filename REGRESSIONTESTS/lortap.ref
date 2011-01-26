@@ -104,18 +104,18 @@ a)
 
   1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 # 
 
-              empile:       68860
-            jouecoup:       61461
-        orig_rbechec:        8310
-        orig_rnechec:       82603
+              empile:       68848
+            jouecoup:       61449
+        orig_rbechec:        8308
+        orig_rnechec:       82586
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 # 
 
-              empile:      135139
-            jouecoup:      102282
+              empile:      135127
+            jouecoup:      102274
         orig_rbechec:        9804
-        orig_rnechec:      152877
+        orig_rnechec:      152865
 solution finished. 
 
 

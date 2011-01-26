@@ -150,10 +150,10 @@ Loesung beendet.
   1.Th5-h6   2.Kc5-d4   3.Th6-d6   4.Kd4-e5   5.La7-d4 Lb8*d6 # 
   1.Th5-h6   2.Th6-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 # 
 
-              empile:      854056
-            jouecoup:      771905
-        orig_rbechec:       56292
-        orig_rnechec:      771857
+              empile:      853996
+            jouecoup:      771845
+        orig_rbechec:       56258
+        orig_rnechec:      771797
 Loesung beendet. 
 
 
@@ -274,10 +274,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4-g5   3.a4-a3 g5-g6   4.a3*b2 g6-g7   5.b2-b1=OR g7-g8=OR # 
   5  (a7-a6 )
 
-              empile:    15699054
-            jouecoup:    13962965
+              empile:    15699039
+            jouecoup:    13962950
         orig_rbechec:     1576108
-        orig_rnechec:    12742242
+        orig_rnechec:    12742227
 Loesung beendet. 
 
 

@@ -1148,10 +1148,10 @@ Loesung beendet.
   1.Kc7-d7   2.Kd7-e6   3.Nc5-d7   4.Nd7-f8 Nc8-a4 # 
   1.Kc7-c6   2.Kc6-b5   3.Kb5-b4   4.Nc5-a6 Nc8-f2 # 
 
-              empile:       45511
-            jouecoup:       33036
-        orig_rbechec:       34203
-        orig_rnechec:       50222
+              empile:       45343
+            jouecoup:       32924
+        orig_rbechec:       34081
+        orig_rnechec:       50074
 Loesung beendet. 
 
 
@@ -1430,10 +1430,10 @@ A134 (Version), Problemkiste 102, 12/1995
 
   1.g7-g5 b2-b4   2.g5-g4 b4-b5   3.g4-g3 b5-b6   4.g3-g2 b6-b7   5.g2-g1=N b7-b8=N # 
 
-              empile:      481786
-            jouecoup:      473976
-        orig_rbechec:      549008
-        orig_rnechec:      819817
+              empile:      481756
+            jouecoup:      473946
+        orig_rbechec:      548978
+        orig_rnechec:      819757
 Loesung beendet. 
 
 
@@ -3693,10 +3693,10 @@ Loesung beendet.
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4   4.Ke4-d5 = 
 
-              empile:        1001
-            jouecoup:         436
-        orig_rbechec:         735
-        orig_rnechec:         511
+              empile:         974
+            jouecoup:         422
+        orig_rbechec:         712
+        orig_rnechec:         496
 Loesung beendet. 
 
 
@@ -3881,10 +3881,10 @@ Loesung beendet.
   1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S # 
   7  (Kc8-b7 )
 
-              empile:      936456
-            jouecoup:      766902
-        orig_rbechec:      797601
-        orig_rnechec:     1173387
+              empile:      936420
+            jouecoup:      766876
+        orig_rbechec:      797575
+        orig_rnechec:     1173343
 Loesung beendet. 
 
 
@@ -3920,10 +3920,10 @@ Loesung beendet.
 
   1...f2-f4   2.a7-a5 f4-f5   3.a5-a4 f5-f6   4.a4-a3 f6-f7   5.a3-a2 f7-f8=D   6.a2-a1=D Df8-b4 # 
 
-              empile:     2118322
-            jouecoup:     2068080
-        orig_rbechec:     2637713
-        orig_rnechec:     3268668
+              empile:     2118242
+            jouecoup:     2068000
+        orig_rbechec:     2637603
+        orig_rnechec:     3268538
 Loesung beendet. 
 
 
@@ -4197,10 +4197,10 @@ Loesung beendet.
 
   1.Ke4-d5   2.e2-e4   3.e4-e5   4.e5-e6   5.e6-e7   6.e7-e8=D   7.De8-b5 = 
 
-              empile:       27872
-            jouecoup:       12275
-        orig_rbechec:       24074
-        orig_rnechec:       20621
+              empile:       27773
+            jouecoup:       12221
+        orig_rbechec:       23966
+        orig_rnechec:       20522
 Loesung beendet. 
 
 
@@ -4233,10 +4233,10 @@ Loesung beendet.
 
   1.nBd2-d1=nT e7-e8=S   2.nTd1-d2 h7-h8=D   3.nBc2-c1=nL Dh8-b2 = 
 
-              empile:    52350637
-            jouecoup:    10156081
-        orig_rbechec:    14127777
-        orig_rnechec:    10723058
+              empile:    52350630
+            jouecoup:    10156068
+        orig_rbechec:    14127767
+        orig_rnechec:    10723035
 Loesung beendet. 
 
 

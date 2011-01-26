@@ -61,10 +61,10 @@ Loesung beendet.
   1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1-e1 Da2-g2 # 
   1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1*a2 = 
 
-              empile:       38328
-            jouecoup:       18954
-        orig_rbechec:       16026
-        orig_rnechec:       10299
+              empile:       38310
+            jouecoup:       18944
+        orig_rbechec:       16018
+        orig_rnechec:       10293
 Loesung beendet. 
 
 
@@ -240,10 +240,10 @@ a)
   1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7-d8 Dh7-b7 # 
   1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7*h7 = 
 
-              empile:       12089
-            jouecoup:        7539
-        orig_rbechec:        5416
-        orig_rnechec:        4662
+              empile:       12065
+            jouecoup:        7515
+        orig_rbechec:        5408
+        orig_rnechec:        4638
 b) sBh5-->d7  ser-reci-h(#)=7
 
   1.d7-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=D   6.Dd1-d6   7.Dd6-e7 Dh7*e7 = 

@@ -918,10 +918,10 @@ b) sKd2-->c2
 
   1.Ta8*a7=wT [+wBa2]   2.Lb8*a7=wL [+wTa1]   1.La7-d4   2.Ld4-c3   3.Ta1-c1 # 
 
-              empile:       38224
-            jouecoup:       29058
-        orig_rbechec:       23524
-        orig_rnechec:       22643
+              empile:       38179
+            jouecoup:       29013
+        orig_rbechec:       23497
+        orig_rnechec:       22611
 c) sKd2-->a1
 
   1.Lb8*a7=wL [+wBa2]   2.Sc8*a7=wS [+wLc1]   1.Sa7-b5   2.Sb5-c3   3.Lc1-b2 # 
@@ -1284,10 +1284,10 @@ Loesung beendet.
 
   1.g2-g1=CA   2.CAg1-d2   3.g3-g2   4.g2-g1=CA CAf5-e2 = 
 
-              empile:       25944
-            jouecoup:        9893
-        orig_rbechec:        4964
-        orig_rnechec:        7893
+              empile:       25924
+            jouecoup:        9873
+        orig_rbechec:        4955
+        orig_rnechec:        7873
 Loesung beendet. 
 
 
@@ -1634,10 +1634,10 @@ a)
   1.Kg8-f8   2.Kf8-e8   3.Ke8*d7 [+sTa8]   4.nBb7*a8=nL % 
   1.nBb7-b8=nL   2.nLb8-d6   3.nLd6-f8   4.Kg8*f8 % 
 
-              empile:        1813
-            jouecoup:         289
-        orig_rbechec:         252
-        orig_rnechec:         166
+              empile:        1781
+            jouecoup:         279
+        orig_rbechec:         243
+        orig_rnechec:         163
 b) sKa4-->e8
 
   1.nBb7-b8=nS   2.nSb8*d7 [+sTa8]   3.nSd7-b6   4.nSb6*a8 % 
@@ -2694,10 +2694,10 @@ Loesung beendet.
 
   1.ELb1-d4 kELd3-b4   2.ELd4-a2 ELa4-c3   3.ELc4-a3 + kELb4-a1   4.ELa3-d4 ELd2-a3   5.ELa2-b4 + ELa3-c4 ## 
 
-              empile:      156538
-            jouecoup:      135613
+              empile:      156526
+            jouecoup:      135601
         orig_rbechec:       39591
-        orig_rnechec:      106622
+        orig_rnechec:      106610
 Loesung beendet. 
 
 
@@ -2871,10 +2871,10 @@ Loesung beendet.
     Aber
       1...Kc3*d2 !
 
-              empile:        4983
-            jouecoup:        2062
-        orig_rbechec:        2032
-        orig_rnechec:        1107
+              empile:        6955
+            jouecoup:        2751
+        orig_rbechec:        2721
+        orig_rnechec:        1530
 Loesung beendet. 
 
 
@@ -2944,20 +2944,20 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6] Dd6-g3 +   6.Se4*g3 [+sDe4] # 
 
-              empile:    10659609
-            jouecoup:     4741407
-        orig_rbechec:     3597013
-        orig_rnechec:     3898536
+              empile:    10659438
+            jouecoup:     4741236
+        orig_rbechec:     3596879
+        orig_rnechec:     3898399
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 
 
   1.De4*e5 [+wBe4]   2.De5-e8   3.De8*e4 [+wBe8=wS]   4.De4*e8 [+wSe4]   5.De8-e5   6.De5-g3 + Se4*g3 [+sDe4] # 
 
-              empile:     9954228
-            jouecoup:     3331262
-        orig_rbechec:     2832822
-        orig_rnechec:     2540067
+              empile:     9953574
+            jouecoup:     3330881
+        orig_rbechec:     2832508
+        orig_rnechec:     2539723
 Loesung beendet. 
 
 

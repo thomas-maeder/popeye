@@ -59,7 +59,7 @@ stip_length_type current_length;
 
 static boolean ProofFairy;
 
-void ProofEncode(void)
+void ProofEncode(stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte    *position= hb->cmv.Data;
@@ -70,7 +70,7 @@ void ProofEncode(void)
   boolean even= false;
 
   /* detect cases where we encode the same position twice */
-  assert(!isHashBufferValid[nbply]);
+  assert(hashBufferValidity[nbply]!=validity_value);
 
   /* clear the bits for storing the position of pieces */
   memset(position, 0, nr_rows_on_board);
@@ -111,7 +111,7 @@ void ProofEncode(void)
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
-  validateHashBuffer();
+  validateHashBuffer(validity_value);
 }
 
 int proofwkm[square_h8+25-(square_a1-25)+1];

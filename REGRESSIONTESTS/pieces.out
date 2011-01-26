@@ -457,10 +457,10 @@ Loesung beendet.
 
   1.Se5-d7 DRd4-b3   2.Kf6-e5 DRb3-d2   3.Sd7-f6 DRd2-d4 # 
 
-              empile:      977234
-            jouecoup:      807176
+              empile:      977219
+            jouecoup:      807161
         orig_rbechec:       71264
-        orig_rnechec:      788257
+        orig_rnechec:      788242
 Loesung beendet. 
 
 
@@ -848,10 +848,10 @@ NG23, 1. NG-ST, Problemkiste 109, 2/1997
   9  (Kc2-d1 )
  10  (Kc2-b1 + )
 
-              empile:     1402498
-            jouecoup:     1383682
-        orig_rbechec:      304171
-        orig_rnechec:     1133985
+              empile:     1402458
+            jouecoup:     1383642
+        orig_rbechec:      304139
+        orig_rnechec:     1133975
 Loesung beendet. 
 
 
@@ -882,10 +882,10 @@ NG28, 1. NG-ST, Problemkiste 109, 2/1997
 
   1.16b6-h7   2.16h7-g1   3.16g1-f7   4.16f7-e1   5.16e1-d7   6.16d7-c1   7.16c1-b7 = 
 
-              empile:       29574
-            jouecoup:       13631
-        orig_rbechec:        9324
-        orig_rnechec:       13048
+              empile:       29489
+            jouecoup:       13574
+        orig_rbechec:        9274
+        orig_rnechec:       13006
 Loesung beendet. 
 
 
@@ -1227,10 +1227,10 @@ Loesung beendet.
   1.a2-a1=CA   2.CAa1*b4   3.CAb4-c7 Gd8-b6 # 
   1.a2-a1=GI   2.GIa1-e2   3.GIe2-d6 Gd8-d5 # 
 
-              empile:       58240
-            jouecoup:       65982
+              empile:       58226
+            jouecoup:       65960
         orig_rbechec:        3095
-        orig_rnechec:       65946
+        orig_rnechec:       65924
 Loesung beendet. 
 
 

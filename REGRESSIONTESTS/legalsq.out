@@ -476,10 +476,10 @@ Loesung beendet.
 
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 # 
 
-              empile:      241640
-            jouecoup:       81007
-        orig_rbechec:        9753
-        orig_rnechec:       81001
+              empile:      241616
+            jouecoup:       80971
+        orig_rbechec:        9729
+        orig_rnechec:       80965
 Loesung beendet. 
 
 
@@ -576,10 +576,10 @@ Loesung beendet.
   1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-f2 Ke5-d6   4.Kf2-g3 Kd6-e6   5.Kg3-f4 Ke6-f7   6.Kf4-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
   1.Kc3-b2 Kg5-f4   2.Kb2-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 # 
 
-              empile:      645812
-            jouecoup:      348597
+              empile:      645756
+            jouecoup:      348562
         orig_rbechec:      146342
-        orig_rnechec:      203404
+        orig_rnechec:      203369
 Loesung beendet. 
 
 
@@ -719,10 +719,10 @@ Loesung beendet.
 
   1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 # 
 
-              empile:      256328
-            jouecoup:      156953
-        orig_rbechec:      118354
-        orig_rnechec:      135691
+              empile:      256166
+            jouecoup:      156847
+        orig_rbechec:      118256
+        orig_rnechec:      135617
 Loesung beendet. 
 
 

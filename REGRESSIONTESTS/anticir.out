@@ -2028,18 +2028,18 @@ a)
 
   1...Kd6-e5   2.Dc8-e8 + Ke5-f6   3.d2*c1=D[sDc1->d8] + Kf6*g7[wKg7->e1] # 
 
-              empile:     4582496
-            jouecoup:     3618763
-        orig_rbechec:      305065
-        orig_rnechec:     3601968
+              empile:     4582456
+            jouecoup:     3618737
+        orig_rbechec:      305063
+        orig_rnechec:     3601942
 b) sTg7-->g8
 
   1...Kd6-e7   2.d2*c1=T[sTc1->h8] Ke7-d8   3.Tg8-e8 Kd8*c8[wKc8->e1] # 
 
-              empile:     4639386
-            jouecoup:     3646766
-        orig_rbechec:      307802
-        orig_rnechec:     3629666
+              empile:     4639345
+            jouecoup:     3646739
+        orig_rbechec:      307800
+        orig_rnechec:     3629639
 Loesung beendet. 
 
 
@@ -2236,18 +2236,18 @@ a)
 
   1...Ld1-a4   2.Sf3-h2 La4-e8   3.Da2-g2 + Kh1*h2[wKh2->e1] # 
 
-              empile:      640187
-            jouecoup:      599960
-        orig_rbechec:       53897
-        orig_rnechec:      594804
+              empile:      640173
+            jouecoup:      599947
+        orig_rbechec:       53896
+        orig_rnechec:      594791
 b) Spiegelung a1<-->h1
 
   1...Lb1-g6   2.Dh2-c2 Lg6-e8   3.Kc1-b1 Le1*c3[wLc3->c1] # 
 
-              empile:      665180
-            jouecoup:      620865
+              empile:      665166
+            jouecoup:      620852
         orig_rbechec:       46477
-        orig_rnechec:      615608
+        orig_rnechec:      615595
 Loesung beendet. 
 
 
@@ -3104,8 +3104,8 @@ Platzwechsel dank Repuls des schlagenden Steins
 
   1.Kc1-c2   2.Te1-c1   3.Kc2*d3[wKd3->e1] 
 
-              empile:        2219
-            jouecoup:        2220
+              empile:        2203
+            jouecoup:        2204
         orig_rbechec:         281
         orig_rnechec:           0
 Loesung beendet. 
