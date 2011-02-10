@@ -1005,7 +1005,8 @@ static structure_traversers_visitors const defense_proxy_removers[] =
 {
   { STDefenseDealtWith,           &remove_pipe },
   { STDefenseMoveFiltered,        &remove_pipe },
-  { STDefenseMoveLegalityChecked, &remove_pipe }
+  { STDefenseMoveLegalityChecked, &remove_pipe },
+  { STAttackAdapter,              &remove_pipe }
 };
 
 enum
@@ -1102,7 +1103,9 @@ static void insert_direct_guards(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  slice_insert_direct_guards(si,*proxy_to_goal);
+
+  if (slices[si].u.branch.length>slack_length_battle)
+    slice_insert_direct_guards(si,*proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

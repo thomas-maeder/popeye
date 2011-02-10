@@ -161,15 +161,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STAttackAdapter:
     case STAttackRoot:
-    case STAttackFindShortest:
-    case STAttackMove:
-    case STAttackMoveToGoal:
-    case STSelfDefense:
-    case STReflexAttackerFilter:
-    case STDegenerateTree:
-    case STVariationWriter:
-    case STEnPassantAttackerFilter:
-    case STCastlingAttackerFilter:
       result = attack_solve(si);
       break;
 
@@ -429,15 +420,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAttackAdapter:
     case STAttackRoot:
-    case STAttackFindShortest:
-    case STAttackMove:
-    case STAttackMoveToGoal:
-    case STDefenseDealtWith:
-    case STSelfDefense:
-    case STDegenerateTree:
-    case STVariationWriter:
-    case STEnPassantAttackerFilter:
-    case STCastlingAttackerFilter:
       result = attack_has_solution(si);
       break;
 

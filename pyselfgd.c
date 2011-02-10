@@ -223,6 +223,9 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
   pipe_append(slices[si].prev,alloc_defense_move_legality_checked_slice());
   pipe_append(slices[si].prev,alloc_pipe(STDefenseMoveFiltered));
+  pipe_append(slices[si].prev,
+              alloc_attack_adapter_slice(slack_length_battle,
+                                         slack_length_battle-2));
   pipe_append(slices[si].prev,alloc_pipe(STDefenseDealtWith));
 
   TraceFunctionExit(__func__);
