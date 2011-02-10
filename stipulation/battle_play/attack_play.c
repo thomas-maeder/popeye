@@ -13,12 +13,12 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyquodli.h"
+#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
-#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
@@ -92,10 +92,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = no_short_variations_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackAdapter:
-      result = attack_adapter_has_solution_in_n(si,n,n_max_unsolvable);
-      break;
-
     case STBattleDeadEnd:
       result = battle_play_dead_end_has_solution_in_n(si,n,n_max_unsolvable);
       break;
@@ -148,6 +144,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STQuodlibet:
       result = quodlibet_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:
@@ -257,37 +257,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type attack_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const n_max_unsolvable = slack_length_battle-1;
-    stip_length_type const
-        sol_length = attack_has_solution_in_n(si,length,n_max_unsolvable);
-    if (sol_length<slack_length_battle)
-      result = opponent_self_check;
-    else if (sol_length<=length)
-      result = has_solution;
-    else
-      result = has_no_solution;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n_min minimum number of half-moves of interesting variations
@@ -359,10 +328,6 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_move_to_goal_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackAdapter:
-      result = attack_adapter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
     case STBattleDeadEnd:
       result = battle_play_dead_end_solve_in_n(si,n,n_max_unsolvable);
       break;
@@ -401,6 +366,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STSelfDefense:
       result = self_defense_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:
@@ -494,35 +463,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type attack_solve(slice_index si)
-{
-  has_solution_type result;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const n_max_unsolvable = slack_length_battle-1;
-  stip_length_type nr_moves_needed;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nr_moves_needed = attack_solve_in_n(si,length,n_max_unsolvable);
-  if (nr_moves_needed==slack_length_battle-2)
-    result = opponent_self_check;
-  else if (nr_moves_needed<=length)
-    result = has_solution;
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

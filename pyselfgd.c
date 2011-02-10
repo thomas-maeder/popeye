@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"

@@ -28,65 +28,62 @@ slice_index alloc_attack_adapter_slice(stip_length_type length,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether a slice has a solution
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ * @return whether there is a solution and (to some extent) why not
  */
-stip_length_type
-attack_adapter_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+has_solution_type attack_adapter_has_solution(slice_index si)
 {
-  stip_length_type result;
+  has_solution_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  nr_moves_needed = attack_has_solution_in_n(next,length,min_length-1);
+  if (nr_moves_needed<slack_length_battle)
+    result = opponent_self_check;
+  else if (nr_moves_needed<=length)
+    result = has_solution;
+  else
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Try to solve in n half-moves after a defense.
+/* Solve a slice
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
+ * @return whether there is a solution and (to some extent) why not
  */
-stip_length_type
-attack_adapter_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
+has_solution_type attack_adapter_solve(slice_index si)
 {
-  stip_length_type result;
+  has_solution_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  nr_moves_needed = attack_solve_in_n(next,length,min_length-1);
+  if (nr_moves_needed==slack_length_battle-2)
+    result = opponent_self_check;
+  else if (nr_moves_needed<=length)
+    result = has_solution;
+  else
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
