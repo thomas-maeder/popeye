@@ -35,6 +35,7 @@
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
+#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
@@ -49,6 +50,7 @@
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
+#include "optimisations/save_useless_last_move/save_useless_last_move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -57,6 +59,7 @@
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
+    ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \
@@ -253,6 +256,7 @@ static boolean is_slice_index_free[max_nr_slices];
 static slice_structural_type highest_structural_type[nr_slice_types] =
 {
   slice_structure_pipe,   /* STProxy */
+  slice_structure_branch, /* STAttackAdapter */
   slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STAttackFindShortest */
@@ -1120,6 +1124,7 @@ static void transform_to_quodlibet_branch_fork(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
+  { STAttackAdapter,        &insert_direct_guards                },
   { STReadyForAttack,       &insert_direct_guards                },
   { STHelpFork,             &transform_to_quodlibet_branch_fork  },
   { STSeriesFork,           &transform_to_quodlibet_branch_fork  },
@@ -1209,6 +1214,7 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                           &defense_move_reduce_to_postkey_play           },
+  { STAttackAdapter,                         &trash_for_postkey_play                        },
   { STReadyForAttack,                        &trash_for_postkey_play                        },
   { STBattleDeadEnd,                         &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,                 &trash_for_postkey_play                        },
@@ -1722,6 +1728,7 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,            /* STProxy */
+  &stip_traverse_structure_pipe,            /* STAttackAdapter */
   &stip_traverse_structure_pipe,            /* STAttackRoot */
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
@@ -1957,6 +1964,7 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,                  /* STProxy */
+    &stip_traverse_moves_branch_slice,          /* STAttackAdapter */
     &stip_traverse_moves_move_slice,            /* STAttackRoot */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */
@@ -1969,7 +1977,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
-    &stip_traverse_moves_ready_for_attack,      /* STReadyForAttack */
+    &stip_traverse_moves_branch_slice,          /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
@@ -1978,7 +1986,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveFiltered */
-    &stip_traverse_moves_pipe,                  /* STBattleDeadEnd */
+    &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
@@ -2046,7 +2054,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STCounterMateFilter */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
-    &stip_traverse_moves_pipe,                  /* STSaveUselessLastMove */
+    &stip_traverse_moves_save_useless_last_move,/* STSaveUselessLastMove */
     &stip_traverse_moves_move_slice,            /* STAttackMoveToGoal */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_move_slice,            /* STKillerMoveFinalDefenseMove */

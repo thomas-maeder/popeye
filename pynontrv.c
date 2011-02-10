@@ -574,6 +574,9 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
+                                           STAttackAdapter,
+                                           &nontrivial_guard_inserter_attack_move);
+  stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
                                            &nontrivial_guard_inserter_attack_move);
   stip_traverse_structure(si,&st);

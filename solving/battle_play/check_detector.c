@@ -107,6 +107,7 @@ static void check_detector_insert(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
+  if (slices[si].u.branch.length>slack_length_battle)
   {
     slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
@@ -118,6 +119,7 @@ static void check_detector_insert(slice_index si,
 
 static structure_traversers_visitors check_detector_inserters[] =
 {
+  { STAttackAdapter,   &check_detector_insert },
   { STReadyForAttack,  &check_detector_insert },
   /* for check in diagram position in option postkey: */
   { STAttackDealtWith, &check_detector_insert }

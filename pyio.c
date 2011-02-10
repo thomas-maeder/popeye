@@ -117,7 +117,7 @@
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
@@ -2840,7 +2840,9 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_battle_branch(length,min_length);
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle));
+          pipe_append(proxy_avoided_defense,
+                      alloc_attack_adapter_slice(slack_length_battle+1,
+                                                 slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided_defense);
@@ -2902,10 +2904,15 @@ static char *ParsePlay(char *tok,
           slice_index const
               proxy_avoided_attack = stip_deep_copy(proxy_avoided_defense);
           slice_make_direct_goal_branch(proxy_avoided_attack);
+          pipe_append(proxy_avoided_attack,
+                      alloc_attack_adapter_slice(slack_length_battle+1,
+                                                 slack_length_battle));
           pipe_append(proxy_avoided_attack,alloc_not_slice());
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle));
+          pipe_append(proxy_avoided_defense,
+                      alloc_attack_adapter_slice(slack_length_battle+1,
+                                                 slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters(branch,

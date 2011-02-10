@@ -368,6 +368,7 @@ static structure_traversers_visitors writer_inserters[] =
   { STPostKeyPlaySuppressor,         &stip_structure_visitor_noop     },
   { STStipulationReflexAttackSolver, &instrument_reflex_attack_branch },
   { STGoalReachedTesting,            &insert_goal_writer              },
+  { STAttackAdapter,                 &remember_length                 },
   { STReadyForAttack,                &remember_length                 },
   { STReadyForDefense,               &instrument_ready_for_defense    }
 };

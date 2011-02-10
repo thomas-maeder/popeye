@@ -76,4 +76,11 @@ battle_play_dead_end_can_defend_in_n(slice_index si,
                                      stip_length_type n,
                                      stip_length_type n_max_unsolvable);
 
+/* Traversal of the moves beyond a attack end slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_battle_play_dead_end(slice_index si,
+                                              stip_moves_traversal *st);
+
 #endif

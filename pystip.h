@@ -19,6 +19,7 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
     /* battle play structural slices */                                 \
+    ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \

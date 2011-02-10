@@ -569,8 +569,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
  pytable.h stipulation/series_play/branch.h \
  stipulation/series_play/move.h stipulation/series_play/parry_fork.h \
- stipulation/battle_play/ready_for_attack.h \
- stipulation/help_play/branch.h conditions/republican.h pyproc.h \
+ stipulation/battle_play/attack_adapter.h stipulation/help_play/branch.h \
+ conditions/republican.h pyproc.h \
  optimisations/maxsolutions/maxsolutions.h \
  optimisations/stoponshortsolutions/stoponshortsolutions.h \
  platform/beep.h platform/maxtime.h platform/maxmem.h trace.h
@@ -733,7 +733,7 @@ stipulation/series_play/move.h:
 
 stipulation/series_play/parry_fork.h:
 
-stipulation/battle_play/ready_for_attack.h:
+stipulation/battle_play/attack_adapter.h:
 
 stipulation/help_play/branch.h:
 
@@ -1205,14 +1205,16 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/root_attack_fork.h \
  stipulation/battle_play/attack_fork.h stipulation/battle_play/try.h \
  pytable.h stipulation/battle_play/continuation.h \
- stipulation/battle_play/threat.h stipulation/help_play/branch.h \
- stipulation/help_play/root.h stipulation/help_play/move.h \
- stipulation/help_play/move_to_goal.h stipulation/help_play/shortcut.h \
- stipulation/help_play/fork.h stipulation/series_play/root.h \
- stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
+ stipulation/battle_play/threat.h stipulation/battle_play/dead_end.h \
+ stipulation/help_play/branch.h stipulation/help_play/root.h \
+ stipulation/help_play/move.h stipulation/help_play/move_to_goal.h \
+ stipulation/help_play/shortcut.h stipulation/help_play/fork.h \
+ stipulation/series_play/root.h stipulation/series_play/move.h \
+ stipulation/series_play/move_to_goal.h \
  stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
- optimisations/goals/enpassant/defender_filter.h trace.h
+ optimisations/goals/enpassant/defender_filter.h \
+ optimisations/save_useless_last_move/save_useless_last_move.h trace.h
 
 pystip.h:
 
@@ -1334,6 +1336,8 @@ stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/threat.h:
 
+stipulation/battle_play/dead_end.h:
+
 stipulation/help_play/branch.h:
 
 stipulation/help_play/root.h:
@@ -1361,6 +1365,8 @@ stipulation/series_play/parry_fork.h:
 stipulation/proxy.h:
 
 optimisations/goals/enpassant/defender_filter.h:
+
+optimisations/save_useless_last_move/save_useless_last_move.h:
 
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \

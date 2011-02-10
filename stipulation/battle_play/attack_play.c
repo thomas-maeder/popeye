@@ -18,7 +18,7 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
-#include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
@@ -92,8 +92,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = no_short_variations_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STReadyForAttack:
-      result = ready_for_attack_has_solution_in_n(si,n,n_max_unsolvable);
+    case STAttackAdapter:
+      result = attack_adapter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STBattleDeadEnd:
@@ -359,8 +359,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_move_to_goal_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STReadyForAttack:
-      result = ready_for_attack_solve_in_n(si,n,n_max_unsolvable);
+    case STAttackAdapter:
+      result = attack_adapter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STBattleDeadEnd:

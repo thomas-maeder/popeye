@@ -527,6 +527,7 @@ static void keepmating_filter_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
+  { STAttackAdapter,        &keepmating_filter_inserter_battle_move },
   { STReadyForAttack,       &keepmating_filter_inserter_battle_move },
   { STReadyForDefense,      &keepmating_filter_inserter_battle_move },
   { STReadyForHelpMove,     &keepmating_filter_inserter_help_move   },

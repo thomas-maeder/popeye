@@ -18,7 +18,7 @@ static slice_index const root_slice_rank_order[] =
   /* in hXN.5 with set play, there are 2 move inversions in a row! */
   STMoveInverter,
   STOutputPlaintextLineMoveInversionCounter,
-  STReadyForAttack,
+  STAttackAdapter,
   STReadyForDefense,
   STReadyForHelpMove,
   STReadyForSeriesMove,
@@ -38,7 +38,7 @@ static slice_index const root_slice_rank_order[] =
   STMaxSolutionsRootSolvableFilter,
   STEndOfPhaseWriter,
   STStopOnShortSolutionsInitialiser,
-  STReadyForAttack,
+  STAttackAdapter,
   STReadyForHelpMove,
   STReadyForSeriesMove,
   STBattleDeadEnd,

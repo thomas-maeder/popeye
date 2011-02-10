@@ -159,7 +159,7 @@ has_solution_type slice_solve(slice_index si)
       result = goal_any_reached_tester_solve(si);
       break;
 
-    case STReadyForAttack:
+    case STAttackAdapter:
     case STAttackRoot:
     case STAttackFindShortest:
     case STAttackMove:
@@ -427,7 +427,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = reflex_attack_solver_has_solution(si);
       break;
 
-    case STReadyForAttack:
+    case STAttackAdapter:
     case STAttackRoot:
     case STAttackFindShortest:
     case STAttackMove:

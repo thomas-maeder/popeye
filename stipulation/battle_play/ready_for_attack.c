@@ -1,7 +1,7 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -27,26 +27,6 @@ slice_index alloc_ready_for_attack_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traversal of the moves beyond a attack end slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_attack(slice_index si,
-                                          stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
-
-  if (st->remaining>slack_length_battle)
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Find the first postkey slice and deallocate unused slices on the
@@ -84,10 +64,16 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_make_root(si,st);
+  stip_traverse_structure_pipe(si,st);
 
-  assert(slices[state->result].type==STReadyForAttack);
-  if (slices[state->result].u.branch.min_length>slack_length_battle+1)
+  {
+    slice_index const adapter = alloc_attack_adapter_slice(slices[si].u.branch.length,
+                                                           slices[si].u.branch.min_length);
+    link_to_branch(adapter,state->result);
+    state->result = adapter;
+  }
+
+  if (slices[si].u.branch.min_length>slack_length_battle+1)
   {
     slice_index const root_attack_fork = branch_find_slice(STRootAttackFork,
                                                            state->result);
@@ -100,67 +86,4 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-ready_for_attack_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-ready_for_attack_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }

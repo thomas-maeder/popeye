@@ -484,6 +484,7 @@ static void deal_with_parry_fork(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
+  { STAttackAdapter,      &insert_selfcheck_guard_battle_branch },
   { STReadyForAttack,     &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,    &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,   &insert_selfcheck_guard_help_branch   },

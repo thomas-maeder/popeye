@@ -223,6 +223,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 
 static structure_traversers_visitors maxflight_guards_inserters[] =
 {
+  { STAttackAdapter,  &maxflight_guard_inserter },
   { STReadyForAttack, &maxflight_guard_inserter }
 };
 

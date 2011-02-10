@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/dead_end.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -168,4 +169,25 @@ battle_play_dead_end_can_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Traversal of the moves beyond a attack end slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_battle_play_dead_end(slice_index si,
+                                              stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining>=slack_length_battle+2)
+  {
+    stip_traverse_moves_branch_init_full_length(si,st);
+    stip_traverse_moves_pipe(si,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
