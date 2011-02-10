@@ -177,6 +177,7 @@ static void self_guards_inserter_defense_move(slice_index si,
 
 static structure_traversers_visitors self_guards_inserters[] =
 {
+  { STDefenseAdapter,  &self_guards_inserter_defense_move },
   { STReadyForDefense, &self_guards_inserter_defense_move }
 };
 

@@ -159,10 +159,10 @@ trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/play.h stipulation/help_play/play.h pyhash.h \
  pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h \
- stipulation/battle_play/ready_for_defense.h \
- stipulation/series_play/fork.h stipulation/series_play/parry_fork.h \
- stipulation/series_play/root.h stipulation/series_play/move.h \
- stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
+ stipulation/battle_play/defense_adapter.h stipulation/series_play/fork.h \
+ stipulation/series_play/parry_fork.h stipulation/series_play/root.h \
+ stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
+ stipulation/series_play/shortcut.h \
  stipulation/series_play/move_to_goal.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
@@ -186,7 +186,7 @@ pyselfcg.h:
 
 pymovenb.h:
 
-stipulation/battle_play/ready_for_defense.h:
+stipulation/battle_play/defense_adapter.h:
 
 stipulation/series_play/fork.h:
 

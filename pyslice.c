@@ -5,6 +5,7 @@
 #include "stipulation/setplay_fork.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_adapter.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
@@ -162,8 +163,8 @@ has_solution_type slice_solve(slice_index si)
       result = attack_adapter_solve(si);
       break;
 
-    case STReadyForDefense:
-      result = ready_for_defense_solve(si);
+    case STDefenseAdapter:
+      result = defense_adapter_solve(si);
       break;
 
     case STHelpRoot:
@@ -420,8 +421,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = attack_adapter_has_solution(si);
       break;
 
-    case STReadyForDefense:
-      result = ready_for_defense_has_solution(si);
+    case STDefenseAdapter:
+      result = defense_adapter_has_solution(si);
       break;
 
     case STHelpRoot:

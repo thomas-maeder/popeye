@@ -474,6 +474,9 @@ void stip_insert_threat_handlers(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STReadyForDefense,
                                            &append_threat_solver);
+  stip_structure_traversal_override_single(&st,
+                                           STDefenseAdapter,
+                                           &append_threat_solver);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)

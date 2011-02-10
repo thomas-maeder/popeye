@@ -2052,6 +2052,7 @@ static structure_traversers_visitors const hash_element_inserters2[] =
 {
   /* no need to hash the introductory move of the set play */
   { STSetplayFork,     &stip_traverse_structure_pipe    },
+  { STDefenseAdapter,  &insert_hash_element_attack_move },
   { STReadyForDefense, &insert_hash_element_attack_move }
 };
 

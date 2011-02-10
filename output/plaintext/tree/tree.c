@@ -370,6 +370,7 @@ static structure_traversers_visitors writer_inserters[] =
   { STGoalReachedTesting,            &insert_goal_writer              },
   { STAttackAdapter,                 &remember_length                 },
   { STReadyForAttack,                &remember_length                 },
+  { STDefenseAdapter,                &instrument_ready_for_defense    },
   { STReadyForDefense,               &instrument_ready_for_defense    }
 };
 

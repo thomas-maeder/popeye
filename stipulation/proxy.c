@@ -33,6 +33,7 @@ static boolean is_proxy(slice_index si)
   {
     case STProxy:
     case STReadyForAttack:
+    case STReadyForDefense:
     case STDefenseDealtWith:
     case STAttackMovePlayed:
     case STAttackMoveShoeHorningDone:

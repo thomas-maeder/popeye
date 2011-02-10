@@ -60,6 +60,7 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
+    ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \
@@ -257,6 +258,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
 {
   slice_structure_pipe,   /* STProxy */
   slice_structure_branch, /* STAttackAdapter */
+  slice_structure_branch, /* STDefenseAdapter */
   slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STAttackFindShortest */
@@ -643,6 +645,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STAttackFork,                 &attack_fork_make_root                   },
   { STAttackFindShortest,         &attack_find_shortest_make_root          },
   { STAttackMove,                 &attack_move_make_root                   },
+  { STReadyForDefense,            &ready_for_defense_make_root             },
   { STDefenseMoveShoeHorningDone, &serve_as_root_hook                      },
 
   { STHelpMoveLegalityChecked,    &help_move_legality_checked_make_root    },
@@ -1732,6 +1735,7 @@ static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,            /* STProxy */
   &stip_traverse_structure_pipe,            /* STAttackAdapter */
+  &stip_traverse_structure_pipe,            /* STDefenseAdapter */
   &stip_traverse_structure_pipe,            /* STAttackRoot */
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
@@ -1968,6 +1972,7 @@ static moves_visitor_map_type const moves_children_traversers =
   {
     &stip_traverse_moves_pipe,                  /* STProxy */
     &stip_traverse_moves_branch_slice,          /* STAttackAdapter */
+    &stip_traverse_moves_branch_slice,          /* STDefenseAdapter */
     &stip_traverse_moves_move_slice,            /* STAttackRoot */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */

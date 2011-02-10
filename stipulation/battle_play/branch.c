@@ -5,6 +5,7 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_move_legality_checked.h"
@@ -82,6 +83,7 @@ static slice_index const slice_rank_order[] =
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
   STAttackDealtWith,
+  STDefenseAdapter,
   STReadyForDefense,
   STContinuationSolver,
   STKeyWriter,
@@ -310,8 +312,8 @@ slice_index alloc_defense_branch(void)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const dready = alloc_ready_for_defense_slice(slack_length_battle+1,
-                                                             slack_length_battle+1);
+    slice_index const adapter = alloc_defense_adapter_slice(slack_length_battle+1,
+                                                            slack_length_battle+1);
     slice_index const solver = alloc_continuation_solver_slice(slack_length_battle+1,
                                                                slack_length_battle+1);
     slice_index const defense = alloc_defense_move_slice(slack_length_battle+1,
@@ -329,7 +331,7 @@ slice_index alloc_defense_branch(void)
                                                             slack_length_battle);
     slice_index const deadend = alloc_battle_play_dead_end_slice();
 
-    pipe_link(dready,solver);
+    pipe_link(adapter,solver);
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
@@ -339,7 +341,7 @@ slice_index alloc_defense_branch(void)
     pipe_link(ddealt,aready);
     pipe_link(aready,deadend);
 
-    result = dready;
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);

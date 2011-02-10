@@ -110,6 +110,7 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
@@ -2645,14 +2646,14 @@ static char *ParsePlay(char *tok,
       {
         stip_length_type const length = slack_length_battle+2;
         stip_length_type const min_length = slack_length_battle+2;
-        slice_index const ready = alloc_ready_for_defense_slice(length,
+        slice_index const adapter = alloc_defense_adapter_slice(length,
                                                                 min_length);
         slice_index const solver = alloc_continuation_solver_slice(length,
                                                                    min_length);
         slice_index const def = alloc_defense_move_slice(length,min_length);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,dummy);
-        convert_to_parry_series_branch(next,ready);
-        pipe_link(ready,solver);
+        convert_to_parry_series_branch(next,adapter);
+        pipe_link(adapter,solver);
         pipe_link(solver,def);
         pipe_link(def,played);
 

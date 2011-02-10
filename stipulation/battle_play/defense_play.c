@@ -15,7 +15,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_fork.h"
-#include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
@@ -103,8 +103,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = defense_fork_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STReadyForDefense:
-      result = ready_for_defense_defend_in_n(si,n,n_max_unsolvable);
+    case STDefenseAdapter:
+      result = defense_adapter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
@@ -291,8 +291,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = defense_fork_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STReadyForDefense:
-      result = ready_for_defense_can_defend_in_n(si,n,n_max_unsolvable);
+    case STDefenseAdapter:
+      result = defense_adapter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:

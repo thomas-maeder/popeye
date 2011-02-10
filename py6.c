@@ -558,6 +558,7 @@ static void find_restricted_side_help_root(slice_index si,
 static structure_traversers_visitors restricted_side_finders[] =
 {
   { STAttackRoot,      &find_restricted_side_attack_root },
+  { STDefenseAdapter , &find_restricted_side_defense     },
   { STReadyForDefense, &find_restricted_side_defense     },
   { STHelpRoot,        &find_restricted_side_help_root   }
 };
@@ -2051,6 +2052,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       result = whitetoplay_means_change_colors;
       break;
 
+    case STDefenseAdapter:
     case STReadyForDefense:
     case STContinuationSolver:
     case STDefenseMove:

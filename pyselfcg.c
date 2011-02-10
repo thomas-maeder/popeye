@@ -486,6 +486,7 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
   { STAttackAdapter,      &insert_selfcheck_guard_battle_branch },
   { STReadyForAttack,     &insert_selfcheck_guard_battle_branch },
+  { STDefenseAdapter,     &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,    &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,   &insert_selfcheck_guard_help_branch   },
   { STReadyForSeriesMove, &insert_selfcheck_guard_series_branch },
