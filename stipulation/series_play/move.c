@@ -1,14 +1,11 @@
 #include "stipulation/series_play/move.h"
+#include "stipulation/branch.h"
+#include "stipulation/series_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
 #include "trace.h"
-#include "stipulation/branch.h"
-#include "stipulation/help_play/move.h"
-#include "stipulation/series_play/play.h"
-#include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/root.h"
-#include "stipulation/series_play/shortcut.h"
 
 #include <assert.h>
 
@@ -33,45 +30,6 @@ slice_index alloc_series_move_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_series_move_make_root(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  root_insertion_state_type * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index copy;
-  slice_index new_root;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  copy = copy_slice(si);
-  new_root = alloc_series_root_slice(length,min_length);
-  pipe_link(copy,new_root);
-
-  if (length<slack_length_series+2)
-    pipe_set_successor(new_root,slices[si].u.pipe.next);
-  else
-  {
-    slice_index const shortcut = alloc_series_shortcut(length,min_length,si);
-    pipe_link(new_root,shortcut);
-    stip_traverse_structure_children(si,st);
-    assert(state->result!=no_slice);
-    pipe_link(shortcut,state->result);
-    shorten_series_pipe(si);
-  }
-
-  state->result = copy;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Recursively make a sequence of root slices
@@ -254,29 +212,4 @@ stip_length_type series_move_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void series_move_legality_checked_make_root(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_make_root(si,st);
-
-  si = slices[si].u.pipe.next;
-
-  while (slices[si].type!=STSeriesMove)
-  {
-    shorten_series_pipe(si);
-    si = slices[si].u.pipe.next;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

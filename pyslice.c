@@ -8,8 +8,7 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
-#include "stipulation/series_play/play.h"
-#include "stipulation/series_play/root.h"
+#include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
@@ -179,16 +178,8 @@ has_solution_type slice_solve(slice_index si)
       result = help_solve(si);
       break;
 
-    case STSeriesRoot:
-      result = series_root_solve(si);
-      break;
-
-    case STSeriesMove:
-    case STSeriesMoveToGoal:
-    case STSeriesFork:
-    case STSeriesHashed:
-    case STCastlingSeriesFilter:
-      result = series_solve(si);
+    case STSeriesAdapter:
+      result = series_adapter_solve(si);
       break;
 
     case STQuodlibet:
@@ -437,16 +428,11 @@ has_solution_type slice_has_solution(slice_index si)
       result = move_inverter_has_solution(si);
       break;
 
-    case STSeriesMove:
-    case STSeriesMoveToGoal:
-    case STSeriesHashed:
-    case STReflexSeriesFilter:
-    case STCastlingSeriesFilter:
-      result = series_has_solution(si);
+    case STSeriesAdapter:
+      result = series_adapter_has_solution(si);
       break;
 
     case STHelpFork:
-    case STSeriesFork:
       result = branch_fork_has_solution(si);
       break;
 

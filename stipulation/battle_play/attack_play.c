@@ -121,10 +121,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = attack_hashed_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STReadyForSeriesMove:
-    case STSeriesMove:
-    case STSeriesHashed:
-    case STSeriesFork:
+    case STSeriesAdapter:
     {
       stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type const nr_moves_needed = series_has_solution_in_n(si,
@@ -344,6 +341,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_fork_solve_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STSeriesAdapter:
     case STReadyForSeriesMove:
     case STSeriesMove:
     case STSeriesHashed:

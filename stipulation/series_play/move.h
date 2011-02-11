@@ -20,13 +20,6 @@ slice_index alloc_series_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void ready_for_series_move_make_root(slice_index si,
-                                     stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
 void series_move_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Spin off set play
@@ -63,12 +56,5 @@ stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n);
  */
 stip_length_type series_move_has_solution_in_n(slice_index si,
                                                stip_length_type n);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void series_move_legality_checked_make_root(slice_index si,
-                                            stip_structure_traversal *st);
 
 #endif

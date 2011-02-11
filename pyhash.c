@@ -1827,6 +1827,7 @@ void closehash(void)
 #endif /*__unix*/
     }
 #endif /*TESTHASH*/
+    invalidateHashBuffer();
   }
 } /* closehash */
 
@@ -2514,6 +2515,9 @@ static boolean inhash_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u",nbply);
+  TraceValue("%u",hashBufferValidity[nbply]);
+  TraceValue("%u\n",validity_value);
   if (hashBufferValidity[nbply]!=validity_value)
     (*encode)(validity_value);
 

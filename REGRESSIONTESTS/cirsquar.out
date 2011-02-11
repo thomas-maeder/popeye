@@ -204,18 +204,18 @@ a)
 
   1.a2-a1=D b6-b7   2.Da1-a8 b7*a8=SS   3.Kf5-f4 SSa8-g7 = 
 
-              empile:    23060517
-            jouecoup:     8533829
+              empile:    23060508
+            jouecoup:     8533816
         orig_rbechec:     3899267
-        orig_rnechec:     7621398
+        orig_rnechec:     7621385
 b) wSSe1-->f8
 
   1.a2-a1=SS b6-b7   2.SSa1-c8 b7*c8=D +   3.Kf5-g5 Dc8-h3 = 
 
-              empile:    21917427
-            jouecoup:     8238116
+              empile:    21917418
+            jouecoup:     8238103
         orig_rbechec:     3683570
-        orig_rnechec:     7358125
+        orig_rnechec:     7358112
 Loesung beendet. 
 
 
@@ -542,18 +542,18 @@ a)
 
   1.Tg5-e5 Ke8-f8   2.Se3-f5 e4*f5 [+sSe3] +   3.Ke6-f6 d4*e5 [+sTg5] # 
 
-              empile:      176187
-            jouecoup:      113996
+              empile:      176157
+            jouecoup:      113966
         orig_rbechec:       18732
-        orig_rnechec:      107252
+        orig_rnechec:      107222
 b) sTg5-->e5
 
   1.Te5-c5 Ke8-d8   2.Se3-d5 e4*d5 [+sSe3] +   3.Ke6-d6 d4*c5 [+sTe5] # 
 
-              empile:      133116
-            jouecoup:       81683
+              empile:      133093
+            jouecoup:       81660
         orig_rbechec:       14520
-        orig_rnechec:       76864
+        orig_rnechec:       76841
 Loesung beendet. 
 
 
@@ -690,10 +690,10 @@ Loesung beendet.
 
   1.Ke2*d2 [+nBe8=nT] nTe8*e6 [+nBh1=nS]   2.nSh1*f2 [+nBb8=nL] nLb8*f4 [+nBc1=nD] # 
 
-              empile:      161490
-            jouecoup:      119965
+              empile:      161478
+            jouecoup:      119941
         orig_rbechec:       12612
-        orig_rnechec:      119668
+        orig_rnechec:      119644
 Loesung beendet. 
 
 
@@ -974,10 +974,10 @@ Loesung beendet.
  13  (Kf8-e8 )
  14  (Kf8*f7 [+wBc2] )
 
-              empile:     5983566
-            jouecoup:     3934221
+              empile:     5983550
+            jouecoup:     3934207
         orig_rbechec:     1058143
-        orig_rnechec:     3656090
+        orig_rnechec:     3656076
 Loesung beendet. 
 
 

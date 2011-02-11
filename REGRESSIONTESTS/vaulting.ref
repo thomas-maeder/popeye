@@ -96,10 +96,10 @@ solution finished.
 
   1.Bf7-b3 + Kc2-f8   2.g7-g6 Rh7-b7 +   3.Kb5-h8 Rb7-b4   4.Bb3-f7 Rb4-h4 # 
 
-              empile:   105635863
-            jouecoup:    63812503
-        orig_rbechec:    85467557
-        orig_rnechec:   139873882
+              empile:   105635825
+            jouecoup:    63812465
+        orig_rbechec:    85467517
+        orig_rnechec:   139873802
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
 
   1.Rg7-g2 Rh6-f6 +   2.Kf2-h8 + Kd2-f8   3.Rg2-g5 Rf6-h6 # 
 
-              empile:    11482361
-            jouecoup:     7582199
-        orig_rbechec:    10528057
-        orig_rnechec:    17100041
+              empile:    11482339
+            jouecoup:     7582177
+        orig_rbechec:    10528034
+        orig_rnechec:    17099995
 solution finished. 
 
 
@@ -166,10 +166,10 @@ solution finished.
 
   1.Ge7-g7 Sf6-d5 +   2.Kc3-h8 Sd5-e7   3.Gd8-f6 Se7-g6 # 
 
-              empile:      675391
-            jouecoup:      571627
-        orig_rbechec:      718583
-        orig_rnechec:     1231282
+              empile:      675380
+            jouecoup:      571616
+        orig_rbechec:      718571
+        orig_rnechec:     1231258
 solution finished. 
 
 
@@ -204,10 +204,10 @@ a)
 
   1.Ka1-a2 Rd4-d2 +   2.EQf2-b2 Rd2-d1   3.Ka2-a3 Rd1-a1 # 
 
-              empile:      709293
-            jouecoup:      514071
-        orig_rbechec:      672414
-        orig_rnechec:     1149495
+              empile:      709288
+            jouecoup:      514066
+        orig_rbechec:      672408
+        orig_rnechec:     1149483
 b)  -wEQh7   -bPe6  wPb4   h#4
 
   1.Ka1-b1 Rd4-g4   2.Kb1-c1 Ke5-e4 +   3.Kc1-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 # 
@@ -215,10 +215,10 @@ b)  -wEQh7   -bPe6  wPb4   h#4
   1.Ka1-b1 Rd4-g4   2.Kb1-c2 Ke5-e4   3.Kc2-d1 Ke4-d3   4.Kd1-e1 Rg4-g1 # 
   1.Ka1-b1 Rd4-g4   2.Kb1-c2 Ke5-d4   3.Kc2-d1 Kd4-d3   4.Kd1-e1 Rg4-g1 # 
 
-              empile:     4113151
-            jouecoup:     2993633
-        orig_rbechec:     3914267
-        orig_rnechec:     6624859
+              empile:     4113141
+            jouecoup:     2993623
+        orig_rbechec:     3914255
+        orig_rnechec:     6624835
 solving interrupted. 
 
 
@@ -250,10 +250,10 @@ solving interrupted.
 
   1.a5-a4 Rd4-d7   2.a4*b3 Ke5-d4   3.b3-b2 Rd7-a7 # 
 
-              empile:      423867
-            jouecoup:      314839
-        orig_rbechec:      404008
-        orig_rnechec:      693656
+              empile:      423862
+            jouecoup:      314834
+        orig_rbechec:      404002
+        orig_rnechec:      693644
 solution finished. 
 
 
@@ -287,10 +287,10 @@ solution finished.
   1.Kb1-c1 Kd4-d3   2.EQe1-c5 Kd3-c3   3.g4-g3 Re5-e1 # 
   1.g4-g3 Kd4-d3   2.EQe1-c5 Kd3-c3   3.Kb1-c1 Re5-e1 # 
 
-              empile:      758675
-            jouecoup:      564168
-        orig_rbechec:      759045
-        orig_rnechec:     1270770
+              empile:      758668
+            jouecoup:      564161
+        orig_rbechec:      759037
+        orig_rnechec:     1270754
 solution finished. 
 
 

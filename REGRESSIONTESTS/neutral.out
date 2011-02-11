@@ -100,18 +100,18 @@ a)
 
   1.nBa2-a1=nS nSa1-b3   2.nBc3-c2 nBc2*b3 # 
 
-              empile:       37155
-            jouecoup:       15385
+              empile:       37124
+            jouecoup:       15348
         orig_rbechec:        1222
-        orig_rnechec:       14649
+        orig_rnechec:       14612
 b) nBc3-->c2
 
   1.nBc2-c1=nT nTc1-c3   2.nTc3-b3 nBa2*b3 # 
 
-              empile:       57350
-            jouecoup:       20539
+              empile:       57320
+            jouecoup:       20500
         orig_rbechec:        1419
-        orig_rnechec:       19703
+        orig_rnechec:       19664
 Loesung beendet. 
 
 
@@ -435,18 +435,18 @@ b) sLe3-->f6
 
   1.Kd5-e5 Se2-d4   2.nSBh4-h1=nL nSBb4-b8=nL # 
 
-              empile:     1024485
-            jouecoup:      775734
+              empile:     1024452
+            jouecoup:      775692
         orig_rbechec:       77970
-        orig_rnechec:      774586
+        orig_rnechec:      774544
 c) sKd5-->g6
 
   1.Kg6-h6 Se2-g3   2.nSBb4-b1=nL nSBf2-f8=nL # 
 
-              empile:     1228507
-            jouecoup:      887591
+              empile:     1228474
+            jouecoup:      887549
         orig_rbechec:       94939
-        orig_rnechec:      886287
+        orig_rnechec:      886245
 Loesung beendet. 
 
 

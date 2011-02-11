@@ -44,10 +44,10 @@ c) wB1c1-->h3
 
   1.Ke5-f5 kTa6-a8   2.Kf5-g6 B1h3-g4   3.Kg6-h7 B1g4-g8 +   4.Kh7-h8 kTa8-f8 # 
 
-              empile:      870021
-            jouecoup:      669482
+              empile:      870005
+            jouecoup:      669466
         orig_rbechec:      117378
-        orig_rnechec:      601708
+        orig_rnechec:      601692
 d) wkTa6-->e8
 
   1.Ke5-f4 B1c1-f1   2.Kf4-g3 kTe8-e1   3.Kg3-h2 B1f1-g1 +   4.Kh2-h1 kTe1-f1 # 
@@ -217,18 +217,18 @@ a)
 
   1.kB1c6-f6 B3d4-b2   2.B3g4-e6 B1g6-g3   3.B3e6-h3 B1g3-f3 +   4.kB1f6-c3 B1f3-f6 # 
 
-              empile:      109175
-            jouecoup:      103510
+              empile:      109165
+            jouecoup:      103500
         orig_rbechec:           0
-        orig_rnechec:       96333
+        orig_rnechec:       96323
 b) wB1g6-->f2
 
   1.B3g4-e2 B3d4-h8   2.B3e2-c4 B3h8-g7   3.B3c4-f1 B1f2-f3 +   4.kB1c6-f6 B1f3-c3 # 
 
-              empile:      120193
-            jouecoup:      114082
+              empile:      120183
+            jouecoup:      114072
         orig_rbechec:           0
-        orig_rnechec:      106331
+        orig_rnechec:      106321
 Loesung beendet. 
 
 

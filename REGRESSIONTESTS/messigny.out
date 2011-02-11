@@ -106,10 +106,10 @@ Loesung beendet.
   1.d5-d4 Kd3-e4   2.h2-h1=L + Lg1<->Lh1   3.Lg1-e3 Ke4<->Ka8 # 
   1.e5-e4 + Kd3-d4   2.a2-a1=L + Lb1<->La1   3.Lb1-d3 Kd4<->Ka8 # 
 
-              empile:    40724657
-            jouecoup:    34423729
+              empile:    40724639
+            jouecoup:    34423699
         orig_rbechec:     1175690
-        orig_rnechec:    34180003
+        orig_rnechec:    34179973
 Loesung beendet. 
 
 
@@ -143,10 +143,10 @@ Loesung beendet.
   1.Td7-d8 Te8*d8   2.Kg7<->Ke5 Kg7-f8   3.Ke5-f6 Kf8<->Kf6 # 
   1.Kg7-h7 Ke5-f6   2.Kh7<->Kf6 + Kh7-h8   3.Td7-h7 + Kh8<->Kf6 # 
 
-              empile:     4908460
-            jouecoup:     3448460
+              empile:     4908438
+            jouecoup:     3448438
         orig_rbechec:      393229
-        orig_rnechec:     3406412
+        orig_rnechec:     3406390
 Loesung beendet. 
 
 

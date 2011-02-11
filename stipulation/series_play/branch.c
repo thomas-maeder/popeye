@@ -5,6 +5,9 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/series_play/ready_for_series_move.h"
+#include "stipulation/series_play/adapter.h"
+#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_to_goal.h"
@@ -20,8 +23,10 @@
 static slice_index const series_slice_rank_order[] =
 {
   STReadyForSeriesMove,
+  STSeriesAdapter,
   STStopOnShortSolutionsInitialiser,
   STSeriesRoot,
+  STSeriesFindShortest,
   STIntelligentSeriesFilter,
   STSeriesShortcut,
   STSeriesFork,
@@ -35,6 +40,7 @@ static slice_index const series_slice_rank_order[] =
   STContinuationSolver, /* occurs in direct pser stipulations */
   STDefenseFork,        /* occurs in direct pser stipulations */
   STDefenseMove,        /* occurs in direct pser stipulations */
+  STSeriesAdapter,
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsFilter,
@@ -45,12 +51,10 @@ static slice_index const series_slice_rank_order[] =
   STSeriesMovePlayed,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
-  STSeriesMoveDealtWith,
   STSeriesFork,
   STSeriesDummyMove,
   STSeriesMovePlayed,
-  STSelfCheckGuard,
-  STSeriesMoveDealtWith
+  STSelfCheckGuard
 };
 
 enum
@@ -107,13 +111,13 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STGoalReachedTesting)
+      if (slices[next].type==STProxy)
+        si = next;
+      else if (slices[next].type==STGoalReachedTesting)
       {
         leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
         break;
       }
-      else if (slices[next].type==STProxy)
-        si = next;
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
         series_branch_insert_slices_recursive(slices[next].u.binary.op1,
@@ -216,9 +220,8 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
   {
     Goal const goal = slices[si].u.goal_writer.goal;
-    slice_index const ready = alloc_branch(STReadyForSeriesMove,
-                                           slack_length_series+1,
-                                           slack_length_series+1);
+    slice_index const ready = alloc_ready_for_series_move_slice(slack_length_series+1,
+                                                                slack_length_series+1);
     slice_index const move_to_goal = alloc_series_move_to_goal_slice(goal);
     slice_index const played = alloc_pipe(STSeriesMovePlayed);
     pipe_append(slices[si].prev,ready);
@@ -242,13 +245,7 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const checked = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt = alloc_pipe(STSeriesMoveDealtWith);
-    pipe_append(si,checked);
-    pipe_append(checked,dealt);
-  }
+  pipe_append(si,alloc_pipe(STSeriesMoveLegalityChecked));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -295,28 +292,29 @@ slice_index alloc_series_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
+    slice_index const adapter = alloc_series_adapter_slice(length,min_length);
+    slice_index const finder = alloc_series_find_shortest_slice(length,
+                                                                min_length);
     slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt2 = alloc_pipe(STSeriesMoveDealtWith);
-    slice_index const ready = alloc_branch(STReadyForSeriesMove,
-                                           length,min_length);
+    slice_index const ready = alloc_ready_for_series_move_slice(length,
+                                                                min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const played1 = alloc_pipe(STSeriesMovePlayed);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const dealt1 = alloc_pipe(STSeriesMoveDealtWith);
     slice_index const dummy = alloc_series_dummy_move_slice();
     slice_index const played2 = alloc_pipe(STSeriesMovePlayed);
 
-    pipe_link(checked2,dealt2);
-    pipe_link(dealt2,ready);
+    pipe_link(checked2,ready);
     pipe_link(ready,move);
     pipe_link(move,played1);
     pipe_link(played1,checked1);
-    pipe_link(checked1,dealt1);
-    pipe_link(dealt1,dummy);
+    pipe_link(checked1,dummy);
     pipe_link(dummy,played2);
     pipe_link(played2,checked2);
 
-    result = checked2;
+    pipe_set_successor(finder,checked2);
+    pipe_link(adapter,finder);
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);
@@ -337,14 +335,12 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesMoveLegalityChecked);
+  assert(slices[si].type==STSeriesAdapter);
 
   {
     slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
-    stip_length_type const length = slices[ready].u.branch.length;
-    stip_length_type const min_length = slices[ready].u.branch.min_length;
     assert(ready!=no_slice);
-    pipe_append(ready,alloc_series_fork_slice(length,min_length,to_goal));
+    pipe_append(ready,alloc_series_fork_slice(to_goal));
   }
 
   TraceFunctionExit(__func__);
@@ -362,17 +358,14 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesMoveLegalityChecked);
+  assert(slices[si].type==STSeriesAdapter);
 
   {
-    slice_index const dealt1 = branch_find_slice(STSeriesMoveDealtWith,si);
-    slice_index const dealt2 = branch_find_slice(STSeriesMoveDealtWith,dealt1);
-    stip_length_type const length = slices[dealt2].u.branch.length;
-    stip_length_type const min_length = slices[dealt2].u.branch.min_length;
-
-    assert(dealt1!=no_slice);
-    assert(dealt2!=no_slice);
-    pipe_append(dealt2,alloc_series_fork_slice(length,min_length,next));
+    slice_index const checked1 = branch_find_slice(STSeriesMoveLegalityChecked,si);
+    slice_index const checked2 = branch_find_slice(STSeriesMoveLegalityChecked,checked1);
+    assert(checked1!=no_slice);
+    assert(checked2!=no_slice);
+    pipe_append(checked2,alloc_series_fork_slice(next));
   }
 
   TraceFunctionExit(__func__);

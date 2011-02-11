@@ -1,7 +1,42 @@
+stipulation/series_play/ready_for_series_move$(OBJ_SUFFIX): \
+ stipulation/series_play/ready_for_series_move.c \
+ stipulation/series_play/ready_for_series_move.h pypipe.h trace.h \
+ stipulation/branch.h stipulation/series_play/adapter.h \
+ stipulation/series_play/branch.h stipulation/series_play/root.h \
+ stipulation/series_play/shortcut.h
+
+stipulation/series_play/ready_for_series_move.h:
+
+pypipe.h:
+
+trace.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/adapter.h:
+
+stipulation/series_play/branch.h:
+
+stipulation/series_play/root.h:
+
+stipulation/series_play/shortcut.h:
+stipulation/series_play/adapter$(OBJ_SUFFIX): stipulation/series_play/adapter.c \
+ stipulation/series_play/adapter.h stipulation/branch.h \
+ stipulation/series_play/play.h trace.h
+
+stipulation/series_play/adapter.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:
+
+trace.h:
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/series_play/branch.h pyslice.h stipulation/goals/goals.h \
  stipulation/series_play/play.h pypipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/series_play/fork.h \
+ stipulation/proxy.h stipulation/series_play/ready_for_series_move.h \
+ stipulation/series_play/adapter.h \
+ stipulation/series_play/find_shortest.h stipulation/series_play/fork.h \
  stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
  stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
  trace.h
@@ -19,6 +54,12 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/series_play/ready_for_series_move.h:
+
+stipulation/series_play/adapter.h:
+
+stipulation/series_play/find_shortest.h:
 
 stipulation/series_play/fork.h:
 
@@ -44,13 +85,30 @@ trace.h:
 stipulation/branch.h:
 
 stipulation/series_play/play.h:
+stipulation/series_play/find_shortest$(OBJ_SUFFIX): \
+ stipulation/series_play/find_shortest.c \
+ stipulation/series_play/find_shortest.h stipulation/branch.h \
+ stipulation/series_play/play.h trace.h
+
+stipulation/series_play/find_shortest.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:
+
+trace.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
- stipulation/series_play/move.h pydata.h pyproc.h pypipe.h trace.h \
- stipulation/branch.h stipulation/help_play/move.h \
- stipulation/series_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/root.h stipulation/series_play/shortcut.h
+ stipulation/series_play/move.h stipulation/branch.h \
+ stipulation/series_play/play.h stipulation/series_play/branch.h pydata.h \
+ pyproc.h pypipe.h trace.h
 
 stipulation/series_play/move.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:
+
+stipulation/series_play/branch.h:
 
 pydata.h:
 
@@ -59,18 +117,6 @@ pyproc.h:
 pypipe.h:
 
 trace.h:
-
-stipulation/branch.h:
-
-stipulation/help_play/move.h:
-
-stipulation/series_play/play.h:
-
-stipulation/series_play/branch.h:
-
-stipulation/series_play/root.h:
-
-stipulation/series_play/shortcut.h:
 stipulation/series_play/move_to_goal$(OBJ_SUFFIX): \
  stipulation/series_play/move_to_goal.c \
  stipulation/series_play/move_to_goal.h pydata.h pyproc.h pypipe.h \
@@ -161,8 +207,8 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h \
  stipulation/battle_play/defense_adapter.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/series_play/root.h \
- stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
- stipulation/series_play/shortcut.h \
+ stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
+ stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
  stipulation/series_play/move_to_goal.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
@@ -193,6 +239,8 @@ stipulation/series_play/fork.h:
 stipulation/series_play/parry_fork.h:
 
 stipulation/series_play/root.h:
+
+stipulation/series_play/find_shortest.h:
 
 stipulation/series_play/move.h:
 

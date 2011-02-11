@@ -571,7 +571,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/series_play/move.h stipulation/series_play/parry_fork.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/help_play/branch.h \
- conditions/republican.h pyproc.h \
+ stipulation/series_play/adapter.h conditions/republican.h pyproc.h \
  optimisations/maxsolutions/maxsolutions.h \
  optimisations/stoponshortsolutions/stoponshortsolutions.h \
  platform/beep.h platform/maxtime.h platform/maxmem.h trace.h
@@ -739,6 +739,8 @@ stipulation/battle_play/attack_adapter.h:
 stipulation/battle_play/defense_adapter.h:
 
 stipulation/help_play/branch.h:
+
+stipulation/series_play/adapter.h:
 
 conditions/republican.h:
 
@@ -1212,7 +1214,9 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/help_play/branch.h stipulation/help_play/root.h \
  stipulation/help_play/move.h stipulation/help_play/move_to_goal.h \
  stipulation/help_play/shortcut.h stipulation/help_play/fork.h \
- stipulation/series_play/root.h stipulation/series_play/move.h \
+ stipulation/series_play/ready_for_series_move.h \
+ stipulation/series_play/adapter.h stipulation/series_play/root.h \
+ stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
  stipulation/series_play/move_to_goal.h \
  stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
@@ -1353,7 +1357,13 @@ stipulation/help_play/shortcut.h:
 
 stipulation/help_play/fork.h:
 
+stipulation/series_play/ready_for_series_move.h:
+
+stipulation/series_play/adapter.h:
+
 stipulation/series_play/root.h:
+
+stipulation/series_play/find_shortest.h:
 
 stipulation/series_play/move.h:
 
@@ -1381,8 +1391,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/battle_play/attack_adapter.h pystip.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- stipulation/help_play/root.h stipulation/series_play/play.h \
- stipulation/series_play/root.h stipulation/goals/target/reached_tester.h \
+ stipulation/help_play/root.h stipulation/series_play/adapter.h \
+ stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
  stipulation/goals/steingewinn/reached_tester.h \
@@ -1482,9 +1492,7 @@ stipulation/help_play/play.h:
 
 stipulation/help_play/root.h:
 
-stipulation/series_play/play.h:
-
-stipulation/series_play/root.h:
+stipulation/series_play/adapter.h:
 
 stipulation/goals/target/reached_tester.h:
 

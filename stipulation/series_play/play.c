@@ -9,6 +9,7 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/root.h"
+#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/shortcut.h"
@@ -47,6 +48,18 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STSeriesAdapter:
+      result = series_solve_in_n(slices[si].u.pipe.next,n);
+      break;
+
+    case STSeriesFindShortest:
+      result = series_find_shortest_solve_in_n(si,n);
+      break;
+
+    case STSeriesRoot:
+      result = series_root_solve_in_n(si,n);
+      break;
+
     case STSeriesShortcut:
       result = series_shortcut_solve_in_n(si,n);
       break;
@@ -173,37 +186,6 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type series_solve(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>slack_length_series);
-
-  while (len<=full_length)
-    if (series_solve_in_n(si,len)==len)
-    {
-      result = has_solution;
-      break;
-    }
-    else
-      len += 2;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
@@ -225,6 +207,14 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STSeriesAdapter:
+      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+      break;
+
+    case STSeriesFindShortest:
+      result = series_find_shortest_has_solution_in_n(si,n);
+      break;
+
     case STSeriesMove:
       result = series_move_has_solution_in_n(si,n);
       break;
@@ -335,37 +325,6 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type series_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_series);
-
-  while (len<=full_length)
-    if (series_has_solution_in_n(si,len)==len)
-    {
-      result = has_solution;
-      break;
-    }
-    else
-      ++len;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

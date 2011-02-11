@@ -66,10 +66,10 @@ Loesung beendet.
 
   1.kCAa1-b4 + kFEc1-b2   2.kCAb4-a7 FEd6-c5   3.kCAa7-d8 FEc5-b4   4.kCAd8-e5 FEb4-a3   5.kCAe5-d2 kFEb2-c3 +   6.kCAd2-a1 FEa3-b2 # 
 
-              empile:       56988
-            jouecoup:       50102
+              empile:       56980
+            jouecoup:       50094
         orig_rbechec:       13526
-        orig_rnechec:       38634
+        orig_rnechec:       38626
 Loesung beendet. 
 
 

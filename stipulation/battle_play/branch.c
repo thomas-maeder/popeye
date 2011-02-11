@@ -28,6 +28,7 @@ static slice_index const slice_rank_order[] =
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
+  STSeriesAdapter,
   STDefenseMovePlayed,
   STSeriesMovePlayed,
   STMaxNrNonTrivialCounter,

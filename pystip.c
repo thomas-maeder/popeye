@@ -42,7 +42,10 @@
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
+#include "stipulation/series_play/ready_for_series_move.h"
+#include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/root.h"
+#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/series_play/shortcut.h"
@@ -90,6 +93,8 @@
     ENUMERATOR(STHelpMovePlayed),                                       \
     ENUMERATOR(STHelpMoveLegalityChecked),                              \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
+    ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
+    ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
@@ -98,7 +103,6 @@
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STSeriesMovePlayed),                                     \
     ENUMERATOR(STSeriesMoveLegalityChecked),                            \
-    ENUMERATOR(STSeriesMoveDealtWith),                                  \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
@@ -284,6 +288,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STHelpMovePlayed */
   slice_structure_pipe,   /* STHelpMoveLegalityChecked */
   slice_structure_fork,   /* STReflexHelpFilter */
+  slice_structure_branch, /* STSeriesAdapter */
+  slice_structure_branch, /* STSeriesFindShortest */
   slice_structure_branch, /* STSeriesRoot */
   slice_structure_fork,   /* STSeriesShortcut */
   slice_structure_branch, /* STSeriesMove */
@@ -292,7 +298,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_pipe,   /* STSeriesMovePlayed */
   slice_structure_pipe,   /* STSeriesMoveLegalityChecked */
-  slice_structure_pipe,   /* STSeriesMoveDealtWith */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
@@ -644,7 +649,8 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STHelpFork,                   &help_fork_make_root                     },
   { STHelpMovePlayed,             &help_move_played_make_root              },
 
-  { STSeriesMoveLegalityChecked,  &series_move_legality_checked_make_root  },
+  { STSeriesAdapter,              &series_adapter_make_root                },
+  { STSeriesFindShortest,         &series_find_shortest_make_root          },
   { STReadyForSeriesMove,         &ready_for_series_move_make_root         },
   { STSeriesMove,                 &series_move_make_root                   },
   { STSeriesFork,                 &stip_traverse_structure_pipe            },
@@ -1759,6 +1765,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpMovePlayed */
   &stip_traverse_structure_pipe,            /* STHelpMoveLegalityChecked */
   &stip_traverse_structure_reflex_filter,   /* STReflexHelpFilter */
+  &stip_traverse_structure_pipe,            /* STSeriesAdapter */
+  &stip_traverse_structure_pipe,            /* STSeriesFindShortest */
   &stip_traverse_structure_pipe,            /* STSeriesRoot */
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
@@ -1767,7 +1775,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMovePlayed */
   &stip_traverse_structure_pipe,            /* STSeriesMoveLegalityChecked */
-  &stip_traverse_structure_pipe,            /* STSeriesMoveDealtWith */
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
@@ -1992,6 +1999,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STHelpMovePlayed */
     &stip_traverse_moves_pipe,                  /* STHelpMoveLegalityChecked */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
+    &stip_traverse_moves_branch_slice,          /* STSeriesAdapter */
+    &stip_traverse_moves_branch_slice,          /* STSeriesFindShortest */
     &stip_traverse_moves_series_root,           /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
@@ -2000,7 +2009,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                  /* STSeriesMovePlayed */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
-    &stip_traverse_moves_pipe,                  /* STSeriesMoveDealtWith */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */

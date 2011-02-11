@@ -23,7 +23,7 @@
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
-    ENUMERATOR(STAttackFindShortest),                                   \
+    ENUMERATOR(STAttackFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
@@ -52,6 +52,8 @@
     ENUMERATOR(STHelpMoveLegalityChecked),                              \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     /* series play structural slices */                                 \
+    ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
+    ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
@@ -60,7 +62,6 @@
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STSeriesMovePlayed),                                     \
     ENUMERATOR(STSeriesMoveLegalityChecked),                            \
-    ENUMERATOR(STSeriesMoveDealtWith),                                  \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \

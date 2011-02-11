@@ -2742,10 +2742,10 @@ b) sTh8-->h6
 
   1.Ke8-d8   2.Dg6-f7=wD   3.Th6-e6=wT Te6-e8 # 
 
-              empile:       24553
-            jouecoup:       22422
+              empile:       24520
+            jouecoup:       22389
         orig_rbechec:           0
-        orig_rnechec:       22418
+        orig_rnechec:       22385
 Loesung beendet. 
 
 
@@ -2810,9 +2810,9 @@ Loesung beendet.
 
   1.Th1-g1   2.Lh5-e2   3.Ke1-f1 La6*e2 + 
 
-              empile:        1789
-            jouecoup:        1770
-        orig_rbechec:        2114
+              empile:        1772
+            jouecoup:        1753
+        orig_rbechec:        2095
         orig_rnechec:         327
 Loesung beendet. 
 
@@ -2850,10 +2850,10 @@ Loesung beendet.
   1.Lg1-h2   2.Sh3-g1   3.Lf1-h3   4.Lh3-c8   5.Sg1-h3   6.0-0   7.Tf1-a1   8.Sa3-b1   9.a2-a4  10.a4-a5  11.Ta1-a4  12.Ta4-h4  13.Th4-h6  14.Th6-a6  15.Ta6*a8  16.Lc8-a6 # 
   4  (Ke1-d1 )
 
-              empile:      367528
-            jouecoup:      123813
-        orig_rbechec:      122440
-        orig_rnechec:      125107
+              empile:      367320
+            jouecoup:      123761
+        orig_rbechec:      122374
+        orig_rnechec:      125055
 Loesung beendet. 
 
 
@@ -2884,10 +2884,10 @@ Loesung beendet.
 
   1.0-0   2.Tf1-f4   3.Lh8-e5 Kg3-h3 z 
 
-              empile:       42807
-            jouecoup:       11395
-        orig_rbechec:        5421
-        orig_rnechec:        6470
+              empile:       42626
+            jouecoup:       11350
+        orig_rbechec:        5398
+        orig_rnechec:        6446
 Loesung beendet. 
 
 
@@ -2918,10 +2918,10 @@ Loesung beendet.
 
   1.f2-f4   2.Sg1-f3   3.Lf1-e2   4.0-0   5.Kg1-h2   6.Sf3-d4 + Sh4-f3 # 
 
-              empile:     5741027
-            jouecoup:     2095209
-        orig_rbechec:     2103963
-        orig_rnechec:     1291214
+              empile:     5740856
+            jouecoup:     2095118
+        orig_rbechec:     2103868
+        orig_rnechec:     1291140
 Loesung beendet. 
 
 
@@ -2954,18 +2954,18 @@ a)
 
   1.Lf1-c4   2.Sg1-e2   3.0-0   4.Tf1-c1 Kb2-a3 z 
 
-              empile:      329985
-            jouecoup:       88143
-        orig_rbechec:       44896
-        orig_rnechec:       48730
+              empile:      329791
+            jouecoup:       88080
+        orig_rbechec:       44852
+        orig_rnechec:       48690
 b) sBe4-->h2
 
   1.Lf1-c4   2.Ke1-e2   3.Ke2-d3   4.Sg1-e2 Kb2-a3 z 
 
-              empile:      105461
-            jouecoup:       29106
-        orig_rbechec:       15283
-        orig_rnechec:       16186
+              empile:      105327
+            jouecoup:       29061
+        orig_rbechec:       15251
+        orig_rnechec:       16158
 Loesung beendet. 
 
 

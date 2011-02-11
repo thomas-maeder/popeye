@@ -47,37 +47,34 @@ void stip_traverse_moves_series_root(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
  */
-has_solution_type series_root_solve(slice_index si)
+stip_length_type series_root_solve_in_n(slice_index si, stip_length_type n)
 {
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type result = n+1;
   stip_length_type len = slices[si].u.branch.min_length;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.shortcut.min_length>=slack_length_series);
-
-  /* Do *not* delegate to series_solve() here:
-   * If series_solve() has found solutions of a certain length, it won't
-   * look for longer solutions.
-   * Here, on the other hand, we want to find solutions of any length.
-   */
-  while (len<=full_length)
+  while (len<=n)
   {
-    if (series_solve_in_n(next,len)==len)
-      result = has_solution;
+    if (series_solve_in_n(slices[si].u.pipe.next,len)==len && len<result)
+      result = len;
     len += 2;
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

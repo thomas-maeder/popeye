@@ -9,24 +9,18 @@
 #include <assert.h>
 
 /* Allocate a STSeriesFork slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_series_fork_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index to_goal)
+slice_index alloc_series_fork_slice(slice_index to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STSeriesFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STSeriesFork,0,0,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -38,8 +32,7 @@ slice_index alloc_series_fork_slice(stip_length_type length,
  * @param si slice index
  * @param st state of traversal
  */
-void series_fork_make_setplay(slice_index si,
-                              stip_structure_traversal *st)
+void series_fork_make_setplay(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const setplay_slice = st->param;
 
@@ -111,28 +104,38 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_series);
 
-  if (n<slack_length_series+2)
-    switch (slice_solve(to_goal))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (n)
+  {
+    case slack_length_series:
+      switch (slice_solve(to_goal))
+      {
+        case has_solution:
+          result = n;
+          break;
 
-      case has_no_solution:
-        result = n+1;
-        break;
+        case has_no_solution:
+          result = n+1;
+          break;
 
-      case opponent_self_check:
-        result = n+2;
-        break;
+        case opponent_self_check:
+          result = n+2;
+          break;
 
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
-  else
-    result = series_solve_in_n(next,n);
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
+      break;
+
+    case slack_length_series+1:
+      result = series_solve_in_n(to_goal,n);
+      break;
+
+    default:
+      result = series_solve_in_n(next,n);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -163,28 +166,38 @@ stip_length_type series_fork_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_series);
 
-  if (n<slack_length_series+2)
-    switch (slice_has_solution(to_goal))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (n)
+  {
+    case slack_length_series:
+      switch (slice_has_solution(to_goal))
+      {
+        case has_solution:
+          result = n;
+          break;
 
-      case has_no_solution:
-        result = n+1;
-        break;
+        case has_no_solution:
+          result = n+1;
+          break;
 
-      case opponent_self_check:
-        result = n+2;
-        break;
+        case opponent_self_check:
+          result = n+2;
+          break;
 
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
-  else
-    result = series_has_solution_in_n(next,n);
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
+      break;
+
+    case slack_length_series+1:
+      result = series_has_solution_in_n(to_goal,n);
+      break;
+
+    default:
+      result = series_has_solution_in_n(next,n);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

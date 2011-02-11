@@ -583,6 +583,8 @@ void reflex_series_filter_make_root(slice_index si,
       pipe_unlink(slices[si].prev);
     dealloc_slice(si);
   }
+  else
+    shorten_series_pipe(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

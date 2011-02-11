@@ -341,10 +341,10 @@ Loesung beendet.
 
   1.Kh5-h6 Kg8-h8   2.Kh6-h7 Kh8-g8   3.Kh7-h8 Kg8-h7   4.Kh8-g8 Kh7-h6   5.Kg8-f8 Kh6-h5   6.Kf8-e8 Kh5-h4   7.Ke8-d8 Kh4-h3   8.Kd8-c8 Kh3-h2   9.Kc8-b8 Kh2-g1  10.Kb8-a7 Kg1-f1  11.Ka7-a6 Kf1-e1  12.Ka6-a5 Ke1-d1  13.Ka5-a4 Kd1-c1  14.Ka4-a3 Kc1-b1  15.Ka3-a2 Kb1-a1  16.Ka2-b1 Ka1-a2  17.Kb1-c1 Ka2-b1 = 
 
-              empile:       62750
-            jouecoup:       13229
+              empile:       62600
+            jouecoup:       13199
         orig_rbechec:        6345
-        orig_rnechec:        7881
+        orig_rnechec:        7851
 Loesung beendet. 
 
 
@@ -808,10 +808,10 @@ Loesung beendet.
 
   1.f2-f1=L g6-g7   2.d2-d1=S + g7-g8=D   3.Sd1-b2 d7-d8=T # 
 
-              empile:     3458840
-            jouecoup:     1962883
+              empile:     3458825
+            jouecoup:     1962868
         orig_rbechec:       73008
-        orig_rnechec:     1941996
+        orig_rnechec:     1941981
 Loesung beendet. 
 
 
@@ -849,10 +849,10 @@ eigentlich:  ser-h=8/3
   4  (Ka8-b8 )
   5  (Ka8-b7 )
 
-              empile:      791364
-            jouecoup:      160373
-        orig_rbechec:       99903
-        orig_rnechec:      139787
+              empile:      791286
+            jouecoup:      160343
+        orig_rbechec:       99878
+        orig_rnechec:      139757
 Loesung beendet. 
 
 

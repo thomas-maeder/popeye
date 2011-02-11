@@ -289,10 +289,10 @@ b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
 
-              empile:    33365902
-            jouecoup:    11186159
-        orig_rbechec:    11186152
-        orig_rnechec:     6709264
+              empile:    33365442
+            jouecoup:    11185952
+        orig_rbechec:    11185945
+        orig_rnechec:     6709110
 solution finished. 
 
 
@@ -1161,10 +1161,10 @@ b) wCAc7-->d7
 
   1.Qd4*c4   2.Kd6-e6   3.Ke6*f5   4.Qc4-g4[+wuBc4] uBc4-e6 # 
 
-              empile:      133803
-            jouecoup:      105223
+              empile:      133743
+            jouecoup:      105163
         orig_rbechec:           0
-        orig_rnechec:      105218
+        orig_rnechec:      105158
 solution finished. 
 
 
@@ -1199,18 +1199,18 @@ a)
 
   1.Kh6-g6   2.Kg6-f7   3.Kf7-e6   4.Ke6*e5   5.Ke5-e6[+wuBe5]   6.Ke6-f7   7.Kf7-g6   8.Kg6-g5   9.Kg5-h4  10.Kh4-g3  11.Kg3*f3  12.Kf3-e3[+wuBf3] uBe5-d4 # 
 
-              empile:        3028
-            jouecoup:        2559
-        orig_rbechec:        1271
-        orig_rnechec:        2546
+              empile:        2978
+            jouecoup:        2509
+        orig_rbechec:        1244
+        orig_rnechec:        2496
 b) wKc2-->d8
 
   1.Kh6-g5   2.Kg5-h4   3.Kh4-g3   4.Kg3*f3   5.Kf3-g3[+wuBf3]   6.Kg3-h4   7.Kh4-g5   8.Kg5-g6   9.Kg6-f7  10.Kf7-e6  11.Ke6*e5  12.Ke5-e6[+wuBe5] uBf3-d5 # 
 
-              empile:        3800
-            jouecoup:        3134
-        orig_rbechec:        1449
-        orig_rnechec:        3121
+              empile:        3750
+            jouecoup:        3084
+        orig_rbechec:        1422
+        orig_rnechec:        3071
 solution finished. 
 
 
@@ -1283,18 +1283,18 @@ a)
 
   1.nRe1*c1 nSe2-c3 +   2.nRc1*c3[+nuBc1] nRc3-a3[+nuSc3] # 
 
-              empile:       57854
-            jouecoup:       32056
+              empile:       57830
+            jouecoup:       32032
         orig_rbechec:           0
-        orig_rnechec:       31617
+        orig_rnechec:       31593
 b) nBc1-->d2
 
   1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] # 
 
-              empile:       73982
-            jouecoup:       37988
+              empile:       73954
+            jouecoup:       37960
         orig_rbechec:           0
-        orig_rnechec:       37419
+        orig_rnechec:       37391
 solution finished. 
 
 
