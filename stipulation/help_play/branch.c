@@ -32,8 +32,7 @@ static slice_index const help_slice_rank_order[] =
   STGoalReachableGuardHelpFilter,
   STHelpMovePlayed,
   STSelfCheckGuard,
-  STHelpMoveLegalityChecked,
-  STHelpMoveDealtWith
+  STHelpMoveLegalityChecked
 };
 
 enum
@@ -240,15 +239,11 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
 
   {
     slice_index const checked1 = alloc_pipe(STHelpMoveLegalityChecked);
-    slice_index const dealt1 = alloc_branch(STHelpMoveDealtWith,
-                                            length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
     slice_index const played1 = alloc_pipe(STHelpMovePlayed);
     slice_index const checked2 = alloc_pipe(STHelpMoveLegalityChecked);
-    slice_index const dealt2 = alloc_branch(STHelpMoveDealtWith,
-                                            length-1,min_length-1);
 
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
@@ -258,14 +253,12 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     pipe_link(ready1,move1);
     pipe_link(move1,played1);
     pipe_link(played1,checked2);
-    pipe_link(checked2,dealt2);
-    pipe_link(dealt2,ready2);
+    pipe_link(checked2,ready2);
 
     pipe_link(ready2,move2);
     pipe_link(move2,played2);
     pipe_link(played2,checked1);
-    pipe_link(checked1,dealt1);
-    pipe_link(dealt1,ready1);
+    pipe_link(checked1,ready1);
 
     result = checked1;
   }
@@ -405,14 +398,7 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const checked = alloc_pipe(STHelpMoveLegalityChecked);
-    slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
-                                           slack_length_help,
-                                           slack_length_help-1);
-    pipe_append(si,checked);
-    pipe_append(checked,dealt);
-  }
+  pipe_append(si,alloc_pipe(STHelpMoveLegalityChecked));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

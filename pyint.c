@@ -3313,13 +3313,10 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STReciprocal,           &intelligent_mode_support_none               },
   { STQuodlibet,            &intelligent_mode_support_detector_quodlibet },
   { STNot,                  &intelligent_mode_support_none               },
-  { STAttackRoot,           &intelligent_mode_support_none               },
-  { STThreatEnforcer,       &intelligent_mode_support_none               },
   { STRefutationsCollector, &intelligent_mode_support_none               },
   { STReflexHelpFilter,     &intelligent_mode_support_none               },
   { STReflexSeriesFilter,   &intelligent_mode_support_none               },
-  { STSelfDefense,          &intelligent_mode_support_none               },
-  { STAttackDealtWith,      &intelligent_mode_support_none               },
+  { STDefenseMove,          &intelligent_mode_support_none               },
   { STGoalReachedTesting,   &intelligent_mode_support_testing            }
 };
 

@@ -263,7 +263,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpMove:
       case STHelpMoveToGoal:
       case STReadyForHelpMove:
-      case STHelpMoveDealtWith:
       case STSeriesRoot:
       case STSeriesMove:
       case STSeriesMoveToGoal:
@@ -319,11 +318,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAttackMovePlayed:
       case STAttackMoveShoeHorningDone:
       case STAttackMoveLegalityChecked:
-      case STAttackDealtWith:
       case STDefenseMoveShoeHorningDone:
       case STDefenseMoveLegalityChecked:
-      case STDefenseMoveFiltered:
-      case STDefenseDealtWith:
       case STHelpMovePlayed:
       case STHelpMoveLegalityChecked:
       case STSeriesDummyMove:

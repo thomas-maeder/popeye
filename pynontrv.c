@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pyoutput.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -192,8 +193,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
   TraceFunctionParam("%u",dealt);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxNrNonTrivial,length,min_length);
-  slices[result].u.branch_fork.towards_goal = dealt;
+  result = alloc_branch_fork(STMaxNrNonTrivial,length,min_length,dealt);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -527,19 +527,15 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
     }
     else
     {
-      /* We want to look for non-trivial variations starting at the
-       * STAttackDealtWith slice within the loop (where we don't
-       * bother with collecting refutations etc.). The first
-       * branch_find_slice() call may find the STAttackDealtWith slice
-       * at root level, so let's do one more branch_find_slice() which
-       * may or may not find the same slice. */
-      slice_index const dealt_root = branch_find_slice(STAttackDealtWith,si);
-      slice_index const dealt_loop = branch_find_slice(STAttackDealtWith,
-                                                       dealt_root);
+      slice_index const next_guard = branch_find_slice(STMaxNrNonTrivial,si);
+      slice_index const checked = branch_find_slice(STAttackMoveLegalityChecked,si);
+      slice_index const next = (next_guard==no_slice
+                                ? slices[checked].u.pipe.next
+                                : slices[next_guard].u.branch_fork.towards_goal);
 
       slice_index const prototypes[] =
       {
-        alloc_max_nr_nontrivial_guard(length-1,min_length-1,dealt_loop),
+        alloc_max_nr_nontrivial_guard(length-1,min_length-1,next),
         alloc_max_nr_nontrivial_counter()
       };
 
@@ -547,9 +543,6 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
       {
         nr_prototypes = sizeof prototypes / sizeof prototypes[0]
       };
-
-      assert(dealt_root!=no_slice);
-      assert(dealt_loop!=no_slice);
 
       battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }

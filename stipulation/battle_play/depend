@@ -3,11 +3,11 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/branch.h stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/ready_for_attack.h \
- stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_move_played.h \
  stipulation/battle_play/defense_move_legality_checked.h \
  stipulation/battle_play/ready_for_defense.h \
+ stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/dead_end.h \
  stipulation/battle_play/min_length_attack_filter.h trace.h
@@ -26,8 +26,6 @@ stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/ready_for_attack.h:
 
-stipulation/battle_play/defense_adapter.h:
-
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_move_played.h:
@@ -35,6 +33,8 @@ stipulation/battle_play/defense_move_played.h:
 stipulation/battle_play/defense_move_legality_checked.h:
 
 stipulation/battle_play/ready_for_defense.h:
+
+stipulation/battle_play/defense_adapter.h:
 
 stipulation/battle_play/continuation.h:
 
@@ -350,16 +350,13 @@ trace.h:
 stipulation/battle_play/ready_for_defense$(OBJ_SUFFIX): \
  stipulation/battle_play/ready_for_defense.c \
  stipulation/battle_play/ready_for_defense.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/defense_play.h \
- stipulation/battle_play/defense_adapter.h trace.h
+ stipulation/branch.h stipulation/battle_play/defense_adapter.h trace.h
 
 stipulation/battle_play/ready_for_defense.h:
 
 pypipe.h:
 
 stipulation/branch.h:
-
-stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -389,7 +386,6 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/check_detector.h stipulation/battle_play/try.h \
  stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_fork.h \
- stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/dead_end.h stipulation/help_play/root.h \
  stipulation/help_play/play.h \
  optimisations/killer_move/final_defense_move.h \
@@ -437,8 +433,6 @@ stipulation/battle_play/threat.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_fork.h:
-
-stipulation/battle_play/defense_adapter.h:
 
 stipulation/battle_play/dead_end.h:
 

@@ -68,10 +68,8 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STDefenseDealtWith),      /* battle play, half-moves used up */ \
     ENUMERATOR(STRootAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
-    ENUMERATOR(STAttackDealtWith),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
@@ -81,7 +79,6 @@
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
-    ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
@@ -92,7 +89,6 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STHelpMovePlayed),                                       \
     ENUMERATOR(STHelpMoveLegalityChecked),                              \
-    ENUMERATOR(STHelpMoveDealtWith),                                    \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
@@ -266,10 +262,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
-  slice_structure_pipe,   /* STDefenseDealtWith */
   slice_structure_fork,   /* STRootAttackFork */
   slice_structure_fork,   /* STAttackFork */
-  slice_structure_pipe,   /* STAttackDealtWith */
   slice_structure_fork,   /* STDefenseFork */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_pipe,   /* STAttackMovePlayed */
@@ -279,7 +273,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
-  slice_structure_pipe,   /* STDefenseMoveFiltered */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthAttackFilter */
   slice_structure_branch, /* STHelpRoot */
@@ -290,7 +283,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_pipe,   /* STHelpMovePlayed */
   slice_structure_pipe,   /* STHelpMoveLegalityChecked */
-  slice_structure_branch, /* STHelpMoveDealtWith */
   slice_structure_fork,   /* STReflexHelpFilter */
   slice_structure_branch, /* STSeriesRoot */
   slice_structure_fork,   /* STSeriesShortcut */
@@ -1005,8 +997,6 @@ static void remove_pipe(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const defense_proxy_removers[] =
 {
-  { STDefenseDealtWith,           &remove_pipe },
-  { STDefenseMoveFiltered,        &remove_pipe },
   { STDefenseMoveLegalityChecked, &remove_pipe },
   { STAttackAdapter,              &remove_pipe }
 };
@@ -1232,14 +1222,11 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackMovePlayed,              &trash_for_postkey_play                        },
   { STAttackMoveShoeHorningDone,     &trash_for_postkey_play                        },
   { STAttackMoveLegalityChecked,     &move_to_postkey_play                          },
-  { STAttackDealtWith,               &move_to_postkey_play                          },
   { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
   { STSelfCheckGuard,                &trash_for_postkey_play                        },
   { STDefenseMoveLegalityChecked,    &trash_for_postkey_play                        },
-  { STDefenseMoveFiltered,           &trash_for_postkey_play                        },
   { STStipulationReflexAttackSolver, &reflex_attack_solver_reduce_to_postkey_play   },
-  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
-  { STDefenseDealtWith,              &ready_for_attack_reduce_to_postkey_play       }
+  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play }
 };
 
 enum
@@ -1308,11 +1295,12 @@ boolean stip_apply_postkeyplay(slice_index si)
 
 static structure_traversers_visitors setplay_makers[] =
 {
-  { STDefenseMovePlayed,       &defense_move_played_make_setplay_slice          },
-  { STHelpMoveLegalityChecked, &help_move_make_setplay_slice                    },
-  { STHelpShortcut,            &stip_traverse_structure_pipe                    },
-  { STSeriesFork,              &series_fork_make_setplay                        },
-  { STReflexDefenderFilter,    &reflex_guard_defender_filter_make_setplay_slice }
+//  { STAttackMoveLegalityChecked, &attack_move_legality_checked_make_setplay       },
+  { STDefenseMovePlayed,         &defense_move_played_make_setplay_slice          },
+  { STHelpMoveLegalityChecked,   &help_move_make_setplay_slice                    },
+  { STHelpShortcut,              &stip_traverse_structure_pipe                    },
+  { STSeriesFork,                &series_fork_make_setplay                        },
+  { STReflexDefenderFilter,      &reflex_guard_defender_filter_make_setplay_slice }
 };
 
 enum
@@ -1349,17 +1337,20 @@ slice_index stip_make_setplay(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STAttackMove,           &attack_move_apply_setplay            },
-  { STDefenseMove,          &stip_structure_visitor_noop          },
-  { STHelpMove,             &help_move_apply_setplay              },
-  { STHelpFork,             &stip_traverse_structure_pipe         },
-  { STSeriesMove,           &series_move_apply_setplay            },
-  { STSeriesFork,           &stip_structure_visitor_noop          },
-  { STMoveInverter,         &move_inverter_apply_setplay          },
-  { STHelpShortcut,         &stip_traverse_structure_pipe         },
-  { STSeriesShortcut,       &stip_traverse_structure_pipe         },
-  { STReflexAttackerFilter, &stip_traverse_structure_pipe         },
-  { STReflexDefenderFilter, &reflex_defender_filter_apply_setplay }
+//  { STAttackMoveShoeHorningDone, &attack_move_apply_setplay    },
+  { STAttackMove,                &attack_move_apply_setplay    },
+  { STDefenseAdapter,            &stip_structure_visitor_noop  },
+  { STReflexAttackerFilter,      &stip_traverse_structure_pipe },
+
+  { STHelpShortcut,              &stip_traverse_structure_pipe },
+  { STHelpMove,                  &help_move_apply_setplay      },
+  { STHelpFork,                  &stip_traverse_structure_pipe },
+
+  { STSeriesShortcut,            &stip_traverse_structure_pipe },
+  { STSeriesMove,                &series_move_apply_setplay    },
+  { STSeriesFork,                &stip_structure_visitor_noop  },
+
+  { STMoveInverter,              &move_inverter_apply_setplay  }
 };
 
 enum
@@ -1746,10 +1737,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
   &stip_traverse_structure_battle_fork,     /* STSelfDefense */
-  &stip_traverse_structure_pipe,            /* STDefenseDealtWith */
   &stip_traverse_structure_battle_fork,     /* STRootAttackFork */
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
-  &stip_traverse_structure_pipe,            /* STAttackDealtWith */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STAttackMovePlayed */
@@ -1759,7 +1748,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
-  &stip_traverse_structure_pipe,            /* STDefenseMoveFiltered */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
@@ -1770,7 +1758,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STHelpMovePlayed */
   &stip_traverse_structure_pipe,            /* STHelpMoveLegalityChecked */
-  &stip_traverse_structure_pipe,            /* STHelpMoveDealtWith */
   &stip_traverse_structure_reflex_filter,   /* STReflexHelpFilter */
   &stip_traverse_structure_pipe,            /* STSeriesRoot */
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
@@ -1983,10 +1970,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
-    &stip_traverse_moves_pipe,                  /* STDefenseDealtWith */
     &stip_traverse_moves_root_attack_fork,      /* STRootAttackFork */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
-    &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_branch_slice,          /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
@@ -1996,7 +1981,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
-    &stip_traverse_moves_pipe,                  /* STDefenseMoveFiltered */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
@@ -2007,7 +1991,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STReadyForHelpMove */
     &stip_traverse_moves_pipe,                  /* STHelpMovePlayed */
     &stip_traverse_moves_pipe,                  /* STHelpMoveLegalityChecked */
-    &stip_traverse_moves_branch_slice,          /* STHelpMoveDealtWith */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
     &stip_traverse_moves_series_root,           /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */

@@ -120,9 +120,7 @@ static void check_detector_insert(slice_index si,
 static structure_traversers_visitors check_detector_inserters[] =
 {
   { STAttackAdapter,   &check_detector_insert },
-  { STReadyForAttack,  &check_detector_insert },
-  /* for check in diagram position in option postkey: */
-  { STAttackDealtWith, &check_detector_insert }
+  { STReadyForAttack,  &check_detector_insert }
 };
 
 enum

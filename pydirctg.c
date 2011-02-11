@@ -3,7 +3,6 @@
 #include "stipulation/goals/goals.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -78,13 +77,11 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   {
     slice_index const next = slices[si].u.pipe.next;
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
-    slice_index const dealt = alloc_pipe(STAttackDealtWith);
     slice_index const ready = alloc_defense_adapter_slice(slack_length_battle+1,
                                                           slack_length_battle);
 
     pipe_link(si,checked);
-    pipe_link(checked,dealt);
-    pipe_link(dealt,ready);
+    pipe_link(checked,ready);
     pipe_link(ready,next);
   }
 

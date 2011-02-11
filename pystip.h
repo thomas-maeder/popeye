@@ -28,10 +28,8 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STDefenseDealtWith),      /* battle play, half-moves used up */ \
     ENUMERATOR(STRootAttackFork),  /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
-    ENUMERATOR(STAttackDealtWith),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
@@ -41,7 +39,6 @@
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
-    ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
@@ -53,7 +50,6 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STHelpMovePlayed),                                       \
     ENUMERATOR(STHelpMoveLegalityChecked),                              \
-    ENUMERATOR(STHelpMoveDealtWith),                                    \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \

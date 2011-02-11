@@ -396,39 +396,6 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void reflex_defender_filter_apply_setplay(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  slice_index * const setplay_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const avoided = slices[si].u.reflex_guard.avoided;
-    slice_index const length = slices[si].u.reflex_guard.length;
-    stip_length_type const length_h = (length-slack_length_battle
-                                       +slack_length_help);
-    slice_index const min_length = slices[si].u.reflex_guard.min_length;
-    stip_length_type const min_length_h = (min_length-slack_length_battle
-                                           +slack_length_help);
-    slice_index const filter = alloc_reflex_help_filter(length_h,min_length_h,
-                                                        avoided);
-    pipe_link(filter,*setplay_slice);
-    *setplay_slice = filter;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

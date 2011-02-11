@@ -191,3 +191,23 @@ void attack_move_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+void attack_move_legality_checked_make_setplay(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index * const setplay_slice = st->param;
+    slice_index const checked = alloc_pipe(STHelpMoveLegalityChecked);
+    pipe_link(checked,*setplay_slice);
+    *setplay_slice = checked;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
