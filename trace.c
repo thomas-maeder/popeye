@@ -232,6 +232,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDefenseFork:
       case STHelpFork:
       case STSeriesFork:
+      case STMaxNrNonTrivial:
         Trace_branch(si);
         Trace_link("2goal:",slices[si].u.branch_fork.towards_goal,"");
         fprintf(stdout,"\n");
@@ -349,7 +350,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:
       case STStopOnShortSolutionsInitialiser:
-      case STMaxNrNonTrivial:
       case STMaxNrNonChecks:
       case STMaxNrNonTrivialCounter:
       case STMaxFlightsquares:

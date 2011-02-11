@@ -6,7 +6,7 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
-#include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
 
 #include <assert.h>

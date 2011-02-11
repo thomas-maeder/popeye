@@ -119,6 +119,7 @@
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/battle_play/attack_adapter.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"

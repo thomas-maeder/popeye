@@ -645,7 +645,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STAttackFork,                 &attack_fork_make_root                   },
   { STAttackFindShortest,         &attack_find_shortest_make_root          },
   { STAttackMove,                 &attack_move_make_root                   },
-  { STReadyForDefense,            &ready_for_defense_make_root             },
   { STDefenseMoveShoeHorningDone, &serve_as_root_hook                      },
 
   { STHelpMoveLegalityChecked,    &help_move_legality_checked_make_root    },
@@ -1211,6 +1210,10 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
+  pipe_unlink(slices[si].prev);
+  pipe_link(si,*postkey_slice);
   *postkey_slice = si;
 
   TraceFunctionExit(__func__);
@@ -1219,24 +1222,24 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
-  { STDefenseMove,                           &defense_move_reduce_to_postkey_play           },
-  { STAttackAdapter,                         &trash_for_postkey_play                        },
-  { STReadyForAttack,                        &trash_for_postkey_play                        },
-  { STBattleDeadEnd,                         &trash_for_postkey_play                        },
-  { STMinLengthAttackFilter,                 &trash_for_postkey_play                        },
-  { STRootAttackFork,                        &root_attack_fork_reduce_to_postkey_play       },
-  { STAttackRoot,                            &trash_for_postkey_play                        },
-  { STAttackMovePlayed,                      &trash_for_postkey_play                        },
-  { STAttackMoveShoeHorningDone,             &trash_for_postkey_play                        },
-  { STAttackMoveLegalityChecked,             &move_to_postkey_play                          },
-  { STAttackDealtWith,                       &move_to_postkey_play                          },
-  { STReadyForDefense,                       &move_to_postkey_play                          },
-  { STSelfCheckGuard,                        &trash_for_postkey_play                        },
-  { STDefenseMoveLegalityChecked,            &trash_for_postkey_play                        },
-  { STDefenseMoveFiltered,                   &trash_for_postkey_play                        },
-  { STStipulationReflexAttackSolver,         &reflex_attack_solver_reduce_to_postkey_play   },
-  { STReflexDefenderFilter,                  &reflex_defender_filter_reduce_to_postkey_play },
-  { STDefenseDealtWith,                      &ready_for_attack_reduce_to_postkey_play       }
+  { STDefenseMove,                   &defense_move_reduce_to_postkey_play           },
+  { STAttackAdapter,                 &trash_for_postkey_play                        },
+  { STReadyForAttack,                &trash_for_postkey_play                        },
+  { STBattleDeadEnd,                 &trash_for_postkey_play                        },
+  { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
+  { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
+  { STAttackRoot,                    &trash_for_postkey_play                        },
+  { STAttackMovePlayed,              &trash_for_postkey_play                        },
+  { STAttackMoveShoeHorningDone,     &trash_for_postkey_play                        },
+  { STAttackMoveLegalityChecked,     &move_to_postkey_play                          },
+  { STAttackDealtWith,               &move_to_postkey_play                          },
+  { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
+  { STSelfCheckGuard,                &trash_for_postkey_play                        },
+  { STDefenseMoveLegalityChecked,    &trash_for_postkey_play                        },
+  { STDefenseMoveFiltered,           &trash_for_postkey_play                        },
+  { STStipulationReflexAttackSolver, &reflex_attack_solver_reduce_to_postkey_play   },
+  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
+  { STDefenseDealtWith,              &ready_for_attack_reduce_to_postkey_play       }
 };
 
 enum

@@ -1380,8 +1380,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/attack_adapter.h pystip.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/ready_for_defense.h stipulation/help_play/play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/help_play/root.h stipulation/series_play/play.h \
  stipulation/series_play/root.h stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
@@ -1478,8 +1477,6 @@ pystip.h:
 stipulation/battle_play/defense_adapter.h:
 
 stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/ready_for_defense.h:
 
 stipulation/help_play/play.h:
 
@@ -1643,8 +1640,7 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_move_to_goal.h \
- stipulation/battle_play/attack_fork.h \
- stipulation/battle_play/ready_for_defense.h trace.h
+ stipulation/battle_play/attack_fork.h trace.h
 
 pydirctg.h:
 
@@ -1677,8 +1673,6 @@ stipulation/battle_play/defense_play.h:
 stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/attack_fork.h:
-
-stipulation/battle_play/ready_for_defense.h:
 
 trace.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \

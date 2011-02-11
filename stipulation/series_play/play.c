@@ -64,10 +64,11 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
 
     case STDefenseAdapter:
     {
+      slice_index const next = slices[si].u.branch.next;
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      stip_length_type const nr_moves_needed = defense_adapter_defend_in_n(si,n_battle,n_max_unsolvable);
+      stip_length_type const nr_moves_needed = defense_defend_in_n(next,n_battle,n_max_unsolvable);
       if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
         result = n+1;
       else
@@ -234,13 +235,14 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STDefenseAdapter:
     {
+      slice_index const next = slices[si].u.branch.next;
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
       stip_length_type const
-          nr_moves_needed = defense_adapter_can_defend_in_n(si,
-                                                              n_battle,
-                                                              n_max_unsolvable);
+          nr_moves_needed = defense_can_defend_in_n(next,
+                                                    n_battle,
+                                                    n_max_unsolvable);
       if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
         result = n+1;
       else

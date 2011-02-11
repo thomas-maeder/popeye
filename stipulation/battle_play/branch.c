@@ -10,6 +10,7 @@
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_attack_filter.h"

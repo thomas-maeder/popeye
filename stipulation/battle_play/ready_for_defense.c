@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
 
@@ -30,35 +29,25 @@ slice_index alloc_ready_for_defense_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
  */
-void ready_for_defense_make_root(slice_index si, stip_structure_traversal *st)
+void ready_for_defense_reduce_to_postkey_play(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
-
   {
+    slice_index * const postkey_slice = st->param;
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
-    link_to_branch(adapter,state->result);
-    state->result = adapter;
-  }
-
-  TraceValue("%u",slices[si].u.pipe.next);
-  TraceValue("%u\n",slices[slices[si].u.pipe.next].prev);
-  if (slices[si].u.pipe.next==no_slice
-      || slices[slices[si].u.pipe.next].prev!=si)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
+    pipe_link(adapter,slices[si].u.pipe.next);
+    *postkey_slice = adapter;
     dealloc_slice(si);
   }
 

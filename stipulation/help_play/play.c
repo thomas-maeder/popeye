@@ -100,17 +100,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STReflexDefenderFilter:
-    {
-      stip_length_type const nbattle = (n-slack_length_help+
-                                        slack_length_battle+1);
-      stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      result = (defense_defend_in_n(si,nbattle,n_max_unsolvable)<=nbattle
-                ? n
-                : n+2);
-      break;
-    }
-
     case STHelpFork:
       result = help_fork_solve_in_n(si,n);
       break;

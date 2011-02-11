@@ -6,7 +6,6 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
