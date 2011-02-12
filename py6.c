@@ -2688,7 +2688,8 @@ static Token iterate_twins(Token prev_token)
       ++twin_index;
     }
 
-    if (prev_template!=slices[template_slice_hook].u.pipe.next)
+    if (prev_template!=slices[template_slice_hook].u.pipe.next
+        || slices[slices[template_slice_hook].u.pipe.next].starter==no_side)
     {
       if (OptFlag[quodlibet] && !transform_to_quodlibet(template_slice_hook))
         Message(QuodlibetNotApplicable);
@@ -2756,6 +2757,8 @@ static Token iterate_twins(Token prev_token)
       stip_impose_starter(slices[template_slice_hook].u.pipe.next,
                           slices[slices[template_slice_hook].u.pipe.next].starter);
     }
+
+    TraceStipulation(template_slice_hook);
 
     if (slices[slices[template_slice_hook].u.pipe.next].starter==no_side)
       VerifieMsg(CantDecideWhoIsAtTheMove);

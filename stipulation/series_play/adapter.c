@@ -28,23 +28,6 @@ slice_index alloc_series_adapter_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void series_adapter_make_root(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

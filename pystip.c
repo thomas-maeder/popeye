@@ -633,6 +633,29 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void move_to_root(slice_index si, stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].prev!=no_slice)
+    pipe_unlink(slices[si].prev);
+  pipe_link(si,state->result);
+  state->result = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors root_slice_inserters[] =
 {
   { STSetplayFork,                &setplay_fork_make_root                  },
@@ -649,9 +672,9 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STHelpFork,                   &help_fork_make_root                     },
   { STHelpMovePlayed,             &help_move_played_make_root              },
 
-  { STSeriesAdapter,              &series_adapter_make_root                },
+  { STReadyForSeriesMove,         &move_to_root                            },
+  { STSeriesAdapter,              &move_to_root                            },
   { STSeriesFindShortest,         &series_find_shortest_make_root          },
-  { STReadyForSeriesMove,         &ready_for_series_move_make_root         },
   { STSeriesMove,                 &series_move_make_root                   },
   { STSeriesFork,                 &stip_traverse_structure_pipe            },
 

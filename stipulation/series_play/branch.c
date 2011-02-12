@@ -296,25 +296,30 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const finder = alloc_series_find_shortest_slice(length,
                                                                 min_length);
     slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const ready = alloc_ready_for_series_move_slice(length,
-                                                                min_length);
+    slice_index const ready = alloc_ready_for_series_move_slice(length-1,
+                                                                min_length-1);
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const played1 = alloc_pipe(STSeriesMovePlayed);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dummy = alloc_series_dummy_move_slice();
     slice_index const played2 = alloc_pipe(STSeriesMovePlayed);
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const ready2 = alloc_ready_for_series_move_slice(length,
+                                                                 min_length);
 
     pipe_link(checked2,ready);
-    pipe_link(ready,move);
+    pipe_link(ready,proxy);
+    pipe_link(proxy,move);
     pipe_link(move,played1);
     pipe_link(played1,checked1);
     pipe_link(checked1,dummy);
     pipe_link(dummy,played2);
     pipe_link(played2,checked2);
 
-    pipe_set_successor(finder,checked2);
+    pipe_set_successor(finder,proxy);
     pipe_link(adapter,finder);
-    result = adapter;
+    pipe_link(ready2,adapter);
+    result = ready2;
   }
 
   TraceFunctionExit(__func__);
@@ -335,12 +340,11 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesAdapter);
+  assert(slices[si].type==STReadyForSeriesMove);
 
   {
-    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
-    assert(ready!=no_slice);
-    pipe_append(ready,alloc_series_fork_slice(to_goal));
+    slice_index const prototype = alloc_series_fork_slice(to_goal);
+    series_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -358,14 +362,12 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesAdapter);
+  assert(slices[si].type==STReadyForSeriesMove);
 
   {
-    slice_index const checked1 = branch_find_slice(STSeriesMoveLegalityChecked,si);
-    slice_index const checked2 = branch_find_slice(STSeriesMoveLegalityChecked,checked1);
-    assert(checked1!=no_slice);
-    assert(checked2!=no_slice);
-    pipe_append(checked2,alloc_series_fork_slice(next));
+    slice_index const checked = branch_find_slice(STSeriesMoveLegalityChecked,si);
+    assert(checked!=no_slice);
+    pipe_append(checked,alloc_series_fork_slice(next));
   }
 
   TraceFunctionExit(__func__);

@@ -577,14 +577,7 @@ void reflex_series_filter_make_root(slice_index si,
     state->result = solver;
   }
 
-  if (slices[si].u.pipe.next==no_slice)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
-  }
-  else
-    shorten_series_pipe(si);
+  dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

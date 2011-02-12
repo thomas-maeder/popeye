@@ -1,6 +1,10 @@
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/branch.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/branch.h"
+#include "stipulation/series_play/root.h"
+#include "stipulation/series_play/shortcut.h"
+#include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -34,11 +38,35 @@ slice_index alloc_series_find_shortest_slice(stip_length_type length,
  */
 void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
 {
+  root_insertion_state_type * const state = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index ready;
+  slice_index root;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  ready = branch_find_slice(STReadyForSeriesMove,si);
+  assert(ready!=no_slice);
+
+  root = alloc_series_root_slice(length,min_length);
+
+  if (length<slack_length_series+2)
+    pipe_set_successor(root,slices[ready].u.pipe.next);
+  else
+  {
+    slice_index const shortcut = alloc_series_shortcut(length,min_length,ready);
+    pipe_link(root,shortcut);
+    stip_traverse_structure_children(si,st);
+    assert(state->result!=no_slice);
+    pipe_link(shortcut,state->result);
+    shorten_series_pipe(si);
+  }
+
+  state->result = root;
+
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);
