@@ -357,6 +357,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/attack_move_to_goal.h \
  stipulation/help_play/root.h stipulation/help_play/branch.h \
  stipulation/help_play/move_to_goal.h \
+ stipulation/series_play/move_to_goal.h \
  stipulation/goals/prerequisite_guards.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
@@ -502,6 +503,8 @@ stipulation/help_play/root.h:
 stipulation/help_play/branch.h:
 
 stipulation/help_play/move_to_goal.h:
+
+stipulation/series_play/move_to_goal.h:
 
 stipulation/goals/prerequisite_guards.h:
 

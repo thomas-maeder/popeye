@@ -34,17 +34,24 @@ slice_index alloc_series_fork_slice(slice_index to_goal)
  */
 void series_fork_make_setplay(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const setplay_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* build a 0 move series branch that leads to the successive branch */
-  *setplay_slice = alloc_series_branch(slack_length_series,
-                                       slack_length_series);
-  series_branch_set_goal_slice(*setplay_slice,
-                               slices[si].u.branch_fork.towards_goal);
+  if (get_max_nr_moves(slices[si].u.branch_fork.towards_goal)>0)
+  {
+    slice_index * const setplay_slice = st->param;
+
+    /* build a 0 move series branch that leads to the successive branch */
+    slice_index const branch = alloc_series_branch(slack_length_series,
+                                                   slack_length_series);
+    series_branch_set_goal_slice(branch,
+                                 slices[si].u.branch_fork.towards_goal);
+
+    *setplay_slice = alloc_proxy_slice();
+    pipe_link(*setplay_slice,branch);
+    stip_insert_root_slices(*setplay_slice);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

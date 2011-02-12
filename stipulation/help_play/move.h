@@ -60,7 +60,7 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
  * @param si slice index
  * @param st state of traversal
  */
-void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+void help_move_legality_checked_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice

@@ -65,13 +65,13 @@ has_solution_type leaf_solve(slice_index si)
  */
 void leaf_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->result = copy_slice(si);
+  *root_slice = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

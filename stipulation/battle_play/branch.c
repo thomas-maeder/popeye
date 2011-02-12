@@ -205,24 +205,24 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
   TraceFunctionResultEnd();
 }
 
-static void battle_branch_insert_slices_base(slice_index si,
-                                             slice_index const prototypes[],
-                                             unsigned int nr_prototypes)
+void battle_branch_insert_slices_nested(slice_index si,
+                                        slice_index const prototypes[],
+                                        unsigned int nr_prototypes)
 {
   switch (slices[si].type)
   {
     case STProxy:
     case STNot:
-      battle_branch_insert_slices_base(slices[si].u.pipe.next,
-                                       prototypes,nr_prototypes);
+      battle_branch_insert_slices_nested(slices[si].u.pipe.next,
+                                         prototypes,nr_prototypes);
       break;
 
     case STQuodlibet:
     case STReciprocal:
-      battle_branch_insert_slices_base(slices[si].u.binary.op1,
-                                       prototypes,nr_prototypes);
-      battle_branch_insert_slices_base(slices[si].u.binary.op2,
-                                       prototypes,nr_prototypes);
+      battle_branch_insert_slices_nested(slices[si].u.binary.op1,
+                                         prototypes,nr_prototypes);
+      battle_branch_insert_slices_nested(slices[si].u.binary.op2,
+                                         prototypes,nr_prototypes);
       break;
 
     case STGoalReachedTesting:
@@ -258,7 +258,7 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  battle_branch_insert_slices_base(si,prototypes,nr_prototypes);
+  battle_branch_insert_slices_nested(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);

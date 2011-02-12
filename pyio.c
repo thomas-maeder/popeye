@@ -2293,10 +2293,8 @@ static void attach_help_branch(stip_length_type length,
   if ((length-slack_length_help)%2==1)
   {
     slice_index const inverter = alloc_move_inverter_slice();
-    slice_index const inverter_proxy = alloc_proxy_slice();
     pipe_link(proxy,inverter);
-    pipe_link(inverter,inverter_proxy);
-    pipe_set_successor(inverter_proxy,branch);
+    pipe_set_successor(inverter,branch);
   }
   else
     pipe_set_successor(proxy,branch);

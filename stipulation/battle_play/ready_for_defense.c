@@ -29,6 +29,40 @@ slice_index alloc_ready_for_defense_slice(stip_length_type length,
   return result;
 }
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void ready_for_defense_make_setplay_slice(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length>=slack_length_battle-1)
+  {
+    stip_length_type const length_h = (length-slack_length_battle
+                                       +slack_length_help);
+    slice_index const checked = alloc_pipe(STHelpMoveLegalityChecked);
+    slice_index const ready = alloc_branch(STReadyForHelpMove,
+                                           length_h,length_h-1);
+
+    pipe_link(checked,ready);
+
+    stip_traverse_structure_children(si,st);
+
+    pipe_link(ready,*result);
+    *result = checked;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

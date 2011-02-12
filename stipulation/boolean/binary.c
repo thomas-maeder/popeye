@@ -8,7 +8,7 @@
  */
 void binary_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
   slice_index copy;
 
   TraceFunctionEntry(__func__);
@@ -18,14 +18,14 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   copy = copy_slice(si);
 
   stip_traverse_structure(slices[si].u.binary.op1,st);
-  slices[copy].u.binary.op1 = state->result;
+  slices[copy].u.binary.op1 = *root_slice;
 
-  state->result = no_slice;
+  *root_slice = no_slice;
 
   stip_traverse_structure(slices[si].u.binary.op2,st);
-  slices[copy].u.binary.op2 = state->result;
+  slices[copy].u.binary.op2 = *root_slice;
 
-  state->result = copy;
+  *root_slice = copy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

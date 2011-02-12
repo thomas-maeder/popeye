@@ -645,18 +645,18 @@ a)
 
   1.Kd7-c6   2.Kc6-b5   3.Kb5-a4   1.e7-e8=L   2.f7-f8=T # 
 
-              empile:      168164
-            jouecoup:       94842
-        orig_rbechec:       16054
-        orig_rnechec:       94824
+              empile:      158131
+            jouecoup:       87404
+        orig_rbechec:        8616
+        orig_rnechec:       87393
 b) MarsSpiegelCirce
 
   1.Kd7-e6   2.Ke6-f5   3.Kf5-g4   1.f7-f8=T   2.e7-e8=L # 
 
-              empile:       54699
-            jouecoup:       28466
-        orig_rbechec:        5904
-        orig_rnechec:       27740
+              empile:       52239
+            jouecoup:       26209
+        orig_rbechec:        3647
+        orig_rnechec:       25811
 Loesung beendet. 
 
 

@@ -34,7 +34,7 @@ slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
  */
 void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index attack_root;
   slice_index root_to_goal;
@@ -44,13 +44,13 @@ void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(to_goal,st);
-  root_to_goal = state->result;
+  root_to_goal = *root_slice;
 
   stip_traverse_structure_pipe(si,st);
 
   attack_root = alloc_root_attack_fork_slice(root_to_goal);
-  pipe_link(attack_root,state->result);
-  state->result = attack_root;
+  pipe_link(attack_root,*root_slice);
+  *root_slice = attack_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

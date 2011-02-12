@@ -41,7 +41,7 @@ slice_index alloc_help_move_slice(stip_length_type length,
  */
 void help_move_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
   slice_index new_root;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
@@ -61,7 +61,7 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
   {
     /* si is not part of a loop - reuse it in the root branch */
     pipe_unlink(slices[si].prev);
-    pipe_link(si,state->result);
+    pipe_link(si,*root_slice);
     pipe_link(new_root,si);
   }
   else
@@ -75,7 +75,7 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
     pipe_set_successor(root_branch,slices[si].u.pipe.next);
   }
 
-  state->result = new_root;
+  *root_slice = new_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -243,32 +243,13 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = alloc_proxy_slice();
-  pipe_set_successor(*result,si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
 void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -278,8 +259,32 @@ void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
   {
     /* si is not part of a loop - reuse it in the root branch */
     pipe_unlink(slices[si].prev);
-    state->result = si;
+    *root_slice = si;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean inserting_root_for_setplay = false;
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_move_legality_checked_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const setplay_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *setplay_slice = alloc_proxy_slice();
+  pipe_set_successor(*setplay_slice,si);
+  inserting_root_for_setplay = true;
+  stip_insert_root_slices(*setplay_slice);
+  inserting_root_for_setplay = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -292,7 +297,7 @@ void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
 void help_move_legality_checked_make_root(slice_index si,
                                           stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -302,20 +307,11 @@ void help_move_legality_checked_make_root(slice_index si,
 
   {
     slice_index const copy = copy_slice(si);
-    link_to_branch(copy,state->result);
-    state->result = copy;
+    link_to_branch(copy,*root_slice);
+    *root_slice = copy;
   }
 
-  TraceValue("%u",slices[si].u.pipe.next);
-  TraceValue("%u\n",slices[slices[si].u.pipe.next].prev);
-  if (slices[si].u.pipe.next==no_slice
-      || slices[slices[si].u.pipe.next].prev!=si)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
-  }
-  else if (!state->dealing_with_setplay)
+  if (!inserting_root_for_setplay)
     while (true)
     {
       help_branch_shorten_slice(si);

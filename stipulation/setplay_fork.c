@@ -24,34 +24,6 @@ slice_index alloc_setplay_fork_slice(slice_index set)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void setplay_fork_make_root(slice_index si, stip_structure_traversal *st)
-{
-  root_insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  pipe_link(si,state->result);
-
-  state->result = no_slice;
-
-  state->dealing_with_setplay = true;
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  state->dealing_with_setplay = false;
-  slices[si].u.branch_fork.towards_goal = state->result;
-
-  state->result = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal

@@ -58,7 +58,7 @@ void ready_for_attack_reduce_to_postkey_play(slice_index si,
  */
 void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -69,14 +69,14 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
   {
     slice_index const adapter = alloc_attack_adapter_slice(slices[si].u.branch.length,
                                                            slices[si].u.branch.min_length);
-    link_to_branch(adapter,state->result);
-    state->result = adapter;
+    link_to_branch(adapter,*root_slice);
+    *root_slice = adapter;
   }
 
   if (slices[si].u.branch.min_length>slack_length_battle+1)
   {
     slice_index const root_attack_fork = branch_find_slice(STRootAttackFork,
-                                                           state->result);
+                                                           *root_slice);
     if (root_attack_fork!=no_slice)
     {
       dealloc_slices(slices[root_attack_fork].u.branch_fork.towards_goal);

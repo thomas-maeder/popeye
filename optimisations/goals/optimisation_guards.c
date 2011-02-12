@@ -13,17 +13,18 @@
 
 #include <assert.h>
 
-static void insert_goal_optimisation_attacker_filter(slice_index si, Goal goal)
+static void insert_goal_optimisation_attacker_filter(slice_index si,
+                                                     goal_type goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_ep:
       pipe_append(slices[si].prev,
@@ -43,17 +44,18 @@ static void insert_goal_optimisation_attacker_filter(slice_index si, Goal goal)
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_optimisation_defender_filter(slice_index si, Goal goal)
+static void insert_goal_optimisation_defender_filter(slice_index si,
+                                                     goal_type goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_ep:
       pipe_append(slices[si].prev,
@@ -74,17 +76,18 @@ static void insert_goal_optimisation_defender_filter(slice_index si, Goal goal)
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_optimisation_help_filter(slice_index si, Goal goal)
+static void insert_goal_optimisation_help_filter(slice_index si,
+                                                 goal_type goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_ep:
       pipe_append(slices[si].prev,
@@ -104,17 +107,17 @@ static void insert_goal_optimisation_help_filter(slice_index si, Goal goal)
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_optimisation_series_filter(slice_index si, Goal goal)
+static void insert_goal_optimisation_series_filter(slice_index si, goal_type goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_ep:
       /* intentionally nothing (assuming that ser-ep is impossible)
@@ -136,7 +139,7 @@ static void insert_goal_optimisation_series_filter(slice_index si, Goal goal)
 
 typedef struct
 {
-    Goal goal;
+    goal_type goal;
     boolean is_optimised[max_nr_slices];
 } optimisation_guards_insertion_state;
 
@@ -156,12 +159,10 @@ void insert_goal_optimisation_guards_attack_to_goal(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const goal = slices[si].u.branch.imminent_goal;
-
     stip_traverse_moves_pipe(si,st);
 
-    if (goal.type!=no_goal)
-      insert_goal_optimisation_attacker_filter(si,goal);
+    if (state->goal!=no_goal)
+      insert_goal_optimisation_attacker_filter(si,state->goal);
     state->is_optimised[si] = true;
   }
 
@@ -185,13 +186,13 @@ void insert_goal_optimisation_guards_killer_defense(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    goal_type const save_goal = state->goal;
 
     TraceValue("%u\n",st->remaining);
     if (st->remaining==slack_length_battle+1)
     {
       stip_traverse_moves_children(slices[si].u.pipe.next,st);
-      if (state->goal.type!=no_goal)
+      if (state->goal!=no_goal)
         insert_goal_optimisation_defender_filter(si,state->goal);
       state->is_optimised[si] = true;
     }
@@ -220,13 +221,13 @@ static void insert_goal_optimisation_guards_defense(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    goal_type const save_goal = state->goal;
 
     TraceValue("%u\n",st->remaining);
     if (st->remaining==slack_length_battle+1)
     {
       stip_traverse_moves_children(si,st);
-      if (state->goal.type!=no_goal)
+      if (state->goal!=no_goal)
         insert_goal_optimisation_defender_filter(si,state->goal);
       state->is_optimised[si] = true;
     }
@@ -302,13 +303,13 @@ static void insert_goal_optimisation_guards_help_move(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    goal_type const save_goal = state->goal;
 
     stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining<slack_length_help+2)
     {
-      if (state->goal.type!=no_goal)
+      if (state->goal!=no_goal)
         insert_goal_optimisation_help_filter(si,state->goal);
       state->is_optimised[si] = true;
     }
@@ -337,16 +338,15 @@ insert_goal_optimisation_guards_help_move_to_goal(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    goal_type const save_goal = state->goal;
 
     stip_traverse_moves_move_slice(si,st);
 
     assert(st->remaining==slack_length_help+1);
 
     {
-      Goal const goal = slices[si].u.branch.imminent_goal;
-      if (goal.type!=no_goal)
-        insert_goal_optimisation_help_filter(si,goal);
+      if (state->goal!=no_goal)
+        insert_goal_optimisation_help_filter(si,state->goal);
       state->is_optimised[si] = true;
     }
 
@@ -373,15 +373,14 @@ static
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    goal_type const save_goal = state->goal;
 
     stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining==slack_length_series+1)
     {
-      Goal const goal = slices[si].u.branch.imminent_goal;
-      if (goal.type!=no_goal)
-        insert_goal_optimisation_series_filter(si,goal);
+      if (state->goal!=no_goal)
+        insert_goal_optimisation_series_filter(si,state->goal);
       state->is_optimised[si] = true;
     }
 
@@ -405,8 +404,8 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal = slices[si].u.goal_writer.goal;
-  TraceValue("->%u\n",state->goal.type);
+  state->goal = slices[si].u.goal_writer.goal.type;
+  TraceValue("->%u\n",state->goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -422,6 +421,7 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
   { STHelpFork,                   &insert_goal_optimisation_guards_help_fork         },
   { STHelpMove,                   &insert_goal_optimisation_guards_help_move         },
   { STHelpMoveToGoal,             &insert_goal_optimisation_guards_help_move_to_goal },
+  { STSeriesMove,                 &insert_goal_optimisation_guards_series_move       },
   { STSeriesMoveToGoal,           &insert_goal_optimisation_guards_series_move       }
 };
 
@@ -441,8 +441,7 @@ enum
 void stip_insert_goal_optimisation_guards(slice_index si)
 {
   stip_moves_traversal st;
-  optimisation_guards_insertion_state state = { { no_goal, initsquare },
-                                                { false } };
+  optimisation_guards_insertion_state state = { no_goal, { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

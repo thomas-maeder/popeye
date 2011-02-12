@@ -38,14 +38,14 @@ slice_index alloc_series_move_slice(stip_length_type length,
  */
 void series_move_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(state->result==no_slice);
-  state->result = copy_slice(si);
+  assert(*root_slice==no_slice);
+  *root_slice = copy_slice(si);
   shorten_series_pipe(si);
 
   TraceFunctionExit(__func__);

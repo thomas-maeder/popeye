@@ -5,12 +5,12 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
-#include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/shortcut.h"
 #include "trace.h"
@@ -29,6 +29,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesFindShortest,
   STIntelligentSeriesFilter,
   STSeriesShortcut,
+
   STSeriesFork,
   STParryFork,
   STSeriesHashed,
@@ -37,10 +38,6 @@ static slice_index const series_slice_rank_order[] =
   STSeriesDummyMove,
   STSeriesMove,
   STSeriesMoveToGoal,
-  STContinuationSolver, /* occurs in direct pser stipulations */
-  STDefenseFork,        /* occurs in direct pser stipulations */
-  STDefenseMove,        /* occurs in direct pser stipulations */
-  STSeriesAdapter,
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsFilter,
@@ -50,6 +47,7 @@ static slice_index const series_slice_rank_order[] =
   STRestartGuard,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
+
   STSeriesFork,
   STSeriesDummyMove,
   STSelfCheckGuard
@@ -114,6 +112,11 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
       else if (slices[next].type==STGoalReachedTesting)
       {
         leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+        break;
+      }
+      else if (slices[next].type==STDefenseAdapter)
+      {
+        battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
         break;
       }
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
@@ -217,12 +220,12 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    Goal const goal = slices[si].u.goal_writer.goal;
     slice_index const ready = alloc_ready_for_series_move_slice(slack_length_series+1,
                                                                 slack_length_series+1);
-    slice_index const move_to_goal = alloc_series_move_to_goal_slice(goal);
+    slice_index const move = alloc_series_move_slice(slack_length_series+1,
+                                                     slack_length_series+1);
     pipe_append(slices[si].prev,ready);
-    pipe_append(ready,move_to_goal);
+    pipe_append(ready,move);
   }
 
   TraceFunctionExit(__func__);

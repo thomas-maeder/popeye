@@ -133,6 +133,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
+#include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
@@ -2120,11 +2121,9 @@ static boolean apply_whitetoplay(slice_index proxy)
       if (meaning==whitetoplay_means_shorten)
       {
         slice_index const inverter = alloc_move_inverter_slice();
-        slice_index const proxy2 = alloc_proxy_slice();
         slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
-        pipe_link(inverter,proxy2);
-        link_to_branch(proxy2,hook);
+        pipe_set_successor(inverter,hook);
       }
       else
       {
@@ -2568,6 +2567,43 @@ static void optimise_final_moves_help_move(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
+static void optimise_final_moves_series_move(slice_index si,
+                                             stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_move_slice(si,st);
+
+    if (st->remaining==slack_length_series+1)
+    {
+      TraceValue("%u\n",state->goal.type);
+      if (state->goal.type!=no_goal
+          && slices[si].u.branch.length==slack_length_series+1)
+      {
+        slice_index const to_goal = alloc_series_move_to_goal_slice(state->goal);
+        pipe_replace(si,to_goal);
+      }
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
 static void swallow_goal(slice_index si, stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
@@ -2607,10 +2643,11 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
+  { STAttackMoveToGoal,   &swallow_goal                      },
   { STDefenseMove,        &optimise_final_moves_defense_move },
   { STHelpMove,           &optimise_final_moves_help_move    },
-  { STAttackMoveToGoal,   &swallow_goal                      },
   { STHelpMoveToGoal,     &swallow_goal                      },
+  { STSeriesMove,         &optimise_final_moves_series_move  },
   { STSeriesMoveToGoal,   &swallow_goal                      },
   { STGoalReachedTesting, &optimise_final_moves_goal         }
 };
@@ -2697,11 +2734,11 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
         Message(WhiteToPlayNotApplicable);
 
+      stip_insert_root_slices(template_slice_hook);
+
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
-
-      stip_insert_root_slices(template_slice_hook);
 
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);

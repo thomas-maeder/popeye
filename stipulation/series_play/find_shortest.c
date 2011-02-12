@@ -38,7 +38,7 @@ slice_index alloc_series_find_shortest_slice(stip_length_type length,
  */
 void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
@@ -59,14 +59,14 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
     slice_index const shortcut = alloc_series_shortcut(length,min_length,next);
     pipe_link(root,shortcut);
     stip_traverse_structure_children(si,st);
-    assert(state->result!=no_slice);
-    pipe_link(shortcut,state->result);
-    assert(slices[state->result].type==STProxy);
-    pipe_remove(state->result);
+    assert(*root_slice!=no_slice);
+    pipe_link(shortcut,*root_slice);
+    assert(slices[*root_slice].type==STProxy);
+    pipe_remove(*root_slice);
     shorten_series_pipe(si);
   }
 
-  state->result = root;
+  *root_slice = root;
 
   dealloc_slice(si);
 

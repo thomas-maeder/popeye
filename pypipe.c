@@ -33,7 +33,7 @@ slice_index alloc_pipe(SliceType type)
  */
 void pipe_make_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -43,18 +43,8 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const copy = copy_slice(si);
-    link_to_branch(copy,state->result);
-    state->result = copy;
-  }
-
-  TraceValue("%u",slices[si].u.pipe.next);
-  TraceValue("%u\n",slices[slices[si].u.pipe.next].prev);
-  if (slices[si].u.pipe.next==no_slice
-      || slices[slices[si].u.pipe.next].prev!=si)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
+    link_to_branch(copy,*root_slice);
+    *root_slice = copy;
   }
 
   TraceFunctionExit(__func__);

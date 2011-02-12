@@ -3,6 +3,8 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/move.h"
+#include "stipulation/help_play/root.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -28,6 +30,38 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void defense_move_make_setplay_slice(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_length_type const length_h = (length-slack_length_battle
+                                       +slack_length_help);
+    slice_index const root = alloc_help_root_slice(length_h,length_h-1);
+    slice_index const move = alloc_help_move_slice(length_h,length_h-1);
+
+    pipe_link(root,move);
+
+    stip_traverse_structure_children(si,st);
+
+    pipe_link(move,*result);
+    *result = root;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Find the first postkey slice and deallocate unused slices on the

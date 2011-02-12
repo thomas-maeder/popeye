@@ -34,7 +34,7 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a help root slice 
+/* Traversal of the moves beyond a help root slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

@@ -619,13 +619,13 @@ void dealloc_slices(slice_index si)
 
 static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->result = si;
+  *root_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -637,7 +637,7 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
  */
 void move_to_root(slice_index si, stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -647,8 +647,8 @@ void move_to_root(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].prev!=no_slice)
     pipe_unlink(slices[si].prev);
-  pipe_link(si,state->result);
-  state->result = si;
+  pipe_link(si,*root_slice);
+  *root_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -656,7 +656,7 @@ void move_to_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STSetplayFork,                &setplay_fork_make_root                  },
+  { STMoveInverter,               &move_to_root                            },
 
   { STDefenseMoveLegalityChecked, &defense_move_legality_checked_make_root },
   { STReadyForAttack,             &ready_for_attack_make_root              },
@@ -698,7 +698,7 @@ enum
 void stip_insert_root_slices(slice_index si)
 {
   stip_structure_traversal st;
-  root_insertion_state_type state = { no_slice, false };
+  slice_index root_slice = no_slice;
   slice_index const next = slices[si].u.pipe.next;
   slice_index i;
 
@@ -709,7 +709,7 @@ void stip_insert_root_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,&root_slice);
   for (i = 0; i!=nr_slice_structure_types; ++i)
     stip_structure_traversal_override_by_type(&st,i,&pipe_make_root);
   stip_structure_traversal_override(&st,
@@ -717,7 +717,7 @@ void stip_insert_root_slices(slice_index si)
                                     nr_root_slice_inserters);
   stip_traverse_structure(next,&st);
 
-  pipe_link(si,state.result);
+  pipe_link(si,root_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1322,12 +1322,17 @@ boolean stip_apply_postkeyplay(slice_index si)
 
 static structure_traversers_visitors setplay_makers[] =
 {
-//  { STAttackMoveLegalityChecked, &attack_move_legality_checked_make_setplay       },
-  { STDefenseMovePlayed,         &defense_move_played_make_setplay_slice          },
-  { STHelpMoveLegalityChecked,   &help_move_make_setplay_slice                    },
-  { STHelpShortcut,              &stip_traverse_structure_pipe                    },
-  { STSeriesFork,                &series_fork_make_setplay                        },
-  { STReflexDefenderFilter,      &reflex_guard_defender_filter_make_setplay_slice }
+  { STReadyForDefense,         &ready_for_defense_make_setplay_slice            },
+  { STDefenseMove,             &defense_move_make_setplay_slice                 },
+  { STDefenseMovePlayed,       &defense_move_played_make_setplay_slice          },
+
+  { STHelpMoveLegalityChecked, &help_move_legality_checked_make_setplay_slice   },
+  { STHelpShortcut,            &stip_traverse_structure_pipe                    },
+
+  { STSeriesDummyMove,         &stip_structure_visitor_noop                     },
+  { STSeriesFork,              &series_fork_make_setplay                        },
+
+  { STReflexDefenderFilter,    &reflex_guard_defender_filter_make_setplay_slice }
 };
 
 enum
@@ -1364,20 +1369,19 @@ slice_index stip_make_setplay(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-//  { STAttackMoveShoeHorningDone, &attack_move_apply_setplay    },
-  { STAttackMove,                &attack_move_apply_setplay    },
-  { STDefenseAdapter,            &stip_structure_visitor_noop  },
-  { STReflexAttackerFilter,      &stip_traverse_structure_pipe },
+  { STAttackRoot,                    &attack_move_apply_setplay    },
+  { STDefenseAdapter,                &stip_structure_visitor_noop  },
+  { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
 
-  { STHelpShortcut,              &stip_traverse_structure_pipe },
-  { STHelpMove,                  &help_move_apply_setplay      },
-  { STHelpFork,                  &stip_traverse_structure_pipe },
+  { STHelpShortcut,                  &stip_traverse_structure_pipe },
+  { STHelpMove,                      &help_move_apply_setplay      },
+  { STHelpFork,                      &stip_traverse_structure_pipe },
 
-  { STSeriesShortcut,            &stip_traverse_structure_pipe },
-  { STSeriesMove,                &series_move_apply_setplay    },
-  { STSeriesFork,                &stip_structure_visitor_noop  },
+  { STSeriesShortcut,                &stip_traverse_structure_pipe },
+  { STSeriesMove,                    &series_move_apply_setplay    },
+  { STSeriesFork,                    &stip_structure_visitor_noop  },
 
-  { STMoveInverter,              &move_inverter_apply_setplay  }
+  { STMoveInverter,                  &move_inverter_apply_setplay  }
 };
 
 enum

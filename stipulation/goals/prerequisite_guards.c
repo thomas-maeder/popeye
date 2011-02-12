@@ -9,14 +9,14 @@
 
 #include <assert.h>
 
-void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
+void insert_goal_prerequisite_guard_attacker_filter(slice_index si, goal_type goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_doublemate:
       pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
@@ -34,14 +34,14 @@ void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
   TraceFunctionResultEnd();
 }
 
-void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
+void insert_goal_prerequisite_guard_help_move(slice_index si, goal_type goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_doublemate:
       pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
@@ -59,15 +59,15 @@ void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
   TraceFunctionResultEnd();
 }
 
-void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
+void insert_goal_prerequisite_guard_series_move(slice_index si, goal_type goal)
 {
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal.type)
+  switch (goal)
   {
     case goal_doublemate:
       pipe_append(slices[si].prev,alloc_doublemate_filter_slice());
@@ -87,7 +87,7 @@ void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
 
 typedef struct
 {
-    Goal imminent;
+    goal_type imminent;
     boolean is_provided[max_nr_slices];
 } prerequisite_guards_insertion_state;
 
@@ -107,15 +107,39 @@ void insert_goal_prerequisite_guards_attack_move(slice_index si,
 
   if (!state->is_provided[si])
   {
-    Goal const goal = slices[si].u.branch.imminent_goal;
-
     stip_traverse_moves_move_slice(si,st);
 
-    if (goal.type!=no_goal)
-      insert_goal_prerequisite_guard_attacker_filter(si,goal);
+    if (state->imminent!=no_goal)
+      insert_goal_prerequisite_guard_attacker_filter(si,state->imminent);
 
     state->is_provided[si] = true;
-    state->imminent.type = no_goal;
+    state->imminent = no_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void insert_goal_prerequisite_guards_defense_move(slice_index si,
+                                                  stip_moves_traversal *st)
+{
+  prerequisite_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_provided[si])
+  {
+    stip_traverse_moves_move_slice(si,st);
+
+    state->is_provided[si] = true;
+    state->imminent = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -144,13 +168,12 @@ insert_goal_prerequisite_guards_help_move_to_goal(slice_index si,
     assert(st->remaining==slack_length_help+1);
 
     {
-      Goal const goal = slices[si].u.branch.imminent_goal;
-      if (goal.type!=no_goal)
-        insert_goal_prerequisite_guard_help_move(si,goal);
+      if (state->imminent!=no_goal)
+        insert_goal_prerequisite_guard_help_move(si,state->imminent);
       state->is_provided[si] = true;
     }
 
-    state->imminent.type = no_goal;
+    state->imminent = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -177,12 +200,12 @@ void insert_goal_prerequisite_guards_help_move(slice_index si,
 
     if (st->remaining<slack_length_help+2)
     {
-      if (state->imminent.type!=no_goal)
+      if (state->imminent!=no_goal)
         insert_goal_prerequisite_guard_help_move(si,state->imminent);
       state->is_provided[si] = true;
     }
 
-    state->imminent.type = no_goal;
+    state->imminent = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -236,13 +259,12 @@ void insert_goal_prerequisite_guards_series_move(slice_index si,
     TraceValue("%u\n",st->remaining);
     if (st->remaining==slack_length_series+1)
     {
-      Goal const goal = slices[si].u.branch.imminent_goal;
-      if (goal.type!=no_goal)
-        insert_goal_prerequisite_guard_series_move(si,goal);
+      if (state->imminent!=no_goal)
+        insert_goal_prerequisite_guard_series_move(si,state->imminent);
       state->is_provided[si] = true;
     }
 
-    state->imminent.type = no_goal;
+    state->imminent = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -265,7 +287,7 @@ insert_goal_prerequisite_guards_goal_doublemate_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_branch_slice(si,st);
-  state->imminent.type = goal_doublemate;
+  state->imminent = goal_doublemate;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -287,7 +309,7 @@ insert_goal_prerequisite_guards_goal_countermate_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_branch_slice(si,st);
-  state->imminent.type = goal_countermate;
+  state->imminent = goal_countermate;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -299,9 +321,12 @@ insert_goal_prerequisite_guards_goal_countermate_tester(slice_index si,
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
   { STAttackMoveToGoal,             &insert_goal_prerequisite_guards_attack_move             },
+  { STDefenseMove,                  &insert_goal_prerequisite_guards_defense_move            },
+  { STKillerMoveFinalDefenseMove,   &insert_goal_prerequisite_guards_defense_move            },
   { STHelpFork,                     &insert_goal_prerequisite_guards_help_fork               },
   { STHelpMove,                     &insert_goal_prerequisite_guards_help_move               },
   { STHelpMoveToGoal,               &insert_goal_prerequisite_guards_help_move_to_goal       },
+  { STSeriesMove,                   &insert_goal_prerequisite_guards_series_move             },
   { STSeriesMoveToGoal,             &insert_goal_prerequisite_guards_series_move             },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_goal_doublemate_tester  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_goal_countermate_tester }
@@ -323,8 +348,7 @@ enum
 void stip_insert_goal_prerequisite_guards(slice_index si)
 {
   stip_moves_traversal st;
-  prerequisite_guards_insertion_state state = { { no_goal, initsquare},
-                                                { false } };
+  prerequisite_guards_insertion_state state = { no_goal, { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
