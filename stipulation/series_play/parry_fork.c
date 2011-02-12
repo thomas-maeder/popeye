@@ -116,7 +116,6 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     pipe_link(parry_fork,parrying);
 
     slice_set_predecessor(dummy,no_slice);
-    pipe_set_successor(dummy,ready);
   }
 
   TraceFunctionExit(__func__);

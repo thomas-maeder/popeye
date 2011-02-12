@@ -110,4 +110,14 @@ pieces white kh8 rb1 bh6 sc4h4 pe7
        black kf4 qh1 rg5g2h2 bg1 sf2h3 pd2g4
 stipulation pser-h=4
 
+next
+
+author Bojan Basi\'c
+origin Good Companions Quick Composing Tourney 2010, 5th Prize
+remark (last 7 moves of a phser-0027)
+pieces white ke1 bb6 ra1 pe3e5
+       black kb4 rc8 bc2a6 pe4e6
+stip phser-007
+end
+
 end

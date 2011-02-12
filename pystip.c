@@ -101,7 +101,6 @@
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
-    ENUMERATOR(STSeriesMovePlayed),                                     \
     ENUMERATOR(STSeriesMoveLegalityChecked),                            \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
@@ -296,7 +295,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
-  slice_structure_pipe,   /* STSeriesMovePlayed */
   slice_structure_pipe,   /* STSeriesMoveLegalityChecked */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
@@ -1796,7 +1794,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
-  &stip_traverse_structure_pipe,            /* STSeriesMovePlayed */
   &stip_traverse_structure_pipe,            /* STSeriesMoveLegalityChecked */
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
@@ -2030,7 +2027,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STSeriesMoveToGoal */
     &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
     &stip_traverse_moves_branch_slice,          /* STReadyForSeriesMove */
-    &stip_traverse_moves_pipe,                  /* STSeriesMovePlayed */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */

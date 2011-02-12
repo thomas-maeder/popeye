@@ -239,10 +239,10 @@ solution finished.
   1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
   1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 # 
 
-              empile:       12470
-            jouecoup:        5988
-        orig_rbechec:        2679
-        orig_rnechec:        5522
+              empile:       13195
+            jouecoup:        6079
+        orig_rbechec:        2777
+        orig_rnechec:        5613
 solution finished. 
 
 
@@ -274,10 +274,10 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
 
-              empile:     4571276
-            jouecoup:     2645888
-        orig_rbechec:     1563891
-        orig_rnechec:     1665362
+              empile:     4875781
+            jouecoup:     2702959
+        orig_rbechec:     1629954
+        orig_rnechec:     1705505
 solution finished. 
 
 
@@ -309,10 +309,10 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
   1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 # 
 
-              empile:  2088191783
-            jouecoup:   912856264
-        orig_rbechec:   856506857
-        orig_rnechec:   539257971
+              empile:  2073181780
+            jouecoup:   904970841
+        orig_rbechec:   853443421
+        orig_rnechec:   535206608
 solution finished. 
 
 
@@ -389,10 +389,10 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  11  (Kc2-d1 )
  12  (Kc2-b1 + )
 
-              empile:    13971366
-            jouecoup:     5088419
-        orig_rbechec:     4490199
-        orig_rnechec:     2986415
+              empile:    13823476
+            jouecoup:     4973529
+        orig_rbechec:     4397324
+        orig_rnechec:     2939283
 solution finished. 
 
 
@@ -442,10 +442,10 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
  18  (Bd5-e6 )
  19  (Bd5-c6 )
 
-              empile:   330629867
-            jouecoup:   137112689
-        orig_rbechec:   131278422
-        orig_rnechec:    84926974
+              empile:   355798431
+            jouecoup:   144613319
+        orig_rbechec:   140249995
+        orig_rnechec:    88676596
 solution finished. 
 
 
@@ -480,6 +480,41 @@ StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
             jouecoup:     4736838
         orig_rbechec:     1621325
         orig_rnechec:     4467911
+solution finished. 
+
+
+(last 7 moves of a phser-0027)
+
+            Bojan Basi\'c
+Good Companions Quick Composing Tourney 2010, 5th Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   B   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .  -K   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   P   .   .   .   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  phser-007                   5 + 6
+
+  1.Bb6-d4   2.Bd4-b2   3.Bb2-a3 + Kb4-a5   4.Ba3-c5 + Bc2-a4   5.Bc5-b6 + Ka5-b4   6.Bb6-c5 + Kb4-b3   7.0-0-0 
+
+              empile:     7877005
+            jouecoup:     7819001
+        orig_rbechec:     3861954
+        orig_rnechec:     7320557
 solution finished. 
 
 

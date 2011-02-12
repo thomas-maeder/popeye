@@ -28,9 +28,7 @@ static slice_index const slice_rank_order[] =
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
-  STSeriesAdapter,
   STDefenseMovePlayed,
-  STSeriesMovePlayed,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationWriter,
@@ -41,7 +39,6 @@ static slice_index const slice_rank_order[] =
   STUltraschachzwangGoalFilter,
   STSelfCheckGuard,
   STDefenseMoveLegalityChecked,
-  STSeriesMoveLegalityChecked,
   STNoShortVariations,
   STAttackHashed,
   STThreatEnforcer,
@@ -270,39 +267,15 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Allocate a branch consisting mainly of an attack move
- * @param  length maximum number of half-moves of slice (+ slack)
+/* Allocate a branch consisting mainly of an defense move
+ * @param next identifies the slice that the defense branch lead sto
+ * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice to allocated branch
  */
-slice_index alloc_attack_branch(stip_length_type length,
-                                stip_length_type min_length)
-{
-  slice_index result;
-  slice_index shortest;
-  slice_index attack;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_ready_for_attack_slice(length,min_length);
-  shortest = alloc_attack_find_shortest_slice(length,min_length);
-  attack = alloc_attack_move_slice(length,min_length);
-  pipe_link(result,shortest);
-  pipe_link(shortest,attack);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a branch consisting mainly of an defense move
- * @return index of entry slice to allocated branch
- */
-slice_index alloc_defense_branch(void)
+slice_index alloc_defense_branch(slice_index next,
+                                 stip_length_type length,
+                                 stip_length_type min_length)
 {
   slice_index result;
 
@@ -310,30 +283,24 @@ slice_index alloc_defense_branch(void)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const adapter = alloc_defense_adapter_slice(slack_length_battle+1,
-                                                            slack_length_battle+1);
-    slice_index const solver = alloc_continuation_solver_slice(slack_length_battle+1,
-                                                               slack_length_battle+1);
-    slice_index const defense = alloc_defense_move_slice(slack_length_battle+1,
-                                                         slack_length_battle+1);
-    slice_index const dplayed = alloc_defense_move_played_slice(slack_length_battle,
-                                                                slack_length_battle);
+    slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
+    slice_index const solver = alloc_continuation_solver_slice(length,
+                                                               min_length);
+    slice_index const defense = alloc_defense_move_slice(length,min_length);
+    slice_index const dplayed = alloc_defense_move_played_slice(length-1,
+                                                                min_length-1);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 slack_length_battle,
-                                                 slack_length_battle);
+                                                 length-1,
+                                                 min_length-1);
     slice_index const
       dchecked = alloc_defense_move_legality_checked_slice();
-    slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
-                                                            slack_length_battle);
-    slice_index const deadend = alloc_battle_play_dead_end_slice();
 
     pipe_link(adapter,solver);
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
     pipe_link(dshoehorned,dchecked);
-    pipe_link(dchecked,aready);
-    pipe_link(aready,deadend);
+    pipe_link(dchecked,next);
 
     result = adapter;
   }

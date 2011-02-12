@@ -41,27 +41,28 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
   root_insertion_state_type * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index ready;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ready = branch_find_slice(STReadyForSeriesMove,si);
-  assert(ready!=no_slice);
+  assert(slices[next].type==STProxy);
 
   root = alloc_series_root_slice(length,min_length);
 
   if (length<slack_length_series+2)
-    pipe_set_successor(root,slices[ready].u.pipe.next);
+    pipe_set_successor(root,next);
   else
   {
-    slice_index const shortcut = alloc_series_shortcut(length,min_length,ready);
+    slice_index const shortcut = alloc_series_shortcut(length,min_length,next);
     pipe_link(root,shortcut);
     stip_traverse_structure_children(si,st);
     assert(state->result!=no_slice);
     pipe_link(shortcut,state->result);
+    assert(slices[state->result].type==STProxy);
+    pipe_remove(state->result);
     shorten_series_pipe(si);
   }
 

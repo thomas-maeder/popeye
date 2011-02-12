@@ -48,12 +48,10 @@ static slice_index const series_slice_rank_order[] =
   STGoalReachableGuardSeriesFilter,
   STPiecesParalysingMateFilter,
   STRestartGuard,
-  STSeriesMovePlayed,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
   STSeriesFork,
   STSeriesDummyMove,
-  STSeriesMovePlayed,
   STSelfCheckGuard
 };
 
@@ -223,10 +221,8 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
     slice_index const ready = alloc_ready_for_series_move_slice(slack_length_series+1,
                                                                 slack_length_series+1);
     slice_index const move_to_goal = alloc_series_move_to_goal_slice(goal);
-    slice_index const played = alloc_pipe(STSeriesMovePlayed);
     pipe_append(slices[si].prev,ready);
     pipe_append(ready,move_to_goal);
-    pipe_append(move_to_goal,played);
   }
 
   TraceFunctionExit(__func__);
@@ -299,10 +295,8 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const ready = alloc_ready_for_series_move_slice(length-1,
                                                                 min_length-1);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const played1 = alloc_pipe(STSeriesMovePlayed);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dummy = alloc_series_dummy_move_slice();
-    slice_index const played2 = alloc_pipe(STSeriesMovePlayed);
     slice_index const proxy = alloc_proxy_slice();
     slice_index const ready2 = alloc_ready_for_series_move_slice(length,
                                                                  min_length);
@@ -310,11 +304,9 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(checked2,ready);
     pipe_link(ready,proxy);
     pipe_link(proxy,move);
-    pipe_link(move,played1);
-    pipe_link(played1,checked1);
+    pipe_link(move,checked1);
     pipe_link(checked1,dummy);
-    pipe_link(dummy,played2);
-    pipe_link(played2,checked2);
+    pipe_link(dummy,checked2);
 
     pipe_set_successor(finder,proxy);
     pipe_link(adapter,finder);

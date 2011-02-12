@@ -65,7 +65,6 @@ static slice_index const root_slice_rank_order[] =
   STGoalReachableGuardSeriesFilter,
   STAttackMovePlayed,
   STHelpMovePlayed,
-  STSeriesMovePlayed,
   STEndOfSolutionWriter,
   STKillerMoveCollector,
   STAttackMoveShoeHorningDone,
@@ -252,6 +251,8 @@ void root_branch_insert_slices(slice_index si,
  */
 static slice_index const leaf_slice_rank_order[] =
 {
+  STGoalReachableGuardHelpFilter,
+  STGoalReachableGuardSeriesFilter,
   STGoalReachedTesting,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
