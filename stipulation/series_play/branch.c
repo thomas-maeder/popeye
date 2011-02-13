@@ -22,7 +22,6 @@
  */
 static slice_index const series_slice_rank_order[] =
 {
-  STReadyForSeriesMove,
   STSeriesAdapter,
   STStopOnShortSolutionsInitialiser,
   STSeriesRoot,
@@ -30,6 +29,7 @@ static slice_index const series_slice_rank_order[] =
   STIntelligentSeriesFilter,
   STSeriesShortcut,
 
+  STReadyForSeriesMove,
   STSeriesFork,
   STParryFork,
   STSeriesHashed,
@@ -38,6 +38,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesDummyMove,
   STSeriesMove,
   STSeriesMoveToGoal,
+  STEndOfRoot,
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsFilter,
@@ -300,21 +301,16 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dummy = alloc_series_dummy_move_slice();
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const ready2 = alloc_ready_for_series_move_slice(length,
-                                                                 min_length);
 
     pipe_link(checked2,ready);
-    pipe_link(ready,proxy);
-    pipe_link(proxy,move);
+    pipe_link(ready,move);
     pipe_link(move,checked1);
     pipe_link(checked1,dummy);
     pipe_link(dummy,checked2);
 
-    pipe_set_successor(finder,proxy);
+    pipe_set_successor(finder,ready);
     pipe_link(adapter,finder);
-    pipe_link(ready2,adapter);
-    result = ready2;
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);
@@ -335,7 +331,7 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STReadyForSeriesMove);
+  assert(slices[si].type==STSeriesAdapter);
 
   {
     slice_index const prototype = alloc_series_fork_slice(to_goal);
@@ -357,7 +353,7 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STReadyForSeriesMove);
+  assert(slices[si].type==STSeriesAdapter);
 
   {
     slice_index const checked = branch_find_slice(STSeriesMoveLegalityChecked,si);

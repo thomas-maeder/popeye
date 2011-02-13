@@ -48,8 +48,6 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[next].type==STProxy);
-
   root = alloc_series_root_slice(length,min_length);
 
   if (length<slack_length_series+2)
@@ -61,7 +59,6 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
     stip_traverse_structure_children(si,st);
     assert(*root_slice!=no_slice);
     pipe_link(shortcut,*root_slice);
-    assert(slices[*root_slice].type==STProxy);
     pipe_remove(*root_slice);
     shorten_series_pipe(si);
   }

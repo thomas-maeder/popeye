@@ -106,6 +106,7 @@
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -300,6 +301,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STSetplayFork */
+  slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STGoalReachedTesting */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -670,7 +672,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STHelpFork,                   &help_fork_make_root                     },
   { STHelpMovePlayed,             &help_move_played_make_root              },
 
-  { STReadyForSeriesMove,         &move_to_root                            },
   { STSeriesAdapter,              &move_to_root                            },
   { STSeriesFindShortest,         &series_find_shortest_make_root          },
   { STSeriesMove,                 &series_move_make_root                   },
@@ -1756,6 +1757,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
+  &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1989,6 +1991,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
+    &stip_traverse_moves_pipe,                  /* STEndOfRoot */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTesting */
     &stip_traverse_moves_pipe,                  /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalStalemateReachedTester */

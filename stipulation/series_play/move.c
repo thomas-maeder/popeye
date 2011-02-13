@@ -45,6 +45,8 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(*root_slice==no_slice);
+
+  pipe_append(si,alloc_pipe(STEndOfRoot));
   *root_slice = copy_slice(si);
   shorten_series_pipe(si);
 
