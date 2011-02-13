@@ -420,13 +420,6 @@ void assert_no_leaked_slices(void);
  */
 void stip_insert_root_slices(slice_index si);
 
-/* Set the min_length field of a composite slice.
- * @param si index of composite slice
- * @param min_length value to be set
- * @return previous value of min_length field
- */
-stip_length_type set_min_length(slice_index si, stip_length_type min_length);
-
 /* Determine the maximally possible number of half-moves until the
  * goal has to be reached.
  * @param si root of subtree

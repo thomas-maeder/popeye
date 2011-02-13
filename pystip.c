@@ -723,53 +723,6 @@ void stip_insert_root_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Set the min_length field of a slice.
- * @param si index of composite slice
- * @param min_length value to be set
- * @return previous value of min_length field
- */
-stip_length_type set_min_length(slice_index si, stip_length_type min_length)
-{
-  stip_length_type result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STHelpRoot:
-      result = slices[si].u.branch.min_length;
-      min_length *= 2;
-      if (result%2==1)
-        --min_length;
-      if (min_length<=slices[si].u.branch.length)
-        slices[si].u.branch.min_length = min_length;
-      break;
-
-    case STSeriesRoot:
-      result = slices[si].u.branch.min_length;
-      if (min_length+1<=slices[si].u.branch.length)
-        slices[si].u.branch.min_length = min_length+1;
-      break;
-
-    case STAttackMove:
-      result = slices[si].u.branch.min_length;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
