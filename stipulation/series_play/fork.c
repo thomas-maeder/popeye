@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/adapter.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -40,17 +41,11 @@ void series_fork_make_setplay(slice_index si, stip_structure_traversal *st)
 
   if (get_max_nr_moves(slices[si].u.branch_fork.towards_goal)>0)
   {
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
     slice_index * const setplay_slice = st->param;
-
-    /* build a 0 move series branch that leads to the successive branch */
-    slice_index const branch = alloc_series_branch(slack_length_series,
-                                                   slack_length_series);
-    series_branch_set_goal_slice(branch,
-                                 slices[si].u.branch_fork.towards_goal);
-
-    *setplay_slice = alloc_proxy_slice();
-    pipe_link(*setplay_slice,branch);
-    stip_insert_root_slices(*setplay_slice);
+    *setplay_slice = alloc_series_adapter_slice(slack_length_series,
+                                                slack_length_series);
+    pipe_link(*setplay_slice,alloc_series_fork_slice(to_goal));
   }
 
   TraceFunctionExit(__func__);
