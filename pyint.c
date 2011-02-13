@@ -2907,8 +2907,9 @@ goalreachable_guard_series_has_solution_in_n(slice_index si,
   return result;
 }
 
-static void intelligent_guards_inserter_help_move(slice_index si,
-                                                  stip_structure_traversal *st)
+static
+void goalreachable_guards_inserter_help_move(slice_index si,
+                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2926,8 +2927,8 @@ static void intelligent_guards_inserter_help_move(slice_index si,
 }
 
 static
-void intelligent_guards_inserter_series_move(slice_index si,
-                                             stip_structure_traversal *st)
+void goalreachable_guards_inserter_series_move(slice_index si,
+                                               stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2945,8 +2946,8 @@ void intelligent_guards_inserter_series_move(slice_index si,
 }
 
 static
-void intelligent_guards_inserter_parry_fork(slice_index si,
-                                            stip_structure_traversal *st)
+void goalreachable_guards_inserter_parry_fork(slice_index si,
+                                              stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2970,45 +2971,9 @@ void intelligent_guards_inserter_parry_fork(slice_index si,
 }
 
 static
-void intelligent_guards_inserter_help_root(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_intelligent_help_filter();
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
-void intelligent_guards_inserter_series_root(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_intelligent_series_filter();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void intelligent_guards_duplicate_avoider_inserter(slice_index si,
-                                                          stip_structure_traversal *st)
+void
+goalreachable_guards_duplicate_avoider_inserter(slice_index si,
+                                                stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3027,26 +2992,24 @@ static void intelligent_guards_duplicate_avoider_inserter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors intelligent_guards_inserters[] =
+static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
-  { STReadyForHelpMove,   &intelligent_guards_inserter_help_move         },
-  { STReadyForSeriesMove, &intelligent_guards_inserter_series_move       },
-  { STGoalReachedTesting, &intelligent_guards_duplicate_avoider_inserter },
-  { STHelpRoot,           &intelligent_guards_inserter_help_root         },
-  { STSeriesRoot,         &intelligent_guards_inserter_series_root       },
-  { STParryFork,          &intelligent_guards_inserter_parry_fork        }
+  { STReadyForHelpMove,   &goalreachable_guards_inserter_help_move         },
+  { STReadyForSeriesMove, &goalreachable_guards_inserter_series_move       },
+  { STGoalReachedTesting, &goalreachable_guards_duplicate_avoider_inserter },
+  { STParryFork,          &goalreachable_guards_inserter_parry_fork        }
 };
 
 enum
 {
-  nr_intelligent_guards_inserters = (sizeof intelligent_guards_inserters
-                                     / sizeof intelligent_guards_inserters[0])
+  nr_goalreachable_guards_inserters = (sizeof goalreachable_guards_inserters
+                                       / sizeof goalreachable_guards_inserters[0])
 };
 
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
-static void stip_insert_intelligent_guards(slice_index si)
+static void stip_insert_goalreachable_guards(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -3058,8 +3021,75 @@ static void stip_insert_intelligent_guards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
-                                    intelligent_guards_inserters,
-                                    nr_intelligent_guards_inserters);
+                                    goalreachable_guards_inserters,
+                                    nr_goalreachable_guards_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intelligent_guards_inserter_help(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_intelligent_help_filter();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void intelligent_guards_inserter_series(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_intelligent_series_filter();
+    series_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors intelligent_filter_inserters[] =
+{
+  { STHelpRoot,      &intelligent_guards_inserter_help   },
+  { STSeriesAdapter, &intelligent_guards_inserter_series }
+};
+
+enum
+{
+  nr_intelligent_filter_inserters = (sizeof intelligent_filter_inserters
+                                     / sizeof intelligent_filter_inserters[0])
+};
+
+/* Instrument stipulation with STgoal_typereachableGuard slices
+ * @param si identifies slice where to start
+ */
+static void stip_insert_intelligent_filters(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    intelligent_filter_inserters,
+                                    nr_intelligent_filter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -3377,14 +3407,16 @@ boolean init_intelligent_mode(slice_index si)
       result = true;
       if (OptFlag[intelligent])
       {
-        stip_insert_intelligent_guards(si);
+        stip_insert_intelligent_filters(si);
+        stip_insert_goalreachable_guards(si);
         init_goal_to_be_reached(si);
       }
       break;
 
     case intelligent_active_by_default:
       result = true;
-      stip_insert_intelligent_guards(si);
+      stip_insert_intelligent_filters(si);
+      stip_insert_goalreachable_guards(si);
       init_goal_to_be_reached(si);
       break;
 

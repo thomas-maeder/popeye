@@ -113,7 +113,7 @@ static structure_traversers_visitors postkey_handler_inserters[] =
   { STAttackMovePlayed,   &stip_structure_visitor_noop },
   { STContinuationSolver, &remove_continuation_solver  },
   { STHelpRoot,           &stip_structure_visitor_noop },
-  { STSeriesRoot,         &stip_structure_visitor_noop }
+  { STSeriesAdapter,      &stip_structure_visitor_noop }
 };
 
 enum
@@ -171,9 +171,9 @@ static void insert_postkeyplay_suppressor(slice_index si,
 
 static structure_traversers_visitors postkey_suppressor_inserters[] =
 {
-  { STAttackAdapter,  &insert_postkeyplay_suppressor },
-  { STHelpRoot,       &stip_structure_visitor_noop   },
-  { STSeriesRoot,     &stip_structure_visitor_noop   }
+  { STAttackAdapter, &insert_postkeyplay_suppressor },
+  { STHelpRoot,      &stip_structure_visitor_noop   },
+  { STSeriesAdapter, &stip_structure_visitor_noop   }
 };
 
 enum

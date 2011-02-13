@@ -361,7 +361,7 @@ static structure_traversers_visitors writer_inserters[] =
   { STThreatSolver,                  &instrument_threat_solver        },
   { STDefenseMove,                   &instrument_defense_move         },
   { STSelfDefense,                   &instrument_self_defense         },
-  { STSeriesRoot,                    &stip_structure_visitor_noop     },
+  { STSeriesAdapter,                 &stip_structure_visitor_noop     },
   { STAttackRoot,                    &instrument_attack_root          },
   { STAttackMove,                    &insert_continuation_writers     },
   { STAttackMoveToGoal,              &insert_continuation_writers     },

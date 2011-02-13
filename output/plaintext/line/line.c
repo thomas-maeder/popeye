@@ -98,7 +98,7 @@ static structure_traversers_visitors line_slice_inserters[] =
   { STGoalReachedTesting, &instrument_goal_reached_testing },
   { STMoveInverter,       &instrument_move_inverter        },
   { STHelpRoot,           &instrument_root                 },
-  { STSeriesRoot,         &instrument_root                 }
+  { STSeriesAdapter,      &instrument_root                 }
 };
 
 enum
