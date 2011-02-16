@@ -395,10 +395,8 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    /* we have to insert two selfcheck guards (one for each side)! */
     slice_index const prototypes[] =
     {
-      alloc_selfcheck_guard_solvable_filter(),
       alloc_selfcheck_guard_solvable_filter()
     };
     enum
@@ -457,31 +455,6 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void deal_with_parry_fork(slice_index si,
-                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_selfcheck_guard_solvable_filter()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    series_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
   { STAttackAdapter,      &insert_selfcheck_guard_battle_branch },
@@ -493,7 +466,7 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
   /* make sure that the set play is instumented */
   { STSetplayFork,        &insert_selfcheck_guard_setplay_fork  },
   /* parry fork already tests for check */
-  { STParryFork,          &deal_with_parry_fork                 }
+  { STParryFork,          &stip_traverse_structure_pipe         }
 };
 
 enum
@@ -618,22 +591,6 @@ static void remove_guard_prev(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void remove_guards_before_parry_fork(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STParryFork,&remove_guard_prev);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation with slices dealing with selfcheck detection
  * @param si root of branch to be instrumented
  */
@@ -647,7 +604,6 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   insert_guards(si);
   remove_guards_after_selfcheck_ignoring_goals(si);
-  remove_guards_before_parry_fork(si);
   TraceStipulation(si);
 
   TraceFunctionExit(__func__);

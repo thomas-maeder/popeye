@@ -105,6 +105,8 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/branch.h"
+#include "stipulation/series_play/ready_for_series_move.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -1934,31 +1936,6 @@ static void insert_hash_element_help_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STSeriesHashed slice for a STSeriesMove slice
- * and insert it before the slice
- * @param si identifies STSeriesMove slice
- * @param length maximum number of half moves to provide for
- * @param min_length minimum number of half moves to provide for
- */
-static void insert_series_hashed_slice(slice_index si,
-                                       stip_length_type length,
-                                       stip_length_type min_length)
-{
-  slice_index const prev = slices[si].prev;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  if (slices[prev].type!=STSeriesHashed)
-    pipe_append(prev,alloc_branch(STSeriesHashed,length,min_length));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -1972,16 +1949,27 @@ static void insert_hash_element_series_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_move_slice(si,st);
+  stip_traverse_moves_pipe(si,st);
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if ((st->remaining+1<st->full_length || st->level>0)
-      && !is_goal_move_oriented(*goal))
+  if (st->remaining+1<st->full_length
+      && st->remaining<=slack_length_series+2
+      && !ready_for_series_move_is_move_dummy(si))
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    insert_series_hashed_slice(si,length,min_length);
+    slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
+    if (is_goal_move_oriented(*goal))
+    {
+      /* In move orientated stipulations (%, z, x etc.) it's less expensive to
+       * compute a "mate" in 1.   TLi */
+      slice_index const fork = branch_find_slice(STSeriesFork,si);
+      assert(fork!=no_slice);
+      series_branch_insert_slices(fork,&prototype,1);
+    }
+    else
+      series_branch_insert_slices(si,&prototype,1);
   }
 
   *goal = no_goal;
@@ -2009,15 +1997,34 @@ static void remember_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void forget_goal(slice_index si, stip_moves_traversal *st)
+{
+  goal_type * const goal = st->param;;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_pipe(si,st);
+  *goal = no_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static moves_traversers_visitors const hash_element_inserters[] =
 {
   /* no need to hash the introductory move of the set play */
   { STSetplayFork,        &stip_traverse_moves_pipe        },
   { STHelpMove,           &insert_hash_element_help_move   },
   { STHelpMoveToGoal,     &insert_hash_element_help_move   },
-  { STSeriesMove,         &insert_hash_element_series_move },
-  { STSeriesMoveToGoal,   &insert_hash_element_series_move },
-  { STGoalReachedTesting, &remember_goal                   }
+  { STReadyForSeriesMove, &insert_hash_element_series_move },
+  { STGoalReachedTesting, &remember_goal                   },
+  { STDefenseAdapter,     &forget_goal                     }
 };
 
 enum

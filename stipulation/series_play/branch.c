@@ -30,15 +30,15 @@ static slice_index const series_slice_rank_order[] =
   STSeriesShortcut,
 
   STReadyForSeriesMove,
-  STSeriesFork,
-  STParryFork,
   STSeriesHashed,
+  STSeriesFork,
+  STSeriesHashed,
+  STParryFork,
   STDoubleMateFilter,
   STCounterMateFilter,
   STSeriesDummyMove,
   STSeriesMove,
   STSeriesMoveToGoal,
-  STEndOfRoot,
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsFilter,
@@ -46,6 +46,7 @@ static slice_index const series_slice_rank_order[] =
   STGoalReachableGuardSeriesFilter,
   STPiecesParalysingMateFilter,
   STRestartGuard,
+  STEndOfRoot,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
 
@@ -147,6 +148,11 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
+          if (slices[next].type==STSeriesFork)
+            series_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                                  prototypes,nr_prototypes,
+                                                  base);
+
           base = rank_next;
           si = next;
         }
@@ -220,14 +226,9 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const ready = alloc_ready_for_series_move_slice(slack_length_series+1,
-                                                                slack_length_series+1);
-    slice_index const move = alloc_series_move_slice(slack_length_series+1,
-                                                     slack_length_series+1);
-    pipe_append(slices[si].prev,ready);
-    pipe_append(ready,move);
-  }
+  pipe_append(slices[si].prev,
+              alloc_series_move_slice(slack_length_series+1,
+                                      slack_length_series+1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -295,17 +296,20 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
     slice_index const finder = alloc_series_find_shortest_slice(length,
                                                                 min_length);
-    slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
-    slice_index const ready = alloc_ready_for_series_move_slice(length-1,
-                                                                min_length-1);
+    slice_index const ready = alloc_ready_for_series_move_slice(length,
+                                                                min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
+    slice_index const ready2 = alloc_ready_for_series_move_slice(length-1,
+                                                                 min_length-1);
     slice_index const dummy = alloc_series_dummy_move_slice();
+    slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
 
     pipe_link(checked2,ready);
     pipe_link(ready,move);
     pipe_link(move,checked1);
-    pipe_link(checked1,dummy);
+    pipe_link(checked1,ready2);
+    pipe_link(ready2,dummy);
     pipe_link(dummy,checked2);
 
     pipe_set_successor(finder,ready);

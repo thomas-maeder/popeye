@@ -2616,8 +2616,10 @@ static char *ParsePlay(char *tok,
         slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,dummy);
         stip_length_type const length = slices[ready].u.branch.length;
         stip_length_type const min_length = slices[ready].u.branch.min_length;
-        slice_index const parrying = alloc_series_move_slice(length,min_length);
-        convert_to_parry_series_branch(next,parrying);
+        slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
+        slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
+        pipe_link(ready_parrying,parrying);
+        convert_to_parry_series_branch(next,ready_parrying);
         pipe_link(parrying,slices[dummy].u.pipe.next);
         pipe_set_successor(dummy,ready2);
 
@@ -2637,13 +2639,14 @@ static char *ParsePlay(char *tok,
       {
         slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
         slice_index const dummy = branch_find_slice(STSeriesDummyMove,ready);
-        slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,dummy);
         stip_length_type const length = slices[ready].u.branch.length;
         stip_length_type const min_length = slices[ready].u.branch.min_length;
-        slice_index const parrying = alloc_series_move_slice(length,min_length);
-        convert_to_parry_series_branch(next,parrying);
+        slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
+        slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
+        pipe_link(ready_parrying,parrying);
+        convert_to_parry_series_branch(next,ready_parrying);
         pipe_link(parrying,slices[dummy].u.pipe.next);
-        pipe_set_successor(dummy,ready2);
+        pipe_set_successor(dummy,ready);
 
         set_output_mode(output_mode_line);
       }

@@ -23,6 +23,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/ready_for_series_move.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
@@ -2604,27 +2605,11 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
- */
-static void moves_left_parry_fork(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves(slices[si].u.parry_fork.non_parrying,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static moves_traversers_visitors const moves_left_initialisers[] =
 {
-  { STGoalReachableGuardHelpFilter,   &moves_left_move       },
-  { STGoalReachableGuardSeriesFilter, &moves_left_move       },
-  { STParryFork,                      &moves_left_parry_fork }
+  { STGoalReachableGuardHelpFilter,   &moves_left_move          },
+  { STGoalReachableGuardSeriesFilter, &moves_left_move          },
+  { STParryFork,                      &stip_traverse_moves_pipe }
 };
 
 enum
@@ -2936,6 +2921,7 @@ void goalreachable_guards_inserter_series_move(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
+  if (!ready_for_series_move_is_move_dummy(si))
   {
     slice_index const prototype = alloc_goalreachable_guard_series_filter();
     series_branch_insert_slices(si,&prototype,1);
@@ -2954,11 +2940,6 @@ void goalreachable_guards_inserter_parry_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_goalreachable_guard_series_filter();
-    series_branch_insert_slices(si,&prototype,1);
-  }
 
   {
     slice_index const prototype = alloc_goalreachable_guard_series_filter();

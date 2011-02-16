@@ -1,13 +1,17 @@
 stipulation/series_play/ready_for_series_move$(OBJ_SUFFIX): \
  stipulation/series_play/ready_for_series_move.c \
- stipulation/series_play/ready_for_series_move.h trace.h \
- stipulation/branch.h
+ stipulation/series_play/ready_for_series_move.h trace.h pypipe.h \
+ stipulation/branch.h stipulation/series_play/branch.h
 
 stipulation/series_play/ready_for_series_move.h:
 
 trace.h:
 
+pypipe.h:
+
 stipulation/branch.h:
+
+stipulation/series_play/branch.h:
 stipulation/series_play/adapter$(OBJ_SUFFIX): stipulation/series_play/adapter.c \
  stipulation/series_play/adapter.h stipulation/branch.h \
  stipulation/series_play/play.h trace.h
@@ -151,7 +155,7 @@ trace.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
  stipulation/series_play/fork.h pybrafrk.h stipulation/branch.h \
  stipulation/series_play/branch.h stipulation/series_play/play.h \
- stipulation/proxy.h trace.h
+ stipulation/series_play/adapter.h stipulation/proxy.h trace.h
 
 stipulation/series_play/fork.h:
 
@@ -162,6 +166,8 @@ stipulation/branch.h:
 stipulation/series_play/branch.h:
 
 stipulation/series_play/play.h:
+
+stipulation/series_play/adapter.h:
 
 stipulation/proxy.h:
 

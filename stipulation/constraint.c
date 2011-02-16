@@ -7,6 +7,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/ready_for_series_move.h"
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -843,8 +844,9 @@ static void reflex_guards_inserter_series(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(slices[si].prev,
-              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
+  if (!ready_for_series_move_is_move_dummy(si))
+    pipe_append(slices[si].prev,
+                alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

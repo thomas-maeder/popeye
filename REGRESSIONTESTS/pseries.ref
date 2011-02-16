@@ -239,10 +239,10 @@ solution finished.
   1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
   1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 # 
 
-              empile:       13195
-            jouecoup:        6079
-        orig_rbechec:        2777
-        orig_rnechec:        5613
+              empile:       13182
+            jouecoup:        6074
+        orig_rbechec:        2775
+        orig_rnechec:        5608
 solution finished. 
 
 
@@ -274,10 +274,10 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
 
-              empile:     4875781
-            jouecoup:     2702959
-        orig_rbechec:     1629954
-        orig_rnechec:     1705505
+              empile:     4872353
+            jouecoup:     2701011
+        orig_rbechec:     1629482
+        orig_rnechec:     1703555
 solution finished. 
 
 

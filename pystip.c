@@ -674,6 +674,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 
   { STSeriesAdapter,              &move_to_root                            },
   { STSeriesFindShortest,         &series_find_shortest_make_root          },
+  { STReadyForSeriesMove,         &ready_for_series_move_make_root         },
   { STSeriesMove,                 &series_move_make_root                   },
   { STSeriesFork,                 &stip_traverse_structure_pipe            },
 
