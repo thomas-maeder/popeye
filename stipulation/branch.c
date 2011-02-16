@@ -1,5 +1,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/series_play/branch.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -35,8 +36,6 @@ static slice_index const root_slice_rank_order[] =
   STKeepMatingFilter,
   STAttackAdapter,
   STReadyForHelpMove,
-  STReadyForSeriesMove,
-  STSeriesAdapter,
   STBattleDeadEnd,
   STMinLengthAttackFilter,
   STStipulationReflexAttackSolver,
@@ -53,10 +52,7 @@ static slice_index const root_slice_rank_order[] =
   STIntelligentHelpFilter,
   STIntelligentSeriesFilter,
   STHelpShortcut,
-  STSeriesShortcut,
-  STReadyForSeriesMove,
   STHelpMove,
-  STSeriesMove,
   STMaxTimeRootDefenderFilter,
   STMaxSolutionsRootDefenderFilter,
   STRestartGuard,
@@ -71,7 +67,6 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
   STHelpMoveLegalityChecked,
-  STSeriesFork,
   STKeepMatingFilter,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
@@ -202,6 +197,11 @@ static void root_branch_insert_slices_recursive(slice_index si,
             root_branch_insert_slices_recursive(copy,
                                                 prototypes+1,nr_prototypes-1,
                                                 prototype_rank+1);
+          break;
+        }
+        else if (slices[next].type==STSeriesAdapter)
+        {
+          series_branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
         }
         else

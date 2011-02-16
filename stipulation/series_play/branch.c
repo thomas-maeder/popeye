@@ -34,6 +34,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesFork,
   STSeriesHashed,
   STParryFork,
+  STDefenseAdapter,
   STDoubleMateFilter,
   STCounterMateFilter,
   STSeriesDummyMove,
@@ -47,6 +48,7 @@ static slice_index const series_slice_rank_order[] =
   STPiecesParalysingMateFilter,
   STRestartGuard,
   STEndOfRoot,
+  STGoalReachedTesting,
   STSelfCheckGuard,
   STReflexSeriesFilter,
 
@@ -111,16 +113,6 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
       slice_index const next = slices[si].u.pipe.next;
       if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STGoalReachedTesting)
-      {
-        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-        break;
-      }
-      else if (slices[next].type==STDefenseAdapter)
-      {
-        battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-        break;
-      }
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
         series_branch_insert_slices_recursive(slices[next].u.binary.op1,
@@ -148,7 +140,17 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
-          if (slices[next].type==STSeriesFork)
+          if (slices[next].type==STGoalReachedTesting)
+          {
+            leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+            break;
+          }
+          else if (slices[next].type==STDefenseAdapter)
+          {
+            battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+            break;
+          }
+          else if (slices[next].type==STSeriesFork)
             series_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                                   prototypes,nr_prototypes,
                                                   base);
@@ -159,6 +161,35 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a series branch; the elements of
+ * prototypes are *not* deallocated by series_branch_insert_slices_nested().
+ * The inserted slices are copies of the elements of prototypes).
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void series_branch_insert_slices_nested(slice_index si,
+                                        slice_index const prototypes[],
+                                        unsigned int nr_prototypes)
+{
+  unsigned int i;
+  unsigned int base;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  base = get_series_slice_rank(slices[si].type,0);
+  assert(base!=no_series_slice_type);
+
+  series_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -177,17 +208,13 @@ void series_branch_insert_slices(slice_index si,
                                  unsigned int nr_prototypes)
 {
   unsigned int i;
-  unsigned int base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  base = get_series_slice_rank(slices[si].type,0);
-  assert(base!=no_series_slice_type);
-
-  series_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+  series_branch_insert_slices_nested(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);
