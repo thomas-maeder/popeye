@@ -60,7 +60,6 @@
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
-    ENUMERATOR(STSeriesMoveLegalityChecked),                            \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \

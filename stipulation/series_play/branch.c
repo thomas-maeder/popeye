@@ -48,7 +48,7 @@ static slice_index const series_slice_rank_order[] =
   STRestartGuard,
   STEndOfRoot,
   STSelfCheckGuard,
-  STSeriesMoveLegalityChecked,
+  STReflexSeriesFilter,
 
   STSeriesFork,
   STSeriesDummyMove,
@@ -234,24 +234,6 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Insert a the appropriate proxy slices after each
- * STGoalReachedTested slice
- * @param si identifies slice
- * @param st address of structure representing the traversal
- */
-static void instrument_tested(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_pipe(STSeriesMoveLegalityChecked));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a branch leading to a goal to be a series goal branch
  * @param si identifies entry slice of branch
  */
@@ -267,9 +249,6 @@ void stip_make_series_goal_branch(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTesting,
                                            &instrument_testing);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTested,
-                                           &instrument_tested);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -299,22 +278,18 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const ready = alloc_ready_for_series_move_slice(length,
                                                                 min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const ready2 = alloc_ready_for_series_move_slice(length-1,
                                                                  min_length-1);
     slice_index const dummy = alloc_series_dummy_move_slice();
-    slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
 
-    pipe_link(checked2,ready);
-    pipe_link(ready,move);
-    pipe_link(move,checked1);
-    pipe_link(checked1,ready2);
-    pipe_link(ready2,dummy);
-    pipe_link(dummy,checked2);
-
-    pipe_set_successor(finder,ready);
-    pipe_link(adapter,finder);
     result = adapter;
+    pipe_link(adapter,finder);
+    pipe_set_successor(finder,ready);
+
+    pipe_link(ready,move);
+    pipe_link(move,ready2);
+    pipe_link(ready2,dummy);
+    pipe_link(dummy,ready);
   }
 
   TraceFunctionExit(__func__);
@@ -360,9 +335,11 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   assert(slices[si].type==STSeriesAdapter);
 
   {
-    slice_index const checked = branch_find_slice(STSeriesMoveLegalityChecked,si);
-    assert(checked!=no_slice);
-    pipe_append(checked,alloc_series_fork_slice(next));
+    slice_index const ready1 = branch_find_slice(STReadyForSeriesMove,si);
+    slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,ready1);
+    assert(ready1!=no_slice);
+    assert(ready2!=no_slice);
+    pipe_append(slices[ready2].prev,alloc_series_fork_slice(next));
   }
 
   TraceFunctionExit(__func__);

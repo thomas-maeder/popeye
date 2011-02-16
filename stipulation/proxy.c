@@ -45,7 +45,6 @@ static boolean is_proxy(slice_index si)
     case STHelpMovePlayed:
     case STHelpMoveLegalityChecked:
     case STReadyForSeriesMove:
-    case STSeriesMoveLegalityChecked:
     case STGoalReachedTesting:
     case STGoalReachedTested:
     case STGoalAutoStalemateReachedTester:
