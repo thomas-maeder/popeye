@@ -42,7 +42,7 @@ void battle_branch_insert_slices(slice_index si,
                                  slice_index const prototypes[],
                                  unsigned int nr_prototypes);
 
-/* Insert slices into a leaf branch; the elements of
+/* Insert slices into a battle branch; the elements of
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
  * Each slice is inserted at a position that corresponds to its predefined rank.
