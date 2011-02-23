@@ -32,10 +32,4 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st);
  */
 void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type branch_fork_has_solution(slice_index si);
-
 #endif

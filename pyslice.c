@@ -23,7 +23,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
-#include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
@@ -415,10 +414,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_solution(si);
-      break;
-
-    case STHelpFork:
-      result = branch_fork_has_solution(si);
       break;
 
     case STSelfCheckGuard:

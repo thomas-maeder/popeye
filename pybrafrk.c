@@ -56,29 +56,9 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
     stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
     proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal,st);
   }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type branch_fork_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Detect starter field with the starting side if possible.
