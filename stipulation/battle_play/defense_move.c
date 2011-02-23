@@ -2,7 +2,9 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/ready_for_help_move.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/root.h"
 #include "trace.h"
@@ -50,13 +52,16 @@ void defense_move_make_setplay_slice(slice_index si,
     stip_length_type const length_h = (length-slack_length_battle
                                        +slack_length_help);
     slice_index const root = alloc_help_root_slice(length_h,length_h-1);
+    slice_index const ready = alloc_ready_for_help_move_slice(length_h,length_h-1);
     slice_index const move = alloc_help_move_slice(length_h,length_h-1);
+    slice_index const adapter = alloc_attack_adapter_slice(length_h-1,length_h-2);
+    slice_index const done = branch_find_slice(STDefenseMoveShoeHorningDone,si);
 
-    pipe_link(root,move);
-
-    stip_traverse_structure_children(si,st);
-
-    pipe_link(move,*result);
+    assert(done!=no_slice);
+    pipe_link(root,ready);
+    pipe_link(ready,move);
+    pipe_link(move,adapter);
+    pipe_set_successor(adapter,done);
     *result = root;
   }
 

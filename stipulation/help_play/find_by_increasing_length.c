@@ -51,33 +51,34 @@ void stip_traverse_moves_help_root(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
  */
-has_solution_type help_root_solve(slice_index si)
+stip_length_type help_root_solve_in_n(slice_index si, stip_length_type n)
 {
-  has_solution_type result = has_no_solution;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type len;
+  stip_length_type result = n+2;
+  stip_length_type len = slices[si].u.branch.min_length+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* Do *not* delegate to help_solve() here:
-   * If help_solve() has found solutions of a certain length, it won't
-   * look for longer solutions.
-   * Here, on the other hand, we want to find solutions of any length.
-   */
-  for (len = min_length+(length-min_length)%2; len<=length; len += 2)
-    if (help_solve_in_n(next,len)==len)
-      result = has_solution;
+  while (len<=n)
+  {
+    if (help_solve_in_n(slices[si].u.pipe.next,len)==len && len<result)
+      result = len;
+    len += 2;
+  }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

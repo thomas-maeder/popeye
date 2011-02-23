@@ -202,7 +202,6 @@ static void insert_collector(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
   { STReadyForAttack,  &insert_collector },
-  { STAttackAdapter,   &insert_collector },
   { STReadyForDefense, &insert_collector },
   { STDefenseAdapter,  &insert_collector }
 };

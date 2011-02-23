@@ -69,7 +69,9 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
   {
     slice_index const adapter = alloc_attack_adapter_slice(slices[si].u.branch.length,
                                                            slices[si].u.branch.min_length);
-    link_to_branch(adapter,*root_slice);
+    slice_index const copy = copy_slice(si);
+    pipe_link(adapter,copy);
+    link_to_branch(copy,*root_slice);
     *root_slice = adapter;
   }
 

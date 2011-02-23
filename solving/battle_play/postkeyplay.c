@@ -172,7 +172,7 @@ static void insert_postkeyplay_suppressor(slice_index si,
 static structure_traversers_visitors postkey_suppressor_inserters[] =
 {
   { STAttackAdapter, &insert_postkeyplay_suppressor },
-  { STHelpRoot,      &stip_structure_visitor_noop   },
+  { STHelpAdapter,   &stip_structure_visitor_noop   },
   { STSeriesAdapter, &stip_structure_visitor_noop   }
 };
 

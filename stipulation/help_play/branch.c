@@ -1,6 +1,8 @@
 #include "stipulation/help_play/branch.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/adapter.h"
+#include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
@@ -13,14 +15,19 @@
  */
 static slice_index const help_slice_rank_order[] =
 {
-  STReadyForHelpMove,
+  STHelpAdapter,
   STStopOnShortSolutionsInitialiser,
   STHelpRoot,
+  STHelpFindShortest,
   STIntelligentHelpFilter,
   STHelpShortcut,
+
+  STHelpFork,
+  STReadyForHelpMove,
   STHelpFork,
   STHelpHashed,
   STDoubleMateFilter,
+  STCounterMateFilter,
   STEnPassantHelpFilter,
   STCastlingHelpFilter,
   STHelpMove,
@@ -29,10 +36,13 @@ static slice_index const help_slice_rank_order[] =
   STMaxSolutionsHelpFilter,
   STStopOnShortSolutionsFilter,
   STKeepMatingFilter,
+  STPiecesParalysingMateFilter,
+  STRestartGuard,
   STGoalReachableGuardHelpFilter,
-  STHelpMovePlayed,
+  STEndOfRoot,
+  STGoalReachedTesting,
   STSelfCheckGuard,
-  STHelpMoveLegalityChecked
+  STReflexHelpFilter
 };
 
 enum
@@ -90,12 +100,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STGoalReachedTesting)
-      {
-        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-        break;
-      }
-      else if (slices[next].type==STProxy)
+      if (slices[next].type==STProxy)
         si = next;
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
@@ -124,12 +129,50 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
+          if (slices[next].type==STGoalReachedTesting)
+          {
+            leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+            break;
+          }
+          else if (slices[next].type==STHelpFork)
+            help_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                                prototypes,nr_prototypes,
+                                                base);
+
           base = rank_next;
           si = next;
         }
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a help branch; the elements of
+ * prototypes are *not* deallocated by help_branch_insert_slices_nested().
+ * The inserted slices are copies of the elements of prototypes).
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void help_branch_insert_slices_nested(slice_index si,
+                                      slice_index const prototypes[],
+                                      unsigned int nr_prototypes)
+{
+  unsigned int base;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  base = get_slice_rank(slices[si].type,0);
+  assert(base!=no_help_slice_type);
+
+  help_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -148,17 +191,13 @@ void help_branch_insert_slices(slice_index si,
                                unsigned int nr_prototypes)
 {
   unsigned int i;
-  unsigned int base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  base = get_slice_rank(slices[si].type,0);
-  assert(base!=no_help_slice_type);
-
-  help_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+  help_branch_insert_slices_nested(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);
@@ -189,37 +228,119 @@ void help_branch_shorten_slice(slice_index si)
  */
 static void shorten_slices(slice_index begin, slice_index end)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",begin);
+  TraceFunctionParam("%u",end);
+  TraceFunctionParamListEnd();
+
   while (begin!=end)
   {
     help_branch_shorten_slice(begin);
     begin = slices[begin].u.pipe.next;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-/* Shorten a help branch by 1 half move
- * @param identifies entry slice of branch to be shortened
- * @return entry slice of shortened branch
- *         no_slice if shortening isn't applicable
+/* Shorten the introductory slices of a help branch (i.e. those that don't
+ * belong to the loop) by 1 half move
+ * @param si identifies the entry slice
+ * @return index of the last introductory slice
  */
-slice_index help_branch_shorten(slice_index si)
+static slice_index shorten_intro_slices(slice_index si)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = branch_find_slice(STHelpMoveLegalityChecked,si);
+  while (1)
+  {
+    if (slice_has_structure(si,slice_structure_branch))
+    {
+      --slices[si].u.branch.length;
+      --slices[si].u.branch.min_length;
+    }
 
-  assert(result!=no_slice);
-  assert(result!=si);
+    if (slices[slices[si].u.pipe.next].prev==si)
+      si = slices[si].u.pipe.next;
+    else
+      break;
+  }
 
-  shorten_slices(si,result);
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",si);
+  TraceFunctionResultEnd();
+  return si;
+}
+
+/* Find the entry slice into the shortened loop
+ * @param current_entry identifies current entry slice
+ * @return identifier of the new entry slice
+ */
+static slice_index find_entry_of_shortened_loop(slice_index current_entry)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_entry);
+  TraceFunctionParamListEnd();
+
+  assert(slices[current_entry].type==STReadyForHelpMove
+         || slices[current_entry].type==STHelpFork);
+  switch (slices[current_entry].type)
+  {
+    case STReadyForHelpMove:
+      result = current_entry;
+      do
+      {
+        result = slices[result].u.pipe.next;
+      } while (slices[result].type!=STReadyForHelpMove
+               && slices[result].type!=STHelpFork);
+      break;
+
+    case STHelpFork:
+    {
+      slice_index const ready = branch_find_slice(STReadyForHelpMove,
+                                                  current_entry);
+      result = branch_find_slice(STReadyForHelpMove,ready);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Shorten a help branch by 1 half move
+ * @param identifies entry slice of branch to be shortened
+ */
+void help_branch_shorten(slice_index si)
+{
+  slice_index last_introductory;
+  slice_index current_loop_entry;
+  slice_index new_loop_entry;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].type==STHelpAdapter);
+
+  last_introductory = shorten_intro_slices(si);
+  current_loop_entry = slices[last_introductory].u.pipe.next;
+  new_loop_entry = find_entry_of_shortened_loop(current_loop_entry);
+  shorten_slices(current_loop_entry,new_loop_entry);
+  slices[last_introductory].u.pipe.next = new_loop_entry;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a help branch with an even number of half moves
@@ -238,29 +359,25 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const checked1 = alloc_pipe(STHelpMoveLegalityChecked);
+    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
+    slice_index const finder = alloc_help_find_shortest_slice(length,
+                                                              min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
-    slice_index const played1 = alloc_pipe(STHelpMovePlayed);
-    slice_index const checked2 = alloc_pipe(STHelpMoveLegalityChecked);
-
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
-    slice_index const played2 = alloc_pipe(STHelpMovePlayed);
+
+    result = adapter;
+    pipe_link(adapter,finder);
+    pipe_set_successor(finder,ready1);
 
     pipe_link(ready1,move1);
-    pipe_link(move1,played1);
-    pipe_link(played1,checked2);
-    pipe_link(checked2,ready2);
+    pipe_link(move1,ready2);
 
     pipe_link(ready2,move2);
-    pipe_link(move2,played2);
-    pipe_link(played2,checked1);
-    pipe_link(checked1,ready1);
-
-    result = checked1;
+    pipe_link(move2,ready1);
   }
 
   TraceFunctionExit(__func__);
@@ -283,7 +400,7 @@ static slice_index find_fork_pos(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STHelpMoveLegalityChecked);
+  assert(slices[si].type==STHelpAdapter);
 
   do
   {
@@ -315,10 +432,38 @@ void help_branch_set_next_slice(slice_index si,
   TraceFunctionParamListEnd();
 
   {
+    slice_index hook = si;
     slice_index const pos = find_fork_pos(si,n);
     stip_length_type length = slices[pos].u.branch.length;
     stip_length_type min_length = slices[pos].u.branch.min_length;
-    pipe_append(pos,alloc_help_fork_slice(length,min_length,next));
+    pipe_append(slices[pos].prev,alloc_help_fork_slice(length,min_length,next));
+
+    while (slices[slices[hook].u.pipe.next].prev==hook)
+      hook = slices[hook].u.pipe.next;
+    if (slices[hook].u.pipe.next==pos)
+      slices[hook].u.pipe.next = slices[pos].prev;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a fork to the goal branch
+ * @param si identifies the entry slice of a help branch
+ * @param next identifies the entry slice of the next branch
+ */
+void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const pos = find_fork_pos(si,slack_length_help+1);
+    stip_length_type length = slices[pos].u.branch.length;
+    stip_length_type min_length = slices[pos].u.branch.min_length;
+    pipe_append(pos,alloc_help_fork_slice(length,min_length,to_goal));
   }
 
   TraceFunctionExit(__func__);
@@ -346,8 +491,8 @@ slice_index alloc_help_branch(stip_length_type length,
   else
   {
     /* this indirect approach avoids some code duplication */
-    slice_index const branch = alloc_help_branch_odd(length+1,min_length+1);
-    result = help_branch_shorten(branch);
+    result = alloc_help_branch_odd(length+1,min_length+1);
+    help_branch_shorten(result);
   }
 
   TraceFunctionExit(__func__);
@@ -369,36 +514,8 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const ready = alloc_branch(STReadyForHelpMove,
-                                           slack_length_help+1,
-                                           slack_length_help);
-    slice_index const move = alloc_help_move_slice(slack_length_help+1,
-                                                   slack_length_help);
-    slice_index const played = alloc_pipe(STHelpMovePlayed);
-    pipe_append(slices[si].prev,ready);
-    pipe_append(ready,move);
-    pipe_append(move,played);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a the appropriate proxy slices after each
- * STGoalReachedTested slice
- * @param si identifies slice
- * @param st address of structure representing the traversal
- */
-static void instrument_tested(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_pipe(STHelpMoveLegalityChecked));
+  pipe_append(slices[si].prev,
+              alloc_help_move_slice(slack_length_help+1,slack_length_help));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -419,9 +536,6 @@ void stip_make_help_goal_branch(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTesting,
                                            &instrument_testing);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTested,
-                                           &instrument_tested);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

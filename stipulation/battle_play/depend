@@ -334,8 +334,10 @@ trace.h:
 stipulation/battle_play/defense_move$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_move.c \
  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/attack_play.h \
- stipulation/help_play/move.h stipulation/help_play/root.h trace.h
+ stipulation/branch.h stipulation/battle_play/attack_adapter.h \
+ stipulation/battle_play/attack_play.h \
+ stipulation/help_play/ready_for_help_move.h stipulation/help_play/move.h \
+ stipulation/help_play/root.h trace.h
 
 stipulation/battle_play/defense_move.h:
 
@@ -345,7 +347,11 @@ pypipe.h:
 
 stipulation/branch.h:
 
+stipulation/battle_play/attack_adapter.h:
+
 stipulation/battle_play/attack_play.h:
+
+stipulation/help_play/ready_for_help_move.h:
 
 stipulation/help_play/move.h:
 
@@ -355,7 +361,8 @@ trace.h:
 stipulation/battle_play/ready_for_defense$(OBJ_SUFFIX): \
  stipulation/battle_play/ready_for_defense.c \
  stipulation/battle_play/ready_for_defense.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/defense_adapter.h trace.h
+ stipulation/branch.h stipulation/battle_play/defense_adapter.h \
+ stipulation/help_play/adapter.h trace.h
 
 stipulation/battle_play/ready_for_defense.h:
 
@@ -364,6 +371,8 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/defense_adapter.h:
+
+stipulation/help_play/adapter.h:
 
 trace.h:
 stipulation/battle_play/defense_fork$(OBJ_SUFFIX): \

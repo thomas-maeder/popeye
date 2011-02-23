@@ -395,15 +395,8 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototypes[] =
-    {
-      alloc_selfcheck_guard_solvable_filter()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    series_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    series_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -457,7 +450,6 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STAttackAdapter,      &insert_selfcheck_guard_battle_branch },
   { STReadyForAttack,     &insert_selfcheck_guard_battle_branch },
   { STDefenseAdapter,     &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,    &insert_selfcheck_guard_battle_branch },
@@ -572,20 +564,6 @@ static void remove_guards_after_selfcheck_ignoring_goals(slice_index si)
   }
 
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remove_guard_prev(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  assert(slices[slices[si].prev].type==STSelfCheckGuard);
-  pipe_remove(slices[si].prev);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

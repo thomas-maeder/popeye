@@ -38,6 +38,7 @@ void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
+  if (*setplay_slice!=no_slice)
   {
     slice_index const copy = copy_slice(si);
     pipe_link(copy,*setplay_slice);

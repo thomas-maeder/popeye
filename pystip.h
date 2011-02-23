@@ -42,14 +42,14 @@
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
+    ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
+    ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
-    ENUMERATOR(STHelpMovePlayed),                                       \
-    ENUMERATOR(STHelpMoveLegalityChecked),                              \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \

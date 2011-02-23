@@ -117,18 +117,6 @@ static void check_detector_insert(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors check_detector_inserters[] =
-{
-  { STAttackAdapter,   &check_detector_insert },
-  { STReadyForAttack,  &check_detector_insert }
-};
-
-enum
-{
-  nr_check_detector_inserters =
-  (sizeof check_detector_inserters / sizeof check_detector_inserters[0])
-};
-
 /* Instrument the stipulation representation so that it can deal with
  * continuations
  * @param si identifies slice where to start
@@ -144,9 +132,9 @@ void stip_insert_check_detectors(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    check_detector_inserters,
-                                    nr_check_detector_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &check_detector_insert);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

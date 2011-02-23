@@ -221,18 +221,6 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors maxflight_guards_inserters[] =
-{
-  { STAttackAdapter,  &maxflight_guard_inserter },
-  { STReadyForAttack, &maxflight_guard_inserter }
-};
-
-enum
-{
-  nr_maxflight_guards_inserters = (sizeof maxflight_guards_inserters
-                                   / sizeof maxflight_guards_inserters[0])
-};
-
 /* Instrument stipulation with STMaxFlightsquares slices
  * @param si identifies slice where to start
  */
@@ -247,9 +235,9 @@ void stip_insert_maxflight_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    maxflight_guards_inserters,
-                                    nr_maxflight_guards_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &maxflight_guard_inserter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

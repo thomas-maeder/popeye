@@ -1,9 +1,14 @@
 stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
- stipulation/proxy.h pypipe.h trace.h
+ stipulation/proxy.h stipulation/help_play/branch.h \
+ stipulation/series_play/branch.h pypipe.h trace.h
 
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/series_play/branch.h:
 
 pypipe.h:
 
@@ -37,7 +42,8 @@ pybrafrk.h:
 trace.h:
 stipulation/reflex_attack_solver$(OBJ_SUFFIX): stipulation/reflex_attack_solver.c \
  stipulation/reflex_attack_solver.h pybrafrk.h pypipe.h \
- stipulation/battle_play/attack_play.h trace.h
+ stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
+ trace.h
 
 stipulation/reflex_attack_solver.h:
 
@@ -46,5 +52,7 @@ pybrafrk.h:
 pypipe.h:
 
 stipulation/battle_play/attack_play.h:
+
+stipulation/help_play/play.h:
 
 trace.h:

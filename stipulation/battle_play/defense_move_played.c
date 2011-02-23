@@ -29,23 +29,3 @@ slice_index alloc_defense_move_played_slice(stip_length_type length,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_played_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = alloc_pipe(STHelpMovePlayed);
-  pipe_set_successor(*result,slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

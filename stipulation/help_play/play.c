@@ -6,9 +6,11 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
@@ -46,6 +48,18 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STHelpAdapter:
+      result = help_solve_in_n(slices[si].u.pipe.next,n);
+      break;
+
+    case STHelpRoot:
+      result = help_root_solve_in_n(si,n);
+      break;
+
+    case STHelpFindShortest:
+      result = help_find_shortest_solve_in_n(si,n);
+      break;
+
     case STHelpShortcut:
       result = help_shortcut_solve_in_n(si,n);
       break;
@@ -78,22 +92,19 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STThreatEnforcer:
-    case STVariationWriter:
-    case STSelfDefense:
-    case STReflexAttackerFilter:
-    case STKillerMoveCollector:
+    case STAttackAdapter:
     {
+      slice_index const next = slices[si].u.pipe.next;
       stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
       stip_length_type const
-          sol_length = attack_has_solution_in_n(si,nbattle,n_max_unsolvable);
+          sol_length = attack_has_solution_in_n(next,nbattle,n_max_unsolvable);
       if (sol_length<slack_length_battle)
         result = n+4;
       else if (sol_length<=nbattle)
       {
         result = n;
-        attack_solve_in_n(si,nbattle,n_max_unsolvable);
+        attack_solve_in_n(next,nbattle,n_max_unsolvable);
       }
       else
         result = sol_length+slack_length_help-slack_length_battle;
@@ -106,6 +117,10 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = hashed_help_solve_in_n(si,n);
+      break;
+
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_help_solve_in_n(si,n);
       break;
 
     case STReflexHelpFilter:
@@ -189,36 +204,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type help_solve(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type n;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(length>=slack_length_help);
-
-  for (n = min_length+(length-min_length)%2; n<=length; n +=2)
-    if (help_solve_in_n(si,n)==n)
-    {
-      result = has_solution;
-      break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
@@ -240,6 +225,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STHelpAdapter:
+      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+      break;
+
     case STHelpMove:
       result = help_move_has_solution_in_n(si,n);
       break;
@@ -252,6 +241,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = help_root_has_solution_in_n(si,n);
       break;
 
+    case STHelpFindShortest:
+      result = help_find_shortest_has_solution_in_n(si,n);
+      break;
+
     case STHelpShortcut:
       result = help_shortcut_has_solution_in_n(si,n);
       break;
@@ -262,6 +255,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = hashed_help_has_solution_in_n(si,n);
+      break;
+
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_help_has_solution_in_n(si,n);
       break;
 
     case STReflexHelpFilter:
@@ -333,39 +330,6 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type help_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const parity = (full_length-min_length)%2;
-  stip_length_type len = min_length+parity;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_help);
-
-  while (len<=full_length)
-    if (help_has_solution_in_n(si,len)==len)
-    {
-      result = has_solution;
-      break;
-    }
-    else
-      len += 2;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

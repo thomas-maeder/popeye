@@ -33,6 +33,12 @@ void help_move_detect_starter(slice_index si, stip_structure_traversal *st);
  */
 void help_move_apply_setplay(slice_index si, stip_structure_traversal *st);
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
@@ -55,24 +61,5 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n);
  */
 stip_length_type help_move_has_solution_in_n(slice_index si,
                                              stip_length_type n);
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_legality_checked_make_setplay_slice(slice_index si, stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_played_make_root(slice_index si, stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_legality_checked_make_root(slice_index si,
-                                          stip_structure_traversal *st);
 
 #endif

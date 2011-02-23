@@ -2060,12 +2060,12 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       result = whitetoplay_means_shorten;
       break;
 
+    case STHelpAdapter:
+    case STHelpFindShortest:
     case STHelpShortcut:
     case STReadyForHelpMove:
     case STHelpMove:
     case STHelpMoveToGoal:
-    case STHelpMovePlayed:
-    case STHelpMoveLegalityChecked:
     case STMoveInverter:
     case STGoalReachedTesting:
     case STProxy:
@@ -2115,15 +2115,15 @@ static boolean apply_whitetoplay(slice_index proxy)
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
-    case STHelpMoveLegalityChecked:
+    case STHelpAdapter:
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
       {
         slice_index const inverter = alloc_move_inverter_slice();
-        slice_index const hook = help_branch_shorten(next);
+        help_branch_shorten(next);
         pipe_link(proxy,inverter);
-        pipe_set_successor(inverter,hook);
+        pipe_set_successor(inverter,next);
       }
       else
       {
@@ -2704,7 +2704,6 @@ static Token iterate_twins(Token prev_token)
 
   do
   {
-    slice_index const prev_template = slices[template_slice_hook].u.pipe.next;
     InitAlways();
 
     prev_token = ReadTwin(prev_token,template_slice_hook);
@@ -2725,8 +2724,7 @@ static Token iterate_twins(Token prev_token)
       ++twin_index;
     }
 
-    if (prev_template!=slices[template_slice_hook].u.pipe.next
-        || slices[slices[template_slice_hook].u.pipe.next].starter==no_side)
+    if (slices[template_slice_hook].starter==no_side)
     {
       if (OptFlag[quodlibet] && !transform_to_quodlibet(template_slice_hook))
         Message(QuodlibetNotApplicable);
@@ -2790,9 +2788,9 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
         Message(NoStopOnShortSolutions);
 
-      stip_detect_starter(slices[template_slice_hook].u.pipe.next);
-      stip_impose_starter(slices[template_slice_hook].u.pipe.next,
-                          slices[slices[template_slice_hook].u.pipe.next].starter);
+      stip_detect_starter(template_slice_hook);
+      stip_impose_starter(template_slice_hook,
+                          slices[template_slice_hook].starter);
     }
 
     TraceStipulation(template_slice_hook);

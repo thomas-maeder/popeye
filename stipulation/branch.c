@@ -1,5 +1,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -23,18 +24,18 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
   STDefenseMoveLegalityChecked,
-  STHelpMoveLegalityChecked,
   STEndOfPhaseWriter,
   STMaxSolutionsRootSolvableFilter,
   STStopOnShortSolutionsInitialiser,
   STAttackAdapter,
   STDefenseAdapter,
-  STReadyForHelpMove,
+  STHelpAdapter,
   STSeriesAdapter,
   STReflexAttackerFilter,
   STReflexDefenderFilter,
   STKeepMatingFilter,
   STAttackAdapter,
+  STReadyForAttack,
   STReadyForHelpMove,
   STBattleDeadEnd,
   STMinLengthAttackFilter,
@@ -46,27 +47,17 @@ static slice_index const root_slice_rank_order[] =
   STCounterMateFilter,
   STDoubleMateFilter,
   STAttackMoveToGoal,
-  STHelpRoot,
-  STSeriesRoot,
   STStopOnShortSolutionsFilter,
-  STIntelligentHelpFilter,
-  STIntelligentSeriesFilter,
-  STHelpShortcut,
-  STHelpMove,
   STMaxTimeRootDefenderFilter,
   STMaxSolutionsRootDefenderFilter,
   STRestartGuard,
-  STGoalReachableGuardHelpFilter,
-  STGoalReachableGuardSeriesFilter,
   STAttackMovePlayed,
-  STHelpMovePlayed,
   STEndOfSolutionWriter,
   STKillerMoveCollector,
   STEndOfRoot,
   STAttackMoveShoeHorningDone,
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
-  STHelpMoveLegalityChecked,
   STKeepMatingFilter,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
@@ -199,6 +190,11 @@ static void root_branch_insert_slices_recursive(slice_index si,
                                                 prototype_rank+1);
           break;
         }
+        else if (slices[next].type==STHelpAdapter)
+        {
+          help_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+          break;
+        }
         else if (slices[next].type==STSeriesAdapter)
         {
           series_branch_insert_slices_nested(next,prototypes,nr_prototypes);
@@ -291,7 +287,6 @@ static slice_index const leaf_slice_rank_order[] =
   STGoalReachedTested,
   STAttackMoveLegalityChecked,
   STDefenseMoveLegalityChecked,
-  STHelpMoveLegalityChecked,
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,

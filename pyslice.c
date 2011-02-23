@@ -6,8 +6,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/help_play/play.h"
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
@@ -165,17 +164,8 @@ has_solution_type slice_solve(slice_index si)
       result = defense_adapter_solve(si);
       break;
 
-    case STHelpRoot:
-      result = help_root_solve(si);
-      break;
-
-    case STHelpMove:
-    case STHelpMoveToGoal:
-    case STHelpFork:
-    case STHelpHashed:
-    case STEnPassantHelpFilter:
-    case STCastlingHelpFilter:
-      result = help_solve(si);
+    case STHelpAdapter:
+      result = help_adapter_solve(si);
       break;
 
     case STSeriesAdapter:
@@ -415,13 +405,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = defense_adapter_has_solution(si);
       break;
 
-    case STHelpRoot:
-    case STHelpMove:
-    case STHelpMoveToGoal:
-    case STHelpHashed:
-    case STEnPassantHelpFilter:
-    case STCastlingHelpFilter:
-      result = help_has_solution(si);
+    case STHelpAdapter:
+      result = help_adapter_has_solution(si);
       break;
 
     case STMoveInverter:

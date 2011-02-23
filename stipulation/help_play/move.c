@@ -42,40 +42,16 @@ slice_index alloc_help_move_slice(stip_length_type length,
 void help_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index new_root;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  assert(*root_slice==no_slice);
 
-  if (min_length<slack_length_help)
-    min_length += 2;
-
-  new_root = alloc_help_root_slice(length,min_length);
-
-  if (slices[si].u.pipe.next==no_slice)
-  {
-    /* si is not part of a loop - reuse it in the root branch */
-    pipe_unlink(slices[si].prev);
-    pipe_link(si,*root_slice);
-    pipe_link(new_root,si);
-  }
-  else
-  {
-    slice_index const shortcut = alloc_help_shortcut(length,min_length,
-                                                     slices[si].prev);
-    slice_index const root_branch = alloc_help_move_slice(length,min_length);
-
-    pipe_link(new_root,shortcut);
-    pipe_link(shortcut,root_branch);
-    pipe_set_successor(root_branch,slices[si].u.pipe.next);
-  }
-
-  *root_slice = new_root;
+  pipe_append(si,alloc_pipe(STEndOfRoot));
+  *root_slice = copy_slice(si);
+  help_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -243,83 +219,27 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].prev!=si)
-  {
-    /* si is not part of a loop - reuse it in the root branch */
-    pipe_unlink(slices[si].prev);
-    *root_slice = si;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean inserting_root_for_setplay = false;
-
 /* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
  */
-void help_move_legality_checked_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const setplay_slice = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type min_length = slices[si].u.branch.min_length;
+
+  if (min_length<slack_length_help)
+    min_length += 2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *setplay_slice = alloc_proxy_slice();
-  pipe_set_successor(*setplay_slice,si);
-  inserting_root_for_setplay = true;
-  stip_insert_root_slices(*setplay_slice);
-  inserting_root_for_setplay = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_legality_checked_make_root(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const copy = copy_slice(si);
-    link_to_branch(copy,*root_slice);
-    *root_slice = copy;
-  }
-
-  if (!inserting_root_for_setplay)
-    while (true)
-    {
-      help_branch_shorten_slice(si);
-      if (slices[si].type==STHelpMove)
-        break;
-      else
-        si = slices[si].u.pipe.next;
-    }
+  assert(*setplay_slice==no_slice);
+  pipe_append(si,alloc_pipe(STEndOfRoot));
+  *setplay_slice = alloc_help_move_slice(length,min_length);
+  pipe_set_successor(*setplay_slice,slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

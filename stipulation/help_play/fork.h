@@ -17,12 +17,6 @@ slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index to_goal);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_fork_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal

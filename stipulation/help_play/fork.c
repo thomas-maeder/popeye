@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/help_play/root.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -35,41 +34,6 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_fork_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-  stip_length_type min_length = slices[si].u.branch.min_length;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length<slack_length_help+2)
-  {
-    *root_slice = alloc_help_root_slice(length,min_length);
-    pipe_set_successor(*root_slice,si);
-  }
-  else
-  {
-    stip_traverse_structure_pipe(si,st);
-
-    {
-      slice_index const shortcut = branch_find_slice(STHelpShortcut,
-                                                     *root_slice);
-      assert(shortcut!=no_slice);
-      slices[shortcut].u.shortcut.short_sols = si;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Traverse a subtree
@@ -117,6 +81,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
 stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -125,28 +90,38 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  if (n<slack_length_help+2)
-    switch (slice_solve(slices[si].u.branch_fork.towards_goal))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (n)
+  {
+    case slack_length_help:
+      switch (slice_solve(to_goal))
+      {
+        case has_solution:
+          result = n;
+          break;
 
-      case has_no_solution:
-        result = n+2;
-        break;
+        case has_no_solution:
+          result = n+2;
+          break;
 
-      case opponent_self_check:
-        result = n+4;
-        break;
+        case opponent_self_check:
+          result = n+4;
+          break;
 
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
-  else
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+        default:
+          assert(0);
+          result = n+4;
+          break;
+      }
+      break;
+
+    case slack_length_help+1:
+      result = help_solve_in_n(to_goal,n);
+      break;
+
+    default:
+      result = help_solve_in_n(slices[si].u.pipe.next,n);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -177,28 +152,38 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_help);
 
-  if (n<slack_length_help+2)
-    switch (slice_has_solution(to_goal))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (n)
+  {
+    case slack_length_help:
+      switch (slice_has_solution(to_goal))
+      {
+        case has_solution:
+          result = n;
+          break;
 
-      case has_no_solution:
-        result = n+2;
-        break;
+        case has_no_solution:
+          result = n+2;
+          break;
 
-      case opponent_self_check:
-        result = n+4;
-        break;
+        case opponent_self_check:
+          result = n+4;
+          break;
 
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
-  else
-    result = help_has_solution_in_n(next,n);
+        default:
+          assert(0);
+          result = n+4;
+          break;
+      }
+      break;
+
+    case slack_length_help+1:
+      result = help_has_solution_in_n(to_goal,n);
+      break;
+
+    default:
+      result = help_has_solution_in_n(next,n);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

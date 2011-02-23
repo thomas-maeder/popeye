@@ -2,6 +2,7 @@
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -164,6 +165,69 @@ reflex_attack_solver_has_solution_in_n(slice_index si,
 
   if (slice_has_solution(avoided)==has_solution)
     result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  else
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attack_solver_help_solve_in_n(slice_index si,
+                                                      stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (slice_solve(avoided)==has_solution)
+    result = help_solve_in_n(next,n);
+  else
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attack_solver_help_has_solution_in_n(slice_index si,
+                                                             stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (slice_has_solution(avoided)==has_solution)
+    result = help_has_solution_in_n(next,n);
   else
     result = n+2;
 

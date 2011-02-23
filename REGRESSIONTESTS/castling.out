@@ -1673,19 +1673,19 @@ a)
   1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
   1.f2-f1=S d2-d4   2.e4*d3 ep. # 
 
-              empile:       61254
-            jouecoup:       45339
-        orig_rbechec:       44940
-        orig_rnechec:       10394
+              empile:       61201
+            jouecoup:       45299
+        orig_rbechec:       44900
+        orig_rnechec:       10385
 b) sBf2<-->wBh4
 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 # 
   1.h2*g1=L f2-f4   2.e4*f3 ep. # 
 
-              empile:       21770
-            jouecoup:       15441
-        orig_rbechec:       15243
-        orig_rnechec:        6273
+              empile:       21757
+            jouecoup:       15431
+        orig_rbechec:       15233
+        orig_rnechec:        6268
 Loesung beendet. 
 
 
