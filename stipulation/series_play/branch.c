@@ -178,7 +178,6 @@ void series_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes)
 {
-  unsigned int i;
   unsigned int base;
 
   TraceFunctionEntry(__func__);
