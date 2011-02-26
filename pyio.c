@@ -107,6 +107,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/leaf.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
@@ -121,8 +122,6 @@
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
@@ -2572,14 +2571,7 @@ static char *ParsePlay(char *tok,
       if (result!=0)
       {
         slice_make_direct_goal_branch(proxy_avoided);
-        pipe_append(proxy_avoided,
-                    alloc_ready_for_attack_slice(slack_length_battle+1,
-                                                 slack_length_battle));
-        pipe_append(proxy_avoided,
-                    alloc_attack_adapter_slice(slack_length_battle+1,
-                                               slack_length_battle));
         pipe_append(proxy_avoided,alloc_not_slice());
-
         slice_insert_reflex_filters_semi(proxy,proxy_avoided);
         stip_impose_starter(proxy_avoided,White);
 
@@ -2834,12 +2826,6 @@ static char *ParsePlay(char *tok,
              help play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_next);
           slice_make_direct_goal_branch(proxy_avoided);
-          pipe_append(proxy_avoided,
-                      alloc_ready_for_attack_slice(slack_length_battle+1,
-                                                   slack_length_battle));
-          pipe_append(proxy_avoided,
-                      alloc_attack_adapter_slice(slack_length_battle+1,
-                                                 slack_length_battle));
           pipe_append(proxy_avoided,alloc_not_slice());
 
           stip_make_help_goal_branch(proxy_next);
@@ -2900,12 +2886,6 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_battle_branch(length,min_length);
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,
-                      alloc_ready_for_attack_slice(slack_length_battle+1,
-                                                   slack_length_battle));
-          pipe_append(proxy_avoided_defense,
-                      alloc_attack_adapter_slice(slack_length_battle+1,
-                                                 slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided_defense);
@@ -2967,21 +2947,9 @@ static char *ParsePlay(char *tok,
           slice_index const
               proxy_avoided_attack = stip_deep_copy(proxy_avoided_defense);
           slice_make_direct_goal_branch(proxy_avoided_attack);
-          pipe_append(proxy_avoided_attack,
-                      alloc_ready_for_attack_slice(slack_length_battle+1,
-                                                   slack_length_battle));
-          pipe_append(proxy_avoided_attack,
-                      alloc_attack_adapter_slice(slack_length_battle+1,
-                                                 slack_length_battle));
           pipe_append(proxy_avoided_attack,alloc_not_slice());
 
           slice_make_direct_goal_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,
-                      alloc_ready_for_attack_slice(slack_length_battle+1,
-                                                   slack_length_battle));
-          pipe_append(proxy_avoided_defense,
-                      alloc_attack_adapter_slice(slack_length_battle+1,
-                                                 slack_length_battle));
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           slice_insert_reflex_filters(branch,
