@@ -2,6 +2,8 @@
 #include "stipulation/proxy.h"
 #include "trace.h"
 
+#include <assert.h>
+
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -9,23 +11,32 @@
 void binary_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index copy;
+  slice_index op1;
+  slice_index op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  copy = copy_slice(si);
-
   stip_traverse_structure(slices[si].u.binary.op1,st);
-  slices[copy].u.binary.op1 = *root_slice;
+  op1 = *root_slice;
 
   *root_slice = no_slice;
 
   stip_traverse_structure(slices[si].u.binary.op2,st);
-  slices[copy].u.binary.op2 = *root_slice;
+  op2 = *root_slice;
 
-  *root_slice = copy;
+  /* Decide whether to move ourselves to the root or rather a copy of
+   * ourselves based on the fate of our operators. */
+  assert((op1==slices[si].u.binary.op1) == (op2==slices[si].u.binary.op2));
+  if (op1==slices[si].u.binary.op1)
+    *root_slice = si;
+  else
+  {
+    *root_slice = copy_slice(si);
+    slices[*root_slice].u.binary.op1 = op1;
+    slices[*root_slice].u.binary.op2 = op2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1,10 +1,13 @@
 stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
- stipulation/proxy.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h pypipe.h trace.h
+ stipulation/proxy.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
+ trace.h
 
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 

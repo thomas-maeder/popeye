@@ -1,6 +1,7 @@
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
@@ -188,7 +189,7 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   {
@@ -200,8 +201,8 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    root_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
-                              prototypes,nr_prototypes);
+    battle_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
+                                prototypes,nr_prototypes);
   }
 
   /* don't recurse further; we don't want to instrument leaves */
@@ -233,7 +234,7 @@ static structure_traversers_visitors maxsolutions_filter_inserters[] =
   { STMaxSolutionsRootDefenderFilter, &stip_structure_visitor_noop              },
   { STReadyForHelpMove,               &insert_maxsolutions_help_filter          },
   { STReadyForSeriesMove,             &insert_maxsolutions_series_filter        },
-  { STRootAttackFork,                 &insert_maxsolutions_root_defender_filter },
+  { STAttackAdapter,                  &insert_maxsolutions_root_defender_filter },
   { STGoalReachedTested,              &insert_maxsolutions_solvable_filter      }
 };
 

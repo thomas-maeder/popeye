@@ -1,5 +1,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "pypipe.h"
@@ -27,72 +28,12 @@ static slice_index const root_slice_rank_order[] =
   STEndOfPhaseWriter,
   STMaxSolutionsRootSolvableFilter,
   STStopOnShortSolutionsInitialiser,
+  STReciprocal,
+  STQuodlibet,
   STAttackAdapter,
   STDefenseAdapter,
   STHelpAdapter,
   STSeriesAdapter,
-  STReflexAttackerFilter,
-  STReflexDefenderFilter,
-  STKeepMatingFilter,
-  STAttackAdapter,
-  STReadyForAttack,
-  STReadyForHelpMove,
-  STBattleDeadEnd,
-  STMinLengthAttackFilter,
-  STStipulationReflexAttackSolver,
-  STRootAttackFork,
-  STSaveUselessLastMove,
-  STAttackRoot,
-  STCastlingAttackerFilter,
-  STCounterMateFilter,
-  STDoubleMateFilter,
-  STAttackMoveToGoal,
-  STStopOnShortSolutionsFilter,
-  STMaxTimeRootDefenderFilter,
-  STMaxSolutionsRootDefenderFilter,
-  STRestartGuard,
-  STAttackMovePlayed,
-  STEndOfSolutionWriter,
-  STKillerMoveCollector,
-  STEndOfRoot,
-  STAttackMoveShoeHorningDone,
-  STSelfCheckGuard,
-  STAttackMoveLegalityChecked,
-  STKeepMatingFilter,
-  STMaxNrNonTrivial,
-  STMaxNrNonChecks,
-  STDefenseAdapter,
-  STReadyForDefense,
-  STContinuationSolver,
-  STKeyWriter,
-  STTrySolver,
-  STTryWriter,
-  STCheckDetector,
-  STMaxFlightsquares,
-  STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter,
-  STMaxThreatLength,
-  STPostKeyPlaySuppressor,
-  STReflexDefenderFilter,
-  STBattleDeadEnd,
-  STThreatSolver,
-  STDefenseFork,
-  STDefenseMove,
-  STDefenseMovePlayed,
-  STRefutationsCollector,
-  STRefutationWriter,
-  STDefenseMoveShoeHorningDone,
-  STKillerMoveCollector,
-  STSelfCheckGuard,
-  STDefenseMoveLegalityChecked,
-  STAttackHashed,
-  STKeepMatingFilter,
-  STThreatEnforcer,
-  STVariationWriter,
-  STRefutingVariationWriter,
-  STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter,
-  STReadyForAttack,
   STStipulationReflexAttackSolver
 };
 
@@ -149,23 +90,8 @@ static void root_branch_insert_slices_recursive(slice_index si,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STGoalReachedTesting)
-      {
-        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-        break;
-      }
-      else if (slices[next].type==STProxy)
+      if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
-      {
-        root_branch_insert_slices_recursive(slices[next].u.binary.op1,
-                                            prototypes,nr_prototypes,
-                                            base);
-        root_branch_insert_slices_recursive(slices[next].u.binary.op2,
-                                            prototypes,nr_prototypes,
-                                            base);
-        break;
-      }
       else if (slices[next].type==STSetplayFork
                || slices[next].type==STRootAttackFork)
       {
@@ -190,6 +116,21 @@ static void root_branch_insert_slices_recursive(slice_index si,
                                                 prototype_rank+1);
           break;
         }
+        else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
+        {
+          root_branch_insert_slices_recursive(slices[next].u.binary.op1,
+                                              prototypes,nr_prototypes,
+                                              base);
+          root_branch_insert_slices_recursive(slices[next].u.binary.op2,
+                                              prototypes,nr_prototypes,
+                                              base);
+          break;
+        }
+        else if (slices[next].type==STGoalReachedTesting)
+        {
+          leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+          break;
+        }
         else if (slices[next].type==STHelpAdapter)
         {
           help_branch_insert_slices_nested(next,prototypes,nr_prototypes);
@@ -198,6 +139,12 @@ static void root_branch_insert_slices_recursive(slice_index si,
         else if (slices[next].type==STSeriesAdapter)
         {
           series_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+          break;
+        }
+        else if (slices[next].type==STAttackAdapter
+                 || slices[next].type==STDefenseAdapter)
+        {
+          battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
         }
         else

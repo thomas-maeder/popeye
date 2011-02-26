@@ -41,6 +41,14 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
+  if (slices[si].u.pipe.next==no_slice)
+  {
+    pipe_link(si,*root_slice);
+    *root_slice = si;
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+  }
+  else
   {
     slice_index const copy = copy_slice(si);
     link_to_branch(copy,*root_slice);

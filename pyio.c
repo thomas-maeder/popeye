@@ -2176,16 +2176,18 @@ static void alloc_reci_end(slice_index proxy_nonreci,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const branch = alloc_help_branch(slack_length_help+2,
-                                                 slack_length_help+1);
+    slice_index const branch_nonreci = alloc_help_branch(slack_length_help+2,
+                                                         slack_length_help+1);
+    slice_index const branch_reci = alloc_help_branch(slack_length_help+1,
+                                                      slack_length_help);
+
     stip_make_help_goal_branch(proxy_to_nonreci);
-    help_branch_set_goal_slice(branch,proxy_to_nonreci);
-    pipe_link(proxy_nonreci,branch);
+    help_branch_set_goal_slice(branch_nonreci,proxy_to_nonreci);
+    pipe_link(proxy_nonreci,branch_nonreci);
 
     stip_make_help_goal_branch(proxy_to_reci);
-    pipe_append(proxy_to_reci,
-                alloc_help_adapter_slice(slack_length_help+1,slack_length_help));
-    pipe_link(proxy_reci,proxy_to_reci);
+    help_branch_set_goal_slice(branch_reci,proxy_to_reci);
+    pipe_link(proxy_reci,branch_reci);
   }
 
   TraceFunctionExit(__func__);
@@ -2709,10 +2711,8 @@ static char *ParsePlay(char *tok,
         {
           if (length==slack_length_help+2)
           {
-            slice_index const branch = alloc_help_branch(slack_length_help,
-                                                         slack_length_help-1);
-            help_branch_set_next_slice(branch,slack_length_help,proxy_next);
-            attach_help_branch(length,proxy,branch);
+            pipe_link(proxy,slices[proxy_next].u.pipe.next);
+            dealloc_slice(proxy_next);
           }
           else
           {
