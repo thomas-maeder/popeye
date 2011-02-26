@@ -320,7 +320,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverter:
       case STNot:
       case STGoalReachedTested:
-      case STAttackMovePlayed:
       case STAttackMoveShoeHorningDone:
       case STAttackMoveLegalityChecked:
       case STDefenseMoveShoeHorningDone:

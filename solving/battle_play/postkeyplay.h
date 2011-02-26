@@ -39,8 +39,7 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable);
 
-/* Instrument the stipulation representation so that it can write
- * refuting variations
+/* Instrument the stipulation representation for postkey only play
  * @param si identifies slice where to start
  */
 void stip_insert_postkey_handlers(slice_index si);

@@ -197,7 +197,6 @@ static slice_index const leaf_slice_rank_order[] =
   STAttackAdapter,
   STReadyForAttack,
   STAttackMoveToGoal,
-  STAttackMovePlayed,
   STAttackMoveShoeHorningDone,
   STGoalReachableGuardHelpFilter,
   STGoalReachableGuardSeriesFilter,

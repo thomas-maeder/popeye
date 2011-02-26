@@ -110,9 +110,9 @@ static void remove_continuation_solver(slice_index si,
 
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
-  { STAttackMovePlayed,   &stip_structure_visitor_noop },
   { STContinuationSolver, &remove_continuation_solver  },
-  { STHelpRoot,           &stip_structure_visitor_noop },
+  { STReadyForDefense,    &stip_structure_visitor_noop },
+  { STHelpAdapter,        &stip_structure_visitor_noop },
   { STSeriesAdapter,      &stip_structure_visitor_noop }
 };
 
@@ -122,8 +122,7 @@ enum
                                   / sizeof postkey_handler_inserters[0])
 };
 
-/* Instrument the stipulation representation so that it can write
- * variations
+/* Instrument the stipulation representation for postkey only play
  * @param si identifies slice where to start
  */
 void stip_insert_postkey_handlers(slice_index si)

@@ -68,7 +68,6 @@ static slice_index const slice_rank_order[] =
   STMaxTimeDefenderFilter,
   STMaxSolutionsRootDefenderFilter,
   STRestartGuard,
-  STAttackMovePlayed,
   STEndOfSolutionWriter,
   STThreatCollector,
   STKillerMoveCollector,
@@ -396,7 +395,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                   min_length);
 
     slice_index const attack = alloc_attack_move_slice(length,min_length);
-    slice_index const aplayed = alloc_pipe(STAttackMovePlayed);
     slice_index const ashoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
@@ -411,8 +409,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dchecked,aready);
     pipe_link(aready,shortest);
     pipe_link(shortest,attack);
-    pipe_link(attack,aplayed);
-    pipe_link(aplayed,ashoehorned);
+    pipe_link(attack,ashoehorned);
     pipe_link(ashoehorned,checked);
     pipe_link(checked,dready);
     pipe_link(dready,solver);
