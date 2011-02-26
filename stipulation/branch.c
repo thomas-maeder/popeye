@@ -194,6 +194,11 @@ void root_branch_insert_slices(slice_index si,
  */
 static slice_index const leaf_slice_rank_order[] =
 {
+  STAttackAdapter,
+  STReadyForAttack,
+  STAttackMoveToGoal,
+  STAttackMovePlayed,
+  STAttackMoveShoeHorningDone,
   STGoalReachableGuardHelpFilter,
   STGoalReachableGuardSeriesFilter,
   STGoalReachedTesting,

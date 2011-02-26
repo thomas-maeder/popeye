@@ -151,9 +151,9 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
       slice_index const next = slices[si].u.pipe.next;
       if (next==no_slice)
         break;
-      if (slices[next].type==STGoalReachedTesting)
+      else if (slices[next].type==STGoalReachedTesting)
       {
-        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+        leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
         break;
       }
       else if (slices[next].type==STProxy)
@@ -220,6 +220,12 @@ void battle_branch_insert_slices_nested(slice_index si,
   switch (slices[si].type)
   {
     case STProxy:
+    {
+      unsigned int const base = 0;
+      battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+      break;
+    }
+
     case STNot:
       battle_branch_insert_slices_nested(slices[si].u.pipe.next,
                                          prototypes,nr_prototypes);
