@@ -156,40 +156,6 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_defense_adapter(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  writer_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  remember_length(si,st);
-
-  if (state->length==0)
-  {
-    /* we are solving post key play - instrument accordingly */
-
-    slice_index const prototypes[] =
-    {
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_refuting_variation_writer_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-
-    /* start at predecessor - end of phase writer is inserted before defense
-     * root*/
-    battle_branch_insert_slices(slices[si].prev,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_move_inverter(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -248,7 +214,6 @@ static structure_traversers_visitors writer_inserters[] =
   { STTrySolver,             &instrument_try_solver        },
   { STThreatSolver,          &instrument_threat_solver     },
   { STPostKeyPlaySuppressor, &stip_structure_visitor_noop  },
-  { STDefenseAdapter,        &instrument_defense_adapter   },
   { STReadyForDefense,       &instrument_ready_for_defense },
   { STGoalReachedTesting,    &instrument_goal_testing      },
   { STHelpAdapter,           &stip_structure_visitor_noop  },
@@ -308,12 +273,38 @@ static void instrument_attack_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void instrument_defense_adapter(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    /* we are solving post key play */
+    slice_index const prototypes[] =
+    {
+      /* indicate check in the diagram position */
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_refuting_variation_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static structure_traversers_visitors root_writer_inserters[] =
 {
   { STAttackAdapter,  &instrument_attack_adapter   },
-  { STDefenseAdapter, &stip_structure_visitor_noop },
-  { STHelpAdapter,    &stip_structure_visitor_noop }
+  { STDefenseAdapter, &instrument_defense_adapter  },
+  { STHelpAdapter,    &stip_structure_visitor_noop },
+  { STSeriesAdapter,  &stip_structure_visitor_noop }
 };
 
 enum
