@@ -6,7 +6,6 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/ready_for_attack.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_move_played.h \
- stipulation/battle_play/defense_move_legality_checked.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
@@ -32,8 +31,6 @@ stipulation/battle_play/ready_for_attack.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_move_played.h:
-
-stipulation/battle_play/defense_move_legality_checked.h:
 
 stipulation/battle_play/ready_for_defense.h:
 
@@ -591,15 +588,6 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
-
-trace.h:
-stipulation/battle_play/defense_move_legality_checked$(OBJ_SUFFIX): \
- stipulation/battle_play/defense_move_legality_checked.c \
- stipulation/battle_play/defense_move_legality_checked.h pypipe.h trace.h
-
-stipulation/battle_play/defense_move_legality_checked.h:
-
-pypipe.h:
 
 trace.h:
 stipulation/battle_play/min_length_attack_filter$(OBJ_SUFFIX): \

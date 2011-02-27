@@ -37,7 +37,6 @@
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
-    ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
@@ -139,6 +138,7 @@
     ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
+    ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
     ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \

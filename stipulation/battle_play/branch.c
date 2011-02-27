@@ -8,7 +8,6 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
-#include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/continuation.h"
@@ -84,7 +83,8 @@ static slice_index const slice_rank_order[] =
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STSelfCheckGuard,
-  STDefenseMoveLegalityChecked,
+  STSeriesAdapter,
+  STMaxThreatLengthHook,
   STNoShortVariations,
   STAttackHashed,
   STThreatEnforcer,
@@ -337,15 +337,12 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-1,
                                                  min_length-1);
-    slice_index const
-      dchecked = alloc_defense_move_legality_checked_slice();
 
     pipe_link(adapter,solver);
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
-    pipe_link(dshoehorned,dchecked);
-    pipe_link(dchecked,next);
+    pipe_link(dshoehorned,next);
 
     result = adapter;
   }
@@ -392,8 +389,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                 min_length-2);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-2,min_length-2);
-    slice_index const
-      dchecked = alloc_defense_move_legality_checked_slice();
 
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
 
@@ -406,8 +401,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
-    pipe_link(dshoehorned,dchecked);
-    pipe_link(dchecked,aready);
+    pipe_link(dshoehorned,aready);
 
     if (min_length>slack_length_battle+1)
       pipe_append(aready,

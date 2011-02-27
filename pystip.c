@@ -23,7 +23,6 @@
 #include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
-#include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
@@ -82,7 +81,6 @@
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
-    ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
@@ -175,6 +173,7 @@
     ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
+    ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
     ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \
@@ -275,7 +274,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_branch, /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
-  slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthAttackFilter */
   slice_structure_branch, /* STHelpAdapter */
@@ -368,6 +366,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxNrNonChecks */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
+  slice_structure_pipe,   /* STMaxThreatLengthHook */
   slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
   slice_structure_pipe,   /* STMaxTimeDefenderFilter */
   slice_structure_pipe,   /* STMaxTimeHelpFilter */
@@ -978,8 +977,7 @@ static void remove_pipe(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const defense_proxy_removers[] =
 {
-  { STDefenseMoveLegalityChecked, &remove_pipe },
-  { STAttackAdapter,              &remove_pipe }
+  { STAttackAdapter, &remove_pipe }
 };
 
 enum
@@ -1203,7 +1201,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackMoveLegalityChecked,     &move_to_postkey_play                          },
   { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
   { STSelfCheckGuard,                &trash_for_postkey_play                        },
-  { STDefenseMoveLegalityChecked,    &trash_for_postkey_play                        },
   { STStipulationReflexAttackSolver, &reflex_attack_solver_reduce_to_postkey_play   },
   { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play }
 };
@@ -1729,7 +1726,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
-  &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
@@ -1822,6 +1818,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,            /* STMaxThreatLength */
+  &stip_traverse_structure_pipe,            /* STMaxThreatLengthHook */
   &stip_traverse_structure_pipe,            /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_pipe,            /* STMaxTimeDefenderFilter */
   &stip_traverse_structure_pipe,            /* STMaxTimeHelpFilter */
@@ -1961,7 +1958,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
     &stip_traverse_moves_branch_slice,          /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
-    &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
     &stip_traverse_moves_branch_slice,          /* STHelpAdapter */
@@ -2054,6 +2050,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxNrNonChecks */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialCounter */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLength */
+    &stip_traverse_moves_pipe,                  /* STMaxThreatLengthHook */
     &stip_traverse_moves_pipe,                  /* STMaxTimeRootDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STMaxTimeDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STMaxTimeHelpFilter */

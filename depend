@@ -1221,7 +1221,6 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/fork.h stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_play.h \
  stipulation/battle_play/defense_move_played.h \
- stipulation/battle_play/defense_move_legality_checked.h \
  stipulation/battle_play/defense_fork.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/attack_root.h \
@@ -1339,8 +1338,6 @@ stipulation/battle_play/defense_move.h:
 stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/defense_move_played.h:
-
-stipulation/battle_play/defense_move_legality_checked.h:
 
 stipulation/battle_play/defense_fork.h:
 
@@ -1719,9 +1716,7 @@ pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play
  py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
  pylang.h pystip.h stipulation/goals/goals.h boolean.h py.h pyenum.h \
  stipulation/branch.h pystip.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/defense_move_legality_checked.h \
- stipulation/battle_play/defense_play.h stipulation/help_play/branch.h \
+ stipulation/battle_play/attack_adapter.h stipulation/help_play/branch.h \
  stipulation/help_play/play.h pypipe.h pydata.h pyproc.h py4.h \
  stipulation/proxy.h pypipe.h trace.h
 
@@ -1770,10 +1765,6 @@ pystip.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_adapter.h:
-
-stipulation/battle_play/defense_move_legality_checked.h:
-
-stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/branch.h:
 

@@ -7,8 +7,7 @@ CFILES = branch.c fork.c \
 	root_attack_fork.c attack_fork.c attack_play.c ready_for_attack.c \
 	defense_adapter.c defense_move.c ready_for_defense.c defense_fork.c\
   defense_play.c continuation.c check_detector.c threat.c try.c postkeyplay.c \
-	defense_move_played.c defense_move_legality_checked.c \
-	min_length_attack_filter.c dead_end.c
+	defense_move_played.c min_length_attack_filter.c dead_end.c
 
 INCLUDES = branch.h fork.h \
 	attack_adapter.h attack_root.h attack_find_shortest.h \
@@ -16,7 +15,6 @@ INCLUDES = branch.h fork.h \
 	root_attack_fork.h attack_fork.h attack_play.h ready_for_attack.h \
 	defense_adapter.h defense_move.h ready_for_defense.h defense_fork.h \
 	defense_play.h continuation.h check_detector.h threat.h try.h postkeyplay.h \
-	defense_move_played.h defense_move_legality_checked.h \
-  min_length_attack_filter.h dead_end.h
+	defense_move_played.h min_length_attack_filter.h dead_end.h
 
 include makefile.rules $(CURRPWD)depend
