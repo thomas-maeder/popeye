@@ -78,7 +78,6 @@
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
-    ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
@@ -270,7 +269,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_branch, /* STReadyForDefense */
-  slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthAttackFilter */
   slice_structure_branch, /* STHelpAdapter */
@@ -613,20 +611,6 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *root_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -659,7 +643,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STAttackFork,                 &attack_fork_make_root                   },
   { STAttackFindShortest,         &attack_find_shortest_make_root          },
   { STAttackMove,                 &attack_move_make_root                   },
-  { STDefenseMoveShoeHorningDone, &serve_as_root_hook                      },
+  { STDefenseMove,                &defense_move_make_root                  },
 
   { STHelpAdapter,                &move_to_root                            },
   { STHelpFindShortest,           &help_find_shortest_make_root            },
@@ -1721,7 +1705,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
-  &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
@@ -1952,7 +1935,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
-    &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
     &stip_traverse_moves_branch_slice,          /* STHelpAdapter */

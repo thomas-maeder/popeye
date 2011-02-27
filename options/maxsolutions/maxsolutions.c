@@ -130,7 +130,7 @@ boolean max_nr_solutions_found_in_phase(void)
 }
 
 
-/* Insert a STMaxSolutionsHelpFilter slice after a STHelpMove slice
+/* Insert STMaxSolutionsHelpFilter slices
  */
 static void insert_maxsolutions_help_filter(slice_index si,
                                             stip_structure_traversal *st)
@@ -150,7 +150,7 @@ static void insert_maxsolutions_help_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert a STMaxSolutionsSeriesFilter slice after a STSeriesMove slice
+/* Insert STMaxSolutionsSeriesFilter slices
  */
 static void insert_maxsolutions_series_filter(slice_index si,
                                               stip_structure_traversal *st)
@@ -170,7 +170,7 @@ static void insert_maxsolutions_series_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert a STMaxSolutionsRootDefenderFilter slice after a STAttackRoot slice
+/* Insert STMaxSolutionsRootDefenderFilter slices
  */
 static
 void insert_maxsolutions_root_defender_filter(slice_index si,
@@ -192,26 +192,11 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_maxsolutions_root_defender_filter()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    battle_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
-                                prototypes,nr_prototypes);
-  }
-
-  /* don't recurse further; we don't want to instrument leaves */
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Insert a STMaxSolutionsSolvableFilter before a STLeaf slice
+/* Insert STMaxSolutionsSolvableFilter slices
  */
 static void insert_maxsolutions_solvable_filter(slice_index si,
                                                 stip_structure_traversal *st)

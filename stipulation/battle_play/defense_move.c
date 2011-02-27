@@ -34,6 +34,25 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   return result;
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void defense_move_make_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(si,alloc_pipe(STEndOfRoot));
+  *root_slice = copy_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
@@ -55,13 +74,13 @@ void defense_move_make_setplay_slice(slice_index si,
     slice_index const ready = alloc_ready_for_help_move_slice(length_h,length_h-1);
     slice_index const move = alloc_help_move_slice(length_h,length_h-1);
     slice_index const adapter = alloc_attack_adapter_slice(length_h-1,length_h-2);
-    slice_index const done = branch_find_slice(STDefenseMoveShoeHorningDone,si);
+    slice_index const end = branch_find_slice(STEndOfRoot,si);
 
-    assert(done!=no_slice);
+    assert(end!=no_slice);
     pipe_link(root,ready);
     pipe_link(ready,move);
     pipe_link(move,adapter);
-    pipe_set_successor(adapter,done);
+    pipe_set_successor(adapter,end);
     *result = root;
   }
 

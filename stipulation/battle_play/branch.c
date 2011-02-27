@@ -75,7 +75,7 @@ static slice_index const slice_rank_order[] =
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationWriter,
-  STDefenseMoveShoeHorningDone,
+  STEndOfRoot,
   STKillerMoveCollector,
   STSelfDefense,
   STAmuMateFilter,
@@ -330,14 +330,10 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const solver = alloc_continuation_solver_slice(length,
                                                                min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
-    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 length-1,
-                                                 min_length-1);
 
     pipe_link(adapter,solver);
     pipe_link(solver,defense);
-    pipe_link(defense,dshoehorned);
-    pipe_link(dshoehorned,next);
+    pipe_link(defense,next);
 
     result = adapter;
   }
@@ -380,8 +376,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
-    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 length-2,min_length-2);
 
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
 
@@ -392,8 +386,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(checked,dready);
     pipe_link(dready,solver);
     pipe_link(solver,defense);
-    pipe_link(defense,dshoehorned);
-    pipe_link(dshoehorned,aready);
+    pipe_link(defense,aready);
 
     if (min_length>slack_length_battle+1)
       pipe_append(aready,
