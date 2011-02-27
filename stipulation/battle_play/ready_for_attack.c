@@ -73,17 +73,6 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
 
   battle_branch_shorten_slice(si);
 
-  if (slices[si].u.branch.min_length>slack_length_battle+1)
-  {
-    slice_index const root_attack_fork = branch_find_slice(STRootAttackFork,
-                                                           *root_slice);
-    if (root_attack_fork!=no_slice)
-    {
-      dealloc_slices(slices[root_attack_fork].u.branch_fork.towards_goal);
-      pipe_remove(root_attack_fork);
-    }
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
