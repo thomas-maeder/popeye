@@ -38,7 +38,7 @@ void stip_insert_no_short_variations_filters(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STDefenseMovePlayed,
+                                           STReadyForDefense,
                                            append_no_short_variations);
   stip_traverse_structure(si,&st);
 

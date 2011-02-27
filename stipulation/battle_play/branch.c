@@ -7,7 +7,6 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/continuation.h"
@@ -73,7 +72,6 @@ static slice_index const slice_rank_order[] =
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
-  STDefenseMovePlayed,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationWriter,
@@ -332,16 +330,13 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const solver = alloc_continuation_solver_slice(length,
                                                                min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
-    slice_index const dplayed = alloc_defense_move_played_slice(length-1,
-                                                                min_length-1);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-1,
                                                  min_length-1);
 
     pipe_link(adapter,solver);
     pipe_link(solver,defense);
-    pipe_link(defense,dplayed);
-    pipe_link(dplayed,dshoehorned);
+    pipe_link(defense,dshoehorned);
     pipe_link(dshoehorned,next);
 
     result = adapter;
@@ -385,8 +380,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
-    slice_index const dplayed = alloc_defense_move_played_slice(length-2,
-                                                                min_length-2);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-2,min_length-2);
 
@@ -399,8 +392,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(checked,dready);
     pipe_link(dready,solver);
     pipe_link(solver,defense);
-    pipe_link(defense,dplayed);
-    pipe_link(dplayed,dshoehorned);
+    pipe_link(defense,dshoehorned);
     pipe_link(dshoehorned,aready);
 
     if (min_length>slack_length_battle+1)

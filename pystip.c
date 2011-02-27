@@ -22,7 +22,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
@@ -79,7 +78,6 @@
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
-    ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
@@ -272,7 +270,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_branch, /* STReadyForDefense */
-  slice_structure_branch, /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthAttackFilter */
@@ -1724,7 +1721,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
-  &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
@@ -1956,7 +1952,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
-    &stip_traverse_moves_branch_slice,          /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
