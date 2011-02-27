@@ -46,7 +46,7 @@ static slice_index const slice_rank_order[] =
   STEndOfSolutionWriter,
   STThreatCollector,
   STKillerMoveCollector,
-  STAttackMoveShoeHorningDone,
+  STGoalReachedTesting,
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
   STKeepMatingFilter,
@@ -78,6 +78,7 @@ static slice_index const slice_rank_order[] =
   STEndOfRoot,
   STKillerMoveCollector,
   STSelfDefense,
+  STGoalReachedTesting,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STSelfCheckGuard,
@@ -150,11 +151,6 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
       slice_index const next = slices[si].u.pipe.next;
       if (next==no_slice)
         break;
-      else if (slices[next].type==STGoalReachedTesting)
-      {
-        leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
-        break;
-      }
       else if (slices[next].type==STProxy)
         si = next;
       else if (slices[next].type==STQuodlibet
@@ -197,6 +193,11 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                                 prototypes,nr_prototypes,
                                                 base);
           si = next;
+        }
+        else if (slices[next].type==STGoalReachedTesting)
+        {
+          leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
+          break;
         }
         else
         {
@@ -368,7 +369,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                   min_length);
 
     slice_index const attack = alloc_attack_move_slice(length,min_length);
-    slice_index const ashoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
     slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
@@ -381,8 +381,7 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     pipe_link(aready,shortest);
     pipe_link(shortest,attack);
-    pipe_link(attack,ashoehorned);
-    pipe_link(ashoehorned,checked);
+    pipe_link(attack,checked);
     pipe_link(checked,dready);
     pipe_link(dready,solver);
     pipe_link(solver,defense);

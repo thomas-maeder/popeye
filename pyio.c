@@ -3108,7 +3108,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
         min_length += slack_length_battle;
       {
         slice_index branch = alloc_battle_branch(max_length,min_length);
-        branch = branch_find_slice(STAttackMoveShoeHorningDone,branch);
+        branch = branch_find_slice(STReadyForDefense,branch);
 
         if ((max_length-slack_length_battle-1)%2==0)
         {

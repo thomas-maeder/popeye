@@ -75,7 +75,6 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
@@ -266,7 +265,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STAttackFork */
   slice_structure_fork,   /* STDefenseFork */
   slice_structure_branch, /* STReadyForAttack */
-  slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_pipe,   /* STBattleDeadEnd */
@@ -1178,7 +1176,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
   { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
   { STAttackRoot,                    &trash_for_postkey_play                        },
-  { STAttackMoveShoeHorningDone,     &trash_for_postkey_play                        },
   { STAttackMoveLegalityChecked,     &move_to_postkey_play                          },
   { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
   { STSelfCheckGuard,                &trash_for_postkey_play                        },
@@ -1702,7 +1699,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
-  &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
@@ -1932,7 +1928,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_branch_slice,          /* STReadyForAttack */
-    &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
