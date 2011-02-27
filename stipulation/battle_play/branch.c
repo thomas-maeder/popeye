@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
@@ -29,11 +30,11 @@ static slice_index const slice_rank_order[] =
   STMinLengthAttackFilter,
   STStipulationReflexAttackSolver,
   STReflexAttackerFilter,
+  STDegenerateTree,
+  STAttackFindShortest,
   STRootAttackFork,
   STAttackFork,
   STSaveUselessLastMove,
-  STDegenerateTree,
-  STAttackFindShortest,
   STCastlingAttackerFilter,
   STCounterMateFilter,
   STDoubleMateFilter,
@@ -374,10 +375,6 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(min_length>=slack_length_battle);
 
   {
-    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 length,min_length);
-    slice_index const
-      dchecked = alloc_defense_move_legality_checked_slice();
     slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
     slice_index const shortest = alloc_attack_find_shortest_slice(length,
                                                                   min_length);
@@ -393,8 +390,13 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                          min_length-1);
     slice_index const dplayed = alloc_defense_move_played_slice(length-2,
                                                                 min_length-2);
-    pipe_link(dshoehorned,dchecked);
-    pipe_link(dchecked,aready);
+    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
+                                                 length-2,min_length-2);
+    slice_index const
+      dchecked = alloc_defense_move_legality_checked_slice();
+
+    slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
+
     pipe_link(aready,shortest);
     pipe_link(shortest,attack);
     pipe_link(attack,ashoehorned);
@@ -404,6 +406,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(solver,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
+    pipe_link(dshoehorned,dchecked);
+    pipe_link(dchecked,aready);
 
     if (min_length>slack_length_battle+1)
       pipe_append(aready,
@@ -414,7 +418,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     else
       pipe_append(aready,alloc_battle_play_dead_end_slice());
 
-    result = dchecked;
+    pipe_set_successor(adapter,aready);
+
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);

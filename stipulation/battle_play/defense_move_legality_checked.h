@@ -12,12 +12,4 @@
  */
 slice_index alloc_defense_move_legality_checked_slice(void);
 
-/* Create the root slices sequence for a battle play branch; shorten
- * the non-root slices by the moves represented by the root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_move_legality_checked_make_root(slice_index si,
-                                             stip_structure_traversal *st);
-
 #endif

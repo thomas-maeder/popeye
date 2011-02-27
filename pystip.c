@@ -658,7 +658,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 {
   { STMoveInverter,               &move_to_root                            },
 
-  { STDefenseMoveLegalityChecked, &defense_move_legality_checked_make_root },
+  { STAttackAdapter,              &move_to_root                            },
   { STReadyForAttack,             &ready_for_attack_make_root              },
   { STAttackFork,                 &attack_fork_make_root                   },
   { STAttackFindShortest,         &attack_find_shortest_make_root          },

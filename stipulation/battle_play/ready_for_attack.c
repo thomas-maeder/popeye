@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_adapter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -67,13 +66,12 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   {
-    slice_index const adapter = alloc_attack_adapter_slice(slices[si].u.branch.length,
-                                                           slices[si].u.branch.min_length);
     slice_index const copy = copy_slice(si);
-    pipe_link(adapter,copy);
     link_to_branch(copy,*root_slice);
-    *root_slice = adapter;
+    *root_slice = copy;
   }
+
+  battle_branch_shorten_slice(si);
 
   if (slices[si].u.branch.min_length>slack_length_battle+1)
   {

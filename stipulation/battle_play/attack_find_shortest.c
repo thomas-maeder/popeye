@@ -64,11 +64,12 @@ attack_find_shortest_has_solution_in_n(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
                                   ? slack_length_battle+1
                                   : n_max_unsolvable+1);
+  stip_length_type n_current;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,11 +77,14 @@ attack_find_shortest_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
-    if (attack_has_solution_in_n(next,result,n_max_unsolvable)<=result)
+  for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
+  {
+    result = attack_has_solution_in_n(next,n_current,n_max_unsolvable);
+    if (result<=n_current)
       break;
     else
-      n_max_unsolvable = result;
+      n_max_unsolvable = n_current;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -104,11 +108,12 @@ attack_find_shortest_solve_in_n(slice_index si,
                                 stip_length_type n,
                                 stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
                                   ? slack_length_battle+1
                                   : n_max_unsolvable+1);
+  stip_length_type n_current;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -116,12 +121,14 @@ attack_find_shortest_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
-    if (attack_solve_in_n(next,result,n_max_unsolvable)<=result)
+  for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
+  {
+    result = attack_solve_in_n(next,n_current,n_max_unsolvable);
+    if (result<=n_current)
       break;
     else
-      n_max_unsolvable = result;
-
+      n_max_unsolvable = n_current;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

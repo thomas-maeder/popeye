@@ -107,6 +107,8 @@ void reflex_attacker_filter_make_root(slice_index si,
   pipe_link(solver,*root_slice);
   *root_slice = solver;
 
+  battle_branch_shorten_slice(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -121,8 +123,6 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining==slices[si].u.reflex_guard.length)
     stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
