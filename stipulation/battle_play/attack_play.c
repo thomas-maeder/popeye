@@ -342,10 +342,6 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STSeriesAdapter:
-    case STReadyForSeriesMove:
-    case STSeriesMove:
-    case STSeriesHashed:
-    case STSeriesFork:
     {
       stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type nr_moves_needed = series_solve_in_n(si,n_ser);
