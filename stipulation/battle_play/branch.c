@@ -48,9 +48,9 @@ static slice_index const slice_rank_order[] =
   STKillerMoveCollector,
   STGoalReachedTesting,
   STSelfCheckGuard,
-  STAttackMoveLegalityChecked,
   STKeepMatingFilter,
   STMaxNrNonTrivial,
+  STMaxNrNonTrivialHook,
   STMaxNrNonChecks,
 
   STDefenseAdapter,
@@ -369,7 +369,6 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                   min_length);
 
     slice_index const attack = alloc_attack_move_slice(length,min_length);
-    slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const solver = alloc_continuation_solver_slice(length-1,
@@ -381,8 +380,7 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     pipe_link(aready,shortest);
     pipe_link(shortest,attack);
-    pipe_link(attack,checked);
-    pipe_link(checked,dready);
+    pipe_link(attack,dready);
     pipe_link(dready,solver);
     pipe_link(solver,defense);
     pipe_link(defense,aready);

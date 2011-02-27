@@ -32,7 +32,6 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
@@ -134,6 +133,7 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
+    ENUMERATOR(STMaxNrNonTrivialHook), /* where to start counting non-trivial defenses */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \

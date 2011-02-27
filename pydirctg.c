@@ -74,7 +74,6 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
     {
       alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle),
       alloc_attack_move_to_goal_slice(goal),
-      alloc_pipe(STAttackMoveLegalityChecked),
       alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
     };
     enum {

@@ -506,8 +506,31 @@ max_nr_noncheck_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-static void nontrivial_guard_inserter_attack_move(slice_index si,
-                                                  stip_structure_traversal *st)
+static slice_index insert_hook(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STMaxNrNonTrivialHook,si);
+  if (result==no_slice)
+  {
+    slice_index prototype = alloc_pipe(STMaxNrNonTrivialHook);
+    battle_branch_insert_slices(si,&prototype,1);
+    result = branch_find_slice(STMaxNrNonTrivialHook,si);
+    assert(result!=no_slice);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void nontrivial_guard_inserter(slice_index si,
+                                      stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -527,23 +550,15 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
     }
     else
     {
-      slice_index const next_guard = branch_find_slice(STMaxNrNonTrivial,si);
-      slice_index const checked = branch_find_slice(STAttackMoveLegalityChecked,si);
-      slice_index const next = (next_guard==no_slice
-                                ? slices[checked].u.pipe.next
-                                : slices[next_guard].u.branch_fork.towards_goal);
-
       slice_index const prototypes[] =
       {
-        alloc_max_nr_nontrivial_guard(length-1,min_length-1,next),
+        alloc_max_nr_nontrivial_guard(length-1,min_length-1,insert_hook(si)),
         alloc_max_nr_nontrivial_counter()
       };
-
       enum
       {
         nr_prototypes = sizeof prototypes / sizeof prototypes[0]
       };
-
       battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
@@ -568,7 +583,7 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
-                                           &nontrivial_guard_inserter_attack_move);
+                                           &nontrivial_guard_inserter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

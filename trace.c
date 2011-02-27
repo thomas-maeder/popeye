@@ -319,7 +319,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverter:
       case STNot:
       case STGoalReachedTested:
-      case STAttackMoveLegalityChecked:
       case STMaxThreatLengthHook:
       case STSeriesDummyMove:
       case STTrySolver:
@@ -344,6 +343,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsInitialiser:
       case STMaxNrNonChecks:
       case STMaxNrNonTrivialCounter:
+      case STMaxNrNonTrivialHook:
       case STMaxFlightsquares:
       case STDegenerateTree:
       case STNoShortVariations:

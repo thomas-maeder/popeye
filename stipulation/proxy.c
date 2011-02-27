@@ -35,7 +35,6 @@ static boolean is_proxy(slice_index si)
     case STEndOfRoot:
     case STReadyForAttack:
     case STReadyForDefense:
-    case STAttackMoveLegalityChecked:
     case STMaxThreatLengthHook:
     case STReadyForHelpMove:
     case STReadyForSeriesMove:
@@ -45,6 +44,7 @@ static boolean is_proxy(slice_index si)
     case STGoalDoubleStalemateReachedTester:
     case STGoalStalemateReachedTester:
     case STGoalMateReachedTester:
+    case STMaxNrNonTrivialHook:
       result = true;
       break;
 

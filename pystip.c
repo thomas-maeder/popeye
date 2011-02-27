@@ -75,7 +75,6 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
@@ -168,6 +167,7 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
+    ENUMERATOR(STMaxNrNonTrivialHook), /* where to start counting non-trivial defenses */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
@@ -265,7 +265,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STAttackFork */
   slice_structure_fork,   /* STDefenseFork */
   slice_structure_branch, /* STReadyForAttack */
-  slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthAttackFilter */
@@ -358,6 +357,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STMaxNrNonTrivial */
   slice_structure_pipe,   /* STMaxNrNonChecks */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
+  slice_structure_pipe,   /* STMaxNrNonTrivialHook */
   slice_structure_fork,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxThreatLengthHook */
   slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
@@ -1144,29 +1144,6 @@ static void trash_for_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_unlink(slices[si].prev);
-  pipe_link(si,*postkey_slice);
-  *postkey_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                   &defense_move_reduce_to_postkey_play           },
@@ -1176,7 +1153,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
   { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
   { STAttackRoot,                    &trash_for_postkey_play                        },
-  { STAttackMoveLegalityChecked,     &move_to_postkey_play                          },
   { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
   { STSelfCheckGuard,                &trash_for_postkey_play                        },
   { STStipulationReflexAttackSolver, &reflex_attack_solver_reduce_to_postkey_play   },
@@ -1699,7 +1675,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
-  &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
@@ -1792,6 +1767,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,            /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialCounter */
+  &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialHook */
   &stip_traverse_structure_pipe,            /* STMaxThreatLength */
   &stip_traverse_structure_pipe,            /* STMaxThreatLengthHook */
   &stip_traverse_structure_pipe,            /* STMaxTimeRootDefenderFilter */
@@ -1928,7 +1904,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_branch_slice,          /* STReadyForAttack */
-    &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
@@ -2021,6 +1996,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivial */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonChecks */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialCounter */
+    &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialHook */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLength */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLengthHook */
     &stip_traverse_moves_pipe,                  /* STMaxTimeRootDefenderFilter */
