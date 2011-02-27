@@ -23,30 +23,6 @@
  */
 static slice_index const slice_rank_order[] =
 {
-  STReflexDefenderFilter,
-  STBattleDeadEnd,
-  STThreatSolver,
-  STDefenseFork,
-  STDefenseMove,
-  STDefenseMovePlayed,
-  STMaxNrNonTrivialCounter,
-  STRefutationsCollector,
-  STRefutationWriter,
-  STDefenseMoveShoeHorningDone,
-  STKillerMoveCollector,
-  STSelfDefense,
-  STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
-  STSelfCheckGuard,
-  STDefenseMoveLegalityChecked,
-  STNoShortVariations,
-  STAttackHashed,
-  STThreatEnforcer,
-  STKeepMatingFilter,
-  STVariationWriter,
-  STRefutingVariationWriter,
-  STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter,
   STAttackAdapter,
   STReadyForAttack,
   STBattleDeadEnd,
@@ -77,6 +53,7 @@ static slice_index const slice_rank_order[] =
   STKeepMatingFilter,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
+
   STDefenseAdapter,
   STReadyForDefense,
   STContinuationSolver,
@@ -90,7 +67,31 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
   STMaxThreatLength,
-  STPostKeyPlaySuppressor
+  STPostKeyPlaySuppressor,
+  STReflexDefenderFilter,
+  STBattleDeadEnd,
+  STThreatSolver,
+  STDefenseFork,
+  STDefenseMove,
+  STDefenseMovePlayed,
+  STMaxNrNonTrivialCounter,
+  STRefutationsCollector,
+  STRefutationWriter,
+  STDefenseMoveShoeHorningDone,
+  STKillerMoveCollector,
+  STSelfDefense,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STSelfCheckGuard,
+  STDefenseMoveLegalityChecked,
+  STNoShortVariations,
+  STAttackHashed,
+  STThreatEnforcer,
+  STKeepMatingFilter,
+  STVariationWriter,
+  STRefutingVariationWriter,
+  STOutputPlaintextTreeCheckWriter,
+  STOutputPlaintextTreeDecorationWriter
 };
 
 enum
@@ -191,6 +192,13 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                                   prototype_rank+1);
           break;
         }
+        else if (slices[next].type==STSelfDefense)
+        {
+          battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                                prototypes,nr_prototypes,
+                                                base);
+          si = next;
+        }
         else
         {
           base = rank_next;
@@ -216,40 +224,20 @@ void battle_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes)
 {
-  switch (slices[si].type)
-  {
-    case STProxy:
-    {
-      unsigned int const base = 0;
-      battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
-      break;
-    }
+  unsigned int base;
 
-    case STNot:
-      battle_branch_insert_slices_nested(slices[si].u.pipe.next,
-                                         prototypes,nr_prototypes);
-      break;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
 
-    case STQuodlibet:
-    case STReciprocal:
-      battle_branch_insert_slices_nested(slices[si].u.binary.op1,
-                                         prototypes,nr_prototypes);
-      battle_branch_insert_slices_nested(slices[si].u.binary.op2,
-                                         prototypes,nr_prototypes);
-      break;
+  base = get_slice_rank(slices[si].type,0);
+  assert(base!=no_battle_branch_slice_type);
 
-    case STGoalReachedTesting:
-      leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
-      break;
+  battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
-    default:
-    {
-      unsigned int const base = get_slice_rank(slices[si].type,0);
-      assert(base!=no_battle_branch_slice_type);
-      battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
-      break;
-    }
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Insert slices into a battle branch.

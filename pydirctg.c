@@ -67,10 +67,11 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
+    slice_index const adapter = alloc_attack_adapter_slice(slack_length_battle+1,
+                                                           slack_length_battle);
     Goal const goal = slices[si].u.goal_writer.goal;
     slice_index const prototypes[] =
     {
-      alloc_attack_adapter_slice(slack_length_battle+1,slack_length_battle),
       alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle),
       alloc_attack_move_to_goal_slice(goal),
       alloc_pipe(STAttackMoveShoeHorningDone),
@@ -80,7 +81,8 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
     enum {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(slices[si].prev,prototypes,nr_prototypes);
+    pipe_append(slices[si].prev,adapter);
+    battle_branch_insert_slices(adapter,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
