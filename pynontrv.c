@@ -187,7 +187,6 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",dealt);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STMaxNrNonTrivial,length,min_length);
