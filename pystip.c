@@ -132,6 +132,7 @@
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
+    ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
@@ -167,7 +168,6 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
-    ENUMERATOR(STMaxNrNonTrivialHook), /* where to start counting non-trivial defenses */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
@@ -322,6 +322,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STSelfCheckGuard */
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
+  slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationSolver */
@@ -354,10 +355,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STKeepMatingFilter */
   slice_structure_pipe,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STDegenerateTree */
-  slice_structure_fork,   /* STMaxNrNonTrivial */
+  slice_structure_pipe,   /* STMaxNrNonTrivial */
   slice_structure_pipe,   /* STMaxNrNonChecks */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
-  slice_structure_pipe,   /* STMaxNrNonTrivialHook */
   slice_structure_fork,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxThreatLengthHook */
   slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
@@ -1732,6 +1732,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,            /* STMoveInverter */
   &stip_traverse_structure_battle_fork,     /* STStipulationReflexAttackSolver */
+  &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
@@ -1767,7 +1768,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,            /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialCounter */
-  &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialHook */
   &stip_traverse_structure_pipe,            /* STMaxThreatLength */
   &stip_traverse_structure_pipe,            /* STMaxThreatLengthHook */
   &stip_traverse_structure_pipe,            /* STMaxTimeRootDefenderFilter */
@@ -1961,6 +1961,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
     &stip_traverse_moves_pipe,                  /* STMoveInverter */
     &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
+    &stip_traverse_moves_pipe,                  /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
     &stip_traverse_moves_pipe,                  /* STContinuationSolver */
@@ -1996,7 +1997,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivial */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonChecks */
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialCounter */
-    &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialHook */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLength */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLengthHook */
     &stip_traverse_moves_pipe,                  /* STMaxTimeRootDefenderFilter */

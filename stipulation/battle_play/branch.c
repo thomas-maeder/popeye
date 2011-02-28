@@ -50,11 +50,11 @@ static slice_index const slice_rank_order[] =
   STSelfCheckGuard,
   STKeepMatingFilter,
   STMaxNrNonTrivial,
-  STMaxNrNonTrivialHook,
   STMaxNrNonChecks,
 
   STDefenseAdapter,
   STReadyForDefense,
+  STRefutationsAllocator,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,

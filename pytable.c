@@ -54,8 +54,15 @@ table allocate_table(void)
  */
 void free_table(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",number_of_tables);
   assert(number_of_tables>0);
   --number_of_tables;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Append the move just played in ply nbply to the top table.

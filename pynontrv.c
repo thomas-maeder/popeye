@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pyoutput.h"
-#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -115,7 +114,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const next = slices[si].u.branch_fork.towards_goal;
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
@@ -177,13 +176,11 @@ static unsigned int count_noncheck_defenses(slice_index si, stip_length_type n)
 /* Allocate a STMaxNrNonTrivial slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param dealt identifies slice where to start looking for non-trivial
  * variations
  * @return identifier of allocated slice
  */
 static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
-                                                 stip_length_type min_length,
-                                                 slice_index dealt)
+                                                 stip_length_type min_length)
 {
   slice_index result;
 
@@ -193,7 +190,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
   TraceFunctionParam("%u",dealt);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STMaxNrNonTrivial,length,min_length,dealt);
+  result = alloc_branch(STMaxNrNonTrivial,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -506,29 +503,6 @@ max_nr_noncheck_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-static slice_index insert_hook(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = branch_find_slice(STMaxNrNonTrivialHook,si);
-  if (result==no_slice)
-  {
-    slice_index prototype = alloc_pipe(STMaxNrNonTrivialHook);
-    battle_branch_insert_slices(si,&prototype,1);
-    result = branch_find_slice(STMaxNrNonTrivialHook,si);
-    assert(result!=no_slice);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void nontrivial_guard_inserter(slice_index si,
                                       stip_structure_traversal *st)
 {
@@ -552,7 +526,7 @@ static void nontrivial_guard_inserter(slice_index si,
     {
       slice_index const prototypes[] =
       {
-        alloc_max_nr_nontrivial_guard(length-1,min_length-1,insert_hook(si)),
+        alloc_max_nr_nontrivial_guard(length-1,min_length-1),
         alloc_max_nr_nontrivial_counter()
       };
       enum

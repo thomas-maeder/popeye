@@ -2753,9 +2753,9 @@ static Token iterate_twins(Token prev_token)
       else
         stip_insert_postkeyplay_suppressors(template_slice_hook);
 
-      if (!stip_insert_try_handlers(template_slice_hook))
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
       {
-        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+        if (!stip_insert_try_handlers(template_slice_hook))
           Message(TryPlayNotApplicable);
       }
 

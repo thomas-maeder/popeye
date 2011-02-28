@@ -72,6 +72,96 @@ void set_max_nr_refutations(unsigned int mnr)
   TraceFunctionResultEnd();
 }
 
+/* Allocate a STRefutationsAllocator defender slice.
+ * @return index of allocated slice
+ */
+static slice_index alloc_refutations_allocator(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRefutationsAllocator);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type
+refutations_allocator_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  assert(refutations==table_nil);
+  refutations = allocate_table();
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  assert(refutations==get_top_table());
+  free_table();
+  refutations = table_nil;
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type
+refutations_allocator_can_defend_in_n(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a STTrySolver defender slice.
  * @return index of allocated slice
  */
@@ -116,7 +206,7 @@ stip_length_type try_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (table_length(refutations)>0)
+  if (refutations!=table_nil && table_length(refutations)>0)
   {
     defense_defend_in_n(next,n,n_max_unsolvable);
 
@@ -128,9 +218,6 @@ stip_length_type try_solver_defend_in_n(slice_index si,
   }
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
-
-  free_table();
-  refutations = table_nil;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -161,21 +248,9 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(refutations==table_nil);
-  refutations = allocate_table();
-
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-
-  if (result<=n)
-  {
-    if (table_length(refutations)>0)
-      result = n+2;
-  }
-  else
-  {
-    free_table();
-    refutations = table_nil;
-  }
+  if (result<=n && refutations!=table_nil && table_length(refutations)>0)
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -312,6 +387,7 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
+      alloc_refutations_allocator(),
       alloc_try_solver(),
       alloc_refutations_collector_slice()
     };

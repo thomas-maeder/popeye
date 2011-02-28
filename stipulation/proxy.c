@@ -44,7 +44,6 @@ static boolean is_proxy(slice_index si)
     case STGoalDoubleStalemateReachedTester:
     case STGoalStalemateReachedTester:
     case STGoalMateReachedTester:
-    case STMaxNrNonTrivialHook:
       result = true;
       break;
 

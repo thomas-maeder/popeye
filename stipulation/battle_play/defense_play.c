@@ -62,6 +62,10 @@ stip_length_type defense_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STRefutationsAllocator:
+      result = refutations_allocator_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STTrySolver:
       result = try_solver_defend_in_n(si,n,n_max_unsolvable);
       break;
@@ -244,6 +248,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STRefutationsAllocator:
+      result = refutations_allocator_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STTrySolver:
       result = try_solver_can_defend_in_n(si,n,n_max_unsolvable);
       break;
