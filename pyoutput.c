@@ -136,7 +136,6 @@ static structure_traversers_visitors output_mode_detectors[] =
   { STSeriesFork,                     &output_mode_linemode         },
   { STReciprocal,                     &output_mode_binary           },
   { STQuodlibet,                      &output_mode_binary           },
-  { STAttackRoot,                     &output_mode_treemode         },
   { STDefenseAdapter,                 &output_mode_treemode         },
   { STReadyForDefense,                &output_mode_treemode         },
   { STReflexHelpFilter,               &stip_traverse_structure_pipe },

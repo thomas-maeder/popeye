@@ -15,7 +15,6 @@
 #include "pyquodli.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
@@ -306,10 +305,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STQuodlibet:
       result = quodlibet_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STAttackRoot:
-      result = attack_root_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackFindShortest:

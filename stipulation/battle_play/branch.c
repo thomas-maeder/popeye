@@ -37,7 +37,6 @@ static slice_index const slice_rank_order[] =
   STCounterMateFilter,
   STDoubleMateFilter,
   STEnPassantAttackerFilter,
-  STAttackRoot,
   STAttackMove,
   STAttackMoveToGoal,
   STMaxTimeDefenderFilter,

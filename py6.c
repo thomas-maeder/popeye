@@ -505,8 +505,8 @@ static void initialise_piece_flags(void)
 
 typedef boolean is_restricted_type[nr_sides];
 
-static void find_restricted_side_attack_root(slice_index si,
-                                             stip_structure_traversal *st)
+static void find_restricted_side_attack(slice_index si,
+                                        stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
 
@@ -558,10 +558,10 @@ static void find_restricted_side_help_root(slice_index si,
 
 static structure_traversers_visitors restricted_side_finders[] =
 {
-  { STAttackRoot,      &find_restricted_side_attack_root },
-  { STDefenseAdapter , &find_restricted_side_defense     },
-  { STReadyForDefense, &find_restricted_side_defense     },
-  { STHelpRoot,        &find_restricted_side_help_root   }
+  { STAttackAdapter,   &find_restricted_side_attack    },
+  { STDefenseAdapter , &find_restricted_side_defense   },
+  { STReadyForDefense, &find_restricted_side_defense   },
+  { STHelpRoot,        &find_restricted_side_help_root }
 };
 
 enum

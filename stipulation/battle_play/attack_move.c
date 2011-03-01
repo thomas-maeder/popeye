@@ -4,7 +4,6 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
@@ -40,9 +39,7 @@ slice_index alloc_attack_move_slice(stip_length_type length,
 void attack_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index attack_root;
+  slice_index copy;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -50,9 +47,9 @@ void attack_move_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  attack_root = alloc_attack_root_slice(length,min_length);
-  pipe_link(attack_root,*root_slice);
-  *root_slice = attack_root;
+  copy = copy_slice(si);
+  pipe_link(copy,*root_slice);
+  *root_slice = copy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -87,17 +84,18 @@ attack_move_has_solution_in_n(slice_index si,
   TraceValue("->%u\n",move_generation_mode);
   genmove(attacker);
 
-  while (encore())
+  while (encore() && result>n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_can_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      result = n;
-      repcoup();
-      break;
+      stip_length_type const needed = defense_can_defend_in_n(next,
+                                                              n-1,
+                                                              n_max_unsolvable-1)+1;
+      if (result>needed)
+        result = needed;
     }
-    else
-      repcoup();
+
+    repcoup();
   }
 
   finply();
@@ -139,9 +137,14 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
-      result = n;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const needed = defense_defend_in_n(next,
+                                                          n-1,
+                                                          n_max_unsolvable-1)+1;
+      if (result>needed)
+        result = needed;
+    }
 
     repcoup();
   }

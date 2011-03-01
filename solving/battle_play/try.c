@@ -373,17 +373,15 @@ refutations_collector_solve_in_n(slice_index si,
 static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
-  slice_index defense_move;
+  slice_index defense;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  defense_move = branch_find_slice(STDefenseMove,si);
-  if (defense_move!=no_slice
-      && slices[defense_move].u.branch.length>slack_length_battle)
+  defense = branch_find_slice(STReadyForDefense,si);
+  if (defense!=no_slice
+      && slices[defense].u.branch.length>slack_length_battle)
   {
     slice_index const prototypes[] =
     {
@@ -391,12 +389,10 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
       alloc_try_solver(),
       alloc_refutations_collector_slice()
     };
-
     enum
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
 
     *inserted = true;
@@ -405,6 +401,18 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static structure_traversers_visitors try_handler_inserters[] =
+{
+  { STAttackAdapter, &insert_try_handlers         },
+  { STHelpAdapter,   &stip_structure_visitor_noop } /* no tries in set play */
+};
+
+enum
+{
+  nr_try_handler_inserters = (sizeof try_handler_inserters
+                              / sizeof try_handler_inserters[0])
+};
 
 /* Instrument the stipulation representation so that it can deal with
  * tries
@@ -424,8 +432,9 @@ boolean stip_insert_try_handlers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_single(&st,
-                                           STAttackRoot,&insert_try_handlers);
+  stip_structure_traversal_override(&st,
+                                    try_handler_inserters,
+                                    nr_try_handler_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
