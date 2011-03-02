@@ -1268,6 +1268,7 @@ slice_index stip_make_setplay(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
+  { STRootAttackFork,                &stip_traverse_structure_pipe },
   { STAttackMove,                    &attack_move_apply_setplay    },
   { STDefenseAdapter,                &stip_structure_visitor_noop  },
   { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },

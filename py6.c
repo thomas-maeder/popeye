@@ -2496,6 +2496,43 @@ typedef struct
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
+static void optimise_final_moves_attack_move(slice_index si,
+                                             stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_move_slice(si,st);
+
+    if (st->remaining==slack_length_battle+1)
+    {
+      if (state->goal.type!=no_goal)
+      {
+        slice_index const to_goal = alloc_attack_move_to_goal_slice(state->goal);
+        pipe_replace(si,to_goal);
+      }
+
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
 static void optimise_final_moves_defense_move(slice_index si,
                                               stip_moves_traversal *st)
 {
@@ -2643,6 +2680,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
+  { STAttackMove,         &optimise_final_moves_attack_move  },
   { STAttackMoveToGoal,   &swallow_goal                      },
   { STDefenseMove,        &optimise_final_moves_defense_move },
   { STHelpMove,           &optimise_final_moves_help_move    },
