@@ -232,7 +232,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDefenseFork:
       case STHelpFork:
       case STSeriesFork:
-      case STMaxNrNonTrivial:
+      case STStipulationReflexAttackSolver:
         Trace_branch(si);
         Trace_link("2goal:",slices[si].u.branch_fork.towards_goal,"");
         fprintf(stdout,"\n");
@@ -327,6 +327,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKeyWriter:
       case STTryWriter:
       case STThreatEnforcer:
+      case STThreatStart:
       case STThreatCollector:
       case STZugzwangWriter:
       case STRestartGuard:
@@ -342,6 +343,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsSeriesFilter:
       case STStopOnShortSolutionsInitialiser:
       case STMaxNrNonChecks:
+      case STMaxNrNonTrivial:
       case STMaxNrNonTrivialCounter:
       case STMaxFlightsquares:
       case STDegenerateTree:
@@ -456,12 +458,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         Trace_link("avoided:",slices[si].u.reflex_guard.avoided,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.reflex_guard.avoided,done_slices);
-        TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
-        break;
-
-      case STStipulationReflexAttackSolver:
-        Trace_pipe(si);
-        fprintf(stdout,"avoided:%u\n",slices[si].u.reflex_guard.avoided);
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
         break;
 

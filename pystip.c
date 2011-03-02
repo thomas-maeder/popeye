@@ -136,6 +136,7 @@
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
+    ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
@@ -324,8 +325,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
-  slice_structure_branch, /* STThreatEnforcer */
-  slice_structure_branch, /* STThreatCollector */
+  slice_structure_pipe,   /* STThreatEnforcer */
+  slice_structure_pipe,   /* STThreatStart */
+  slice_structure_pipe,   /* STThreatCollector */
   slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_pipe,   /* STDoubleMateFilter */
   slice_structure_pipe,   /* STCounterMateFilter */
@@ -1142,17 +1144,16 @@ static void trash_for_postkey_play(slice_index si,
 
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
-  { STDefenseMove,                   &defense_move_reduce_to_postkey_play           },
+  { STStipulationReflexAttackSolver, &trash_for_postkey_play                        },
   { STAttackAdapter,                 &trash_for_postkey_play                        },
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
   { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
   { STAttackMove,                    &trash_for_postkey_play                        },
-  { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      },
-  { STSelfCheckGuard,                &trash_for_postkey_play                        },
-  { STStipulationReflexAttackSolver, &reflex_attack_solver_reduce_to_postkey_play   },
-  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play }
+  { STContinuationSolver,            &trash_for_postkey_play                        },
+  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
+  { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      }
 };
 
 enum
@@ -1732,6 +1733,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
   &stip_traverse_structure_battle_fork,     /* STThreatSolver */
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
+  &stip_traverse_structure_pipe,            /* STThreatStart */
   &stip_traverse_structure_pipe,            /* STThreatCollector */
   &stip_traverse_structure_pipe,            /* STRefutationsCollector */
   &stip_traverse_structure_pipe,            /* STDoubleMateFilter */
@@ -1960,6 +1962,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STContinuationSolver */
     &stip_traverse_moves_pipe,                  /* STThreatSolver */
     &stip_traverse_moves_pipe,                  /* STThreatEnforcer */
+    &stip_traverse_moves_pipe,                  /* STThreatStart */
     &stip_traverse_moves_pipe,                  /* STThreatCollector */
     &stip_traverse_moves_pipe,                  /* STRefutationsCollector */
     &stip_traverse_moves_pipe,                  /* STDoubleMateFilter */

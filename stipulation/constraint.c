@@ -394,18 +394,26 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
 void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
                                                    stip_structure_traversal *st)
 {
-  slice_index *postkey_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *postkey_slice = si;
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index * const postkey_slice = st->param;
+    slice_index const avoided = slices[si].u.reflex_guard.avoided;
+    slice_index const filter = alloc_reflex_attack_solver(avoided);
+    pipe_link(filter,*postkey_slice);
+    *postkey_slice = filter;
+
+    pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 
 /* **************** Implementation of interface help_filter ************
  */
@@ -690,7 +698,8 @@ static void reflex_guards_inserter_attack(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_attack;
-    slice_index const prototype = alloc_reflex_attacker_filter(length,min_length,
+    slice_index const prototype = alloc_reflex_attacker_filter(length-1,
+                                                               min_length-1,
                                                                proxy_to_avoided);
     battle_branch_insert_slices(si,&prototype,1);
   }
@@ -718,7 +727,8 @@ static void reflex_guards_inserter_defense(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
-    slice_index const prototype = alloc_reflex_defender_filter(length,min_length,
+    slice_index const prototype = alloc_reflex_defender_filter(length-1,
+                                                               min_length-1,
                                                                proxy_to_avoided);
     battle_branch_insert_slices(si,&prototype,1);
   }
@@ -747,11 +757,11 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
-  { STHelpFork,          &reflex_guards_inserter_branch_fork },
-  { STSeriesFork,        &reflex_guards_inserter_branch_fork },
-  { STReadyForAttack,    &reflex_guards_inserter_attack      },
-  { STDefenseAdapter,    &reflex_guards_inserter_defense     },
-  { STReadyForDefense,   &reflex_guards_inserter_defense     }
+  { STHelpFork,           &reflex_guards_inserter_branch_fork    },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork    },
+  { STReadyForAttack,     &reflex_guards_inserter_defense        },
+  { STReadyForDefense,    &reflex_guards_inserter_attack         },
+  { STGoalReachedTesting, &stip_structure_visitor_noop           }
 };
 
 enum
@@ -789,13 +799,15 @@ void slice_insert_reflex_filters(slice_index si,
   assert(slices[proxy_to_avoided_defense].type==STProxy);
 
   stip_structure_traversal_init(&st,&param);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &stip_structure_visitor_noop);
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters,
                                     nr_reflex_guards_inserters);
   stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototype = alloc_reflex_attack_solver(proxy_to_avoided_attack);
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

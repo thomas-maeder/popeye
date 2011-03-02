@@ -429,12 +429,17 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
   if (length>slack_length_battle+1)
   {
-    slice_index const ready = branch_find_slice(STReadyForAttack,si);
-    if (ready!=no_slice)
+    {
+      slice_index const prototype = alloc_pipe(STThreatStart);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+
+    slice_index const start = branch_find_slice(STThreatStart,si);
+    if (start!=no_slice)
     {
       slice_index const prototypes[] =
       {
-        alloc_threat_solver_slice(length,min_length,ready),
+        alloc_threat_solver_slice(length,min_length,start),
         alloc_threat_enforcer_slice(),
         alloc_threat_collector_slice()
       };

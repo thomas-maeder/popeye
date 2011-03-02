@@ -13,7 +13,6 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyquodli.h"
-#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -140,10 +139,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STQuodlibet:
       result = quodlibet_has_solution_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STStipulationReflexAttackSolver:
-      result = reflex_attack_solver_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:
@@ -355,10 +350,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STSelfDefense:
       result = self_defense_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STStipulationReflexAttackSolver:
-      result = reflex_attack_solver_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:

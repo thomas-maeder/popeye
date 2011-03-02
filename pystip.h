@@ -100,6 +100,7 @@
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
+    ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
     /* slices enforcing prerequisites of some stipulations */           \

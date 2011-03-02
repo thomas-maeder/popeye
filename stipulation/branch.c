@@ -28,11 +28,11 @@ static slice_index const root_slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STReciprocal,
   STQuodlibet,
-  STAttackAdapter,
+  STStipulationReflexAttackSolver,
   STDefenseAdapter,
+  STAttackAdapter,
   STHelpAdapter,
-  STSeriesAdapter,
-  STStipulationReflexAttackSolver
+  STSeriesAdapter
 };
 
 enum

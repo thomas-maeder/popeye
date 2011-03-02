@@ -169,8 +169,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
  pykeepmt.h pyselfcg.h pyselfgd.h pymovenb.h pyflight.h pydegent.h \
- pythreat.h pynontrv.h pyquodli.h stipulation/reflex_attack_solver.h \
- stipulation/battle_play/branch.h \
+ pythreat.h pynontrv.h pyquodli.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/attack_move_to_goal.h \
@@ -219,8 +218,6 @@ pythreat.h:
 pynontrv.h:
 
 pyquodli.h:
-
-stipulation/reflex_attack_solver.h:
 
 stipulation/battle_play/branch.h:
 

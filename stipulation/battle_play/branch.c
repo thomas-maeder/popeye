@@ -23,11 +23,10 @@
 static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
+  STReflexAttackerFilter,
   STReadyForAttack,
   STBattleDeadEnd,
   STMinLengthAttackFilter,
-  STStipulationReflexAttackSolver,
-  STReflexAttackerFilter,
   STDegenerateTree,
   STAttackFindShortest,
   STRootAttackFork,
@@ -52,7 +51,6 @@ static slice_index const slice_rank_order[] =
   STMaxNrNonChecks,
 
   STDefenseAdapter,
-  STReadyForDefense,
   STRefutationsAllocator,
   STContinuationSolver,
   STKeyWriter,
@@ -64,10 +62,11 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
-  STMaxThreatLength,
   STPostKeyPlaySuppressor,
   STReflexDefenderFilter,
+  STReadyForDefense,
   STBattleDeadEnd,
+  STMaxThreatLength,
   STThreatSolver,
   STDefenseFork,
   STDefenseMove,
@@ -90,7 +89,8 @@ static slice_index const slice_rank_order[] =
   STVariationWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter
+  STOutputPlaintextTreeDecorationWriter,
+  STThreatStart
 };
 
 enum
@@ -368,10 +368,10 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                   min_length);
 
     slice_index const attack = alloc_attack_move_slice(length,min_length);
-    slice_index const dready = alloc_ready_for_defense_slice(length-1,
-                                                             min_length-1);
     slice_index const solver = alloc_continuation_solver_slice(length-1,
                                                                min_length-1);
+    slice_index const dready = alloc_ready_for_defense_slice(length-1,
+                                                             min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
 
@@ -379,9 +379,9 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     pipe_link(aready,shortest);
     pipe_link(shortest,attack);
-    pipe_link(attack,dready);
-    pipe_link(dready,solver);
-    pipe_link(solver,defense);
+    pipe_link(attack,solver);
+    pipe_link(solver,dready);
+    pipe_link(dready,defense);
     pipe_link(defense,aready);
 
     if (min_length>slack_length_battle+1)
@@ -389,7 +389,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                   alloc_min_length_attack_filter_slice(length,min_length));
 
     if ((length-slack_length_battle)%2==1)
-      pipe_append(solver,alloc_battle_play_dead_end_slice());
+      pipe_append(dready,alloc_battle_play_dead_end_slice());
     else
       pipe_append(aready,alloc_battle_play_dead_end_slice());
 

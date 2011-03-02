@@ -6,7 +6,6 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/help_play/root.h"
@@ -117,10 +116,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = hashed_help_solve_in_n(si,n);
-      break;
-
-    case STStipulationReflexAttackSolver:
-      result = reflex_attack_solver_help_solve_in_n(si,n);
       break;
 
     case STReflexHelpFilter:
@@ -255,10 +250,6 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = hashed_help_has_solution_in_n(si,n);
-      break;
-
-    case STStipulationReflexAttackSolver:
-      result = reflex_attack_solver_help_has_solution_in_n(si,n);
       break;
 
     case STReflexHelpFilter:

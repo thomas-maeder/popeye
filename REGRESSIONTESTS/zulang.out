@@ -142,10 +142,10 @@ Motto: Viele Koeche verderben den Brei
   1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=S h7-h8=S # 
  11  (d7-d6 )
 
-              empile:    89545529
-            jouecoup:    47937174
+              empile:    89545466
+            jouecoup:    47937141
         orig_rbechec:     3348158
-        orig_rnechec:    45164440
+        orig_rnechec:    45164407
 Loesung beendet. 
 
 
@@ -194,10 +194,10 @@ Loesung beendet.
  16  (Sf6-e8 )
  17  (Sf6-d7 )
 
-              empile:    55587929
-            jouecoup:    37849217
-        orig_rbechec:    39638384
-        orig_rnechec:    57866464
+              empile:    55587893
+            jouecoup:    37849181
+        orig_rbechec:    39638350
+        orig_rnechec:    57866394
 Loesung beendet. 
 
 
@@ -1578,10 +1578,10 @@ Loesung beendet.
                                               6...Kc3-b2
                                                   7.Tc1-c3 #
 
-              empile:  6413032169
-            jouecoup:  2090625441
-        orig_rbechec:   160903222
-        orig_rnechec:  1948409398
+              empile:  6399934329
+            jouecoup:  2085889907
+        orig_rbechec:   160332234
+        orig_rnechec:  1944124886
 Loesung beendet. 
 
 
@@ -1666,10 +1666,10 @@ Loesung beendet.
   1.b2-b1=T a5-a6   2.Tb1-b6 Ka7*b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 = 
   1.b2-b1=T a5-a6   2.Tb1-h1 Ka7-b6   3.d2-d1=S a6-a7   4.Sd1-f2 a7-a8=D   5.g2-g1=L Da8-f3 = 
 
-              empile:  1051029880
-            jouecoup:   128020533
-        orig_rbechec:   193923497
-        orig_rnechec:   167832650
+              empile:  1051029823
+            jouecoup:   128020479
+        orig_rbechec:   193923443
+        orig_rnechec:   167832548
 Loesung beendet. 
 
 
@@ -1714,10 +1714,10 @@ Loesung beendet.
  12  (Kh5-g6 )
  13  (Kh5-g4 )
 
-              empile:  1222651319
-            jouecoup:   209475167
-        orig_rbechec:   291849371
-        orig_rnechec:   237841608
+              empile:  1222651305
+            jouecoup:   209475141
+        orig_rbechec:   291849345
+        orig_rnechec:   237841556
 Loesung beendet. 
 
 
@@ -1763,10 +1763,10 @@ Loesung beendet.
  12  (h2-h1=S )
  13  (h2-h1=T )
 
-              empile:   874964728
-            jouecoup:   106180388
-        orig_rbechec:   162325259
-        orig_rnechec:   148480048
+              empile:   874964656
+            jouecoup:   106180337
+        orig_rbechec:   162325208
+        orig_rnechec:   148479952
 Loesung beendet. 
 
 
@@ -1837,10 +1837,10 @@ Loesung beendet.
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-h8 = 
   1.g2-g1=L f5-f6   2.d2-d1=S f6-f7   3.Lg1-d4 f7-f8=T   4.Ld4-a1 Tf8-c8   5.Sd1-b2 Kg8-g7 = 
 
-              empile:  2262522078
-            jouecoup:   257015475
-        orig_rbechec:   396457649
-        orig_rnechec:   334014264
+              empile:  2262522021
+            jouecoup:   257015421
+        orig_rbechec:   396457595
+        orig_rnechec:   334014162
 Loesung beendet. 
 
 
@@ -1884,10 +1884,10 @@ Loesung beendet.
   1.c2-c1=T e2-e4   2.Tc1-b1 e4-e5   3.Kd1-c1 e5-e6   4.d2-d1=S e6-e7   5.Sd1-b2 e7-e8=D   6.a2-a1=L De8-e2 = 
   8  (c2-c1=L )
 
-              empile:  3828790718
-            jouecoup:   475880700
-        orig_rbechec:   708134647
-        orig_rnechec:   661587037
+              empile:  3828790658
+            jouecoup:   475880652
+        orig_rbechec:   708134599
+        orig_rnechec:   661586949
 Loesung beendet. 
 
 
@@ -1964,10 +1964,10 @@ a)
  41  (Le8-g6 + )
  42  (Le8-f7 )
 
-              empile:     9767825
-            jouecoup:     9581906
+              empile:     9767783
+            jouecoup:     9581864
         orig_rbechec:      144364
-        orig_rnechec:     9513223
+        orig_rnechec:     9513181
 b) sKa7-->b1
 
  43  (Kb1*c1 [+Sg1] )
@@ -2015,10 +2015,10 @@ b) sKa7-->b1
  84  (Le8-g6 + )
  85  (Le8-f7 )
 
-              empile:    10436337
-            jouecoup:     9679713
+              empile:    10436294
+            jouecoup:     9679670
         orig_rbechec:      445584
-        orig_rnechec:     9610597
+        orig_rnechec:     9610554
 Loesung beendet. 
 
 
@@ -2081,10 +2081,10 @@ a)
  16  (Sb4-c6[Ih8] )
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
-              empile:   151289969
-            jouecoup:    60918767
-        orig_rbechec:    60552152
-        orig_rnechec:    29646768
+              empile:   151561975
+            jouecoup:    61008988
+        orig_rbechec:    60642271
+        orig_rnechec:    29694805
 b) sBc4-->c3
 
  19  (g7-g8=D[Ig7] )
@@ -2119,10 +2119,10 @@ b) sBc4-->c3
  35  (Sb4-c6[Ih8] )
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
-              empile:   175368569
-            jouecoup:    70493501
-        orig_rbechec:    70081719
-        orig_rnechec:    34366709
+              empile:   175228859
+            jouecoup:    70443494
+        orig_rbechec:    70032179
+        orig_rnechec:    34342561
 c) sBb3-->c3
 
  38  (g7-g8=D[Ig7] )
@@ -2156,10 +2156,10 @@ c) sBb3-->c3
  53  (Sb4-c6[Ih8] )
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
-              empile:   161879925
-            jouecoup:    65049849
-        orig_rbechec:    64710576
-        orig_rnechec:    32233007
+              empile:   161497438
+            jouecoup:    64902840
+        orig_rbechec:    64564634
+        orig_rnechec:    32164817
 Loesung beendet. 
 
 
@@ -2212,10 +2212,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:  2266262723
-            jouecoup:  2266266480
-        orig_rbechec:  1562992795
-        orig_rnechec:   965454164
+              empile:  2144604078
+            jouecoup:  2144607847
+        orig_rbechec:  1444112785
+        orig_rnechec:   945900235
 Loesung beendet. 
 
 
@@ -2440,10 +2440,10 @@ Loesung beendet.
  55  (Tb1-b2 )
  56  (Tb1-d1 )
  57  (Tb1-c1 )
-              empile: 39156531253
-            jouecoup: 12426750975
-        orig_rbechec: 12426750983
-        orig_rnechec:  8508958848
+              empile: 39035339152
+            jouecoup: 12386167497
+        orig_rbechec: 12386167505
+        orig_rnechec:  8483528881
 Loesung beendet. 
 
 
@@ -2487,10 +2487,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-              empile:   245539780
-            jouecoup:   211751854
-        orig_rbechec:    47921425
-        orig_rnechec:   176895758
+              empile:   248647989
+            jouecoup:   212870147
+        orig_rbechec:    48443336
+        orig_rnechec:   178014037
 Loesung beendet. 
 
 

@@ -304,7 +304,8 @@ static structure_traversers_visitors root_writer_inserters[] =
   { STAttackAdapter,  &instrument_attack_adapter   },
   { STDefenseAdapter, &instrument_defense_adapter  },
   { STHelpAdapter,    &stip_structure_visitor_noop },
-  { STSeriesAdapter,  &stip_structure_visitor_noop }
+  { STSeriesAdapter,  &stip_structure_visitor_noop },
+  { STNot,            &stip_structure_visitor_noop }
 };
 
 enum

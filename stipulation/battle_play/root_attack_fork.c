@@ -41,6 +41,8 @@ void root_attack_fork_reduce_to_postkey_play(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
   dealloc_slices(slices[si].u.branch_fork.towards_goal);
+
+  pipe_unlink(slices[si].prev);
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);

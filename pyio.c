@@ -2952,10 +2952,10 @@ static char *ParsePlay(char *tok,
           slice_make_direct_goal_branch(proxy_avoided_defense);
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
-          slice_insert_reflex_filters(branch,
+          pipe_link(proxy,branch);
+          slice_insert_reflex_filters(proxy,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);
-          pipe_link(proxy,branch);
           stip_impose_starter(proxy_avoided_defense,Black);
 
           set_output_mode(output_mode_tree);

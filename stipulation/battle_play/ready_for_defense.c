@@ -77,9 +77,8 @@ void ready_for_defense_reduce_to_postkey_play(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
-    pipe_link(adapter,slices[si].u.pipe.next);
+    pipe_link(adapter,si);
     *postkey_slice = adapter;
-    dealloc_slice(si);
   }
 
   TraceFunctionExit(__func__);
