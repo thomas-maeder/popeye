@@ -15,7 +15,7 @@ void stip_traverse_structure_battle_fork(slice_index branch,
   stip_traverse_structure(slices[branch].u.branch_fork.towards_goal,st);
 }
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond a battle fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -24,8 +24,6 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining<=slack_length_battle+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);

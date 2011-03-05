@@ -73,10 +73,10 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_init_full_length(si,st);
-
-  if (st->remaining<slack_length_series+2)
+  if (st->remaining==slack_length_series)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
+  else if (st->remaining==slack_length_series+1)
+    stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
 

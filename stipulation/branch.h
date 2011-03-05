@@ -26,19 +26,11 @@ slice_index alloc_branch(SliceType type,
  */
 slice_index branch_find_slice(SliceType type, slice_index si);
 
-/* Initialise the full_length and remaing fields of a
- * stip_moves_traversal struct from a branch slice if necessary
- * @param si identifies the branch slice
- * @param st refers to the struct to be initialised
- */
-void stip_traverse_moves_branch_init_full_length(slice_index si,
-                                                 stip_moves_traversal *st);
-
-/* Traversal of the moves of some branch slice
+/* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_branch_slice(slice_index si, stip_moves_traversal *st);
+void stip_traverse_moves_adapter_slice(slice_index si, stip_moves_traversal *st);
 
 /* Traversal of the moves of some branch slice
  * @param si identifies root of subtree

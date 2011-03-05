@@ -2944,10 +2944,10 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6] Dd6-g3 +   6.Se4*g3 [+sDe4] # 
 
-              empile:    10659438
-            jouecoup:     4741236
-        orig_rbechec:     3596879
-        orig_rnechec:     3898399
+              empile:    10658879
+            jouecoup:     4740960
+        orig_rbechec:     3596704
+        orig_rnechec:     3898151
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 

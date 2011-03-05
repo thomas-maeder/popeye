@@ -1887,10 +1887,10 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,                  /* STProxy */
-    &stip_traverse_moves_branch_slice,          /* STAttackAdapter */
-    &stip_traverse_moves_branch_slice,          /* STDefenseAdapter */
+    &stip_traverse_moves_adapter_slice,         /* STAttackAdapter */
+    &stip_traverse_moves_adapter_slice,         /* STDefenseAdapter */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
-    &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */
+    &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
     &stip_traverse_moves_battle_fork,           /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
@@ -1898,27 +1898,27 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_root_attack_fork,      /* STRootAttackFork */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
-    &stip_traverse_moves_branch_slice,          /* STReadyForAttack */
-    &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
+    &stip_traverse_moves_pipe,                  /* STReadyForAttack */
+    &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
-    &stip_traverse_moves_branch_slice,          /* STHelpAdapter */
-    &stip_traverse_moves_branch_slice,          /* STHelpFindShortest */
-    &stip_traverse_moves_help_root,             /* STHelpRoot */
+    &stip_traverse_moves_adapter_slice,         /* STHelpAdapter */
+    &stip_traverse_moves_pipe,                  /* STHelpFindShortest */
+    &stip_traverse_moves_pipe,                  /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_move_slice,            /* STHelpMove */
     &stip_traverse_moves_move_slice,            /* STHelpMoveToGoal */
     &stip_traverse_moves_help_fork,             /* STHelpFork */
-    &stip_traverse_moves_branch_slice,          /* STReadyForHelpMove */
+    &stip_traverse_moves_pipe,                  /* STReadyForHelpMove */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
-    &stip_traverse_moves_branch_slice,          /* STSeriesAdapter */
-    &stip_traverse_moves_branch_slice,          /* STSeriesFindShortest */
-    &stip_traverse_moves_series_root,           /* STSeriesRoot */
+    &stip_traverse_moves_adapter_slice,         /* STSeriesAdapter */
+    &stip_traverse_moves_pipe,                  /* STSeriesFindShortest */
+    &stip_traverse_moves_pipe,                  /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
     &stip_traverse_moves_move_slice,            /* STSeriesMoveToGoal */
     &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
-    &stip_traverse_moves_branch_slice,          /* STReadyForSeriesMove */
+    &stip_traverse_moves_pipe,                  /* STReadyForSeriesMove */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
@@ -2005,7 +2005,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsHelpFilter */
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsInitialiser */
-    &stip_traverse_moves_branch_slice,          /* STStopOnShortSolutionsFilter */
+    &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsFilter */
     &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
@@ -2025,7 +2025,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STKeyWriter */
     &stip_traverse_moves_pipe,                  /* STTryWriter */
     &stip_traverse_moves_pipe,                  /* STZugzwangWriter */
-    &stip_traverse_moves_branch_slice,          /* STVariationWriter */
+    &stip_traverse_moves_pipe,                  /* STVariationWriter */
     &stip_traverse_moves_pipe,                  /* STRefutingVariationWriter */
     &stip_traverse_moves_pipe,                  /* STRefutationWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckWriter */

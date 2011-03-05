@@ -74,7 +74,7 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
 
   assert(length>=slack_length_help+1);
 
-  if (min_length<slack_length_help)
+  if (min_length<=slack_length_help)
     min_length += 2;
 
   if (length==slack_length_help+1)

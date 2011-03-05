@@ -440,33 +440,23 @@ slice_index branch_find_slice(SliceType type, slice_index si)
   return result;
 }
 
-/* Initialise the full_length and remaing fields of a
- * stip_moves_traversal struct from a branch slice if necessary
- * @param si identifies the branch slice
- * @param st refers to the struct to be initialised
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
  */
-void stip_traverse_moves_branch_init_full_length(slice_index si,
-                                                 stip_moves_traversal *st)
+void stip_traverse_moves_adapter_slice(slice_index si,
+                                       stip_moves_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
-}
-
-/* Traversal of the moves of some branch slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_branch_slice(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   stip_traverse_moves_pipe(si,st);
 
@@ -483,8 +473,6 @@ void stip_traverse_moves_move_slice(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   --st->remaining;
   TraceValue("->%u\n",st->remaining);

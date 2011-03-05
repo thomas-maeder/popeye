@@ -1888,10 +1888,10 @@ static char *ParseHelpLength(char *tok,
     {
       ++*length;
       tok += 2;
-      *min_length = slack_length_help;
+      *min_length = slack_length_help+1;
     }
     else
-      *min_length = slack_length_help+1;
+      *min_length = slack_length_help+2;
 
     if (*length<slack_length_help)
     {
@@ -1899,7 +1899,7 @@ static char *ParseHelpLength(char *tok,
       tok = 0;
     }
     else if (play_length==play_length_exact)
-      *min_length = *length-1;
+      *min_length = *length;
   }
 
   TraceFunctionExit(__func__);
@@ -2176,9 +2176,9 @@ static void alloc_reci_end(slice_index proxy_nonreci,
 
   {
     slice_index const branch_nonreci = alloc_help_branch(slack_length_help+2,
-                                                         slack_length_help+1);
+                                                         slack_length_help+2);
     slice_index const branch_reci = alloc_help_branch(slack_length_help+1,
-                                                      slack_length_help);
+                                                      slack_length_help+1);
 
     stip_make_help_goal_branch(proxy_to_nonreci);
     help_branch_set_goal_slice(branch_nonreci,proxy_to_nonreci);
@@ -2334,7 +2334,7 @@ static char *ParseSerH(char *tok,
   {
     slice_index const branch = alloc_series_branch(length,min_length);
     slice_index const help = alloc_help_branch(slack_length_help+1,
-                                               slack_length_help);
+                                               slack_length_help+1);
     help_branch_set_goal_slice(help,proxy_next);
     stip_make_help_goal_branch(proxy_next);
     series_branch_set_next_slice(branch,help);
@@ -2488,7 +2488,6 @@ static char *ParsePlay(char *tok,
           slice_insert_self_guards(defense_branch,proxy_next);
           /* in ser-hs, the series is 1 half-move longer than in usual
            * series play! */
-          ++length;
           if (length==slack_length_series)
             pipe_link(proxy,defense_branch);
           else
@@ -2497,7 +2496,7 @@ static char *ParsePlay(char *tok,
 
             slice_index const help_proxy = alloc_proxy_slice();
             slice_index const help = alloc_help_branch(slack_length_help+1,
-                                                       slack_length_help);
+                                                       slack_length_help+1);
             help_branch_set_next_slice(help,slack_length_help,defense_branch);
             pipe_link(help_proxy,help);
 
@@ -2793,9 +2792,9 @@ static char *ParsePlay(char *tok,
           slice_index const defense_branch = alloc_defense_branch(aready,
                                                                   slack_length_battle+1,
                                                                   slack_length_battle+1);
-          slice_index const branch = alloc_help_branch(length,min_length);
+          slice_index const branch = alloc_help_branch(length-1,min_length-1);
           pipe_link(aready,deadend);
-          help_branch_set_next_slice(branch,slack_length_help+1,defense_branch);
+          help_branch_set_next_slice(branch,slack_length_help,defense_branch);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           attach_help_branch(length,proxy,branch);

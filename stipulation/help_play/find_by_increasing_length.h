@@ -17,12 +17,6 @@
 slice_index alloc_help_root_slice(stip_length_type length,
                                   stip_length_type min_length);
 
-/* Traversal of the moves beyond a help root slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_help_root(slice_index si, stip_moves_traversal *st);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

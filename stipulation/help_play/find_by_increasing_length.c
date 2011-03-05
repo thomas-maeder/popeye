@@ -34,23 +34,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a help root slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_help_root(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -63,7 +46,7 @@ void stip_traverse_moves_help_root(slice_index si, stip_moves_traversal *st)
 stip_length_type help_root_solve_in_n(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  stip_length_type len = slices[si].u.branch.min_length+1;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

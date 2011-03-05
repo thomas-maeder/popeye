@@ -38,7 +38,7 @@ void stip_traverse_moves_defense_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   if (st->remaining<=slack_length_battle+1)
-    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
 
   stip_traverse_moves_pipe(si,st);
 

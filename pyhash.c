@@ -2009,7 +2009,7 @@ static void forget_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_pipe(si,st);
+  stip_traverse_moves_children(si,st);
   *goal = no_goal;
 
   TraceFunctionExit(__func__);
@@ -2417,7 +2417,7 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_help)
+    if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
       result = help_solve_in_n(slices[si].u.pipe.next,n);
@@ -2461,7 +2461,7 @@ stip_length_type hashed_help_has_solution_in_n(slice_index si,
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_help)
+    if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
       result = help_has_solution_in_n(slices[si].u.pipe.next,n);

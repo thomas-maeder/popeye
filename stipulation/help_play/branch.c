@@ -259,7 +259,10 @@ static slice_index shorten_intro_slices(slice_index si)
     if (slice_has_structure(si,slice_structure_branch))
     {
       --slices[si].u.branch.length;
-      --slices[si].u.branch.min_length;
+      if (slices[si].u.branch.min_length>slack_length_help+1)
+        --slices[si].u.branch.min_length;
+      else
+        ++slices[si].u.branch.min_length;
     }
 
     if (slices[slices[si].u.pipe.next].prev==si)

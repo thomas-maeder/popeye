@@ -30,11 +30,4 @@ void ready_for_defense_make_setplay_slice(slice_index si,
 void ready_for_defense_reduce_to_postkey_play(slice_index si,
                                               stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_defense(slice_index si,
-                                           stip_moves_traversal *st);
-
 #endif

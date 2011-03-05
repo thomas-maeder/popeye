@@ -51,10 +51,11 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=slack_length_help+1)
+  if (st->remaining==slack_length_help)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
-
-  if (st->remaining>slack_length_help+1)
+  else if (st->remaining==slack_length_help+1)
+    stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
+  else
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);

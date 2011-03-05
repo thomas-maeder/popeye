@@ -183,10 +183,7 @@ void stip_traverse_moves_battle_play_dead_end(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining>=slack_length_battle+2)
-  {
-    stip_traverse_moves_branch_init_full_length(si,st);
     stip_traverse_moves_pipe(si,st);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

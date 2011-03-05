@@ -556,8 +556,6 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_init_full_length(si,st);
-
   if (st->remaining==slack_length_series)
     stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
   else

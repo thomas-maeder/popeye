@@ -15,7 +15,7 @@
 void stip_traverse_structure_battle_fork(slice_index branch,
                                          stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond a battle fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

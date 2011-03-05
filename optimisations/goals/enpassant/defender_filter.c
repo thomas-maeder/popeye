@@ -24,26 +24,6 @@ slice_index alloc_enpassant_defender_filter_slice(void)
   return result;
 }
 
-/* Traversal of the moves beyond a defense end slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_enpassant_defender_filter(slice_index si,
-                                                   stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
-
-  if (st->remaining>slack_length_battle)
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

@@ -84,21 +84,3 @@ void ready_for_defense_reduce_to_postkey_play(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Traversal of the moves beyond a defense end slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_defense(slice_index si,
-                                           stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
