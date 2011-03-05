@@ -1,27 +1,22 @@
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "pydata.h"
-#include "stipulation/branch.h"
+#include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STEnPassantAttackerFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_enpassant_attacker_filter_slice(stip_length_type length,
-                                                  stip_length_type min_length)
+slice_index alloc_enpassant_attacker_filter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STEnPassantAttackerFilter,length,min_length);
+  result = alloc_pipe(STEnPassantAttackerFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

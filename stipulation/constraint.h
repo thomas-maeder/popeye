@@ -164,13 +164,6 @@ void slice_insert_reflex_filters_semi(slice_index si,
 void reflex_attacker_filter_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a reflex attacker filter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_reflex_attack_filter(slice_index si,
-                                              stip_moves_traversal *st);
-
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

@@ -16,9 +16,6 @@
 static void insert_goal_optimisation_attacker_filter(slice_index si,
                                                      goal_type goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
@@ -27,13 +24,11 @@ static void insert_goal_optimisation_attacker_filter(slice_index si,
   switch (goal)
   {
     case goal_ep:
-      pipe_append(slices[si].prev,
-                  alloc_enpassant_attacker_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_enpassant_attacker_filter_slice());
       break;
 
     case goal_castling:
-      pipe_append(slices[si].prev,
-                  alloc_castling_attacker_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_castling_attacker_filter_slice());
       break;
 
     default:
@@ -47,9 +42,6 @@ static void insert_goal_optimisation_attacker_filter(slice_index si,
 static void insert_goal_optimisation_defender_filter(slice_index si,
                                                      goal_type goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
@@ -58,8 +50,7 @@ static void insert_goal_optimisation_defender_filter(slice_index si,
   switch (goal)
   {
     case goal_ep:
-      pipe_append(slices[si].prev,
-                  alloc_enpassant_defender_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_enpassant_defender_filter_slice());
       break;
 
     case goal_castling:
@@ -79,9 +70,6 @@ static void insert_goal_optimisation_defender_filter(slice_index si,
 static void insert_goal_optimisation_help_filter(slice_index si,
                                                  goal_type goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
@@ -90,13 +78,11 @@ static void insert_goal_optimisation_help_filter(slice_index si,
   switch (goal)
   {
     case goal_ep:
-      pipe_append(slices[si].prev,
-                  alloc_enpassant_help_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_enpassant_help_filter_slice());
       break;
 
     case goal_castling:
-      pipe_append(slices[si].prev,
-                  alloc_castling_help_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_castling_help_filter_slice());
       break;
 
     default:
@@ -109,9 +95,6 @@ static void insert_goal_optimisation_help_filter(slice_index si,
 
 static void insert_goal_optimisation_series_filter(slice_index si, goal_type goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
@@ -125,8 +108,7 @@ static void insert_goal_optimisation_series_filter(slice_index si, goal_type goa
       break;
 
     case goal_castling:
-      pipe_append(slices[si].prev,
-                  alloc_castling_series_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,alloc_castling_series_filter_slice());
       break;
 
     default:

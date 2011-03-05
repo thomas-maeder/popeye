@@ -1,13 +1,13 @@
 optimisations/goals/enpassant/attacker_filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/attacker_filter.c \
- optimisations/goals/enpassant/attacker_filter.h pydata.h \
- stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
+ optimisations/goals/enpassant/attacker_filter.h pydata.h pypipe.h \
+ stipulation/battle_play/attack_play.h trace.h
 
 optimisations/goals/enpassant/attacker_filter.h:
 
 pydata.h:
 
-stipulation/branch.h:
+pypipe.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -15,7 +15,7 @@ trace.h:
 optimisations/goals/enpassant/defender_filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/defender_filter.c \
  optimisations/goals/enpassant/defender_filter.h pydata.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
+ stipulation/battle_play/defense_play.h trace.h
 
 optimisations/goals/enpassant/defender_filter.h:
 
@@ -23,21 +23,19 @@ pydata.h:
 
 pypipe.h:
 
-stipulation/branch.h:
-
 stipulation/battle_play/defense_play.h:
 
 trace.h:
 optimisations/goals/enpassant/help_filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/help_filter.c \
- optimisations/goals/enpassant/help_filter.h pydata.h \
- stipulation/branch.h stipulation/help_play/play.h trace.h
+ optimisations/goals/enpassant/help_filter.h pydata.h pypipe.h \
+ stipulation/help_play/play.h trace.h
 
 optimisations/goals/enpassant/help_filter.h:
 
 pydata.h:
 
-stipulation/branch.h:
+pypipe.h:
 
 stipulation/help_play/play.h:
 

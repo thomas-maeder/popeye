@@ -8,14 +8,10 @@
 #include "pyslice.h"
 
 /* Allocate a STHelpFork slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_help_fork_slice(stip_length_type length,
-                                  stip_length_type min_length,
-                                  slice_index to_goal);
+slice_index alloc_help_fork_slice(slice_index to_goal);
 
 /* Traverse a subtree
  * @param branch root slice of subtree

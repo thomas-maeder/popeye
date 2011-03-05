@@ -13,12 +13,9 @@
  */
 
 /* Allocate a STEnPassantAttackerFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_enpassant_attacker_filter_slice(stip_length_type length,
-                                                  stip_length_type min_length);
+slice_index alloc_enpassant_attacker_filter_slice(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index

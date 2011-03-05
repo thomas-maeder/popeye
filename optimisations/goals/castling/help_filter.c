@@ -1,27 +1,22 @@
 #include "optimisations/goals/castling/help_filter.h"
 #include "pydata.h"
-#include "stipulation/branch.h"
+#include "pypipe.h"
 #include "stipulation/help_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STCastlingHelpFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_castling_help_filter_slice(stip_length_type length,
-                                             stip_length_type min_length)
+slice_index alloc_castling_help_filter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STCastlingHelpFilter,length,min_length);
+  result = alloc_pipe(STCastlingHelpFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

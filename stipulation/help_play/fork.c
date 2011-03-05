@@ -11,24 +11,18 @@
  */
 
 /* Allocate a STHelpFork slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_help_fork_slice(stip_length_type length,
-                                  stip_length_type min_length,
-                                  slice_index to_goal)
+slice_index alloc_help_fork_slice(slice_index to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STHelpFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STHelpFork,0,0,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -56,8 +50,6 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining<=slack_length_help+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);

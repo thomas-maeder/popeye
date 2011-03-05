@@ -8,12 +8,9 @@
  */
 
 /* Allocate a STEnPassantDefenderFilter defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_enpassant_defender_filter_slice(stip_length_type length,
-                                                  stip_length_type min_length);
+slice_index alloc_enpassant_defender_filter_slice(void);
 
 /* Traversal of the moves beyond a series fork slice
  * @param si identifies root of subtree

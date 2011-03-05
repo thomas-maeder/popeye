@@ -11,12 +11,9 @@
  */
 
 /* Allocate a STCastlingSeriesFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_castling_series_filter_slice(stip_length_type length,
-                                               stip_length_type min_length);
+slice_index alloc_castling_series_filter_slice(void);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

@@ -23,29 +23,21 @@
  */
 
 /* Allocate a STReflexHelpFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice that leads towards goal from
  *                      the branch
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-static slice_index alloc_reflex_help_filter(stip_length_type length,
-                                            stip_length_type min_length,
-                                            slice_index proxy_to_avoided)
+static slice_index alloc_reflex_help_filter(slice_index proxy_to_avoided)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexHelpFilter,
-                             length,min_length,
-                             proxy_to_avoided);
+  result = alloc_branch_fork(STReflexHelpFilter,0,0,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,9 +68,7 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexAttackerFilter,
-                             length,min_length,
-                             proxy_to_avoided);
+  result = alloc_branch_fork(STReflexAttackerFilter,0,0,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,26 +98,6 @@ void reflex_attacker_filter_make_root(slice_index si,
   *root_slice = solver;
 
   battle_branch_shorten_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves beyond a reflex attacker filter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_reflex_attack_filter(slice_index si,
-                                              stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining==slices[si].u.reflex_guard.length)
-    stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
-
-  stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -539,9 +509,7 @@ static slice_index alloc_reflex_series_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexSeriesFilter,
-                             length,min_length,
-                             proxy_to_avoided);
+  result = alloc_branch_fork(STReflexSeriesFilter,0,0,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -822,7 +790,6 @@ static void reflex_guards_inserter_help(slice_index si,
 {
   init_param * const param = st->param;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -834,8 +801,7 @@ static void reflex_guards_inserter_help(slice_index si,
   if ((length-slack_length_help)%2==0)
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
-    pipe_append(slices[si].prev,
-                alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
+    pipe_append(slices[si].prev,alloc_reflex_help_filter(proxy_to_avoided));
   }
 
   TraceFunctionExit(__func__);

@@ -434,9 +434,7 @@ void help_branch_set_next_slice(slice_index si,
   {
     slice_index hook = si;
     slice_index const pos = find_fork_pos(si,n);
-    stip_length_type length = slices[pos].u.branch.length;
-    stip_length_type min_length = slices[pos].u.branch.min_length;
-    pipe_append(slices[pos].prev,alloc_help_fork_slice(length,min_length,next));
+    pipe_append(slices[pos].prev,alloc_help_fork_slice(next));
 
     while (slices[slices[hook].u.pipe.next].prev==hook)
       hook = slices[hook].u.pipe.next;
@@ -461,9 +459,7 @@ void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
 
   {
     slice_index const pos = find_fork_pos(si,slack_length_help+1);
-    stip_length_type length = slices[pos].u.branch.length;
-    stip_length_type min_length = slices[pos].u.branch.min_length;
-    pipe_append(pos,alloc_help_fork_slice(length,min_length,to_goal));
+    pipe_append(pos,alloc_help_fork_slice(to_goal));
   }
 
   TraceFunctionExit(__func__);

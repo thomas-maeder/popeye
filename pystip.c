@@ -1892,7 +1892,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
-    &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
+    &stip_traverse_moves_battle_fork,           /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
     &stip_traverse_moves_root_attack_fork,      /* STRootAttackFork */
