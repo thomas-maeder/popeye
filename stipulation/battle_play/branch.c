@@ -76,6 +76,7 @@ static slice_index const slice_rank_order[] =
   STRefutationWriter,
   STEndOfRoot,
   STKillerMoveCollector,
+  STMinLengthGuard,
   STSelfDefense,
   STGoalReachedTesting,
   STAmuMateFilter,

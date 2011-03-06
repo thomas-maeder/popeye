@@ -270,6 +270,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsFilter:
       case STVariationWriter:
       case STMinLengthAttackFilter:
+      case STMinLengthGuard:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
@@ -399,7 +400,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STCounterMateFilter:
       case STSaveUselessLastMove:
       case STBattleDeadEnd:
-      case STMinLengthGuard:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

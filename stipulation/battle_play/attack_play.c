@@ -24,6 +24,7 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_attack_filter.h"
+#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -98,6 +99,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = min_length_attack_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STMinLengthGuard:
+      result = min_length_guard_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STRootAttackFork:
     case STAttackFork:
       result = attack_fork_has_solution_in_n(si,n,n_max_unsolvable);
@@ -134,7 +139,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     }
 
     case STSelfDefense:
-      result = self_defense_direct_has_solution_in_n(si,n,n_max_unsolvable);
+      result = self_defense_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
@@ -321,6 +326,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STMinLengthAttackFilter:
       result = min_length_attack_filter_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STMinLengthGuard:
+      result = min_length_guard_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STRootAttackFork:

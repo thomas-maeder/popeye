@@ -4,6 +4,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_adapter.h"
+#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "pypipe.h"
@@ -18,31 +19,24 @@
  */
 
 /* Allocate a STSelfDefense slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-static slice_index alloc_self_defense(stip_length_type length,
-                                      stip_length_type min_length,
-                                      slice_index proxy_to_goal)
+static slice_index alloc_self_defense(slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STSelfDefense,length,min_length,proxy_to_goal);
+  result = alloc_branch_fork(STSelfDefense,0,0,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
-
 
 /* **************** Implementation of interface Direct ***************
  */
@@ -58,9 +52,9 @@ static slice_index alloc_self_defense(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-self_defense_direct_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+self_defense_has_solution_in_n(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -83,13 +77,6 @@ self_defense_direct_has_solution_in_n(slice_index si,
        * to distinguish between self-check and other ways of not
        * reaching the goal */
       result = attack_has_solution_in_n(next,n,n_max_unsolvable);
-    else if (result>=slack_length_battle)
-    {
-      slice_index const length = slices[si].u.branch_fork.length;
-      slice_index const min_length = slices[si].u.branch_fork.min_length;
-      if (n-slack_length_battle>length-min_length)
-        result = n+2;
-    }
   }
   else
     result = attack_has_solution_in_n(next,n,n_max_unsolvable);
@@ -152,8 +139,8 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 
 /* Insert a STSelfDefense after each STDefenseMove
  */
-static void self_guards_inserter_defense_move(slice_index si,
-                                              stip_structure_traversal *st)
+static void self_guards_inserter_defense(slice_index si,
+                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -162,12 +149,21 @@ static void self_guards_inserter_defense_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const * const proxy_to_goal = st->param;
-    stip_length_type const length = slices[si].u.branch.length-1;
-    stip_length_type const min_length = slices[si].u.branch.min_length-1;
-    slice_index const prototype = alloc_self_defense(length,min_length,
-                                                     *proxy_to_goal);
-    battle_branch_insert_slices(si,&prototype,1);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+
+    {
+      slice_index const * const proxy_to_goal = st->param;
+      slice_index const prototype = alloc_self_defense(*proxy_to_goal);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+
+    if (min_length>slack_length_battle+1)
+    {
+      slice_index const prototype = alloc_min_length_guard(length-1,
+                                                           min_length-1);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -176,8 +172,8 @@ static void self_guards_inserter_defense_move(slice_index si,
 
 static structure_traversers_visitors self_guards_inserters[] =
 {
-  { STDefenseAdapter,  &self_guards_inserter_defense_move },
-  { STReadyForDefense, &self_guards_inserter_defense_move }
+  { STDefenseAdapter,  &self_guards_inserter_defense },
+  { STReadyForDefense, &self_guards_inserter_defense }
 };
 
 enum
