@@ -44,14 +44,21 @@ void ready_for_defense_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>=slack_length_battle-1)
+  assert(length>=slack_length_battle);
+
+  if (length==slack_length_battle)
+  {
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
+    pipe_link(adapter,si);
+    *result = adapter;
+  }
+  else
   {
     stip_length_type const length_h = (length-slack_length_battle
                                        +slack_length_help);
-    slice_index const adapter = alloc_help_adapter_slice(length_h,length_h-1);
-
+    slice_index const adapter = alloc_help_adapter_slice(length_h,length_h);
     stip_traverse_structure_children(si,st);
-
     pipe_link(adapter,*result);
     *result = adapter;
   }
