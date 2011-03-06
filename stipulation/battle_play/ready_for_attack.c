@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
