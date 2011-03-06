@@ -434,22 +434,24 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
       battle_branch_insert_slices(si,&prototype,1);
     }
 
-    slice_index const start = branch_find_slice(STThreatStart,si);
-    if (start!=no_slice)
     {
-      slice_index const prototypes[] =
+      slice_index const start = branch_find_slice(STThreatStart,si);
+      if (start!=no_slice)
       {
-        alloc_threat_solver_slice(length,min_length,start),
-        alloc_threat_enforcer_slice(),
-        alloc_threat_collector_slice()
-      };
+        slice_index const prototypes[] =
+        {
+          alloc_threat_solver_slice(length,min_length,start),
+          alloc_threat_enforcer_slice(),
+          alloc_threat_collector_slice()
+        };
 
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
+        enum
+        {
+          nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+        };
 
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+        battle_branch_insert_slices(si,prototypes,nr_prototypes);
+      }
     }
   }
 
