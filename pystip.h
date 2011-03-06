@@ -93,6 +93,7 @@
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
+    ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     /* solver slices */                                                 \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \

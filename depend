@@ -1781,7 +1781,9 @@ pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h stipulation/battle_play/attack_play
  pyslice.h stipulation/battle_play/defense_play.h \
  stipulation/help_play/play.h pystip.h stipulation/branch.h \
  stipulation/reflex_attack_solver.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/battle_play/branch.h \
+ stipulation/battle_play/min_length_guard.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/branch.h \
  stipulation/series_play/branch.h py.h stipulation/series_play/play.h \
  stipulation/series_play/ready_for_series_move.h pypipe.h pystip.h \
  stipulation/goals/goals.h boolean.h pyenum.h py.h boolean.h pyposit.h \
@@ -1807,6 +1809,10 @@ stipulation/reflex_attack_solver.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/battle_play/min_length_guard.h:
+
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/branch.h:
 

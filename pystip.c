@@ -130,6 +130,7 @@
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
+    ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
@@ -320,6 +321,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STSelfCheckGuard */
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
+  slice_structure_branch, /* STMinLengthGuard */
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
@@ -1152,6 +1154,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
   { STAttackMove,                    &trash_for_postkey_play                        },
   { STContinuationSolver,            &trash_for_postkey_play                        },
+  { STMinLengthGuard,                &trash_for_postkey_play                        },
   { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
   { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      }
 };
@@ -1727,6 +1730,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,            /* STMoveInverter */
   &stip_traverse_structure_battle_fork,     /* STStipulationReflexAttackSolver */
+  &stip_traverse_structure_pipe,            /* STMinLengthGuard */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
@@ -1956,6 +1960,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
     &stip_traverse_moves_pipe,                  /* STMoveInverter */
     &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
+    &stip_traverse_moves_pipe,                  /* STMinLengthGuard */
     &stip_traverse_moves_pipe,                  /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */

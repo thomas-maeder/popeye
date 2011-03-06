@@ -3,6 +3,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
@@ -212,29 +213,21 @@ reflex_attacker_filter_solve_in_n(slice_index si,
  */
 
 /* Allocate a STReflexDefenderFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice that leads towards goal from
  *                      the branch
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-static slice_index alloc_reflex_defender_filter(stip_length_type length,
-                                                stip_length_type min_length,
-                                                slice_index proxy_to_avoided)
+static slice_index alloc_reflex_defender_filter(slice_index proxy_to_avoided)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexDefenderFilter,
-                             length,min_length,
-                             proxy_to_avoided);
+  result = alloc_branch_fork(STReflexDefenderFilter,0,0,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -263,8 +256,6 @@ reflex_defender_filter_defend_in_n(slice_index si,
   stip_length_type result;
   slice_index const next = slices[si].u.reflex_guard.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.branch_fork.length;
-  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -274,10 +265,9 @@ reflex_defender_filter_defend_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle
-      && length-min_length>=n-slack_length_battle
+  if (n_max_unsolvable<slack_length_battle
       && slice_solve(avoided)==has_no_solution)
-    result = n;
+    result = slack_length_battle;
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
 
@@ -305,8 +295,6 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.branch_fork.length;
-  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -316,10 +304,9 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle
-      && length-min_length>=n-slack_length_battle
+  if (n_max_unsolvable<slack_length_battle
       && slice_has_solution(avoided)==has_no_solution)
-    result = n;
+    result = slack_length_battle;
   else
     result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
@@ -681,10 +668,6 @@ static void reflex_guards_inserter_attack(slice_index si,
 static void reflex_guards_inserter_defense(slice_index si,
                                            stip_structure_traversal *st)
 {
-  init_param const * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -692,11 +675,22 @@ static void reflex_guards_inserter_defense(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const proxy_to_avoided = param->avoided_defense;
-    slice_index const prototype = alloc_reflex_defender_filter(length-1,
-                                                               min_length-1,
-                                                               proxy_to_avoided);
-    battle_branch_insert_slices(si,&prototype,1);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+
+    {
+      init_param const * const param = st->param;
+      slice_index const proxy_to_avoided = param->avoided_defense;
+      slice_index const prototype = alloc_reflex_defender_filter(proxy_to_avoided);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+
+    if (min_length>slack_length_battle+1)
+    {
+      slice_index const prototype = alloc_min_length_guard(length-1,
+                                                           min_length-1);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);

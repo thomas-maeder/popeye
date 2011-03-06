@@ -16,6 +16,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/dead_end.h"
+#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "optimisations/killer_move/final_defense_move.h"
@@ -112,6 +113,10 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STReflexDefenderFilter:
       result = reflex_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STMinLengthGuard:
+      result = min_length_guard_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingFilter:
@@ -296,6 +301,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STReflexDefenderFilter:
       result = reflex_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STMinLengthGuard:
+      result = min_length_guard_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:

@@ -1402,10 +1402,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:       11465
-            jouecoup:        6712
-        orig_rbechec:        5969
-        orig_rnechec:        1620
+              empile:       11343
+            jouecoup:        6677
+        orig_rbechec:        5934
+        orig_rnechec:        1603
 solution finished. 
 
 

@@ -63,6 +63,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
   STPostKeyPlaySuppressor,
+  STMinLengthGuard,
   STReflexDefenderFilter,
   STReadyForDefense,
   STBattleDeadEnd,
