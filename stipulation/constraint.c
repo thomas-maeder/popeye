@@ -723,11 +723,11 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
-  { STHelpFork,           &reflex_guards_inserter_branch_fork    },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork    },
-  { STReadyForAttack,     &reflex_guards_inserter_defense        },
-  { STReadyForDefense,    &reflex_guards_inserter_attack         },
-  { STGoalReachedTesting, &stip_structure_visitor_noop           }
+  { STReadyForAttack,     &reflex_guards_inserter_defense     },
+  { STReadyForDefense,    &reflex_guards_inserter_attack      },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork },
+  { STGoalReachedTesting, &stip_structure_visitor_noop        }
 };
 
 enum
@@ -832,44 +832,15 @@ static void reflex_guards_inserter_series(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* In battle play, insert a STReflexDefenderFilter slice before a
- * defense slice
- * @param si identifies defense slice
- * @param address of structure representing the traversal
- */
-static void reflex_guards_inserter_defense_semi(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  init_param const * const param = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prototype = alloc_reflex_defender_filter(length,min_length,
-                                                               param->avoided_defense);
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STHelpAdapter,        &reflex_guards_inserter_help         },
-  { STReadyForHelpMove,   &reflex_guards_inserter_help         },
-  { STHelpFork,           &reflex_guards_inserter_branch_fork  },
-  { STSeriesAdapter,      &reflex_guards_inserter_series       },
-  { STReadyForSeriesMove, &reflex_guards_inserter_series       },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork  },
-  { STDefenseAdapter,     &reflex_guards_inserter_defense_semi },
-  { STReadyForDefense,    &reflex_guards_inserter_defense_semi }
+  { STReadyForAttack,     &reflex_guards_inserter_defense     },
+  { STHelpAdapter,        &reflex_guards_inserter_help        },
+  { STReadyForHelpMove,   &reflex_guards_inserter_help        },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork },
+  { STSeriesAdapter,      &reflex_guards_inserter_series      },
+  { STReadyForSeriesMove, &reflex_guards_inserter_series      },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork }
 };
 
 enum
