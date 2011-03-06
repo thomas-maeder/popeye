@@ -233,7 +233,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpFork:
       case STSeriesFork:
       case STStipulationReflexAttackSolver:
-        Trace_branch(si);
+        Trace_pipe(si);
         Trace_link("2goal:",slices[si].u.branch_fork.towards_goal,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -283,7 +283,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STThreatSolver:
-        Trace_branch(si);
+        Trace_pipe(si);
         Trace_link("threat_start:",slices[si].u.threat_solver.threat_start,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -424,7 +424,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       }
 
       case STParryFork:
-        Trace_branch(si);
+        Trace_pipe(si);
         Trace_link("non_parrying:",slices[si].u.parry_fork.non_parrying,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -455,11 +455,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReflexSeriesFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
-        Trace_branch(si);
+        Trace_pipe(si);
         Trace_link("avoided:",slices[si].u.reflex_guard.avoided,"");
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.reflex_guard.avoided,done_slices);
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.reflex_guard.avoided,done_slices);
         break;
 
       case STOutputPlaintextLineLineWriter:

@@ -1,6 +1,7 @@
 #include "stipulation/series_play/parry_fork.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pybrafrk.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -82,8 +83,7 @@ static slice_index alloc_parry_fork(slice_index non_parrying)
   TraceFunctionParam("%u",non_parrying);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STParryFork);
-  slices[result].u.parry_fork.non_parrying = non_parrying;
+  result = alloc_branch_fork(STParryFork,non_parrying);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

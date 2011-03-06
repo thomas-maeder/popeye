@@ -20,7 +20,7 @@ slice_index alloc_reflex_attack_solver(slice_index avoided)
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STStipulationReflexAttackSolver,0,0,avoided);
+  result = alloc_branch_fork(STStipulationReflexAttackSolver,avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

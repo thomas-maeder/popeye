@@ -19,7 +19,7 @@ slice_index alloc_root_attack_fork_slice(slice_index proxy_to_next)
   TraceFunctionParam("%u",proxy_to_next);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STRootAttackFork,0,0,proxy_to_next);
+  result = alloc_branch_fork(STRootAttackFork,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

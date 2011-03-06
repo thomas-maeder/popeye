@@ -16,7 +16,7 @@ slice_index alloc_setplay_fork_slice(slice_index set)
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STSetplayFork,0,0,set);
+  result = alloc_branch_fork(STSetplayFork,set);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

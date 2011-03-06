@@ -38,7 +38,7 @@ static slice_index alloc_reflex_help_filter(slice_index proxy_to_avoided)
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexHelpFilter,0,0,proxy_to_avoided);
+  result = alloc_branch_fork(STReflexHelpFilter,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,25 +51,19 @@ static slice_index alloc_reflex_help_filter(slice_index proxy_to_avoided)
  */
 
 /* Allocate a STReflexAttackerFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-static slice_index alloc_reflex_attacker_filter(stip_length_type length,
-                                                stip_length_type min_length,
-                                                slice_index proxy_to_avoided)
+static slice_index alloc_reflex_attacker_filter(slice_index proxy_to_avoided)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexAttackerFilter,0,0,proxy_to_avoided);
+  result = alloc_branch_fork(STReflexAttackerFilter,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -225,7 +219,8 @@ static slice_index alloc_reflex_defender_filter(slice_index proxy_to_avoided)
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexDefenderFilter,0,0,proxy_to_avoided);
+  result = alloc_branch_fork(STReflexDefenderFilter,proxy_to_avoided);
+TraceStipulation(result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -474,27 +469,21 @@ stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
  */
 
 /* Allocate a STReflexSeriesFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice that leads towards goal from
  *                      the branch
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-static slice_index alloc_reflex_series_filter(stip_length_type length,
-                                              stip_length_type min_length,
-                                              slice_index proxy_to_avoided)
+static slice_index alloc_reflex_series_filter(slice_index proxy_to_avoided)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexSeriesFilter,0,0,proxy_to_avoided);
+  result = alloc_branch_fork(STReflexSeriesFilter,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -638,8 +627,6 @@ static void reflex_guards_inserter_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
   init_param * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -649,9 +636,7 @@ static void reflex_guards_inserter_attack(slice_index si,
 
   {
     slice_index const proxy_to_avoided = param->avoided_attack;
-    slice_index const prototype = alloc_reflex_attacker_filter(length-1,
-                                                               min_length-1,
-                                                               proxy_to_avoided);
+    slice_index const prototype = alloc_reflex_attacker_filter(proxy_to_avoided);
     battle_branch_insert_slices(si,&prototype,1);
   }
 
@@ -807,8 +792,6 @@ static void reflex_guards_inserter_series(slice_index si,
 {
   init_param * const param = st->param;
   slice_index const proxy_to_avoided = param->avoided_defense;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -817,8 +800,7 @@ static void reflex_guards_inserter_series(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (!ready_for_series_move_is_move_dummy(si))
-    pipe_append(slices[si].prev,
-                alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
+    pipe_append(slices[si].prev,alloc_reflex_series_filter(proxy_to_avoided));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

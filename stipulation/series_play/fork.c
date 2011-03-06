@@ -21,7 +21,7 @@ slice_index alloc_series_fork_slice(slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STSeriesFork,0,0,to_goal);
+  result = alloc_branch_fork(STSeriesFork,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

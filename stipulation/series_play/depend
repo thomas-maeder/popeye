@@ -174,7 +174,7 @@ stipulation/proxy.h:
 trace.h:
 stipulation/series_play/parry_fork$(OBJ_SUFFIX): \
  stipulation/series_play/parry_fork.c \
- stipulation/series_play/parry_fork.h pydata.h pyproc.h \
+ stipulation/series_play/parry_fork.h pydata.h pyproc.h pybrafrk.h \
  stipulation/series_play/play.h stipulation/branch.h stipulation/proxy.h \
  pypipe.h trace.h
 
@@ -183,6 +183,8 @@ stipulation/series_play/parry_fork.h:
 pydata.h:
 
 pyproc.h:
+
+pybrafrk.h:
 
 stipulation/series_play/play.h:
 

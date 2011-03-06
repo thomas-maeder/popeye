@@ -2,6 +2,7 @@
 #include "pytable.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
@@ -172,25 +173,18 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
 }
 
 /* Allocate a STThreatSolver defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param threat_start identifies the slice where threat play starts
  * @return index of allocated slice
  */
-static slice_index alloc_threat_solver_slice(stip_length_type length,
-                                             stip_length_type min_length,
-                                             slice_index threat_start)
+static slice_index alloc_threat_solver_slice(slice_index threat_start)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STThreatSolver,length,min_length);
-  slices[result].u.threat_solver.threat_start = threat_start;
+  result = alloc_branch_fork(STThreatSolver,threat_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -419,7 +413,6 @@ threat_solver_can_defend_in_n(slice_index si,
 static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -440,7 +433,7 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
       {
         slice_index const prototypes[] =
         {
-          alloc_threat_solver_slice(length,min_length,start),
+          alloc_threat_solver_slice(start),
           alloc_threat_enforcer_slice(),
           alloc_threat_collector_slice()
         };

@@ -30,7 +30,7 @@ static slice_index alloc_self_defense(slice_index proxy_to_goal)
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STSelfDefense,0,0,proxy_to_goal);
+  result = alloc_branch_fork(STSelfDefense,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

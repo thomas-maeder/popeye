@@ -487,7 +487,7 @@ stipulation/battle_play/defense_play.h:
 
 trace.h:
 stipulation/battle_play/threat$(OBJ_SUFFIX): stipulation/battle_play/threat.c \
- stipulation/battle_play/threat.h pytable.h pydata.h pypipe.h \
+ stipulation/battle_play/threat.h pytable.h pydata.h pypipe.h pybrafrk.h \
  stipulation/branch.h stipulation/proxy.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/check_detector.h \
@@ -501,6 +501,8 @@ pytable.h:
 pydata.h:
 
 pypipe.h:
+
+pybrafrk.h:
 
 stipulation/branch.h:
 

@@ -22,7 +22,7 @@ slice_index alloc_help_fork_slice(slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STHelpFork,0,0,to_goal);
+  result = alloc_branch_fork(STHelpFork,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -9,16 +9,11 @@
 
 /* Allocate a new branch fork slice
  * @param type which slice type
- * @param length maximum number of half moves until end of slice
- * @param min_length minimum number of half moves until end of slice
  * @param to_goal identifies proxy slice that leads towards goal
  *                from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(SliceType type,
-                              stip_length_type length,
-                              stip_length_type min_length,
-                              slice_index to_goal);
+slice_index alloc_branch_fork(SliceType type, slice_index to_goal);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
