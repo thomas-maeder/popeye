@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -72,7 +71,8 @@ void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
     *root_slice = copy;
   }
 
-  battle_branch_shorten_slice(si);
+  slices[si].u.branch.length -= 2;
+  slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

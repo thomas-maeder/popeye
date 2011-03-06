@@ -275,15 +275,13 @@ trace.h:
 stipulation/battle_play/ready_for_attack$(OBJ_SUFFIX): \
  stipulation/battle_play/ready_for_attack.c \
  stipulation/battle_play/ready_for_attack.h pypipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h trace.h
+ trace.h
 
 stipulation/battle_play/ready_for_attack.h:
 
 pypipe.h:
 
 stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
 
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \

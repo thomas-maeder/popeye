@@ -404,19 +404,3 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Shorten a battle slice by 2 half moves
- * @param si identifies slice to be shortened
- */
-void battle_branch_shorten_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].u.branch.length -= 2;
-  slices[si].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

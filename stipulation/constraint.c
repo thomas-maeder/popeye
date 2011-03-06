@@ -98,8 +98,6 @@ void reflex_attacker_filter_make_root(slice_index si,
   pipe_link(solver,*root_slice);
   *root_slice = solver;
 
-  battle_branch_shorten_slice(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

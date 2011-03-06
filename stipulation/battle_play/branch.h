@@ -25,11 +25,6 @@ slice_index alloc_defense_branch(slice_index next,
 slice_index alloc_battle_branch(stip_length_type length,
                                 stip_length_type min_length);
 
-/* Shorten a battle slice by 2 half moves
- * @param si identifies slice to be shortened
- */
-void battle_branch_shorten_slice(slice_index si);
-
 /* Insert slices into a battle branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by battle_branch_insert_slices().
