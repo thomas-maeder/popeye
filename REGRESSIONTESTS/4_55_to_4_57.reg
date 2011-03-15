@@ -235,9 +235,9 @@ b) +wSb4
 
    1.Kc8-b7 ##! !
 
-              empile:          78
-            jouecoup:          72
-        orig_rbechec:          33
+              empile:          68
+            jouecoup:          62
+        orig_rbechec:          32
         orig_rnechec:          45
 +e) ser-##!1
 
@@ -327,18 +327,18 @@ a)
    1.Qa3-c5 + !
       1...Kc8-b7 ##!
 
-              empile:         380
-            jouecoup:         239
-        orig_rbechec:         217
-        orig_rnechec:         106
+              empile:         292
+            jouecoup:         257
+        orig_rbechec:         199
+        orig_rnechec:         136
 b) ser-s##!1
 
   1.Qa3-c5 + Kc8-b7 ##! 
 
-              empile:         380
-            jouecoup:         241
-        orig_rbechec:         217
-        orig_rnechec:         106
+              empile:         292
+            jouecoup:         259
+        orig_rbechec:         199
+        orig_rnechec:         136
 solution finished. 
 
 
@@ -749,7 +749,7 @@ solution finished.
 
 
 
-checks weren't indicated on the moving reaching a goal
+checks weren't indicated on the move reaching a goal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -785,7 +785,7 @@ solution finished.
 
 
 
-checks weren't indicated on the moving reaching a goal
+checks weren't indicated on the move reaching a goal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -810,7 +810,7 @@ checks weren't indicated on the moving reaching a goal
 
 Initial (Black ->):
 
-checks weren't indicated on the moving reaching a goal
+checks weren't indicated on the move reaching a goal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -907,5 +907,42 @@ only example so far of a series stipulation with option stoponshort
         orig_rbechec:           7
         orig_rnechec:           9
 solving interrupted. 
+
+
+both sides need a kingboth sides need a king
+earlier versions didn't stop solving after 1.h2-h3 z !
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -P   .   4
+|                                   |
+3   .   .   .   .   .   .   P   .   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  szh31                       2 + 1
+              Quodlibet
+
+   1.h2-h4 !
+      1...g4*h3 ep. z
+
+   1.h2-h3 z !
+
+              empile:           4
+            jouecoup:           4
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
 
 

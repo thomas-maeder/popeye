@@ -30,10 +30,10 @@ a)
                   3.e7-e8=D #
                   3.e7-e8=T #
 
-              empile:        2529
-            jouecoup:        1441
-        orig_rbechec:         789
-        orig_rnechec:         795
+              empile:        2528
+            jouecoup:        1440
+        orig_rbechec:         791
+        orig_rnechec:         811
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -45,8 +45,8 @@ b) StingSchach
               2...Kb8-a8
                   3.La6-b7 #
 
-              empile:        7393
-            jouecoup:        5388
+              empile:        7375
+            jouecoup:        5370
         orig_rbechec:        1343
         orig_rnechec:        4568
 Loesung beendet. 

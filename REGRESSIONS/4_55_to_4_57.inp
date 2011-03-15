@@ -162,7 +162,7 @@ stipulation h##0.5
 
 next
 
-title checks weren't indicated on the moving reaching a goal
+title checks weren't indicated on the move reaching a goal
 pieces white ba2 pe4
        black kg8 pc7d5
 stipulation ep2
@@ -171,7 +171,7 @@ option vari nowk
 
 next
 
-title checks weren't indicated on the moving reaching a goal
+title checks weren't indicated on the move reaching a goal
 pieces white ba2 pd5
        black kg8 pc7
 stipulation a=>b1
@@ -194,5 +194,12 @@ pieces white kh4 pg2
        black kh6 pg6g7h7
 stip ser-#3
 option stoponshort
+
+next
+
+title earlier versions didn't stop solving after 1.h2-h3 z !
+pieces white pg3h2 black pg4
+stip szh31
+option vari quod
 
 end

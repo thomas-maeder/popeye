@@ -43,8 +43,8 @@ a)
       1...Kf5-e5[wK<>bK]
           2.Sf2*d3 #
 
-              empile:        2251
-            jouecoup:        1626
+              empile:        2218
+            jouecoup:        1593
         orig_rbechec:         199
         orig_rnechec:        1757
 b) WhiteOscillatingKings    TypeB
@@ -53,16 +53,16 @@ b) WhiteOscillatingKings    TypeB
       1...Kc5-d5
           2.Sd1-e3[wK<>bK] #
 
-              empile:        3254
-            jouecoup:        1825
-        orig_rbechec:        1415
+              empile:        3221
+            jouecoup:        1792
+        orig_rbechec:        1382
         orig_rnechec:        1612
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
-              empile:        4822
-            jouecoup:        2189
-        orig_rbechec:        1607
+              empile:        4789
+            jouecoup:        2156
+        orig_rbechec:        1574
         orig_rnechec:        2082
 solution finished. 
 
@@ -143,8 +143,8 @@ solution finished.
       1...g6-g5[wK<>bK]
           2.Qc1-c6 #
 
-              empile:        2039
-            jouecoup:        1311
+              empile:        2014
+            jouecoup:        1286
         orig_rbechec:         182
         orig_rnechec:        1288
 solution finished. 

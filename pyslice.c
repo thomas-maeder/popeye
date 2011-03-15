@@ -14,6 +14,7 @@
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "stipulation/goals/enpassant/reached_tester.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
+#include "stipulation/goals/countermate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
@@ -114,8 +115,11 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STGoalDoubleMateReachedTester:
-    case STGoalCounterMateReachedTester:
       result = goal_doublemate_reached_tester_solve(si);
+      break;
+
+    case STGoalCounterMateReachedTester:
+      result = goal_countermate_reached_tester_solve(si);
       break;
 
     case STGoalCastlingReachedTester:
@@ -339,8 +343,11 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STGoalDoubleMateReachedTester:
-    case STGoalCounterMateReachedTester:
       result = goal_doublemate_reached_tester_has_solution(si);
+      break;
+
+    case STGoalCounterMateReachedTester:
+      result = goal_countermate_reached_tester_has_solution(si);
       break;
 
     case STGoalCastlingReachedTester:

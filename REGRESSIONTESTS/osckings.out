@@ -39,8 +39,8 @@ a)
           2.d3-d4 #
           2.Sf2-e4 #
 
-              empile:        2335
-            jouecoup:        1506
+              empile:        2305
+            jouecoup:        1476
         orig_rbechec:         183
         orig_rnechec:        1654
 b) WeisseOszillierendeKoenige    TypB
@@ -49,16 +49,16 @@ b) WeisseOszillierendeKoenige    TypB
       1...Kc5-d5
           2.Sd1-e3[wK<>sK] #
 
-              empile:        2317
-            jouecoup:        1328
-        orig_rbechec:        1113
+              empile:        2287
+            jouecoup:        1298
+        orig_rbechec:        1083
         orig_rnechec:        1184
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
-              empile:        2596
-            jouecoup:        1211
-        orig_rbechec:        1030
+              empile:        2566
+            jouecoup:        1181
+        orig_rbechec:        1000
         orig_rnechec:         949
 Loesung beendet. 
 
@@ -139,8 +139,8 @@ Loesung beendet.
       1...g6-g5[wK<>sK]
           2.Dc1-c6 #
 
-              empile:        2039
-            jouecoup:        1311
+              empile:        2014
+            jouecoup:        1286
         orig_rbechec:         182
         orig_rnechec:        1288
 Loesung beendet. 

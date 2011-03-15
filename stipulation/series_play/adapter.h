@@ -17,6 +17,13 @@
 slice_index alloc_series_adapter_slice(stip_length_type length,
                                        stip_length_type min_length);
 
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_adapter_slice(slice_index si,
+                                              stip_moves_traversal *st);
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

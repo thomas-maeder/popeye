@@ -218,7 +218,8 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/move_to_goal.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
- optimisations/goals/castling/series_filter.h \
+ stipulation/goals/prerequisite_optimiser.h \
+ optimisations/goals/castling/filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/maxtime/series_filter.h \
  optimisations/maxsolutions/series_filter.h \
@@ -260,7 +261,9 @@ stipulation/goals/countermate/filter.h:
 
 stipulation/goals/doublemate/filter.h:
 
-optimisations/goals/castling/series_filter.h:
+stipulation/goals/prerequisite_optimiser.h:
+
+optimisations/goals/castling/filter.h:
 
 optimisations/intelligent/series_filter.h:
 

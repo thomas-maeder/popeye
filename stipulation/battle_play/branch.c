@@ -25,17 +25,16 @@ static slice_index const slice_rank_order[] =
   STAttackAdapter,
   STReflexAttackerFilter,
   STReadyForAttack,
-  STBattleDeadEnd,
   STMinLengthAttackFilter,
-  STDegenerateTree,
-  STAttackFindShortest,
-  STRootAttackFork,
-  STAttackFork,
-  STSaveUselessLastMove,
-  STCastlingAttackerFilter,
+  STCastlingFilter,
   STCounterMateFilter,
   STDoubleMateFilter,
-  STEnPassantAttackerFilter,
+  STEnPassantFilter,
+  STPrerequisiteOptimiser,
+  STBattleDeadEnd,
+  STDegenerateTree,
+  STAttackFindShortest,
+  STAttackFork,
   STAttackMove,
   STAttackMoveToGoal,
   STMaxTimeDefenderFilter,
@@ -45,6 +44,8 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STKillerMoveCollector,
   STGoalReachedTesting,
+  STEndOfBranch,
+  STBattleDeadEnd,
   STSelfCheckGuard,
   STKeepMatingFilter,
   STMaxNrNonTrivial,
@@ -66,11 +67,15 @@ static slice_index const slice_rank_order[] =
   STMinLengthGuard,
   STReflexDefenderFilter,
   STReadyForDefense,
-  STBattleDeadEnd,
   STMaxThreatLength,
   STThreatSolver,
+  STCounterMateFilter,
+  STEnPassantFilter,
+  STPrerequisiteOptimiser,
+  STBattleDeadEnd,
   STDefenseFork,
   STDefenseMove,
+  STKillerMoveFinalDefenseMove,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationWriter,
@@ -83,7 +88,7 @@ static slice_index const slice_rank_order[] =
   STUltraschachzwangGoalFilter,
   STSelfCheckGuard,
   STSeriesAdapter,
-  STMaxThreatLengthHook,
+  STMaxThreatLengthHook, /* separate from STThreatStart to enable hashing*/
   STNoShortVariations,
   STAttackHashed,
   STThreatEnforcer,
@@ -165,14 +170,6 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                               base);
         break;
       }
-      else if (slices[next].type==STRootAttackFork
-               || slices[next].type==STAttackFork)
-      {
-        battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
-                                              prototypes,nr_prototypes,
-                                              base);
-        si = next;
-      }
       else
       {
         unsigned int const rank_next = get_slice_rank(slices[next].type,base);
@@ -199,6 +196,15 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
         {
           leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
           break;
+        }
+        else if (slices[next].type==STEndOfBranch
+                 || slices[next].type==STAttackFork
+                 || slices[next].type==STDefenseFork)
+        {
+          battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                                prototypes,nr_prototypes,
+                                                base);
+          si = next;
         }
         else
         {
@@ -331,10 +337,14 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     slice_index const solver = alloc_continuation_solver_slice(length,
                                                                min_length);
+    slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
+    slice_index const deadend = alloc_battle_play_dead_end_slice();
     slice_index const defense = alloc_defense_move_slice(length,min_length);
 
     pipe_link(adapter,solver);
-    pipe_link(solver,defense);
+    pipe_link(solver,ready);
+    pipe_link(ready,deadend);
+    pipe_link(deadend,defense);
     pipe_link(defense,next);
 
     result = adapter;
@@ -366,6 +376,7 @@ slice_index alloc_battle_branch(stip_length_type length,
 
   {
     slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
+    slice_index const adeadend = alloc_battle_play_dead_end_slice();
     slice_index const shortest = alloc_attack_find_shortest_slice(length,
                                                                   min_length);
 
@@ -374,26 +385,24 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                                min_length-1);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
+    slice_index const ddeadend = alloc_battle_play_dead_end_slice();
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
 
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
 
-    pipe_link(aready,shortest);
+    pipe_link(aready,adeadend);
+    pipe_link(adeadend,shortest);
     pipe_link(shortest,attack);
     pipe_link(attack,solver);
     pipe_link(solver,dready);
-    pipe_link(dready,defense);
+    pipe_link(dready,ddeadend);
+    pipe_link(ddeadend,defense);
     pipe_link(defense,aready);
 
     if (min_length>slack_length_battle+1)
       pipe_append(aready,
                   alloc_min_length_attack_filter_slice(length,min_length));
-
-    if ((length-slack_length_battle)%2==1)
-      pipe_append(dready,alloc_battle_play_dead_end_slice());
-    else
-      pipe_append(aready,alloc_battle_play_dead_end_slice());
 
     pipe_set_successor(adapter,aready);
 
@@ -404,4 +413,36 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Instrument a branch leading to a goal to be an attack branch
+ * @param si identifies entry slice of branch
+ */
+void stip_make_goal_attack_branch(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  {
+    slice_index const adapter = alloc_attack_adapter_slice(slack_length_battle+1,
+                                                           slack_length_battle);
+    slice_index const prototypes[] =
+    {
+      alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle),
+      alloc_battle_play_dead_end_slice(),
+      alloc_attack_move_slice(slack_length_battle+1,slack_length_battle),
+      alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
+    };
+    enum {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    pipe_append(si,adapter);
+    battle_branch_insert_slices(adapter,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -28,6 +28,34 @@ slice_index alloc_attack_adapter_slice(stip_length_type length,
   return result;
 }
 
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_battle_adapter_slice(slice_index si,
+                                              stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    stip_length_type const save_full_length = st->full_length;
+    st->full_length = slices[si].u.branch.length-slack_length_battle;
+    TraceValue("->%u\n",st->full_length);
+    st->remaining = st->full_length;
+    stip_traverse_moves_pipe(si,st);
+    st->remaining = 0;
+    st->full_length = save_full_length;
+  }
+  else
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

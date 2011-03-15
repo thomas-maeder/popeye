@@ -135,10 +135,10 @@ Loesung beendet.
  11  (Lc1-d2 )
  12  (Lc1-a3 )
  13  (Lc1-b2 )
-              empile:    10379267
-            jouecoup:     8859098
-        orig_rbechec:     7199348
-        orig_rnechec:     1845901
+              empile:    10444344
+            jouecoup:     8925566
+        orig_rbechec:     7266631
+        orig_rnechec:     1844854
 Loesung beendet. 
 
 
@@ -317,8 +317,8 @@ Loesung beendet.
               2...Kf4*e4
                   3.Dc5-d5 #
 
-              empile:      505004
-            jouecoup:      363331
+              empile:      504953
+            jouecoup:      363276
         orig_rbechec:       98080
         orig_rnechec:      275008
 Loesung beendet. 
@@ -353,8 +353,8 @@ Loesung beendet.
       1...g4-g3
           2.SSd2-b2 #
 
-              empile:         660
-            jouecoup:         537
+              empile:         642
+            jouecoup:         519
         orig_rbechec:          84
         orig_rnechec:         521
 Loesung beendet. 
@@ -951,8 +951,8 @@ Loesung beendet.
 
    1.Ng3-f5 !
 
-              empile:      260443
-            jouecoup:      164571
+              empile:      260403
+            jouecoup:      164531
         orig_rbechec:       55721
         orig_rnechec:      119654
 Loesung beendet. 
@@ -993,8 +993,8 @@ Loesung beendet.
                               4...Kh7-h6
                                   5.LJc3-h8 #
 
-              empile:     1923832
-            jouecoup:     1379311
+              empile:     1923813
+            jouecoup:     1379292
         orig_rbechec:      533444
         orig_rnechec:      924319
 Loesung beendet. 
@@ -1086,8 +1086,8 @@ Loesung beendet.
               2...TJf2-f4
                   3.TJb8*f4 #
 
-              empile:     1859579
-            jouecoup:     1464109
+              empile:     1859554
+            jouecoup:     1464084
         orig_rbechec:      827857
         orig_rnechec:      687319
 Loesung beendet. 
@@ -1183,8 +1183,8 @@ Loesung beendet.
               2...LJf8-f6
                   3.LJb2*f6 #
 
-              empile:      376665
-            jouecoup:      274962
+              empile:      376643
+            jouecoup:      274940
         orig_rbechec:      122810
         orig_rnechec:      162102
 Loesung beendet. 

@@ -26,7 +26,8 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  stipulation/proxy.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_move.h \
- stipulation/battle_play/defense_fork.h trace.h
+ stipulation/battle_play/defense_fork.h \
+ stipulation/battle_play/dead_end.h trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -45,5 +46,7 @@ stipulation/battle_play/attack_play.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_fork.h:
+
+stipulation/battle_play/dead_end.h:
 
 trace.h:

@@ -25,7 +25,7 @@ slice_index alloc_help_shortcut(stip_length_type length,
   TraceFunctionParam("%u",short_sols);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpShortcut,length,min_length); 
+  result = alloc_branch(STHelpShortcut,length,min_length);
   slices[result].u.shortcut.short_sols = short_sols;
 
   TraceFunctionExit(__func__);
@@ -53,7 +53,7 @@ void stip_traverse_structure_help_shortcut(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a help shortcut slice 
+/* Traversal of the moves beyond a help shortcut slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

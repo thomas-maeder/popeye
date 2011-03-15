@@ -29,10 +29,10 @@
   1.Bc3-e5 Rf8-f5   2.Kg4*f5 e2-e4 +   3.Kf5*e4[+wuRf5] uRf5-f3   4.Ke4-d4[+wuPe4] uRf3-d3 # 
   1.Sc5-e4 Rf8-f4 +   2.Kg4*f4 e2-e3 +   3.Kf4*e3[+wuRf4] uRf4-f2   4.Ke3-d3[+wuPe3] uRf2-d2 # 
 
-              empile:    43375896
-            jouecoup:    24292261
+              empile:    43375904
+            jouecoup:    24292260
         orig_rbechec:           0
-        orig_rnechec:    22168685
+        orig_rnechec:    22168684
 solution finished. 
 
 
@@ -1117,7 +1117,7 @@ solution finished.
               empile:       34361
             jouecoup:       23255
         orig_rbechec:       14987
-        orig_rnechec:       10031
+        orig_rnechec:       10043
 solution finished. 
 
 

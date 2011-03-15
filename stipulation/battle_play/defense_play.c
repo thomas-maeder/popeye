@@ -7,6 +7,7 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
@@ -17,13 +18,15 @@
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_guard.h"
+#include "stipulation/goals/countermate/filter.h"
+#include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
-#include "optimisations/goals/enpassant/defender_filter.h"
+#include "optimisations/goals/enpassant/filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -96,11 +99,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       break;
 
     case STDefenseMove:
-      result = defense_move_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
     case STKillerMoveFinalDefenseMove:
-      result = killer_move_final_defense_move_defend_in_n(si,n,n_max_unsolvable);
+      result = defense_move_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDefenseFork:
@@ -187,12 +187,24 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = end_of_solution_writer_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STEnPassantDefenderFilter:
-      result = enpassant_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+    case STEnPassantFilter:
+      result = enpassant_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
       result = killer_move_collector_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STCounterMateFilter:
+      result = countermate_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STEndOfBranch:
+      result = end_of_branch_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -207,7 +219,7 @@ stip_length_type defense_defend_in_n(slice_index si,
           break;
 
         case has_solution:
-          result = n;
+          result = slack_length_battle;
           break;
 
         case has_no_solution:
@@ -362,13 +374,29 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                                        n,n_max_unsolvable);
       break;
 
-    case STEnPassantDefenderFilter:
-      result = enpassant_defender_filter_can_defend_in_n(si,
+    case STEndOfSolutionWriter:
+      result = end_of_solution_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STEnPassantFilter:
+      result = enpassant_filter_can_defend_in_n(si,
                                                          n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
       result = killer_move_collector_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STCounterMateFilter:
+      result = countermate_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STEndOfBranch:
+      result = end_of_branch_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -383,7 +411,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
           break;
 
         case has_solution:
-          result = n;
+          result = slack_length_battle;
           break;
 
         case has_no_solution:

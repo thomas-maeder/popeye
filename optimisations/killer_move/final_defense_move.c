@@ -7,6 +7,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_fork.h"
+#include "stipulation/battle_play/dead_end.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -76,67 +77,35 @@ void killer_move_optimise_final_defense_move(slice_index si, Goal goal)
   TraceValue("%u\n",enabled[slices[si].starter]);
   if (enabled[slices[si].starter])
   {
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_defense_fork_slice(proxy);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_defense_fork_slice(proxy1);
     slice_index const last_defense = alloc_defense_move_against_goal_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
 
+    pipe_append(si,proxy2);
     pipe_append(slices[si].prev,fork);
 
-    pipe_link(proxy,last_defense);
-    pipe_set_successor(last_defense,si);
+    pipe_link(proxy1,last_defense);
+    pipe_set_successor(last_defense,proxy2);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-killer_move_final_defense_move_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean last_defense_stalemate;
 
 /* Try the defenses generated in the current ply
- * @param next identifies next (i.e. STDefenseMove) slice
+ * @param si slice index
  * @return true iff a refutation was found
  */
-static boolean try_last_defenses(slice_index next)
+static boolean try_last_defenses(slice_index si)
 {
-  slice_index const next_next = slices[next].u.pipe.next;
   boolean result = false;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   while (!result && encore())
@@ -144,7 +113,7 @@ static boolean try_last_defenses(slice_index next)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const
-          length_sol = attack_has_solution_in_n(next_next,
+          length_sol = attack_has_solution_in_n(next,
                                                 slack_length_battle,
                                                 slack_length_battle-1);
       if (length_sol>slack_length_battle)
@@ -166,12 +135,12 @@ static boolean try_last_defenses(slice_index next)
 }
 
 /* Try defenses by pieces other than the killer piece
- * @param next identifies next (i.e. STDefenseMove) slice
+ * @param si slice index
  * @param defender defending side
  * @param killer_pos square occupied by killer piece
  * @return true iff a refutation was found
  */
-static boolean iterate_non_killer(slice_index next,
+static boolean iterate_non_killer(slice_index si,
                                   Side defender,
                                   square killer_pos)
 {
@@ -179,7 +148,7 @@ static boolean iterate_non_killer(slice_index next,
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",si);
   TraceEnumerator(Side,defender,"");
   TraceSquare(killer_pos);
   TraceFunctionParamListEnd();
@@ -206,7 +175,7 @@ static boolean iterate_non_killer(slice_index next,
             gen_bl_piece(*selfbnp,p);
         }
 
-        result = try_last_defenses(next);
+        result = try_last_defenses(si);
       }
     }
 
@@ -217,20 +186,20 @@ static boolean iterate_non_killer(slice_index next,
 }
 
 /* Try defenses first by the killer piece, then by the other pieces
- * @param next identifies next (i.e. STDefenseMove) slice
+ * @param si slice index
  * @param killer_pos square occupied by killer piece
  * @return true iff a refutation was found
  */
-static boolean iterate_killer_first(slice_index next,
+static boolean iterate_killer_first(slice_index si,
                                     square killer_pos,
                                     piece killer)
 {
-  Side const defender = slices[next].starter;
+  Side const defender = slices[si].starter;
   Side const attacker = advers(defender);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",si);
   TraceSquare(killer_pos);
   TracePiece(killer);
   TraceFunctionParamListEnd();
@@ -263,10 +232,10 @@ static boolean iterate_killer_first(slice_index next,
 
     finish_move_generation_optimizer();
 
-    result = try_last_defenses(next);
+    result = try_last_defenses(si);
   }
 
-  result = result || iterate_non_killer(next,defender,killer_pos);
+  result = result || iterate_non_killer(si,defender,killer_pos);
 
   finply();
 
@@ -293,7 +262,6 @@ killer_move_final_defense_move_can_defend_in_n(slice_index si,
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];
-  slice_index const next = slices[si].u.pipe.next;
   boolean refutation_found;
   stip_length_type result;
 
@@ -304,7 +272,6 @@ killer_move_final_defense_move_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_battle+1);
-  assert(slices[slices[si].u.pipe.next].type==STDefenseMove);
 
   TraceSquare(killer_pos);
   TracePiece(killer);
@@ -312,7 +279,7 @@ killer_move_final_defense_move_can_defend_in_n(slice_index si,
 
   last_defense_stalemate = true;
 
-  refutation_found = iterate_killer_first(next,killer_pos,killer);
+  refutation_found = iterate_killer_first(si,killer_pos,killer);
 
   if (last_defense_stalemate /* stalemate */
       || refutation_found)

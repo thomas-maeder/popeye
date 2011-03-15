@@ -27,7 +27,6 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STRootAttackFork),  /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
@@ -59,6 +58,7 @@
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
+    ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -107,20 +107,16 @@
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
-    ENUMERATOR(STSaveUselessLastMove), /* avoid useless moves at end of branch */ \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
-    ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCastlingHelpFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCastlingSeriesFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \

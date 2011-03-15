@@ -154,8 +154,15 @@ static void self_guards_inserter_defense(slice_index si,
 
     {
       slice_index const * const proxy_to_goal = st->param;
-      slice_index const prototype = alloc_self_defense(*proxy_to_goal);
-      battle_branch_insert_slices(si,&prototype,1);
+      slice_index const prototypes[] =
+      {
+          alloc_self_defense(*proxy_to_goal)
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
 
     if (min_length>slack_length_battle+1)
@@ -169,18 +176,6 @@ static void self_guards_inserter_defense(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors self_guards_inserters[] =
-{
-  { STDefenseAdapter,  &self_guards_inserter_defense },
-  { STReadyForDefense, &self_guards_inserter_defense }
-};
-
-enum
-{
-  nr_self_guards_inserters = (sizeof self_guards_inserters
-                              / sizeof self_guards_inserters[0])
-};
 
 /* Instrument a branch with STSelfDefense slices
  * @param si root of branch to be instrumented
@@ -199,9 +194,9 @@ void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
   assert(slices[proxy_to_goal].type==STProxy);
 
   stip_structure_traversal_init(&st,&proxy_to_goal);
-  stip_structure_traversal_override(&st,
-                                    self_guards_inserters,
-                                    nr_self_guards_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForDefense,
+                                           &self_guards_inserter_defense);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

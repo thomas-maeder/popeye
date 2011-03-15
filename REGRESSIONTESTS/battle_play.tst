@@ -176,10 +176,10 @@ solution finished.
    1.Ka6-b6 ! threat:
           2.Se8-c7 #
 
-              empile:          68
-            jouecoup:          51
+              empile:          63
+            jouecoup:          46
         orig_rbechec:          14
-        orig_rnechec:          45
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -245,9 +245,9 @@ solution finished.
 
    1.Kc8-b7 ##! !
 
-              empile:          95
-            jouecoup:          89
-        orig_rbechec:          42
+              empile:          83
+            jouecoup:          77
+        orig_rbechec:          41
         orig_rnechec:          53
 solution finished. 
 
@@ -280,10 +280,10 @@ solution finished.
 
    1.Rc3-b3 = !
 
-              empile:        1613
-            jouecoup:         780
-        orig_rbechec:         327
-        orig_rnechec:         737
+              empile:        1561
+            jouecoup:         728
+        orig_rbechec:         352
+        orig_rnechec:         984
 solution finished. 
 
 
@@ -319,8 +319,8 @@ solution finished.
 
               empile:          67
             jouecoup:          53
-        orig_rbechec:          17
-        orig_rnechec:          45
+        orig_rbechec:          18
+        orig_rnechec:          55
 solution finished. 
 
 
@@ -355,10 +355,10 @@ solution finished.
       1...Kb8-a8
           2.Rc5-c8 #
 
-              empile:         264
-            jouecoup:         127
-        orig_rbechec:          46
-        orig_rnechec:         116
+              empile:         262
+            jouecoup:         125
+        orig_rbechec:          48
+        orig_rnechec:         128
 solution finished. 
 
 
@@ -392,10 +392,10 @@ the side to play can capture the king
       1...Kb8-a8
           2.Rc5-c8 #
 
-              empile:         110
-            jouecoup:          50
-        orig_rbechec:          27
-        orig_rnechec:          38
+              empile:         108
+            jouecoup:          48
+        orig_rbechec:          29
+        orig_rnechec:          50
 solution finished. 
 
 
@@ -503,10 +503,10 @@ solution finished.
               2...Se8-g7
                   3.Se6-c7 #
 
-              empile:        3536
-            jouecoup:        2540
-        orig_rbechec:        1485
-        orig_rnechec:        1157
+              empile:        3535
+            jouecoup:        2539
+        orig_rbechec:        1486
+        orig_rnechec:        1171
 solution finished. 
 
 
@@ -733,10 +733,10 @@ solution finished.
    1.Qa5-c5 + !
       1...Kc8-b7 ##!
 
-              empile:         363
-            jouecoup:         231
-        orig_rbechec:         211
-        orig_rnechec:         103
+              empile:         234
+            jouecoup:         207
+        orig_rbechec:         160
+        orig_rnechec:         113
 solution finished. 
 
 

@@ -16,8 +16,9 @@
 #include "stipulation/help_play/fork.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
-#include "optimisations/goals/enpassant/help_filter.h"
-#include "optimisations/goals/castling/help_filter.h"
+#include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/goals/castling/filter.h"
+#include "stipulation/goals/prerequisite_optimiser.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
@@ -162,12 +163,16 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = doublemate_help_filter_solve_in_n(si,n);
       break;
 
-    case STEnPassantHelpFilter:
-      result = enpassant_help_filter_solve_in_n(si,n);
+    case STEnPassantFilter:
+      result = enpassant_filter_help_solve_in_n(si,n);
       break;
 
-    case STCastlingHelpFilter:
-      result = castling_help_filter_solve_in_n(si,n);
+    case STCastlingFilter:
+      result = castling_filter_help_solve_in_n(si,n);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_help_solve_in_n(si,n);
       break;
 
     default:
@@ -288,12 +293,16 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = doublemate_help_filter_has_solution_in_n(si,n);
       break;
 
-    case STEnPassantHelpFilter:
-      result = enpassant_help_filter_has_solution_in_n(si,n);
+    case STEnPassantFilter:
+      result = enpassant_filter_help_has_solution_in_n(si,n);
       break;
 
-    case STCastlingHelpFilter:
-      result = castling_help_filter_has_solution_in_n(si,n);
+    case STCastlingFilter:
+      result = castling_filter_help_has_solution_in_n(si,n);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_help_has_solution_in_n(si,n);
       break;
 
     default:

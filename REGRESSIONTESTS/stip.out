@@ -644,9 +644,9 @@ Loesung beendet.
     Aber
       1...Sb1*c3 !
 
-              empile:       10007
-            jouecoup:         854
-        orig_rbechec:         541
+              empile:        9953
+            jouecoup:         853
+        orig_rbechec:         539
         orig_rnechec:         547
 Loesung beendet. 
 
@@ -1249,7 +1249,7 @@ Loesung beendet.
                               4...b4-b3
                                   5.Sg5-h3 z
 
-              empile:     5857202
+              empile:     5857174
             jouecoup:     2837587
         orig_rbechec:     2530425
         orig_rnechec:      292424
@@ -1538,7 +1538,7 @@ Loesung beendet.
           2.d7*c8=S Drohung:
                   3.Sc8-d6 z
 
-              empile:       10457
+              empile:       10443
             jouecoup:        3751
         orig_rbechec:        2558
         orig_rnechec:        1201
@@ -2944,10 +2944,10 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6] Dd6-g3 +   6.Se4*g3 [+sDe4] # 
 
-              empile:    10658879
-            jouecoup:     4740960
-        orig_rbechec:     3596704
-        orig_rnechec:     3898151
+              empile:    10659438
+            jouecoup:     4741236
+        orig_rbechec:     3596879
+        orig_rnechec:     3898399
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 

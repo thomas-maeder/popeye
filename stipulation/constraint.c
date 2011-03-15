@@ -4,6 +4,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/min_length_guard.h"
+#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
@@ -530,7 +531,7 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==slack_length_series)
+  if (st->remaining==0)
     stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
   else
     stip_traverse_moves_pipe(si,st);
@@ -664,8 +665,16 @@ static void reflex_guards_inserter_defense(slice_index si,
     {
       init_param const * const param = st->param;
       slice_index const proxy_to_avoided = param->avoided_defense;
-      slice_index const prototype = alloc_reflex_defender_filter(proxy_to_avoided);
-      battle_branch_insert_slices(si,&prototype,1);
+      slice_index const prototypes[] =
+      {
+          alloc_reflex_defender_filter(proxy_to_avoided),
+          alloc_battle_play_dead_end_slice()
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
 
     if (min_length>slack_length_battle+1)

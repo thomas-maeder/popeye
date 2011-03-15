@@ -30,7 +30,8 @@ void init_degenerate_tree(stip_length_type max_length_short)
   TraceFunctionParam("%u",max_length_short);
   TraceFunctionParamListEnd();
 
-  max_length_short_solutions = max_length_short+1;
+  max_length_short_solutions = 2*max_length_short+slack_length_battle;
+  TraceValue("%u\n",max_length_short_solutions);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -117,8 +118,8 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
-  stip_length_type const parity = n%2;
-  stip_length_type n_min = n_max_unsolvable+1;
+  stip_length_type const parity = (n-slack_length_battle)%2;
+  stip_length_type const n_min = n_max_unsolvable+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -126,7 +127,7 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n>max_length_short_solutions+2-parity)
+  if (n>max_length_short_solutions)
   {
     if (max_length_short_solutions>=slack_length_battle+2)
     {

@@ -130,6 +130,7 @@
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
+#include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
@@ -148,7 +149,6 @@
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
-#include "optimisations/save_useless_last_move/save_useless_last_move.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -2489,6 +2489,7 @@ static void solve_twin(slice_index si,
 typedef struct
 {
     Goal goal;
+    boolean moreMovesToCome;
     boolean is_optimised[max_nr_slices];
 } final_move_optimisation_state;
 
@@ -2500,6 +2501,8 @@ static void optimise_final_moves_attack_move(slice_index si,
                                              stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
+  Goal const save_goal = state->goal;
+  boolean const save_moreMovesToCome = state->moreMovesToCome;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2507,23 +2510,50 @@ static void optimise_final_moves_attack_move(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
-
     stip_traverse_moves_move_slice(si,st);
 
-    if (st->remaining==slack_length_battle+1)
+    TraceValue("%u",state->goal.type);
+    TraceValue("%u\n",state->moreMovesToCome);
+    if (st->remaining==1
+        && state->goal.type!=no_goal
+        && !state->moreMovesToCome)
     {
-      if (state->goal.type!=no_goal)
-      {
-        slice_index const to_goal = alloc_attack_move_to_goal_slice(state->goal);
-        pipe_replace(si,to_goal);
-      }
-
-      state->is_optimised[si] = true;
+      slice_index const proxy = alloc_proxy_slice();
+      slice_index const fork = alloc_attack_fork_slice(proxy);
+      slice_index const to_goal = alloc_attack_move_to_goal_slice(state->goal);
+      slice_index const proxy2 = alloc_proxy_slice();
+      pipe_append(slices[si].prev,fork);
+      pipe_append(si,proxy2);
+      pipe_link(proxy,to_goal);
+      pipe_set_successor(to_goal,proxy2);
     }
 
-    state->goal = save_goal;
+    state->is_optimised[si] = true;
   }
+
+  state->goal = save_goal;
+  state->moreMovesToCome = save_moreMovesToCome;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_reflex_defender_filter(slice_index si,
+                                                        stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+  state->moreMovesToCome = true;
+  TraceValue("%u\n",state->moreMovesToCome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2548,7 +2578,7 @@ static void optimise_final_moves_defense_move(slice_index si,
 
     stip_traverse_moves_move_slice(si,st);
 
-    if (st->remaining==slack_length_battle+1)
+    if (st->remaining==1)
     {
       if (state->goal.type!=no_goal)
         killer_move_optimise_final_defense_move(si,state->goal);
@@ -2582,16 +2612,10 @@ static void optimise_final_moves_help_move(slice_index si,
 
     stip_traverse_moves_move_slice(si,st);
 
-    if (st->remaining==slack_length_help+1)
-    {
-      TraceValue("%u\n",state->goal.type);
-      if (state->goal.type!=no_goal
-          && slices[si].u.branch.length==slack_length_help+1)
-      {
-        slice_index const to_goal = alloc_help_move_to_goal_slice(state->goal);
-        pipe_replace(si,to_goal);
-      }
-    }
+    if (st->remaining==1
+        && state->goal.type!=no_goal
+        && slices[si].u.branch.length==slack_length_help+1)
+      pipe_replace(si,alloc_help_move_to_goal_slice(state->goal));
 
     state->goal = save_goal;
   }
@@ -2619,16 +2643,10 @@ static void optimise_final_moves_series_move(slice_index si,
 
     stip_traverse_moves_move_slice(si,st);
 
-    if (st->remaining==slack_length_series+1)
-    {
-      TraceValue("%u\n",state->goal.type);
-      if (state->goal.type!=no_goal
-          && slices[si].u.branch.length==slack_length_series+1)
-      {
-        slice_index const to_goal = alloc_series_move_to_goal_slice(state->goal);
-        pipe_replace(si,to_goal);
-      }
-    }
+    if (st->remaining==1
+        && state->goal.type!=no_goal
+        && slices[si].u.branch.length==slack_length_series+1)
+      pipe_replace(si,alloc_series_move_to_goal_slice(state->goal));
 
     state->goal = save_goal;
   }
@@ -2680,14 +2698,14 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STAttackMove,         &optimise_final_moves_attack_move  },
-  { STAttackMoveToGoal,   &swallow_goal                      },
-  { STDefenseMove,        &optimise_final_moves_defense_move },
-  { STHelpMove,           &optimise_final_moves_help_move    },
-  { STHelpMoveToGoal,     &swallow_goal                      },
-  { STSeriesMove,         &optimise_final_moves_series_move  },
-  { STSeriesMoveToGoal,   &swallow_goal                      },
-  { STGoalReachedTesting, &optimise_final_moves_goal         }
+  { STAttackMove,           &optimise_final_moves_attack_move            },
+  { STDefenseMove,          &optimise_final_moves_defense_move           },
+  { STReflexDefenderFilter, &optimise_final_moves_reflex_defender_filter },
+  { STHelpMove,             &optimise_final_moves_help_move              },
+  { STHelpMoveToGoal,       &swallow_goal                                },
+  { STSeriesMove,           &optimise_final_moves_series_move            },
+  { STSeriesMoveToGoal,     &swallow_goal                                },
+  { STGoalReachedTesting,   &optimise_final_moves_goal                   }
 };
 
 enum
@@ -2703,6 +2721,7 @@ static void stip_optimise_final_moves(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare },
+                                          false,
                                           { false } };
 
   TraceFunctionEntry(__func__);
@@ -2717,8 +2736,6 @@ static void stip_optimise_final_moves(slice_index si)
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
-
-  stip_insert_save_useless_last_move_optimisation(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2769,6 +2786,8 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
         Message(WhiteToPlayNotApplicable);
+
+      stip_insert_goal_prerequisite_guards(template_slice_hook);
 
       stip_insert_root_slices(template_slice_hook);
 
@@ -2873,10 +2892,6 @@ static Token iterate_twins(Token prev_token)
 
       if (TSTFLAG(PieSpExFlags,Kamikaze))
         stip_insert_kamikaze_goal_filters(root_slice);
-
-      stip_insert_goal_prerequisite_guards(root_slice);
-
-      stip_insert_goal_optimisation_guards(root_slice);
 
       stip_flesh_out_goal_testers(root_slice);
 

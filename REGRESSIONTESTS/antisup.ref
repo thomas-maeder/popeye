@@ -30,8 +30,8 @@ a)
       1...Ka8-a7
           2.Qd8-a5 #
 
-              empile:        1158
-            jouecoup:        1041
+              empile:        1151
+            jouecoup:         955
         orig_rbechec:         284
         orig_rnechec:         957
 b) =2
@@ -42,10 +42,10 @@ b) =2
       1...Ka8-a7
           2.Qe8-c6 =
 
-              empile:        3508
-            jouecoup:        1919
-        orig_rbechec:         839
-        orig_rnechec:        1686
+              empile:        3498
+            jouecoup:        1830
+        orig_rbechec:         838
+        orig_rnechec:        1683
 solution finished. 
 
 

@@ -1,26 +1,39 @@
 stipulation/goals/countermate/filter$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.c \
- stipulation/goals/countermate/filter.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h trace.h
+ stipulation/goals/countermate/filter.h pypipe.h pydata.h \
+ stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/goals/prerequisite_guards.h \
+ trace.h
 
 stipulation/goals/countermate/filter.h:
 
 pypipe.h:
 
+pydata.h:
+
 stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/play.h:
 
 stipulation/series_play/play.h:
 
+stipulation/goals/prerequisite_guards.h:
+
 trace.h:
 stipulation/goals/countermate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/countermate/reached_tester.c \
- stipulation/goals/countermate/reached_tester.h pypipe.h trace.h
+ stipulation/goals/countermate/reached_tester.h pypipe.h pydata.h \
+ stipulation/goals/prerequisite_guards.h trace.h
 
 stipulation/goals/countermate/reached_tester.h:
 
 pypipe.h:
+
+pydata.h:
+
+stipulation/goals/prerequisite_guards.h:
 
 trace.h:

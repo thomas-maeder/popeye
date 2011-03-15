@@ -1,8 +1,11 @@
 #include "pymovenb.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pyoutput.h"
 #include "output/plaintext/plaintext.h"
@@ -209,26 +212,65 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
   return result;
 }
 
-/* Remove the superfluous (and disturbing) STRestartGuard slice from the branch
- * where we attempt to directly reach the goal
- */
-static void remove_guard_from_direct_attack(slice_index si,
-                                            stip_structure_traversal *st)
+static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
 {
-  slice_index fork_guard;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fork_guard = branch_find_slice(STRestartGuard,
-                                 slices[si].u.branch_fork.towards_goal);
-  assert(fork_guard!=no_slice);
-  pipe_remove(fork_guard);
+  {
+    slice_index const prototype = alloc_restart_guard();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static void insert_guard_help(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_restart_guard();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guard_series(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_restart_guard();
+    series_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors restart_guard_inserters[] =
+{
+  { STAttackAdapter,                 &insert_guard_attack          },
+  { STDefenseAdapter,                &stip_structure_visitor_noop  },
+  { STHelpAdapter,                   &insert_guard_help            },
+  { STSeriesAdapter,                 &insert_guard_series          },
+  { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe }
+};
+
+enum
+{
+  nr_restart_guard_inserters = (sizeof restart_guard_inserters
+                                / sizeof restart_guard_inserters[0])
+};
 
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
@@ -241,15 +283,10 @@ void stip_insert_restart_guards(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prototype = alloc_restart_guard();
-    root_branch_insert_slices(si,&prototype,1);
-  }
-
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STRootAttackFork,
-                                           &remove_guard_from_direct_attack);
+  stip_structure_traversal_override(&st,
+                                    restart_guard_inserters,
+                                    nr_restart_guard_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

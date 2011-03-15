@@ -90,8 +90,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
       slice_index const next = slices[si].u.pipe.next;
       if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STSetplayFork
-               || slices[next].type==STRootAttackFork)
+      else if (slices[next].type==STSetplayFork)
       {
         root_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                             prototypes,nr_prototypes,
@@ -440,30 +439,6 @@ slice_index branch_find_slice(SliceType type, slice_index si)
   return result;
 }
 
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_adapter_slice(slice_index si,
-                                       stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.branch.length;
-    TraceValue("->%u\n",st->full_length);
-    st->remaining = slices[si].u.branch.length;
-  }
-
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traversal of the moves of some branch slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -473,6 +448,8 @@ void stip_traverse_moves_move_slice(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(st->remaining>0);
 
   --st->remaining;
   TraceValue("->%u\n",st->remaining);

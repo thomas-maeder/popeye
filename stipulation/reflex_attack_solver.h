@@ -14,6 +14,13 @@
  */
 slice_index alloc_reflex_attack_solver(slice_index avoided);
 
+/* Traversal of the moves beyond a reflex attacker filter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_attacker_solver(slice_index si,
+                                                stip_moves_traversal *st);
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

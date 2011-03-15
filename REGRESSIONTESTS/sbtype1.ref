@@ -216,10 +216,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kd4-c4
                           4.Qf3-b3 #
 
-              empile:     1634479
-            jouecoup:     1040397
-        orig_rbechec:      529188
-        orig_rnechec:      571575
+              empile:     1634549
+            jouecoup:     1040486
+        orig_rbechec:      529301
+        orig_rnechec:      571582
 solution finished. 
 
 
@@ -323,10 +323,10 @@ Example 1
                                       5...Kg4-f4
                                           6.Qh3-f3 #
 
-              empile:     7551852
-            jouecoup:     6647506
-        orig_rbechec:     4982625
-        orig_rnechec:     1674598
+              empile:     7551915
+            jouecoup:     6647599
+        orig_rbechec:     4982727
+        orig_rnechec:     1674619
 solution finished. 
 
 
@@ -382,8 +382,8 @@ solution finished.
     but
       1...c6*d5 !
 
-              empile:      755903
-            jouecoup:      482619
+              empile:      755859
+            jouecoup:      482575
         orig_rbechec:       80295
         orig_rnechec:      430786
 solution finished. 

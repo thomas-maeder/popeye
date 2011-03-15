@@ -226,8 +226,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     switch (slices[si].type)
     {
       case STSetplayFork:
+      case STEndOfBranch:
       case STSelfDefense:
-      case STRootAttackFork:
       case STAttackFork:
       case STDefenseFork:
       case STHelpFork:
@@ -241,7 +241,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STEnPassantDefenderFilter:
       case STAttackAdapter:
       case STDefenseAdapter:
       case STAttackFindShortest:
@@ -389,16 +388,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalReachableGuardHelpFilter:
       case STIntelligentSeriesFilter:
       case STIntelligentHelpFilter:
-      case STCastlingAttackerFilter:
-      case STCastlingHelpFilter:
-      case STCastlingSeriesFilter:
-      case STEnPassantAttackerFilter:
-      case STEnPassantHelpFilter:
+      case STCastlingFilter:
+      case STEnPassantFilter:
       case STCheckDetector:
       case STKillerMoveCollector:
       case STDoubleMateFilter:
       case STCounterMateFilter:
-      case STSaveUselessLastMove:
+      case STPrerequisiteOptimiser:
       case STBattleDeadEnd:
         Trace_pipe(si);
         fprintf(stdout,"\n");

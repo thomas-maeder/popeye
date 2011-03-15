@@ -2,366 +2,58 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "optimisations/goals/enpassant/attacker_filter.h"
-#include "optimisations/goals/enpassant/defender_filter.h"
-#include "optimisations/goals/enpassant/help_filter.h"
-#include "optimisations/goals/castling/attacker_filter.h"
-#include "optimisations/goals/castling/help_filter.h"
-#include "optimisations/goals/castling/series_filter.h"
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/series_play/branch.h"
+#include "stipulation/goals/prerequisite_guards.h"
+#include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/goals/castling/filter.h"
+#include "optimisations/goals/castling/filter.h"
+#include "optimisations/goals/castling/filter.h"
 
 #include "trace.h"
 
 #include <assert.h>
 
-static void insert_goal_optimisation_attacker_filter(slice_index si,
-                                                     goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_ep:
-      pipe_append(slices[si].prev,alloc_enpassant_attacker_filter_slice());
-      break;
-
-    case goal_castling:
-      pipe_append(slices[si].prev,alloc_castling_attacker_filter_slice());
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_goal_optimisation_defender_filter(slice_index si,
-                                                     goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_ep:
-      pipe_append(slices[si].prev,alloc_enpassant_defender_filter_slice());
-      break;
-
-    case goal_castling:
-      /* intentionally nothing (assuming that castling can't be
-       * forced)
-       */
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_goal_optimisation_help_filter(slice_index si,
-                                                 goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_ep:
-      pipe_append(slices[si].prev,alloc_enpassant_help_filter_slice());
-      break;
-
-    case goal_castling:
-      pipe_append(slices[si].prev,alloc_castling_help_filter_slice());
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_goal_optimisation_series_filter(slice_index si, goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_ep:
-      /* intentionally nothing (assuming that ser-ep is impossible)
-       */
-      break;
-
-    case goal_castling:
-      pipe_append(slices[si].prev,alloc_castling_series_filter_slice());
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-typedef struct
-{
-    goal_type goal;
-    boolean is_optimised[max_nr_slices];
-} optimisation_guards_insertion_state;
-
-/* Instrument the stipulation structure with goal optimisation guards.
+/* Insert goal optimisation guards
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static
-void insert_goal_optimisation_guards_attack_to_goal(slice_index si,
-                                                    stip_moves_traversal *st)
+void insert_goal_optimisation_guards_castling(slice_index si,
+                                              stip_moves_traversal *st)
 {
-  optimisation_guards_insertion_state * const state = st->param;
+  prerequisite_guards_insertion_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!state->is_optimised[si])
-  {
-    stip_traverse_moves_pipe(si,st);
-
-    if (state->goal!=no_goal)
-      insert_goal_optimisation_attacker_filter(si,state->goal);
-    state->is_optimised[si] = true;
-  }
+  stip_traverse_moves_children(si,st);
+  state->imminent_goals[goal_castling] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Instrument the stipulation structure with goal optimisation guards.
+/* Insert goal optimisation guards
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static
-void insert_goal_optimisation_guards_killer_defense(slice_index si,
-                                                    stip_moves_traversal *st)
+void insert_goal_optimisation_guards_enpassant(slice_index si,
+                                               stip_moves_traversal *st)
 {
-  optimisation_guards_insertion_state * const state = st->param;
+  prerequisite_guards_insertion_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!state->is_optimised[si])
-  {
-    goal_type const save_goal = state->goal;
-
-    TraceValue("%u\n",st->remaining);
-    if (st->remaining==slack_length_battle+1)
-    {
-      stip_traverse_moves_children(slices[si].u.pipe.next,st);
-      if (state->goal!=no_goal)
-        insert_goal_optimisation_defender_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-    else
-      stip_traverse_moves_children(slices[si].u.pipe.next,st);
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_optimisation_guards_defense(slice_index si,
-                                                    stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    goal_type const save_goal = state->goal;
-
-    TraceValue("%u\n",st->remaining);
-    if (st->remaining==slack_length_battle+1)
-    {
-      stip_traverse_moves_children(si,st);
-      if (state->goal!=no_goal)
-        insert_goal_optimisation_defender_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-    else
-      stip_traverse_moves_children(si,st);
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void insert_goal_optimisation_guards_defense_fork(slice_index si,
-                                                  stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining==slack_length_battle+1)
-    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-  else
-    stip_traverse_moves(slices[si].u.branch_fork.next,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_optimisation_guards_help_move(slice_index si,
-                                                      stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    goal_type const save_goal = state->goal;
-
-    stip_traverse_moves_move_slice(si,st);
-
-    if (st->remaining<slack_length_help+2)
-    {
-      if (state->goal!=no_goal)
-        insert_goal_optimisation_help_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void
-insert_goal_optimisation_guards_help_move_to_goal(slice_index si,
-                                                  stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    goal_type const save_goal = state->goal;
-
-    stip_traverse_moves_move_slice(si,st);
-
-    assert(st->remaining==slack_length_help+1);
-
-    {
-      if (state->goal!=no_goal)
-        insert_goal_optimisation_help_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
- void insert_goal_optimisation_guards_series_move(slice_index si,
-                                                  stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    goal_type const save_goal = state->goal;
-
-    stip_traverse_moves_move_slice(si,st);
-
-    if (st->remaining==slack_length_series+1)
-    {
-      if (state->goal!=no_goal)
-        insert_goal_optimisation_series_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_optimisation_guards_goal(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal = slices[si].u.goal_writer.goal.type;
-  TraceValue("->%u\n",state->goal);
+  TraceValue("0x%x\n",state);
+  stip_traverse_moves_children(si,st);
+  state->imminent_goals[goal_ep] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -369,15 +61,8 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STDefenseFork,                &insert_goal_optimisation_guards_defense_fork      },
-  { STKillerMoveFinalDefenseMove, &insert_goal_optimisation_guards_killer_defense    },
-  { STDefenseMove,                &insert_goal_optimisation_guards_defense           },
-  { STAttackMoveToGoal,           &insert_goal_optimisation_guards_attack_to_goal    },
-  { STGoalReachedTesting,         &insert_goal_optimisation_guards_goal              },
-  { STHelpMove,                   &insert_goal_optimisation_guards_help_move         },
-  { STHelpMoveToGoal,             &insert_goal_optimisation_guards_help_move_to_goal },
-  { STSeriesMove,                 &insert_goal_optimisation_guards_series_move       },
-  { STSeriesMoveToGoal,           &insert_goal_optimisation_guards_series_move       }
+  { STGoalCastlingReachedTester,  &insert_goal_optimisation_guards_castling  },
+  { STGoalEnpassantReachedTester, &insert_goal_optimisation_guards_enpassant }
 };
 
 enum
@@ -387,28 +72,143 @@ enum
      / sizeof optimisation_guard_inserters[0])
 };
 
-/* Instrument the stipulation structure with goal optimisation guards.
- * These guards stop solving if the following move has to reach a
- * goal, but the prerequisites for that goal (if any) aren't met
- * before the move.
- * @param si identifies slice where to start
+/* Initialise a structure traversal for the insertion of optimising goal
+ * prerequisite testers.
+ * @param st to be initialised
  */
-void stip_insert_goal_optimisation_guards(slice_index si)
+void
+init_goal_prerequisite_traversal_with_optimisations(stip_moves_traversal *st)
 {
-  stip_moves_traversal st;
-  optimisation_guards_insertion_state state = { no_goal, { false } };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
-
-  stip_moves_traversal_init(&st,&state);
-  stip_moves_traversal_override(&st,
+  stip_moves_traversal_override(st,
                                 optimisation_guard_inserters,
                                 nr_optimisation_guard_inserters);
-  stip_traverse_moves(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+/* Determine whether moves that are supposed to reach a particular goal are
+ * optimisable
+ * @param goal goal to be reached
+ * @return true iff moves supposed to reach goal are optimisable
+ */
+boolean is_goal_reaching_move_optimisable(goal_type goal)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_ep:
+    case goal_castling:
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a goal optimisation filter slice into a battle branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_ep:
+    {
+      slice_index const prototype = alloc_enpassant_filter_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+      break;
+    }
+
+    case goal_castling:
+    {
+      slice_index const prototype = alloc_castling_filter_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a goal optimisation filter slice into a help branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_help_filter(slice_index si, goal_type goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_ep:
+      pipe_append(si,alloc_enpassant_filter_slice());
+      break;
+
+    case goal_castling:
+      pipe_append(si,alloc_castling_filter_slice());
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a goal optimisation filter slice into a series branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_series_filter(slice_index si, goal_type goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_ep:
+      pipe_append(si,alloc_enpassant_filter_slice());
+      break;
+
+    case goal_castling:
+      pipe_append(si,alloc_castling_filter_slice());
+      break;
+
+    default:
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

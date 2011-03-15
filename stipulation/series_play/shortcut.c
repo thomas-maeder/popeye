@@ -64,7 +64,7 @@ void stip_traverse_moves_series_shortcut(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<slack_length_series+2)
+  if (st->remaining<2)
     stip_traverse_moves(slices[si].u.shortcut.short_sols,st);
   else
     stip_traverse_moves_pipe(si,st);

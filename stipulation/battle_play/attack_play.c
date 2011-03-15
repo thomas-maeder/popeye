@@ -17,7 +17,6 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
-#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
@@ -28,11 +27,11 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
+#include "stipulation/goals/prerequisite_optimiser.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
-#include "optimisations/goals/castling/attacker_filter.h"
-#include "optimisations/goals/enpassant/attacker_filter.h"
+#include "optimisations/goals/castling/filter.h"
+#include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/killer_move/collector.h"
-#include "optimisations/save_useless_last_move/save_useless_last_move.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
@@ -103,7 +102,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = min_length_guard_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STRootAttackFork:
     case STAttackFork:
       result = attack_fork_has_solution_in_n(si,n,n_max_unsolvable);
       break;
@@ -196,14 +194,17 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                              n_max_unsolvable);
       break;
 
-    case STEnPassantAttackerFilter:
-      result = enpassant_attacker_filter_has_solution_in_n(si,
-                                                           n,n_max_unsolvable);
+    case STEnPassantFilter:
+      result = enpassant_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STCastlingAttackerFilter:
-      result = castling_attacker_filter_has_solution_in_n(si,
-                                                          n,n_max_unsolvable);
+    case STCastlingFilter:
+      result = castling_filter_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_has_solution_in_n(si,
+                                                             n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
@@ -214,10 +215,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STKillerMoveCollector:
       result = killer_move_collector_has_solution_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STSaveUselessLastMove:
-      result = save_useless_last_move_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -332,10 +329,6 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = min_length_guard_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STRootAttackFork:
-      result = root_attack_fork_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
     case STAttackFork:
       result = attack_fork_solve_in_n(si,n,n_max_unsolvable);
       break;
@@ -401,12 +394,16 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = countermate_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STEnPassantAttackerFilter:
-      result = enpassant_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
+    case STEnPassantFilter:
+      result = enpassant_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STCastlingAttackerFilter:
-      result = castling_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
+    case STCastlingFilter:
+      result = castling_filter_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPrerequisiteOptimiser:
+      result = goal_prerequisite_optimiser_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
@@ -417,10 +414,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STKillerMoveCollector:
       result = killer_move_collector_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STSaveUselessLastMove:
-      result = save_useless_last_move_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:

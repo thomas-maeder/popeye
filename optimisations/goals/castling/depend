@@ -1,9 +1,11 @@
-optimisations/goals/castling/attacker_filter$(OBJ_SUFFIX): \
- optimisations/goals/castling/attacker_filter.c \
- optimisations/goals/castling/attacker_filter.h pydata.h pypipe.h \
- stipulation/battle_play/attack_play.h trace.h
+optimisations/goals/castling/filter$(OBJ_SUFFIX): \
+ optimisations/goals/castling/filter.c \
+ optimisations/goals/castling/filter.h pydata.h pypipe.h \
+ stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/goals/prerequisite_guards.h \
+ trace.h
 
-optimisations/goals/castling/attacker_filter.h:
+optimisations/goals/castling/filter.h:
 
 pydata.h:
 
@@ -11,32 +13,10 @@ pypipe.h:
 
 stipulation/battle_play/attack_play.h:
 
-trace.h:
-optimisations/goals/castling/help_filter$(OBJ_SUFFIX): \
- optimisations/goals/castling/help_filter.c \
- optimisations/goals/castling/help_filter.h pydata.h pypipe.h \
- stipulation/help_play/play.h trace.h
-
-optimisations/goals/castling/help_filter.h:
-
-pydata.h:
-
-pypipe.h:
-
 stipulation/help_play/play.h:
 
-trace.h:
-optimisations/goals/castling/series_filter$(OBJ_SUFFIX): \
- optimisations/goals/castling/series_filter.c \
- optimisations/goals/castling/series_filter.h pydata.h pypipe.h \
- stipulation/series_play/play.h trace.h
-
-optimisations/goals/castling/series_filter.h:
-
-pydata.h:
-
-pypipe.h:
-
 stipulation/series_play/play.h:
+
+stipulation/goals/prerequisite_guards.h:
 
 trace.h:

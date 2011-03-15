@@ -11,4 +11,36 @@
  */
 void stip_insert_goal_optimisation_guards(slice_index si);
 
+/* Initialise a moves traversal for the insertion of optimising goal
+ * prerequisite testers.
+ * @param st to be initialised
+ */
+void
+init_goal_prerequisite_traversal_with_optimisations(stip_moves_traversal *st);
+
+/* Determine whether moves that are supposed to reach a particular goal are
+ * optimisable
+ * @param goal goal to be reached
+ * @return true iff moves supposed to reach goal are optimisable
+ */
+boolean is_goal_reaching_move_optimisable(goal_type goal);
+
+/* Insert a goal optimisation filter slice into a battle branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal);
+
+/* Insert a goal optimisation filter slice into a help branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_help_filter(slice_index si, goal_type goal);
+
+/* Insert a goal optimisation filter slice into a series branch
+ * @param si identifies entry slice into battle branch
+ * @param goal goal to provide optimisation for
+ */
+void insert_goal_optimisation_series_filter(slice_index si, goal_type goal);
+
 #endif

@@ -37,7 +37,7 @@ has_solution_type defense_adapter_solve(slice_index si)
   has_solution_type result;
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-1;
+  stip_length_type n_max_unsolvable = slack_length_battle-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -62,7 +62,7 @@ has_solution_type defense_adapter_has_solution(slice_index si)
   has_solution_type result;
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-1;
+  stip_length_type n_max_unsolvable = slack_length_battle-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

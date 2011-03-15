@@ -1,6 +1,7 @@
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/goals/prerequisite_guards.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -45,7 +46,10 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,starter) && echecc(nbply,just_moved))
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_ply[nbply]);
+  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate)
+      && echecc(nbply,starter) && echecc(nbply,just_moved))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
@@ -76,7 +80,10 @@ has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,starter) && echecc(nbply,just_moved))
+  TraceValue("%u",nbply);
+  TraceValue("%u",parent_ply[nbply]);
+  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate)
+      && echecc(nbply,starter) && echecc(nbply,just_moved))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);

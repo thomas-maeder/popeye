@@ -1,6 +1,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "trace.h"
@@ -26,6 +27,24 @@ slice_index alloc_reflex_attack_solver(slice_index avoided)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Traversal of the moves beyond a reflex attacker filter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_attacker_solver(slice_index si,
+                                                stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Solve a slice

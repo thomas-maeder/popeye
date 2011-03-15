@@ -42,8 +42,8 @@
       1...Sc4-a5[Ia6] +
           2.Sf6-h5[Ic5] #
 
-              empile:         915
-            jouecoup:         531
+              empile:         899
+            jouecoup:         519
         orig_rbechec:         107
         orig_rnechec:         521
 Loesung beendet. 
@@ -170,8 +170,8 @@ Loesung beendet.
       1...Le1-f2[Ie4]
           2.Dc7-b8[Id5] #
 
-              empile:        2112
-            jouecoup:        1101
+              empile:        2086
+            jouecoup:        1084
         orig_rbechec:         140
         orig_rnechec:        1064
 Loesung beendet. 
@@ -223,8 +223,8 @@ Loesung beendet.
                       3...Kf8-e8[Ib2]
                           4.Td7-d6[Ib1] #
 
-              empile:       53503
-            jouecoup:       30751
+              empile:       53484
+            jouecoup:       30741
         orig_rbechec:        9666
         orig_rnechec:       22441
 Loesung beendet. 
@@ -321,8 +321,8 @@ Loesung beendet.
 
    1.Tf1*g1[Ib8] + !
 
-              empile:        7095
-            jouecoup:        2459
+              empile:        7080
+            jouecoup:        2456
         orig_rbechec:        1124
         orig_rnechec:        1966
 Loesung beendet. 
@@ -398,8 +398,8 @@ Loesung beendet.
       1...Kc8-d7[Ib3]
           2.Da8-c6[Id1] #
 
-              empile:      258652
-            jouecoup:      125993
+              empile:      258624
+            jouecoup:      125980
         orig_rbechec:       49144
         orig_rnechec:       83646
 Loesung beendet. 

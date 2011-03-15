@@ -2,7 +2,6 @@
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -28,34 +27,6 @@ slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index attack_root;
-  slice_index root_to_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(to_goal,st);
-  root_to_goal = *root_slice;
-
-  stip_traverse_structure_pipe(si,st);
-
-  attack_root = alloc_root_attack_fork_slice(root_to_goal);
-  pipe_link(attack_root,*root_slice);
-  *root_slice = attack_root;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traversal of the moves beyond an attack fork
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -65,11 +36,13 @@ void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+  
+  assert(st->remaining>0);
 
-  if (st->remaining<=slack_length_battle+1)
-    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
-
-  stip_traverse_moves_pipe(si,st);
+  if (st->remaining==1)
+    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+  else
+    stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -100,16 +73,10 @@ attack_fork_has_solution_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle)
-  {
+  if (n==slack_length_battle+1)
     result = attack_has_solution_in_n(slices[si].u.branch_fork.towards_goal,
                                       slack_length_battle+1,
-                                      slack_length_battle);
-    if (result>slack_length_battle+1)
-      result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
-                                        n,
-                                        slack_length_battle);
-  }
+                                      n_max_unsolvable);
   else
     result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
                                       n,
@@ -146,17 +113,14 @@ stip_length_type attack_fork_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle)
-  {
+  if (n==slack_length_battle+1)
     result = attack_solve_in_n(slices[si].u.branch_fork.towards_goal,
-                               slack_length_battle+1,slack_length_battle);
-    if (result>slack_length_battle+1)
-      result = attack_solve_in_n(slices[si].u.branch_fork.next,
-                                 n,slack_length_battle);
-  }
+                               slack_length_battle+1,
+                               n_max_unsolvable);
   else
     result = attack_solve_in_n(slices[si].u.branch_fork.next,
-                               n,n_max_unsolvable);
+                               n,
+                               n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

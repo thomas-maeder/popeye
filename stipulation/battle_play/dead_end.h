@@ -1,10 +1,11 @@
 #if !defined(STIPULATION_BATTLE_PLAY_DEAD_END_H)
 #define STIPULATION_BATTLE_PLAY_DEAD_END_H
 
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side
- * in STDefenseMove stipulation slices.
+ * in STBattleDeadEnd stipulation slices.
  */
 
 /* Allocate a STBattleDeadEnd defender slice.

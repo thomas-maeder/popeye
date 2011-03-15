@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/defense_fork.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
@@ -37,10 +36,10 @@ void stip_traverse_moves_defense_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=slack_length_battle+1)
+  if (st->remaining==1)
     stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-
-  stip_traverse_moves_pipe(si,st);
+  else
+    stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -64,9 +63,8 @@ stip_length_type defense_fork_defend_in_n(slice_index si,
                                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const successor = (n==slack_length_battle+1
-                                 ? slices[si].u.branch_fork.towards_goal
-                                 : slices[si].u.branch_fork.next);
+  slice_index const next = slices[si].u.branch_fork.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,7 +74,10 @@ stip_length_type defense_fork_defend_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  result = defense_defend_in_n(successor,n,n_max_unsolvable);
+  if (n==slack_length_battle+1)
+    result = defense_defend_in_n(to_goal,n,n_max_unsolvable);
+  else
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -100,9 +101,8 @@ defense_fork_can_defend_in_n(slice_index si,
                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const successor = (n==slack_length_battle+1
-                                 ? slices[si].u.branch_fork.towards_goal
-                                 : slices[si].u.branch_fork.next);
+  slice_index const next = slices[si].u.branch_fork.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -112,7 +112,10 @@ defense_fork_can_defend_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  result = defense_can_defend_in_n(successor,n,n_max_unsolvable);
+  if (n==slack_length_battle+1)
+    result = defense_can_defend_in_n(to_goal,n,n_max_unsolvable);
+  else
+    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

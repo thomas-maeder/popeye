@@ -62,6 +62,7 @@ void defense_move_make_setplay_slice(slice_index si,
 {
   slice_index * const result = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,7 +74,7 @@ void defense_move_make_setplay_slice(slice_index si,
     slice_index const root = alloc_help_root_slice(length_h,length_h);
     slice_index const ready = alloc_ready_for_help_move_slice(length_h,length_h);
     slice_index const move = alloc_help_move_slice(length_h,length_h);
-    slice_index const adapter = alloc_attack_adapter_slice(length_h-1,length_h-2);
+    slice_index const adapter = alloc_attack_adapter_slice(length-1,min_length-1);
     slice_index const end = branch_find_slice(STEndOfRoot,si);
 
     assert(end!=no_slice);

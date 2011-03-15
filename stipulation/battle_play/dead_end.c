@@ -50,8 +50,11 @@ battle_play_dead_end_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n==slack_length_battle)
-    result = slack_length_battle+2;
+  if (n_max_unsolvable<slack_length_battle)
+    n_max_unsolvable = slack_length_battle;
+
+  if (n<=n_max_unsolvable)
+    result = n+2;
   else
     result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
@@ -87,8 +90,11 @@ battle_play_dead_end_solve_in_n(slice_index si,
 
   assert(n>=slack_length_battle);
 
-  if (n==slack_length_battle)
-    result = slack_length_battle+2;
+  if (n_max_unsolvable<slack_length_battle)
+    n_max_unsolvable = slack_length_battle;
+
+  if (n<=n_max_unsolvable)
+    result = n+2;
   else
     result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
@@ -125,7 +131,11 @@ battle_play_dead_end_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_battle)
+  if (n_max_unsolvable<slack_length_battle)
+    n_max_unsolvable = slack_length_battle;
+
+  if (n==slack_length_battle
+      /*|| n<=n_max_unsolvable*/) /* no dead end, we are solving refutations! */
     result = n+4;
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -160,7 +170,10 @@ battle_play_dead_end_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_battle)
+  if (n_max_unsolvable<slack_length_battle)
+    n_max_unsolvable = slack_length_battle;
+
+  if (n<=n_max_unsolvable)
     result = n+4;
   else
     result = defense_can_defend_in_n(next,n,n_max_unsolvable);
@@ -182,7 +195,7 @@ void stip_traverse_moves_battle_play_dead_end(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining>=slack_length_battle+2)
+  if (st->remaining>0)
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);

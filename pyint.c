@@ -2622,16 +2622,13 @@ enum
  * slice.
  * @param n length of the solution(s) we are looking for
  */
-static void init_moves_left(slice_index si,
-                            stip_length_type n,
-                            stip_length_type full_length)
+static void init_moves_left(slice_index si, stip_length_type n)
 {
   stip_moves_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
@@ -3113,7 +3110,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n,full_length);
+  init_moves_left(si,n-slack_length_help);
 
   MatesMax = 0;
 
@@ -3169,7 +3166,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n,full_length);
+  init_moves_left(si,n-slack_length_series);
 
   MatesMax = 0;
 

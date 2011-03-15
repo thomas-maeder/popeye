@@ -1,9 +1,11 @@
 #include "stipulation/goals/doublemate/filter.h"
 #include "pypipe.h"
+#include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/goals/prerequisite_guards.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -51,10 +53,10 @@ doublemate_attacker_filter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (immobile(starter))
-    result = n+2;
-  else
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -88,10 +90,10 @@ doublemate_attacker_filter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (immobile(starter))
-    result = n+2;
-  else
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -122,10 +124,10 @@ stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
 
   assert(n==slack_length_help+1);
 
-  if (immobile(starter))
-    result = slack_length_help+3;
-  else
-    result = help_solve_in_n(next,slack_length_help+1);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = help_solve_in_n(next,slack_length_help+1);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -156,10 +158,10 @@ stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
 
   assert(n==slack_length_help+1);
 
-  if (immobile(starter))
-    result = slack_length_help+3;
-  else
-    result = help_has_solution_in_n(next,slack_length_help+1);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = help_has_solution_in_n(next,slack_length_help+1);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -190,10 +192,10 @@ stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
 
   assert(n==slack_length_series+1);
 
-  if (immobile(starter))
-    result = slack_length_series+2;
-  else
-    result = series_solve_in_n(next,slack_length_series+1);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = series_solve_in_n(next,slack_length_series+1);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -224,10 +226,10 @@ stip_length_type doublemate_series_filter_has_solution_in_n(slice_index si,
 
   assert(n==slack_length_series+1);
 
-  if (immobile(starter))
-    result = slack_length_series+2;
-  else
-    result = series_has_solution_in_n(next,slack_length_series+1);
+  if (!immobile(starter))
+    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
+  result = series_has_solution_in_n(next,slack_length_series+1);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

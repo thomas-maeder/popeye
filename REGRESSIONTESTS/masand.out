@@ -120,10 +120,10 @@ Loesung beendet.
       1...Db1-c1 [wLf1, sBc2] +
           2.Dg6-g5 [wDc1, wBd5, wBh5] #
 
-              empile:        5627
-            jouecoup:        4149
+              empile:        5620
+            jouecoup:        4139
         orig_rbechec:       22778
-        orig_rnechec:       13642
+        orig_rnechec:       13499
 Loesung beendet. 
 
 
@@ -240,10 +240,10 @@ Loesung beendet.
     Aber
       1...Te8*e4 !
 
-              empile:       15821
-            jouecoup:       13741
-        orig_rbechec:      104923
-        orig_rnechec:       42723
+              empile:       15817
+            jouecoup:       13737
+        orig_rbechec:      104924
+        orig_rnechec:       42627
 Loesung beendet. 
 
 
@@ -345,10 +345,10 @@ Loesung beendet.
     Aber
       1...Kc1*c2 !
 
-              empile:        9069
-            jouecoup:        5656
+              empile:        9055
+            jouecoup:        5642
         orig_rbechec:       14258
-        orig_rnechec:       28470
+        orig_rnechec:       28279
 Loesung beendet. 
 
 
@@ -385,10 +385,10 @@ Loesung beendet.
       1...f7-f6
           2.De4-e7 [wBf6] #
 
-              empile:        3695
-            jouecoup:        1281
-        orig_rbechec:        3238
-        orig_rnechec:        4863
+              empile:        3685
+            jouecoup:        1271
+        orig_rbechec:        3241
+        orig_rnechec:        4791
 Loesung beendet. 
 
 
@@ -454,10 +454,10 @@ Loesung beendet.
     Aber
       1...f6*e5 !
 
-              empile:        9148
-            jouecoup:        6525
+              empile:        9141
+            jouecoup:        6518
         orig_rbechec:       30765
-        orig_rnechec:       28766
+        orig_rnechec:       28560
 Loesung beendet. 
 
 

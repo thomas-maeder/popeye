@@ -15,24 +15,26 @@
 #include "pypipe.h"
 #include "stipulation/operators/binary.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/leaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/fork.h"
-#include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_fork.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/ready_for_attack.h"
-#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/dead_end.h"
+#include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/ready_for_help_move.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
@@ -41,6 +43,7 @@
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
+#include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/root.h"
@@ -51,8 +54,7 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
-#include "optimisations/goals/enpassant/defender_filter.h"
-#include "optimisations/save_useless_last_move/save_useless_last_move.h"
+#include "optimisations/goals/enpassant/filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -69,7 +71,6 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STRootAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
@@ -98,6 +99,7 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
+    ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -142,18 +144,14 @@
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
-    ENUMERATOR(STSaveUselessLastMove), /* avoid useless moves at end of branch */ \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
-    ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCastlingHelpFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCastlingSeriesFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
@@ -260,7 +258,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
-  slice_structure_fork,   /* STRootAttackFork */
   slice_structure_fork,   /* STAttackFork */
   slice_structure_fork,   /* STDefenseFork */
   slice_structure_branch, /* STReadyForAttack */
@@ -289,6 +286,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STEndOfRoot */
+  slice_structure_fork,   /* STEndOfBranch */
   slice_structure_pipe,   /* STGoalReachedTesting */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -333,18 +331,14 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_pipe,   /* STDoubleMateFilter */
   slice_structure_pipe,   /* STCounterMateFilter */
+  slice_structure_pipe,   /* STPrerequisiteOptimiser */
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
-  slice_structure_pipe,   /* STSaveUselessLastMove */
   slice_structure_branch, /* STAttackMoveToGoal */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_branch, /* STKillerMoveFinalDefenseMove */
-  slice_structure_branch, /* STEnPassantAttackerFilter */
-  slice_structure_branch, /* STEnPassantDefenderFilter */
-  slice_structure_branch, /* STEnPassantHelpFilter */
-  slice_structure_branch, /* STCastlingAttackerFilter */
-  slice_structure_branch, /* STCastlingHelpFilter */
-  slice_structure_branch, /* STCastlingSeriesFilter */
+  slice_structure_branch, /* STEnPassantFilter */
+  slice_structure_branch, /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
   slice_structure_branch, /* STSeriesHashed */
@@ -639,7 +633,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 
   { STAttackAdapter,              &move_to_root                            },
   { STReadyForAttack,             &ready_for_attack_make_root              },
-  { STAttackFork,                 &attack_fork_make_root                   },
+  { STEndOfBranch,                &end_of_branch_make_root                 },
   { STAttackFindShortest,         &attack_find_shortest_make_root          },
   { STAttackMove,                 &attack_move_make_root                   },
   { STDefenseMove,                &defense_move_make_root                  },
@@ -1055,7 +1049,10 @@ static void insert_direct_guards(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (slices[si].u.branch.length>slack_length_battle)
-    slice_insert_direct_guards(si,*proxy_to_goal);
+  {
+    boolean const append_deadend = false;
+    slice_insert_direct_guards(si,*proxy_to_goal,append_deadend);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1151,8 +1148,8 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
-  { STRootAttackFork,                &root_attack_fork_reduce_to_postkey_play       },
   { STAttackMove,                    &trash_for_postkey_play                        },
+  { STEndOfBranch,                   &end_of_branch_reduce_to_postkey_play          },
   { STContinuationSolver,            &trash_for_postkey_play                        },
   { STMinLengthGuard,                &trash_for_postkey_play                        },
   { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
@@ -1272,7 +1269,6 @@ slice_index stip_make_setplay(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STRootAttackFork,                &stip_traverse_structure_pipe },
   { STAttackMove,                    &attack_move_apply_setplay    },
   { STDefenseAdapter,                &stip_structure_visitor_noop  },
   { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
@@ -1669,7 +1665,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
   &stip_traverse_structure_battle_fork,     /* STSelfDefense */
-  &stip_traverse_structure_battle_fork,     /* STRootAttackFork */
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
@@ -1698,6 +1693,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
+  &stip_traverse_structure_battle_fork,     /* STEndOfBranch */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1742,18 +1738,14 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STRefutationsCollector */
   &stip_traverse_structure_pipe,            /* STDoubleMateFilter */
   &stip_traverse_structure_pipe,            /* STCounterMateFilter */
+  &stip_traverse_structure_pipe,            /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
-  &stip_traverse_structure_pipe,            /* STSaveUselessLastMove */
   &stip_traverse_structure_pipe,            /* STAttackMoveToGoal */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
-  &stip_traverse_structure_pipe,            /* STEnPassantAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STEnPassantDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STEnPassantHelpFilter */
-  &stip_traverse_structure_pipe,            /* STCastlingAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STCastlingHelpFilter */
-  &stip_traverse_structure_pipe,            /* STCastlingSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STEnPassantFilter */
+  &stip_traverse_structure_pipe,            /* STCastlingFilter */
   &stip_traverse_structure_pipe,            /* STAttackHashed */
   &stip_traverse_structure_pipe,            /* STHelpHashed */
   &stip_traverse_structure_pipe,            /* STSeriesHashed */
@@ -1891,22 +1883,21 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,                  /* STProxy */
-    &stip_traverse_moves_adapter_slice,         /* STAttackAdapter */
-    &stip_traverse_moves_adapter_slice,         /* STDefenseAdapter */
+    &stip_traverse_moves_battle_adapter_slice,  /* STAttackAdapter */
+    &stip_traverse_moves_battle_adapter_slice,  /* STDefenseAdapter */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
     &stip_traverse_moves_battle_fork,           /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
-    &stip_traverse_moves_root_attack_fork,      /* STRootAttackFork */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
-    &stip_traverse_moves_adapter_slice,         /* STHelpAdapter */
+    &stip_traverse_moves_help_adapter_slice,    /* STHelpAdapter */
     &stip_traverse_moves_pipe,                  /* STHelpFindShortest */
     &stip_traverse_moves_pipe,                  /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
@@ -1915,7 +1906,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_help_fork,             /* STHelpFork */
     &stip_traverse_moves_pipe,                  /* STReadyForHelpMove */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
-    &stip_traverse_moves_adapter_slice,         /* STSeriesAdapter */
+    &stip_traverse_moves_series_adapter_slice,  /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                  /* STSeriesFindShortest */
     &stip_traverse_moves_pipe,                  /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
@@ -1928,6 +1919,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STEndOfRoot */
+    &stip_traverse_moves_end_of_branch,         /* STEndOfBranch */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTesting */
     &stip_traverse_moves_pipe,                  /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalStalemateReachedTester */
@@ -1959,7 +1951,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STNot */
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
     &stip_traverse_moves_pipe,                  /* STMoveInverter */
-    &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
+    &stip_traverse_moves_reflex_attacker_solver,/* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                  /* STMinLengthGuard */
     &stip_traverse_moves_pipe,                  /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
@@ -1972,18 +1964,14 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STRefutationsCollector */
     &stip_traverse_moves_pipe,                  /* STDoubleMateFilter */
     &stip_traverse_moves_pipe,                  /* STCounterMateFilter */
+    &stip_traverse_moves_pipe,                  /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
-    &stip_traverse_moves_save_useless_last_move,/* STSaveUselessLastMove */
     &stip_traverse_moves_move_slice,            /* STAttackMoveToGoal */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_move_slice,            /* STKillerMoveFinalDefenseMove */
-    &stip_traverse_moves_pipe,                  /* STEnPassantAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STEnPassantDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STEnPassantHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STCastlingAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STCastlingHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STCastlingSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STEnPassantFilter */
+    &stip_traverse_moves_pipe,                  /* STCastlingFilter */
     &stip_traverse_moves_pipe,                  /* STAttackHashed */
     &stip_traverse_moves_pipe,                  /* STHelpHashed */
     &stip_traverse_moves_pipe,                  /* STSeriesHashed */
@@ -2075,8 +2063,14 @@ void stip_moves_traversal_override(stip_moves_traversal *st,
 {
   unsigned int i;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (i = 0; i<nr_visitors; ++i)
     st->map.visitors[visitors[i].type] = visitors[i].visitor;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Override the behavior of a moves traversal at slices of a structural type
@@ -2088,7 +2082,13 @@ void stip_moves_traversal_override_single(stip_moves_traversal *st,
                                           SliceType type,
                                           stip_moves_visitor visitor)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   st->map.visitors[type] = visitor;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* (Approximately) depth-first traversl of the stipulation
