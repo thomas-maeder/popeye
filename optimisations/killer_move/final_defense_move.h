@@ -20,11 +20,14 @@ void reset_killer_move_final_defense_move_optimisation(void);
  */
 void disable_killer_move_final_defense_move_optimisation(Side);
 
-/* Optimise a STDefenseMove slice
+/* Optimise a STDefenseMove slice for defending against a goal
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
+ * @param full_length full length of branch
  */
-void killer_move_optimise_final_defense_move(slice_index si, Goal goal);
+void killer_move_optimise_final_defense_move(slice_index si,
+                                             Goal goal,
+                                             stip_length_type full_length);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

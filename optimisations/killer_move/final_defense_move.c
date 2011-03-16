@@ -66,8 +66,11 @@ static slice_index alloc_defense_move_against_goal_slice(void)
 /* Optimise a STDefenseMove slice for defending against a goal
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
+ * @param full_length full length of branch
  */
-void killer_move_optimise_final_defense_move(slice_index si, Goal goal)
+void killer_move_optimise_final_defense_move(slice_index si,
+                                             Goal goal,
+                                             stip_length_type full_length)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -77,16 +80,22 @@ void killer_move_optimise_final_defense_move(slice_index si, Goal goal)
   TraceValue("%u\n",enabled[slices[si].starter]);
   if (enabled[slices[si].starter])
   {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_defense_fork_slice(proxy1);
     slice_index const last_defense = alloc_defense_move_against_goal_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
 
-    pipe_append(si,proxy2);
-    pipe_append(slices[si].prev,fork);
+    if (full_length<slack_length_battle+2)
+      pipe_replace(si,last_defense);
+    else
+    {
+      slice_index const proxy1 = alloc_proxy_slice();
+      slice_index const fork = alloc_defense_fork_slice(proxy1);
+      slice_index const proxy2 = alloc_proxy_slice();
 
-    pipe_link(proxy1,last_defense);
-    pipe_set_successor(last_defense,proxy2);
+      pipe_append(si,proxy2);
+      pipe_append(slices[si].prev,fork);
+
+      pipe_link(proxy1,last_defense);
+      pipe_set_successor(last_defense,proxy2);
+    }
   }
 
   TraceFunctionExit(__func__);

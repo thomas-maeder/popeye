@@ -2578,7 +2578,7 @@ static void optimise_final_moves_defense_move(slice_index si,
   if (st->remaining==1
       && state->goal.type!=no_goal
       && !state->moreMovesToCome)
-    killer_move_optimise_final_defense_move(si,state->goal);
+    killer_move_optimise_final_defense_move(si,state->goal,st->full_length);
 
   state->goal = save_goal;
 
