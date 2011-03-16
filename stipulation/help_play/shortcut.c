@@ -63,7 +63,7 @@ void stip_traverse_moves_help_shortcut(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==slices[si].u.shortcut.length)
+  if (st->remaining==st->full_length)
     stip_traverse_moves_pipe(si,st);
   else
     stip_traverse_moves(slices[si].u.shortcut.short_sols,st);

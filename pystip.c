@@ -2039,6 +2039,9 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
 {
   unsigned int i;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   st->map = moves_children_traversers;
 
   for (i = 0; i!=nr_slice_types; ++i)
@@ -2047,6 +2050,31 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
   st->level = 0;
   st->remaining = 0;
   st->param = param;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Set the number of moves at the start of the traversal. Normally, this is
+ * determined while traversing the stipulation. Only invoke
+ * stip_moves_traversal_set_remaining() when the traversal is started in the
+ * middle of a stipulation.
+ * @param st to be initialised
+ * @param remaining number of remaining moves (without slack)
+ * @param full_length full number of moves of the initial branch (without slack)
+ */
+void stip_moves_traversal_set_remaining(stip_moves_traversal *st,
+                                        stip_length_type remaining,
+                                        stip_length_type full_length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  st->remaining = remaining;
+  st->full_length = full_length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Override the behavior of a moves traversal at some slice types

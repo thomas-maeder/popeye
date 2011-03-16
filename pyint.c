@@ -2607,9 +2607,8 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const moves_left_initialisers[] =
 {
-  { STGoalReachableGuardHelpFilter,   &moves_left_move          },
-  { STGoalReachableGuardSeriesFilter, &moves_left_move          },
-  { STParryFork,                      &stip_traverse_moves_pipe }
+  { STGoalReachableGuardHelpFilter,   &moves_left_move },
+  { STGoalReachableGuardSeriesFilter, &moves_left_move }
 };
 
 enum
@@ -2620,15 +2619,20 @@ enum
 
 /* Calculate the number of moves of each side, starting at the root
  * slice.
- * @param n length of the solution(s) we are looking for
+ * @param si identifies starting slice
+ * @param n length of the solution(s) we are looking for (without slack)
+ * @param full_length full length of the initial branch (without slack)
  */
-static void init_moves_left(slice_index si, stip_length_type n)
+static void init_moves_left(slice_index si,
+                            stip_length_type n,
+                            stip_length_type full_length)
 {
   stip_moves_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
@@ -2637,10 +2641,10 @@ static void init_moves_left(slice_index si, stip_length_type n)
   MovesLeft[White] = 0;
 
   stip_moves_traversal_init(&st,&n);
+  stip_moves_traversal_set_remaining(&st,n,full_length);
   stip_moves_traversal_override(&st,
                                 moves_left_initialisers,
                                 nr_moves_left_initialisers);
-  st.remaining = n; /* TODO */
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -3110,7 +3114,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n-slack_length_help);
+  init_moves_left(si,n-slack_length_help,full_length-slack_length_help);
 
   MatesMax = 0;
 
@@ -3166,7 +3170,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n-slack_length_series);
+  init_moves_left(si,n-slack_length_series,full_length-slack_length_series);
 
   MatesMax = 0;
 

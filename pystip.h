@@ -618,6 +618,18 @@ typedef struct
  */
 void stip_moves_traversal_init(stip_moves_traversal *st, void *param);
 
+/* Set the number of moves at the start of the traversal. Normally, this is
+ * determined while traversing the stipulation. Only invoke
+ * stip_moves_traversal_set_remaining() when the traversal is started in the
+ * middle of a stipulation.
+ * @param st to be initialised
+ * @param remaining number of remaining moves (without slack)
+ * @param full_length full number of moves of the initial branch (without slack)
+ */
+void stip_moves_traversal_set_remaining(stip_moves_traversal *st,
+                                        stip_length_type remaining,
+                                        stip_length_type full_length);
+
 /* Override the behavior of a moves traversal at some slice types
  * @param st to be initialised
  * @param moves_traversers_visitors array of alternative visitors; for
