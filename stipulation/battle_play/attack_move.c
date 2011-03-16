@@ -28,29 +28,6 @@ slice_index alloc_attack_move_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void attack_move_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-  slice_index copy;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  copy = copy_slice(si);
-  pipe_link(copy,*root_slice);
-  *root_slice = copy;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal

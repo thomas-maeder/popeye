@@ -631,34 +631,33 @@ void move_to_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STMoveInverter,               &move_to_root                            },
+  { STMoveInverter,         &move_to_root                     },
 
-  { STAttackAdapter,              &move_to_root                            },
-  { STReadyForAttack,             &ready_for_attack_make_root              },
-  { STEndOfBranch,                &end_of_branch_make_root                 },
-  { STAttackFindShortest,         &attack_find_shortest_make_root          },
-  { STAttackMove,                 &attack_move_make_root                   },
-  { STDefenseMove,                &defense_move_make_root                  },
+  { STAttackAdapter,        &move_to_root                     },
+  { STReadyForAttack,       &ready_for_attack_make_root       },
+  { STEndOfBranch,          &end_of_branch_make_root          },
+  { STAttackFindShortest,   &attack_find_shortest_make_root   },
+  { STDefenseMove,          &defense_move_make_root           },
 
-  { STHelpAdapter,                &move_to_root                            },
-  { STHelpFindShortest,           &help_find_shortest_make_root            },
-  { STReadyForHelpMove,           &ready_for_help_move_make_root           },
-  { STHelpMove,                   &help_move_make_root                     },
-  { STHelpFork,                   &stip_traverse_structure_pipe            },
+  { STHelpAdapter,          &move_to_root                     },
+  { STHelpFindShortest,     &help_find_shortest_make_root     },
+  { STReadyForHelpMove,     &ready_for_help_move_make_root    },
+  { STHelpMove,             &help_move_make_root              },
+  { STHelpFork,             &stip_traverse_structure_pipe     },
 
-  { STSeriesAdapter,              &move_to_root                            },
-  { STSeriesFindShortest,         &series_find_shortest_make_root          },
-  { STReadyForSeriesMove,         &ready_for_series_move_make_root         },
-  { STSeriesMove,                 &series_move_make_root                   },
-  { STSeriesFork,                 &stip_traverse_structure_pipe            },
+  { STSeriesAdapter,        &move_to_root                     },
+  { STSeriesFindShortest,   &series_find_shortest_make_root   },
+  { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
+  { STSeriesMove,           &series_move_make_root            },
+  { STSeriesFork,           &stip_traverse_structure_pipe     },
 
-  { STLeaf,                       &leaf_make_root                          },
-  { STReciprocal,                 &binary_make_root                        },
-  { STQuodlibet,                  &binary_make_root                        },
+  { STLeaf,                 &leaf_make_root                   },
+  { STReciprocal,           &binary_make_root                 },
+  { STQuodlibet,            &binary_make_root                 },
 
-  { STReflexAttackerFilter,       &reflex_attacker_filter_make_root        },
-  { STReflexHelpFilter,           &reflex_help_filter_make_root            },
-  { STReflexSeriesFilter,         &reflex_series_filter_make_root          }
+  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
+  { STReflexHelpFilter,     &reflex_help_filter_make_root     },
+  { STReflexSeriesFilter,   &reflex_series_filter_make_root   }
 };
 
 enum
