@@ -15,11 +15,15 @@
  */
 slice_index alloc_attack_move_to_goal_slice(Goal goal);
 
-/* Optimise a STAttackMove slice
+/* Optimise a STAttackMove slice for attacking a goal
  * @param si identifies slice to be optimised
- * @param goal goal that slice si attempts to reach
+ * @param goal goal that slice si defends against
+ * @param full_length full length of branch
  */
-void optimise_final_attack_move(slice_index si, Goal goal);
+void
+attack_move_to_goal_optimise_final_attack_move(slice_index si,
+                                               Goal goal,
+                                               stip_length_type full_length);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index

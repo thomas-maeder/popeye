@@ -34,11 +34,15 @@ slice_index alloc_attack_move_to_goal_slice(Goal goal)
   return result;
 }
 
-/* Optimise a STAttackMove slice
+/* Optimise a STAttackMove slice for attacking a goal
  * @param si identifies slice to be optimised
- * @param goal goal that slice si attempts to reach
+ * @param goal goal that slice si defends against
+ * @param full_length full length of branch
  */
-void optimise_final_attack_move(slice_index si, Goal goal)
+void
+attack_move_to_goal_optimise_final_attack_move(slice_index si,
+                                               Goal goal,
+                                               stip_length_type full_length)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -46,16 +50,20 @@ void optimise_final_attack_move(slice_index si, Goal goal)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_attack_fork_slice(proxy1);
-    slice_index const last_attack = alloc_attack_move_to_goal_slice(goal);
-    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const to_goal = alloc_attack_move_to_goal_slice(goal);
 
-    pipe_append(slices[si].prev,fork);
-
-    pipe_link(proxy1,last_attack);
-    pipe_link(last_attack,proxy2);
-    pipe_set_successor(proxy2,slices[si].u.pipe.next);
+    if (full_length==1)
+      pipe_replace(si,to_goal);
+    else
+    {
+      slice_index const proxy = alloc_proxy_slice();
+      slice_index const fork = alloc_attack_fork_slice(proxy);
+      slice_index const proxy2 = alloc_proxy_slice();
+      pipe_append(slices[si].prev,fork);
+      pipe_append(si,proxy2);
+      pipe_link(proxy,to_goal);
+      pipe_set_successor(to_goal,proxy2);
+    }
   }
 
   TraceFunctionExit(__func__);
