@@ -474,7 +474,7 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   ++st->level;
-  st->remaining = 0;
+  st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
 
   stip_traverse_moves(si,st);
 

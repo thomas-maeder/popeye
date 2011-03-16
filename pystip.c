@@ -2048,7 +2048,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
   st->level = 0;
-  st->remaining = 0;
+  st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->param = param;
 
   TraceFunctionExit(__func__);

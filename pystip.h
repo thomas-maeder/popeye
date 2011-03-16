@@ -605,6 +605,11 @@ typedef struct stip_moves_traversal
     void *param;
 } stip_moves_traversal;
 
+enum
+{
+  STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED = INT_MAX
+};
+
 /* define an alternative visitor for a particular slice type */
 typedef struct
 {

@@ -39,14 +39,14 @@ void stip_traverse_moves_help_adapter_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
+  if (st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED)
   {
     stip_length_type const save_full_length = st->full_length;
     st->full_length = slices[si].u.branch.length-slack_length_help;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     stip_traverse_moves_pipe(si,st);
-    st->remaining = 0;
+    st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
     st->full_length = save_full_length;
   }
   else

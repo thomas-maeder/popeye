@@ -3,6 +3,8 @@
 
 #include "trace.h"
 
+#include <assert.h>
+
 /* Allocate a STSetplayFork slice
  * @param set entry branch of set play
  * @return newly allocated slice
@@ -52,8 +54,10 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
   stip_traverse_moves_pipe(si,st);
-  st->remaining = 0;
+
+  assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
   stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
