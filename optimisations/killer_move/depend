@@ -20,6 +20,20 @@ stipulation/battle_play/attack_play.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
+optimisations/killer_move/attack_generator$(OBJ_SUFFIX): \
+ optimisations/killer_move/attack_generator.c \
+ optimisations/killer_move/attack_generator.h pydata.h pyproc.h pypipe.h \
+ trace.h
+
+optimisations/killer_move/attack_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h pydata.h pypipe.h \

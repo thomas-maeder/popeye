@@ -1,9 +1,7 @@
 #if !defined(STIPULATION_BATTLE_PLAY_ATTACK_MOVE_H)
 #define STIPULATION_BATTLE_PLAY_ATTACK_MOVE_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STAttackMove stipulation slices.

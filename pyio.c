@@ -110,7 +110,6 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/ready_for_defense.h"

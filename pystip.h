@@ -112,8 +112,9 @@
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
-    ENUMERATOR(STAttackMoveToGoal),                                     \
+    ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
+    ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \

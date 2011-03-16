@@ -1,6 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = orthodox_mating_moves_generation.c
-INCLUDES = orthodox_mating_moves_generation.h
+CFILES = orthodox_mating_moves_generation.c orthodox_mating_move_generator.c
+
+INCLUDES = orthodox_mating_moves_generation.h orthodox_mating_move_generator.h
 
 include makefile.rules $(CURRPWD)depend

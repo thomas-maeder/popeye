@@ -353,10 +353,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/check_detector.h \
- stipulation/battle_play/threat.h \
- stipulation/battle_play/attack_move_to_goal.h \
- stipulation/battle_play/attack_fork.h stipulation/help_play/root.h \
- stipulation/help_play/branch.h stipulation/help_play/move_to_goal.h \
+ stipulation/battle_play/threat.h stipulation/battle_play/attack_fork.h \
+ stipulation/help_play/root.h stipulation/help_play/branch.h \
+ stipulation/help_play/move_to_goal.h \
  stipulation/series_play/move_to_goal.h \
  stipulation/goals/prerequisite_guards.h \
  pieces/attributes/paralysing/paralysing.h \
@@ -365,6 +364,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h \
  optimisations/goals/optimisation_guards.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/killer_move/collector.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/maxtime/maxtime.h \
@@ -495,8 +495,6 @@ stipulation/battle_play/check_detector.h:
 
 stipulation/battle_play/threat.h:
 
-stipulation/battle_play/attack_move_to_goal.h:
-
 stipulation/battle_play/attack_fork.h:
 
 stipulation/help_play/root.h:
@@ -524,6 +522,8 @@ conditions/ultraschachzwang/goal_filter.h:
 options/no_short_variations/no_short_variations.h:
 
 optimisations/goals/optimisation_guards.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/killer_move/collector.h:
 
@@ -566,7 +566,6 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
- stipulation/battle_play/attack_move_to_goal.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_attack.h \
  stipulation/battle_play/ready_for_defense.h \
@@ -723,8 +722,6 @@ stipulation/battle_play/defense_play.h:
 stipulation/battle_play/attack_find_shortest.h:
 
 stipulation/battle_play/attack_move.h:
-
-stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/defense_move.h:
 
@@ -1673,7 +1670,6 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
  stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/ready_for_attack.h \
- stipulation/battle_play/attack_move_to_goal.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/dead_end.h stipulation/battle_play/attack_play.h \
  trace.h
@@ -1709,8 +1705,6 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/attack_adapter.h:
 
 stipulation/battle_play/ready_for_attack.h:
-
-stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/defense_adapter.h:
 

@@ -147,8 +147,9 @@
     ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
-    ENUMERATOR(STAttackMoveToGoal),                                     \
+    ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
+    ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
@@ -334,8 +335,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
-  slice_structure_branch, /* STAttackMoveToGoal */
+  slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
+  slice_structure_pipe,   /* STKillerMoveAttackGenerator */
   slice_structure_branch, /* STKillerMoveFinalDefenseMove */
   slice_structure_branch, /* STEnPassantFilter */
   slice_structure_branch, /* STCastlingFilter */
@@ -720,7 +722,6 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const get_max_nr_moves_functions[] =
 {
-  { STAttackMoveToGoal,       &get_max_nr_moves_move   },
   { STAttackMove,             &get_max_nr_moves_move   },
   { STDefenseMove,            &get_max_nr_moves_move   },
   { STHelpMove,               &get_max_nr_moves_move   },
@@ -1149,6 +1150,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
+  { STKillerMoveAttackGenerator,     &trash_for_postkey_play                        },
   { STAttackMove,                    &trash_for_postkey_play                        },
   { STEndOfBranch,                   &end_of_branch_reduce_to_postkey_play          },
   { STContinuationSolver,            &trash_for_postkey_play                        },
@@ -1409,7 +1411,6 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 static structure_traversers_visitors starter_detectors[] =
 {
   { STAttackMove,       &attack_move_detect_starter   },
-  { STAttackMoveToGoal, &attack_move_detect_starter   },
   { STDefenseMove,      &defense_move_detect_starter  },
   { STHelpMove,         &help_move_detect_starter     },
   { STSeriesMove,       &series_move_detect_starter   },
@@ -1518,7 +1519,6 @@ static void impose_inverted_starter(slice_index si,
 static SliceType starter_inverters[] =
 {
   STAttackMove,
-  STAttackMoveToGoal,
   STDefenseMove,
   STKillerMoveFinalDefenseMove,
   STHelpMove,
@@ -1742,8 +1742,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
-  &stip_traverse_structure_pipe,            /* STAttackMoveToGoal */
+  &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
+  &stip_traverse_structure_pipe,            /* STKillerMoveAttackGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
   &stip_traverse_structure_pipe,            /* STEnPassantFilter */
   &stip_traverse_structure_pipe,            /* STCastlingFilter */
@@ -1968,8 +1969,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
-    &stip_traverse_moves_move_slice,            /* STAttackMoveToGoal */
+    &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
+    &stip_traverse_moves_pipe,                  /* STKillerMoveAttackGenerator */
     &stip_traverse_moves_move_slice,            /* STKillerMoveFinalDefenseMove */
     &stip_traverse_moves_pipe,                  /* STEnPassantFilter */
     &stip_traverse_moves_pipe,                  /* STCastlingFilter */

@@ -8,3 +8,31 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 pydata.h:
 
 trace.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ pydata.h pyproc.h pypipe.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+ stipulation/branch.h stipulation/proxy.h \
+ stipulation/battle_play/attack_move.h \
+ stipulation/battle_play/attack_fork.h trace.h
+
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
+
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+stipulation/battle_play/attack_move.h:
+
+stipulation/battle_play/attack_fork.h:
+
+trace.h:

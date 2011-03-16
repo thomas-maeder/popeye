@@ -6,7 +6,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/ready_for_attack.h"
-#include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "trace.h"

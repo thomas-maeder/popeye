@@ -3,11 +3,7 @@
 #include "pyproc.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
-
-#include <assert.h>
 
 /* Allocate a STAttackMove slice.
  * @param length maximum number of half-moves of slice (+ slack)
@@ -71,7 +67,6 @@ attack_move_has_solution_in_n(slice_index si,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
-  Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -79,10 +74,6 @@ attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(attacker);
 
   while (encore() && result>n)
   {
@@ -97,8 +88,6 @@ attack_move_has_solution_in_n(slice_index si,
 
     repcoup();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -122,7 +111,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
-  Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -130,10 +118,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(attacker);
 
   while (encore())
   {
@@ -148,8 +132,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
     repcoup();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
