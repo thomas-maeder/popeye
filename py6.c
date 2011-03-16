@@ -2515,14 +2515,20 @@ static void optimise_final_moves_attack_move(slice_index si,
       && state->goal.type!=no_goal
       && !state->moreMovesToCome)
   {
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_attack_fork_slice(proxy);
     slice_index const to_goal = alloc_attack_move_to_goal_slice(state->goal);
-    slice_index const proxy2 = alloc_proxy_slice();
-    pipe_append(slices[si].prev,fork);
-    pipe_append(si,proxy2);
-    pipe_link(proxy,to_goal);
-    pipe_set_successor(to_goal,proxy2);
+
+    if (st->full_length==1)
+      pipe_replace(si,to_goal);
+    else
+    {
+      slice_index const proxy = alloc_proxy_slice();
+      slice_index const fork = alloc_attack_fork_slice(proxy);
+      slice_index const proxy2 = alloc_proxy_slice();
+      pipe_append(slices[si].prev,fork);
+      pipe_append(si,proxy2);
+      pipe_link(proxy,to_goal);
+      pipe_set_successor(to_goal,proxy2);
+    }
   }
 
   state->goal = save_goal;
@@ -2570,7 +2576,8 @@ static void optimise_final_moves_defense_move(slice_index si,
   stip_traverse_moves_move_slice(si,st);
 
   if (st->remaining==1
-      && state->goal.type!=no_goal)
+      && state->goal.type!=no_goal
+      && !state->moreMovesToCome)
     killer_move_optimise_final_defense_move(si,state->goal);
 
   state->goal = save_goal;
