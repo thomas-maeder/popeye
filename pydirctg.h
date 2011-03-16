@@ -12,13 +12,13 @@
  * @param append_deadend should we append a deadend after the fork to
  *                       proxy_to_goal
  */
-void slice_insert_direct_guards(slice_index si,
-                                slice_index proxy_to_goal,
-                                boolean append_deadend);
+void battle_branch_set_direct_goal_branch(slice_index si,
+                                          slice_index proxy_to_goal,
+                                          boolean append_deadend);
 
 /* Instrument a branch leading to a goal to be a direct goal branch
  * @param si identifies entry slice of branch
  */
-void slice_make_direct_goal_branch(slice_index si);
+void stip_make_direct_goal_branch(slice_index si);
 
 #endif

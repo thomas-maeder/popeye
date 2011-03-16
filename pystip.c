@@ -991,7 +991,7 @@ static void transform_to_quodlibet_self_defense(slice_index si,
 
   *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
   remove_defense_proxies(*proxy_to_goal);
-  slice_make_direct_goal_branch(*proxy_to_goal);
+  stip_make_direct_goal_branch(*proxy_to_goal);
 
   stip_traverse_structure_children(si,st);
 
@@ -1028,7 +1028,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
     *new_proxy_to_goal = alloc_proxy_slice();
     pipe_link(*new_proxy_to_goal,new_testing);
 
-    slice_make_direct_goal_branch(*new_proxy_to_goal);
+    stip_make_direct_goal_branch(*new_proxy_to_goal);
   }
 
   stip_traverse_structure_children(si,st);
@@ -1052,7 +1052,7 @@ static void insert_direct_guards(slice_index si,
       && *proxy_to_goal!=no_slice)
   {
     boolean const append_deadend = false;
-    slice_insert_direct_guards(si,*proxy_to_goal,append_deadend);
+    battle_branch_set_direct_goal_branch(si,*proxy_to_goal,append_deadend);
   }
 
   TraceFunctionExit(__func__);
