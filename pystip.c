@@ -1048,7 +1048,8 @@ static void insert_direct_guards(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length_battle)
+  if (slices[si].u.branch.length>slack_length_battle
+      && *proxy_to_goal!=no_slice)
   {
     boolean const append_deadend = false;
     slice_insert_direct_guards(si,*proxy_to_goal,append_deadend);
