@@ -2550,8 +2550,9 @@ static void optimise_final_moves_reflex_defender_filter(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void optimise_final_moves_defense_move(slice_index si,
-                                              stip_moves_traversal *st)
+static
+void optimise_final_moves_defense_move_generator(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
   Goal const save_goal = state->goal;
@@ -2560,7 +2561,7 @@ static void optimise_final_moves_defense_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_move_slice(si,st);
+  stip_traverse_moves_children(si,st);
 
   if (st->remaining==1
       && state->goal.type!=no_goal
@@ -2668,7 +2669,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STKillerMoveAttackGenerator, &optimise_final_moves_attack_move_generator  },
-  { STDefenseMove,               &optimise_final_moves_defense_move           },
+  { STDefenseMoveGenerator,      &optimise_final_moves_defense_move_generator },
   { STReflexDefenderFilter,      &optimise_final_moves_reflex_defender_filter },
   { STHelpMove,                  &optimise_final_moves_help_move              },
   { STHelpMoveToGoal,            &swallow_goal                                },

@@ -6,6 +6,7 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -76,8 +77,9 @@ static slice_index const slice_rank_order[] =
   STPrerequisiteOptimiser,
   STBattleDeadEnd,
   STDefenseFork,
-  STDefenseMove,
+  STDefenseMoveGenerator,
   STKillerMoveFinalDefenseMove,
+  STDefenseMove,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STRefutationWriter,
@@ -341,12 +343,14 @@ slice_index alloc_defense_branch(slice_index next,
                                                                min_length);
     slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
     slice_index const deadend = alloc_battle_play_dead_end_slice();
+    slice_index const generator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_defense_move_slice(length,min_length);
 
     pipe_link(adapter,solver);
     pipe_link(solver,ready);
     pipe_link(ready,deadend);
-    pipe_link(deadend,defense);
+    pipe_link(deadend,generator);
+    pipe_link(generator,defense);
     pipe_link(defense,next);
 
     result = adapter;
@@ -382,13 +386,14 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const shortest = alloc_attack_find_shortest_slice(length,
                                                                   min_length);
 
-    slice_index const generator = alloc_killer_move_attack_generator_slice();
+    slice_index const agenerator = alloc_killer_move_attack_generator_slice();
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const solver = alloc_continuation_solver_slice(length-1,
                                                                min_length-1);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const ddeadend = alloc_battle_play_dead_end_slice();
+    slice_index const dgenerator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
 
@@ -396,12 +401,13 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     pipe_link(aready,adeadend);
     pipe_link(adeadend,shortest);
-    pipe_link(shortest,generator);
-    pipe_link(generator,attack);
+    pipe_link(shortest,agenerator);
+    pipe_link(agenerator,attack);
     pipe_link(attack,solver);
     pipe_link(solver,dready);
     pipe_link(dready,ddeadend);
-    pipe_link(ddeadend,defense);
+    pipe_link(ddeadend,dgenerator);
+    pipe_link(dgenerator,defense);
     pipe_link(defense,aready);
 
     if (min_length>slack_length_battle+1)

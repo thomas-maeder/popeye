@@ -38,14 +38,16 @@ has_solution_type defense_adapter_solve(slice_index si)
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type n_max_unsolvable = slack_length_battle-1;
+  stip_length_type defense_result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (defense_defend_in_n(next,length,n_max_unsolvable)>length
-            ? has_no_solution
-            : has_solution);
+  defense_result = defense_defend_in_n(next,length,n_max_unsolvable);
+  result = (slack_length_battle<=defense_result && defense_result<=length
+            ? has_solution
+            : has_no_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -63,14 +65,16 @@ has_solution_type defense_adapter_has_solution(slice_index si)
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type n_max_unsolvable = slack_length_battle-1;
+  stip_length_type defense_result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (defense_can_defend_in_n(next,length,n_max_unsolvable)>length
-            ? has_no_solution
-            : has_solution);
+  defense_result = defense_can_defend_in_n(next,length,n_max_unsolvable);
+  result = (slack_length_battle<=defense_result && defense_result<=length
+            ? has_solution
+            : has_no_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

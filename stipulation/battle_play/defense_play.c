@@ -14,6 +14,7 @@
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/threat.h"
+#include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/dead_end.h"
@@ -46,7 +47,8 @@
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -98,8 +100,12 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = threat_collector_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMove:
+    case STDefenseMoveGenerator:
     case STKillerMoveFinalDefenseMove:
+      result = defense_move_generator_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STDefenseMove:
       result = defense_move_defend_in_n(si,n,n_max_unsolvable);
       break;
 
@@ -245,7 +251,8 @@ stip_length_type defense_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -295,6 +302,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STThreatCollector:
       result = threat_collector_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STDefenseMoveGenerator:
+      result = defense_move_generator_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMove:

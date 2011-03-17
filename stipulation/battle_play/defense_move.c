@@ -117,7 +117,8 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -126,8 +127,7 @@ stip_length_type defense_move_defend_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = slack_length_battle;
-  Side const defender = slices[si].starter;
+  stip_length_type result = slack_length_battle-2;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -140,13 +140,6 @@ stip_length_type defense_move_defend_in_n(slice_index si,
 
   n_max_unsolvable = slack_length_battle;
 
-  if (n<=slack_length_battle+3)
-    move_generation_mode = move_generation_optimized_by_killer_move;
-  else
-    move_generation_mode = move_generation_mode_opti_per_side[defender];
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(defender);
-
   while(encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
@@ -155,50 +148,6 @@ stip_length_type defense_move_defend_in_n(slice_index si,
           = attack_solve_in_n(next,n-1,n_max_unsolvable-1)+1;
       if (nr_moves_needed>result)
         result = nr_moves_needed;
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  if (result==slack_length_battle)
-    /* joucoup() has never returned true */
-    result = n+4;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try the defenses generated in the current ply
- * @param si identifies slice
- * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-static stip_length_type try_defenses(slice_index si, stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_max_unsolvable = slack_length_battle;
-  stip_length_type result = slack_length_battle-2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  while (result<=n && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const
-          length_sol = attack_has_solution_in_n(next,n-1,n_max_unsolvable-1)+1;
-      if (result<length_sol)
-        result = length_sol;
     }
 
     repcoup();
@@ -215,7 +164,8 @@ static stip_length_type try_defenses(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -226,8 +176,8 @@ defense_move_can_defend_in_n(slice_index si,
                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  Side const defender = slices[si].starter;
-  stip_length_type max_len_continuation;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type max_len_continuation = slack_length_battle-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -237,19 +187,23 @@ defense_move_can_defend_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n<=slack_length_battle+3)
-    move_generation_mode = move_generation_optimized_by_killer_move;
-  else
-    move_generation_mode = move_generation_mode_opti_per_side[defender];
+  n_max_unsolvable = slack_length_battle;
 
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(defender);
-  max_len_continuation = try_defenses(si,n);
-  finply();
+  while (max_len_continuation<=n && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const
+          length_sol = attack_has_solution_in_n(next,n-1,n_max_unsolvable-1)+1;
+      if (max_len_continuation<length_sol)
+        max_len_continuation = length_sol;
+    }
 
-  if (max_len_continuation<slack_length_battle /* stalemate */
-      || max_len_continuation>n) /* refuted */
-        result = n+4;
+    repcoup();
+  }
+
+  if (max_len_continuation>n) /* refuted */
+    result = n+4;
   else
     result = max_len_continuation;
 

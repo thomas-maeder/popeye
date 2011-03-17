@@ -14,7 +14,7 @@ slice_index alloc_maxsolutions_root_defender_filter(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxSolutionsRootDefenderFilter); 
+  result = alloc_pipe(STMaxSolutionsRootDefenderFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -30,7 +30,8 @@ slice_index alloc_maxsolutions_root_defender_filter(void)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - more refutations found than acceptable
@@ -54,7 +55,7 @@ maxsolutions_root_defender_filter_defend_in_n(slice_index si,
   else
   {
     result = defense_defend_in_n(next,n,n_max_unsolvable);
-    if (result<=n)
+    if (slack_length_battle<=result && result<=n)
       increase_nr_found_solutions();
   }
 

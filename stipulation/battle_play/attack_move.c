@@ -56,11 +56,11 @@ attack_move_has_solution_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const needed = defense_can_defend_in_n(next,
-                                                              n-1,
-                                                              n_max_unsolvable-1)+1;
-      if (result>needed)
-        result = needed;
+      stip_length_type const def_result = defense_can_defend_in_n(next,
+                                                                  n-1,
+                                                                  n_max_unsolvable-1);
+      if (slack_length_battle<=def_result && def_result<result)
+        result = def_result+1;
     }
 
     repcoup();
@@ -100,11 +100,11 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const needed = defense_defend_in_n(next,
-                                                          n-1,
-                                                          n_max_unsolvable-1)+1;
-      if (result>needed)
-        result = needed;
+      stip_length_type const def_result = defense_defend_in_n(next,
+                                                              n-1,
+                                                              n_max_unsolvable-1);
+      if (slack_length_battle<=def_result && def_result<result)
+        result = def_result+1;
     }
 
     repcoup();

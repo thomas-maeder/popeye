@@ -73,6 +73,7 @@
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
+    ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
@@ -261,6 +262,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSelfDefense */
   slice_structure_fork,   /* STAttackFork */
   slice_structure_fork,   /* STDefenseFork */
+  slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_pipe,   /* STBattleDeadEnd */
@@ -1519,7 +1521,6 @@ static SliceType starter_inverters[] =
 {
   STAttackMove,
   STDefenseMove,
-  STKillerMoveFinalDefenseMove,
   STHelpMove,
   STHelpMoveToGoal,
   STSeriesMove,
@@ -1667,6 +1668,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_battle_fork,     /* STSelfDefense */
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
+  &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
@@ -1894,6 +1896,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
+    &stip_traverse_moves_pipe,                  /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
@@ -1971,7 +1974,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_pipe,                  /* STKillerMoveAttackGenerator */
-    &stip_traverse_moves_move_slice,            /* STKillerMoveFinalDefenseMove */
+    &stip_traverse_moves_pipe,                  /* STKillerMoveFinalDefenseMove */
     &stip_traverse_moves_pipe,                  /* STEnPassantFilter */
     &stip_traverse_moves_pipe,                  /* STCastlingFilter */
     &stip_traverse_moves_pipe,                  /* STAttackHashed */

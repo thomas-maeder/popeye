@@ -200,7 +200,8 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -221,7 +222,8 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceValue("%u\n",nbply);
-  if (threat_activities[nbply]==threat_solving && result<=n)
+  if (threat_activities[nbply]==threat_solving
+      && slack_length_battle<=result && result<=n)
     append_to_top_table();
 
   TraceFunctionExit(__func__);
@@ -235,7 +237,8 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
                          (incl. defense) needed
            n+2 refuted - <=acceptable number of refutations found
            n+4 refuted - >acceptable number of refutations found
@@ -261,7 +264,7 @@ threat_collector_can_defend_in_n(slice_index si,
   {
     if (is_current_move_in_table(threats[nbply]))
     {
-      if (result<=n)
+      if (slack_length_battle<=result && result<=n)
       {
         --nr_threats_to_be_confirmed;
         if (nr_threats_to_be_confirmed>0)
@@ -326,7 +329,8 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
@@ -379,7 +383,8 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found

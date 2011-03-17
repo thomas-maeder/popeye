@@ -82,11 +82,13 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      stip_length_type const nr_moves_needed = defense_defend_in_n(next,n_battle,n_max_unsolvable);
-      if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
-        result = n+1;
+      stip_length_type const def_result = defense_defend_in_n(next,
+                                                              n_battle,
+                                                              n_max_unsolvable);
+      if (slack_length_battle<=def_result && def_result<=n_battle)
+        result = def_result+slack_length_series-slack_length_battle;
       else
-        result = nr_moves_needed+slack_length_series-slack_length_battle;
+        result = n+1;
       break;
     }
 
@@ -235,13 +237,13 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
                                          -slack_length_series);
       stip_length_type const n_max_unsolvable = slack_length_battle-1;
       stip_length_type const
-          nr_moves_needed = defense_can_defend_in_n(next,
-                                                    n_battle,
-                                                    n_max_unsolvable);
-      if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
-        result = n+1;
+          def_result = defense_can_defend_in_n(next,
+                                               n_battle,
+                                               n_max_unsolvable);
+      if (slack_length_battle<=def_result && def_result<=n_battle)
+        result = def_result+slack_length_series-slack_length_battle;
       else
-        result = nr_moves_needed+slack_length_series-slack_length_battle;
+        result = n+1;
       break;
     }
 

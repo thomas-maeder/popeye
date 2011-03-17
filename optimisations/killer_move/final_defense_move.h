@@ -20,7 +20,7 @@ void reset_killer_move_final_defense_move_optimisation(void);
  */
 void disable_killer_move_final_defense_move_optimisation(Side);
 
-/* Optimise a STDefenseMove slice for defending against a goal
+/* Optimise a STDefenseMoveGenerator slice for defending against a goal
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
  * @param full_length full length of branch

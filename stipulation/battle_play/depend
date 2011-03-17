@@ -4,6 +4,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/ready_for_attack.h \
+ stipulation/battle_play/defense_move_generator.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/defense_adapter.h \
@@ -27,6 +28,8 @@ stipulation/battle_play/attack_find_shortest.h:
 stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/ready_for_attack.h:
+
+stipulation/battle_play/defense_move_generator.h:
 
 stipulation/battle_play/defense_move.h:
 
@@ -314,7 +317,9 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/check_detector.h stipulation/battle_play/try.h \
- stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
+ stipulation/battle_play/threat.h \
+ stipulation/battle_play/defense_move_generator.h \
+ stipulation/battle_play/defense_move.h \
  stipulation/battle_play/defense_fork.h \
  stipulation/battle_play/dead_end.h \
  stipulation/battle_play/min_length_guard.h \
@@ -364,6 +369,8 @@ stipulation/battle_play/check_detector.h:
 stipulation/battle_play/try.h:
 
 stipulation/battle_play/threat.h:
+
+stipulation/battle_play/defense_move_generator.h:
 
 stipulation/battle_play/defense_move.h:
 
@@ -557,5 +564,17 @@ stipulation/branch.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
+
+trace.h:
+stipulation/battle_play/defense_move_generator$(OBJ_SUFFIX): \
+ stipulation/battle_play/defense_move_generator.c \
+ stipulation/battle_play/defense_move_generator.h pydata.h pypipe.h \
+ trace.h
+
+stipulation/battle_play/defense_move_generator.h:
+
+pydata.h:
+
+pypipe.h:
 
 trace.h:

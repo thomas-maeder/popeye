@@ -1,29 +1,23 @@
-#include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/defense_move_generator.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STContinuationSolver defender slice.
+/* Allocate a STDefenseMoveGenerator defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_continuation_solver_slice(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_defense_move_generator_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STContinuationSolver,length,min_length);
+  result = alloc_pipe(STDefenseMoveGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,11 +40,12 @@ slice_index alloc_continuation_solver_slice(stip_length_type length,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_solver_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+defense_move_generator_defend_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -59,14 +54,14 @@ continuation_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  if (slack_length_battle<=result && result<n+4)
-  {
-    stip_length_type const n_next = n<result ? n : result;
-    stip_length_type const
-        defend_result = defense_defend_in_n(next,n_next,n_max_unsolvable);
-    assert(defend_result==result);
-  }
+  assert(n>slack_length_battle);
+  if (n<=slack_length_battle+3)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode = move_generation_mode_opti_per_side[defender];
+  genmove(defender);
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -86,11 +81,12 @@ continuation_solver_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_solver_can_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+defense_move_generator_can_defend_in_n(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -99,10 +95,17 @@ continuation_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(n>slack_length_battle);
+  if (n<=slack_length_battle+3)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode = move_generation_mode_opti_per_side[defender];
+  genmove(defender);
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  finply();
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
