@@ -108,10 +108,6 @@ boolean republican_verifie_position(slice_index si)
       is_republican_suspended = false;
       jouegenre = true;
       jouetestgenre = true;
-      move_generation_mode_opti_per_side[White] =
-          move_generation_optimized_by_killer_move;
-      move_generation_mode_opti_per_side[Black] =
-          move_generation_optimized_by_killer_move;
       supergenre = true;
       return true;
     }

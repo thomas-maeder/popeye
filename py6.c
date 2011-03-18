@@ -607,11 +607,9 @@ static boolean verify_position(slice_index si)
   piece     p;
   ply           n;
   int      cp, pp, tp, op;
-  boolean          nonoptgenre;
 
   jouegenre = false;
   jouetestgenre = false;
-  nonoptgenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_final_defense_move_optimisation();
@@ -1699,18 +1697,6 @@ static boolean verify_position(slice_index si)
   jouetestgenre1 = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];
 
-
-  nonoptgenre = nonoptgenre
-      || TSTFLAG(PieSpExFlags, Neutral)
-      || flag_testlegality
-      || anymars
-      || anyantimars
-      || CondFlag[brunner]
-      || CondFlag[blsupertrans_king]
-      || CondFlag[whsupertrans_king]
-      || CondFlag[takemake]
-      || CondFlag[circecage];
-
   supergenre = supergenre
       || CondFlag[supercirce]
       || CondFlag[circecage]
@@ -1760,7 +1746,6 @@ static boolean verify_position(slice_index si)
     SATCheck = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    nonoptgenre = true;
     WhiteStrictSAT[1] = echecc_normal(nbply,White);
     BlackStrictSAT[1] = echecc_normal(nbply,Black);
     satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
@@ -1776,24 +1761,53 @@ static boolean verify_position(slice_index si)
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    nonoptgenre = true;
   }
 
   if (flagwhitemummer /* counting opponents moves not useful */
-      || nonoptgenre  /* ?? */
+      || TSTFLAG(PieSpExFlags, Neutral)
+      || flag_testlegality
+      || anymars
+      || anyantimars
+      || CondFlag[brunner]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[whsupertrans_king]
+      || CondFlag[takemake]
+      || CondFlag[circecage]
+      || CondFlag[SAT]
+      || CondFlag[strictSAT]
+      || CondFlag[schwarzschacher]
+      || CondFlag[republican]
       || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     move_generation_mode_opti_per_side[White] =
         move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode_opti_per_side[White] =
+        move_generation_optimized_by_nr_opponent_moves;
 
   if (flagblackmummer /* counting opponents moves not useful */
-      || nonoptgenre /* ?? */
+      || TSTFLAG(PieSpExFlags, Neutral)
+      || flag_testlegality
+      || anymars
+      || anyantimars
+      || CondFlag[brunner]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[whsupertrans_king]
+      || CondFlag[takemake]
+      || CondFlag[circecage]
+      || CondFlag[SAT]
+      || CondFlag[strictSAT]
+      || CondFlag[schwarzschacher]
+      || CondFlag[republican]
       || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     move_generation_mode_opti_per_side[Black] =
         move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode_opti_per_side[Black] =
+        move_generation_optimized_by_nr_opponent_moves;
 
   if (CondFlag[takemake])
   {
