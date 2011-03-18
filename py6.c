@@ -144,7 +144,7 @@
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
-#include "optimisations/killer_move/collector.h"
+#include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
@@ -2668,14 +2668,14 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STKillerMoveAttackGenerator, &optimise_final_moves_attack_move_generator  },
-  { STDefenseMoveGenerator,      &optimise_final_moves_defense_move_generator },
-  { STReflexDefenderFilter,      &optimise_final_moves_reflex_defender_filter },
-  { STHelpMove,                  &optimise_final_moves_help_move              },
-  { STHelpMoveToGoal,            &swallow_goal                                },
-  { STSeriesMove,                &optimise_final_moves_series_move            },
-  { STSeriesMoveToGoal,          &swallow_goal                                },
-  { STGoalReachedTesting,        &optimise_final_moves_goal                   }
+  { STAttackMoveGenerator,  &optimise_final_moves_attack_move_generator  },
+  { STDefenseMoveGenerator, &optimise_final_moves_defense_move_generator },
+  { STReflexDefenderFilter, &optimise_final_moves_reflex_defender_filter },
+  { STHelpMove,             &optimise_final_moves_help_move              },
+  { STHelpMoveToGoal,       &swallow_goal                                },
+  { STSeriesMove,           &optimise_final_moves_series_move            },
+  { STSeriesMoveToGoal,     &swallow_goal                                },
+  { STGoalReachedTesting,   &optimise_final_moves_goal                   }
 };
 
 enum
@@ -2687,7 +2687,7 @@ enum
 /* Perform optimisations at the final moves in battle play
  * @param si identifies the root slice of the stipulation
  */
-static void stip_optimise_final_moves(slice_index si)
+static void stip_optimise_move_generators(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare }, false };
@@ -2696,14 +2696,14 @@ static void stip_optimise_final_moves(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_insert_killer_move_collectors(si);
-
   TraceStipulation(si);
 
   stip_moves_traversal_init(&st,&state);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
+
+  stip_optimise_with_killer_moves(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2834,7 +2834,7 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
 
-      stip_optimise_final_moves(root_slice);
+      stip_optimise_move_generators(root_slice);
 
       if (is_hashtable_allocated())
         stip_insert_hash_slices(root_slice);

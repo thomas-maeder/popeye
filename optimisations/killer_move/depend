@@ -1,9 +1,26 @@
+optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
+ optimisations/killer_move/killer_move.c \
+ optimisations/killer_move/killer_move.h pypipe.h \
+ stipulation/battle_play/branch.h \
+ optimisations/killer_move/attack_generator.h \
+ optimisations/killer_move/collector.h trace.h
+
+optimisations/killer_move/killer_move.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
+
+optimisations/killer_move/attack_generator.h:
+
+optimisations/killer_move/collector.h:
+
+trace.h:
 optimisations/killer_move/collector$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.c \
  optimisations/killer_move/collector.h pydata.h pypipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h trace.h
+ optimisations/killer_move/attack_generator.h trace.h
 
 optimisations/killer_move/collector.h:
 
@@ -15,9 +32,7 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
+optimisations/killer_move/attack_generator.h:
 
 trace.h:
 optimisations/killer_move/attack_generator$(OBJ_SUFFIX): \

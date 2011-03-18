@@ -21,6 +21,7 @@
     /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
+    ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STDefenseMove),                                          \

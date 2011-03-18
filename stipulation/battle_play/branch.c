@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
+#include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move_generator.h"
@@ -13,7 +14,6 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_attack_filter.h"
-#include "optimisations/killer_move/attack_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -37,6 +37,7 @@ static slice_index const slice_rank_order[] =
   STDegenerateTree,
   STAttackFindShortest,
   STAttackFork,
+  STAttackMoveGenerator,
   STKillerMoveAttackGenerator,
   STOrthodoxMatingMoveGenerator,
   STAttackMove,
@@ -386,7 +387,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const shortest = alloc_attack_find_shortest_slice(length,
                                                                   min_length);
 
-    slice_index const agenerator = alloc_killer_move_attack_generator_slice();
+    slice_index const agenerator = alloc_attack_move_generator_slice();
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const solver = alloc_continuation_solver_slice(length-1,
                                                                min_length-1);
@@ -443,7 +444,7 @@ void stip_make_goal_attack_branch(slice_index si)
     {
       alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle),
       alloc_battle_play_dead_end_slice(),
-      alloc_killer_move_attack_generator_slice(),
+      alloc_attack_move_generator_slice(),
       alloc_attack_move_slice(slack_length_battle+1,slack_length_battle),
       alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
     };

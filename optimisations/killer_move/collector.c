@@ -3,8 +3,6 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -29,7 +27,7 @@ static void remember_killer_move()
 /* Allocate a STKillerMoveCollector slice.
  * @return index of allocated slice
  */
-static slice_index alloc_killer_move_collector_slice(void)
+slice_index alloc_killer_move_collector_slice(void)
 {
   slice_index result;
 
@@ -182,58 +180,4 @@ killer_move_collector_can_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void insert_collector(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_killer_move_collector_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors killer_move_collector_inserters[] =
-{
-  { STReadyForAttack,  &insert_collector },
-  { STReadyForDefense, &insert_collector },
-  { STDefenseAdapter,  &insert_collector }
-};
-
-enum
-{
-  nr_killer_move_collector_inserters =
-  (sizeof killer_move_collector_inserters
-   / sizeof killer_move_collector_inserters[0])
-};
-
-/* Instrument stipulation with killer move collector slices
- * @param si identifies slice where to start
- */
-void stip_insert_killer_move_collectors(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    killer_move_collector_inserters,
-                                    nr_killer_move_collector_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

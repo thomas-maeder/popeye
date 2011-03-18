@@ -397,6 +397,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPrerequisiteOptimiser:
       case STBattleDeadEnd:
       case STKillerMoveAttackGenerator:
+      case STAttackMoveGenerator:
       case STDefenseMoveGenerator:
         Trace_pipe(si);
         fprintf(stdout,"\n");

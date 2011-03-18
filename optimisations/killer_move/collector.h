@@ -1,13 +1,17 @@
 #if !defined(OPTIMISATION_KILLER_MOVE_COLLECTOR_H)
 #define OPTIMISATION_KILLER_MOVE_COLLECTOR_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STKillerMoveCollector stipulation slices.
  */
+
+/* Allocate a STKillerMoveCollector slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_killer_move_collector_slice(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -72,10 +76,5 @@ stip_length_type
 killer_move_collector_can_defend_in_n(slice_index si,
                                       stip_length_type n,
                                       stip_length_type n_max_unsolvable);
-
-/* Instrument stipulation with STKillerMoveCollector slices
- * @param si identifies slice where to start
- */
-void stip_insert_killer_move_collectors(slice_index si);
 
 #endif

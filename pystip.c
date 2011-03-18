@@ -65,6 +65,7 @@
   ENUMERATOR(STProxy),                                                  \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
+    ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseMove),                                          \
@@ -254,6 +255,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STProxy */
   slice_structure_branch, /* STAttackAdapter */
   slice_structure_branch, /* STDefenseAdapter */
+  slice_structure_pipe,   /* STAttackMoveGenerator */
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STAttackFindShortest */
   slice_structure_branch, /* STDefenseMove */
@@ -1151,7 +1153,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
   { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
-  { STKillerMoveAttackGenerator,     &trash_for_postkey_play                        },
+  { STAttackMoveGenerator,           &trash_for_postkey_play                        },
   { STAttackMove,                    &trash_for_postkey_play                        },
   { STEndOfBranch,                   &end_of_branch_reduce_to_postkey_play          },
   { STContinuationSolver,            &trash_for_postkey_play                        },
@@ -1660,6 +1662,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STProxy */
   &stip_traverse_structure_pipe,            /* STAttackAdapter */
   &stip_traverse_structure_pipe,            /* STDefenseAdapter */
+  &stip_traverse_structure_pipe,            /* STAttackMoveGenerator */
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
@@ -1888,6 +1891,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STProxy */
     &stip_traverse_moves_battle_adapter_slice,  /* STAttackAdapter */
     &stip_traverse_moves_battle_adapter_slice,  /* STDefenseAdapter */
+    &stip_traverse_moves_pipe,                  /* STAttackMoveGenerator */
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */

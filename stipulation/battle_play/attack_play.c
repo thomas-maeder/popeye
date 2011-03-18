@@ -16,7 +16,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
@@ -29,6 +29,7 @@
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/killer_move/attack_generator.h"
@@ -109,6 +110,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STAttackFindShortest:
       result = attack_find_shortest_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STAttackMoveGenerator:
+      result = attack_move_generator_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackMove:
@@ -314,6 +319,11 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_find_shortest_solve_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STAttackMoveGenerator:
+    case STKillerMoveAttackGenerator:
+      result = attack_move_generator_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STAttackMove:
       result = attack_move_solve_in_n(si,n,n_max_unsolvable);
       break;
@@ -415,10 +425,6 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = output_plaintext_tree_goal_writer_solve_in_n(si,
                                                             n,
                                                             n_max_unsolvable);
-      break;
-
-    case STKillerMoveAttackGenerator:
-      result = killer_move_attack_generator_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
