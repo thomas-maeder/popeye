@@ -38,7 +38,6 @@ boolean exclusive_verifie_position(slice_index si)
   else
   {
     exclusive_goal = goal;
-    flag_testlegality = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
     result = true;

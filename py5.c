@@ -1650,25 +1650,28 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
     result = false;
   else if (CondFlag[singlebox] && singlebox_illegal())
     result = false;
+  else if (!jouetestgenre)
+    result = true;
+  else if (jouetestgenre1
+           && ((CondFlag[blackultraschachzwang]
+                && trait[nbply]==Black
+                && !echecc(nbply,White))
+               || (CondFlag[whiteultraschachzwang]
+                   && trait[nbply]==White
+                   && !echecc(nbply,Black))
+           ))
+    result = false;
+  else if ((CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach])
+           && !pos_legal())
+    result = false;
+  else if (flagAssassin && (sq_rebirth==rb || sq_rebirth==rn))
+    result = false;
+  else if (are_we_testing_immobility_with_opposite_king_en_prise && (rb==initsquare || rn==initsquare))
+    result = false;
+  else if (CondFlag[patience] && !PatienceB && !patience_legal()) /* don't call patience_legal if TypeB as obs > vide ! */
+    result = false;
   else
-    result = (!jouetestgenre
-              || (
-                  (!jouetestgenre1 || (
-                       (!CondFlag[blackultraschachzwang]
-                        || trait[nbply]==White
-                        || echecc(nbply,White))
-                       && (!CondFlag[whiteultraschachzwang]
-                           || trait[nbply]==Black
-                           || echecc(nbply,Black))
-                       ))
-                  &&
-                  ((!flag_testlegality) || pos_legal())
-                  && (!flagAssassin || (sq_rebirth != rb && sq_rebirth != rn))
-                  && (!are_we_testing_immobility_with_opposite_king_en_prise || (rb!=initsquare && rn!=initsquare))
-                  && (!CondFlag[patience] || PatienceB || patience_legal())
-                  /* don't call patience_legal if TypeB as obs > vide ! */
-                  && (trait[nbply] == White ? BGL_white >= 0 : BGL_black >= 0)
-                  ));
+    result = trait[nbply]==White ? BGL_white>=0 : BGL_black>=0;
 
   return result;
 }
@@ -3195,7 +3198,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                       trait_ply);
 
           if (!rex_circe
-              && (flag_testlegality || CondFlag[brunner])
+              && (CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach] || CondFlag[brunner])
               && (sq_capture == prev_rb || sq_capture == prev_rn))
           {
             /* ordinary circe and (isardam, brunner or
@@ -4055,63 +4058,7 @@ boolean immobile(Side camp)
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
-  if (!whbl_exact && !flag_testlegality)
-  {
-    nextply(nbply);
-    current_killer_state= null_killer_state;
-    trait[nbply]= camp;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(advers(camp));
-    if (camp == White)
-    {
-      if (rb != initsquare)
-        gen_wh_piece(rb, abs(e[rb]));
-    }
-    else
-    {
-      if (rn != initsquare)
-        gen_bl_piece(rn, -abs(e[rn]));
-    }
-
-    if (CondFlag[MAFF] || CondFlag[OWU])
-    {
-      int k_fl= 0, w_unit= 0;
-      while (encore()) {
-        if (jouecoup(nbply,first_play)) {
-          if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
-            w_unit++;        /* assuming OWU is OBU for checks to wK !! */
-          if (!echecc(nbply,camp))
-            k_fl++;
-        }
-        repcoup();
-      }
-      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1))
-          || (CondFlag[MAFF] && (k_fl!=1)) )
-      {
-        finply();
-        TraceFunctionExit(__func__);
-        TraceFunctionResult("%d\n",false);
-        return false;
-      }
-    }
-
-    while (immobile_encore(camp,&immobilesquare))
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        if (!echecc(nbply,camp))
-        {
-          repcoup();
-          finply();
-          TraceFunctionExit(__func__);
-          TraceFunctionResult("%d\n",false);
-          return false;
-        }
-
-      repcoup();
-    }
-    finply();
-  }
-  else
+  if (whbl_exact || CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach])
   {
     Side ad= advers(camp);
 
@@ -4178,6 +4125,62 @@ boolean immobile(Side camp)
       }
       finply();
     }
+  }
+  else
+  {
+    nextply(nbply);
+    current_killer_state= null_killer_state;
+    trait[nbply]= camp;
+    if (TSTFLAG(PieSpExFlags,Neutral))
+      initneutre(advers(camp));
+    if (camp == White)
+    {
+      if (rb != initsquare)
+        gen_wh_piece(rb, abs(e[rb]));
+    }
+    else
+    {
+      if (rn != initsquare)
+        gen_bl_piece(rn, -abs(e[rn]));
+    }
+
+    if (CondFlag[MAFF] || CondFlag[OWU])
+    {
+      int k_fl= 0, w_unit= 0;
+      while (encore()) {
+        if (jouecoup(nbply,first_play)) {
+          if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
+            w_unit++;        /* assuming OWU is OBU for checks to wK !! */
+          if (!echecc(nbply,camp))
+            k_fl++;
+        }
+        repcoup();
+      }
+      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1))
+          || (CondFlag[MAFF] && (k_fl!=1)) )
+      {
+        finply();
+        TraceFunctionExit(__func__);
+        TraceFunctionResult("%d\n",false);
+        return false;
+      }
+    }
+
+    while (immobile_encore(camp,&immobilesquare))
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+        if (!echecc(nbply,camp))
+        {
+          repcoup();
+          finply();
+          TraceFunctionExit(__func__);
+          TraceFunctionResult("%d\n",false);
+          return false;
+        }
+
+      repcoup();
+    }
+    finply();
   }
 
   TraceFunctionExit(__func__);

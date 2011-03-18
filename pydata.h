@@ -348,7 +348,7 @@ EXTERN ghost_index_type nr_ghosts;
 EXTERN  Side         neutcoul;
 EXTERN  boolean         calctransmute;
 
-EXTERN  boolean         flag_testlegality, k_cap,
+EXTERN  boolean         k_cap,
 			anymars,
 			flag_madrasi;
 EXTERN  boolean         is_phantomchess;
@@ -390,7 +390,6 @@ EXTERN square           cmren[toppile + 1];
 EXTERN square           supertrans[maxply+1];
 EXTERN piece            current_trans_gen;
 EXTERN piece            ctrans[toppile+1];
-EXTERN boolean          nonkilgenre;
 EXTERN square           superbas;
 EXTERN boolean          complex_castling_through_flag;
 EXTERN boolean          oscillatedKs[toppile + 1];

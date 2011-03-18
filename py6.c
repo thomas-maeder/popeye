@@ -1408,12 +1408,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  nonkilgenre = CondFlag[messigny]
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
-      || CondFlag[whsupertrans_king]
-      || CondFlag[blsupertrans_king]
-      || CondFlag[takemake];
-
   if (TSTFLAG(PieSpExFlags, Jigger)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
@@ -1674,7 +1668,6 @@ static boolean verify_position(slice_index si)
   if (CondFlag[isardam]
       || CondFlag[ohneschach])
   {
-    flag_testlegality = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
@@ -1684,7 +1677,9 @@ static boolean verify_position(slice_index si)
   }
 
   jouetestgenre = jouetestgenre
-      || flag_testlegality
+      || CondFlag[exclusive]
+      || CondFlag[isardam]
+      || CondFlag[ohneschach]
       || flagAssassin
       || stip_ends_in(si,goal_doublemate)
       || stip_ends_in(si,goal_countermate)
@@ -1765,7 +1760,9 @@ static boolean verify_position(slice_index si)
 
   if (flagwhitemummer /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
-      || flag_testlegality
+      || CondFlag[exclusive]
+      || CondFlag[isardam]
+      || CondFlag[ohneschach]
       || anymars
       || anyantimars
       || CondFlag[brunner]
@@ -1788,7 +1785,9 @@ static boolean verify_position(slice_index si)
 
   if (flagblackmummer /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
-      || flag_testlegality
+      || CondFlag[exclusive]
+      || CondFlag[isardam]
+      || CondFlag[ohneschach]
       || anymars
       || anyantimars
       || CondFlag[brunner]

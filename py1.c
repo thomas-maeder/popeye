@@ -357,7 +357,7 @@ void InitAlways(void) {
   nbmagic = 0;
 
   flagAssassin = false;
-  flag_testlegality= k_cap = false;
+  k_cap = false;
   flagfee = false;
   flagriders = false;
   flagleapers = false;

@@ -11,13 +11,13 @@
  ** 2006/05/17 SE   Bug fix: querquisite
  **                 P moves to 1st rank disallowed for Take&Make on request of inventor
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2007/01/28 SE   New condition: NormalPawn  
+ ** 2007/01/28 SE   New condition: NormalPawn
  **
- ** 2007/01/28 SE   New condition: Annan Chess 
+ ** 2007/01/28 SE   New condition: Annan Chess
  **
- ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows 
+ ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows
  **
  ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
  **
@@ -33,13 +33,13 @@
  **
  ** 2008/02/24 SE   Bug fix: Gridchess
  **
- ** 2008/02/19 SE   New piece: RoseLocust  
+ ** 2008/02/19 SE   New piece: RoseLocust
  **
- ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+ ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)
  **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
- ** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+ ** 2009/02/24 SE   New pieces: 2,0-Spiralknight
  **                             4,0-Spiralknight
  **                             1,1-Spiralknight
  **                             3,3-Spiralknight
@@ -319,7 +319,7 @@ static void add_to_empile_optimization_table(square sq_departure,
   /* for testempile() - mren shouldn't be relevant if we optimize by
    * number of opponent moves */
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,initsquare);
-  
+
   if (count_opponent_moves(&nr_opponent_moves,trait[nbply]))
   {
     empile_optimization_table_elmt * const
@@ -499,7 +499,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
       else if (e[sq_capture]==vide) {
         /* We are generating the make part */
-        
+
         /* Extra rule: pawns must not 'make' to their base line */
         if (is_pawn(e[sq_departure])
             && !CondFlag[normalp]
@@ -599,7 +599,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
          * wegen neuer Funktionen genweiss/schwarz aus
          * gennoir/White hierher verschoben
          */
-        /* capturing kamikaze pieces without circe condition are possible now */ 
+        /* capturing kamikaze pieces without circe condition are possible now */
         if (TSTFLAG(spec[sq_departure], Kamikaze)
             &&  ((traitnbply == White)
                  ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
@@ -688,13 +688,13 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           len= 0;
           curleng=0;
         }
-        
+
         if (traitnbply == White ? CondFlag[whsupertrans_king] : CondFlag[blsupertrans_king])
         {
-                
+
           len+= MAX_OTHER_LEN * (current_trans_gen!=vide ? 1 : 0);
           curleng+= MAX_OTHER_LEN * (ctrans[nbcou]!=vide ? 1 : 0);
-        }  
+        }
 
         if (curleng > len) {
           return true;
@@ -799,8 +799,14 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       break;
     case move_generation_optimized_by_killer_move:
       if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
-          || nonkilgenre
-          || flag_testlegality)
+          || CondFlag[messigny]
+          || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+          || CondFlag[whsupertrans_king]
+          || CondFlag[blsupertrans_king]
+          || CondFlag[takemake]
+          || CondFlag[exclusive]
+          || CondFlag[isardam]
+          || CondFlag[ohneschach])
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
       else
         save_as_killer_move(sq_capture,mren);
@@ -947,7 +953,7 @@ static void genbouncer(square sq_departure,
   square sq_arrival;
 
   numvec  k;
-  for (k= kend; k >= kbeg; k--) {      
+  for (k= kend; k >= kbeg; k--) {
     piece   p1;
     square  bounce_where;
     finligne(sq_departure,vec[k],p1,bounce_where);
@@ -1091,7 +1097,7 @@ void geriderhopper(square   sq_departure,
             empile(sq_departure,sq_arrival,sq_arrival);
           sq_arrival+= vec[k];
         }
-        
+
         if (rightcolor(e[sq_arrival],camp)
             && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -1186,8 +1192,8 @@ static void groselion(square sq_departure,
     {
       if (k1+k2 > vec_knight_end)
         k2-=8;
-    } 
-    else 
+    }
+    else
     {
       if (k1+k2 <= vec_knight_end)
         k2+=8;
@@ -1273,15 +1279,15 @@ static void gmhop(square   sq_departure,
 
   for (k= kend; k>=kanf; k--) {
     finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    
+
     if (hurdle!=obs) {
       k1= k<<1;
-      
+
       sq_arrival= sq_hurdle+mixhopdata[m][k1];
       if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
         hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1]))
         testempile(sq_departure,sq_arrival,sq_arrival);
-      
+
       sq_arrival= sq_hurdle+mixhopdata[m][k1-1];
       if ((e[sq_arrival]==vide || rightcolor(e[sq_arrival],camp)) &&
         hopimmcheck(sq_departure,sq_arrival,sq_hurdle,vec[k],mixhopdata[m][k1-1]))
@@ -1344,7 +1350,7 @@ static void gchin(square   sq_departure,
 
   for (k= kbeg; k<=kend; k++) {
     sq_arrival= generate_moves_on_line_segment(sq_departure,sq_departure,k);
-    
+
     if (e[sq_arrival]!=obs) {
       finligne(sq_arrival,vec[k],hurdle,sq_arrival);
       if (rightcolor(hurdle,camp))
@@ -1365,7 +1371,7 @@ static void gnequi(square sq_departure, Side camp) {
   for (delta_horiz= 3*dir_right;
        delta_horiz!=dir_left;
        delta_horiz+= dir_left)
-    
+
     for (delta_vert= 3*dir_up;
          delta_vert!=dir_down;
          delta_vert+= dir_down) {
@@ -1508,7 +1514,7 @@ static void gcs(square sq_departure,
   }
   if (rightcolor(e[sq_arrival],camp))
     testempile(sq_departure,sq_arrival,sq_arrival);
-  
+
   sq_arrival= sq_departure+k1;
   while (e[sq_arrival]==vide) {
     testempile(sq_departure,sq_arrival,sq_arrival);
@@ -1592,7 +1598,7 @@ static void grfou(square   orig_departure,
     (*generate)(sq_departure,sq_arrival,sq_arrival);
     sq_arrival+= k;
   }
-  
+
   if (rightcolor(e[sq_arrival],camp))
     (*generate)(sq_departure,sq_arrival,sq_arrival);
   else if (x && e[sq_arrival]==obs) {
@@ -1777,12 +1783,12 @@ static void grefn(square orig_departure,
     settraversed(step_departure);
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    sq_arrival= step_departure; 
+    sq_arrival= step_departure;
 
     while (e[sq_arrival+=vec[k]]==vide)
     {
       testempile(sq_departure,sq_arrival,sq_arrival);
-      if (!NoEdge(sq_arrival) && 
+      if (!NoEdge(sq_arrival) &&
           !traversed(sq_arrival)) {
         grefn(orig_departure,sq_arrival,camp);
         break;
@@ -1822,7 +1828,7 @@ void gequi(square sq_departure, Side camp) {
       }
     }
   }
-  
+
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++) {     /* 2,4; 2,6; 4,6; */
     sq_hurdle= sq_departure+vec[k];
     sq_arrival= sq_departure + 2*vec[k];
@@ -1846,7 +1852,7 @@ static void gequiapp(square sq_departure, Side camp) {
     if (hurdle1!=obs) {
       sq_arrival= (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
-            || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */ 
+            || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */
         empile(sq_departure,sq_arrival,sq_arrival);
 
       finligne(sq_hurdle1,vec[k],hurdle2,sq_hurdle2);
@@ -1900,7 +1906,7 @@ static void gmaooa(square  sq_departure,
     if (e[arrival1]==vide || rightcolor(e[arrival1],camp))
       if (maooaimcheck(sq_departure,arrival1,pass))
         empile(sq_departure,arrival1,arrival1);
-    
+
     if (e[arrival2]==vide || rightcolor(e[arrival2],camp))
       if (maooaimcheck(sq_departure,arrival2,pass))
         empile(sq_departure,arrival2,arrival2);
@@ -2008,7 +2014,7 @@ static void genhunt(square i, piece p, PieNam pabs)
   /*   PieNam const pabs = abs(p);  */
   assert(pabs>=Hunter0);
   assert(pabs<Hunter0+maxnrhuntertypes);
-  
+
   {
     unsigned int const typeofhunter = pabs-Hunter0;
     HunterType const * const huntertype = huntertypes+typeofhunter;
@@ -2429,15 +2435,15 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     }
     break;
 
-  case bouncerb : 
+  case bouncerb :
     genbouncer(sq_departure, vec_queen_start,vec_queen_end, camp);
     break;
 
-  case rookbouncerb : 
+  case rookbouncerb :
     genbouncer(sq_departure, vec_rook_start,vec_rook_end, camp);
     break;
 
-  case bishopbouncerb : 
+  case bishopbouncerb :
     genbouncer(sq_departure, vec_bishop_start,vec_bishop_end, camp);
     break;
 
@@ -2950,7 +2956,7 @@ void genrb_cast(void) {
     return;
 
   if (TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-      && e[square_e1]==roib 
+      && e[square_e1]==roib
       /* then the king on e1 and at least one rook can castle !! */
       && !echecc(nbply,White))
   {
@@ -3026,9 +3032,9 @@ void genrb_cast(void) {
         e[square_d1]= roib;
         if (rb!=initsquare)
           rb= square_d1;
-        
+
         is_castling_possible= !echecc(nbply,White);
-        
+
         e[square_e1]= roib;
         e[square_d1]= vide;
         if (rb!=initsquare)
@@ -3103,7 +3109,7 @@ void genrb(square sq_departure)
     if (e[sq_arrival] <= vide)
       empile(sq_departure,sq_arrival,sq_arrival);
   }
-  
+
   if (flag)
     /* testempile nicht nutzbar */
     /* VERIFY: has anf always a propper value??
@@ -3113,14 +3119,14 @@ void genrb(square sq_departure)
   /* Now we test castling */
   if (castling_supported)
     genrb_cast();
-  
+
   if (CondFlag[castlingchess] && !echecc(nbply,White)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
-      square sq_passed, sq_castler, sq_arrival;  
+      square sq_passed, sq_castler, sq_arrival;
       piece p;
-      sq_passed= sq_departure + vec[k]; 
+      sq_passed= sq_departure + vec[k];
       sq_arrival= sq_passed + vec[k];
-         
+
       finligne(sq_departure,vec[k], p, sq_castler);
       if (sq_castler != sq_passed && sq_castler != sq_arrival && abs(p) >= roib)
       {
@@ -3480,7 +3486,7 @@ void gedgeh(square sq_departure, Side camp) {
         empile(sq_departure,sq_arrival,sq_arrival);
       sq_arrival+= vec[k];
     }
-    
+
     if (rightcolor(e[sq_arrival],camp))
       if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
         empile(sq_departure,sq_arrival,sq_arrival);
@@ -3833,7 +3839,7 @@ static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdl
   }
 }
 
-void genradialknight(square sq_departure, Side camp) 
+void genradialknight(square sq_departure, Side camp)
 {
   genleapleap(sq_departure, vec_rook_start, vec_rook_end, 0, camp);
   genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, 0, camp);

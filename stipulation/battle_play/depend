@@ -2,6 +2,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/branch.h pypipe.h stipulation/proxy.h \
  stipulation/branch.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/attack_find_shortest.h \
+ stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/ready_for_attack.h \
  stipulation/battle_play/defense_move_generator.h \
@@ -10,8 +11,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/dead_end.h \
- stipulation/battle_play/min_length_attack_filter.h \
- optimisations/killer_move/attack_generator.h trace.h
+ stipulation/battle_play/min_length_attack_filter.h trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -24,6 +24,8 @@ stipulation/branch.h:
 stipulation/battle_play/attack_adapter.h:
 
 stipulation/battle_play/attack_find_shortest.h:
+
+stipulation/battle_play/attack_move_generator.h:
 
 stipulation/battle_play/attack_move.h:
 
@@ -42,8 +44,6 @@ stipulation/battle_play/continuation.h:
 stipulation/battle_play/dead_end.h:
 
 stipulation/battle_play/min_length_attack_filter.h:
-
-optimisations/killer_move/attack_generator.h:
 
 trace.h:
 stipulation/battle_play/fork$(OBJ_SUFFIX): stipulation/battle_play/fork.c \
@@ -85,6 +85,20 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
+stipulation/battle_play/attack_move_generator$(OBJ_SUFFIX): \
+ stipulation/battle_play/attack_move_generator.c \
+ stipulation/battle_play/attack_move_generator.h pydata.h pyproc.h \
+ pypipe.h trace.h
+
+stipulation/battle_play/attack_move_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
 stipulation/battle_play/attack_move$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_move.c \
  stipulation/battle_play/attack_move.h pydata.h pyproc.h pypipe.h \
@@ -124,7 +138,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  pythreat.h pynontrv.h pyquodli.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
  stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/dead_end.h \
@@ -134,6 +148,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/killer_move/attack_generator.h \
@@ -178,7 +193,7 @@ stipulation/battle_play/attack_find_shortest.h:
 
 stipulation/battle_play/attack_move.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+stipulation/battle_play/attack_move_generator.h:
 
 stipulation/battle_play/attack_fork.h:
 
@@ -203,6 +218,8 @@ stipulation/goals/countermate/filter.h:
 stipulation/goals/prerequisite_optimiser.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/goals/castling/filter.h:
 
