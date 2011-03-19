@@ -17,7 +17,6 @@
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_generator.h"
-#include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
@@ -29,6 +28,7 @@
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
@@ -104,8 +104,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = min_length_guard_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackFork:
-      result = attack_fork_has_solution_in_n(si,n,n_max_unsolvable);
+    case STOrthodoxMatingMoveFork:
+      result = orthodox_mating_move_fork_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackFindShortest:
@@ -344,8 +344,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = min_length_guard_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackFork:
-      result = attack_fork_solve_in_n(si,n,n_max_unsolvable);
+    case STOrthodoxMatingMoveFork:
+      result = orthodox_mating_move_fork_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSeriesAdapter:

@@ -36,7 +36,7 @@ static slice_index const slice_rank_order[] =
   STBattleDeadEnd,
   STDegenerateTree,
   STAttackFindShortest,
-  STAttackFork,
+  STOrthodoxMatingMoveFork,
   STAttackMoveGenerator,
   STKillerMoveAttackGenerator,
   STOrthodoxMatingMoveGenerator,
@@ -203,7 +203,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           break;
         }
         else if (slices[next].type==STEndOfBranch
-                 || slices[next].type==STAttackFork
+                 || slices[next].type==STOrthodoxMatingMoveFork
                  || slices[next].type==STDefenseFork)
         {
           battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,

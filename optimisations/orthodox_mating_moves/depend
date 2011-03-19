@@ -13,9 +13,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  pydata.h pyproc.h pypipe.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/branch.h stipulation/proxy.h \
- stipulation/battle_play/attack_move.h \
- stipulation/battle_play/attack_fork.h trace.h
+ optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h \
+ stipulation/branch.h stipulation/proxy.h trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -27,12 +26,27 @@ pypipe.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
+optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h:
+
 stipulation/branch.h:
 
 stipulation/proxy.h:
 
-stipulation/battle_play/attack_move.h:
+trace.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_fork$(OBJ_SUFFIX): \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_fork.c \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h \
+ pybrafrk.h pypipe.h stipulation/branch.h \
+ stipulation/battle_play/attack_play.h trace.h
 
-stipulation/battle_play/attack_fork.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
 
 trace.h:

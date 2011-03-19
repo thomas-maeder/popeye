@@ -7,7 +7,7 @@
  * The generator is optimised for mostly orthodox problems.
  */
 
-/* Optimise a STKillerMoveAttackGenerator slice for attacking a mate goal
+/* Optimise a STOrthodoxMatingMoveGenerator slice for attacking a mate goal
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
  * @param full_length full length of branch

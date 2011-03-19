@@ -28,7 +28,6 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
@@ -114,6 +113,7 @@
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
+    ENUMERATOR(STOrthodoxMatingMoveFork),                               \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \

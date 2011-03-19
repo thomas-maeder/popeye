@@ -129,7 +129,6 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/threat.h"
-#include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"

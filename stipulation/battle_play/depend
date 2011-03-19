@@ -115,22 +115,6 @@ pypipe.h:
 stipulation/branch.h:
 
 trace.h:
-stipulation/battle_play/attack_fork$(OBJ_SUFFIX): \
- stipulation/battle_play/attack_fork.c \
- stipulation/battle_play/attack_fork.h pybrafrk.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/attack_fork.h:
-
-pybrafrk.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
@@ -139,15 +123,15 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/attack_move_generator.h \
- stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
- stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
- stipulation/battle_play/dead_end.h \
+ stipulation/battle_play/threat.h stipulation/battle_play/try.h \
+ stipulation/battle_play/postkeyplay.h stipulation/battle_play/dead_end.h \
  stipulation/battle_play/min_length_attack_filter.h \
  stipulation/battle_play/min_length_guard.h \
  stipulation/series_play/play.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -195,8 +179,6 @@ stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/attack_move_generator.h:
 
-stipulation/battle_play/attack_fork.h:
-
 stipulation/battle_play/threat.h:
 
 stipulation/battle_play/try.h:
@@ -218,6 +200,8 @@ stipulation/goals/countermate/filter.h:
 stipulation/goals/prerequisite_optimiser.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 

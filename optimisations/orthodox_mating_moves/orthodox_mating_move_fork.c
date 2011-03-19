@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/attack_fork.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
@@ -7,11 +7,11 @@
 
 #include <assert.h>
 
-/* Allocate a STAttackFork slice.
+/* Allocate a STOrthodoxMatingMoveFork slice.
  * @param proxy_to_next identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
+slice_index alloc_orthodox_mating_move_fork_slice(slice_index proxy_to_next)
 {
   slice_index result;
 
@@ -19,7 +19,7 @@ slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
   TraceFunctionParam("%u",proxy_to_next);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STAttackFork,proxy_to_next);
+  result = alloc_branch_fork(STOrthodoxMatingMoveFork,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,12 +31,13 @@ slice_index alloc_attack_fork_slice(slice_index proxy_to_next)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
+void stip_traverse_moves_orthodox_mating_move_fork(slice_index si,
+                                                   stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-  
+
   assert(st->remaining>0);
 
   if (st->remaining==1)
@@ -59,9 +60,9 @@ void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
  *            n+2 no solution found
  */
 stip_length_type
-attack_fork_has_solution_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+orthodox_mating_move_fork_has_solution_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -99,9 +100,10 @@ attack_fork_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_fork_solve_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+stip_length_type
+orthodox_mating_move_fork_solve_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
