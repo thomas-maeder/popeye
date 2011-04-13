@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>

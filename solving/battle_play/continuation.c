@@ -63,8 +63,10 @@ continuation_solver_defend_in_n(slice_index si,
   if (slack_length_battle<=result && result<n+4)
   {
     stip_length_type const n_next = n<result ? n : result;
-    stip_length_type const
-        defend_result = defense_defend_in_n(next,n_next,n_max_unsolvable);
+#if !defined(NDEBUG)
+    stip_length_type const defend_result =
+#endif
+    defense_defend_in_n(next,n_next,n_max_unsolvable);
     assert(defend_result==result);
   }
 

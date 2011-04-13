@@ -1,6 +1,7 @@
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/play.h"
+#include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>

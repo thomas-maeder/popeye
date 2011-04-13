@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "trace.h"
 

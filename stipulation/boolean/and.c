@@ -91,7 +91,10 @@ has_solution_type reci_solve(slice_index si)
       result = slice_solve(op1);
       if (result==has_solution)
       {
-        has_solution_type const result2 = slice_solve(op2);
+#if !defined(NDEBUG)
+        has_solution_type const result2 =
+#endif
+        slice_solve(op2);
         assert(result2==has_solution);
       }
       break;
