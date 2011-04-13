@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 
-CFILES = branch.c fork.c \
+CFILES = branch.c \
 	attack_adapter.c attack_find_shortest.c attack_move_generator.c attack_move.c \
 	attack_play.c ready_for_attack.c \
 	defense_adapter.c defense_move.c ready_for_defense.c defense_fork.c\
@@ -9,7 +9,7 @@ CFILES = branch.c fork.c \
 	min_length_attack_filter.c min_length_guard.c end_of_branch.c dead_end.c \
   defense_move_generator.c
 
-INCLUDES = branch.h fork.h \
+INCLUDES = branch.h \
 	attack_adapter.h attack_find_shortest.h attack_move_generator.h attack_move.h \
 	attack_play.h ready_for_attack.h \
 	defense_adapter.h defense_move.h ready_for_defense.h defense_fork.h \

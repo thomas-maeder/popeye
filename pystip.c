@@ -21,7 +21,6 @@
 #include "stipulation/setplay_fork.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -1668,8 +1667,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
-  &stip_traverse_structure_battle_fork,     /* STSelfDefense */
-  &stip_traverse_structure_battle_fork,     /* STDefenseFork */
+  &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
+  &stip_traverse_structure_end_of_branch,   /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
@@ -1697,7 +1696,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
-  &stip_traverse_structure_battle_fork,     /* STEndOfBranch */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1729,13 +1728,13 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,            /* STMoveInverter */
-  &stip_traverse_structure_battle_fork,     /* STStipulationReflexAttackSolver */
+  &stip_traverse_structure_end_of_branch,   /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STMinLengthGuard */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
-  &stip_traverse_structure_battle_fork,     /* STThreatSolver */
+  &stip_traverse_structure_end_of_branch,   /* STThreatSolver */
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
   &stip_traverse_structure_pipe,            /* STThreatStart */
   &stip_traverse_structure_pipe,            /* STThreatCollector */
@@ -1745,7 +1744,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
-  &stip_traverse_structure_battle_fork,     /* STOrthodoxMatingMoveFork */
+  &stip_traverse_structure_end_of_branch,     /* STOrthodoxMatingMoveFork */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveAttackGenerator */
@@ -1895,9 +1894,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STAttackMove */
     &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
-    &stip_traverse_moves_battle_fork,           /* STReflexAttackerFilter */
-    &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
-    &stip_traverse_moves_battle_fork,           /* STSelfDefense */
+    &stip_traverse_moves_end_of_branch,         /* STReflexAttackerFilter */
+    &stip_traverse_moves_end_of_branch,         /* STReflexDefenderFilter */
+    &stip_traverse_moves_end_of_branch,         /* STSelfDefense */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
