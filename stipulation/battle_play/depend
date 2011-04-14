@@ -49,13 +49,15 @@ trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h stipulation/branch.h \
- stipulation/battle_play/attack_play.h trace.h
+ stipulation/battle_play/attack_play.h pypipe.h trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
 stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+pypipe.h:
 
 trace.h:
 stipulation/battle_play/attack_find_shortest$(OBJ_SUFFIX): \
@@ -121,7 +123,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h \
+ optimisations/optimisation_fork.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -191,7 +193,7 @@ stipulation/goals/prerequisite_optimiser.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h:
+optimisations/optimisation_fork.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -286,20 +288,6 @@ stipulation/battle_play/defense_adapter.h:
 stipulation/help_play/adapter.h:
 
 trace.h:
-stipulation/battle_play/defense_fork$(OBJ_SUFFIX): \
- stipulation/battle_play/defense_fork.c \
- stipulation/battle_play/defense_fork.h pybrafrk.h pypipe.h \
- stipulation/battle_play/defense_play.h trace.h
-
-stipulation/battle_play/defense_fork.h:
-
-pybrafrk.h:
-
-pypipe.h:
-
-stipulation/battle_play/defense_play.h:
-
-trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
  stipulation/battle_play/defense_play.h pyflight.h pykeepmt.h pymovenb.h \
@@ -311,12 +299,11 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/threat.h \
  stipulation/battle_play/defense_move_generator.h \
  stipulation/battle_play/defense_move.h \
- stipulation/battle_play/defense_fork.h \
  stipulation/battle_play/dead_end.h \
  stipulation/battle_play/min_length_guard.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/root.h \
- stipulation/help_play/play.h \
+ stipulation/help_play/play.h optimisations/optimisation_fork.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/maxsolutions/root_defender_filter.h \
@@ -365,8 +352,6 @@ stipulation/battle_play/defense_move_generator.h:
 
 stipulation/battle_play/defense_move.h:
 
-stipulation/battle_play/defense_fork.h:
-
 stipulation/battle_play/dead_end.h:
 
 stipulation/battle_play/min_length_guard.h:
@@ -378,6 +363,8 @@ stipulation/goals/prerequisite_optimiser.h:
 stipulation/help_play/root.h:
 
 stipulation/help_play/play.h:
+
+optimisations/optimisation_fork.h:
 
 optimisations/killer_move/final_defense_move.h:
 

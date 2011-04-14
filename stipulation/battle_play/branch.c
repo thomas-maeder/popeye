@@ -36,7 +36,7 @@ static slice_index const slice_rank_order[] =
   STBattleDeadEnd,
   STDegenerateTree,
   STAttackFindShortest,
-  STOrthodoxMatingMoveFork,
+  STOptimisationFork,
   STAttackMoveGenerator,
   STKillerMoveAttackGenerator,
   STOrthodoxMatingMoveGenerator,
@@ -77,7 +77,7 @@ static slice_index const slice_rank_order[] =
   STEnPassantFilter,
   STPrerequisiteOptimiser,
   STBattleDeadEnd,
-  STDefenseFork,
+  STOptimisationFork,
   STDefenseMoveGenerator,
   STKillerMoveFinalDefenseMove,
   STDefenseMove,
@@ -202,11 +202,16 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
           break;
         }
-        else if (slices[next].type==STEndOfBranch
-                 || slices[next].type==STOrthodoxMatingMoveFork
-                 || slices[next].type==STDefenseFork)
+        else if (slices[next].type==STEndOfBranch)
         {
           battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+                                                prototypes,nr_prototypes,
+                                                base);
+          si = next;
+        }
+        else if (slices[next].type==STOptimisationFork)
+        {
+          battle_branch_insert_slices_recursive(slices[next].u.optimisation_fork.optimisation,
                                                 prototypes,nr_prototypes,
                                                 base);
           si = next;

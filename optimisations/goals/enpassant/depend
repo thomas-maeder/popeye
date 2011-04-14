@@ -2,7 +2,7 @@ optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.c \
  optimisations/goals/enpassant/filter.h pydata.h pypipe.h \
  stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/goals/prerequisite_guards.h trace.h
 
 optimisations/goals/enpassant/filter.h:
@@ -14,6 +14,8 @@ pypipe.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
 
 stipulation/goals/prerequisite_guards.h:
 

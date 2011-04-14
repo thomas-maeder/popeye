@@ -16,13 +16,13 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
+#include "optimisations/optimisation_fork.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
@@ -109,8 +109,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = defense_move_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseFork:
-      result = defense_fork_defend_in_n(si,n,n_max_unsolvable);
+    case STOptimisationFork:
+      result = optimisation_fork_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
@@ -318,8 +318,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                               n_max_unsolvable);
       break;
 
-    case STDefenseFork:
-      result = defense_fork_can_defend_in_n(si,n,n_max_unsolvable);
+    case STOptimisationFork:
+      result = optimisation_fork_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:

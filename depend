@@ -1219,7 +1219,6 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/setplay_fork.h pypipe.h stipulation/reflex_attack_solver.h \
  stipulation/battle_play/attack_play.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/defense_fork.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/attack_move.h \
@@ -1238,8 +1237,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
  stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
- optimisations/goals/enpassant/filter.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h trace.h
+ optimisations/optimisation_fork.h optimisations/goals/enpassant/filter.h \
+ trace.h
 
 pystip.h:
 
@@ -1333,8 +1332,6 @@ stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_adapter.h:
 
-stipulation/battle_play/defense_fork.h:
-
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/ready_for_defense.h:
@@ -1393,9 +1390,9 @@ stipulation/series_play/parry_fork.h:
 
 stipulation/proxy.h:
 
-optimisations/goals/enpassant/filter.h:
+optimisations/optimisation_fork.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h:
+optimisations/goals/enpassant/filter.h:
 
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \

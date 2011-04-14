@@ -3,7 +3,7 @@
 #include "pyproc.h"
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h"
+#include "optimisations/optimisation_fork.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
@@ -54,7 +54,7 @@ void attack_move_generator_optimise_orthodox_mating(slice_index si,
     else
     {
       slice_index const proxy = alloc_proxy_slice();
-      slice_index const fork = alloc_orthodox_mating_move_fork_slice(proxy);
+      slice_index const fork = alloc_optimisation_fork_slice(proxy,1);
       slice_index const proxy2 = alloc_proxy_slice();
       pipe_append(slices[si].prev,fork);
       pipe_append(si,proxy2);

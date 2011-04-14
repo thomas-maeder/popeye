@@ -12,14 +12,11 @@
 
 /* Allocate a STHelpShortcut slice.
  * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param short_sols identifies slice to delegate to when looking for
  *                   short solutions
  * @return allocated slice
  */
-slice_index alloc_help_shortcut(stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index short_sols);
+slice_index alloc_help_shortcut(stip_length_type length, slice_index short_sols);
 
 /* Traverse a subtree
  * @param branch root slice of subtree
@@ -28,7 +25,7 @@ slice_index alloc_help_shortcut(stip_length_type length,
 void stip_traverse_structure_help_shortcut(slice_index si,
                                            stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a help shortcut slice 
+/* Traversal of the moves beyond a help shortcut slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

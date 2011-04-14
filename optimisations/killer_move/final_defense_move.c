@@ -4,8 +4,8 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/dead_end.h"
+#include "optimisations/optimisation_fork.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -85,7 +85,7 @@ void killer_move_optimise_final_defense_move(slice_index si,
     else
     {
       slice_index const proxy1 = alloc_proxy_slice();
-      slice_index const fork = alloc_defense_fork_slice(proxy1);
+      slice_index const fork = alloc_optimisation_fork_slice(proxy1,1);
       slice_index const proxy2 = alloc_proxy_slice();
 
       pipe_append(si,proxy2);

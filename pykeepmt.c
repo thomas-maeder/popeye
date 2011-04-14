@@ -542,7 +542,7 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STReflexAttackerFilter, &keepmating_filter_inserter_branch_fork },
   { STReflexDefenderFilter, &keepmating_filter_inserter_branch_fork },
   { STSelfDefense,          &keepmating_filter_inserter_branch_fork },
-  { STDefenseFork,          &keepmating_filter_inserter_branch_fork },
+  { STOptimisationFork,     &keepmating_filter_inserter_branch_fork },
   { STGoalReachedTesting,   &keepmating_filter_inserter_goal        }
 };
 

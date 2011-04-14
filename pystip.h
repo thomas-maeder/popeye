@@ -28,7 +28,6 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
@@ -113,7 +112,7 @@
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
-    ENUMERATOR(STOrthodoxMatingMoveFork),                               \
+    ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \
@@ -238,6 +237,15 @@ typedef struct
             stip_length_type min_length; /* half moves */
             slice_index towards_goal;
         } branch_fork;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index optimisation;
+            stip_length_type threshold; /* without slack */
+        } optimisation_fork;
 
         struct
         {

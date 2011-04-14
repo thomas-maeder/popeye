@@ -8,24 +8,20 @@
 
 /* Allocate a STHelpShortcut slice.
  * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @param short_sols identifies slice to delegate to when looking for
  *                   short solutions
  * @return allocated slice
  */
-slice_index alloc_help_shortcut(stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index short_sols)
+slice_index alloc_help_shortcut(stip_length_type length, slice_index short_sols)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",short_sols);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpShortcut,length,min_length);
+  result = alloc_branch(STHelpShortcut,length,0);
   slices[result].u.shortcut.short_sols = short_sols;
 
   TraceFunctionExit(__func__);

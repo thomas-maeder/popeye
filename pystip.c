@@ -22,7 +22,6 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -52,8 +51,8 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
+#include "optimisations/optimisation_fork.h"
 #include "optimisations/goals/enpassant/filter.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_move_fork.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -71,7 +70,6 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
@@ -147,7 +145,7 @@
     ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
-    ENUMERATOR(STOrthodoxMatingMoveFork),                               \
+    ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \
@@ -261,7 +259,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
-  slice_structure_fork,   /* STDefenseFork */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
@@ -337,7 +334,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
-  slice_structure_fork,   /* STOrthodoxMatingMoveFork */
+  slice_structure_fork,   /* STOptimisationFork */
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_pipe,   /* STKillerMoveAttackGenerator */
@@ -1668,7 +1665,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
   &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
-  &stip_traverse_structure_end_of_branch,   /* STDefenseFork */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
@@ -1744,7 +1740,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
-  &stip_traverse_structure_end_of_branch,     /* STOrthodoxMatingMoveFork */
+  &stip_traverse_structure_end_of_branch,   /* STOptimisationFork */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveAttackGenerator */
@@ -1897,7 +1893,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,         /* STReflexAttackerFilter */
     &stip_traverse_moves_end_of_branch,         /* STReflexDefenderFilter */
     &stip_traverse_moves_end_of_branch,         /* STSelfDefense */
-    &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
@@ -1973,7 +1968,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
-    &stip_traverse_moves_orthodox_mating_move_fork,           /* STOrthodoxMatingMoveFork */
+    &stip_traverse_moves_optimisation_fork,     /* STOptimisationFork */
     &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_pipe,                  /* STKillerMoveAttackGenerator */

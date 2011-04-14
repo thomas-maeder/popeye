@@ -86,7 +86,7 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
   {
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const root = alloc_help_root_slice(length,min_length);
-    slice_index const shortcut = alloc_help_shortcut(length,min_length,si);
+    slice_index const shortcut = alloc_help_shortcut(length,si);
     slice_index const copy = alloc_ready_for_help_move_slice(length,min_length);
 
     stip_traverse_structure_children(si,st);

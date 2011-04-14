@@ -54,7 +54,7 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
     pipe_set_successor(root,next);
   else
   {
-    slice_index const shortcut = alloc_series_shortcut(length,min_length,next);
+    slice_index const shortcut = alloc_series_shortcut(length,next);
     pipe_link(root,shortcut);
     stip_traverse_structure_children(si,st);
     assert(*root_slice!=no_slice);

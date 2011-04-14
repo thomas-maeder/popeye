@@ -228,8 +228,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSetplayFork:
       case STEndOfBranch:
       case STSelfDefense:
-      case STOrthodoxMatingMoveFork:
-      case STDefenseFork:
       case STHelpFork:
       case STSeriesFork:
       case STStipulationReflexAttackSolver:
@@ -238,6 +236,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.branch_fork.towards_goal,
+                                  done_slices);
+        break;
+
+      case STOptimisationFork:
+        Trace_pipe(si);
+        Trace_link("optimisation:",slices[si].u.optimisation_fork.optimisation,"");
+        fprintf(stdout,"threshold:%u\n",slices[si].u.optimisation_fork.threshold);
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.optimisation_fork.optimisation,
                                   done_slices);
         break;
 

@@ -14,13 +14,15 @@ stipulation/branch.h:
 stipulation/series_play/branch.h:
 stipulation/series_play/adapter$(OBJ_SUFFIX): stipulation/series_play/adapter.c \
  stipulation/series_play/adapter.h stipulation/branch.h \
- stipulation/series_play/play.h trace.h
+ stipulation/series_play/play.h pypipe.h trace.h
 
 stipulation/series_play/adapter.h:
 
 stipulation/branch.h:
 
 stipulation/series_play/play.h:
+
+pypipe.h:
 
 trace.h:
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
