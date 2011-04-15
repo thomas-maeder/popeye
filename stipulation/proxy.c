@@ -32,6 +32,7 @@ static boolean is_proxy(slice_index si)
   switch (slices[si].type)
   {
     case STProxy:
+    case STEndOfAdapter:
     case STEndOfRoot:
     case STThreatStart:
     case STReadyForAttack:

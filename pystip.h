@@ -57,6 +57,7 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \

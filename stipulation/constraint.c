@@ -771,8 +771,8 @@ void slice_insert_reflex_filters(slice_index si,
  * where the reflex stipulation might force the side at the move to
  * reach the goal
  */
-static void reflex_guards_inserter_help(slice_index si,
-                                        stip_structure_traversal *st)
+static void reflex_guards_inserter_help_adapter(slice_index si,
+                                                stip_structure_traversal *st)
 {
   init_param * const param = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -783,11 +783,39 @@ static void reflex_guards_inserter_help(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  /* in general, only one side is bound to deliver reflexmate */
+  /* only one side is bound to deliver reflexmate */
   if ((length-slack_length_help)%2==0)
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
     pipe_append(slices[si].prev,alloc_reflex_help_filter(proxy_to_avoided));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* In alternate play, insert a STReflexHelpFilter slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static void reflex_guards_inserter_help_move(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  /* only one side is bound to deliver reflexmate */
+  if ((length-slack_length_help)%2==1)
+  {
+    slice_index const proxy_to_avoided = param->avoided_defense;
+    slice_index const prototype = alloc_reflex_help_filter(proxy_to_avoided);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -819,13 +847,13 @@ static void reflex_guards_inserter_series(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STReadyForAttack,     &reflex_guards_inserter_defense     },
-  { STHelpAdapter,        &reflex_guards_inserter_help        },
-  { STReadyForHelpMove,   &reflex_guards_inserter_help        },
-  { STHelpFork,           &reflex_guards_inserter_branch_fork },
-  { STSeriesAdapter,      &reflex_guards_inserter_series      },
-  { STReadyForSeriesMove, &reflex_guards_inserter_series      },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork }
+  { STReadyForAttack,     &reflex_guards_inserter_defense      },
+  { STHelpAdapter,        &reflex_guards_inserter_help_adapter },
+  { STReadyForHelpMove,   &reflex_guards_inserter_help_move    },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork  },
+  { STSeriesAdapter,      &reflex_guards_inserter_series       },
+  { STReadyForSeriesMove, &reflex_guards_inserter_series       },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork  }
 };
 
 enum

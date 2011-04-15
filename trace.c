@@ -315,6 +315,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
+      case STEndOfAdapter:
       case STEndOfRoot:
       case STSelfCheckGuard:
       case STProxy:

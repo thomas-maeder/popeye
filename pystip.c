@@ -96,6 +96,7 @@
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
@@ -285,6 +286,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STSetplayFork */
+  slice_structure_pipe,   /* STEndOfAdapter */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_fork,   /* STEndOfBranch */
   slice_structure_pipe,   /* STGoalReachedTesting */
@@ -1691,6 +1693,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
+  &stip_traverse_structure_pipe,            /* STEndOfAdapter */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
@@ -1919,6 +1922,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
+    &stip_traverse_moves_pipe,                  /* STEndOfAdapter */
     &stip_traverse_moves_pipe,                  /* STEndOfRoot */
     &stip_traverse_moves_end_of_branch,         /* STEndOfBranch */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTesting */
