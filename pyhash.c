@@ -107,7 +107,6 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/ready_for_series_move.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -1937,8 +1936,7 @@ static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
   if (st->remaining+1<st->full_length
-      && st->remaining<=2
-      && !ready_for_series_move_is_move_dummy(si))
+      && st->remaining<=2)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;

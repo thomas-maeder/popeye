@@ -2392,6 +2392,50 @@ static char *ParseSerS(char *tok,
 static char *ParsePlay(char *tok,
                        slice_index root_slice_hook,
                        slice_index proxy,
+                       play_length_type play_length);
+
+static char *ParseHelpParrySeries(char *tok,
+                                  slice_index root_slice_hook,
+                                  slice_index proxy,
+                                  play_length_type play_length)
+{
+  char *result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParamListEnd();
+
+  result = ParsePlay(tok,root_slice_hook,proxy,play_length);
+  if (result!=0)
+  {
+    slice_index const next = slices[proxy].u.pipe.next;
+    slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
+    slice_index const dummy = branch_find_slice(STSeriesDummyMove,ready);
+    stip_length_type const length = slices[ready].u.branch.length;
+    stip_length_type const min_length = slices[ready].u.branch.min_length;
+    slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
+    slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
+
+    assert(ready!=no_slice);
+    assert(dummy!=no_slice);
+    pipe_link(ready_parrying,parrying);
+    convert_to_parry_series_branch(next,ready_parrying);
+    pipe_link(parrying,slices[dummy].u.pipe.next);
+    pipe_set_successor(dummy,ready);
+
+    set_output_mode(output_mode_line);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static char *ParsePlay(char *tok,
+                       slice_index root_slice_hook,
+                       slice_index proxy,
                        play_length_type play_length)
 {
   /* seriesmovers with introductory moves */
@@ -2604,54 +2648,14 @@ static char *ParsePlay(char *tok,
   }
 
   else if (strncmp("phser-",tok,6) == 0)
-  {
-    result = ParsePlay(tok+2,root_slice_hook,proxy,play_length); /* skip over ph */
-    if (result!=0)
-    {
-      slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
-      slice_index const dummy = branch_find_slice(STSeriesDummyMove,ready);
-      if (dummy!=no_slice)
-      {
-        slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,dummy);
-        stip_length_type const length = slices[ready].u.branch.length;
-        stip_length_type const min_length = slices[ready].u.branch.min_length;
-        slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
-        slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
-        pipe_link(ready_parrying,parrying);
-        convert_to_parry_series_branch(next,ready_parrying);
-        pipe_link(parrying,slices[dummy].u.pipe.next);
-        pipe_set_successor(dummy,ready2);
-
-        set_output_mode(output_mode_line);
-      }
-    }
-  }
+    result = ParseHelpParrySeries(tok+2, /* skip over ph */
+                                  root_slice_hook,proxy,
+                                  play_length);
 
   else if (strncmp("pser-h",tok,6) == 0)
-  {
-    result = ParsePlay(tok+1,root_slice_hook,proxy,play_length);
-    if (result!=0)
-    {
-      slice_index const next = slices[proxy].u.pipe.next;
-      assert(branch_find_slice(STSeriesFork,proxy)!=no_slice);
-
-      {
-        slice_index const ready = branch_find_slice(STReadyForSeriesMove,next);
-        slice_index const dummy = branch_find_slice(STSeriesDummyMove,ready);
-        stip_length_type const length = slices[ready].u.branch.length;
-        stip_length_type const min_length = slices[ready].u.branch.min_length;
-        slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
-        slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
-        pipe_link(ready_parrying,parrying);
-        convert_to_parry_series_branch(next,ready_parrying);
-        pipe_link(parrying,slices[dummy].u.pipe.next);
-        pipe_set_successor(dummy,ready);
-
-        set_output_mode(output_mode_line);
-      }
-    }
-  }
+    result = ParseHelpParrySeries(tok+1,
+                                  root_slice_hook,proxy,
+                                  play_length);
 
   else if (strncmp("pser-",tok,5) == 0)
   {
@@ -2661,20 +2665,20 @@ static char *ParsePlay(char *tok,
     {
       slice_index const next = slices[proxy].u.pipe.next;
       slice_index const dummy = branch_find_slice(STSeriesDummyMove,next);
-      if (dummy!=no_slice)
-      {
-        stip_length_type const length = slack_length_battle+2;
-        stip_length_type const min_length = slack_length_battle+2;
-        slice_index const adapter = alloc_series_adapter_slice(length-slack_length_battle+slack_length_series-1,
-                                                               min_length-slack_length_battle+slack_length_series-1);
-        slice_index const defense_branch = alloc_defense_branch(adapter,
-                                                                length,
-                                                                min_length);
-        convert_to_parry_series_branch(next,defense_branch);
-        pipe_link(adapter,slices[dummy].u.pipe.next);
+      stip_length_type const length = slack_length_battle+2;
+      stip_length_type const min_length = slack_length_battle+2;
+      stip_length_type const length_ser = length-slack_length_battle+slack_length_series;
+      stip_length_type const min_length_ser = min_length-slack_length_battle+slack_length_series;
+      slice_index const adapter = alloc_series_adapter_slice(length_ser-1,
+                                                             min_length_ser-1);
+      slice_index const defense_branch = alloc_defense_branch(adapter,
+                                                              length,
+                                                              min_length);
 
-        set_output_mode(output_mode_line);
-      }
+      assert(dummy!=no_slice);
+      convert_to_parry_series_branch(next,defense_branch);
+      pipe_link(adapter,slices[dummy].u.pipe.next);
+      set_output_mode(output_mode_line);
     }
   }
 

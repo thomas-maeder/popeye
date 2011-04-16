@@ -23,9 +23,4 @@ slice_index alloc_ready_for_series_move_slice(stip_length_type length,
 void ready_for_series_move_make_root(slice_index si,
                                      stip_structure_traversal *st);
 
-/* Is it a dummy move that we are ready for?
- * @param si identifies slice
- */
-boolean ready_for_series_move_is_move_dummy(slice_index si);
-
 #endif

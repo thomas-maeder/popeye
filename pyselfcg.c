@@ -452,15 +452,16 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STReadyForAttack,     &insert_selfcheck_guard_battle_branch },
-  { STDefenseAdapter,     &insert_selfcheck_guard_battle_branch },
-  { STReadyForDefense,    &insert_selfcheck_guard_battle_branch },
-  { STReadyForHelpMove,   &insert_selfcheck_guard_help_branch   },
-  { STReadyForSeriesMove, &insert_selfcheck_guard_series_branch },
+  { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
+  { STDefenseAdapter,          &insert_selfcheck_guard_battle_branch },
+  { STReadyForDefense,         &insert_selfcheck_guard_battle_branch },
+  { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
+  { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
+  { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
   /* make sure that the set play is instumented */
-  { STSetplayFork,        &insert_selfcheck_guard_setplay_fork  },
+  { STSetplayFork,             &insert_selfcheck_guard_setplay_fork  },
   /* parry fork already tests for check */
-  { STParryFork,          &stip_traverse_structure_pipe         }
+  { STParryFork,               &stip_traverse_structure_pipe         }
 };
 
 enum

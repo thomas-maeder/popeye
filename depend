@@ -814,10 +814,9 @@ pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
  DHT/fxf.h DHT/dht.h pyproof.h pystip.h stipulation/battle_play/branch.h \
  pystip.h stipulation/help_play/branch.h stipulation/help_play/play.h \
  stipulation/series_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/ready_for_series_move.h pynontrv.h \
- stipulation/battle_play/defense_play.h stipulation/branch.h pypipe.h \
- pyslice.h pyoutput.h pytable.h platform/maxtime.h platform/maxmem.h \
- trace.h
+ pynontrv.h stipulation/battle_play/defense_play.h stipulation/branch.h \
+ pypipe.h pyslice.h pyoutput.h pytable.h platform/maxtime.h \
+ platform/maxmem.h trace.h
 
 py.h:
 
@@ -882,8 +881,6 @@ stipulation/help_play/play.h:
 stipulation/series_play/play.h:
 
 stipulation/series_play/branch.h:
-
-stipulation/series_play/ready_for_series_move.h:
 
 pynontrv.h:
 
@@ -1115,10 +1112,9 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  stipulation/battle_play/attack_play.h pyslice.h pymsg.h pyint.h pydata.h \
  pyslice.h pystip.h stipulation/help_play/branch.h pystip.h \
  stipulation/help_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/play.h \
- stipulation/series_play/ready_for_series_move.h pybrafrk.h pyproof.h \
- pypipe.h pyintslv.h pymovenb.h stipulation/battle_play/defense_play.h \
- stipulation/branch.h optimisations/intelligent/help_filter.h \
+ stipulation/series_play/play.h pybrafrk.h pyproof.h pypipe.h pyintslv.h \
+ pymovenb.h stipulation/battle_play/defense_play.h stipulation/branch.h \
+ optimisations/intelligent/help_filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
@@ -1178,8 +1174,6 @@ stipulation/help_play/play.h:
 stipulation/series_play/branch.h:
 
 stipulation/series_play/play.h:
-
-stipulation/series_play/ready_for_series_move.h:
 
 pybrafrk.h:
 
@@ -1795,10 +1789,10 @@ pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h stipulation/battle_play/attack_play
  stipulation/battle_play/defense_play.h \
  stipulation/battle_play/dead_end.h stipulation/help_play/branch.h \
  stipulation/series_play/branch.h py.h stipulation/series_play/play.h \
- stipulation/series_play/ready_for_series_move.h pypipe.h pystip.h \
- stipulation/goals/goals.h boolean.h pyenum.h py.h boolean.h pyposit.h \
- pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pybrafrk.h \
- pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
+ pypipe.h pystip.h stipulation/goals/goals.h boolean.h pyenum.h py.h \
+ boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
+ pyslice.h pybrafrk.h pydata.h pyproc.h py4.h stipulation/proxy.h \
+ pypipe.h trace.h
 
 pyreflxg.h:
 
@@ -1833,8 +1827,6 @@ stipulation/series_play/branch.h:
 py.h:
 
 stipulation/series_play/play.h:
-
-stipulation/series_play/ready_for_series_move.h:
 
 pypipe.h:
 

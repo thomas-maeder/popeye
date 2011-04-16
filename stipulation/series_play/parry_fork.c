@@ -105,17 +105,15 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   TraceStipulation(si);
 
   {
-    slice_index const ready1 = branch_find_slice(STReadyForSeriesMove,si);
-    slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,ready1);
-    slice_index const parry_fork = alloc_parry_fork(ready2);
+    slice_index const ready = branch_find_slice(STReadyForSeriesDummyMove,si);
+    slice_index const parry_fork = alloc_parry_fork(ready);
 
-    assert(ready1!=no_slice);
-    assert(ready2!=no_slice);
+    assert(ready!=no_slice);
 
-    pipe_link(slices[ready2].prev,parry_fork);
+    pipe_link(slices[ready].prev,parry_fork);
     pipe_link(parry_fork,parrying);
 
-    slice_set_predecessor(ready2,no_slice);
+    slice_set_predecessor(ready,no_slice);
   }
 
   TraceFunctionExit(__func__);

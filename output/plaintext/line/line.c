@@ -76,9 +76,9 @@ static void instrument_series_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* if we start another "real" series branch, si is part of an intro
-   * series; restart move counting after forking */
-  if (branch_find_slice(STSeriesFork,to_goal)!=no_slice)
+  /* if we start another series branch, si is part of an intro series;
+   * restart move counting after forking */
+  if (branch_find_slice(STSeriesAdapter,to_goal)!=no_slice)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();

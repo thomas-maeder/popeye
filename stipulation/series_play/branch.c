@@ -18,7 +18,6 @@
 #include <assert.h>
 
 /* Order in which the slice types dealing with series moves appear
- * STSeriesFork is not mentioned because it has a variable rank.
  */
 static slice_index const series_slice_rank_order[] =
 {
@@ -29,18 +28,17 @@ static slice_index const series_slice_rank_order[] =
   STIntelligentSeriesFilter,
   STSeriesShortcut,
 
+  STEndOfAdapter,
+
   STReadyForSeriesMove,
   STSeriesHashed,
-  STSeriesFork,
+  STSeriesFork, /* optimisation fork */
   STSeriesHashed,
-  STParryFork,
-  STDefenseAdapter,
   STDoubleMateFilter,
   STCounterMateFilter,
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
-  STSeriesDummyMove,
   STSeriesMove,
   STSeriesMoveToGoal,
   STMaxTimeSeriesFilter,
@@ -53,11 +51,18 @@ static slice_index const series_slice_rank_order[] =
   STEndOfRoot,
   STGoalReachedTesting,
   STSelfCheckGuard,
-  STReflexSeriesFilter,
 
-  STSeriesFork,
+  STSeriesFork, /* end of branch */
+
+  STParryFork,
+  STDefenseAdapter,
+
+  STReadyForSeriesDummyMove,
   STSeriesDummyMove,
-  STSelfCheckGuard
+  STGoalReachableGuardSeriesFilter, /* only used in pser stipulations */
+  STSelfCheckGuard,
+
+  STReflexSeriesFilter
 };
 
 enum
@@ -304,21 +309,22 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
     slice_index const finder = alloc_series_find_shortest_slice(length,
                                                                 min_length);
+    slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready = alloc_ready_for_series_move_slice(length,
                                                                 min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const ready2 = alloc_ready_for_series_move_slice(length-1,
-                                                                 min_length-1);
+    slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
     slice_index const dummy = alloc_series_dummy_move_slice();
 
     result = adapter;
     pipe_link(adapter,finder);
-    pipe_set_successor(finder,ready);
+    pipe_set_successor(finder,end);
 
+    pipe_link(end,ready);
     pipe_link(ready,move);
     pipe_link(move,ready2);
     pipe_link(ready2,dummy);
-    pipe_link(dummy,ready);
+    pipe_link(dummy,end);
   }
 
   TraceFunctionExit(__func__);
@@ -364,11 +370,9 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   assert(slices[si].type==STSeriesAdapter);
 
   {
-    slice_index const ready1 = branch_find_slice(STReadyForSeriesMove,si);
-    slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,ready1);
-    assert(ready1!=no_slice);
-    assert(ready2!=no_slice);
-    pipe_append(slices[ready2].prev,alloc_series_fork_slice(next));
+    slice_index const ready = branch_find_slice(STReadyForSeriesDummyMove,si);
+    assert(ready!=no_slice);
+    pipe_append(slices[ready].prev,alloc_series_fork_slice(next));
   }
 
   TraceFunctionExit(__func__);

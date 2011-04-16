@@ -9,7 +9,6 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
-#include "stipulation/series_play/ready_for_series_move.h"
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -826,8 +825,29 @@ static void reflex_guards_inserter_help_move(slice_index si,
  * the reflex stipulation might force the side at the move to reach
  * the goal
  */
-static void reflex_guards_inserter_series(slice_index si,
-                                          stip_structure_traversal *st)
+static void reflex_guards_inserter_series_adapter(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->avoided_defense;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_reflex_series_filter(proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* In series play, insert a STReflexSeriesFilter slice before a slice where
+ * the reflex stipulation might force the side at the move to reach
+ * the goal
+ */
+static void reflex_guards_inserter_series_move(slice_index si,
+                                               stip_structure_traversal *st)
 {
   init_param * const param = st->param;
   slice_index const proxy_to_avoided = param->avoided_defense;
@@ -838,8 +858,10 @@ static void reflex_guards_inserter_series(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (!ready_for_series_move_is_move_dummy(si))
-    pipe_append(slices[si].prev,alloc_reflex_series_filter(proxy_to_avoided));
+  {
+    slice_index const prototype = alloc_reflex_series_filter(proxy_to_avoided);
+    series_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -847,13 +869,13 @@ static void reflex_guards_inserter_series(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STReadyForAttack,     &reflex_guards_inserter_defense      },
-  { STHelpAdapter,        &reflex_guards_inserter_help_adapter },
-  { STReadyForHelpMove,   &reflex_guards_inserter_help_move    },
-  { STHelpFork,           &reflex_guards_inserter_branch_fork  },
-  { STSeriesAdapter,      &reflex_guards_inserter_series       },
-  { STReadyForSeriesMove, &reflex_guards_inserter_series       },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork  }
+  { STReadyForAttack,     &reflex_guards_inserter_defense        },
+  { STHelpAdapter,        &reflex_guards_inserter_help_adapter   },
+  { STReadyForHelpMove,   &reflex_guards_inserter_help_move      },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork    },
+  { STSeriesAdapter,      &reflex_guards_inserter_series_adapter },
+  { STReadyForSeriesMove, &reflex_guards_inserter_series_move    },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork    }
 };
 
 enum

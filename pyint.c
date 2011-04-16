@@ -23,7 +23,6 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
-#include "stipulation/series_play/ready_for_series_move.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
@@ -2922,7 +2921,6 @@ void goalreachable_guards_inserter_series_move(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (!ready_for_series_move_is_move_dummy(si))
   {
     slice_index const prototype = alloc_goalreachable_guard_series_filter();
     series_branch_insert_slices(si,&prototype,1);

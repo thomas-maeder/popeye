@@ -53,35 +53,3 @@ void ready_for_series_move_make_root(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Is it a dummy move that we are ready for?
- * @param si identifies slice
- */
-boolean ready_for_series_move_is_move_dummy(slice_index si)
-{
-  boolean result = false;
-  slice_index current = si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  do
-  {
-    assert(slices[current].type!=STLeaf);
-    if (slices[current].type==STSeriesDummyMove)
-    {
-      result = true;
-      break;
-    }
-    else if (slices[current].type==STSeriesMove)
-      break;
-    else
-      current = slices[current].u.pipe.next;
-  } while (current!=si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
