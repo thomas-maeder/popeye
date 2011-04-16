@@ -2089,7 +2089,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     }
 
     case STHelpFork:
-    case STSeriesFork:
     {
       slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
       result = detect_meaning_of_whitetoplay(to_goal);

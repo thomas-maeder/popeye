@@ -9,6 +9,7 @@
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/find_shortest.h"
+#include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
@@ -32,7 +33,7 @@ static slice_index const series_slice_rank_order[] =
 
   STReadyForSeriesMove,
   STSeriesHashed,
-  STSeriesFork, /* optimisation fork */
+  STSeriesFork,
   STSeriesHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
@@ -52,7 +53,7 @@ static slice_index const series_slice_rank_order[] =
   STGoalReachedTesting,
   STSelfCheckGuard,
 
-  STSeriesFork, /* end of branch */
+  STEndOfSeriesBranch,
 
   STParryFork,
   STDefenseAdapter,
@@ -158,7 +159,8 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
             battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
-          else if (slices[next].type==STSeriesFork)
+          else if (slices[next].type==STSeriesFork
+                   || slices[next].type==STEndOfSeriesBranch)
             series_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                                   prototypes,nr_prototypes,
                                                   base);
@@ -372,7 +374,7 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   {
     slice_index const ready = branch_find_slice(STReadyForSeriesDummyMove,si);
     assert(ready!=no_slice);
-    pipe_append(slices[ready].prev,alloc_series_fork_slice(next));
+    pipe_append(slices[ready].prev,alloc_end_of_series_branch_slice(next));
   }
 
   TraceFunctionExit(__func__);

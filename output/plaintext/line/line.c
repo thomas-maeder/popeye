@@ -67,8 +67,8 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_series_fork(slice_index si,
-                                   stip_structure_traversal *st)
+static void instrument_end_of_series_branch(slice_index si,
+                                            stip_structure_traversal *st)
 {
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -94,7 +94,7 @@ static void instrument_series_fork(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,         &instrument_series_fork          },
+  { STEndOfSeriesBranch,  &instrument_end_of_series_branch },
   { STGoalReachedTesting, &instrument_goal_reached_testing },
   { STMoveInverter,       &instrument_move_inverter        },
   { STHelpRoot,           &instrument_root                 },

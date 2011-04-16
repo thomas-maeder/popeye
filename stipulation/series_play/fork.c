@@ -29,40 +29,6 @@ slice_index alloc_series_fork_slice(slice_index to_goal)
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_fork_make_setplay(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (get_max_nr_moves(slices[si].u.branch_fork.towards_goal)>0)
-  {
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index * const setplay_slice = st->param;
-    *setplay_slice = alloc_series_adapter_slice(slack_length_series,
-                                                slack_length_series);
-    pipe_link(*setplay_slice,alloc_series_fork_slice(to_goal));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_series_fork(slice_index branch,
-                                         stip_structure_traversal *st)
-{
-  stip_traverse_structure_pipe(branch,st);
-  stip_traverse_structure(slices[branch].u.branch_fork.towards_goal,st);
-}
-
 /* Traversal of the moves beyond a series fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -73,9 +39,9 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
-    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
-  else if (st->remaining==1)
+  assert(st->remaining>0);
+
+  if (st->remaining==1)
     stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
@@ -104,40 +70,12 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_series);
+  assert(n>slack_length_series);
 
-  switch (n)
-  {
-    case slack_length_series:
-      switch (slice_solve(to_goal))
-      {
-        case has_solution:
-          result = n;
-          break;
-
-        case has_no_solution:
-          result = n+1;
-          break;
-
-        case opponent_self_check:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
-      break;
-
-    case slack_length_series+1:
-      result = series_solve_in_n(to_goal,n);
-      break;
-
-    default:
-      result = series_solve_in_n(next,n);
-      break;
-  }
+  if (n==slack_length_series+1)
+    result = series_solve_in_n(to_goal,n);
+  else
+    result = series_solve_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -166,40 +104,12 @@ stip_length_type series_fork_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_series);
+  assert(n>slack_length_series);
 
-  switch (n)
-  {
-    case slack_length_series:
-      switch (slice_has_solution(to_goal))
-      {
-        case has_solution:
-          result = n;
-          break;
-
-        case has_no_solution:
-          result = n+1;
-          break;
-
-        case opponent_self_check:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
-      break;
-
-    case slack_length_series+1:
-      result = series_has_solution_in_n(to_goal,n);
-      break;
-
-    default:
-      result = series_has_solution_in_n(next,n);
-      break;
-  }
+  if (n==slack_length_series+1)
+    result = series_has_solution_in_n(to_goal,n);
+  else
+    result = series_has_solution_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

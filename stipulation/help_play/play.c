@@ -72,7 +72,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = help_move_to_goal_solve_in_n(si,n);
       break;
 
-    case STSeriesFork:
     case STSeriesMove:
     case STSeriesHashed:
     {

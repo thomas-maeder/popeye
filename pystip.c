@@ -48,6 +48,7 @@
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/series_play/shortcut.h"
+#include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
@@ -93,6 +94,7 @@
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
+    ENUMERATOR(STEndOfSeriesBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
@@ -284,6 +286,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
+  slice_structure_fork,   /* STEndOfSeriesBranch */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
@@ -1082,7 +1085,6 @@ static structure_traversers_visitors to_quodlibet_transformers[] =
 {
   { STReadyForAttack,       &insert_direct_guards                },
   { STHelpFork,             &transform_to_quodlibet_branch_fork  },
-  { STSeriesFork,           &transform_to_quodlibet_branch_fork  },
   { STNot,                  &stip_structure_visitor_noop         },
   { STReflexDefenderFilter, &transform_to_quodlibet_semi_reflex  },
   { STSelfDefense,          &transform_to_quodlibet_self_defense }
@@ -1237,7 +1239,7 @@ static structure_traversers_visitors setplay_makers[] =
   { STHelpMove,             &help_move_make_setplay_slice                    },
 
   { STSeriesDummyMove,      &stip_structure_visitor_noop                     },
-  { STSeriesFork,           &series_fork_make_setplay                        },
+  { STEndOfSeriesBranch,    &end_of_series_branch_make_setplay               },
 
   { STReflexDefenderFilter, &reflex_guard_defender_filter_make_setplay_slice }
 };
@@ -1693,7 +1695,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
-  &stip_traverse_structure_series_fork,     /* STSeriesFork */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfSeriesBranch */
+  &stip_traverse_structure_end_of_branch,   /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
@@ -1923,6 +1926,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
     &stip_traverse_moves_pipe,                  /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                  /* STReadyForSeriesDummyMove */
+    &stip_traverse_moves_end_of_series_branch,  /* STEndOfSeriesBranch */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */

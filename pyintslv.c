@@ -34,6 +34,7 @@ boolean intelligent_solvable_root_solve_in_n(slice_index si,
       result = help_solve_in_n(si,n)<=n;
       break;
 
+    case STEndOfSeriesBranch:
     case STSeriesFork:
     case STSeriesShortcut:
     case STSeriesMove:

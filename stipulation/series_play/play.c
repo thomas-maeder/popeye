@@ -6,6 +6,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "stipulation/battle_play/defense_adapter.h"
+#include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/root.h"
@@ -98,6 +99,10 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
 
     case STSeriesFork:
       result = series_fork_solve_in_n(si,n);
+      break;
+
+    case STEndOfSeriesBranch:
+      result = end_of_series_branch_series_in_n(si,n);
       break;
 
     case STSeriesHashed:
@@ -253,6 +258,10 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STSeriesFork:
       result = series_fork_has_solution_in_n(si,n);
+      break;
+
+    case STEndOfSeriesBranch:
+      result = end_of_series_branch_has_series_in_n(si,n);
       break;
 
     case STSeriesHashed:

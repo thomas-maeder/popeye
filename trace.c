@@ -227,6 +227,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STSetplayFork:
       case STEndOfBranch:
+      case STEndOfSeriesBranch:
       case STSelfDefense:
       case STHelpFork:
       case STSeriesFork:

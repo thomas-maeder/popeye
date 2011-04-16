@@ -1229,10 +1229,11 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/root.h stipulation/series_play/find_shortest.h \
  stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
- stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
- stipulation/series_play/parry_fork.h stipulation/proxy.h \
- optimisations/optimisation_fork.h optimisations/goals/enpassant/filter.h \
- trace.h
+ stipulation/series_play/shortcut.h \
+ stipulation/series_play/end_of_branch.h stipulation/series_play/play.h \
+ stipulation/series_play/fork.h stipulation/series_play/parry_fork.h \
+ stipulation/proxy.h optimisations/optimisation_fork.h \
+ optimisations/goals/enpassant/filter.h trace.h
 
 pystip.h:
 
@@ -1377,6 +1378,10 @@ stipulation/series_play/move.h:
 stipulation/series_play/move_to_goal.h:
 
 stipulation/series_play/shortcut.h:
+
+stipulation/series_play/end_of_branch.h:
+
+stipulation/series_play/play.h:
 
 stipulation/series_play/fork.h:
 

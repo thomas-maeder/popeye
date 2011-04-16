@@ -31,7 +31,8 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/proxy.h stipulation/battle_play/branch.h \
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/adapter.h \
- stipulation/series_play/find_shortest.h stipulation/series_play/fork.h \
+ stipulation/series_play/find_shortest.h \
+ stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
  stipulation/series_play/shortcut.h trace.h
 
@@ -56,6 +57,8 @@ stipulation/series_play/ready_for_series_move.h:
 stipulation/series_play/adapter.h:
 
 stipulation/series_play/find_shortest.h:
+
+stipulation/series_play/end_of_branch.h:
 
 stipulation/series_play/fork.h:
 
@@ -154,6 +157,22 @@ stipulation/series_play/play.h:
 pypipe.h:
 
 trace.h:
+stipulation/series_play/end_of_branch$(OBJ_SUFFIX): \
+ stipulation/series_play/end_of_branch.c \
+ stipulation/series_play/end_of_branch.h pybrafrk.h pypipe.h \
+ stipulation/branch.h stipulation/series_play/adapter.h trace.h
+
+stipulation/series_play/end_of_branch.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/adapter.h:
+
+trace.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
  stipulation/series_play/fork.h pybrafrk.h stipulation/branch.h \
  stipulation/series_play/branch.h stipulation/series_play/play.h \
@@ -213,7 +232,8 @@ trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/play.h stipulation/help_play/play.h pyhash.h \
  pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h \
- stipulation/battle_play/defense_adapter.h stipulation/series_play/fork.h \
+ stipulation/battle_play/defense_adapter.h \
+ stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/series_play/root.h \
  stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
  stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
@@ -242,6 +262,8 @@ pyselfcg.h:
 pymovenb.h:
 
 stipulation/battle_play/defense_adapter.h:
+
+stipulation/series_play/end_of_branch.h:
 
 stipulation/series_play/fork.h:
 

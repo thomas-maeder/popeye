@@ -713,7 +713,6 @@ static structure_traversers_visitors reflex_guards_inserters[] =
   { STReadyForAttack,     &reflex_guards_inserter_defense     },
   { STReadyForDefense,    &reflex_guards_inserter_attack      },
   { STHelpFork,           &reflex_guards_inserter_branch_fork },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork },
   { STGoalReachedTesting, &stip_structure_visitor_noop        }
 };
 
@@ -874,8 +873,7 @@ static structure_traversers_visitors reflex_guards_inserters_semi[] =
   { STReadyForHelpMove,   &reflex_guards_inserter_help_move      },
   { STHelpFork,           &reflex_guards_inserter_branch_fork    },
   { STSeriesAdapter,      &reflex_guards_inserter_series_adapter },
-  { STReadyForSeriesMove, &reflex_guards_inserter_series_move    },
-  { STSeriesFork,         &reflex_guards_inserter_branch_fork    }
+  { STReadyForSeriesMove, &reflex_guards_inserter_series_move    }
 };
 
 enum
