@@ -10,9 +10,10 @@
  */
 
 /* Allocate a STIntelligentSeriesFilter slice.
+ * @apram full_length full length (half-moves) of branch
  * @return allocated slice
  */
-slice_index alloc_intelligent_series_filter(void);
+slice_index alloc_intelligent_series_filter(stip_length_type full_length);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index of slice being solved

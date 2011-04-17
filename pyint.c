@@ -26,7 +26,6 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
-#include "pyintslv.h"
 #include "pymovenb.h"
 #include "stipulation/branch.h"
 #include "optimisations/intelligent/help_filter.h"
@@ -80,6 +79,42 @@ static slice_index current_start_slice;
 static boolean solutions_found;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
+
+/* Solve a slice in exactly n moves at root level
+ * @param si slice index
+ * @param n exact number of moves
+ * @return true iff >= 1 solution was found
+ */
+static boolean find_solutions_in_n(stip_length_type n)
+{
+  boolean result;
+  slice_index const next = slices[current_start_slice].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  switch (slices[current_start_slice].type)
+  {
+    case STIntelligentHelpFilter:
+      result = help_solve_in_n(next,n)<=n;
+      break;
+
+    case STIntelligentSeriesFilter:
+      result = series_solve_in_n(next,n)<=n;
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static boolean guards(square bk, piece p, square sq)
 {
@@ -659,7 +694,7 @@ static void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+    if (find_solutions_in_n(n))
       solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
@@ -896,7 +931,7 @@ static void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+    if (find_solutions_in_n(n))
       solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
@@ -2574,7 +2609,7 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
   if (n<full_length)
     OptFlag[movenbr] = false;
 
-  if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+  if (find_solutions_in_n(n))
     solutions_found = true;
 
   OptFlag[movenbr] = save_movenbr;
@@ -3017,7 +3052,8 @@ static void intelligent_guards_inserter_help(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_intelligent_help_filter();
+    stip_length_type const length = slices[si].u.branch.length;
+    slice_index const prototype = alloc_intelligent_help_filter(length);
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -3033,7 +3069,8 @@ static void intelligent_guards_inserter_series(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_intelligent_series_filter();
+    stip_length_type const length = slices[si].u.branch.length;
+    slice_index const prototype = alloc_intelligent_series_filter(length);
     series_branch_insert_slices(si,&prototype,1);
   }
 
@@ -3043,7 +3080,7 @@ static void intelligent_guards_inserter_series(slice_index si,
 
 static structure_traversers_visitors intelligent_filter_inserters[] =
 {
-  { STHelpRoot,      &intelligent_guards_inserter_help   },
+  { STHelpAdapter,   &intelligent_guards_inserter_help   },
   { STSeriesAdapter, &intelligent_guards_inserter_series }
 };
 
@@ -3159,7 +3196,7 @@ static boolean series_too_short(stip_length_type n)
 boolean IntelligentSeries(slice_index si, stip_length_type n)
 {
   boolean result;
-  stip_length_type const full_length = slices[si].u.shortcut.length;
+  stip_length_type const full_length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

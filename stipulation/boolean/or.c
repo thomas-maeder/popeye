@@ -3,7 +3,6 @@
 #include "pypipe.h"
 #include "pyproc.h"
 #include "pyoutput.h"
-#include "pyintslv.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 

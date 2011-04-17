@@ -1,22 +1,24 @@
 #include "optimisations/intelligent/series_filter.h"
 #include "pyint.h"
-#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STIntelligentSeriesFilter slice.
+ * @apram full_length full length (half-moves) of branch
  * @return allocated slice
  */
-slice_index alloc_intelligent_series_filter(void)
+slice_index alloc_intelligent_series_filter(stip_length_type full_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STIntelligentSeriesFilter);
+  result = alloc_branch(STIntelligentSeriesFilter,full_length,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,7 +45,7 @@ stip_length_type intelligent_series_filter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = IntelligentSeries(slices[si].u.pipe.next,n) ? n : n+1;
+  result = IntelligentSeries(si,n) ? n : n+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

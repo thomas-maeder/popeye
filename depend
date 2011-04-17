@@ -1064,56 +1064,14 @@ output/plaintext/line/move_inversion_counter.h:
 output/plaintext/line/line.h:
 
 trace.h:
-pyintslv$(OBJ_SUFFIX): pyintslv.c pyintslv.h pystip.h stipulation/goals/goals.h \
- boolean.h py.h pyenum.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
- pypiece.h pyenum.h pylang.h stipulation/help_play/play.h pystip.h \
- stipulation/series_play/play.h pyslice.h trace.h
-
-pyintslv.h:
-
-pystip.h:
-
-stipulation/goals/goals.h:
-
-boolean.h:
-
-py.h:
-
-pyenum.h:
-
-py.h:
-
-boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
-
-stipulation/help_play/play.h:
-
-pystip.h:
-
-stipulation/series_play/play.h:
-
-pyslice.h:
-
-trace.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pyenum.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h pyslice.h pymsg.h pyint.h pydata.h \
  pyslice.h pystip.h stipulation/help_play/branch.h pystip.h \
  stipulation/help_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/play.h pybrafrk.h pyproof.h pypipe.h pyintslv.h \
- pymovenb.h stipulation/battle_play/defense_play.h stipulation/branch.h \
+ stipulation/series_play/play.h pybrafrk.h pyproof.h pypipe.h pymovenb.h \
+ stipulation/battle_play/defense_play.h stipulation/branch.h \
  optimisations/intelligent/help_filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/intelligent/duplicate_avoider.h \
@@ -1180,8 +1138,6 @@ pybrafrk.h:
 pyproof.h:
 
 pypipe.h:
-
-pyintslv.h:
 
 pymovenb.h:
 
@@ -2298,8 +2254,8 @@ trace.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pyposit.h pyboard.h \
  pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
  stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h pyproc.h \
- py4.h pyoutput.h pytable.h pyintslv.h \
- stipulation/battle_play/attack_play.h pyslice.h trace.h
+ py4.h pyoutput.h pytable.h stipulation/battle_play/attack_play.h \
+ pyslice.h trace.h
 
 pyquodli.h:
 
@@ -2340,8 +2296,6 @@ py4.h:
 pyoutput.h:
 
 pytable.h:
-
-pyintslv.h:
 
 stipulation/battle_play/attack_play.h:
 

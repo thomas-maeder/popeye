@@ -279,6 +279,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STVariationWriter:
       case STMinLengthAttackFilter:
       case STMinLengthGuard:
+      case STIntelligentSeriesFilter:
+      case STIntelligentHelpFilter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
@@ -396,8 +398,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextTreeDecorationWriter:
       case STGoalReachableGuardSeriesFilter:
       case STGoalReachableGuardHelpFilter:
-      case STIntelligentSeriesFilter:
-      case STIntelligentHelpFilter:
       case STCastlingFilter:
       case STEnPassantFilter:
       case STCheckDetector:
