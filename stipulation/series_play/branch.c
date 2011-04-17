@@ -42,12 +42,12 @@ static slice_index const series_slice_rank_order[] =
   STPrerequisiteOptimiser,
   STSeriesMove,
   STSeriesMoveToGoal,
-  STMaxTimeSeriesFilter,
-  STMaxSolutionsSeriesFilter,
+  STMaxTimeGuard,
+  STMaxSolutionsGuard,
   STStopOnShortSolutionsFilter,
   STRestartGuard,
   STKeepMatingFilter,
-  STGoalReachableGuardSeriesFilter,
+  STGoalReachableGuardFilter,
   STEndOfRoot,
   STGoalReachedTesting,
   STSelfCheckGuard,
@@ -59,7 +59,7 @@ static slice_index const series_slice_rank_order[] =
 
   STReadyForSeriesDummyMove,
   STSeriesDummyMove,
-  STGoalReachableGuardSeriesFilter, /* only used in pser stipulations */
+  STGoalReachableGuardFilter, /* only used in pser stipulations */
   STSelfCheckGuard,
 
   STReflexSeriesFilter

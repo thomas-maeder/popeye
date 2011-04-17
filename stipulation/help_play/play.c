@@ -19,8 +19,8 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/help_filter.h"
-#include "optimisations/maxtime/help_filter.h"
-#include "optimisations/maxsolutions/help_filter.h"
+#include "options/maxtime.h"
+#include "optimisations/maxsolutions/guard.h"
 #include "optimisations/stoponshortsolutions/filter.h"
 #include "trace.h"
 
@@ -95,7 +95,7 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = intelligent_help_filter_help(si,n);
       break;
 
-    case STGoalReachableGuardHelpFilter:
+    case STGoalReachableGuardFilter:
       result = goalreachable_guard_help(si,n);
       break;
 
@@ -107,12 +107,12 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = restart_guard_help(si,n);
       break;
 
-    case STMaxTimeHelpFilter:
-      result = maxtime_help_filter_help(si,n);
+    case STMaxTimeGuard:
+      result = maxtime_guard_help(si,n);
       break;
 
-    case STMaxSolutionsHelpFilter:
-      result = maxsolutions_help_filter_help(si,n);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_help(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
@@ -229,7 +229,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = keepmating_filter_can_help(si,n);
       break;
 
-    case STGoalReachableGuardHelpFilter:
+    case STGoalReachableGuardFilter:
       result = goalreachable_guard_can_help(si,n);
       break;
 
@@ -237,12 +237,12 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = selfcheck_guard_can_help(si,n);
       break;
 
-    case STMaxTimeHelpFilter:
-      result = maxtime_help_filter_can_help(si,n);
+    case STMaxTimeGuard:
+      result = maxtime_guard_can_help(si,n);
       break;
 
-    case STMaxSolutionsHelpFilter:
-      result = maxsolutions_help_filter_can_help(si,n);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_can_help(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:

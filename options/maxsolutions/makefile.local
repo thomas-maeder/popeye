@@ -1,13 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = maxsolutions.c \
-	root_solvable_filter.c solvable_filter.c \
-	root_defender_filter.c \
-	help_filter.c series_filter.c
+CFILES = maxsolutions.c initialiser.c guard.c
 
-INCLUDES = maxsolutions.h \
-	root_solvable_filter.h solvable_filter.h \
-	root_defender_filter.h \
-	help_filter.h series_filter.h
+INCLUDES = maxsolutions.h initialiser.h guard.h
 
 include makefile.rules $(CURRPWD)depend

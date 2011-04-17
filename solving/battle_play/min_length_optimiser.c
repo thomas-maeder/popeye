@@ -1,15 +1,15 @@
-#include "stipulation/battle_play/min_length_attack_filter.h"
+#include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STMinLengthAttackFilter defender slice.
+/* Allocate a STMinLengthOptimiser defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
-                                                 stip_length_type min_length)
+slice_index alloc_min_length_optimiser_slice(stip_length_type length,
+                                             stip_length_type min_length)
 {
   slice_index result;
 
@@ -18,7 +18,7 @@ slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMinLengthAttackFilter,length,min_length);
+  result = alloc_branch(STMinLengthOptimiser,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -37,9 +37,9 @@ slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_attack_filter_can_attack(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+min_length_optimiser_can_attack(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -75,9 +75,9 @@ min_length_attack_filter_can_attack(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_attack_filter_attack(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+min_length_optimiser_attack(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;

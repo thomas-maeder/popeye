@@ -11,7 +11,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/dead_end.h \
- stipulation/battle_play/min_length_attack_filter.h trace.h
+ stipulation/battle_play/min_length_optimiser.h trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -43,7 +43,7 @@ stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/dead_end.h:
 
-stipulation/battle_play/min_length_attack_filter.h:
+stipulation/battle_play/min_length_optimiser.h:
 
 trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
@@ -115,7 +115,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/threat.h stipulation/battle_play/try.h \
  stipulation/battle_play/postkeyplay.h stipulation/battle_play/dead_end.h \
- stipulation/battle_play/min_length_attack_filter.h \
+ stipulation/battle_play/min_length_optimiser.h \
  stipulation/battle_play/min_length_guard.h \
  stipulation/series_play/adapter.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
@@ -177,7 +177,7 @@ stipulation/battle_play/postkeyplay.h:
 
 stipulation/battle_play/dead_end.h:
 
-stipulation/battle_play/min_length_attack_filter.h:
+stipulation/battle_play/min_length_optimiser.h:
 
 stipulation/battle_play/min_length_guard.h:
 
@@ -300,10 +300,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/root.h \
  stipulation/help_play/play.h optimisations/optimisation_fork.h \
  optimisations/killer_move/final_defense_move.h \
- optimisations/killer_move/collector.h \
- optimisations/maxsolutions/root_defender_filter.h \
- optimisations/maxtime/defender_filter.h \
- optimisations/goals/enpassant/filter.h \
+ optimisations/killer_move/collector.h optimisations/maxsolutions/guard.h \
+ options/maxtime.h optimisations/goals/enpassant/filter.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
@@ -365,9 +363,9 @@ optimisations/killer_move/final_defense_move.h:
 
 optimisations/killer_move/collector.h:
 
-optimisations/maxsolutions/root_defender_filter.h:
+optimisations/maxsolutions/guard.h:
 
-optimisations/maxtime/defender_filter.h:
+options/maxtime.h:
 
 optimisations/goals/enpassant/filter.h:
 
@@ -485,12 +483,12 @@ pypipe.h:
 stipulation/battle_play/branch.h:
 
 trace.h:
-stipulation/battle_play/min_length_attack_filter$(OBJ_SUFFIX): \
- stipulation/battle_play/min_length_attack_filter.c \
- stipulation/battle_play/min_length_attack_filter.h stipulation/branch.h \
+stipulation/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
+ stipulation/battle_play/min_length_optimiser.c \
+ stipulation/battle_play/min_length_optimiser.h stipulation/branch.h \
  stipulation/battle_play/attack_play.h trace.h
 
-stipulation/battle_play/min_length_attack_filter.h:
+stipulation/battle_play/min_length_optimiser.h:
 
 stipulation/branch.h:
 

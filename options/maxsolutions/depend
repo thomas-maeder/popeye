@@ -3,11 +3,8 @@ optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX): \
  optimisations/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/series_play/branch.h \
- optimisations/maxsolutions/root_solvable_filter.h \
- optimisations/maxsolutions/solvable_filter.h \
- optimisations/maxsolutions/root_defender_filter.h \
- optimisations/maxsolutions/help_filter.h \
- optimisations/maxsolutions/series_filter.h trace.h
+ optimisations/maxsolutions/initialiser.h \
+ optimisations/maxsolutions/guard.h trace.h
 
 optimisations/maxsolutions/maxsolutions.h:
 
@@ -21,82 +18,30 @@ stipulation/help_play/branch.h:
 
 stipulation/series_play/branch.h:
 
-optimisations/maxsolutions/root_solvable_filter.h:
+optimisations/maxsolutions/initialiser.h:
 
-optimisations/maxsolutions/solvable_filter.h:
-
-optimisations/maxsolutions/root_defender_filter.h:
-
-optimisations/maxsolutions/help_filter.h:
-
-optimisations/maxsolutions/series_filter.h:
+optimisations/maxsolutions/guard.h:
 
 trace.h:
-optimisations/maxsolutions/root_solvable_filter$(OBJ_SUFFIX): \
- optimisations/maxsolutions/root_solvable_filter.c \
- optimisations/maxsolutions/root_solvable_filter.h \
+optimisations/maxsolutions/initialiser$(OBJ_SUFFIX): \
+ optimisations/maxsolutions/initialiser.c \
+ optimisations/maxsolutions/initialiser.h \
  optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
 
-optimisations/maxsolutions/root_solvable_filter.h:
+optimisations/maxsolutions/initialiser.h:
 
 optimisations/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 
 trace.h:
-optimisations/maxsolutions/solvable_filter$(OBJ_SUFFIX): \
- optimisations/maxsolutions/solvable_filter.c \
- optimisations/maxsolutions/solvable_filter.h \
+optimisations/maxsolutions/guard$(OBJ_SUFFIX): optimisations/maxsolutions/guard.c \
+ optimisations/maxsolutions/guard.h \
  optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
 
-optimisations/maxsolutions/solvable_filter.h:
+optimisations/maxsolutions/guard.h:
 
 optimisations/maxsolutions/maxsolutions.h:
-
-pypipe.h:
-
-trace.h:
-optimisations/maxsolutions/root_defender_filter$(OBJ_SUFFIX): \
- optimisations/maxsolutions/root_defender_filter.c \
- optimisations/maxsolutions/root_defender_filter.h \
- optimisations/maxsolutions/maxsolutions.h pypipe.h \
- stipulation/battle_play/defense_play.h trace.h
-
-optimisations/maxsolutions/root_defender_filter.h:
-
-optimisations/maxsolutions/maxsolutions.h:
-
-pypipe.h:
-
-stipulation/battle_play/defense_play.h:
-
-trace.h:
-optimisations/maxsolutions/help_filter$(OBJ_SUFFIX): \
- optimisations/maxsolutions/help_filter.c \
- optimisations/maxsolutions/help_filter.h \
- optimisations/maxsolutions/maxsolutions.h stipulation/help_play/play.h \
- pypipe.h trace.h
-
-optimisations/maxsolutions/help_filter.h:
-
-optimisations/maxsolutions/maxsolutions.h:
-
-stipulation/help_play/play.h:
-
-pypipe.h:
-
-trace.h:
-optimisations/maxsolutions/series_filter$(OBJ_SUFFIX): \
- optimisations/maxsolutions/series_filter.c \
- optimisations/maxsolutions/series_filter.h \
- optimisations/maxsolutions/maxsolutions.h stipulation/series_play/play.h \
- pypipe.h trace.h
-
-optimisations/maxsolutions/series_filter.h:
-
-optimisations/maxsolutions/maxsolutions.h:
-
-stipulation/series_play/play.h:
 
 pypipe.h:
 

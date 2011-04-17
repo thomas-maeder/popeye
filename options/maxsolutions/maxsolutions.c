@@ -4,11 +4,11 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
-#include "optimisations/maxsolutions/root_solvable_filter.h"
-#include "optimisations/maxsolutions/solvable_filter.h"
-#include "optimisations/maxsolutions/root_defender_filter.h"
-#include "optimisations/maxsolutions/help_filter.h"
-#include "optimisations/maxsolutions/series_filter.h"
+#include "optimisations/maxsolutions/initialiser.h"
+#include "optimisations/maxsolutions/guard.h"
+#include "optimisations/maxsolutions/guard.h"
+#include "optimisations/maxsolutions/guard.h"
+#include "optimisations/maxsolutions/guard.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -130,7 +130,7 @@ boolean max_nr_solutions_found_in_phase(void)
 }
 
 
-/* Insert STMaxSolutionsHelpFilter slices
+/* Insert STMaxSolutionsGuard slices
  */
 static void insert_maxsolutions_help_filter(slice_index si,
                                             stip_structure_traversal *st)
@@ -142,7 +142,7 @@ static void insert_maxsolutions_help_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_maxsolutions_help_filter();
+    slice_index const prototype = alloc_maxsolutions_guard_slice();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -150,7 +150,7 @@ static void insert_maxsolutions_help_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert STMaxSolutionsSeriesFilter slices
+/* Insert STMaxSolutionsGuard slices
  */
 static void insert_maxsolutions_series_filter(slice_index si,
                                               stip_structure_traversal *st)
@@ -162,7 +162,7 @@ static void insert_maxsolutions_series_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_maxsolutions_series_filter();
+    slice_index const prototype = alloc_maxsolutions_guard_slice();
     series_branch_insert_slices(si,&prototype,1);
   }
 
@@ -170,7 +170,7 @@ static void insert_maxsolutions_series_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert STMaxSolutionsRootDefenderFilter slices
+/* Insert STMaxSolutionsGuard slices
  */
 static
 void insert_maxsolutions_root_defender_filter(slice_index si,
@@ -183,7 +183,7 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_maxsolutions_root_defender_filter()
+      alloc_maxsolutions_guard_slice()
     };
     enum
     {
@@ -196,7 +196,7 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert STMaxSolutionsSolvableFilter slices
+/* Insert STMaxSolutionsGuard slices
  */
 static void insert_maxsolutions_solvable_filter(slice_index si,
                                                 stip_structure_traversal *st)
@@ -206,7 +206,7 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_maxsolutions_solvable_filter();
+    slice_index const prototype = alloc_maxsolutions_guard_slice();
     leaf_branch_insert_slices(si,&prototype,1);
   }
 
@@ -216,7 +216,7 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STMaxSolutionsRootDefenderFilter, &stip_structure_visitor_noop              },
+  { STMaxSolutionsGuard, &stip_structure_visitor_noop              },
   { STReadyForHelpMove,               &insert_maxsolutions_help_filter          },
   { STReadyForSeriesMove,             &insert_maxsolutions_series_filter        },
   { STAttackAdapter,                  &insert_maxsolutions_root_defender_filter },
@@ -246,7 +246,7 @@ void stip_insert_maxsolutions_filters(slice_index si)
   {
     slice_index const prototypes[] =
     {
-      alloc_maxsolutions_root_solvable_filter()
+      alloc_maxsolutions_initialiser_slice()
     };
     enum
     {

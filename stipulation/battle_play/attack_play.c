@@ -21,7 +21,7 @@
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/dead_end.h"
-#include "stipulation/battle_play/min_length_attack_filter.h"
+#include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -94,8 +94,8 @@ stip_length_type can_attack(slice_index si,
       result = battle_play_dead_end_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STMinLengthAttackFilter:
-      result = min_length_attack_filter_can_attack(si,n,n_max_unsolvable);
+    case STMinLengthOptimiser:
+      result = min_length_optimiser_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:
@@ -316,8 +316,8 @@ stip_length_type attack(slice_index si,
       result = battle_play_dead_end_attack(si,n,n_max_unsolvable);
       break;
 
-    case STMinLengthAttackFilter:
-      result = min_length_attack_filter_attack(si,n,n_max_unsolvable);
+    case STMinLengthOptimiser:
+      result = min_length_optimiser_attack(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:

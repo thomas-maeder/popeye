@@ -13,7 +13,7 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/dead_end.h"
-#include "stipulation/battle_play/min_length_attack_filter.h"
+#include "stipulation/battle_play/min_length_optimiser.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -27,7 +27,7 @@ static slice_index const slice_rank_order[] =
   STAttackAdapter,
   STReflexAttackerFilter,
   STReadyForAttack,
-  STMinLengthAttackFilter,
+  STMinLengthOptimiser,
   STCastlingFilter,
   STCounterMateFilter,
   STDoubleMateFilter,
@@ -41,8 +41,8 @@ static slice_index const slice_rank_order[] =
   STKillerMoveAttackGenerator,
   STOrthodoxMatingMoveGenerator,
   STAttackMove,
-  STMaxTimeDefenderFilter,
-  STMaxSolutionsRootDefenderFilter,
+  STMaxTimeGuard,
+  STMaxSolutionsGuard,
   STRestartGuard,
   STEndOfSolutionWriter,
   STThreatCollector,
@@ -418,7 +418,7 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     if (min_length>slack_length_battle+1)
       pipe_append(aready,
-                  alloc_min_length_attack_filter_slice(length,min_length));
+                  alloc_min_length_optimiser_slice(length,min_length));
 
     pipe_set_successor(adapter,aready);
 

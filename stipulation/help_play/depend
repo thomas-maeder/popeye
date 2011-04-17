@@ -190,9 +190,8 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/goals/prerequisite_optimiser.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h \
- optimisations/intelligent/help_filter.h \
- optimisations/maxtime/help_filter.h \
- optimisations/maxsolutions/help_filter.h \
+ optimisations/intelligent/help_filter.h options/maxtime.h \
+ optimisations/maxsolutions/guard.h \
  optimisations/stoponshortsolutions/filter.h trace.h
 
 stipulation/help_play/play.h:
@@ -237,9 +236,9 @@ optimisations/goals/castling/filter.h:
 
 optimisations/intelligent/help_filter.h:
 
-optimisations/maxtime/help_filter.h:
+options/maxtime.h:
 
-optimisations/maxsolutions/help_filter.h:
+optimisations/maxsolutions/guard.h:
 
 optimisations/stoponshortsolutions/filter.h:
 

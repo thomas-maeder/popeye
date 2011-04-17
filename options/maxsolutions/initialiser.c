@@ -1,19 +1,19 @@
-#include "optimisations/maxsolutions/root_solvable_filter.h"
+#include "optimisations/maxsolutions/initialiser.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "trace.h"
 
-/* Allocate a STMaxSolutionsRootSolvableFilter slice.
+/* Allocate a STMaxSolutionsInitialiser slice.
  * @return allocated slice
  */
-slice_index alloc_maxsolutions_root_solvable_filter(void)
+slice_index alloc_maxsolutions_initialiser_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxSolutionsRootSolvableFilter); 
+  result = alloc_pipe(STMaxSolutionsInitialiser); 
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -25,7 +25,7 @@ slice_index alloc_maxsolutions_root_solvable_filter(void)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type maxsolutions_root_solvable_filter_solve(slice_index si)
+has_solution_type maxsolutions_initialiser_solve(slice_index si)
 {
   has_solution_type result;
 

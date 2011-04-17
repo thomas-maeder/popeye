@@ -76,7 +76,7 @@
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
-    ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
+    ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
@@ -151,6 +151,9 @@
     ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
+    ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxSolutionsInitialiser), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
@@ -163,8 +166,7 @@
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
     ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
-    ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
-    ENUMERATOR(STGoalReachableGuardSeriesFilter), /* goal still reachable in intelligent mode? */ \
+    ENUMERATOR(STGoalReachableGuardFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
@@ -174,15 +176,6 @@
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
-    ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
-    ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \
-    ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsSolvableFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
     ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
@@ -269,7 +262,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_pipe,   /* STBattleDeadEnd */
-  slice_structure_branch, /* STMinLengthAttackFilter */
+  slice_structure_branch, /* STMinLengthOptimiser */
   slice_structure_branch, /* STHelpAdapter */
   slice_structure_branch, /* STHelpFindShortest */
   slice_structure_branch, /* STHelpRoot */
@@ -344,6 +337,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
+  slice_structure_pipe,   /* STMaxTimeGuard */
+  slice_structure_pipe,   /* STMaxSolutionsInitialiser */
+  slice_structure_pipe,   /* STMaxSolutionsGuard */
   slice_structure_fork,   /* STOptimisationFork */
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
@@ -356,8 +352,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesHashed */
   slice_structure_pipe,   /* STIntelligentHelpFilter */
   slice_structure_pipe,   /* STIntelligentSeriesFilter */
-  slice_structure_pipe,   /* STGoalReachableGuardHelpFilter */
-  slice_structure_pipe,   /* STGoalReachableGuardSeriesFilter */
+  slice_structure_pipe,   /* STGoalReachableGuardFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingFilter */
   slice_structure_pipe,   /* STMaxFlightsquares */
@@ -367,15 +362,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxThreatLengthHook */
-  slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
-  slice_structure_pipe,   /* STMaxTimeDefenderFilter */
-  slice_structure_pipe,   /* STMaxTimeHelpFilter */
-  slice_structure_pipe,   /* STMaxTimeSeriesFilter */
-  slice_structure_pipe,   /* STMaxSolutionsRootSolvableFilter */
-  slice_structure_pipe,   /* STMaxSolutionsSolvableFilter */
-  slice_structure_pipe,   /* STMaxSolutionsRootDefenderFilter */
-  slice_structure_pipe,   /* STMaxSolutionsHelpFilter */
-  slice_structure_pipe,   /* STMaxSolutionsSeriesFilter */
   slice_structure_pipe,   /* STStopOnShortSolutionsInitialiser */
   slice_structure_branch, /* STStopOnShortSolutionsFilter */
   slice_structure_pipe,   /* STAmuMateFilter */
@@ -1143,7 +1129,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackAdapter,                 &trash_for_postkey_play                        },
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
-  { STMinLengthAttackFilter,         &trash_for_postkey_play                        },
+  { STMinLengthOptimiser,         &trash_for_postkey_play                        },
   { STAttackMoveGenerator,           &trash_for_postkey_play                        },
   { STAttackMove,                    &trash_for_postkey_play                        },
   { STEndOfBranch,                   &end_of_branch_reduce_to_postkey_play          },
@@ -1664,7 +1650,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
-  &stip_traverse_structure_pipe,            /* STMinLengthAttackFilter */
+  &stip_traverse_structure_pipe,            /* STMinLengthOptimiser */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
   &stip_traverse_structure_pipe,            /* STHelpFindShortest */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
@@ -1739,6 +1725,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,            /* STNoShortVariations */
   &stip_traverse_structure_pipe,            /* STRestartGuard */
+  &stip_traverse_structure_pipe,            /* STMaxTimeGuard */
+  &stip_traverse_structure_pipe,            /* STMaxSolutionsInitialiser */
+  &stip_traverse_structure_pipe,            /* STMaxSolutionsGuard */
   &stip_traverse_structure_end_of_branch,   /* STOptimisationFork */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
@@ -1751,8 +1740,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesHashed */
   &stip_traverse_structure_pipe,            /* STIntelligentHelpFilter */
   &stip_traverse_structure_pipe,            /* STIntelligentSeriesFilter */
-  &stip_traverse_structure_pipe,            /* STGoalReachableGuardHelpFilter */
-  &stip_traverse_structure_pipe,            /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STGoalReachableGuardFilter */
   &stip_traverse_structure_pipe,            /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,            /* STKeepMatingFilter */
   &stip_traverse_structure_pipe,            /* STMaxFlightsquares */
@@ -1762,15 +1750,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,            /* STMaxThreatLength */
   &stip_traverse_structure_pipe,            /* STMaxThreatLengthHook */
-  &stip_traverse_structure_pipe,            /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STMaxTimeDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STMaxTimeHelpFilter */
-  &stip_traverse_structure_pipe,            /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_pipe,            /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STMaxSolutionsSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STMaxSolutionsRootDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STMaxSolutionsHelpFilter */
-  &stip_traverse_structure_pipe,            /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsInitialiser */
   &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsFilter */
   &stip_traverse_structure_pipe,            /* STAmuMateFilter */
@@ -1896,7 +1875,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
-    &stip_traverse_moves_pipe,                  /* STMinLengthAttackFilter */
+    &stip_traverse_moves_pipe,                  /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,    /* STHelpAdapter */
     &stip_traverse_moves_pipe,                  /* STHelpFindShortest */
     &stip_traverse_moves_pipe,                  /* STHelpRoot */
@@ -1971,6 +1950,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,                  /* STNoShortVariations */
     &stip_traverse_moves_pipe,                  /* STRestartGuard */
+    &stip_traverse_moves_pipe,                  /* STMaxTimeGuard */
+    &stip_traverse_moves_pipe,                  /* STMaxSolutionsInitialiser */
+    &stip_traverse_moves_pipe,                  /* STMaxSolutionsGuard */
     &stip_traverse_moves_optimisation_fork,     /* STOptimisationFork */
     &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
@@ -1983,8 +1965,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STSeriesHashed */
     &stip_traverse_moves_pipe,                  /* STIntelligentHelpFilter */
     &stip_traverse_moves_pipe,                  /* STIntelligentSeriesFilter */
-    &stip_traverse_moves_pipe,                  /* STGoalReachableGuardHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STGoalReachableGuardSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STGoalReachableGuardFilter */
     &stip_traverse_moves_pipe,                  /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,                  /* STKeepMatingFilter */
     &stip_traverse_moves_pipe,                  /* STMaxFlightsquares */
@@ -1994,15 +1975,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialCounter */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLength */
     &stip_traverse_moves_pipe,                  /* STMaxThreatLengthHook */
-    &stip_traverse_moves_pipe,                  /* STMaxTimeRootDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxTimeDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxTimeHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxTimeSeriesFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxSolutionsRootSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxSolutionsSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxSolutionsRootDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxSolutionsHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STMaxSolutionsSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsInitialiser */
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsFilter */
     &stip_traverse_moves_pipe,                  /* STAmuMateFilter */

@@ -2639,18 +2639,6 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static moves_traversers_visitors const moves_left_initialisers[] =
-{
-  { STGoalReachableGuardHelpFilter,   &moves_left_move },
-  { STGoalReachableGuardSeriesFilter, &moves_left_move }
-};
-
-enum
-{
-  nr_moves_left_initialisers
-  = (sizeof moves_left_initialisers / sizeof moves_left_initialisers[0])
-};
-
 /* Calculate the number of moves of each side, starting at the root
  * slice.
  * @param si identifies starting slice
@@ -2676,9 +2664,9 @@ static void init_moves_left(slice_index si,
 
   stip_moves_traversal_init(&st,&n);
   stip_moves_traversal_set_remaining(&st,n,full_length);
-  stip_moves_traversal_override(&st,
-                                moves_left_initialisers,
-                                nr_moves_left_initialisers);
+  stip_moves_traversal_override_single(&st,
+                                       STGoalReachableGuardFilter,
+                                       &moves_left_move);
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -2730,35 +2718,17 @@ static void init_goal_to_be_reached(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Initialise a STGoalReachableGuardHelpFilter slice
+/* Initialise a STGoalReachableGuardFilter slice
  * @return identifier of allocated slice
  */
-static slice_index alloc_goalreachable_guard_help_filter(void)
+static slice_index alloc_goalreachable_guard_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalReachableGuardHelpFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise a STGoalReachableGuardSeriesFilter slice
- * @return identifier of allocated slice
- */
-static slice_index alloc_goalreachable_guard_series_filter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STGoalReachableGuardSeriesFilter);
+  result = alloc_pipe(STGoalReachableGuardFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2935,7 +2905,7 @@ void goalreachable_guards_inserter_help_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_goalreachable_guard_help_filter();
+    slice_index const prototype = alloc_goalreachable_guard_filter();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -2954,7 +2924,7 @@ void goalreachable_guards_inserter_series_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_goalreachable_guard_series_filter();
+    slice_index const prototype = alloc_goalreachable_guard_filter();
     series_branch_insert_slices(si,&prototype,1);
   }
 
@@ -2973,7 +2943,7 @@ void goalreachable_guards_inserter_parry_fork(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_goalreachable_guard_series_filter();
+    slice_index const prototype = alloc_goalreachable_guard_filter();
     series_branch_insert_slices(slices[si].u.parry_fork.non_parrying,
                                 &prototype,1);
   }

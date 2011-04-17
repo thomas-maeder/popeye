@@ -25,8 +25,8 @@
 #include "optimisations/optimisation_fork.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
-#include "optimisations/maxsolutions/root_defender_filter.h"
-#include "optimisations/maxtime/defender_filter.h"
+#include "optimisations/maxsolutions/guard.h"
+#include "options/maxtime.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
@@ -145,12 +145,12 @@ stip_length_type defend(slice_index si,
       result = max_nr_noncheck_guard_defend(si,n,n_max_unsolvable);
       break;
 
-    case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_defend(si,n,n_max_unsolvable);
+    case STMaxTimeGuard:
+      result = maxtime_guard_defend(si,n,n_max_unsolvable);
       break;
 
-    case STMaxSolutionsRootDefenderFilter:
-      result = maxsolutions_root_defender_filter_defend(si,n,n_max_unsolvable);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STRestartGuard:
@@ -346,8 +346,8 @@ stip_length_type can_defend(slice_index si,
       result = max_nr_noncheck_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_can_defend(si,n,n_max_unsolvable);
+    case STMaxTimeGuard:
+      result = maxtime_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKeyWriter:

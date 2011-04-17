@@ -6,7 +6,7 @@ CFILES = branch.c \
 	attack_play.c ready_for_attack.c \
 	defense_adapter.c defense_move.c ready_for_defense.c \
   defense_play.c continuation.c check_detector.c threat.c try.c postkeyplay.c \
-	min_length_attack_filter.c min_length_guard.c end_of_branch.c dead_end.c \
+	min_length_optimiser.c min_length_guard.c end_of_branch.c dead_end.c \
   defense_move_generator.c
 
 INCLUDES = branch.h \
@@ -14,7 +14,7 @@ INCLUDES = branch.h \
 	attack_play.h ready_for_attack.h \
 	defense_adapter.h defense_move.h ready_for_defense.h \
 	defense_play.h continuation.h check_detector.h threat.h try.h postkeyplay.h \
-	min_length_attack_filter.h min_length_guard.h end_of_branch.h dead_end.h \
+	min_length_optimiser.h min_length_guard.h end_of_branch.h dead_end.h \
 	defense_move_generator.h
 
 include makefile.rules $(CURRPWD)depend

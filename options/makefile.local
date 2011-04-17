@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = maxtime.c
+
+INCLUDES = maxtime.h
+
+include makefile.rules $(CURRPWD)depend

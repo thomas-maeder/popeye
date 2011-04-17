@@ -20,8 +20,8 @@
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/series_filter.h"
-#include "optimisations/maxtime/series_filter.h"
-#include "optimisations/maxsolutions/series_filter.h"
+#include "options/maxtime.h"
+#include "optimisations/maxsolutions/guard.h"
 #include "optimisations/stoponshortsolutions/filter.h"
 #include "trace.h"
 
@@ -101,7 +101,7 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = intelligent_series_filter_series(si,n);
       break;
 
-    case STGoalReachableGuardSeriesFilter:
+    case STGoalReachableGuardFilter:
       result = goalreachable_guard_series(si,n);
       break;
 
@@ -113,12 +113,12 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = restart_guard_series(si,n);
       break;
 
-    case STMaxTimeSeriesFilter:
-      result = maxtime_series_filter_series(si,n);
+    case STMaxTimeGuard:
+      result = maxtime_guard_series(si,n);
       break;
 
-    case STMaxSolutionsSeriesFilter:
-      result = maxsolutions_series_filter_series(si,n);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_series(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
@@ -235,7 +235,7 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = keepmating_filter_has_series(si,n);
       break;
 
-    case STGoalReachableGuardSeriesFilter:
+    case STGoalReachableGuardFilter:
       result = goalreachable_guard_has_series(si,n);
       break;
 
@@ -247,12 +247,12 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = series_dummy_move_has_series(si,n);
       break;
 
-    case STMaxTimeSeriesFilter:
-      result = maxtime_series_filter_has_series(si,n);
+    case STMaxTimeGuard:
+      result = maxtime_guard_has_series(si,n);
       break;
 
-    case STMaxSolutionsSeriesFilter:
-      result = maxsolutions_series_filter_has_series(si,n);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_has_series(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:

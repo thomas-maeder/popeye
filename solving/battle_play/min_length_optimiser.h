@@ -12,8 +12,8 @@
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
-                                                 stip_length_type min_length);
+slice_index alloc_min_length_optimiser_slice(stip_length_type length,
+                                             stip_length_type min_length);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -26,9 +26,9 @@ slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_attack_filter_can_attack(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable);
+min_length_optimiser_can_attack(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -41,9 +41,8 @@ min_length_attack_filter_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-min_length_attack_filter_attack(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable);
+stip_length_type min_length_optimiser_attack(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable);
 
 #endif

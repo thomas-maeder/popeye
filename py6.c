@@ -145,7 +145,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
-#include "optimisations/maxtime/maxtime.h"
+#include "options/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #ifdef _SE_
@@ -2817,7 +2817,7 @@ static Token iterate_twins(Token prev_token)
         stip_insert_restart_guards(template_slice_hook);
 
       if (dealWithMaxtime())
-        stip_insert_maxtime_filters(template_slice_hook);
+        stip_insert_maxtime_guards(template_slice_hook);
 
       if (OptFlag[maxsols])
         stip_insert_maxsolutions_filters(template_slice_hook);

@@ -32,7 +32,7 @@
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
-    ENUMERATOR(STMinLengthAttackFilter), /* don't even try attacks in less than min_length moves */ \
+    ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
@@ -115,6 +115,9 @@
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
+    ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     /* slices implementing optimisations */                             \
     ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
@@ -128,8 +131,7 @@
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
     ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
-    ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
-    ENUMERATOR(STGoalReachableGuardSeriesFilter), /* goal still reachable in intelligent mode? */ \
+    ENUMERATOR(STGoalReachableGuardFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
@@ -139,15 +141,6 @@
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
-    ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
-    ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \
-    ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsSolvableFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
     ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \

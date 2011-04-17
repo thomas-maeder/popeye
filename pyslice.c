@@ -45,8 +45,8 @@
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
-#include "optimisations/maxsolutions/root_solvable_filter.h"
-#include "optimisations/maxsolutions/solvable_filter.h"
+#include "optimisations/maxsolutions/initialiser.h"
+#include "optimisations/maxsolutions/guard.h"
 #include "optimisations/stoponshortsolutions/initialiser.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -199,12 +199,12 @@ has_solution_type slice_solve(slice_index si)
       result = selfcheck_guard_solve(si);
       break;
 
-    case STMaxSolutionsRootSolvableFilter:
-      result = maxsolutions_root_solvable_filter_solve(si);
+    case STMaxSolutionsInitialiser:
+      result = maxsolutions_initialiser_solve(si);
       break;
 
-    case STMaxSolutionsSolvableFilter:
-      result = maxsolutions_solvable_filter_solve(si);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_solve(si);
       break;
 
     case STStopOnShortSolutionsInitialiser:
@@ -435,8 +435,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = intelligent_duplicate_avoider_has_solution(si);
       break;
 
-    case STMaxSolutionsSolvableFilter:
-      result = maxsolutions_solvable_filter_has_solution(si);
+    case STMaxSolutionsGuard:
+      result = maxsolutions_guard_has_solution(si);
       break;
 
     case STOutputPlaintextTreeGoalWriter:

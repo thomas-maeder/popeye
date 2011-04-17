@@ -277,7 +277,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesHashed:
       case STStopOnShortSolutionsFilter:
       case STVariationWriter:
-      case STMinLengthAttackFilter:
+      case STMinLengthOptimiser:
       case STMinLengthGuard:
       case STIntelligentSeriesFilter:
       case STIntelligentHelpFilter:
@@ -340,15 +340,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STZugzwangWriter:
       case STRestartGuard:
       case STIntelligentDuplicateAvoider:
-      case STMaxTimeRootDefenderFilter:
-      case STMaxTimeDefenderFilter:
-      case STMaxTimeHelpFilter:
-      case STMaxTimeSeriesFilter:
-      case STMaxSolutionsRootSolvableFilter:
-      case STMaxSolutionsSolvableFilter:
-      case STMaxSolutionsRootDefenderFilter:
-      case STMaxSolutionsHelpFilter:
-      case STMaxSolutionsSeriesFilter:
+      case STMaxTimeGuard:
+      case STMaxTimeGuard:
+      case STMaxTimeGuard:
+      case STMaxSolutionsInitialiser:
+      case STMaxSolutionsGuard:
       case STStopOnShortSolutionsInitialiser:
       case STMaxNrNonChecks:
       case STMaxNrNonTrivial:
@@ -396,8 +392,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
       case STOutputPlaintextTreeCheckWriter:
       case STOutputPlaintextTreeDecorationWriter:
-      case STGoalReachableGuardSeriesFilter:
-      case STGoalReachableGuardHelpFilter:
+      case STGoalReachableGuardFilter:
       case STCastlingFilter:
       case STEnPassantFilter:
       case STCheckDetector:
