@@ -40,6 +40,7 @@
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
+    ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \

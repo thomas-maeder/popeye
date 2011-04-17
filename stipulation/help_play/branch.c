@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/find_shortest.h"
+#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
@@ -11,7 +12,6 @@
 #include <limits.h>
 
 /* Order in which the slice types dealing with help moves appear
- * STHelpFork is not mentioned because it has a variable rank.
  */
 static slice_index const help_slice_rank_order[] =
 {
@@ -23,7 +23,7 @@ static slice_index const help_slice_rank_order[] =
   STHelpShortcut,
 
   STEndOfAdapter,
-  STHelpFork,
+
   STReadyForHelpMove,
   STHelpHashed,
   STHelpFork,
@@ -38,14 +38,14 @@ static slice_index const help_slice_rank_order[] =
   STMaxTimeHelpFilter,
   STMaxSolutionsHelpFilter,
   STStopOnShortSolutionsFilter,
-  STKeepMatingFilter,
-  STPiecesParalysingMateFilter,
   STRestartGuard,
+  STKeepMatingFilter,
   STGoalReachableGuardHelpFilter,
   STEndOfRoot,
   STGoalReachedTesting,
   STSelfCheckGuard,
-  STReflexHelpFilter
+  STReflexHelpFilter,
+  STEndOfHelpBranch
 };
 
 enum
@@ -137,7 +137,8 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
             leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
-          else if (slices[next].type==STHelpFork)
+          else if (slices[next].type==STHelpFork
+                   || slices[next].type==STEndOfHelpBranch)
             help_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                                 prototypes,nr_prototypes,
                                                 base);
@@ -397,7 +398,7 @@ void help_branch_set_next_slice(slice_index si,
 
   {
     slice_index const pos = find_fork_pos(si,n);
-    pipe_append(slices[pos].prev,alloc_help_fork_slice(next));
+    pipe_append(slices[pos].prev,alloc_end_of_help_branch_slice(next));
   }
 
   TraceFunctionExit(__func__);

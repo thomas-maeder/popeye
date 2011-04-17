@@ -1,4 +1,4 @@
-#include "stipulation/help_play/fork.h"
+#include "stipulation/help_play/end_of_branch.h"
 #include "pybrafrk.h"
 #include "trace.h"
 
@@ -7,11 +7,11 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STHelpFork slice.
+/* Allocate a STEndOfHelpBranch slice.
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_help_fork_slice(slice_index to_goal)
+slice_index alloc_end_of_help_branch_slice(slice_index to_goal)
 {
   slice_index result;
 
@@ -19,7 +19,7 @@ slice_index alloc_help_fork_slice(slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STHelpFork,to_goal);
+  result = alloc_branch_fork(STEndOfHelpBranch,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,16 +31,14 @@ slice_index alloc_help_fork_slice(slice_index to_goal)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
+void stip_traverse_moves_end_of_help_branch(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->remaining>0);
-
-  if (st->remaining==1)
-    stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
+  if (st->remaining==0)
+    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
 
@@ -57,7 +55,8 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type end_of_help_branch_help_in_n(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -67,10 +66,28 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>=slack_length_help);
 
-  if (n==slack_length_help+1)
-    result = help_solve_in_n(to_goal,n);
+  if (n==slack_length_help)
+    switch (slice_solve(to_goal))
+    {
+      case has_solution:
+        result = n;
+        break;
+
+      case has_no_solution:
+        result = n+2;
+        break;
+
+      case opponent_self_check:
+        result = n+4;
+        break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
 
@@ -89,8 +106,8 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_fork_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+stip_length_type end_of_help_branch_can_help_in_n(slice_index si,
+                                                  stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -101,10 +118,28 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>=slack_length_help);
 
-  if (n==slack_length_help+1)
-    result = help_has_solution_in_n(to_goal,n);
+  if (n==slack_length_help)
+    switch (slice_has_solution(to_goal))
+    {
+      case has_solution:
+        result = n;
+        break;
+
+      case has_no_solution:
+        result = n+2;
+        break;
+
+      case opponent_self_check:
+        result = n+4;
+        break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
   else
     result = help_has_solution_in_n(next,n);
 

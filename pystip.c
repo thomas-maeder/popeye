@@ -39,6 +39,7 @@
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
+#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/ready_for_series_move.h"
@@ -82,6 +83,7 @@
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
+    ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
@@ -274,6 +276,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
   slice_structure_branch, /* STHelpMoveToGoal */
+  slice_structure_fork,   /* STEndOfHelpBranch */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_fork,   /* STReflexHelpFilter */
@@ -1067,24 +1070,9 @@ static void insert_direct_guards(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void transform_to_quodlibet_branch_fork(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* don't recurse towards goal */
-  stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
   { STReadyForAttack,       &insert_direct_guards                },
-  { STHelpFork,             &transform_to_quodlibet_branch_fork  },
   { STNot,                  &stip_structure_visitor_noop         },
   { STReflexDefenderFilter, &transform_to_quodlibet_semi_reflex  },
   { STSelfDefense,          &transform_to_quodlibet_self_defense }
@@ -1683,7 +1671,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
   &stip_traverse_structure_pipe,            /* STHelpMoveToGoal */
-  &stip_traverse_structure_help_fork,       /* STHelpFork */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfHelpBranch */
+  &stip_traverse_structure_end_of_branch,   /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_reflex_filter,   /* STReflexHelpFilter */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
@@ -1914,6 +1903,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_move_slice,            /* STHelpMove */
     &stip_traverse_moves_move_slice,            /* STHelpMoveToGoal */
+    &stip_traverse_moves_end_of_help_branch,    /* STEndOfHelpBranch */
     &stip_traverse_moves_help_fork,             /* STHelpFork */
     &stip_traverse_moves_pipe,                  /* STReadyForHelpMove */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */

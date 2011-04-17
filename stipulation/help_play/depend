@@ -14,7 +14,8 @@ trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h pypipe.h stipulation/branch.h \
  stipulation/help_play/adapter.h stipulation/help_play/find_shortest.h \
- stipulation/help_play/fork.h stipulation/help_play/move.h trace.h
+ stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
+ stipulation/help_play/move.h trace.h
 
 stipulation/help_play/branch.h:
 
@@ -25,6 +26,8 @@ stipulation/branch.h:
 stipulation/help_play/adapter.h:
 
 stipulation/help_play/find_shortest.h:
+
+stipulation/help_play/end_of_branch.h:
 
 stipulation/help_play/fork.h:
 
@@ -159,19 +162,21 @@ stipulation/branch.h:
 stipulation/proxy.h:
 
 trace.h:
+stipulation/help_play/end_of_branch$(OBJ_SUFFIX): \
+ stipulation/help_play/end_of_branch.c \
+ stipulation/help_play/end_of_branch.h pybrafrk.h trace.h
+
+stipulation/help_play/end_of_branch.h:
+
+pybrafrk.h:
+
+trace.h:
 stipulation/help_play/fork$(OBJ_SUFFIX): stipulation/help_play/fork.c \
- stipulation/help_play/fork.h pybrafrk.h stipulation/branch.h \
- stipulation/proxy.h stipulation/help_play/play.h trace.h
+ stipulation/help_play/fork.h pybrafrk.h trace.h
 
 stipulation/help_play/fork.h:
 
 pybrafrk.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
-
-stipulation/help_play/play.h:
 
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
@@ -180,7 +185,8 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/series_play/play.h stipulation/help_play/root.h \
  stipulation/help_play/find_shortest.h stipulation/help_play/move.h \
  stipulation/help_play/move_to_goal.h stipulation/help_play/shortcut.h \
- stipulation/help_play/fork.h stipulation/goals/countermate/filter.h \
+ stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
+ stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h \
@@ -219,6 +225,8 @@ stipulation/help_play/move.h:
 stipulation/help_play/move_to_goal.h:
 
 stipulation/help_play/shortcut.h:
+
+stipulation/help_play/end_of_branch.h:
 
 stipulation/help_play/fork.h:
 

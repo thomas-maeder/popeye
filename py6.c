@@ -2088,6 +2088,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
     }
 
+    case STEndOfHelpBranch:
     case STHelpFork:
     {
       slice_index const to_goal = slices[si].u.branch_fork.towards_goal;

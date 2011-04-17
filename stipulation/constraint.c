@@ -690,29 +690,10 @@ static void reflex_guards_inserter_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Prevent STReflex* slice insertion from recursing into the following
- * branch
- */
-static void reflex_guards_inserter_branch_fork(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* don't traverse .avoided! */
-  stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
   { STReadyForAttack,     &reflex_guards_inserter_defense     },
   { STReadyForDefense,    &reflex_guards_inserter_attack      },
-  { STHelpFork,           &reflex_guards_inserter_branch_fork },
   { STGoalReachedTesting, &stip_structure_visitor_noop        }
 };
 
@@ -871,7 +852,6 @@ static structure_traversers_visitors reflex_guards_inserters_semi[] =
   { STReadyForAttack,     &reflex_guards_inserter_defense        },
   { STHelpAdapter,        &reflex_guards_inserter_help_adapter   },
   { STReadyForHelpMove,   &reflex_guards_inserter_help_move      },
-  { STHelpFork,           &reflex_guards_inserter_branch_fork    },
   { STSeriesAdapter,      &reflex_guards_inserter_series_adapter },
   { STReadyForSeriesMove, &reflex_guards_inserter_series_move    }
 };

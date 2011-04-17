@@ -13,6 +13,7 @@
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
+#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -109,6 +110,10 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
         result = sol_length+slack_length_help-slack_length_battle;
       break;
     }
+
+    case STEndOfHelpBranch:
+      result = end_of_help_branch_help_in_n(si,n);
+      break;
 
     case STHelpFork:
       result = help_fork_solve_in_n(si,n);
@@ -246,6 +251,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STHelpShortcut:
       result = help_shortcut_has_solution_in_n(si,n);
+      break;
+
+    case STEndOfHelpBranch:
+      result = end_of_help_branch_can_help_in_n(si,n);
       break;
 
     case STHelpFork:
