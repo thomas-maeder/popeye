@@ -35,9 +35,9 @@ slice_index alloc_killer_move_attack_generator_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-killer_move_attack_generator_has_solution_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+killer_move_attack_generator_can_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Side const attacker = slices[si].starter;
@@ -51,7 +51,7 @@ killer_move_attack_generator_has_solution_in_n(slice_index si,
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   genmove(attacker);
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);

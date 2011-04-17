@@ -28,9 +28,9 @@ slice_index alloc_countermate_filter_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-countermate_attacker_filter_has_solution_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable);
+countermate_attacker_filter_can_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -44,7 +44,22 @@ countermate_attacker_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-countermate_attacker_filter_solve_in_n(slice_index si,
+countermate_attacker_filter_attack(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type
+countermate_defender_filter_can_defend(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable);
 
@@ -59,24 +74,9 @@ countermate_attacker_filter_solve_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-countermate_defender_filter_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable);
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-countermate_defender_filter_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+countermate_defender_filter_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -87,8 +87,7 @@ countermate_defender_filter_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type countermate_help_filter_solve_in_n(slice_index si,
-                                                    stip_length_type n);
+stip_length_type countermate_filter_help(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -99,8 +98,7 @@ stip_length_type countermate_help_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type countermate_help_filter_has_solution_in_n(slice_index si,
-                                                           stip_length_type n);
+stip_length_type countermate_filter_can_help(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -111,8 +109,7 @@ stip_length_type countermate_help_filter_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type countermate_series_filter_solve_in_n(slice_index si,
-                                                      stip_length_type n);
+stip_length_type countermate_filter_series(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -123,8 +120,7 @@ stip_length_type countermate_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-countermate_series_filter_has_solution_in_n(slice_index si,
-                                            stip_length_type n);
+stip_length_type countermate_filter_has_series(slice_index si,
+                                               stip_length_type n);
 
 #endif

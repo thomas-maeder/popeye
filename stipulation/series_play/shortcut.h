@@ -42,7 +42,7 @@ void stip_traverse_moves_series_shortcut(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_shortcut_solve_in_n(slice_index si,
+stip_length_type series_shortcut_series(slice_index si,
                                             stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
@@ -54,7 +54,6 @@ stip_length_type series_shortcut_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_shortcut_has_solution_in_n(slice_index si,
-                                                   stip_length_type n);
+stip_length_type series_shortcut_has_series(slice_index si, stip_length_type n);
 
 #endif

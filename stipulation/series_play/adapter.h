@@ -1,8 +1,7 @@
 #if !defined(STIPULATION_SERIES_PLAY_ADAPTER_H)
 #define STIPULATION_SERIES_PLAY_ADAPTER_H
 
-#include "py.h"
-#include "pyslice.h"
+#include "stipulation/series_play/play.h"
 
 /* This module provides functionality dealing with STSeriesAdapter
  * stipulation slices. STSeriesAdapter slices switch from general play to series
@@ -35,5 +34,34 @@ has_solution_type series_adapter_solve(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type series_adapter_has_solution(slice_index si);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type series_adapter_can_attack(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable);
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type series_adapter_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 #endif

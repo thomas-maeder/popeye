@@ -58,10 +58,9 @@ static boolean is_a_mating_piece_left(Side mating_side)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-keepmating_filter_attack_has_solution_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+stip_length_type keepmating_filter_can_attack(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -76,7 +75,7 @@ keepmating_filter_attack_has_solution_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
   else
     result = n+2;
 
@@ -97,10 +96,9 @@ keepmating_filter_attack_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-keepmating_filter_attack_solve_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+stip_length_type keepmating_filter_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -114,7 +112,7 @@ keepmating_filter_attack_solve_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
   else
     result = n+2;
 
@@ -138,9 +136,9 @@ keepmating_filter_attack_solve_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type keepmating_filter_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+stip_length_type keepmating_filter_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -155,7 +153,7 @@ stip_length_type keepmating_filter_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
   else
     result = n+4;
 
@@ -176,10 +174,9 @@ stip_length_type keepmating_filter_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-keepmating_filter_can_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type keepmating_filter_can_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -194,7 +191,7 @@ keepmating_filter_can_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
   else
     result = n+4;
 
@@ -213,8 +210,7 @@ keepmating_filter_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_filter_help_solve_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type keepmating_filter_help(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -227,7 +223,7 @@ stip_length_type keepmating_filter_help_solve_in_n(slice_index si,
   assert(n>=slack_length_help);
 
   if (is_a_mating_piece_left(mating))
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
   else
     result = n+2;
 
@@ -246,8 +242,7 @@ stip_length_type keepmating_filter_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_filter_help_has_solution_in_n(slice_index si,
-                                                          stip_length_type n)
+stip_length_type keepmating_filter_can_help(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -260,7 +255,7 @@ stip_length_type keepmating_filter_help_has_solution_in_n(slice_index si,
   assert(n>=slack_length_help);
 
   if (is_a_mating_piece_left(mating))
-    result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = can_help(slices[si].u.pipe.next,n);
   else
     result = n+2;
 
@@ -279,8 +274,7 @@ stip_length_type keepmating_filter_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_filter_series_solve_in_n(slice_index si,
-                                                     stip_length_type n)
+stip_length_type keepmating_filter_series(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -293,7 +287,7 @@ stip_length_type keepmating_filter_series_solve_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (is_a_mating_piece_left(mating))
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series(slices[si].u.pipe.next,n);
   else
     result = n+1;
 
@@ -312,8 +306,8 @@ stip_length_type keepmating_filter_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type keepmating_filter_series_has_solution_in_n(slice_index si,
-                                                            stip_length_type n)
+stip_length_type keepmating_filter_has_series(slice_index si,
+                                              stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
@@ -326,7 +320,7 @@ stip_length_type keepmating_filter_series_has_solution_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (is_a_mating_piece_left(mating))
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = has_series(slices[si].u.pipe.next,n);
   else
     result = n+1;
 

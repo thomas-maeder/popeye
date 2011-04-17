@@ -80,7 +80,7 @@ static boolean is_threat_too_long(slice_index si,
   TraceFunctionParamListEnd();
 
   result = (n_max
-            <attack_has_solution_in_n(to_attacker,n_max-1,n_max_unsolvable-1));
+            <can_attack(to_attacker,n_max-1,n_max_unsolvable-1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -131,10 +131,9 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-maxthreatlength_guard_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type maxthreatlength_guard_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
@@ -146,13 +145,13 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==n_max_unsolvable)
-    result = defense_defend_in_n(next,n,n);
+    result = defend(next,n,n);
   else
   {
     /* we already know whether the attack move has delivered check, so
        let's deal with that first */
     if (attack_gives_check[nbply])
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
+      result = defend(next,n,n_max_unsolvable);
     else if (max_len_threat==0)
       result = n+4;
     else
@@ -163,11 +162,11 @@ maxthreatlength_guard_defend_in_n(slice_index si,
         if (is_threat_too_long(si,n,n_max))
           result = n+4;
         else
-          result = defense_defend_in_n(next,n,n_max_unsolvable);
+          result = defend(next,n,n_max_unsolvable);
       }
       else
         /* remainder of play is too short for max_len_threat to apply */
-        result = defense_defend_in_n(next,n,n_max_unsolvable);
+        result = defend(next,n,n_max_unsolvable);
     }
   }
 
@@ -207,7 +206,7 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
   if (max_len_threat==0)
   {
     if (echecc(nbply,slices[si].starter))
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
+      result = defend(next,n,n_max_unsolvable);
     else
       result = n+4;
   }
@@ -217,15 +216,15 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
     if (n>=n_max)
     {
       if (echecc(nbply,slices[si].starter))
-        result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+        result = can_defend(next,n,n_max_unsolvable);
       else if (is_threat_too_long(si,n,n_max))
         result = n+4;
       else
-        result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+        result = can_defend(next,n,n_max_unsolvable);
     }
     else
       /* remainder of play is too short for max_len_threat to apply */
-      result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+      result = can_defend(next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);

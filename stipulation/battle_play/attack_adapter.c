@@ -1,6 +1,5 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -73,7 +72,7 @@ has_solution_type attack_adapter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = attack_has_solution_in_n(next,length,min_length-1);
+  nr_moves_needed = can_attack(next,length,min_length-1);
   if (nr_moves_needed<slack_length_battle)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
@@ -103,7 +102,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = attack_solve_in_n(next,length,min_length-1);
+  nr_moves_needed = attack(next,length,min_length-1);
   if (nr_moves_needed==slack_length_battle-2)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
@@ -113,6 +112,45 @@ has_solution_type attack_adapter_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type attack_adapter_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
+  stip_length_type const n_max_unsolvable = slack_length_battle-1;
+  stip_length_type attack_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  attack_length = can_attack(next,nbattle,n_max_unsolvable);
+  if (attack_length<slack_length_battle)
+    result = n+4;
+  else if (attack_length<=nbattle)
+  {
+    result = n;
+    attack(next,nbattle,n_max_unsolvable);
+  }
+  else
+    result = attack_length+slack_length_help-slack_length_battle;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

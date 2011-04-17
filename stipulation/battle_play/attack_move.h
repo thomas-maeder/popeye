@@ -25,10 +25,9 @@ slice_index alloc_attack_move_slice(stip_length_type length,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-attack_move_has_solution_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable);
+stip_length_type attack_move_can_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -41,9 +40,9 @@ attack_move_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_move_solve_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+stip_length_type attack_move_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

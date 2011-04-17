@@ -107,9 +107,9 @@ void reflex_attacker_filter_make_root(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-reflex_attacker_filter_has_solution_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+reflex_attacker_filter_can_attack(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -132,7 +132,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
       break;
 
     case has_solution:
-      result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+      result = can_attack(next,n,n_max_unsolvable);
       break;
 
     default:
@@ -159,7 +159,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-reflex_attacker_filter_solve_in_n(slice_index si,
+reflex_attacker_filter_attack(slice_index si,
                                   stip_length_type n,
                                   stip_length_type n_max_unsolvable)
 {
@@ -182,7 +182,7 @@ reflex_attacker_filter_solve_in_n(slice_index si,
       break;
 
     case has_solution:
-      result = attack_solve_in_n(next,n,n_max_unsolvable);
+      result = attack(next,n,n_max_unsolvable);
       break;
 
     case has_no_solution:
@@ -243,9 +243,9 @@ TraceStipulation(result);
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-reflex_defender_filter_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+reflex_defender_filter_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.reflex_guard.next;
@@ -263,7 +263,7 @@ reflex_defender_filter_defend_in_n(slice_index si,
       && slice_solve(avoided)==has_no_solution)
     result = slack_length_battle;
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -283,9 +283,9 @@ reflex_defender_filter_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-reflex_defender_filter_can_defend_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable)
+reflex_defender_filter_can_defend(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -303,7 +303,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
       && slice_has_solution(avoided)==has_no_solution)
     result = slack_length_battle;
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -406,8 +406,7 @@ void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_solve_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -422,7 +421,7 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = help_solve_in_n(next,n);
+    result = help(next,n);
   else
     result = n+2;
 
@@ -441,8 +440,7 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
-                                                      stip_length_type n)
+stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -457,7 +455,7 @@ stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = help_has_solution_in_n(next,n);
+    result = can_help(next,n);
   else
     result = n+2;
 
@@ -550,8 +548,7 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_solve_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -566,7 +563,7 @@ stip_length_type reflex_series_filter_solve_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = series_solve_in_n(next,n);
+    result = series(next,n);
   else
     result = n+1;
 
@@ -585,8 +582,8 @@ stip_length_type reflex_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
-                                                        stip_length_type n)
+stip_length_type reflex_series_filter_has_series(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -601,7 +598,7 @@ stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = series_has_solution_in_n(next,n);
+    result = has_series(next,n);
   else
     result = n+1;
 

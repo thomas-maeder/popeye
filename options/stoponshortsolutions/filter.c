@@ -37,8 +37,7 @@ slice_index alloc_stoponshortsolutions_filter(stip_length_type length,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type stoponshortsolutions_help_solve_in_n(slice_index si,
-                                                      stip_length_type n)
+stip_length_type stoponshortsolutions_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -51,7 +50,7 @@ stip_length_type stoponshortsolutions_help_solve_in_n(slice_index si,
     result = n+2;
   else
   {
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
     if (result<=n && n<slices[si].u.branch.length)
       short_solution_found();
   }
@@ -71,8 +70,8 @@ stip_length_type stoponshortsolutions_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type stoponshortsolutions_help_has_solution_in_n(slice_index si,
-                                                             stip_length_type n)
+stip_length_type stoponshortsolutions_can_help(slice_index si,
+                                               stip_length_type n)
 {
   stip_length_type result;
 
@@ -81,7 +80,7 @@ stip_length_type stoponshortsolutions_help_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+  result = can_help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,9 +97,7 @@ stip_length_type stoponshortsolutions_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-stoponshortsolutions_series_solve_in_n(slice_index si,
-                                       stip_length_type n)
+stip_length_type stoponshortsolutions_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -111,7 +108,7 @@ stoponshortsolutions_series_solve_in_n(slice_index si,
 
   if (has_short_solution_been_found_in_phase())
     result = n+1;
-  else if (series_solve_in_n(slices[si].u.pipe.next,n)==n)
+  else if (series(slices[si].u.pipe.next,n)==n)
   {
     if (n<slices[si].u.branch.length)
       short_solution_found();
@@ -135,9 +132,8 @@ stoponshortsolutions_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-stoponshortsolutions_series_has_solution_in_n(slice_index si,
-                                              stip_length_type n)
+stip_length_type stoponshortsolutions_has_series(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
 
@@ -146,7 +142,7 @@ stoponshortsolutions_series_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+  result = has_series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

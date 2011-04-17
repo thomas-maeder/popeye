@@ -19,7 +19,7 @@
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type parry_fork_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -30,9 +30,9 @@ stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.parry_fork.next,n);
+    result = series(slices[si].u.parry_fork.next,n);
   else
-    result = series_solve_in_n(slices[si].u.parry_fork.non_parrying,n);
+    result = series(slices[si].u.parry_fork.non_parrying,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,8 +49,7 @@ stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type parry_fork_has_solution_in_n(slice_index si,
-                                              stip_length_type n)
+stip_length_type parry_fork_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -61,9 +60,9 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n);
+    result = has_series(slices[si].u.parry_fork.next,n);
   else
-    result = series_has_solution_in_n(slices[si].u.parry_fork.non_parrying,n);
+    result = has_series(slices[si].u.parry_fork.non_parrying,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

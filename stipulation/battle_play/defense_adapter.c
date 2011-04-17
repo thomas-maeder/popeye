@@ -1,6 +1,5 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -44,7 +43,7 @@ has_solution_type defense_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  defense_result = defense_defend_in_n(next,length,n_max_unsolvable);
+  defense_result = defend(next,length,n_max_unsolvable);
   result = (slack_length_battle<=defense_result && defense_result<=length
             ? has_solution
             : has_no_solution);
@@ -71,10 +70,80 @@ has_solution_type defense_adapter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  defense_result = defense_can_defend_in_n(next,length,n_max_unsolvable);
+  defense_result = can_defend(next,length,n_max_unsolvable);
   result = (slack_length_battle<=defense_result && defense_result<=length
             ? has_solution
             : has_no_solution);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type defense_adapter_series(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type const n_battle = (n+slack_length_battle
+                                     -slack_length_series);
+  stip_length_type const n_max_unsolvable = slack_length_battle-1;
+  stip_length_type defense_result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  defense_result = defend(next,n_battle,n_max_unsolvable);
+  if (slack_length_battle<=defense_result && defense_result<=n_battle)
+    result = defense_result+slack_length_series-slack_length_battle;
+  else
+    result = n+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type defense_adapter_has_series(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type const n_battle = (n+slack_length_battle
+                                     -slack_length_series);
+  stip_length_type const n_max_unsolvable = slack_length_battle-1;
+  stip_length_type defense_result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  defense_result = can_defend(next,n_battle,n_max_unsolvable);
+  if (slack_length_battle<=defense_result && defense_result<=n_battle)
+    result = defense_result+slack_length_series-slack_length_battle;
+  else
+    result = n+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

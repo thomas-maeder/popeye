@@ -95,9 +95,9 @@ has_solution_type goal_writer_solve(slice_index si)
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+output_plaintext_tree_goal_writer_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Goal const goal = slices[si].u.goal_writer.goal;
@@ -110,7 +110,7 @@ output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   StdString(goal_end_marker[goal.type]);
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -130,9 +130,9 @@ output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_goal_writer_can_defend_in_n(slice_index si,
-                                                  stip_length_type n,
-                                                  stip_length_type n_max_unsolvable)
+output_plaintext_tree_goal_writer_can_defend(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.goal_writer.next;
@@ -143,7 +143,7 @@ output_plaintext_tree_goal_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -163,9 +163,9 @@ output_plaintext_tree_goal_writer_can_defend_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+output_plaintext_tree_goal_writer_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Goal const goal = slices[si].u.goal_writer.goal;
@@ -178,7 +178,7 @@ output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   StdString(goal_end_marker[goal.type]);
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -197,9 +197,9 @@ output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_goal_writer_has_solution_in_n(slice_index si,
-                                                    stip_length_type n,
-                                                    stip_length_type n_max_unsolvable)
+output_plaintext_tree_goal_writer_can_attack(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.goal_writer.next;
@@ -210,7 +210,7 @@ output_plaintext_tree_goal_writer_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

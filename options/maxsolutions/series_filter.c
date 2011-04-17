@@ -14,7 +14,7 @@ slice_index alloc_maxsolutions_series_filter(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxSolutionsSeriesFilter); 
+  result = alloc_pipe(STMaxSolutionsSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,8 +31,8 @@ slice_index alloc_maxsolutions_series_filter(void)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type maxsolutions_series_filter_solve_in_n(slice_index si,
-                                                       stip_length_type n)
+stip_length_type maxsolutions_series_filter_series(slice_index si,
+                                                   stip_length_type n)
 {
   stip_length_type result;
 
@@ -44,7 +44,7 @@ stip_length_type maxsolutions_series_filter_solve_in_n(slice_index si,
   if (max_nr_solutions_found_in_phase())
     result = n+1;
   else
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -61,9 +61,8 @@ stip_length_type maxsolutions_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-maxsolutions_series_filter_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+stip_length_type maxsolutions_series_filter_has_series(slice_index si,
+                                                       stip_length_type n)
 {
   stip_length_type result;
 
@@ -72,7 +71,7 @@ maxsolutions_series_filter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+  result = has_series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

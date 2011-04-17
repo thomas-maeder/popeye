@@ -1,6 +1,5 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/branch.h"
-#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -65,13 +64,14 @@ has_solution_type series_adapter_solve(slice_index si)
 {
   has_solution_type result;
   stip_length_type const full_length = slices[si].u.branch.length;
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = series_solve_in_n(si,full_length);
+  nr_moves_needed = series(next,full_length);
   result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);
@@ -88,17 +88,97 @@ has_solution_type series_adapter_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
   stip_length_type const full_length = slices[si].u.branch.length;
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = series_has_solution_in_n(si,full_length);
+  nr_moves_needed = has_series(next,full_length);
   result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type series_adapter_can_attack(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type nr_moves_needed;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  nr_moves_needed = has_series(next,n_ser);
+  if (nr_moves_needed==n_ser+2)
+    result = slack_length_battle-2;
+  else if (nr_moves_needed==n_ser+1)
+    result = n+2;
+  else
+    result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type series_adapter_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type nr_moves_needed;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  nr_moves_needed = series(next,n_ser);
+  if (nr_moves_needed==n_ser+2)
+    result = slack_length_battle-2;
+  else if (nr_moves_needed==n_ser+1)
+    result = n+2;
+  else
+    result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

@@ -72,7 +72,7 @@ has_solution_type help_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = help_solve_in_n(next,full_length);
+  nr_moves_needed = help(next,full_length);
   result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);
@@ -96,7 +96,7 @@ has_solution_type help_adapter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = help_has_solution_in_n(next,full_length);
+  nr_moves_needed = can_help(next,full_length);
   result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);

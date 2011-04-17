@@ -113,9 +113,7 @@ static stip_length_type try_last_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,
-                                   slack_length_battle+1,
-                                   slack_length_battle);
+  result = can_defend(next,slack_length_battle+1,slack_length_battle);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -255,9 +253,9 @@ static stip_length_type iterate_killer_first(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-killer_move_final_defense_move_can_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+killer_move_final_defense_move_can_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];

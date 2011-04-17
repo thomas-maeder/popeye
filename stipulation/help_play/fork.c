@@ -57,7 +57,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_fork_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -70,9 +70,9 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
   assert(n>slack_length_help);
 
   if (n==slack_length_help+1)
-    result = help_solve_in_n(to_goal,n);
+    result = help(to_goal,n);
   else
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -89,8 +89,7 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_fork_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+stip_length_type help_fork_can_help(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -104,9 +103,9 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
   assert(n>slack_length_help);
 
   if (n==slack_length_help+1)
-    result = help_has_solution_in_n(to_goal,n);
+    result = can_help(to_goal,n);
   else
-    result = help_has_solution_in_n(next,n);
+    result = can_help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

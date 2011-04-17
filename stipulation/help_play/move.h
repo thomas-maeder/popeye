@@ -48,7 +48,7 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type help_move_help(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -59,7 +59,6 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_move_has_solution_in_n(slice_index si,
-                                             stip_length_type n);
+stip_length_type help_move_can_help(slice_index si, stip_length_type n);
 
 #endif

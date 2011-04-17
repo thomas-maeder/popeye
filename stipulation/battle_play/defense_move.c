@@ -123,9 +123,9 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type defense_move_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type defense_move_defend(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result = slack_length_battle-2;
   slice_index const next = slices[si].u.pipe.next;
@@ -145,7 +145,7 @@ stip_length_type defense_move_defend_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const nr_moves_needed
-          = attack_solve_in_n(next,n-1,n_max_unsolvable-1)+1;
+          = attack(next,n-1,n_max_unsolvable-1)+1;
       if (nr_moves_needed>result)
         result = nr_moves_needed;
     }
@@ -170,10 +170,9 @@ stip_length_type defense_move_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-defense_move_can_defend_in_n(slice_index si,
-                             stip_length_type n,
-                             stip_length_type n_max_unsolvable)
+stip_length_type defense_move_can_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -194,7 +193,7 @@ defense_move_can_defend_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const
-          length_sol = attack_has_solution_in_n(next,n-1,n_max_unsolvable-1)+1;
+          length_sol = can_attack(next,n-1,n_max_unsolvable-1)+1;
       if (max_len_continuation<length_sol)
         max_len_continuation = length_sol;
     }

@@ -26,10 +26,9 @@ slice_index alloc_castling_filter_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-castling_filter_has_solution_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type castling_filter_can_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -42,10 +41,9 @@ castling_filter_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-castling_filter_solve_in_n(slice_index si,
-                           stip_length_type n,
-                           stip_length_type n_max_unsolvable);
+stip_length_type castling_filter_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -56,8 +54,7 @@ castling_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type castling_filter_help_solve_in_n(slice_index si,
-                                                 stip_length_type n);
+stip_length_type castling_filter_help(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -68,8 +65,7 @@ stip_length_type castling_filter_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type castling_filter_help_has_solution_in_n(slice_index si,
-                                                        stip_length_type n);
+stip_length_type castling_filter_can_help(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -80,8 +76,7 @@ stip_length_type castling_filter_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type castling_filter_series_solve_in_n(slice_index si,
-                                                   stip_length_type n);
+stip_length_type castling_filter_series(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -92,7 +87,6 @@ stip_length_type castling_filter_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type castling_filter_series_has_solution_in_n(slice_index si,
-                                                          stip_length_type n);
+stip_length_type castling_filter_has_series(slice_index si, stip_length_type n);
 
 #endif

@@ -29,8 +29,8 @@ slice_index alloc_maxsolutions_root_defender_filter(void);
  *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type
-maxsolutions_root_defender_filter_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable);
+maxsolutions_root_defender_filter_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable);
 
 #endif

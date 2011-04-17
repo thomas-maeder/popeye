@@ -39,10 +39,9 @@ void set_max_nr_refutations(unsigned int mnr);
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-refutations_allocator_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type refutations_allocator_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -55,9 +54,9 @@ refutations_allocator_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-refutations_allocator_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+refutations_allocator_can_defend(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -72,9 +71,9 @@ refutations_allocator_can_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type try_solver_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+stip_length_type try_solver_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -86,9 +85,9 @@ stip_length_type try_solver_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type try_solver_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable);
+stip_length_type try_solver_can_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -101,9 +100,9 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-refutations_collector_has_solution_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+refutations_collector_can_attack(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -116,10 +115,9 @@ refutations_collector_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-refutations_collector_solve_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable);
+stip_length_type refutations_collector_attack(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable);
 
 /* Instrument the stipulation representation so that it can deal with
  * tries

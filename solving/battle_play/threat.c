@@ -80,9 +80,9 @@ static slice_index alloc_threat_collector_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-threat_enforcer_has_solution_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+threat_enforcer_can_attack(slice_index si,
+                           stip_length_type n,
+                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -93,7 +93,7 @@ threat_enforcer_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -112,9 +112,9 @@ threat_enforcer_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type threat_enforcer_solve_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+stip_length_type threat_enforcer_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -133,7 +133,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     /* the attack has something stronger than threats (typically, it
      * delivers check)
      */
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack(next,n,n_max_unsolvable);
   else if (len_threat<=n)
   {
     /* there are >=1 threats - don't report variations shorter than
@@ -145,26 +145,24 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     nr_threats_to_be_confirmed = table_length(threats_table);
 
     threat_activities[threats_ply] = threat_enforcing;
-    len_test_threats = attack_has_solution_in_n(next,
-                                                len_threat,
-                                                n_max_unsolvable);
+    len_test_threats = can_attack(next,len_threat,n_max_unsolvable);
     threat_activities[threats_ply] = threat_idle;
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
-      result = attack_solve_in_n(next,n,n_max_unsolvable);
+      result = attack(next,n,n_max_unsolvable);
     else if (len_test_threats>len_threat-2 && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
-      result = attack_solve_in_n(next,n,n_max_unsolvable);
+      result = attack(next,n,n_max_unsolvable);
     else
         /* variation is shorter than threat */
       result = len_test_threats;
   }
   else
     /* zugzwang, or we haven't looked for threats yet */
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -206,9 +204,9 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type threat_collector_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+stip_length_type threat_collector_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -219,7 +217,7 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   TraceValue("%u\n",nbply);
   if (threat_activities[nbply]==threat_solving
@@ -243,10 +241,9 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
            n+2 refuted - <=acceptable number of refutations found
            n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-threat_collector_can_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+stip_length_type threat_collector_can_defend(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -257,7 +254,7 @@ threat_collector_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   if (threat_activities[nbply]==threat_enforcing
       && n>=threat_lengths[nbply]-2)
@@ -312,7 +309,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
    * threat
    */
   nextply(nbply);
-  result = attack_solve_in_n(enforcer,n,n_max_unsolvable);
+  result = attack(enforcer,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -335,9 +332,9 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type threat_solver_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+stip_length_type threat_solver_defend(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -350,7 +347,7 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==n_max_unsolvable)
-    result = defense_defend_in_n(next,n,n);
+    result = defend(next,n,n);
   else
   {
     TraceValue("%u\n",threats_ply);
@@ -363,7 +360,7 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
       threat_activities[threats_ply] = threat_idle;
     }
 
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
     assert(get_top_table()==threats[threats_ply]);
     free_table();
@@ -389,10 +386,9 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-threat_solver_can_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+stip_length_type threat_solver_can_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -403,7 +399,7 @@ threat_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

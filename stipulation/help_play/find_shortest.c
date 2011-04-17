@@ -79,8 +79,7 @@ void help_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type help_find_shortest_solve_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type help_find_shortest_help(slice_index si, stip_length_type n)
 {
   stip_length_type result = slices[si].u.branch.min_length;
 
@@ -92,7 +91,7 @@ stip_length_type help_find_shortest_solve_in_n(slice_index si,
   result += (n-result)%2;
 
   while (result<=n)
-    if (help_solve_in_n(slices[si].u.pipe.next,result)==result)
+    if (help(slices[si].u.pipe.next,result)==result)
       break;
     else
       result += 2;
@@ -112,8 +111,7 @@ stip_length_type help_find_shortest_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type help_find_shortest_has_solution_in_n(slice_index si,
-                                                      stip_length_type n)
+stip_length_type help_find_shortest_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result = slices[si].u.branch.min_length;
 
@@ -125,7 +123,7 @@ stip_length_type help_find_shortest_has_solution_in_n(slice_index si,
   result += (n-result)%2;
 
   while (result<=n)
-    if (help_has_solution_in_n(slices[si].u.pipe.next,result)==result)
+    if (can_help(slices[si].u.pipe.next,result)==result)
       break;
     else
       result += 2;

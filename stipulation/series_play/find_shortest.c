@@ -79,8 +79,8 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_find_shortest_solve_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type series_find_shortest_series(slice_index si,
+                                             stip_length_type n)
 {
   stip_length_type result = slices[si].u.branch.min_length;
 
@@ -90,7 +90,7 @@ stip_length_type series_find_shortest_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   while (result<=n)
-    if (series_solve_in_n(slices[si].u.pipe.next,result)==result)
+    if (series(slices[si].u.pipe.next,result)==result)
       break;
     else
       result += 2;
@@ -110,8 +110,8 @@ stip_length_type series_find_shortest_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_find_shortest_has_solution_in_n(slice_index si,
-                                                        stip_length_type n)
+stip_length_type series_find_shortest_has_series(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result = slices[si].u.branch.min_length;
 
@@ -121,7 +121,7 @@ stip_length_type series_find_shortest_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   while (result<=n)
-    if (series_has_solution_in_n(slices[si].u.pipe.next,result)==result)
+    if (has_series(slices[si].u.pipe.next,result)==result)
       break;
     else
       result += 2;

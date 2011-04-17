@@ -53,9 +53,9 @@
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type defense_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable)
+stip_length_type defend(slice_index si,
+                        stip_length_type n,
+                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -69,148 +69,142 @@ stip_length_type defense_defend_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STRefutationsAllocator:
-      result = refutations_allocator_defend_in_n(si,n,n_max_unsolvable);
+      result = refutations_allocator_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrySolver:
-      result = try_solver_defend_in_n(si,n,n_max_unsolvable);
+      result = try_solver_defend(si,n,n_max_unsolvable);
       break;
 
     case STContinuationSolver:
-      result = continuation_solver_defend_in_n(si,n,n_max_unsolvable);
+      result = continuation_solver_defend(si,n,n_max_unsolvable);
       break;
 
     case STCheckDetector:
-      result = check_detector_defend_in_n(si,n,n_max_unsolvable);
+      result = check_detector_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatSolver:
-      result = threat_solver_defend_in_n(si,n,n_max_unsolvable);
+      result = threat_solver_defend(si,n,n_max_unsolvable);
       break;
 
     case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_defend_in_n(si,n,n_max_unsolvable);
+      result = postkeyplay_suppressor_defend(si,n,n_max_unsolvable);
       break;
 
     case STBattleDeadEnd:
-      result = battle_play_dead_end_defend_in_n(si,n,n_max_unsolvable);
+      result = battle_play_dead_end_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatCollector:
-      result = threat_collector_defend_in_n(si,n,n_max_unsolvable);
+      result = threat_collector_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMoveGenerator:
     case STKillerMoveFinalDefenseMove:
-      result = defense_move_generator_defend_in_n(si,n,n_max_unsolvable);
+      result = defense_move_generator_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMove:
-      result = defense_move_defend_in_n(si,n,n_max_unsolvable);
+      result = defense_move_defend(si,n,n_max_unsolvable);
       break;
 
     case STOptimisationFork:
-      result = optimisation_fork_defend_in_n(si,n,n_max_unsolvable);
+      result = optimisation_fork_defend(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = selfcheck_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:
-      result = reflex_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      result = reflex_defender_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:
-      result = min_length_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = min_length_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_defend_in_n(si,n,n_max_unsolvable);
+      result = keepmating_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = maxflight_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = maxthreatlength_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = max_nr_nontrivial_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxNrNonChecks:
-      result = max_nr_noncheck_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = max_nr_noncheck_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      result = maxtime_defender_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxSolutionsRootDefenderFilter:
-      result = maxsolutions_root_defender_filter_defend_in_n(si,
-                                                             n,
-                                                             n_max_unsolvable);
+      result = maxsolutions_root_defender_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STRestartGuard:
-      result = restart_guard_defend_in_n(si,n,n_max_unsolvable);
+      result = restart_guard_defend(si,n,n_max_unsolvable);
       break;
 
     case STContinuationWriter:
-      result = continuation_writer_defend_in_n(si,n,n_max_unsolvable);
+      result = continuation_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_defend_in_n(si,
-                                                             n,
-                                                             n_max_unsolvable);
+      result = output_plaintext_tree_goal_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_defend_in_n(si,
-                                                                n,
-                                                                n_max_unsolvable);
+      result = output_plaintext_tree_check_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_defend_in_n(si,
-                                                                   n,
-                                                                   n_max_unsolvable);
+      result = output_plaintext_tree_decoration_writer_defend(si,
+                                                              n,
+                                                              n_max_unsolvable);
       break;
 
     case STKeyWriter:
-      result = key_writer_defend_in_n(si,n,n_max_unsolvable);
+      result = key_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STTryWriter:
-      result = try_writer_defend_in_n(si,n,n_max_unsolvable);
+      result = try_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STEndOfSolutionWriter:
-      result = end_of_solution_writer_defend_in_n(si,n,n_max_unsolvable);
+      result = end_of_solution_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STEnPassantFilter:
-      result = enpassant_filter_defend_in_n(si,n,n_max_unsolvable);
+      result = enpassant_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
-      result = killer_move_collector_defend_in_n(si,n,n_max_unsolvable);
+      result = killer_move_collector_defend(si,n,n_max_unsolvable);
       break;
 
     case STCounterMateFilter:
-      result = countermate_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      result = countermate_defender_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_defend_in_n(si,n,n_max_unsolvable);
+      result = goal_prerequisite_optimiser_defend(si,n,n_max_unsolvable);
       break;
 
     case STEndOfBranch:
-      result = end_of_branch_defend_in_n(si,n,n_max_unsolvable);
+      result = end_of_branch_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -257,7 +251,7 @@ stip_length_type defense_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type defense_can_defend_in_n(slice_index si,
+stip_length_type can_defend(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_max_unsolvable)
 {
@@ -273,73 +267,71 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STRefutationsAllocator:
-      result = refutations_allocator_can_defend_in_n(si,n,n_max_unsolvable);
+      result = refutations_allocator_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrySolver:
-      result = try_solver_can_defend_in_n(si,n,n_max_unsolvable);
+      result = try_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_can_defend_in_n(si,n,n_max_unsolvable);
+      result = postkeyplay_suppressor_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STContinuationSolver:
-      result = continuation_solver_can_defend_in_n(si,n,n_max_unsolvable);
+      result = continuation_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STCheckDetector:
-      result = check_detector_can_defend_in_n(si,n,n_max_unsolvable);
+      result = check_detector_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatSolver:
-      result = threat_solver_can_defend_in_n(si,n,n_max_unsolvable);
+      result = threat_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STBattleDeadEnd:
-      result = battle_play_dead_end_can_defend_in_n(si,n,n_max_unsolvable);
+      result = battle_play_dead_end_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatCollector:
-      result = threat_collector_can_defend_in_n(si,n,n_max_unsolvable);
+      result = threat_collector_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMoveGenerator:
-      result = defense_move_generator_can_defend_in_n(si,n,n_max_unsolvable);
+      result = defense_move_generator_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMove:
-      result = defense_move_can_defend_in_n(si,n,n_max_unsolvable);
+      result = defense_move_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveFinalDefenseMove:
-      result = killer_move_final_defense_move_can_defend_in_n(si,
-                                                              n,
-                                                              n_max_unsolvable);
+      result = killer_move_final_defense_move_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STOptimisationFork:
-      result = optimisation_fork_can_defend_in_n(si,n,n_max_unsolvable);
+      result = optimisation_fork_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:
-      result = reflex_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      result = reflex_defender_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:
-      result = min_length_guard_can_defend_in_n(si,n,n_max_unsolvable);
+      result = min_length_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_can_defend_in_n(si,n,n_max_unsolvable);
+      result = selfcheck_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      result = keepmating_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_can_defend_in_n(si,n,n_max_unsolvable);
+      result = maxflight_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxThreatLength:
@@ -347,67 +339,67 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_can_defend_in_n(si,n,n_max_unsolvable);
+      result = max_nr_nontrivial_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxNrNonChecks:
-      result = max_nr_noncheck_guard_can_defend_in_n(si,n,n_max_unsolvable);
+      result = max_nr_noncheck_guard_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      result = maxtime_defender_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKeyWriter:
-      result = key_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      result = key_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STTryWriter:
-      result = try_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      result = try_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STContinuationWriter:
-      result = continuation_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      result = continuation_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_can_defend_in_n(si,
-                                                                 n,n_max_unsolvable);
+      result = output_plaintext_tree_goal_writer_can_defend(si,
+                                                            n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_can_defend_in_n(si,
-                                                                  n,n_max_unsolvable);
+      result = output_plaintext_tree_check_writer_can_defend(si,
+                                                             n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_can_defend_in_n(si,
-                                                                       n,n_max_unsolvable);
+      result = output_plaintext_tree_decoration_writer_can_defend(si,
+                                                                  n,
+                                                                  n_max_unsolvable);
       break;
 
     case STEndOfSolutionWriter:
-      result = end_of_solution_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      result = end_of_solution_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STEnPassantFilter:
-      result = enpassant_filter_can_defend_in_n(si,
-                                                         n,n_max_unsolvable);
+      result = enpassant_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
-      result = killer_move_collector_can_defend_in_n(si,n,n_max_unsolvable);
+      result = killer_move_collector_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STCounterMateFilter:
-      result = countermate_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      result = countermate_defender_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_can_defend_in_n(si,n,n_max_unsolvable);
+      result = goal_prerequisite_optimiser_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STEndOfBranch:
-      result = end_of_branch_can_defend_in_n(si,n,n_max_unsolvable);
+      result = end_of_branch_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:

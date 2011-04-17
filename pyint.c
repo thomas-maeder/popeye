@@ -97,11 +97,11 @@ static boolean find_solutions_in_n(stip_length_type n)
   switch (slices[current_start_slice].type)
   {
     case STIntelligentHelpFilter:
-      result = help_solve_in_n(next,n)<=n;
+      result = help(next,n)<=n;
       break;
 
     case STIntelligentSeriesFilter:
-      result = series_solve_in_n(next,n)<=n;
+      result = series(next,n)<=n;
       break;
 
     default:
@@ -2775,8 +2775,7 @@ static slice_index alloc_goalreachable_guard_series_filter(void)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_help_solve_in_n(slice_index si,
-                                                     stip_length_type n)
+stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -2795,7 +2794,7 @@ stip_length_type goalreachable_guard_help_solve_in_n(slice_index si,
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   if (isGoalReachable())
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
   else
     result = n+2;
 
@@ -2818,8 +2817,8 @@ stip_length_type goalreachable_guard_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type goalreachable_guard_can_help(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -2834,7 +2833,7 @@ goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
   --MovesLeft[just_moved];
 
   if (isGoalReachable())
-    result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = can_help(slices[si].u.pipe.next,n);
   else
     result = n+2;
 
@@ -2855,8 +2854,7 @@ goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_series_solve_in_n(slice_index si,
-                                                       stip_length_type n)
+stip_length_type goalreachable_guard_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -2875,7 +2873,7 @@ stip_length_type goalreachable_guard_series_solve_in_n(slice_index si,
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   if (isGoalReachable())
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series(slices[si].u.pipe.next,n);
   else
     result = n+1;
 
@@ -2898,9 +2896,8 @@ stip_length_type goalreachable_guard_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-goalreachable_guard_series_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+stip_length_type goalreachable_guard_has_series(slice_index si,
+                                                stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -2915,7 +2912,7 @@ goalreachable_guard_series_has_solution_in_n(slice_index si,
   --MovesLeft[just_moved];
 
   if (isGoalReachable())
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = has_series(slices[si].u.pipe.next,n);
   else
     result = n+1;
 

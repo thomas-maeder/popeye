@@ -28,7 +28,7 @@ slice_index alloc_doublemate_filter_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-doublemate_attacker_filter_has_solution_in_n(slice_index si,
+doublemate_attacker_filter_can_attack(slice_index si,
                                              stip_length_type n,
                                              stip_length_type n_max_unsolvable);
 
@@ -44,9 +44,9 @@ doublemate_attacker_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-doublemate_attacker_filter_solve_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+doublemate_attacker_filter_attack(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -57,8 +57,7 @@ doublemate_attacker_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
-                                                   stip_length_type n);
+stip_length_type doublemate_filter_help(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -69,8 +68,7 @@ stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
-                                                          stip_length_type n);
+stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n);
 
 
 /* Determine and write the solution(s) in a help stipulation
@@ -82,8 +80,7 @@ stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
-                                                     stip_length_type n);
+stip_length_type doublemate_filter_series(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -94,8 +91,7 @@ stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-doublemate_series_filter_has_solution_in_n(slice_index si,
-                                           stip_length_type n);
+stip_length_type doublemate_filter_has_series(slice_index si,
+                                              stip_length_type n);
 
 #endif

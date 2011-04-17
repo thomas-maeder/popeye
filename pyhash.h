@@ -80,10 +80,9 @@ void DecHashRateLevel(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-attack_hashed_has_solution_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable);
+stip_length_type attack_hashed_can_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -96,9 +95,9 @@ attack_hashed_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable);
+stip_length_type attack_hashed_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -109,7 +108,7 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type help_hashed_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -120,8 +119,7 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type hashed_help_has_solution_in_n(slice_index si,
-                                               stip_length_type n);
+stip_length_type help_hashed_can_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -132,7 +130,7 @@ stip_length_type hashed_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type series_hashed_series(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -143,8 +141,7 @@ stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type hashed_series_has_solution_in_n(slice_index si,
-                                                 stip_length_type n);
+stip_length_type series_hashed_has_series(slice_index si, stip_length_type n);
 
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start

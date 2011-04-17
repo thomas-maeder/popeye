@@ -37,10 +37,9 @@ slice_index alloc_enpassant_filter_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-enpassant_filter_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+stip_length_type enpassant_filter_can_attack(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -53,7 +52,7 @@ enpassant_filter_has_solution_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);
@@ -73,10 +72,9 @@ enpassant_filter_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-enpassant_filter_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
+stip_length_type enpassant_filter_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -89,7 +87,7 @@ enpassant_filter_solve_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);
@@ -112,10 +110,9 @@ enpassant_filter_solve_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-enpassant_filter_defend_in_n(slice_index si,
-                             stip_length_type n,
-                             stip_length_type n_max_unsolvable)
+stip_length_type enpassant_filter_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -128,7 +125,7 @@ enpassant_filter_defend_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = defense_defend_in_n(next,slack_length_battle+1,n_max_unsolvable);
+  result = defend(next,slack_length_battle+1,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);
@@ -148,10 +145,9 @@ enpassant_filter_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-enpassant_filter_can_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+stip_length_type enpassant_filter_can_defend(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -164,7 +160,7 @@ enpassant_filter_can_defend_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = defense_can_defend_in_n(next,slack_length_battle+1,n_max_unsolvable);
+  result = can_defend(next,slack_length_battle+1,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);
@@ -182,8 +178,7 @@ enpassant_filter_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type enpassant_filter_help_solve_in_n(slice_index si,
-                                                  stip_length_type n)
+stip_length_type enpassant_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -197,7 +192,7 @@ stip_length_type enpassant_filter_help_solve_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = help_solve_in_n(next,slack_length_help+1);
+  result = help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);
@@ -215,8 +210,7 @@ stip_length_type enpassant_filter_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type enpassant_filter_help_has_solution_in_n(slice_index si,
-                                                         stip_length_type n)
+stip_length_type enpassant_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -230,7 +224,7 @@ stip_length_type enpassant_filter_help_has_solution_in_n(slice_index si,
 
   if (ep[nbply]!=initsquare || ep2[nbply]!=initsquare)
     SETFLAG(goal_preprequisites_met[nbply],goal_ep);
-  result = help_has_solution_in_n(next,slack_length_help+1);
+  result = can_help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_ep);
 
   TraceFunctionExit(__func__);

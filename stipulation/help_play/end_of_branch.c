@@ -55,8 +55,7 @@ void stip_traverse_moves_end_of_help_branch(slice_index si, stip_moves_traversal
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_help_branch_help_in_n(slice_index si,
-                                              stip_length_type n)
+stip_length_type end_of_help_branch_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -89,7 +88,7 @@ stip_length_type end_of_help_branch_help_in_n(slice_index si,
         break;
     }
   else
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -106,8 +105,7 @@ stip_length_type end_of_help_branch_help_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_help_branch_can_help_in_n(slice_index si,
-                                                  stip_length_type n)
+stip_length_type end_of_help_branch_can_help(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -141,7 +139,7 @@ stip_length_type end_of_help_branch_can_help_in_n(slice_index si,
         break;
     }
   else
-    result = help_has_solution_in_n(next,n);
+    result = can_help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

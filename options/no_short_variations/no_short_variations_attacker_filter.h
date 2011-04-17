@@ -24,9 +24,9 @@ slice_index alloc_no_short_variations_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-no_short_variations_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+no_short_variations_can_attack(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -39,9 +39,8 @@ no_short_variations_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-no_short_variations_solve_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable);
+stip_length_type no_short_variations_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 #endif

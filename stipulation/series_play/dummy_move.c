@@ -30,8 +30,7 @@ slice_index alloc_series_dummy_move_slice(void)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_dummy_move_solve_in_n(slice_index pipe,
-                                              stip_length_type n)
+stip_length_type series_dummy_move_series(slice_index pipe, stip_length_type n)
 {
   stip_length_type result;
 
@@ -39,7 +38,7 @@ stip_length_type series_dummy_move_solve_in_n(slice_index pipe,
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  result = series_solve_in_n(slices[pipe].u.pipe.next,n-1)+1;
+  result = series(slices[pipe].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -56,8 +55,8 @@ stip_length_type series_dummy_move_solve_in_n(slice_index pipe,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_dummy_move_has_solution_in_n(slice_index si,
-                                                     stip_length_type n)
+stip_length_type series_dummy_move_has_series(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result;
 
@@ -66,7 +65,7 @@ stip_length_type series_dummy_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = series_has_solution_in_n(slices[si].u.pipe.next,n-1)+1;
+  result = has_series(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

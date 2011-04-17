@@ -39,9 +39,9 @@ slice_index alloc_doublemate_filter_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-doublemate_attacker_filter_has_solution_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+doublemate_attacker_filter_can_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -55,7 +55,7 @@ doublemate_attacker_filter_has_solution_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -76,9 +76,9 @@ doublemate_attacker_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-doublemate_attacker_filter_solve_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+doublemate_attacker_filter_attack(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -92,7 +92,7 @@ doublemate_attacker_filter_solve_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -110,8 +110,7 @@ doublemate_attacker_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type doublemate_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -126,7 +125,7 @@ stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = help_solve_in_n(next,slack_length_help+1);
+  result = help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -144,8 +143,7 @@ stip_length_type doublemate_help_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
-                                                          stip_length_type n)
+stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -160,7 +158,7 @@ stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = help_has_solution_in_n(next,slack_length_help+1);
+  result = can_help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -178,8 +176,7 @@ stip_length_type doublemate_help_filter_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
-                                                     stip_length_type n)
+stip_length_type doublemate_filter_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -194,7 +191,7 @@ stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = series_solve_in_n(next,slack_length_series+1);
+  result = series(next,slack_length_series+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -212,8 +209,8 @@ stip_length_type doublemate_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type doublemate_series_filter_has_solution_in_n(slice_index si,
-                                                            stip_length_type n)
+stip_length_type doublemate_filter_has_series(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -228,7 +225,7 @@ stip_length_type doublemate_series_filter_has_solution_in_n(slice_index si,
 
   if (!immobile(starter))
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = series_has_solution_in_n(next,slack_length_series+1);
+  result = has_series(next,slack_length_series+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);

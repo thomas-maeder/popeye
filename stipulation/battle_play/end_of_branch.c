@@ -129,9 +129,9 @@ void stip_traverse_moves_end_of_branch(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+stip_length_type end_of_branch_defend(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch_fork.next;
@@ -147,12 +147,12 @@ stip_length_type end_of_branch_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    result = defense_defend_in_n(to_goal,n,n_max_unsolvable);
+    result = defend(to_goal,n,n_max_unsolvable);
     if (result>n)
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
+      result = defend(next,n,n_max_unsolvable);
   }
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -171,10 +171,9 @@ stip_length_type end_of_branch_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-end_of_branch_can_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+stip_length_type end_of_branch_can_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch_fork.next;
@@ -190,12 +189,12 @@ end_of_branch_can_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    result = defense_can_defend_in_n(to_goal,n,n_max_unsolvable);
+    result = can_defend(to_goal,n,n_max_unsolvable);
     if (result>n)
-      result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+      result = can_defend(next,n,n_max_unsolvable);
   }
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

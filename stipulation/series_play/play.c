@@ -1,10 +1,10 @@
 #include "stipulation/series_play/play.h"
-#include "stipulation/help_play/play.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
 #include "pymovenb.h"
+#include "pyint.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
@@ -23,7 +23,6 @@
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
 #include "optimisations/stoponshortsolutions/filter.h"
-#include "pyint.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -38,7 +37,7 @@
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type series(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -50,123 +49,100 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STSeriesAdapter:
-      result = series_solve_in_n(slices[si].u.pipe.next,n);
-      break;
-
     case STSeriesFindShortest:
-      result = series_find_shortest_solve_in_n(si,n);
+      result = series_find_shortest_series(si,n);
       break;
 
     case STSeriesRoot:
-      result = series_root_solve_in_n(si,n);
+      result = series_root_series(si,n);
       break;
 
     case STSeriesShortcut:
-      result = series_shortcut_solve_in_n(si,n);
+      result = series_shortcut_series(si,n);
       break;
 
     case STSeriesMove:
-      result = series_move_solve_in_n(si,n);
+      result = series_move_series(si,n);
       break;
-
-    case STHelpMove:
-    {
-      stip_length_type const n_help = n+slack_length_help-slack_length_series;
-      result = help_solve_in_n(si,n_help)==n_help ? n : n+1;
-      break;
-    }
 
     case STDefenseAdapter:
-    {
-      slice_index const next = slices[si].u.branch.next;
-      stip_length_type const n_battle = (n+slack_length_battle
-                                         -slack_length_series);
-      stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      stip_length_type const def_result = defense_defend_in_n(next,
-                                                              n_battle,
-                                                              n_max_unsolvable);
-      if (slack_length_battle<=def_result && def_result<=n_battle)
-        result = def_result+slack_length_series-slack_length_battle;
-      else
-        result = n+1;
+      result = defense_adapter_series(si,n);
       break;
-    }
 
     case STParryFork:
-      result = parry_fork_solve_in_n(si,n);
+      result = parry_fork_series(si,n);
       break;
 
     case STSeriesFork:
-      result = series_fork_solve_in_n(si,n);
+      result = series_fork_series(si,n);
       break;
 
     case STEndOfSeriesBranch:
-      result = end_of_series_branch_series_in_n(si,n);
+      result = end_of_series_branch_series(si,n);
       break;
 
     case STSeriesHashed:
-      result = hashed_series_solve_in_n(si,n);
+      result = series_hashed_series(si,n);
       break;
 
     case STSeriesDummyMove:
-      result = series_dummy_move_solve_in_n(si,n);
+      result = series_dummy_move_series(si,n);
       break;
 
     case STReflexSeriesFilter:
-      result = reflex_series_filter_solve_in_n(si,n);
+      result = reflex_series_filter_series(si,n);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_series_solve_in_n(si,n);
+      result = keepmating_filter_series(si,n);
       break;
 
     case STIntelligentSeriesFilter:
-      result = intelligent_series_filter_solve_in_n(si,n);
+      result = intelligent_series_filter_series(si,n);
       break;
 
     case STGoalReachableGuardSeriesFilter:
-      result = goalreachable_guard_series_solve_in_n(si,n);
+      result = goalreachable_guard_series(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_series_solve_in_n(si,n);
+      result = selfcheck_guard_series(si,n);
       break;
 
     case STRestartGuard:
-      result = restart_guard_series_solve_in_n(si,n);
+      result = restart_guard_series(si,n);
       break;
 
     case STMaxTimeSeriesFilter:
-      result = maxtime_series_filter_solve_in_n(si,n);
+      result = maxtime_series_filter_series(si,n);
       break;
 
     case STMaxSolutionsSeriesFilter:
-      result = maxsolutions_series_filter_solve_in_n(si,n);
+      result = maxsolutions_series_filter_series(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_series_solve_in_n(si,n);
+      result = stoponshortsolutions_series(si,n);
       break;
 
     case STCounterMateFilter:
-      result = countermate_series_filter_solve_in_n(si,n);
+      result = countermate_filter_series(si,n);
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_series_filter_solve_in_n(si,n);
+      result = doublemate_filter_series(si,n);
       break;
 
     case STCastlingFilter:
-      result = castling_filter_series_solve_in_n(si,n);
+      result = castling_filter_series(si,n);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_series_solve_in_n(si,n);
+      result = goal_prerequisite_optimiser_series(si,n);
       break;
 
     case STSeriesMoveToGoal:
-      result = series_move_to_goal_solve_in_n(si,n);
+      result = series_move_to_goal_series(si,n);
       break;
 
     default:
@@ -207,7 +183,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -219,105 +195,88 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STSeriesAdapter:
-      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
-      break;
-
     case STSeriesFindShortest:
-      result = series_find_shortest_has_solution_in_n(si,n);
+      result = series_find_shortest_has_series(si,n);
       break;
 
     case STSeriesMove:
-      result = series_move_has_solution_in_n(si,n);
+      result = series_move_has_series(si,n);
       break;
 
     case STSeriesShortcut:
-      result = series_shortcut_has_solution_in_n(si,n);
+      result = series_shortcut_has_series(si,n);
       break;
 
     case STDefenseAdapter:
-    {
-      slice_index const next = slices[si].u.branch.next;
-      stip_length_type const n_battle = (n+slack_length_battle
-                                         -slack_length_series);
-      stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      stip_length_type const
-          def_result = defense_can_defend_in_n(next,
-                                               n_battle,
-                                               n_max_unsolvable);
-      if (slack_length_battle<=def_result && def_result<=n_battle)
-        result = def_result+slack_length_series-slack_length_battle;
-      else
-        result = n+1;
+      result = defense_adapter_has_series(si,n);
       break;
-    }
 
     case STParryFork:
-      result = parry_fork_has_solution_in_n(si,n);
+      result = parry_fork_has_series(si,n);
       break;
 
     case STSeriesFork:
-      result = series_fork_has_solution_in_n(si,n);
+      result = series_fork_has_series(si,n);
       break;
 
     case STEndOfSeriesBranch:
-      result = end_of_series_branch_has_series_in_n(si,n);
+      result = end_of_series_branch_has_series(si,n);
       break;
 
     case STSeriesHashed:
-      result = hashed_series_has_solution_in_n(si,n);
+      result = series_hashed_has_series(si,n);
       break;
 
     case STReflexSeriesFilter:
-      result = reflex_series_filter_has_solution_in_n(si,n);
+      result = reflex_series_filter_has_series(si,n);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_series_has_solution_in_n(si,n);
+      result = keepmating_filter_has_series(si,n);
       break;
 
     case STGoalReachableGuardSeriesFilter:
-      result = goalreachable_guard_series_has_solution_in_n(si,n);
+      result = goalreachable_guard_has_series(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_series_has_solution_in_n(si,n);
+      result = selfcheck_guard_has_series(si,n);
       break;
 
     case STSeriesDummyMove:
-      result = series_dummy_move_has_solution_in_n(si,n);
+      result = series_dummy_move_has_series(si,n);
       break;
 
     case STMaxTimeSeriesFilter:
-      result = maxtime_series_filter_has_solution_in_n(si,n);
+      result = maxtime_series_filter_has_series(si,n);
       break;
 
     case STMaxSolutionsSeriesFilter:
-      result = maxsolutions_series_filter_has_solution_in_n(si,n);
+      result = maxsolutions_series_filter_has_series(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_series_has_solution_in_n(si,n);
+      result = stoponshortsolutions_has_series(si,n);
       break;
 
     case STCounterMateFilter:
-      result = countermate_series_filter_has_solution_in_n(si,n);
+      result = countermate_filter_has_series(si,n);
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_series_filter_has_solution_in_n(si,n);
+      result = doublemate_filter_has_series(si,n);
       break;
 
     case STSeriesMoveToGoal:
-      result = series_move_to_goal_has_solution_in_n(si,n);
+      result = series_move_to_goal_has_series(si,n);
       break;
 
     case STCastlingFilter:
-      result = castling_filter_series_has_solution_in_n(si,n);
+      result = castling_filter_has_series(si,n);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_series_has_solution_in_n(si,n);
+      result = goal_prerequisite_optimiser_has_series(si,n);
       break;
 
     default:

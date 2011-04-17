@@ -136,9 +136,9 @@ static slice_index alloc_maxflight_guard_slice(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type maxflight_guard_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type maxflight_guard_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -153,7 +153,7 @@ stip_length_type maxflight_guard_defend_in_n(slice_index si,
   if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -172,10 +172,9 @@ stip_length_type maxflight_guard_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-maxflight_guard_can_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type maxflight_guard_can_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -190,7 +189,7 @@ maxflight_guard_can_defend_in_n(slice_index si,
   if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

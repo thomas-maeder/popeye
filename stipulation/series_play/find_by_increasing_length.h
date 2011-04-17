@@ -26,6 +26,6 @@ slice_index alloc_series_root_slice(stip_length_type length,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_root_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type series_root_series(slice_index si, stip_length_type n);
 
 #endif

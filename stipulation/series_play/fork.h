@@ -28,7 +28,7 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type series_fork_series(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -40,7 +40,6 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_fork_has_solution_in_n(slice_index si,
-                                               stip_length_type n);
+stip_length_type series_fork_has_series(slice_index si, stip_length_type n);
 
 #endif

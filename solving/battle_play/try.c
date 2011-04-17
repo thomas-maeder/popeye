@@ -104,10 +104,9 @@ static slice_index alloc_refutations_allocator(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-refutations_allocator_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type refutations_allocator_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -120,7 +119,7 @@ refutations_allocator_defend_in_n(slice_index si,
 
   assert(refutations==table_nil);
   refutations = allocate_table();
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
   assert(refutations==get_top_table());
   free_table();
   refutations = table_nil;
@@ -143,9 +142,9 @@ refutations_allocator_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-refutations_allocator_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+refutations_allocator_can_defend(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -156,7 +155,7 @@ refutations_allocator_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -196,9 +195,9 @@ static slice_index alloc_try_solver(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type try_solver_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+stip_length_type try_solver_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -211,16 +210,16 @@ stip_length_type try_solver_defend_in_n(slice_index si,
 
   if (refutations!=table_nil && table_length(refutations)>0)
   {
-    defense_defend_in_n(next,n,n_max_unsolvable);
+    defend(next,n,n_max_unsolvable);
 
     are_we_solving_refutations = true;
-    defense_defend_in_n(next,n,n);
+    defend(next,n,n);
     are_we_solving_refutations = false;
 
     result = n+2;
   }
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -239,9 +238,9 @@ stip_length_type try_solver_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type try_solver_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+stip_length_type try_solver_can_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
@@ -252,7 +251,7 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
   if (result<=n && refutations!=table_nil && table_length(refutations)>0)
     result = n+2;
 
@@ -291,9 +290,9 @@ static slice_index alloc_refutations_collector_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-refutations_collector_has_solution_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+refutations_collector_can_attack(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -304,7 +303,7 @@ refutations_collector_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   if (result>n)
   {
@@ -332,10 +331,9 @@ refutations_collector_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-refutations_collector_solve_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+stip_length_type refutations_collector_attack(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -350,7 +348,7 @@ refutations_collector_solve_in_n(slice_index si,
   {
     if (is_current_move_in_table(refutations))
     {
-      attack_solve_in_n(next,n,n);
+      attack(next,n,n);
       result = n+2;
     }
     else
@@ -361,7 +359,7 @@ refutations_collector_solve_in_n(slice_index si,
     if (is_current_move_in_table(refutations))
       result = n+2;
     else
-      result = attack_solve_in_n(next,n,n_max_unsolvable);
+      result = attack(next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);

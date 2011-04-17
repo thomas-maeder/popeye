@@ -100,10 +100,9 @@ has_solution_type quodlibet_has_solution(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-quodlibet_has_solution_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
+stip_length_type quodlibet_can_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const op1 = slices[si].u.binary.op1;
@@ -115,9 +114,9 @@ quodlibet_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(op1,n,n_max_unsolvable);
+  result = can_attack(op1,n,n_max_unsolvable);
   if (result<=slack_length_battle-2 || result>n)
-    result = attack_has_solution_in_n(op2,n,n_max_unsolvable);
+    result = can_attack(op2,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,9 +183,9 @@ has_solution_type quodlibet_solve(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_solve_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type quodlibet_attack(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   stip_length_type result1;
@@ -200,8 +199,8 @@ stip_length_type quodlibet_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result1 = attack_solve_in_n(op1,n,n_max_unsolvable);
-  result2 = attack_solve_in_n(op2,n,n_max_unsolvable);
+  result1 = attack(op1,n,n_max_unsolvable);
+  result2 = attack(op2,n,n_max_unsolvable);
   result = result1<result2 ? result1 : result2;
 
   TraceFunctionExit(__func__);

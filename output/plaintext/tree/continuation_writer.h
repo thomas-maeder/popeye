@@ -21,9 +21,9 @@ slice_index alloc_continuation_writer_slice(void);
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_writer_can_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable);
+continuation_writer_can_defend(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -38,9 +38,8 @@ continuation_writer_can_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-continuation_writer_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable);
+stip_length_type continuation_writer_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 #endif

@@ -37,9 +37,8 @@ void stip_insert_degenerate_tree_guards(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-degenerate_tree_direct_has_solution_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable);
+stip_length_type degenerate_tree_can_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 #endif

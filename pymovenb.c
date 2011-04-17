@@ -117,9 +117,9 @@ static slice_index alloc_restart_guard(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - more refutations found than acceptable
  */
-stip_length_type restart_guard_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+stip_length_type restart_guard_defend(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -135,7 +135,7 @@ stip_length_type restart_guard_defend_in_n(slice_index si,
   if (MoveNbr<=RestartNbr)
     result = n+4;
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -152,8 +152,7 @@ stip_length_type restart_guard_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type restart_guard_help_solve_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type restart_guard_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -171,7 +170,7 @@ stip_length_type restart_guard_help_solve_in_n(slice_index si,
   if (MoveNbr<=RestartNbr)
     result = n+2;
   else
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -188,8 +187,7 @@ stip_length_type restart_guard_help_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type restart_guard_series_solve_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type restart_guard_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -205,7 +203,7 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
   if (MoveNbr<=RestartNbr)
     result = n+1;
   else
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

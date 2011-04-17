@@ -37,9 +37,9 @@ slice_index alloc_maxsolutions_root_defender_filter(void)
  *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type
-maxsolutions_root_defender_filter_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+maxsolutions_root_defender_filter_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -54,7 +54,7 @@ maxsolutions_root_defender_filter_defend_in_n(slice_index si,
     result = n+4;
   else
   {
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
     if (slack_length_battle<=result && result<=n)
       increase_nr_found_solutions();
   }

@@ -50,9 +50,9 @@ slice_index alloc_variation_writer_slice(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-variation_writer_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+variation_writer_can_attack(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -63,7 +63,7 @@ variation_writer_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -82,9 +82,9 @@ variation_writer_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type variation_writer_solve_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type variation_writer_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -99,11 +99,11 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
     /* variation is too short to be interesting - just determine the
      * result
      */
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
   else
   {
     output_plaintext_tree_write_move();
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack(next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);

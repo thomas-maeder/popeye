@@ -2069,9 +2069,9 @@ void stip_insert_hash_slices(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type attack_hashed_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -2084,11 +2084,11 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   if (slices[si].u.branch.min_length>slack_length_battle)
   {
     slices[si].u.branch.min_length -= 2;
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
     slices[si].u.branch.min_length += 2;
   }
   else
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2202,11 +2202,11 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   if (slices[si].u.branch.min_length>slack_length_battle)
   {
     slices[si].u.branch.min_length -= 2;
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
     slices[si].u.branch.min_length += 2;
   }
   else
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
 
   if (result<=n)
     addtohash_battle_success(si,result);
@@ -2229,10 +2229,9 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-attack_hashed_has_solution_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type attack_hashed_can_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   dhtElement const *he;
@@ -2388,7 +2387,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_hashed_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2406,11 +2405,11 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
     if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = help_solve_in_n(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = help_solve_in_n(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
 
     if (result==n+2)
       addtohash_help(si,n);
@@ -2431,8 +2430,7 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type hashed_help_has_solution_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2450,11 +2448,11 @@ stip_length_type hashed_help_has_solution_in_n(slice_index si,
     if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+      result = can_help(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+      result = can_help(slices[si].u.pipe.next,n);
 
     if (result>n)
       addtohash_help(si,n);
@@ -2572,7 +2570,7 @@ static void addtohash_series(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type series_hashed_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2590,11 +2588,11 @@ stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n)
     if (slices[si].u.branch.min_length>slack_length_series+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = series_solve_in_n(slices[si].u.pipe.next,n);
+      result = series(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = series_solve_in_n(slices[si].u.pipe.next,n);
+      result = series(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
     assert(result<=n+1);
@@ -2618,8 +2616,7 @@ stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type hashed_series_has_solution_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type series_hashed_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2637,11 +2634,11 @@ stip_length_type hashed_series_has_solution_in_n(slice_index si,
     if (slices[si].u.branch.min_length>slack_length_series+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+      result = has_series(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+      result = has_series(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
     assert(result<=n+1);

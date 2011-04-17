@@ -28,10 +28,9 @@ slice_index alloc_continuation_solver_slice(stip_length_type length,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-continuation_solver_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable);
+stip_length_type continuation_solver_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -44,9 +43,9 @@ continuation_solver_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_solver_can_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable);
+continuation_solver_can_defend(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable);
 
 /* Instrument the stipulation representation so that it can deal with
  * continuations

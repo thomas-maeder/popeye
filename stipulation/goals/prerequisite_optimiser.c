@@ -37,9 +37,9 @@ slice_index alloc_goal_prerequisite_optimiser_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-goal_prerequisite_optimiser_solve_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+goal_prerequisite_optimiser_attack(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -54,7 +54,7 @@ goal_prerequisite_optimiser_solve_in_n(slice_index si,
       && goal_preprequisites_met[nbply]==0)
     n_max_unsolvable = slack_length_battle+1;
 
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,9 +73,9 @@ goal_prerequisite_optimiser_solve_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-goal_prerequisite_optimiser_has_solution_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+goal_prerequisite_optimiser_can_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -90,7 +90,7 @@ goal_prerequisite_optimiser_has_solution_in_n(slice_index si,
       && goal_preprequisites_met[nbply]==0)
     n_max_unsolvable = slack_length_battle+1;
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -113,9 +113,9 @@ goal_prerequisite_optimiser_has_solution_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-goal_prerequisite_optimiser_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+goal_prerequisite_optimiser_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -130,7 +130,7 @@ goal_prerequisite_optimiser_defend_in_n(slice_index si,
       && goal_preprequisites_met[nbply]==0)
     n_max_unsolvable = slack_length_battle+1;
 
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -150,9 +150,9 @@ goal_prerequisite_optimiser_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-goal_prerequisite_optimiser_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+goal_prerequisite_optimiser_can_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -167,7 +167,7 @@ goal_prerequisite_optimiser_can_defend_in_n(slice_index si,
       && goal_preprequisites_met[nbply]==0)
     n_max_unsolvable = slack_length_battle+1;
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,8 +184,8 @@ goal_prerequisite_optimiser_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type goal_prerequisite_optimiser_help(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -198,7 +198,7 @@ goal_prerequisite_optimiser_help_solve_in_n(slice_index si, stip_length_type n)
   if (goal_preprequisites_met[nbply]==0)
     result = n+2;
   else
-    result = help_solve_in_n(next,n);
+    result = help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -215,9 +215,8 @@ goal_prerequisite_optimiser_help_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_help_has_solution_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type goal_prerequisite_optimiser_can_help(slice_index si,
+                                                      stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -230,7 +229,7 @@ goal_prerequisite_optimiser_help_has_solution_in_n(slice_index si,
   if (goal_preprequisites_met[nbply]==0)
     result = n+2;
   else
-    result = help_has_solution_in_n(next,n);
+    result = can_help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -246,9 +245,8 @@ goal_prerequisite_optimiser_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_series_solve_in_n(slice_index si,
-                                              stip_length_type n)
+stip_length_type goal_prerequisite_optimiser_series(slice_index si,
+                                                    stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -261,7 +259,7 @@ goal_prerequisite_optimiser_series_solve_in_n(slice_index si,
   if (goal_preprequisites_met[nbply]==0)
     result = n+1;
   else
-    result = series_solve_in_n(next,n);
+    result = series(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -278,9 +276,8 @@ goal_prerequisite_optimiser_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_series_has_solution_in_n(slice_index si,
-                                                     stip_length_type n)
+stip_length_type goal_prerequisite_optimiser_has_series(slice_index si,
+                                                        stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -293,7 +290,7 @@ goal_prerequisite_optimiser_series_has_solution_in_n(slice_index si,
   if (goal_preprequisites_met[nbply]==0)
     result = n+1;
   else
-    result = series_has_solution_in_n(next,n);
+    result = has_series(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

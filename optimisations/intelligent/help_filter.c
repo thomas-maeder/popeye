@@ -35,7 +35,7 @@ slice_index alloc_intelligent_help_filter(stip_length_type full_length)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_help_filter_solve_in_n(slice_index si,
+stip_length_type intelligent_help_filter_help(slice_index si,
                                                     stip_length_type n)
 {
   stip_length_type result;
@@ -69,7 +69,7 @@ boolean intelligent_help_filter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_has_solution_in_n(next,n);
+  result = can_help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

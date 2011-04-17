@@ -29,9 +29,9 @@ slice_index alloc_goal_prerequisite_optimiser_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-goal_prerequisite_optimiser_solve_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+goal_prerequisite_optimiser_attack(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -44,9 +44,9 @@ goal_prerequisite_optimiser_solve_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-goal_prerequisite_optimiser_has_solution_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable);
+goal_prerequisite_optimiser_can_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -62,9 +62,9 @@ goal_prerequisite_optimiser_has_solution_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-goal_prerequisite_optimiser_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+goal_prerequisite_optimiser_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -77,9 +77,9 @@ goal_prerequisite_optimiser_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-goal_prerequisite_optimiser_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable);
+goal_prerequisite_optimiser_can_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -90,8 +90,8 @@ goal_prerequisite_optimiser_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_help_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type goal_prerequisite_optimiser_help(slice_index si,
+                                                  stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -102,9 +102,8 @@ goal_prerequisite_optimiser_help_solve_in_n(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_help_has_solution_in_n(slice_index si,
-                                                   stip_length_type n);
+stip_length_type goal_prerequisite_optimiser_can_help(slice_index si,
+                                                      stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -115,9 +114,8 @@ goal_prerequisite_optimiser_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_series_solve_in_n(slice_index si,
-                                              stip_length_type n);
+stip_length_type goal_prerequisite_optimiser_series(slice_index si,
+                                                    stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -128,8 +126,7 @@ goal_prerequisite_optimiser_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-goal_prerequisite_optimiser_series_has_solution_in_n(slice_index si,
-                                                     stip_length_type n);
+stip_length_type goal_prerequisite_optimiser_has_series(slice_index si,
+                                                        stip_length_type n);
 
 #endif

@@ -77,7 +77,7 @@ void stip_traverse_moves_help_shortcut(slice_index si, stip_moves_traversal *st)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_shortcut_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_shortcut_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -90,7 +90,7 @@ stip_length_type help_shortcut_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_solve_in_n(next_branch,n);
+  result = help(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -107,8 +107,7 @@ stip_length_type help_shortcut_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_shortcut_has_solution_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type help_shortcut_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -121,7 +120,7 @@ stip_length_type help_shortcut_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_has_solution_in_n(next_branch,n);
+  result = can_help(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

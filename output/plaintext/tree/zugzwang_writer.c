@@ -35,9 +35,9 @@ slice_index alloc_zugzwang_writer_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type zugzwang_writer_solve_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+stip_length_type zugzwang_writer_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -54,7 +54,7 @@ stip_length_type zugzwang_writer_solve_in_n(slice_index si,
      */
     Message(NewLine);
 
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   /* We don't signal "Zugzwang" after the last attacking move of a
    * self play variation */

@@ -40,8 +40,8 @@ void killer_move_optimise_final_defense_move(slice_index si,
            n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-killer_move_final_defense_move_can_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable);
+killer_move_final_defense_move_can_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 #endif

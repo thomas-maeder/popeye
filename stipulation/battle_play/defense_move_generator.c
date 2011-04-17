@@ -40,9 +40,9 @@ slice_index alloc_defense_move_generator_slice(void)
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-defense_move_generator_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+defense_move_generator_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
@@ -60,7 +60,7 @@ defense_move_generator_defend_in_n(slice_index si,
   else
     move_generation_mode = move_generation_mode_opti_per_side[defender];
   genmove(defender);
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -81,9 +81,9 @@ defense_move_generator_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-defense_move_generator_can_defend_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable)
+defense_move_generator_can_defend(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
@@ -101,7 +101,7 @@ defense_move_generator_can_defend_in_n(slice_index si,
   else
     move_generation_mode = move_generation_mode_opti_per_side[defender];
   genmove(defender);
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);

@@ -33,8 +33,8 @@ void series_find_shortest_make_root(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_find_shortest_solve_in_n(slice_index si,
-                                                 stip_length_type n);
+stip_length_type series_find_shortest_series(slice_index si,
+                                             stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -45,7 +45,7 @@ stip_length_type series_find_shortest_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_find_shortest_has_solution_in_n(slice_index si,
-                                                        stip_length_type n);
+stip_length_type series_find_shortest_has_series(slice_index si,
+                                                 stip_length_type n);
 
 #endif

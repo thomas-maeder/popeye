@@ -23,8 +23,8 @@ slice_index alloc_killer_move_attack_generator_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-killer_move_attack_generator_has_solution_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable);
+killer_move_attack_generator_can_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable);
 
 #endif

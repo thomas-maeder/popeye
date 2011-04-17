@@ -78,9 +78,9 @@ void attack_move_generator_optimise_orthodox_mating(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-orthodox_mating_move_generator_has_solution_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_max_unsolvable)
+orthodox_mating_move_generator_can_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -99,7 +99,7 @@ orthodox_mating_move_generator_has_solution_in_n(slice_index si,
   empile_for_goal = slices[si].u.branch.imminent_goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -120,9 +120,9 @@ orthodox_mating_move_generator_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-orthodox_mating_move_generator_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+orthodox_mating_move_generator_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -141,7 +141,7 @@ orthodox_mating_move_generator_solve_in_n(slice_index si,
   empile_for_goal = slices[si].u.branch.imminent_goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);

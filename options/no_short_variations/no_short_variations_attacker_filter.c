@@ -48,7 +48,7 @@ static boolean has_short_solution(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable)<=n;
+  result = can_attack(next,n,n_max_unsolvable)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -67,9 +67,9 @@ static boolean has_short_solution(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-no_short_variations_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+no_short_variations_can_attack(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -80,7 +80,7 @@ no_short_variations_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -99,10 +99,9 @@ no_short_variations_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-no_short_variations_solve_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable)
+stip_length_type no_short_variations_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -118,7 +117,7 @@ no_short_variations_solve_in_n(slice_index si,
       && has_short_solution(si,n-2,n_max_unsolvable))
     result = slack_length_battle;
   else
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

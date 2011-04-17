@@ -36,9 +36,9 @@ static slice_index alloc_postkeyplay_suppressor_slice(void)
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-postkeyplay_suppressor_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+postkeyplay_suppressor_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -50,7 +50,7 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==n_max_unsolvable)
-    result = defense_defend_in_n(next,n,n);
+    result = defend(next,n,n);
   else
     result = n;
 
@@ -72,9 +72,9 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-postkeyplay_suppressor_can_defend_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable)
+postkeyplay_suppressor_can_defend(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -85,7 +85,7 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

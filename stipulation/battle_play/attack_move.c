@@ -38,10 +38,9 @@ slice_index alloc_attack_move_slice(stip_length_type length,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-attack_move_has_solution_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+stip_length_type attack_move_can_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
@@ -56,7 +55,7 @@ attack_move_has_solution_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const def_result = defense_can_defend_in_n(next,
+      stip_length_type const def_result = can_defend(next,
                                                                   n-1,
                                                                   n_max_unsolvable-1);
       if (slack_length_battle<=def_result && def_result<result)
@@ -83,9 +82,9 @@ attack_move_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_move_solve_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+stip_length_type attack_move_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
@@ -100,9 +99,7 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const def_result = defense_defend_in_n(next,
-                                                              n-1,
-                                                              n_max_unsolvable-1);
+      stip_length_type const def_result = defend(next,n-1,n_max_unsolvable-1);
       if (slack_length_battle<=def_result && def_result<result)
         result = def_result+1;
     }

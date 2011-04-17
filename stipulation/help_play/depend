@@ -181,16 +181,15 @@ pybrafrk.h:
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
- pymovenb.h pyint.h pydata.h stipulation/battle_play/attack_play.h \
- stipulation/series_play/play.h stipulation/help_play/root.h \
- stipulation/help_play/find_shortest.h stipulation/help_play/move.h \
- stipulation/help_play/move_to_goal.h stipulation/help_play/shortcut.h \
- stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
- stipulation/goals/countermate/filter.h \
+ pymovenb.h pyint.h stipulation/battle_play/attack_adapter.h \
+ stipulation/help_play/root.h stipulation/help_play/find_shortest.h \
+ stipulation/help_play/move.h stipulation/help_play/move_to_goal.h \
+ stipulation/help_play/shortcut.h stipulation/help_play/end_of_branch.h \
+ stipulation/help_play/fork.h stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
+ stipulation/goals/prerequisite_optimiser.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h \
- stipulation/goals/prerequisite_optimiser.h \
  optimisations/intelligent/help_filter.h \
  optimisations/maxtime/help_filter.h \
  optimisations/maxsolutions/help_filter.h \
@@ -210,11 +209,7 @@ pymovenb.h:
 
 pyint.h:
 
-pydata.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/series_play/play.h:
+stipulation/battle_play/attack_adapter.h:
 
 stipulation/help_play/root.h:
 
@@ -234,11 +229,11 @@ stipulation/goals/countermate/filter.h:
 
 stipulation/goals/doublemate/filter.h:
 
+stipulation/goals/prerequisite_optimiser.h:
+
 optimisations/goals/enpassant/filter.h:
 
 optimisations/goals/castling/filter.h:
-
-stipulation/goals/prerequisite_optimiser.h:
 
 optimisations/intelligent/help_filter.h:
 

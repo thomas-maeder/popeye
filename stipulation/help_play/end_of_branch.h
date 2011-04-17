@@ -28,8 +28,7 @@ void stip_traverse_moves_end_of_help_branch(slice_index si, stip_moves_traversal
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_help_branch_help_in_n(slice_index si,
-                                              stip_length_type n);
+stip_length_type end_of_help_branch_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -40,7 +39,6 @@ stip_length_type end_of_help_branch_help_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_help_branch_can_help_in_n(slice_index si,
-                                                  stip_length_type n);
+stip_length_type end_of_help_branch_can_help(slice_index si, stip_length_type n);
 
 #endif

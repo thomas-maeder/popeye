@@ -43,7 +43,7 @@ slice_index alloc_help_root_slice(stip_length_type length,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_root_help(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   stip_length_type len = slices[si].u.branch.min_length;
@@ -55,7 +55,7 @@ stip_length_type help_root_solve_in_n(slice_index si, stip_length_type n)
 
   while (len<=n)
   {
-    if (help_solve_in_n(slices[si].u.pipe.next,len)==len && len<result)
+    if (help(slices[si].u.pipe.next,len)==len && len<result)
       result = len;
     len += 2;
   }
@@ -75,8 +75,7 @@ stip_length_type help_root_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+stip_length_type help_root_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -85,7 +84,7 @@ stip_length_type help_root_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+  result = can_help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

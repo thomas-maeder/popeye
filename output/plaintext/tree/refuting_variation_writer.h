@@ -21,9 +21,9 @@ slice_index alloc_refuting_variation_writer_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-refuting_variation_writer_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable);
+refuting_variation_writer_can_attack(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -37,8 +37,8 @@ refuting_variation_writer_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-refuting_variation_writer_solve_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable);
+refuting_variation_writer_attack(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable);
 
 #endif

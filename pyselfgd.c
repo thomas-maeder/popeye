@@ -51,10 +51,9 @@ static slice_index alloc_self_defense(slice_index proxy_to_goal)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-self_defense_has_solution_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable)
+stip_length_type self_defense_can_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -71,15 +70,15 @@ self_defense_has_solution_in_n(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = attack_has_solution_in_n(to_goal,n,n_max_unsolvable);
+    result = can_attack(to_goal,n,n_max_unsolvable);
     if (result>n)
       /* delegate to next even if (n==slack_length_battle) - we need
        * to distinguish between self-check and other ways of not
        * reaching the goal */
-      result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+      result = can_attack(next,n,n_max_unsolvable);
   }
   else
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,9 +97,9 @@ self_defense_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type self_defense_solve_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type self_defense_attack(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -117,15 +116,15 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = attack_solve_in_n(to_goal,n,n_max_unsolvable);
+    result = attack(to_goal,n,n_max_unsolvable);
     if (result>n)
       /* delegate to next even if (n==slack_length_battle) - we need
        * to distinguish between self-check and other ways of not
        * reaching the goal */
-      result = attack_solve_in_n(next,n,n_max_unsolvable);
+      result = attack(next,n,n_max_unsolvable);
   }
   else
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
+    result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

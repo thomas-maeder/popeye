@@ -114,7 +114,7 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && series_solve_in_n(next,n-1)==n-1)
+        && series(next,n-1)==n-1)
       result = n;
 
     repcoup();
@@ -132,7 +132,7 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type series_move_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -172,7 +172,7 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
 
   while (encore())
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && series_has_solution_in_n(next,n-1)==n-1)
+        && has_series(next,n-1)==n-1)
     {
       result = n;
       repcoup();
@@ -193,8 +193,7 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_move_has_solution_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type series_move_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;

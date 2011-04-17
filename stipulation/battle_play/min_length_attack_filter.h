@@ -26,9 +26,9 @@ slice_index alloc_min_length_attack_filter_slice(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_attack_filter_has_solution_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable);
+min_length_attack_filter_can_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -42,8 +42,8 @@ min_length_attack_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_attack_filter_solve_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable);
+min_length_attack_filter_attack(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_max_unsolvable);
 
 #endif

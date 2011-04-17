@@ -5,9 +5,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyint.h"
-#include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/series_play/play.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
@@ -17,9 +15,9 @@
 #include "stipulation/help_play/fork.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
+#include "stipulation/goals/prerequisite_optimiser.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
-#include "stipulation/goals/prerequisite_optimiser.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
@@ -37,7 +35,7 @@
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -49,134 +47,96 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpAdapter:
-      result = help_solve_in_n(slices[si].u.pipe.next,n);
-      break;
-
     case STHelpRoot:
-      result = help_root_solve_in_n(si,n);
+      result = help_root_help(si,n);
       break;
 
     case STHelpFindShortest:
-      result = help_find_shortest_solve_in_n(si,n);
+      result = help_find_shortest_help(si,n);
       break;
 
     case STHelpShortcut:
-      result = help_shortcut_solve_in_n(si,n);
+      result = help_shortcut_help(si,n);
       break;
 
     case STHelpMove:
-      result = help_move_solve_in_n(si,n);
+      result = help_move_help(si,n);
       break;
 
     case STHelpMoveToGoal:
-      result = help_move_to_goal_solve_in_n(si,n);
+      result = help_move_to_goal_help(si,n);
       break;
-
-    case STSeriesMove:
-    case STSeriesHashed:
-    {
-      stip_length_type const n_series = n-slack_length_help+slack_length_series;
-      stip_length_type const length = series_solve_in_n(si,n_series);
-      if (length==n_series+2)
-        result = n+4;
-      else if (length==n_series+1)
-        result = n+2;
-      else if (length==n_series)
-        result = n;
-      else
-      {
-        assert(length==n_series-1);
-        result = n-2;
-      }
-      break;
-    }
 
     case STAttackAdapter:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
-      stip_length_type const n_max_unsolvable = slack_length_battle-1;
-      stip_length_type const
-          sol_length = attack_has_solution_in_n(next,nbattle,n_max_unsolvable);
-      if (sol_length<slack_length_battle)
-        result = n+4;
-      else if (sol_length<=nbattle)
-      {
-        result = n;
-        attack_solve_in_n(next,nbattle,n_max_unsolvable);
-      }
-      else
-        result = sol_length+slack_length_help-slack_length_battle;
+      result = attack_adapter_help(si,n);
       break;
-    }
 
     case STEndOfHelpBranch:
-      result = end_of_help_branch_help_in_n(si,n);
+      result = end_of_help_branch_help(si,n);
       break;
 
     case STHelpFork:
-      result = help_fork_solve_in_n(si,n);
+      result = help_fork_help(si,n);
       break;
 
     case STHelpHashed:
-      result = hashed_help_solve_in_n(si,n);
+      result = help_hashed_help(si,n);
       break;
 
     case STReflexHelpFilter:
-      result = reflex_help_filter_solve_in_n(si,n);
+      result = reflex_help_filter_help(si,n);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_help_solve_in_n(si,n);
+      result = keepmating_filter_help(si,n);
       break;
 
     case STIntelligentHelpFilter:
-      result = intelligent_help_filter_solve_in_n(si,n);
+      result = intelligent_help_filter_help(si,n);
       break;
 
     case STGoalReachableGuardHelpFilter:
-      result = goalreachable_guard_help_solve_in_n(si,n);
+      result = goalreachable_guard_help(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_help_solve_in_n(si,n);
+      result = selfcheck_guard_help(si,n);
       break;
 
     case STRestartGuard:
-      result = restart_guard_help_solve_in_n(si,n);
+      result = restart_guard_help(si,n);
       break;
 
     case STMaxTimeHelpFilter:
-      result = maxtime_help_filter_solve_in_n(si,n);
+      result = maxtime_help_filter_help(si,n);
       break;
 
     case STMaxSolutionsHelpFilter:
-      result = maxsolutions_help_filter_solve_in_n(si,n);
+      result = maxsolutions_help_filter_help(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_help_solve_in_n(si,n);
+      result = stoponshortsolutions_help(si,n);
       break;
 
     case STCounterMateFilter:
-      result = countermate_help_filter_solve_in_n(si,n);
+      result = countermate_filter_help(si,n);
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_help_filter_solve_in_n(si,n);
+      result = doublemate_filter_help(si,n);
       break;
 
     case STEnPassantFilter:
-      result = enpassant_filter_help_solve_in_n(si,n);
+      result = enpassant_filter_help(si,n);
       break;
 
     case STCastlingFilter:
-      result = castling_filter_help_solve_in_n(si,n);
+      result = castling_filter_help(si,n);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_help_solve_in_n(si,n);
+      result = goal_prerequisite_optimiser_help(si,n);
       break;
 
     default:
@@ -217,7 +177,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -229,88 +189,84 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpAdapter:
-      result = help_has_solution_in_n(slices[si].u.pipe.next,n);
-      break;
-
     case STHelpMove:
-      result = help_move_has_solution_in_n(si,n);
+      result = help_move_can_help(si,n);
       break;
 
     case STHelpMoveToGoal:
-      result = help_move_to_goal_has_solution_in_n(si,n);
+      result = help_move_to_goal_can_help(si,n);
       break;
 
     case STHelpRoot:
-      result = help_root_has_solution_in_n(si,n);
+      result = help_root_can_help(si,n);
       break;
 
     case STHelpFindShortest:
-      result = help_find_shortest_has_solution_in_n(si,n);
+      result = help_find_shortest_can_help(si,n);
       break;
 
     case STHelpShortcut:
-      result = help_shortcut_has_solution_in_n(si,n);
+      result = help_shortcut_can_help(si,n);
       break;
 
     case STEndOfHelpBranch:
-      result = end_of_help_branch_can_help_in_n(si,n);
+      result = end_of_help_branch_can_help(si,n);
       break;
 
     case STHelpFork:
-      result = help_fork_has_solution_in_n(si,n);
+      result = help_fork_can_help(si,n);
       break;
 
     case STHelpHashed:
-      result = hashed_help_has_solution_in_n(si,n);
+      result = help_hashed_can_help(si,n);
       break;
 
     case STReflexHelpFilter:
-      result = reflex_help_filter_has_solution_in_n(si,n);
+      result = reflex_help_filter_can_help(si,n);
       break;
 
     case STKeepMatingFilter:
-      result = keepmating_filter_help_has_solution_in_n(si,n);
+      result = keepmating_filter_can_help(si,n);
       break;
 
     case STGoalReachableGuardHelpFilter:
-      result = goalreachable_guard_help_has_solution_in_n(si,n);
+      result = goalreachable_guard_can_help(si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_help_has_solution_in_n(si,n);
+      result = selfcheck_guard_can_help(si,n);
       break;
 
     case STMaxTimeHelpFilter:
-      result = maxtime_help_filter_has_solution_in_n(si,n);
+      result = maxtime_help_filter_can_help(si,n);
       break;
 
     case STMaxSolutionsHelpFilter:
-      result = maxsolutions_help_filter_has_solution_in_n(si,n);
+      result = maxsolutions_help_filter_can_help(si,n);
       break;
 
     case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_help_has_solution_in_n(si,n);
+      result = stoponshortsolutions_can_help(si,n);
       break;
 
     case STCounterMateFilter:
-      result = countermate_help_filter_has_solution_in_n(si,n);
+      result = countermate_filter_can_help(si,n);
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_help_filter_has_solution_in_n(si,n);
+      result = doublemate_filter_can_help(si,n);
       break;
 
     case STEnPassantFilter:
-      result = enpassant_filter_help_has_solution_in_n(si,n);
+      result = enpassant_filter_can_help(si,n);
       break;
 
     case STCastlingFilter:
-      result = castling_filter_help_has_solution_in_n(si,n);
+      result = castling_filter_can_help(si,n);
       break;
 
     case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_help_has_solution_in_n(si,n);
+      result = goal_prerequisite_optimiser_can_help(si,n);
       break;
 
     default:

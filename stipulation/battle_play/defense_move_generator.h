@@ -27,9 +27,9 @@ slice_index alloc_defense_move_generator_slice(void);
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-defense_move_generator_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable);
+defense_move_generator_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -42,8 +42,8 @@ defense_move_generator_defend_in_n(slice_index si,
            n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-defense_move_generator_can_defend_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable);
+defense_move_generator_can_defend(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable);
 
 #endif

@@ -24,8 +24,8 @@ slice_index alloc_intelligent_series_filter(stip_length_type full_length);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_series_filter_solve_in_n(slice_index si,
-                                                      stip_length_type n);
+stip_length_type intelligent_series_filter_series(slice_index si,
+                                                  stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved

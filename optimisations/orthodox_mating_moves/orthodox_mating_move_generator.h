@@ -27,9 +27,9 @@ void attack_move_generator_optimise_orthodox_mating(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-orthodox_mating_move_generator_has_solution_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_max_unsolvable);
+orthodox_mating_move_generator_can_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -43,8 +43,8 @@ orthodox_mating_move_generator_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-orthodox_mating_move_generator_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable);
+orthodox_mating_move_generator_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable);
 
 #endif

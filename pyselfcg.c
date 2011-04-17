@@ -44,10 +44,9 @@ slice_index alloc_selfcheck_guard_solvable_filter(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-selfcheck_guard_attack_solve_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type selfcheck_guard_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -60,7 +59,7 @@ selfcheck_guard_attack_solve_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = slack_length_battle-2;
   else
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -78,10 +77,9 @@ selfcheck_guard_attack_solve_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-selfcheck_guard_attack_has_solution_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type selfcheck_guard_can_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -95,7 +93,7 @@ selfcheck_guard_attack_has_solution_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = slack_length_battle-2;
   else
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+    result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,9 +115,9 @@ selfcheck_guard_attack_has_solution_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type selfcheck_guard_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type selfcheck_guard_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -133,7 +131,7 @@ stip_length_type selfcheck_guard_defend_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+4;
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -152,10 +150,9 @@ stip_length_type selfcheck_guard_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-selfcheck_guard_can_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type selfcheck_guard_can_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -169,7 +166,7 @@ selfcheck_guard_can_defend_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+4;
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -186,8 +183,7 @@ selfcheck_guard_can_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type selfcheck_guard_help_solve_in_n(slice_index si,
-                                                 stip_length_type n)
+stip_length_type selfcheck_guard_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -199,7 +195,7 @@ stip_length_type selfcheck_guard_help_solve_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+2;
   else
-    result = help_solve_in_n(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -216,8 +212,7 @@ stip_length_type selfcheck_guard_help_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
-                                                        stip_length_type n)
+stip_length_type selfcheck_guard_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -231,7 +226,7 @@ stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+2;
   else
-    result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = can_help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -248,8 +243,7 @@ stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type selfcheck_guard_series_solve_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type selfcheck_guard_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -263,7 +257,7 @@ stip_length_type selfcheck_guard_series_solve_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+2;
   else
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -280,8 +274,7 @@ stip_length_type selfcheck_guard_series_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
-                                                          stip_length_type n)
+stip_length_type selfcheck_guard_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -295,7 +288,7 @@ stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+2;
   else
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = has_series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

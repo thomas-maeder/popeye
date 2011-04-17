@@ -89,7 +89,7 @@ delegate_has_solution_in_n(slice_index si,
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = attack_has_solution_in_n(next,n_current,n_max_unsolvable);
+    result = can_attack(next,n_current,n_max_unsolvable);
     if (result<=n_current)
       break;
     else
@@ -112,10 +112,9 @@ delegate_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-degenerate_tree_direct_has_solution_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type degenerate_tree_can_attack(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   stip_length_type const parity = (n-slack_length_battle)%2;

@@ -126,7 +126,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
 
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
-  defense_can_defend_in_n(next,n_next,n_max_unsolvable);
+  can_defend(next,n_next,n_max_unsolvable);
   are_we_counting_nontrival[nbply+1] = false;
   result = non_trivial_count[nbply+1];
 
@@ -212,9 +212,9 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-max_nr_nontrivial_guard_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+max_nr_nontrivial_guard_defend(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
@@ -232,7 +232,7 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
+      result = defend(next,n,n_max_unsolvable);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -240,7 +240,7 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -260,9 +260,9 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
+max_nr_nontrivial_guard_can_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
@@ -280,7 +280,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+      result = can_defend(next,n,n_max_unsolvable);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -288,7 +288,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -325,9 +325,9 @@ static slice_index alloc_max_nr_nontrivial_counter(void)
  *            n+2 no solution found
  */
 stip_length_type
-max_nr_nontrivial_counter_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+max_nr_nontrivial_counter_can_attack(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
@@ -338,7 +338,7 @@ max_nr_nontrivial_counter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   if (result>n && are_we_counting_nontrival[nbply])
   {
@@ -366,9 +366,9 @@ max_nr_nontrivial_counter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-max_nr_nontrivial_counter_solve_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable)
+max_nr_nontrivial_counter_attack(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -378,7 +378,7 @@ max_nr_nontrivial_counter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -419,9 +419,9 @@ static slice_index alloc_max_nr_noncheck_guard(void)
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-max_nr_noncheck_guard_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+max_nr_noncheck_guard_defend(slice_index si,
+                             stip_length_type n,
+                             stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
@@ -439,7 +439,7 @@ max_nr_noncheck_guard_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_noncheck;
-      result = defense_defend_in_n(next,n,n_max_unsolvable);
+      result = defend(next,n,n_max_unsolvable);
       max_nr_nontrivial += nr_noncheck;
       --max_nr_nontrivial;
     }
@@ -447,7 +447,7 @@ max_nr_noncheck_guard_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -467,9 +467,9 @@ max_nr_noncheck_guard_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-max_nr_noncheck_guard_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+max_nr_noncheck_guard_can_defend(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
@@ -487,7 +487,7 @@ max_nr_noncheck_guard_can_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_noncheck;
-      result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+      result = can_defend(next,n,n_max_unsolvable);
       max_nr_nontrivial += nr_noncheck;
       --max_nr_nontrivial;
     }
@@ -495,7 +495,7 @@ max_nr_noncheck_guard_can_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

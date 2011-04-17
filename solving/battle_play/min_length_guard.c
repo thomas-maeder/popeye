@@ -39,9 +39,9 @@ slice_index alloc_min_length_guard(stip_length_type length,
  *            n+2 no solution found
  */
 stip_length_type
-min_length_guard_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+min_length_guard_can_attack(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const length = slices[si].u.branch.length;
@@ -54,7 +54,7 @@ min_length_guard_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   if (result>slack_length_battle-2 && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
@@ -76,9 +76,9 @@ min_length_guard_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type min_length_guard_solve_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type min_length_guard_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -89,7 +89,7 @@ stip_length_type min_length_guard_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,10 +108,9 @@ stip_length_type min_length_guard_solve_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-min_length_guard_can_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+stip_length_type min_length_guard_can_defend(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -124,7 +123,7 @@ min_length_guard_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   if (slack_length_battle<=result && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
@@ -149,9 +148,9 @@ min_length_guard_can_defend_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type min_length_guard_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+stip_length_type min_length_guard_defend(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -164,7 +163,7 @@ stip_length_type min_length_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   if (slack_length_battle<=result && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */

@@ -34,9 +34,9 @@ slice_index alloc_output_plaintext_tree_decoration_writer_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_decoration_writer_has_solution_in_n(slice_index si,
-                                                          stip_length_type n,
-                                                          stip_length_type n_max_unsolvable)
+output_plaintext_tree_decoration_writer_can_attack(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -47,7 +47,7 @@ output_plaintext_tree_decoration_writer_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -67,9 +67,9 @@ output_plaintext_tree_decoration_writer_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_decoration_writer_solve_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+output_plaintext_tree_decoration_writer_attack(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -81,7 +81,7 @@ output_plaintext_tree_decoration_writer_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   output_plaintext_tree_write_pending_move_decoration();
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -101,9 +101,9 @@ output_plaintext_tree_decoration_writer_solve_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_decoration_writer_can_defend_in_n(slice_index si,
-                                                        stip_length_type n,
-                                                        stip_length_type n_max_unsolvable)
+output_plaintext_tree_decoration_writer_can_defend(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+4;
   slice_index const next = slices[si].u.pipe.next;
@@ -114,7 +114,7 @@ output_plaintext_tree_decoration_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -137,9 +137,9 @@ output_plaintext_tree_decoration_writer_can_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_decoration_writer_defend_in_n(slice_index si,
-                                                    stip_length_type n,
-                                                    stip_length_type n_max_unsolvable)
+output_plaintext_tree_decoration_writer_defend(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -151,7 +151,7 @@ output_plaintext_tree_decoration_writer_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   output_plaintext_tree_write_pending_move_decoration();
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

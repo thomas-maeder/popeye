@@ -79,8 +79,7 @@ void stip_traverse_moves_end_of_series_branch(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type end_of_series_branch_series_in_n(slice_index si,
-                                                  stip_length_type n)
+stip_length_type end_of_series_branch_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -114,7 +113,7 @@ stip_length_type end_of_series_branch_series_in_n(slice_index si,
         break;
     }
   else
-    result = series_solve_in_n(next,n);
+    result = series(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -131,8 +130,8 @@ stip_length_type end_of_series_branch_series_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type end_of_series_branch_has_series_in_n(slice_index si,
-                                                      stip_length_type n)
+stip_length_type end_of_series_branch_has_series(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -166,7 +165,7 @@ stip_length_type end_of_series_branch_has_series_in_n(slice_index si,
         break;
     }
   else
-    result = series_has_solution_in_n(next,n);
+    result = has_series(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -60,9 +60,9 @@ void stip_traverse_moves_optimisation_fork(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-optimisation_fork_has_solution_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+optimisation_fork_can_attack(slice_index si,
+                             stip_length_type n,
+                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -75,13 +75,11 @@ optimisation_fork_has_solution_in_n(slice_index si,
   assert(n>slack_length_battle);
 
   if (n<=slack_length_battle+slices[si].u.optimisation_fork.threshold)
-    result = attack_has_solution_in_n(slices[si].u.optimisation_fork.optimisation,
-                                      slack_length_battle+1,
-                                      n_max_unsolvable);
+    result = can_attack(slices[si].u.optimisation_fork.optimisation,
+                        slack_length_battle+1,
+                        n_max_unsolvable);
   else
-    result = attack_has_solution_in_n(slices[si].u.optimisation_fork.next,
-                                      n,
-                                      n_max_unsolvable);
+    result = can_attack(slices[si].u.optimisation_fork.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -100,9 +98,9 @@ optimisation_fork_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type optimisation_fork_solve_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+stip_length_type optimisation_fork_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -115,13 +113,11 @@ stip_length_type optimisation_fork_solve_in_n(slice_index si,
   assert(n>slack_length_battle);
 
   if (n<=slack_length_battle+slices[si].u.optimisation_fork.threshold)
-    result = attack_solve_in_n(slices[si].u.optimisation_fork.optimisation,
-                               slack_length_battle+1,
-                               n_max_unsolvable);
+    result = attack(slices[si].u.optimisation_fork.optimisation,
+                    slack_length_battle+1,
+                    n_max_unsolvable);
   else
-    result = attack_solve_in_n(slices[si].u.optimisation_fork.next,
-                               n,
-                               n_max_unsolvable);
+    result = attack(slices[si].u.optimisation_fork.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -143,9 +139,9 @@ stip_length_type optimisation_fork_solve_in_n(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+stip_length_type optimisation_fork_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.optimisation_fork.next;
@@ -161,9 +157,9 @@ stip_length_type optimisation_fork_defend_in_n(slice_index si,
   assert(n>slack_length_battle);
 
   if (n<=slack_length_battle+threshold)
-    result = defense_defend_in_n(optimisation,n,n_max_unsolvable);
+    result = defend(optimisation,n,n_max_unsolvable);
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -182,10 +178,9 @@ stip_length_type optimisation_fork_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-optimisation_fork_can_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type optimisation_fork_can_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.optimisation_fork.next;
@@ -201,9 +196,9 @@ optimisation_fork_can_defend_in_n(slice_index si,
   assert(n>slack_length_battle);
 
   if (n<=slack_length_battle+threshold)
-    result = defense_can_defend_in_n(optimisation,n,n_max_unsolvable);
+    result = can_defend(optimisation,n,n_max_unsolvable);
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

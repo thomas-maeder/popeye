@@ -39,9 +39,9 @@ slice_index alloc_countermate_filter_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-countermate_attacker_filter_has_solution_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+countermate_attacker_filter_can_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -56,7 +56,7 @@ countermate_attacker_filter_has_solution_in_n(slice_index si,
   if (n_max_unsolvable<slack_length_battle+1
       && (goal_checker_mate(advers(starter))==goal_reached))
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -77,7 +77,45 @@ countermate_attacker_filter_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-countermate_attacker_filter_solve_in_n(slice_index si,
+countermate_attacker_filter_attack(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  if (n_max_unsolvable<slack_length_battle+1
+      && (goal_checker_mate(advers(starter))==goal_reached))
+    SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
+  result = attack(next,n,n_max_unsolvable);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type
+countermate_defender_filter_can_defend(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable)
 {
@@ -94,7 +132,7 @@ countermate_attacker_filter_solve_in_n(slice_index si,
   if (n_max_unsolvable<slack_length_battle+1
       && (goal_checker_mate(advers(starter))==goal_reached))
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -115,9 +153,9 @@ countermate_attacker_filter_solve_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-countermate_defender_filter_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+countermate_defender_filter_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -132,45 +170,7 @@ countermate_defender_filter_can_defend_in_n(slice_index si,
   if (n_max_unsolvable<slack_length_battle+1
       && (goal_checker_mate(advers(starter))==goal_reached))
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-countermate_defender_filter_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  if (n_max_unsolvable<slack_length_battle+1
-      && (goal_checker_mate(advers(starter))==goal_reached))
-    SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -188,8 +188,7 @@ countermate_defender_filter_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type countermate_help_filter_solve_in_n(slice_index si,
-                                                    stip_length_type n)
+stip_length_type countermate_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
@@ -203,7 +202,7 @@ stip_length_type countermate_help_filter_solve_in_n(slice_index si,
 
   if (goal_checker_mate(advers(starter))==goal_reached)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = help_solve_in_n(slices[si].u.pipe.next,slack_length_help+1);
+  result = help(slices[si].u.pipe.next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -221,8 +220,7 @@ stip_length_type countermate_help_filter_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type countermate_help_filter_has_solution_in_n(slice_index si,
-                                                           stip_length_type n)
+stip_length_type countermate_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
@@ -236,7 +234,7 @@ stip_length_type countermate_help_filter_has_solution_in_n(slice_index si,
 
   if (goal_checker_mate(advers(starter))==goal_reached)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = help_has_solution_in_n(slices[si].u.pipe.next,
+  result = can_help(slices[si].u.pipe.next,
                                   slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
@@ -255,8 +253,7 @@ stip_length_type countermate_help_filter_has_solution_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type countermate_series_filter_solve_in_n(slice_index si,
-                                                      stip_length_type n)
+stip_length_type countermate_filter_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
@@ -270,7 +267,7 @@ stip_length_type countermate_series_filter_solve_in_n(slice_index si,
 
   if (goal_checker_mate(advers(starter))==goal_reached)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = series_solve_in_n(slices[si].u.pipe.next,n);
+  result = series(slices[si].u.pipe.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -288,9 +285,8 @@ stip_length_type countermate_series_filter_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-countermate_series_filter_has_solution_in_n(slice_index si,
-                                            stip_length_type n)
+stip_length_type countermate_filter_has_series(slice_index si,
+                                               stip_length_type n)
 {
   stip_length_type result;
   Side const starter = slices[si].starter;
@@ -302,7 +298,7 @@ countermate_series_filter_has_solution_in_n(slice_index si,
 
   if (goal_checker_mate(advers(starter))==goal_reached)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+  result = has_series(slices[si].u.pipe.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);

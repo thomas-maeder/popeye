@@ -79,7 +79,7 @@ void stip_traverse_moves_series_shortcut(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_shortcut_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type series_shortcut_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -92,7 +92,7 @@ stip_length_type series_shortcut_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = series_solve_in_n(next_branch,n);
+  result = series(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,8 +109,7 @@ stip_length_type series_shortcut_solve_in_n(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_shortcut_has_solution_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type series_shortcut_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -123,7 +122,7 @@ stip_length_type series_shortcut_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = series_has_solution_in_n(next_branch,n);
+  result = has_series(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

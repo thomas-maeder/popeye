@@ -43,9 +43,9 @@ void stip_insert_restart_guards(slice_index si);
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - more refutations found than acceptable
  */
-stip_length_type restart_guard_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable);
+stip_length_type restart_guard_defend(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -56,8 +56,7 @@ stip_length_type restart_guard_defend_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type restart_guard_help_solve_in_n(slice_index si,
-                                               stip_length_type n);
+stip_length_type restart_guard_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -68,7 +67,6 @@ stip_length_type restart_guard_help_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type restart_guard_series_solve_in_n(slice_index si,
-                                                 stip_length_type n);
+stip_length_type restart_guard_series(slice_index si, stip_length_type n);
 
 #endif

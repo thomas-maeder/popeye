@@ -36,9 +36,9 @@ alloc_output_plaintext_tree_check_writer_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_check_writer_has_solution_in_n(slice_index si,
-                                                     stip_length_type n,
-                                                     stip_length_type n_max_unsolvable)
+output_plaintext_tree_check_writer_can_attack(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -49,7 +49,7 @@ output_plaintext_tree_check_writer_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -69,9 +69,9 @@ output_plaintext_tree_check_writer_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_check_writer_solve_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable)
+output_plaintext_tree_check_writer_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -84,7 +84,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
 
   if (echecc(nbply,slices[si].starter))
     StdString(" +");
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -104,9 +104,9 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_check_writer_can_defend_in_n(slice_index si,
-                                                   stip_length_type n,
-                                                   stip_length_type n_max_unsolvable)
+output_plaintext_tree_check_writer_can_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+4;
   slice_index const next = slices[si].u.pipe.next;
@@ -117,7 +117,7 @@ output_plaintext_tree_check_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -140,9 +140,9 @@ output_plaintext_tree_check_writer_can_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_check_writer_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+output_plaintext_tree_check_writer_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -155,7 +155,7 @@ output_plaintext_tree_check_writer_defend_in_n(slice_index si,
 
   if (attack_gives_check[nbply])
     StdString(" +");
-  result = defense_defend_in_n(next,n,n_max_unsolvable);
+  result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -20,9 +20,9 @@
  *         n+2 no solution found
  */
 stip_length_type
-postkeyplay_suppressor_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable);
+postkeyplay_suppressor_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -35,9 +35,9 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-postkeyplay_suppressor_can_defend_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable);
+postkeyplay_suppressor_can_defend(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable);
 
 /* Instrument the stipulation representation for postkey only play
  * @param si identifies slice where to start

@@ -18,10 +18,9 @@
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-self_defense_has_solution_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable);
+stip_length_type self_defense_can_attack(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -34,9 +33,9 @@ self_defense_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type self_defense_solve_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable);
+stip_length_type self_defense_attack(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable);
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented

@@ -22,8 +22,7 @@ slice_index alloc_help_move_to_goal_slice(Goal goal);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_move_to_goal_solve_in_n(slice_index si,
-                                              stip_length_type n);
+stip_length_type help_move_to_goal_help(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -34,7 +33,6 @@ stip_length_type help_move_to_goal_solve_in_n(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_move_to_goal_has_solution_in_n(slice_index si,
-                                                     stip_length_type n);
+stip_length_type help_move_to_goal_can_help(slice_index si, stip_length_type n);
 
 #endif

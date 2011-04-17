@@ -1,8 +1,8 @@
 #if !defined(STIPULATION_BATTLE_PLAY_ATTACK_ADAPTER_H)
 #define STIPULATION_BATTLE_PLAY_ATTACK_ADAPTER_H
 
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/play.h"
 
 /* STAttackAdapter slices switch from generic solving to attack solving.
  */
@@ -33,5 +33,16 @@ has_solution_type attack_adapter_has_solution(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type attack_adapter_solve(slice_index si);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type attack_adapter_help(slice_index si, stip_length_type n);
 
 #endif

@@ -45,10 +45,9 @@ slice_index alloc_continuation_solver_slice(stip_length_type length,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-continuation_solver_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type continuation_solver_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -59,14 +58,14 @@ continuation_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
   if (slack_length_battle<=result && result<n+4)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
     stip_length_type const defend_result =
 #endif
-    defense_defend_in_n(next,n_next,n_max_unsolvable);
+    defend(next,n_next,n_max_unsolvable);
     assert(defend_result==result);
   }
 
@@ -88,9 +87,9 @@ continuation_solver_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_solver_can_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+continuation_solver_can_defend(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -101,7 +100,7 @@ continuation_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = can_defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

@@ -34,9 +34,9 @@ void stip_traverse_moves_optimisation_fork(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-optimisation_fork_has_solution_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable);
+optimisation_fork_can_attack(slice_index si,
+                             stip_length_type n,
+                             stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -49,9 +49,9 @@ optimisation_fork_has_solution_in_n(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type optimisation_fork_solve_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable);
+stip_length_type optimisation_fork_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -66,9 +66,9 @@ stip_length_type optimisation_fork_solve_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable);
+stip_length_type optimisation_fork_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -80,9 +80,8 @@ stip_length_type optimisation_fork_defend_in_n(slice_index si,
            n+2 refuted - <=acceptable number of refutations found
            n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-optimisation_fork_can_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type optimisation_fork_can_defend(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable);
 
 #endif

@@ -41,9 +41,9 @@ static slice_index alloc_check_detector_slice(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type check_detector_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+stip_length_type check_detector_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -56,7 +56,7 @@ stip_length_type check_detector_defend_in_n(slice_index si,
   /* no need to detect check if we are solving refutations */
   attack_gives_check[nbply] = (n>n_max_unsolvable
                                && echecc(nbply,slices[si].starter));
-  result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -75,10 +75,9 @@ stip_length_type check_detector_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-check_detector_can_defend_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable)
+stip_length_type check_detector_can_defend(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -88,7 +87,7 @@ check_detector_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = can_defend(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

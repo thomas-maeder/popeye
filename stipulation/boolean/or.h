@@ -32,10 +32,9 @@ has_solution_type quodlibet_has_solution(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-quodlibet_has_solution_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable);
+stip_length_type quodlibet_can_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable);
 
 /* Solve a slice
  * @param si slice index
@@ -54,9 +53,9 @@ has_solution_type quodlibet_solve(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_solve_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+stip_length_type quodlibet_attack(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

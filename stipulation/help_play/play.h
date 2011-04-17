@@ -16,7 +16,7 @@
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -27,6 +27,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n);
+stip_length_type can_help(slice_index si, stip_length_type n);
 
 #endif
