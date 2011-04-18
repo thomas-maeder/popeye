@@ -21,8 +21,8 @@
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "options/maxtime.h"
-#include "optimisations/maxsolutions/guard.h"
-#include "optimisations/stoponshortsolutions/filter.h"
+#include "options/maxsolutions/guard.h"
+#include "options/stoponshortsolutions/filter.h"
 #include "trace.h"
 
 #include <assert.h>

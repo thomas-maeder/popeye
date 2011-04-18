@@ -239,8 +239,8 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/goals/prerequisite_optimiser.h \
  optimisations/goals/castling/filter.h \
  optimisations/intelligent/series_filter.h options/maxtime.h \
- optimisations/maxsolutions/guard.h \
- optimisations/stoponshortsolutions/filter.h trace.h
+ options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
+ trace.h
 
 stipulation/series_play/play.h:
 
@@ -288,8 +288,8 @@ optimisations/intelligent/series_filter.h:
 
 options/maxtime.h:
 
-optimisations/maxsolutions/guard.h:
+options/maxsolutions/guard.h:
 
-optimisations/stoponshortsolutions/filter.h:
+options/stoponshortsolutions/filter.h:
 
 trace.h:

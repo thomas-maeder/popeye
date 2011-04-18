@@ -1,5 +1,5 @@
-#include "optimisations/maxsolutions/guard.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
+#include "options/maxsolutions/guard.h"
+#include "options/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "trace.h"
 

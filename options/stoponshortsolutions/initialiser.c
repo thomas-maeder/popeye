@@ -1,5 +1,5 @@
-#include "optimisations/stoponshortsolutions/initialiser.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "options/stoponshortsolutions/initialiser.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pypipe.h"
 #include "trace.h"
 

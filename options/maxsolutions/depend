@@ -1,12 +1,10 @@
-optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX): \
- optimisations/maxsolutions/maxsolutions.c \
- optimisations/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
+options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolutions.c \
+ options/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h \
- optimisations/maxsolutions/initialiser.h \
- optimisations/maxsolutions/guard.h trace.h
+ stipulation/series_play/branch.h options/maxsolutions/initialiser.h \
+ options/maxsolutions/guard.h trace.h
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 
@@ -18,30 +16,29 @@ stipulation/help_play/branch.h:
 
 stipulation/series_play/branch.h:
 
-optimisations/maxsolutions/initialiser.h:
+options/maxsolutions/initialiser.h:
 
-optimisations/maxsolutions/guard.h:
+options/maxsolutions/guard.h:
 
 trace.h:
-optimisations/maxsolutions/initialiser$(OBJ_SUFFIX): \
- optimisations/maxsolutions/initialiser.c \
- optimisations/maxsolutions/initialiser.h \
- optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
+options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \
+ options/maxsolutions/initialiser.h options/maxsolutions/maxsolutions.h \
+ pypipe.h trace.h
 
-optimisations/maxsolutions/initialiser.h:
+options/maxsolutions/initialiser.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 
 trace.h:
-optimisations/maxsolutions/guard$(OBJ_SUFFIX): optimisations/maxsolutions/guard.c \
- optimisations/maxsolutions/guard.h \
- optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
+options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
+ options/maxsolutions/guard.h options/maxsolutions/maxsolutions.h \
+ pypipe.h trace.h
 
-optimisations/maxsolutions/guard.h:
+options/maxsolutions/guard.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 

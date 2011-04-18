@@ -367,8 +367,8 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  optimisations/killer_move/killer_move.h \
  optimisations/killer_move/final_defense_move.h options/maxtime.h \
  stipulation/help_play/play.h stipulation/series_play/play.h \
- optimisations/maxsolutions/maxsolutions.h \
- optimisations/stoponshortsolutions/stoponshortsolutions.h
+ options/maxsolutions/maxsolutions.h \
+ options/stoponshortsolutions/stoponshortsolutions.h
 
 py.h:
 
@@ -532,9 +532,9 @@ stipulation/help_play/play.h:
 
 stipulation/series_play/play.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
-optimisations/stoponshortsolutions/stoponshortsolutions.h:
+options/stoponshortsolutions/stoponshortsolutions.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pyenum.h pydata.h pymsg.h pyslice.h pystip.h pyquodli.h pyrecipr.h \
@@ -577,10 +577,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/series_play/adapter.h stipulation/series_play/branch.h \
  stipulation/series_play/move.h stipulation/series_play/parry_fork.h \
  stipulation/help_play/branch.h stipulation/help_play/adapter.h \
- conditions/republican.h pyproc.h \
- optimisations/maxsolutions/maxsolutions.h \
- optimisations/stoponshortsolutions/stoponshortsolutions.h \
- platform/beep.h platform/maxtime.h platform/maxmem.h trace.h
+ conditions/republican.h pyproc.h options/maxsolutions/maxsolutions.h \
+ options/stoponshortsolutions/stoponshortsolutions.h platform/beep.h \
+ platform/maxtime.h platform/maxmem.h trace.h
 
 py.h:
 
@@ -760,9 +759,9 @@ conditions/republican.h:
 
 pyproc.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
-optimisations/stoponshortsolutions/stoponshortsolutions.h:
+options/stoponshortsolutions/stoponshortsolutions.h:
 
 platform/beep.h:
 
@@ -1081,7 +1080,7 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  optimisations/intelligent/help_filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/intelligent/duplicate_avoider.h \
- optimisations/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
+ options/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -1157,7 +1156,7 @@ optimisations/intelligent/series_filter.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+options/maxsolutions/maxsolutions.h:
 
 platform/maxtime.h:
 
@@ -1400,9 +1399,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/ultraschachzwang/goal_filter.h \
- optimisations/maxsolutions/initialiser.h \
- optimisations/maxsolutions/guard.h \
- optimisations/stoponshortsolutions/initialiser.h \
+ options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
+ options/stoponshortsolutions/initialiser.h \
  optimisations/intelligent/duplicate_avoider.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/end_of_phase_writer.h \
@@ -1558,11 +1556,11 @@ conditions/anticirce/exchange_filter.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 
-optimisations/maxsolutions/initialiser.h:
+options/maxsolutions/initialiser.h:
 
-optimisations/maxsolutions/guard.h:
+options/maxsolutions/guard.h:
 
-optimisations/stoponshortsolutions/initialiser.h:
+options/stoponshortsolutions/initialiser.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 

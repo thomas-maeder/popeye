@@ -146,8 +146,8 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "options/maxtime.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "options/maxsolutions/maxsolutions.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #ifdef _SE_
 #include "se.h"
 #endif

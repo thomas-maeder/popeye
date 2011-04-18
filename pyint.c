@@ -31,7 +31,7 @@
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
+#include "options/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 

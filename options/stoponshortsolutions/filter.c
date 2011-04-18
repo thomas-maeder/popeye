@@ -1,5 +1,5 @@
-#include "optimisations/stoponshortsolutions/filter.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "options/stoponshortsolutions/filter.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/branch.h"

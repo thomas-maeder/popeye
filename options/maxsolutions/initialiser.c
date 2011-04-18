@@ -1,5 +1,5 @@
-#include "optimisations/maxsolutions/initialiser.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
+#include "options/maxsolutions/initialiser.h"
+#include "options/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "trace.h"
 

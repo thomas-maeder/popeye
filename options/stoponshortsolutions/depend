@@ -1,16 +1,16 @@
-optimisations/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
- optimisations/stoponshortsolutions/stoponshortsolutions.c \
- optimisations/stoponshortsolutions/stoponshortsolutions.h \
- optimisations/stoponshortsolutions/initialiser.h \
- optimisations/stoponshortsolutions/filter.h pystip.h pypipe.h \
+options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
+ options/stoponshortsolutions/stoponshortsolutions.c \
+ options/stoponshortsolutions/stoponshortsolutions.h \
+ options/stoponshortsolutions/initialiser.h \
+ options/stoponshortsolutions/filter.h pystip.h pypipe.h \
  stipulation/branch.h stipulation/help_play/branch.h \
  stipulation/series_play/branch.h trace.h
 
-optimisations/stoponshortsolutions/stoponshortsolutions.h:
+options/stoponshortsolutions/stoponshortsolutions.h:
 
-optimisations/stoponshortsolutions/initialiser.h:
+options/stoponshortsolutions/initialiser.h:
 
-optimisations/stoponshortsolutions/filter.h:
+options/stoponshortsolutions/filter.h:
 
 pystip.h:
 
@@ -23,29 +23,28 @@ stipulation/help_play/branch.h:
 stipulation/series_play/branch.h:
 
 trace.h:
-optimisations/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
- optimisations/stoponshortsolutions/initialiser.c \
- optimisations/stoponshortsolutions/initialiser.h \
- optimisations/stoponshortsolutions/stoponshortsolutions.h pypipe.h \
- trace.h
+options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
+ options/stoponshortsolutions/initialiser.c \
+ options/stoponshortsolutions/initialiser.h \
+ options/stoponshortsolutions/stoponshortsolutions.h pypipe.h trace.h
 
-optimisations/stoponshortsolutions/initialiser.h:
+options/stoponshortsolutions/initialiser.h:
 
-optimisations/stoponshortsolutions/stoponshortsolutions.h:
+options/stoponshortsolutions/stoponshortsolutions.h:
 
 pypipe.h:
 
 trace.h:
-optimisations/stoponshortsolutions/filter$(OBJ_SUFFIX): \
- optimisations/stoponshortsolutions/filter.c \
- optimisations/stoponshortsolutions/filter.h \
- optimisations/stoponshortsolutions/stoponshortsolutions.h \
+options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
+ options/stoponshortsolutions/filter.c \
+ options/stoponshortsolutions/filter.h \
+ options/stoponshortsolutions/stoponshortsolutions.h \
  stipulation/help_play/play.h stipulation/series_play/play.h \
  stipulation/branch.h trace.h
 
-optimisations/stoponshortsolutions/filter.h:
+options/stoponshortsolutions/filter.h:
 
-optimisations/stoponshortsolutions/stoponshortsolutions.h:
+options/stoponshortsolutions/stoponshortsolutions.h:
 
 stipulation/help_play/play.h:
 

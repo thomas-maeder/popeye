@@ -25,7 +25,7 @@
 #include "optimisations/optimisation_fork.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
-#include "optimisations/maxsolutions/guard.h"
+#include "options/maxsolutions/guard.h"
 #include "options/maxtime.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "output/plaintext/tree/check_writer.h"

@@ -300,7 +300,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/root.h \
  stipulation/help_play/play.h optimisations/optimisation_fork.h \
  optimisations/killer_move/final_defense_move.h \
- optimisations/killer_move/collector.h optimisations/maxsolutions/guard.h \
+ optimisations/killer_move/collector.h options/maxsolutions/guard.h \
  options/maxtime.h optimisations/goals/enpassant/filter.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
@@ -363,7 +363,7 @@ optimisations/killer_move/final_defense_move.h:
 
 optimisations/killer_move/collector.h:
 
-optimisations/maxsolutions/guard.h:
+options/maxsolutions/guard.h:
 
 options/maxtime.h:
 
