@@ -341,8 +341,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STRestartGuard:
       case STIntelligentDuplicateAvoider:
       case STMaxTimeGuard:
-      case STMaxTimeGuard:
-      case STMaxTimeGuard:
       case STMaxSolutionsInitialiser:
       case STMaxSolutionsGuard:
       case STStopOnShortSolutionsInitialiser:
