@@ -23,11 +23,13 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "optimisations/optimisation_fork.h"
+#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
+#include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "optimisations/goals/enpassant/filter.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxtime.h"
-#include "optimisations/goals/enpassant/filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -103,6 +105,14 @@ stip_length_type defend(slice_index si,
     case STDefenseMoveGenerator:
     case STKillerMoveFinalDefenseMove:
       result = defense_move_generator_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STKillerMoveMoveGenerator:
+      result = killer_move_move_generator_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STCountNrOpponentMovesMoveGenerator:
+      result = countnropponentmoves_move_generator_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMove:
@@ -300,6 +310,14 @@ stip_length_type can_defend(slice_index si,
 
     case STDefenseMoveGenerator:
       result = defense_move_generator_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STKillerMoveMoveGenerator:
+      result = killer_move_move_generator_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STCountNrOpponentMovesMoveGenerator:
+      result = countnropponentmoves_move_generator_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STDefenseMove:

@@ -125,7 +125,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
- optimisations/killer_move/attack_generator.h \
+ optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
@@ -199,7 +199,7 @@ optimisations/goals/castling/filter.h:
 
 optimisations/goals/enpassant/filter.h:
 
-optimisations/killer_move/attack_generator.h:
+optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
 
@@ -299,10 +299,12 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/root.h \
  stipulation/help_play/play.h optimisations/optimisation_fork.h \
+ optimisations/killer_move/move_generator.h \
  optimisations/killer_move/final_defense_move.h \
- optimisations/killer_move/collector.h options/maxsolutions/guard.h \
- options/maxtime.h optimisations/goals/enpassant/filter.h \
- output/plaintext/tree/check_writer.h \
+ optimisations/killer_move/collector.h \
+ optimisations/count_nr_opponent_moves/move_generator.h \
+ optimisations/goals/enpassant/filter.h options/maxsolutions/guard.h \
+ options/maxtime.h output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
@@ -359,15 +361,19 @@ stipulation/help_play/play.h:
 
 optimisations/optimisation_fork.h:
 
+optimisations/killer_move/move_generator.h:
+
 optimisations/killer_move/final_defense_move.h:
 
 optimisations/killer_move/collector.h:
 
+optimisations/count_nr_opponent_moves/move_generator.h:
+
+optimisations/goals/enpassant/filter.h:
+
 options/maxsolutions/guard.h:
 
 options/maxtime.h:
-
-optimisations/goals/enpassant/filter.h:
 
 output/plaintext/tree/check_writer.h:
 

@@ -157,8 +157,9 @@
     ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
-    ENUMERATOR(STKillerMoveAttackGenerator), /* generate attack moves, prioritise killer move (if any) */ \
+    ENUMERATOR(STKillerMoveMoveGenerator), /* generate attack moves, prioritise killer move (if any) */ \
     ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
+    ENUMERATOR(STCountNrOpponentMovesMoveGenerator), \
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
@@ -343,8 +344,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STOptimisationFork */
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
-  slice_structure_pipe,   /* STKillerMoveAttackGenerator */
+  slice_structure_pipe,   /* STKillerMoveMoveGenerator */
   slice_structure_branch, /* STKillerMoveFinalDefenseMove */
+  slice_structure_pipe,   /* STCountNrOpponentMovesMoveGenerator */
   slice_structure_branch, /* STEnPassantFilter */
   slice_structure_branch, /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
@@ -1731,8 +1733,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STOptimisationFork */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
-  &stip_traverse_structure_pipe,            /* STKillerMoveAttackGenerator */
+  &stip_traverse_structure_pipe,            /* STKillerMoveMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
+  &stip_traverse_structure_pipe,            /* STCountNrOpponentMovesMoveGenerator */
   &stip_traverse_structure_pipe,            /* STEnPassantFilter */
   &stip_traverse_structure_pipe,            /* STCastlingFilter */
   &stip_traverse_structure_pipe,            /* STAttackHashed */
@@ -1956,8 +1959,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_optimisation_fork,     /* STOptimisationFork */
     &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
-    &stip_traverse_moves_pipe,                  /* STKillerMoveAttackGenerator */
+    &stip_traverse_moves_pipe,                  /* STKillerMoveMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveFinalDefenseMove */
+    &stip_traverse_moves_pipe,                  /* STCountNrOpponentMovesMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STEnPassantFilter */
     &stip_traverse_moves_pipe,                  /* STCastlingFilter */
     &stip_traverse_moves_pipe,                  /* STAttackHashed */

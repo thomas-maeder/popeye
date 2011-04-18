@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = move_generator.c
+INCLUDES =  move_generator.h
+
+include makefile.rules $(CURRPWD)depend

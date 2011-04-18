@@ -1,17 +1,21 @@
 optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  optimisations/killer_move/killer_move.c \
- optimisations/killer_move/killer_move.h pypipe.h \
- stipulation/battle_play/branch.h \
- optimisations/killer_move/attack_generator.h \
+ optimisations/killer_move/killer_move.h pypipe.h stipulation/proxy.h \
+ stipulation/battle_play/branch.h optimisations/optimisation_fork.h \
+ optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h trace.h
 
 optimisations/killer_move/killer_move.h:
 
 pypipe.h:
 
+stipulation/proxy.h:
+
 stipulation/battle_play/branch.h:
 
-optimisations/killer_move/attack_generator.h:
+optimisations/optimisation_fork.h:
+
+optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
 
@@ -32,12 +36,12 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 trace.h:
-optimisations/killer_move/attack_generator$(OBJ_SUFFIX): \
- optimisations/killer_move/attack_generator.c \
- optimisations/killer_move/attack_generator.h pydata.h pyproc.h pypipe.h \
+optimisations/killer_move/move_generator$(OBJ_SUFFIX): \
+ optimisations/killer_move/move_generator.c \
+ optimisations/killer_move/move_generator.h pydata.h pyproc.h pypipe.h \
  trace.h
 
-optimisations/killer_move/attack_generator.h:
+optimisations/killer_move/move_generator.h:
 
 pydata.h:
 

@@ -1,7 +1,9 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
-#include "optimisations/killer_move/attack_generator.h"
+#include "optimisations/optimisation_fork.h"
+#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
 #include "trace.h"
 
@@ -25,15 +27,15 @@ static void insert_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void substitute_killer_move_attack_generator(slice_index si,
-                                                    stip_structure_traversal *st)
+static void optimise_move_generator(slice_index si,
+                                    stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_replace(si,alloc_killer_move_attack_generator_slice());
+  pipe_replace(si,alloc_killer_move_move_generator_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -41,9 +43,10 @@ static void substitute_killer_move_attack_generator(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STReadyForAttack,      &insert_collector                         },
-  { STAttackMoveGenerator, &substitute_killer_move_attack_generator  },
-  { STReadyForDefense,     &insert_collector                         }
+  { STReadyForAttack,       &insert_collector        },
+  { STReadyForDefense,      &insert_collector        },
+  { STAttackMoveGenerator,  &optimise_move_generator },
+  { STDefenseMoveGenerator, &optimise_move_generator }
 };
 
 enum

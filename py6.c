@@ -148,6 +148,7 @@
 #include "options/maxtime.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
+#include "optimisations/count_nr_opponent_moves/move_generator.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -2716,6 +2717,7 @@ static void stip_optimise_move_generators(slice_index si)
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
+  stip_optimise_with_countnropponentmoves(si);
   stip_optimise_with_killer_moves(si);
 
   TraceFunctionExit(__func__);

@@ -32,7 +32,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
-#include "optimisations/killer_move/attack_generator.h"
+#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
@@ -199,8 +199,8 @@ stip_length_type can_attack(slice_index si,
                                                             n,n_max_unsolvable);
       break;
 
-    case STKillerMoveAttackGenerator:
-      result = killer_move_attack_generator_can_attack(si,n,n_max_unsolvable);
+    case STKillerMoveMoveGenerator:
+      result = killer_move_move_generator_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
@@ -300,7 +300,7 @@ stip_length_type attack(slice_index si,
       break;
 
     case STAttackMoveGenerator:
-    case STKillerMoveAttackGenerator:
+    case STKillerMoveMoveGenerator:
       result = attack_move_generator_attack(si,n,n_max_unsolvable);
       break;
 

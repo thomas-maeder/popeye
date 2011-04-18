@@ -32,7 +32,7 @@ static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
   return result;
 }
 
-/* Optimise a STKillerMoveAttackGenerator slice for attacking a mate goal
+/* Optimise a STKillerMoveMoveGenerator slice for attacking a mate goal
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
  * @param full_length full length of branch

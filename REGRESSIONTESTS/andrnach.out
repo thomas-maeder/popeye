@@ -624,25 +624,25 @@ Loesung beendet.
               2...Tg2-f2 #
       1...h2*g1=wS
           2.Sg1-h3
-              2...Tg2-f2 #
               2...Tg2-g1 #
               2...Tg2-d2 #
               2...Tg2-e2 #
+              2...Tg2-f2 #
               2...Tg2-h2 #
       1...h2*g1=wT
           2.Tg1*g2=sT
-              2...Tg2-d2 #
               2...Tg2-g1 #
+              2...Tg2-d2 #
               2...Tg2-e2 #
               2...Tg2-f2 #
               2...Tg2-h2 #
       1...h2*g1=wL
           2.Lg1-e3
-              2...Tg2-h2 #
               2...Tg2-g1 #
               2...Tg2-d2 #
               2...Tg2-e2 #
               2...Tg2-f2 #
+              2...Tg2-h2 #
 
               empile:       17214
             jouecoup:       12829
