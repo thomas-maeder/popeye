@@ -31,6 +31,7 @@
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
+    ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
@@ -62,7 +63,6 @@
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
-    ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

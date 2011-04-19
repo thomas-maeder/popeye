@@ -48,7 +48,7 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STKillerMoveCollector,
   STGoalReachedTesting,
-  STEndOfBranch,
+  STEndOfBattleBranch,
   STBattleDeadEnd,
   STSelfCheckGuard,
   STKeepMatingFilter,
@@ -205,7 +205,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
           break;
         }
-        else if (slices[next].type==STEndOfBranch)
+        else if (slices[next].type==STEndOfBattleBranch)
         {
           battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                                 prototypes,nr_prototypes,

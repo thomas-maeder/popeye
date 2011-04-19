@@ -7,11 +7,11 @@
 
 #include <assert.h>
 
-/* Allocate a STEndOfBranch slice.
+/* Allocate a STEndOfBattleBranch slice.
  * @param proxy_to_next identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_end_of_branch_slice(slice_index proxy_to_next)
+slice_index alloc_end_of_battle_branch_slice(slice_index proxy_to_next)
 {
   slice_index result;
 
@@ -19,7 +19,7 @@ slice_index alloc_end_of_branch_slice(slice_index proxy_to_next)
   TraceFunctionParam("%u",proxy_to_next);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranch,proxy_to_next);
+  result = alloc_branch_fork(STEndOfBattleBranch,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,7 +31,8 @@ slice_index alloc_end_of_branch_slice(slice_index proxy_to_next)
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void end_of_branch_make_root(slice_index si, stip_structure_traversal *st)
+void end_of_battle_branch_make_root(slice_index si,
+                                    stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -47,7 +48,7 @@ void end_of_branch_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  defense_root = alloc_end_of_branch_slice(root_to_goal);
+  defense_root = alloc_end_of_battle_branch_slice(root_to_goal);
   pipe_link(defense_root,*root_slice);
   *root_slice = defense_root;
 
@@ -60,8 +61,8 @@ void end_of_branch_make_root(slice_index si, stip_structure_traversal *st)
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void end_of_branch_reduce_to_postkey_play(slice_index si,
-                                          stip_structure_traversal *st)
+void end_of_battle_branch_reduce_to_postkey_play(slice_index si,
+                                                 stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -129,9 +130,9 @@ void stip_traverse_moves_end_of_branch(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_defend(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type end_of_battle_branch_defend(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch_fork.next;
@@ -171,9 +172,9 @@ stip_length_type end_of_branch_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_can_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type end_of_battle_branch_can_defend(slice_index si,
+                                                 stip_length_type n,
+                                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch_fork.next;

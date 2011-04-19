@@ -213,8 +213,8 @@ stip_length_type defend(slice_index si,
       result = goal_prerequisite_optimiser_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBranch:
-      result = end_of_branch_defend(si,n,n_max_unsolvable);
+    case STEndOfBattleBranch:
+      result = end_of_battle_branch_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -416,8 +416,8 @@ stip_length_type can_defend(slice_index si,
       result = goal_prerequisite_optimiser_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBranch:
-      result = end_of_branch_can_defend(si,n,n_max_unsolvable);
+    case STEndOfBattleBranch:
+      result = end_of_battle_branch_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:

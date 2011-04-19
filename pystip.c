@@ -75,6 +75,7 @@
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
+    ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
@@ -103,7 +104,6 @@
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
-    ENUMERATOR(STEndOfBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -262,6 +262,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
+  slice_structure_fork,   /* STEndOfBattleBranch */
   slice_structure_pipe,   /* STBattleDeadEnd */
   slice_structure_branch, /* STMinLengthOptimiser */
   slice_structure_branch, /* STHelpAdapter */
@@ -290,7 +291,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STEndOfAdapter */
   slice_structure_pipe,   /* STEndOfRoot */
-  slice_structure_fork,   /* STEndOfBranch */
   slice_structure_pipe,   /* STGoalReachedTesting */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -633,7 +633,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 
   { STAttackAdapter,        &move_to_root                     },
   { STReadyForAttack,       &ready_for_attack_make_root       },
-  { STEndOfBranch,          &end_of_branch_make_root          },
+  { STEndOfBattleBranch,    &end_of_battle_branch_make_root          },
   { STAttackFindShortest,   &attack_find_shortest_make_root   },
   { STDefenseMove,          &defense_move_make_root           },
 
@@ -1131,10 +1131,10 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackAdapter,                 &trash_for_postkey_play                        },
   { STReadyForAttack,                &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
-  { STMinLengthOptimiser,         &trash_for_postkey_play                        },
+  { STMinLengthOptimiser,            &trash_for_postkey_play                        },
   { STAttackMoveGenerator,           &trash_for_postkey_play                        },
   { STAttackMove,                    &trash_for_postkey_play                        },
-  { STEndOfBranch,                   &end_of_branch_reduce_to_postkey_play          },
+  { STEndOfBattleBranch,             &end_of_battle_branch_reduce_to_postkey_play   },
   { STContinuationSolver,            &trash_for_postkey_play                        },
   { STMinLengthGuard,                &trash_for_postkey_play                        },
   { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
@@ -1651,6 +1651,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBattleBranch */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
   &stip_traverse_structure_pipe,            /* STMinLengthOptimiser */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
@@ -1679,7 +1680,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STEndOfAdapter */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
-  &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1877,6 +1877,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
+    &stip_traverse_moves_end_of_branch,         /* STEndOfBattleBranch */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */
     &stip_traverse_moves_pipe,                  /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,    /* STHelpAdapter */
@@ -1905,7 +1906,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STEndOfAdapter */
     &stip_traverse_moves_pipe,                  /* STEndOfRoot */
-    &stip_traverse_moves_end_of_branch,         /* STEndOfBranch */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTesting */
     &stip_traverse_moves_pipe,                  /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalStalemateReachedTester */

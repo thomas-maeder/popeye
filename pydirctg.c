@@ -38,7 +38,7 @@ void battle_branch_set_direct_goal_branch(slice_index si,
     {
       slice_index const prototypes[] =
       {
-        alloc_end_of_branch_slice(proxy_to_goal),
+        alloc_end_of_battle_branch_slice(proxy_to_goal),
         alloc_battle_play_dead_end_slice()
       };
       enum {
@@ -50,7 +50,7 @@ void battle_branch_set_direct_goal_branch(slice_index si,
     {
       slice_index const prototypes[] =
       {
-        alloc_end_of_branch_slice(proxy_to_goal)
+        alloc_end_of_battle_branch_slice(proxy_to_goal)
       };
       enum {
         nr_prototypes = sizeof prototypes / sizeof prototypes[0]
