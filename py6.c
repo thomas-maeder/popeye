@@ -2553,34 +2553,6 @@ static void optimise_final_moves_reflex_defender_filter(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static
-void optimise_final_moves_defense_move_generator(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-
-  if (st->remaining==1
-      && state->goal.type!=no_goal
-      && !state->moreMovesToCome)
-    killer_move_optimise_final_defense_move(si,state->goal,st->full_length);
-
-  state->goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
 static void optimise_final_moves_help_move(slice_index si,
                                            stip_moves_traversal *st)
 {
@@ -2672,7 +2644,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STAttackMoveGenerator,  &optimise_final_moves_attack_move_generator  },
-  { STDefenseMoveGenerator, &optimise_final_moves_defense_move_generator },
+  { STDefenseMove,          &swallow_goal                                },
   { STReflexDefenderFilter, &optimise_final_moves_reflex_defender_filter },
   { STHelpMove,             &optimise_final_moves_help_move              },
   { STHelpMoveToGoal,       &swallow_goal                                },
@@ -2706,6 +2678,7 @@ static void stip_optimise_move_generators(slice_index si)
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
+  stip_optimise_final_defense_move_with_killer_moves(si);
   stip_optimise_with_countnropponentmoves(si);
   stip_optimise_with_killer_moves(si);
 
