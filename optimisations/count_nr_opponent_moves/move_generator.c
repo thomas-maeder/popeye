@@ -1,9 +1,43 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
+#include "optimisations/optimisation_fork.h"
 #include "trace.h"
 
 #include <assert.h>
+
+/* for which Side(s) is the optimisation currently enabled? */
+static boolean enabled[nr_sides] =  { false };
+
+/* Reset the enabled state
+ */
+void reset_countnropponentmoves_defense_move_optimisation(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  enabled[White] = true;
+  enabled[Black] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Disable the optimisation for defenses by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_countnropponentmoves_defense_move_optimisation(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  enabled[side] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Allocate a STCountNrOpponentMovesMoveGenerator defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
@@ -54,7 +88,7 @@ countnropponentmoves_move_generator_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_mode_opti_per_side[defender];
+  move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);
   result = defend(next,n,n_max_unsolvable);
   finply();
@@ -91,7 +125,7 @@ countnropponentmoves_move_generator_can_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_mode_opti_per_side[defender];
+  move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);
   result = can_defend(next,n,n_max_unsolvable);
   finply();
@@ -105,12 +139,17 @@ countnropponentmoves_move_generator_can_defend(slice_index si,
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
+  Side const defender = slices[si].starter;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(defender!=no_slice);
+
   stip_traverse_structure_children(si,st);
 
+  if (enabled[defender])
   {
     slice_index const counter = alloc_countnropponentmoves_move_generator_slice();
     slice_index const proxy1 = alloc_proxy_slice();

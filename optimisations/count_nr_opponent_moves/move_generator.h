@@ -8,6 +8,15 @@
  * These slices provide unoptimised move generation
  */
 
+/* Reset the enabled state
+ */
+void reset_countnropponentmoves_defense_move_optimisation(void);
+
+/* Disable the optimisation for defenses by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_countnropponentmoves_defense_move_optimisation(Side side);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

@@ -614,10 +614,7 @@ static boolean verify_position(slice_index si)
   reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_final_defense_move_optimisation();
 
-  move_generation_mode_opti_per_side[White]
-      = move_generation_optimized_by_nr_opponent_moves;
-  move_generation_mode_opti_per_side[Black]
-      = move_generation_optimized_by_nr_opponent_moves;
+  reset_countnropponentmoves_defense_move_optimisation();
 
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom = true;
@@ -1777,11 +1774,7 @@ static boolean verify_position(slice_index si)
       || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
-    move_generation_mode_opti_per_side[White] =
-        move_generation_optimized_by_killer_move;
-  else
-    move_generation_mode_opti_per_side[White] =
-        move_generation_optimized_by_nr_opponent_moves;
+    disable_countnropponentmoves_defense_move_optimisation(White);
 
   if (flagblackmummer /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
@@ -1802,11 +1795,7 @@ static boolean verify_position(slice_index si)
       || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
-    move_generation_mode_opti_per_side[Black] =
-        move_generation_optimized_by_killer_move;
-  else
-    move_generation_mode_opti_per_side[Black] =
-        move_generation_optimized_by_nr_opponent_moves;
+    disable_countnropponentmoves_defense_move_optimisation(Black);
 
   if (CondFlag[takemake])
   {

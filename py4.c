@@ -794,8 +794,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   switch (move_generation_mode)
   {
     case move_generation_optimized_by_nr_opponent_moves:
-      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture,
-                                       mren);
+      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture,mren);
       break;
     case move_generation_optimized_by_killer_move:
       if (!is_killer_move(sq_departure,sq_arrival,sq_capture)

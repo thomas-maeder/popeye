@@ -1,12 +1,16 @@
 optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.c \
  optimisations/count_nr_opponent_moves/move_generator.h pydata.h pypipe.h \
- trace.h
+ stipulation/proxy.h optimisations/optimisation_fork.h trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/proxy.h:
+
+optimisations/optimisation_fork.h:
 
 trace.h:

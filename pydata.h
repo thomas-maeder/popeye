@@ -216,7 +216,6 @@ EXTERN  boolean         FlagMaxSolsPerMatingPosReached;
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
-EXTERN  move_generation_mode_type move_generation_mode_opti_per_side[2];
 
 EXTERN  numvec          ortho_opt_queen[2*(square_h8-square_a1)+1],
 			ortho_opt_rook[2*(square_h8-square_a1)+1],
