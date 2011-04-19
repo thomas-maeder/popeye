@@ -36,10 +36,10 @@ a)
                               4...Kb6-a5
                                   5.Qb8-b3 =
 
-              empile:       42470
-            jouecoup:       27725
-        orig_rbechec:        7556
-        orig_rnechec:       25334
+              empile:       40661
+            jouecoup:       26670
+        orig_rbechec:        7199
+        orig_rnechec:       24434
 b) Circe
    BlackSynchronMover  =4
 
@@ -51,10 +51,10 @@ b) Circe
                       3...Ka7-a8
                           4.Sb8*a6 [+bPa7] =
 
-              empile:       11405
-            jouecoup:        7701
-        orig_rbechec:        2190
-        orig_rnechec:        7044
+              empile:       10762
+            jouecoup:        7395
+        orig_rbechec:        2086
+        orig_rnechec:        6775
 c) GlasgowChess
    BlackSynchronMover  =3
 
@@ -64,10 +64,10 @@ c) GlasgowChess
               2...Kb8-c8
                   3.b6*a7=Q =
 
-              empile:        3338
-            jouecoup:        3198
-        orig_rbechec:         832
-        orig_rnechec:        3033
+              empile:        3868
+            jouecoup:        3819
+        orig_rbechec:         964
+        orig_rnechec:        3646
 d) AntiAndernachChess
    BlackSynchronMover  =2
 
@@ -132,10 +132,10 @@ a)
                                   5.Kc4-b3
                                       5...a5-a4 +
 
-              empile:       61019
-            jouecoup:       43131
-        orig_rbechec:       25442
-        orig_rnechec:       19383
+              empile:       55918
+            jouecoup:       39990
+        orig_rbechec:       23422
+        orig_rnechec:       18123
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 

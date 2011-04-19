@@ -178,10 +178,10 @@ Loesung beendet.
                   3.a6-a7
                       3...Ka8*a7-a8 x
 
-              empile:         989
-            jouecoup:         565
+              empile:        1238
+            jouecoup:         543
         orig_rbechec:         250
-        orig_rnechec:         322
+        orig_rnechec:         300
 Loesung beendet. 
 
 
@@ -1499,10 +1499,10 @@ Loesung beendet.
           2.Df4-f1 +
               2...d3*c2-g2 #
 
-              empile:       20662
-            jouecoup:       11890
-        orig_rbechec:       11892
-        orig_rnechec:        7157
+              empile:       32631
+            jouecoup:       11871
+        orig_rbechec:       11873
+        orig_rnechec:        6969
 Loesung beendet. 
 
 
@@ -1539,10 +1539,10 @@ Loesung beendet.
               2...Kh3*g2-f1 #
               2...Dc6*g2-f1 #
 
-              empile:       33129
-            jouecoup:       14393
-        orig_rbechec:       14394
-        orig_rnechec:        6868
+              empile:      158790
+            jouecoup:       12006
+        orig_rbechec:       12007
+        orig_rnechec:        6174
 Loesung beendet. 
 
 

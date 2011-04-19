@@ -3,7 +3,8 @@ optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  optimisations/killer_move/killer_move.h pypipe.h stipulation/proxy.h \
  stipulation/battle_play/branch.h optimisations/optimisation_fork.h \
  optimisations/killer_move/move_generator.h \
- optimisations/killer_move/collector.h trace.h
+ optimisations/killer_move/collector.h \
+ optimisations/killer_move/final_defense_move.h trace.h
 
 optimisations/killer_move/killer_move.h:
 
@@ -18,6 +19,8 @@ optimisations/optimisation_fork.h:
 optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
+
+optimisations/killer_move/final_defense_move.h:
 
 trace.h:
 optimisations/killer_move/collector$(OBJ_SUFFIX): \

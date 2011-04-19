@@ -612,7 +612,7 @@ static boolean verify_position(slice_index si)
   jouetestgenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
-  reset_killer_move_final_defense_move_optimisation();
+  reset_killer_move_optimisation();
 
   reset_countnropponentmoves_defense_move_optimisation();
 
@@ -1818,10 +1818,26 @@ static boolean verify_position(slice_index si)
     jouegenre = true;
   }
 
-  if (flagblackmummer)
-    disable_killer_move_final_defense_move_optimisation(Black);
-  if (flagwhitemummer)
-    disable_killer_move_final_defense_move_optimisation(White);
+  if (flagblackmummer
+      || CondFlag[messigny]
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+      || CondFlag[whsupertrans_king]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[takemake]
+      || CondFlag[exclusive]
+      || CondFlag[isardam]
+      || CondFlag[ohneschach])
+    disable_killer_move_optimisation(Black);
+  if (flagwhitemummer
+      || CondFlag[messigny]
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+      || CondFlag[whsupertrans_king]
+      || CondFlag[blsupertrans_king]
+      || CondFlag[takemake]
+      || CondFlag[exclusive]
+      || CondFlag[isardam]
+      || CondFlag[ohneschach])
+    disable_killer_move_optimisation(White);
 
   return true;
 }
@@ -2678,7 +2694,6 @@ static void stip_optimise_move_generators(slice_index si)
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
-  stip_optimise_final_defense_move_with_killer_moves(si);
   stip_optimise_with_countnropponentmoves(si);
   stip_optimise_with_killer_moves(si);
 

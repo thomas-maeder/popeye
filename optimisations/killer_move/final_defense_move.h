@@ -11,19 +11,10 @@
  * move.
  */
 
-/* Reset the enabled state of the optimisation
+/* Optimise a STDefenseMoveGenerator slice for defending against a goal
+ * @param si identifies slice to be optimised
  */
-void reset_killer_move_final_defense_move_optimisation(void);
-
-/* Disable the optimisation for defense moves by one side
- * @param side side for which to disable the optimisation
- */
-void disable_killer_move_final_defense_move_optimisation(Side);
-
-/* Instrument stipulation with killer move slices
- * @param si identifies slice where to start
- */
-void stip_optimise_final_defense_move_with_killer_moves(slice_index si);
+void killer_move_optimise_final_defense_move(slice_index si);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

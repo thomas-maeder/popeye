@@ -10,38 +10,6 @@
 
 #include <assert.h>
 
-/* for which Side(s) is the optimisation currently enabled? */
-static boolean enabled[nr_sides] =  { false };
-
-/* Reset the enabled state of the optimisation of final defense moves
- */
-void reset_killer_move_final_defense_move_optimisation(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  enabled[White] = true;
-  enabled[Black] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Disable the optimisation of final defense moves for defense by a side
- * @param side side for which to disable the optimisation
- */
-void disable_killer_move_final_defense_move_optimisation(Side side)
-{
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  enabled[side] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a STKillerMoveFinalDefenseMove defender slice.
  * @return index of allocated slice
  */
@@ -63,145 +31,23 @@ static slice_index alloc_defense_move_against_goal_slice(void)
 
 /* Optimise a STDefenseMoveGenerator slice for defending against a goal
  * @param si identifies slice to be optimised
- * @param goal goal that slice si defends against
- * @param full_length full length of branch
  */
-static void killer_move_optimise_final_defense_move(slice_index si,
-                                                    Goal goal,
-                                                    stip_length_type full_length)
+void killer_move_optimise_final_defense_move(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",enabled[slices[si].starter]);
-  if (enabled[slices[si].starter])
   {
     slice_index const last_defense = alloc_defense_move_against_goal_slice();
-
-    if (full_length<slack_length_battle+2)
-      pipe_replace(si,last_defense);
-    else
-    {
-      slice_index const proxy1 = alloc_proxy_slice();
-      slice_index const fork = alloc_optimisation_fork_slice(proxy1,1);
-      slice_index const proxy2 = alloc_proxy_slice();
-
-      pipe_append(si,proxy2);
-      pipe_append(slices[si].prev,fork);
-
-      pipe_link(proxy1,last_defense);
-      pipe_set_successor(last_defense,proxy2);
-    }
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_optimisation_fork_slice(proxy1,1);
+    slice_index const proxy2 = alloc_proxy_slice();
+    pipe_append(si,proxy2);
+    pipe_append(slices[si].prev,fork);
+    pipe_link(proxy1,last_defense);
+    pipe_set_successor(last_defense,proxy2);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-typedef struct
-{
-    Goal goal;
-    boolean moreMovesToCome;
-} final_move_optimisation_state;
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_reflex_defender_filter(slice_index si,
-                                                        stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-  state->moreMovesToCome = true;
-  TraceValue("%u\n",state->moreMovesToCome);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void optimise_final_moves_defense_move_generator(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-
-  if (st->remaining==1
-      && state->goal.type!=no_goal
-      && !state->moreMovesToCome)
-    killer_move_optimise_final_defense_move(si,state->goal,st->full_length);
-
-  state->goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal = slices[si].u.goal_writer.goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static moves_traversers_visitors const final_move_optimisers[] =
-{
-  { STDefenseMoveGenerator, &optimise_final_moves_defense_move_generator },
-  { STReflexDefenderFilter, &optimise_final_moves_reflex_defender_filter },
-  { STGoalReachedTesting,   &optimise_final_moves_goal                   }
-};
-
-enum
-{
-  nr_final_move_optimisers
-  = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
-};
-
-/* Instrument stipulation with killer move slices
- * @param si identifies slice where to start
- */
-void stip_optimise_final_defense_move_with_killer_moves(slice_index si)
-{
-  stip_moves_traversal st;
-  final_move_optimisation_state state = { { no_goal, initsquare }, false };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_moves_traversal_init(&st,&state);
-  stip_moves_traversal_override(&st,
-                                final_move_optimisers,nr_final_move_optimisers);
-  stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
