@@ -12,7 +12,7 @@
 
 
 /* for which Side(s) is the optimisation currently enabled? */
-static boolean enabled[nr_sides] =  { false };
+static boolean enabled[nr_sides] = { false };
 
 /* Reset the enabled state of the optimisation of final defense moves
  */
