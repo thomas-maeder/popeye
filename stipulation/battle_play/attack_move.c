@@ -2,25 +2,19 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "trace.h"
 
 /* Allocate a STAttackMove slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_attack_move_slice(stip_length_type length,
-                                    stip_length_type min_length)
+slice_index alloc_attack_move_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STAttackMove,length,min_length);
+  result = alloc_pipe(STAttackMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
