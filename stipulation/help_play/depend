@@ -105,7 +105,7 @@ stipulation/help_play/root.h:
 stipulation/help_play/shortcut.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
  stipulation/help_play/move.h pydata.h pybrafrk.h pypipe.h \
- stipulation/branch.h stipulation/proxy.h stipulation/help_play/branch.h \
+ stipulation/proxy.h stipulation/help_play/branch.h \
  stipulation/help_play/play.h stipulation/help_play/root.h \
  stipulation/help_play/shortcut.h trace.h
 
@@ -116,8 +116,6 @@ pydata.h:
 pybrafrk.h:
 
 pypipe.h:
-
-stipulation/branch.h:
 
 stipulation/proxy.h:
 
