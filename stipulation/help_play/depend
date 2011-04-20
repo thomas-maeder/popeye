@@ -164,19 +164,29 @@ stipulation/proxy.h:
 trace.h:
 stipulation/help_play/end_of_branch$(OBJ_SUFFIX): \
  stipulation/help_play/end_of_branch.c \
- stipulation/help_play/end_of_branch.h pybrafrk.h trace.h
+ stipulation/help_play/end_of_branch.h pybrafrk.h pypipe.h \
+ stipulation/branch.h trace.h
 
 stipulation/help_play/end_of_branch.h:
 
 pybrafrk.h:
 
+pypipe.h:
+
+stipulation/branch.h:
+
 trace.h:
 stipulation/help_play/fork$(OBJ_SUFFIX): stipulation/help_play/fork.c \
- stipulation/help_play/fork.h pybrafrk.h trace.h
+ stipulation/help_play/fork.h pybrafrk.h pypipe.h stipulation/branch.h \
+ trace.h
 
 stipulation/help_play/fork.h:
 
 pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
 
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \

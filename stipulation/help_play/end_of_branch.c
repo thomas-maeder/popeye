@@ -1,5 +1,7 @@
 #include "stipulation/help_play/end_of_branch.h"
 #include "pybrafrk.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>

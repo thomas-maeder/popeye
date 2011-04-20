@@ -145,7 +145,7 @@ static void optimise_defense_move_generator(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(defender!=no_slice);
+  assert(defender!=no_side);
 
   stip_traverse_structure_children(si,st);
 
