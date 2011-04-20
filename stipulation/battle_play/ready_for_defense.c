@@ -3,6 +3,8 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/adapter.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/ready_for_help_move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -58,8 +60,12 @@ void ready_for_defense_make_setplay_slice(slice_index si,
     stip_length_type const length_h = (length-slack_length_battle
                                        +slack_length_help);
     slice_index const adapter = alloc_help_adapter_slice(length_h,length_h);
+    slice_index const root = alloc_help_root_slice(length_h,length_h);
+    slice_index const ready = alloc_ready_for_help_move_slice(length_h,length_h);
     stip_traverse_structure_children(si,st);
-    pipe_link(adapter,*result);
+    pipe_link(adapter,root);
+    pipe_link(root,ready);
+    pipe_link(ready,*result);
     *result = adapter;
   }
 

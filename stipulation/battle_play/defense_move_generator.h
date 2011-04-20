@@ -13,6 +13,13 @@
  */
 slice_index alloc_defense_move_generator_slice(void);
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void defense_move_generator_make_setplay_slice(slice_index si,
+                                               stip_structure_traversal *st);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

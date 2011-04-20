@@ -22,6 +22,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
+#include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -1369,6 +1370,7 @@ boolean stip_apply_postkeyplay(slice_index si)
 static structure_traversers_visitors setplay_makers[] =
 {
   { STReadyForDefense,      &ready_for_defense_make_setplay_slice            },
+  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice       },
   { STDefenseMove,          &defense_move_make_setplay_slice                 },
 
   { STReadyForHelpMove,     &ready_for_help_move_make_setplay_slice          },
