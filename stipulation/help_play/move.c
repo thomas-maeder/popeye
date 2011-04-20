@@ -8,7 +8,6 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
-#include "stipulation/help_play/move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -190,15 +189,11 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(*setplay_slice==no_slice);
-
   {
-    slice_index end = alloc_pipe(STEndOfRoot);
-    slice_index const generator = alloc_help_move_generator_slice();
+    slice_index const end = alloc_pipe(STEndOfRoot);
     slice_index const move = alloc_help_move_slice(length,min_length);
     pipe_append(si,end);
-    *setplay_slice = generator;
-    pipe_link(generator,move);
+    *setplay_slice = move;
     pipe_set_successor(move,end);
   }
 

@@ -36,6 +36,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
+#include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/end_of_branch.h"
@@ -1372,6 +1373,7 @@ static structure_traversers_visitors setplay_makers[] =
 
   { STReadyForHelpMove,     &ready_for_help_move_make_setplay_slice          },
   { STHelpFork,             &stip_traverse_structure_pipe                    },
+  { STHelpMoveGenerator,    &help_move_generator_make_setplay_slice          },
   { STHelpMove,             &help_move_make_setplay_slice                    },
 
   { STSeriesDummyMove,      &stip_structure_visitor_noop                     },
