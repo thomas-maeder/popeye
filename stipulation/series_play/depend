@@ -105,13 +105,10 @@ pypipe.h:
 
 trace.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
- stipulation/series_play/move.h stipulation/branch.h \
- stipulation/series_play/play.h stipulation/series_play/branch.h pydata.h \
- pyproc.h pypipe.h trace.h
+ stipulation/series_play/move.h stipulation/series_play/play.h \
+ stipulation/series_play/branch.h pydata.h pyproc.h pypipe.h trace.h
 
 stipulation/series_play/move.h:
-
-stipulation/branch.h:
 
 stipulation/series_play/play.h:
 
