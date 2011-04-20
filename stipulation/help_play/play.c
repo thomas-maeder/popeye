@@ -9,7 +9,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/move_to_goal.h"
+#include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
@@ -22,6 +22,8 @@
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
+#include "optimisations/optimisation_fork.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -59,12 +61,20 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_shortcut_help(si,n);
       break;
 
-    case STHelpMove:
-      result = help_move_help(si,n);
+    case STOptimisationFork:
+      result = optimisation_fork_help(si,n);
       break;
 
-    case STHelpMoveToGoal:
-      result = help_move_to_goal_help(si,n);
+    case STHelpMoveGenerator:
+      result = help_move_generator_help(si,n);
+      break;
+
+    case STOrthodoxMatingMoveGenerator:
+      result = orthodox_mating_move_generator_help(si,n);
+      break;
+
+    case STHelpMove:
+      result = help_move_help(si,n);
       break;
 
     case STAttackAdapter:
@@ -193,8 +203,16 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = help_move_can_help(si,n);
       break;
 
-    case STHelpMoveToGoal:
-      result = help_move_to_goal_can_help(si,n);
+    case STOptimisationFork:
+      result = optimisation_fork_can_help(si,n);
+      break;
+
+    case STHelpMoveGenerator:
+      result = help_move_generator_can_help(si,n);
+      break;
+
+    case STOrthodoxMatingMoveGenerator:
+      result = orthodox_mating_move_generator_can_help(si,n);
       break;
 
     case STHelpRoot:

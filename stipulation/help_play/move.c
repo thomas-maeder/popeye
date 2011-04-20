@@ -8,6 +8,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
+#include "stipulation/help_play/move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -80,32 +81,6 @@ void help_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Try solving with all generated moves
- * @param si slice index
- * @param n exact number of moves to reach the end state
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help(next,n-1)==n-1)
-      result = n;
-
-    repcoup();
-  }
-
-  return result;
-}
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
@@ -117,8 +92,8 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
  */
 stip_length_type help_move_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result;
-  Side const side_at_move = slices[si].starter;
+  stip_length_type result = n+2;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -127,43 +102,18 @@ stip_length_type help_move_help(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  move_generation_mode= move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side_at_move);
-  result = foreach_move_solve(si,n);
-  finply();
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && help(next,n-1)==n-1)
+      result = n;
+
+    repcoup();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
-}
-
-/* Iterate moves until a solution has been found
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type find_solution(slice_index si, stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = n+2;
-
-  while (encore())
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && can_help(next,n-1)==n-1)
-    {
-      result = n;
-      repcoup();
-      break;
-    }
-    else
-      repcoup();
-
   return result;
 }
 
@@ -178,8 +128,8 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
  */
 stip_length_type help_move_can_help(slice_index si, stip_length_type n)
 {
-  Side const side_at_move = slices[si].starter;
-  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -188,11 +138,16 @@ stip_length_type help_move_can_help(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  move_generation_mode= move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side_at_move);
-  result = find_solution(si,n);
-  finply();
+  while (encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && can_help(next,n-1)==n-1)
+    {
+      result = n;
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -236,9 +191,16 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(*setplay_slice==no_slice);
-  pipe_append(si,alloc_pipe(STEndOfRoot));
-  *setplay_slice = alloc_help_move_slice(length,min_length);
-  pipe_set_successor(*setplay_slice,slices[si].u.pipe.next);
+
+  {
+    slice_index end = alloc_pipe(STEndOfRoot);
+    slice_index const generator = alloc_help_move_generator_slice();
+    slice_index const move = alloc_help_move_slice(length,min_length);
+    pipe_append(si,end);
+    *setplay_slice = generator;
+    pipe_link(generator,move);
+    pipe_set_successor(move,end);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

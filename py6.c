@@ -131,7 +131,6 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
@@ -2088,8 +2087,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpShortcut:
     case STEndOfAdapter:
     case STReadyForHelpMove:
+    case STHelpMoveGenerator:
     case STHelpMove:
-    case STHelpMoveToGoal:
     case STMoveInverter:
     case STGoalReachedTesting:
     case STProxy:
@@ -2174,12 +2173,6 @@ static boolean apply_whitetoplay(slice_index proxy)
       }
       break;
     }
-
-    case STHelpMoveToGoal:
-      stip_detect_starter(proxy);
-      stip_impose_starter(proxy,advers(slices[proxy].starter));
-      result = true;
-      break;
 
     default:
       break;
@@ -2510,115 +2503,6 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Optimise a final help move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_help_move(slice_index si,
-                                           stip_moves_traversal *st)
-{
-  Goal * const goal = st->param;
-  Goal const save_goal = *goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_move_slice(si,st);
-
-  if (st->remaining==1
-      && goal->type!=no_goal
-      && slices[si].u.branch.length==slack_length_help+1)
-    pipe_replace(si,alloc_help_move_to_goal_slice(*goal));
-
-  *goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Forget a goal because it is to be reached by a move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void swallow_goal(slice_index si, stip_moves_traversal *st)
-{
-  Goal * const goal = st->param;
-  Goal const save_goal = *goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_move_slice(si,st);
-  *goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal to be reached
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
-{
-  Goal * const goal = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *goal = slices[si].u.goal_writer.goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static moves_traversers_visitors const final_move_optimisers[] =
-{
-  { STAttackMove,         &swallow_goal                     },
-  { STDefenseMove,        &swallow_goal                     },
-  { STHelpMove,           &optimise_final_moves_help_move   },
-  { STHelpMoveToGoal,     &swallow_goal                     },
-  { STSeriesMove,         &swallow_goal                     },
-  { STGoalReachedTesting, &optimise_final_moves_goal        }
-};
-
-enum
-{
-  nr_final_move_optimisers
-  = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
-};
-
-/* Perform optimisations at the final moves in battle play
- * @param si identifies the root slice of the stipulation
- */
-static void stip_optimise_move_generators(slice_index si)
-{
-  stip_moves_traversal st;
-  Goal goal = { no_goal, initsquare };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_moves_traversal_init(&st,&goal);
-  stip_moves_traversal_override(&st,
-                                final_move_optimisers,nr_final_move_optimisers);
-  stip_traverse_moves(si,&st);
-
-  stip_optimise_with_orthodox_mating_move_generators(si);
-  stip_optimise_with_countnropponentmoves(si);
-  stip_optimise_with_killer_moves(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2743,7 +2627,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
 
-      stip_optimise_move_generators(root_slice);
+      stip_optimise_with_orthodox_mating_move_generators(root_slice);
+      stip_optimise_with_countnropponentmoves(root_slice);
+      stip_optimise_with_killer_moves(root_slice);
 
       if (is_hashtable_allocated())
         stip_insert_hash_slices(root_slice);

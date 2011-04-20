@@ -3,6 +3,7 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 
 /* STOptimisationFork fork if there are less than a certain number of moves left
@@ -84,6 +85,28 @@ stip_length_type optimisation_fork_defend(slice_index si,
 stip_length_type optimisation_fork_can_defend(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_help(slice_index si, stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index

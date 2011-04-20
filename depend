@@ -354,8 +354,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/check_detector.h \
  stipulation/battle_play/threat.h stipulation/help_play/root.h \
- stipulation/help_play/branch.h stipulation/help_play/move_to_goal.h \
- stipulation/goals/prerequisite_guards.h \
+ stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
  conditions/circe/circe.h conditions/anticirce/anticirce.h \
@@ -363,9 +362,10 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  options/no_short_variations/no_short_variations.h \
  optimisations/goals/optimisation_guards.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- stipulation/series_play/play.h optimisations/killer_move/killer_move.h \
+ stipulation/help_play/play.h stipulation/series_play/play.h \
+ optimisations/killer_move/killer_move.h \
  optimisations/killer_move/final_defense_move.h options/maxtime.h \
- stipulation/help_play/play.h options/maxsolutions/maxsolutions.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/count_nr_opponent_moves/move_generator.h
 
@@ -497,8 +497,6 @@ stipulation/help_play/root.h:
 
 stipulation/help_play/branch.h:
 
-stipulation/help_play/move_to_goal.h:
-
 stipulation/goals/prerequisite_guards.h:
 
 pieces/attributes/paralysing/paralysing.h:
@@ -519,6 +517,8 @@ optimisations/goals/optimisation_guards.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
+stipulation/help_play/play.h:
+
 stipulation/series_play/play.h:
 
 optimisations/killer_move/killer_move.h:
@@ -526,8 +526,6 @@ optimisations/killer_move/killer_move.h:
 optimisations/killer_move/final_defense_move.h:
 
 options/maxtime.h:
-
-stipulation/help_play/play.h:
 
 options/maxsolutions/maxsolutions.h:
 
@@ -1187,9 +1185,9 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/help_play/ready_for_help_move.h \
  stipulation/help_play/branch.h stipulation/help_play/root.h \
  stipulation/help_play/find_shortest.h stipulation/help_play/move.h \
- stipulation/help_play/move_to_goal.h stipulation/help_play/shortcut.h \
- stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
- stipulation/series_play/adapter.h stipulation/series_play/play.h \
+ stipulation/help_play/shortcut.h stipulation/help_play/end_of_branch.h \
+ stipulation/help_play/fork.h stipulation/series_play/adapter.h \
+ stipulation/series_play/play.h \
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/root.h stipulation/series_play/find_shortest.h \
  stipulation/series_play/move.h stipulation/series_play/move_generator.h \
@@ -1324,8 +1322,6 @@ stipulation/help_play/root.h:
 stipulation/help_play/find_shortest.h:
 
 stipulation/help_play/move.h:
-
-stipulation/help_play/move_to_goal.h:
 
 stipulation/help_play/shortcut.h:
 
@@ -1634,8 +1630,7 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
  stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
  stipulation/battle_play/ready_for_attack.h \
  stipulation/battle_play/defense_adapter.h stipulation/series_play/play.h \
- stipulation/battle_play/dead_end.h trace.h py.h boolean.h pyposit.h \
- pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h
+ stipulation/battle_play/dead_end.h trace.h
 
 pydirctg.h:
 
@@ -1680,22 +1675,6 @@ stipulation/series_play/play.h:
 stipulation/battle_play/dead_end.h:
 
 trace.h:
-
-py.h:
-
-boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/battle_play/defense_play.h pybrafrk.h pyslice.h \
  py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
@@ -2539,13 +2518,18 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
- pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
- boolean.h py.h pyenum.h pydata.h pyhash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h pyslice.h pystip.h pyoutput.h \
- pytable.h output/plaintext/plaintext.h stipulation/goals/goals.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+ pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
+ stipulation/goals/goals.h boolean.h py.h pyenum.h pydata.h pyhash.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
+ pyoutput.h pytable.h output/plaintext/plaintext.h \
+ stipulation/goals/goals.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2562,10 +2546,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 stipulation/goals/goals.h:
 

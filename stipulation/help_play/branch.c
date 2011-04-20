@@ -5,6 +5,7 @@
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
+#include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
 
@@ -33,8 +34,10 @@ static slice_index const help_slice_rank_order[] =
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
+  STOptimisationFork,
+  STHelpMoveGenerator,
+  STOrthodoxMatingMoveGenerator,
   STHelpMove,
-  STHelpMoveToGoal,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STStopOnShortSolutionsFilter,
@@ -329,9 +332,11 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
+    slice_index const generator1 = alloc_help_move_generator_slice();
     slice_index const move1 = alloc_help_move_slice(length,min_length);
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
+    slice_index const generator2 = alloc_help_move_generator_slice();
     slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
 
     result = adapter;
@@ -339,9 +344,11 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     pipe_set_successor(finder,end);
 
     pipe_link(end,ready1);
-    pipe_link(ready1,move1);
+    pipe_link(ready1,generator1);
+    pipe_link(generator1,move1);
     pipe_link(move1,ready2);
-    pipe_link(ready2,move2);
+    pipe_link(ready2,generator2);
+    pipe_link(generator2,move2);
     pipe_link(move2,end);
   }
 
@@ -469,6 +476,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
+  pipe_append(slices[si].prev,alloc_help_move_generator_slice());
   pipe_append(slices[si].prev,
               alloc_help_move_slice(slack_length_help+1,slack_length_help));
 

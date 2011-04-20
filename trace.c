@@ -264,7 +264,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpRoot:
       case STHelpFindShortest:
       case STHelpMove:
-      case STHelpMoveToGoal:
       case STReadyForHelpMove:
       case STSeriesAdapter:
       case STSeriesRoot:
@@ -401,6 +400,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKillerMoveMoveGenerator:
       case STAttackMoveGenerator:
       case STDefenseMoveGenerator:
+      case STHelpMoveGenerator:
       case STSeriesMoveGenerator:
       case STCountNrOpponentMovesMoveGenerator:
         Trace_pipe(si);

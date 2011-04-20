@@ -2,6 +2,7 @@
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATOR_H
 
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 
 /* This module provides a generator for moves that are supposed to reach a goal.
@@ -76,5 +77,29 @@ stip_length_type orthodox_mating_move_generator_series(slice_index si,
  */
 stip_length_type orthodox_mating_move_generator_has_series(slice_index si,
                                                            stip_length_type n);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type orthodox_mating_move_generator_help(slice_index si,
+                                                     stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type orthodox_mating_move_generator_can_help(slice_index si,
+                                                         stip_length_type n);
 
 #endif

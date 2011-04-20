@@ -37,7 +37,6 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
@@ -82,8 +81,8 @@
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
+    ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
-    ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
@@ -281,8 +280,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpFindShortest */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
+  slice_structure_pipe,   /* STHelpMoveGenerator */
   slice_structure_branch, /* STHelpMove */
-  slice_structure_branch, /* STHelpMoveToGoal */
   slice_structure_fork,   /* STEndOfHelpBranch */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
@@ -431,8 +430,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STHelpFindShortest */
   slice_function_unspecified,    /* STHelpRoot */
   slice_function_unspecified,    /* STHelpShortcut */
+  slice_function_move_generator, /* STHelpMoveGenerator */
   slice_function_unspecified,    /* STHelpMove */
-  slice_function_unspecified,    /* STHelpMoveToGoal */
   slice_function_unspecified,    /* STEndOfHelpBranch */
   slice_function_unspecified,    /* STHelpFork */
   slice_function_unspecified,    /* STReadyForHelpMove */
@@ -1663,7 +1662,6 @@ static SliceType starter_inverters[] =
   STAttackMove,
   STDefenseMove,
   STHelpMove,
-  STHelpMoveToGoal,
   STSeriesMove,
   STSeriesDummyMove,
   STMoveInverter
@@ -1817,8 +1815,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpFindShortest */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
+  &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,            /* STHelpMove */
-  &stip_traverse_structure_pipe,            /* STHelpMoveToGoal */
   &stip_traverse_structure_end_of_branch,   /* STEndOfHelpBranch */
   &stip_traverse_structure_end_of_branch,   /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
@@ -2058,8 +2056,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STHelpFindShortest */
     &stip_traverse_moves_pipe,                  /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
+    &stip_traverse_moves_pipe,                  /* STHelpMoveGenerator */
     &stip_traverse_moves_move_slice,            /* STHelpMove */
-    &stip_traverse_moves_move_slice,            /* STHelpMoveToGoal */
     &stip_traverse_moves_end_of_help_branch,    /* STEndOfHelpBranch */
     &stip_traverse_moves_help_fork,             /* STHelpFork */
     &stip_traverse_moves_pipe,                  /* STReadyForHelpMove */
