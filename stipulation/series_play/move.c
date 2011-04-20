@@ -97,32 +97,6 @@ void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Try solving with all generated moves
- * @param si slice index
- * @param n exact number of moves to reach the end state
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+1;
-  slice_index const next = slices[si].u.pipe.next;
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && series(next,n-1)==n-1)
-      result = n;
-
-    repcoup();
-  }
-
-  return result;
-}
-
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index
  * @param n exact number of moves to reach the end state
@@ -134,8 +108,8 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
  */
 stip_length_type series_move_series(slice_index si, stip_length_type n)
 {
-  stip_length_type result;
-  Side const side_at_move = slices[si].starter;
+  stip_length_type result = n+1;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -144,43 +118,18 @@ stip_length_type series_move_series(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side_at_move);
-  result = foreach_move_solve(si,n);
-  finply();
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && series(next,n-1)==n-1)
+      result = n;
+
+    repcoup();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
-}
-
-/* Iterate moves until a solution has been found
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-static stip_length_type find_solution(slice_index si, stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = n+1;
-
-  while (encore())
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && has_series(next,n-1)==n-1)
-    {
-      result = n;
-      repcoup();
-      break;
-    }
-    else
-      repcoup();
-
   return result;
 }
 
@@ -195,19 +144,24 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
  */
 stip_length_type series_move_has_series(slice_index si, stip_length_type n)
 {
-  stip_length_type result;
-  Side const side_at_move = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result = n+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side_at_move);
-  result = find_solution(si,n);
-  finply();
+  while (encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && has_series(next,n-1)==n-1)
+    {
+      result = n;
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

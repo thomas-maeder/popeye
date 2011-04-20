@@ -1,25 +1,16 @@
-#if !defined(STIPULATION_SERIES_PLAY_MOVE_TO_GOAL_H)
-#define STIPULATION_SERIES_PLAY_MOVE_TO_GOAL_H
+#if !defined(STIPULATION_SERIES_PLAY_MOVE_GENERATOR_H)
+#define STIPULATION_SERIES_PLAY_MOVE_GENERATOR_H
 
-#include "py.h"
-#include "pystip.h"
+#include "stipulation/series_play/play.h"
 
-/* This module provides functionality dealing with STSeriesMoveToGoal
+/* This module provides functionality dealing with STSeriesMoveGenerator
  * stipulation slices.
  */
 
-/* Allocate a STSeriesMoveToGoal slice.
- * @param goal goal to be reached
+/* Allocate a STSeriesMoveGenerator slice.
  * @return index of allocated slice
  */
-slice_index alloc_series_move_to_goal_slice(Goal goal);
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void series_move_to_goal_detect_starter(slice_index si,
-                                        stip_structure_traversal *st);
+slice_index alloc_series_move_generator_slice(void);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -30,7 +21,8 @@ void series_move_to_goal_detect_starter(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_move_to_goal_series(slice_index si, stip_length_type n);
+stip_length_type series_move_generator_series(slice_index si,
+                                              stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
@@ -41,7 +33,7 @@ stip_length_type series_move_to_goal_series(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_move_to_goal_has_series(slice_index si,
-                                                stip_length_type n);
+stip_length_type series_move_generator_has_series(slice_index si,
+                                                  stip_length_type n);
 
 #endif

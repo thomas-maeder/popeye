@@ -2,6 +2,7 @@
 #include "pyslice.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/move_generator.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -40,8 +41,9 @@ static slice_index const series_slice_rank_order[] =
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
+  STSeriesMoveGenerator,
+  STOrthodoxMatingMoveGenerator,
   STSeriesMove,
-  STSeriesMoveToGoal,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STStopOnShortSolutionsFilter,
@@ -261,6 +263,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
+  pipe_append(slices[si].prev,alloc_series_move_generator_slice());
   pipe_append(slices[si].prev,
               alloc_series_move_slice(slack_length_series+1,
                                       slack_length_series+1));
@@ -313,6 +316,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready = alloc_ready_for_series_move_slice(length,
                                                                 min_length);
+    slice_index const generator = alloc_series_move_generator_slice();
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
     slice_index const dummy = alloc_series_dummy_move_slice();
@@ -322,7 +326,8 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_set_successor(finder,end);
 
     pipe_link(end,ready);
-    pipe_link(ready,move);
+    pipe_link(ready,generator);
+    pipe_link(generator,move);
     pipe_link(move,ready2);
     pipe_link(ready2,dummy);
     pipe_link(dummy,end);

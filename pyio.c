@@ -124,6 +124,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
+#include "stipulation/series_play/move_generator.h"
 #include "conditions/republican.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
@@ -2415,11 +2416,13 @@ static char *ParseHelpParrySeries(char *tok,
     stip_length_type const length = slices[ready].u.branch.length;
     stip_length_type const min_length = slices[ready].u.branch.min_length;
     slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
+    slice_index const generator = alloc_series_move_generator_slice();
     slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
 
     assert(ready!=no_slice);
     assert(dummy!=no_slice);
-    pipe_link(ready_parrying,parrying);
+    pipe_link(ready_parrying,generator);
+    pipe_link(generator,parrying);
     convert_to_parry_series_branch(next,ready_parrying);
     pipe_link(parrying,slices[dummy].u.pipe.next);
     pipe_set_successor(dummy,ready);

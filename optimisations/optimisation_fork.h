@@ -3,6 +3,7 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/series_play/play.h"
 
 /* STOptimisationFork fork if there are less than a certain number of moves left
  * in a branch. This functionality is used in various optimisations.
@@ -83,5 +84,29 @@ stip_length_type optimisation_fork_defend(slice_index si,
 stip_length_type optimisation_fork_can_defend(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
+
+/* Determine and write the solution(s) in a series stipulation
+ * @param si slice index
+ * @param n exact number of moves to reach the end state
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_series(slice_index si,
+                                          stip_length_type n);
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_has_series(slice_index si,
+                                              stip_length_type n);
 
 #endif

@@ -1,11 +1,11 @@
 # -*- Makefile -*-
 #
 CFILES = ready_for_series_move.c adapter.c branch.c root.c find_shortest.c \
-         move.c move_to_goal.c dummy_move.c end_of_branch.c fork.c \
+         move.c move_generator.c dummy_move.c end_of_branch.c fork.c \
          parry_fork.c shortcut.c play.c
 
 INCLUDES = ready_for_series_move.h adapter.h branch.h root.h find_shortest.h \
-           move.h move_to_goal.h dummy_move.h end_of_branch.h fork.h \
+           move.h move_generator.h dummy_move.h end_of_branch.h fork.h \
            parry_fork.h shortcut.h play.h
 
 include makefile.rules $(CURRPWD)depend

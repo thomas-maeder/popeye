@@ -1,6 +1,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/optimisation_fork.h"
@@ -9,6 +10,38 @@
 #include "trace.h"
 
 #include <assert.h>
+
+/* for which Side(s) is the optimisation currently enabled? */
+static boolean enabled[nr_sides] = { false };
+
+/* Reset the enabled state of the optimisation of final defense moves
+ */
+void reset_orthodox_mating_move_optimisation(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  enabled[White] = true;
+  enabled[Black] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Disable the optimisation of final defense moves for defense by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_orthodox_mating_move_optimisation(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  enabled[side] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Allocate a STOrthodoxMatingMoveGenerator slice.
  * @param goal goal to be reached
@@ -32,33 +65,6 @@ static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
   return result;
 }
 
-/* Optimise a STAttackMoveGenerator slice for attacking a mate goal
- * @param si identifies slice to be optimised
- * @param goal goal that slice si defends against
- */
-static void attack_move_generator_optimise_orthodox_mating(slice_index si,
-                                                           Goal goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const to_goal = alloc_orthodox_mating_move_generator_slice(goal);
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_optimisation_fork_slice(proxy,1);
-    slice_index const proxy2 = alloc_proxy_slice();
-    pipe_append(slices[si].prev,fork);
-    pipe_append(si,proxy2);
-    pipe_link(proxy,to_goal);
-    pipe_set_successor(to_goal,proxy2);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 typedef struct
 {
     Goal goal;
@@ -69,12 +75,13 @@ typedef struct
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void optimise_final_moves_attack_move_generator(slice_index si,
-                                                       stip_moves_traversal *st)
+static void optimise_final_moves_move_generator(slice_index si,
+                                                stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
   Goal const save_goal = state->goal;
   boolean const save_notNecessarilyFinalMove = state->notNecessarilyFinalMove;
+  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -84,8 +91,19 @@ static void optimise_final_moves_attack_move_generator(slice_index si,
 
   if (st->remaining==1
       && state->goal.type!=no_goal
-      && !state->notNecessarilyFinalMove)
-    attack_move_generator_optimise_orthodox_mating(si,state->goal);
+      && !state->notNecessarilyFinalMove
+      && enabled[starter])
+  {
+    slice_index const generator
+      = alloc_orthodox_mating_move_generator_slice(state->goal);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_optimisation_fork_slice(proxy1,1);
+    slice_index const proxy2 = alloc_proxy_slice();
+    pipe_append(slices[si].prev,fork);
+    pipe_append(si,proxy2);
+    pipe_link(proxy1,generator);
+    pipe_set_successor(generator,proxy2);
+  }
 
   state->goal = save_goal;
   state->notNecessarilyFinalMove = save_notNecessarilyFinalMove;
@@ -181,11 +199,11 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STAttackMoveGenerator,         &optimise_final_moves_attack_move_generator },
-  { STReflexDefenderFilter,        &optimise_final_moves_end_of_battle_branch  },
-  { STHelpMoveToGoal,              &move_swallow_goal                          },
-  { STSeriesMoveToGoal,            &move_swallow_goal                          },
-  { STGoalReachedTesting,          &optimise_final_moves_goal                  }
+  { STAttackMoveGenerator,  &optimise_final_moves_move_generator       },
+  { STReflexDefenderFilter, &optimise_final_moves_end_of_battle_branch },
+  { STHelpMoveToGoal,       &move_swallow_goal                         },
+  { STSeriesMoveGenerator,  &optimise_final_moves_move_generator       },
+  { STGoalReachedTesting,   &optimise_final_moves_goal                 }
 };
 
 enum
@@ -209,9 +227,9 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&st,&state);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_move_generator,
-                                                &generator_swallow_goal);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_move_generator,
+                                            &generator_swallow_goal);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
@@ -295,6 +313,80 @@ orthodox_mating_move_generator_attack(slice_index si,
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
   result = attack(next,n,n_max_unsolvable);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write the solution(s) in a series stipulation
+ * @param si slice index
+ * @param n exact number of moves to reach the end state
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type orthodox_mating_move_generator_series(slice_index si,
+                                                       stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n==slack_length_series+1);
+  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
+
+  empile_for_goal = slices[si].u.branch.imminent_goal;
+  generate_move_reaching_goal(slices[si].starter);
+  empile_for_goal.type = no_goal;
+
+  result = series(next,n);
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type orthodox_mating_move_generator_has_series(slice_index si,
+                                                           stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n==slack_length_series+1);
+  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
+
+  empile_for_goal = slices[si].u.branch.imminent_goal;
+  generate_move_reaching_goal(slices[si].starter);
+  empile_for_goal.type = no_goal;
+
+  result = has_series(next,n);
+
   finply();
 
   TraceFunctionExit(__func__);

@@ -50,8 +50,8 @@
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
+    ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
-    ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
@@ -676,6 +676,15 @@ void stip_moves_traversal_set_remaining(stip_moves_traversal *st,
 void stip_moves_traversal_override(stip_moves_traversal *st,
                                    moves_traversers_visitors const visitors[],
                                    unsigned int nr_visitors);
+
+/* Override the behavior of a moves traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
+                                               slice_functional_type,
+                                               stip_moves_visitor visitor);
 
 /* Override the behavior of a moves traversal at slices of a structural type
  * @param st to be initialised

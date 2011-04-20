@@ -132,7 +132,6 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
-#include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
@@ -613,6 +612,7 @@ static boolean verify_position(slice_index si)
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
   reset_killer_move_optimisation();
+  reset_orthodox_mating_move_optimisation();
 
   reset_countnropponentmoves_defense_move_optimisation();
 
@@ -1839,6 +1839,11 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach])
     disable_killer_move_optimisation(White);
 
+  if (flagblackmummer)
+    disable_orthodox_mating_move_optimisation(Black);
+  if (flagwhitemummer)
+    disable_orthodox_mating_move_optimisation(White);
+
   return true;
 }
 
@@ -2532,33 +2537,6 @@ static void optimise_final_moves_help_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Optimise a final series move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_series_move(slice_index si,
-                                             stip_moves_traversal *st)
-{
-  Goal * const goal = st->param;
-  Goal const save_goal = *goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_move_slice(si,st);
-
-  if (st->remaining==1
-      && goal->type!=no_goal
-      && slices[si].u.branch.length==slack_length_series+1)
-    pipe_replace(si,alloc_series_move_to_goal_slice(*goal));
-
-  *goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Forget a goal because it is to be reached by a move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -2603,8 +2581,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STDefenseMove,        &swallow_goal                     },
   { STHelpMove,           &optimise_final_moves_help_move   },
   { STHelpMoveToGoal,     &swallow_goal                     },
-  { STSeriesMove,         &optimise_final_moves_series_move },
-  { STSeriesMoveToGoal,   &swallow_goal                     },
+  { STSeriesMove,         &swallow_goal                     },
   { STGoalReachedTesting, &optimise_final_moves_goal        }
 };
 

@@ -205,3 +205,73 @@ stip_length_type optimisation_fork_can_defend(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Determine and write the solution(s) in a series stipulation
+ * @param si slice index
+ * @param n exact number of moves to reach the end state
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_series(slice_index si,
+                                          stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.optimisation_fork.next;
+  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
+  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_series);
+
+  if (n<=slack_length_series+threshold)
+    result = series(optimisation,n);
+  else
+    result = series(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type optimisation_fork_has_series(slice_index si,
+                                              stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.optimisation_fork.next;
+  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
+  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_series);
+
+  if (n<=slack_length_series+threshold)
+    result = has_series(optimisation,n);
+  else
+    result = has_series(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

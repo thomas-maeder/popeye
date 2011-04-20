@@ -47,7 +47,7 @@
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
-#include "stipulation/series_play/move_to_goal.h"
+#include "stipulation/series_play/move_generator.h"
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
@@ -92,8 +92,8 @@
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
+    ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
-    ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
@@ -291,8 +291,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesFindShortest */
   slice_structure_branch, /* STSeriesRoot */
   slice_structure_fork,   /* STSeriesShortcut */
+  slice_structure_pipe,   /* STSeriesMoveGenerator */
   slice_structure_branch, /* STSeriesMove */
-  slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
@@ -441,8 +441,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSeriesFindShortest */
   slice_function_unspecified,    /* STSeriesRoot */
   slice_function_unspecified,    /* STSeriesShortcut */
+  slice_function_move_generator, /* STSeriesMoveGenerator */
   slice_function_unspecified,    /* STSeriesMove */
-  slice_function_unspecified,    /* STSeriesMoveToGoal */
   slice_function_unspecified,    /* STSeriesDummyMove */
   slice_function_unspecified,    /* STReadyForSeriesMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
@@ -886,7 +886,6 @@ static moves_traversers_visitors const get_max_nr_moves_functions[] =
   { STDefenseMove,            &get_max_nr_moves_move   },
   { STHelpMove,               &get_max_nr_moves_move   },
   { STSeriesMove,             &get_max_nr_moves_move   },
-  { STSeriesMoveToGoal,       &get_max_nr_moves_move   },
   { STQuodlibet,              &get_max_nr_moves_binary },
   { STReciprocal,             &get_max_nr_moves_binary }
 };
@@ -1558,7 +1557,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STDefenseMove,      &defense_move_detect_starter  },
   { STHelpMove,         &help_move_detect_starter     },
   { STSeriesMove,       &series_move_detect_starter   },
-  { STSeriesMoveToGoal, &series_move_detect_starter   },
   { STSeriesDummyMove,  &series_move_detect_starter   },
   { STReciprocal,       &reci_detect_starter          },
   { STQuodlibet,        &quodlibet_detect_starter     },
@@ -1667,7 +1665,6 @@ static SliceType starter_inverters[] =
   STHelpMove,
   STHelpMoveToGoal,
   STSeriesMove,
-  STSeriesMoveToGoal,
   STSeriesDummyMove,
   STMoveInverter
 };
@@ -1830,8 +1827,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesFindShortest */
   &stip_traverse_structure_pipe,            /* STSeriesRoot */
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
+  &stip_traverse_structure_pipe,            /* STSeriesMoveGenerator */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
-  &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
@@ -2071,8 +2068,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STSeriesFindShortest */
     &stip_traverse_moves_pipe,                  /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
+    &stip_traverse_moves_pipe,                  /* STSeriesMoveGenerator */
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
-    &stip_traverse_moves_move_slice,            /* STSeriesMoveToGoal */
     &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
     &stip_traverse_moves_pipe,                  /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                  /* STReadyForSeriesDummyMove */
@@ -2255,6 +2252,28 @@ void stip_moves_traversal_override(stip_moves_traversal *st,
 
   for (i = 0; i<nr_visitors; ++i)
     st->map.visitors[visitors[i].type] = visitors[i].visitor;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Override the behavior of a moves traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
+                                               slice_functional_type type,
+                                               stip_moves_visitor visitor)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_slice_types; ++i)
+    if (functional_type[i]==type)
+      st->map.visitors[i] = visitor;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
