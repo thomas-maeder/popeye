@@ -108,16 +108,16 @@ void resolve_proxies(slice_index *si)
   assert(slices[*si].type==STProxy);
 
   stip_structure_traversal_init(&st,&is_resolved_proxy);
-  stip_structure_traversal_override_by_type(&st,
-                                            slice_structure_pipe,
-                                            &pipe_resolve_proxies);
-  stip_structure_traversal_override_by_type(&st,
-                                            slice_structure_branch,
-                                            &pipe_resolve_proxies);
-  stip_structure_traversal_override_by_type(&st,
-                                            slice_structure_fork,
-                                            &branch_fork_resolve_proxies);
-  stip_structure_traversal_override_by_type(&st,
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &pipe_resolve_proxies);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &pipe_resolve_proxies);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &branch_fork_resolve_proxies);
+  stip_structure_traversal_override_by_structure(&st,
                                             slice_structure_binary,
                                             &binary_resolve_proxies);
 

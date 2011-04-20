@@ -321,9 +321,9 @@ static void shift_offsets(slice_index si, unsigned int delta)
 
   stip_structure_traversal_init(&st,&delta);
   for (i = 0; i!=nr_slice_structure_types; ++i)
-    stip_structure_traversal_override_by_type(&st,
-                                              i,
-                                              &slice_property_offset_shifter);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   i,
+                                                   &slice_property_offset_shifter);
   stip_traverse_structure(si,&st);
 }
 
@@ -598,7 +598,7 @@ static void init_slice_properties(slice_index si)
   nr_hash_slices = 0;
 
   stip_structure_traversal_init(&st,&sis);
-  stip_structure_traversal_override_by_type(&st,
+  stip_structure_traversal_override_by_structure(&st,
                                             slice_structure_pipe,
                                             &init_slice_properties_pipe);
   stip_structure_traversal_override(&st,

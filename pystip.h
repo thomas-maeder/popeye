@@ -365,6 +365,18 @@ typedef enum
 
 #include "pyenum.h"
 
+
+#define ENUMERATION_TYPENAME slice_functional_type
+#define ENUMERATORS                             \
+  ENUMERATOR(slice_function_unspecified),                        \
+    ENUMERATOR(slice_function_move_generator),                   \
+    ENUMERATOR(nr_slice_functional_types)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
+
 /* Determine whether a slice is of some structural type
  * @param si identifies slice
  * @param type identifies type
@@ -531,9 +543,18 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
  * @param type type for which to override the visitor
  * @param visitor overrider
  */
-void stip_structure_traversal_override_by_type(stip_structure_traversal *st,
-                                               slice_structural_type type,
-                                               stip_structure_visitor visitor);
+void stip_structure_traversal_override_by_structure(stip_structure_traversal *st,
+                                                    slice_structural_type type,
+                                                    stip_structure_visitor visitor);
+
+/* Override the behavior of a structure traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
+                                                   slice_functional_type type,
+                                                   stip_structure_visitor visitor);
 
 /* Initialise a structure traversal structure with default visitors
  * @param st to be initialised

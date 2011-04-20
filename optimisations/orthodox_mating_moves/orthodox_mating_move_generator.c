@@ -182,8 +182,6 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STAttackMoveGenerator,         &optimise_final_moves_attack_move_generator },
-  { STOrthodoxMatingMoveGenerator, &generator_swallow_goal                     },
-  { STDefenseMoveGenerator,        &generator_swallow_goal                     },
   { STReflexDefenderFilter,        &optimise_final_moves_end_of_battle_branch  },
   { STHelpMoveToGoal,              &move_swallow_goal                          },
   { STSeriesMoveToGoal,            &move_swallow_goal                          },
@@ -211,6 +209,9 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&st,&state);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_move_generator,
+                                                &generator_swallow_goal);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
