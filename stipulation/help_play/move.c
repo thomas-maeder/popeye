@@ -13,21 +13,16 @@
 #include <assert.h>
 
 /* Allocate a STHelpMove slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_help_move_slice(stip_length_type length,
-                                  stip_length_type min_length)
+slice_index alloc_help_move_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpMove,length,min_length);
+  result = alloc_pipe(STHelpMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -179,11 +174,6 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
 void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const setplay_slice = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type min_length = slices[si].u.branch.min_length;
-
-  if (min_length<slack_length_help)
-    min_length += 2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -191,7 +181,7 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const end = alloc_pipe(STEndOfRoot);
-    slice_index const move = alloc_help_move_slice(length,min_length);
+    slice_index const move = alloc_help_move_slice();
     pipe_append(si,end);
     *setplay_slice = move;
     pipe_set_successor(move,end);

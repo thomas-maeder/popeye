@@ -333,11 +333,11 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const generator1 = alloc_help_move_generator_slice();
-    slice_index const move1 = alloc_help_move_slice(length,min_length);
+    slice_index const move1 = alloc_help_move_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const generator2 = alloc_help_move_generator_slice();
-    slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
+    slice_index const move2 = alloc_help_move_slice();
 
     result = adapter;
     pipe_link(adapter,finder);
@@ -477,8 +477,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   pipe_append(slices[si].prev,alloc_help_move_generator_slice());
-  pipe_append(slices[si].prev,
-              alloc_help_move_slice(slack_length_help+1,slack_length_help));
+  pipe_append(slices[si].prev,alloc_help_move_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

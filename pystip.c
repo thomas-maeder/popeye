@@ -283,7 +283,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_pipe,   /* STHelpMoveGenerator */
-  slice_structure_branch, /* STHelpMove */
+  slice_structure_pipe,   /* STHelpMove */
   slice_structure_fork,   /* STEndOfHelpBranch */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
