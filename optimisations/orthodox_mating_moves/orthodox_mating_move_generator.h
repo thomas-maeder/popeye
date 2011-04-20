@@ -7,14 +7,10 @@
  * The generator is optimised for mostly orthodox problems.
  */
 
-/* Optimise a STOrthodoxMatingMoveGenerator slice for attacking a mate goal
- * @param si identifies slice to be optimised
- * @param goal goal that slice si defends against
- * @param full_length full length of branch
+/* Optimise move generation by inserting orthodox mating move generators
+ * @param si identifies the root slice of the stipulation
  */
-void attack_move_generator_optimise_orthodox_mating(slice_index si,
-                                                    Goal goal,
-                                                    stip_length_type full_length);
+void stip_optimise_with_orthodox_mating_move_generators(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index

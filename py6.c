@@ -2505,75 +2505,15 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
-typedef struct
-{
-    Goal goal;
-    boolean moreMovesToCome;
-} final_move_optimisation_state;
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_attack_move_generator(slice_index si,
-                                                       stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
-  boolean const save_moreMovesToCome = state->moreMovesToCome;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-
-  TraceValue("%u",state->goal.type);
-  TraceValue("%u\n",state->moreMovesToCome);
-  if (st->remaining==1
-      && state->goal.type!=no_goal
-      && !state->moreMovesToCome)
-    attack_move_generator_optimise_orthodox_mating(si,
-                                                   state->goal,
-                                                   st->full_length);
-
-  state->goal = save_goal;
-  state->moreMovesToCome = save_moreMovesToCome;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_reflex_defender_filter(slice_index si,
-                                                        stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-  state->moreMovesToCome = true;
-  TraceValue("%u\n",state->moreMovesToCome);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
+/* Optimise a final help move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static void optimise_final_moves_help_move(slice_index si,
                                            stip_moves_traversal *st)
 {
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
+  Goal * const goal = st->param;
+  Goal const save_goal = *goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2582,25 +2522,25 @@ static void optimise_final_moves_help_move(slice_index si,
   stip_traverse_moves_move_slice(si,st);
 
   if (st->remaining==1
-      && state->goal.type!=no_goal
+      && goal->type!=no_goal
       && slices[si].u.branch.length==slack_length_help+1)
-    pipe_replace(si,alloc_help_move_to_goal_slice(state->goal));
+    pipe_replace(si,alloc_help_move_to_goal_slice(*goal));
 
-  state->goal = save_goal;
+  *goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Remember the goal imminent after a defense or attack move
+/* Optimise a final series move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static void optimise_final_moves_series_move(slice_index si,
                                              stip_moves_traversal *st)
 {
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
+  Goal * const goal = st->param;
+  Goal const save_goal = *goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2609,49 +2549,49 @@ static void optimise_final_moves_series_move(slice_index si,
   stip_traverse_moves_move_slice(si,st);
 
   if (st->remaining==1
-      && state->goal.type!=no_goal
+      && goal->type!=no_goal
       && slices[si].u.branch.length==slack_length_series+1)
-    pipe_replace(si,alloc_series_move_to_goal_slice(state->goal));
+    pipe_replace(si,alloc_series_move_to_goal_slice(*goal));
 
-  state->goal = save_goal;
+  *goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Remember the goal imminent after a defense or attack move
+/* Forget a goal because it is to be reached by a move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static void swallow_goal(slice_index si, stip_moves_traversal *st)
 {
-  final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
+  Goal * const goal = st->param;
+  Goal const save_goal = *goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_move_slice(si,st);
-  state->goal = save_goal;
+  *goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Remember the goal imminent after a defense or attack move
+/* Remember the goal to be reached
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
 static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 {
-  final_move_optimisation_state * const state = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal = slices[si].u.goal_writer.goal;
+  *goal = slices[si].u.goal_writer.goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2659,14 +2599,13 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STAttackMoveGenerator,  &optimise_final_moves_attack_move_generator  },
-  { STDefenseMove,          &swallow_goal                                },
-  { STReflexDefenderFilter, &optimise_final_moves_reflex_defender_filter },
-  { STHelpMove,             &optimise_final_moves_help_move              },
-  { STHelpMoveToGoal,       &swallow_goal                                },
-  { STSeriesMove,           &optimise_final_moves_series_move            },
-  { STSeriesMoveToGoal,     &swallow_goal                                },
-  { STGoalReachedTesting,   &optimise_final_moves_goal                   }
+  { STAttackMove,         &swallow_goal                     },
+  { STDefenseMove,        &swallow_goal                     },
+  { STHelpMove,           &optimise_final_moves_help_move   },
+  { STHelpMoveToGoal,     &swallow_goal                     },
+  { STSeriesMove,         &optimise_final_moves_series_move },
+  { STSeriesMoveToGoal,   &swallow_goal                     },
+  { STGoalReachedTesting, &optimise_final_moves_goal        }
 };
 
 enum
@@ -2681,7 +2620,7 @@ enum
 static void stip_optimise_move_generators(slice_index si)
 {
   stip_moves_traversal st;
-  final_move_optimisation_state state = { { no_goal, initsquare }, false };
+  Goal goal = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2689,11 +2628,12 @@ static void stip_optimise_move_generators(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,&state);
+  stip_moves_traversal_init(&st,&goal);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
+  stip_optimise_with_orthodox_mating_move_generators(si);
   stip_optimise_with_countnropponentmoves(si);
   stip_optimise_with_killer_moves(si);
 
