@@ -1,5 +1,4 @@
 #include "stipulation/series_play/move.h"
-#include "stipulation/branch.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "pydata.h"
@@ -10,21 +9,16 @@
 #include <assert.h>
 
 /* Allocate a STSeriesMove slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_series_move_slice(stip_length_type length,
-                                    stip_length_type min_length)
+slice_index alloc_series_move_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STSeriesMove,length,min_length);
+  result = alloc_pipe(STSeriesMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

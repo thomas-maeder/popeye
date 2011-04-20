@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"

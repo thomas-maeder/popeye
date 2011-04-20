@@ -2417,7 +2417,7 @@ static char *ParseHelpParrySeries(char *tok,
     stip_length_type const min_length = slices[ready].u.branch.min_length;
     slice_index const ready_parrying = alloc_ready_for_series_move_slice(length-1,min_length-1);
     slice_index const generator = alloc_series_move_generator_slice();
-    slice_index const parrying = alloc_series_move_slice(length-1,min_length-1);
+    slice_index const parrying = alloc_series_move_slice();
 
     assert(ready!=no_slice);
     assert(dummy!=no_slice);
