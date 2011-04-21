@@ -42,7 +42,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
   assert(st->remaining>0);
 
   if (st->remaining==1)
-    stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_moves_pipe(slices[si].u.fork.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
 
@@ -62,7 +62,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
 stip_length_type help_fork_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -72,7 +72,7 @@ stip_length_type help_fork_help(slice_index si, stip_length_type n)
   assert(n>slack_length_help);
 
   if (n==slack_length_help+1)
-    result = help(to_goal,n);
+    result = help(fork,n);
   else
     result = help(slices[si].u.pipe.next,n);
 
@@ -95,7 +95,7 @@ stip_length_type help_fork_can_help(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -105,7 +105,7 @@ stip_length_type help_fork_can_help(slice_index si, stip_length_type n)
   assert(n>slack_length_help);
 
   if (n==slack_length_help+1)
-    result = can_help(to_goal,n);
+    result = can_help(fork,n);
   else
     result = can_help(next,n);
 

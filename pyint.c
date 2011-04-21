@@ -2944,8 +2944,7 @@ void goalreachable_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const prototype = alloc_goalreachable_guard_filter();
-    series_branch_insert_slices(slices[si].u.parry_fork.non_parrying,
-                                &prototype,1);
+    series_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -3228,13 +3227,13 @@ typedef enum
 static void intelligent_mode_support_detector_fork(slice_index si,
                                                    stip_structure_traversal *st)
 {
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(to_goal,st);
+  stip_traverse_structure(fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

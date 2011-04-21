@@ -11,9 +11,9 @@
 
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
- * @param non_parrying identifies slice t
+ * @param fork identifies slice t
  */
-void convert_to_parry_series_branch(slice_index si, slice_index non_parrying);
+void convert_to_parry_series_branch(slice_index si, slice_index fork);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

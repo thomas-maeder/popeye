@@ -44,7 +44,6 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
 
   pipe_append(si,alloc_pipe(STEndOfRoot));
   *root_slice = copy_slice(si);
-  help_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

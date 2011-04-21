@@ -35,20 +35,20 @@ void end_of_battle_branch_make_root(slice_index si,
                                     stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index defense_root;
-  slice_index root_to_goal;
+  slice_index root_to_fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(to_goal,st);
-  root_to_goal = *root_slice;
+  stip_traverse_structure(fork,st);
+  root_to_fork = *root_slice;
 
   stip_traverse_structure_pipe(si,st);
 
-  defense_root = alloc_end_of_battle_branch_slice(root_to_goal);
+  defense_root = alloc_end_of_battle_branch_slice(root_to_fork);
   pipe_link(defense_root,*root_slice);
   *root_slice = defense_root;
 
@@ -69,7 +69,7 @@ void end_of_battle_branch_reduce_to_postkey_play(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  dealloc_slices(slices[si].u.branch_fork.towards_goal);
+  dealloc_slices(slices[si].u.fork.fork);
 
   pipe_unlink(slices[si].prev);
   dealloc_slice(si);
@@ -90,7 +90,7 @@ void stip_traverse_structure_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -108,7 +108,7 @@ void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining<=1)
-    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   stip_traverse_moves_pipe(si,st);
 
@@ -135,8 +135,8 @@ stip_length_type end_of_battle_branch_defend(slice_index si,
                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch_fork.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const next = slices[si].u.fork.next;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -148,7 +148,7 @@ stip_length_type end_of_battle_branch_defend(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    result = defend(to_goal,n,n_max_unsolvable);
+    result = defend(fork,n,n_max_unsolvable);
     if (result>n)
       result = defend(next,n,n_max_unsolvable);
   }
@@ -177,8 +177,8 @@ stip_length_type end_of_battle_branch_can_defend(slice_index si,
                                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch_fork.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const next = slices[si].u.fork.next;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -190,7 +190,7 @@ stip_length_type end_of_battle_branch_can_defend(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    result = can_defend(to_goal,n,n_max_unsolvable);
+    result = can_defend(fork,n,n_max_unsolvable);
     if (result>n)
       result = can_defend(next,n,n_max_unsolvable);
   }

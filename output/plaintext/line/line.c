@@ -70,7 +70,7 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
 static void instrument_end_of_series_branch(slice_index si,
                                             stip_structure_traversal *st)
 {
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,12 +78,12 @@ static void instrument_end_of_series_branch(slice_index si,
 
   /* if we start another series branch, si is part of an intro series;
    * restart move counting after forking */
-  if (branch_find_slice(STSeriesAdapter,to_goal)!=no_slice)
+  if (branch_find_slice(STSeriesAdapter,fork)!=no_slice)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
-    pipe_link(marker,to_goal);
-    slices[si].u.branch_fork.towards_goal = marker;
+    pipe_link(marker,fork);
+    slices[si].u.fork.fork = marker;
   }
 
   stip_traverse_structure_children(si,st);

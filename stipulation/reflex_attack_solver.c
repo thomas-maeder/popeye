@@ -40,7 +40,7 @@ void stip_traverse_moves_reflex_attacker_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
+  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
   stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -54,7 +54,7 @@ void stip_traverse_moves_reflex_attacker_solver(slice_index si,
 has_solution_type reflex_attack_solver_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -79,7 +79,7 @@ has_solution_type reflex_attack_solver_solve(slice_index si)
 has_solution_type reflex_attack_solver_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);

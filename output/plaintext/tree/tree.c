@@ -62,9 +62,9 @@ static void instrument_threat_solver(slice_index si,
 
   {
     slice_index const writer = alloc_zugzwang_writer_slice();
-    pipe_set_successor(writer,slices[si].u.threat_solver.threat_start);
+    pipe_set_successor(writer,slices[si].u.fork.fork);
     slice_set_predecessor(writer,si);
-    slices[si].u.threat_solver.threat_start = writer;
+    slices[si].u.fork.fork = writer;
   }
 
   TraceFunctionExit(__func__);

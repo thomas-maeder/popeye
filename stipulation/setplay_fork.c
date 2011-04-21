@@ -38,7 +38,7 @@ void stip_traverse_structure_setplay_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -58,7 +58,7 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st)
   stip_traverse_moves_pipe(si,st);
 
   assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-  stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+  stip_traverse_moves(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -76,8 +76,8 @@ has_solution_type setplay_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve(slices[si].u.branch_fork.towards_goal);
-  result = slice_solve(slices[si].u.branch_fork.next);
+  slice_solve(slices[si].u.fork.fork);
+  result = slice_solve(slices[si].u.fork.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -97,7 +97,7 @@ has_solution_type setplay_fork_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.branch_fork.next);
+  result = slice_has_solution(slices[si].u.fork.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

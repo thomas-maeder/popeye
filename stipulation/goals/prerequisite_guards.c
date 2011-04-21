@@ -183,7 +183,7 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
 {
   prerequisite_guards_insertion_state * const state = st->param;
   prerequisite_guards_insertion_state const save_state = *state;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,7 +200,7 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
     for (goal = 0; goal!=nr_goals; ++goal)
       if (state->imminent_goals[goal])
       {
-        if (insert_goal_prerequisite_guard_help(to_goal,goal)
+        if (insert_goal_prerequisite_guard_help(fork,goal)
             || is_goal_reaching_move_optimisable(goal))
           ++nr_optimisable;
         else
@@ -211,10 +211,10 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
     {
       for (goal = 0; goal!=nr_goals; ++goal)
         if (state->imminent_goals[goal])
-          insert_goal_optimisation_help_filter(to_goal,goal);
+          insert_goal_optimisation_help_filter(fork,goal);
       {
         slice_index const prototype = alloc_goal_prerequisite_optimiser_slice();
-        help_branch_insert_slices(slices[to_goal].u.pipe.next,&prototype,1);
+        help_branch_insert_slices(slices[fork].u.pipe.next,&prototype,1);
       }
     }
   }
@@ -234,7 +234,7 @@ static void insert_goal_prerequisite_guards_series(slice_index si,
 {
   prerequisite_guards_insertion_state * const state = st->param;
   prerequisite_guards_insertion_state const save_state = *state;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -251,7 +251,7 @@ static void insert_goal_prerequisite_guards_series(slice_index si,
     for (goal = 0; goal!=nr_goals; ++goal)
       if (state->imminent_goals[goal])
       {
-        if (insert_goal_prerequisite_guard_series(to_goal,goal)
+        if (insert_goal_prerequisite_guard_series(fork,goal)
             || is_goal_reaching_move_optimisable(goal))
           ++nr_optimisable;
         else
@@ -262,11 +262,11 @@ static void insert_goal_prerequisite_guards_series(slice_index si,
     {
       for (goal = 0; goal!=nr_goals; ++goal)
         if (state->imminent_goals[goal])
-          insert_goal_optimisation_series_filter(to_goal,goal);
+          insert_goal_optimisation_series_filter(fork,goal);
 
       {
         slice_index const prototype = alloc_goal_prerequisite_optimiser_slice();
-        series_branch_insert_slices(slices[to_goal].u.pipe.next,&prototype,1);
+        series_branch_insert_slices(slices[fork].u.pipe.next,&prototype,1);
       }
     }
   }

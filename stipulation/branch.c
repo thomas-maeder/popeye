@@ -92,7 +92,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
         si = next;
       else if (slices[next].type==STSetplayFork)
       {
-        root_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+        root_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                             prototypes,nr_prototypes,
                                             base);
         si = next;

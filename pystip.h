@@ -220,57 +220,21 @@ typedef struct
         struct
         {
             slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index threat_start;
-        } threat_solver;
+            slice_index fork;
+        } fork;
 
         struct
         {
             slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index towards_goal;
-        } branch_fork;
-
-        struct
-        {
-            slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
             slice_index fork;
             stip_length_type threshold; /* without slack */
         } fork_on_remaining;
-
-        struct
-        {
-            slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index non_parrying;
-        } parry_fork;
 
         struct /* for type==STKeepMatingGuard */
         {
             slice_index next;
             Side mating;
         } keepmating_guard;
-
-        struct /* for type==STReflex* */
-        {
-            slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index avoided;
-        } reflex_guard;
-
-        struct /* for type==STMaxThreatLength */
-        {
-            slice_index next;
-            stip_length_type length_dummy;     /* half moves */
-            stip_length_type min_length_dummy; /* half moves */
-            slice_index to_attacker;
-        } maxthreatlength_guard;
 
         struct /* for type==STQuodlibet and type==STReciprocal */
         {

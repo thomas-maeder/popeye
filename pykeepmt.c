@@ -442,7 +442,7 @@ void keepmating_filter_inserter_branch_fork(slice_index si,
    * would use; instead make sure that we first traverse towards the
    * goal(s).
    */
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
   stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);

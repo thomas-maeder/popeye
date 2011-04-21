@@ -171,18 +171,18 @@ stip_length_type threat_enforcer_attack(slice_index si,
 }
 
 /* Allocate a STThreatSolver defender slice.
- * @param threat_start identifies the slice where threat play starts
+ * @param fork identifies the slice where threat play starts
  * @return index of allocated slice
  */
-static slice_index alloc_threat_solver_slice(slice_index threat_start)
+static slice_index alloc_threat_solver_slice(slice_index fork)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threat_start);
+  TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STThreatSolver,threat_start);
+  result = alloc_branch_fork(STThreatSolver,fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -296,7 +296,7 @@ stip_length_type threat_collector_can_defend(slice_index si,
  */
 static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const enforcer = slices[si].u.threat_solver.threat_start;
+  slice_index const enforcer = slices[si].u.fork.fork;
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result;
 

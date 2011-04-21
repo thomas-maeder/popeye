@@ -79,7 +79,7 @@ void reflex_attacker_filter_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index solver;
 
   TraceFunctionEntry(__func__);
@@ -112,7 +112,7 @@ reflex_attacker_filter_can_attack(slice_index si,
                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -164,7 +164,7 @@ reflex_attacker_filter_attack(slice_index si,
                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -248,8 +248,8 @@ reflex_defender_filter_defend(slice_index si,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.reflex_guard.next;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.fork.next;
+  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -289,7 +289,7 @@ reflex_defender_filter_can_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -320,7 +320,7 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
                                                 stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -354,7 +354,7 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
 
   {
     slice_index * const postkey_slice = st->param;
-    slice_index const avoided = slices[si].u.reflex_guard.avoided;
+    slice_index const avoided = slices[si].u.fork.fork;
     slice_index const filter = alloc_reflex_attack_solver(avoided);
     pipe_link(filter,*postkey_slice);
     *postkey_slice = filter;
@@ -377,7 +377,7 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
 void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -409,7 +409,7 @@ void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
 stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -443,7 +443,7 @@ stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
 stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -499,7 +499,7 @@ void reflex_series_filter_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -531,7 +531,7 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining==0)
-    stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
+    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
 
@@ -551,7 +551,7 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
 stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -586,7 +586,7 @@ stip_length_type reflex_series_filter_has_series(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -899,7 +899,7 @@ void slice_insert_reflex_filters_semi(slice_index si,
 void stip_traverse_structure_reflex_filter(slice_index branch,
                                            stip_structure_traversal *st)
 {
-  slice_index const avoided = slices[branch].u.reflex_guard.avoided;
+  slice_index const avoided = slices[branch].u.fork.fork;
   stip_traverse_structure_pipe(branch,st);
   stip_traverse_structure(avoided,st);
 }

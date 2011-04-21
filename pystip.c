@@ -590,9 +590,7 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
       break;
 
     case slice_structure_fork:
-      result = (type==slice_structure_pipe
-                || type==slice_structure_branch
-                || type==slice_structure_fork);
+      result = type==slice_structure_pipe || type==slice_structure_fork;
       break;
 
     default:
@@ -1020,12 +1018,12 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
 
       case slice_structure_fork:
       {
-        slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+        slice_index const fork = slices[si].u.fork.fork;
         slice_index const next = slices[si].u.pipe.next;
-        if (to_goal!=no_slice)
+        if (fork!=no_slice)
         {
-          slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
-          slices[result].u.branch_fork.towards_goal = to_goal_copy;
+          slice_index const fork_copy = deep_copy_recursive(fork,copies);
+          slices[result].u.fork.fork = fork_copy;
         }
         if (next!=no_slice)
         {
@@ -1142,7 +1140,7 @@ static void transform_to_quodlibet_self_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
+  *proxy_to_goal = stip_deep_copy(slices[si].u.fork.fork);
   remove_defense_proxies(*proxy_to_goal);
   stip_make_direct_goal_branch(*proxy_to_goal);
 
@@ -1161,8 +1159,8 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
 
   {
     slice_index * const new_proxy_to_goal = st->param;
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const testing = branch_find_slice(STGoalReachedTesting,to_goal);
+    slice_index const fork = slices[si].u.fork.fork;
+    slice_index const testing = branch_find_slice(STGoalReachedTesting,fork);
     slice_index const tester = slices[testing].u.pipe.next;
     slice_index const new_leaf = alloc_leaf_slice();
     slice_index const new_testing = copy_slice(testing);
@@ -1556,7 +1554,7 @@ static structure_traversers_visitors starter_detectors[] =
   { STQuodlibet,        &quodlibet_detect_starter     },
   { STMoveInverter,     &move_inverter_detect_starter },
   { STParryFork,        &pipe_detect_starter          },
-  /* .to_attacker has different starter -> detect starter from .next
+  /* .fork has different starter -> detect starter from .next
    * only */
   { STThreatSolver,     &pipe_detect_starter          },
   { STMaxThreatLength,  &pipe_detect_starter          }

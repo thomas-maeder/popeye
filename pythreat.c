@@ -71,16 +71,14 @@ static boolean is_threat_too_long(slice_index si,
 {
   boolean result;
   stip_length_type const n_max_unsolvable = slack_length_battle;
-  slice_index const
-      to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = (n_max
-            <can_attack(to_attacker,n_max-1,n_max_unsolvable-1));
+  result = n_max<can_attack(fork,n_max-1,n_max_unsolvable-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,7 +106,7 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STMaxThreatLength,length,min_length);
-  slices[result].u.maxthreatlength_guard.to_attacker = to_attacker;
+  slices[result].u.fork.fork = to_attacker;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

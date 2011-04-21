@@ -30,9 +30,9 @@ stip_length_type parry_fork_series(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series(slices[si].u.parry_fork.next,n);
+    result = series(slices[si].u.fork.next,n);
   else
-    result = series(slices[si].u.parry_fork.non_parrying,n);
+    result = series(slices[si].u.fork.fork,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -60,9 +60,9 @@ stip_length_type parry_fork_has_series(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = has_series(slices[si].u.parry_fork.next,n);
+    result = has_series(slices[si].u.fork.next,n);
   else
-    result = has_series(slices[si].u.parry_fork.non_parrying,n);
+    result = has_series(slices[si].u.fork.fork,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -74,15 +74,15 @@ stip_length_type parry_fork_has_series(slice_index si, stip_length_type n)
  * @param parrying identifies slice responsible for parrying
  * @return allocated slice
  */
-static slice_index alloc_parry_fork(slice_index non_parrying)
+static slice_index alloc_parry_fork(slice_index fork)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",non_parrying);
+  TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STParryFork,non_parrying);
+  result = alloc_branch_fork(STParryFork,fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -92,7 +92,7 @@ static slice_index alloc_parry_fork(slice_index non_parrying)
 
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
- * @param non_parrying identifies slice responsible for parrying
+ * @param fork identifies slice responsible for parrying
  */
 void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 {
@@ -126,9 +126,9 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 void stip_traverse_structure_parry_fork(slice_index branch,
                                         stip_structure_traversal *st)
 {
-  slice_index const non_parrying = slices[branch].u.parry_fork.non_parrying;
+  slice_index const fork = slices[branch].u.fork.fork;
   stip_traverse_structure_pipe(branch,st);
-  stip_traverse_structure(non_parrying,st);
+  stip_traverse_structure(fork,st);
 }
 
 /* Traversal of the moves of some pipe slice

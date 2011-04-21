@@ -56,7 +56,7 @@ stip_length_type self_defense_can_attack(slice_index si,
                                          stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -70,7 +70,7 @@ stip_length_type self_defense_can_attack(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = can_attack(to_goal,n,n_max_unsolvable);
+    result = can_attack(fork,n,n_max_unsolvable);
     if (result>n)
       /* delegate to next even if (n==slack_length_battle) - we need
        * to distinguish between self-check and other ways of not
@@ -103,7 +103,7 @@ stip_length_type self_defense_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -116,7 +116,7 @@ stip_length_type self_defense_attack(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = attack(to_goal,n,n_max_unsolvable);
+    result = attack(fork,n,n_max_unsolvable);
     if (result>n)
       /* delegate to next even if (n==slack_length_battle) - we need
        * to distinguish between self-check and other ways of not

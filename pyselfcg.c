@@ -437,7 +437,7 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  insert_selfcheck_guard_root(slices[si].u.branch_fork.towards_goal,st);
+  insert_selfcheck_guard_root(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

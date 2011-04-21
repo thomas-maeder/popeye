@@ -162,7 +162,7 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
           }
           else if (slices[next].type==STSeriesFork
                    || slices[next].type==STEndOfSeriesBranch)
-            series_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+            series_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                   prototypes,nr_prototypes,
                                                   base);
 

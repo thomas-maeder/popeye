@@ -34,7 +34,7 @@ slice_index alloc_end_of_series_branch_slice(slice_index proxy_to_next)
 void end_of_series_branch_make_setplay(slice_index si,
                                        stip_structure_traversal *st)
 {
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index * const setplay_slice = st->param;
 
   TraceFunctionEntry(__func__);
@@ -43,7 +43,7 @@ void end_of_series_branch_make_setplay(slice_index si,
 
   *setplay_slice = alloc_series_adapter_slice(slack_length_series,
                                               slack_length_series);
-  pipe_link(*setplay_slice,alloc_end_of_series_branch_slice(to_goal));
+  pipe_link(*setplay_slice,alloc_end_of_series_branch_slice(fork));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -61,7 +61,7 @@ void stip_traverse_moves_end_of_series_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining<=1)
-    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   if (st->remaining>0)
     stip_traverse_moves_pipe(si,st);
@@ -83,7 +83,7 @@ stip_length_type end_of_series_branch_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -93,7 +93,7 @@ stip_length_type end_of_series_branch_series(slice_index si, stip_length_type n)
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    switch (slice_solve(to_goal))
+    switch (slice_solve(fork))
     {
       case has_solution:
         result = n;
@@ -135,7 +135,7 @@ stip_length_type end_of_series_branch_has_series(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -145,7 +145,7 @@ stip_length_type end_of_series_branch_has_series(slice_index si,
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    switch (slice_has_solution(to_goal))
+    switch (slice_has_solution(fork))
     {
       case has_solution:
         result = n;

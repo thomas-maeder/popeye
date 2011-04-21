@@ -142,7 +142,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
           }
           else if (slices[next].type==STHelpFork
                    || slices[next].type==STEndOfHelpBranch)
-            help_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
+            help_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
                                                 base);
 
@@ -242,7 +242,8 @@ static void shorten_slices(slice_index begin, slice_index end)
 
   while (begin!=end)
   {
-    help_branch_shorten_slice(begin);
+    if (slice_has_structure(begin,slice_structure_branch))
+      help_branch_shorten_slice(begin);
     begin = slices[begin].u.pipe.next;
   }
 

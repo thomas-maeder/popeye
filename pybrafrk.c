@@ -10,21 +10,21 @@
 
 /* Allocate a new branch fork slice
  * @param type which slice type
- * @param to_goal identifies proxy slice that leads towards goal
+ * @param fork identifies proxy slice that leads towards goal
  *                from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(SliceType type, slice_index to_goal)
+slice_index alloc_branch_fork(SliceType type, slice_index fork)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.branch_fork.towards_goal = to_goal;
+  slices[result].u.fork.fork = fork;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,10 +44,10 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   pipe_resolve_proxies(si,st);
 
-  if (slices[si].u.branch_fork.towards_goal!=no_slice)
+  if (slices[si].u.fork.fork!=no_slice)
   {
-    stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-    proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_structure(slices[si].u.fork.fork,st);
+    proxy_slice_resolve(&slices[si].u.fork.fork,st);
   }
 
   TraceFunctionExit(__func__);
@@ -60,23 +60,23 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
  */
 void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(towards_goal,st);
+  stip_traverse_structure(fork,st);
 
   if (slices[si].starter==no_side)
   {
-    if (slices[towards_goal].starter==no_side)
+    if (slices[fork].starter==no_side)
     {
       stip_traverse_structure_pipe(si,st);
       slices[si].starter = slices[slices[si].u.pipe.next].starter;
     }
     else
-      slices[si].starter = slices[towards_goal].starter;
+      slices[si].starter = slices[fork].starter;
   }
 
   TraceFunctionExit(__func__);

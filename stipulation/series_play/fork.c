@@ -42,7 +42,7 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st)
   assert(st->remaining>0);
 
   if (st->remaining==1)
-    stip_traverse_moves_pipe(slices[si].u.branch_fork.towards_goal,st);
+    stip_traverse_moves_pipe(slices[si].u.fork.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
 
@@ -63,7 +63,7 @@ stip_length_type series_fork_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,7 +73,7 @@ stip_length_type series_fork_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   if (n==slack_length_series+1)
-    result = series(to_goal,n);
+    result = series(fork,n);
   else
     result = series(next,n);
 
@@ -96,7 +96,7 @@ stip_length_type series_fork_has_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -106,7 +106,7 @@ stip_length_type series_fork_has_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   if (n==slack_length_series+1)
-    result = has_series(to_goal,n);
+    result = has_series(fork,n);
   else
     result = has_series(next,n);
 
