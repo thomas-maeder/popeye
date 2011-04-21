@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -154,7 +154,7 @@ static void optimise_defense_move_generator(slice_index si,
     slice_index const counter = alloc_countnropponentmoves_move_generator_slice();
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const copy = copy_slice(si);
-    slice_index const fork = alloc_optimisation_fork_slice(proxy1,3);
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,3);
     slice_index const proxy2 = alloc_proxy_slice();
 
     pipe_append(slices[si].prev,fork);

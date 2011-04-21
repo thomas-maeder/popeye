@@ -538,7 +538,7 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STSelfDefense,          &keepmating_filter_inserter_branch_fork },
   { STSeriesFork,           &keepmating_filter_inserter_branch_fork },
   { STEndOfSeriesBranch,    &keepmating_filter_inserter_branch_fork },
-  { STOptimisationFork,     &keepmating_filter_inserter_branch_fork },
+  { STForkOnRemaining,      &keepmating_filter_inserter_branch_fork },
   { STGoalReachedTesting,   &keepmating_filter_inserter_goal        }
 };
 

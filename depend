@@ -1187,16 +1187,14 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/help_play/branch.h stipulation/help_play/root.h \
  stipulation/help_play/find_shortest.h \
  stipulation/help_play/move_generator.h stipulation/help_play/move.h \
- stipulation/help_play/shortcut.h stipulation/help_play/end_of_branch.h \
- stipulation/help_play/fork.h stipulation/series_play/adapter.h \
- stipulation/series_play/play.h \
+ stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
+ stipulation/series_play/adapter.h stipulation/series_play/play.h \
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/root.h stipulation/series_play/find_shortest.h \
  stipulation/series_play/move.h stipulation/series_play/move_generator.h \
- stipulation/series_play/shortcut.h \
  stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
- optimisations/optimisation_fork.h optimisations/goals/enpassant/filter.h \
+ stipulation/fork_on_remaining.h optimisations/goals/enpassant/filter.h \
  trace.h
 
 pystip.h:
@@ -1329,8 +1327,6 @@ stipulation/help_play/move_generator.h:
 
 stipulation/help_play/move.h:
 
-stipulation/help_play/shortcut.h:
-
 stipulation/help_play/end_of_branch.h:
 
 stipulation/help_play/fork.h:
@@ -1349,8 +1345,6 @@ stipulation/series_play/move.h:
 
 stipulation/series_play/move_generator.h:
 
-stipulation/series_play/shortcut.h:
-
 stipulation/series_play/end_of_branch.h:
 
 stipulation/series_play/fork.h:
@@ -1359,7 +1353,7 @@ stipulation/series_play/parry_fork.h:
 
 stipulation/proxy.h:
 
-optimisations/optimisation_fork.h:
+stipulation/fork_on_remaining.h:
 
 optimisations/goals/enpassant/filter.h:
 

@@ -1,28 +1,28 @@
-#if !defined(STIPULATION_OPTIMISATION_FORK_H)
-#define STIPULATION_OPTIMISATION_FORK_H
+#if !defined(STIPULATION_FORK_ON_REMAINING_H)
+#define STIPULATION_FORK_ON_REMAINING_H
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 
-/* STOptimisationFork fork if there are less than a certain number of moves left
- * in a branch. This functionality is used in various optimisations.
+/* STForkOnRemaining fork if there are less than a certain number of moves left
+ * in a branch.
  */
 
-/* Allocate a STOptimisationFork slice.
- * @param optimisation identifies slice leading towards goal
+/* Allocate a STForkOnRemaining slice.
+ * @param fork identifies slice leading towards goal
  * @param threshold at which move should we optimise
  * @return index of allocated slice
  */
-slice_index alloc_optimisation_fork_slice(slice_index optimisation,
+slice_index alloc_fork_on_remaining_slice(slice_index fork,
                                           stip_length_type threshold);
 
-/* Traversal of the moves beyond an optimisation fork slice
+/* Traversal of the moves beyond an STForkOnRemaining slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_optimisation_fork(slice_index si,
+void stip_traverse_moves_fork_on_remaining(slice_index si,
                                            stip_moves_traversal *st);
 
 /* Determine whether there is a solution in n half moves.
@@ -36,7 +36,7 @@ void stip_traverse_moves_optimisation_fork(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-optimisation_fork_can_attack(slice_index si,
+fork_on_remaining_can_attack(slice_index si,
                              stip_length_type n,
                              stip_length_type n_max_unsolvable);
 
@@ -51,7 +51,7 @@ optimisation_fork_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type optimisation_fork_attack(slice_index si,
+stip_length_type fork_on_remaining_attack(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable);
 
@@ -68,7 +68,7 @@ stip_length_type optimisation_fork_attack(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_defend(slice_index si,
+stip_length_type fork_on_remaining_defend(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable);
 
@@ -82,7 +82,7 @@ stip_length_type optimisation_fork_defend(slice_index si,
            n+2 refuted - <=acceptable number of refutations found
            n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_can_defend(slice_index si,
+stip_length_type fork_on_remaining_can_defend(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
 
@@ -95,7 +95,7 @@ stip_length_type optimisation_fork_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_help(slice_index si, stip_length_type n);
+stip_length_type fork_on_remaining_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -106,7 +106,7 @@ stip_length_type optimisation_fork_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n);
+stip_length_type fork_on_remaining_can_help(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index
@@ -117,7 +117,7 @@ stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_series(slice_index si,
+stip_length_type fork_on_remaining_series(slice_index si,
                                           stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
@@ -129,7 +129,7 @@ stip_length_type optimisation_fork_series(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_has_series(slice_index si,
+stip_length_type fork_on_remaining_has_series(slice_index si,
                                               stip_length_type n);
 
 #endif

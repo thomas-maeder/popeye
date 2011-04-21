@@ -4,7 +4,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -97,7 +97,7 @@ static void optimise_final_moves_move_generator(slice_index si,
     slice_index const generator
       = alloc_orthodox_mating_move_generator_slice(state->goal);
     slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_optimisation_fork_slice(proxy1,1);
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,1);
     slice_index const proxy2 = alloc_proxy_slice();
     pipe_append(slices[si].prev,fork);
     pipe_append(si,proxy2);

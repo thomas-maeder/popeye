@@ -14,7 +14,6 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
-#include "stipulation/series_play/shortcut.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -28,7 +27,7 @@ static slice_index const series_slice_rank_order[] =
   STSeriesRoot,
   STSeriesFindShortest,
   STIntelligentSeriesFilter,
-  STSeriesShortcut,
+  STForkOnRemaining,
 
   STEndOfAdapter,
 
@@ -41,6 +40,7 @@ static slice_index const series_slice_rank_order[] =
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
+  STForkOnRemaining,
   STSeriesMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STSeriesMove,

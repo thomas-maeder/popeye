@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c proxy.c leaf.c setplay_fork.c reflex_attack_solver.c
-INCLUDES = branch.h proxy.h leaf.h setplay_fork.h reflex_attack_solver.h
+CFILES = branch.c proxy.c leaf.c setplay_fork.c reflex_attack_solver.c fork_on_remaining.c
+INCLUDES = branch.h proxy.h leaf.h setplay_fork.h reflex_attack_solver.h fork_on_remaining.h
 
 include makefile.rules $(CURRPWD)depend

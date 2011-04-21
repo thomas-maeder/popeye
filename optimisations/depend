@@ -1,8 +1,0 @@
-optimisations/optimisation_fork$(OBJ_SUFFIX): optimisations/optimisation_fork.c \
- optimisations/optimisation_fork.h pypipe.h trace.h
-
-optimisations/optimisation_fork.h:
-
-pypipe.h:
-
-trace.h:

@@ -2084,13 +2084,13 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STHelpAdapter:
     case STHelpFindShortest:
-    case STHelpShortcut:
     case STEndOfAdapter:
     case STReadyForHelpMove:
     case STHelpMoveGenerator:
     case STHelpMove:
     case STMoveInverter:
     case STGoalReachedTesting:
+    case STForkOnRemaining:
     case STProxy:
     {
       slice_index const next = slices[si].u.pipe.next;

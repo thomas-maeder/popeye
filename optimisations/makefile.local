@@ -1,6 +1,0 @@
-# -*- Makefile -*-
-#
-CFILES = optimisation_fork.c
-INCLUDES =  optimisation_fork.h
-
-include makefile.rules $(CURRPWD)depend

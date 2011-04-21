@@ -1,27 +1,27 @@
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STOptimisationFork slice.
- * @param optimisation identifies slice leading towards goal
+/* Allocate a STForkOnRemaining slice.
+ * @param fork identifies slice leading towards goal
  * @param threshold at which move should we optimise
  * @return index of allocated slice
  */
-slice_index alloc_optimisation_fork_slice(slice_index optimisation,
+slice_index alloc_fork_on_remaining_slice(slice_index fork,
                                           stip_length_type threshold)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",optimisation);
+  TraceFunctionParam("%u",fork);
   TraceFunctionParam("%u",threshold);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOptimisationFork);
-  slices[result].u.optimisation_fork.optimisation = optimisation;
-  slices[result].u.optimisation_fork.threshold = threshold;
+  result = alloc_pipe(STForkOnRemaining);
+  slices[result].u.fork_on_remaining.fork = fork;
+  slices[result].u.fork_on_remaining.threshold = threshold;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -29,19 +29,19 @@ slice_index alloc_optimisation_fork_slice(slice_index optimisation,
   return result;
 }
 
-/* Traversal of the moves beyond an optimisation fork slice
+/* Traversal of the moves beyond an STForkOnRemaining slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_optimisation_fork(slice_index si,
+void stip_traverse_moves_fork_on_remaining(slice_index si,
                                            stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=slices[si].u.optimisation_fork.threshold)
-    stip_traverse_moves(slices[si].u.optimisation_fork.optimisation,st);
+  if (st->remaining<=slices[si].u.fork_on_remaining.threshold)
+    stip_traverse_moves(slices[si].u.fork_on_remaining.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
 
@@ -60,11 +60,15 @@ void stip_traverse_moves_optimisation_fork(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-optimisation_fork_can_attack(slice_index si,
+fork_on_remaining_can_attack(slice_index si,
                              stip_length_type n,
                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_battle+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,13 +77,7 @@ optimisation_fork_can_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
-
-  if (n<=slack_length_battle+slices[si].u.optimisation_fork.threshold)
-    result = can_attack(slices[si].u.optimisation_fork.optimisation,
-                        slack_length_battle+1,
-                        n_max_unsolvable);
-  else
-    result = can_attack(slices[si].u.optimisation_fork.next,n,n_max_unsolvable);
+  result = can_attack(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,11 +96,15 @@ optimisation_fork_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type optimisation_fork_attack(slice_index si,
+stip_length_type fork_on_remaining_attack(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_battle+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -111,13 +113,7 @@ stip_length_type optimisation_fork_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
-
-  if (n<=slack_length_battle+slices[si].u.optimisation_fork.threshold)
-    result = attack(slices[si].u.optimisation_fork.optimisation,
-                    slack_length_battle+1,
-                    n_max_unsolvable);
-  else
-    result = attack(slices[si].u.optimisation_fork.next,n,n_max_unsolvable);
+  result = attack(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -139,14 +135,15 @@ stip_length_type optimisation_fork_attack(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_defend(slice_index si,
+stip_length_type fork_on_remaining_defend(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_battle+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -155,11 +152,7 @@ stip_length_type optimisation_fork_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
-
-  if (n<=slack_length_battle+threshold)
-    result = defend(optimisation,n,n_max_unsolvable);
-  else
-    result = defend(next,n,n_max_unsolvable);
+  result = defend(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -178,14 +171,15 @@ stip_length_type optimisation_fork_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type optimisation_fork_can_defend(slice_index si,
+stip_length_type fork_on_remaining_can_defend(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_battle+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -194,11 +188,7 @@ stip_length_type optimisation_fork_can_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
-
-  if (n<=slack_length_battle+threshold)
-    result = can_defend(optimisation,n,n_max_unsolvable);
-  else
-    result = can_defend(next,n,n_max_unsolvable);
+  result = can_defend(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -215,12 +205,13 @@ stip_length_type optimisation_fork_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_help(slice_index si, stip_length_type n)
+stip_length_type fork_on_remaining_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_help+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -228,11 +219,7 @@ stip_length_type optimisation_fork_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
-
-  if (n<=slack_length_help+threshold)
-    result = help(optimisation,n);
-  else
-    result = help(next,n);
+  result = help(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -249,12 +236,13 @@ stip_length_type optimisation_fork_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n)
+stip_length_type fork_on_remaining_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_help+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -262,11 +250,7 @@ stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_help);
-
-  if (n<=slack_length_help+threshold)
-    result = can_help(optimisation,n);
-  else
-    result = can_help(next,n);
+  result = can_help(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -283,13 +267,14 @@ stip_length_type optimisation_fork_can_help(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_series(slice_index si,
+stip_length_type fork_on_remaining_series(slice_index si,
                                           stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_series+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -297,11 +282,7 @@ stip_length_type optimisation_fork_series(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_series);
-
-  if (n<=slack_length_series+threshold)
-    result = series(optimisation,n);
-  else
-    result = series(next,n);
+  result = series(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -318,13 +299,14 @@ stip_length_type optimisation_fork_series(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type optimisation_fork_has_series(slice_index si,
+stip_length_type fork_on_remaining_has_series(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.optimisation_fork.next;
-  slice_index const optimisation = slices[si].u.optimisation_fork.optimisation;
-  stip_length_type const threshold = slices[si].u.optimisation_fork.threshold;
+  slice_index const next = slices[si].u.fork_on_remaining.next;
+  slice_index const fork = slices[si].u.fork_on_remaining.fork;
+  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const succ = n<=slack_length_series+threshold ? fork : next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -332,11 +314,7 @@ stip_length_type optimisation_fork_has_series(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_series);
-
-  if (n<=slack_length_series+threshold)
-    result = has_series(optimisation,n);
-  else
-    result = has_series(next,n);
+  result = has_series(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

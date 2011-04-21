@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/killer_move/final_defense_move.h"

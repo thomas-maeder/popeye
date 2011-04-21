@@ -3107,7 +3107,7 @@ static boolean help_too_short(stip_length_type n)
 boolean IntelligentHelp(slice_index si, stip_length_type n)
 {
   boolean result;
-  stip_length_type const full_length = slices[si].u.shortcut.length;
+  stip_length_type const full_length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

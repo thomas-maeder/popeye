@@ -39,7 +39,6 @@
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/adapter.h"
@@ -49,12 +48,11 @@
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_generator.h"
-#include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "trace.h"
 
@@ -82,7 +80,6 @@
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
-    ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
@@ -92,7 +89,6 @@
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
-    ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
@@ -138,6 +134,7 @@
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
+    ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
@@ -155,7 +152,6 @@
     ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
     ENUMERATOR(STMaxSolutionsInitialiser), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
-    ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveMoveGenerator), /* generate attack moves, prioritise killer move (if any) */ \
@@ -281,7 +277,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpAdapter */
   slice_structure_branch, /* STHelpFindShortest */
   slice_structure_branch, /* STHelpRoot */
-  slice_structure_fork,   /* STHelpShortcut */
   slice_structure_pipe,   /* STHelpMoveGenerator */
   slice_structure_pipe,   /* STHelpMove */
   slice_structure_fork,   /* STEndOfHelpBranch */
@@ -291,7 +286,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesAdapter */
   slice_structure_branch, /* STSeriesFindShortest */
   slice_structure_branch, /* STSeriesRoot */
-  slice_structure_fork,   /* STSeriesShortcut */
   slice_structure_pipe,   /* STSeriesMoveGenerator */
   slice_structure_pipe,   /* STSeriesMove */
   slice_structure_pipe,   /* STSeriesDummyMove */
@@ -337,6 +331,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
   slice_structure_branch, /* STMinLengthGuard */
+  slice_structure_fork,   /* STForkOnRemaining */
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
@@ -354,7 +349,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxTimeGuard */
   slice_structure_pipe,   /* STMaxSolutionsInitialiser */
   slice_structure_pipe,   /* STMaxSolutionsGuard */
-  slice_structure_fork,   /* STOptimisationFork */
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_pipe,   /* STKillerMoveMoveGenerator */
@@ -431,7 +425,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STHelpAdapter */
   slice_function_unspecified,    /* STHelpFindShortest */
   slice_function_unspecified,    /* STHelpRoot */
-  slice_function_unspecified,    /* STHelpShortcut */
   slice_function_move_generator, /* STHelpMoveGenerator */
   slice_function_unspecified,    /* STHelpMove */
   slice_function_unspecified,    /* STEndOfHelpBranch */
@@ -441,7 +434,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_unspecified,    /* STSeriesFindShortest */
   slice_function_unspecified,    /* STSeriesRoot */
-  slice_function_unspecified,    /* STSeriesShortcut */
   slice_function_move_generator, /* STSeriesMoveGenerator */
   slice_function_unspecified,    /* STSeriesMove */
   slice_function_unspecified,    /* STSeriesDummyMove */
@@ -487,6 +479,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMoveInverter */
   slice_function_unspecified,    /* STStipulationReflexAttackSolver */
   slice_function_unspecified,    /* STMinLengthGuard */
+  slice_function_unspecified,    /* STForkOnRemaining */
   slice_function_unspecified,    /* STRefutationsAllocator */
   slice_function_unspecified,    /* STTrySolver */
   slice_function_unspecified,    /* STPostKeyPlaySuppressor */
@@ -504,7 +497,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMaxTimeGuard */
   slice_function_unspecified,    /* STMaxSolutionsInitialiser */
   slice_function_unspecified,    /* STMaxSolutionsGuard */
-  slice_function_unspecified,    /* STOptimisationFork */
   slice_function_move_generator, /* STOrthodoxMatingMoveGenerator */
   slice_function_unspecified,    /* STKillerMoveCollector */
   slice_function_move_generator, /* STKillerMoveMoveGenerator */
@@ -1422,14 +1414,13 @@ static structure_traversers_visitors setplay_appliers[] =
   { STDefenseAdapter,                &stip_structure_visitor_noop  },
   { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
 
-  { STHelpShortcut,                  &stip_traverse_structure_pipe },
   { STHelpMove,                      &help_move_apply_setplay      },
   { STHelpFork,                      &stip_structure_visitor_noop  },
 
-  { STSeriesShortcut,                &stip_traverse_structure_pipe },
   { STSeriesMove,                    &series_move_apply_setplay    },
   { STSeriesFork,                    &stip_structure_visitor_noop  },
 
+  { STForkOnRemaining,               &stip_traverse_structure_pipe },
   { STMoveInverter,                  &move_inverter_apply_setplay  }
 };
 
@@ -1564,8 +1555,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STReciprocal,       &reci_detect_starter          },
   { STQuodlibet,        &quodlibet_detect_starter     },
   { STMoveInverter,     &move_inverter_detect_starter },
-  { STHelpShortcut,     &pipe_detect_starter          },
-  { STSeriesShortcut,   &pipe_detect_starter          },
   { STParryFork,        &pipe_detect_starter          },
   /* .to_attacker has different starter -> detect starter from .next
    * only */
@@ -1818,7 +1807,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
   &stip_traverse_structure_pipe,            /* STHelpFindShortest */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
-  &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,            /* STHelpMove */
   &stip_traverse_structure_end_of_branch,   /* STEndOfHelpBranch */
@@ -1828,7 +1816,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
   &stip_traverse_structure_pipe,            /* STSeriesFindShortest */
   &stip_traverse_structure_pipe,            /* STSeriesRoot */
-  &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
   &stip_traverse_structure_pipe,            /* STSeriesMoveGenerator */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
@@ -1874,6 +1861,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMoveInverter */
   &stip_traverse_structure_end_of_branch,   /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STMinLengthGuard */
+  &stip_traverse_structure_end_of_branch,   /* STForkOnRemaining */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
@@ -1891,7 +1879,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxTimeGuard */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsInitialiser */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsGuard */
-  &stip_traverse_structure_end_of_branch,   /* STOptimisationFork */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveMoveGenerator */
@@ -2059,7 +2046,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_help_adapter_slice,    /* STHelpAdapter */
     &stip_traverse_moves_pipe,                  /* STHelpFindShortest */
     &stip_traverse_moves_pipe,                  /* STHelpRoot */
-    &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_pipe,                  /* STHelpMoveGenerator */
     &stip_traverse_moves_move_slice,            /* STHelpMove */
     &stip_traverse_moves_end_of_help_branch,    /* STEndOfHelpBranch */
@@ -2069,7 +2055,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_adapter_slice,  /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                  /* STSeriesFindShortest */
     &stip_traverse_moves_pipe,                  /* STSeriesRoot */
-    &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveGenerator */
     &stip_traverse_moves_move_slice,            /* STSeriesMove */
     &stip_traverse_moves_move_slice,            /* STSeriesDummyMove */
@@ -2115,6 +2100,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMoveInverter */
     &stip_traverse_moves_reflex_attacker_solver,/* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                  /* STMinLengthGuard */
+    &stip_traverse_moves_fork_on_remaining,     /* STForkOnRemaining */
     &stip_traverse_moves_pipe,                  /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
@@ -2132,7 +2118,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMaxTimeGuard */
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsInitialiser */
     &stip_traverse_moves_pipe,                  /* STMaxSolutionsGuard */
-    &stip_traverse_moves_optimisation_fork,     /* STOptimisationFork */
     &stip_traverse_moves_pipe,                  /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_pipe,                  /* STKillerMoveMoveGenerator */

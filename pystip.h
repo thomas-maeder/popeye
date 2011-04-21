@@ -38,7 +38,6 @@
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
-    ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
@@ -49,7 +48,6 @@
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
-    ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
@@ -98,6 +96,7 @@
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
+    ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     /* solver slices */                                                 \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
@@ -119,7 +118,6 @@
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     /* slices implementing optimisations */                             \
-    ENUMERATOR(STOptimisationFork),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveMoveGenerator), /* generate attack moves, prioritise killer move (if any) */ \
@@ -240,17 +238,9 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
-            slice_index optimisation;
+            slice_index fork;
             stip_length_type threshold; /* without slack */
-        } optimisation_fork;
-
-        struct
-        {
-            slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-            slice_index short_sols;
-        } shortcut;
+        } fork_on_remaining;
 
         struct
         {

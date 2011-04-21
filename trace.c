@@ -240,12 +240,12 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STOptimisationFork:
+      case STForkOnRemaining:
         Trace_pipe(si);
-        Trace_link("optimisation:",slices[si].u.optimisation_fork.optimisation,"");
-        fprintf(stdout,"threshold:%u\n",slices[si].u.optimisation_fork.threshold);
+        Trace_link("optimisation:",slices[si].u.fork_on_remaining.fork,"");
+        fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.optimisation_fork.optimisation,
+        TraceStipulationRecursive(slices[si].u.fork_on_remaining.fork,
                                   done_slices);
         break;
 
@@ -287,15 +287,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.threat_solver.threat_start,
                                   done_slices);
-        break;
-
-      case STHelpShortcut:
-      case STSeriesShortcut:
-        Trace_branch(si);
-        Trace_link("short_sols:",slices[si].u.shortcut.short_sols,"");
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.shortcut.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.shortcut.short_sols,done_slices);
         break;
 
       case STKeepMatingFilter:

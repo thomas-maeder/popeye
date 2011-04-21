@@ -41,7 +41,7 @@ stipulation/help_play/find_shortest$(OBJ_SUFFIX): \
  stipulation/help_play/find_shortest.c \
  stipulation/help_play/find_shortest.h stipulation/branch.h \
  stipulation/help_play/play.h stipulation/help_play/branch.h \
- stipulation/help_play/root.h stipulation/help_play/shortcut.h pypipe.h \
+ stipulation/help_play/root.h stipulation/fork_on_remaining.h pypipe.h \
  trace.h
 
 stipulation/help_play/find_shortest.h:
@@ -54,7 +54,7 @@ stipulation/help_play/branch.h:
 
 stipulation/help_play/root.h:
 
-stipulation/help_play/shortcut.h:
+stipulation/fork_on_remaining.h:
 
 pypipe.h:
 
@@ -86,7 +86,7 @@ stipulation/help_play/ready_for_help_move$(OBJ_SUFFIX): \
  stipulation/help_play/ready_for_help_move.h trace.h pypipe.h \
  stipulation/branch.h stipulation/help_play/branch.h \
  stipulation/help_play/adapter.h stipulation/help_play/root.h \
- stipulation/help_play/shortcut.h
+ stipulation/fork_on_remaining.h
 
 stipulation/help_play/ready_for_help_move.h:
 
@@ -102,12 +102,11 @@ stipulation/help_play/adapter.h:
 
 stipulation/help_play/root.h:
 
-stipulation/help_play/shortcut.h:
+stipulation/fork_on_remaining.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
  stipulation/help_play/move.h pydata.h pybrafrk.h pypipe.h \
  stipulation/proxy.h stipulation/help_play/branch.h \
- stipulation/help_play/play.h stipulation/help_play/root.h \
- stipulation/help_play/shortcut.h trace.h
+ stipulation/help_play/play.h stipulation/help_play/root.h trace.h
 
 stipulation/help_play/move.h:
 
@@ -125,8 +124,6 @@ stipulation/help_play/play.h:
 
 stipulation/help_play/root.h:
 
-stipulation/help_play/shortcut.h:
-
 trace.h:
 stipulation/help_play/move_generator$(OBJ_SUFFIX): \
  stipulation/help_play/move_generator.c \
@@ -143,19 +140,6 @@ pyproc.h:
 pypipe.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-trace.h:
-stipulation/help_play/shortcut$(OBJ_SUFFIX): stipulation/help_play/shortcut.c \
- stipulation/help_play/shortcut.h stipulation/help_play/play.h \
- stipulation/branch.h stipulation/proxy.h trace.h
-
-stipulation/help_play/shortcut.h:
-
-stipulation/help_play/play.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
 
 trace.h:
 stipulation/help_play/end_of_branch$(OBJ_SUFFIX): \
@@ -190,15 +174,15 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  pymovenb.h pyint.h stipulation/battle_play/attack_adapter.h \
  stipulation/help_play/root.h stipulation/help_play/find_shortest.h \
  stipulation/help_play/move.h stipulation/help_play/move_generator.h \
- stipulation/help_play/shortcut.h stipulation/help_play/end_of_branch.h \
- stipulation/help_play/fork.h stipulation/goals/countermate/filter.h \
+ stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
+ stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h \
  optimisations/intelligent/help_filter.h options/maxtime.h \
  options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
- optimisations/optimisation_fork.h \
+ stipulation/fork_on_remaining.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  trace.h
 
@@ -226,8 +210,6 @@ stipulation/help_play/move.h:
 
 stipulation/help_play/move_generator.h:
 
-stipulation/help_play/shortcut.h:
-
 stipulation/help_play/end_of_branch.h:
 
 stipulation/help_play/fork.h:
@@ -250,7 +232,7 @@ options/maxsolutions/guard.h:
 
 options/stoponshortsolutions/filter.h:
 
-optimisations/optimisation_fork.h:
+stipulation/fork_on_remaining.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 

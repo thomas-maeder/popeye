@@ -3,7 +3,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
-#include "stipulation/help_play/shortcut.h"
+#include "stipulation/fork_on_remaining.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -54,7 +54,7 @@ void help_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
     pipe_set_successor(root,next);
   else
   {
-    slice_index const shortcut = alloc_help_shortcut(length,next);
+    slice_index const shortcut = alloc_fork_on_remaining_slice(next,length-slack_length_help-1);
     pipe_link(root,shortcut);
     stip_traverse_structure_children(si,st);
     assert(*root_slice!=no_slice);

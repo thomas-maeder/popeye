@@ -5,7 +5,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/root.h"
-#include "stipulation/help_play/shortcut.h"
+#include "stipulation/fork_on_remaining.h"
 
 #include <assert.h>
 
@@ -86,7 +86,7 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
   {
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const root = alloc_help_root_slice(length,min_length);
-    slice_index const shortcut = alloc_help_shortcut(length,si);
+    slice_index const shortcut = alloc_fork_on_remaining_slice(si,length-slack_length_help-1);
     slice_index const copy = alloc_ready_for_help_move_slice(length,min_length);
 
     stip_traverse_structure_children(si,st);

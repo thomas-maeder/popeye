@@ -6,7 +6,6 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
-#include "stipulation/help_play/shortcut.h"
 #include "trace.h"
 
 #include <assert.h>

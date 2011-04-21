@@ -22,7 +22,7 @@
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -119,8 +119,8 @@ stip_length_type defend(slice_index si,
       result = defense_move_defend(si,n,n_max_unsolvable);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_defend(si,n,n_max_unsolvable);
+    case STForkOnRemaining:
+      result = fork_on_remaining_defend(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
@@ -328,8 +328,8 @@ stip_length_type can_defend(slice_index si,
       result = killer_move_final_defense_move_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_can_defend(si,n,n_max_unsolvable);
+    case STForkOnRemaining:
+      result = fork_on_remaining_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:

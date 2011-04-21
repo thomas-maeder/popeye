@@ -13,6 +13,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyquodli.h"
+#include "stipulation/fork_on_remaining.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -28,7 +29,6 @@
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
-#include "optimisations/optimisation_fork.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
@@ -102,8 +102,8 @@ stip_length_type can_attack(slice_index si,
       result = min_length_guard_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_can_attack(si,n,n_max_unsolvable);
+    case STForkOnRemaining:
+      result = fork_on_remaining_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STAttackFindShortest:
@@ -324,8 +324,8 @@ stip_length_type attack(slice_index si,
       result = min_length_guard_attack(si,n,n_max_unsolvable);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_attack(si,n,n_max_unsolvable);
+    case STForkOnRemaining:
+      result = fork_on_remaining_attack(si,n,n_max_unsolvable);
       break;
 
     case STSeriesAdapter:

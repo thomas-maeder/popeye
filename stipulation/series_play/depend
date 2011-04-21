@@ -32,7 +32,7 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/series_play/find_shortest.h \
  stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
- stipulation/series_play/shortcut.h trace.h
+ trace.h
 
 stipulation/series_play/branch.h:
 
@@ -66,8 +66,6 @@ stipulation/series_play/move.h:
 
 stipulation/series_play/dummy_move.h:
 
-stipulation/series_play/shortcut.h:
-
 trace.h:
 stipulation/series_play/root$(OBJ_SUFFIX): stipulation/series_play/root.c \
  stipulation/series_play/root.h pypipe.h trace.h stipulation/branch.h \
@@ -86,8 +84,8 @@ stipulation/series_play/find_shortest$(OBJ_SUFFIX): \
  stipulation/series_play/find_shortest.c \
  stipulation/series_play/find_shortest.h stipulation/branch.h \
  stipulation/series_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/root.h stipulation/series_play/shortcut.h \
- pypipe.h trace.h
+ stipulation/series_play/root.h stipulation/fork_on_remaining.h pypipe.h \
+ trace.h
 
 stipulation/series_play/find_shortest.h:
 
@@ -99,7 +97,7 @@ stipulation/series_play/branch.h:
 
 stipulation/series_play/root.h:
 
-stipulation/series_play/shortcut.h:
+stipulation/fork_on_remaining.h:
 
 pypipe.h:
 
@@ -209,31 +207,18 @@ stipulation/proxy.h:
 pypipe.h:
 
 trace.h:
-stipulation/series_play/shortcut$(OBJ_SUFFIX): stipulation/series_play/shortcut.c \
- stipulation/series_play/shortcut.h stipulation/series_play/play.h \
- stipulation/branch.h stipulation/proxy.h trace.h
-
-stipulation/series_play/shortcut.h:
-
-stipulation/series_play/play.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
-
-trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/play.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
  pymovenb.h pyint.h stipulation/battle_play/defense_adapter.h \
  stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/series_play/root.h \
  stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
- stipulation/series_play/dummy_move.h stipulation/series_play/shortcut.h \
+ stipulation/series_play/dummy_move.h \
  stipulation/series_play/move_generator.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
- optimisations/optimisation_fork.h optimisations/goals/castling/filter.h \
+ stipulation/fork_on_remaining.h optimisations/goals/castling/filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  options/maxtime.h options/maxsolutions/guard.h \
@@ -269,8 +254,6 @@ stipulation/series_play/move.h:
 
 stipulation/series_play/dummy_move.h:
 
-stipulation/series_play/shortcut.h:
-
 stipulation/series_play/move_generator.h:
 
 stipulation/goals/countermate/filter.h:
@@ -279,7 +262,7 @@ stipulation/goals/doublemate/filter.h:
 
 stipulation/goals/prerequisite_optimiser.h:
 
-optimisations/optimisation_fork.h:
+stipulation/fork_on_remaining.h:
 
 optimisations/goals/castling/filter.h:
 

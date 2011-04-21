@@ -61,3 +61,11 @@ stipulation/battle_play/attack_play.h:
 stipulation/help_play/play.h:
 
 trace.h:
+stipulation/fork_on_remaining$(OBJ_SUFFIX): stipulation/fork_on_remaining.c \
+ stipulation/fork_on_remaining.h pypipe.h trace.h
+
+stipulation/fork_on_remaining.h:
+
+pypipe.h:
+
+trace.h:

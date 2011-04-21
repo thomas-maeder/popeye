@@ -21,7 +21,7 @@ static slice_index const help_slice_rank_order[] =
   STHelpRoot,
   STHelpFindShortest,
   STIntelligentHelpFilter,
-  STHelpShortcut,
+  STForkOnRemaining,
 
   STEndOfAdapter,
 
@@ -34,7 +34,7 @@ static slice_index const help_slice_rank_order[] =
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
-  STOptimisationFork,
+  STForkOnRemaining,
   STHelpMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STHelpMove,

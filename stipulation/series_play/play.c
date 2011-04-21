@@ -13,12 +13,11 @@
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
-#include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
-#include "optimisations/optimisation_fork.h"
+#include "stipulation/fork_on_remaining.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
@@ -57,10 +56,6 @@ stip_length_type series(slice_index si, stip_length_type n)
 
     case STSeriesRoot:
       result = series_root_series(si,n);
-      break;
-
-    case STSeriesShortcut:
-      result = series_shortcut_series(si,n);
       break;
 
     case STSeriesMove:
@@ -151,8 +146,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_series(si,n);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_series(si,n);
+    case STForkOnRemaining:
+      result = fork_on_remaining_series(si,n);
       break;
 
     default:
@@ -211,10 +206,6 @@ stip_length_type has_series(slice_index si, stip_length_type n)
 
     case STSeriesMove:
       result = series_move_has_series(si,n);
-      break;
-
-    case STSeriesShortcut:
-      result = series_shortcut_has_series(si,n);
       break;
 
     case STDefenseAdapter:
@@ -285,8 +276,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_has_series(si,n);
       break;
 
-    case STOptimisationFork:
-      result = optimisation_fork_has_series(si,n);
+    case STForkOnRemaining:
+      result = fork_on_remaining_has_series(si,n);
       break;
 
     case STCastlingFilter:
