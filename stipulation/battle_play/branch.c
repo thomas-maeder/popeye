@@ -353,7 +353,7 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
     slice_index const deadend = alloc_battle_play_dead_end_slice();
     slice_index const generator = alloc_defense_move_generator_slice();
-    slice_index const defense = alloc_defense_move_slice(length,min_length);
+    slice_index const defense = alloc_defense_move_slice();
 
     pipe_link(adapter,solver);
     pipe_link(solver,ready);
@@ -403,8 +403,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                              min_length-1);
     slice_index const ddeadend = alloc_battle_play_dead_end_slice();
     slice_index const dgenerator = alloc_defense_move_generator_slice();
-    slice_index const defense = alloc_defense_move_slice(length-1,
-                                                         min_length-1);
+    slice_index const defense = alloc_defense_move_slice();
 
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
 

@@ -8,12 +8,9 @@
  */
 
 /* Allocate a STDefenseMove defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_slice(stip_length_type length,
-                                     stip_length_type min_length);
+slice_index alloc_defense_move_slice(void);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice

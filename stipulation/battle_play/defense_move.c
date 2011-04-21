@@ -1,8 +1,6 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
@@ -10,21 +8,16 @@
 #include <assert.h>
 
 /* Allocate a STDefenseMove defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_slice(stip_length_type length,
-                                     stip_length_type min_length)
+slice_index alloc_defense_move_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseMove,length,min_length);
+  result = alloc_pipe(STDefenseMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,22 +52,16 @@ void defense_move_make_setplay_slice(slice_index si,
                                      stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(*result!=no_slice);
+
   {
     slice_index const move = alloc_help_move_slice();
-    slice_index const adapter = alloc_attack_adapter_slice(length-1,
-                                                           min_length-1);
-    slice_index const end = branch_find_slice(STEndOfRoot,si);
-
-    assert(end!=no_slice);
-    pipe_link(move,adapter);
-    pipe_set_successor(adapter,end);
+    pipe_link(move,*result);
     *result = move;
   }
 

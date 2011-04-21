@@ -266,9 +266,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackAdapter */
   slice_structure_branch, /* STDefenseAdapter */
   slice_structure_pipe,   /* STAttackMoveGenerator */
-  slice_structure_branch, /* STAttackMove */
+  slice_structure_pipe,   /* STAttackMove */
   slice_structure_branch, /* STAttackFindShortest */
-  slice_structure_branch, /* STDefenseMove */
+  slice_structure_pipe,   /* STDefenseMove */
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
@@ -293,7 +293,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STSeriesRoot */
   slice_structure_fork,   /* STSeriesShortcut */
   slice_structure_pipe,   /* STSeriesMoveGenerator */
-  slice_structure_branch, /* STSeriesMove */
+  slice_structure_pipe,   /* STSeriesMove */
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */

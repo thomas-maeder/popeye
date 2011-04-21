@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
+#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/ready_for_help_move.h"
@@ -41,6 +42,7 @@ void ready_for_defense_make_setplay_slice(slice_index si,
 {
   slice_index * const result = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -50,23 +52,36 @@ void ready_for_defense_make_setplay_slice(slice_index si,
 
   if (length==slack_length_battle)
   {
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     pipe_link(adapter,si);
     *result = adapter;
   }
   else
   {
-    stip_length_type const length_h = (length-slack_length_battle
-                                       +slack_length_help);
-    slice_index const adapter = alloc_help_adapter_slice(length_h,length_h);
-    slice_index const root = alloc_help_root_slice(length_h,length_h);
-    slice_index const ready = alloc_ready_for_help_move_slice(length_h,length_h);
+    {
+      slice_index const adapter = alloc_attack_adapter_slice(length-1,
+                                                             min_length-1);
+      slice_index const end = branch_find_slice(STEndOfRoot,si);
+      assert(end!=no_slice);
+      pipe_set_successor(adapter,end);
+      *result = adapter;
+    }
+
     stip_traverse_structure_children(si,st);
-    pipe_link(adapter,root);
-    pipe_link(root,ready);
-    pipe_link(ready,*result);
-    *result = adapter;
+
+    {
+      stip_length_type const length_h = (length-slack_length_battle
+                                         +slack_length_help);
+      slice_index const adapter = alloc_help_adapter_slice(length_h,
+                                                           length_h);
+      slice_index const root = alloc_help_root_slice(length_h,length_h);
+      slice_index const ready = alloc_ready_for_help_move_slice(length_h,
+                                                                length_h);
+      pipe_link(adapter,root);
+      pipe_link(root,ready);
+      pipe_link(ready,*result);
+      *result = adapter;
+    }
   }
 
   TraceFunctionExit(__func__);
