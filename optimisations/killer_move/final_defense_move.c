@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/fork_on_remaining.h"
@@ -20,8 +19,7 @@ static slice_index alloc_defense_move_against_goal_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STKillerMoveFinalDefenseMove,
-                        slack_length_battle+1,slack_length_battle);
+  result = alloc_pipe(STKillerMoveFinalDefenseMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

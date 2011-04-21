@@ -56,9 +56,9 @@ trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h pydata.h pypipe.h \
- stipulation/proxy.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/battle_play/dead_end.h \
- stipulation/fork_on_remaining.h trace.h
+ stipulation/proxy.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/dead_end.h stipulation/fork_on_remaining.h \
+ trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -67,8 +67,6 @@ pydata.h:
 pypipe.h:
 
 stipulation/proxy.h:
-
-stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 

@@ -352,10 +352,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_pipe,   /* STKillerMoveMoveGenerator */
-  slice_structure_branch, /* STKillerMoveFinalDefenseMove */
+  slice_structure_pipe,   /* STKillerMoveFinalDefenseMove */
   slice_structure_pipe,   /* STCountNrOpponentMovesMoveGenerator */
-  slice_structure_branch, /* STEnPassantFilter */
-  slice_structure_branch, /* STCastlingFilter */
+  slice_structure_pipe,   /* STEnPassantFilter */
+  slice_structure_pipe,   /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
   slice_structure_branch, /* STSeriesHashed */
