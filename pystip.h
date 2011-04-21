@@ -217,7 +217,6 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
-            Goal imminent_goal;
         } branch;
 
         struct
@@ -289,11 +288,11 @@ typedef struct
             slice_index op2; /* operand 2 */
         } binary;
 
-        struct /* for slices writing a goal */
+        struct /* for slices dealing with a single goal */
         {
             slice_index next;
             Goal goal;
-        } goal_writer;
+        } goal_handler;
 
         struct /* for type==STLineWriter* */
         {

@@ -1972,7 +1972,7 @@ static void remember_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_children(si,st);
-  *goal = slices[si].u.goal_writer.goal.type;
+  *goal = slices[si].u.goal_handler.goal.type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

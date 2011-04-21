@@ -23,7 +23,7 @@ static void instrument_goal_reached_testing(slice_index si,
 
   {
     slice_index const prototype = alloc_line_writer_slice(*root_slice,
-                                                          slices[si].u.goal_writer.goal);
+                                                          slices[si].u.goal_handler.goal);
     leaf_branch_insert_slices(si,&prototype,1);
   }
 

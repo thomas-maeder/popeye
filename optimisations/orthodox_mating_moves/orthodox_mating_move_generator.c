@@ -5,7 +5,6 @@
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/optimisation_fork.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -55,9 +54,10 @@ static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
   TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOrthodoxMatingMoveGenerator,
-                        slack_length_battle+1,slack_length_battle);
-  slices[result].u.branch.imminent_goal = goal;
+  assert(goal.type!=no_goal);
+
+  result = alloc_pipe(STOrthodoxMatingMoveGenerator);
+  slices[result].u.goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -171,7 +171,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal = slices[si].u.goal_writer.goal;
+  state->goal = slices[si].u.goal_handler.goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -242,12 +242,11 @@ orthodox_mating_move_generator_can_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
   assert(n==slack_length_battle+1);
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
   result = can_attack(next,n,n_max_unsolvable);
@@ -285,11 +284,10 @@ orthodox_mating_move_generator_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_battle+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
   result = attack(next,n,n_max_unsolvable);
@@ -322,9 +320,8 @@ stip_length_type orthodox_mating_move_generator_series(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_series+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
 
@@ -359,9 +356,8 @@ stip_length_type orthodox_mating_move_generator_has_series(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_series+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
 
@@ -396,9 +392,8 @@ stip_length_type orthodox_mating_move_generator_help(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_help+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
 
@@ -432,9 +427,8 @@ stip_length_type orthodox_mating_move_generator_can_help(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_help+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  empile_for_goal = slices[si].u.branch.imminent_goal;
+  empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
 

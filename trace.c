@@ -276,12 +276,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STIntelligentSeriesFilter:
       case STIntelligentHelpFilter:
         Trace_branch(si);
-        if (slices[si].u.branch.imminent_goal.type!=no_goal)
-        {
-          fprintf(stdout,"imminent:%2u ",slices[si].u.branch.imminent_goal.type);
-          if (slices[si].u.branch.imminent_goal.type==goal_target)
-            TraceSquare(slices[si].u.branch.imminent_goal.target);
-        }
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
@@ -410,7 +404,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STGoalReachedTesting:
         Trace_pipe(si);
-        TraceValue("%u",slices[si].u.goal_writer.goal.type);
+        TraceValue("%u",slices[si].u.goal_handler.goal.type);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
@@ -468,7 +462,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);
-        fprintf(stdout,"goal:%u\n",slices[si].u.goal_writer.goal.type);
+        fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 

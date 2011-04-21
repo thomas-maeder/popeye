@@ -2684,7 +2684,7 @@ static void goal_to_be_reached_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_writer.goal.type;
+  goal_to_be_reached = slices[si].u.goal_handler.goal.type;
 
   stip_traverse_structure_children(si,st);
 
@@ -2963,8 +2963,8 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.goal_writer.goal.type==goal_mate
-      || slices[si].u.goal_writer.goal.type==goal_stale)
+  if (slices[si].u.goal_handler.goal.type==goal_mate
+      || slices[si].u.goal_handler.goal.type==goal_stale)
   {
     slice_index const prototype = alloc_intelligent_duplicate_avoider_slice();
     leaf_branch_insert_slices(si,&prototype,1);
@@ -3291,7 +3291,7 @@ static void intelligent_mode_support_testing(slice_index si,
                                              stip_structure_traversal *st)
 {
   support_for_intelligent_mode * const support = st->param;
-  goal_type const goal = slices[si].u.goal_writer.goal.type;
+  goal_type const goal = slices[si].u.goal_handler.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

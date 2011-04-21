@@ -1973,7 +1973,7 @@ static void attachGoalBranch(slice_index proxy, slice_index tester, Goal goal)
     slice_index const leaf = alloc_leaf_slice();
     slice_index const tested = alloc_pipe(STGoalReachedTested);
     slice_index const testing = alloc_pipe(STGoalReachedTesting);
-    slices[testing].u.goal_writer.goal = goal;
+    slices[testing].u.goal_handler.goal = goal;
 
     pipe_link(proxy,testing);
     pipe_link(testing,tester);
@@ -2044,8 +2044,8 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
-        slices[testing_mate].u.goal_writer.goal.type = goal_mate;
-        slices[testing_stalemate].u.goal_writer.goal.type = goal_stale;
+        slices[testing_mate].u.goal_handler.goal.type = goal_mate;
+        slices[testing_stalemate].u.goal_handler.goal.type = goal_stale;
 
         pipe_link(proxy_mate,testing_mate);
         pipe_link(testing_mate,tester_mate);
@@ -2570,7 +2570,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           assert(slices[next].type==STGoalReachedTesting);
-          if (slices[next].u.goal_writer.goal.type==goal_proofgame)
+          if (slices[next].u.goal_handler.goal.type==goal_proofgame)
             stip_impose_starter(proxy_next,Black);
           else
             stip_impose_starter(proxy_next,White);
