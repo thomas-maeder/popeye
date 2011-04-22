@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
 #include "pyreflxg.h"
+#include "pymovein.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
@@ -16,6 +17,7 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
+#include "stipulation/battle_play/end_of_branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -507,6 +509,108 @@ slice_index battle_branch_make_setplay(slice_index si)
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+static void trash_for_postkey_play(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  pipe_unlink(slices[si].prev);
+  dealloc_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors to_postkey_play_reducers[] =
+{
+  { STStipulationReflexAttackSolver, &trash_for_postkey_play                        },
+  { STAttackAdapter,                 &trash_for_postkey_play                        },
+  { STReadyForAttack,                &trash_for_postkey_play                        },
+  { STMinLengthOptimiser,            &trash_for_postkey_play                        },
+  { STBattleDeadEnd,                 &trash_for_postkey_play                        },
+  { STAttackMoveGenerator,           &trash_for_postkey_play                        },
+  { STAttackMove,                    &trash_for_postkey_play                        },
+  { STEndOfBattleBranch,             &end_of_battle_branch_reduce_to_postkey_play   },
+  { STContinuationSolver,            &trash_for_postkey_play                        },
+  { STEndOfAttack,                   &trash_for_postkey_play                        },
+  { STMinLengthGuard,                &trash_for_postkey_play                        },
+  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
+  { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      }
+};
+
+enum
+{
+  nr_to_postkey_play_reducers = (sizeof to_postkey_play_reducers
+                                 / sizeof to_postkey_play_reducers[0])
+};
+
+/* Install the slice representing the postkey slice at the stipulation
+ * root
+ * @param postkey_slice identifies slice to be installed
+ */
+static void install_postkey_slice(slice_index si, slice_index postkey_slice)
+{
+  slice_index inverter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",postkey_slice);
+  TraceFunctionParamListEnd();
+
+  inverter = alloc_move_inverter_slice();
+  pipe_link(inverter,postkey_slice);
+  pipe_link(si,inverter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Attempt to apply the postkey play option to the current stipulation
+ * @param si identifies slice where to start
+ * @return true iff postkey play option is applicable (and has been
+ *              applied)
+ */
+boolean battle_branch_apply_postkeyplay(slice_index si)
+{
+  boolean result;
+  slice_index postkey_slice = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,&postkey_slice);
+  stip_structure_traversal_override(&st,
+                                    to_postkey_play_reducers,
+                                    nr_to_postkey_play_reducers);
+  stip_traverse_structure(si,&st);
+
+  TraceValue("%u\n",postkey_slice);
+  if (postkey_slice==no_slice)
+    result = false;
+  else
+  {
+    install_postkey_slice(si,postkey_slice);
+    result = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);

@@ -402,13 +402,6 @@ stip_length_type get_max_nr_moves(slice_index si);
  */
 boolean transform_to_quodlibet(slice_index si);
 
-/* Attempt to apply the postkey play option to the current stipulation
- * @param si identifies slice where to start
- * @return true iff postkey play option is applicable (and has been
- *              applied)
- */
-boolean stip_apply_postkeyplay(slice_index si);
-
 /* Attempt to add set play to the stipulation
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added

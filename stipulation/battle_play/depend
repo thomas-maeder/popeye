@@ -1,6 +1,7 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
- stipulation/battle_play/branch.h pypipe.h pyreflxg.h stipulation/proxy.h \
- stipulation/branch.h stipulation/battle_play/attack_adapter.h \
+ stipulation/battle_play/branch.h pypipe.h pyreflxg.h pymovein.h \
+ stipulation/proxy.h stipulation/branch.h \
+ stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/attack_move.h \
@@ -12,13 +13,16 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/dead_end.h \
- stipulation/battle_play/min_length_optimiser.h trace.h
+ stipulation/battle_play/min_length_optimiser.h \
+ stipulation/battle_play/end_of_branch.h trace.h
 
 stipulation/battle_play/branch.h:
 
 pypipe.h:
 
 pyreflxg.h:
+
+pymovein.h:
 
 stipulation/proxy.h:
 
@@ -49,6 +53,8 @@ stipulation/battle_play/continuation.h:
 stipulation/battle_play/dead_end.h:
 
 stipulation/battle_play/min_length_optimiser.h:
+
+stipulation/battle_play/end_of_branch.h:
 
 trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \

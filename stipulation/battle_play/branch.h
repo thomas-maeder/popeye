@@ -72,4 +72,11 @@ void stip_make_goal_attack_branch(slice_index si);
  */
 slice_index battle_branch_make_setplay(slice_index si);
 
+/* Attempt to apply the postkey play option to the current stipulation
+ * @param si identifies slice where to start
+ * @return true iff postkey play option is applicable (and has been
+ *              applied)
+ */
+boolean battle_branch_apply_postkeyplay(slice_index si);
+
 #endif

@@ -125,6 +125,7 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/check_detector.h"
@@ -2556,7 +2557,7 @@ static Token iterate_twins(Token prev_token)
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
 
-      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
+      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
       stip_insert_check_detectors(template_slice_hook);
