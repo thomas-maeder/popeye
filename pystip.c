@@ -73,6 +73,7 @@
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
+    ENUMERATOR(STEndOfAttack),     /* proxy mark after we have played attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
@@ -270,6 +271,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSelfDefense */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
+  slice_structure_pipe,   /* STEndOfAttack */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_fork,   /* STEndOfBattleBranch */
   slice_structure_pipe,   /* STBattleDeadEnd */
@@ -418,6 +420,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSelfDefense */
   slice_function_move_generator, /* STDefenseMoveGenerator */
   slice_function_unspecified,    /* STReadyForAttack */
+  slice_function_unspecified,    /* STEndOfAttack */
   slice_function_unspecified,    /* STReadyForDefense */
   slice_function_unspecified,    /* STEndOfBattleBranch */
   slice_function_unspecified,    /* STBattleDeadEnd */
@@ -786,7 +789,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 
   { STAttackAdapter,        &move_to_root                     },
   { STReadyForAttack,       &ready_for_attack_make_root       },
-  { STEndOfBattleBranch,    &end_of_battle_branch_make_root          },
+  { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
   { STAttackFindShortest,   &attack_find_shortest_make_root   },
   { STDefenseMove,          &defense_move_make_root           },
 
@@ -1282,6 +1285,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STStipulationReflexAttackSolver, &trash_for_postkey_play                        },
   { STAttackAdapter,                 &trash_for_postkey_play                        },
   { STReadyForAttack,                &trash_for_postkey_play                        },
+  { STEndOfAttack,                   &trash_for_postkey_play                        },
   { STBattleDeadEnd,                 &trash_for_postkey_play                        },
   { STMinLengthOptimiser,            &trash_for_postkey_play                        },
   { STAttackMoveGenerator,           &trash_for_postkey_play                        },
@@ -1357,69 +1361,15 @@ boolean stip_apply_postkeyplay(slice_index si)
   return result;
 }
 
-static structure_traversers_visitors setplay_makers[] =
-{
-  { STReadyForDefense,      &ready_for_defense_make_setplay_slice            },
-  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice       },
-  { STDefenseMove,          &defense_move_make_setplay_slice                 },
-
-  { STReadyForHelpMove,     &ready_for_help_move_make_setplay_slice          },
-  { STHelpFork,             &stip_traverse_structure_pipe                    },
-  { STHelpMoveGenerator,    &help_move_generator_make_setplay_slice          },
-  { STHelpMove,             &help_move_make_setplay_slice                    },
-
-  { STSeriesDummyMove,      &stip_structure_visitor_noop                     },
-  { STEndOfSeriesBranch,    &end_of_series_branch_make_setplay               },
-
-  { STReflexDefenderFilter, &reflex_guard_defender_filter_make_setplay_slice }
-};
-
-enum
-{
-  nr_setplay_makers = (sizeof setplay_makers / sizeof setplay_makers[0])
-};
-
-/* Produce slices representing set play.
- * This is supposed to be invoked from within the slice type specific
- * functions invoked by stip_apply_setplay.
- * @param si identifies the successor of the slice representing the
- *           move(s) not played in set play
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
- */
-slice_index stip_make_setplay(slice_index si)
-{
-  slice_index result = no_slice;
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STAttackMove,                    &attack_move_apply_setplay    },
-  { STDefenseAdapter,                &stip_structure_visitor_noop  },
-  { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
-
-  { STHelpMove,                      &help_move_apply_setplay      },
-  { STHelpFork,                      &stip_structure_visitor_noop  },
-
-  { STSeriesMove,                    &series_move_apply_setplay    },
-  { STSeriesFork,                    &stip_structure_visitor_noop  },
-
+  { STMoveInverter,                  &move_inverter_apply_setplay  },
   { STForkOnRemaining,               &stip_traverse_structure_pipe },
-  { STMoveInverter,                  &move_inverter_apply_setplay  }
+  { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
+  { STAttackAdapter,                 &attack_adapter_apply_setplay },
+  { STDefenseAdapter,                &stip_structure_visitor_noop  },
+  { STHelpAdapter,                   &help_adapter_apply_setplay   },
+  { STSeriesAdapter,                 &series_adapter_apply_setplay }
 };
 
 enum
@@ -1798,6 +1748,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
+  &stip_traverse_structure_pipe,            /* STEndOfAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBattleBranch */
   &stip_traverse_structure_pipe,            /* STBattleDeadEnd */
@@ -2037,6 +1988,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,         /* STSelfDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
+    &stip_traverse_moves_pipe,                  /* STEndOfAttack */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_end_of_branch,         /* STEndOfBattleBranch */
     &stip_traverse_moves_battle_play_dead_end,  /* STBattleDeadEnd */

@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_HELP_PLAY_ADAPTER_H)
 #define STIPULATION_HELP_PLAY_ADAPTER_H
 
-#include "py.h"
 #include "pyslice.h"
 
 /* This module provides functionality dealing with STHelpAdapter
@@ -23,6 +22,13 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
  */
 void stip_traverse_moves_help_adapter_slice(slice_index si,
                                             stip_moves_traversal *st);
+
+/* Attempt to add set play to an attack stipulation (battle play, not
+ * postkey only)
+ * @param si identifies the root from which to apply set play
+ * @param st address of structure representing traversal
+ */
+void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
 
 /* Solve a slice
  * @param si slice index

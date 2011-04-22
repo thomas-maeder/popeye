@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -51,6 +52,29 @@ void stip_traverse_moves_battle_adapter_slice(slice_index si,
   }
   else
     stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Attempt to add set play to an attack stipulation (battle play, not
+ * postkey only)
+ * @param si identifies the root from which to apply set play
+ * @param st address of structure representing traversal
+ */
+void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const setplay_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const end = branch_find_slice(STEndOfAttack,si);
+    assert(end!=no_slice);
+    *setplay_slice = battle_branch_make_setplay(slices[end].u.pipe.next);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
+#include "pyreflxg.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
@@ -7,6 +8,7 @@
 #include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/end_of_attack.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
@@ -67,6 +69,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
+  STEndOfAttack,
   STPostKeyPlaySuppressor,
   STMinLengthGuard,
   STReflexDefenderFilter,
@@ -399,6 +402,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const attack = alloc_attack_move_slice();
     slice_index const solver = alloc_continuation_solver_slice(length-1,
                                                                min_length-1);
+    slice_index const end = alloc_end_of_attack_slice();
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const ddeadend = alloc_battle_play_dead_end_slice();
@@ -412,7 +416,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(shortest,agenerator);
     pipe_link(agenerator,attack);
     pipe_link(attack,solver);
-    pipe_link(solver,dready);
+    pipe_link(solver,end);
+    pipe_link(end,dready);
     pipe_link(dready,ddeadend);
     pipe_link(ddeadend,dgenerator);
     pipe_link(dgenerator,defense);
@@ -453,6 +458,7 @@ void stip_make_goal_attack_branch(slice_index si)
       alloc_battle_play_dead_end_slice(),
       alloc_attack_move_generator_slice(),
       alloc_attack_move_slice(),
+      alloc_end_of_attack_slice(),
       alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
     };
     enum {
@@ -464,4 +470,46 @@ void stip_make_goal_attack_branch(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+
+static structure_traversers_visitors setplay_makers[] =
+{
+  { STReadyForDefense,      &ready_for_defense_make_setplay_slice            },
+  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice       },
+  { STDefenseMove,          &defense_move_make_setplay_slice                 },
+  { STEndOfBattleBranch,    &reflex_guard_defender_filter_make_setplay_slice },
+  { STReflexDefenderFilter, &reflex_guard_defender_filter_make_setplay_slice }
+};
+
+enum
+{
+  nr_setplay_makers = (sizeof setplay_makers / sizeof setplay_makers[0])
+};
+
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param si identifies the successor of the slice representing the
+ *           move(s) not played in set play
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index battle_branch_make_setplay(slice_index si)
+{
+  slice_index result = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
 }

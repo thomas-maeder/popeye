@@ -22,6 +22,13 @@ slice_index alloc_attack_adapter_slice(stip_length_type length,
 void stip_traverse_moves_battle_adapter_slice(slice_index si,
                                               stip_moves_traversal *st);
 
+/* Attempt to add set play to an attack stipulation (battle play, not
+ * postkey only)
+ * @param si identifies the root from which to apply set play
+ * @param st address of structure representing traversal
+ */
+void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
+
 /* Determine whether a slice has a solution - adapter for direct slices
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

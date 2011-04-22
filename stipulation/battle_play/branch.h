@@ -64,4 +64,12 @@ void battle_branch_insert_slices_nested(slice_index si,
  */
 void stip_make_goal_attack_branch(slice_index si);
 
+/* Produce slices representing set play.
+ * @param si identifies the successor of the slice representing the
+ *           move(s) not played in set play
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index battle_branch_make_setplay(slice_index si);
+
 #endif

@@ -112,6 +112,7 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/end_of_attack.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
@@ -2373,6 +2374,7 @@ static char *ParseSerS(char *tok,
     slice_index const series = alloc_series_branch(length,min_length);
     slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                             slack_length_battle);
+    slice_index const aend = alloc_end_of_attack_slice();
     slice_index const deadend = alloc_battle_play_dead_end_slice();
     slice_index const defense_branch = alloc_defense_branch(aready,
                                                             slack_length_battle+1,
@@ -2381,7 +2383,8 @@ static char *ParseSerS(char *tok,
     slice_insert_self_guards(defense_branch,proxy_next);
     series_branch_set_next_slice(series,defense_branch);
     pipe_link(proxy,series);
-    pipe_link(aready,deadend);
+    pipe_link(aready,aend);
+    pipe_link(aend,deadend);
   }
 
   TraceFunctionExit(__func__);
@@ -2525,11 +2528,13 @@ static char *ParsePlay(char *tok,
         {
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                                   slack_length_battle);
+          slice_index const aend = alloc_end_of_attack_slice();
           slice_index const deadend = alloc_battle_play_dead_end_slice();
           slice_index const defense_branch = alloc_defense_branch(aready,
                                                                   slack_length_battle+1,
                                                                   slack_length_battle+1);
-          pipe_link(aready,deadend);
+          pipe_link(aready,aend);
+          pipe_link(aend,deadend);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           /* in ser-hs, the series is 1 half-move longer than in usual
@@ -2794,12 +2799,14 @@ static char *ParsePlay(char *tok,
         {
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                                   slack_length_battle);
+          slice_index const aend = alloc_end_of_attack_slice();
           slice_index const deadend = alloc_battle_play_dead_end_slice();
           slice_index const defense_branch = alloc_defense_branch(aready,
                                                                   slack_length_battle+1,
                                                                   slack_length_battle+1);
           slice_index const branch = alloc_help_branch(length-1,min_length-1);
-          pipe_link(aready,deadend);
+          pipe_link(aready,aend);
+          pipe_link(aend,deadend);
           help_branch_set_next_slice(branch,slack_length_help,defense_branch);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);

@@ -1,5 +1,6 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/branch.h"
+#include "stipulation/series_play/move.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -51,6 +52,42 @@ void stip_traverse_moves_series_adapter_slice(slice_index si,
   }
   else
     stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors setplay_appliers[] =
+{
+  { STSeriesMove,      &series_move_apply_setplay    },
+  { STSeriesFork,      &stip_structure_visitor_noop  },
+  { STForkOnRemaining, &stip_traverse_structure_pipe }
+};
+
+enum
+{
+  nr_setplay_appliers = (sizeof setplay_appliers / sizeof setplay_appliers[0])
+};
+
+/* Attempt to add set play to an attack stipulation (battle play, not
+ * postkey only)
+ * @param si identifies the root from which to apply set play
+ * @param st address of structure representing traversal
+ */
+void series_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const setplay_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,setplay_slice);
+    stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
