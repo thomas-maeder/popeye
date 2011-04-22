@@ -537,27 +537,17 @@ static void trash_for_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors to_postkey_play_reducers[] =
+static structure_traversers_visitors to_postkey_play_appliers[] =
 {
-  { STStipulationReflexAttackSolver, &trash_for_postkey_play                        },
-  { STAttackAdapter,                 &trash_for_postkey_play                        },
-  { STReadyForAttack,                &trash_for_postkey_play                        },
-  { STMinLengthOptimiser,            &trash_for_postkey_play                        },
-  { STBattleDeadEnd,                 &trash_for_postkey_play                        },
-  { STAttackMoveGenerator,           &trash_for_postkey_play                        },
-  { STAttackMove,                    &trash_for_postkey_play                        },
-  { STEndOfBattleBranch,             &end_of_battle_branch_reduce_to_postkey_play   },
-  { STContinuationSolver,            &trash_for_postkey_play                        },
-  { STEndOfAttack,                   &trash_for_postkey_play                        },
-  { STMinLengthGuard,                &trash_for_postkey_play                        },
-  { STReflexDefenderFilter,          &reflex_defender_filter_reduce_to_postkey_play },
-  { STReadyForDefense,               &ready_for_defense_reduce_to_postkey_play      }
+  { STStipulationReflexAttackSolver, &trash_for_postkey_play          },
+  { STAttackAdapter,                 &trash_for_postkey_play          },
+  { STEndOfAttack,                   &end_of_attack_apply_postkeyplay }
 };
 
 enum
 {
-  nr_to_postkey_play_reducers = (sizeof to_postkey_play_reducers
-                                 / sizeof to_postkey_play_reducers[0])
+  nr_to_postkey_play_appliers = (sizeof to_postkey_play_appliers
+                                 / sizeof to_postkey_play_appliers[0])
 };
 
 /* Install the slice representing the postkey slice at the stipulation
@@ -599,8 +589,8 @@ boolean battle_branch_apply_postkeyplay(slice_index si)
 
   stip_structure_traversal_init(&st,&postkey_slice);
   stip_structure_traversal_override(&st,
-                                    to_postkey_play_reducers,
-                                    nr_to_postkey_play_reducers);
+                                    to_postkey_play_appliers,
+                                    nr_to_postkey_play_appliers);
   stip_traverse_structure(si,&st);
 
   TraceValue("%u\n",postkey_slice);

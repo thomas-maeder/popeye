@@ -22,6 +22,7 @@
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
+#include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
@@ -764,7 +765,7 @@ void dealloc_slices(slice_index si)
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void move_to_root(slice_index si, stip_structure_traversal *st)
+void slice_move_to_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
 
@@ -785,21 +786,22 @@ void move_to_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STMoveInverter,         &move_to_root                     },
+  { STMoveInverter,         &slice_move_to_root                     },
 
-  { STAttackAdapter,        &move_to_root                     },
+  { STAttackAdapter,        &slice_move_to_root                     },
+  { STDefenseAdapter,       &defense_adapter_make_root        },
   { STReadyForAttack,       &ready_for_attack_make_root       },
   { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
   { STAttackFindShortest,   &attack_find_shortest_make_root   },
   { STDefenseMove,          &defense_move_make_root           },
 
-  { STHelpAdapter,          &move_to_root                     },
+  { STHelpAdapter,          &slice_move_to_root                     },
   { STHelpFindShortest,     &help_find_shortest_make_root     },
   { STReadyForHelpMove,     &ready_for_help_move_make_root    },
   { STHelpMove,             &help_move_make_root              },
   { STHelpFork,             &stip_traverse_structure_pipe     },
 
-  { STSeriesAdapter,        &move_to_root                     },
+  { STSeriesAdapter,        &slice_move_to_root                     },
   { STSeriesFindShortest,   &series_find_shortest_make_root   },
   { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
   { STSeriesMove,           &series_move_make_root            },

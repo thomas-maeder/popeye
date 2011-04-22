@@ -382,12 +382,6 @@ slice_index stip_deep_copy(slice_index si);
  */
 void assert_no_leaked_slices(void);
 
-/* Wrap the slices representing the initial moves of the solution with
- * slices of appropriately equipped slice types
- * @param si identifies slice where to start
- */
-void stip_insert_root_slices(slice_index si);
-
 /* Determine the maximally possible number of half-moves until the
  * goal has to be reached.
  * @param si root of subtree
@@ -656,5 +650,17 @@ void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st);
  */
 void stip_traverse_moves_children(slice_index si,
                                   stip_moves_traversal *st);
+
+/* Move a slice to the root branch as part of stip_insert_root_slices()
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void slice_move_to_root(slice_index si, stip_structure_traversal *st);
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ */
+void stip_insert_root_slices(slice_index si);
 
 #endif

@@ -242,11 +242,16 @@ stipulation/branch.h:
 trace.h:
 stipulation/battle_play/end_of_attack$(OBJ_SUFFIX): \
  stipulation/battle_play/end_of_attack.c \
- stipulation/battle_play/end_of_attack.h pypipe.h trace.h
+ stipulation/battle_play/end_of_attack.h pypipe.h pyreflxg.h \
+ stipulation/battle_play/ready_for_defense.h trace.h
 
 stipulation/battle_play/end_of_attack.h:
 
 pypipe.h:
+
+pyreflxg.h:
+
+stipulation/battle_play/ready_for_defense.h:
 
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \

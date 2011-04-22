@@ -14,4 +14,12 @@
  */
 slice_index alloc_end_of_attack_slice(void);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void end_of_attack_apply_postkeyplay(slice_index si,
+                                     stip_structure_traversal *st);
+
 #endif

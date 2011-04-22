@@ -358,9 +358,6 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
     slice_index const filter = alloc_reflex_attack_solver(avoided);
     pipe_link(filter,*postkey_slice);
     *postkey_slice = filter;
-
-    pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
   }
 
   TraceFunctionExit(__func__);

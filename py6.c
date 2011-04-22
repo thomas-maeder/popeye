@@ -2551,14 +2551,14 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_goal_prerequisite_guards(template_slice_hook);
 
+      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
+        Message(PostKeyPlayNotApplicable);
+
       stip_insert_root_slices(template_slice_hook);
 
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
-
-      if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
-        Message(PostKeyPlayNotApplicable);
 
       stip_insert_check_detectors(template_slice_hook);
 
