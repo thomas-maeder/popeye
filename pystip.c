@@ -1106,7 +1106,13 @@ static void remove_pipe(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const defense_proxy_removers[] =
 {
-  { STAttackAdapter, &remove_pipe }
+  { STNot,                 &remove_pipe },
+  { STAttackAdapter,       &remove_pipe },
+  { STReadyForAttack,      &remove_pipe },
+  { STBattleDeadEnd,       &remove_pipe },
+  { STAttackMoveGenerator, &remove_pipe },
+  { STAttackMove,          &remove_pipe },
+  { STDefenseAdapter,      &remove_pipe }
 };
 
 enum
@@ -1115,10 +1121,16 @@ enum
                                / sizeof defense_proxy_removers[0])
 };
 
+typedef struct
+{
+  slice_index to_goal;
+  boolean has_attack_ended;
+} quodlibet_transformation_state;
+
 /* Remove the defensive proxy slices from a branch
  * @param si identifies slice where to start
  */
-static void remove_defense_proxies(slice_index si)
+static void remove_non_goal_slices(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -1136,58 +1148,32 @@ static void remove_defense_proxies(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void transform_to_quodlibet_self_defense(slice_index si,
-                                                stip_structure_traversal *st)
+static void remember_end_of_attack(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const proxy_to_goal = st->param;
+  quodlibet_transformation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *proxy_to_goal = stip_deep_copy(slices[si].u.fork.fork);
-  remove_defense_proxies(*proxy_to_goal);
-  stip_make_direct_goal_branch(*proxy_to_goal);
-
+  state->has_attack_ended = true;
   stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void transform_to_quodlibet_semi_reflex(slice_index si,
-                                               stip_structure_traversal *st)
+static void transform_to_quodlibet_end_of_branch(slice_index si,
+                                                stip_structure_traversal *st)
 {
+  quodlibet_transformation_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index * const new_proxy_to_goal = st->param;
-    slice_index const fork = slices[si].u.fork.fork;
-    slice_index const testing = branch_find_slice(STGoalReachedTesting,fork);
-    slice_index const tester = slices[testing].u.pipe.next;
-    slice_index const new_leaf = alloc_leaf_slice();
-    slice_index const new_testing = copy_slice(testing);
-    slice_index const new_tester = copy_slice(tester);
-    slice_index const new_tested = alloc_pipe(STGoalReachedTested);
-
-		/* The starting side of the copy may be different that that of the original!
-		 * -> prevent the copied starter from determining the starting side of the
-		 * entire problem. */
-    slices[new_testing].starter = no_side;
-    slices[new_tester].starter = no_side;
-
-    pipe_link(new_testing,new_tester);
-    pipe_link(new_tester,new_tested);
-    pipe_link(new_tested,new_leaf);
-    *new_proxy_to_goal = alloc_proxy_slice();
-    pipe_link(*new_proxy_to_goal,new_testing);
-
-    stip_make_direct_goal_branch(*new_proxy_to_goal);
-  }
-
-  stip_traverse_structure_children(si,st);
+  if (state->has_attack_ended)
+    state->to_goal = stip_deep_copy(slices[si].u.fork.fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1196,7 +1182,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
 static void insert_direct_guards(slice_index si,
                                  stip_structure_traversal *st)
 {
-  slice_index const * const proxy_to_goal = st->param;
+  quodlibet_transformation_state const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1205,10 +1191,12 @@ static void insert_direct_guards(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (slices[si].u.branch.length>slack_length_battle
-      && *proxy_to_goal!=no_slice)
+      && state->to_goal!=no_slice)
   {
     boolean const append_deadend = false;
-    battle_branch_set_direct_goal_branch(si,*proxy_to_goal,append_deadend);
+    remove_non_goal_slices(state->to_goal);
+    stip_make_direct_goal_branch(state->to_goal);
+    battle_branch_set_direct_goal_branch(si,state->to_goal,append_deadend);
   }
 
   TraceFunctionExit(__func__);
@@ -1217,10 +1205,11 @@ static void insert_direct_guards(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
-  { STReadyForAttack,       &insert_direct_guards                },
-  { STNot,                  &stip_structure_visitor_noop         },
-  { STReflexDefenderFilter, &transform_to_quodlibet_semi_reflex  },
-  { STSelfDefense,          &transform_to_quodlibet_self_defense }
+  { STReadyForAttack,       &insert_direct_guards                 },
+  { STEndOfAttack,          &remember_end_of_attack               },
+  { STReflexDefenderFilter, &transform_to_quodlibet_end_of_branch },
+  { STSelfDefense,          &transform_to_quodlibet_end_of_branch },
+  { STEndOfBattleBranch,    &transform_to_quodlibet_end_of_branch }
 };
 
 enum
@@ -1237,7 +1226,7 @@ enum
 boolean transform_to_quodlibet(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index proxy_to_goal = no_slice;
+  quodlibet_transformation_state state = { no_slice, false };
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -1246,13 +1235,13 @@ boolean transform_to_quodlibet(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&proxy_to_goal);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     to_quodlibet_transformers,
                                     nr_to_quodlibet_transformers);
   stip_traverse_structure(si,&st);
 
-  result = proxy_to_goal!=no_slice;
+  result = state.to_goal!=no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
