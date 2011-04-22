@@ -277,27 +277,6 @@ static void insert_goal_prerequisite_guards_series(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert goal optimisation guards
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void insert_goal_prerequisite_guards_reflex(slice_index si,
-                                            stip_moves_traversal *st)
-{
-  prerequisite_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-  state->are_there_other_forks = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Insert goal prerequisite guards
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -346,7 +325,6 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
   { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
   { STHelpFork,                     &insert_goal_prerequisite_guards_help        },
   { STSeriesFork,                   &insert_goal_prerequisite_guards_series      },
-  { STReflexDefenderFilter,         &insert_goal_prerequisite_guards_reflex      },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate },
 };
