@@ -256,6 +256,14 @@ option postkey
 
 next
 
+title r#1.5 with immediate mate
+pieces white ka1 pf3
+       black ka3 pa2a4b3b4h6
+stip r#2
+option postkey
+
+next
+
 title r#2
 pieces white ka1 bh7
        black ka3 pa4b4
