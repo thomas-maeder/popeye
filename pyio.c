@@ -106,6 +106,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/leaf.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
@@ -116,7 +117,6 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/branch.h"
@@ -1892,7 +1892,7 @@ static char *ParseHelpLength(char *tok,
       *min_length = slack_length_help+1;
     }
     else
-      *min_length = slack_length_help+2;
+      *min_length = slack_length_help;
 
     if (*length<slack_length_help)
     {
@@ -2375,7 +2375,7 @@ static char *ParseSerS(char *tok,
     slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                             slack_length_battle);
     slice_index const aend = alloc_end_of_attack_slice();
-    slice_index const deadend = alloc_battle_play_dead_end_slice();
+    slice_index const deadend = alloc_dead_end_slice();
     slice_index const defense_branch = alloc_defense_branch(aready,
                                                             slack_length_battle+1,
                                                             slack_length_battle+1);
@@ -2529,7 +2529,7 @@ static char *ParsePlay(char *tok,
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                                   slack_length_battle);
           slice_index const aend = alloc_end_of_attack_slice();
-          slice_index const deadend = alloc_battle_play_dead_end_slice();
+          slice_index const deadend = alloc_dead_end_slice();
           slice_index const defense_branch = alloc_defense_branch(aready,
                                                                   slack_length_battle+1,
                                                                   slack_length_battle+1);
@@ -2612,20 +2612,30 @@ static char *ParsePlay(char *tok,
     tok = ParseGoal(tok+5,proxy_next); /* skip over "ser-r" */
     if (tok!=0)
     {
-      /* make the copy before ParseSerH inserts help play */
-      slice_index const proxy_avoided = stip_deep_copy(proxy_next);
-
       assert(slices[proxy_next].u.pipe.next!=no_slice);
 
-      result = ParseSerH(tok,proxy,proxy_next,play_length);
-      if (result!=0)
       {
-        stip_make_goal_attack_branch(proxy_avoided);
-        pipe_append(proxy_avoided,alloc_not_slice());
-        slice_insert_reflex_filters_semi(proxy,proxy_avoided);
-        stip_impose_starter(proxy_avoided,White);
+        stip_length_type length;
+        stip_length_type min_length;
+        result = ParseSeriesLength(tok,&length,&min_length,play_length);
+        if (result!=0)
+        {
+          slice_index const branch = alloc_series_branch(length,min_length);
 
-        set_output_mode(output_mode_line);
+          /* make the copy before stip_make_goal_attack_branch inserts
+             help play */
+          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+          stip_make_goal_attack_branch(proxy_avoided);
+          pipe_append(proxy_avoided,alloc_not_slice());
+
+          stip_make_goal_attack_branch(proxy_next);
+
+          pipe_link(proxy,branch);
+          stip_insert_reflex_filters(proxy,proxy_next,proxy_avoided);
+
+          stip_impose_starter(proxy_avoided,White);
+          set_output_mode(output_mode_line);
+        }
       }
     }
   }
@@ -2800,11 +2810,12 @@ static char *ParsePlay(char *tok,
           slice_index const aready = alloc_ready_for_attack_slice(slack_length_battle,
                                                                   slack_length_battle);
           slice_index const aend = alloc_end_of_attack_slice();
-          slice_index const deadend = alloc_battle_play_dead_end_slice();
+          slice_index const deadend = alloc_dead_end_slice();
           slice_index const defense_branch = alloc_defense_branch(aready,
                                                                   slack_length_battle+1,
                                                                   slack_length_battle+1);
-          slice_index const branch = alloc_help_branch(length-1,min_length-1);
+          stip_length_type const min = min_length==slack_length_help ? slack_length_help+1 : min_length-1;
+          slice_index const branch = alloc_help_branch(length-1,min);
           pipe_link(aready,aend);
           pipe_link(aend,deadend);
           help_branch_set_next_slice(branch,slack_length_help,defense_branch);
@@ -2832,19 +2843,19 @@ static char *ParsePlay(char *tok,
         result = ParseHelpLength(tok,&length,&min_length,play_length);
         if (result!=0)
         {
-          slice_index const branch = alloc_help_branch(length,min_length);
+          stip_length_type const min = min_length==slack_length_help ? slack_length_help+1 : min_length-1;
+          slice_index const branch = alloc_help_branch(length-1,min);
 
-          /* make the copy before stip_make_help_goal_branch inserts
+          /* make the copy before stip_make_goal_attack_branch inserts
              help play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_next);
           stip_make_goal_attack_branch(proxy_avoided);
           pipe_append(proxy_avoided,alloc_not_slice());
 
-          stip_make_help_goal_branch(proxy_next);
+          stip_make_goal_attack_branch(proxy_next);
 
           attach_help_branch(length,proxy,branch);
-          help_branch_set_goal_slice(branch,proxy_next);
-          slice_insert_reflex_filters_semi(proxy,proxy_avoided);
+          stip_insert_reflex_filters(proxy,proxy_next,proxy_avoided);
 
           stip_impose_starter(proxy_next,Black);
           set_output_mode(output_mode_line);
@@ -2900,7 +2911,7 @@ static char *ParsePlay(char *tok,
           stip_make_goal_attack_branch(proxy_avoided_defense);
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
-          slice_insert_reflex_filters_semi(branch,proxy_avoided_defense);
+          stip_insert_reflex_filters_semi(branch,proxy_avoided_defense);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_avoided_defense,Black);
 
@@ -2965,7 +2976,7 @@ static char *ParsePlay(char *tok,
           pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           pipe_link(proxy,branch);
-          slice_insert_reflex_filters(proxy,
+          stip_insert_reflex_filters(proxy,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);
           stip_impose_starter(proxy_avoided_defense,Black);

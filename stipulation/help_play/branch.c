@@ -1,6 +1,7 @@
 #include "stipulation/help_play/branch.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/end_of_branch.h"
@@ -20,6 +21,8 @@ static slice_index const help_slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STHelpRoot,
   STHelpFindShortest,
+  STReflexDefenderFilter,
+  STDeadEnd,
   STIntelligentHelpFilter,
   STForkOnRemaining,
 
@@ -47,8 +50,10 @@ static slice_index const help_slice_rank_order[] =
   STEndOfRoot,
   STGoalReachedTesting,
   STSelfCheckGuard,
-  STReflexHelpFilter,
-  STEndOfHelpBranch
+  STReflexAttackerFilter,
+  STReflexDefenderFilter,
+  STEndOfHelpBranch,
+  STDeadEnd
 };
 
 enum
@@ -229,54 +234,29 @@ void help_branch_shorten_slice(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Shorten a sequence of slices
- * @param begin start of sequence (member of the sequence)
- * @param end end of sequence (first non-member of the sequence)
- */
-static void shorten_slices(slice_index begin, slice_index end)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",begin);
-  TraceFunctionParam("%u",end);
-  TraceFunctionParamListEnd();
-
-  while (begin!=end)
-  {
-    if (slice_has_structure(begin,slice_structure_branch))
-      help_branch_shorten_slice(begin);
-    begin = slices[begin].u.pipe.next;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Shorten the introductory slices of a help branch (i.e. those that don't
- * belong to the loop) by 1 half move
+/* Shorten the intro slices
  * @param si identifies the entry slice
- * @return index of the last introductory slice
+ * @param length length to shorten to
+ * @param min_length min_length to shorten to
  */
-static slice_index shorten_intro_slices(slice_index si)
+static slice_index shorten_intro(slice_index si,
+                                 stip_length_type length,
+                                 stip_length_type min_length)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  while (1)
+  while (slices[slices[si].u.pipe.next].type!=STEndOfAdapter)
   {
     if (slice_has_structure(si,slice_structure_branch))
     {
-      --slices[si].u.branch.length;
-      if (slices[si].u.branch.min_length>slack_length_help+1)
-        --slices[si].u.branch.min_length;
-      else
-        ++slices[si].u.branch.min_length;
+      slices[si].u.branch.length = length;
+      slices[si].u.branch.min_length = min_length;
     }
-
-    if (slices[slices[si].u.pipe.next].type==STEndOfAdapter)
-      break;
-    else
-      si = slices[si].u.pipe.next;
+    si = slices[si].u.pipe.next;
   }
 
   TraceFunctionExit(__func__);
@@ -285,27 +265,76 @@ static slice_index shorten_intro_slices(slice_index si)
   return si;
 }
 
+/* Shorten the slices in the loop
+ * @param loop_entry identifies the loop entry slice
+ * @param length length at entry into the loop
+ * @param min_length min_length at entry into the loop
+ */
+static void shorten_loop(slice_index loop_entry,
+                         stip_length_type length,
+                         stip_length_type min_length)
+{
+  slice_index si = loop_entry;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    TraceValue("%u\n",si);
+    if (slice_has_structure(si,slice_structure_branch))
+    {
+      slices[si].u.branch.length = length;
+      slices[si].u.branch.min_length = min_length;
+    }
+    if (slices[si].type==STHelpMove)
+    {
+      --length;
+      --min_length;
+    }
+    si = slices[si].u.pipe.next;
+  }
+  while (si!=loop_entry);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  */
 void help_branch_shorten(slice_index si)
 {
+  stip_length_type length = slices[si].u.branch.length;
+  stip_length_type min_length = slices[si].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(slices[si].type==STHelpAdapter);
 
+  --length;
+  if (min_length>slack_length_help)
+    --min_length;
+  else
+    ++min_length;
+
   {
-    slice_index const last_introductory = shorten_intro_slices(si);
-    slice_index const loop_entry = slices[last_introductory].u.pipe.next;
+    slice_index const last_in_intro = shorten_intro(si,length,min_length);
+    slice_index const loop_entry = slices[last_in_intro].u.pipe.next;
     slice_index const loop_entry_next = slices[loop_entry].u.pipe.next;
     slice_index const new_entry_pos = branch_find_slice(STReadyForHelpMove,
                                                         loop_entry_next);
     pipe_link(slices[loop_entry].prev,loop_entry_next);
-    shorten_slices(loop_entry_next,new_entry_pos);
     pipe_append(slices[new_entry_pos].prev,loop_entry);
+    shorten_loop(loop_entry,length,min_length);
   }
+
+  TraceStipulation(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -330,6 +359,7 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const finder = alloc_help_find_shortest_slice(length,
                                                               min_length);
+    slice_index const deadend = alloc_dead_end_slice();
     slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
@@ -342,7 +372,8 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
 
     result = adapter;
     pipe_link(adapter,finder);
-    pipe_set_successor(finder,end);
+    pipe_link(finder,deadend);
+    pipe_set_successor(deadend,end);
 
     pipe_link(end,ready1);
     pipe_link(ready1,generator1);

@@ -541,7 +541,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/attack_play.h pyslice.h pymovenb.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  pystip.h pydegent.h pyflight.h pynontrv.h pythreat.h pyreflxg.h \
- pydirctg.h pyselfgd.h pyselfcg.h stipulation/goals/mate/reached_tester.h \
+ stipulation/series_play/play.h pydirctg.h pyselfgd.h pyselfcg.h \
+ stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
@@ -561,9 +562,11 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/atob/reached_tester.h pypipe.h pyint.h pyoutput.h \
  pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
- stipulation/leaf.h stipulation/battle_play/branch.h \
+ stipulation/leaf.h stipulation/dead_end.h \
+ stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h stipulation/series_play/play.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/defense_move.h \
@@ -571,9 +574,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/end_of_attack.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
- pytable.h stipulation/battle_play/dead_end.h \
- stipulation/battle_play/attack_play.h \
- stipulation/series_play/ready_for_series_move.h \
+ pytable.h stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/adapter.h stipulation/series_play/branch.h \
  stipulation/series_play/move.h stipulation/series_play/parry_fork.h \
  stipulation/help_play/branch.h stipulation/help_play/adapter.h \
@@ -654,6 +655,8 @@ pythreat.h:
 
 pyreflxg.h:
 
+stipulation/series_play/play.h:
+
 pydirctg.h:
 
 pyselfgd.h:
@@ -714,13 +717,19 @@ stipulation/branch.h:
 
 stipulation/leaf.h:
 
-stipulation/battle_play/branch.h:
+stipulation/dead_end.h:
 
-stipulation/battle_play/defense_adapter.h:
+stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
 
+stipulation/help_play/play.h:
+
 stipulation/series_play/play.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_adapter.h:
 
 stipulation/battle_play/attack_find_shortest.h:
 
@@ -739,10 +748,6 @@ stipulation/battle_play/continuation.h:
 stipulation/battle_play/try.h:
 
 pytable.h:
-
-stipulation/battle_play/dead_end.h:
-
-stipulation/battle_play/attack_play.h:
 
 stipulation/series_play/ready_for_series_move.h:
 
@@ -1172,14 +1177,16 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  pyrecipr.h pybrafrk.h pynot.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h pyslice.h pyreflxg.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- pystip.h pymovein.h pykeepmt.h pyselfcg.h pyselfgd.h pydirctg.h pypipe.h \
- stipulation/operators/binary.h stipulation/branch.h \
- stipulation/battle_play/end_of_branch.h \
+ pystip.h stipulation/series_play/play.h pymovein.h pykeepmt.h pyselfcg.h \
+ pyselfgd.h pydirctg.h pypipe.h stipulation/operators/binary.h \
+ stipulation/branch.h stipulation/battle_play/end_of_branch.h \
  stipulation/battle_play/defense_play.h stipulation/leaf.h \
  stipulation/setplay_fork.h pypipe.h stipulation/reflex_attack_solver.h \
- stipulation/battle_play/attack_play.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_adapter.h stipulation/help_play/play.h \
- stipulation/battle_play/defense_adapter.h stipulation/series_play/play.h \
+ stipulation/battle_play/attack_play.h stipulation/dead_end.h \
+ stipulation/help_play/play.h stipulation/series_play/play.h \
+ stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_adapter.h \
+ stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/defense_move_generator.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_defense.h \
@@ -1187,8 +1194,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/ready_for_attack.h stipulation/battle_play/try.h \
  pytable.h stipulation/battle_play/continuation.h \
- stipulation/battle_play/threat.h stipulation/battle_play/dead_end.h \
- stipulation/help_play/adapter.h \
+ stipulation/battle_play/threat.h stipulation/help_play/adapter.h \
  stipulation/help_play/ready_for_help_move.h \
  stipulation/help_play/branch.h stipulation/help_play/root.h \
  stipulation/help_play/find_shortest.h \
@@ -1261,6 +1267,8 @@ stipulation/help_play/play.h:
 
 pystip.h:
 
+stipulation/series_play/play.h:
+
 pymovein.h:
 
 pykeepmt.h:
@@ -1291,15 +1299,17 @@ stipulation/reflex_attack_solver.h:
 
 stipulation/battle_play/attack_play.h:
 
+stipulation/dead_end.h:
+
+stipulation/help_play/play.h:
+
+stipulation/series_play/play.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_adapter.h:
 
-stipulation/help_play/play.h:
-
 stipulation/battle_play/defense_adapter.h:
-
-stipulation/series_play/play.h:
 
 stipulation/battle_play/defense_move_generator.h:
 
@@ -1320,8 +1330,6 @@ pytable.h:
 stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/threat.h:
-
-stipulation/battle_play/dead_end.h:
 
 stipulation/help_play/adapter.h:
 
@@ -1394,8 +1402,9 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/any/reached_tester.h pyquodli.h pyrecipr.h pynot.h \
  pymovein.h pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
  pyreflxg.h stipulation/battle_play/defense_play.h \
- stipulation/help_play/play.h pystip.h pyselfgd.h pyselfcg.h pykeepmt.h \
- pypipe.h pieces/attributes/paralysing/mate_filter.h \
+ stipulation/help_play/play.h pystip.h stipulation/series_play/play.h \
+ pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
+ pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
  conditions/circe/circuit_by_rebirth_special.h \
@@ -1532,6 +1541,8 @@ stipulation/help_play/play.h:
 
 pystip.h:
 
+stipulation/series_play/play.h:
+
 pyselfgd.h:
 
 pyselfcg.h:
@@ -1632,13 +1643,13 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/proxy.h pypipe.h stipulation/goals/goals.h \
  boolean.h py.h pyenum.h stipulation/branch.h pystip.h \
- stipulation/battle_play/end_of_branch.h \
- stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
+ stipulation/dead_end.h stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/battle_play/end_of_branch.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
  stipulation/battle_play/ready_for_attack.h \
- stipulation/battle_play/defense_adapter.h stipulation/series_play/play.h \
- stipulation/battle_play/dead_end.h trace.h
+ stipulation/battle_play/defense_adapter.h trace.h
 
 pydirctg.h:
 
@@ -1662,25 +1673,25 @@ stipulation/branch.h:
 
 pystip.h:
 
-stipulation/battle_play/end_of_branch.h:
+stipulation/dead_end.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
+
+stipulation/series_play/play.h:
+
+stipulation/battle_play/end_of_branch.h:
 
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_adapter.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/help_play/play.h:
-
 stipulation/battle_play/ready_for_attack.h:
 
 stipulation/battle_play/defense_adapter.h:
-
-stipulation/series_play/play.h:
-
-stipulation/battle_play/dead_end.h:
 
 trace.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \
@@ -1768,13 +1779,14 @@ pypipe.h:
 trace.h:
 pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/battle_play/defense_play.h \
- stipulation/help_play/play.h pystip.h stipulation/branch.h \
- stipulation/reflex_attack_solver.h stipulation/battle_play/attack_play.h \
+ stipulation/help_play/play.h pystip.h stipulation/series_play/play.h \
+ stipulation/branch.h stipulation/dead_end.h \
+ stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/reflex_attack_solver.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/min_length_guard.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/dead_end.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h py.h stipulation/series_play/play.h \
+ stipulation/help_play/branch.h stipulation/series_play/branch.h py.h \
  pypipe.h pystip.h stipulation/goals/goals.h boolean.h pyenum.h py.h \
  boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
  pyslice.h pybrafrk.h pydata.h pyproc.h py4.h stipulation/proxy.h \
@@ -1792,27 +1804,31 @@ stipulation/help_play/play.h:
 
 pystip.h:
 
+stipulation/series_play/play.h:
+
 stipulation/branch.h:
 
-stipulation/reflex_attack_solver.h:
+stipulation/dead_end.h:
 
 stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
+
+stipulation/series_play/play.h:
+
+stipulation/reflex_attack_solver.h:
 
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/min_length_guard.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/dead_end.h:
 
 stipulation/help_play/branch.h:
 
 stipulation/series_play/branch.h:
 
 py.h:
-
-stipulation/series_play/play.h:
 
 pypipe.h:
 

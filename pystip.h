@@ -33,7 +33,6 @@
     ENUMERATOR(STEndOfAttack),     /* proxy mark after we have played attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
-    ENUMERATOR(STBattleDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
@@ -44,7 +43,6 @@
     ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
-    ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
@@ -57,11 +55,11 @@
     ENUMERATOR(STEndOfSeriesBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
-    ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
+    ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -563,6 +561,7 @@ typedef struct stip_moves_traversal
     unsigned int level;
     stip_length_type full_length;
     stip_length_type remaining;
+    boolean visited[max_nr_slices];
     void *param;
 } stip_moves_traversal;
 

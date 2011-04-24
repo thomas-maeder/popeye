@@ -41,7 +41,8 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  if (slices[si].u.pipe.next==no_slice)
+  if (slices[si].u.pipe.next==no_slice
+      || slices[slices[si].u.pipe.next].prev!=si)
   {
     pipe_link(si,*root_slice);
     *root_slice = si;
@@ -190,7 +191,11 @@ void pipe_remove(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_link(slices[si].prev,slices[si].u.pipe.next);
+  if (slices[slices[si].u.pipe.next].prev==si)
+    pipe_link(slices[si].prev,slices[si].u.pipe.next);
+  else
+    pipe_set_successor(slices[si].prev,slices[si].u.pipe.next);
+
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);

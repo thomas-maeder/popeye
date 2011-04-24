@@ -69,3 +69,13 @@ stipulation/fork_on_remaining.h:
 pypipe.h:
 
 trace.h:
+stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
+ pypipe.h stipulation/branch.h trace.h
+
+stipulation/dead_end.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+trace.h:

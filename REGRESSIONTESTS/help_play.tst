@@ -222,10 +222,76 @@ solution finished.
 
   1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 # 
 
-              empile:        9790
-            jouecoup:        6461
-        orig_rbechec:        5534
-        orig_rnechec:        1795
+              empile:       11919
+            jouecoup:        9140
+        orig_rbechec:        8234
+        orig_rnechec:        2301
+solution finished. 
+
+
+
+hr#1.5 - don't write long solutions because Black must mate immediately
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -K  -P   .   .   .   .   .   P   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#1.5                      2 + 4
+
+  1...b3-b2 # 
+
+              empile:          10
+            jouecoup:          11
+        orig_rbechec:          12
+        orig_rnechec:           2
+solution finished. 
+
+
+
+hr#2 - don't write long solutions because Black must mate immediately
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -K  -P   .   .   .   P   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#2                        2 + 4
+
+  1.f3-f4 b3-b2 # 
+
+              empile:          18
+            jouecoup:          20
+        orig_rbechec:          19
+        orig_rnechec:           4
 solution finished. 
 
 

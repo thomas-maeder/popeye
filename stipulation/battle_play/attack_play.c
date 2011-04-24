@@ -13,6 +13,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyquodli.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/fork_on_remaining.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
@@ -21,7 +22,6 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/series_play/adapter.h"
@@ -90,8 +90,8 @@ stip_length_type can_attack(slice_index si,
       result = no_short_variations_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STBattleDeadEnd:
-      result = battle_play_dead_end_can_attack(si,n,n_max_unsolvable);
+    case STDeadEnd:
+      result = dead_end_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthOptimiser:
@@ -312,8 +312,8 @@ stip_length_type attack(slice_index si,
       result = orthodox_mating_move_generator_attack(si,n,n_max_unsolvable);
       break;
 
-    case STBattleDeadEnd:
-      result = battle_play_dead_end_attack(si,n,n_max_unsolvable);
+    case STDeadEnd:
+      result = dead_end_attack(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthOptimiser:

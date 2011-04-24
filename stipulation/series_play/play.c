@@ -5,6 +5,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyint.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
@@ -74,6 +75,14 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_fork_series(si,n);
       break;
 
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_series(si,n);
+      break;
+
+    case STDeadEnd:
+      result = dead_end_series(si,n);
+      break;
+
     case STEndOfSeriesBranch:
       result = end_of_series_branch_series(si,n);
       break;
@@ -86,8 +95,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_dummy_move_series(si,n);
       break;
 
-    case STReflexSeriesFilter:
-      result = reflex_series_filter_series(si,n);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_series(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -220,6 +229,14 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = series_fork_has_series(si,n);
       break;
 
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_has_series(si,n);
+      break;
+
+    case STDeadEnd:
+      result = dead_end_has_series(si,n);
+      break;
+
     case STEndOfSeriesBranch:
       result = end_of_series_branch_has_series(si,n);
       break;
@@ -228,8 +245,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = series_hashed_has_series(si,n);
       break;
 
-    case STReflexSeriesFilter:
-      result = reflex_series_filter_has_series(si,n);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_has_series(si,n);
       break;
 
     case STKeepMatingFilter:

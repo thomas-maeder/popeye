@@ -132,16 +132,14 @@ static void output_mode_self_defense(slice_index si,
 
 static structure_traversers_visitors output_mode_detectors[] =
 {
-  { STHelpFork,                       &output_mode_linemode         },
-  { STReciprocal,                     &output_mode_binary           },
-  { STQuodlibet,                      &output_mode_binary           },
-  { STDefenseAdapter,                 &output_mode_treemode         },
-  { STReadyForDefense,                &output_mode_treemode         },
-  { STReflexHelpFilter,               &stip_traverse_structure_pipe },
-  { STReflexSeriesFilter,             &stip_traverse_structure_pipe },
-  { STReflexAttackerFilter,           &output_mode_treemode         },
-  { STReflexDefenderFilter,           &output_mode_treemode         },
-  { STSelfDefense,                    &output_mode_self_defense     }
+  { STHelpFork,             &output_mode_linemode     },
+  { STReciprocal,           &output_mode_binary       },
+  { STQuodlibet,            &output_mode_binary       },
+  { STDefenseAdapter,       &output_mode_treemode     },
+  { STReadyForDefense,      &output_mode_treemode     },
+  { STReflexAttackerFilter, &output_mode_treemode     },
+  { STReflexDefenderFilter, &output_mode_treemode     },
+  { STSelfDefense,          &output_mode_self_defense }
 };
 
 enum

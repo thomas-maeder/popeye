@@ -2091,6 +2091,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpMove:
     case STMoveInverter:
     case STGoalReachedTesting:
+    case STDeadEnd:
     case STForkOnRemaining:
     case STProxy:
     {

@@ -154,9 +154,9 @@ solution finished.
 
   1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
 
-              empile:        1188
-            jouecoup:         840
-        orig_rbechec:         678
+              empile:        1198
+            jouecoup:         850
+        orig_rbechec:         689
         orig_rnechec:         293
 solution finished. 
 
@@ -191,6 +191,39 @@ both sides need a kingboth sides need a king
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
+solution finished. 
+
+
+
+no solution in 2 - Black has to deliver mate immediately
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P  -P   .   .   .   .   .   .   4
+|                                   |
+3  -K  -P   .   .   .   .   .   P   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-r#2                     2 + 5
+
+  1.h3-h4 b3-b2 # 
+
+              empile:          18
+            jouecoup:          20
+        orig_rbechec:          19
+        orig_rnechec:           4
 solution finished. 
 
 

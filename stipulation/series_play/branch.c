@@ -26,6 +26,7 @@ static slice_index const series_slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STSeriesRoot,
   STSeriesFindShortest,
+  STDeadEnd,
   STIntelligentSeriesFilter,
   STForkOnRemaining,
 
@@ -59,12 +60,15 @@ static slice_index const series_slice_rank_order[] =
   STParryFork,
   STDefenseAdapter,
 
+  STReflexDefenderFilter,
+  STDeadEnd,
+
   STReadyForSeriesDummyMove,
   STSeriesDummyMove,
   STGoalReachableGuardFilter, /* only used in pser stipulations */
   STSelfCheckGuard,
 
-  STReflexSeriesFilter
+  STReflexAttackerFilter
 };
 
 enum

@@ -1,14 +1,11 @@
 #include "pyreflxg.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/min_length_guard.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -19,36 +16,6 @@
 
 #include <assert.h>
 
-
-/* **************** Initialisation ***************
- */
-
-/* Allocate a STReflexHelpFilter slice
- * @param proxy_to_goal identifies slice that leads towards goal from
- *                      the branch
- * @param proxy_to_avoided prototype of slice that must not be solvable
- * @return index of allocated slice
- */
-static slice_index alloc_reflex_help_filter(slice_index proxy_to_avoided)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_avoided);
-  TraceFunctionParamListEnd();
-
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexHelpFilter,proxy_to_avoided);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* **************** Implementation of interface attacker_filter **************
- */
 
 /* Allocate a STReflexAttackerFilter slice
  * @param proxy_to_avoided prototype of slice that must not be solvable
@@ -71,26 +38,48 @@ static slice_index alloc_reflex_attacker_filter(slice_index proxy_to_avoided)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
+/* Traversal of the moves beyond a reflex attacker filter slice
+ * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st)
+void stip_traverse_moves_reflex_attacker_filter(slice_index si,
+                                                stip_moves_traversal *st)
 {
-  slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.fork.fork;
-  slice_index solver;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solver = alloc_reflex_attack_solver(avoided);
+  if (!st->visited[slices[si].u.fork.fork])
+    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
+
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void reflex_attacker_filter_make_root(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  pipe_link(solver,*root_slice);
-  *root_slice = solver;
+
+  {
+    slice_index * const root_slice = st->param;
+    slice_index const avoided = slices[si].u.fork.fork;
+    slice_index const solver = alloc_reflex_attack_solver(avoided);
+    pipe_link(solver,*root_slice);
+    *root_slice = solver;
+  }
+
+  pipe_unlink(slices[si].prev);
+  dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -201,8 +190,144 @@ reflex_attacker_filter_attack(slice_index si,
   return result;
 }
 
-/* **************** Implementation of interface defender_filter **********
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
  */
+stip_length_type reflex_attacker_filter_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  /* TODO exact - but what does it mean??? */
+  if (slice_has_solution(avoided)==has_solution)
+    result = help(next,n);
+  else
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attacker_filter_can_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  /* TODO exact - but what does it mean??? */
+  if (slice_has_solution(avoided)==has_solution)
+    result = can_help(next,n);
+  else
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attacker_filter_series(slice_index si,
+                                               stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_series);
+
+  /* TODO exact - but what does it mean??? */
+  if (slice_has_solution(avoided)==has_solution)
+    result = series(next,n);
+  else
+    result = n+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attacker_filter_has_series(slice_index si,
+                                                   stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_series);
+
+  /* TODO exact - but what does it mean??? */
+  if (slice_has_solution(avoided)==has_solution)
+    result = has_series(next,n);
+  else
+    result = n+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* Allocate a STReflexDefenderFilter slice
  * @param proxy_to_goal identifies slice that leads towards goal from
@@ -226,6 +351,59 @@ TraceStipulation(result);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void
+reflex_guard_defender_filter_make_setplay_slice(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  slice_index const avoided = slices[si].u.fork.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index const guard = alloc_reflex_attack_solver(avoided);
+    pipe_link(guard,*result);
+    *result = guard;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index * const postkey_slice = st->param;
+    slice_index const avoided = slices[si].u.fork.fork;
+    slice_index const filter = alloc_reflex_attack_solver(avoided);
+    pipe_link(filter,*postkey_slice);
+    *postkey_slice = filter;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to defend after an attacking move
@@ -311,89 +489,6 @@ reflex_defender_filter_can_defend(slice_index si,
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void
-reflex_guard_defender_filter_make_setplay_slice(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-  slice_index const avoided = slices[si].u.fork.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const guard = alloc_reflex_attack_solver(avoided);
-    pipe_link(guard,*result);
-    *result = guard;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const postkey_slice = st->param;
-    slice_index const avoided = slices[si].u.fork.fork;
-    slice_index const filter = alloc_reflex_attack_solver(avoided);
-    pipe_link(filter,*postkey_slice);
-    *postkey_slice = filter;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* **************** Implementation of interface help_filter ************
- */
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.fork.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const solver = alloc_reflex_attack_solver(avoided);
-    pipe_link(solver,*root_slice);
-    *root_slice = solver;
-  }
-
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -403,7 +498,8 @@ void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
+stip_length_type reflex_defender_filter_help(slice_index si,
+                                             stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
@@ -416,11 +512,50 @@ stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_solution)
-    result = help(next,n);
+  if (n==slack_length_help)
+  {
+    switch (slice_solve(avoided))
+    {
+      case opponent_self_check:
+        result = n+4;
+        break;
+
+      case has_no_solution:
+        result = help(next,n);
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
+  }
   else
-    result = n+2;
+  {
+    switch (slice_has_solution(avoided))
+    {
+      case opponent_self_check:
+        result = n+4;
+        break;
+
+      case has_no_solution:
+        result = help(next,n);
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -437,7 +572,8 @@ stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n)
+stip_length_type reflex_defender_filter_can_help(slice_index si,
+                                                 stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
@@ -448,92 +584,32 @@ stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>=slack_length_help);
 
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_solution)
-    result = can_help(next,n);
-  else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* **************** Implementation of interface series_filter ************
- */
-
-/* Allocate a STReflexSeriesFilter slice
- * @param proxy_to_goal identifies slice that leads towards goal from
- *                      the branch
- * @param proxy_to_avoided prototype of slice that must not be solvable
- * @return index of allocated slice
- */
-static slice_index alloc_reflex_series_filter(slice_index proxy_to_avoided)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_avoided);
-  TraceFunctionParamListEnd();
-
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexSeriesFilter,proxy_to_avoided);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_series_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-  slice_index const avoided = slices[si].u.fork.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
+  switch (slice_has_solution(avoided))
   {
-    slice_index const solver = alloc_reflex_attack_solver(avoided);
-    pipe_link(solver,*root_slice);
-    *root_slice = solver;
+    case opponent_self_check:
+      result = n+4;
+      break;
+
+    case has_no_solution:
+      result = can_help(next,n);
+      break;
+
+    case has_solution:
+      result = n;
+      break;
+
+    default:
+      assert(0);
+      result = n+4;
+      break;
   }
 
-  dealloc_slice(si);
-
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves beyond a reflex attacker filter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_reflex_series_filter(slice_index si,
-                                              stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining==0)
-    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-  else
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve in a number of half-moves
@@ -545,7 +621,8 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
+stip_length_type reflex_defender_filter_series(slice_index si,
+                                               stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
@@ -556,13 +633,52 @@ stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
+  assert(n>=slack_length_series);
 
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_solution)
-    result = series(next,n);
+  if (n==slack_length_series)
+  {
+    switch (slice_solve(avoided))
+    {
+      case opponent_self_check:
+        result = n+2;
+        break;
+
+      case has_no_solution:
+        result = series(next,n);
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      default:
+        assert(0);
+        result = n+2;
+        break;
+    }
+  }
   else
-    result = n+1;
+  {
+    switch (slice_has_solution(avoided))
+    {
+      case opponent_self_check:
+        result = n+2;
+        break;
+
+      case has_no_solution:
+        result = series(next,n);
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      default:
+        assert(0);
+        result = n+2;
+        break;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -579,8 +695,8 @@ stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_has_series(slice_index si,
-                                                 stip_length_type n)
+stip_length_type reflex_defender_filter_has_series(slice_index si,
+                                                   stip_length_type n)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
@@ -591,23 +707,33 @@ stip_length_type reflex_series_filter_has_series(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
+  assert(n>=slack_length_series);
 
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_solution)
-    result = has_series(next,n);
-  else
-    result = n+1;
+  switch (slice_has_solution(avoided))
+  {
+    case opponent_self_check:
+      result = n+2;
+      break;
+
+    case has_no_solution:
+      result = has_series(next,n);
+      break;
+
+    case has_solution:
+      result = n;
+      break;
+
+    default:
+      assert(0);
+      result = n+2;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
-
-
-/* **************** Stipulation instrumentation ***************
- */
 
 typedef struct
 {
@@ -640,6 +766,23 @@ static void reflex_guards_inserter_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void reflex_guards_inserter_attack_adapter(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->avoided_attack;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_reflex_attacker_filter(proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* In battle play, insert a STReflexDefenseFilter slice before a slice
  * where the reflex stipulation might force the side at the move to
  * reach the goal
@@ -663,7 +806,7 @@ static void reflex_guards_inserter_defense(slice_index si,
       slice_index const prototypes[] =
       {
           alloc_reflex_defender_filter(proxy_to_avoided),
-          alloc_battle_play_dead_end_slice()
+          alloc_dead_end_slice()
       };
       enum
       {
@@ -684,11 +827,149 @@ static void reflex_guards_inserter_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void reflex_guards_inserter_help_adapter(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  /* only one side is bound to deliver reflexmate */
+  if ((length-slack_length_help)%2==1)
+  {
+    slice_index const proxy_to_avoided = param->avoided_defense;
+    pipe_append(slices[si].prev,alloc_reflex_attacker_filter(proxy_to_avoided));
+  }
+  else
+  {
+    slice_index const proxy_to_avoided = param->avoided_attack;
+    slice_index const prototype = alloc_reflex_defender_filter(proxy_to_avoided);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reflex_guards_inserter_help_move(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if ((length-slack_length_help)%2==1)
+  {
+    slice_index const proxy_to_avoided = param->avoided_attack;
+    slice_index const prototypes[] =
+    {
+      alloc_reflex_defender_filter(proxy_to_avoided),
+      alloc_dead_end_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    help_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+  else
+  {
+    slice_index const proxy_to_avoided = param->avoided_defense;
+    slice_index const prototype = alloc_reflex_attacker_filter(proxy_to_avoided);
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reflex_guards_inserter_series_adapter(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->avoided_defense;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_reflex_attacker_filter(proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reflex_guards_inserter_series_move(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->avoided_attack;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_reflex_defender_filter(proxy_to_avoided),
+        alloc_dead_end_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    series_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void reflex_guards_inserter_series_dummy_move(slice_index si,
+                                                     stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->avoided_defense;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_reflex_attacker_filter(proxy_to_avoided);
+    series_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
-  { STReadyForAttack,     &reflex_guards_inserter_defense     },
-  { STReadyForDefense,    &reflex_guards_inserter_attack      },
-  { STGoalReachedTesting, &stip_structure_visitor_noop        }
+  { STAttackAdapter,           &reflex_guards_inserter_attack_adapter    },
+  { STReadyForAttack,          &reflex_guards_inserter_defense           },
+  { STReadyForDefense,         &reflex_guards_inserter_attack            },
+  { STHelpAdapter,             &reflex_guards_inserter_help_adapter      },
+  { STReadyForHelpMove,        &reflex_guards_inserter_help_move         },
+  { STSeriesAdapter,           &reflex_guards_inserter_series_adapter    },
+  { STReadyForSeriesMove,      &reflex_guards_inserter_series_move       },
+  { STReadyForSeriesDummyMove, &reflex_guards_inserter_series_dummy_move }
 };
 
 enum
@@ -705,9 +986,9 @@ enum
  * @param proxy_to_avoided_defense identifies branch that the
  *                                 defender attempts to avoid
  */
-void slice_insert_reflex_filters(slice_index si,
-                                 slice_index proxy_to_avoided_attack,
-                                 slice_index proxy_to_avoided_defense)
+void stip_insert_reflex_filters(slice_index si,
+                                slice_index proxy_to_avoided_attack,
+                                slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
   init_param param = { proxy_to_avoided_defense, proxy_to_avoided_attack };
@@ -731,123 +1012,13 @@ void slice_insert_reflex_filters(slice_index si,
                                     nr_reflex_guards_inserters);
   stip_traverse_structure(si,&st);
 
-  {
-    slice_index const prototype = alloc_reflex_attack_solver(proxy_to_avoided_attack);
-    root_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* In alternate play, insert a STReflexHelpFilter slice before a slice
- * where the reflex stipulation might force the side at the move to
- * reach the goal
- */
-static void reflex_guards_inserter_help_adapter(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  /* only one side is bound to deliver reflexmate */
-  if ((length-slack_length_help)%2==0)
-  {
-    slice_index const proxy_to_avoided = param->avoided_defense;
-    pipe_append(slices[si].prev,alloc_reflex_help_filter(proxy_to_avoided));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* In alternate play, insert a STReflexHelpFilter slice before a slice
- * where the reflex stipulation might force the side at the move to
- * reach the goal
- */
-static void reflex_guards_inserter_help_move(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  /* only one side is bound to deliver reflexmate */
-  if ((length-slack_length_help)%2==1)
-  {
-    slice_index const proxy_to_avoided = param->avoided_defense;
-    slice_index const prototype = alloc_reflex_help_filter(proxy_to_avoided);
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* In series play, insert a STReflexSeriesFilter slice before a slice where
- * the reflex stipulation might force the side at the move to reach
- * the goal
- */
-static void reflex_guards_inserter_series_adapter(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  slice_index const proxy_to_avoided = param->avoided_defense;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_reflex_series_filter(proxy_to_avoided));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* In series play, insert a STReflexSeriesFilter slice before a slice where
- * the reflex stipulation might force the side at the move to reach
- * the goal
- */
-static void reflex_guards_inserter_series_move(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  slice_index const proxy_to_avoided = param->avoided_defense;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_reflex_series_filter(proxy_to_avoided);
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STReadyForAttack,     &reflex_guards_inserter_defense        },
-  { STHelpAdapter,        &reflex_guards_inserter_help_adapter   },
-  { STReadyForHelpMove,   &reflex_guards_inserter_help_move      },
-  { STSeriesAdapter,      &reflex_guards_inserter_series_adapter },
-  { STReadyForSeriesMove, &reflex_guards_inserter_series_move    }
+  { STReadyForAttack, &reflex_guards_inserter_defense }
 };
 
 enum
@@ -861,25 +1032,22 @@ enum
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies branch that needs to be guarded from
  */
-void slice_insert_reflex_filters_semi(slice_index si,
-                                      slice_index proxy_to_avoided)
+void stip_insert_reflex_filters_semi(slice_index si,
+                                     slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
-  init_param param = { proxy_to_avoided, no_slice };
+  init_param param = { proxy_to_avoided_defense, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParam("%u",proxy_to_avoided_defense);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  assert(slices[proxy_to_avoided].type==STProxy);
+  assert(slices[proxy_to_avoided_defense].type==STProxy);
 
   stip_structure_traversal_init(&st,&param);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &stip_structure_visitor_noop);
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters_semi,
                                     nr_reflex_guards_inserters_semi);
@@ -887,16 +1055,4 @@ void slice_insert_reflex_filters_semi(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_reflex_filter(slice_index branch,
-                                           stip_structure_traversal *st)
-{
-  slice_index const avoided = slices[branch].u.fork.fork;
-  stip_traverse_structure_pipe(branch,st);
-  stip_traverse_structure(avoided,st);
 }

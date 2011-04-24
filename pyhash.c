@@ -2004,6 +2004,7 @@ static moves_traversers_visitors const hash_element_inserters[] =
   { STReadyForHelpMove,   &insert_hash_element_help   },
   { STReadyForSeriesMove, &insert_hash_element_series },
   { STGoalReachedTesting, &remember_goal              },
+  { STAttackAdapter,      &forget_goal                },
   { STDefenseAdapter,     &forget_goal                }
 };
 

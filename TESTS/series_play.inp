@@ -41,4 +41,11 @@ title set play not applicable in ser-#
 stip ser-#5
 option set
 
+next
+
+title no solution in 2 - Black has to deliver mate immediately
+pieces white ka1 ph3
+       black ka3 pa2a4b3b4
+stip ser-r#2
+
 end

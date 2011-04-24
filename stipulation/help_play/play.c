@@ -5,6 +5,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyint.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
@@ -84,12 +85,20 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_fork_help(si,n);
       break;
 
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_help(si,n);
+      break;
+
+    case STDeadEnd:
+      result = dead_end_help(si,n);
+      break;
+
     case STHelpHashed:
       result = help_hashed_help(si,n);
       break;
 
-    case STReflexHelpFilter:
-      result = reflex_help_filter_help(si,n);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_help(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -226,12 +235,20 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = help_fork_can_help(si,n);
       break;
 
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_can_help(si,n);
+      break;
+
+    case STDeadEnd:
+      result = dead_end_can_help(si,n);
+      break;
+
     case STHelpHashed:
       result = help_hashed_can_help(si,n);
       break;
 
-    case STReflexHelpFilter:
-      result = reflex_help_filter_can_help(si,n);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_can_help(si,n);
       break;
 
     case STKeepMatingFilter:

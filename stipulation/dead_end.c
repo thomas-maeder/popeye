@@ -1,28 +1,43 @@
-#include "stipulation/battle_play/dead_end.h"
+#include "stipulation/dead_end.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STBattleDeadEnd defender slice.
+/* Allocate a STDeadEnd defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_battle_play_dead_end_slice(void)
+slice_index alloc_dead_end_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STBattleDeadEnd);
+  result = alloc_pipe(STDeadEnd);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Traversal of the moves beyond a attack end slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining>0)
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether there is a solution in n half moves.
@@ -35,10 +50,9 @@ slice_index alloc_battle_play_dead_end_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-battle_play_dead_end_can_attack(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type dead_end_can_attack(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -75,9 +89,9 @@ battle_play_dead_end_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type battle_play_dead_end_attack(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type dead_end_attack(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -117,9 +131,9 @@ stip_length_type battle_play_dead_end_attack(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type battle_play_dead_end_defend(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable)
+stip_length_type dead_end_defend(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -156,10 +170,9 @@ stip_length_type battle_play_dead_end_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_dead_end_can_defend(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type dead_end_can_defend(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -184,20 +197,130 @@ battle_play_dead_end_can_defend(slice_index si,
   return result;
 }
 
-/* Traversal of the moves beyond a attack end slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
  */
-void stip_traverse_moves_battle_play_dead_end(slice_index si,
-                                              stip_moves_traversal *st)
+stip_length_type dead_end_help(slice_index si, stip_length_type n)
 {
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (st->remaining>0)
-    stip_traverse_moves_pipe(si,st);
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    result = n+2;
+  else
+    result = help(next,n);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type dead_end_can_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  if (n==slack_length_help)
+    result = n+2;
+  else
+    result = can_help(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type dead_end_series(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (n==slack_length_series)
+    result = n+1;
+  else
+    result = series(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type dead_end_has_series(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_series);
+
+  if (n==slack_length_series)
+    result = n+1;
+  else
+    result = has_series(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

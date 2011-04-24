@@ -7,6 +7,7 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
@@ -16,7 +17,6 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
@@ -94,8 +94,8 @@ stip_length_type defend(slice_index si,
       result = postkeyplay_suppressor_defend(si,n,n_max_unsolvable);
       break;
 
-    case STBattleDeadEnd:
-      result = battle_play_dead_end_defend(si,n,n_max_unsolvable);
+    case STDeadEnd:
+      result = dead_end_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatCollector:
@@ -300,8 +300,8 @@ stip_length_type can_defend(slice_index si,
       result = threat_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STBattleDeadEnd:
-      result = battle_play_dead_end_can_defend(si,n,n_max_unsolvable);
+    case STDeadEnd:
+      result = dead_end_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STThreatCollector:

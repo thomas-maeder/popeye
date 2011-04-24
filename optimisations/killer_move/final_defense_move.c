@@ -2,8 +2,8 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "stipulation/fork_on_remaining.h"
 #include "trace.h"
 

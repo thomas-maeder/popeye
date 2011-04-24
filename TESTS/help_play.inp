@@ -49,4 +49,18 @@ pieces white ka1 qb5 bb1
        black ka3 pc3
 stip exact-hr#2
 
+next
+
+title hr#1.5 - don't write long solutions because Black must mate immediately
+pieces white ka1 ph3
+       black ka3 pa2b3h6
+stip hr#1.5
+
+next
+
+title hr#2 - don't write long solutions because Black must mate immediately
+pieces white ka1 pf3
+       black ka3 pa2b3h6
+stip hr#2
+
 end

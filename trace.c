@@ -236,8 +236,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STThreatSolver:
       case STParryFork:
       case STMaxThreatLength:
-      case STReflexHelpFilter:
-      case STReflexSeriesFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
         Trace_pipe(si);
@@ -375,7 +373,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDoubleMateFilter:
       case STCounterMateFilter:
       case STPrerequisiteOptimiser:
-      case STBattleDeadEnd:
+      case STDeadEnd:
       case STKillerMoveMoveGenerator:
       case STAttackMoveGenerator:
       case STAttackMove:

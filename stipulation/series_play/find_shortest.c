@@ -65,6 +65,7 @@ void series_find_shortest_make_root(slice_index si, stip_structure_traversal *st
 
   *root_slice = root;
 
+  pipe_unlink(slices[si].prev);
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);

@@ -107,7 +107,7 @@ void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=1)
+  if (st->remaining<=1 && !st->visited[slices[si].u.fork.fork])
     stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   stip_traverse_moves_pipe(si,st);

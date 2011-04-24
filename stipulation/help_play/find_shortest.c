@@ -54,16 +54,23 @@ void help_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
     pipe_set_successor(root,next);
   else
   {
-    slice_index const shortcut = alloc_fork_on_remaining_slice(next,length-slack_length_help-1);
-    pipe_link(root,shortcut);
+    slice_index const end = branch_find_slice(STEndOfAdapter,si);
+    assert(end!=no_slice);
     stip_traverse_structure_children(si,st);
     assert(*root_slice!=no_slice);
-    pipe_link(shortcut,*root_slice);
+    pipe_link(root,*root_slice);
+
+    {
+      slice_index const shortcut_proto = alloc_fork_on_remaining_slice(end,length-slack_length_help-1);
+      help_branch_insert_slices(root,&shortcut_proto,1);
+    }
+
     help_branch_shorten_slice(si);
   }
 
   *root_slice = root;
 
+  pipe_unlink(slices[si].prev);
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);

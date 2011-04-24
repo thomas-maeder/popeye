@@ -2,6 +2,7 @@
 #include "trace.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/root.h"
@@ -86,13 +87,15 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
   {
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const root = alloc_help_root_slice(length,min_length);
+    slice_index const deadend = alloc_dead_end_slice();
     slice_index const shortcut = alloc_fork_on_remaining_slice(si,length-slack_length_help-1);
     slice_index const copy = alloc_ready_for_help_move_slice(length,min_length);
 
     stip_traverse_structure_children(si,st);
 
     pipe_link(adapter,root);
-    pipe_link(root,shortcut);
+    pipe_link(root,deadend);
+    pipe_link(deadend,shortcut);
     pipe_link(shortcut,copy);
     pipe_link(copy,*setplay_slice);
     *setplay_slice = adapter;

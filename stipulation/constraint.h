@@ -8,6 +8,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/series_play/play.h"
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -82,7 +83,8 @@ reflex_defender_filter_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n);
+stip_length_type reflex_defender_filter_help(slice_index si,
+                                             stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -93,7 +95,30 @@ stip_length_type reflex_help_filter_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n);
+stip_length_type reflex_defender_filter_can_help(slice_index si,
+                                                 stip_length_type n);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attacker_filter_help(slice_index si, stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_attacker_filter_can_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -104,7 +129,8 @@ stip_length_type reflex_help_filter_can_help(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n);
+stip_length_type reflex_attacker_filter_series(slice_index si,
+                                               stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -115,8 +141,8 @@ stip_length_type reflex_series_filter_series(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_series_filter_has_series(slice_index si,
-                                                 stip_length_type n);
+stip_length_type reflex_attacker_filter_has_series(slice_index si,
+                                                   stip_length_type n);
 
 /* Produce slices representing set play
  * @param si slice index
@@ -142,51 +168,54 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
  * @param proxy_to_avoided_defense identifies branch that the
  *                                 defender attempts to avoid
  */
-void slice_insert_reflex_filters(slice_index si,
-                                 slice_index proxy_to_avoided_attack,
-                                 slice_index proxy_to_avoided_defense);
+void stip_insert_reflex_filters(slice_index si,
+                                slice_index proxy_to_avoided_attack,
+                                slice_index proxy_to_avoided_defense);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies what branch needs to be guarded from
  */
-void slice_insert_reflex_filters_semi(slice_index si,
-                                      slice_index proxy_to_avoided);
+void stip_insert_reflex_filters_semi(slice_index si,
+                                     slice_index proxy_to_avoided);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
 void reflex_attacker_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_help_filter_make_root(slice_index si,
                                     stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_series_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st);
 
 /* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_reflex_series_filter(slice_index si,
-                                              stip_moves_traversal *st);
+void stip_traverse_moves_reflex_attacker_filter(slice_index si,
+                                                stip_moves_traversal *st);
 
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
  */
-void stip_traverse_structure_reflex_filter(slice_index branch,
-                                           stip_structure_traversal *st);
+stip_length_type reflex_defender_filter_series(slice_index si,
+                                               stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type reflex_defender_filter_has_series(slice_index si,
+                                                   stip_length_type n);
 
 #endif

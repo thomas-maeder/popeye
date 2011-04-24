@@ -2,12 +2,12 @@
 #include "stipulation/proxy.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/battle_play/dead_end.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -39,7 +39,7 @@ void battle_branch_set_direct_goal_branch(slice_index si,
       slice_index const prototypes[] =
       {
         alloc_end_of_battle_branch_slice(proxy_to_goal),
-        alloc_battle_play_dead_end_slice()
+        alloc_dead_end_slice()
       };
       enum {
         nr_prototypes = sizeof prototypes / sizeof prototypes[0]
