@@ -6,6 +6,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/fork_on_remaining.h"
 #include "stipulation/proxy.h"
+#include "stipulation/goals/goals.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -65,9 +66,65 @@ static slice_index alloc_orthodox_mating_move_generator_slice(Goal goal)
   return result;
 }
 
+/* Is a goal eligible for this optimisation?
+ * @param goal type of goal
+ * @return true iff the goal is eligible
+ */
+static boolean is_goal_eligible(goal_type goal)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_mate:
+    case goal_check:
+    case goal_doublemate:
+      result = true;
+      break;
+
+    case goal_target:
+      result = true;
+      break;
+
+    case goal_capture:
+    case goal_steingewinn:
+      result = true;
+      break;
+
+    case goal_ep:
+      /* TODO only generate pawn moves? */
+      result = true;
+      break;
+
+    case goal_castling:
+      result = true;
+      /* TODO only generate king moves? */
+      break;
+
+    case goal_countermate:
+      /* TODO only generate king and ortho moves if there are no
+       * obstacles?
+       */
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 typedef struct
 {
-    Goal goal;
+    Goal goal_to_be_reached;
+    unsigned int nr_goals_to_be_reached;
     boolean notNecessarilyFinalMove;
 } final_move_optimisation_state;
 
@@ -79,8 +136,7 @@ static void optimise_final_moves_move_generator(slice_index si,
                                                 stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
-  boolean const save_notNecessarilyFinalMove = state->notNecessarilyFinalMove;
+  final_move_optimisation_state const save_state = *state;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -90,12 +146,13 @@ static void optimise_final_moves_move_generator(slice_index si,
   stip_traverse_moves_children(si,st);
 
   if (st->remaining==1
-      && state->goal.type!=no_goal
+      && state->nr_goals_to_be_reached==1
+      && is_goal_eligible(state->goal_to_be_reached.type)
       && !state->notNecessarilyFinalMove
       && enabled[starter])
   {
     slice_index const generator
-      = alloc_orthodox_mating_move_generator_slice(state->goal);
+      = alloc_orthodox_mating_move_generator_slice(state->goal_to_be_reached);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,1);
     slice_index const proxy2 = alloc_proxy_slice();
@@ -105,8 +162,7 @@ static void optimise_final_moves_move_generator(slice_index si,
     pipe_set_successor(generator,proxy2);
   }
 
-  state->goal = save_goal;
-  state->notNecessarilyFinalMove = save_notNecessarilyFinalMove;
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -120,20 +176,23 @@ static void optimise_final_moves_end_of_battle_branch(slice_index si,
                                                       stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
+  unsigned int const save_nr_imminent_goals = state->nr_goals_to_be_reached;
+  Goal const save_imminent_goal = state->goal_to_be_reached;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = no_goal;
+  state->nr_goals_to_be_reached = 0;
+  state->goal_to_be_reached.type = no_goal;
 
   stip_traverse_moves_children(si,st);
 
-  if (state->goal.type==no_goal)
+  if (state->nr_goals_to_be_reached==0)
     state->notNecessarilyFinalMove = true;
 
-  state->goal = save_goal;
+  state->nr_goals_to_be_reached = save_nr_imminent_goals;
+  state->goal_to_be_reached = save_imminent_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -146,14 +205,17 @@ static void optimise_final_moves_end_of_battle_branch(slice_index si,
 static void generator_swallow_goal(slice_index si, stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
-  Goal const save_goal = state->goal;
+  unsigned int const save_nr_imminent_goals = state->nr_goals_to_be_reached;
+  Goal const save_imminent_goal = state->goal_to_be_reached;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_children(si,st);
-  state->goal = save_goal;
+
+  state->nr_goals_to_be_reached = save_nr_imminent_goals;
+  state->goal_to_be_reached = save_imminent_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -171,7 +233,12 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal = slices[si].u.goal_handler.goal;
+  if (!are_goals_equal(state->goal_to_be_reached,
+                       slices[si].u.goal_handler.goal))
+  {
+    state->goal_to_be_reached = slices[si].u.goal_handler.goal;
+    ++state->nr_goals_to_be_reached;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -198,7 +265,7 @@ enum
 void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
 {
   stip_moves_traversal st;
-  final_move_optimisation_state state = { { no_goal, initsquare }, false };
+  final_move_optimisation_state state = { { no_goal, initsquare }, 0, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -13,7 +13,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  pydata.h pyproc.h pystip.h pypipe.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/fork_on_remaining.h stipulation/proxy.h trace.h
+ stipulation/fork_on_remaining.h stipulation/proxy.h \
+ stipulation/goals/goals.h trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -30,5 +31,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 stipulation/fork_on_remaining.h:
 
 stipulation/proxy.h:
+
+stipulation/goals/goals.h:
 
 trace.h:

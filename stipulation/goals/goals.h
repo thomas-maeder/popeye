@@ -55,6 +55,13 @@ extern char const *goal_end_marker[nr_goals];
 
 #include "pyenum.h"
 
+/* Determine whether two goals are equal
+ * @param goal1 first goal
+ * @param goal2 second goal
+ * @return true iff goal1 and goal2 are equal
+ */
+boolean are_goals_equal(Goal goal1, Goal goal2);
+
 /* Determine whether a goal has been reached by a side in the current
  * position.
  * @param camp side that has just moved and may have reached the goal

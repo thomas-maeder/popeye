@@ -19,6 +19,21 @@
 
 #include "pyenum.h"
 
+/* Determine whether two goals are equal
+ * @param goal1 first goal
+ * @param goal2 second goal
+ * @return true iff goal1 and goal2 are equal
+ */
+boolean are_goals_equal(Goal goal1, Goal goal2)
+{
+  boolean result = true;
+
+  if (goal1.type==goal2.type)
+    result = goal1.type!=goal_target || goal1.target==goal2.target;
+  else
+    result = false;
+}
+
 goal_checker_result_type goal_checker_mate(Side just_moved)
 {
   Side const ad = advers(just_moved);
