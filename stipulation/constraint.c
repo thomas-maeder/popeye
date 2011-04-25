@@ -473,6 +473,7 @@ stip_length_type reflex_defender_filter_help(slice_index si,
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
+  has_solution_type avoided_sol;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -481,49 +482,27 @@ stip_length_type reflex_defender_filter_help(slice_index si,
 
   assert(n>=slack_length_help);
 
-  if (n<slack_length_help+2)
+  avoided_sol = (n<slack_length_help+2
+                 ? slice_solve(avoided)
+                 : slice_has_solution(avoided));
+  switch (avoided_sol)
   {
-    switch (slice_solve(avoided))
-    {
-      case opponent_self_check:
-        result = n+4;
-        break;
+    case opponent_self_check:
+      result = n+4;
+      break;
 
-      case has_no_solution:
-        result = help(next,n);
-        break;
+    case has_no_solution:
+      result = help(next,n);
+      break;
 
-      case has_solution:
-        result = n;
-        break;
+    case has_solution:
+      result = n;
+      break;
 
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
-  }
-  else
-  {
-    switch (slice_has_solution(avoided))
-    {
-      case opponent_self_check:
-        result = n+4;
-        break;
-
-      case has_no_solution:
-        result = help(next,n);
-        break;
-
-      case has_solution:
-        result = n;
-        break;
-
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
+    default:
+      assert(0);
+      result = n+4;
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -596,6 +575,7 @@ stip_length_type reflex_defender_filter_series(slice_index si,
   stip_length_type result;
   slice_index const avoided = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
+  has_solution_type avoided_sol;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -604,49 +584,27 @@ stip_length_type reflex_defender_filter_series(slice_index si,
 
   assert(n>=slack_length_series);
 
-  if (n==slack_length_series)
+  avoided_sol = (n==slack_length_series
+                 ? slice_solve(avoided)
+                 : slice_has_solution(avoided));
+  switch (avoided_sol)
   {
-    switch (slice_solve(avoided))
-    {
-      case opponent_self_check:
-        result = n+2;
-        break;
+    case opponent_self_check:
+      result = n+2;
+      break;
 
-      case has_no_solution:
-        result = series(next,n);
-        break;
+    case has_no_solution:
+      result = series(next,n);
+      break;
 
-      case has_solution:
-        result = n;
-        break;
+    case has_solution:
+      result = n;
+      break;
 
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
-  }
-  else
-  {
-    switch (slice_has_solution(avoided))
-    {
-      case opponent_self_check:
-        result = n+2;
-        break;
-
-      case has_no_solution:
-        result = series(next,n);
-        break;
-
-      case has_solution:
-        result = n;
-        break;
-
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
+    default:
+      assert(0);
+      result = n+2;
+      break;
   }
 
   TraceFunctionExit(__func__);
