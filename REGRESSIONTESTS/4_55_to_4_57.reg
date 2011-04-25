@@ -946,3 +946,36 @@ earlier versions didn't stop solving after 1.h2-h3 z !
 solution finished. 
 
 
+Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.
+
+earlier versions would crash or produce incorrect output
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#=2                        0 + 0
+
+
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+

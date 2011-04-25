@@ -202,4 +202,10 @@ pieces white pg3h2 black pg4
 stip szh31
 option vari quod
 
+next
+
+title earlier versions would crash or produce incorrect output
+stip h#=2
+option intelligent nobk nowk
+
 end

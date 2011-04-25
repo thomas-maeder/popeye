@@ -3224,6 +3224,12 @@ typedef enum
   intelligent_active_by_default
 } support_for_intelligent_mode;
 
+typedef struct
+{
+  support_for_intelligent_mode support;
+  goal_type goal;
+} detector_state_type;
+
 static void intelligent_mode_support_detector_fork(slice_index si,
                                                    stip_structure_traversal *st)
 {
@@ -3243,7 +3249,7 @@ static
 void intelligent_mode_support_detector_quodlibet(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  support_for_intelligent_mode * const support = st->param;
+  detector_state_type * const state = st->param;
   support_for_intelligent_mode support1;
   support_for_intelligent_mode support2;
 
@@ -3251,20 +3257,20 @@ void intelligent_mode_support_detector_quodlibet(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*support!=intelligent_not_supported)
+  if (state->support!=intelligent_not_supported)
   {
     stip_traverse_structure(slices[si].u.binary.op1,st);
-    support1 = *support;
+    support1 = state->support;
 
     stip_traverse_structure(slices[si].u.binary.op2,st);
-    support2 = *support;
+    support2 = state->support;
 
     /* enumerators are ordered so that the weakest support has the
      * lowest enumerator etc. */
     assert(intelligent_not_supported<intelligent_not_active_by_default);
     assert(intelligent_not_active_by_default<intelligent_active_by_default);
 
-    *support = support1<support2 ? support1 : support2;
+    state->support = support1<support2 ? support1 : support2;
   }
 
   TraceFunctionExit(__func__);
@@ -3274,13 +3280,13 @@ void intelligent_mode_support_detector_quodlibet(slice_index si,
 static void intelligent_mode_support_none(slice_index si,
                                           stip_structure_traversal *st)
 {
-  support_for_intelligent_mode * const support = st->param;
+  detector_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *support = intelligent_not_supported;
+  state->support = intelligent_not_supported;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3289,31 +3295,38 @@ static void intelligent_mode_support_none(slice_index si,
 static void intelligent_mode_support_testing(slice_index si,
                                              stip_structure_traversal *st)
 {
-  support_for_intelligent_mode * const support = st->param;
+  detector_state_type * const state = st->param;
   goal_type const goal = slices[si].u.goal_handler.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (goal)
+  if (state->goal==no_goal)
   {
-    case goal_mate:
-    case goal_stale:
-      if (*support!=intelligent_not_supported)
-        *support = intelligent_not_active_by_default;
-      break;
+    switch (goal)
+    {
+      case goal_mate:
+      case goal_stale:
+        if (state->support!=intelligent_not_supported)
+          state->support = intelligent_not_active_by_default;
+        break;
 
-    case goal_proofgame:
-    case goal_atob:
-      if (*support!=intelligent_not_supported)
-        *support = intelligent_active_by_default;
-      break;
+      case goal_proofgame:
+      case goal_atob:
+        if (state->support!=intelligent_not_supported)
+          state->support = intelligent_active_by_default;
+        break;
 
-    default:
-      *support = intelligent_not_supported;
-      break;
+      default:
+        state->support = intelligent_not_supported;
+        break;
+    }
+
+    state->goal = goal;
   }
+  else if (state->goal!=goal)
+    state->support = intelligent_not_supported;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3346,23 +3359,23 @@ enum
  */
 static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
 {
-  support_for_intelligent_mode result = intelligent_not_active_by_default;
+  detector_state_type state = { intelligent_not_active_by_default, no_goal };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     intelligent_mode_support_detectors,
                                     nr_intelligent_mode_support_detectors);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",state.support);
   TraceFunctionResultEnd();
-  return result;
+  return state.support;
 }
 
 /* Initialize intelligent mode if the user or the stipulation asks for
