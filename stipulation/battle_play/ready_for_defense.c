@@ -69,14 +69,13 @@ void ready_for_defense_make_setplay_slice(slice_index si,
     stip_traverse_structure_children(si,st);
 
     {
-      stip_length_type const length_h = (length-slack_length_battle
-                                         +slack_length_help);
+      stip_length_type const length_h = slack_length_help+1;
       slice_index const adapter = alloc_help_adapter_slice(length_h,
                                                            length_h);
       slice_index const ready = alloc_ready_for_help_move_slice(length_h,
                                                                 length_h);
       pipe_link(adapter,ready);
-      pipe_link(ready,*result);
+      link_to_branch(ready,*result);
       *result = adapter;
     }
   }

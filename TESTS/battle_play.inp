@@ -272,6 +272,14 @@ option vari
 
 next
 
+title r#2 with short set play and short solution
+pieces white ka1 ph3
+       black ka3 pa2a4b3b4f6
+stip r#2
+option set vari
+
+next
+
 title exact r#2 that would have a solution in 1
 pieces white ka1 ra2 pf6
        black kh8 pc2

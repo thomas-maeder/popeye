@@ -1299,6 +1299,42 @@ solution finished.
 
 
 
+r#2 with short set play and short solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P  -P   .   .   .   .   .   .   4
+|                                   |
+3  -K  -P   .   .   .   .   .   P   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                         2 + 6
+
+      1...b3-b2 #
+
+   1.h3-h4 !
+      1...b3-b2 #
+
+              empile:          19
+            jouecoup:          19
+        orig_rbechec:          21
+        orig_rnechec:           5
+solution finished. 
+
+
+
 exact r#2 that would have a solution in 1
 
 +---a---b---c---d---e---f---g---h---+

@@ -153,7 +153,7 @@ stip_length_type attack_adapter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
+  stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const n_max_unsolvable = slack_length_battle-1;
   stip_length_type attack_length;
 
@@ -162,13 +162,13 @@ stip_length_type attack_adapter_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  attack_length = can_attack(next,nbattle,n_max_unsolvable);
+  attack_length = can_attack(next,length,n_max_unsolvable);
   if (attack_length<slack_length_battle)
     result = n+4;
-  else if (attack_length<=nbattle)
+  else if (attack_length<=length)
   {
     result = n;
-    attack(next,nbattle,n_max_unsolvable);
+    attack(next,length,n_max_unsolvable);
   }
   else
     result = attack_length+slack_length_help-slack_length_battle;

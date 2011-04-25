@@ -43,7 +43,7 @@ void defense_move_generator_make_setplay_slice(slice_index si,
 
   {
     slice_index const generator = alloc_help_move_generator_slice();
-    pipe_link(generator,*result);
+    link_to_branch(generator,*result);
     *result = generator;
   }
 

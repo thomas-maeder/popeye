@@ -367,7 +367,7 @@ void reflex_defender_filter_make_setplay_slice(slice_index si,
 
   {
     slice_index const copy = copy_slice(si);
-    pipe_link(copy,*result);
+    link_to_branch(copy,*result);
     *result = copy;
   }
 
@@ -481,7 +481,7 @@ stip_length_type reflex_defender_filter_help(slice_index si,
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
+  if (n<slack_length_help+2)
   {
     switch (slice_solve(avoided))
     {

@@ -61,7 +61,7 @@ void defense_move_make_setplay_slice(slice_index si,
 
   {
     slice_index const move = alloc_help_move_slice();
-    pipe_link(move,*result);
+    link_to_branch(move,*result);
     *result = move;
   }
 
