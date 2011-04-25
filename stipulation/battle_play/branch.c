@@ -74,8 +74,8 @@ static slice_index const slice_rank_order[] =
   STEndOfAttack,
   STPostKeyPlaySuppressor,
   STMinLengthGuard,
-  STReflexDefenderFilter,
   STReadyForDefense,
+  STReflexDefenderFilter,
   STMaxThreatLength,
   STThreatSolver,
   STCounterMateFilter,
@@ -477,11 +477,11 @@ void stip_make_goal_attack_branch(slice_index si)
 
 static structure_traversers_visitors setplay_makers[] =
 {
-  { STReadyForDefense,      &ready_for_defense_make_setplay_slice            },
-  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice       },
-  { STDefenseMove,          &defense_move_make_setplay_slice                 },
-  { STEndOfBattleBranch,    &reflex_guard_defender_filter_make_setplay_slice },
-  { STReflexDefenderFilter, &reflex_guard_defender_filter_make_setplay_slice }
+  { STReadyForDefense,      &ready_for_defense_make_setplay_slice      },
+  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice },
+  { STDefenseMove,          &defense_move_make_setplay_slice           },
+  { STEndOfBattleBranch,    &reflex_defender_filter_make_setplay_slice },
+  { STReflexDefenderFilter, &reflex_defender_filter_make_setplay_slice }
 };
 
 enum

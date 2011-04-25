@@ -2909,7 +2909,6 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_battle_branch(length,min_length);
 
           stip_make_goal_attack_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           stip_insert_reflex_filters_semi(branch,proxy_avoided_defense);
           pipe_link(proxy,branch);
@@ -2973,7 +2972,6 @@ static char *ParsePlay(char *tok,
           pipe_append(proxy_avoided_attack,alloc_not_slice());
 
           stip_make_goal_attack_branch(proxy_avoided_defense);
-          pipe_append(proxy_avoided_defense,alloc_not_slice());
 
           pipe_link(proxy,branch);
           stip_insert_reflex_filters(proxy,

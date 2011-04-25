@@ -148,9 +148,8 @@ stip_length_type reflex_attacker_filter_has_series(slice_index si,
  * @param si slice index
  * @param st state of traversal
  */
-void
-reflex_guard_defender_filter_make_setplay_slice(slice_index si,
-                                                stip_structure_traversal *st);
+void reflex_defender_filter_make_setplay_slice(slice_index si,
+                                               stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

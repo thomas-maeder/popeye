@@ -357,12 +357,10 @@ TraceStipulation(result);
  * @param si slice index
  * @param st state of traversal
  */
-void
-reflex_guard_defender_filter_make_setplay_slice(slice_index si,
-                                                stip_structure_traversal *st)
+void reflex_defender_filter_make_setplay_slice(slice_index si,
+                                               stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
-  slice_index const avoided = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -371,9 +369,9 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   {
-    slice_index const guard = alloc_reflex_attack_solver(avoided);
-    pipe_link(guard,*result);
-    *result = guard;
+    slice_index const copy = copy_slice(si);
+    pipe_link(copy,*result);
+    *result = copy;
   }
 
   TraceFunctionExit(__func__);
@@ -438,7 +436,7 @@ reflex_defender_filter_defend(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n_max_unsolvable<slack_length_battle
-      && slice_solve(avoided)==has_no_solution)
+      && slice_solve(avoided)==has_solution)
     result = slack_length_battle;
   else
     result = defend(next,n,n_max_unsolvable);
@@ -478,7 +476,7 @@ reflex_defender_filter_can_defend(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n_max_unsolvable<slack_length_battle
-      && slice_has_solution(avoided)==has_no_solution)
+      && slice_has_solution(avoided)==has_solution)
     result = slack_length_battle;
   else
     result = can_defend(next,n,n_max_unsolvable);
