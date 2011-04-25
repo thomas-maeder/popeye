@@ -26,12 +26,22 @@
  */
 boolean are_goals_equal(Goal goal1, Goal goal2)
 {
-  boolean result = true;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal1.type);
+  TraceFunctionParam("%u",goal2.type);
+  TraceFunctionParamListEnd();
 
   if (goal1.type==goal2.type)
     result = goal1.type!=goal_target || goal1.target==goal2.target;
   else
     result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 goal_checker_result_type goal_checker_mate(Side just_moved)
