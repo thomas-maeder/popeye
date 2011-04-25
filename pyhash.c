@@ -1860,6 +1860,11 @@ static void insert_hash_element_attack_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Determine whether a goal type is "move oriented" (i.e. if hashing takes
+ * longer than determining it)
+ * @param goal goal type
+ * @return true iff goal is move oriented
+ */
 static boolean is_goal_move_oriented(goal_type goal)
 {
   boolean result;
@@ -1880,13 +1885,19 @@ static boolean is_goal_move_oriented(goal_type goal)
   return result;
 }
 
+typedef struct
+{
+  goal_type goal;
+  unsigned int nr_goals;
+} help_series_insertion_state;
+
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
 {
-  goal_type * const goal = st->param;;
+  help_series_insertion_state * const state = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1901,10 +1912,8 @@ static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
-    if (is_goal_move_oriented(*goal))
+    if (state->nr_goals==1 && is_goal_move_oriented(state->goal))
     {
-      /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-       * compute a "mate" in 1.   TLi */
       slice_index const fork = branch_find_slice(STHelpFork,si);
       assert(fork!=no_slice);
       help_branch_insert_slices(fork,&prototype,1);
@@ -1913,7 +1922,8 @@ static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
       help_branch_insert_slices(si,&prototype,1);
   }
 
-  *goal = no_goal;
+  state->goal = no_goal;
+  state->nr_goals = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1925,7 +1935,7 @@ static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
  */
 static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
 {
-  goal_type * const goal = st->param;;
+  help_series_insertion_state * const state = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1941,10 +1951,8 @@ static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
-    if (is_goal_move_oriented(*goal))
+    if (state->nr_goals==1 && is_goal_move_oriented(state->goal))
     {
-      /* In move orientated stipulations (%, z, x etc.) it's less expensive to
-       * compute a "mate" in 1.   TLi */
       slice_index const fork = branch_find_slice(STSeriesFork,si);
       assert(fork!=no_slice);
       series_branch_insert_slices(fork,&prototype,1);
@@ -1953,7 +1961,8 @@ static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
       series_branch_insert_slices(si,&prototype,1);
   }
 
-  *goal = no_goal;
+  state->goal = no_goal;
+  state->nr_goals = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1965,14 +1974,19 @@ static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
  */
 static void remember_goal(slice_index si, stip_moves_traversal *st)
 {
-  goal_type * const goal = st->param;;
+  help_series_insertion_state * const state = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_children(si,st);
-  *goal = slices[si].u.goal_handler.goal.type;
+
+  if (state->goal!=slices[si].u.goal_handler.goal.type)
+  {
+    state->goal = slices[si].u.goal_handler.goal.type;
+    ++state->nr_goals;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1984,14 +1998,16 @@ static void remember_goal(slice_index si, stip_moves_traversal *st)
  */
 static void forget_goal(slice_index si, stip_moves_traversal *st)
 {
-  goal_type * const goal = st->param;;
+  help_series_insertion_state * const state = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_children(si,st);
-  *goal = no_goal;
+
+  state->goal = no_goal;
+  state->nr_goals = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2033,7 +2049,7 @@ enum
  */
 void stip_insert_hash_slices(slice_index si)
 {
-  goal_type imminent_goal = no_goal;
+  help_series_insertion_state state = { no_goal, 0 };
   stip_moves_traversal st;
   stip_structure_traversal st2;
 
@@ -2043,7 +2059,7 @@ void stip_insert_hash_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,&imminent_goal);
+  stip_moves_traversal_init(&st,&state);
   stip_moves_traversal_override(&st,
                                 hash_element_inserters,
                                 nr_hash_element_inserters);
