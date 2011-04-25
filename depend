@@ -571,7 +571,6 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_attack.h \
- stipulation/battle_play/end_of_attack.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
  pytable.h stipulation/series_play/ready_for_series_move.h \
@@ -738,8 +737,6 @@ stipulation/battle_play/attack_move.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/ready_for_attack.h:
-
-stipulation/battle_play/end_of_attack.h:
 
 stipulation/battle_play/ready_for_defense.h:
 

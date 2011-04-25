@@ -27,32 +27,6 @@ slice_index alloc_defense_adapter_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_adapter_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].prev==si)
-  {
-    slice_index const copy = copy_slice(si);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(copy,*root_slice);
-    *root_slice = copy;
-  }
-  else
-    slice_move_to_root(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

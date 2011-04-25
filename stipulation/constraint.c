@@ -29,7 +29,6 @@ static slice_index alloc_reflex_attacker_filter(slice_index proxy_to_avoided)
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
   result = alloc_branch_fork(STReflexAttackerFilter,proxy_to_avoided);
 
   TraceFunctionExit(__func__);
@@ -343,9 +342,7 @@ static slice_index alloc_reflex_defender_filter(slice_index proxy_to_avoided)
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
   result = alloc_branch_fork(STReflexDefenderFilter,proxy_to_avoided);
-TraceStipulation(result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -372,32 +369,6 @@ void reflex_defender_filter_make_setplay_slice(slice_index si,
     slice_index const copy = copy_slice(si);
     pipe_link(copy,*result);
     *result = copy;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const postkey_slice = st->param;
-    slice_index const avoided = slices[si].u.fork.fork;
-    slice_index const filter = alloc_reflex_attack_solver(avoided);
-    pipe_link(filter,*postkey_slice);
-    *postkey_slice = filter;
   }
 
   TraceFunctionExit(__func__);

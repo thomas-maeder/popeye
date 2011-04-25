@@ -151,14 +151,6 @@ stip_length_type reflex_attacker_filter_has_series(slice_index si,
 void reflex_defender_filter_make_setplay_slice(slice_index si,
                                                stip_structure_traversal *st);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st);
-
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation
  * @param si root of branch to be instrumented
@@ -184,7 +176,7 @@ void stip_insert_reflex_filters_semi(slice_index si,
  * @param st address of structure representing traversal
  */
 void reflex_attacker_filter_make_root(slice_index si,
-                                    stip_structure_traversal *st);
+                                      stip_structure_traversal *st);
 
 /* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree

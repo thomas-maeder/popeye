@@ -90,8 +90,8 @@ void ready_for_defense_make_setplay_slice(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void ready_for_defense_reduce_to_postkey_play(slice_index si,
-                                              stip_structure_traversal *st)
+void ready_for_defense_apply_postkeyplay(slice_index si,
+                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

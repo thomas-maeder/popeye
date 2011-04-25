@@ -71,9 +71,9 @@ void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const end = branch_find_slice(STEndOfAttack,si);
-    assert(end!=no_slice);
-    *setplay_slice = battle_branch_make_setplay(slices[end].u.pipe.next);
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    assert(ready!=no_slice);
+    *setplay_slice = battle_branch_make_setplay(ready);
   }
 
   TraceFunctionExit(__func__);

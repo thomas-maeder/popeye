@@ -10,7 +10,6 @@
 #include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
-#include "stipulation/battle_play/end_of_attack.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
@@ -71,7 +70,6 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
-  STEndOfAttack,
   STPostKeyPlaySuppressor,
   STMinLengthGuard,
   STReadyForDefense,
@@ -404,7 +402,6 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const attack = alloc_attack_move_slice();
     slice_index const solver = alloc_continuation_solver_slice(length-1,
                                                                min_length-1);
-    slice_index const end = alloc_end_of_attack_slice();
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const ddeadend = alloc_dead_end_slice();
@@ -418,8 +415,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(shortest,agenerator);
     pipe_link(agenerator,attack);
     pipe_link(attack,solver);
-    pipe_link(solver,end);
-    pipe_link(end,dready);
+    pipe_link(solver,dready);
     pipe_link(dready,ddeadend);
     pipe_link(ddeadend,dgenerator);
     pipe_link(dgenerator,defense);
@@ -460,7 +456,6 @@ void stip_make_goal_attack_branch(slice_index si)
       alloc_dead_end_slice(),
       alloc_attack_move_generator_slice(),
       alloc_attack_move_slice(),
-      alloc_end_of_attack_slice(),
       alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
     };
     enum {
@@ -539,9 +534,9 @@ static void trash_for_postkey_play(slice_index si,
 
 static structure_traversers_visitors to_postkey_play_appliers[] =
 {
-  { STReflexAttackerFilter, &trash_for_postkey_play          },
-  { STAttackAdapter,        &trash_for_postkey_play          },
-  { STEndOfAttack,          &end_of_attack_apply_postkeyplay }
+  { STReflexAttackerFilter, &trash_for_postkey_play              },
+  { STAttackAdapter,        &trash_for_postkey_play              },
+  { STReadyForDefense,      &ready_for_defense_apply_postkeyplay }
 };
 
 enum

@@ -74,7 +74,6 @@
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STEndOfAttack),     /* proxy mark after we have played attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
@@ -270,7 +269,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSelfDefense */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
-  slice_structure_pipe,   /* STEndOfAttack */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_fork,   /* STEndOfBattleBranch */
   slice_structure_branch, /* STMinLengthOptimiser */
@@ -417,7 +415,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSelfDefense */
   slice_function_move_generator, /* STDefenseMoveGenerator */
   slice_function_unspecified,    /* STReadyForAttack */
-  slice_function_unspecified,    /* STEndOfAttack */
   slice_function_unspecified,    /* STReadyForDefense */
   slice_function_unspecified,    /* STEndOfBattleBranch */
   slice_function_unspecified,    /* STMinLengthOptimiser */
@@ -783,7 +780,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STMoveInverter,         &slice_move_to_root               },
 
   { STAttackAdapter,        &slice_move_to_root               },
-  { STDefenseAdapter,       &defense_adapter_make_root        },
   { STReadyForAttack,       &ready_for_attack_make_root       },
   { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
   { STAttackFindShortest,   &attack_find_shortest_make_root   },
@@ -1198,7 +1194,7 @@ static void insert_direct_guards(slice_index si,
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
   { STReadyForAttack,       &insert_direct_guards                 },
-  { STEndOfAttack,          &remember_end_of_attack               },
+  { STReadyForDefense,      &remember_end_of_attack               },
   { STReflexDefenderFilter, &transform_to_quodlibet_end_of_branch },
   { STSelfDefense,          &transform_to_quodlibet_end_of_branch },
   { STEndOfBattleBranch,    &transform_to_quodlibet_end_of_branch }
@@ -1628,7 +1624,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
-  &stip_traverse_structure_pipe,            /* STEndOfAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBattleBranch */
   &stip_traverse_structure_pipe,            /* STMinLengthOptimiser */
@@ -1866,7 +1861,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,          /* STSelfDefense */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
-    &stip_traverse_moves_pipe,                   /* STEndOfAttack */
     &stip_traverse_moves_pipe,                   /* STReadyForDefense */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBattleBranch */
     &stip_traverse_moves_pipe,                   /* STMinLengthOptimiser */

@@ -295,7 +295,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STEndOfAdapter:
       case STEndOfRoot:
-      case STEndOfAttack:
       case STSelfCheckGuard:
       case STProxy:
       case STMoveInverter:

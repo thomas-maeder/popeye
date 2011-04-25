@@ -30,7 +30,6 @@
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STEndOfAttack),     /* proxy mark after we have played attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \

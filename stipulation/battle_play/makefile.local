@@ -3,7 +3,7 @@
 
 CFILES = branch.c \
 	attack_adapter.c attack_find_shortest.c attack_move_generator.c attack_move.c \
-	attack_play.c ready_for_attack.c end_of_attack.c \
+	attack_play.c ready_for_attack.c \
 	defense_adapter.c defense_move.c ready_for_defense.c \
   defense_play.c continuation.c check_detector.c threat.c try.c postkeyplay.c \
 	min_length_optimiser.c min_length_guard.c end_of_branch.c \
@@ -11,7 +11,7 @@ CFILES = branch.c \
 
 INCLUDES = branch.h \
 	attack_adapter.h attack_find_shortest.h attack_move_generator.h attack_move.h \
-	attack_play.h ready_for_attack.h end_of_attack.h \
+	attack_play.h ready_for_attack.h \
 	defense_adapter.h defense_move.h ready_for_defense.h \
 	defense_play.h continuation.h check_detector.h threat.h try.h postkeyplay.h \
 	min_length_optimiser.h min_length_guard.h end_of_branch.h \
