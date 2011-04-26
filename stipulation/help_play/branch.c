@@ -30,7 +30,6 @@ static slice_index const help_slice_rank_order[] =
 
   STReadyForHelpMove,
   STHelpHashed,
-  STHelpFork,
   STHelpHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
@@ -48,6 +47,7 @@ static slice_index const help_slice_rank_order[] =
   STKeepMatingFilter,
   STGoalReachableGuardFilter,
   STEndOfRoot,
+  STHelpFork,
   STGoalReachedTesting,
   STSelfCheckGuard,
   STReflexAttackerFilter,
@@ -390,55 +390,43 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
   return result;
 }
 
-/* Find the position of a STHelpFork slice to be inserted
+/* Insert a slice marking the end of the branch
  * @param si identifies the entry slice of a help branch
- * @param n indicates at what n slice next should kick in
- * @return identifier of slice behind which to insert STHelpFork slice
+ * @param end_proto end of branch prototype slice
  */
-static slice_index find_fork_pos(slice_index si, stip_length_type n)
+static void insert_end_of_branch(slice_index si, slice_index end_proto)
 {
-  slice_index result;
+  slice_index pos = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",end_proto);
   TraceFunctionParamListEnd();
-
-  assert(slices[si].type==STHelpAdapter);
 
   do
   {
-    si = branch_find_slice(STReadyForHelpMove,si);
-    assert(si!=no_slice);
-  } while ((n-slices[si].u.branch.length)%2==1);
+    pos = branch_find_slice(STReadyForHelpMove,pos);
+    assert(pos!=no_slice);
+  } while ((slices[pos].u.branch.length-slack_length_help)%2==0);
 
-  result = si;
+  help_branch_insert_slices(pos,&end_proto,1);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
- * @param n indicates at what n slice next should kick in
  * @param next identifies the entry slice of the next branch
  */
-void help_branch_set_next_slice(slice_index si,
-                                stip_length_type n,
-                                slice_index next)
+void help_branch_set_next_slice(slice_index si, slice_index next)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const pos = find_fork_pos(si,n);
-    pipe_append(slices[pos].prev,alloc_end_of_help_branch_slice(next));
-  }
+  insert_end_of_branch(si,alloc_end_of_help_branch_slice(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -455,10 +443,7 @@ void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const pos = find_fork_pos(si,slack_length_help+1);
-    pipe_append(pos,alloc_help_fork_slice(to_goal));
-  }
+  insert_end_of_branch(si,alloc_help_fork_slice(to_goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -493,45 +478,4 @@ slice_index alloc_help_branch(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Insert a the appropriate proxy slices before each
- * STGoalReachedTesting slice
- * @param si identifies slice
- * @param st address of structure representing the traversal
- */
-static void instrument_testing(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(slices[si].prev,alloc_help_move_generator_slice());
-  pipe_append(slices[si].prev,alloc_help_move_slice());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument a branch leading to a goal to be a help goal branch
- * @param si identifies entry slice of branch
- */
-void stip_make_help_goal_branch(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &instrument_testing);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

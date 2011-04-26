@@ -24,8 +24,9 @@ pyenum.h:
 stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_guards.c \
  stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h stipulation/series_play/branch.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/fork_on_remaining.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/series_play/branch.h \
  stipulation/goals/prerequisite_optimiser.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
@@ -38,6 +39,10 @@ pystip.h:
 pypipe.h:
 
 stipulation/branch.h:
+
+stipulation/proxy.h:
+
+stipulation/fork_on_remaining.h:
 
 stipulation/battle_play/branch.h:
 

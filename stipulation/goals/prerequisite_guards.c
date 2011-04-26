@@ -2,6 +2,8 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
+#include "stipulation/fork_on_remaining.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
@@ -183,7 +185,6 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
 {
   prerequisite_guards_insertion_state * const state = st->param;
   prerequisite_guards_insertion_state const save_state = *state;
-  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -195,12 +196,16 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
   {
     unsigned int nr_optimisable = 0;
     unsigned int nr_unoptimisable = 0;
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
     goal_type goal;
+
+    pipe_link(proxy1,proxy2);
 
     for (goal = 0; goal!=nr_goals; ++goal)
       if (state->imminent_goals[goal])
       {
-        if (insert_goal_prerequisite_guard_help(fork,goal)
+        if (insert_goal_prerequisite_guard_help(proxy1,goal)
             || is_goal_reaching_move_optimisable(goal))
           ++nr_optimisable;
         else
@@ -211,12 +216,19 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
     {
       for (goal = 0; goal!=nr_goals; ++goal)
         if (state->imminent_goals[goal])
-          insert_goal_optimisation_help_filter(fork,goal);
-      {
-        slice_index const prototype = alloc_goal_prerequisite_optimiser_slice();
-        help_branch_insert_slices(slices[fork].u.pipe.next,&prototype,1);
-      }
+          insert_goal_optimisation_help_filter(proxy1,goal);
+
+      pipe_append(slices[proxy2].prev,
+                  alloc_goal_prerequisite_optimiser_slice());
     }
+
+    if (nr_optimisable>0)
+    {
+      pipe_append(si,proxy2);
+      pipe_append(si,alloc_fork_on_remaining_slice(proxy1,1));
+    }
+    else
+      dealloc_slices(proxy1);
   }
 
   *state = save_state;
@@ -323,7 +335,7 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
   { STReadyForAttack,               &insert_goal_prerequisite_guards_battle      },
   { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
-  { STHelpFork,                     &insert_goal_prerequisite_guards_help        },
+  { STReadyForHelpMove,             &insert_goal_prerequisite_guards_help        },
   { STSeriesFork,                   &insert_goal_prerequisite_guards_series      },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate },

@@ -2180,11 +2180,9 @@ static void alloc_reci_end(slice_index proxy_nonreci,
     slice_index const branch_reci = alloc_help_branch(slack_length_help+1,
                                                       slack_length_help+1);
 
-    stip_make_help_goal_branch(proxy_to_nonreci);
     help_branch_set_goal_slice(branch_nonreci,proxy_to_nonreci);
     pipe_link(proxy_nonreci,branch_nonreci);
 
-    stip_make_help_goal_branch(proxy_to_reci);
     help_branch_set_goal_slice(branch_reci,proxy_to_reci);
     pipe_link(proxy_reci,branch_reci);
   }
@@ -2336,7 +2334,6 @@ static char *ParseSerH(char *tok,
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help+1);
     help_branch_set_goal_slice(help,proxy_next);
-    stip_make_help_goal_branch(proxy_next);
     series_branch_set_next_slice(branch,help);
     pipe_link(proxy,branch);
   }
@@ -2543,7 +2540,7 @@ static char *ParsePlay(char *tok,
             slice_index const help_proxy = alloc_proxy_slice();
             slice_index const help = alloc_help_branch(slack_length_help+1,
                                                        slack_length_help+1);
-            help_branch_set_next_slice(help,slack_length_help,defense_branch);
+            help_branch_set_next_slice(help,defense_branch);
             pipe_link(help_proxy,help);
 
             series_branch_set_next_slice(series,help_proxy);
@@ -2571,9 +2568,9 @@ static char *ParsePlay(char *tok,
         {
           assert(slices[next].type==STGoalReachedTesting);
           if (slices[next].u.goal_handler.goal.type==goal_proofgame)
-            stip_impose_starter(proxy_next,Black);
-          else
             stip_impose_starter(proxy_next,White);
+          else
+            stip_impose_starter(proxy_next,Black);
 
           set_output_mode(output_mode_line);
         }
@@ -2727,7 +2724,7 @@ static char *ParsePlay(char *tok,
                                                   ? min_length
                                                   : min_length-2);
             slice_index const branch = alloc_help_branch(length-2,min_length2);
-            help_branch_set_next_slice(branch,slack_length_help,proxy_next);
+            help_branch_set_next_slice(branch,proxy_next);
             attach_help_branch(length,proxy,branch);
           }
 
@@ -2753,7 +2750,6 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
-          stip_make_help_goal_branch(proxy_next);
           help_branch_set_goal_slice(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy,White);
@@ -2778,7 +2774,6 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
-          stip_make_help_goal_branch(proxy_next);
           help_branch_set_goal_slice(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy,Black);
@@ -2811,7 +2806,7 @@ static char *ParsePlay(char *tok,
           stip_length_type const min = min_length==slack_length_help ? slack_length_help+1 : min_length-1;
           slice_index const branch = alloc_help_branch(length-1,min);
           pipe_link(aready,deadend);
-          help_branch_set_next_slice(branch,slack_length_help,defense_branch);
+          help_branch_set_next_slice(branch,defense_branch);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           attach_help_branch(length,proxy,branch);
@@ -2873,10 +2868,9 @@ static char *ParsePlay(char *tok,
         {
           slice_index const branch = alloc_help_branch(length,min_length);
 
-          stip_make_help_goal_branch(proxy_next);
           help_branch_set_goal_slice(branch,proxy_next);
           attach_help_branch(length,proxy,branch);
-          stip_impose_starter(proxy_next,White);
+          stip_impose_starter(proxy_next,Black);
           set_output_mode(output_mode_line);
         }
       }
@@ -3249,8 +3243,6 @@ static char *ParseStructuredStip_branch_h(char *tok,
       min_length += slack_length_help;
       max_length += slack_length_help;
 
-      stip_make_help_goal_branch(proxy_to_op);
-
       if (max_length==slack_length_help+1)
       {
         pipe_link(proxy,slices[proxy_to_op].u.pipe.next);
@@ -3260,7 +3252,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
       {
         slice_index const branch = alloc_help_branch(max_length-1,
                                                      min_length-1);
-        help_branch_set_next_slice(branch,max_length-1,proxy_to_op);
+        help_branch_set_next_slice(branch,proxy_to_op);
         pipe_link(proxy,branch);
       }
     }

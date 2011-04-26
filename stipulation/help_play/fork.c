@@ -39,9 +39,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->remaining>0);
-
-  if (st->remaining==1)
+  if (st->remaining<2)
     stip_traverse_moves_pipe(slices[si].u.fork.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
@@ -69,9 +67,7 @@ stip_length_type help_fork_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
-
-  if (n==slack_length_help+1)
+  if (n<slack_length_help+2)
     result = help(fork,n);
   else
     result = help(slices[si].u.pipe.next,n);
@@ -102,9 +98,7 @@ stip_length_type help_fork_can_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
-
-  if (n==slack_length_help+1)
+  if (n<slack_length_help+2)
     result = can_help(fork,n);
   else
     result = can_help(next,n);
