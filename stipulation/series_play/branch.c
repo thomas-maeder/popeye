@@ -298,6 +298,29 @@ slice_index alloc_series_branch(stip_length_type length,
   return result;
 }
 
+/* Insert a slice marking the end of the branch
+ * @param si identifies the entry slice of a help branch
+ * @param end_proto end of branch prototype slice
+ */
+static void insert_end_of_branch(slice_index si, slice_index end_proto)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",end_proto);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].type==STSeriesAdapter);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
+    assert(ready!=no_slice);
+    series_branch_insert_slices(ready,&end_proto,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert a fork to the branch leading to the goal
  * @param si identifies the entry slice of a series branch
  * @param to_goal identifies the entry slice of the branch leading to
@@ -310,14 +333,7 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesAdapter);
-
-  {
-    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
-    slice_index const prototype = alloc_series_fork_slice(to_goal);
-    assert(ready!=no_slice);
-    series_branch_insert_slices(ready,&prototype,1);
-  }
+  insert_end_of_branch(si,alloc_series_fork_slice(to_goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -334,14 +350,7 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesAdapter);
-
-  {
-    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
-    slice_index const prototype = alloc_end_of_series_branch_slice(next);
-    assert(ready!=no_slice);
-    series_branch_insert_slices(ready,&prototype,1);
-  }
+  insert_end_of_branch(si,alloc_end_of_series_branch_slice(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
