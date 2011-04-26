@@ -121,9 +121,9 @@ solution finished.
 
   1.Sb5-d4   2.Sd4*e2   3.0-0 
 
-              empile:        1105
+              empile:         862
             jouecoup:         410
-        orig_rbechec:         491
+        orig_rbechec:         467
         orig_rnechec:         368
 solution finished. 
 

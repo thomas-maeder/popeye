@@ -39,9 +39,7 @@ void stip_traverse_moves_series_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->remaining>0);
-
-  if (st->remaining==1)
+  if (st->remaining==0)
     stip_traverse_moves_pipe(slices[si].u.fork.fork,st);
   else
     stip_traverse_moves_pipe(si,st);
@@ -70,9 +68,7 @@ stip_length_type series_fork_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
-
-  if (n==slack_length_series+1)
+  if (n==slack_length_series)
     result = series(fork,n);
   else
     result = series(next,n);
@@ -103,9 +99,7 @@ stip_length_type series_fork_has_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
-
-  if (n==slack_length_series+1)
+  if (n==slack_length_series)
     result = has_series(fork,n);
   else
     result = has_series(next,n);

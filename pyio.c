@@ -2647,10 +2647,9 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_series_branch(length,min_length);
-          stip_make_series_goal_branch(proxy_next);
           series_branch_set_goal_slice(branch,proxy_next);
           pipe_link(proxy,branch);
-          stip_impose_starter(proxy_next,White);
+          stip_impose_starter(proxy_next,Black);
           set_output_mode(output_mode_line);
         }
       }

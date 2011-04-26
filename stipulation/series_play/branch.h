@@ -21,11 +21,6 @@ void shorten_series_pipe(slice_index pipe);
 slice_index alloc_series_branch(stip_length_type length,
                                 stip_length_type min_length);
 
-/* Instrument a branch leading to a goal to be a help goal branch
- * @param si identifies entry slice of branch
- */
-void stip_make_series_goal_branch(slice_index si);
-
 /* Insert a fork to the branch leading to the goal
  * @param si identifies the entry slice of a series branch
  * @param to_goal identifies the entry slice of the branch leading to

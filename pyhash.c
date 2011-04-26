@@ -1912,14 +1912,7 @@ static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
-    if (state->nr_goals==1 && is_goal_move_oriented(state->goal))
-    {
-      slice_index const fork = branch_find_slice(STHelpFork,si);
-      assert(fork!=no_slice);
-      help_branch_insert_slices(fork,&prototype,1);
-    }
-    else
-      help_branch_insert_slices(si,&prototype,1);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   state->goal = no_goal;
@@ -1945,20 +1938,12 @@ static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if (st->remaining+1<st->full_length
-      && st->remaining<=2)
+  if (st->remaining+1<st->full_length && st->remaining<=2)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
-    if (state->nr_goals==1 && is_goal_move_oriented(state->goal))
-    {
-      slice_index const fork = branch_find_slice(STSeriesFork,si);
-      assert(fork!=no_slice);
-      series_branch_insert_slices(fork,&prototype,1);
-    }
-    else
-      series_branch_insert_slices(si,&prototype,1);
+    series_branch_insert_slices(si,&prototype,1);
   }
 
   state->goal = no_goal;
