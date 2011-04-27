@@ -97,7 +97,7 @@ static structure_traversers_visitors line_slice_inserters[] =
   { STEndOfSeriesBranch,  &instrument_end_of_series_branch },
   { STGoalReachedTesting, &instrument_goal_reached_testing },
   { STMoveInverter,       &instrument_move_inverter        },
-  { STHelpRoot,           &instrument_root                 },
+  { STHelpAdapter,        &instrument_root                 },
   { STSeriesAdapter,      &instrument_root                 }
 };
 
