@@ -65,4 +65,11 @@ void series_branch_insert_slices_nested(slice_index si,
  */
 slice_index series_branch_make_root(slice_index si);
 
+/* Produce slices representing set play.
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index series_branch_make_setplay(slice_index adapter);
+
 #endif

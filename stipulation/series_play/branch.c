@@ -399,3 +399,33 @@ slice_index series_branch_make_root(slice_index si)
   TraceFunctionParamListEnd();
   return result;
 }
+
+/* Produce slices representing set play.
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index series_branch_make_setplay(slice_index adapter)
+{
+  slice_index result;
+  slice_index end;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  end = branch_find_slice(STEndOfSeriesBranch,adapter);
+  if (end==no_slice)
+    result = no_slice;
+  else
+  {
+    result = alloc_series_adapter_slice(slack_length_series,
+                                        slack_length_series);
+    pipe_link(result,alloc_end_of_series_branch_slice(slices[end].u.fork.fork));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}

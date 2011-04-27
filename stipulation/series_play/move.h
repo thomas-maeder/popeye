@@ -19,12 +19,6 @@ slice_index alloc_series_move_slice(void);
  */
 void series_move_make_root(slice_index si, stip_structure_traversal *st);
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_move_apply_setplay(slice_index si, stip_structure_traversal *st);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

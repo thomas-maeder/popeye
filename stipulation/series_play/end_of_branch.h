@@ -13,13 +13,6 @@
  */
 slice_index alloc_end_of_series_branch_slice(slice_index proxy_to_next);
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void end_of_series_branch_make_setplay(slice_index si,
-                                       stip_structure_traversal *st);
-
 /* Traversal of the moves beyond a series fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

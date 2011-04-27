@@ -49,62 +49,6 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors setplay_makers[] =
-{
-  { STSeriesDummyMove,   &stip_structure_visitor_noop       },
-  { STEndOfSeriesBranch, &end_of_series_branch_make_setplay }
-};
-
-enum
-{
-  nr_setplay_makers = (sizeof setplay_makers / sizeof setplay_makers[0])
-};
-
-/* Produce slices representing set play.
- * This is supposed to be invoked from within the slice type specific
- * functions invoked by stip_apply_setplay.
- * @param si identifies the successor of the slice representing the
- *           move(s) not played in set play
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
- */
-static slice_index make_setplay(slice_index si)
-{
-  slice_index result = no_slice;
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_move_apply_setplay(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const setplay_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *setplay_slice = make_setplay(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
