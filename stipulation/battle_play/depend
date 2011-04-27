@@ -12,7 +12,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/min_length_optimiser.h \
- stipulation/battle_play/end_of_branch.h trace.h
+ stipulation/battle_play/end_of_branch.h stipulation/operators/binary.h \
+ trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -51,6 +52,8 @@ stipulation/battle_play/continuation.h:
 stipulation/battle_play/min_length_optimiser.h:
 
 stipulation/battle_play/end_of_branch.h:
+
+stipulation/operators/binary.h:
 
 trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
@@ -238,24 +241,29 @@ stipulation/branch.h:
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
- stipulation/battle_play/defense_adapter.h stipulation/branch.h trace.h
+ stipulation/battle_play/defense_adapter.h stipulation/branch.h \
+ stipulation/battle_play/branch.h trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
 stipulation/branch.h:
 
+stipulation/battle_play/branch.h:
+
 trace.h:
 stipulation/battle_play/defense_move$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_move.c \
  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/move.h \
- trace.h
+ stipulation/branch.h stipulation/battle_play/attack_play.h \
+ stipulation/help_play/move.h trace.h
 
 stipulation/battle_play/defense_move.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -532,13 +540,15 @@ trace.h:
 stipulation/battle_play/defense_move_generator$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_move_generator.c \
  stipulation/battle_play/defense_move_generator.h pydata.h pypipe.h \
- stipulation/help_play/move_generator.h trace.h
+ stipulation/branch.h stipulation/help_play/move_generator.h trace.h
 
 stipulation/battle_play/defense_move_generator.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/branch.h:
 
 stipulation/help_play/move_generator.h:
 

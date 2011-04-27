@@ -547,6 +547,55 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified     /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
+/* Provide a subclass relationship between the values of slice_structural_type
+ * @param derived
+ * @param base
+ * @return true iff derived is a subclass of base
+ */
+boolean slice_structure_is_subclass(slice_structural_type derived,
+                                    slice_structural_type base)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_structural_type,derived,"");
+  TraceEnumerator(slice_structural_type,base,"");
+  TraceFunctionParamListEnd();
+
+  switch (derived)
+  {
+    case slice_structure_leaf:
+      result = base==slice_structure_leaf;
+      break;
+
+    case slice_structure_binary:
+      result = base==slice_structure_binary;
+      break;
+
+    case slice_structure_pipe:
+      result = base==slice_structure_pipe;
+      break;
+
+    case slice_structure_branch:
+      result = base==slice_structure_pipe || base==slice_structure_branch;
+      break;
+
+    case slice_structure_fork:
+      result = base==slice_structure_pipe || base==slice_structure_fork;
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a slice is of some structural type
  * @param si identifies slice
  * @param type identifies type
@@ -554,7 +603,7 @@ static slice_functional_type functional_type[nr_slice_types] =
  */
 boolean slice_has_structure(slice_index si, slice_structural_type type)
 {
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -566,32 +615,8 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
                   highest_structural_type[slices[si].type],
                   "\n");
 
-  switch (highest_structural_type[slices[si].type])
-  {
-    case slice_structure_leaf:
-      result = type==slice_structure_leaf;
-      break;
-
-    case slice_structure_binary:
-      result = type==slice_structure_binary;
-      break;
-
-    case slice_structure_pipe:
-      result = type==slice_structure_pipe;
-      break;
-
-    case slice_structure_branch:
-      result = type==slice_structure_pipe || type==slice_structure_branch;
-      break;
-
-    case slice_structure_fork:
-      result = type==slice_structure_pipe || type==slice_structure_fork;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  result = slice_structure_is_subclass(highest_structural_type[slices[si].type],
+                                       type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -752,57 +777,15 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void slice_move_to_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (slices[si].prev!=no_slice)
-    pipe_unlink(slices[si].prev);
-  pipe_link(si,*root_slice);
-  *root_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STMoveInverter,         &slice_move_to_root               },
-
-  { STAttackAdapter,        &slice_move_to_root               },
-  { STReadyForAttack,       &ready_for_attack_make_root       },
-  { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
-  { STAttackFindShortest,   &attack_find_shortest_make_root   },
-  { STDefenseMove,          &defense_move_make_root           },
-
-  { STHelpAdapter,          &slice_move_to_root               },
-  { STHelpFindShortest,     &help_find_shortest_make_root     },
-  { STReadyForHelpMove,     &ready_for_help_move_make_root    },
-  { STHelpMove,             &help_move_make_root              },
-  { STHelpFork,             &stip_traverse_structure_pipe     },
-
-  { STSeriesAdapter,        &slice_move_to_root               },
-  { STSeriesFindShortest,   &series_find_shortest_make_root   },
-  { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
-  { STSeriesMove,           &series_move_make_root            },
-  { STSeriesFork,           &stip_traverse_structure_pipe     },
-
-  { STEndOfAdapter,         &stip_traverse_structure_children },
-  { STLeaf,                 &leaf_make_root                   },
+  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
+  { STAttackAdapter,        &attack_adapter_make_root         },
+  { STDefenseAdapter,       &defense_adapter_make_root        },
+  { STHelpAdapter,          &help_adapter_make_root           },
+  { STSeriesAdapter,        &series_adapter_make_root         },
   { STReciprocal,           &binary_make_root                 },
-  { STQuodlibet,            &binary_make_root                 },
-
-  { STReflexAttackerFilter, &reflex_attacker_filter_make_root }
+  { STQuodlibet,            &binary_make_root                 }
 };
 
 enum
@@ -820,7 +803,7 @@ void stip_insert_root_slices(slice_index si)
   stip_structure_traversal st;
   slice_index root_slice = no_slice;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index i;
+  slice_structural_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -831,7 +814,8 @@ void stip_insert_root_slices(slice_index si)
 
   stip_structure_traversal_init(&st,&root_slice);
   for (i = 0; i!=nr_slice_structure_types; ++i)
-    stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+    if (slice_structure_is_subclass(i,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
   stip_structure_traversal_override(&st,
                                     root_slice_inserters,
                                     nr_root_slice_inserters);

@@ -62,4 +62,11 @@ void help_branch_insert_slices_nested(slice_index si,
                                       slice_index const prototypes[],
                                       unsigned int nr_prototypes);
 
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @return identifier of root slice
+ */
+slice_index help_branch_make_root(slice_index si);
+
 #endif

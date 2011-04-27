@@ -17,6 +17,7 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/end_of_branch.h"
+#include "stipulation/operators/binary.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -596,6 +597,55 @@ boolean battle_branch_apply_postkeyplay(slice_index si)
     install_postkey_slice(si,postkey_slice);
     result = true;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
+static structure_traversers_visitors battle_root_slice_inserters[] =
+{
+  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
+
+  { STReadyForAttack,       &ready_for_attack_make_root       },
+  { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
+  { STAttackFindShortest,   &attack_find_shortest_make_root   },
+  { STDefenseMove,          &defense_move_make_root           },
+
+  { STReciprocal,           &binary_make_root                 },
+  { STQuodlibet,            &binary_make_root                 }
+};
+
+enum
+{
+  nr_battle_root_slice_inserters = (sizeof battle_root_slice_inserters
+                                    / sizeof battle_root_slice_inserters[0])
+};
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @return identifier of root slice
+ */
+slice_index battle_branch_make_root(slice_index si)
+{
+  stip_structure_traversal st;
+  slice_structural_type i;
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  for (i = 0; i!=nr_slice_structure_types; ++i)
+    if (slice_structure_is_subclass(i,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+  stip_structure_traversal_override(&st,
+                                    battle_root_slice_inserters,
+                                    nr_battle_root_slice_inserters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);

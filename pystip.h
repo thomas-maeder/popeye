@@ -327,6 +327,13 @@ typedef enum
 
 #include "pyenum.h"
 
+/* Provide a subclass relationship between the values of slice_structural_type
+ * @param derived
+ * @param base
+ * @return true iff derived is a subclass of base
+ */
+boolean slice_structure_is_subclass(slice_structural_type derived,
+                                    slice_structural_type base);
 
 /* Determine whether a slice is of some structural type
  * @param si identifies slice
@@ -648,12 +655,6 @@ void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st);
  */
 void stip_traverse_moves_children(slice_index si,
                                   stip_moves_traversal *st);
-
-/* Move a slice to the root branch as part of stip_insert_root_slices()
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void slice_move_to_root(slice_index si, stip_structure_traversal *st);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types

@@ -43,8 +43,7 @@ void end_of_battle_branch_make_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(fork,st);
-  root_to_fork = *root_slice;
+  root_to_fork = stip_deep_copy(fork);
 
   stip_traverse_structure_pipe(si,st);
 

@@ -1,11 +1,10 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
-#include "stipulation/goals/goals.h"
-#include "stipulation/series_play/play.h"
-#include "stipulation/series_play/move_generator.h"
+#include "pyreflxg.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/operators/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
@@ -14,6 +13,9 @@
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
+#include "stipulation/series_play/play.h"
+#include "stipulation/series_play/move_generator.h"
+#include "stipulation/goals/goals.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -354,4 +356,53 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors series_root_slice_inserters[] =
+{
+  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
+
+  { STSeriesFindShortest,   &series_find_shortest_make_root   },
+  { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
+  { STSeriesMove,           &series_move_make_root            },
+
+  { STEndOfAdapter,         &stip_traverse_structure_children },
+  { STReciprocal,           &binary_make_root                 },
+  { STQuodlibet,            &binary_make_root                 }
+};
+
+enum
+{
+  nr_series_root_slice_inserters = (sizeof series_root_slice_inserters
+                                    / sizeof series_root_slice_inserters[0])
+};
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @return identifier of root slice
+ */
+slice_index series_branch_make_root(slice_index si)
+{
+  stip_structure_traversal st;
+  slice_structural_type i;
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  for (i = 0; i!=nr_slice_structure_types; ++i)
+    if (slice_structure_is_subclass(i,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+  stip_structure_traversal_override(&st,
+                                    series_root_slice_inserters,
+                                    nr_series_root_slice_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
 }

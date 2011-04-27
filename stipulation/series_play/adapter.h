@@ -17,6 +17,13 @@
 slice_index alloc_series_adapter_slice(stip_length_type length,
                                        stip_length_type min_length);
 
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @param st address of structure holding the traversal state
+ */
+void series_adapter_make_root(slice_index si, stip_structure_traversal *st);
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

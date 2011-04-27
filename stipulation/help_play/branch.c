@@ -1,8 +1,11 @@
 #include "stipulation/help_play/branch.h"
 #include "pypipe.h"
+#include "pyreflxg.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/operators/binary.h"
 #include "stipulation/help_play/adapter.h"
+#include "stipulation/help_play/ready_for_help_move.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
@@ -473,6 +476,55 @@ slice_index alloc_help_branch(stip_length_type length,
     result = alloc_help_branch_odd(length+1,min_length+1);
     help_branch_shorten(result);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static structure_traversers_visitors help_root_slice_inserters[] =
+{
+  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
+
+  { STHelpFindShortest,     &help_find_shortest_make_root     },
+  { STReadyForHelpMove,     &ready_for_help_move_make_root    },
+  { STHelpMove,             &help_move_make_root              },
+
+  { STEndOfAdapter,         &stip_traverse_structure_children },
+  { STReciprocal,           &binary_make_root                 },
+  { STQuodlibet,            &binary_make_root                 }
+};
+
+enum
+{
+  nr_help_root_slice_inserters = (sizeof help_root_slice_inserters
+                                  / sizeof help_root_slice_inserters[0])
+};
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @return identifier of root slice
+ */
+slice_index help_branch_make_root(slice_index si)
+{
+  stip_structure_traversal st;
+  slice_structural_type i;
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  for (i = 0; i!=nr_slice_structure_types; ++i)
+    if (slice_structure_is_subclass(i,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+  stip_structure_traversal_override(&st,
+                                    help_root_slice_inserters,
+                                    nr_help_root_slice_inserters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

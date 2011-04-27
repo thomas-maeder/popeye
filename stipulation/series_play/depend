@@ -14,11 +14,14 @@ stipulation/branch.h:
 stipulation/series_play/branch.h:
 stipulation/series_play/adapter$(OBJ_SUFFIX): stipulation/series_play/adapter.c \
  stipulation/series_play/adapter.h stipulation/branch.h \
- stipulation/series_play/move.h pypipe.h trace.h
+ stipulation/series_play/branch.h stipulation/series_play/move.h pypipe.h \
+ trace.h
 
 stipulation/series_play/adapter.h:
 
 stipulation/branch.h:
+
+stipulation/series_play/branch.h:
 
 stipulation/series_play/move.h:
 
@@ -26,32 +29,30 @@ pypipe.h:
 
 trace.h:
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
- stipulation/series_play/branch.h pyslice.h stipulation/goals/goals.h \
- stipulation/series_play/play.h stipulation/series_play/move_generator.h \
- pypipe.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/series_play/branch.h pyslice.h pyreflxg.h pypipe.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/operators/binary.h \
  stipulation/battle_play/branch.h \
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/adapter.h \
  stipulation/series_play/find_shortest.h \
  stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/move.h stipulation/series_play/dummy_move.h \
- trace.h
+ stipulation/series_play/play.h stipulation/series_play/move_generator.h \
+ stipulation/goals/goals.h trace.h
 
 stipulation/series_play/branch.h:
 
 pyslice.h:
 
-stipulation/goals/goals.h:
-
-stipulation/series_play/play.h:
-
-stipulation/series_play/move_generator.h:
+pyreflxg.h:
 
 pypipe.h:
 
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/operators/binary.h:
 
 stipulation/battle_play/branch.h:
 
@@ -68,6 +69,12 @@ stipulation/series_play/fork.h:
 stipulation/series_play/move.h:
 
 stipulation/series_play/dummy_move.h:
+
+stipulation/series_play/play.h:
+
+stipulation/series_play/move_generator.h:
+
+stipulation/goals/goals.h:
 
 trace.h:
 stipulation/series_play/root$(OBJ_SUFFIX): stipulation/series_play/root.c \

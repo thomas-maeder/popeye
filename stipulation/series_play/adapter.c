@@ -1,5 +1,6 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/branch.h"
+#include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/move.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -27,6 +28,25 @@ slice_index alloc_series_adapter_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @param st address of structure holding the traversal state
+ */
+void series_adapter_make_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *root_slice = series_branch_make_root(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Traversal of the moves of some adapter slice

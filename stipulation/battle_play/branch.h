@@ -79,4 +79,11 @@ slice_index battle_branch_make_setplay(slice_index si);
  */
 boolean battle_branch_apply_postkeyplay(slice_index si);
 
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
+ * @return identifier of root slice
+ */
+slice_index battle_branch_make_root(slice_index si);
+
 #endif
