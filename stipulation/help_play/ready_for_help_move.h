@@ -16,18 +16,4 @@
 slice_index alloc_ready_for_help_move_slice(stip_length_type length,
                                             stip_length_type min_length);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_help_move_make_root(slice_index si,
-                                   stip_structure_traversal *st);
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void ready_for_help_move_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st);
-
 #endif

@@ -1,7 +1,6 @@
 stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
  stipulation/help_play/adapter.h pypipe.h stipulation/branch.h \
- stipulation/help_play/play.h stipulation/help_play/branch.h \
- stipulation/help_play/move.h trace.h
+ stipulation/help_play/play.h stipulation/help_play/branch.h trace.h
 
 stipulation/help_play/adapter.h:
 
@@ -12,8 +11,6 @@ stipulation/branch.h:
 stipulation/help_play/play.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/help_play/move.h:
 
 trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
@@ -100,9 +97,7 @@ trace.h:
 stipulation/help_play/ready_for_help_move$(OBJ_SUFFIX): \
  stipulation/help_play/ready_for_help_move.c \
  stipulation/help_play/ready_for_help_move.h trace.h pypipe.h \
- stipulation/branch.h stipulation/dead_end.h \
- stipulation/help_play/branch.h stipulation/help_play/adapter.h \
- stipulation/help_play/root.h stipulation/fork_on_remaining.h
+ stipulation/branch.h stipulation/help_play/branch.h
 
 stipulation/help_play/ready_for_help_move.h:
 
@@ -112,21 +107,10 @@ pypipe.h:
 
 stipulation/branch.h:
 
-stipulation/dead_end.h:
-
 stipulation/help_play/branch.h:
-
-stipulation/help_play/adapter.h:
-
-stipulation/help_play/root.h:
-
-stipulation/fork_on_remaining.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
  stipulation/help_play/move.h pydata.h pybrafrk.h pypipe.h \
- stipulation/proxy.h stipulation/help_play/branch.h \
- stipulation/help_play/play.h stipulation/help_play/root.h \
- stipulation/help_play/ready_for_help_move.h \
- stipulation/help_play/move_generator.h trace.h
+ stipulation/proxy.h stipulation/help_play/branch.h trace.h
 
 stipulation/help_play/move.h:
 
@@ -140,19 +124,10 @@ stipulation/proxy.h:
 
 stipulation/help_play/branch.h:
 
-stipulation/help_play/play.h:
-
-stipulation/help_play/root.h:
-
-stipulation/help_play/ready_for_help_move.h:
-
-stipulation/help_play/move_generator.h:
-
 trace.h:
 stipulation/help_play/move_generator$(OBJ_SUFFIX): \
  stipulation/help_play/move_generator.c \
  stipulation/help_play/move_generator.h pydata.h pyproc.h pypipe.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  trace.h
 
 stipulation/help_play/move_generator.h:
@@ -162,8 +137,6 @@ pydata.h:
 pyproc.h:
 
 pypipe.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 trace.h:
 stipulation/help_play/end_of_branch$(OBJ_SUFFIX): \

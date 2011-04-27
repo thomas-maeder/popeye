@@ -343,6 +343,41 @@ void help_branch_shorten(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Allocate the intro slices of a help branch
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param entry_point identifies the loop entry slice
+ * @return index of initial intro slice
+ */
+static slice_index alloc_help_branch_intro(stip_length_type length,
+                                           stip_length_type min_length,
+                                           slice_index entry_point)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
+    slice_index const finder = alloc_help_find_shortest_slice(length,
+                                                              min_length);
+    slice_index const deadend = alloc_dead_end_slice();
+
+    result = adapter;
+    pipe_link(adapter,finder);
+    pipe_link(finder,deadend);
+    link_to_branch(deadend,entry_point);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a help branch with an even number of half moves
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -359,10 +394,6 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
-    slice_index const finder = alloc_help_find_shortest_slice(length,
-                                                              min_length);
-    slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const generator1 = alloc_help_move_generator_slice();
@@ -372,17 +403,14 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const generator2 = alloc_help_move_generator_slice();
     slice_index const move2 = alloc_help_move_slice();
 
-    result = adapter;
-    pipe_link(adapter,finder);
-    pipe_link(finder,deadend);
-    pipe_set_successor(deadend,ready1);
-
     pipe_link(ready1,generator1);
     pipe_link(generator1,move1);
     pipe_link(move1,ready2);
     pipe_link(ready2,generator2);
     pipe_link(generator2,move2);
     pipe_link(move2,ready1);
+
+    result = alloc_help_branch_intro(length,min_length,ready1);
   }
 
   TraceFunctionExit(__func__);
@@ -484,11 +512,8 @@ slice_index alloc_help_branch(stip_length_type length,
 static structure_traversers_visitors help_root_slice_inserters[] =
 {
   { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-
   { STHelpFindShortest,     &help_find_shortest_make_root     },
-  { STReadyForHelpMove,     &ready_for_help_move_make_root    },
   { STHelpMove,             &help_move_make_root              },
-
   { STReciprocal,           &binary_make_root                 },
   { STQuodlibet,            &binary_make_root                 }
 };
@@ -499,19 +524,18 @@ enum
                                   / sizeof help_root_slice_inserters[0])
 };
 
-/* Wrap the slices representing the initial moves of the solution with
- * slices of appropriately equipped slice types
- * @param si identifies slice where to start
- * @return identifier of root slice
+/* Create the root slices of a helpbranch
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
  */
-slice_index help_branch_make_root(slice_index si)
+static slice_index help_branch_make_root_slices(slice_index adapter)
 {
   stip_structure_traversal st;
   slice_structural_type i;
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
@@ -521,10 +545,89 @@ slice_index help_branch_make_root(slice_index si)
   stip_structure_traversal_override(&st,
                                     help_root_slice_inserters,
                                     nr_help_root_slice_inserters);
-  stip_traverse_structure(si,&st);
+  stip_traverse_structure(adapter,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
+ */
+slice_index help_branch_make_root(slice_index adapter)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STHelpAdapter);
+
+  result = help_branch_make_root_slices(adapter);
+
+  {
+    slice_index const ready_root = branch_find_slice(STReadyForHelpMove,result);
+    slice_index const ready1 = branch_find_slice(STReadyForHelpMove,ready_root);
+    slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
+    slice_index si;
+
+    /* shorten the slices of which copies were added to the root intro */
+    for (si = ready2; si!=ready1; si = slices[si].u.pipe.next)
+      if (slice_has_structure(si,slice_structure_branch))
+        help_branch_shorten_slice(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index help_branch_make_setplay(slice_index adapter)
+{
+  slice_index result;
+  stip_length_type const length = slices[adapter].u.branch.length;
+  stip_length_type min_length = slices[adapter].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STHelpAdapter);
+
+  if (min_length==slack_length_help)
+    min_length += 2;
+
+  if (length>slack_length_help+1)
+  {
+    slice_index const ready_for_skipped = branch_find_slice(STReadyForHelpMove,
+                                                            adapter);
+    slice_index const ready_for_set = branch_find_slice(STReadyForHelpMove,
+                                                        ready_for_skipped);
+    slice_index const set_intro = alloc_help_branch_intro(length-1,
+                                                          min_length-1,
+                                                          ready_for_set);
+    assert(ready_for_skipped!=no_slice);
+    assert(ready_for_set!=no_slice);
+    result = help_branch_make_root_slices(set_intro);
+  }
+  else
+    result = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
   return result;
 }

@@ -64,8 +64,6 @@ void help_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
       slice_index const shortcut_proto = alloc_fork_on_remaining_slice(ready,length-slack_length_help-1);
       help_branch_insert_slices(root,&shortcut_proto,1);
     }
-
-    help_branch_shorten_slice(si);
   }
 
   *root_slice = root;

@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_HELP_PLAY_MOVE_H)
 #define STIPULATION_HELP_PLAY_MOVE_H
 
-#include "pystip.h"
+#include "stipulation/help_play/play.h"
 
 /* This module provides functionality dealing with STHelpMove
  * stipulation slices.
@@ -23,18 +23,6 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st);
  * @param st status of traversal
  */
 void help_move_detect_starter(slice_index si, stip_structure_traversal *st);
-
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_apply_setplay(slice_index si, stip_structure_traversal *st);
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

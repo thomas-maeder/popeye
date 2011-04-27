@@ -64,9 +64,19 @@ void help_branch_insert_slices_nested(slice_index si,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
- * @return identifier of root slice
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
  */
 slice_index help_branch_make_root(slice_index si);
+
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param si identifies the successor of the slice representing the
+ *           move(s) not played in set play
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index help_branch_make_setplay(slice_index si);
 
 #endif

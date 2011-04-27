@@ -12,13 +12,6 @@
  */
 slice_index alloc_help_move_generator_slice(void);
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_generator_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

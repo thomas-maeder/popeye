@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -23,33 +22,6 @@ slice_index alloc_help_move_generator_slice(void)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_generator_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  slice_index * const setplay_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  assert(*setplay_slice!=no_slice);
-
-  {
-    slice_index const generator = alloc_help_move_generator_slice();
-    pipe_link(generator,*setplay_slice);
-    *setplay_slice = generator;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Determine and write the solution(s) in a help stipulation
