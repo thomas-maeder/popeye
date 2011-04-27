@@ -26,7 +26,7 @@ static slice_index const series_slice_rank_order[] =
 {
   STSeriesAdapter,
   STStopOnShortSolutionsInitialiser,
-  STSeriesRoot,
+  STSeriesFindByIncreasingLength,
   STSeriesFindShortest,
   STDeadEnd,
   STIntelligentSeriesFilter,

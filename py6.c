@@ -130,7 +130,7 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/threat.h"
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -560,7 +560,7 @@ static structure_traversers_visitors restricted_side_finders[] =
   { STAttackAdapter,   &find_restricted_side_attack    },
   { STDefenseAdapter , &find_restricted_side_defense   },
   { STReadyForDefense, &find_restricted_side_defense   },
-  { STHelpRoot,        &find_restricted_side_help_root }
+  { STHelpFindByIncreasingLength,        &find_restricted_side_help_root }
 };
 
 enum

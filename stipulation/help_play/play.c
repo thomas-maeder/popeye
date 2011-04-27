@@ -7,7 +7,7 @@
 #include "pyint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_generator.h"
@@ -49,8 +49,8 @@ stip_length_type help(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpRoot:
-      result = help_root_help(si,n);
+    case STHelpFindByIncreasingLength:
+      result = help_find_by_increasing_length_help(si,n);
       break;
 
     case STHelpFindShortest:
@@ -219,8 +219,8 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_can_help(si,n);
       break;
 
-    case STHelpRoot:
-      result = help_root_can_help(si,n);
+    case STHelpFindByIncreasingLength:
+      result = help_find_by_increasing_length_can_help(si,n);
       break;
 
     case STHelpFindShortest:

@@ -21,7 +21,7 @@ static slice_index const help_slice_rank_order[] =
 {
   STHelpAdapter,
   STStopOnShortSolutionsInitialiser,
-  STHelpRoot,
+  STHelpFindByIncreasingLength,
   STHelpFindShortest,
   STReflexDefenderFilter,
   STDeadEnd,

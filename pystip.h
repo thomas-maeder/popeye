@@ -36,7 +36,7 @@
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STHelpRoot),        /* root level of help play */        \
+    ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
@@ -45,7 +45,7 @@
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
+    ENUMERATOR(STSeriesFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \

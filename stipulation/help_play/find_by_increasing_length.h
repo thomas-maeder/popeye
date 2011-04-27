@@ -1,21 +1,20 @@
-#if !defined(STIPULATION_HELP_PLAY_ROOT_H)
-#define STIPULATION_HELP_PLAY_ROOT_H
+#if !defined(STIPULATION_HELP_PLAY_FIND_BY_INCREASING_LENGTH_H)
+#define STIPULATION_HELP_PLAY_FIND_BY_INCREASING_LENGTH_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/help_play/play.h"
 
 /* This module provides functionality dealing with STHelpMove
  * stipulation slices.
  */
 
-/* Allocate a STHelpRoot slice.
+/* Allocate a STHelpFindByIncreasingLength slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_help_root_slice(stip_length_type length,
-                                  stip_length_type min_length);
+slice_index
+alloc_help_find_by_increasing_length_slice(stip_length_type length,
+                                           stip_length_type min_length);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -26,7 +25,8 @@ slice_index alloc_help_root_slice(stip_length_type length,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_help(slice_index si, stip_length_type n);
+stip_length_type help_find_by_increasing_length_help(slice_index si,
+                                                     stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -37,6 +37,7 @@ stip_length_type help_root_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_can_help(slice_index si, stip_length_type n);
+stip_length_type help_find_by_increasing_length_can_help(slice_index si,
+                                                         stip_length_type n);
 
 #endif

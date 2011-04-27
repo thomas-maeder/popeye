@@ -10,7 +10,7 @@
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "stipulation/series_play/root.h"
+#include "stipulation/series_play/find_by_increasing_length.h"
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
@@ -55,8 +55,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_find_shortest_series(si,n);
       break;
 
-    case STSeriesRoot:
-      result = series_root_series(si,n);
+    case STSeriesFindByIncreasingLength:
+      result = series_find_by_increasing_length_series(si,n);
       break;
 
     case STSeriesMove:

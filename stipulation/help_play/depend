@@ -50,8 +50,8 @@ stipulation/help_play/find_shortest$(OBJ_SUFFIX): \
  stipulation/help_play/find_shortest.c \
  stipulation/help_play/find_shortest.h stipulation/branch.h \
  stipulation/help_play/play.h stipulation/help_play/branch.h \
- stipulation/help_play/root.h stipulation/fork_on_remaining.h pypipe.h \
- trace.h
+ stipulation/help_play/find_by_increasing_length.h \
+ stipulation/fork_on_remaining.h pypipe.h trace.h
 
 stipulation/help_play/find_shortest.h:
 
@@ -61,27 +61,26 @@ stipulation/help_play/play.h:
 
 stipulation/help_play/branch.h:
 
-stipulation/help_play/root.h:
+stipulation/help_play/find_by_increasing_length.h:
 
 stipulation/fork_on_remaining.h:
 
 pypipe.h:
 
 trace.h:
-stipulation/help_play/root$(OBJ_SUFFIX): stipulation/help_play/root.c \
- stipulation/help_play/root.h pydata.h pyslice.h stipulation/branch.h \
- stipulation/help_play/play.h pypipe.h stipulation/proxy.h \
+stipulation/help_play/find_by_increasing_length$(OBJ_SUFFIX): \
+ stipulation/help_play/find_by_increasing_length.c \
+ stipulation/help_play/find_by_increasing_length.h pydata.h pyslice.h \
+ stipulation/branch.h pypipe.h stipulation/proxy.h \
  stipulation/help_play/branch.h trace.h
 
-stipulation/help_play/root.h:
+stipulation/help_play/find_by_increasing_length.h:
 
 pydata.h:
 
 pyslice.h:
 
 stipulation/branch.h:
-
-stipulation/help_play/play.h:
 
 pypipe.h:
 
@@ -149,7 +148,8 @@ trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
  pymovenb.h pyint.h stipulation/dead_end.h \
- stipulation/battle_play/attack_adapter.h stipulation/help_play/root.h \
+ stipulation/battle_play/attack_adapter.h \
+ stipulation/help_play/find_by_increasing_length.h \
  stipulation/help_play/find_shortest.h stipulation/help_play/move.h \
  stipulation/help_play/move_generator.h \
  stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
@@ -182,7 +182,7 @@ stipulation/dead_end.h:
 
 stipulation/battle_play/attack_adapter.h:
 
-stipulation/help_play/root.h:
+stipulation/help_play/find_by_increasing_length.h:
 
 stipulation/help_play/find_shortest.h:
 

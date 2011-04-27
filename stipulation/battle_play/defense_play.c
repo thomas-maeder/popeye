@@ -20,7 +20,7 @@
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/fork_on_remaining.h"
 #include "optimisations/killer_move/move_generator.h"

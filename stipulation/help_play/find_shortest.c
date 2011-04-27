@@ -2,7 +2,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/fork_on_remaining.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -48,7 +48,7 @@ void help_find_shortest_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  root = alloc_help_root_slice(length,min_length);
+  root = alloc_help_find_by_increasing_length_slice(length,min_length);
 
   if (length<slack_length_help+2)
     pipe_set_successor(root,next);

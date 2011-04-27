@@ -353,8 +353,10 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/check_detector.h \
- stipulation/battle_play/threat.h stipulation/help_play/root.h \
- stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
+ stipulation/battle_play/threat.h \
+ stipulation/help_play/find_by_increasing_length.h \
+ stipulation/help_play/play.h stipulation/help_play/branch.h \
+ stipulation/goals/prerequisite_guards.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
  conditions/circe/circe.h conditions/anticirce/anticirce.h \
@@ -362,8 +364,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  options/no_short_variations/no_short_variations.h \
  optimisations/goals/optimisation_guards.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- stipulation/help_play/play.h stipulation/series_play/play.h \
- optimisations/killer_move/killer_move.h \
+ stipulation/series_play/play.h optimisations/killer_move/killer_move.h \
  optimisations/killer_move/final_defense_move.h options/maxtime.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
@@ -495,7 +496,9 @@ stipulation/battle_play/check_detector.h:
 
 stipulation/battle_play/threat.h:
 
-stipulation/help_play/root.h:
+stipulation/help_play/find_by_increasing_length.h:
+
+stipulation/help_play/play.h:
 
 stipulation/help_play/branch.h:
 
@@ -518,8 +521,6 @@ options/no_short_variations/no_short_variations.h:
 optimisations/goals/optimisation_guards.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
-
-stipulation/help_play/play.h:
 
 stipulation/series_play/play.h:
 
@@ -1192,14 +1193,16 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/ready_for_attack.h stipulation/battle_play/try.h \
  pytable.h stipulation/battle_play/continuation.h \
  stipulation/battle_play/threat.h stipulation/help_play/adapter.h \
- stipulation/help_play/branch.h stipulation/help_play/root.h \
+ stipulation/help_play/branch.h \
+ stipulation/help_play/find_by_increasing_length.h \
  stipulation/help_play/find_shortest.h \
  stipulation/help_play/move_generator.h stipulation/help_play/move.h \
  stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
  stipulation/series_play/adapter.h \
  stipulation/series_play/ready_for_series_move.h \
- stipulation/series_play/root.h stipulation/series_play/find_shortest.h \
- stipulation/series_play/move.h stipulation/series_play/move_generator.h \
+ stipulation/series_play/find_by_increasing_length.h \
+ stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
+ stipulation/series_play/move_generator.h \
  stipulation/series_play/end_of_branch.h stipulation/series_play/fork.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
  stipulation/fork_on_remaining.h optimisations/goals/enpassant/filter.h \
@@ -1331,7 +1334,7 @@ stipulation/help_play/adapter.h:
 
 stipulation/help_play/branch.h:
 
-stipulation/help_play/root.h:
+stipulation/help_play/find_by_increasing_length.h:
 
 stipulation/help_play/find_shortest.h:
 
@@ -1347,7 +1350,7 @@ stipulation/series_play/adapter.h:
 
 stipulation/series_play/ready_for_series_move.h:
 
-stipulation/series_play/root.h:
+stipulation/series_play/find_by_increasing_length.h:
 
 stipulation/series_play/find_shortest.h:
 

@@ -1,19 +1,19 @@
-#include "stipulation/series_play/root.h"
+#include "stipulation/series_play/find_by_increasing_length.h"
 #include "pypipe.h"
 #include "trace.h"
 #include "stipulation/branch.h"
-#include "stipulation/series_play/play.h"
 
 #include <assert.h>
 
 
-/* Allocate a STSeriesRoot slice.
+/* Allocate a STSeriesFindByIncreasingLength slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_series_root_slice(stip_length_type length,
-                                    stip_length_type min_length)
+slice_index
+alloc_series_find_by_increasing_length_slice(stip_length_type length,
+                                             stip_length_type min_length)
 {
   slice_index result;
 
@@ -22,7 +22,7 @@ slice_index alloc_series_root_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STSeriesRoot,length,min_length);
+  result = alloc_branch(STSeriesFindByIncreasingLength,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -39,7 +39,8 @@ slice_index alloc_series_root_slice(stip_length_type length,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_root_series(slice_index si, stip_length_type n)
+stip_length_type series_find_by_increasing_length_series(slice_index si,
+                                                         stip_length_type n)
 {
   stip_length_type result = n+1;
   stip_length_type len = slices[si].u.branch.min_length;

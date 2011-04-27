@@ -1,21 +1,20 @@
-#if !defined(STIPULATION_SERIES_PLAY_ROOT_H)
-#define STIPULATION_SERIES_PLAY_ROOT_H
+#if !defined(STIPULATION_SERIES_PLAY_FIND_BY_INCREASING_LENGTH_H)
+#define STIPULATION_SERIES_PLAY_FIND_BY_INCREASING_LENGTH_H
 
-#include "py.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/series_play/play.h"
 
-/* This module provides functionality dealing with STSeriesRoot
+/* This module provides functionality dealing with STSeriesFindByIncreasingLength
  * stipulation slices.
  */
 
-/* Allocate a STSeriesRoot slice.
+/* Allocate a STSeriesFindByIncreasingLength slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_series_root_slice(stip_length_type length,
-                                    stip_length_type min_length);
+slice_index
+alloc_series_find_by_increasing_length_slice(stip_length_type length,
+                                             stip_length_type min_length);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -26,6 +25,7 @@ slice_index alloc_series_root_slice(stip_length_type length,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_root_series(slice_index si, stip_length_type n);
+stip_length_type series_find_by_increasing_length_series(slice_index si,
+                                                         stip_length_type n);
 
 #endif

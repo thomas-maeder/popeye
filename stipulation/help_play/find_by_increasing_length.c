@@ -1,8 +1,7 @@
-#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/find_by_increasing_length.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "stipulation/branch.h"
-#include "stipulation/help_play/play.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -11,13 +10,14 @@
 
 #include <assert.h>
 
-/* Allocate a STHelpRoot slice.
+/* Allocate a STHelpFindByIncreasingLength slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_help_root_slice(stip_length_type length,
-                                  stip_length_type min_length)
+slice_index
+alloc_help_find_by_increasing_length_slice(stip_length_type length,
+                                           stip_length_type min_length)
 {
   slice_index result;
 
@@ -26,7 +26,7 @@ slice_index alloc_help_root_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpRoot,length,min_length);
+  result = alloc_branch(STHelpFindByIncreasingLength,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,7 +43,8 @@ slice_index alloc_help_root_slice(stip_length_type length,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_help(slice_index si, stip_length_type n)
+stip_length_type help_find_by_increasing_length_help(slice_index si,
+                                                     stip_length_type n)
 {
   stip_length_type result = n+2;
   stip_length_type len = slices[si].u.branch.min_length;
@@ -75,7 +76,8 @@ stip_length_type help_root_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_root_can_help(slice_index si, stip_length_type n)
+stip_length_type help_find_by_increasing_length_can_help(slice_index si,
+                                                         stip_length_type n)
 {
   stip_length_type result;
 

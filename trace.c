@@ -263,11 +263,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STContinuationSolver:
       case STAttackHashed:
       case STHelpAdapter:
-      case STHelpRoot:
+      case STHelpFindByIncreasingLength:
       case STHelpFindShortest:
       case STReadyForHelpMove:
       case STSeriesAdapter:
-      case STSeriesRoot:
+      case STSeriesFindByIncreasingLength:
       case STSeriesFindShortest:
       case STReadyForSeriesMove:
       case STReadyForSeriesDummyMove:
