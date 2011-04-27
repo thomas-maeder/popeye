@@ -588,8 +588,6 @@ slice_index help_branch_make_root(slice_index adapter)
 }
 
 /* Produce slices representing set play.
- * This is supposed to be invoked from within the slice type specific
- * functions invoked by stip_apply_setplay.
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return entry point of the slices representing set play
  *         no_slice if set play is not applicable
