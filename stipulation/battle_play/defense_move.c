@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
