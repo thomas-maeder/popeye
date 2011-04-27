@@ -4,7 +4,6 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/help_play/ready_for_help_move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -72,8 +71,8 @@ void ready_for_defense_make_setplay_slice(slice_index si,
       stip_length_type const length_h = slack_length_help+1;
       slice_index const adapter = alloc_help_adapter_slice(length_h,
                                                            length_h);
-      slice_index const ready = alloc_ready_for_help_move_slice(length_h,
-                                                                length_h);
+      slice_index const ready = alloc_branch(STReadyForHelpMove,
+                                             length_h,length_h);
       pipe_link(adapter,ready);
       link_to_branch(ready,*result);
       *result = adapter;

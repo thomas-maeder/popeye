@@ -16,9 +16,7 @@ trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h pypipe.h pyreflxg.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/operators/binary.h \
- stipulation/help_play/adapter.h \
- stipulation/help_play/ready_for_help_move.h \
- stipulation/help_play/find_shortest.h \
+ stipulation/help_play/adapter.h stipulation/help_play/find_shortest.h \
  stipulation/help_play/end_of_branch.h stipulation/help_play/fork.h \
  stipulation/help_play/move_generator.h stipulation/help_play/move.h \
  trace.h
@@ -36,8 +34,6 @@ stipulation/dead_end.h:
 stipulation/operators/binary.h:
 
 stipulation/help_play/adapter.h:
-
-stipulation/help_play/ready_for_help_move.h:
 
 stipulation/help_play/find_shortest.h:
 
@@ -94,20 +90,6 @@ stipulation/proxy.h:
 stipulation/help_play/branch.h:
 
 trace.h:
-stipulation/help_play/ready_for_help_move$(OBJ_SUFFIX): \
- stipulation/help_play/ready_for_help_move.c \
- stipulation/help_play/ready_for_help_move.h trace.h pypipe.h \
- stipulation/branch.h stipulation/help_play/branch.h
-
-stipulation/help_play/ready_for_help_move.h:
-
-trace.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/help_play/branch.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
  stipulation/help_play/move.h pydata.h pybrafrk.h pypipe.h \
  stipulation/proxy.h stipulation/help_play/branch.h trace.h

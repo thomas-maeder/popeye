@@ -5,7 +5,6 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/operators/binary.h"
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/help_play/ready_for_help_move.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"

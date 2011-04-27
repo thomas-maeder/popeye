@@ -34,7 +34,6 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/help_play/ready_for_help_move.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/find_shortest.h"
