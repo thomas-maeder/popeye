@@ -1,6 +1,7 @@
 stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
  stipulation/help_play/adapter.h pypipe.h stipulation/branch.h \
- stipulation/help_play/play.h stipulation/help_play/branch.h trace.h
+ stipulation/help_play/play.h stipulation/help_play/branch.h \
+ stipulation/help_play/move.h trace.h
 
 stipulation/help_play/adapter.h:
 
@@ -11,6 +12,8 @@ stipulation/branch.h:
 stipulation/help_play/play.h:
 
 stipulation/help_play/branch.h:
+
+stipulation/help_play/move.h:
 
 trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \

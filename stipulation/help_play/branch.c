@@ -29,8 +29,6 @@ static slice_index const help_slice_rank_order[] =
   STIntelligentHelpFilter,
   STForkOnRemaining,
 
-  STEndOfAdapter,
-
   STReadyForHelpMove,
   STHelpHashed,
   STHelpHashed,
@@ -252,14 +250,18 @@ static slice_index shorten_intro(slice_index si,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  while (slices[slices[si].u.pipe.next].type!=STEndOfAdapter)
+  while (true)
   {
     if (slice_has_structure(si,slice_structure_branch))
     {
       slices[si].u.branch.length = length;
       slices[si].u.branch.min_length = min_length;
     }
-    si = slices[si].u.pipe.next;
+
+    if (slices[slices[si].u.pipe.next].prev==si)
+      si = slices[si].u.pipe.next;
+    else
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -329,12 +331,10 @@ void help_branch_shorten(slice_index si)
   {
     slice_index const last_in_intro = shorten_intro(si,length,min_length);
     slice_index const loop_entry = slices[last_in_intro].u.pipe.next;
-    slice_index const loop_entry_next = slices[loop_entry].u.pipe.next;
     slice_index const new_entry_pos = branch_find_slice(STReadyForHelpMove,
-                                                        loop_entry_next);
-    pipe_link(slices[loop_entry].prev,loop_entry_next);
-    pipe_append(slices[new_entry_pos].prev,loop_entry);
-    shorten_loop(loop_entry,length,min_length);
+                                                        loop_entry);
+    shorten_loop(new_entry_pos,length,min_length);
+    link_to_branch(last_in_intro,new_entry_pos);
   }
 
   TraceStipulation(si);
@@ -363,7 +363,6 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const finder = alloc_help_find_shortest_slice(length,
                                                               min_length);
     slice_index const deadend = alloc_dead_end_slice();
-    slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const generator1 = alloc_help_move_generator_slice();
@@ -376,15 +375,14 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     result = adapter;
     pipe_link(adapter,finder);
     pipe_link(finder,deadend);
-    pipe_set_successor(deadend,end);
+    pipe_set_successor(deadend,ready1);
 
-    pipe_link(end,ready1);
     pipe_link(ready1,generator1);
     pipe_link(generator1,move1);
     pipe_link(move1,ready2);
     pipe_link(ready2,generator2);
     pipe_link(generator2,move2);
-    pipe_link(move2,end);
+    pipe_link(move2,ready1);
   }
 
   TraceFunctionExit(__func__);
@@ -491,7 +489,6 @@ static structure_traversers_visitors help_root_slice_inserters[] =
   { STReadyForHelpMove,     &ready_for_help_move_make_root    },
   { STHelpMove,             &help_move_make_root              },
 
-  { STEndOfAdapter,         &stip_traverse_structure_children },
   { STReciprocal,           &binary_make_root                 },
   { STQuodlibet,            &binary_make_root                 }
 };
