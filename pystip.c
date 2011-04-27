@@ -96,7 +96,6 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
@@ -291,7 +290,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STSetplayFork */
-  slice_structure_pipe,   /* STEndOfAdapter */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STDeadEnd */
   slice_structure_pipe,   /* STGoalReachedTesting */
@@ -437,7 +435,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSeriesFork */
   slice_function_unspecified,    /* STParryFork */
   slice_function_unspecified,    /* STSetplayFork */
-  slice_function_unspecified,    /* STEndOfAdapter */
   slice_function_unspecified,    /* STEndOfRoot */
   slice_function_unspecified,    /* STDeadEnd */
   slice_function_unspecified,    /* STGoalReachedTesting */
@@ -1630,7 +1627,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
-  &stip_traverse_structure_pipe,            /* STEndOfAdapter */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
@@ -1867,7 +1863,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_fork,            /* STSeriesFork */
     &stip_traverse_moves_parry_fork,             /* STParryFork */
     &stip_traverse_moves_setplay_fork,           /* STSetplayFork */
-    &stip_traverse_moves_pipe,                   /* STEndOfAdapter */
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
     &stip_traverse_moves_pipe,                   /* STGoalReachedTesting */

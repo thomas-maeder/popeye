@@ -56,7 +56,6 @@
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STEndOfAdapter), /* proxy slice marking the end of the adapter branch */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \

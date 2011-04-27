@@ -32,8 +32,6 @@ static slice_index const series_slice_rank_order[] =
   STIntelligentSeriesFilter,
   STForkOnRemaining,
 
-  STEndOfAdapter,
-
   STReadyForSeriesMove,
   STSeriesHashed,
   STDoubleMateFilter,
@@ -274,7 +272,6 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
     slice_index const finder = alloc_series_find_shortest_slice(length,
                                                                 min_length);
-    slice_index const end = alloc_pipe(STEndOfAdapter);
     slice_index const ready = alloc_ready_for_series_move_slice(length,
                                                                 min_length);
     slice_index const generator = alloc_series_move_generator_slice();
@@ -284,14 +281,13 @@ slice_index alloc_series_branch(stip_length_type length,
 
     result = adapter;
     pipe_link(adapter,finder);
-    pipe_set_successor(finder,end);
+    pipe_set_successor(finder,ready);
 
-    pipe_link(end,ready);
     pipe_link(ready,generator);
     pipe_link(generator,move);
     pipe_link(move,ready2);
     pipe_link(ready2,dummy);
-    pipe_link(dummy,end);
+    pipe_link(dummy,ready);
   }
 
   TraceFunctionExit(__func__);
@@ -361,12 +357,9 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
 static structure_traversers_visitors series_root_slice_inserters[] =
 {
   { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-
   { STSeriesFindShortest,   &series_find_shortest_make_root   },
   { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
   { STSeriesMove,           &series_move_make_root            },
-
-  { STEndOfAdapter,         &stip_traverse_structure_children },
   { STReciprocal,           &binary_make_root                 },
   { STQuodlibet,            &binary_make_root                 }
 };
