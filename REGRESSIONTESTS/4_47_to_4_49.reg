@@ -213,12 +213,11 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
   h+1.5                       2 + 1
 
   1...b4-b5 + 
-  1...b4-b5 +   2.Ka6-a7 b5-b6 + 
 
-              empile:          32
-            jouecoup:          36
-        orig_rbechec:           8
-        orig_rnechec:          29
+              empile:          26
+            jouecoup:          27
+        orig_rbechec:           6
+        orig_rnechec:          27
 solution finished. 
 
 

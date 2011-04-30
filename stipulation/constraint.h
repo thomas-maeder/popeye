@@ -41,39 +41,6 @@ reflex_attacker_filter_can_attack(slice_index si,
                                   stip_length_type n,
                                   stip_length_type n_max_unsolvable);
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-reflex_defender_filter_defend(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable);
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-reflex_defender_filter_can_defend(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -83,7 +50,7 @@ reflex_defender_filter_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_defender_filter_help(slice_index si,
+stip_length_type reflex_attacker_filter_help(slice_index si,
                                              stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
@@ -95,30 +62,8 @@ stip_length_type reflex_defender_filter_help(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_defender_filter_can_help(slice_index si,
+stip_length_type reflex_attacker_filter_can_help(slice_index si,
                                                  stip_length_type n);
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type reflex_attacker_filter_help(slice_index si, stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type reflex_attacker_filter_can_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -177,29 +122,5 @@ void reflex_attacker_filter_make_root(slice_index si,
  */
 void stip_traverse_moves_reflex_attacker_filter(slice_index si,
                                                 stip_moves_traversal *st);
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type reflex_defender_filter_series(slice_index si,
-                                               stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type reflex_defender_filter_has_series(slice_index si,
-                                                   stip_length_type n);
 
 #endif

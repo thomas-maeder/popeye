@@ -39,8 +39,8 @@ void stip_traverse_structure_end_of_branch(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_end_of_branch(slice_index si,
-                                       stip_moves_traversal *st);
+void stip_traverse_moves_end_of_battle_branch(slice_index si,
+                                              stip_moves_traversal *st);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

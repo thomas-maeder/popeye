@@ -21,6 +21,7 @@
 #include "stipulation/setplay_fork.h"
 #include "stipulation/reflex_attack_solver.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -39,7 +40,6 @@
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/ready_for_series_move.h"
@@ -69,7 +69,7 @@
     ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
-    ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
@@ -81,7 +81,6 @@
     ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
-    ENUMERATOR(STEndOfHelpBranch),      /* decides when play in branch is over */ \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
@@ -96,6 +95,8 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
+    ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
@@ -150,6 +151,8 @@
     ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
     ENUMERATOR(STMaxSolutionsInitialiser), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
+    ENUMERATOR(STEndOfBranchGoalImmobile), /* end of branch leading to "immobile goal" (#, =, ...) */ \
+    ENUMERATOR(STDeadEndGoal), /* like STDeadEnd, but all ends are goals */ \
     ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
     ENUMERATOR(STKillerMoveMoveGenerator), /* generate attack moves, prioritise killer move (if any) */ \
@@ -264,7 +267,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackFindShortest */
   slice_structure_pipe,   /* STDefenseMove */
   slice_structure_fork,   /* STReflexAttackerFilter */
-  slice_structure_fork,   /* STReflexDefenderFilter */
+  slice_structure_fork,   /* STEndOfBranchForced */
   slice_structure_fork,   /* STSelfDefense */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
@@ -276,7 +279,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpFindByIncreasingLength */
   slice_structure_pipe,   /* STHelpMoveGenerator */
   slice_structure_pipe,   /* STHelpMove */
-  slice_structure_fork,   /* STEndOfHelpBranch */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
@@ -291,6 +293,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STSetplayFork */
+  slice_structure_fork,   /* STEndOfBranch */
+  slice_structure_fork,   /* STEndOfBranchGoal */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STDeadEnd */
   slice_structure_pipe,   /* STGoalReachedTesting */
@@ -345,6 +349,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxTimeGuard */
   slice_structure_pipe,   /* STMaxSolutionsInitialiser */
   slice_structure_pipe,   /* STMaxSolutionsGuard */
+  slice_structure_fork,   /* STEndOfBranchGoalImmobile */
+  slice_structure_pipe,   /* STDeadEndGoal */
   slice_structure_pipe,   /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,   /* STKillerMoveCollector */
   slice_structure_pipe,   /* STKillerMoveMoveGenerator */
@@ -410,7 +416,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STAttackFindShortest */
   slice_function_unspecified,    /* STDefenseMove */
   slice_function_unspecified,    /* STReflexAttackerFilter */
-  slice_function_unspecified,    /* STReflexDefenderFilter */
+  slice_function_unspecified,    /* STEndOfBranchForced */
   slice_function_unspecified,    /* STSelfDefense */
   slice_function_move_generator, /* STDefenseMoveGenerator */
   slice_function_unspecified,    /* STReadyForAttack */
@@ -422,7 +428,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STHelpFindByIncreasingLength */
   slice_function_move_generator, /* STHelpMoveGenerator */
   slice_function_unspecified,    /* STHelpMove */
-  slice_function_unspecified,    /* STEndOfHelpBranch */
   slice_function_unspecified,    /* STHelpFork */
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
@@ -437,6 +442,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSeriesFork */
   slice_function_unspecified,    /* STParryFork */
   slice_function_unspecified,    /* STSetplayFork */
+  slice_function_unspecified,    /* STEndOfBranch */
+  slice_function_unspecified,    /* STEndOfBranchGoal */
   slice_function_unspecified,    /* STEndOfRoot */
   slice_function_unspecified,    /* STDeadEnd */
   slice_function_unspecified,    /* STGoalReachedTesting */
@@ -491,6 +498,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMaxTimeGuard */
   slice_function_unspecified,    /* STMaxSolutionsInitialiser */
   slice_function_unspecified,    /* STMaxSolutionsGuard */
+  slice_function_unspecified,    /* STEndOfBranchGoalImmobile */
+  slice_function_unspecified,    /* STDeadEndGoal */
   slice_function_move_generator, /* STOrthodoxMatingMoveGenerator */
   slice_function_unspecified,    /* STKillerMoveCollector */
   slice_function_move_generator, /* STKillerMoveMoveGenerator */
@@ -1176,11 +1185,11 @@ static void insert_direct_guards(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
-  { STReadyForAttack,       &insert_direct_guards                 },
-  { STReadyForDefense,      &remember_end_of_attack               },
-  { STReflexDefenderFilter, &transform_to_quodlibet_end_of_branch },
-  { STSelfDefense,          &transform_to_quodlibet_end_of_branch },
-  { STEndOfBattleBranch,    &transform_to_quodlibet_end_of_branch }
+  { STReadyForAttack,    &insert_direct_guards                 },
+  { STReadyForDefense,   &remember_end_of_attack               },
+  { STEndOfBranchForced, &transform_to_quodlibet_end_of_branch },
+  { STSelfDefense,       &transform_to_quodlibet_end_of_branch },
+  { STEndOfBattleBranch, &transform_to_quodlibet_end_of_branch }
 };
 
 enum
@@ -1603,7 +1612,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_end_of_branch,   /* STReflexAttackerFilter */
-  &stip_traverse_structure_end_of_branch,   /* STReflexDefenderFilter */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBranchForced */
   &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
@@ -1615,7 +1624,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpFindByIncreasingLength */
   &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,            /* STHelpMove */
-  &stip_traverse_structure_end_of_branch,   /* STEndOfHelpBranch */
   &stip_traverse_structure_end_of_branch,   /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
@@ -1630,6 +1638,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoal */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
   &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
@@ -1684,6 +1694,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxTimeGuard */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsInitialiser */
   &stip_traverse_structure_pipe,            /* STMaxSolutionsGuard */
+  &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoalImmobile */
+  &stip_traverse_structure_pipe,            /* STDeadEndGoal */
   &stip_traverse_structure_pipe,            /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveMoveGenerator */
@@ -1842,19 +1854,18 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,             /* STDefenseMove */
     &stip_traverse_moves_reflex_attacker_filter, /* STReflexAttackerFilter */
-    &stip_traverse_moves_end_of_branch,          /* STReflexDefenderFilter */
-    &stip_traverse_moves_end_of_branch,          /* STSelfDefense */
+    &stip_traverse_moves_end_of_battle_branch,   /* STEndOfBranchForced */
+    &stip_traverse_moves_end_of_battle_branch,   /* STSelfDefense */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
     &stip_traverse_moves_pipe,                   /* STReadyForDefense */
-    &stip_traverse_moves_end_of_branch,          /* STEndOfBattleBranch */
+    &stip_traverse_moves_end_of_battle_branch,   /* STEndOfBattleBranch */
     &stip_traverse_moves_pipe,                   /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,     /* STHelpAdapter */
     &stip_traverse_moves_pipe,                   /* STHelpFindShortest */
     &stip_traverse_moves_pipe,                   /* STHelpFindByIncreasingLength */
     &stip_traverse_moves_pipe,                   /* STHelpMoveGenerator */
     &stip_traverse_moves_move_slice,             /* STHelpMove */
-    &stip_traverse_moves_end_of_help_branch,     /* STEndOfHelpBranch */
     &stip_traverse_moves_help_fork,              /* STHelpFork */
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
@@ -1869,6 +1880,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_fork,            /* STSeriesFork */
     &stip_traverse_moves_parry_fork,             /* STParryFork */
     &stip_traverse_moves_setplay_fork,           /* STSetplayFork */
+    &stip_traverse_moves_end_of_branch,          /* STEndOfBranch */
+    &stip_traverse_moves_end_of_branch,          /* STEndOfBranchGoal */
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
     &stip_traverse_moves_pipe,                   /* STGoalReachedTesting */
@@ -1923,6 +1936,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STMaxTimeGuard */
     &stip_traverse_moves_pipe,                   /* STMaxSolutionsInitialiser */
     &stip_traverse_moves_pipe,                   /* STMaxSolutionsGuard */
+    &stip_traverse_moves_end_of_branch,          /* STEndOfBranchGoalImmobile */
+    &stip_traverse_moves_dead_end,               /* STDeadEndGoal */
     &stip_traverse_moves_pipe,                   /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STKillerMoveCollector */
     &stip_traverse_moves_pipe,                   /* STKillerMoveMoveGenerator */

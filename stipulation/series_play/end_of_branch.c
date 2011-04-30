@@ -38,10 +38,9 @@ void stip_traverse_moves_end_of_series_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=1)
+  if (st->remaining==0)
     stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-
-  if (st->remaining>0)
+  else
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);

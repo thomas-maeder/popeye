@@ -227,8 +227,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STSetplayFork:
       case STEndOfBattleBranch:
-      case STEndOfHelpBranch:
       case STEndOfSeriesBranch:
+      case STEndOfBranch:
+      case STEndOfBranchGoal:
+      case STEndOfBranchGoalImmobile:
       case STSelfDefense:
       case STHelpFork:
       case STSeriesFork:
@@ -237,7 +239,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STParryFork:
       case STMaxThreatLength:
       case STReflexAttackerFilter:
-      case STReflexDefenderFilter:
+      case STEndOfBranchForced:
         Trace_pipe(si);
         Trace_link("fork:",slices[si].u.fork.fork,"");
         fprintf(stdout,"\n");
@@ -373,6 +375,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STCounterMateFilter:
       case STPrerequisiteOptimiser:
       case STDeadEnd:
+      case STDeadEndGoal:
       case STKillerMoveMoveGenerator:
       case STAttackMoveGenerator:
       case STAttackMove:

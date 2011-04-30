@@ -21,6 +21,11 @@ slice_index alloc_dead_end_slice(void);
  */
 void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st);
 
+/* Optimise away redundant deadend slices
+ * @param si identifies the entry slice
+ */
+void stip_optimise_dead_end_slices(slice_index si);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves

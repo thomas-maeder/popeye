@@ -8,6 +8,7 @@
 #include "pyselfgd.h"
 #include "pythreat.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
@@ -131,8 +132,8 @@ stip_length_type defend(slice_index si,
       result = selfcheck_guard_defend(si,n,n_max_unsolvable);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_defend(si,n,n_max_unsolvable);
+    case STEndOfBranchForced:
+      result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:
@@ -340,8 +341,8 @@ stip_length_type can_defend(slice_index si,
       result = fork_on_remaining_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_can_defend(si,n,n_max_unsolvable);
+    case STEndOfBranchForced:
+      result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STMinLengthGuard:

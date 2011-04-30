@@ -2,11 +2,12 @@
 #include "pypipe.h"
 #include "pyreflxg.h"
 #include "stipulation/branch.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/operators/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/find_shortest.h"
-#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
@@ -23,7 +24,7 @@ static slice_index const help_slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STHelpFindByIncreasingLength,
   STHelpFindShortest,
-  STReflexDefenderFilter,
+  STEndOfBranchForced,
   STDeadEnd,
   STIntelligentHelpFilter,
   STForkOnRemaining,
@@ -48,11 +49,14 @@ static slice_index const help_slice_rank_order[] =
   STGoalReachableGuardFilter,
   STEndOfRoot,
   STHelpFork,
+  STEndOfBranchGoal,
+  STEndOfBranchGoalImmobile,
   STGoalReachedTesting,
+  STDeadEndGoal,
   STSelfCheckGuard,
   STReflexAttackerFilter,
-  STReflexDefenderFilter,
-  STEndOfHelpBranch,
+  STEndOfBranchForced,
+  STEndOfBranch,
   STDeadEnd
 };
 
@@ -146,7 +150,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
             break;
           }
           else if (slices[next].type==STHelpFork
-                   || slices[next].type==STEndOfHelpBranch)
+                   || slices[next].type==STEndOfBranch)
             help_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
                                                 base);
@@ -342,82 +346,6 @@ void help_branch_shorten(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Allocate the intro slices of a help branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param entry_point identifies the loop entry slice
- * @return index of initial intro slice
- */
-static slice_index alloc_help_branch_intro(stip_length_type length,
-                                           stip_length_type min_length,
-                                           slice_index entry_point)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
-    slice_index const finder = alloc_help_find_shortest_slice(length,
-                                                              min_length);
-    slice_index const deadend = alloc_dead_end_slice();
-
-    result = adapter;
-    pipe_link(adapter,finder);
-    pipe_link(finder,deadend);
-    link_to_branch(deadend,entry_point);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a help branch with an even number of half moves
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of initial slice of allocated help branch
- */
-static slice_index alloc_help_branch_odd(stip_length_type length,
-                                         stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const ready1 = alloc_branch(STReadyForHelpMove,
-                                            length,min_length);
-    slice_index const generator1 = alloc_help_move_generator_slice();
-    slice_index const move1 = alloc_help_move_slice();
-    slice_index const ready2 = alloc_branch(STReadyForHelpMove,
-                                            length-1,min_length-1);
-    slice_index const generator2 = alloc_help_move_generator_slice();
-    slice_index const move2 = alloc_help_move_slice();
-
-    pipe_link(ready1,generator1);
-    pipe_link(generator1,move1);
-    pipe_link(move1,ready2);
-    pipe_link(ready2,generator2);
-    pipe_link(generator2,move2);
-    pipe_link(move2,ready1);
-
-    result = alloc_help_branch_intro(length,min_length,ready1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Insert a slice marking the end of the branch
  * @param si identifies the entry slice of a help branch
  * @param end_proto end of branch prototype slice
@@ -454,7 +382,7 @@ void help_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_help_branch_slice(next));
+  insert_end_of_branch(si,alloc_end_of_branch_slice(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -471,10 +399,45 @@ void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_help_fork_slice(to_goal));
+  insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate the intro slices of a help branch
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param entry_point identifies the loop entry slice
+ * @return index of initial intro slice
+ */
+static slice_index alloc_help_branch_intro(stip_length_type length,
+                                           stip_length_type min_length,
+                                           slice_index entry_point)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
+    slice_index const finder = alloc_help_find_shortest_slice(length,
+                                                              min_length);
+    slice_index const deadend = alloc_dead_end_slice();
+
+    result = adapter;
+    pipe_link(adapter,finder);
+    pipe_link(finder,deadend);
+    link_to_branch(deadend,entry_point);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate a help branch.
@@ -493,13 +456,28 @@ slice_index alloc_help_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if ((length-slack_length_help)%2==1)
-    result = alloc_help_branch_odd(length,min_length);
-  else
   {
-    /* this indirect approach avoids some code duplication */
-    result = alloc_help_branch_odd(length+1,min_length+1);
-    help_branch_shorten(result);
+    slice_index const ready1 = alloc_branch(STReadyForHelpMove,
+                                            length,min_length);
+    slice_index const generator1 = alloc_help_move_generator_slice();
+    slice_index const move1 = alloc_help_move_slice();
+    slice_index const deadend1 = alloc_dead_end_slice();
+    slice_index const ready2 = alloc_branch(STReadyForHelpMove,
+                                            length-1,min_length-1);
+    slice_index const generator2 = alloc_help_move_generator_slice();
+    slice_index const move2 = alloc_help_move_slice();
+    slice_index const deadend2 = alloc_dead_end_slice();
+
+    pipe_link(ready1,generator1);
+    pipe_link(generator1,move1);
+    pipe_link(move1,deadend1);
+    pipe_link(deadend1,ready2);
+    pipe_link(ready2,generator2);
+    pipe_link(generator2,move2);
+    pipe_link(move2,deadend2);
+    pipe_link(deadend2,ready1);
+
+    result = alloc_help_branch_intro(length,min_length,ready1);
   }
 
   TraceFunctionExit(__func__);

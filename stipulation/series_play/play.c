@@ -6,6 +6,7 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/series_play/end_of_branch.h"
 #include "stipulation/series_play/fork.h"
@@ -75,8 +76,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_fork_series(si,n);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_series(si,n);
+    case STEndOfBranchForced:
+      result = end_of_branch_goal_series(si,n);
       break;
 
     case STDeadEnd:
@@ -229,8 +230,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = series_fork_has_series(si,n);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_has_series(si,n);
+    case STEndOfBranchForced:
+      result = end_of_branch_goal_has_series(si,n);
       break;
 
     case STDeadEnd:

@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = end_of_branch_goal_immobile.c
+
+INCLUDES = end_of_branch_goal_immobile.h
+
+include makefile.rules $(CURRPWD)depend

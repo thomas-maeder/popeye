@@ -1,0 +1,16 @@
+optimisations/end_of_branch_goal_immobile$(OBJ_SUFFIX): \
+ optimisations/end_of_branch_goal_immobile.c \
+ optimisations/end_of_branch_goal_immobile.h pystip.h pybrafrk.h pypipe.h \
+ stipulation/branch.h trace.h
+
+optimisations/end_of_branch_goal_immobile.h:
+
+pystip.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+trace.h:

@@ -172,8 +172,9 @@ static void optimise_final_moves_move_generator(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void optimise_final_moves_end_of_battle_branch(slice_index si,
-                                                      stip_moves_traversal *st)
+static
+void optimise_final_moves_end_of_branch_non_goal(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
   unsigned int const save_nr_imminent_goals = state->nr_goals_to_be_reached;
@@ -246,12 +247,13 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STSetplayFork,          &stip_traverse_moves_pipe                  },
-  { STAttackMoveGenerator,  &optimise_final_moves_move_generator       },
-  { STReflexDefenderFilter, &optimise_final_moves_end_of_battle_branch },
-  { STHelpMoveGenerator,    &optimise_final_moves_move_generator       },
-  { STSeriesMoveGenerator,  &optimise_final_moves_move_generator       },
-  { STGoalReachedTesting,   &optimise_final_moves_goal                 }
+  { STSetplayFork,         &stip_traverse_moves_pipe                    },
+  { STAttackMoveGenerator, &optimise_final_moves_move_generator         },
+  { STHelpMoveGenerator,   &optimise_final_moves_move_generator         },
+  { STSeriesMoveGenerator, &optimise_final_moves_move_generator         },
+  { STEndOfBranch,         &optimise_final_moves_end_of_branch_non_goal },
+  { STEndOfBranchForced,   &optimise_final_moves_end_of_branch_non_goal },
+  { STGoalReachedTesting,  &optimise_final_moves_goal                   }
 };
 
 enum

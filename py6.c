@@ -125,6 +125,7 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
@@ -145,6 +146,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
+#include "optimisations/end_of_branch_goal_immobile.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
@@ -2100,7 +2102,9 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
     }
 
-    case STEndOfHelpBranch:
+    case STEndOfBranch:
+    case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
     case STHelpFork:
     {
       slice_index const fork = slices[si].u.fork.fork;
@@ -2664,6 +2668,10 @@ static Token iterate_twins(Token prev_token)
       stip_flesh_out_goal_testers(root_slice);
 
       stip_insert_selfcheck_guards(root_slice);
+
+      stip_optimise_dead_end_slices(root_slice);
+
+      stip_optimise_with_end_of_branch_goal_immobile(root_slice);
 
       stip_insert_output_slices(root_slice);
 

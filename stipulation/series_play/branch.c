@@ -59,7 +59,7 @@ static slice_index const series_slice_rank_order[] =
   STParryFork,
   STDefenseAdapter,
 
-  STReflexDefenderFilter,
+  STEndOfBranchForced,
   STDeadEnd,
 
   STReadyForSeriesDummyMove,

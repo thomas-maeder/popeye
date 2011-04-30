@@ -6,11 +6,12 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_generator.h"
-#include "stipulation/help_play/end_of_branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -72,19 +73,22 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_move_help(si,n);
       break;
 
-    case STEndOfHelpBranch:
-      result = end_of_help_branch_help(si,n);
+    case STEndOfBranch:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_help(si,n);
       break;
 
     case STHelpFork:
       result = help_fork_help(si,n);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_help(si,n);
+    case STEndOfBranchForced:
+    case STEndOfBranchGoal:
+      result = end_of_branch_goal_help(si,n);
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_help(si,n);
       break;
 
@@ -222,19 +226,22 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = help_find_shortest_can_help(si,n);
       break;
 
-    case STEndOfHelpBranch:
-      result = end_of_help_branch_can_help(si,n);
+    case STEndOfBranch:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_can_help(si,n);
       break;
 
     case STHelpFork:
       result = help_fork_can_help(si,n);
       break;
 
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_can_help(si,n);
+    case STEndOfBranchForced:
+    case STEndOfBranchGoal:
+      result = end_of_branch_goal_can_help(si,n);
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_can_help(si,n);
       break;
 

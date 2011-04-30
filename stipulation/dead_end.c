@@ -1,6 +1,7 @@
 #include "stipulation/dead_end.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -35,6 +36,159 @@ void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
 
   if (st->remaining>0)
     stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef struct
+{
+  slice_index optimisable_deadend;
+  stip_length_type min_remaining;
+} optimisation_state;
+
+static void optimise_deadend_help(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+  stip_length_type const save_min_remaining = state->min_remaining;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->min_remaining = 0;
+  stip_traverse_moves_children(si,st);
+  state->min_remaining = save_min_remaining;
+
+  if (state->optimisable_deadend!=no_slice)
+  {
+    slice_index const prototype = alloc_pipe(STDeadEndGoal);
+    help_branch_insert_slices(si,&prototype,1);
+    pipe_remove(state->optimisable_deadend);
+    state->optimisable_deadend = no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_deadend(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  switch (st->remaining)
+  {
+    case 0:
+      state->optimisable_deadend = si;
+      break;
+
+    case 1:
+      stip_traverse_moves_children(si,st);
+      if (state->min_remaining==0)
+        pipe_remove(si);
+      break;
+
+    default:
+      stip_traverse_moves_children(si,st);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_deadend(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+  state->optimisable_deadend = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void start_move(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+  stip_length_type const save_min_remaining = state->min_remaining;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->min_remaining = 0;
+  stip_traverse_moves_children(si,st);
+  state->optimisable_deadend = no_slice;
+  state->min_remaining = save_min_remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void raise_min_remaining(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->min_remaining = 1;
+  stip_traverse_moves_children(si,st);
+  state->min_remaining = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static moves_traversers_visitors const dead_end_optimisers[] =
+{
+  { STAttackAdapter,         &start_move            },
+  { STDefenseAdapter,        &start_move            },
+  { STHelpAdapter,           &optimise_deadend_help },
+  { STSeriesAdapter,         &start_move            },
+  { STReadyForAttack,        &start_move            },
+  { STReadyForDefense,       &start_move            },
+  { STReadyForHelpMove,      &optimise_deadend_help },
+  { STReadyForSeriesMove,    &start_move            },
+  { STDeadEnd,               &remember_deadend      },
+  { STEndOfBranch,           &forget_deadend        },
+  { STEndOfBranchForced,     &forget_deadend        },
+  { STPrerequisiteOptimiser, &raise_min_remaining   }
+};
+
+enum
+{
+  nr_dead_end_optimisers =
+  (sizeof dead_end_optimisers / sizeof dead_end_optimisers[0])
+};
+
+/* Optimise away redundant deadend slices
+ * @param si identifies the entry slice
+ */
+void stip_optimise_dead_end_slices(slice_index si)
+{
+  stip_moves_traversal mt;
+  optimisation_state state = { no_slice, 0 };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_moves_traversal_init(&mt,&state);
+  stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
+  stip_traverse_moves(si,&mt);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
