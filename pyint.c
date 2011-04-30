@@ -3334,7 +3334,6 @@ static void intelligent_mode_support_testing(slice_index si,
 
 static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
-  { STHelpFork,             &intelligent_mode_support_detector_fork      },
   { STSeriesFork,           &intelligent_mode_support_detector_fork      },
   { STReciprocal,           &intelligent_mode_support_none               },
   { STQuodlibet,            &intelligent_mode_support_detector_quodlibet },

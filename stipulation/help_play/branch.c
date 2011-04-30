@@ -8,7 +8,6 @@
 #include "stipulation/operators/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/find_shortest.h"
-#include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
 #include "trace.h"
@@ -48,7 +47,6 @@ static slice_index const help_slice_rank_order[] =
   STKeepMatingFilter,
   STGoalReachableGuardFilter,
   STEndOfRoot,
-  STHelpFork,
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STGoalReachedTesting,
@@ -149,8 +147,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
             leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
-          else if (slices[next].type==STHelpFork
-                   || slices[next].type==STEndOfBranch)
+          else if (slices[next].type==STEndOfBranch)
             help_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
                                                 base);

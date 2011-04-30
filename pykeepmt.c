@@ -532,7 +532,6 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STReciprocal,           &keepmating_filter_inserter_reciprocal  },
   { STQuodlibet,            &keepmating_filter_inserter_quodlibet   },
   { STEndOfBranch,          &keepmating_filter_inserter_branch_fork },
-  { STHelpFork,             &keepmating_filter_inserter_branch_fork },
   { STReflexAttackerFilter, &keepmating_filter_inserter_branch_fork },
   { STEndOfBranchForced,    &keepmating_filter_inserter_branch_fork },
   { STSelfDefense,          &keepmating_filter_inserter_branch_fork },

@@ -39,7 +39,6 @@
     ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
-    ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \

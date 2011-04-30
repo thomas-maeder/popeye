@@ -132,7 +132,6 @@ static void output_mode_self_defense(slice_index si,
 
 static structure_traversers_visitors output_mode_detectors[] =
 {
-  { STHelpFork,             &output_mode_linemode     },
   { STReciprocal,           &output_mode_binary       },
   { STQuodlibet,            &output_mode_binary       },
   { STDefenseAdapter,       &output_mode_treemode     },

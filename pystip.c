@@ -40,7 +40,6 @@
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
@@ -81,7 +80,6 @@
     ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
-    ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
@@ -279,7 +277,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpFindByIncreasingLength */
   slice_structure_pipe,   /* STHelpMoveGenerator */
   slice_structure_pipe,   /* STHelpMove */
-  slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
   slice_structure_branch, /* STSeriesFindShortest */
@@ -428,7 +425,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STHelpFindByIncreasingLength */
   slice_function_move_generator, /* STHelpMoveGenerator */
   slice_function_unspecified,    /* STHelpMove */
-  slice_function_unspecified,    /* STHelpFork */
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_unspecified,    /* STSeriesFindShortest */
@@ -1624,7 +1620,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpFindByIncreasingLength */
   &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,            /* STHelpMove */
-  &stip_traverse_structure_end_of_branch,   /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
   &stip_traverse_structure_pipe,            /* STSeriesFindShortest */
@@ -1866,7 +1861,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STHelpFindByIncreasingLength */
     &stip_traverse_moves_pipe,                   /* STHelpMoveGenerator */
     &stip_traverse_moves_move_slice,             /* STHelpMove */
-    &stip_traverse_moves_help_fork,              /* STHelpFork */
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                   /* STSeriesFindShortest */

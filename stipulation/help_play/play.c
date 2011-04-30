@@ -12,7 +12,6 @@
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_generator.h"
-#include "stipulation/help_play/fork.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
@@ -76,10 +75,6 @@ stip_length_type help(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_help(si,n);
-      break;
-
-    case STHelpFork:
-      result = help_fork_help(si,n);
       break;
 
     case STEndOfBranchForced:
@@ -229,10 +224,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_can_help(si,n);
-      break;
-
-    case STHelpFork:
-      result = help_fork_can_help(si,n);
       break;
 
     case STEndOfBranchForced:

@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = adapter.c branch.c find_shortest.c find_by_increasing_length.c move.c move_generator.c fork.c play.c
-INCLUDES = adapter.h branch.h find_shortest.h find_by_increasing_length.h move.h move_generator.h fork.h play.h
+CFILES = adapter.c branch.c find_shortest.c find_by_increasing_length.c move.c move_generator.c play.c
+INCLUDES = adapter.h branch.h find_shortest.h find_by_increasing_length.h move.h move_generator.h play.h
 
 include makefile.rules $(CURRPWD)depend
