@@ -10,7 +10,7 @@
 
 /* Table where refutations are collected
  * Exposed for read-only access only */
-table refutations;
+extern table refutations;
 
 /* Read the maximum number of refutations that the user is interested
  * to see
@@ -25,6 +25,12 @@ boolean read_max_nr_refutations(char const *tok);
  *            interested to see
  */
 void set_max_nr_refutations(unsigned int mnr);
+
+/* Retrieve the maximum number of refutations that the user is interested
+ * to see to some value
+ * @return maximum number of refutations that the user is interested to see
+ */
+unsigned int get_max_nr_refutations(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -89,6 +95,38 @@ stip_length_type try_solver_can_defend(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable);
 
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type refutations_solver_defend(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable);
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type
+refutations_solver_can_defend(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves
@@ -119,12 +157,19 @@ stip_length_type refutations_collector_attack(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
 
-/* Instrument the stipulation representation so that it can deal with
- * tries
+/* Instrument a branch with try solving slices
+ * @param adapter adapter slice leading into the branch
+ * @param max_nr_refutations maximum number of refutations per try
+ */
+void branch_insert_try_solvers(slice_index adapter,
+                               unsigned int max_nr_refutations);
+
+/* Instrument the stipulation representation so that it solves tries
  * @param si identifies slice where to start
+ * @param max_nr_refutations maximum number of refutations to be allowed
  * @return true iff the stipulation could be instrumented (i.e. iff
  *         try play applies to the stipulation)
  */
-boolean stip_insert_try_handlers(slice_index si);
+boolean stip_insert_try_solvers(slice_index si, unsigned int max_nr_refutations);
 
 #endif

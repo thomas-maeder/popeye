@@ -18,13 +18,6 @@ slice_index alloc_defense_move_slice(void);
  */
 void defense_move_make_root(slice_index si, stip_structure_traversal *st);
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_make_setplay_slice(slice_index si,
-                                     stip_structure_traversal *st);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

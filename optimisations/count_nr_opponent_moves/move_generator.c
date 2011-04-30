@@ -169,6 +169,19 @@ static void optimise_defense_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static structure_traversers_visitors const countnropponentmoves_optimisers[] =
+{
+  { STSetplayFork,          &stip_traverse_structure_pipe    },
+  { STDefenseMoveGenerator, &optimise_defense_move_generator }
+};
+
+enum
+{
+  nr_countnropponentmoves_optimisers =
+  (sizeof countnropponentmoves_optimisers
+   / sizeof countnropponentmoves_optimisers[0])
+};
+
 /* Instrument stipulation with optimised move generation based on the number of
  * opponent moves
  * @param si identifies slice where to start
@@ -184,9 +197,9 @@ void stip_optimise_with_countnropponentmoves(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STDefenseMoveGenerator,
-                                           optimise_defense_move_generator);
+  stip_structure_traversal_override(&st,
+                                    countnropponentmoves_optimisers,
+                                    nr_countnropponentmoves_optimisers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -96,7 +96,8 @@
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     /* solver slices */                                                 \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
-    ENUMERATOR(STTrySolver), /* find battle play solutions */           \
+    ENUMERATOR(STTrySolver), /* find battle play tries */           \
+    ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
@@ -226,6 +227,12 @@ typedef struct
             slice_index fork;
             stip_length_type threshold; /* without slack */
         } fork_on_remaining;
+
+        struct
+        {
+            slice_index next;
+            unsigned int max_nr_refutations;
+        } refutation_collector;
 
         struct /* for type==STKeepMatingGuard */
         {
@@ -474,7 +481,9 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
 
 /* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
- * @param type type for which to override the visitor
+ * @param type type for which to override the visitor (note: subclasses of type
+ *             are not affected by
+ *             stip_structure_traversal_override_by_structure()! )
  * @param visitor overrider
  */
 void stip_structure_traversal_override_by_structure(stip_structure_traversal *st,

@@ -89,11 +89,8 @@ void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const ready = branch_find_slice(STReadyForDefense,si);
-    assert(ready!=no_slice);
-    *setplay_slice = battle_branch_make_setplay(ready);
-  }
+  if (slices[si].u.branch.length>slack_length_battle)
+    *setplay_slice = battle_branch_make_setplay(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -155,45 +152,6 @@ has_solution_type attack_adapter_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type attack_adapter_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const n_max_unsolvable = slack_length_battle-1;
-  stip_length_type attack_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  attack_length = can_attack(next,length,n_max_unsolvable);
-  if (attack_length<slack_length_battle)
-    result = n+4;
-  else if (attack_length<=length)
-  {
-    result = n;
-    attack(next,length,n_max_unsolvable);
-  }
-  else
-    result = attack_length+slack_length_help-slack_length_battle;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

@@ -348,9 +348,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  pyoutput.h pytable.h conditions/exclusive.h pyposit.h \
  conditions/republican.h pyproc.h platform/maxmem.h platform/maxtime.h \
  platform/pytime.h platform/priority.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/battle_play/try.h pytable.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/postkeyplay.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/continuation.h \
+ stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
+ pytable.h stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/check_detector.h \
  stipulation/battle_play/threat.h \
@@ -482,11 +482,13 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
+stipulation/battle_play/continuation.h:
+
+stipulation/battle_play/defense_play.h:
+
 stipulation/battle_play/try.h:
 
 pytable.h:
-
-stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/postkeyplay.h:
 

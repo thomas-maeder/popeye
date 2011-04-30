@@ -78,6 +78,10 @@ stip_length_type defend(slice_index si,
       result = try_solver_defend(si,n,n_max_unsolvable);
       break;
 
+    case STRefutationsSolver:
+      result = refutations_solver_defend(si,n,n_max_unsolvable);
+      break;
+
     case STContinuationSolver:
       result = continuation_solver_defend(si,n,n_max_unsolvable);
       break;
@@ -282,6 +286,10 @@ stip_length_type can_defend(slice_index si,
 
     case STTrySolver:
       result = try_solver_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STRefutationsSolver:
+      result = refutations_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STPostKeyPlaySuppressor:

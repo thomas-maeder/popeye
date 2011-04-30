@@ -350,31 +350,6 @@ static slice_index alloc_reflex_defender_filter(slice_index proxy_to_avoided)
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void reflex_defender_filter_make_setplay_slice(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const copy = copy_slice(si);
-    link_to_branch(copy,*result);
-    *result = copy;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

@@ -246,6 +246,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
+  { STSetplayFork,          &stip_traverse_moves_pipe                  },
   { STAttackMoveGenerator,  &optimise_final_moves_move_generator       },
   { STReflexDefenderFilter, &optimise_final_moves_end_of_battle_branch },
   { STHelpMoveGenerator,    &optimise_final_moves_move_generator       },

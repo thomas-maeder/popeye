@@ -303,6 +303,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesDummyMove:
       case STRefutationsAllocator:
       case STTrySolver:
+      case STRefutationsSolver:
       case STRefutationsCollector:
       case STPostKeyPlaySuppressor:
       case STKeyWriter:

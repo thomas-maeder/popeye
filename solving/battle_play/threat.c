@@ -453,6 +453,20 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static structure_traversers_visitors const threat_handler_inserters[] =
+{
+  { STSetplayFork,        &stip_traverse_structure_pipe },
+  { STDefenseAdapter,     &append_threat_solver         },
+  { STReadyForDefense,    &append_threat_solver         },
+  { STGoalReachedTesting, &stip_structure_visitor_noop  }
+};
+
+enum
+{
+  nr_threat_handler_inserters = (sizeof threat_handler_inserters
+                                 / sizeof threat_handler_inserters[0])
+};
+
 /* Instrument the stipulation representation so that it can deal with
  * threats
  * @param si identifies slice where to start
@@ -469,15 +483,9 @@ void stip_insert_threat_handlers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &stip_structure_visitor_noop);
-  stip_structure_traversal_override_single(&st,
-                                           STReadyForDefense,
-                                           &append_threat_solver);
-  stip_structure_traversal_override_single(&st,
-                                           STDefenseAdapter,
-                                           &append_threat_solver);
+  stip_structure_traversal_override(&st,
+                                    threat_handler_inserters,
+                                    nr_threat_handler_inserters);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)

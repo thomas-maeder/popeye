@@ -50,7 +50,6 @@ static void remember_length(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-
 static void instrument_threat_solver(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -126,36 +125,6 @@ static void instrument_ready_for_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
-{
-  writer_insertion_state const * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_try_writer(),
-      alloc_refutation_writer_slice(),
-      alloc_variation_writer_slice(state->length-1,state->min_length-1),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_move_inverter(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -211,7 +180,6 @@ static structure_traversers_visitors writer_inserters[] =
 {
   { STMoveInverter,          &instrument_move_inverter     },
   { STReadyForAttack,        &insert_continuation_writers  },
-  { STTrySolver,             &instrument_try_solver        },
   { STThreatSolver,          &instrument_threat_solver     },
   { STPostKeyPlaySuppressor, &stip_structure_visitor_noop  },
   { STReadyForDefense,       &instrument_ready_for_defense },
@@ -301,11 +269,12 @@ static void instrument_defense_adapter(slice_index si,
 
 static structure_traversers_visitors root_writer_inserters[] =
 {
-  { STAttackAdapter,  &instrument_attack_adapter   },
-  { STDefenseAdapter, &instrument_defense_adapter  },
-  { STHelpAdapter,    &stip_structure_visitor_noop },
-  { STSeriesAdapter,  &stip_structure_visitor_noop },
-  { STNot,            &stip_structure_visitor_noop }
+  { STSetplayFork,    &stip_traverse_structure_pipe },
+  { STAttackAdapter,  &instrument_attack_adapter    },
+  { STDefenseAdapter, &instrument_defense_adapter   },
+  { STHelpAdapter,    &stip_structure_visitor_noop  },
+  { STSeriesAdapter,  &stip_structure_visitor_noop  },
+  { STNot,            &stip_structure_visitor_noop  }
 };
 
 enum
@@ -313,6 +282,69 @@ enum
   nr_root_writer_inserters = (sizeof root_writer_inserters
                               / sizeof root_writer_inserters[0])
 };
+
+static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
+{
+  writer_insertion_state const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_try_writer(),
+      alloc_refutation_writer_slice(),
+      alloc_variation_writer_slice(state->length-1,state->min_length-1),
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_output_plaintext_tree_decoration_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors try_writer_inserters[] =
+{
+  { STSetplayFork,     &stip_traverse_structure_pipe },
+  { STReadyForAttack,  &remember_length              },
+  { STReadyForDefense, &remember_length              },
+  { STTrySolver,       &instrument_try_solver        }
+};
+
+enum
+{
+  nr_try_writer_inserters
+  = sizeof try_writer_inserters / sizeof try_writer_inserters[0]
+};
+
+static void insert_try_writers(slice_index si)
+{
+  writer_insertion_state state = { 0, 0 };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    try_writer_inserters,
+                                    nr_try_writer_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Insert the writer slices
  * @param si identifies slice where to start
@@ -329,6 +361,8 @@ static void insert_writer_slices(slice_index si)
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,writer_inserters,nr_writer_inserters);
   stip_traverse_structure(si,&st);
+
+  insert_try_writers(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,

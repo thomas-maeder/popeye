@@ -148,7 +148,6 @@ trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
  pymovenb.h pyint.h stipulation/dead_end.h \
- stipulation/battle_play/attack_adapter.h \
  stipulation/help_play/find_by_increasing_length.h \
  stipulation/help_play/find_shortest.h stipulation/help_play/move.h \
  stipulation/help_play/move_generator.h \
@@ -179,8 +178,6 @@ pymovenb.h:
 pyint.h:
 
 stipulation/dead_end.h:
-
-stipulation/battle_play/attack_adapter.h:
 
 stipulation/help_play/find_by_increasing_length.h:
 

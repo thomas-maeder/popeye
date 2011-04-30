@@ -134,6 +134,7 @@
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
+    ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
@@ -328,6 +329,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STForkOnRemaining */
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
+  slice_structure_pipe,   /* STRefutationsSolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
@@ -473,6 +475,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STForkOnRemaining */
   slice_function_unspecified,    /* STRefutationsAllocator */
   slice_function_unspecified,    /* STTrySolver */
+  slice_function_unspecified,    /* STRefutationsSolver */
   slice_function_unspecified,    /* STPostKeyPlaySuppressor */
   slice_function_unspecified,    /* STContinuationSolver */
   slice_function_unspecified,    /* STThreatSolver */
@@ -1665,6 +1668,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STForkOnRemaining */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
+  &stip_traverse_structure_pipe,            /* STRefutationsSolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
   &stip_traverse_structure_end_of_branch,   /* STThreatSolver */
@@ -1753,7 +1757,9 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 
 /* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
- * @param type type for which to override the visitor
+ * @param type type for which to override the visitor (note: subclasses of type
+ *             are not affected by
+ *             stip_structure_traversal_override_by_structure()! )
  * @param visitor overrider
  */
 void stip_structure_traversal_override_by_structure(stip_structure_traversal *st,
@@ -1901,6 +1907,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_fork_on_remaining,      /* STForkOnRemaining */
     &stip_traverse_moves_pipe,                   /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                   /* STTrySolver */
+    &stip_traverse_moves_pipe,                   /* STRefutationsSolver */
     &stip_traverse_moves_pipe,                   /* STPostKeyPlaySuppressor */
     &stip_traverse_moves_pipe,                   /* STContinuationSolver */
     &stip_traverse_moves_pipe,                   /* STThreatSolver */

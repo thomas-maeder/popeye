@@ -17,6 +17,7 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/end_of_branch.h"
+#include "stipulation/battle_play/try.h"
 #include "stipulation/operators/binary.h"
 #include "trace.h"
 
@@ -64,6 +65,7 @@ static slice_index const slice_rank_order[] =
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
+  STRefutationsSolver,
   STTryWriter,
   STContinuationWriter,
   STCheckDetector,
@@ -470,41 +472,93 @@ void stip_make_goal_attack_branch(slice_index si)
   TraceFunctionResultEnd();
 }
 
-
-static structure_traversers_visitors setplay_makers[] =
-{
-  { STReadyForDefense,      &ready_for_defense_make_setplay_slice      },
-  { STDefenseMoveGenerator, &defense_move_generator_make_setplay_slice },
-  { STDefenseMove,          &defense_move_make_setplay_slice           },
-  { STEndOfBattleBranch,    &reflex_defender_filter_make_setplay_slice },
-  { STReflexDefenderFilter, &reflex_defender_filter_make_setplay_slice }
-};
-
-enum
-{
-  nr_setplay_makers = (sizeof setplay_makers / sizeof setplay_makers[0])
-};
-
-/* Produce slices representing set play.
- * This is supposed to be invoked from within the slice type specific
- * functions invoked by stip_apply_setplay.
- * @param si identifies the successor of the slice representing the
- *           move(s) not played in set play
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+/* Add the copy of a slice into the set play branch
+ * @param si slice index
+ * @param st state of traversal
  */
-slice_index battle_branch_make_setplay(slice_index si)
+static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
 {
-  slice_index result = no_slice;
-  stip_structure_traversal st;
+  slice_index * const result = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
-  stip_traverse_structure(si,&st);
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,*result);
+    *result = copy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inject an STEndOfRoot where the setplay branch will join the main branch
+ * @return identifier of STEndOfRoot slice
+ */
+static slice_index inject_end_of_root(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  result = branch_find_slice(STEndOfRoot,si);
+  assert(result!=no_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param adapter identifies the adapter slice into the battle branch
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index battle_branch_make_setplay(slice_index adapter)
+{
+  slice_index result;
+  slice_index nested;
+  slice_index start;
+  stip_structure_traversal st;
+  slice_structural_type type;
+  stip_length_type const length = slices[adapter].u.branch.length;
+  stip_length_type const min_length = slices[adapter].u.branch.min_length;
+  unsigned int max_nr_refutations = UINT_MAX;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  nested = inject_end_of_root(adapter);
+  start = branch_find_slice(STContinuationSolver,adapter);
+  assert(start!=no_slice);
+
+  stip_structure_traversal_init(&st,&nested);
+  for (type = 0; type!=nr_slice_structure_types; ++type)
+    stip_structure_traversal_override_by_structure(&st,type,&copy_to_setplay);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfRoot,
+                                           &stip_structure_visitor_noop);
+  stip_traverse_structure(start,&st);
+
+  result = alloc_defense_adapter_slice(length-1,min_length-1);
+  link_to_branch(result,nested);
+
+  branch_insert_try_solvers(result,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
@@ -579,6 +633,7 @@ boolean battle_branch_apply_postkeyplay(slice_index si)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);

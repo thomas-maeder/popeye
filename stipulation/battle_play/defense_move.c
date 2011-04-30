@@ -3,7 +3,6 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/help_play/move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -40,31 +39,6 @@ void defense_move_make_root(slice_index si, stip_structure_traversal *st)
 
   pipe_append(si,alloc_pipe(STEndOfRoot));
   *root_slice = copy_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_make_setplay_slice(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(*result!=no_slice);
-
-  {
-    slice_index const move = alloc_help_move_slice();
-    link_to_branch(move,*result);
-    *result = move;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

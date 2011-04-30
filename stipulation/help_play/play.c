@@ -6,7 +6,6 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
@@ -71,10 +70,6 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STHelpMove:
       result = help_move_help(si,n);
-      break;
-
-    case STAttackAdapter:
-      result = attack_adapter_help(si,n);
       break;
 
     case STEndOfHelpBranch:

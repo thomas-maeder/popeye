@@ -144,13 +144,6 @@ stip_length_type reflex_attacker_filter_series(slice_index si,
 stip_length_type reflex_attacker_filter_has_series(slice_index si,
                                                    stip_length_type n);
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void reflex_defender_filter_make_setplay_slice(slice_index si,
-                                               stip_structure_traversal *st);
-
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation
  * @param si root of branch to be instrumented

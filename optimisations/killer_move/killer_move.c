@@ -92,6 +92,7 @@ static void optimise_final_defense_moves_goal(slice_index si,
 
 static moves_traversers_visitors const final_defense_move_optimisers[] =
 {
+  { STSetplayFork,          &stip_traverse_moves_pipe                            },
   { STDefenseMoveGenerator, &optimise_final_defense_moves_defense_move_generator },
   { STGoalReachedTesting,   &optimise_final_defense_moves_goal                   }
 };
@@ -160,10 +161,11 @@ static void optimise_move_generator(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STReadyForAttack,       &insert_collector        },
-  { STReadyForDefense,      &insert_collector        },
-  { STAttackMoveGenerator,  &optimise_move_generator },
-  { STDefenseMoveGenerator, &optimise_move_generator }
+  { STSetplayFork,          &stip_traverse_structure_pipe },
+  { STReadyForAttack,       &insert_collector             },
+  { STReadyForDefense,      &insert_collector             },
+  { STAttackMoveGenerator,  &optimise_move_generator      },
+  { STDefenseMoveGenerator, &optimise_move_generator      }
 };
 
 enum

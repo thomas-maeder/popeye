@@ -126,6 +126,7 @@
 #include "platform/priority.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/check_detector.h"
@@ -2560,6 +2561,8 @@ static Token iterate_twins(Token prev_token)
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
 
+      optimise_away_redundant_continuation_solvers(template_slice_hook);
+
       stip_insert_check_detectors(template_slice_hook);
 
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
@@ -2574,7 +2577,8 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
       {
-        if (!stip_insert_try_handlers(template_slice_hook))
+        if (!stip_insert_try_solvers(template_slice_hook,
+                                     get_max_nr_refutations()))
           Message(TryPlayNotApplicable);
       }
 

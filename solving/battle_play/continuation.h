@@ -47,10 +47,10 @@ continuation_solver_can_defend(slice_index si,
                                stip_length_type n,
                                stip_length_type n_max_unsolvable);
 
-/* Instrument the stipulation representation so that it can deal with
- * continuations
- * @param si identifies slice where to start
+/* Remove STContinuationSolver slices that don't contribute to the solution (but
+ * that may cause unnecessary calculations to be performed)
+ * @param si identifies stipulation entry slice
  */
-void stip_substitute_solution_solvers(slice_index si);
+void optimise_away_redundant_continuation_solvers(slice_index si);
 
 #endif

@@ -355,10 +355,10 @@ solution finished.
       1...Kb8-a8
           2.Rc5-c8 #
 
-              empile:         262
-            jouecoup:         125
+              empile:         268
+            jouecoup:         131
         orig_rbechec:          48
-        orig_rnechec:         128
+        orig_rnechec:         132
 solution finished. 
 
 
@@ -503,10 +503,10 @@ solution finished.
               2...Se8-g7
                   3.Se6-c7 #
 
-              empile:        3535
-            jouecoup:        2539
+              empile:        3545
+            jouecoup:        2549
         orig_rbechec:        1486
-        orig_rnechec:        1171
+        orig_rnechec:        1174
 solution finished. 
 
 
@@ -605,10 +605,10 @@ s#1 with incomplete set play (not given)
    1.Rc3-c4 !
       1...b3-b2 #
 
-              empile:          82
-            jouecoup:          63
-        orig_rbechec:          64
-        orig_rnechec:          24
+              empile:          87
+            jouecoup:          68
+        orig_rbechec:          66
+        orig_rnechec:          26
 solution finished. 
 
 
@@ -641,10 +641,10 @@ solution finished.
    1.h3-h4 !
       1...b3-b2 #
 
-              empile:         127
-            jouecoup:         115
-        orig_rbechec:         117
-        orig_rnechec:          31
+              empile:         131
+            jouecoup:         119
+        orig_rbechec:         120
+        orig_rnechec:          34
 solution finished. 
 
 
@@ -950,10 +950,10 @@ solution finished.
           2.Qd1-g4
               2...b3-b2 #
 
-              empile:        3271
-            jouecoup:        1573
-        orig_rbechec:        1577
-        orig_rnechec:         776
+              empile:        3275
+            jouecoup:        1577
+        orig_rbechec:        1580
+        orig_rnechec:         779
 solution finished. 
 
 
@@ -988,10 +988,10 @@ solution finished.
           2.Re4*c4
               2...b3-b2 #
 
-              empile:         668
-            jouecoup:         415
-        orig_rbechec:         418
-        orig_rnechec:         143
+              empile:         672
+            jouecoup:         419
+        orig_rbechec:         421
+        orig_rnechec:         146
 solution finished. 
 
 
@@ -1327,10 +1327,10 @@ r#2 with short set play and short solution
    1.h3-h4 !
       1...b3-b2 #
 
-              empile:          19
-            jouecoup:          19
-        orig_rbechec:          21
-        orig_rnechec:           5
+              empile:          24
+            jouecoup:          24
+        orig_rbechec:          25
+        orig_rnechec:           6
 solution finished. 
 
 
