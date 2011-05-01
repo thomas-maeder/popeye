@@ -2566,8 +2566,8 @@ static char *ParsePlay(char *tok,
         result = ParseSerH(tok,proxy,proxy_next,play_length);
         if (result!=0)
         {
-          assert(slices[next].type==STGoalReachedTesting);
-          if (slices[next].u.goal_handler.goal.type==goal_proofgame)
+          if (slices[next].type==STGoalReachedTesting
+              && slices[next].u.goal_handler.goal.type==goal_proofgame)
             stip_impose_starter(proxy_next,White);
           else
             stip_impose_starter(proxy_next,Black);
