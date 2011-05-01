@@ -70,7 +70,8 @@ pypipe.h:
 
 trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
- pypipe.h stipulation/branch.h stipulation/help_play/branch.h trace.h
+ pypipe.h stipulation/branch.h stipulation/help_play/branch.h \
+ stipulation/series_play/branch.h trace.h
 
 stipulation/dead_end.h:
 
@@ -79,6 +80,8 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/help_play/branch.h:
+
+stipulation/series_play/branch.h:
 
 trace.h:
 stipulation/end_of_branch$(OBJ_SUFFIX): stipulation/end_of_branch.c \

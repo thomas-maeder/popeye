@@ -1,8 +1,7 @@
 #if !defined(STIPULATION_SERIES_PLAY_MOVE_H)
 #define STIPULATION_SERIES_PLAY_MOVE_H
 
-#include "py.h"
-#include "pystip.h"
+#include "stipulation/series_play/play.h"
 
 /* This module provides functionality dealing with STSeriesMove
  * stipulation slices.

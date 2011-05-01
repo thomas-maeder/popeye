@@ -5,12 +5,13 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/operators/binary.h"
+#include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/find_shortest.h"
-#include "stipulation/series_play/end_of_branch.h"
-#include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/play.h"
@@ -50,11 +51,13 @@ static slice_index const series_slice_rank_order[] =
   STKeepMatingFilter,
   STGoalReachableGuardFilter,
   STEndOfRoot,
-  STSeriesFork,
+  STEndOfBranchGoal,
+  STEndOfBranchGoalImmobile,
   STGoalReachedTesting,
+  STDeadEndGoal,
   STSelfCheckGuard,
 
-  STEndOfSeriesBranch,
+  STEndOfBranch,
 
   STParryFork,
   STDefenseAdapter,
@@ -163,8 +166,7 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
             battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
-          else if (slices[next].type==STSeriesFork
-                   || slices[next].type==STEndOfSeriesBranch)
+          else if (slices[next].type==STEndOfBranch)
             series_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                   prototypes,nr_prototypes,
                                                   base);
@@ -276,6 +278,7 @@ slice_index alloc_series_branch(stip_length_type length,
                                                                 min_length);
     slice_index const generator = alloc_series_move_generator_slice();
     slice_index const move = alloc_series_move_slice();
+    slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
     slice_index const dummy = alloc_series_dummy_move_slice();
 
@@ -285,7 +288,8 @@ slice_index alloc_series_branch(stip_length_type length,
 
     pipe_link(ready,generator);
     pipe_link(generator,move);
-    pipe_link(move,ready2);
+    pipe_link(move,deadend);
+    pipe_link(deadend,ready2);
     pipe_link(ready2,dummy);
     pipe_link(dummy,ready);
   }
@@ -331,7 +335,7 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_series_fork_slice(to_goal));
+  insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -348,7 +352,7 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_series_branch_slice(next));
+  insert_end_of_branch(si,alloc_end_of_branch_slice(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -414,14 +418,18 @@ slice_index series_branch_make_setplay(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  end = branch_find_slice(STEndOfSeriesBranch,adapter);
+  end = branch_find_slice(STEndOfBranch,adapter);
   if (end==no_slice)
     result = no_slice;
   else
   {
+    slice_index const fork = slices[end].u.fork.fork;
+    slice_index const end_of_branch = alloc_end_of_branch_slice(fork);
+    slice_index const dead_end = alloc_dead_end_slice();
     result = alloc_series_adapter_slice(slack_length_series,
                                         slack_length_series);
-    pipe_link(result,alloc_end_of_series_branch_slice(slices[end].u.fork.fork));
+    pipe_link(result,end_of_branch);
+    pipe_link(end_of_branch,dead_end);
   }
 
   TraceFunctionExit(__func__);

@@ -49,8 +49,6 @@
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
-    ENUMERATOR(STEndOfSeriesBranch),      /* decides when play in branch is over */ \
-    ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \

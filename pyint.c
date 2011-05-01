@@ -3230,21 +3230,6 @@ typedef struct
   goal_type goal;
 } detector_state_type;
 
-static void intelligent_mode_support_detector_fork(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  slice_index const fork = slices[si].u.fork.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static
 void intelligent_mode_support_detector_quodlibet(slice_index si,
                                                  stip_structure_traversal *st)
@@ -3334,7 +3319,6 @@ static void intelligent_mode_support_testing(slice_index si,
 
 static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
-  { STSeriesFork,           &intelligent_mode_support_detector_fork      },
   { STReciprocal,           &intelligent_mode_support_none               },
   { STQuodlibet,            &intelligent_mode_support_detector_quodlibet },
   { STNot,                  &intelligent_mode_support_none               },

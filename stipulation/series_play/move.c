@@ -1,7 +1,5 @@
 #include "stipulation/series_play/move.h"
-#include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/end_of_branch.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"

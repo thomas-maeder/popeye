@@ -47,8 +47,6 @@
 #include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_generator.h"
-#include "stipulation/series_play/end_of_branch.h"
-#include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
 #include "stipulation/fork_on_remaining.h"
@@ -89,8 +87,6 @@
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
-    ENUMERATOR(STEndOfSeriesBranch),      /* decides when play in branch is over */ \
-    ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
@@ -286,8 +282,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
-  slice_structure_fork,   /* STEndOfSeriesBranch */
-  slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_fork,   /* STEndOfBranch */
@@ -434,8 +428,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STSeriesDummyMove */
   slice_function_unspecified,    /* STReadyForSeriesMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
-  slice_function_unspecified,    /* STEndOfSeriesBranch */
-  slice_function_unspecified,    /* STSeriesFork */
   slice_function_unspecified,    /* STParryFork */
   slice_function_unspecified,    /* STSetplayFork */
   slice_function_unspecified,    /* STEndOfBranch */
@@ -1629,8 +1621,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
-  &stip_traverse_structure_end_of_branch,   /* STEndOfSeriesBranch */
-  &stip_traverse_structure_end_of_branch,   /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
@@ -1870,8 +1860,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,             /* STSeriesDummyMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesDummyMove */
-    &stip_traverse_moves_end_of_series_branch,   /* STEndOfSeriesBranch */
-    &stip_traverse_moves_series_fork,            /* STSeriesFork */
     &stip_traverse_moves_parry_fork,             /* STParryFork */
     &stip_traverse_moves_setplay_fork,           /* STSetplayFork */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranch */

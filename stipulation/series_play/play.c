@@ -6,10 +6,9 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/series_play/end_of_branch.h"
-#include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/find_by_increasing_length.h"
 #include "stipulation/series_play/find_shortest.h"
@@ -72,20 +71,19 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = parry_fork_series(si,n);
       break;
 
-    case STSeriesFork:
-      result = series_fork_series(si,n);
+    case STEndOfBranch:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_series(si,n);
       break;
 
+    case STEndOfBranchGoal:
     case STEndOfBranchForced:
       result = end_of_branch_goal_series(si,n);
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_series(si,n);
-      break;
-
-    case STEndOfSeriesBranch:
-      result = end_of_series_branch_series(si,n);
       break;
 
     case STSeriesHashed:
@@ -226,20 +224,19 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = parry_fork_has_series(si,n);
       break;
 
-    case STSeriesFork:
-      result = series_fork_has_series(si,n);
+    case STEndOfBranch:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_has_series(si,n);
       break;
 
+    case STEndOfBranchGoal:
     case STEndOfBranchForced:
       result = end_of_branch_goal_has_series(si,n);
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_has_series(si,n);
-      break;
-
-    case STEndOfSeriesBranch:
-      result = end_of_series_branch_has_series(si,n);
       break;
 
     case STSeriesHashed:

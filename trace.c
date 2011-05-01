@@ -227,12 +227,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STSetplayFork:
       case STEndOfBattleBranch:
-      case STEndOfSeriesBranch:
       case STEndOfBranch:
       case STEndOfBranchGoal:
       case STEndOfBranchGoalImmobile:
       case STSelfDefense:
-      case STSeriesFork:
       case STStipulationReflexAttackSolver:
       case STThreatSolver:
       case STParryFork:
