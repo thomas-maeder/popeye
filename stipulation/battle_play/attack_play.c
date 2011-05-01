@@ -4,7 +4,6 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
-#include "pyselfgd.h"
 #include "pyreflxg.h"
 #include "pymovenb.h"
 #include "pykeepmt.h"
@@ -15,6 +14,7 @@
 #include "pyquodli.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/fork_on_remaining.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -130,8 +130,9 @@ stip_length_type can_attack(slice_index si,
       result = series_adapter_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STSelfDefense:
-      result = self_defense_can_attack(si,n,n_max_unsolvable);
+    case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_goal_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
@@ -336,8 +337,9 @@ stip_length_type attack(slice_index si,
       result = attack_hashed_attack(si,n,n_max_unsolvable);
       break;
 
-    case STSelfDefense:
-      result = self_defense_attack(si,n,n_max_unsolvable);
+    case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_goal_attack(si,n,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:

@@ -121,7 +121,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
  pykeepmt.h pyselfcg.h pyselfgd.h pymovenb.h pyflight.h pydegent.h \
  pythreat.h pynontrv.h pyquodli.h stipulation/dead_end.h \
- stipulation/fork_on_remaining.h stipulation/battle_play/branch.h \
+ stipulation/fork_on_remaining.h stipulation/end_of_branch_goal.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/attack_move_generator.h \
@@ -175,6 +176,8 @@ pyquodli.h:
 stipulation/dead_end.h:
 
 stipulation/fork_on_remaining.h:
+
+stipulation/end_of_branch_goal.h:
 
 stipulation/battle_play/branch.h:
 

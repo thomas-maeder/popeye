@@ -66,7 +66,6 @@
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
-    ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
@@ -261,7 +260,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDefenseMove */
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STEndOfBranchForced */
-  slice_structure_fork,   /* STSelfDefense */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
@@ -407,7 +405,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STDefenseMove */
   slice_function_unspecified,    /* STReflexAttackerFilter */
   slice_function_unspecified,    /* STEndOfBranchForced */
-  slice_function_unspecified,    /* STSelfDefense */
   slice_function_move_generator, /* STDefenseMoveGenerator */
   slice_function_unspecified,    /* STReadyForAttack */
   slice_function_unspecified,    /* STReadyForDefense */
@@ -1175,7 +1172,6 @@ static structure_traversers_visitors to_quodlibet_transformers[] =
   { STReadyForAttack,    &insert_direct_guards                 },
   { STReadyForDefense,   &remember_end_of_attack               },
   { STEndOfBranchForced, &transform_to_quodlibet_end_of_branch },
-  { STSelfDefense,       &transform_to_quodlibet_end_of_branch },
   { STEndOfBranchGoal,   &transform_to_quodlibet_end_of_branch }
 };
 
@@ -1600,7 +1596,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_end_of_branch,   /* STReflexAttackerFilter */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchForced */
-  &stip_traverse_structure_end_of_branch,   /* STSelfDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
@@ -1839,7 +1834,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,             /* STDefenseMove */
     &stip_traverse_moves_end_of_branch,          /* STReflexAttackerFilter */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
-    &stip_traverse_moves_end_of_branch,          /* STSelfDefense */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
     &stip_traverse_moves_pipe,                   /* STReadyForDefense */

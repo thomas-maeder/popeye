@@ -137,8 +137,8 @@ static structure_traversers_visitors output_mode_detectors[] =
   { STDefenseAdapter,       &output_mode_treemode     },
   { STReadyForDefense,      &output_mode_treemode     },
   { STReflexAttackerFilter, &output_mode_treemode     },
-  { STEndOfBranchForced,    &output_mode_treemode     },
-  { STSelfDefense,          &output_mode_self_defense }
+  { STEndOfBranchGoal,      &output_mode_self_defense },
+  { STEndOfBranchForced,    &output_mode_treemode     }
 };
 
 enum

@@ -1,142 +1,14 @@
 #include "pyselfgd.h"
-#include "pybrafrk.h"
-#include "stipulation/branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/min_length_guard.h"
-#include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/play.h"
 #include "pypipe.h"
-#include "pydata.h"
-#include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
 
-
-/* **************** Initialisation ***************
- */
-
-/* Allocate a STSelfDefense slice
- * @param proxy_to_goal identifies slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index alloc_self_defense(slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch_fork(STSelfDefense,proxy_to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* **************** Implementation of interface Direct ***************
- */
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type self_defense_can_attack(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const fork = slices[si].u.fork.fork;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_battle);
-
-  if (n_max_unsolvable<slack_length_battle
-      || n<=n_max_unsolvable) /* exact refutation */
-  {
-    result = can_attack(fork,n,n_max_unsolvable);
-    if (result>n)
-      /* delegate to next even if (n==slack_length_battle) - we need
-       * to distinguish between self-check and other ways of not
-       * reaching the goal */
-      result = can_attack(next,n,n_max_unsolvable);
-  }
-  else
-    result = can_attack(next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type self_defense_attack(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const fork = slices[si].u.fork.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_battle);
-
-  if (n_max_unsolvable<slack_length_battle
-      || n<=n_max_unsolvable) /* exact refutation */
-  {
-    result = attack(fork,n,n_max_unsolvable);
-    if (result>n)
-      /* delegate to next even if (n==slack_length_battle) - we need
-       * to distinguish between self-check and other ways of not
-       * reaching the goal */
-      result = attack(next,n,n_max_unsolvable);
-  }
-  else
-    result = attack(next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* **************** Stipulation instrumentation ***************
- */
-
-/* Insert a STSelfDefense after each STDefenseMove
+/* Insert a STEndOfBranchGoal after each STDefenseMove
  */
 static void self_guards_inserter_defense(slice_index si,
                                          stip_structure_traversal *st)
@@ -155,7 +27,7 @@ static void self_guards_inserter_defense(slice_index si,
       slice_index const * const proxy_to_goal = st->param;
       slice_index const prototypes[] =
       {
-          alloc_self_defense(*proxy_to_goal)
+          alloc_end_of_branch_goal(*proxy_to_goal)
       };
       enum
       {
@@ -176,7 +48,8 @@ static void self_guards_inserter_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a branch with STSelfDefense slices
+/* Instrument a branch for detecting whether the defense was forced to reach a
+ * goal
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
  */
