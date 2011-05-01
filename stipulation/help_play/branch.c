@@ -372,7 +372,7 @@ static void insert_end_of_branch(slice_index si, slice_index end_proto)
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
  */
-void help_branch_set_next_slice(slice_index si, slice_index next)
+void help_branch_set_end(slice_index si, slice_index next)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -389,7 +389,7 @@ void help_branch_set_next_slice(slice_index si, slice_index next)
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
  */
-void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
+void help_branch_set_end_goal(slice_index si, slice_index to_goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -397,6 +397,23 @@ void help_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParamListEnd();
 
   insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a fork to the next branch
+ * @param si identifies the entry slice of a help branch
+ * @param next identifies the entry slice of the next branch
+ */
+void help_branch_set_end_forced(slice_index si, slice_index next)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  insert_end_of_branch(si,alloc_end_of_branch_forced(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

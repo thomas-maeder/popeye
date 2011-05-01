@@ -295,3 +295,36 @@ hr#2 - don't write long solutions because Black must mate immediately
 solution finished. 
 
 
+
+stop solving when the goal is reached
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .   .   5
+|                                   |
+4  DU  DU   .   .   .   .   .   .   4
+|                                   |
+3   .  DU  DU   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hsx2                        5 + 1
+
+  1.h3-h4 a5*b4 x 
+
+              empile:           5
+            jouecoup:           7
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+

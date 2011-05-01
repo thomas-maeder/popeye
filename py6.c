@@ -2105,6 +2105,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STEndOfBranch:
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
+    case STEndOfBranchForced:
     {
       slice_index const fork = slices[si].u.fork.fork;
       result = detect_meaning_of_whitetoplay(fork);
