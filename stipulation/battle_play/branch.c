@@ -5,6 +5,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move_generator.h"
@@ -16,7 +17,6 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
-#include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/operators/binary.h"
 #include "trace.h"
@@ -53,7 +53,8 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STKillerMoveCollector,
   STGoalReachedTesting,
-  STEndOfBattleBranch,
+  STEndOfBranchGoal,
+  STEndOfBranchGoalImmobile,
   STDeadEnd,
   STSelfCheckGuard,
   STKeepMatingFilter,
@@ -211,7 +212,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
           break;
         }
-        else if (slices[next].type==STEndOfBattleBranch)
+        else if (slices[next].type==STEndOfBranchGoal
+                 || slices[next].type==STEndOfBranchGoalImmobile)
         {
           battle_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
@@ -663,13 +665,13 @@ static structure_traversers_visitors battle_root_slice_inserters[] =
 {
   { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
 
-  { STReadyForAttack,       &ready_for_attack_make_root       },
-  { STEndOfBattleBranch,    &end_of_battle_branch_make_root   },
-  { STAttackFindShortest,   &attack_find_shortest_make_root   },
-  { STDefenseMove,          &defense_move_make_root           },
+  { STReadyForAttack,     &ready_for_attack_make_root     },
+  { STEndOfBranchGoal,    &end_of_branch_goal_make_root   },
+  { STAttackFindShortest, &attack_find_shortest_make_root },
+  { STDefenseMove,        &defense_move_make_root         },
 
-  { STReciprocal,           &binary_make_root                 },
-  { STQuodlibet,            &binary_make_root                 }
+  { STReciprocal,         &binary_make_root               },
+  { STQuodlibet,          &binary_make_root               }
 };
 
 enum

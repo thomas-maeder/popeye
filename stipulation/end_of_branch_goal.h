@@ -24,6 +24,13 @@ slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal);
  */
 slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void end_of_branch_goal_make_root(slice_index si,
+                                    stip_structure_traversal *st);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

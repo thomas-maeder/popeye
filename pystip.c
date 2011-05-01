@@ -15,7 +15,6 @@
 #include "pypipe.h"
 #include "stipulation/operators/binary.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/leaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
@@ -1177,7 +1176,7 @@ static structure_traversers_visitors to_quodlibet_transformers[] =
   { STReadyForDefense,   &remember_end_of_attack               },
   { STEndOfBranchForced, &transform_to_quodlibet_end_of_branch },
   { STSelfDefense,       &transform_to_quodlibet_end_of_branch },
-  { STEndOfBattleBranch, &transform_to_quodlibet_end_of_branch }
+  { STEndOfBranchGoal,   &transform_to_quodlibet_end_of_branch }
 };
 
 enum
@@ -1838,13 +1837,13 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,             /* STAttackMove */
     &stip_traverse_moves_pipe,                   /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,             /* STDefenseMove */
-    &stip_traverse_moves_reflex_attacker_filter, /* STReflexAttackerFilter */
-    &stip_traverse_moves_end_of_battle_branch,   /* STEndOfBranchForced */
-    &stip_traverse_moves_end_of_battle_branch,   /* STSelfDefense */
+    &stip_traverse_moves_end_of_branch,          /* STReflexAttackerFilter */
+    &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
+    &stip_traverse_moves_end_of_branch,          /* STSelfDefense */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
     &stip_traverse_moves_pipe,                   /* STReadyForDefense */
-    &stip_traverse_moves_end_of_battle_branch,   /* STEndOfBattleBranch */
+    &stip_traverse_moves_end_of_branch,          /* STEndOfBattleBranch */
     &stip_traverse_moves_pipe,                   /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,     /* STHelpAdapter */
     &stip_traverse_moves_pipe,                   /* STHelpFindShortest */
@@ -1992,9 +1991,6 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
-  for (i = 0; i!=max_nr_slices; ++i)
-    st->visited[i] = false;
-
   st->level = 0;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->param = param;
@@ -2108,7 +2104,6 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
   {
     stip_moves_visitor const operation = st->map.visitors[slices[root].type];
     assert(operation!=0);
-    st->visited[root] = true;
     (*operation)(root,st);
   }
 

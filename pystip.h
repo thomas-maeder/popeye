@@ -575,7 +575,6 @@ typedef struct stip_moves_traversal
     unsigned int level;
     stip_length_type full_length;
     stip_length_type remaining;
-    boolean visited[max_nr_slices];
     void *param;
 } stip_moves_traversal;
 

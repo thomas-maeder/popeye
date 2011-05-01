@@ -38,26 +38,6 @@ static slice_index alloc_reflex_attacker_filter(slice_index proxy_to_avoided)
   return result;
 }
 
-/* Traversal of the moves beyond a reflex attacker filter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_reflex_attacker_filter(slice_index si,
-                                                stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!st->visited[slices[si].u.fork.fork])
-    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

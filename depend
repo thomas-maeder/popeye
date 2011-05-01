@@ -1184,12 +1184,12 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  pystip.h stipulation/series_play/play.h pymovein.h pykeepmt.h pyselfcg.h \
  pyselfgd.h pydirctg.h pypipe.h stipulation/operators/binary.h \
- stipulation/branch.h stipulation/battle_play/end_of_branch.h \
- stipulation/battle_play/defense_play.h stipulation/leaf.h \
- stipulation/setplay_fork.h pypipe.h stipulation/reflex_attack_solver.h \
+ stipulation/branch.h stipulation/leaf.h stipulation/setplay_fork.h \
+ pypipe.h stipulation/reflex_attack_solver.h \
  stipulation/battle_play/attack_play.h stipulation/dead_end.h \
- stipulation/help_play/play.h stipulation/series_play/play.h \
- stipulation/end_of_branch.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/series_play/play.h stipulation/end_of_branch.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/defense_move_generator.h \
@@ -1289,10 +1289,6 @@ stipulation/operators/binary.h:
 
 stipulation/branch.h:
 
-stipulation/battle_play/end_of_branch.h:
-
-stipulation/battle_play/defense_play.h:
-
 stipulation/leaf.h:
 
 stipulation/setplay_fork.h:
@@ -1304,6 +1300,8 @@ stipulation/reflex_attack_solver.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/dead_end.h:
+
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/play.h:
 
@@ -1641,7 +1639,7 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
  boolean.h py.h pyenum.h stipulation/branch.h pystip.h \
  stipulation/dead_end.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h stipulation/battle_play/end_of_branch.h \
+ stipulation/series_play/play.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/ready_for_attack.h \
@@ -1680,7 +1678,7 @@ stipulation/help_play/play.h:
 
 stipulation/series_play/play.h:
 
-stipulation/battle_play/end_of_branch.h:
+stipulation/end_of_branch_goal.h:
 
 stipulation/battle_play/branch.h:
 

@@ -14,6 +14,13 @@
  */
 slice_index alloc_end_of_branch_slice(slice_index to_goal);
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_end_of_branch(slice_index si,
+                                           stip_structure_traversal *st);
+
 /* Traversal of the moves beyond a help fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

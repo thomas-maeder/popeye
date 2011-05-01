@@ -142,7 +142,7 @@ static void forget_deadend(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void start_move(slice_index si, stip_moves_traversal *st)
+static void start_battle_move(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
   stip_length_type const save_min_remaining = state->min_remaining;
@@ -178,12 +178,12 @@ static void raise_min_remaining(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const dead_end_optimisers[] =
 {
-  { STAttackAdapter,         &start_move              },
-  { STDefenseAdapter,        &start_move              },
+  { STAttackAdapter,         &start_battle_move       },
+  { STDefenseAdapter,        &start_battle_move       },
   { STHelpAdapter,           &optimise_deadend_help   },
   { STSeriesAdapter,         &optimise_deadend_series },
-  { STReadyForAttack,        &start_move              },
-  { STReadyForDefense,       &start_move              },
+  { STReadyForAttack,        &start_battle_move       },
+  { STReadyForDefense,       &start_battle_move       },
   { STReadyForHelpMove,      &optimise_deadend_help   },
   { STReadyForSeriesMove,    &optimise_deadend_series },
   { STDeadEnd,               &remember_deadend        },

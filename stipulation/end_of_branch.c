@@ -29,6 +29,24 @@ slice_index alloc_end_of_branch_slice(slice_index to_goal)
   return result;
 }
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_end_of_branch(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves beyond a help fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -40,7 +58,7 @@ void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
+  if (st->remaining<=1)
     stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   stip_traverse_moves_pipe(si,st);

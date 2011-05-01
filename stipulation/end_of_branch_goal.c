@@ -58,6 +58,32 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
   return result;
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void end_of_branch_goal_make_root(slice_index si,
+                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index * const root_slice = st->param;
+    slice_index const fork = slices[si].u.fork.fork;
+    slice_index const fork_copy = stip_deep_copy(fork);
+    slice_index const defense_root = alloc_end_of_branch_goal(fork_copy);
+    link_to_branch(defense_root,*root_slice);
+    *root_slice = defense_root;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -79,7 +105,7 @@ end_of_branch_goal_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.fork.next;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -90,7 +116,7 @@ end_of_branch_goal_defend(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n_max_unsolvable<slack_length_battle
-      && slice_solve(avoided)==has_solution)
+      && slice_solve(fork)==has_solution)
     result = slack_length_battle;
   else
     result = defend(next,n,n_max_unsolvable);
@@ -119,7 +145,7 @@ end_of_branch_goal_can_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -130,7 +156,7 @@ end_of_branch_goal_can_defend(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n_max_unsolvable<slack_length_battle
-      && slice_has_solution(avoided)==has_solution)
+      && slice_has_solution(fork)==has_solution)
     result = slack_length_battle;
   else
     result = can_defend(next,n,n_max_unsolvable);
@@ -153,7 +179,7 @@ end_of_branch_goal_can_defend(slice_index si,
 stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
   has_solution_type avoided_sol;
 
@@ -165,8 +191,8 @@ stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   avoided_sol = (n<slack_length_help+2
-                 ? slice_solve(avoided)
-                 : slice_has_solution(avoided));
+                 ? slice_solve(fork)
+                 : slice_has_solution(fork));
   switch (avoided_sol)
   {
     case opponent_self_check:
@@ -206,7 +232,7 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -216,7 +242,7 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
 
   assert(n>=slack_length_help);
 
-  switch (slice_has_solution(avoided))
+  switch (slice_has_solution(fork))
   {
     case opponent_self_check:
       result = n+4;
@@ -254,7 +280,7 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
 stip_length_type end_of_branch_goal_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
   has_solution_type avoided_sol;
 
@@ -266,8 +292,8 @@ stip_length_type end_of_branch_goal_series(slice_index si, stip_length_type n)
   assert(n>=slack_length_series);
 
   avoided_sol = (n==slack_length_series
-                 ? slice_solve(avoided)
-                 : slice_has_solution(avoided));
+                 ? slice_solve(fork)
+                 : slice_has_solution(fork));
   switch (avoided_sol)
   {
     case opponent_self_check:
@@ -307,7 +333,7 @@ stip_length_type end_of_branch_goal_has_series(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -317,7 +343,7 @@ stip_length_type end_of_branch_goal_has_series(slice_index si,
 
   assert(n>=slack_length_series);
 
-  switch (slice_has_solution(avoided))
+  switch (slice_has_solution(fork))
   {
     case opponent_self_check:
       result = n+2;

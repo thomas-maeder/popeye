@@ -9,7 +9,6 @@
 #include "pythreat.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/battle_play/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
@@ -218,8 +217,9 @@ stip_length_type defend(slice_index si,
       result = goal_prerequisite_optimiser_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBattleBranch:
-      result = end_of_battle_branch_defend(si,n,n_max_unsolvable);
+    case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -425,8 +425,9 @@ stip_length_type can_defend(slice_index si,
       result = goal_prerequisite_optimiser_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBattleBranch:
-      result = end_of_battle_branch_can_defend(si,n,n_max_unsolvable);
+    case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
+      result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
