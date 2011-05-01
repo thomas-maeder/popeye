@@ -7,7 +7,7 @@
 #include "stipulation/battle_play/try.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/variation_writer.h"
+#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"
 
 #include <assert.h>

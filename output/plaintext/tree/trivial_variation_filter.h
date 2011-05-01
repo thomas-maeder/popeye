@@ -1,12 +1,20 @@
-#if !defined(OUTPUT_PLAINTEXT_TREE_VARIATION_WRITER_H)
-#define OUTPUT_PLAINTEXT_TREE_VARIATION_WRITER_H
+#if !defined(OUTPUT_PLAINTEXT_TREE_TRIVIAL_VARIATION_FILTER_H)
+#define OUTPUT_PLAINTEXT_TREE_TRIVIAL_VARIATION_FILTER_H
 
 #include "stipulation/battle_play/attack_play.h"
 
-/* Allocate a STVariationWriter slice.
+/* Used by STContinuationWriter and STKeyWriter to
+ * inform STTrivialVariationFilter about the maximum length of variations
+ * after the attack just played. STTrivialVariationFilter uses this
+ * information to suppress the output of variations that are deemed
+ * too short to be interesting.
+ */
+extern stip_length_type max_variation_length[maxply+1];
+
+/* Allocate a STTrivialVariationFilter slice.
  * @return index of allocated slice
  */
-slice_index alloc_variation_writer_slice(void);
+slice_index alloc_trivial_variation_filter_slice(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -19,9 +27,9 @@ slice_index alloc_variation_writer_slice(void);
  *            n+2 no solution found
  */
 stip_length_type
-variation_writer_can_attack(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable);
+trivial_variation_filter_can_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -34,8 +42,9 @@ variation_writer_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type variation_writer_attack(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable);
+stip_length_type
+trivial_variation_filter_attack(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_max_unsolvable);
 
 #endif

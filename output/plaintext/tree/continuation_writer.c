@@ -9,7 +9,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/variation_writer.h"
+#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"
 
 /* Allocate a STContinuationWriter defender slice.

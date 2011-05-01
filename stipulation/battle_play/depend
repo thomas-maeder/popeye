@@ -143,6 +143,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/variation_writer.h \
+ output/plaintext/tree/trivial_variation_filter.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/goal_writer.h trace.h
@@ -222,6 +223,8 @@ output/plaintext/tree/decoration_writer.h:
 output/plaintext/tree/zugzwang_writer.h:
 
 output/plaintext/tree/variation_writer.h:
+
+output/plaintext/tree/trivial_variation_filter.h:
 
 output/plaintext/tree/refutation_writer.h:
 

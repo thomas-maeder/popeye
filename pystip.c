@@ -189,6 +189,7 @@
     ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STVariationWriter), /* writes variations */              \
+    ENUMERATOR(STTrivialVariationFilter), /* don't write variations */  \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
@@ -323,7 +324,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_pipe,   /* STRefutationsSolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
-  slice_structure_branch, /* STContinuationSolver */
+  slice_structure_pipe,   /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_pipe,   /* STThreatEnforcer */
   slice_structure_pipe,   /* STThreatStart */
@@ -382,7 +383,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STKeyWriter */
   slice_structure_pipe,   /* STTryWriter */
   slice_structure_pipe,   /* STZugzwangWriter */
-  slice_structure_branch, /* STVariationWriter */
+  slice_structure_pipe,   /* STVariationWriter */
+  slice_structure_pipe,   /* STTrivialVariationFilter */
   slice_structure_pipe,   /* STRefutingVariationWriter */
   slice_structure_pipe,   /* STRefutationWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeCheckWriter */
@@ -528,6 +530,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STTryWriter */
   slice_function_unspecified,    /* STZugzwangWriter */
   slice_function_unspecified,    /* STVariationWriter */
+  slice_function_unspecified,    /* STTrivialVariationFilter */
   slice_function_unspecified,    /* STRefutingVariationWriter */
   slice_function_unspecified,    /* STRefutationWriter */
   slice_function_unspecified,    /* STOutputPlaintextTreeCheckWriter */
@@ -1719,6 +1722,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STTryWriter */
   &stip_traverse_structure_pipe,            /* STZugzwangWriter */
   &stip_traverse_structure_pipe,            /* STVariationWriter */
+  &stip_traverse_structure_pipe,            /* STTrivialVariationFilter */
   &stip_traverse_structure_pipe,            /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,            /* STRefutationWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckWriter */
@@ -1957,6 +1961,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STTryWriter */
     &stip_traverse_moves_pipe,                   /* STZugzwangWriter */
     &stip_traverse_moves_pipe,                   /* STVariationWriter */
+    &stip_traverse_moves_pipe,                   /* STTrivialVariationFilter */
     &stip_traverse_moves_pipe,                   /* STRefutingVariationWriter */
     &stip_traverse_moves_pipe,                   /* STRefutationWriter */
     &stip_traverse_moves_pipe,                   /* STOutputPlaintextTreeCheckWriter */

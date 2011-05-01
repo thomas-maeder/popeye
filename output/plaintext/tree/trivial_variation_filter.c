@@ -1,20 +1,27 @@
-#include "output/plaintext/tree/variation_writer.h"
-#include "pyoutput.h"
+#include "output/plaintext/tree/trivial_variation_filter.h"
+#include "pydata.h"
 #include "pypipe.h"
-#include "output/plaintext/tree/tree.h"
 #include "trace.h"
+
+/* Used by STContinuationWriter and STKeyWriter to
+ * inform STTrivialVariationFilter about the maximum length of variations
+ * after the attack just played. STTrivialVariationFilter uses this
+ * information to suppress the output of variations that are deemed
+ * too short to be interesting.
+ */
+stip_length_type max_variation_length[maxply+1];
 
 /* Allocate a STVariationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_variation_writer_slice(void)
+slice_index alloc_trivial_variation_filter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STVariationWriter);
+  result = alloc_pipe(STTrivialVariationFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -33,9 +40,9 @@ slice_index alloc_variation_writer_slice(void)
  *            n+2 no solution found
  */
 stip_length_type
-variation_writer_can_attack(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
+trivial_variation_filter_can_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -64,11 +71,13 @@ variation_writer_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type variation_writer_attack(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type
+trivial_variation_filter_attack(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,8 +85,14 @@ stip_length_type variation_writer_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  output_plaintext_tree_write_move();
-  result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
+  if (n==slack_length_battle
+      && max_variation_length[nbply]>slack_length_battle+1)
+    /* variation is too short to be interesting - just determine the
+     * result
+     */
+    result = can_attack(next,n,n_max_unsolvable);
+  else
+    result = attack(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

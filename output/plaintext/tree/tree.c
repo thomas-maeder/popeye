@@ -14,6 +14,7 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
+#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -181,6 +182,58 @@ static void insert_regular_writer_slices(slice_index si)
   stip_structure_traversal_override(&st,
                                     regular_writer_inserters,
                                     nr_regular_writer_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_trivial_varation_filter(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  slice_index variation_writer = no_slice;
+  boolean found_goal_tester = false;
+  slice_index current = slices[si].u.fork.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  while (slices[current].type!=STLeaf)
+  {
+    if (slices[current].type==STVariationWriter)
+      variation_writer = current;
+    else if (slices[current].type==STGoalReachedTesting)
+      found_goal_tester = true;
+
+    current = slices[current].u.pipe.next;
+  }
+
+  if (found_goal_tester && variation_writer!=no_slice)
+    pipe_append(slices[variation_writer].prev,
+                alloc_trivial_variation_filter_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_trivial_varation_filters(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchGoal,
+                                           &insert_trivial_varation_filter);
+  stip_structure_traversal_override_single(&st,
+                                           STEndOfBranchGoalImmobile,
+                                           &insert_trivial_varation_filter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -518,6 +571,7 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   TraceStipulation(si);
 
   insert_regular_writer_slices(si);
+  insert_trivial_varation_filters(si);
   insert_try_writers(si);
   insert_root_writer_slices(si);
   remove_superfluous_continuation_writer(si);
