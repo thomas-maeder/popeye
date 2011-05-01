@@ -151,15 +151,14 @@ static void optimise_defense_move_generator(slice_index si,
 
   if (enabled[defender])
   {
-    slice_index const counter = alloc_countnropponentmoves_move_generator_slice();
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const copy = copy_slice(si);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,3);
     slice_index const proxy2 = alloc_proxy_slice();
 
     pipe_append(slices[si].prev,fork);
-    pipe_replace(si,counter);
-    pipe_append(counter,proxy2);
+    pipe_substitute(si,alloc_countnropponentmoves_move_generator_slice());
+    pipe_append(si,proxy2);
 
     pipe_link(proxy1,copy);
     pipe_set_successor(copy,proxy2);

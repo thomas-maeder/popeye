@@ -110,7 +110,7 @@ static void optimise(slice_index si, stip_moves_traversal *st)
     {
       slice_index const substitute = alloc_branch_fork(STEndOfBranchGoalImmobile,
                                                        to_goal);
-      pipe_replace(si,substitute);
+      pipe_substitute(si,substitute);
     }
   }
   else

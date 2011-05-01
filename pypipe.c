@@ -131,26 +131,24 @@ void pipe_unlink(slice_index pipe)
   TraceFunctionResultEnd();
 }
 
-/* Replace a slice by another. Links the substitute to the replaced
- * slice's predecessor and successor, but doesn't adjust the links
- * from other slices that may reference the replaced slice.
- * Deallocates the replaced slice.
+/* Substitute a slice for another.
+ * Copies "the guts" of slice substitute into slice replaced, but leaves
+ * replaced's links to the previous and successive slices intact.
+ * Deallocates substitute.
  * @param replaced identifies the replaced slice
  * @param substitute identifies the substitute
  */
-void pipe_replace(slice_index replaced, slice_index substitute)
+void pipe_substitute(slice_index replaced, slice_index substitute)
 {
-  slice_index const prev = slices[replaced].prev;
-  slice_index const next = slices[replaced].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",replaced);
   TraceFunctionParam("%u",substitute);
   TraceFunctionParamListEnd();
 
-  pipe_link(prev,substitute);
-  pipe_link(substitute,next);
-  dealloc_slice(replaced);
+  slices[substitute].prev = slices[replaced].prev;
+  slices[substitute].u.pipe.next = slices[replaced].u.pipe.next;
+  slices[replaced] = slices[substitute];
+  dealloc_slice(substitute);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

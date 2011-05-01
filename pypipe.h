@@ -38,14 +38,14 @@ void pipe_link(slice_index pipe, slice_index succ);
  */
 void pipe_unlink(slice_index pipe);
 
-/* Replace a slice by another. Links the substitute to the replaced
- * slice's predecessor and successor, but doesn't adjust the links
- * from other slices that may reference the replaced slice.
- * Deallocates the replaced slice.
+/* Substitute a slice for another.
+ * Copies "the guts" of slice substitute into slice replaced, but leaves
+ * replaced's links to the previous and successive slices intact.
+ * Deallocates substitute.
  * @param replaced identifies the replaced slice
  * @param substitute identifies the substitute
  */
-void pipe_replace(slice_index replaced, slice_index substitute);
+void pipe_substitute(slice_index replaced, slice_index substitute);
 
 /* Append a pipe slice to another. Links the two slices and
  * establishes the same connection from the appended slice to the

@@ -153,7 +153,7 @@ static void optimise_move_generator(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (enabled[slices[si].starter])
-    pipe_replace(si,alloc_killer_move_move_generator_slice());
+    pipe_substitute(si,alloc_killer_move_move_generator_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
