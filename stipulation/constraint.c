@@ -412,7 +412,6 @@ static void reflex_guards_inserter_help_adapter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  /* only one side is bound to deliver reflexmate */
   if ((length-slack_length_help)%2==1)
   {
     slice_index const proxy_to_avoided = param->avoided_defense;
