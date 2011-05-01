@@ -328,7 +328,7 @@ static void insert_end_of_branch(slice_index si, slice_index end_proto)
  * @param to_goal identifies the entry slice of the branch leading to
  *                the goal
  */
-void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
+void series_branch_set_end_goal(slice_index si, slice_index to_goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -345,7 +345,7 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
  * @param si identifies the entry slice of a series branch
  * @param next identifies the entry slice of the next branch
  */
-void series_branch_set_next_slice(slice_index si, slice_index next)
+void series_branch_set_end(slice_index si, slice_index next)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -353,6 +353,23 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParamListEnd();
 
   insert_end_of_branch(si,alloc_end_of_branch_slice(next));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a fork to the next branch
+ * @param si identifies the entry slice of a series branch
+ * @param next identifies the entry slice of the next branch
+ */
+void series_branch_set_end_forced(slice_index si, slice_index next)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  insert_end_of_branch(si,alloc_end_of_branch_forced(next));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -404,6 +421,30 @@ slice_index series_branch_make_root(slice_index si)
   return result;
 }
 
+/* Find the slice where to start spawning off the set play
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of slice where to start if setplay is applicable
+ *         no_slice otherwise
+ */
+static slice_index find_setplay_spawn_slice(slice_index adapter)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STEndOfBranch,adapter);
+  if (result==no_slice)
+    result = branch_find_slice(STEndOfBranchForced,adapter);
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return entry point of the slices representing set play
@@ -412,18 +453,18 @@ slice_index series_branch_make_root(slice_index si)
 slice_index series_branch_make_setplay(slice_index adapter)
 {
   slice_index result;
-  slice_index end;
+  slice_index spawn_pos;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  end = branch_find_slice(STEndOfBranch,adapter);
-  if (end==no_slice)
+  spawn_pos = find_setplay_spawn_slice(adapter);
+  if (spawn_pos==no_slice)
     result = no_slice;
   else
   {
-    slice_index const fork = slices[end].u.fork.fork;
+    slice_index const fork = slices[spawn_pos].u.fork.fork;
     slice_index const end_of_branch = alloc_end_of_branch_slice(fork);
     slice_index const dead_end = alloc_dead_end_slice();
     result = alloc_series_adapter_slice(slack_length_series,

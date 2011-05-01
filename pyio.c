@@ -2334,7 +2334,7 @@ static char *ParseSerH(char *tok,
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help+1);
     help_branch_set_end_goal(help,proxy_next);
-    series_branch_set_next_slice(branch,help);
+    series_branch_set_end(branch,help);
     pipe_link(proxy,branch);
   }
 
@@ -2376,7 +2376,7 @@ static char *ParseSerS(char *tok,
                                                             slack_length_battle+1);
     slice_make_self_goal_branch(proxy_next);
     slice_insert_self_guards(defense_branch,proxy_next);
-    series_branch_set_next_slice(series,defense_branch);
+    series_branch_set_end_forced(series,defense_branch);
     pipe_link(proxy,series);
     pipe_link(aready,deadend);
   }
@@ -2464,7 +2464,7 @@ static char *ParsePlay(char *tok,
         slice_index const branch = alloc_series_branch(2*intro_len
                                                        +slack_length_series-1,
                                                        min_length);
-        series_branch_set_next_slice(branch,proxy_next);
+        series_branch_set_end(branch,proxy_next);
         pipe_set_successor(proxy,branch);
       }
     }
@@ -2496,7 +2496,7 @@ static char *ParsePlay(char *tok,
         pipe_link(mi,guard);
         pipe_link(guard,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
-        series_branch_set_next_slice(branch,proxy_next);
+        series_branch_set_end(branch,proxy_next);
         pipe_link(proxy,branch);
 
         stip_impose_starter(proxy_next,White);
@@ -2543,7 +2543,7 @@ static char *ParsePlay(char *tok,
             help_branch_set_end_forced(help,defense_branch);
             pipe_link(help_proxy,help);
 
-            series_branch_set_next_slice(series,help_proxy);
+            series_branch_set_end(series,help_proxy);
             pipe_link(proxy,series);
           }
 
@@ -2647,7 +2647,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_series_branch(length,min_length);
-          series_branch_set_goal_slice(branch,proxy_next);
+          series_branch_set_end_goal(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_next,Black);
           set_output_mode(output_mode_line);
@@ -3299,7 +3299,7 @@ static char *ParseStructuredStip_branch_ser(char *tok,
       {
         slice_index const series = alloc_series_branch(max_length,min_length);
         pipe_set_successor(proxy,series);
-        series_branch_set_next_slice(series,proxy_to_operand);
+        series_branch_set_end(series,proxy_to_operand);
       }
     }
   }

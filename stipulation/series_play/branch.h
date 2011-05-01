@@ -26,13 +26,19 @@ slice_index alloc_series_branch(stip_length_type length,
  * @param to_goal identifies the entry slice of the branch leading to
  *                the goal
  */
-void series_branch_set_goal_slice(slice_index si, slice_index to_goal);
+void series_branch_set_end_goal(slice_index si, slice_index to_goal);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a series branch
  * @param next identifies the entry slice of the next branch
  */
-void series_branch_set_next_slice(slice_index si, slice_index next);
+void series_branch_set_end(slice_index si, slice_index next);
+
+/* Insert a fork to the next branch
+ * @param si identifies the entry slice of a series branch
+ * @param next identifies the entry slice of the next branch
+ */
+void series_branch_set_end_forced(slice_index si, slice_index next);
 
 /* Insert slices into a series branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

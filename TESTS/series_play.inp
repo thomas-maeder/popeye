@@ -48,4 +48,12 @@ pieces white ka1 ph3
        black ka3 pa2a4b3b4
 stip ser-r#2
 
+next
+
+title stop solving when the goal is reached
+stip ser-sx2
+pieces white ph3a6a7
+       black ka8
+option nowk
+
 end

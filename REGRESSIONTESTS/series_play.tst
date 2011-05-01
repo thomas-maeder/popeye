@@ -227,3 +227,36 @@ no solution in 2 - Black has to deliver mate immediately
 solution finished. 
 
 
+
+stop solving when the goal is reached
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-sx2                     3 + 1
+
+  1.h3-h4 Ka8*a7 x 
+
+              empile:          11
+            jouecoup:          13
+        orig_rbechec:           0
+        orig_rnechec:          11
+solution finished. 
+
+
