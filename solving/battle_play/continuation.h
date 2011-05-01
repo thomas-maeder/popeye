@@ -8,12 +8,9 @@
  */
 
 /* Allocate a STContinuationSolver defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_continuation_solver_slice(stip_length_type length,
-                                            stip_length_type min_length);
+slice_index alloc_continuation_solver_slice(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

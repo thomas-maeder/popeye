@@ -2,8 +2,6 @@
 #include "pyoutput.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "trace.h"
@@ -17,21 +15,16 @@
 stip_length_type max_variation_length[maxply+1];
 
 /* Allocate a STVariationWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_variation_writer_slice(stip_length_type length,
-                                         stip_length_type min_length)
+slice_index alloc_variation_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STVariationWriter,length,min_length);
+  result = alloc_pipe(STVariationWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -95,7 +88,8 @@ stip_length_type variation_writer_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (max_variation_length[nbply]>slices[si].u.branch.length+2)
+  if (n==slack_length_battle
+      && max_variation_length[nbply]>slack_length_battle+1)
     /* variation is too short to be interesting - just determine the
      * result
      */

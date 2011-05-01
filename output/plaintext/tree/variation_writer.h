@@ -1,9 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_VARIATION_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_VARIATION_WRITER_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Used by STContinuationWriter and STKeyWriter to
  * inform STVariationWriter about the maximum length of variations
@@ -14,12 +12,9 @@
 extern stip_length_type max_variation_length[maxply+1];
 
 /* Allocate a STVariationWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_variation_writer_slice(stip_length_type length,
-                                         stip_length_type min_length);
+slice_index alloc_variation_writer_slice(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index

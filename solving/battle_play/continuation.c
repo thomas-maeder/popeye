@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/continuation.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -9,21 +8,16 @@
 #include <assert.h>
 
 /* Allocate a STContinuationSolver defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_continuation_solver_slice(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_continuation_solver_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STContinuationSolver,length,min_length);
+  result = alloc_pipe(STContinuationSolver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

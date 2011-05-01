@@ -166,7 +166,6 @@ trace.h:
 output/plaintext/tree/variation_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/variation_writer.c \
  output/plaintext/tree/variation_writer.h pyoutput.h pydata.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/attack_play.h \
  output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
  trace.h
 
@@ -177,10 +176,6 @@ pyoutput.h:
 pydata.h:
 
 pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
 
 output/plaintext/tree/tree.h:
 

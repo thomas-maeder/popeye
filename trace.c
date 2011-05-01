@@ -258,7 +258,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAttackFindShortest:
       case STReadyForAttack:
       case STReadyForDefense:
-      case STContinuationSolver:
       case STAttackHashed:
       case STHelpAdapter:
       case STHelpFindByIncreasingLength:
@@ -272,7 +271,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpHashed:
       case STSeriesHashed:
       case STStopOnShortSolutionsFilter:
-      case STVariationWriter:
       case STMinLengthOptimiser:
       case STMinLengthGuard:
       case STIntelligentSeriesFilter:
@@ -303,9 +301,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STTrySolver:
       case STRefutationsSolver:
       case STRefutationsCollector:
+      case STContinuationSolver:
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:
+      case STVariationWriter:
       case STThreatEnforcer:
       case STThreatStart:
       case STThreatCollector:
