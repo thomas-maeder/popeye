@@ -2,7 +2,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
@@ -38,31 +37,54 @@ static slice_index alloc_reflex_attacker_filter(slice_index proxy_to_avoided)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
  */
-void reflex_attacker_filter_make_root(slice_index si, stip_structure_traversal *st)
+has_solution_type reflex_attacker_filter_solve(slice_index si)
 {
+  has_solution_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const root_slice = st->param;
-    slice_index const avoided = slices[si].u.fork.fork;
-    slice_index const solver = alloc_reflex_attack_solver(avoided);
-    pipe_link(solver,*root_slice);
-    *root_slice = solver;
-  }
-
-  pipe_unlink(slices[si].prev);
-  dealloc_slice(si);
+  if (slice_solve(avoided)==has_solution)
+    result = slice_solve(next);
+  else
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type reflex_attacker_filter_has_solution(slice_index si)
+{
+  has_solution_type result;
+  slice_index const avoided = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slice_has_solution(avoided)==has_solution)
+    result = slice_has_solution(next);
+  else
+    result = has_no_solution;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether there is a solution in n half moves.

@@ -17,31 +17,12 @@ slice_index alloc_setplay_fork_slice(slice_index set)
   TraceFunctionParam("%u",set);
   TraceFunctionParamListEnd();
 
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
   result = alloc_branch_fork(STSetplayFork,set);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_setplay_fork(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Traversal of the moves of some pipe slice
@@ -54,11 +35,8 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
   stip_traverse_moves_pipe(si,st);
-
-  assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-  stip_traverse_moves(slices[si].u.fork.fork,st);
+  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

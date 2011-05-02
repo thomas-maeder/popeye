@@ -28,7 +28,7 @@ static slice_index const root_slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STReciprocal,
   STQuodlibet,
-  STStipulationReflexAttackSolver,
+  STReflexAttackerFilter,
   STDefenseAdapter,
   STAttackAdapter,
   STHelpAdapter,

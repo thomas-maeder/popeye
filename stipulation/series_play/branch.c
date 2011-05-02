@@ -1,6 +1,5 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
-#include "pyreflxg.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -377,12 +376,11 @@ void series_branch_set_end_forced(slice_index si, slice_index next)
 
 static structure_traversers_visitors series_root_slice_inserters[] =
 {
-  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-  { STSeriesFindShortest,   &series_find_shortest_make_root   },
-  { STReadyForSeriesMove,   &ready_for_series_move_make_root  },
-  { STSeriesMove,           &series_move_make_root            },
-  { STReciprocal,           &binary_make_root                 },
-  { STQuodlibet,            &binary_make_root                 }
+  { STSeriesFindShortest, &series_find_shortest_make_root  },
+  { STReadyForSeriesMove, &ready_for_series_move_make_root },
+  { STSeriesMove,         &series_move_make_root           },
+  { STReciprocal,         &binary_make_root                },
+  { STQuodlibet,          &binary_make_root                }
 };
 
 enum

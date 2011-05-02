@@ -43,24 +43,6 @@ stipulation/setplay_fork.h:
 pybrafrk.h:
 
 trace.h:
-stipulation/reflex_attack_solver$(OBJ_SUFFIX): stipulation/reflex_attack_solver.c \
- stipulation/reflex_attack_solver.h pybrafrk.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/attack_play.h \
- stipulation/help_play/play.h trace.h
-
-stipulation/reflex_attack_solver.h:
-
-pybrafrk.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/help_play/play.h:
-
-trace.h:
 stipulation/fork_on_remaining$(OBJ_SUFFIX): stipulation/fork_on_remaining.c \
  stipulation/fork_on_remaining.h pypipe.h trace.h
 
@@ -99,8 +81,7 @@ stipulation/branch.h:
 trace.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
  stipulation/end_of_branch_goal.h stipulation/branch.h \
- stipulation/dead_end.h stipulation/reflex_attack_solver.h \
- stipulation/battle_play/branch.h \
+ stipulation/dead_end.h stipulation/battle_play/branch.h \
  stipulation/battle_play/min_length_guard.h \
  stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
  pyslice.h pybrafrk.h pydata.h stipulation/proxy.h trace.h
@@ -110,8 +91,6 @@ stipulation/end_of_branch_goal.h:
 stipulation/branch.h:
 
 stipulation/dead_end.h:
-
-stipulation/reflex_attack_solver.h:
 
 stipulation/battle_play/branch.h:
 

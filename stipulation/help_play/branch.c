@@ -1,6 +1,5 @@
 #include "stipulation/help_play/branch.h"
 #include "pypipe.h"
-#include "pyreflxg.h"
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
@@ -502,11 +501,10 @@ slice_index alloc_help_branch(stip_length_type length,
 
 static structure_traversers_visitors help_root_slice_inserters[] =
 {
-  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-  { STHelpFindShortest,     &help_find_shortest_make_root     },
-  { STHelpMove,             &help_move_make_root              },
-  { STReciprocal,           &binary_make_root                 },
-  { STQuodlibet,            &binary_make_root                 }
+  { STHelpFindShortest, &help_find_shortest_make_root },
+  { STHelpMove,         &help_move_make_root          },
+  { STReciprocal,       &binary_make_root             },
+  { STQuodlibet,        &binary_make_root             }
 };
 
 enum

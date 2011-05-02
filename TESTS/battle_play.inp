@@ -307,7 +307,7 @@ title r#3
 pieces white ka1 bd1 sd8 pb4
        black ka3 pa4a5
 stipulation r#3
-option vari
+option vari movenum
 
 next
 

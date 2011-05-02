@@ -1,6 +1,5 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
-#include "pyreflxg.h"
 #include "pymovein.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -655,13 +654,10 @@ boolean battle_branch_apply_postkeyplay(slice_index si)
 
 static structure_traversers_visitors battle_root_slice_inserters[] =
 {
-  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-
   { STReadyForAttack,     &ready_for_attack_make_root     },
   { STEndOfBranchGoal,    &end_of_branch_goal_make_root   },
   { STAttackFindShortest, &attack_find_shortest_make_root },
   { STDefenseMove,        &defense_move_make_root         },
-
   { STReciprocal,         &binary_make_root               },
   { STQuodlibet,          &binary_make_root               }
 };

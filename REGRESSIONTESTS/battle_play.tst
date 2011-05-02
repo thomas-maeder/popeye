@@ -1464,6 +1464,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#3                         4 + 3
 
+  1  (Sd8-b7 )
+  2  (Sd8-c6 )
    1.Sd8-c6 ! zugzwang.
       1...a5*b4
           2.Bd1-c2 zugzwang.
@@ -1471,10 +1473,24 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
+  3  (Sd8-e6 )
+  4  (Sd8-f7 )
+  5  (b4-b5 )
+  6  (b4*a5 )
+  7  (Bd1-h5 )
+  8  (Bd1-g4 )
+  9  (Bd1-f3 )
+ 10  (Bd1-e2 )
+ 11  (Bd1*a4 )
+ 12  (Bd1-b3 )
+ 13  (Bd1-c2 )
+ 14  (Ka1-b1 )
+ 15  (Ka1-a2 + )
+ 16  (Ka1-b2 + )
               empile:       11343
             jouecoup:        6677
         orig_rbechec:        5934
-        orig_rnechec:        1603
+        orig_rnechec:        1619
 solution finished. 
 
 

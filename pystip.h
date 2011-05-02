@@ -88,7 +88,6 @@
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
-    ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     /* solver slices */                                                 \

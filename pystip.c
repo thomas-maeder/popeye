@@ -6,7 +6,6 @@
 #include "pybrafrk.h"
 #include "pynot.h"
 #include "pyhash.h"
-#include "pyreflxg.h"
 #include "pymovein.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
@@ -18,7 +17,6 @@
 #include "stipulation/leaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
-#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
@@ -122,7 +120,6 @@
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
-    ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
@@ -317,7 +314,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuard */
   slice_structure_pipe,   /* STMoveInverter */
-  slice_structure_fork,   /* STStipulationReflexAttackSolver */
   slice_structure_branch, /* STMinLengthGuard */
   slice_structure_fork,   /* STForkOnRemaining */
   slice_structure_pipe,   /* STRefutationsAllocator */
@@ -463,7 +459,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STNot */
   slice_function_unspecified,    /* STSelfCheckGuard */
   slice_function_unspecified,    /* STMoveInverter */
-  slice_function_unspecified,    /* STStipulationReflexAttackSolver */
   slice_function_unspecified,    /* STMinLengthGuard */
   slice_function_unspecified,    /* STForkOnRemaining */
   slice_function_unspecified,    /* STRefutationsAllocator */
@@ -774,13 +769,12 @@ void dealloc_slices(slice_index si)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STReflexAttackerFilter, &reflex_attacker_filter_make_root },
-  { STAttackAdapter,        &attack_adapter_make_root         },
-  { STDefenseAdapter,       &defense_adapter_make_root        },
-  { STHelpAdapter,          &help_adapter_make_root           },
-  { STSeriesAdapter,        &series_adapter_make_root         },
-  { STReciprocal,           &binary_make_root                 },
-  { STQuodlibet,            &binary_make_root                 }
+  { STAttackAdapter,  &attack_adapter_make_root  },
+  { STDefenseAdapter, &defense_adapter_make_root },
+  { STHelpAdapter,    &help_adapter_make_root    },
+  { STSeriesAdapter,  &series_adapter_make_root  },
+  { STReciprocal,     &binary_make_root          },
+  { STQuodlibet,      &binary_make_root          }
 };
 
 enum
@@ -1217,13 +1211,13 @@ boolean transform_to_quodlibet(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STMoveInverter,                  &move_inverter_apply_setplay  },
-  { STForkOnRemaining,               &stip_traverse_structure_pipe },
-  { STStipulationReflexAttackSolver, &stip_traverse_structure_pipe },
-  { STAttackAdapter,                 &attack_adapter_apply_setplay },
-  { STDefenseAdapter,                &stip_structure_visitor_noop  },
-  { STHelpAdapter,                   &help_adapter_apply_setplay   },
-  { STSeriesAdapter,                 &series_adapter_apply_setplay }
+  { STMoveInverter,    &move_inverter_apply_setplay  },
+  { STNot,             &stip_structure_visitor_noop  },
+  { STForkOnRemaining, &stip_traverse_structure_pipe },
+  { STAttackAdapter,   &attack_adapter_apply_setplay },
+  { STDefenseAdapter,  &stip_structure_visitor_noop  },
+  { STHelpAdapter,     &help_adapter_apply_setplay   },
+  { STSeriesAdapter,   &series_adapter_apply_setplay }
 };
 
 enum
@@ -1619,7 +1613,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
-  &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
+  &stip_traverse_structure_end_of_branch,   /* STSetplayFork */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoal */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
@@ -1655,7 +1649,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,            /* STMoveInverter */
-  &stip_traverse_structure_end_of_branch,   /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STMinLengthGuard */
   &stip_traverse_structure_end_of_branch,   /* STForkOnRemaining */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
@@ -1836,7 +1829,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move_slice,             /* STAttackMove */
     &stip_traverse_moves_pipe,                   /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,             /* STDefenseMove */
-    &stip_traverse_moves_end_of_branch,          /* STReflexAttackerFilter */
+    &stip_traverse_moves_setplay_fork,           /* STReflexAttackerFilter */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
@@ -1894,7 +1887,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STNot */
     &stip_traverse_moves_pipe,                   /* STSelfCheckGuard */
     &stip_traverse_moves_pipe,                   /* STMoveInverter */
-    &stip_traverse_moves_reflex_attacker_solver, /* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                   /* STMinLengthGuard */
     &stip_traverse_moves_fork_on_remaining,      /* STForkOnRemaining */
     &stip_traverse_moves_pipe,                   /* STRefutationsAllocator */

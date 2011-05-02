@@ -5,10 +5,23 @@
  * wrong side to reach the goal.
  */
 
+#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type reflex_attacker_filter_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type reflex_attacker_filter_has_solution(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -108,12 +121,5 @@ void stip_insert_reflex_filters(slice_index si,
  */
 void stip_insert_reflex_filters_semi(slice_index si,
                                      slice_index proxy_to_avoided);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_attacker_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st);
 
 #endif

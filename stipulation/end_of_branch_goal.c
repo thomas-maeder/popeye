@@ -1,7 +1,6 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
