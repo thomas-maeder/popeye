@@ -54,7 +54,6 @@ stip_length_type key_writer_can_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   result = can_defend(slices[si].u.pipe.next,n,n_max_unsolvable);
-  max_variation_length[nbply+1] = result<n ? result : n;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -90,6 +89,7 @@ stip_length_type key_writer_defend(slice_index si,
 
   output_plaintext_tree_write_move();
   output_plaintext_tree_remember_move_decoration(attack_key);
+  do_filter_trivial_variations[nbply+1] = n>slack_length_battle+1;
   result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

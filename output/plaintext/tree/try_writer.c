@@ -88,9 +88,8 @@ stip_length_type try_writer_defend(slice_index si,
 
   if (n==n_max_unsolvable)
   {
-    /* refutations never lead to play that is too short to be
-     * interesting */
-    max_variation_length[nbply+1] = slack_length_battle+1;
+    /* refutations are never trivial */
+    do_filter_trivial_variations[nbply+1] = false;
 
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);

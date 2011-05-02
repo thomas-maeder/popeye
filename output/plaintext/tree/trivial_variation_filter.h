@@ -3,13 +3,11 @@
 
 #include "stipulation/battle_play/attack_play.h"
 
-/* Used by STContinuationWriter and STKeyWriter to
- * inform STTrivialVariationFilter about the maximum length of variations
- * after the attack just played. STTrivialVariationFilter uses this
- * information to suppress the output of variations that are deemed
- * too short to be interesting.
+/* Used to inform STTrivialVariationFilter about when to filter out trivial
+ * variations (e.g. short mates in self stipulations if there are defenses that
+ * don't deliver mate).
  */
-extern stip_length_type max_variation_length[maxply+1];
+extern boolean do_filter_trivial_variations[maxply+1];
 
 /* Allocate a STTrivialVariationFilter slice.
  * @return index of allocated slice

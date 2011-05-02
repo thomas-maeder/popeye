@@ -65,6 +65,7 @@ stip_length_type continuation_writer_defend(slice_index si,
   }
 
   output_plaintext_tree_write_move();
+  do_filter_trivial_variations[nbply+1] = n>slack_length_battle+1;
   result = defend(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -99,7 +100,6 @@ continuation_writer_can_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   result = can_defend(next,n,n_max_unsolvable);
-  max_variation_length[nbply+1] = result<n ? result : n;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

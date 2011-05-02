@@ -3,13 +3,11 @@
 #include "pypipe.h"
 #include "trace.h"
 
-/* Used by STContinuationWriter and STKeyWriter to
- * inform STTrivialVariationFilter about the maximum length of variations
- * after the attack just played. STTrivialVariationFilter uses this
- * information to suppress the output of variations that are deemed
- * too short to be interesting.
+/* Used to inform STTrivialVariationFilter about when to filter out trivial
+ * variations (e.g. short mates in self stipulations if there are defenses that
+ * don't deliver mate).
  */
-stip_length_type max_variation_length[maxply+1];
+boolean do_filter_trivial_variations[maxply+1];
 
 /* Allocate a STVariationWriter slice.
  * @return index of allocated slice
@@ -85,11 +83,8 @@ trivial_variation_filter_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_battle
-      && max_variation_length[nbply]>slack_length_battle+1)
-    /* variation is too short to be interesting - just determine the
-     * result
-     */
+  if (n==slack_length_battle && do_filter_trivial_variations[nbply])
+    /* variation is trivial - just determine the result */
     result = can_attack(next,n,n_max_unsolvable);
   else
     result = attack(next,n,n_max_unsolvable);
