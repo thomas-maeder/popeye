@@ -450,7 +450,7 @@ void stip_make_goal_attack_branch(slice_index si)
       alloc_dead_end_slice(),
       alloc_attack_move_generator_slice(),
       alloc_attack_move_slice(),
-      alloc_defense_adapter_slice(slack_length_battle+1,slack_length_battle)
+      alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1)
     };
     enum {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
