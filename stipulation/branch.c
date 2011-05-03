@@ -187,6 +187,156 @@ void root_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static slice_index const slice_rank_order[] =
+{
+  STAttackAdapter,
+  STDefenseAdapter,
+  STGoalReachedTesting
+};
+
+enum
+{
+  nr_slice_rank_order_elmts = (sizeof slice_rank_order
+                               / sizeof slice_rank_order[0]),
+  no_slice_rank_order = INT_MAX
+};
+
+static unsigned int get_slice_rank(SliceType type, unsigned int base)
+{
+  unsigned int result = no_slice_rank_order;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  for (i = base; i!=nr_slice_rank_order_elmts; ++i)
+    if (slice_rank_order[i]==type)
+    {
+      result = i;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+static void branch_insert_slices_recursive(slice_index si_start,
+                                           slice_index const prototypes[],
+                                           unsigned int nr_prototypes,
+                                           unsigned int base)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si_start);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index si = si_start;
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int prototype_rank = get_slice_rank(prototype_type,base);
+
+    do
+    {
+      slice_index const next = slices[si].u.pipe.next;
+
+      if (slices[next].type==STProxy)
+        si = next;
+      else if (slices[next].type==STQuodlibet
+               || slices[next].type==STReciprocal)
+      {
+        branch_insert_slices_recursive(slices[next].u.binary.op1,
+                                       prototypes,nr_prototypes,
+                                       base);
+        branch_insert_slices_recursive(slices[next].u.binary.op2,
+                                       prototypes,nr_prototypes,
+                                       base);
+        break;
+      }
+      else
+      {
+        unsigned int const rank_next = get_slice_rank(slices[next].type,base);
+        if (rank_next==no_slice_rank_order)
+          break;
+        else if (rank_next>prototype_rank)
+        {
+          slice_index const copy = copy_slice(prototypes[0]);
+          pipe_append(si,copy);
+          if (nr_prototypes>1)
+            branch_insert_slices_recursive(copy,
+                                           prototypes+1,nr_prototypes-1,
+                                           prototype_rank+1);
+          break;
+        }
+        else if (slices[next].type==STAttackAdapter
+                 || slices[next].type==STDefenseAdapter)
+        {
+          battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+          break;
+        }
+        else if (slices[next].type==STGoalReachedTesting)
+        {
+          leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+          break;
+        }
+        else
+        {
+          base = rank_next;
+          si = next;
+        }
+      }
+    } while (si!=si_start && prototype_type!=slices[si].type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a generic branch; the elements of
+ * prototypes are *not* deallocated by leaf_branch_insert_slices_nested().
+ * The inserted slices are copies of the elements of prototypes).
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void branch_insert_slices_nested(slice_index si,
+                                 slice_index const prototypes[],
+                                 unsigned int nr_prototypes)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type==STProxy)
+    branch_insert_slices_nested(slices[si].u.pipe.next,
+                                prototypes,nr_prototypes);
+  else if (slices[si].type==STQuodlibet
+           || slices[si].type==STReciprocal)
+  {
+    branch_insert_slices_nested(slices[si].u.binary.op1,
+                                prototypes,nr_prototypes);
+    branch_insert_slices_nested(slices[si].u.binary.op2,
+                                prototypes,nr_prototypes);
+  }
+  else if (slices[si].type==STGoalReachedTesting)
+    leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
+  else
+  {
+    unsigned int const base = get_slice_rank(slices[si].type,0);
+    assert(base!=no_slice_rank_order);
+
+    branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Order in which the slice types dealing with goals appear
  */
 static slice_index const leaf_slice_rank_order[] =

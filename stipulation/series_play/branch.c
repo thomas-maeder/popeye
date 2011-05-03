@@ -50,17 +50,13 @@ static slice_index const series_slice_rank_order[] =
   STKeepMatingFilter,
   STGoalReachableGuardFilter,
   STEndOfRoot,
+
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
-  STGoalReachedTesting,
   STDeadEndGoal,
   STSelfCheckGuard,
-
-  STEndOfBranch,
-
   STParryFork,
-  STDefenseAdapter,
-
+  STEndOfBranch,
   STEndOfBranchForced,
   STDeadEnd,
 
@@ -155,20 +151,17 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
-          if (slices[next].type==STGoalReachedTesting)
-          {
-            leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-            break;
-          }
-          else if (slices[next].type==STDefenseAdapter)
+          if (slices[next].type==STDefenseAdapter)
           {
             battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
-          else if (slices[next].type==STEndOfBranch)
-            series_branch_insert_slices_recursive(slices[next].u.fork.fork,
-                                                  prototypes,nr_prototypes,
-                                                  base);
+          else if (slices[next].type==STEndOfBranch
+                   || slices[next].type==STEndOfBranchGoal
+                   || slices[next].type==STEndOfBranchGoalImmobile
+                   || slices[next].type==STEndOfBranchForced)
+            branch_insert_slices_nested(slices[next].u.fork.fork,
+                                        prototypes,nr_prototypes);
 
           base = rank_next;
           si = next;

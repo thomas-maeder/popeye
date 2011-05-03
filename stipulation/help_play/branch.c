@@ -29,7 +29,6 @@ static slice_index const help_slice_rank_order[] =
 
   STReadyForHelpMove,
   STHelpHashed,
-  STHelpHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
   STEnPassantFilter,
@@ -48,13 +47,10 @@ static slice_index const help_slice_rank_order[] =
   STEndOfRoot,
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
-  STGoalReachedTesting,
   STDeadEndGoal,
   STSelfCheckGuard,
   STReflexAttackerFilter,
-  STEndOfBranchForced,
-  STEndOfBranch,
-  STDeadEnd
+  STEndOfBranch
 };
 
 enum
@@ -141,15 +137,12 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
-          if (slices[next].type==STGoalReachedTesting)
-          {
-            leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
-            break;
-          }
-          else if (slices[next].type==STEndOfBranch)
-            help_branch_insert_slices_recursive(slices[next].u.fork.fork,
-                                                prototypes,nr_prototypes,
-                                                base);
+          if (slices[next].type==STEndOfBranch
+                   || slices[next].type==STEndOfBranchGoal
+                   || slices[next].type==STEndOfBranchGoalImmobile
+                   || slices[next].type==STEndOfBranchForced)
+            branch_insert_slices_nested(slices[next].u.fork.fork,
+                                        prototypes,nr_prototypes);
 
           base = rank_next;
           si = next;
