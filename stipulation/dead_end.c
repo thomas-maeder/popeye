@@ -1,6 +1,7 @@
 #include "stipulation/dead_end.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "trace.h"
@@ -47,6 +48,31 @@ typedef struct
   slice_index optimisable_deadend;
   stip_length_type min_remaining;
 } optimisation_state;
+
+static void optimise_deadend_attack(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+  stip_length_type const save_min_remaining = state->min_remaining;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->min_remaining = 0;
+  stip_traverse_moves_children(si,st);
+  state->min_remaining = save_min_remaining;
+
+  if (state->optimisable_deadend!=no_slice)
+  {
+    slice_index const prototype = alloc_pipe(STDeadEndGoal);
+    battle_branch_insert_slices(si,&prototype,1);
+    pipe_remove(state->optimisable_deadend);
+    state->optimisable_deadend = no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void optimise_deadend_help(slice_index si, stip_moves_traversal *st)
 {
@@ -182,8 +208,8 @@ static moves_traversers_visitors const dead_end_optimisers[] =
   { STDefenseAdapter,        &start_battle_move       },
   { STHelpAdapter,           &optimise_deadend_help   },
   { STSeriesAdapter,         &optimise_deadend_series },
-  { STReadyForAttack,        &start_battle_move       },
-  { STReadyForDefense,       &start_battle_move       },
+  { STAttackMove,            &optimise_deadend_attack },
+  { STDefenseMove,           &start_battle_move       },
   { STReadyForHelpMove,      &optimise_deadend_help   },
   { STReadyForSeriesMove,    &optimise_deadend_series },
   { STDeadEnd,               &remember_deadend        },

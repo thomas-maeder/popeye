@@ -1154,10 +1154,9 @@ static void insert_direct_guards(slice_index si,
   if (slices[si].u.branch.length>slack_length_battle
       && state->to_goal!=no_slice)
   {
-    boolean const append_deadend = false;
     remove_non_goal_slices(state->to_goal);
     stip_make_direct_goal_branch(state->to_goal);
-    battle_branch_set_direct_goal_branch(si,state->to_goal,append_deadend);
+    battle_branch_set_direct_goal_branch(si,state->to_goal);
   }
 
   TraceFunctionExit(__func__);

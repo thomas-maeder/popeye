@@ -15,17 +15,13 @@
 /* Instrument a branch with slices dealing with direct play
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
- * @param append_deadend should we append a deadend after the fork to
- *                       proxy_to_goal
  */
 void battle_branch_set_direct_goal_branch(slice_index si,
-                                          slice_index proxy_to_goal,
-                                          boolean append_deadend)
+                                          slice_index proxy_to_goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParam("%u",append_deadend);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
@@ -34,29 +30,15 @@ void battle_branch_set_direct_goal_branch(slice_index si,
   assert(slices[proxy_to_goal].type==STProxy);
 
   {
-    if (append_deadend)
+    slice_index const prototypes[] =
     {
-      slice_index const prototypes[] =
-      {
-        alloc_end_of_branch_goal(proxy_to_goal),
-        alloc_dead_end_slice()
-      };
-      enum {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
-    }
-    else
-    {
-      slice_index const prototypes[] =
-      {
-        alloc_end_of_branch_goal(proxy_to_goal)
-      };
-      enum {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
-    }
+      alloc_end_of_branch_goal(proxy_to_goal),
+      alloc_dead_end_slice()
+    };
+    enum {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceStipulation(si);

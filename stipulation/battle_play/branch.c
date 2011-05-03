@@ -54,7 +54,7 @@ static slice_index const slice_rank_order[] =
   STGoalReachedTesting,
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
-  STDeadEnd,
+  STDeadEndGoal,
   STSelfCheckGuard,
   STKeepMatingFilter,
   STMaxNrNonTrivial,

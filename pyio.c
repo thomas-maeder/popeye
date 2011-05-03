@@ -2988,9 +2988,8 @@ static char *ParsePlay(char *tok,
                                                 ? slack_length_battle+1
                                                 : length-1);
           slice_index const branch = alloc_battle_branch(length,min_length);
-          boolean const append_deadend = true;
           stip_make_direct_goal_branch(proxy_next);
-          battle_branch_set_direct_goal_branch(branch,proxy_next,append_deadend);
+          battle_branch_set_direct_goal_branch(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_next,Black);
 
@@ -3125,9 +3124,8 @@ static char *ParseStructuredStip_branch_d(char *tok,
         }
         else
         {
-          boolean const append_deadend = false;
           stip_make_direct_goal_branch(proxy_operand);
-          battle_branch_set_direct_goal_branch(branch,proxy_operand,append_deadend);
+          battle_branch_set_direct_goal_branch(branch,proxy_operand);
         }
 
         pipe_set_successor(proxy,branch);
@@ -3184,9 +3182,8 @@ static char *ParseStructuredStip_branch_a(char *tok,
 
         if ((max_length-slack_length_battle-1)%2==0)
         {
-          boolean const append_deadend = false;
           stip_make_direct_goal_branch(proxy_operand);
-          battle_branch_set_direct_goal_branch(branch,proxy_operand,append_deadend);
+          battle_branch_set_direct_goal_branch(branch,proxy_operand);
         }
         else
         {
@@ -3676,6 +3673,9 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
     else if (slices[root_slice_hook].u.pipe.next!=no_slice)
       stip_impose_starter(root_slice_hook,starter);
   }
+
+  /* signal to our caller that the stipulation has changed */
+  slices[root_slice_hook].starter = no_side;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

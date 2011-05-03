@@ -99,6 +99,7 @@ stip_length_type defend(slice_index si,
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_defend(si,n,n_max_unsolvable);
       break;
 
@@ -310,6 +311,7 @@ stip_length_type can_defend(slice_index si,
       break;
 
     case STDeadEnd:
+    case STDeadEndGoal:
       result = dead_end_can_defend(si,n,n_max_unsolvable);
       break;
 
