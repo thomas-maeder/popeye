@@ -23,20 +23,35 @@ static void write_line(Side starting_side, goal_type goal)
 {
   int next_movenumber = 1;
   ply current_ply;
+  ply history[maxply];
+  unsigned int history_pos = 0;
 
   ply const start_ply = 2;
-
-  if (OptFlag[beep])
-    produce_beep();
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
+  if (OptFlag[beep])
+    produce_beep();
+
   Message(NewLine);
 
   ResetPosition();
+
+  history[history_pos] = nbply;
+  current_ply = nbply;
+  ++history_pos;
+  while (current_ply!=start_ply)
+  {
+    current_ply = parent_ply[current_ply];
+    if (repere[current_ply+1]>repere[current_ply])
+    {
+      history[history_pos] = current_ply;
+      ++history_pos;
+    }
+  }
 
   TraceValue("%u\n",
              output_plaintext_line_nr_move_inversions_in_ply[start_ply]);
@@ -68,8 +83,10 @@ static void write_line(Side starting_side, goal_type goal)
 
   TraceValue("%u",start_ply);
   TraceValue("%u\n",nbply);
-  for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
+  while (history_pos>0)
   {
+    --history_pos;
+    current_ply = history[history_pos];
     if (current_ply>start_ply && is_end_of_intro_series[current_ply-1])
     {
       next_movenumber = 1;
