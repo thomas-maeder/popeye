@@ -3307,21 +3307,23 @@ static char *ParseStructuredStip_branch_ser(char *tok,
     if (tok!=0)
     {
       if (min_length==0)
-        min_length = 1;
+        min_length = slack_length_series+1;
+      else
+        min_length *= 2;
 
-      min_length += slack_length_series;
-      max_length += slack_length_series;
+      max_length *= 2;
 
       {
         slice_index const series = alloc_series_branch(max_length,min_length);
         pipe_set_successor(proxy,series);
-        series_branch_set_end(series,slices[proxy_to_operand].u.pipe.next);
+        if (op_type==operand_type_goal)
+          series_branch_set_end_goal(series,proxy_to_operand);
+        else
+          series_branch_set_end(series,proxy_to_operand);
       }
 
       set_output_mode(output_mode_line);
     }
-
-    dealloc_slice(proxy_to_operand);
   }
 
   TraceFunctionExit(__func__);
