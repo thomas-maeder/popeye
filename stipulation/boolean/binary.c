@@ -11,32 +11,21 @@
 void binary_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
-  slice_index op1;
-  slice_index op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(slices[si].u.binary.op1,st);
-  op1 = *root_slice;
+  slices[si].u.binary.op1 = *root_slice;
 
   *root_slice = no_slice;
 
   stip_traverse_structure(slices[si].u.binary.op2,st);
-  op2 = *root_slice;
+  slices[si].u.binary.op2 = *root_slice;
 
-  /* Decide whether to move ourselves to the root or rather a copy of
-   * ourselves based on the fate of our operators. */
-  assert((op1==slices[si].u.binary.op1) == (op2==slices[si].u.binary.op2));
-  if (op1==slices[si].u.binary.op1)
-    *root_slice = si;
-  else
-  {
-    *root_slice = copy_slice(si);
-    slices[*root_slice].u.binary.op1 = op1;
-    slices[*root_slice].u.binary.op2 = op2;
-  }
+  *root_slice = si;
+  pipe_unlink(slices[si].prev);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
