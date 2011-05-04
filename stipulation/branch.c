@@ -13,6 +13,8 @@
 static slice_index const root_slice_rank_order[] =
 {
   STProxy,
+  STReciprocal,
+  STQuodlibet,
   STSetplayFork,
   STMoveInverter,
   STEndOfPhaseWriter,
@@ -26,8 +28,6 @@ static slice_index const root_slice_rank_order[] =
   STEndOfPhaseWriter,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
-  STReciprocal,
-  STQuodlibet,
   STReflexAttackerFilter,
   STDefenseAdapter,
   STAttackAdapter,

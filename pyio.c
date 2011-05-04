@@ -3121,11 +3121,13 @@ static char *ParseStructuredStip_branch_d(char *tok,
     tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
-      max_length += slack_length_battle;
       if (min_length==0)
         min_length = slack_length_battle+(max_length-slack_length_battle+1)%2;
+      else if (min_length>=max_length)
+        min_length = max_length-1+slack_length_battle;
       else
         min_length += slack_length_battle;
+      max_length += slack_length_battle;
 
       {
         slice_index const branch = alloc_battle_branch(max_length+1,min_length+1);
@@ -3177,7 +3179,6 @@ static char *ParseStructuredStip_branch_a(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  if (min_length==0 || min_length==max_length)
   {
     boolean const nextStartLikeBranch = max_length%2==0;
     slice_index const proxy_operand = alloc_proxy_slice();
@@ -3186,11 +3187,13 @@ static char *ParseStructuredStip_branch_a(char *tok,
     tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
-      max_length += slack_length_battle;
       if (min_length==0)
         min_length = slack_length_battle+1+(max_length-slack_length_battle+1)%2;
+      else if (min_length>=max_length)
+        min_length = max_length-1+slack_length_battle;
       else
         min_length += slack_length_battle;
+      max_length += slack_length_battle;
 
       {
         slice_index branch = alloc_battle_branch(max_length,min_length);
@@ -3212,8 +3215,6 @@ static char *ParseStructuredStip_branch_a(char *tok,
       }
     }
   }
-  else
-    tok = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -3655,8 +3656,8 @@ static char *ParseStructuredStip_operand(char *tok,
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
     tok = ParseStructuredStip_move_inversion(tok,proxy,startLikeBranch);
-  else if (isdigit(tok[0]))
-    /* e.g. 2dd# for a #2 */
+  else if (isdigit(tok[0]) && tok[0]!='0')
+    /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
     tok = ParseStructuredStip_branch(tok,proxy);
   else
   {
