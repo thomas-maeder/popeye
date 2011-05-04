@@ -3076,8 +3076,24 @@ Side ParseStructuredStip_starter(char *tok)
   return result;
 }
 
+
+typedef enum
+{
+  operand_type_goal,
+  operand_type_non_goal
+} operand_type;
+
+/* Parse an stipulation operand
+ * @param tok input token
+ * @param result index of operand; no_slice if operand couldn't be
+ *               parsed
+ * @param startLikeBranch true iff the starter is the same piece as in
+ *                        the closest branch
+ * @return remainder of input token; 0 if parsing failed
+ */
 static char *ParseStructuredStip_operand(char *tok,
                                          slice_index proxy,
+                                         operand_type *type,
                                          boolean startLikeBranch);
 
 /* Parse a direct branch
@@ -3104,8 +3120,9 @@ static char *ParseStructuredStip_branch_d(char *tok,
   {
     boolean const nextStartLikeBranch = max_length%2==0;
     slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
     ++tok; // TODO - skip over 'a'
-    tok = ParseStructuredStip_operand(tok,proxy_operand,nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
       max_length += slack_length_battle;
@@ -3168,8 +3185,9 @@ static char *ParseStructuredStip_branch_a(char *tok,
   {
     boolean const nextStartLikeBranch = max_length%2==0;
     slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
     ++tok; // TODO - skip over 'd'
-    tok = ParseStructuredStip_operand(tok,proxy_operand,nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
       max_length += slack_length_battle;
@@ -3231,7 +3249,8 @@ static char *ParseStructuredStip_branch_h(char *tok,
   {
     boolean const nextStartLikeBranch = max_length%2==0;
     slice_index const proxy_to_op = alloc_proxy_slice();
-    tok = ParseStructuredStip_operand(tok,proxy_to_op,nextStartLikeBranch);
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok,proxy_to_op,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -3242,7 +3261,10 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
       {
         slice_index const branch = alloc_help_branch(max_length,min_length);
-        help_branch_set_end(branch,proxy_to_op);
+        if (op_type==operand_type_goal)
+          help_branch_set_end_goal(branch,proxy_to_op);
+        else
+          help_branch_set_end(branch,proxy_to_op);
         pipe_link(proxy,branch);
       }
 
@@ -3280,7 +3302,8 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   {
     slice_index const proxy_to_operand = alloc_proxy_slice();
     boolean const nextStartLikeBranch = false;
-    tok = ParseStructuredStip_operand(tok,proxy_to_operand,nextStartLikeBranch);
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok,proxy_to_operand,&op_type,nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -3404,13 +3427,15 @@ static char *ParseStructuredStip_not(char *tok,
                                      slice_index proxy,
                                      boolean startLikeBranch)
 {
+  operand_type op_type;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type,startLikeBranch);
   if (tok!=0)
     pipe_append(proxy,alloc_not_slice());
 
@@ -3432,13 +3457,15 @@ static char *ParseStructuredStip_move_inversion(char *tok,
                                                 slice_index proxy,
                                                 boolean startLikeBranch)
 {
+  operand_type op_type;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,!startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type,!startLikeBranch);
 
   {
     slice_index const operand = slices[proxy].u.pipe.next;
@@ -3506,7 +3533,8 @@ static char *ParseStructuredStip_expression(char *tok,
 
   {
     slice_index const operand1 = alloc_proxy_slice();
-    tok = ParseStructuredStip_operand(tok,operand1,startLikeBranch);
+    operand_type op1_type;
+    tok = ParseStructuredStip_operand(tok,operand1,&op1_type,startLikeBranch);
     if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
     {
       SliceType operator_type;
@@ -3605,6 +3633,7 @@ ParseStructuredStip_parenthesised_expression(char *tok,
  */
 static char *ParseStructuredStip_operand(char *tok,
                                          slice_index proxy,
+                                         operand_type *type,
                                          boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
@@ -3612,6 +3641,8 @@ static char *ParseStructuredStip_operand(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
+
+  *type = operand_type_non_goal;
 
   /* allow space between operands */
   tok = ParseStructuredStip_skip_whitespace(tok);
@@ -3630,8 +3661,11 @@ static char *ParseStructuredStip_operand(char *tok,
     /* e.g. 2dd# for a #2 */
     tok = ParseStructuredStip_branch(tok,proxy);
   else
+  {
     /* e.g. d= for a =1 */
+    *type = operand_type_goal;
     tok = ParseGoal(tok,proxy);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
