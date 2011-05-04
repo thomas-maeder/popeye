@@ -30,6 +30,10 @@ piece is of the same colour as the king to be mated
   1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 # 
   1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 # 
 
+              empile:       76524
+            jouecoup:       64338
+        orig_rbechec:       63735
+        orig_rnechec:       66465
 solution finished. 
 
 
@@ -62,6 +66,10 @@ caused all kinds of trouble, including this shortie not being solved.
 
   1.f2-f4 e7-e5 dia 
 
+              empile:          40
+            jouecoup:          42
+        orig_rbechec:           4
+        orig_rnechec:           8
 solution finished. 
 
 
@@ -90,42 +98,46 @@ Test: avoid duplicate king moves (e.g. to f5)
   ~1                          1 + 1
          WhiteReflectiveKing
 
-  1.Ke5-a1 !
+   1.Ke5-a1 !
 
-  1.Ke5-c3 !
+   1.Ke5-c3 !
 
-  1.Ke5-d4 !
+   1.Ke5-d4 !
 
-  1.Ke5*h2 !
+   1.Ke5*h2 !
 
-  1.Ke5-g7 !
+   1.Ke5-g7 !
 
-  1.Ke5-f6 !
+   1.Ke5-f6 !
 
-  1.Ke5-e1 !
+   1.Ke5-e1 !
 
-  1.Ke5-e3 !
+   1.Ke5-e3 !
 
-  1.Ke5-e4 !
+   1.Ke5-e4 !
 
-  1.Ke5-a5 !
+   1.Ke5-a5 !
 
-  1.Ke5-b5 !
+   1.Ke5-b5 !
 
-  1.Ke5-c5 !
+   1.Ke5-c5 !
 
-  1.Ke5-d5 !
+   1.Ke5-d5 !
 
-  1.Ke5-e8 !
+   1.Ke5-e8 !
 
-  1.Ke5-e7 !
+   1.Ke5-e7 !
 
-  1.Ke5-e6 !
+   1.Ke5-e6 !
 
-  1.Ke5-g5 !
+   1.Ke5-g5 !
 
-  1.Ke5-f5 !
+   1.Ke5-f5 !
 
+              empile:          35
+            jouecoup:          27
+        orig_rbechec:          27
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -133,6 +145,10 @@ solution finished.
  20  (Sb1-a3=bS )
   1.Sb1-a3=bS Sa3-b1=wS dia 
 
+              empile:          44
+            jouecoup:          46
+        orig_rbechec:           3
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -163,6 +179,10 @@ solution finished.
  20  (Sb1-a3=bS )
   1.Sb1-a3=bS Sa3-b1=wS dia 
 
+              empile:          44
+            jouecoup:          46
+        orig_rbechec:           3
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -193,12 +213,20 @@ solution finished.
 
 a) 
 
-  1.Qc1-c8 # !
+   1.Qc1-c8 # !
 
+              empile:          63
+            jouecoup:          61
+        orig_rbechec:           6
+        orig_rnechec:          56
 b)  -wQc1
 
-  1.h7*g8=R [+wQd1] # !
+   1.h7*g8=R [+wQd1] # !
 
+              empile:          15
+            jouecoup:          21
+        orig_rbechec:           4
+        orig_rnechec:          21
 solution finished. 
 
 
@@ -206,6 +234,10 @@ fairy pieces only allowed in proof games since releases >4.51
 
   1.Ka1-a2 Ga8-a1 a=>b 
 
+              empile:           4
+            jouecoup:           6
+        orig_rbechec:           0
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -236,6 +268,10 @@ White's first move
 
   1.Kh5-h6 Ba1*b2   2.Bf7-h5 Bb2-c1 # 
 
+              empile:       12003
+            jouecoup:        6653
+        orig_rbechec:        6072
+        orig_rnechec:        1717
 solution finished. 
 
 
@@ -266,399 +302,927 @@ test for twin numbering after we have run out of letters
 a) 
 
 
+              empile:          69
+            jouecoup:          69
+        orig_rbechec:          10
+        orig_rnechec:          60
 b) +wSa7 +bBa5 
 
 
+              empile:         777
+            jouecoup:         756
+        orig_rbechec:          64
+        orig_rnechec:         696
 c) +wSa7 +bBa4 
 
 
+              empile:         760
+            jouecoup:         739
+        orig_rbechec:          64
+        orig_rnechec:         679
 d) +wSa7 +bBa3 
 
 
+              empile:         751
+            jouecoup:         730
+        orig_rbechec:          64
+        orig_rnechec:         670
 e) +wSa7 +bBa2 
 
 
+              empile:         706
+            jouecoup:         685
+        orig_rbechec:          64
+        orig_rnechec:         625
 f) +wSa7 +bBb7 
 
 
+              empile:         866
+            jouecoup:         845
+        orig_rbechec:          70
+        orig_rnechec:         779
 g) +wSa7 +bBb6 
 
 
+              empile:         932
+            jouecoup:         911
+        orig_rbechec:          73
+        orig_rnechec:         842
 h) +wSa7 +bBb5 
 
 
+              empile:         932
+            jouecoup:         911
+        orig_rbechec:          76
+        orig_rnechec:         839
 i) +wSa7 +bBb4 
 
 
+              empile:         963
+            jouecoup:         942
+        orig_rbechec:          76
+        orig_rnechec:         870
 j) +wSa7 +bBb3 
 
 
+              empile:         888
+            jouecoup:         867
+        orig_rbechec:          76
+        orig_rnechec:         795
 k) +wSa7 +bBb2 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 l) +wSa7 +bBc7 
 
 
+              empile:         965
+            jouecoup:         944
+        orig_rbechec:          76
+        orig_rnechec:         872
 m) +wSa7 +bBc6 
 
 
+              empile:        1025
+            jouecoup:        1004
+        orig_rbechec:          82
+        orig_rnechec:         926
 n) +wSa7 +bBc5 
 
 
+              empile:        1118
+            jouecoup:        1097
+        orig_rbechec:          85
+        orig_rnechec:        1016
 o) +wSa7 +bBc4 
 
 
+              empile:        1063
+            jouecoup:        1042
+        orig_rbechec:          88
+        orig_rnechec:         958
 p) +wSa7 +bBc3 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 q) +wSa7 +bBc2 
 
 
+              empile:         888
+            jouecoup:         867
+        orig_rbechec:          76
+        orig_rnechec:         795
 r) +wSa7 +bBd7 
 
 
+              empile:         949
+            jouecoup:         928
+        orig_rbechec:          76
+        orig_rnechec:         856
 s) +wSa7 +bBd6 
 
 
+              empile:        1151
+            jouecoup:        1130
+        orig_rbechec:          88
+        orig_rnechec:        1046
 t) +wSa7 +bBd5 
 
 
+              empile:        1154
+            jouecoup:        1133
+        orig_rbechec:          94
+        orig_rnechec:        1043
 u) +wSa7 +bBd4 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 v) +wSa7 +bBd3 
 
 
+              empile:        1063
+            jouecoup:        1042
+        orig_rbechec:          88
+        orig_rnechec:         958
 w) +wSa7 +bBd2 
 
 
+              empile:         963
+            jouecoup:         942
+        orig_rbechec:          76
+        orig_rnechec:         870
 x) +wSa7 +bBe7 
 
 
+              empile:         963
+            jouecoup:         942
+        orig_rbechec:          76
+        orig_rnechec:         870
 y) +wSa7 +bBe6 
 
 
+              empile:        1073
+            jouecoup:        1052
+        orig_rbechec:          88
+        orig_rnechec:         968
 z) +wSa7 +bBe5 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z1) +wSa7 +bBe4 
 
 
+              empile:        1151
+            jouecoup:        1133
+        orig_rbechec:          94
+        orig_rnechec:        1043
 z2) +wSa7 +bBe3 
 
 
+              empile:        1115
+            jouecoup:        1097
+        orig_rbechec:          85
+        orig_rnechec:        1016
 z3) +wSa7 +bBe2 
 
 
+              empile:         969
+            jouecoup:         951
+        orig_rbechec:          76
+        orig_rnechec:         879
 z4) +wSa7 +bBf7 
 
 
+              empile:         890
+            jouecoup:         869
+        orig_rbechec:          76
+        orig_rnechec:         797
 z5) +wSa7 +bBf6 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z6) +wSa7 +bBf5 
 
 
+              empile:        1073
+            jouecoup:        1052
+        orig_rbechec:          88
+        orig_rnechec:         968
 z7) +wSa7 +bBf4 
 
 
+              empile:        1148
+            jouecoup:        1130
+        orig_rbechec:          88
+        orig_rnechec:        1046
 z8) +wSa7 +bBf3 
 
 
+              empile:        1032
+            jouecoup:        1032
+        orig_rbechec:          79
+        orig_rnechec:         954
 z9) +wSa7 +bBf2 
 
 
+              empile:         917
+            jouecoup:         899
+        orig_rbechec:          73
+        orig_rnechec:         830
 z10) +wSa7 +bBg7 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z11) +wSa7 +bBg6 
 
 
+              empile:         890
+            jouecoup:         869
+        orig_rbechec:          76
+        orig_rnechec:         797
 z12) +wSa7 +bBg5 
 
 
+              empile:         963
+            jouecoup:         942
+        orig_rbechec:          76
+        orig_rnechec:         870
 z13) +wSa7 +bBg4 
 
 
+              empile:         979
+            jouecoup:         961
+        orig_rbechec:          76
+        orig_rnechec:         889
 z14) +wSa7 +bBg3 
 
 
+              empile:         950
+            jouecoup:         932
+        orig_rbechec:          76
+        orig_rnechec:         860
 z15) +wSa7 +bBg2 
 
 
+              empile:         752
+            jouecoup:         752
+        orig_rbechec:          61
+        orig_rnechec:         692
 z16) +wSa7 +bBh7 
 
 
+              empile:         727
+            jouecoup:         706
+        orig_rbechec:          64
+        orig_rnechec:         646
 z17) +wSa7 +bBh6 
 
 
+              empile:         787
+            jouecoup:         766
+        orig_rbechec:          64
+        orig_rnechec:         706
 z18) +wSa7 +bBh5 
 
 
+              empile:         797
+            jouecoup:         776
+        orig_rbechec:          64
+        orig_rnechec:         716
 z19) +wSa7 +bBh4 
 
 
+              empile:         777
+            jouecoup:         756
+        orig_rbechec:          64
+        orig_rnechec:         696
 z20) +wSa7 +bBh3 
 
 
+              empile:         768
+            jouecoup:         747
+        orig_rbechec:          64
+        orig_rnechec:         687
 z21) +wSa7 +bBh2 
 
 
+              empile:         701
+            jouecoup:         680
+        orig_rbechec:          58
+        orig_rnechec:         626
 z22) +wSa5 +bBa7 
 
 
+              empile:        1019
+            jouecoup:         918
+        orig_rbechec:          88
+        orig_rnechec:         848
 z23) +wSa5 +bBa4 
 
 
+              empile:        1003
+            jouecoup:         893
+        orig_rbechec:          88
+        orig_rnechec:         823
 z24) +wSa5 +bBa3 
 
 
+              empile:         981
+            jouecoup:         878
+        orig_rbechec:          88
+        orig_rnechec:         808
 z25) +wSa5 +bBa2 
 
 
+              empile:         895
+            jouecoup:         785
+        orig_rbechec:          88
+        orig_rnechec:         715
 z26) +wSa5 +bBb7 
 
 
+              empile:        1100
+            jouecoup:         991
+        orig_rbechec:          95
+        orig_rnechec:         914
 z27) +wSa5 +bBb6 
 
 
+              empile:        1193
+            jouecoup:        1078
+        orig_rbechec:         100
+        orig_rnechec:         998
 z28) +wSa5 +bBb5 
 
 
+              empile:        1235
+            jouecoup:        1112
+        orig_rbechec:         104
+        orig_rnechec:        1028
 z29) +wSa5 +bBb4 
 
 
+              empile:        1195
+            jouecoup:        1078
+        orig_rbechec:         100
+        orig_rnechec:         998
 z30) +wSa5 +bBb3 
 
 
+              empile:        1114
+            jouecoup:         990
+        orig_rbechec:         104
+        orig_rnechec:         906
 z31) +wSa5 +bBb2 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z32) +wSa5 +bBc7 
 
 
+              empile:        1193
+            jouecoup:        1078
+        orig_rbechec:         100
+        orig_rnechec:         998
 z33) +wSa5 +bBc6 
 
 
+              empile:        1327
+            jouecoup:        1204
+        orig_rbechec:         111
+        orig_rnechec:        1113
 z34) +wSa5 +bBc5 
 
 
+              empile:        1473
+            jouecoup:        1344
+        orig_rbechec:         120
+        orig_rnechec:        1246
 z35) +wSa5 +bBc4 
 
 
+              empile:        1346
+            jouecoup:        1209
+        orig_rbechec:         120
+        orig_rnechec:        1111
 z36) +wSa5 +bBc3 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z37) +wSa5 +bBc2 
 
 
+              empile:        1169
+            jouecoup:        1045
+        orig_rbechec:         104
+        orig_rnechec:         961
 z38) +wSa5 +bBd7 
 
 
+              empile:        1259
+            jouecoup:        1136
+        orig_rbechec:         104
+        orig_rnechec:        1052
 z39) +wSa5 +bBd6 
 
 
+              empile:        1473
+            jouecoup:        1344
+        orig_rbechec:         120
+        orig_rnechec:        1246
 z40) +wSa5 +bBd5 
 
 
+              empile:        1449
+            jouecoup:        1312
+        orig_rbechec:         127
+        orig_rnechec:        1207
 z41) +wSa5 +bBd4 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z42) +wSa5 +bBd3 
 
 
+              empile:        1399
+            jouecoup:        1262
+        orig_rbechec:         120
+        orig_rnechec:        1164
 z43) +wSa5 +bBd2 
 
 
+              empile:        1195
+            jouecoup:        1078
+        orig_rbechec:         100
+        orig_rnechec:         998
 z44) +wSa5 +bBe7 
 
 
+              empile:        1239
+            jouecoup:        1122
+        orig_rbechec:         104
+        orig_rnechec:        1038
 z45) +wSa5 +bBe6 
 
 
+              empile:        1376
+            jouecoup:        1239
+        orig_rbechec:         120
+        orig_rnechec:        1141
 z46) +wSa5 +bBe5 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z47) +wSa5 +bBe4 
 
 
+              empile:        1489
+            jouecoup:        1358
+        orig_rbechec:         127
+        orig_rnechec:        1253
 z48) +wSa5 +bBe3 
 
 
+              empile:        1467
+            jouecoup:        1344
+        orig_rbechec:         120
+        orig_rnechec:        1246
 z49) +wSa5 +bBe2 
 
 
+              empile:        1246
+            jouecoup:        1133
+        orig_rbechec:         104
+        orig_rnechec:        1049
 z50) +wSa5 +bBf7 
 
 
+              empile:        1138
+            jouecoup:        1014
+        orig_rbechec:         104
+        orig_rnechec:         930
 z51) +wSa5 +bBf6 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z52) +wSa5 +bBf5 
 
 
+              empile:        1422
+            jouecoup:        1285
+        orig_rbechec:         120
+        orig_rnechec:        1187
 z53) +wSa5 +bBf4 
 
 
+              empile:        1467
+            jouecoup:        1344
+        orig_rbechec:         120
+        orig_rnechec:        1246
 z54) +wSa5 +bBf3 
 
 
+              empile:        1293
+            jouecoup:        1212
+        orig_rbechec:         105
+        orig_rnechec:        1121
 z55) +wSa5 +bBf2 
 
 
+              empile:        1213
+            jouecoup:        1108
+        orig_rbechec:         104
+        orig_rnechec:        1024
 z56) +wSa5 +bBg7 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z57) +wSa5 +bBg6 
 
 
+              empile:        1184
+            jouecoup:        1060
+        orig_rbechec:         104
+        orig_rnechec:         976
 z58) +wSa5 +bBg5 
 
 
+              empile:        1239
+            jouecoup:        1122
+        orig_rbechec:         104
+        orig_rnechec:        1038
 z59) +wSa5 +bBg4 
 
 
+              empile:        1272
+            jouecoup:        1156
+        orig_rbechec:         104
+        orig_rnechec:        1072
 z60) +wSa5 +bBg3 
 
 
+              empile:        1216
+            jouecoup:        1108
+        orig_rbechec:         104
+        orig_rnechec:        1024
 z61) +wSa5 +bBg2 
 
 
+              empile:         946
+            jouecoup:         884
+        orig_rbechec:          82
+        orig_rnechec:         814
 z62) +wSa5 +bBh7 
 
 
+              empile:         974
+            jouecoup:         864
+        orig_rbechec:          88
+        orig_rnechec:         794
 z63) +wSa5 +bBh6 
 
 
+              empile:        1017
+            jouecoup:         914
+        orig_rbechec:          88
+        orig_rnechec:         844
 z64) +wSa5 +bBh5 
 
 
+              empile:        1038
+            jouecoup:         929
+        orig_rbechec:          88
+        orig_rnechec:         859
 z65) +wSa5 +bBh4 
 
 
+              empile:        1001
+            jouecoup:         900
+        orig_rbechec:          88
+        orig_rnechec:         830
 z66) +wSa5 +bBh3 
 
 
+              empile:        1003
+            jouecoup:         902
+        orig_rbechec:          87
+        orig_rnechec:         832
 z67) +wSa5 +bBh2 
 
 
+              empile:         911
+            jouecoup:         811
+        orig_rbechec:          81
+        orig_rnechec:         748
 z68) +wSa4 +bBa7 
 
 
+              empile:         972
+            jouecoup:         886
+        orig_rbechec:          87
+        orig_rnechec:         816
 z69) +wSa4 +bBa5 
 
 
+              empile:         976
+            jouecoup:         881
+        orig_rbechec:          88
+        orig_rnechec:         811
 z70) +wSa4 +bBa3 
 
 
+              empile:         936
+            jouecoup:         845
+        orig_rbechec:          88
+        orig_rnechec:         775
 z71) +wSa4 +bBa2 
 
 
+              empile:         947
+            jouecoup:         852
+        orig_rbechec:          88
+        orig_rnechec:         782
 z72) +wSa4 +bBb7 
 
 
+              empile:        1174
+            jouecoup:        1073
+        orig_rbechec:          97
+        orig_rnechec:         996
 z73) +wSa4 +bBb6 
 
 
+              empile:        1170
+            jouecoup:        1076
+        orig_rbechec:         103
+        orig_rnechec:         992
 z74) +wSa4 +bBb5 
 
 
+              empile:        1226
+            jouecoup:        1124
+        orig_rbechec:         100
+        orig_rnechec:        1044
 z75) +wSa4 +bBb4 
 
 
+              empile:        1197
+            jouecoup:        1094
+        orig_rbechec:         104
+        orig_rnechec:        1010
 z76) +wSa4 +bBb3 
 
 
+              empile:        1130
+            jouecoup:        1027
+        orig_rbechec:         100
+        orig_rnechec:         947
 z77) +wSa4 +bBb2 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z78) +wSa4 +bBc7 
 
 
+              empile:        1226
+            jouecoup:        1128
+        orig_rbechec:         104
+        orig_rnechec:        1044
 z79) +wSa4 +bBc6 
 
 
+              empile:        1356
+            jouecoup:        1247
+        orig_rbechec:         109
+        orig_rnechec:        1160
 z80) +wSa4 +bBc5 
 
 
+              empile:        1392
+            jouecoup:        1290
+        orig_rbechec:         119
+        orig_rnechec:        1192
 z81) +wSa4 +bBc4 
 
 
+              empile:        1407
+            jouecoup:        1297
+        orig_rbechec:         120
+        orig_rnechec:        1199
 z82) +wSa4 +bBc3 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z83) +wSa4 +bBc2 
 
 
+              empile:        1130
+            jouecoup:        1027
+        orig_rbechec:         100
+        orig_rnechec:         947
 z84) +wSa4 +bBd7 
 
 
+              empile:        1227
+            jouecoup:        1124
+        orig_rbechec:         100
+        orig_rnechec:        1044
 z85) +wSa4 +bBd6 
 
 
+              empile:        1447
+            jouecoup:        1341
+        orig_rbechec:         120
+        orig_rnechec:        1243
 z86) +wSa4 +bBd5 
 
 
+              empile:        1535
+            jouecoup:        1418
+        orig_rbechec:         129
+        orig_rnechec:        1313
 z87) +wSa4 +bBd4 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z88) +wSa4 +bBd3 
 
 
+              empile:        1407
+            jouecoup:        1297
+        orig_rbechec:         120
+        orig_rnechec:        1199
 z89) +wSa4 +bBd2 
 
 
+              empile:        1221
+            jouecoup:        1118
+        orig_rbechec:         104
+        orig_rnechec:        1034
 z90) +wSa4 +bBe7 
 
 
+              empile:        1214
+            jouecoup:        1115
+        orig_rbechec:         104
+        orig_rnechec:        1031
 z91) +wSa4 +bBe6 
 
 
+              empile:        1408
+            jouecoup:        1297
+        orig_rbechec:         120
+        orig_rnechec:        1199
 z92) +wSa4 +bBe5 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z93) +wSa4 +bBe4 
 
 
+              empile:        1535
+            jouecoup:        1418
+        orig_rbechec:         129
+        orig_rnechec:        1313
 z94) +wSa4 +bBe3 
 
 
+              empile:        1415
+            jouecoup:        1319
+        orig_rbechec:         119
+        orig_rnechec:        1221
 z95) +wSa4 +bBe2 
 
 
+              empile:        1264
+            jouecoup:        1168
+        orig_rbechec:         104
+        orig_rnechec:        1084
 z96) +wSa4 +bBf7 
 
 
+              empile:        1174
+            jouecoup:        1071
+        orig_rbechec:         104
+        orig_rnechec:         987
 z97) +wSa4 +bBf6 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z98) +wSa4 +bBf5 
 
 
+              empile:        1408
+            jouecoup:        1297
+        orig_rbechec:         120
+        orig_rnechec:        1199
 z99) +wSa4 +bBf4 
 
 
+              empile:        1467
+            jouecoup:        1364
+        orig_rbechec:         120
+        orig_rnechec:        1266
 z100) +wSa4 +bBf3 
 
 
+              empile:        1384
+            jouecoup:        1284
+        orig_rbechec:         113
+        orig_rnechec:        1193
 z101) +wSa4 +bBf2 
 
 
+              empile:        1121
+            jouecoup:        1072
+        orig_rbechec:          97
+        orig_rnechec:         988
 z102) +wSa4 +bBg7 
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           1
+        orig_rnechec:           0
 z103) +wSa4 +bBg6 
 
 
+              empile:        1174
+            jouecoup:        1071
+        orig_rbechec:         104
+        orig_rnechec:         987
 z104) +wSa4 +bBg5 
 
 
+              empile:        1237
+            jouecoup:        1138
+        orig_rbechec:         104
+        orig_rnechec:        1054
 z105) +wSa4 +bBg4 
 
 
+              empile:        1268
+            jouecoup:        1168
+        orig_rbechec:         104
+        orig_rnechec:        1084
 z106) +wSa4 +bBg3 
 
 
+              empile:        1193
+            jouecoup:        1123
+        orig_rbechec:         101
+        orig_rnechec:        1039
 solution finished. 
 
 
@@ -686,12 +1250,16 @@ solution finished.
   ~1                          1 + 1
              ParrainCirce
 
-  1.Ka1-b1 !
+   1.Ka1-b1 !
 
-  1.Ka1-a2 [+wBh2] !
+   1.Ka1-a2 [+wBh2] !
 
-  1.Ka1-b2 !
+   1.Ka1-b2 !
 
+              empile:           3
+            jouecoup:           3
+        orig_rbechec:           3
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -719,12 +1287,16 @@ solution finished.
   ~1                          1 + 1
              ParrainCirce
 
-  1.Ka1-b1 !
+   1.Ka1-b1 !
 
-  1.Ka1-a2 !
+   1.Ka1-a2 !
 
-  1.Ka1-b2 !
+   1.Ka1-b2 !
 
+              empile:           3
+            jouecoup:           3
+        orig_rbechec:           3
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -753,6 +1325,10 @@ there is no solution, but 4.51 gave 1.Qb2#
   #1                          2 + 3
                  AMU
 
+              empile:           5
+            jouecoup:           5
+        orig_rbechec:          15
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -792,6 +1368,10 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
   1...Ka3-a2   2.Ka7-a6 b4-b5 + 
   1...Ka3-b2   2.Ka7-a6 b4-b5 + 
 
+              empile:          34
+            jouecoup:          46
+        orig_rbechec:          13
+        orig_rnechec:          39
 solution finished. 
 
 
@@ -842,6 +1422,10 @@ if wK could castle after having moved, we'd have 8 solutions
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:    12612775
+            jouecoup:     5765227
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -870,12 +1454,16 @@ solution finished.
   ~1                          1 + 1
               CageCirce
 
-  1.h2-h4 !
+   1.h2-h4 !
 
-  1.h2-h3 !
+   1.h2-h3 !
 
-  1.h2*g3 !
+   1.h2*g3 !
 
+              empile:        1390
+            jouecoup:          66
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -904,10 +1492,14 @@ solution finished.
   ~1                          1 + 1
               CageCirce
 
-  1.c6-c7 !
+   1.c6-c7 !
 
-  1.c6*b7 [+bBa8] !
+   1.c6*b7 [+bBa8] !
 
+              empile:         539
+            jouecoup:          64
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -936,12 +1528,16 @@ solution finished.
   ~1                          1 + 2
               CageCirce
 
-  1.c6-c7 !
+   1.c6-c7 !
 
-  1.c6*b7 [+bPa8] !
+   1.c6*b7 [+bPa8] !
 
-  1.c6*b7 [+bPb8] !
+   1.c6*b7 [+bPb8] !
 
+              empile:         414
+            jouecoup:          87
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -970,18 +1566,22 @@ solution finished.
   ~1                          2 + 1
               CageCirce
 
-  1.a3-a4 !
+   1.a3-a4 !
 
-  1.a3*b4 [+bPh1=bB] !
+   1.a3*b4 [+bPh1=bB] !
 
-  1.a3*b4 [+bPg3] !
+   1.a3*b4 [+bPg3] !
 
-  1.a3*b4 [+bPb5] !
+   1.a3*b4 [+bPb5] !
 
-  1.g2-g4 !
+   1.g2-g4 !
 
-  1.g2-g3 !
+   1.g2-g3 !
 
+              empile:         394
+            jouecoup:          89
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -1010,24 +1610,28 @@ cage for promoted pawn, capturer part of cage
   ~1                          3 + 1
               CageCirce
 
-  1.f3-f4 !
+   1.f3-f4 !
 
-  1.g2-g4 !
+   1.g2-g4 !
 
-  1.g2-g3 !
+   1.g2-g3 !
 
-  1.g2*h3 [+bPg1=bS] !
+   1.g2*h3 [+bPg1=bS] !
 
-  1.g2*h3 [+bPe3] !
+   1.g2*h3 [+bPe3] !
 
-  1.g2*h3 [+bPf4] !
+   1.g2*h3 [+bPf4] !
 
-  1.g2*h3 [+bPh4] !
+   1.g2*h3 [+bPh4] !
 
-  1.e2-e4 !
+   1.e2-e4 !
 
-  1.e2-e3 !
+   1.e2-e3 !
 
+              empile:         374
+            jouecoup:          90
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -1059,6 +1663,10 @@ solution finished.
   1.Ke4*f3 [+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2 [+bRf3] # 
   1.Ke4*f3 [+wRh1] g1*h2   2.g5-g4 0-0 # 
 
+              empile:     9505679
+            jouecoup:     1106494
+        orig_rbechec:      892026
+        orig_rnechec:      267566
 solution finished. 
 
 
@@ -1120,6 +1728,10 @@ never generates the same solution twice (but some solutions
   1.Qb3*d5 [+bPc2] Ke8-d7   2.Qd5-f3 a=>b 
   1.Qb3*d5 [+bPf3] Ke8-d7   2.Qd5*f3 [+bPc2] a=>b 
 
+              empile:       28345
+            jouecoup:       13262
+        orig_rbechec:        2913
+        orig_rnechec:        6015
 solution finished. 
 
 
@@ -1178,6 +1790,10 @@ promote to bishop (no cage for queen) even if there was a cage
 
   1.e2*d1=B a=>b 
 
+              empile:        1829
+            jouecoup:         911
+        orig_rbechec:         824
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1206,14 +1822,18 @@ solution finished.
   ~1                          1 + 1
               CageCirce
 
-  1.Ke8-f8 !
+   1.Ke8-f8 !
 
-  1.Ke8-d8 !
+   1.Ke8-d8 !
 
-  1.Ke8-e7 !
+   1.Ke8-e7 !
 
-  1.Ke8-f7 !
+   1.Ke8-f7 !
 
+              empile:           5
+            jouecoup:           5
+        orig_rbechec:           5
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -1243,74 +1863,78 @@ consider previous cage after advancing type of promotee
               CageCirce
               HalfDuplex
 
-  1.e2*d1=Q [+wQf1] !
+   1.e2*d1=Q [+wQf1] + !
 
-  1.e2*d1=Q [+wQd2] !
+   1.e2*d1=Q [+wQd2] + !
 
-  1.e2*d1=Q [+wQe2] !
+   1.e2*d1=Q [+wQe2] + !
 
-  1.e2*d1=Q [+wQa3] !
+   1.e2*d1=Q [+wQa3] + !
 
-  1.e2*d1=Q [+wQb3] !
+   1.e2*d1=Q [+wQb3] + !
 
-  1.e2*d1=Q [+wQc3] !
+   1.e2*d1=Q [+wQc3] + !
 
-  1.e2*d1=Q [+wQe3] !
+   1.e2*d1=Q [+wQe3] + !
 
-  1.e2*d1=Q [+wQf3] !
+   1.e2*d1=Q [+wQf3] + !
 
-  1.e2*d1=Q [+wQg3] !
+   1.e2*d1=Q [+wQg3] + !
 
-  1.e2*d1=Q [+wQh3] !
+   1.e2*d1=Q [+wQh3] + !
 
-  1.e2*d1=Q [+wQa4] !
+   1.e2*d1=Q [+wQa4] + !
 
-  1.e2*d1=Q [+wQb4] !
+   1.e2*d1=Q [+wQb4] + !
 
-  1.e2*d1=Q [+wQc4] !
+   1.e2*d1=Q [+wQc4] + !
 
-  1.e2*d1=Q [+wQd4] !
+   1.e2*d1=Q [+wQd4] + !
 
-  1.e2*d1=Q [+wQf4] !
+   1.e2*d1=Q [+wQf4] + !
 
-  1.e2*d1=Q [+wQg4] !
+   1.e2*d1=Q [+wQg4] + !
 
-  1.e2*d1=Q [+wQh4] !
+   1.e2*d1=Q [+wQh4] + !
 
-  1.e2*d1=Q [+wQa5] !
+   1.e2*d1=Q [+wQa5] + !
 
-  1.e2*d1=Q [+wQc5] !
+   1.e2*d1=Q [+wQc5] + !
 
-  1.e2*d1=Q [+wQd5] !
+   1.e2*d1=Q [+wQd5] + !
 
-  1.e2*d1=Q [+wQe5] !
+   1.e2*d1=Q [+wQe5] + !
 
-  1.e2*d1=Q [+wQf5] !
+   1.e2*d1=Q [+wQf5] + !
 
-  1.e2*d1=Q [+wQg5] !
+   1.e2*d1=Q [+wQg5] + !
 
-  1.e2*d1=Q [+wQh5] !
+   1.e2*d1=Q [+wQh5] + !
 
-  1.e2*d1=Q [+wQa6] !
+   1.e2*d1=Q [+wQa6] + !
 
-  1.e2*d1=Q [+wQb6] !
+   1.e2*d1=Q [+wQb6] + !
 
-  1.e2*d1=Q [+wQc6] !
+   1.e2*d1=Q [+wQc6] + !
 
-  1.e2*d1=Q [+wQd6] !
+   1.e2*d1=Q [+wQd6] + !
 
-  1.e2*d1=Q [+wQe6] !
+   1.e2*d1=Q [+wQe6] + !
 
-  1.e2*d1=Q [+wQf6] !
+   1.e2*d1=Q [+wQf6] + !
 
-  1.e2*d1=Q [+wQg6] !
+   1.e2*d1=Q [+wQg6] + !
 
-  1.e2*d1=Q [+wQh6] !
+   1.e2*d1=Q [+wQh6] + !
 
-  1.e2*d1=Q [+wQc8] !
+   1.e2*d1=Q [+wQc8] + !
 
-  1.e2*d1=S [+wQc8] !
+   1.e2*d1=S [+wQc8] !
 
+              empile:        1700
+            jouecoup:         855
+        orig_rbechec:         786
+        orig_rnechec:          35
 solving interrupted. 
 
 
@@ -1341,6 +1965,10 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 # 
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 # 
 
+              empile:       66978
+            jouecoup:       39699
+        orig_rbechec:       35569
+        orig_rnechec:       10166
 solution finished. 
 
 
@@ -1371,6 +1999,10 @@ solution finished.
 
   1...e4-e3   2.Kd1-c1 e3*d2 +   3.Kc1-b1 d2-d1=Q # 
 
+              empile:       52675
+            jouecoup:       27701
+        orig_rbechec:       19563
+        orig_rnechec:       14700
 solution finished. 
 
 
@@ -1401,6 +2033,10 @@ solution finished.
              Sentinelles
 
 
+              empile:         850
+            jouecoup:         815
+        orig_rbechec:          79
+        orig_rnechec:         777
 solution finished. 
 
 
@@ -1442,6 +2078,10 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
   1.Bc2-b1   2.Bb1-f5   3.Bf5-b1 Bg6-c2 = 
   1.Bc2-b1   2.Bb1-e4   3.Be4-b1 Bg6-c2 = 
 
+              empile:       11793
+            jouecoup:        4839
+        orig_rbechec:        2145
+        orig_rnechec:        4377
 solving interrupted. 
 
 
@@ -1470,20 +2110,24 @@ White would have to deliver mate after the key
 +---a---b---c---d---e---f---g---h---+
   r#2                         3 + 6
 
-  1.Kc1-b1 ! zugzwang.
-      1...g5-g4 
+   1.Kc1-b1 ! zugzwang.
+      1...g5-g4
           2.Rd1-e1
               2...d2*e1=Q #
               2...d2*e1=R #
-      1...Kh6-h7 
+      1...Kh6-h7
           2.Rd1-e1
               2...d2*e1=Q #
               2...d2*e1=R #
-      1...Kh6-h5 
+      1...Kh6-h5
           2.Rd1-e1
               2...d2*e1=Q #
               2...d2*e1=R #
 
+              empile:         567
+            jouecoup:         400
+        orig_rbechec:         364
+        orig_rnechec:         104
 solution finished. 
 
 
@@ -1511,9 +2155,13 @@ issue 2903930: countermate used to only work in help play
 +---a---b---c---d---e---f---g---h---+
   s##!1                       2 + 4
 
-  1.Qa5-c5 + !
+   1.Qa5-c5 + !
       1...Kc8-b7 ##!
 
+              empile:         234
+            jouecoup:         207
+        orig_rbechec:         160
+        orig_rnechec:         113
 solution finished. 
 
 
@@ -1572,6 +2220,10 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
   1.Rb8*c8 [+wRh1] 0-0 a=>b 
 
+              empile:          25
+            jouecoup:          27
+        orig_rbechec:           5
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1602,6 +2254,10 @@ feature request 2813613: proof games and Cavalier Majeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia 
 
+              empile:     6993553
+            jouecoup:     6993558
+        orig_rbechec:       15723
+        orig_rnechec:      357929
 solution finished. 
 
 
@@ -1632,6 +2288,10 @@ feature request 2813613: proof games and Leofamily
 
   1.a2-a3 h7-h6   2.VAc1*h6 dia 
 
+              empile:        8532
+            jouecoup:        8535
+        orig_rbechec:          21
+        orig_rnechec:         364
 solution finished. 
 
 
@@ -1663,20 +2323,32 @@ up to release 4.51, Popeye gave no solution for twins b) and c)
 
 a) 
 
-  1.f7*e8-a8=Q # !
+   1.f7*e8-a8=Q # !
 
-  1.f7*e8-a8=B # !
+   1.f7*e8-a8=B # !
 
+              empile:          25
+            jouecoup:          47
+        orig_rbechec:           4
+        orig_rnechec:          48
 b) nPf7 
 
-  1.nPf7*e8-a8=nB # !
+   1.nPf7*e8-a8=nB # !
 
+              empile:          51
+            jouecoup:          60
+        orig_rbechec:           4
+        orig_rnechec:          61
 c) nhPf7 
 
-  1.nhPf7*e8-a8=whQ # !
+   1.nhPf7*e8-a8=whQ # !
 
-  1.nhPf7*e8-a8=whB # !
+   1.nhPf7*e8-a8=whB # !
 
+              empile:          25
+            jouecoup:          47
+        orig_rbechec:           4
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -1708,6 +2380,10 @@ ghostchess bug; 4.51 didn't find a solution here
 
   1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] # 
 
+              empile:        4060
+            jouecoup:        2107
+        orig_rbechec:         607
+        orig_rnechec:        2088
 solution finished. 
 
 

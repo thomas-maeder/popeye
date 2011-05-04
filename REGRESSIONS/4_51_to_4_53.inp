@@ -234,7 +234,7 @@ next
 
 title White or Black maximummer?
 pieces white ka1 black ka8
-sstip white 2d d# | 3h d#
+sstip white 3ad # | 4h #
 condition maximummer
 
 next
