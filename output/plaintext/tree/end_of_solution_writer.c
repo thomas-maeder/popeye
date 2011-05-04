@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "pyoutput.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "pymsg.h"

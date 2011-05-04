@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/variation_writer.h"
-#include "pyoutput.h"
 #include "pypipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"

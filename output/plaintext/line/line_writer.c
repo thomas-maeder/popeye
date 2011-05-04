@@ -1,7 +1,6 @@
 #include "output/plaintext/line/line_writer.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "trace.h"
 #include "pymsg.h"
 #include "output/plaintext/plaintext.h"

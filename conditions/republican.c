@@ -1,9 +1,9 @@
 #include "republican.h"
 #include "pydata.h"
 #include "pylang.h"
-#include "stipulation/goals/goals.h"
-#include "pyoutput.h"
+#include "pystip.h"
 #include "pymsg.h"
+#include "stipulation/goals/goals.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 
 #include <assert.h>

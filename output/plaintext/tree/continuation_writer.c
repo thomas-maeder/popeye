@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/continuation_writer.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "pytable.h"

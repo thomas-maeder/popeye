@@ -578,8 +578,28 @@ static void trash_for_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
+void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index * const postkey_slice = st->param;
+    stip_traverse_structure_children(si,st);
+    link_to_branch(si,*postkey_slice);
+    *postkey_slice = si;
+    pipe_unlink(slices[si].prev);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 static structure_traversers_visitors to_postkey_play_appliers[] =
 {
+  { STOutputModeSelector,   &move_to_postkey_play              },
   { STReflexAttackerFilter, &trash_for_postkey_play              },
   { STAttackAdapter,        &trash_for_postkey_play              },
   { STReadyForDefense,      &ready_for_defense_apply_postkeyplay }
@@ -624,16 +644,17 @@ slice_index battle_branch_make_postkeyplay(slice_index si)
  */
 static void install_postkey_slice(slice_index si, slice_index postkey_slice)
 {
-  slice_index inverter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",postkey_slice);
   TraceFunctionParamListEnd();
 
-  inverter = alloc_move_inverter_slice();
-  pipe_link(inverter,postkey_slice);
-  pipe_link(si,inverter);
+  pipe_link(si,postkey_slice);
+
+  {
+    slice_index const prototype = alloc_move_inverter_slice();
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

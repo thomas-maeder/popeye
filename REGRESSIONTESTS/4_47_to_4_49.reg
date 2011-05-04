@@ -139,12 +139,10 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
   reci-h#1                   9 + 12
 
   1.0-0-0 Sa4-b6 # 
-
   1.e4*d3 ep. # 
-
               empile:         222
             jouecoup:         194
-        orig_rbechec:          98
+        orig_rbechec:          95
         orig_rnechec:         120
 solution finished. 
 

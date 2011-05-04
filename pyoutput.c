@@ -1,20 +1,13 @@
 #include "pyoutput.h"
-#include "pydata.h"
-#include "pymsg.h"
-#include "pyslice.h"
 #include "pypipe.h"
-#include "py1.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/move_inversion_counter.h"
-#include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line.h"
+
 #include "trace.h"
+
 #ifdef _SE_
 #include "se.h"
 #endif
-
-#include <assert.h>
-#include <stdlib.h>
 
 #define ENUMERATION_TYPENAME output_mode
 #define ENUMERATORS \
@@ -26,15 +19,37 @@
 
 #include "pyenum.h"
 
-static output_mode current_mode = output_mode_none;
-
-void set_output_mode(output_mode mode)
+/* Allocate an STOutputModeSelector slice
+ * @param mode output mode to be selected by the allocated slice
+ * @return identifier of the allocated slice
+ */
+slice_index alloc_output_mode_selector(output_mode mode)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(output_mode,mode,"");
   TraceFunctionParamListEnd();
 
-  current_mode = mode;
+  result = alloc_pipe(STOutputModeSelector);
+  slices[result].u.output_mode_selector.mode = mode;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void select_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_line)
+    stip_insert_output_plaintext_line_slices(si);
+  else
+    stip_insert_output_plaintext_tree_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -46,126 +61,19 @@ void set_output_mode(output_mode mode)
  */
 void stip_insert_output_slices(slice_index si)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-    stip_insert_output_plaintext_tree_slices(si);
-  else
-    stip_insert_output_plaintext_line_slices(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void output_mode_treemode(slice_index si, stip_structure_traversal *st)
-{
-  output_mode * const mode = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *mode = output_mode_tree;
-  TraceEnumerator(output_mode,*mode,"\n");
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void output_mode_linemode(slice_index si, stip_structure_traversal *st)
-{
-  output_mode * const mode = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *mode = output_mode_line;
-  TraceEnumerator(output_mode,*mode,"\n");
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void output_mode_binary(slice_index si, stip_structure_traversal *st)
-{
-  output_mode * const mode = st->param;
-  output_mode mode1;
-  output_mode mode2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  mode1 = *mode;
-
-  stip_traverse_structure(slices[si].u.binary.op2,st);
-  mode2 = *mode;
-
-  *mode = mode2==output_mode_none ? mode1 : mode2;
-
-  TraceEnumerator(output_mode,*mode,"\n");
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void output_mode_self_defense(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  output_mode * const mode = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.branch.length>slack_length_battle)
-    *mode = output_mode_tree;
-  else
-    stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors output_mode_detectors[] =
-{
-  { STReciprocal,           &output_mode_binary       },
-  { STQuodlibet,            &output_mode_binary       },
-  { STDefenseAdapter,       &output_mode_treemode     },
-  { STReadyForDefense,      &output_mode_treemode     },
-  { STReflexAttackerFilter, &output_mode_treemode     },
-  { STEndOfBranchGoal,      &output_mode_self_defense },
-  { STEndOfBranchForced,    &output_mode_treemode     }
-};
-
-enum
-{
-  nr_output_mode_detectors = (sizeof output_mode_detectors
-                              / sizeof output_mode_detectors[0])
-};
-
-/* Initialize based on the stipulation
- */
-void init_output(slice_index si)
-{
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  current_mode = output_mode_none;
+  TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&current_mode);
-  stip_structure_traversal_override(&st,
-                                    output_mode_detectors,
-                                    nr_output_mode_detectors);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STOutputModeSelector,
+                                           &select_output_mode);
   stip_traverse_structure(si,&st);
-
-  TraceEnumerator(output_mode,current_mode,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

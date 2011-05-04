@@ -178,6 +178,7 @@
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
+    ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
@@ -372,6 +373,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
+  slice_structure_pipe,   /* STOutputModeSelector */
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
   slice_structure_pipe,   /* STEndOfPhaseWriter */
   slice_structure_pipe,   /* STEndOfSolutionWriter */
@@ -517,6 +519,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STPiecesParalysingMateFilter */
   slice_function_unspecified,    /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,    /* STPiecesKamikazeTargetSquareFilter */
+  slice_function_unspecified,    /* STOutputModeSelector */
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
   slice_function_unspecified,    /* STEndOfPhaseWriter */
   slice_function_unspecified,    /* STEndOfSolutionWriter */
@@ -1229,9 +1232,8 @@ enum
  */
 static void insert_set_play(slice_index si, slice_index setplay_slice)
 {
-  slice_index set;
+  slice_index proxy;
   slice_index regular;
-  slice_index set_fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1239,8 +1241,8 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   TraceFunctionParam("%u",setplay_slice);
   TraceFunctionParamListEnd();
 
-  set = alloc_move_inverter_slice();
-  link_to_branch(set,setplay_slice);
+  proxy = alloc_proxy_slice();
+  link_to_branch(proxy,setplay_slice);
 
   if (slices[next].prev==si)
     regular = next;
@@ -1250,10 +1252,14 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
     pipe_set_successor(regular,next);
   }
 
-  set_fork = alloc_setplay_fork_slice(set);
+  pipe_link(si,regular);
 
-  pipe_link(si,set_fork);
-  pipe_link(set_fork,regular);
+  {
+    slice_index const set_fork = alloc_setplay_fork_slice(proxy);
+    root_branch_insert_slices(si,&set_fork,1);
+  }
+
+  pipe_append(proxy,alloc_move_inverter_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -1706,6 +1712,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,            /* STPiecesKamikazeTargetSquareFilter */
+  &stip_traverse_structure_pipe,            /* STOutputModeSelector */
   &stip_traverse_structure_pipe,            /* STIllegalSelfcheckWriter */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
@@ -1944,6 +1951,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STPiecesParalysingMateFilter */
     &stip_traverse_moves_pipe,                   /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,                   /* STPiecesKamikazeTargetSquareFilter */
+    &stip_traverse_moves_pipe,                   /* STOutputModeSelector */
     &stip_traverse_moves_pipe,                   /* STIllegalSelfcheckWriter */
     &stip_traverse_moves_pipe,                   /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                   /* STEndOfSolutionWriter */

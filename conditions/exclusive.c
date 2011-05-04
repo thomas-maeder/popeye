@@ -4,7 +4,6 @@
 #include "pymsg.h"
 #include "pydata.h"
 #include "stipulation/goals/goals.h"
-#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>

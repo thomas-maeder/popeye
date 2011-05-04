@@ -13,13 +13,13 @@
 extern boolean is_end_of_intro_series[maxply+1];
 
 
-/* Allocate a STOutputPlaintextLineMoveInversionCounter slice.
+/* Allocate a STOutputPlaintextLineEndOfIntroSeriesMarker slice.
  * @return index of allocated slice
  */
 slice_index alloc_output_plaintext_line_end_of_intro_series_marker_slice(void);
 
 /* Determine whether a slice has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */

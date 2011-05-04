@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"

@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "pyhash.h"
 #include "pystip.h"
-#include "pyoutput.h"
 #include "output/plaintext/plaintext.h"
 
 #include <assert.h>
@@ -385,6 +384,12 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKillerMoveFinalDefenseMove:
         Trace_pipe(si);
         fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STOutputModeSelector:
+        Trace_pipe(si);
+        TraceEnumerator(output_mode,slices[si].u.output_mode_selector.mode,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 

@@ -151,6 +151,7 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     /* output slices */                                                 \
+    ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
@@ -181,6 +182,16 @@ typedef enum
   goal_applies_to_starter,
   goal_applies_to_adversary
 } goal_applies_to_starter_or_adversary;
+
+#define ENUMERATION_TYPENAME output_mode
+#define ENUMERATORS \
+  ENUMERATOR(output_mode_tree), \
+    ENUMERATOR(output_mode_line), \
+    ENUMERATOR(output_mode_none)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
 
 typedef struct
 {
@@ -250,6 +261,12 @@ typedef struct
             slice_index next;
             Goal goal;
         } goal_handler;
+
+        struct
+        {
+            slice_index next;
+            output_mode mode;
+        } output_mode_selector;
 
         struct /* for type==STLineWriter* */
         {

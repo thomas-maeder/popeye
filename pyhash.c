@@ -110,7 +110,6 @@
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
-#include "pyoutput.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"

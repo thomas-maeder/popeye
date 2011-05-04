@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/key_writer.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"

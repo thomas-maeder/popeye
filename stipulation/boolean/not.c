@@ -2,7 +2,6 @@
 #include "pyslice.h"
 #include "pypipe.h"
 #include "pyproc.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "trace.h"
 

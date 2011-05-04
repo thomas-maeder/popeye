@@ -2138,7 +2138,7 @@ static boolean apply_whitetoplay(slice_index proxy)
   TraceStipulation(proxy);
   assert(slices[proxy].type==STProxy);
 
-  while (slices[next].type==STProxy)
+  while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
     next = slices[next].u.pipe.next;
 
   TraceEnumerator(SliceType,slices[next].type,"\n");
@@ -2151,7 +2151,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       {
         slice_index const inverter = alloc_move_inverter_slice();
         help_branch_shorten(next);
-        pipe_link(proxy,inverter);
+        pipe_link(slices[next].prev,inverter);
         pipe_set_successor(inverter,next);
       }
       else
@@ -2171,10 +2171,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_change_colors)
       {
-        slice_index const inverter = next;
-        slice_index const inverter_next = slices[inverter].u.pipe.next;
-        dealloc_slice(inverter);
-        pipe_set_successor(proxy,inverter_next);
+        pipe_remove(next);
         result = true;
       }
       break;

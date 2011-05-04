@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/refutation_writer.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"

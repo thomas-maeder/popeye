@@ -35,10 +35,6 @@
 #include "platform/maxtime.h"
 #include "trace.h"
 
-#if defined(DEBUG)
-#include "pyoutput.h"
-#endif
-
 typedef int index_type;
 
 static index_type indices[MaxPieceId];
