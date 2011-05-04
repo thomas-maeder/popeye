@@ -591,6 +591,33 @@ enum
                                  / sizeof to_postkey_play_appliers[0])
 };
 
+/* Make the postkey play representation of a non-postkey play representation
+ * @param root_proxy identifies root proxy slice
+ * @return identifier to adapter slice into postkey representation
+ */
+slice_index battle_branch_make_postkeyplay(slice_index si)
+{
+  slice_index result = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    to_postkey_play_appliers,
+                                    nr_to_postkey_play_appliers);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 /* Install the slice representing the postkey slice at the stipulation
  * root
  * @param postkey_slice identifies slice to be installed
@@ -613,34 +640,27 @@ static void install_postkey_slice(slice_index si, slice_index postkey_slice)
 }
 
 /* Attempt to apply the postkey play option to the current stipulation
- * @param si identifies slice where to start
+ * @param root_proxy identifies root proxy slice
  * @return true iff postkey play option is applicable (and has been
  *              applied)
  */
-boolean battle_branch_apply_postkeyplay(slice_index si)
+boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 {
   boolean result;
-  slice_index postkey_slice = no_slice;
-  stip_structure_traversal st;
+  slice_index postkey_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",root_proxy);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,&postkey_slice);
-  stip_structure_traversal_override(&st,
-                                    to_postkey_play_appliers,
-                                    nr_to_postkey_play_appliers);
-  stip_traverse_structure(si,&st);
-
+  TraceStipulation(root_proxy);
+  postkey_slice = battle_branch_make_postkeyplay(root_proxy);
   TraceValue("%u\n",postkey_slice);
   if (postkey_slice==no_slice)
     result = false;
   else
   {
-    install_postkey_slice(si,postkey_slice);
+    install_postkey_slice(root_proxy,postkey_slice);
     result = true;
   }
 

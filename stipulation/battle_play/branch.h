@@ -72,12 +72,18 @@ void stip_make_goal_attack_branch(slice_index si);
  */
 slice_index battle_branch_make_setplay(slice_index si);
 
+/* Make the postkey play representation of a non-postkey play representation
+ * @param root_proxy identifies root proxy slice
+ * @return identifier to adapter slice into postkey representation
+ */
+slice_index battle_branch_make_postkeyplay(slice_index si);
+
 /* Attempt to apply the postkey play option to the current stipulation
- * @param si identifies slice where to start
+ * @param root_proxy identifies root proxy slice
  * @return true iff postkey play option is applicable (and has been
  *              applied)
  */
-boolean battle_branch_apply_postkeyplay(slice_index si);
+boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
