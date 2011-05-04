@@ -3240,12 +3240,6 @@ static char *ParseStructuredStip_branch_h(char *tok,
       min_length += slack_length_help;
       max_length += slack_length_help;
 
-      if (max_length==slack_length_help+1)
-      {
-        pipe_link(proxy,slices[proxy_to_op].u.pipe.next);
-        dealloc_slice(proxy_to_op);
-      }
-      else
       {
         slice_index const branch = alloc_help_branch(max_length,min_length);
         help_branch_set_end(branch,proxy_to_op);
@@ -3298,9 +3292,13 @@ static char *ParseStructuredStip_branch_ser(char *tok,
       {
         slice_index const series = alloc_series_branch(max_length,min_length);
         pipe_set_successor(proxy,series);
-        series_branch_set_end(series,proxy_to_operand);
+        series_branch_set_end(series,slices[proxy_to_operand].u.pipe.next);
       }
+
+      set_output_mode(output_mode_line);
     }
+
+    dealloc_slice(proxy_to_operand);
   }
 
   TraceFunctionExit(__func__);
