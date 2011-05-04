@@ -2083,14 +2083,9 @@ stip_length_type attack_hashed_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.min_length>slack_length_battle)
-  {
-    slices[si].u.branch.min_length -= 2;
-    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
-    slices[si].u.branch.min_length += 2;
-  }
-  else
-    result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
+  assert((slices[si].u.branch.length-n)%2==0);
+
+  result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2107,10 +2102,12 @@ static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const played = slices[si].u.branch.length-n;
+  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
 #if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length/2+1;
+  stip_length_type const validity_value = ml/2+1;
 #endif
-  hash_value_type const val = (n+1-min_length)/2;
+  hash_value_type const val = (n+1-ml)/2;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2151,10 +2148,12 @@ static void addtohash_battle_success(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const played = slices[si].u.branch.length-n;
+  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
 #if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length/2+1;
+  stip_length_type const validity_value = ml/2+1;
 #endif
-  hash_value_type const val = (n+1-min_length)/2 - 1;
+  hash_value_type const val = (n+1-ml)/2 - 1;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2201,14 +2200,7 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.min_length>slack_length_battle)
-  {
-    slices[si].u.branch.min_length -= 2;
-    result = can_attack(next,n,n_max_unsolvable);
-    slices[si].u.branch.min_length += 2;
-  }
-  else
-    result = can_attack(next,n,n_max_unsolvable);
+  result = can_attack(next,n,n_max_unsolvable);
 
   if (result<=n)
     addtohash_battle_success(si,result);
@@ -2238,7 +2230,9 @@ stip_length_type attack_hashed_can_attack(slice_index si,
   stip_length_type result;
   dhtElement const *he;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const validity_value = min_length/2+1;
+  stip_length_type const played = slices[si].u.branch.length-n;
+  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
+  stip_length_type const validity_value = ml/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2246,7 +2240,7 @@ stip_length_type attack_hashed_can_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.branch.length%2);
+  assert((n-slices[si].u.branch.length)%2==0);
 
   if (hashBufferValidity[nbply]!=validity_value)
     (*encode)(validity_value);
@@ -2257,18 +2251,18 @@ stip_length_type attack_hashed_can_attack(slice_index si,
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const parity = (n-min_length)%2;
+    stip_length_type const parity = (n-ml)%2;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
     hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,si);
-    stip_length_type const n_nosuccess = 2*val_nosuccess + min_length-parity;
+    stip_length_type const n_nosuccess = 2*val_nosuccess + ml-parity;
     if (n_nosuccess>=n)
       result = n+2;
     else
     {
       hash_value_type const val_success = get_value_attack_success(hue,si);
-      stip_length_type const n_success = 2*val_success + min_length+2-parity;
+      stip_length_type const n_success = 2*val_success + ml+2-parity;
       if (n_success<=n)
         result = n_success;
       else

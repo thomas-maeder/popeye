@@ -212,7 +212,7 @@ bedingung       circe
 
 steine  weiss   sb8 bd7a4c4g4f2 kf6
         schwarz sb7 bc7c6c5a5g5f3 kd6
-option  varianten
+option  varianten ohnedroh 
 
 zwilling forderung exact-#2
 zwilling forderung exact-#3
@@ -226,7 +226,7 @@ quelle hg gewidmet
 forderung exact-#1
 steine weiss la8 tg6 sd4 ke3 bh4
 schwarz ke5 bh5
-opti vari
+opti vari ohnedroh 
 zwill ford exact-#2
 zwill ford exact-#3
 zwill ford exact-#4
@@ -238,7 +238,7 @@ quelle Dagens Nybeder 1933 (Vers. Ebert)
 ford exact-#1
 steine weiss ka7 lc8 bd7f6d4b3 se7
 schwa bb7b6b5b4c6 la6 kd6
-opti vari
+opti vari ohnedroh 
 zwill ford exact-#2
 zwill ford exact-#3
 zwill ford exact-#4
@@ -466,7 +466,7 @@ weiter
 autor           Bernd Schwarzkopf
 quelle          2529, Problemkiste 71, 10/1990
 forderung       exact-#2
-option          varianten
+option          varianten ohnedroh 
 steine  weiss   kb3 td4
         schwarz ka1
 
@@ -650,7 +650,7 @@ titel sofortiges selbstmatt vermeiden
 steine weiss ka3 dd1 ba2a4b4h2
        schwarz kc3 ba5c4g6
 forderung exact-s#2
-option verf vari
+option verf vari ohnedroh 
 
 weiter
 

@@ -2471,11 +2471,7 @@ static char *ParsePlay(char *tok,
   }
 
   else if (strncmp("exact-", tok, 6) == 0)
-  {
     result = ParsePlay(tok+6,root_slice_hook,proxy,play_length_exact);
-    if (result!=0)
-      OptFlag[nothreat] = true;
-  }
 
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {

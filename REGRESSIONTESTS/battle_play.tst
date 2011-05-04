@@ -1023,7 +1023,7 @@ solution finished.
     but
       1...Kc2*d2 !
 
-   1.Sd1-f2 ?
+   1.Sd1-f2 ? zugzwang.
       1...a4-a3
           2.c3-c4
               2...b3-b2 #
@@ -1042,7 +1042,7 @@ solution finished.
     but
       1...b3-b2 # !
 
-   1.Sd1-b2 !
+   1.Sd1-b2 ! zugzwang.
       1...a4-a3
           2.c3-c4
               2...a3*b2 #
@@ -1051,10 +1051,10 @@ solution finished.
           2.e2-e3
               2...a3*b2 #
 
-              empile:        3679
-            jouecoup:        1942
-        orig_rbechec:        1929
-        orig_rnechec:         918
+              empile:        3898
+            jouecoup:        2082
+        orig_rbechec:        2069
+        orig_rnechec:         982
 solution finished. 
 
 
