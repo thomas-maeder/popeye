@@ -3247,11 +3247,12 @@ static char *ParseStructuredStip_branch_h(char *tok,
       }
       else
       {
-        slice_index const branch = alloc_help_branch(max_length-1,
-                                                     min_length-1);
+        slice_index const branch = alloc_help_branch(max_length,min_length);
         help_branch_set_end(branch,proxy_to_op);
         pipe_link(proxy,branch);
       }
+
+      set_output_mode(output_mode_line);
     }
   }
 
