@@ -142,7 +142,7 @@
 ** if necessary.
 */
 
-static char AlphaStip[40];
+static char AlphaStip[200];
 
 #define MAXNEST 10
 #define UPCASE(c)   toupper(c)      /* (c+('A'-'a')) */
@@ -1017,8 +1017,8 @@ void    CloseInput(void)
 static char InputLine[LINESIZE];    /* This array contains the input as is */
 static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
-static char SpaceChar[] = " \t\n\r;,.:";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|,";
+static char SpaceChar[] = " \t\n\r;.,";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]";
 /* Steingewinn ! */
 /* introductory move */
 /* h##! */
@@ -1029,7 +1029,7 @@ static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQ
 
 static char CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-static char SepraChar[] = "\n\r;,.:";
+static char SepraChar[] = "\n\r;.,";
 
 static void pyfputc(char c, FILE *f)
 {
@@ -3080,18 +3080,126 @@ typedef enum
 
 /* Parse an stipulation operand
  * @param tok input token
- * @param result index of operand; no_slice if operand couldn't be
- *               parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
+ * @param result index of operand; no_slice if operand couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
                                          slice_index proxy,
-                                         operand_type *type,
-                                         boolean startLikeBranch);
+                                         operand_type *type);
 
-/* Parse a direct branch
+/* Make a "da branch"
+ * @param min_length minimum length indicated by the user (0 if (s)he didn't)
+ * @param max_length maximum length indicated by the user
+ * @return identifier of branch entry slice
+ */
+static slice_index ParseStructuredStip_make_branch_d(stip_length_type min_length,
+                                                     stip_length_type max_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
+  TraceFunctionParamListEnd();
+
+  max_length += slack_length_battle+1;
+
+  if (min_length==0)
+    min_length = slack_length_battle+(max_length-slack_length_battle)%2;
+  else
+  {
+    min_length += slack_length_battle+1;
+    if (min_length>=max_length)
+      min_length = max_length-1;
+  }
+
+  result = alloc_battle_branch(max_length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Parse an "a operand"
+ * @param tok input token
+ * @param identifier of entry slice of "ad branch"
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_a_operand(char *tok, slice_index branch)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (tok[0]=='[')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    ++tok;
+    /* '>' supported for consistency only - only meaningful in h and ser play */
+    if (tok[0]=='>')
+      ++tok;
+    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]==']')
+    {
+      ++tok;
+      if (op_type==operand_type_goal)
+      {
+        stip_make_direct_goal_branch(proxy_operand);
+        battle_branch_set_direct_goal_branch(branch,proxy_operand);
+      }
+      else
+      {
+        stip_make_goal_attack_branch(proxy_operand);
+        stip_insert_reflex_filters_semi(branch,proxy_operand);
+      }
+    }
+    else
+      tok = 0;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+/* Parse an "a operand"
+ * @param tok input token
+ * @param identifier of entry slice of "ad branch"
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_d_operand(char *tok, slice_index branch)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (tok[0]=='[')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]==']')
+    {
+      ++tok;
+      slice_make_self_goal_branch(proxy_operand);
+      slice_insert_self_guards(branch,proxy_operand);
+    }
+    else
+      tok = 0;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+/* Parse a "da branch"
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
@@ -3111,45 +3219,22 @@ static char *ParseStructuredStip_branch_d(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  if (min_length==0 || min_length==max_length)
   {
-    boolean const nextStartLikeBranch = max_length%2==0;
-    slice_index const proxy_operand = alloc_proxy_slice();
-    operand_type op_type;
-    ++tok; // TODO - skip over 'a'
-    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
-    if (tok!=0)
+    slice_index const branch = ParseStructuredStip_make_branch_d(min_length,
+                                                                 max_length);
+
+    tok = ParseStructuredStip_branch_d_operand(tok,branch);
+    if (tok!=0 && tok[0]=='a')
     {
-      if (min_length==0)
-        min_length = slack_length_battle+(max_length-slack_length_battle+1)%2;
-      else if (min_length>=max_length)
-        min_length = max_length-1+slack_length_battle;
-      else
-        min_length += slack_length_battle;
-      max_length += slack_length_battle;
-
+      tok = ParseStructuredStip_branch_a_operand(tok+1,branch);
+      if (tok!=0)
       {
-        slice_index const branch = alloc_battle_branch(max_length+1,min_length+1);
-
-        if ((max_length-slack_length_battle-1)%2==0)
-        {
-          slice_make_self_goal_branch(proxy_operand);
-          slice_insert_self_guards(branch,proxy_operand);
-        }
-        else
-        {
-          stip_make_direct_goal_branch(proxy_operand);
-          battle_branch_set_direct_goal_branch(branch,proxy_operand);
-        }
-
-        pipe_link(proxy,branch);
-        pipe_link(proxy,battle_branch_make_postkeyplay(proxy));
+        link_to_branch(proxy,branch);
         pipe_append(proxy,alloc_output_mode_selector(output_mode_tree));
+        pipe_link(proxy,battle_branch_make_postkeyplay(proxy));
       }
     }
   }
-  else
-    tok = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -3157,7 +3242,41 @@ static char *ParseStructuredStip_branch_d(char *tok,
   return tok;
 }
 
-/* Parse a direct branch
+/* Make an "ad branch"
+ * @param min_length minimum length indicated by the user (0 if (s)he didn't)
+ * @param max_length maximum length indicated by the user
+ * @return identifier of branch entry slice
+ */
+static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length,
+                                                     stip_length_type max_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
+  TraceFunctionParamListEnd();
+
+  max_length += slack_length_battle;
+
+  if (min_length==0)
+    min_length = slack_length_battle+(max_length+1-slack_length_battle)%2;
+  else
+  {
+    min_length += slack_length_battle;
+    if (min_length>=max_length)
+      min_length = max_length-1;
+  }
+
+  result = alloc_battle_branch(max_length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Parse an "ad" branch
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
@@ -3178,36 +3297,16 @@ static char *ParseStructuredStip_branch_a(char *tok,
   TraceFunctionParamListEnd();
 
   {
-    boolean const nextStartLikeBranch = max_length%2==0;
-    slice_index const proxy_operand = alloc_proxy_slice();
-    operand_type op_type;
-    ++tok; // TODO - skip over 'd'
-    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,nextStartLikeBranch);
-    if (tok!=0)
+    slice_index const branch = ParseStructuredStip_make_branch_a(min_length,
+                                                                 max_length);
+
+    tok = ParseStructuredStip_branch_a_operand(tok,branch);
+    if (tok!=0 && tok[0]=='d')
     {
-      if (min_length==0)
-        min_length = slack_length_battle+(max_length+1)%2;
-      else if (min_length>=max_length)
-        min_length = max_length-1+slack_length_battle;
-      else
-        min_length += slack_length_battle;
-      max_length += slack_length_battle;
-
+      tok = ParseStructuredStip_branch_d_operand(tok+1,branch);
+      if (tok!=0)
       {
-        slice_index branch = alloc_battle_branch(max_length,min_length);
-
-        if ((max_length-slack_length_battle-1)%2==0)
-        {
-          stip_make_direct_goal_branch(proxy_operand);
-          battle_branch_set_direct_goal_branch(branch,proxy_operand);
-        }
-        else
-        {
-          slice_make_self_goal_branch(proxy_operand);
-          slice_insert_self_guards(branch,proxy_operand);
-        }
-
-        pipe_set_successor(proxy,branch);
+        link_to_branch(proxy,branch);
         pipe_append(proxy,alloc_output_mode_selector(output_mode_tree));
       }
     }
@@ -3217,6 +3316,75 @@ static char *ParseStructuredStip_branch_a(char *tok,
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
   return tok;
+}
+
+/* Parse a "h operand"
+ * @param tok input token
+ * @param identifier of entry slice of "hh branch"
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_h_operand(char *tok, slice_index branch)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (tok[0]=='[')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]==']')
+    {
+      if (op_type==operand_type_goal)
+        help_branch_set_end_goal(branch,proxy_operand);
+      else
+        help_branch_set_end(branch,proxy_operand);
+      ++tok;
+    }
+    else
+      tok = 0;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+/* Make an "hh branch"
+ * @param min_length minimum length indicated by the user (0 if (s)he didn't)
+ * @param max_length maximum length indicated by the user
+ * @return identifier of branch entry slice
+ */
+static slice_index ParseStructuredStip_make_branch_h(stip_length_type min_length,
+                                                     stip_length_type max_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
+  TraceFunctionParamListEnd();
+
+  max_length += slack_length_help;
+
+  if (min_length==0)
+    min_length = slack_length_help+(max_length-slack_length_help)%2;
+  else
+  {
+    min_length += slack_length_help;
+    if (min_length>max_length)
+      min_length = max_length;
+  }
+
+  result = alloc_help_branch(max_length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Parse a help branch
@@ -3239,30 +3407,90 @@ static char *ParseStructuredStip_branch_h(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  if (min_length==0 || min_length==max_length)
   {
-    boolean const nextStartLikeBranch = max_length%2==0;
-    slice_index const proxy_to_op = alloc_proxy_slice();
-    operand_type op_type;
-    tok = ParseStructuredStip_operand(tok,proxy_to_op,&op_type,nextStartLikeBranch);
-    if (tok!=0)
+    slice_index const branch = ParseStructuredStip_make_branch_h(min_length,
+                                                                 max_length);
+
+    tok = ParseStructuredStip_branch_h_operand(tok,branch);
+    if (tok[0]=='h')
     {
-      if (min_length==0)
-        min_length = max_length%2==0 ? 0 : 1;
-
-      min_length += slack_length_help;
-      max_length += slack_length_help;
-
-      {
-        slice_index const branch = alloc_help_branch(max_length,min_length);
-        if (op_type==operand_type_goal)
-          help_branch_set_end_goal(branch,proxy_to_op);
-        else
-          help_branch_set_end(branch,proxy_to_op);
-        pipe_link(proxy,branch);
-        pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
-      }
+      tok = ParseStructuredStip_branch_h_operand(tok+1,branch);
+      link_to_branch(proxy,branch);
+      pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
     }
+    else
+      tok = 0;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+/* Make an "s branch"
+ * @param min_length minimum length indicated by the user (0 if (s)he didn't)
+ * @param max_length maximum length indicated by the user
+ * @return identifier of branch entry slice
+ */
+static slice_index ParseStructuredStip_make_branch_s(stip_length_type min_length,
+                                                     stip_length_type max_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",max_length);
+  TraceFunctionParamListEnd();
+
+  max_length *= 2;
+  max_length += slack_length_series-1;
+
+  if (min_length==0)
+    min_length = slack_length_series+1;
+  else
+  {
+    min_length *= 2;
+    min_length += slack_length_series-1;
+    if (min_length>max_length)
+      min_length = max_length;
+  }
+
+  result = alloc_series_branch(max_length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Parse a "s operand"
+ * @param tok input token
+ * @param identifier of entry slice of "s branch"
+ * @return remainder of input token; 0 if parsing failed
+ */
+static char *ParseStructuredStip_branch_s_operand(char *tok, slice_index branch)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  if (tok[0]=='[')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]==']')
+    {
+      ++tok;
+      if (op_type==operand_type_goal)
+        series_branch_set_end_goal(branch,proxy_operand);
+      else
+        series_branch_set_end(branch,proxy_operand);
+    }
+    else
+      tok = 0;
   }
 
   TraceFunctionExit(__func__);
@@ -3279,10 +3507,10 @@ static char *ParseStructuredStip_branch_h(char *tok,
  *               parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_branch_ser(char *tok,
-                                            stip_length_type min_length,
-                                            stip_length_type max_length,
-                                            slice_index proxy)
+static char *ParseStructuredStip_branch_s(char *tok,
+                                          stip_length_type min_length,
+                                          stip_length_type max_length,
+                                          slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -3291,30 +3519,15 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  if (min_length==0 || min_length==max_length)
   {
-    slice_index const proxy_to_operand = alloc_proxy_slice();
-    boolean const nextStartLikeBranch = false;
-    operand_type op_type;
-    tok = ParseStructuredStip_operand(tok,proxy_to_operand,&op_type,nextStartLikeBranch);
+    slice_index const branch = ParseStructuredStip_make_branch_s(min_length,
+                                                                 max_length);
+
+    tok = ParseStructuredStip_branch_s_operand(tok,branch);
     if (tok!=0)
     {
-      if (min_length==0)
-        min_length = slack_length_series+1;
-      else
-        min_length *= 2;
-
-      max_length *= 2;
-
-      {
-        slice_index const series = alloc_series_branch(max_length,min_length);
-        pipe_set_successor(proxy,series);
-        if (op_type==operand_type_goal)
-          series_branch_set_end_goal(series,proxy_to_operand);
-        else
-          series_branch_set_end(series,proxy_to_operand);
-        pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
-      }
+      link_to_branch(proxy,branch);
+      pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
     }
   }
 
@@ -3346,7 +3559,7 @@ static char *ParseStructuredStip_branch_length(char *tok,
   else
   {
     tok = ParseStructuredStip_skip_whitespace(end);
-    if (tok[0]==',')
+    if (tok[0]==':')
     {
       *min_length = (stip_length_type)length_long;
       tok = ParseStructuredStip_skip_whitespace(tok+1);
@@ -3393,8 +3606,8 @@ static char *ParseStructuredStip_branch(char *tok,
 
   if (tok!=0)
   {
-    if (strncmp(tok,"ser",3)==0)
-      tok = ParseStructuredStip_branch_ser(tok+3,min_length,max_length,proxy);
+    if (tok[0]=='s')
+      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,proxy);
     else if (tok[0]=='a')
       tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,proxy);
     else if (tok[0]=='d')
@@ -3411,25 +3624,19 @@ static char *ParseStructuredStip_branch(char *tok,
 
 /* Parse a not operator
  * @param tok input token
- * @param result index of branch; no_slice if operator couldn't be
- *               parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
+ * @param result index of branch; no_slice if operator couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_not(char *tok,
-                                     slice_index proxy,
-                                     boolean startLikeBranch)
+static char *ParseStructuredStip_not(char *tok, slice_index proxy)
 {
   operand_type op_type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type,startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type);
   if (tok!=0)
     pipe_append(proxy,alloc_not_slice());
 
@@ -3441,25 +3648,19 @@ static char *ParseStructuredStip_not(char *tok,
 
 /* Parse a move inversion
  * @param tok input token
- * @param result index of branch; no_slice if operator couldn't be
- *               parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
+ * @param result index of branch; no_slice if operator couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_move_inversion(char *tok,
-                                                slice_index proxy,
-                                                boolean startLikeBranch)
+static char *ParseStructuredStip_move_inversion(char *tok, slice_index proxy)
 {
   operand_type op_type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type,!startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type);
 
   {
     slice_index const operand = slices[proxy].u.pipe.next;
@@ -3514,24 +3715,19 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
  * @param tok input token
  * @param result index of expression slice; no_slice if expression
  *               can't be parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_expression(char *tok,
-                                            slice_index proxy,
-                                            boolean startLikeBranch)
+static char *ParseStructuredStip_expression(char *tok, slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
   {
     slice_index const operand1 = alloc_proxy_slice();
     operand_type op1_type;
-    tok = ParseStructuredStip_operand(tok,operand1,&op1_type,startLikeBranch);
+    tok = ParseStructuredStip_operand(tok,operand1,&op1_type);
     if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
     {
       SliceType operator_type;
@@ -3539,7 +3735,7 @@ static char *ParseStructuredStip_expression(char *tok,
       if (tok!=0 && operator_type!=no_slice_type)
       {
         slice_index const operand2 = alloc_proxy_slice();
-        tok = ParseStructuredStip_expression(tok,operand2,startLikeBranch);
+        tok = ParseStructuredStip_expression(tok,operand2);
         if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
           switch (operator_type)
           {
@@ -3586,22 +3782,17 @@ static char *ParseStructuredStip_expression(char *tok,
  * @param tok input token
  * @param result index of expression slice; no_slice if expression
  *               can't be parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
  * @return remainder of input token; 0 if parsing failed
  */
 static char *
-ParseStructuredStip_parenthesised_expression(char *tok,
-                                             slice_index proxy,
-                                             boolean startLikeBranch)
+ParseStructuredStip_parenthesised_expression(char *tok, slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_expression(tok+1,proxy,startLikeBranch);
+  tok = ParseStructuredStip_expression(tok+1,proxy);
 
   if (tok!=0)
   {
@@ -3622,21 +3813,16 @@ ParseStructuredStip_parenthesised_expression(char *tok,
 
 /* Parse an stipulation operand
  * @param tok input token
- * @param result index of operand; no_slice if operand couldn't be
- *               parsed
- * @param startLikeBranch true iff the starter is the same piece as in
- *                        the closest branch
+ * @param result index of operand; no_slice if operand couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
                                          slice_index proxy,
-                                         operand_type *type,
-                                         boolean startLikeBranch)
+                                         operand_type *type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
   *type = operand_type_non_goal;
@@ -3645,15 +3831,13 @@ static char *ParseStructuredStip_operand(char *tok,
   tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='(')
-    tok = ParseStructuredStip_parenthesised_expression(tok,
-                                                       proxy,
-                                                       startLikeBranch);
+    tok = ParseStructuredStip_parenthesised_expression(tok, proxy);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,proxy,startLikeBranch);
+    tok = ParseStructuredStip_not(tok,proxy);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,proxy,startLikeBranch);
+    tok = ParseStructuredStip_move_inversion(tok,proxy);
   else if (isdigit(tok[0]) && tok[0]!='0')
     /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
     tok = ParseStructuredStip_branch(tok,proxy);
@@ -3693,7 +3877,7 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,root_slice_hook,true);
+    tok = ParseStructuredStip_expression(tok,root_slice_hook);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (slices[root_slice_hook].u.pipe.next!=no_slice)
