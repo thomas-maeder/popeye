@@ -17,6 +17,7 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/try.h"
+#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/operators/binary.h"
 #include "trace.h"
 
@@ -735,4 +736,85 @@ slice_index battle_branch_make_root(slice_index si)
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
+}
+
+
+typedef struct
+{
+    slice_index avoided_defense;
+    slice_index avoided_attack;
+} forced_goal_insertion_param;
+
+/* In battle play, insert a STReflexDefenseFilter slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static void reflex_guards_inserter_defense(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+
+    {
+      forced_goal_insertion_param const * const param = st->param;
+      slice_index const proxy_to_avoided = param->avoided_defense;
+      slice_index const prototypes[] =
+      {
+          alloc_end_of_branch_forced(proxy_to_avoided),
+          alloc_dead_end_slice()
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    }
+
+    if (min_length>slack_length_battle+1)
+    {
+      slice_index const prototype = alloc_min_length_guard(length-1,
+                                                           min_length-1);
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a branch with STEndOfBranchForced slices (typically for a
+ * semi-reflex stipulation)
+ * @param si root of branch to be instrumented
+ * @param proxy_to_forced identifies branch that needs to be guarded from
+ */
+void battle_branch_insert_end_of_branch_forced(slice_index si,
+                                               slice_index proxy_to_forced)
+{
+  stip_structure_traversal st;
+  forced_goal_insertion_param param = { proxy_to_forced, no_slice };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",proxy_to_forced_defense);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  assert(slices[proxy_to_forced].type==STProxy);
+
+  stip_structure_traversal_init(&st,&param);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &reflex_guards_inserter_defense);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

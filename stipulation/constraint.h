@@ -114,12 +114,4 @@ void stip_insert_reflex_filters(slice_index si,
                                 slice_index proxy_to_avoided_attack,
                                 slice_index proxy_to_avoided_defense);
 
-/* Instrument a branch with STReflexGuard slices for a semi-reflex
- * stipulation
- * @param si root of branch to be instrumented
- * @param proxy_to_avoided identifies what branch needs to be guarded from
- */
-void stip_insert_reflex_filters_semi(slice_index si,
-                                     slice_index proxy_to_avoided);
-
 #endif

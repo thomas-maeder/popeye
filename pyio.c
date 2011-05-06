@@ -2891,7 +2891,8 @@ static char *ParsePlay(char *tok,
 
           stip_make_goal_attack_branch(proxy_avoided_defense);
 
-          stip_insert_reflex_filters_semi(branch,proxy_avoided_defense);
+          battle_branch_insert_end_of_branch_forced(branch,
+                                                    proxy_avoided_defense);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_avoided_defense,Black);
 
@@ -3153,7 +3154,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok, slice_index branch)
       else
       {
         stip_make_goal_attack_branch(proxy_operand);
-        stip_insert_reflex_filters_semi(branch,proxy_operand);
+        battle_branch_insert_end_of_branch_forced(branch,proxy_operand);
       }
     }
     else
