@@ -77,7 +77,6 @@
 #include "pyflight.h"
 #include "pynontrv.h"
 #include "pythreat.h"
-#include "pyreflxg.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyselfcg.h"

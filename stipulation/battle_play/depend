@@ -1,7 +1,7 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
- stipulation/battle_play/branch.h pypipe.h pymovein.h pyreflxg.h \
- stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
- stipulation/end_of_branch_goal.h \
+ stipulation/battle_play/branch.h pypipe.h pymovein.h \
+ stipulation/constraint.h stipulation/proxy.h stipulation/branch.h \
+ stipulation/dead_end.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move_generator.h \
@@ -22,7 +22,7 @@ pypipe.h:
 
 pymovein.h:
 
-pyreflxg.h:
+stipulation/constraint.h:
 
 stipulation/proxy.h:
 
@@ -121,9 +121,9 @@ pypipe.h:
 trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
- pykeepmt.h pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h \
- pynontrv.h pyquodli.h stipulation/dead_end.h \
+ stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
+ pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
+ pyquodli.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/fork_on_remaining.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_find_shortest.h \
@@ -157,8 +157,6 @@ pybrafrk.h:
 
 pyhash.h:
 
-pyreflxg.h:
-
 pykeepmt.h:
 
 pyselfcg.h:
@@ -174,6 +172,8 @@ pythreat.h:
 pynontrv.h:
 
 pyquodli.h:
+
+stipulation/constraint.h:
 
 stipulation/dead_end.h:
 
@@ -293,7 +293,7 @@ trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
  stipulation/battle_play/defense_play.h pyflight.h pykeepmt.h pymovenb.h \
- pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
+ pynontrv.h pyselfcg.h pyselfgd.h pythreat.h stipulation/constraint.h \
  stipulation/dead_end.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
  stipulation/battle_play/continuation.h \
@@ -328,13 +328,13 @@ pymovenb.h:
 
 pynontrv.h:
 
-pyreflxg.h:
-
 pyselfcg.h:
 
 pyselfgd.h:
 
 pythreat.h:
+
+stipulation/constraint.h:
 
 stipulation/dead_end.h:
 

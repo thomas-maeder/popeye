@@ -1,5 +1,5 @@
-#if !defined(PYREFLXG_H)
-#define PYREFLXG_H
+#if !defined(STIPULATION_CONSTRAINT_H)
+#define STIPULATION_CONSTRAINT_H
 
 /* In reflex stipulations, guard against tries that would allow the
  * wrong side to reach the goal.

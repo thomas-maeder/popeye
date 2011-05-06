@@ -1,7 +1,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
 #include "pymovein.h"
-#include "pyreflxg.h"
+#include "stipulation/constraint.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"

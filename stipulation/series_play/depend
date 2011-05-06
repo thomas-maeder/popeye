@@ -26,10 +26,11 @@ pypipe.h:
 
 trace.h:
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
- stipulation/series_play/branch.h pyslice.h pypipe.h pyreflxg.h \
- stipulation/branch.h stipulation/proxy.h stipulation/operators/binary.h \
- stipulation/dead_end.h stipulation/end_of_branch.h \
- stipulation/end_of_branch_goal.h stipulation/battle_play/branch.h \
+ stipulation/series_play/branch.h pyslice.h pypipe.h \
+ stipulation/constraint.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/operators/binary.h stipulation/dead_end.h \
+ stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
+ stipulation/battle_play/branch.h \
  stipulation/series_play/ready_for_series_move.h \
  stipulation/series_play/adapter.h \
  stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
@@ -43,7 +44,7 @@ pyslice.h:
 
 pypipe.h:
 
-pyreflxg.h:
+stipulation/constraint.h:
 
 stipulation/branch.h:
 
@@ -178,9 +179,9 @@ pypipe.h:
 
 trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
- stipulation/series_play/play.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
- pymovenb.h pyint.h stipulation/dead_end.h stipulation/end_of_branch.h \
- stipulation/end_of_branch_goal.h \
+ stipulation/series_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
+ pyint.h stipulation/constraint.h stipulation/dead_end.h \
+ stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/series_play/parry_fork.h \
  stipulation/series_play/find_by_increasing_length.h \
@@ -200,8 +201,6 @@ stipulation/series_play/play.h:
 
 pyhash.h:
 
-pyreflxg.h:
-
 pykeepmt.h:
 
 pyselfcg.h:
@@ -209,6 +208,8 @@ pyselfcg.h:
 pymovenb.h:
 
 pyint.h:
+
+stipulation/constraint.h:
 
 stipulation/dead_end.h:
 

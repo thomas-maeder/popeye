@@ -1,7 +1,7 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
 #include "pypipe.h"
-#include "pyreflxg.h"
+#include "stipulation/constraint.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/operators/binary.h"

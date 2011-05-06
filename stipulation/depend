@@ -115,3 +115,37 @@ pydata.h:
 stipulation/proxy.h:
 
 trace.h:
+stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
+ stipulation/constraint.h stipulation/branch.h stipulation/dead_end.h \
+ stipulation/end_of_branch_goal.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/min_length_guard.h \
+ stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
+ pyslice.h pybrafrk.h pydata.h stipulation/proxy.h trace.h
+
+stipulation/constraint.h:
+
+stipulation/branch.h:
+
+stipulation/dead_end.h:
+
+stipulation/end_of_branch_goal.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/min_length_guard.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/series_play/branch.h:
+
+pypipe.h:
+
+pyslice.h:
+
+pybrafrk.h:
+
+pydata.h:
+
+stipulation/proxy.h:
+
+trace.h:
