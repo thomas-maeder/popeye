@@ -144,8 +144,8 @@ stip_length_type can_attack(slice_index si,
       result = quodlibet_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_can_attack(si,n,n_max_unsolvable);
+    case STConstraint:
+      result = constraint_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:
@@ -351,8 +351,8 @@ stip_length_type attack(slice_index si,
       result = end_of_branch_goal_attack(si,n,n_max_unsolvable);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_attack(si,n,n_max_unsolvable);
+    case STConstraint:
+      result = constraint_attack(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuard:

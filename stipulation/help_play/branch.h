@@ -83,4 +83,19 @@ slice_index help_branch_make_root(slice_index si);
  */
 slice_index help_branch_make_setplay(slice_index si);
 
+/* Instrument a series branch with STConstraint slices (typically for a hr
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void help_branch_insert_constraint(slice_index si, slice_index constraint);
+
+/* Instrument a series branch with STEndOfBranchForced slices (typically for a
+ * hr stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param forced identifies branch forced on the defender
+ */
+void help_branch_insert_end_of_branch_forced(slice_index si,
+                                             slice_index forced);
+
 #endif

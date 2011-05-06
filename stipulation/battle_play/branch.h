@@ -93,11 +93,18 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
 slice_index battle_branch_make_root(slice_index si);
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
- * semi-reflex stipulation)
+ * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented
- * @param proxy_to_forced identifies what branch needs to be guarded from
+ * @param forced identifies what branch needs to be guarded from
  */
 void battle_branch_insert_end_of_branch_forced(slice_index si,
-                                               slice_index proxy_to_forced);
+                                               slice_index forced);
+
+/* Instrument a series branch with STConstraint slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_constraint(slice_index si, slice_index constraint);
 
 #endif

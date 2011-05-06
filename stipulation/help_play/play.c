@@ -91,8 +91,8 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_hashed_help(si,n);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_help(si,n);
+    case STConstraint:
+      result = constraint_help(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -240,8 +240,8 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = help_hashed_can_help(si,n);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_can_help(si,n);
+    case STConstraint:
+      result = constraint_can_help(si,n);
       break;
 
     case STKeepMatingFilter:

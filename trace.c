@@ -232,7 +232,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STThreatSolver:
       case STParryFork:
       case STMaxThreatLength:
-      case STReflexAttackerFilter:
+      case STConstraint:
       case STEndOfBranchForced:
         Trace_pipe(si);
         Trace_link("fork:",slices[si].u.fork.fork,"");

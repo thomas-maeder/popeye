@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
 #include "pymovein.h"
+#include "pyreflxg.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
@@ -30,7 +31,7 @@
 static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
-  STReflexAttackerFilter,
+  STConstraint,
   STReadyForAttack,
   STMinLengthOptimiser,
   STCastlingFilter,
@@ -600,10 +601,10 @@ void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors to_postkey_play_appliers[] =
 {
-  { STOutputModeSelector,   &move_to_postkey_play              },
-  { STReflexAttackerFilter, &trash_for_postkey_play              },
-  { STAttackAdapter,        &trash_for_postkey_play              },
-  { STReadyForDefense,      &ready_for_defense_apply_postkeyplay }
+  { STOutputModeSelector, &move_to_postkey_play                },
+  { STConstraint,         &trash_for_postkey_play              },
+  { STAttackAdapter,      &trash_for_postkey_play              },
+  { STReadyForDefense,    &ready_for_defense_apply_postkeyplay }
 };
 
 enum
@@ -738,19 +739,12 @@ slice_index battle_branch_make_root(slice_index si)
   return result;
 }
 
-
-typedef struct
-{
-    slice_index avoided_defense;
-    slice_index avoided_attack;
-} forced_goal_insertion_param;
-
 /* In battle play, insert a STReflexDefenseFilter slice before a slice
  * where the reflex stipulation might force the side at the move to
  * reach the goal
  */
-static void reflex_guards_inserter_defense(slice_index si,
-                                           stip_structure_traversal *st)
+static void end_of_branch_forced_inserter_defense(slice_index si,
+                                                  stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -763,11 +757,10 @@ static void reflex_guards_inserter_defense(slice_index si,
     stip_length_type const min_length = slices[si].u.branch.min_length;
 
     {
-      forced_goal_insertion_param const * const param = st->param;
-      slice_index const proxy_to_avoided = param->avoided_defense;
+      slice_index const * const forced = st->param;
       slice_index const prototypes[] =
       {
-          alloc_end_of_branch_forced(proxy_to_avoided),
+          alloc_end_of_branch_forced(*forced),
           alloc_dead_end_slice()
       };
       enum
@@ -790,29 +783,109 @@ static void reflex_guards_inserter_defense(slice_index si,
 }
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
- * semi-reflex stipulation)
+ * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented
- * @param proxy_to_forced identifies branch that needs to be guarded from
+ * @param forced identifies branch that needs to be guarded from
  */
 void battle_branch_insert_end_of_branch_forced(slice_index si,
-                                               slice_index proxy_to_forced)
+                                               slice_index forced)
 {
   stip_structure_traversal st;
-  forced_goal_insertion_param param = { proxy_to_forced, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_forced_defense);
+  TraceFunctionParam("%u",forced);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  assert(slices[proxy_to_forced].type==STProxy);
+  assert(slices[forced].type==STProxy);
 
-  stip_structure_traversal_init(&st,&param);
+  stip_structure_traversal_init(&st,&forced);
   stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
-                                           &reflex_guards_inserter_defense);
+                                           &end_of_branch_forced_inserter_defense);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* In battle play, insert a STReflexAttackFilter slice before a
+ * slice where the reflex stipulation might force the side at the move
+ * to reach the goal
+ */
+static void constraint_inserter_attack(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  slice_index const * const constraint = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_constraint_slice(*constraint);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void constraint_inserter_attack_adapter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  slice_index const * const constraint = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_constraint_slice(*constraint));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors constraint_inserters[] =
+{
+  { STAttackAdapter,   &constraint_inserter_attack_adapter },
+  { STReadyForDefense, &constraint_inserter_attack         },
+};
+
+enum
+{
+  nr_constraint_inserters = (sizeof constraint_inserters
+                             / sizeof constraint_inserters[0])
+};
+
+/* Instrument a series branch with STConstraint slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_constraint(slice_index si, slice_index constraint)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  assert(slices[constraint].type==STProxy);
+
+  stip_structure_traversal_init(&st,&constraint);
+  stip_structure_traversal_override(&st,
+                                    constraint_inserters,
+                                    nr_constraint_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

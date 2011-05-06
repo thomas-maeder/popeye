@@ -1,6 +1,7 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
 #include "pypipe.h"
+#include "pyreflxg.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/operators/binary.h"
@@ -65,7 +66,7 @@ static slice_index const series_slice_rank_order[] =
   STGoalReachableGuardFilter, /* only used in pser stipulations */
   STSelfCheckGuard,
 
-  STReflexAttackerFilter
+  STConstraint
 };
 
 enum
@@ -468,4 +469,136 @@ slice_index series_branch_make_setplay(slice_index adapter)
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
+}
+
+
+static void constraint_inserter_series_adapter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  slice_index const * const constraint = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_constraint_slice(*constraint));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void constraint_inserter_series_dummy_move(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const * const constraint = st->param;
+    slice_index const prototype = alloc_constraint_slice(*constraint);
+    series_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors inserters[] =
+{
+  { STSeriesAdapter,           &constraint_inserter_series_adapter    },
+  { STReadyForSeriesDummyMove, &constraint_inserter_series_dummy_move }
+};
+
+enum
+{
+  nr_inserters = sizeof inserters / sizeof inserters[0]
+};
+
+/* Instrument a series branch with STConstraint slices (typically for a ser-r
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void series_branch_insert_constraint(slice_index si, slice_index constraint)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  assert(slices[constraint].type==STProxy);
+
+  stip_structure_traversal_init(&st,&constraint);
+  stip_structure_traversal_override(&st,inserters,nr_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void end_of_branch_forced_inserter_series_move(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const * const forced = st->param;
+    slice_index const prototypes[] =
+    {
+        alloc_end_of_branch_forced(*forced),
+        alloc_dead_end_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    series_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a series branch with STEndOfBranchForced slices (typically for a
+ * ser-r stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param forced identifies branch forced on the defender
+ */
+void series_branch_insert_end_of_branch_forced(slice_index si,
+                                               slice_index forced)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",forced);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(forced);
+
+  assert(slices[forced].type==STProxy);
+
+  stip_structure_traversal_init(&st,&forced);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForSeriesMove,
+                                           &end_of_branch_forced_inserter_series_move);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

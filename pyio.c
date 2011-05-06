@@ -2595,11 +2595,11 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("ser-r",tok,5) == 0)
   {
-    slice_index const proxy_next = alloc_proxy_slice();
-    tok = ParseGoal(tok+5,proxy_next); /* skip over "ser-r" */
+    slice_index const proxy_forced = alloc_proxy_slice();
+    tok = ParseGoal(tok+5,proxy_forced); /* skip over "ser-r" */
     if (tok!=0)
     {
-      assert(slices[proxy_next].u.pipe.next!=no_slice);
+      assert(slices[proxy_forced].u.pipe.next!=no_slice);
 
       {
         stip_length_type length;
@@ -2611,14 +2611,15 @@ static char *ParsePlay(char *tok,
 
           /* make the copy before stip_make_goal_attack_branch inserts
              help play */
-          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+          slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
           stip_make_goal_attack_branch(proxy_avoided);
           pipe_append(proxy_avoided,alloc_not_slice());
 
-          stip_make_goal_attack_branch(proxy_next);
+          stip_make_goal_attack_branch(proxy_forced);
 
           pipe_link(proxy,branch);
-          stip_insert_reflex_filters(proxy,proxy_next,proxy_avoided);
+          series_branch_insert_constraint(proxy,proxy_avoided);
+          series_branch_insert_end_of_branch_forced(proxy,proxy_forced);
 
           stip_impose_starter(proxy_avoided,White);
           pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
@@ -2813,11 +2814,11 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("hr",tok,2)==0)
   {
-    slice_index const proxy_next = alloc_proxy_slice();
-    tok = ParseGoal(tok+2,proxy_next); /* skip over "hr" */
+    slice_index const proxy_forced = alloc_proxy_slice();
+    tok = ParseGoal(tok+2,proxy_forced); /* skip over "hr" */
     if (tok!=0)
     {
-      assert(slices[proxy_next].u.pipe.next!=no_slice);
+      assert(slices[proxy_forced].u.pipe.next!=no_slice);
 
       {
         stip_length_type length;
@@ -2830,16 +2831,17 @@ static char *ParsePlay(char *tok,
 
           /* make the copy before stip_make_goal_attack_branch inserts
              help play */
-          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+          slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
           stip_make_goal_attack_branch(proxy_avoided);
           pipe_append(proxy_avoided,alloc_not_slice());
 
-          stip_make_goal_attack_branch(proxy_next);
+          stip_make_goal_attack_branch(proxy_forced);
 
           attach_help_branch(length,proxy,branch);
-          stip_insert_reflex_filters(proxy,proxy_next,proxy_avoided);
+          help_branch_insert_constraint(proxy,proxy_avoided);
+          help_branch_insert_end_of_branch_forced(proxy,proxy_forced);
 
-          stip_impose_starter(proxy_next,Black);
+          stip_impose_starter(proxy_forced,Black);
           pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
         }
       }
@@ -2932,11 +2934,11 @@ static char *ParsePlay(char *tok,
 
   else if (*tok=='r')
   {
-    slice_index const proxy_avoided_defense = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,proxy_avoided_defense);/* skip over 'r' */
+    slice_index const proxy_forced = alloc_proxy_slice();
+    tok = ParseGoal(tok+1,proxy_forced);/* skip over 'r' */
     if (tok!=0)
     {
-      assert(slices[proxy_avoided_defense].u.pipe.next!=no_slice);
+      assert(slices[proxy_forced].u.pipe.next!=no_slice);
 
       {
         stip_length_type length;
@@ -2948,18 +2950,16 @@ static char *ParsePlay(char *tok,
                                                 : length-1);
           slice_index const branch = alloc_battle_branch(length,min_length);
 
-          slice_index const
-              proxy_avoided_attack = stip_deep_copy(proxy_avoided_defense);
-          stip_make_goal_attack_branch(proxy_avoided_attack);
-          pipe_append(proxy_avoided_attack,alloc_not_slice());
+          slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
+          stip_make_goal_attack_branch(proxy_avoided);
+          pipe_append(proxy_avoided,alloc_not_slice());
 
-          stip_make_goal_attack_branch(proxy_avoided_defense);
+          stip_make_goal_attack_branch(proxy_forced);
 
           pipe_link(proxy,branch);
-          stip_insert_reflex_filters(proxy,
-                                      proxy_avoided_attack,
-                                      proxy_avoided_defense);
-          stip_impose_starter(proxy_avoided_defense,Black);
+          battle_branch_insert_constraint(proxy,proxy_avoided);
+          battle_branch_insert_end_of_branch_forced(proxy,proxy_forced);
+          stip_impose_starter(proxy_forced,Black);
 
           pipe_append(proxy,alloc_output_mode_selector(output_mode_tree));
         }

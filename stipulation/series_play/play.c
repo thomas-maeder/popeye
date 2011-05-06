@@ -94,8 +94,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_dummy_move_series(si,n);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_series(si,n);
+    case STConstraint:
+      result = constraint_series(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -243,8 +243,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = series_hashed_has_series(si,n);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_has_series(si,n);
+    case STConstraint:
+      result = constraint_has_series(si,n);
       break;
 
     case STKeepMatingFilter:

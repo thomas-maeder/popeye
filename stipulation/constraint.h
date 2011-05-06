@@ -11,17 +11,23 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 
+/* Allocate a STConstraint slice
+ * @param proxy_to_condition prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+slice_index alloc_constraint_slice(slice_index proxy_to_condition);
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type reflex_attacker_filter_solve(slice_index si);
+has_solution_type constraint_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type reflex_attacker_filter_has_solution(slice_index si);
+has_solution_type constraint_has_solution(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -34,10 +40,9 @@ has_solution_type reflex_attacker_filter_has_solution(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-reflex_attacker_filter_attack(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type constraint_attack(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -49,10 +54,9 @@ reflex_attacker_filter_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-reflex_attacker_filter_can_attack(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type constraint_can_attack(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -63,8 +67,7 @@ reflex_attacker_filter_can_attack(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_attacker_filter_help(slice_index si,
-                                             stip_length_type n);
+stip_length_type constraint_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -75,8 +78,7 @@ stip_length_type reflex_attacker_filter_help(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type reflex_attacker_filter_can_help(slice_index si,
-                                                 stip_length_type n);
+stip_length_type constraint_can_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -87,8 +89,7 @@ stip_length_type reflex_attacker_filter_can_help(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_attacker_filter_series(slice_index si,
-                                               stip_length_type n);
+stip_length_type constraint_series(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -99,19 +100,6 @@ stip_length_type reflex_attacker_filter_series(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type reflex_attacker_filter_has_series(slice_index si,
-                                                   stip_length_type n);
-
-/* Instrument a branch with STReflex* slices for a (non-semi)
- * reflex stipulation
- * @param si root of branch to be instrumented
- * @param proxy_to_avoided_attack identifies branch that the
- *                                attacker attempts to avoid
- * @param proxy_to_avoided_defense identifies branch that the
- *                                 defender attempts to avoid
- */
-void stip_insert_reflex_filters(slice_index si,
-                                slice_index proxy_to_avoided_attack,
-                                slice_index proxy_to_avoided_defense);
+stip_length_type constraint_has_series(slice_index si, stip_length_type n);
 
 #endif

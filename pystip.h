@@ -25,7 +25,7 @@
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \

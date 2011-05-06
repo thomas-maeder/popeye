@@ -186,8 +186,8 @@ has_solution_type slice_solve(slice_index si)
       result = not_solve(si);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_solve(si);
+    case STConstraint:
+      result = constraint_solve(si);
       break;
 
     case STMoveInverter:
@@ -398,8 +398,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = not_has_solution(si);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_has_solution(si);
+    case STConstraint:
+      result = constraint_has_solution(si);
       break;
 
     case STAttackAdapter:

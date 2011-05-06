@@ -523,20 +523,20 @@ static void keepmating_filter_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STReadyForAttack,       &keepmating_filter_inserter_battle_move },
-  { STDefenseAdapter ,      &keepmating_filter_inserter_battle_move },
-  { STReadyForDefense,      &keepmating_filter_inserter_battle_move },
-  { STReadyForHelpMove,     &keepmating_filter_inserter_help_move   },
-  { STSeriesAdapter,        &keepmating_filter_inserter_series_move },
-  { STReadyForSeriesMove,   &keepmating_filter_inserter_series_move },
-  { STReciprocal,           &keepmating_filter_inserter_reciprocal  },
-  { STQuodlibet,            &keepmating_filter_inserter_quodlibet   },
-  { STEndOfBranch,          &keepmating_filter_inserter_branch_fork },
-  { STEndOfBranchGoal,      &keepmating_filter_inserter_branch_fork },
-  { STEndOfBranchForced,    &keepmating_filter_inserter_branch_fork },
-  { STReflexAttackerFilter, &keepmating_filter_inserter_branch_fork },
-  { STForkOnRemaining,      &keepmating_filter_inserter_branch_fork },
-  { STGoalReachedTesting,   &keepmating_filter_inserter_goal        }
+  { STReadyForAttack,     &keepmating_filter_inserter_battle_move },
+  { STDefenseAdapter ,    &keepmating_filter_inserter_battle_move },
+  { STReadyForDefense,    &keepmating_filter_inserter_battle_move },
+  { STReadyForHelpMove,   &keepmating_filter_inserter_help_move   },
+  { STSeriesAdapter,      &keepmating_filter_inserter_series_move },
+  { STReadyForSeriesMove, &keepmating_filter_inserter_series_move },
+  { STReciprocal,         &keepmating_filter_inserter_reciprocal  },
+  { STQuodlibet,          &keepmating_filter_inserter_quodlibet   },
+  { STEndOfBranch,        &keepmating_filter_inserter_branch_fork },
+  { STEndOfBranchGoal,    &keepmating_filter_inserter_branch_fork },
+  { STEndOfBranchForced,  &keepmating_filter_inserter_branch_fork },
+  { STConstraint,         &keepmating_filter_inserter_branch_fork },
+  { STForkOnRemaining,    &keepmating_filter_inserter_branch_fork },
+  { STGoalReachedTesting, &keepmating_filter_inserter_goal        }
 };
 
 enum
