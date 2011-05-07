@@ -582,13 +582,16 @@ static void trash_for_postkey_play(slice_index si,
 
 void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 {
+  slice_index * const postkey_slice = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
+  if (*postkey_slice!=no_slice)
   {
-    slice_index * const postkey_slice = st->param;
-    stip_traverse_structure_children(si,st);
     link_to_branch(si,*postkey_slice);
     *postkey_slice = si;
     pipe_unlink(slices[si].prev);
