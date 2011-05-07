@@ -824,3 +824,36 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument a branch for detecting whether the defense was forced to reach a
+ * goal
+ * @param si root of branch to be instrumented
+ * @param goal identifies slice leading towards goal
+ */
+void battle_branch_insert_self_end_of_branch_goal(slice_index si,
+                                                  slice_index goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(goal);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const prev = slices[ready].prev;
+    stip_length_type const length = slices[ready].u.branch.length;
+    stip_length_type const min_length = slices[ready].u.branch.min_length;
+    assert(ready!=no_slice);
+
+    pipe_append(prev,alloc_end_of_branch_goal(goal));
+
+    if (min_length>slack_length_battle+2)
+      pipe_append(prev,alloc_min_length_guard(length-2,min_length-2));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

@@ -107,6 +107,14 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
 void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
                                                     slice_index goal);
 
+/* Instrument a branch for detecting whether the defense was forced to reach a
+ * goal
+ * @param si root of branch to be instrumented
+ * @param goal identifies slice leading towards goal
+ */
+void battle_branch_insert_self_end_of_branch_goal(slice_index si,
+                                                  slice_index goal);
+
 /* Instrument a series branch with STConstraint slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented

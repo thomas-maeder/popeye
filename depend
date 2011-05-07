@@ -1354,7 +1354,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/notcheck/reached_tester.h \
  stipulation/goals/any/reached_tester.h pyquodli.h pyrecipr.h pynot.h \
  pymovein.h pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
- pyselfgd.h stipulation/battle_play/defense_play.h pyselfcg.h \
+ pyselfgd.h pyselfcg.h stipulation/battle_play/defense_play.h \
  stipulation/help_play/play.h pystip.h pykeepmt.h pypipe.h \
  pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
@@ -1487,9 +1487,9 @@ stipulation/battle_play/attack_play.h:
 
 pyselfgd.h:
 
-stipulation/battle_play/defense_play.h:
-
 pyselfcg.h:
+
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/play.h:
 
@@ -1628,44 +1628,12 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \
- pyslice.h stipulation/battle_play/defense_play.h \
- stipulation/end_of_branch_goal.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h stipulation/battle_play/branch.h pystip.h \
- stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/min_length_guard.h pypipe.h pystip.h \
- stipulation/goals/goals.h boolean.h py.h pyenum.h py.h boolean.h \
- pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
- trace.h
+pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pystip.h stipulation/goals/goals.h \
+ boolean.h py.h pyenum.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+ pypiece.h pyenum.h pylang.h stipulation/battle_play/attack_adapter.h \
+ stipulation/battle_play/attack_play.h pypipe.h pyslice.h trace.h
 
 pyselfgd.h:
-
-stipulation/battle_play/attack_play.h:
-
-pyslice.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/end_of_branch_goal.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/help_play/play.h:
-
-stipulation/series_play/play.h:
-
-stipulation/battle_play/branch.h:
-
-pystip.h:
-
-stipulation/battle_play/attack_adapter.h:
-
-stipulation/battle_play/min_length_guard.h:
-
-pypipe.h:
 
 pystip.h:
 
@@ -1692,6 +1660,12 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+stipulation/battle_play/attack_adapter.h:
+
+stipulation/battle_play/attack_play.h:
+
+pypipe.h:
 
 pyslice.h:
 

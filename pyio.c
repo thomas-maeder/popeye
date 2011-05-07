@@ -2374,7 +2374,7 @@ static char *ParseSerS(char *tok,
                                                             slack_length_battle+1,
                                                             slack_length_battle+1);
     slice_make_self_goal_branch(proxy_next);
-    slice_insert_self_guards(defense_branch,proxy_next);
+    battle_branch_insert_self_end_of_branch_goal(defense_branch,proxy_next);
     series_branch_set_end_forced(series,defense_branch);
     pipe_link(proxy,series);
     pipe_link(aready,deadend);
@@ -2522,7 +2522,7 @@ static char *ParsePlay(char *tok,
                                                                   slack_length_battle+1);
           pipe_link(aready,deadend);
           slice_make_self_goal_branch(proxy_next);
-          slice_insert_self_guards(defense_branch,proxy_next);
+          battle_branch_insert_self_end_of_branch_goal(defense_branch,proxy_next);
           /* in ser-hs, the series is 1 half-move longer than in usual
            * series play! */
           if (length==slack_length_series)
@@ -2802,7 +2802,7 @@ static char *ParsePlay(char *tok,
           pipe_link(aready,deadend);
           help_branch_set_end_forced(branch,defense_branch);
           slice_make_self_goal_branch(proxy_next);
-          slice_insert_self_guards(defense_branch,proxy_next);
+          battle_branch_insert_self_end_of_branch_goal(defense_branch,proxy_next);
           attach_help_branch(length,proxy,branch);
           stip_impose_starter(proxy_next,White);
           pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
@@ -2921,7 +2921,7 @@ static char *ParsePlay(char *tok,
                                                : length);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
           slice_make_self_goal_branch(proxy_next);
-          slice_insert_self_guards(branch,proxy_next);
+          battle_branch_insert_self_end_of_branch_goal(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_next,White);
 
@@ -3187,7 +3187,7 @@ static char *ParseStructuredStip_branch_d_operand(char *tok, slice_index branch)
     {
       ++tok;
       slice_make_self_goal_branch(proxy_operand);
-      slice_insert_self_guards(branch,proxy_operand);
+      battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
     }
     else
       tok = 0;
