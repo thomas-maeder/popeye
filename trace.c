@@ -304,6 +304,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKeyWriter:
       case STTryWriter:
       case STVariationWriter:
+      case STTrivialVariationFilter:
       case STThreatEnforcer:
       case STThreatStart:
       case STThreatCollector:
