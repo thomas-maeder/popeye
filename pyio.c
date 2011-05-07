@@ -3151,10 +3151,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok, slice_index branch)
         battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
       }
       else
-      {
-        stip_make_goal_attack_branch(proxy_operand);
         battle_branch_insert_end_of_branch_forced(branch,proxy_operand);
-      }
     }
     else
       tok = 0;
