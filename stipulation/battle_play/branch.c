@@ -817,8 +817,9 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
   TraceStipulation(goal);
 
   {
-    slice_index const cont = branch_find_slice(STContinuationSolver,si);
-    pipe_append(slices[cont].prev,alloc_end_of_branch_goal(goal));
+    slice_index const solver = branch_find_slice(STContinuationSolver,si);
+    assert(solver!=no_slice);
+    pipe_append(slices[solver].prev,alloc_end_of_branch_goal(goal));
   }
 
   TraceFunctionExit(__func__);
