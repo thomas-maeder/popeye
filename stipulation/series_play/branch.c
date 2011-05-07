@@ -304,8 +304,6 @@ static void insert_end_of_branch(slice_index si, slice_index end_proto)
   TraceFunctionParam("%u",end_proto);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STSeriesAdapter);
-
   {
     slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
     assert(ready!=no_slice);
