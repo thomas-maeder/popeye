@@ -191,8 +191,6 @@ void root_branch_insert_slices(slice_index si,
 static slice_index const slice_rank_order[] =
 {
   STOutputModeSelector,
-  STMoveInverter,
-  STSelfCheckGuard,
   STAttackAdapter,
   STDefenseAdapter,
   STHelpAdapter,
