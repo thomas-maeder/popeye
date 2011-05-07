@@ -132,17 +132,6 @@ static void instrument_goal_testing(slice_index si, stip_structure_traversal *st
     leaf_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  {
-    /* the following hack is (currently) required to suppress the output of
-     * short mates in selfmate */
-    slice_index const variation_writer = branch_find_slice(STVariationWriter,si);
-    if (variation_writer!=no_slice)
-    {
-      slices[variation_writer].u.branch.length = slack_length_battle;
-      slices[variation_writer].u.branch.min_length = slack_length_battle-2;
-    }
-  }
-
   stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
