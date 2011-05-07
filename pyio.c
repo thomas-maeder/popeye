@@ -2984,7 +2984,7 @@ static char *ParsePlay(char *tok,
                                                 : length-1);
           slice_index const branch = alloc_battle_branch(length,min_length);
           stip_make_direct_goal_branch(proxy_next);
-          battle_branch_set_direct_goal_branch(branch,proxy_next);
+          battle_branch_insert_direct_end_of_branch_goal(branch,proxy_next);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy_next,Black);
 
@@ -3148,7 +3148,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok, slice_index branch)
       if (op_type==operand_type_goal)
       {
         stip_make_direct_goal_branch(proxy_operand);
-        battle_branch_set_direct_goal_branch(branch,proxy_operand);
+        battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
       }
       else
       {

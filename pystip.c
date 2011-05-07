@@ -1159,7 +1159,7 @@ static void insert_direct_guards(slice_index si,
   {
     remove_non_goal_slices(state->to_goal);
     stip_make_direct_goal_branch(state->to_goal);
-    battle_branch_set_direct_goal_branch(si,state->to_goal);
+    battle_branch_insert_direct_end_of_branch_goal(si,state->to_goal);
   }
 
   TraceFunctionExit(__func__);

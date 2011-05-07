@@ -800,3 +800,27 @@ void battle_branch_insert_constraint(slice_index si, slice_index constraint)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument a branch with slices dealing with direct play
+ * @param si root of branch to be instrumented
+ * @param goal identifies slice leading towards goal
+ */
+void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
+                                                    slice_index goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(goal);
+
+  {
+    slice_index const cont = branch_find_slice(STContinuationSolver,si);
+    pipe_append(slices[cont].prev,alloc_end_of_branch_goal(goal));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

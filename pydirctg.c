@@ -1,51 +1,9 @@
 #include "pydirctg.h"
-#include "stipulation/proxy.h"
-#include "stipulation/goals/goals.h"
 #include "stipulation/branch.h"
-#include "stipulation/dead_end.h"
-#include "stipulation/end_of_branch_goal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
 
 #include <assert.h>
-
-/* Instrument a branch with slices dealing with direct play
- * @param si root of branch to be instrumented
- * @param proxy_to_goal identifies slice leading towards goal
- */
-void battle_branch_set_direct_goal_branch(slice_index si,
-                                          slice_index proxy_to_goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-  TraceStipulation(proxy_to_goal);
-
-  assert(slices[proxy_to_goal].type==STProxy);
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_end_of_branch_goal(proxy_to_goal),
-      alloc_dead_end_slice()
-    };
-    enum {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  TraceStipulation(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Insert a the appropriate proxy slices before each STGoal*ReachedTester slice
  * @param si identifies STGoal*ReachedTester slice

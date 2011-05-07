@@ -100,6 +100,13 @@ slice_index battle_branch_make_root(slice_index si);
 void battle_branch_insert_end_of_branch_forced(slice_index si,
                                                slice_index forced);
 
+/* Instrument a branch with slices dealing with direct play
+ * @param si root of branch to be instrumented
+ * @param goal identifies slice leading towards goal
+ */
+void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
+                                                    slice_index goal);
+
 /* Instrument a series branch with STConstraint slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
