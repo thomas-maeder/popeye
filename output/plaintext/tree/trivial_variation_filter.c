@@ -9,7 +9,7 @@
  */
 boolean do_filter_trivial_variations[maxply+1];
 
-/* Allocate a STVariationWriter slice.
+/* Allocate a STTrivialVariationFilter slice.
  * @return index of allocated slice
  */
 slice_index alloc_trivial_variation_filter_slice(void)

@@ -36,7 +36,7 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
-#include "output/plaintext/tree/variation_writer.h"
+#include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/trivial_variation_filter.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
@@ -78,8 +78,8 @@ stip_length_type can_attack(slice_index si,
       result = refutations_collector_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STVariationWriter:
-      result = variation_writer_can_attack(si,n,n_max_unsolvable);
+    case STMoveWriter:
+      result = move_writer_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STTrivialVariationFilter:
@@ -283,8 +283,8 @@ stip_length_type attack(slice_index si,
       result = refutations_collector_attack(si,n,n_max_unsolvable);
       break;
 
-    case STVariationWriter:
-      result = variation_writer_attack(si,n,n_max_unsolvable);
+    case STMoveWriter:
+      result = move_writer_attack(si,n,n_max_unsolvable);
       break;
 
     case STTrivialVariationFilter:

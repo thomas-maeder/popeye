@@ -155,11 +155,10 @@
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
-    ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
+    ENUMERATOR(STMoveWriter), /* writes moves */ \
     ENUMERATOR(STKeyWriter), /* write battle play keys */               \
     ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
-    ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STTrivialVariationFilter), /* don't write variations */  \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \

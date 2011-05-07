@@ -10,12 +10,11 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
-#include "output/plaintext/tree/continuation_writer.h"
+#include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/trivial_variation_filter.h"
-#include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
@@ -53,7 +52,7 @@ static void insert_continuation_writers(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_continuation_writer_slice(),
+      alloc_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
@@ -98,7 +97,7 @@ static void instrument_ready_for_defense(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_variation_writer_slice(),
+      alloc_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
@@ -177,9 +176,38 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_trivial_varation_filter(slice_index si,
+typedef enum
+{
+  trivial_varation_filter_insertion_state_global,
+  trivial_varation_filter_insertion_state_attack,
+  trivial_varation_filter_insertion_state_defense
+} trivial_varation_filter_insertion_state_type;
+
+static void trivial_varation_filter_end_of_branch(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  trivial_varation_filter_insertion_state_type * const state = st->param;
+  trivial_varation_filter_insertion_state_type const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *state = trivial_varation_filter_insertion_state_global;
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+static void trivial_varation_filter_insert(slice_index si,
                                            stip_structure_traversal *st)
 {
+  trivial_varation_filter_insertion_state_type const * const state = st->param;
   slice_index variation_writer = no_slice;
   boolean found_goal_tester = false;
   slice_index current = slices[si].u.fork.fork;
@@ -188,41 +216,99 @@ static void insert_trivial_varation_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  trivial_varation_filter_end_of_branch(si,st);
 
-  while (slices[current].type!=STLeaf)
+  if (*state==trivial_varation_filter_insertion_state_defense)
   {
-    if (slices[current].type==STVariationWriter)
-      variation_writer = current;
-    else if (slices[current].type==STGoalReachedTesting)
-      found_goal_tester = true;
+    while (slices[current].type!=STLeaf)
+    {
+      if (slices[current].type==STMoveWriter)
+        variation_writer = current;
+      else if (slices[current].type==STGoalReachedTesting)
+        found_goal_tester = true;
 
-    current = slices[current].u.pipe.next;
+      current = slices[current].u.pipe.next;
+    }
+
+    if (found_goal_tester && variation_writer!=no_slice)
+      pipe_append(slices[variation_writer].prev,
+                  alloc_trivial_variation_filter_slice());
   }
-
-  if (found_goal_tester && variation_writer!=no_slice)
-    pipe_append(slices[variation_writer].prev,
-                alloc_trivial_variation_filter_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_trivial_varation_filters(slice_index si)
+static
+void trivial_varation_filter_insertion_attack(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  stip_structure_traversal st;
+  trivial_varation_filter_insertion_state_type * const state = st->param;
+  trivial_varation_filter_insertion_state_type const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STEndOfBranchGoal,
-                                           &insert_trivial_varation_filter);
-  stip_structure_traversal_override_single(&st,
-                                           STEndOfBranchGoalImmobile,
-                                           &insert_trivial_varation_filter);
+  *state = trivial_varation_filter_insertion_state_attack;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void trivial_varation_filter_insertion_defense(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  trivial_varation_filter_insertion_state_type * const state = st->param;
+  trivial_varation_filter_insertion_state_type const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *state = trivial_varation_filter_insertion_state_defense;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors trivial_varation_filter_inserters[] =
+{
+  { STAttackAdapter,           &trivial_varation_filter_insertion_attack  },
+  { STReadyForAttack,          &trivial_varation_filter_insertion_attack  },
+  { STDefenseAdapter,          &trivial_varation_filter_insertion_defense },
+  { STReadyForDefense,         &trivial_varation_filter_insertion_defense },
+  { STEndOfBranchGoal,         &trivial_varation_filter_insert            },
+  { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert            },
+  { STEndOfBranch,             &trivial_varation_filter_end_of_branch     },
+  { STEndOfBranchForced,       &trivial_varation_filter_end_of_branch     }
+};
+
+enum
+{
+  nr_trivial_varation_filter_inserters
+  = (sizeof trivial_varation_filter_inserters
+     / sizeof trivial_varation_filter_inserters[0])
+};
+
+static void insert_trivial_varation_filters(slice_index si)
+{
+  stip_structure_traversal st;
+  trivial_varation_filter_insertion_state_type state = trivial_varation_filter_insertion_state_global;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    trivial_varation_filter_inserters,
+                                    nr_trivial_varation_filter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -240,7 +326,7 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
     {
       alloc_try_writer(),
       alloc_refutation_writer_slice(),
-      alloc_variation_writer_slice(),
+      alloc_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
@@ -492,7 +578,7 @@ static structure_traversers_visitors goal_writer_slice_inserters[] =
 {
   { STGoalReachedTesting,             &remember_goal                        },
   { STKeyWriter,                      &remember_key_writer                  },
-  { STContinuationWriter,             &remove_continuation_writer_if_unused },
+  { STMoveWriter,                     &remove_continuation_writer_if_unused },
   { STCheckDetector,                  &remove_check_handler_if_unused       },
   { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };

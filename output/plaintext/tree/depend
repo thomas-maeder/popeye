@@ -6,11 +6,10 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
- output/plaintext/tree/continuation_writer.h \
+ output/plaintext/tree/move_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/trivial_variation_filter.h \
- output/plaintext/tree/variation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/goal_writer.h \
@@ -40,7 +39,7 @@ output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/decoration_writer.h:
 
-output/plaintext/tree/continuation_writer.h:
+output/plaintext/tree/move_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -49,8 +48,6 @@ output/plaintext/tree/key_writer.h:
 output/plaintext/tree/try_writer.h:
 
 output/plaintext/tree/trivial_variation_filter.h:
-
-output/plaintext/tree/variation_writer.h:
 
 output/plaintext/tree/refuting_variation_writer.h:
 
@@ -113,13 +110,12 @@ output/plaintext/tree/tree.h:
 output/plaintext/tree/trivial_variation_filter.h:
 
 trace.h:
-output/plaintext/tree/continuation_writer$(OBJ_SUFFIX): \
- output/plaintext/tree/continuation_writer.c \
- output/plaintext/tree/continuation_writer.h pydata.h pypipe.h pytable.h \
- pymsg.h stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
+output/plaintext/tree/move_writer$(OBJ_SUFFIX): output/plaintext/tree/move_writer.c \
+ output/plaintext/tree/move_writer.h pydata.h pypipe.h pytable.h pymsg.h \
+ stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
  output/plaintext/tree/trivial_variation_filter.h trace.h
 
-output/plaintext/tree/continuation_writer.h:
+output/plaintext/tree/move_writer.h:
 
 pydata.h:
 
@@ -134,18 +130,6 @@ stipulation/battle_play/threat.h:
 output/plaintext/tree/tree.h:
 
 output/plaintext/tree/trivial_variation_filter.h:
-
-trace.h:
-output/plaintext/tree/variation_writer$(OBJ_SUFFIX): \
- output/plaintext/tree/variation_writer.c \
- output/plaintext/tree/variation_writer.h pypipe.h \
- output/plaintext/tree/tree.h trace.h
-
-output/plaintext/tree/variation_writer.h:
-
-pypipe.h:
-
-output/plaintext/tree/tree.h:
 
 trace.h:
 output/plaintext/tree/refuting_variation_writer$(OBJ_SUFFIX): \

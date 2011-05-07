@@ -182,11 +182,10 @@
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
-    ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
+    ENUMERATOR(STMoveWriter), /* writes moves */ \
     ENUMERATOR(STKeyWriter), /* write battle play solutions */ \
     ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
-    ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STTrivialVariationFilter), /* don't write variations */  \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
@@ -377,11 +376,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
   slice_structure_pipe,   /* STEndOfPhaseWriter */
   slice_structure_pipe,   /* STEndOfSolutionWriter */
-  slice_structure_pipe,   /* STContinuationWriter */
+  slice_structure_pipe,   /* STMoveWriter */
   slice_structure_pipe,   /* STKeyWriter */
   slice_structure_pipe,   /* STTryWriter */
   slice_structure_pipe,   /* STZugzwangWriter */
-  slice_structure_pipe,   /* STVariationWriter */
   slice_structure_pipe,   /* STTrivialVariationFilter */
   slice_structure_pipe,   /* STRefutingVariationWriter */
   slice_structure_pipe,   /* STRefutationWriter */
@@ -523,11 +521,10 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
   slice_function_unspecified,    /* STEndOfPhaseWriter */
   slice_function_unspecified,    /* STEndOfSolutionWriter */
-  slice_function_unspecified,    /* STContinuationWriter */
+  slice_function_unspecified,    /* STMoveWriter */
   slice_function_unspecified,    /* STKeyWriter */
   slice_function_unspecified,    /* STTryWriter */
   slice_function_unspecified,    /* STZugzwangWriter */
-  slice_function_unspecified,    /* STVariationWriter */
   slice_function_unspecified,    /* STTrivialVariationFilter */
   slice_function_unspecified,    /* STRefutingVariationWriter */
   slice_function_unspecified,    /* STRefutationWriter */
@@ -1716,11 +1713,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STIllegalSelfcheckWriter */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
-  &stip_traverse_structure_pipe,            /* STContinuationWriter */
+  &stip_traverse_structure_pipe,            /* STMoveWriter */
   &stip_traverse_structure_pipe,            /* STKeyWriter */
   &stip_traverse_structure_pipe,            /* STTryWriter */
   &stip_traverse_structure_pipe,            /* STZugzwangWriter */
-  &stip_traverse_structure_pipe,            /* STVariationWriter */
   &stip_traverse_structure_pipe,            /* STTrivialVariationFilter */
   &stip_traverse_structure_pipe,            /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,            /* STRefutationWriter */
@@ -1955,11 +1951,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STIllegalSelfcheckWriter */
     &stip_traverse_moves_pipe,                   /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                   /* STEndOfSolutionWriter */
-    &stip_traverse_moves_pipe,                   /* STContinuationWriter */
+    &stip_traverse_moves_pipe,                   /* STMoveWriter */
     &stip_traverse_moves_pipe,                   /* STKeyWriter */
     &stip_traverse_moves_pipe,                   /* STTryWriter */
     &stip_traverse_moves_pipe,                   /* STZugzwangWriter */
-    &stip_traverse_moves_pipe,                   /* STVariationWriter */
     &stip_traverse_moves_pipe,                   /* STTrivialVariationFilter */
     &stip_traverse_moves_pipe,                   /* STRefutingVariationWriter */
     &stip_traverse_moves_pipe,                   /* STRefutationWriter */

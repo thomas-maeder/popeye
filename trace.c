@@ -303,7 +303,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:
-      case STVariationWriter:
       case STTrivialVariationFilter:
       case STThreatEnforcer:
       case STThreatStart:
@@ -332,7 +331,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAnticirceExchangeSpecial:
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
-      case STContinuationWriter:
+      case STMoveWriter:
       case STRefutationWriter:
       case STRefutingVariationWriter:
       case STGoalMateReachedTester:

@@ -35,7 +35,7 @@
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "output/plaintext/tree/continuation_writer.h"
+#include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "trace.h"
 
@@ -172,8 +172,8 @@ stip_length_type defend(slice_index si,
       result = restart_guard_defend(si,n,n_max_unsolvable);
       break;
 
-    case STContinuationWriter:
-      result = continuation_writer_defend(si,n,n_max_unsolvable);
+    case STMoveWriter:
+      result = move_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
@@ -387,8 +387,8 @@ stip_length_type can_defend(slice_index si,
       result = try_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STContinuationWriter:
-      result = continuation_writer_can_defend(si,n,n_max_unsolvable);
+    case STMoveWriter:
+      result = move_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
