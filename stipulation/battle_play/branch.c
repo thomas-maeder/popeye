@@ -739,49 +739,6 @@ slice_index battle_branch_make_root(slice_index si)
   return result;
 }
 
-/* In battle play, insert a STReflexDefenseFilter slice before a slice
- * where the reflex stipulation might force the side at the move to
- * reach the goal
- */
-static void end_of_branch_forced_inserter_defense(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-
-    {
-      slice_index const * const forced = st->param;
-      slice_index const prototypes[] =
-      {
-          alloc_end_of_branch_forced(*forced),
-          alloc_dead_end_slice()
-      };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
-    }
-
-    if (min_length>slack_length_battle+1)
-    {
-      slice_index const prototype = alloc_min_length_guard(length-1,
-                                                           min_length-1);
-      battle_branch_insert_slices(si,&prototype,1);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented
@@ -790,22 +747,25 @@ static void end_of_branch_forced_inserter_defense(slice_index si,
 void battle_branch_insert_end_of_branch_forced(slice_index si,
                                                slice_index forced)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",forced);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+  TraceStipulation(forced);
 
-  assert(slices[forced].type==STProxy);
+  {
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    stip_length_type const length = slices[ready].u.branch.length;
+    stip_length_type const min_length = slices[ready].u.branch.min_length;
+    assert(ready!=no_slice);
 
-  stip_structure_traversal_init(&st,&forced);
-  stip_structure_traversal_override_single(&st,
-                                           STReadyForAttack,
-                                           &end_of_branch_forced_inserter_defense);
-  stip_traverse_structure(si,&st);
+    pipe_append(ready,alloc_end_of_branch_forced(forced));
+
+    if (min_length>slack_length_battle)
+      pipe_append(slices[ready].prev,alloc_min_length_guard(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
