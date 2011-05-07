@@ -1017,7 +1017,7 @@ static char InputLine[LINESIZE];    /* This array contains the input as is */
 static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;.,";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}";
 /* Steingewinn ! */
 /* introductory move */
 /* h##! */
@@ -3103,15 +3103,10 @@ static slice_index ParseStructuredStip_make_branch_d(stip_length_type min_length
   TraceFunctionParamListEnd();
 
   max_length += slack_length_battle+1;
+  min_length += slack_length_battle;
 
-  if (min_length==0)
-    min_length = slack_length_battle+(max_length-slack_length_battle)%2;
-  else
-  {
-    min_length += slack_length_battle+1;
-    if (min_length>=max_length)
-      min_length = max_length-1;
-  }
+  if (min_length>=max_length)
+    min_length = max_length-1;
 
   result = alloc_battle_branch(max_length,min_length);
 
@@ -3189,6 +3184,19 @@ static char *ParseStructuredStip_branch_d_operand(char *tok, slice_index branch)
     else
       tok = 0;
   }
+  else if (tok[0]=='{')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]=='}')
+    {
+      ++tok;
+      battle_branch_insert_constraint(branch,proxy_operand);
+    }
+    else
+      tok = 0;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -3219,14 +3227,14 @@ static char *ParseStructuredStip_branch_d(char *tok,
   {
     slice_index const branch = ParseStructuredStip_make_branch_d(min_length,
                                                                  max_length);
+    link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_d_operand(tok,branch);
+    tok = ParseStructuredStip_branch_d_operand(tok,proxy);
     if (tok!=0 && tok[0]=='a')
     {
-      tok = ParseStructuredStip_branch_a_operand(tok+1,branch);
+      tok = ParseStructuredStip_branch_a_operand(tok+1,proxy);
       if (tok!=0)
       {
-        link_to_branch(proxy,branch);
         pipe_append(proxy,alloc_output_mode_selector(output_mode_tree));
         pipe_link(proxy,battle_branch_make_postkeyplay(proxy));
       }
@@ -3255,15 +3263,10 @@ static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length
   TraceFunctionParamListEnd();
 
   max_length += slack_length_battle;
+  min_length += slack_length_battle+1;
 
-  if (min_length==0)
-    min_length = slack_length_battle+(max_length+1-slack_length_battle)%2;
-  else
-  {
-    min_length += slack_length_battle;
-    if (min_length>=max_length)
-      min_length = max_length-1;
-  }
+  if (min_length>=max_length)
+    min_length = max_length-1;
 
   result = alloc_battle_branch(max_length,min_length);
 
@@ -3296,14 +3299,14 @@ static char *ParseStructuredStip_branch_a(char *tok,
   {
     slice_index const branch = ParseStructuredStip_make_branch_a(min_length,
                                                                  max_length);
+    link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_a_operand(tok,branch);
+    tok = ParseStructuredStip_branch_a_operand(tok,proxy);
     if (tok!=0 && tok[0]=='d')
     {
-      tok = ParseStructuredStip_branch_d_operand(tok+1,branch);
+      tok = ParseStructuredStip_branch_d_operand(tok+1,proxy);
       if (tok!=0)
       {
-        link_to_branch(proxy,branch);
         pipe_append(proxy,alloc_output_mode_selector(output_mode_tree));
       }
     }
@@ -3407,12 +3410,12 @@ static char *ParseStructuredStip_branch_h(char *tok,
   {
     slice_index const branch = ParseStructuredStip_make_branch_h(min_length,
                                                                  max_length);
+    link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_h_operand(tok,branch);
+    tok = ParseStructuredStip_branch_h_operand(tok,proxy);
     if (tok[0]=='h')
     {
-      tok = ParseStructuredStip_branch_h_operand(tok+1,branch);
-      link_to_branch(proxy,branch);
+      tok = ParseStructuredStip_branch_h_operand(tok+1,proxy);
       pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
     }
     else
@@ -3519,11 +3522,11 @@ static char *ParseStructuredStip_branch_s(char *tok,
   {
     slice_index const branch = ParseStructuredStip_make_branch_s(min_length,
                                                                  max_length);
+    link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_s_operand(tok,branch);
+    tok = ParseStructuredStip_branch_s_operand(tok,proxy);
     if (tok!=0)
     {
-      link_to_branch(proxy,branch);
       pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
     }
   }
