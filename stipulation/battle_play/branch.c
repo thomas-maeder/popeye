@@ -811,58 +811,6 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* In battle play, insert a STReflexAttackFilter slice before a
- * slice where the reflex stipulation might force the side at the move
- * to reach the goal
- */
-static void constraint_inserter_attack(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  slice_index const * const constraint = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_constraint_slice(*constraint);
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void constraint_inserter_attack_adapter(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  slice_index const * const constraint = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_constraint_slice(*constraint));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors constraint_inserters[] =
-{
-  { STAttackAdapter,   &constraint_inserter_attack_adapter },
-  { STReadyForDefense, &constraint_inserter_attack         },
-};
-
-enum
-{
-  nr_constraint_inserters = (sizeof constraint_inserters
-                             / sizeof constraint_inserters[0])
-};
-
 /* Instrument a series branch with STConstraint slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
@@ -870,8 +818,6 @@ enum
  */
 void battle_branch_insert_constraint(slice_index si, slice_index constraint)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",constraint);
@@ -880,13 +826,16 @@ void battle_branch_insert_constraint(slice_index si, slice_index constraint)
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  assert(slices[constraint].type==STProxy);
+  {
+    slice_index const adapter = branch_find_slice(STAttackAdapter,si);
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
 
-  stip_structure_traversal_init(&st,&constraint);
-  stip_structure_traversal_override(&st,
-                                    constraint_inserters,
-                                    nr_constraint_inserters);
-  stip_traverse_structure(si,&st);
+    if (adapter!=no_slice)
+      pipe_append(slices[adapter].prev,alloc_constraint_slice(constraint));
+
+    assert(ready!=no_slice);
+    pipe_append(slices[ready].prev,alloc_constraint_slice(constraint));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
