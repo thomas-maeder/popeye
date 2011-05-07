@@ -3334,14 +3334,39 @@ static char *ParseStructuredStip_branch_h_operand(char *tok, slice_index branch)
   {
     slice_index const proxy_operand = alloc_proxy_slice();
     operand_type op_type;
-    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    boolean forced = false;
+
+    ++tok;
+
+    if (tok[0]=='>')
+    {
+      forced = true;
+      ++tok;
+    }
+
+    tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type);
     if (tok!=0 && tok[0]==']')
     {
       if (op_type==operand_type_goal)
         help_branch_set_end_goal(branch,proxy_operand);
+      else if (forced)
+        help_branch_set_end_forced(branch,proxy_operand);
       else
         help_branch_set_end(branch,proxy_operand);
       ++tok;
+    }
+    else
+      tok = 0;
+  }
+  else if (tok[0]=='{')
+  {
+    slice_index const proxy_operand = alloc_proxy_slice();
+    operand_type op_type;
+    tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type);
+    if (tok!=0 && tok[0]=='}')
+    {
+      ++tok;
+      help_branch_insert_constraint(branch,proxy_operand);
     }
     else
       tok = 0;
