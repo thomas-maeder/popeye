@@ -1,9 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_CONTINUATION_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_CONTINUATION_WRITER_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* Allocate a STContinuationWriter defender slice.
  * @return index of allocated slice

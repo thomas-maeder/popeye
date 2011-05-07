@@ -80,28 +80,14 @@ stipulation/battle_play/defense_play.h:
 
 trace.h:
 output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.c \
- output/plaintext/tree/key_writer.h pydata.h pymsg.h pypipe.h \
- stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
- output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
- output/plaintext/tree/trivial_variation_filter.h trace.h
+ output/plaintext/tree/key_writer.h pypipe.h output/plaintext/tree/tree.h \
+ trace.h
 
 output/plaintext/tree/key_writer.h:
 
-pydata.h:
-
-pymsg.h:
-
 pypipe.h:
 
-stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/try.h:
-
 output/plaintext/tree/tree.h:
-
-output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/trivial_variation_filter.h:
 
 trace.h:
 output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.c \
@@ -130,9 +116,7 @@ trace.h:
 output/plaintext/tree/continuation_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/continuation_writer.c \
  output/plaintext/tree/continuation_writer.h pydata.h pypipe.h pytable.h \
- pymsg.h stipulation/branch.h stipulation/battle_play/defense_play.h \
- stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
- output/plaintext/tree/check_writer.h \
+ pymsg.h stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
  output/plaintext/tree/trivial_variation_filter.h trace.h
 
 output/plaintext/tree/continuation_writer.h:
@@ -145,15 +129,9 @@ pytable.h:
 
 pymsg.h:
 
-stipulation/branch.h:
-
-stipulation/battle_play/defense_play.h:
-
 stipulation/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
-
-output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/trivial_variation_filter.h:
 

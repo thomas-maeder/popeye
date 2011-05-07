@@ -190,6 +190,7 @@ void root_branch_insert_slices(slice_index si,
 
 static slice_index const slice_rank_order[] =
 {
+  STOutputModeSelector,
   STAttackAdapter,
   STDefenseAdapter,
   STGoalReachedTesting
@@ -385,9 +386,9 @@ static slice_index const leaf_slice_rank_order[] =
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,
-  STKeyWriter,
   STContinuationWriter,
   STVariationWriter,
+  STKeyWriter,
   STRefutingVariationWriter,
   STCheckDetector,
   STMaxSolutionsGuard,

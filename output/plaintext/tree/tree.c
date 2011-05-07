@@ -387,53 +387,6 @@ static void insert_root_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void remove_superfluous_continuation_writer(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const writer = branch_find_slice(STContinuationWriter,si);
-    if (writer!=no_slice)
-    {
-      slice_index const prev = slices[writer].prev;
-      assert(prev!=no_slice);
-      if (slices[prev].type==STKeyWriter || slices[prev].type==STTryWriter)
-        pipe_remove(writer);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remove STContinuationWriter slices beyond ST{Key,Try}Writer slices
- * @param si identifies slice where to start
- */
-static void remove_superfluous_continuation_writers(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STAttackAdapter,
-                                           &remove_superfluous_continuation_writer);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_illegal_selfcheck_writer(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -599,7 +552,6 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   insert_trivial_varation_filters(si);
   insert_try_writers(si);
   insert_root_writer_slices(si);
-  remove_superfluous_continuation_writers(si);
   insert_illegal_selfcheck_writer(si);
   optimise_leaf_slices(si);
 

@@ -1,9 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_KEY_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_KEY_WRITER_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* Allocate a STKeyWriter defender slice.
  * @return index of allocated slice

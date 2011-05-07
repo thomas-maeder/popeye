@@ -1,12 +1,6 @@
 #include "output/plaintext/tree/key_writer.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "pypipe.h"
-#include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/try.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -86,9 +80,7 @@ stip_length_type key_writer_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  output_plaintext_tree_write_move();
   output_plaintext_tree_remember_move_decoration(attack_key);
-  do_filter_trivial_variations[nbply+1] = n>slack_length_battle+1;
   result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
