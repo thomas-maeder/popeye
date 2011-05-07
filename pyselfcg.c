@@ -443,6 +443,24 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_selfcheck_guard_move_inverter(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
   { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
@@ -454,7 +472,8 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
   /* make sure that the set play is instumented */
   { STSetplayFork,             &insert_selfcheck_guard_setplay_fork  },
   /* parry fork already tests for check */
-  { STParryFork,               &stip_traverse_structure_pipe         }
+  { STParryFork,               &stip_traverse_structure_pipe         },
+  { STMoveInverter,            &insert_selfcheck_guard_move_inverter }
 };
 
 enum
