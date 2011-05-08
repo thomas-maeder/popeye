@@ -39,6 +39,10 @@ has_solution_type not_solve(slice_index si)
 
   switch (slice_solve(slices[si].u.pipe.next))
   {
+    case opponent_self_check:
+      result = opponent_self_check;
+      break;
+
     case has_solution:
       result = has_no_solution;
       break;
