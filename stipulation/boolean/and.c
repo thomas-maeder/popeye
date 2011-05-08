@@ -99,8 +99,17 @@ has_solution_type reci_solve(slice_index si)
       }
       break;
 
-    default:
+    case opponent_self_check:
+      result = opponent_self_check;
+      break;
+
+    case has_no_solution:
       result = has_no_solution;
+      break;
+
+    default:
+      assert(0);
+      result = opponent_self_check;
       break;
   }
 
