@@ -73,10 +73,10 @@ static void instrument_end_of_branch(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STEndOfBranch,       &instrument_end_of_branch        },
+  { STEndOfBranch,       &instrument_end_of_branch       },
   { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STHelpAdapter,       &instrument_root                 },
-  { STSeriesAdapter,     &instrument_root                 }
+  { STHelpAdapter,       &instrument_root                },
+  { STSeriesAdapter,     &instrument_root                }
 };
 
 enum
