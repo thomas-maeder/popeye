@@ -216,11 +216,11 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STMaxSolutionsGuard, &stip_structure_visitor_noop              },
-  { STReadyForHelpMove,               &insert_maxsolutions_help_filter          },
-  { STReadyForSeriesMove,             &insert_maxsolutions_series_filter        },
-  { STAttackAdapter,                  &insert_maxsolutions_root_defender_filter },
-  { STGoalReachedTested,              &insert_maxsolutions_solvable_filter      }
+  { STMaxSolutionsGuard,  &stip_structure_visitor_noop              },
+  { STReadyForHelpMove,   &insert_maxsolutions_help_filter          },
+  { STReadyForSeriesMove, &insert_maxsolutions_series_filter        },
+  { STAttackAdapter,      &insert_maxsolutions_root_defender_filter },
+  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      }
 };
 
 enum

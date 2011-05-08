@@ -2704,7 +2704,7 @@ static void init_goal_to_be_reached(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
+                                           STGoalReachedTester,
                                            &goal_to_be_reached_goal);
   stip_traverse_structure(si,&st);
 
@@ -2973,7 +2973,7 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,   &goalreachable_guards_inserter_help_move         },
   { STReadyForSeriesMove, &goalreachable_guards_inserter_series_move       },
-  { STGoalReachedTesting, &goalreachable_guards_duplicate_avoider_inserter },
+  { STGoalReachedTester,  &goalreachable_guards_duplicate_avoider_inserter },
   { STParryFork,          &goalreachable_guards_inserter_parry_fork        }
 };
 
@@ -3273,8 +3273,8 @@ static void intelligent_mode_support_none(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_mode_support_testing(slice_index si,
-                                             stip_structure_traversal *st)
+static void intelligent_mode_support_goal_tester(slice_index si,
+                                                 stip_structure_traversal *st)
 {
   detector_state_type * const state = st->param;
   goal_type const goal = slices[si].u.goal_tester.goal.type;
@@ -3321,7 +3321,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STRefutationsCollector, &intelligent_mode_support_none               },
   { STConstraint,           &intelligent_mode_support_none               },
   { STDefenseMove,          &intelligent_mode_support_none               },
-  { STGoalReachedTesting,   &intelligent_mode_support_testing            }
+  { STGoalReachedTester,    &intelligent_mode_support_goal_tester        }
 };
 
 enum

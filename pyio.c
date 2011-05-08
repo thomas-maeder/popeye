@@ -1969,14 +1969,12 @@ static void attachGoalBranch(slice_index proxy, slice_index tester, Goal goal)
 
   {
     slice_index const leaf = alloc_leaf_slice();
-    slice_index const tested = alloc_pipe(STGoalReachedTested);
     slice_index const testing = alloc_goal_testing_slice();
     slices[testing].u.goal_tester.goal = goal;
     pipe_append(slices[testing].u.goal_tester.fork,tester);
 
     pipe_link(proxy,testing);
-    pipe_link(testing,tested);
-    pipe_link(tested,leaf);
+    pipe_link(testing,leaf);
   }
 
   TraceFunctionExit(__func__);
@@ -2030,13 +2028,11 @@ static char *ParseGoal(char *tok, slice_index proxy)
       {
         slice_index const leaf_mate = alloc_leaf_slice();
         slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
-        slice_index const tested_mate = alloc_pipe(STGoalReachedTested);
         slice_index const testing_mate = alloc_goal_testing_slice();
         slice_index const proxy_mate = alloc_proxy_slice();
 
         slice_index const leaf_stale = alloc_leaf_slice();
         slice_index const tester_stale = alloc_goal_stalemate_reached_tester_slice();
-        slice_index const tested_stale = alloc_pipe(STGoalReachedTested);
         slice_index const testing_stalemate = alloc_goal_testing_slice();
         slice_index const proxy_stale = alloc_proxy_slice();
 
@@ -2047,13 +2043,11 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
         pipe_link(proxy_mate,testing_mate);
         pipe_append(slices[testing_mate].u.goal_tester.fork,tester_mate);
-        pipe_link(testing_mate,tested_mate);
-        pipe_link(tested_mate,leaf_mate);
+        pipe_link(testing_mate,leaf_mate);
 
         pipe_link(proxy_stale,testing_stalemate);
         pipe_append(slices[testing_stalemate].u.goal_tester.fork,tester_stale);
-        pipe_link(testing_stalemate,tested_stale);
-        pipe_link(tested_stale,leaf_stale);
+        pipe_link(testing_stalemate,leaf_stale);
 
         pipe_link(proxy,quod);
         break;
@@ -2555,7 +2549,7 @@ static char *ParsePlay(char *tok,
         result = ParseSerH(tok,proxy,proxy_next,play_length);
         if (result!=0)
         {
-          if (slices[next].type==STGoalReachedTesting
+          if (slices[next].type==STGoalReachedTester
               && slices[next].u.goal_tester.goal.type==goal_proofgame)
             stip_impose_starter(proxy_next,White);
           else

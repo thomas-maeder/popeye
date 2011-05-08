@@ -33,7 +33,7 @@ static void append_goal_stalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
     slice_index const proxy_filter = alloc_proxy_slice();
     slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
     slice_index const proxy = alloc_proxy_slice();
@@ -59,7 +59,7 @@ static void append_goal_doublestalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
     slice_index const proxy_filter = alloc_proxy_slice();
     slice_index const filter1 = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
     slice_index const filter2 = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
@@ -103,7 +103,7 @@ static void append_goal_autostalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
     slice_index const proxy_filter = alloc_proxy_slice();
     slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
     slice_index const proxy = alloc_proxy_slice();

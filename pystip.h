@@ -55,7 +55,7 @@
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
-    ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
+    ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
     ENUMERATOR(STGoalDoubleStalemateReachedTester), /* tests whether a double stalemate goal has been reached */ \
@@ -78,7 +78,6 @@
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
-    ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \

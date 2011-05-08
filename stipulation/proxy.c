@@ -40,7 +40,6 @@ static boolean is_proxy(slice_index si)
     case STReadyForHelpMove:
     case STReadyForSeriesMove:
     case STReadyForSeriesDummyMove:
-    case STGoalReachedTested:
     case STGoalAutoStalemateReachedTester:
     case STGoalDoubleStalemateReachedTester:
     case STGoalStalemateReachedTester:

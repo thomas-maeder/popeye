@@ -292,7 +292,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STProxy:
       case STMoveInverter:
       case STNot:
-      case STGoalReachedTested:
       case STMaxThreatLengthHook:
       case STSeriesDummyMove:
       case STRefutationsAllocator:
@@ -420,7 +419,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
-      case STGoalReachedTesting:
+      case STGoalReachedTester:
         Trace_pipe(si);
         fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
         Trace_link("fork:",slices[si].u.goal_tester.fork,"");

@@ -93,7 +93,7 @@ has_solution_type slice_solve(slice_index si)
       result = setplay_fork_solve(si);
       break;
 
-    case STGoalReachedTesting:
+    case STGoalReachedTester:
       result = goal_reached_testing_solve(si);
       break;
 
@@ -321,7 +321,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = setplay_fork_has_solution(si);
       break;
 
-    case STGoalReachedTesting:
+    case STGoalReachedTester:
       result = goal_reached_testing_has_solution(si);
       break;
 

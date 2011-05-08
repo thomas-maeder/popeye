@@ -253,7 +253,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STSeriesMoveGenerator, &optimise_final_moves_move_generator         },
   { STEndOfBranch,         &optimise_final_moves_end_of_branch_non_goal },
   { STEndOfBranchForced,   &optimise_final_moves_end_of_branch_non_goal },
-  { STGoalReachedTesting,  &optimise_final_moves_goal                   }
+  { STGoalReachedTester,   &optimise_final_moves_goal                   }
 };
 
 enum

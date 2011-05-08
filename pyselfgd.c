@@ -25,8 +25,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors direct_leaf_instrumenters[] =
 {
-  { STGoalReachedTesting, &stip_traverse_structure_pipe },
-  { STLeaf,               &instrument_leaf              }
+  { STGoalReachedTester, &stip_traverse_structure_pipe },
+  { STLeaf,              &instrument_leaf              }
 };
 
 enum

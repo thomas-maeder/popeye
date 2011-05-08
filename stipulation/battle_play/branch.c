@@ -53,7 +53,7 @@ static slice_index const slice_rank_order[] =
   STEndOfSolutionWriter,
   STThreatCollector,
   STKillerMoveCollector,
-  STGoalReachedTesting,
+  STGoalReachedTester,
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
@@ -199,7 +199,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                                   prototype_rank+1);
           break;
         }
-        else if (slices[next].type==STGoalReachedTesting)
+        else if (slices[next].type==STGoalReachedTester)
         {
           branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;

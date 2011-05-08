@@ -9,7 +9,7 @@
  * @param si identifies STGoal*ReachedTester slice
  * @param st address of structure representing the traversal
  */
-static void instrument_testing(slice_index si, stip_structure_traversal *st)
+static void instrument_tester(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -47,8 +47,8 @@ void stip_make_direct_goal_branch(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &instrument_testing);
+                                           STGoalReachedTester,
+                                           &instrument_tester);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

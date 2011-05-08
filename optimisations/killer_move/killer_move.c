@@ -94,7 +94,7 @@ static moves_traversers_visitors const final_defense_move_optimisers[] =
 {
   { STSetplayFork,          &stip_traverse_moves_pipe                            },
   { STDefenseMoveGenerator, &optimise_final_defense_moves_defense_move_generator },
-  { STGoalReachedTesting,   &optimise_final_defense_moves_goal                   }
+  { STGoalReachedTester,    &optimise_final_defense_moves_goal                   }
 };
 
 enum

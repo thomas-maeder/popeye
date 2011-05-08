@@ -10,8 +10,8 @@
 
 #include <assert.h>
 
-static void instrument_goal_reached_testing(slice_index si,
-                                            stip_structure_traversal *st)
+static void instrument_goal_reached_tester(slice_index si,
+                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -20,7 +20,8 @@ static void instrument_goal_reached_testing(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_line_writer_slice(slices[si].u.goal_tester.goal);
+    Goal const goal = slices[si].u.goal_tester.goal;
+    slice_index const prototype = alloc_line_writer_slice(goal);
     leaf_branch_insert_slices(si,&prototype,1);
   }
 
@@ -72,10 +73,10 @@ static void instrument_end_of_branch(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STEndOfBranch,        &instrument_end_of_branch        },
-  { STGoalReachedTesting, &instrument_goal_reached_testing },
-  { STHelpAdapter,        &instrument_root                 },
-  { STSeriesAdapter,      &instrument_root                 }
+  { STEndOfBranch,       &instrument_end_of_branch        },
+  { STGoalReachedTester, &instrument_goal_reached_tester },
+  { STHelpAdapter,       &instrument_root                 },
+  { STSeriesAdapter,     &instrument_root                 }
 };
 
 enum

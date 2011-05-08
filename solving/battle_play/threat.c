@@ -455,10 +455,10 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const threat_handler_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_pipe },
-  { STDefenseAdapter,     &append_threat_solver         },
-  { STReadyForDefense,    &append_threat_solver         },
-  { STGoalReachedTesting, &stip_structure_visitor_noop  }
+  { STSetplayFork,       &stip_traverse_structure_pipe },
+  { STDefenseAdapter,    &append_threat_solver         },
+  { STReadyForDefense,   &append_threat_solver         },
+  { STGoalReachedTester, &stip_structure_visitor_noop  }
 };
 
 enum

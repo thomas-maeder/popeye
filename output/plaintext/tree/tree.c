@@ -110,7 +110,7 @@ static void instrument_ready_for_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_goal_testing(slice_index si, stip_structure_traversal *st)
+static void instrument_goal_tester(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -141,7 +141,7 @@ static structure_traversers_visitors regular_writer_inserters[] =
   { STThreatSolver,          &instrument_threat_solver     },
   { STPostKeyPlaySuppressor, &stip_structure_visitor_noop  },
   { STReadyForDefense,       &instrument_ready_for_defense },
-  { STGoalReachedTesting,    &instrument_goal_testing      },
+  { STGoalReachedTester,     &instrument_goal_tester       },
   { STHelpAdapter,           &stip_structure_visitor_noop  },
   { STSeriesAdapter,         &stip_structure_visitor_noop  }
 };
@@ -221,7 +221,7 @@ static void trivial_varation_filter_insert(slice_index si,
     {
       if (slices[current].type==STMoveWriter)
         variation_writer = current;
-      else if (slices[current].type==STGoalReachedTesting)
+      else if (slices[current].type==STGoalReachedTester)
         found_goal_tester = true;
 
       current = slices[current].u.pipe.next;
@@ -551,7 +551,7 @@ static void remove_continuation_writer_if_unused(slice_index si,
 
 static structure_traversers_visitors goal_writer_slice_inserters[] =
 {
-  { STGoalReachedTesting,             &remember_goal                        },
+  { STGoalReachedTester,              &remember_goal                        },
   { STKeyWriter,                      &remember_key_writer                  },
   { STMoveWriter,                     &remove_continuation_writer_if_unused },
   { STCheckDetector,                  &remove_check_handler_if_unused       },

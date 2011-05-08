@@ -3,7 +3,7 @@
 
 #include "pyslice.h"
 
-/* Allocate a STGoalReachedTesting slice
+/* Allocate a STGoalReachedTester slice
  * @return identifier of the allocated slice
  */
 slice_index alloc_goal_testing_slice(void);

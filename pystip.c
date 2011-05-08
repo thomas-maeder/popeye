@@ -89,7 +89,7 @@
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
-    ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
+    ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
     ENUMERATOR(STGoalDoubleStalemateReachedTester), /* tests whether a double stalemate goal has been reached */ \
@@ -112,7 +112,6 @@
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
-    ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
@@ -282,7 +281,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STEndOfBranchGoal */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STDeadEnd */
-  slice_structure_fork,   /* STGoalReachedTesting */
+  slice_structure_fork,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
   slice_structure_pipe,   /* STGoalDoubleStalemateReachedTester */
@@ -305,7 +304,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
   slice_structure_pipe,   /* STGoalImmobileReachedTester */
   slice_structure_pipe,   /* STGoalNotCheckReachedTester */
-  slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
@@ -426,7 +424,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfBranchGoal */
   slice_function_unspecified,    /* STEndOfRoot */
   slice_function_unspecified,    /* STDeadEnd */
-  slice_function_unspecified,    /* STGoalReachedTesting */
+  slice_function_unspecified,    /* STGoalReachedTester */
   slice_function_unspecified,    /* STGoalMateReachedTester */
   slice_function_unspecified,    /* STGoalStalemateReachedTester */
   slice_function_unspecified,    /* STGoalDoubleStalemateReachedTester */
@@ -449,7 +447,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STGoalMateOrStalemateReachedTester */
   slice_function_unspecified,    /* STGoalImmobileReachedTester */
   slice_function_unspecified,    /* STGoalNotCheckReachedTester */
-  slice_function_unspecified,    /* STGoalReachedTested */
   slice_function_unspecified,    /* STLeaf */
   slice_function_unspecified,    /* STReciprocal */
   slice_function_unspecified,    /* STQuodlibet */
@@ -919,7 +916,7 @@ Goal find_unique_goal(slice_index si)
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
+                                           STGoalReachedTester,
                                            &find_unique_goal_goal);
   stip_traverse_structure(si,&st);
 
@@ -1330,7 +1327,7 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
   stip_structure_traversal_init(&st,&search);
   stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
+                                           STGoalReachedTester,
                                            &ends_in_goal);
   stip_traverse_structure(si,&st);
 
@@ -1617,7 +1614,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoal */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
-  &stip_traverse_structure_end_of_branch,   /* STGoalReachedTesting */
+  &stip_traverse_structure_end_of_branch,   /* STGoalReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalDoubleStalemateReachedTester */
@@ -1640,7 +1637,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalMateOrStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalNotCheckReachedTester */
-  &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
   &stip_traverse_structure_binary,          /* STQuodlibet */
@@ -1854,7 +1850,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchGoal */
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
-    &stip_traverse_moves_setplay_fork,           /* STGoalReachedTesting */
+    &stip_traverse_moves_setplay_fork,           /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalDoubleStalemateReachedTester */
@@ -1877,7 +1873,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STGoalMateOrStalemateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalNotCheckReachedTester */
-    &stip_traverse_moves_pipe,                   /* STGoalReachedTested */
     &stip_traverse_moves_noop,                   /* STLeaf */
     &stip_traverse_moves_binary,                 /* STReciprocal */
     &stip_traverse_moves_binary,                 /* STQuodlibet */

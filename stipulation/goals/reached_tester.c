@@ -4,7 +4,7 @@
 #include "stipulation/leaf.h"
 #include "trace.h"
 
-/* Allocate a STGoalReachedTesting slice
+/* Allocate a STGoalReachedTester slice
  * @return identifier of the allocated slice
  */
 slice_index alloc_goal_testing_slice(void)
@@ -14,7 +14,7 @@ slice_index alloc_goal_testing_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalReachedTesting);
+  result = alloc_pipe(STGoalReachedTester);
   slices[result].u.goal_tester.fork = alloc_proxy_slice();
   pipe_link(slices[result].u.goal_tester.fork,alloc_leaf_slice());
 

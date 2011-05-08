@@ -124,7 +124,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
                                               base);
           break;
         }
-        else if (slices[next].type==STGoalReachedTesting)
+        else if (slices[next].type==STGoalReachedTester)
         {
           leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
@@ -195,7 +195,7 @@ static slice_index const slice_rank_order[] =
   STDefenseAdapter,
   STHelpAdapter,
   STSeriesAdapter,
-  STGoalReachedTesting
+  STGoalReachedTester
 };
 
 enum
@@ -281,7 +281,7 @@ static void branch_insert_slices_recursive(slice_index si_start,
           battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
         }
-        else if (slices[next].type==STGoalReachedTesting)
+        else if (slices[next].type==STGoalReachedTester)
         {
           leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
@@ -327,7 +327,7 @@ void branch_insert_slices_nested(slice_index si,
     branch_insert_slices_nested(slices[si].u.binary.op2,
                                 prototypes,nr_prototypes);
   }
-  else if (slices[si].type==STGoalReachedTesting)
+  else if (slices[si].type==STGoalReachedTester)
     leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
   else
   {
@@ -377,9 +377,8 @@ static slice_index const leaf_slice_rank_order[] =
   STReadyForAttack,
   STOrthodoxMatingMoveGenerator,
   STGoalReachableGuardFilter,
-  STGoalReachedTesting,
+  STGoalReachedTester,
   STIntelligentDuplicateAvoider,
-  STGoalReachedTested,
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,

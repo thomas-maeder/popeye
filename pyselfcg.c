@@ -421,7 +421,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
   { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
   { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
-  { STGoalReachedTesting,      &insert_selfcheck_guard_goal          },
+  { STGoalReachedTester,       &insert_selfcheck_guard_goal          },
   /* parry fork already tests for check */
   { STParryFork,               &stip_traverse_structure_pipe         }
 };
