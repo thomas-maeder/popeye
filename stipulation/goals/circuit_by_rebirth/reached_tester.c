@@ -42,6 +42,8 @@ goal_circuit_by_rebirth_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbcou!=nil_coup);
+
   /* goal is only reachable in some fairy conditions */
   result = has_no_solution;
 
@@ -63,6 +65,8 @@ goal_circuit_by_rebirth_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbcou!=nil_coup);
 
   /* goal is only reachable in some fairy conditions */
   result = has_no_solution;

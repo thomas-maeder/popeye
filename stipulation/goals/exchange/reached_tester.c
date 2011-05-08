@@ -43,6 +43,8 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbcou!=nil_coup);
+
   if (GetDiaRen(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_arrival)
@@ -70,6 +72,8 @@ has_solution_type goal_exchange_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbcou!=nil_coup);
 
   if (GetDiaRen(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)

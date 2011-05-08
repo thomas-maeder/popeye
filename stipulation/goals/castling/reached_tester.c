@@ -41,6 +41,8 @@ has_solution_type goal_castling_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbply!=nil_ply);
+
   if (diff==whk_castling || diff==whq_castling
       || diff==blk_castling || diff==blq_castling)
     result = slice_has_solution(slices[si].u.pipe.next);
@@ -65,6 +67,8 @@ has_solution_type goal_castling_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbply!=nil_ply);
 
   if (diff==whk_castling || diff==whq_castling
       || diff==blk_castling || diff==blq_castling)

@@ -40,6 +40,8 @@ has_solution_type goal_steingewinn_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbply!=nil_ply);
+
   if (pprise[nbply]==vide)
     result = has_no_solution;
   else
@@ -62,6 +64,8 @@ has_solution_type goal_steingewinn_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbply!=nil_ply);
 
   if (pprise[nbply]==vide)
     result = has_no_solution;

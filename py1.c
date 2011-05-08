@@ -351,8 +351,8 @@ void InitAlways(void) {
   move_generation_mode= move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
 
-  nbcou = 1;
-  nbply = 1;
+  nbcou = nil_coup;
+  nbply = nil_ply;
 
   nbmagic = 0;
 

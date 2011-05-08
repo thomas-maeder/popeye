@@ -44,6 +44,8 @@ has_solution_type goal_target_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbcou!=nil_coup);
+
   if (move_generation_stack[nbcou].arrival==target)
     result = slice_has_solution(slices[si].u.goal_target_reached_tester.next);
   else
@@ -67,6 +69,8 @@ has_solution_type goal_target_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbcou!=nil_coup);
 
   if (move_generation_stack[nbcou].arrival==target)
     result = slice_solve(slices[si].u.goal_target_reached_tester.next);

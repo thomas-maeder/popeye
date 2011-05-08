@@ -41,6 +41,8 @@ has_solution_type goal_circuit_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbcou!=nil_coup);
+
   if (GetDiaRen(spec[sq_arrival])==sq_arrival)
     result = slice_has_solution(slices[si].u.pipe.next);
   else
@@ -64,6 +66,8 @@ has_solution_type goal_circuit_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbcou!=nil_coup);
 
   if (GetDiaRen(spec[sq_arrival])==sq_arrival)
     result = slice_solve(slices[si].u.pipe.next);

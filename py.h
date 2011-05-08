@@ -192,6 +192,11 @@ enum
 #endif /* __unix */
 };
 
+enum
+{
+  nil_ply = 1
+};
+
 typedef unsigned int stip_length_type;
 
 enum
@@ -213,6 +218,12 @@ enum
 /* These typedefs should be judged for efficiency */
 
 typedef int         numecoup;
+
+enum
+{
+  nil_coup = 1
+};
+
 typedef int         ply;
 typedef int        numvec;
 

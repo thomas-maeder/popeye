@@ -3,6 +3,8 @@
 #include "pydata.h"
 #include "trace.h"
 
+#include <assert.h>
+
 /* This module provides functionality dealing with slices that detect
  * whether a capture goal has just been reached
  */
@@ -38,6 +40,8 @@ has_solution_type goal_capture_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(nbply!=nil_ply);
+
   if (pprise[nbply]!=vide)
     result = slice_has_solution(slices[si].u.pipe.next);
   else
@@ -60,6 +64,8 @@ has_solution_type goal_capture_reached_tester_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(nbply!=nil_ply);
 
   if (pprise[nbply]!=vide)
     result = slice_solve(slices[si].u.pipe.next);
