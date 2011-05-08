@@ -95,12 +95,8 @@ stip_length_type check_detector_can_defend(slice_index si,
   return result;
 }
 
-/* Append a continuation solver if none has been inserted before
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void check_detector_insert(slice_index si,
-                                  stip_structure_traversal *st)
+static void check_detector_insert_attack(slice_index si,
+                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -109,6 +105,24 @@ static void check_detector_insert(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (slices[si].u.branch.length>slack_length_battle)
+  {
+    slice_index const prototype = alloc_check_detector_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void check_detector_insert_defense_adapter(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
   {
     slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
@@ -135,7 +149,10 @@ void stip_insert_check_detectors(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
-                                           &check_detector_insert);
+                                           &check_detector_insert_attack);
+  stip_structure_traversal_override_single(&st,
+                                           STDefenseAdapter,
+                                           &check_detector_insert_defense_adapter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

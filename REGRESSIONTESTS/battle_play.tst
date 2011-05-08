@@ -101,7 +101,7 @@ solution finished.
               empile:          51
             jouecoup:          48
         orig_rbechec:          10
-        orig_rnechec:          48
+        orig_rnechec:          49
 solution finished. 
 
 
@@ -144,7 +144,7 @@ solution finished.
               empile:          64
             jouecoup:          58
         orig_rbechec:          12
-        orig_rnechec:          58
+        orig_rnechec:          59
 solution finished. 
 
 
@@ -365,7 +365,7 @@ solution finished.
               empile:         268
             jouecoup:         131
         orig_rbechec:          48
-        orig_rnechec:         132
+        orig_rnechec:         133
 solution finished. 
 
 
@@ -453,7 +453,7 @@ solution finished.
               empile:         473
             jouecoup:         312
         orig_rbechec:         124
-        orig_rnechec:         222
+        orig_rnechec:         223
 solution finished. 
 
 
@@ -514,7 +514,7 @@ solution finished.
               empile:        3545
             jouecoup:        2549
         orig_rbechec:        1486
-        orig_rnechec:        1174
+        orig_rnechec:        1175
 solution finished. 
 
 
@@ -547,7 +547,7 @@ solution finished.
               empile:          21
             jouecoup:          21
         orig_rbechec:          22
-        orig_rnechec:           4
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -618,7 +618,7 @@ s#1 with incomplete set play (not given)
               empile:          87
             jouecoup:          68
         orig_rbechec:          66
-        orig_rnechec:          26
+        orig_rnechec:          27
 solution finished. 
 
 
@@ -655,7 +655,7 @@ solution finished.
               empile:         131
             jouecoup:         119
         orig_rbechec:         120
-        orig_rnechec:          34
+        orig_rnechec:          35
 solution finished. 
 
 
@@ -820,7 +820,7 @@ solution finished.
               empile:         255
             jouecoup:         165
         orig_rbechec:         167
-        orig_rnechec:          66
+        orig_rnechec:          67
 solution finished. 
 
 
@@ -971,7 +971,7 @@ solution finished.
               empile:        3275
             jouecoup:        1577
         orig_rbechec:        1580
-        orig_rnechec:         779
+        orig_rnechec:         780
 solution finished. 
 
 
@@ -1010,7 +1010,7 @@ solution finished.
               empile:         672
             jouecoup:         419
         orig_rbechec:         421
-        orig_rnechec:         146
+        orig_rnechec:         147
 solution finished. 
 
 
@@ -1107,7 +1107,7 @@ solution finished.
               empile:           4
             jouecoup:           4
         orig_rbechec:           5
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1179,7 +1179,7 @@ solution finished.
               empile:          19
             jouecoup:          19
         orig_rbechec:          20
-        orig_rnechec:           5
+        orig_rnechec:           6
 solution finished. 
 
 
@@ -1247,7 +1247,7 @@ solution finished.
               empile:          52
             jouecoup:          44
         orig_rbechec:          43
-        orig_rnechec:           8
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -1280,7 +1280,7 @@ solution finished.
               empile:           5
             jouecoup:           5
         orig_rbechec:           6
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1354,7 +1354,7 @@ r#2 with short set play and short solution
               empile:          24
             jouecoup:          24
         orig_rbechec:          25
-        orig_rnechec:           6
+        orig_rnechec:           7
 solution finished. 
 
 
@@ -1461,7 +1461,7 @@ solution finished.
               empile:        1236
             jouecoup:         793
         orig_rbechec:         713
-        orig_rnechec:         223
+        orig_rnechec:         224
 solution finished. 
 
 
@@ -1660,7 +1660,7 @@ solution finished.
               empile:           4
             jouecoup:           4
         orig_rbechec:           5
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1729,7 +1729,7 @@ the side to play can capture the king
               empile:          74
             jouecoup:          71
         orig_rbechec:          50
-        orig_rnechec:          28
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -1820,7 +1820,7 @@ solution finished.
               empile:       23086
             jouecoup:       20141
         orig_rbechec:       11314
-        orig_rnechec:       10234
+        orig_rnechec:       10235
 solution finished. 
 
 
