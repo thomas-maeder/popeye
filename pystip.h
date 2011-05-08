@@ -265,13 +265,6 @@ typedef struct
             slice_index next;
             output_mode mode;
         } output_mode_selector;
-
-        struct /* for type==STLineWriter* */
-        {
-            slice_index next;
-            Goal goal;
-            slice_index root_slice;
-        } line_writer;
     } u;
 } Slice;
 

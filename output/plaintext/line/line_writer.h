@@ -8,14 +8,13 @@
  */
 
 /* Allocate a STOutputPlaintextLineLineWriter slice.
- * @param root_slice slice at the start of the solution
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_line_writer_slice(slice_index root_slice, Goal goal);
+slice_index alloc_line_writer_slice(Goal goal);
 
 /* Determine whether a slice has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
