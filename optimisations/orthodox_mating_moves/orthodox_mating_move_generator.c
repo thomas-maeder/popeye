@@ -234,12 +234,29 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_moves_children(si,st);
+
   if (!are_goals_equal(state->goal_to_be_reached,
                        slices[si].u.goal_tester.goal))
   {
     state->goal_to_be_reached = slices[si].u.goal_tester.goal;
     ++state->nr_goals_to_be_reached;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+  state->nr_goals_to_be_reached = 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -253,7 +270,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STSeriesMoveGenerator, &optimise_final_moves_move_generator         },
   { STEndOfBranch,         &optimise_final_moves_end_of_branch_non_goal },
   { STEndOfBranchForced,   &optimise_final_moves_end_of_branch_non_goal },
-  { STGoalReachedTester,   &optimise_final_moves_goal                   }
+  { STGoalReachedTester,   &optimise_final_moves_goal                   },
+  { STNot,                 &optimise_final_moves_suppress               }
 };
 
 enum
