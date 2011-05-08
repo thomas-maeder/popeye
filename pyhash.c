@@ -1966,9 +1966,9 @@ static void remember_goal(slice_index si, stip_moves_traversal *st)
 
   stip_traverse_moves_children(si,st);
 
-  if (state->goal!=slices[si].u.goal_handler.goal.type)
+  if (state->goal!=slices[si].u.goal_tester.goal.type)
   {
-    state->goal = slices[si].u.goal_handler.goal.type;
+    state->goal = slices[si].u.goal_tester.goal.type;
     ++state->nr_goals;
   }
 

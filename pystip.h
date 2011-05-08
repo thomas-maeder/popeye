@@ -260,6 +260,13 @@ typedef struct
             Goal goal;
         } goal_handler;
 
+        struct /* for slices dealing with a single goal */
+        {
+            slice_index next;
+            slice_index fork;
+            Goal goal;
+        } goal_tester;
+
         struct
         {
             slice_index next;
@@ -282,7 +289,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 400,
+  max_nr_slices = 500,
   no_slice = max_nr_slices
 };
 

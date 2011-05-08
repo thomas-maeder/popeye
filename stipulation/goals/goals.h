@@ -1,5 +1,5 @@
-#if !defined(PYGOAL_H)
-#define PYGOAL_H
+#if !defined(STIPULATION_GOALS_GOALS_H)
+#define STIPULATION_GOALS_GOALS_H
 
 #include "boolean.h"
 #include "py.h"

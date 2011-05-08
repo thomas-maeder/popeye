@@ -1970,12 +1970,12 @@ static void attachGoalBranch(slice_index proxy, slice_index tester, Goal goal)
   {
     slice_index const leaf = alloc_leaf_slice();
     slice_index const tested = alloc_pipe(STGoalReachedTested);
-    slice_index const testing = alloc_pipe(STGoalReachedTesting);
-    slices[testing].u.goal_handler.goal = goal;
+    slice_index const testing = alloc_goal_testing_slice();
+    slices[testing].u.goal_tester.goal = goal;
+    pipe_append(slices[testing].u.goal_tester.fork,tester);
 
     pipe_link(proxy,testing);
-    pipe_link(testing,tester);
-    pipe_link(tester,tested);
+    pipe_link(testing,tested);
     pipe_link(tested,leaf);
   }
 
@@ -2031,28 +2031,28 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const leaf_mate = alloc_leaf_slice();
         slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
         slice_index const tested_mate = alloc_pipe(STGoalReachedTested);
-        slice_index const testing_mate = alloc_pipe(STGoalReachedTesting);
+        slice_index const testing_mate = alloc_goal_testing_slice();
         slice_index const proxy_mate = alloc_proxy_slice();
 
         slice_index const leaf_stale = alloc_leaf_slice();
         slice_index const tester_stale = alloc_goal_stalemate_reached_tester_slice();
         slice_index const tested_stale = alloc_pipe(STGoalReachedTested);
-        slice_index const testing_stalemate = alloc_pipe(STGoalReachedTesting);
+        slice_index const testing_stalemate = alloc_goal_testing_slice();
         slice_index const proxy_stale = alloc_proxy_slice();
 
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
-        slices[testing_mate].u.goal_handler.goal.type = goal_mate;
-        slices[testing_stalemate].u.goal_handler.goal.type = goal_stale;
+        slices[testing_mate].u.goal_tester.goal.type = goal_mate;
+        slices[testing_stalemate].u.goal_tester.goal.type = goal_stale;
 
         pipe_link(proxy_mate,testing_mate);
-        pipe_link(testing_mate,tester_mate);
-        pipe_link(tester_mate,tested_mate);
+        pipe_append(slices[testing_mate].u.goal_tester.fork,tester_mate);
+        pipe_link(testing_mate,tested_mate);
         pipe_link(tested_mate,leaf_mate);
 
         pipe_link(proxy_stale,testing_stalemate);
-        pipe_link(testing_stalemate,tester_stale);
-        pipe_link(tester_stale,tested_stale);
+        pipe_append(slices[testing_stalemate].u.goal_tester.fork,tester_stale);
+        pipe_link(testing_stalemate,tested_stale);
         pipe_link(tested_stale,leaf_stale);
 
         pipe_link(proxy,quod);
@@ -2233,17 +2233,9 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,proxy_to_nonreci);
     if (result!=NULL)
     {
-      slice_index const leaf = alloc_leaf_slice();
       slice_index const nonreci_testing = slices[proxy_to_nonreci].u.pipe.next;
       slice_index const nonreci_tester = slices[nonreci_testing].u.pipe.next;
-      slice_index const reci_testing = copy_slice(nonreci_testing);
-      slice_index const reci_tester = copy_slice(nonreci_tester);
-      slice_index const reci_tested = alloc_pipe(STGoalReachedTested);
-      slice_index const proxy_to_reci = alloc_proxy_slice();
-      pipe_link(proxy_to_reci,reci_testing);
-      pipe_link(reci_testing,reci_tester);
-      pipe_link(reci_tester,reci_tested);
-      pipe_link(reci_tested,leaf);
+      slice_index const proxy_to_reci = stip_deep_copy(proxy_to_nonreci);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);
       slices[nonreci_tester].starter = Black;
@@ -2564,7 +2556,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           if (slices[next].type==STGoalReachedTesting
-              && slices[next].u.goal_handler.goal.type==goal_proofgame)
+              && slices[next].u.goal_tester.goal.type==goal_proofgame)
             stip_impose_starter(proxy_next,White);
           else
             stip_impose_starter(proxy_next,Black);

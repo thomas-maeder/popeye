@@ -413,12 +413,21 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
         break;
 
-      case STGoalReachedTesting:
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);
         fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STGoalReachedTesting:
+        Trace_pipe(si);
+        fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
+        Trace_link("fork:",slices[si].u.goal_tester.fork,"");
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_tester.fork,
+                                  done_slices);
         break;
 
       case STLeaf:

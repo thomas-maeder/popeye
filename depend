@@ -1347,6 +1347,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/help_play/adapter.h stipulation/series_play/adapter.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
@@ -1447,6 +1448,8 @@ stipulation/battle_play/defense_adapter.h:
 stipulation/help_play/adapter.h:
 
 stipulation/series_play/adapter.h:
+
+stipulation/goals/reached_tester.h:
 
 stipulation/goals/target/reached_tester.h:
 

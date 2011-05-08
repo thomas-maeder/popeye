@@ -407,7 +407,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
 
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    leaf_branch_insert_slices(si,&prototype,1);
+    goal_branch_insert_slices(slices[si].u.goal_tester.fork,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

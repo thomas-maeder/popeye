@@ -8,6 +8,7 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
+#include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
@@ -90,6 +91,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STSetplayFork:
       result = setplay_fork_solve(si);
+      break;
+
+    case STGoalReachedTesting:
+      result = goal_reached_testing_solve(si);
       break;
 
     case STGoalTargetReachedTester:
@@ -314,6 +319,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STSetplayFork:
       result = setplay_fork_has_solution(si);
+      break;
+
+    case STGoalReachedTesting:
+      result = goal_reached_testing_has_solution(si);
       break;
 
     case STGoalTargetReachedTester:

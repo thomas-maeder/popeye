@@ -235,9 +235,9 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   if (!are_goals_equal(state->goal_to_be_reached,
-                       slices[si].u.goal_handler.goal))
+                       slices[si].u.goal_tester.goal))
   {
-    state->goal_to_be_reached = slices[si].u.goal_handler.goal;
+    state->goal_to_be_reached = slices[si].u.goal_tester.goal;
     ++state->nr_goals_to_be_reached;
   }
 

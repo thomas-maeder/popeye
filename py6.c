@@ -2053,6 +2053,13 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STGoalReachedTesting:
+    {
+      slice_index const fork = slices[si].u.goal_tester.fork;
+      result = detect_meaning_of_whitetoplay(fork);
+      break;
+    }
+
     case STGoalMateReachedTester:
     case STGoalStalemateReachedTester:
     case STGoalDoubleStalemateReachedTester:
@@ -2092,7 +2099,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpMoveGenerator:
     case STHelpMove:
     case STMoveInverter:
-    case STGoalReachedTesting:
     case STDeadEnd:
     case STForkOnRemaining:
     case STProxy:

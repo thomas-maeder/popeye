@@ -119,7 +119,7 @@ static void instrument_goal_testing(slice_index si, stip_structure_traversal *st
   {
     slice_index const prototypes[] =
     {
-      alloc_goal_writer_slice(slices[si].u.goal_handler.goal)
+      alloc_goal_writer_slice(slices[si].u.goal_tester.goal)
     };
     enum
     {
@@ -477,7 +477,7 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
   assert(state->goal.type==no_goal);
 
-  state->goal = slices[si].u.goal_handler.goal;
+  state->goal = slices[si].u.goal_tester.goal;
   stip_traverse_structure_children(si,st);
   state->goal.type = no_goal;
 

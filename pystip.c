@@ -282,7 +282,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STEndOfBranchGoal */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STDeadEnd */
-  slice_structure_pipe,   /* STGoalReachedTesting */
+  slice_structure_fork,   /* STGoalReachedTesting */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
   slice_structure_pipe,   /* STGoalDoubleStalemateReachedTester */
@@ -887,7 +887,7 @@ static void find_unique_goal_goal(slice_index si,
                                   stip_structure_traversal *st)
 {
   find_unique_goal_state * const state = st->param;
-  goal_type const goal = slices[si].u.goal_handler.goal.type;
+  goal_type const goal = slices[si].u.goal_tester.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1301,7 +1301,7 @@ typedef struct
 static void ends_in_goal(slice_index si, stip_structure_traversal *st)
 {
   goal_search * const search = st->param;
-  goal_type const goal = slices[si].u.goal_handler.goal.type;
+  goal_type const goal = slices[si].u.goal_tester.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1617,7 +1617,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoal */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
-  &stip_traverse_structure_pipe,            /* STGoalReachedTesting */
+  &stip_traverse_structure_end_of_branch,   /* STGoalReachedTesting */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalDoubleStalemateReachedTester */
@@ -1854,7 +1854,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchGoal */
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
-    &stip_traverse_moves_pipe,                   /* STGoalReachedTesting */
+    &stip_traverse_moves_setplay_fork,           /* STGoalReachedTesting */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalDoubleStalemateReachedTester */

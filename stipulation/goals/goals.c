@@ -169,7 +169,8 @@ static structure_traversers_visitors flesh_outers[] =
   { STGoalAutoStalemateReachedTester,   &flesh_out_auto_stalemate_tester           },
   { STGoalDoubleMateReachedTester,      &flesh_out_double_mate_reached_tester      },
   { STGoalCounterMateReachedTester,     &flesh_out_double_mate_reached_tester      },
-  { STGoalDoubleStalemateReachedTester, &flesh_out_double_stalemate_reached_tester }};
+  { STGoalDoubleStalemateReachedTester, &flesh_out_double_stalemate_reached_tester }
+};
 
 enum
 {
@@ -192,6 +193,170 @@ void stip_flesh_out_goal_testers(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,flesh_outers,nr_flesh_outers);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Order in which the slice types dealing with goals appear
+ */
+static slice_index const goal_slice_rank_order[] =
+{
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STGoalMateReachedTester,
+  STGoalStalemateReachedTester,
+  STGoalDoubleStalemateReachedTester,
+  STAnticirceTargetSquareFilter,
+  STGoalTargetReachedTester,
+  STGoalCaptureReachedTester,
+  STCirceSteingewinnFilter,
+  STGoalSteingewinnReachedTester,
+  STGoalEnpassantReachedTester,
+  STGoalDoubleMateReachedTester,
+  STGoalCounterMateReachedTester,
+  STGoalCastlingReachedTester,
+  STGoalAutoStalemateReachedTester,
+  STGoalCircuitReachedTester,
+  STAnticirceExchangeFilter,
+  STGoalExchangeReachedTester,
+  STAnticirceCircuitSpecial,
+  STCirceCircuitSpecial,
+  STGoalCircuitByRebirthReachedTester,
+  STCirceExchangeSpecial,
+  STAnticirceExchangeSpecial,
+  STGoalExchangeByRebirthReachedTester,
+  STGoalAnyReachedTester,
+  STGoalProofgameReachedTester,
+  STGoalAToBReachedTester,
+  STGoalMateOrStalemateReachedTester,
+  STGoalCheckReachedTester,
+  STSelfCheckGuard,
+  STGoalNotCheckReachedTester,
+  STGoalImmobileReachedTester,
+  STLeaf
+};
+
+enum
+{
+  nr_goal_slice_rank_order_elmts = (sizeof goal_slice_rank_order
+                                    / sizeof goal_slice_rank_order[0]),
+  no_goal_slice_type = INT_MAX
+};
+
+/* Determine the rank of a slice type
+ * @param type defense slice type
+ * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_goal_slice_rank(SliceType type)
+{
+  unsigned int result = no_goal_slice_type;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_goal_slice_rank_order_elmts; ++i)
+    if (goal_slice_rank_order[i]==type)
+    {
+      result = i;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert slices into a goal branch.
+ * The inserted slices are copies of the elements of prototypes).
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void goal_branch_insert_slices_nested(slice_index si,
+                                         slice_index const prototypes[],
+                                         unsigned int nr_prototypes)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  {
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int prototype_rank = get_goal_slice_rank(prototype_type);
+
+    if (prototype_rank==no_goal_slice_type)
+    {
+      if (nr_prototypes>1)
+        goal_branch_insert_slices_nested(si,prototypes+1,nr_prototypes-1);
+    }
+    else
+      do
+      {
+        slice_index const next = slices[si].u.pipe.next;
+        if (slices[next].type==STProxy)
+          si = next;
+        else if (slices[next].type==STQuodlibet
+                 || slices[next].type==STReciprocal)
+        {
+          goal_branch_insert_slices_nested(slices[next].u.binary.op1,
+                                           prototypes,nr_prototypes);
+          goal_branch_insert_slices_nested(slices[next].u.binary.op2,
+                                           prototypes,nr_prototypes);
+          break;
+        }
+        else
+        {
+          unsigned int const rank_next = get_goal_slice_rank(slices[next].type);
+          if (rank_next==no_goal_slice_type)
+            break;
+          else if (rank_next>prototype_rank)
+          {
+            slice_index const copy = copy_slice(prototypes[0]);
+            pipe_append(si,copy);
+            if (nr_prototypes>1)
+              goal_branch_insert_slices_nested(copy,prototypes+1,nr_prototypes-1);
+            break;
+          }
+          else
+            si = next;
+        }
+      } while (prototype_type!=slices[si].type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a goal branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by goal_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void goal_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  goal_branch_insert_slices_nested(si,prototypes,nr_prototypes);
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
