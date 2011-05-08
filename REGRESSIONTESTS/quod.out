@@ -39,6 +39,7 @@
       1...g3-g2
           2.Lf1*e2 #
 
+
               empile:        9474
             jouecoup:        3936
         orig_rbechec:        4219
@@ -91,6 +92,7 @@ Loesung beendet.
               2...Kb8-c8 =
               2...Kb8*c7 =
 
+
               empile:        6357
             jouecoup:        3134
         orig_rbechec:        3188
@@ -137,6 +139,7 @@ Loesung beendet.
               2...Kc3*d2 #
       1...e6-e5
           2.Dh6-d2 #
+
 
               empile:        8136
             jouecoup:        4566
@@ -248,6 +251,7 @@ Loesung beendet.
       1...e2-e1=L
           2.Lf7-h5 #
 
+
               empile:       37491
             jouecoup:       27567
         orig_rbechec:       27039
@@ -287,6 +291,7 @@ Loesung beendet.
       1...Sh8*g6
           2.Le6-g4
               2...Sg6-f4 #
+
 
               empile:        2613
             jouecoup:        1707

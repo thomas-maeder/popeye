@@ -222,6 +222,7 @@ Loesung beendet.
           2.Tf2-f1
               2...Te8<->Tf1 #
 
+
               empile:      396356
             jouecoup:      346285
         orig_rbechec:      330267
@@ -268,6 +269,7 @@ Loesung beendet.
       1...b2-b1=L
           2.Lg5-f6
               2...Lb1<->Lf6 #
+
 
               empile:       31805
             jouecoup:       31535
@@ -329,6 +331,7 @@ Loesung beendet.
       1...Sh8-f7
           2.g7-g8=S #
 
+
               empile:       25908
             jouecoup:       16732
         orig_rbechec:        1151
@@ -381,6 +384,7 @@ Loesung beendet.
           2.Dh1*h2
               2...Df7*g6 #
 
+
               empile:      755254
             jouecoup:      676648
         orig_rbechec:      637651
@@ -424,6 +428,7 @@ Loesung beendet.
           2.Ta4<->Tg1 #
       1...g2-g1=L
           2.De8-a8 #
+
 
               empile:       10307
             jouecoup:        7013
@@ -520,6 +525,7 @@ Loesung beendet.
       1...Bg5<->Bc4
           2.Tb6-b5 #
 
+
               empile:       61784
             jouecoup:       40727
         orig_rbechec:        1968
@@ -566,6 +572,7 @@ Loesung beendet.
           2.La2<->La3 #
       1...Kc5-c4
           2.Kh8<->Kc4 #
+
 
               empile:       28493
             jouecoup:       17097
@@ -617,6 +624,7 @@ Loesung beendet.
       1...Da7-c7
           2.Lc5-f2
               2...Lb8<->Lf2 #
+
 
               empile:      253292
             jouecoup:      214865

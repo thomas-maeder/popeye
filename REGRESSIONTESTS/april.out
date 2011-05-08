@@ -24,6 +24,7 @@
 
    1.c6*b7 [+sLa7] # !
 
+
               empile:         177
             jouecoup:         182
         orig_rbechec:          62
@@ -54,6 +55,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 2
             Aprilschach L
+
 
               empile:           4
             jouecoup:           3
@@ -86,6 +88,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 3
             Aprilschach L
+
 
               empile:         409
             jouecoup:         454
@@ -120,6 +123,7 @@ Loesung beendet.
 
    1.c7*b8=D [+sLa6] # !
 
+
               empile:         514
             jouecoup:         511
         orig_rbechec:         124
@@ -151,6 +155,7 @@ Aprilsteine sind schwierig zu decken!
 +---a---b---c---d---e---f---g---h---+
   #1                          4 + 1
             Aprilschach L
+
 
               empile:          32
             jouecoup:          25

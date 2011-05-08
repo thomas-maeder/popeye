@@ -34,6 +34,7 @@
 
    1.Kc1-d2 + !
 
+
               empile:          16
             jouecoup:          15
         orig_rbechec:           5
@@ -69,6 +70,7 @@ Loesung beendet.
 
    1.Dc5-e7 # !
 
+
               empile:          65
             jouecoup:          41
         orig_rbechec:           0
@@ -103,6 +105,7 @@ Loesung beendet.
       GenferSchach RexInklusive
 
    1.Tb2-b1 = !
+
 
               empile:          84
             jouecoup:          42

@@ -36,6 +36,7 @@ a)
                               4...Kb6-a5
                                   5.Qb8-b3 =
 
+
               empile:       40661
             jouecoup:       26670
         orig_rbechec:        7199
@@ -51,6 +52,7 @@ b) Circe
                       3...Ka7-a8
                           4.Sb8*a6 [+bPa7] =
 
+
               empile:       10762
             jouecoup:        7395
         orig_rbechec:        2086
@@ -64,6 +66,7 @@ c) GlasgowChess
               2...Kb8-c8
                   3.b6*a7=Q =
 
+
               empile:        3868
             jouecoup:        3819
         orig_rbechec:         964
@@ -74,6 +77,7 @@ d) AntiAndernachChess
    1.Kc8-c7 ! zugzwang.
       1...a7-a6=wP
           2.Kc7-c8 =
+
 
               empile:         212
             jouecoup:         202
@@ -132,6 +136,7 @@ a)
                                   5.Kc4-b3
                                       5...a5-a4 +
 
+
               empile:       55918
             jouecoup:       39990
         orig_rbechec:       23422
@@ -151,6 +156,7 @@ b) BlackSynchronMover
                                       5...a3-a2
                                           6.Kc3-c2
                                               6...a2-a1=S +
+
 
               empile:        1429
             jouecoup:         833

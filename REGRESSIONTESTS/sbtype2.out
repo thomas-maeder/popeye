@@ -45,6 +45,7 @@
 
    1.Se3*g2 [h1=L] + !
 
+
               empile:           4
             jouecoup:          14
         orig_rbechec:          14
@@ -151,6 +152,7 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
       1...Sf1*e3 [e8=S]
           2.Se8*c7 #
 
+
               empile:        7243
             jouecoup:        5390
         orig_rbechec:         362
@@ -206,6 +208,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 #
       1...Sd6-b7
           2.Db2-d2 #
+
 
               empile:        6569
             jouecoup:        4449
@@ -280,6 +283,7 @@ Loesung beendet.
     Aber
       1...d5*e4 !
 
+
               empile:      213575
             jouecoup:      142912
         orig_rbechec:       34631
@@ -319,6 +323,7 @@ Loesung beendet.
    1.Dg1-d1 + !
       1...e2*d1=T [e8=D]
           2.De8-e5 #
+
 
               empile:        4805
             jouecoup:        3340

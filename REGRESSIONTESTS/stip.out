@@ -250,6 +250,7 @@ Loesung beendet.
                           4.Le7-d8
                               4...0-0
 
+
               empile:     2742656
             jouecoup:      399588
         orig_rbechec:      389778
@@ -644,6 +645,7 @@ Loesung beendet.
     Aber
       1...Sb1*c3 !
 
+
               empile:        9953
             jouecoup:         853
         orig_rbechec:         539
@@ -963,6 +965,7 @@ a)
 
    1.d7-d8=D # !
 
+
               empile:          13
             jouecoup:          16
         orig_rbechec:           2
@@ -972,6 +975,7 @@ b) exact-#2
    1.d7-d8=T + !
       1...Sb7*d8 [+wTa1]
           2.Ta1-d1 #
+
 
               empile:         140
             jouecoup:          84
@@ -984,6 +988,7 @@ c) exact-#3
           2.Lc1-f4 +
               2...g5*f4 [+wLc1]
                   3.Lc1*f4 [+sBf7] #
+
 
               empile:        3762
             jouecoup:        1785
@@ -1010,6 +1015,7 @@ d) exact-#4
                   3.Sf3-d2
                       3...Sb7-d8
                           4.Sd2-e4 #
+
 
               empile:       41104
             jouecoup:       24527
@@ -1048,6 +1054,7 @@ a)
 
    1.Tg6-e6 # !
 
+
               empile:          36
             jouecoup:          19
         orig_rbechec:           4
@@ -1057,6 +1064,7 @@ b) exact-#2
    1.Sd4-f3 + !
       1...Ke5-f5
           2.La8-e4 #
+
 
               empile:        1130
             jouecoup:         457
@@ -1069,6 +1077,7 @@ c) exact-#3
           2.La8-b7
               2...Kd5-e5
                   3.Tc6-e6 #
+
 
               empile:       22234
             jouecoup:        7822
@@ -1083,6 +1092,7 @@ d) exact-#4
                   3.Sf4-d3 +
                       3...Ke5-f5
                           4.La8-e4 #
+
 
               empile:      441045
             jouecoup:      191214
@@ -1120,6 +1130,7 @@ a)
 
    1.d7-d8=D # !
 
+
               empile:          24
             jouecoup:          18
         orig_rbechec:           3
@@ -1129,6 +1140,7 @@ b) exact-#2
    1.d7-d8=T + !
       1...Kd6-c7
           2.Td8-d7 #
+
 
               empile:         730
             jouecoup:         319
@@ -1143,6 +1155,7 @@ c) exact-#3
                   3.Ld8-c7 #
               2...c5-c4
                   3.Ld8-c7 #
+
 
               empile:        6477
             jouecoup:        3453
@@ -1163,6 +1176,7 @@ d) exact-#4
                   3.d4-d5
                       3...c5-c4
                           4.d5-d6 #
+
 
               empile:       77706
             jouecoup:       42233
@@ -1248,6 +1262,7 @@ Loesung beendet.
                                   5.Sg5-h3 z
                               4...b4-b3
                                   5.Sg5-h3 z
+
 
               empile:     5857174
             jouecoup:     2837587
@@ -1538,6 +1553,7 @@ Loesung beendet.
           2.d7*c8=S Drohung:
                   3.Sc8-d6 z
 
+
               empile:       10443
             jouecoup:        3751
         orig_rbechec:        2558
@@ -1592,6 +1608,7 @@ Loesung beendet.
       1...h3-h2
           2.Kc6-c5
               2...h2*g1=RO +
+
 
               empile:        9504
             jouecoup:       12198
@@ -2169,6 +2186,7 @@ Loesung beendet.
    1.Kb3-c2 !
       1...Ka1-a2
           2.Td4-a4 #
+
 
               empile:         338
             jouecoup:         273
@@ -2870,6 +2888,7 @@ Loesung beendet.
    1.Dd1-d2 + ?
     Aber
       1...Kc3*d2 !
+
 
               empile:        6955
             jouecoup:        2751

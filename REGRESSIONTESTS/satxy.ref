@@ -77,6 +77,7 @@ solution finished.
                                       5...g2*h1=B +
                                           6.Kg1*h1 ==
 
+
               empile:      288260
             jouecoup:      223713
         orig_rbechec:       81753
@@ -116,6 +117,7 @@ a) +wQg1
 
    1.Ke1-f2 # !
 
+
               empile:         276
             jouecoup:         276
         orig_rbechec:          10
@@ -123,6 +125,7 @@ a) +wQg1
 b) +wRd1 
 
    1.Ke1-d2 # !
+
 
               empile:         250
             jouecoup:         245
@@ -132,6 +135,7 @@ c) +wBf1
 
    1.Ke1-e2 # !
 
+
               empile:         186
             jouecoup:         186
         orig_rbechec:          10
@@ -139,6 +143,7 @@ c) +wBf1
 d) +wSf8 
 
    1.Sf8-h7 # !
+
 
               empile:         187
             jouecoup:         180

@@ -4,7 +4,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "output/plaintext/tree/move_inversion_counter.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "trace.h"
 
 /* Allocate a STRefutingVariationWriter slice.
@@ -88,7 +88,7 @@ refuting_variation_writer_attack(slice_index si,
   {
     if (encore())
     {
-      unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
+      unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
       Message(NewLine);
       sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
       StdString(GlobalStr);

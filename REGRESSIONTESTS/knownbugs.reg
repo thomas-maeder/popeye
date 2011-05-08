@@ -27,6 +27,7 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
 
    1.mRa7-d7 + !
 
+
               empile:          47
             jouecoup:          47
         orig_rbechec:           1
@@ -66,6 +67,7 @@ a)
 
    1.Sa3-c4 !
 
+
               empile:          23
             jouecoup:          23
         orig_rbechec:           0
@@ -76,6 +78,7 @@ b) SingleBox    Type2
 
    1.Sa3-c2 !
 
+
               empile:          24
             jouecoup:          28
         orig_rbechec:           0
@@ -85,6 +88,7 @@ c) wBa8
    1.b7-b8 !
 
    1.Sa3-c2 !
+
 
               empile:          24
             jouecoup:          28
@@ -121,6 +125,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
 
    1.Rb8-b1 # !
 
+
               empile:          66
             jouecoup:          54
         orig_rbechec:           4
@@ -155,6 +160,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
              EiffelChess
 
    1.Rb8-b1 # !
+
 
               empile:          38
             jouecoup:          37

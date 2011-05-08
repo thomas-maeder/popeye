@@ -45,6 +45,7 @@
 
    1.Se3*g2 [h1=B] + !
 
+
               empile:           4
             jouecoup:          14
         orig_rbechec:          14
@@ -151,6 +152,7 @@ don't get confused with >1 latent pawn
       1...Sf1*e3 [e8=S]
           2.Se8*c7 #
 
+
               empile:        7243
             jouecoup:        5390
         orig_rbechec:         362
@@ -206,6 +208,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
       1...Sd6-b7
           2.Qb2-d2 #
+
 
               empile:        6569
             jouecoup:        4449
@@ -280,6 +283,7 @@ solution finished.
     but
       1...d5*e4 !
 
+
               empile:      213575
             jouecoup:      142912
         orig_rbechec:       34631
@@ -319,6 +323,7 @@ solution finished.
    1.Qg1-d1 + !
       1...e2*d1=R [e8=Q]
           2.Qe8-e5 #
+
 
               empile:        4805
             jouecoup:        3340

@@ -178,6 +178,7 @@ Loesung beendet.
                   3.a6-a7
                       3...Ka8*a7-a8 x
 
+
               empile:        1238
             jouecoup:         543
         orig_rbechec:         250
@@ -843,6 +844,7 @@ Es fehlt ein weisser oder schwarzer Koenig
     Aber
       1...LLc7*f4-g2 !
 
+
               empile:      184275
             jouecoup:       93945
         orig_rbechec:           0
@@ -950,6 +952,7 @@ Loesung beendet.
  42  (Ld1-e2 )
  43  (Kc1-b1 )
  44  (Kc1-b2 )
+
               empile:   134509219
             jouecoup:    42435730
         orig_rbechec:     4979495
@@ -994,6 +997,7 @@ Loesung beendet.
       1...Ke7-e6
           2.f7-f8=D #
 
+
               empile:       22006
             jouecoup:        8721
         orig_rbechec:        1001
@@ -1037,6 +1041,7 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
           2.f7-f8=L #
       1...Ke7-e6
           2.f7-f8=D #
+
 
               empile:       14778
             jouecoup:        6271
@@ -1094,6 +1099,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
           2.Se7*d5-d4 #
       1...Ke6-d6
           2.Da4*a8-b6 #
+
 
               empile:       35121
             jouecoup:       17026
@@ -1315,6 +1321,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
       1...Ke6-d6
           2.Dc3*b2-b6 #
 
+
               empile:      147413
             jouecoup:       78785
         orig_rbechec:        4295
@@ -1409,6 +1416,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
     Aber
       1...Th5-h2 + !
 
+
               empile:       23052
             jouecoup:       10928
         orig_rbechec:         909
@@ -1458,6 +1466,7 @@ Loesung beendet.
       1...c6-c5
           2.Sb7*c5-c4 #
 
+
               empile:        5912
             jouecoup:        3305
         orig_rbechec:         291
@@ -1499,6 +1508,7 @@ Loesung beendet.
           2.Df4-f1 +
               2...d3*c2-g2 #
 
+
               empile:       32631
             jouecoup:       11871
         orig_rbechec:       11873
@@ -1538,6 +1548,7 @@ Loesung beendet.
           2.Le4-g2 +
               2...Kh3*g2-f1 #
               2...Dc6*g2-f1 #
+
 
               empile:      158790
             jouecoup:       12006

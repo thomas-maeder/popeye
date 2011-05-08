@@ -65,6 +65,7 @@ cooked, even with suggestion +WPb6 in Chessics #8
           2.Sb4-a3 #
           2.Sb4-d6 #
 
+
               empile:        3220
             jouecoup:        2411
         orig_rbechec:         290
@@ -139,6 +140,7 @@ solution finished.
           2.Kf1-g1 +
               2...Kh1-g3 #
 
+
               empile:         957
             jouecoup:         450
         orig_rbechec:         451
@@ -179,6 +181,7 @@ solution finished.
       1...d6*c5 +
           2.Kb4-c4 +
               2...Kd4-c6 #
+
 
               empile:       12118
             jouecoup:        5197
@@ -256,6 +259,7 @@ solving interrupted.
    1.Ba1-f6 ! zugzwang.
       1...Kh7-h8
           2.Kf5-g5 #
+
 
               empile:         580
             jouecoup:         470

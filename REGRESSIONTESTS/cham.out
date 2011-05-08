@@ -78,6 +78,7 @@ Loesung beendet.
                   3.cDg3-f2=cS +
                       3...cDd4*f2=cS #
 
+
               empile:      599087
             jouecoup:      261848
         orig_rbechec:      259929
@@ -159,6 +160,7 @@ Loesung beendet.
           2.De3*c5 #
     Aber
       1...Kd4*e3 !
+
 
               empile:       27661
             jouecoup:       19132
@@ -251,6 +253,7 @@ Loesung beendet.
       1...ncSf4-e6=ncL
           2.cSd6-f5=cL #
 
+
               empile:       10057
             jouecoup:        5800
         orig_rbechec:         496
@@ -304,6 +307,7 @@ Loesung beendet.
       1...ncTe8-h8=ncD
           2.De5-e6 #
 
+
               empile:       20883
             jouecoup:       13026
         orig_rbechec:        1130
@@ -347,6 +351,7 @@ Loesung beendet.
           2.cDc7-g3=cS #
       1...La7-b8
           2.cDc7*c5=cS #
+
 
               empile:       12251
             jouecoup:        7616
@@ -409,6 +414,7 @@ Loesung beendet.
       1...cSd3-b4=cL
           2.d2-d3 #
 
+
               empile:        6837
             jouecoup:        4561
         orig_rbechec:         423
@@ -451,6 +457,7 @@ Loesung beendet.
           2.Da4-b3 #
       1...ncLf8-e7=ncT
           2.Da4-e4 #
+
 
               empile:        3519
             jouecoup:        2170
@@ -513,6 +520,7 @@ Loesung beendet.
           2.cLd5-f7=cT +
               2...Kf5-e6
                   3.Se4-g5 #
+
 
               empile:      123588
             jouecoup:       66040
@@ -610,6 +618,7 @@ Loesung beendet.
           2.cDc8*f5=cS [+sBf7] #
       1...cLd7*c8=cT [+wcDd1] +
           2.cDd1*f3=cS [+sBf7] #
+
 
               empile:        6262
             jouecoup:        3634

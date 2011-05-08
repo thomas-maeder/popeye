@@ -25,6 +25,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
 
    1.Lb8-d6 = !
 
+
               empile:         243
             jouecoup:         148
         orig_rbechec:          47
@@ -60,6 +61,7 @@ Loesung beendet.
    1.Kb1-a1 !
       1...Lh1-e4 =
 
+
               empile:        2877
             jouecoup:        1668
         orig_rbechec:        1485
@@ -93,6 +95,7 @@ Loesung beendet.
      NurPartiesatzSteine    Typ1
 
    1.a7-a8=D # !
+
 
               empile:          21
             jouecoup:          24
@@ -216,6 +219,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kd4-c4
                           4.Df3-b3 #
 
+
               empile:     1634549
             jouecoup:     1040486
         orig_rbechec:      529301
@@ -323,6 +327,7 @@ Beispiel 1
                                       5...Kg4-f4
                                           6.Dh3-f3 #
 
+
               empile:     7551915
             jouecoup:     6647599
         orig_rbechec:     4982727
@@ -381,6 +386,7 @@ Loesung beendet.
    1.Tc5-d5 + ?
     Aber
       1...c6*d5 !
+
 
               empile:      755859
             jouecoup:      482575

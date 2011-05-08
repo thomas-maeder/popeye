@@ -79,6 +79,7 @@ Loesung beendet.
           2.a7-a8=L Drohung:
                   3.La8*c6 #
 
+
               empile:       47432
             jouecoup:       39323
         orig_rbechec:        2118
@@ -161,6 +162,7 @@ Loesung beendet.
           2.Sf1-h2 #
       1...Tf6-g6
           2.Sf1-g3 #
+
 
               empile:        8226
             jouecoup:        5917
@@ -490,6 +492,7 @@ a)
                               4...h3-h2
                                   5.Kd8-d7 #
 
+
               empile:        9503
             jouecoup:        8368
         orig_rbechec:        1935
@@ -505,6 +508,7 @@ b) wKa5-->c3
                           4.Kf1-g1
                               4...h3-h2 +
                                   5.Lb8*h2 #
+
 
               empile:       14083
             jouecoup:       12101
@@ -556,6 +560,7 @@ Loesung beendet.
           2.c7-c8=L Drohung:
                   3.Lc8-e6 #
 
+
               empile:       19303
             jouecoup:       15231
         orig_rbechec:        1974
@@ -606,6 +611,7 @@ Loesung beendet.
       1...e7-e6
           2.a7-a8=S Drohung:
                   3.Tf7-a7 #
+
 
               empile:      212779
             jouecoup:      119968
@@ -660,6 +666,7 @@ Loesung beendet.
                   3.Sc4*b2 Drohung:
                           4.Sh7*f6 #
 
+
               empile:     1514225
             jouecoup:     1081880
         orig_rbechec:      231478
@@ -700,6 +707,7 @@ Loesung beendet.
           2.Ta1-d1 #
       1...Ta6*a8
           2.0-0-0 #
+
 
               empile:       25862
             jouecoup:       17797
@@ -744,6 +752,7 @@ Loesung beendet.
       1...Ke6*d6
           2.c4-c5 #
 
+
               empile:       34699
             jouecoup:       26908
         orig_rbechec:        9457
@@ -784,6 +793,7 @@ Loesung beendet.
           2.g2*f3 #
       1...f3*g2
           2.c2*d3 #
+
 
               empile:       20049
             jouecoup:       16079
@@ -845,6 +855,7 @@ Loesung beendet.
     Aber
       1...Sg8-f6 !
 
+
               empile:        8842
             jouecoup:        6235
         orig_rbechec:         541
@@ -885,6 +896,7 @@ Loesung beendet.
           2.Se4-g3 #
       1...g4-g3
           2.Se4-c3 #
+
 
               empile:       43509
             jouecoup:       41198
@@ -930,6 +942,7 @@ Loesung beendet.
           2.Tf7*c7 #
       1...d2-d1=L
           2.Tg5*g6 #
+
 
               empile:       54624
             jouecoup:       40527
@@ -1015,6 +1028,7 @@ Loesung beendet.
       1...Ld7-e6
           2.Tc6-c4 #
 
+
               empile:      112718
             jouecoup:       80411
         orig_rbechec:       75208
@@ -1063,6 +1077,7 @@ Loesung beendet.
           2.Te5-e6 #
       1...Sa8-c7
           2.Dc8*c7 #
+
 
               empile:      136110
             jouecoup:      101468
@@ -1193,6 +1208,7 @@ Loesung beendet.
                               4...La7-d4
                                   5.Kb7*a8
                                       5...Tg2-b2 #
+
 
               empile:       16457
             jouecoup:        4068
@@ -1357,6 +1373,7 @@ Loesung beendet.
                       3...Dg8-g1
                           4.Kb7-a6
                               4...Dg1-b6 #
+
 
               empile:      840864
             jouecoup:      314109
@@ -1635,6 +1652,7 @@ Loesung beendet.
                                                                                  11.Kc2-c1
                                                                                      11...Lb7-e4 =
 
+
               empile:      123819
             jouecoup:       38196
         orig_rbechec:       46590
@@ -1810,6 +1828,7 @@ Loesung beendet.
           2.Ka7-a8
               2...Df1-a6 #
 
+
               empile:         359
             jouecoup:         216
         orig_rbechec:         165
@@ -1850,6 +1869,7 @@ Loesung beendet.
               2...Dh1-a1
                   3.Kb8-c8
                       3...Da1-h8 #
+
 
               empile:         974
             jouecoup:         458
@@ -1907,6 +1927,7 @@ Loesung beendet.
                                                                       9...Db3-g8
                                                                          10.Ka7-a8
                                                                              10...Dg8-a2 #
+
 
               empile:       38770
             jouecoup:       13639
@@ -1983,6 +2004,7 @@ Loesung beendet.
                                                                          10.Kh2-h1
                                                                              10...Db1-h7 #
 
+
               empile:      285976
             jouecoup:       99024
         orig_rbechec:      110857
@@ -2040,6 +2062,7 @@ Loesung beendet.
                                                                          10.Ka4-a5
                                                                              10...Te1-a1 #
 
+
               empile:        8284
             jouecoup:        4340
         orig_rbechec:        4738
@@ -2082,6 +2105,7 @@ Loesung beendet.
                       3...Dh7-b1
                           4.Kg5-h6
                               4...Db1-g6 #
+
 
               empile:       18042
             jouecoup:        7266
@@ -2158,6 +2182,7 @@ Loesung beendet.
                                                                                                                                                  19.Kg8-f8
                                                                                                                                                      19...Tc1-c8 #
 
+
               empile:      747485
             jouecoup:      185884
         orig_rbechec:      259568
@@ -2209,6 +2234,7 @@ Loesung beendet.
                           4.Tb5-b6
                               4...Ka7-a8
                                   5.Tb6-b7 =
+
 
               empile:      391352
             jouecoup:      133118
@@ -2289,6 +2315,7 @@ Loesung beendet.
                           4.Dc8-f8 =
                       3...Kg7-h6
                           4.Dc8-g8 =
+
 
               empile:      180130
             jouecoup:       61940
@@ -2449,6 +2476,7 @@ Loesung beendet.
                                   5.a6-a7
                                       5...Te1-e8 #
 
+
               empile:        5390
             jouecoup:        2522
         orig_rbechec:        2635
@@ -2494,6 +2522,7 @@ Loesung beendet.
           2.Th2-h4 #
     Aber
       1...Tb7-b1 + !
+
 
               empile:       33867
             jouecoup:       14592
@@ -2623,6 +2652,7 @@ Loesung beendet.
     Aber
       1...Dd1-g4 !
 
+
               empile:       33227
             jouecoup:       27750
         orig_rbechec:       27972
@@ -2666,6 +2696,7 @@ a)
     Aber
       1...Gb3-f3 !
 
+
               empile:        7453
             jouecoup:        3004
         orig_rbechec:        3314
@@ -2679,6 +2710,7 @@ b) sGb3-->d1
 
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
+
 
               empile:        6994
             jouecoup:        2785
@@ -2694,6 +2726,7 @@ c) sGb3-->g8
     Aber
       1...Gg8-d5 !
 
+
               empile:        7817
             jouecoup:        3046
         orig_rbechec:        3362
@@ -2707,6 +2740,7 @@ d) sGb3-->h5
 
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
+
 
               empile:        7285
             jouecoup:        2888
@@ -2862,6 +2896,7 @@ Loesung beendet.
     Aber
       1...Sb1-a3 !
 
+
               empile:       12331
             jouecoup:        9770
         orig_rbechec:        9899
@@ -3013,6 +3048,7 @@ Loesung beendet.
     Aber
       1...Dh2-h7 !
 
+
               empile:     1088577
             jouecoup:      936421
         orig_rbechec:      824471
@@ -3083,6 +3119,7 @@ Loesung beendet.
           2.Sc5-e4 z
     Aber
       1...Dg1-c1 !
+
 
               empile:        5938
             jouecoup:        1067
@@ -3622,6 +3659,7 @@ Loesung beendet.
     Aber
       1...Tb4-b1 + !
 
+
               empile:       46329
             jouecoup:       13826
         orig_rbechec:       14747
@@ -3982,6 +4020,7 @@ Loesung beendet.
                                                                                              12...Ta8-h8
                                                                                                  13.Kb1-a1
                                                                                                      13...Th8-h1 #
+
 
               empile:       41031
             jouecoup:       15044

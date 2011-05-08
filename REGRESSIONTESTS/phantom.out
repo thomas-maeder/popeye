@@ -141,6 +141,7 @@ Loesung beendet.
     Aber
       1...Ka8-a7 !
 
+
               empile:        1986
             jouecoup:        1628
         orig_rbechec:         188
@@ -232,6 +233,7 @@ Loesung beendet.
    1.f5-f3 ? Zugzwang.
     Aber
       1...f6-f5 !
+
 
               empile:       16850
             jouecoup:        9113
@@ -344,6 +346,7 @@ a)
 
    1.g7-g8=T + !
 
+
               empile:           3
             jouecoup:           6
         orig_rbechec:           0
@@ -352,6 +355,7 @@ b) =1
 
    1.g7-g8=D = !
 
+
               empile:          23
             jouecoup:          15
         orig_rbechec:           0
@@ -359,6 +363,7 @@ b) =1
 c) #1
 
    1.g7-g8=T # !
+
 
               empile:          13
             jouecoup:          12

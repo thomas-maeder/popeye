@@ -26,6 +26,7 @@
    1.Da7-f2 ! Drohung:
           2.0-0 #
 
+
               empile:        2557
             jouecoup:        1057
         orig_rbechec:         372
@@ -107,6 +108,7 @@ Loesung beendet.
               2...Ke4-d3
                   3.0-0-0 #
 
+
               empile:      151302
             jouecoup:       60879
         orig_rbechec:       24007
@@ -151,6 +153,7 @@ Loesung beendet.
           2.Ke1-d2 Zugzwang.
               2...Kb2-b1
                   3.Th3-b3 #
+
 
               empile:       31699
             jouecoup:       12799
@@ -264,6 +267,7 @@ Loesung beendet.
     Aber
       1...Kc2-c3 !
 
+
               empile:       61340
             jouecoup:       26320
         orig_rbechec:       11587
@@ -352,6 +356,7 @@ Loesung beendet.
                   3.Dc6-g6 #
               2...Kf3-e2
                   3.Dc6-c2 #
+
 
               empile:       34909
             jouecoup:       19013
@@ -733,6 +738,7 @@ Loesung beendet.
                       3...f4*e3
                           4.0-0-0 #
 
+
               empile:      556872
             jouecoup:      348323
         orig_rbechec:      269971
@@ -913,6 +919,7 @@ Loesung beendet.
     Aber
       1...0-0 !
 
+
               empile:     1102079
             jouecoup:      801156
         orig_rbechec:      605865
@@ -958,6 +965,7 @@ Loesung beendet.
           2.c5*d6 Drohung:
                   3.c7-c8=D #
                   3.c7-c8=T #
+
 
               empile:       14343
             jouecoup:        7236
@@ -1129,6 +1137,7 @@ Loesung beendet.
 
  48  (Ta1-c1 )
  49  (Ta1-b1 )
+
               empile:      559906
             jouecoup:      489752
         orig_rbechec:      361470
@@ -1276,6 +1285,7 @@ Loesung beendet.
  39  (Ta1-d1 )
  40  (Ta1-c1 )
  41  (Ta1-b1 )
+
               empile:     1225753
             jouecoup:      531053
         orig_rbechec:      249714
@@ -1497,6 +1507,7 @@ Loesung beendet.
               2...Ke8-f8
                   3.De5-h8 #
 
+
               empile:     1785256
             jouecoup:     1375039
         orig_rbechec:      960788
@@ -1531,6 +1542,7 @@ Loesung beendet.
 
    1.Th1-f1 ! Drohung:
           2.Tf1-f8 #
+
 
               empile:         347
             jouecoup:         277
@@ -1635,6 +1647,7 @@ Loesung beendet.
                   3.Sf3-e1 #
     Aber
       1...f5*e4 !
+
 
               empile:      552665
             jouecoup:      361545
@@ -2219,6 +2232,7 @@ Loesung beendet.
     Aber
       1...Kf8-g8 !
 
+
               empile:     1228340
             jouecoup:      769235
         orig_rbechec:      591704
@@ -2659,6 +2673,7 @@ Loesung beendet.
       1...Tb2-c2 #
       1...Tb4*c4 #
 
+
               empile:         946
             jouecoup:         934
         orig_rbechec:         938
@@ -2695,6 +2710,7 @@ Loesung beendet.
       1...De5*e4
           2.0-0
               2...De4-g2 #
+
 
               empile:       11966
             jouecoup:        5787
@@ -3282,6 +3298,7 @@ Loesung beendet.
  11  (Ke1-d1 )
  12  (Ke1-d2 )
  13  (Ke1-f2 )
+
               empile:    13663444
             jouecoup:     8347698
         orig_rbechec:     7489587
@@ -3356,6 +3373,7 @@ Loesung beendet.
  29  (Ke1-d1 )
  30  (Ke1-d2 )
  31  (Ke1-f2 + )
+
               empile:      682189
             jouecoup:      568929
         orig_rbechec:      516360
@@ -3398,6 +3416,7 @@ Loesung beendet.
           2.e5*d6 =
       1...d7*e6
           2.Td1-f1 =
+
 
               empile:        5463
             jouecoup:        2924
@@ -3532,6 +3551,7 @@ Loesung beendet.
     Aber
       1...0-0-0 !
 
+
               empile:       78744
             jouecoup:       20239
         orig_rbechec:        8505
@@ -3573,6 +3593,7 @@ RochadenGegenseitigAusschliessend a1h8
     Aber
       1...0-0 !
 
+
               empile:        2924
             jouecoup:        1947
         orig_rbechec:         406
@@ -3613,6 +3634,7 @@ RochadenGegenseitigAusschliessend h1a8
 
    1.0-0 ! Drohung:
           2.Tf1-f8 #
+
 
               empile:        1426
             jouecoup:        1078
@@ -4248,6 +4270,7 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Dg6-f7 #
     Aber
       1...0-0 !
+
 
               empile:      726310
             jouecoup:      381610

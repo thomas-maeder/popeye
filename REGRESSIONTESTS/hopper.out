@@ -235,6 +235,7 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
       1...Lc7-e5
           2.Lf5-e6 #
 
+
               empile:       41199
             jouecoup:       29033
         orig_rbechec:        1141
@@ -347,6 +348,7 @@ Loesung beendet.
    1.Tc4*c5 + ?
     Aber
       1...Ge7*c5 !
+
 
               empile:       15561
             jouecoup:       11771
@@ -611,6 +613,7 @@ Loesung beendet.
     Aber
       1...VAg6*d3 !
 
+
               empile:       33493
             jouecoup:       22674
         orig_rbechec:        1276
@@ -676,6 +679,7 @@ Preis, Andernach-Grashoppers-Tourney 2000
    1.Dg2-f2 + ?
     Aber
       1...Ke3*f2 !
+
 
               empile:       43714
             jouecoup:       26835
@@ -762,6 +766,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
               2...AGa5-d8 #
               2...AGa5-a7 #
               2...AGa5-g5 #
+
 
               empile:       17786
             jouecoup:       10669
@@ -865,6 +870,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
       1...AGh5-c5
           2.d5-d6 #
 
+
               empile:         351
             jouecoup:         307
         orig_rbechec:          69
@@ -943,6 +949,7 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
       1...pTb6-b8
           2.MLd3-f7
               2...Te7-e6 #
+
 
               empile:       15658
             jouecoup:       11733

@@ -27,6 +27,7 @@
            BlackMaximummer
                Isardam
 
+
               empile:         210
             jouecoup:         204
         orig_rbechec:           9
@@ -64,6 +65,7 @@ solution finished.
    1.MAa8-c7 !
 
    1.MAa8-b6 !
+
 
               empile:           2
             jouecoup:           2
@@ -234,6 +236,7 @@ moves in Maximummer+Imitator problems
                                       5...Ra8-c8[Id5]
                                           6.Sd8-f7[If4]
                                               6...Rc8-c5[If1] #
+
 
               empile:      132154
             jouecoup:       53751

@@ -77,6 +77,7 @@
       1...Gc6-e8
           2.Qf8*e8 #
 
+
               empile:       39532
             jouecoup:       30654
         orig_rbechec:        1655
@@ -253,6 +254,7 @@ solution finished.
     but
       1...Kh1*h2 !
 
+
               empile:       35012
             jouecoup:       21826
         orig_rbechec:        2926
@@ -322,6 +324,7 @@ solution finished.
           2.Kc6-e8=G #
       1...Qf6*d8
           2.Qb6-b7 #
+
 
               empile:       14428
             jouecoup:       11805
@@ -496,6 +499,7 @@ solution finished.
    1.Sc2*b4 + ?
     but
       1...Kd3-d4 !
+
 
               empile:      103510
             jouecoup:       85800

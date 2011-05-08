@@ -39,6 +39,7 @@ a)
       1...Dh8*g8 [+wLf1]
           2.Lf1*d3 #
 
+
               empile:       11998
             jouecoup:        9536
         orig_rbechec:         494
@@ -57,6 +58,7 @@ b) ChamaeleonCirce    S->L->T->D->S
           2.Sb1*d2 [+sLf8] #
       1...Dh8*g8 [+wTh1]
           2.Th1-e1 #
+
 
               empile:       12256
             jouecoup:        9756
@@ -77,6 +79,7 @@ c) CirceClone
       1...Dh8*g8 [+wDd1]
           2.Dd1-e1 #
 
+
               empile:       11866
             jouecoup:        9393
         orig_rbechec:         486
@@ -95,6 +98,7 @@ d) ChamaeleonCirce    S->D->T->L->S
           2.Th1-e1 #
       1...Dh8*g8 [+wSb1]
           2.Sb1*d2 [+sDd8] #
+
 
               empile:       12648
             jouecoup:       10103
@@ -265,6 +269,7 @@ Loesung beendet.
       1...g4*f3 [+wBf2]
           2.g2-g3 #
 
+
               empile:         688
             jouecoup:         508
         orig_rbechec:         110
@@ -423,6 +428,7 @@ Loesung beendet.
       1...Kd8-e8
           2.Da2*f7 [+sDd8] +
               2...Ke8*f7 [+wDd1] #
+
 
               empile:        3704
             jouecoup:        1845

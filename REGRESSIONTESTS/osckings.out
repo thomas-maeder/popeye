@@ -39,6 +39,7 @@ a)
           2.d3-d4 #
           2.Sf2-e4 #
 
+
               empile:        2305
             jouecoup:        1476
         orig_rbechec:         183
@@ -49,12 +50,14 @@ b) WeisseOszillierendeKoenige    TypB
       1...Kc5-d5
           2.Sd1-e3[wK<>sK] #
 
+
               empile:        2287
             jouecoup:        1298
         orig_rbechec:        1083
         orig_rnechec:        1184
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
+
 
               empile:        2566
             jouecoup:        1181
@@ -93,6 +96,7 @@ Loesung beendet.
       1...Lf4-e5[wK<>sK] +
           2.Dd4-d5
               2...Lf3*d5[wK<>sK] #
+
 
               empile:        4429
             jouecoup:        2482
@@ -138,6 +142,7 @@ Loesung beendet.
           2.Ke3-f2 #
       1...g6-g5[wK<>sK]
           2.Dc1-c6 #
+
 
               empile:        2014
             jouecoup:        1286

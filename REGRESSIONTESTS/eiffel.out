@@ -37,6 +37,7 @@
       1...Dc8*f5
           2.Da5*f5 #
 
+
               empile:       33439
             jouecoup:       21449
         orig_rbechec:        1074
@@ -83,6 +84,7 @@ Loesung beendet.
       1...Df1-e2
           2.Tb5-b2 #
 
+
               empile:        6821
             jouecoup:        4127
         orig_rbechec:         604
@@ -125,6 +127,7 @@ Loesung beendet.
       1...Lh8-f6
           2.Sc3-d5
               2...c6*d5 #
+
 
               empile:       13661
             jouecoup:        7326
@@ -242,6 +245,7 @@ Loesung beendet.
           2.Tg7-e7 +
               2...e2-e1=T #
 
+
               empile:       40909
             jouecoup:       38344
         orig_rbechec:       38347
@@ -290,6 +294,7 @@ Loesung beendet.
                       3...d3-d2
                           4.d6-d7 +
                               4...d2-d1=D #
+
 
               empile:      923943
             jouecoup:      518267

@@ -94,6 +94,7 @@ solution finished.
                 KoeKo
              ParrainCirce
 
+
               empile:          22
             jouecoup:           4
         orig_rbechec:           3
@@ -170,6 +171,7 @@ solution finished.
 
    1.Ba3*b4 x !
 
+
               empile:           3
             jouecoup:           2
         orig_rbechec:           0
@@ -197,6 +199,7 @@ solution finished.
 
    1.Qe3-f3 !
       1...Bd1*f3[bBf3->c8] #
+
 
               empile:        1022
             jouecoup:         893

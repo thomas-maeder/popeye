@@ -456,6 +456,7 @@ a)
 
    1.kGa8-a6 = !
 
+
               empile:           3
             jouecoup:           3
         orig_rbechec:           5
@@ -465,6 +466,7 @@ b) exact-=2
    1.kGa8-d8 !
       1...kGc8-e8
           2.kGd8-a5 =
+
 
               empile:           9
             jouecoup:           8
@@ -477,6 +479,7 @@ c) exact-=3
           2.kGd8-f8
               2...kGe8-g8
                   3.kGf8-h8 =
+
 
               empile:          17
             jouecoup:          19
@@ -527,6 +530,7 @@ Loesung beendet.
                                                   7.b2-b1=D
                                                       7...kEQc6-g2
                                                           8.Db1-c2 #
+
 
               empile:         856
             jouecoup:        1015

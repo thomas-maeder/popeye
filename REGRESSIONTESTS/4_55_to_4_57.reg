@@ -166,17 +166,20 @@ a)
 
    1.Kh6-h7 ## !
 
+
               empile:          23
             jouecoup:          21
         orig_rbechec:           8
         orig_rnechec:          16
 b) +bRa5 
 
+
               empile:           4
             jouecoup:           4
         orig_rbechec:           4
         orig_rnechec:           1
 +c) ##2
+
 
               empile:           8
             jouecoup:           8
@@ -215,17 +218,20 @@ a)
 
    1.Kc8-b7 ##! !
 
+
               empile:          68
             jouecoup:          62
         orig_rbechec:          23
         orig_rnechec:          45
 b) +wSb4 
 
+
               empile:           8
             jouecoup:           7
         orig_rbechec:           8
         orig_rnechec:           2
 +c) ##!2
+
 
               empile:         104
             jouecoup:          73
@@ -234,6 +240,7 @@ b) +wSb4
 +d)  -wSb4
 
    1.Kc8-b7 ##! !
+
 
               empile:          68
             jouecoup:          62
@@ -327,6 +334,7 @@ a)
    1.Qa3-c5 + !
       1...Kc8-b7 ##!
 
+
               empile:         292
             jouecoup:         257
         orig_rbechec:         199
@@ -344,6 +352,7 @@ solution finished.
 
 Option  StopOnShortSolutions  not supported with direct play.
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
@@ -355,11 +364,13 @@ try play not applicable
 
 a) 
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
 b) #2
+
 
               empile:           0
             jouecoup:           0
@@ -367,12 +378,14 @@ b) #2
         orig_rnechec:           0
 c) s#1
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
 d) r#1
 try play not applicable
+
 
               empile:           0
             jouecoup:           0
@@ -458,11 +471,13 @@ option Threat only applicable in sufficiently long battle play
 
 a) 
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
 b) #4
+
 
               empile:           0
             jouecoup:           0
@@ -471,11 +486,13 @@ b) #4
 c) s#3
 Option "Threat" not applicable or indicated maximum threat length too big
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
 d) s#4
+
 
               empile:           0
             jouecoup:           0
@@ -484,11 +501,13 @@ d) s#4
 e) r#3
 Option "Threat" not applicable or indicated maximum threat length too big
 
+
               empile:           0
             jouecoup:           0
         orig_rbechec:           0
         orig_rnechec:           0
 f) r#4
+
 
               empile:           0
             jouecoup:           0
@@ -538,6 +557,7 @@ don't output reflexmates if variations are not asked for
   r#1                         1 + 2
 
    1.Kb1-a1 !
+
 
               empile:          10
             jouecoup:           9
@@ -777,6 +797,7 @@ checks weren't indicated on the move reaching a goal
       1...c7-c5
           2.d5*c6 ep. +
 
+
               empile:         101
             jouecoup:          30
         orig_rbechec:           0
@@ -938,6 +959,7 @@ earlier versions didn't stop solving after 1.h2-h3 z !
       1...g4*h3 ep. z
 
    1.h2-h3 z !
+
 
               empile:           4
             jouecoup:           4

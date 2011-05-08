@@ -76,6 +76,7 @@ solution finished.
                                           6.Qd3-h3 +
                                               6...f2-f1=Q [bQh3] #
 
+
               empile:    40040644
             jouecoup:    16707523
         orig_rbechec:    36527503
@@ -119,6 +120,7 @@ solution finished.
           2.Qg6-f6 [wQb2, wPf2, wRh8] #
       1...Qb1-c1 [wBf1, bPc2] +
           2.Qg6-g5 [wQc1, wPd5, wPh5] #
+
 
               empile:        5620
             jouecoup:        4139
@@ -240,6 +242,7 @@ solution finished.
     but
       1...Re8*e4 !
 
+
               empile:       15817
             jouecoup:       13737
         orig_rbechec:      104924
@@ -345,6 +348,7 @@ solution finished.
     but
       1...Kc1*c2 !
 
+
               empile:        9073
             jouecoup:        5660
         orig_rbechec:       14340
@@ -384,6 +388,7 @@ solution finished.
           2.Qe4-e6 [wPf5] #
       1...f7-f6
           2.Qe4-e7 [wPf6] #
+
 
               empile:        3685
             jouecoup:        1271
@@ -453,6 +458,7 @@ solution finished.
    1.Qe2-e5 [wPd4, bPf6, wPc7] + ?
     but
       1...f6*e5 !
+
 
               empile:        9141
             jouecoup:        6518

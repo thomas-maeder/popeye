@@ -53,6 +53,7 @@
                       3...Kh7*h6
                           4.Tf8-h8 #
 
+
               empile:       13090
             jouecoup:        7995
         orig_rbechec:        5099
@@ -139,6 +140,7 @@ Loesung beendet.
                               4...La8-h1
                                   5.Kd4-e5 #
 
+
               empile:      113444
             jouecoup:       30634
         orig_rbechec:       24940
@@ -183,6 +185,7 @@ Loesung beendet.
                               4...Sa3-b1
                                   5.Kd4-e5 #
 
+
               empile:       17040
             jouecoup:        5590
         orig_rbechec:        2956
@@ -226,6 +229,7 @@ Loesung beendet.
                           4.Ta7*a8
                               4...Kb1-c1
                                   5.Ta8-a1 #
+
 
               empile:     1497070
             jouecoup:      698697
@@ -295,6 +299,7 @@ Loesung beendet.
                           4.Th2*h1
                               4...Kg8-f8
                                   5.Th1-h8 #
+
 
               empile:     1287496
             jouecoup:      586151
@@ -441,6 +446,7 @@ Loesung beendet.
       1...Ld7-g4
           2.Lb1-f5 #
 
+
               empile:         450
             jouecoup:         157
         orig_rbechec:          22
@@ -534,6 +540,7 @@ Michael Barth und Sven Trommler gewidmet
                               4...Lg7*h6
                                   5.Ta1-d1
                                       5...Lh6-d2 #
+
 
               empile:     2239807
             jouecoup:      449459
@@ -636,6 +643,7 @@ Loesung beendet.
                                       5...Ge6-e2
                                           6.Se3-d1 =
 
+
               empile:       46812
             jouecoup:       19918
         orig_rbechec:           0
@@ -682,6 +690,7 @@ Loesung beendet.
                                       5...Dd1*h5
                                           6.Kd2-e1
                                               6...Dh5-a5 #
+
 
               empile:     4619786
             jouecoup:     1488855

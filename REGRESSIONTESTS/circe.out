@@ -36,6 +36,7 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
       1...kBd2*c1=kL [+wkDd1][skLc1->f8]
           2.kLd3*e2 [+skBe7][wkLe2->f1] #
 
+
               empile:       17593
             jouecoup:       10202
         orig_rbechec:         506
@@ -87,6 +88,7 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
           2.kBb7*a8=kS [+skTa8][wkSa8->b1] #
       1...kBc2*b1=kL [+wkLf1][skLb1->c8]
           2.kBb7*c8=kS [+skLc8][wkSc8->b1] #
+
 
               empile:        6040
             jouecoup:        5682
@@ -185,6 +187,7 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
           2.kDd1*b1 [+skLc8][wkDb1->d1] #
       1...kDh7*h5 [+wkTh1][skDh5->d8]
           2.kTh1*b1 [+skLc8][wkTb1->h1] #
+
 
               empile:       14777
             jouecoup:        9457
@@ -327,6 +330,7 @@ Loesung beendet.
                       3...Kd2-c1
                           4.De2*c2 [+sTa8] #
 
+
               empile:      603850
             jouecoup:      408915
         orig_rbechec:      277367
@@ -432,6 +436,7 @@ Loesung beendet.
    1.Lc1-h6 !
       1...g7*h6 [+wLc1]
 
+
               empile:           9
             jouecoup:           9
         orig_rbechec:           0
@@ -466,6 +471,7 @@ Loesung beendet.
    1.h5-h6 ! Zugzwang.
       1...g7*h6
           2.Kh2-h1 [+wBh5]
+
 
               empile:          27
             jouecoup:          25
@@ -503,6 +509,7 @@ Loesung beendet.
       1...d6-d5
           2.Kf1-e2
               2...d5*c4 [+wLf1]
+
 
               empile:         252
             jouecoup:         251

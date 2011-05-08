@@ -39,6 +39,7 @@
       1...c3-c2
           2.Tf6-f3 #
 
+
               empile:       35542
             jouecoup:       19483
         orig_rbechec:        9722
@@ -122,6 +123,7 @@ Loesung beendet.
       1...Tg6-b6
           2.Sa3-c2 #
 
+
               empile:       80068
             jouecoup:       65912
         orig_rbechec:       42424
@@ -167,6 +169,7 @@ Loesung beendet.
                                   5.Sd3-b4 #
                       3...nTe3-f3
                           4.Lh1*f3 #
+
 
               empile:      139051
             jouecoup:       61127
@@ -223,6 +226,7 @@ nebenloesig - eigentlich #6
                           4.ROg7*c3 [+sBg7] #
                       3...Se6*g7 [+wROe6]
                           4.ROe6*c5 [+sBe6] #
+
 
               empile:      139345
             jouecoup:      121110

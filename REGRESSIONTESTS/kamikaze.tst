@@ -26,11 +26,13 @@ the target square and is there at the end of the move
 
 a) 
 
+
               empile:          11
             jouecoup:           1
         orig_rbechec:           0
         orig_rnechec:           0
 b) Circe
+
 
               empile:          11
             jouecoup:           1
@@ -39,6 +41,7 @@ b) Circe
 c) Circe  bSh7-->f1  zf11
 
    1.kBd3*f1 [+bSg8][wkBf1->f1] z !
+
 
               empile:          11
             jouecoup:           1
@@ -77,6 +80,7 @@ solution finished.
           2.Rh1-b1
               2...b4-b3
                   3.kRb2*b3 [+bPb7][wkRb3->h1]
+
 
               empile:        7180
             jouecoup:        7154
@@ -125,6 +129,7 @@ originally occupied by the other exchanger
                           4.kSh3*g1 [+bkRh8][wkSg1->g1]
                       3...kPg2-g1=kB
                           4.kSh3*g1 [+bkBf8][wkSg1->g1]
+
 
               empile:       48015
             jouecoup:       47443

@@ -7,6 +7,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
@@ -18,7 +19,6 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
-#include "output/plaintext/tree/move_inversion_counter.h"
 #include "platform/beep.h"
 #include "trace.h"
 
@@ -32,9 +32,6 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_output_plaintext_tree_move_inversion_counter_slice());
-  pipe_append(si,alloc_end_of_phase_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -462,28 +459,6 @@ static void insert_root_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_illegal_selfcheck_writer(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_illegal_selfcheck_writer_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 typedef struct
 {
   Goal goal;
@@ -627,7 +602,6 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   insert_trivial_varation_filters(si);
   insert_try_writers(si);
   insert_root_writer_slices(si);
-  insert_illegal_selfcheck_writer(si);
   optimise_leaf_slices(si);
 
   TraceFunctionExit(__func__);
@@ -685,7 +659,7 @@ void output_plaintext_tree_remember_move_decoration(attack_type type)
  */
 void output_plaintext_tree_write_move(void)
 {
-  unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
+  unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

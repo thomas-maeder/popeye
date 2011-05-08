@@ -1,14 +1,15 @@
 output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
- output/plaintext/line/line.h pypipe.h stipulation/branch.h \
+ output/plaintext/line/line.h pypipe.h pyoutput.h stipulation/branch.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/line_writer.h \
- output/plaintext/line/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h trace.h
 
 output/plaintext/line/line.h:
 
 pypipe.h:
+
+pyoutput.h:
 
 stipulation/branch.h:
 
@@ -18,15 +19,13 @@ output/plaintext/illegal_selfcheck_writer.h:
 
 output/plaintext/line/line_writer.h:
 
-output/plaintext/line/move_inversion_counter.h:
-
 output/plaintext/line/end_of_intro_series_marker.h:
 
 trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
- output/plaintext/line/line_writer.h pypipe.h pydata.h trace.h pymsg.h \
- output/plaintext/plaintext.h \
- output/plaintext/line/move_inversion_counter.h \
+ output/plaintext/line/line_writer.h pypipe.h pydata.h pyoutput.h trace.h \
+ pymsg.h output/plaintext/plaintext.h \
+ output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h platform/beep.h
 
 output/plaintext/line/line_writer.h:
@@ -35,28 +34,19 @@ pypipe.h:
 
 pydata.h:
 
+pyoutput.h:
+
 trace.h:
 
 pymsg.h:
 
 output/plaintext/plaintext.h:
 
-output/plaintext/line/move_inversion_counter.h:
+output/plaintext/move_inversion_counter.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
 platform/beep.h:
-output/plaintext/line/move_inversion_counter$(OBJ_SUFFIX): \
- output/plaintext/line/move_inversion_counter.c \
- output/plaintext/line/move_inversion_counter.h pydata.h pypipe.h trace.h
-
-output/plaintext/line/move_inversion_counter.h:
-
-pydata.h:
-
-pypipe.h:
-
-trace.h:
 output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  output/plaintext/line/end_of_intro_series_marker.c \
  output/plaintext/line/end_of_intro_series_marker.h pydata.h pypipe.h \

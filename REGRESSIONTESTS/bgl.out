@@ -90,6 +90,7 @@ Loesung beendet.
       1...Sg5-e6 (6/0.76)
           2.Th6-h5 (5/0.76) #
 
+
               empile:        2292
             jouecoup:        1616
         orig_rbechec:          82
@@ -249,6 +250,7 @@ Loesung beendet.
           2.nSf6-d7 (-/2.21) #
       1...nSg8-h6 (-/2.21)
           2.nSh6-f7 (-/2.21) #
+
 
               empile:        4144
             jouecoup:        2973
@@ -432,6 +434,7 @@ Loesung beendet.
                   3.Db1-b6 (1.01/3)
                       3...f3-f2 (1.01/2) #
 
+
               empile:      139986
             jouecoup:       78882
         orig_rbechec:       77143
@@ -495,6 +498,7 @@ Loesung beendet.
       1...Sg5-e6 (6/1.76)
           2.De8-c6 (3.17/1.76) #
 
+
               empile:        7922
             jouecoup:        4773
         orig_rbechec:         453
@@ -534,6 +538,7 @@ a)
       1...Ka8*b7 (2/0.59)
           2.Kd7-c7 (1/0.59) #
 
+
               empile:         613
             jouecoup:         514
         orig_rbechec:          46
@@ -542,6 +547,7 @@ b) BGL 8
 
    1.Kd7-c7 (7) ! Drohung:
           2.Tb5-a5 (6) #
+
 
               empile:         726
             jouecoup:         567

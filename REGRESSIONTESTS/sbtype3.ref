@@ -56,6 +56,7 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
   #1                         3 + 13
           SingleBox    Type3
 
+
               empile:          21
             jouecoup:          21
         orig_rbechec:           8
@@ -93,6 +94,7 @@ solution finished.
    1.Se3*c2 + !
 
    1.Se3*g2 + !
+
 
               empile:          15
             jouecoup:          15
@@ -198,6 +200,7 @@ solution finished.
 
    1.[e8=S]Qd8-d5 # !
 
+
               empile:         251
             jouecoup:         169
         orig_rbechec:          24
@@ -253,6 +256,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Qb2-d2 #
       1...Sd6-b7
           2.Qb2-d2 #
+
 
               empile:        9467
             jouecoup:        6923
@@ -326,6 +330,7 @@ solution finished.
    1.Qh1*e4 + ?
     but
       1...d5*e4 !
+
 
               empile:      330622
             jouecoup:      235283

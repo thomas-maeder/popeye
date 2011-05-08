@@ -199,6 +199,7 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                          56.Sb5-d4 +
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
+
               empile:    22526793
             jouecoup:    18917108
         orig_rbechec:    16164476
@@ -332,6 +333,7 @@ Loesung beendet.
               2...g7-g6
                   3.Tg2*g6 [+sBg7] #
 
+
               empile:       97633
             jouecoup:       60520
         orig_rbechec:       11027
@@ -405,6 +407,7 @@ Loesung beendet.
       1...Sd2-b3
           2.Te2*c2 #
 
+
               empile:       12403
             jouecoup:        7142
         orig_rbechec:         329
@@ -441,6 +444,7 @@ Loesung beendet.
    1.b2-b4 ! Zugzwang.
       1...a3-a2
           2.Lb1-h7 #
+
 
               empile:         344
             jouecoup:         275
@@ -484,6 +488,7 @@ a)
                   3.Tf4*f2
                       3...g3*f2 #
 
+
               empile:       22423
             jouecoup:       14805
         orig_rbechec:       13143
@@ -499,6 +504,7 @@ b) wSh4
                       3...g2*f1=S #
                       3...g2*f1=T #
                       3...g2*f1=L #
+
 
               empile:        3946
             jouecoup:        2510
@@ -661,6 +667,7 @@ Loesung beendet.
               2...g3-g2 #
     Aber
       1...Kd1-e1 !
+
 
               empile:       55325
             jouecoup:       39835

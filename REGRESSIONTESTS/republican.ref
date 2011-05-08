@@ -35,6 +35,7 @@ b) #1
 
    1.Ra1-h1[+bKh3] # !
 
+
               empile:        3135
             jouecoup:         866
         orig_rbechec:           0
@@ -146,6 +147,7 @@ solution finished.
     but
       1...b7*a6 !
 
+
               empile:       16828
             jouecoup:        6489
         orig_rbechec:        3860
@@ -195,6 +197,7 @@ solution finished.
       1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
+
               empile:       48656
             jouecoup:       13379
         orig_rbechec:        8945
@@ -243,6 +246,7 @@ solution finished.
           2.Rf8-f7[+bKe6] #
       1...Bb8-c7
           2.Rf8-a8[+bKb8] #
+
 
               empile:       42940
             jouecoup:       10558
@@ -326,6 +330,7 @@ solution finished.
           2.Sd8*c6[+bKa5] #
       1...Ba8-b7
           2.Sd8*b7[+bKa5] #
+
 
               empile:       35574
             jouecoup:        7883
@@ -530,6 +535,7 @@ solution finished.
               2...cRc2-c8=cQ[+wKa8] #
     but
       1...cBd1-e2=cR !
+
 
               empile:    11522053
             jouecoup:     3390219

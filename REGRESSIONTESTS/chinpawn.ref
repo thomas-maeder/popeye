@@ -23,6 +23,7 @@
 
    1.CPb6-a6 = !
 
+
               empile:          27
             jouecoup:          21
         orig_rbechec:           8
@@ -88,6 +89,7 @@ solution finished.
    1.Kc8-c7 ! zugzwang.
       1...CPa7-a6
           2.CPb6*a6 =
+
 
               empile:         274
             jouecoup:         193

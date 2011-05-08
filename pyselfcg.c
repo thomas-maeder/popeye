@@ -18,7 +18,7 @@
 /* Allocate a STSelfCheckGuard slice
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_solvable_filter(void)
+slice_index alloc_selfcheck_guard_slice(void)
 {
   slice_index result;
 
@@ -354,7 +354,7 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
 
   if (slices[si].u.branch.length>slack_length_battle)
   {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    slice_index const prototype = alloc_selfcheck_guard_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
 
@@ -372,7 +372,7 @@ static void insert_selfcheck_guard_help_branch(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    slice_index const prototype = alloc_selfcheck_guard_slice();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -390,7 +390,7 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    slice_index const prototype = alloc_selfcheck_guard_slice();
     series_branch_insert_slices(si,&prototype,1);
   }
 
@@ -406,7 +406,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    slice_index const prototype = alloc_selfcheck_guard_slice();
     leaf_branch_insert_slices(si,&prototype,1);
   }
 
@@ -414,75 +414,25 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_selfcheck_guard_root(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
-    root_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_selfcheck_guard_setplay_fork(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  insert_selfcheck_guard_root(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_selfcheck_guard_move_inverter(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
-    branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors selfcheck_guards_inserters[] =
+static structure_traversers_visitors in_branch_guards_inserters[] =
 {
   { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
-  { STDefenseAdapter,          &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,         &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
   { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
   { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
-  /* make sure that the set play is instumented */
-  { STSetplayFork,             &insert_selfcheck_guard_setplay_fork  },
+  { STGoalReachedTesting,      &insert_selfcheck_guard_goal          },
   /* parry fork already tests for check */
-  { STParryFork,               &stip_traverse_structure_pipe         },
-  { STMoveInverter,            &insert_selfcheck_guard_move_inverter }
+  { STParryFork,               &stip_traverse_structure_pipe         }
 };
 
 enum
 {
-  nr_selfcheck_guards_inserters = (sizeof selfcheck_guards_inserters
-                                   / sizeof selfcheck_guards_inserters[0])
+  nr_in_branch_guards_inserters = (sizeof in_branch_guards_inserters
+                                   / sizeof in_branch_guards_inserters[0])
 };
 
-static void insert_guards(slice_index si)
+static void insert_in_branch_guards(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -491,15 +441,128 @@ static void insert_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalReachedTesting,
-                                           &insert_selfcheck_guard_goal);
   stip_structure_traversal_override(&st,
-                                    selfcheck_guards_inserters,
-                                    nr_selfcheck_guards_inserters);
+                                    in_branch_guards_inserters,
+                                    nr_in_branch_guards_inserters);
   stip_traverse_structure(si,&st);
 
-  insert_selfcheck_guard_root(si,&st);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef struct
+{
+  Side last_guarded_side;
+  boolean guard_needed;
+} insertion_state_type_adapter;
+
+static void insert_selfcheck_guard_inverter(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  insertion_state_type_adapter * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->guard_needed = false;
+
+  stip_traverse_structure_children(si,st);
+
+  if (state->guard_needed)
+  {
+    slice_index const prototype = alloc_selfcheck_guard_slice();
+    root_branch_insert_slices(si,&prototype,1);
+    state->guard_needed = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_adapter(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  insertion_state_type_adapter * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  state->guard_needed = state->last_guarded_side!=no_side && slices[si].starter!=state->last_guarded_side;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_checked_side(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  Side * const side = st->param;
+  Side const save_side = *side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *side = slices[si].starter;
+  stip_traverse_structure_children(si,st);
+  *side = save_side;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors adapters_guards_inserters[] =
+{
+  { STAttackAdapter,  &insert_selfcheck_guard_adapter  },
+  { STDefenseAdapter, &insert_selfcheck_guard_adapter  },
+  { STHelpAdapter,    &insert_selfcheck_guard_adapter  },
+  { STSeriesAdapter,  &insert_selfcheck_guard_adapter  },
+  { STSelfCheckGuard, &remember_checked_side           },
+  { STMoveInverter,   &insert_selfcheck_guard_inverter }
+};
+
+enum
+{
+  nr_adapters_guards_inserters = (sizeof adapters_guards_inserters
+                                  / sizeof adapters_guards_inserters[0])
+};
+
+static void insert_selfcheck_guard_adapters(slice_index si)
+{
+  stip_structure_traversal st;
+  insertion_state_type_adapter state = { no_side, false };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    adapters_guards_inserters,
+                                    nr_adapters_guards_inserters);
+  stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototype = alloc_selfcheck_guard_slice();
+    root_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guards(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insert_in_branch_guards(si);
+  stip_impose_starter(si,slices[si].starter);
+  insert_selfcheck_guard_adapters(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

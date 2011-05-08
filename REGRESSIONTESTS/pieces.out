@@ -135,6 +135,7 @@ Loesung beendet.
  11  (Lc1-d2 )
  12  (Lc1-a3 )
  13  (Lc1-b2 )
+
               empile:    10444344
             jouecoup:     8925566
         orig_rbechec:     7266631
@@ -317,6 +318,7 @@ Loesung beendet.
               2...Kf4*e4
                   3.Dc5-d5 #
 
+
               empile:      504953
             jouecoup:      363276
         orig_rbechec:       98080
@@ -352,6 +354,7 @@ Loesung beendet.
    1.SSb1-d2 ! Zugzwang.
       1...g4-g3
           2.SSd2-b2 #
+
 
               empile:         642
             jouecoup:         519
@@ -510,6 +513,7 @@ Loesung beendet.
       1...Th8*h7
           2.Ge8-c6 +
               2...Dg2*f1 #
+
 
               empile:       57605
             jouecoup:       23834
@@ -951,6 +955,7 @@ Loesung beendet.
 
    1.Ng3-f5 !
 
+
               empile:      260403
             jouecoup:      164531
         orig_rbechec:       55721
@@ -992,6 +997,7 @@ Loesung beendet.
                           4.TJe3-g1
                               4...Kh7-h6
                                   5.LJc3-h8 #
+
 
               empile:     1923813
             jouecoup:     1379292
@@ -1085,6 +1091,7 @@ Loesung beendet.
           2.TJb5-b8 +
               2...TJf2-f4
                   3.TJb8*f4 #
+
 
               empile:     1859554
             jouecoup:     1464084
@@ -1182,6 +1189,7 @@ Loesung beendet.
           2.LJb8-b2 +
               2...LJf8-f6
                   3.LJb2*f6 #
+
 
               empile:      376643
             jouecoup:      274940

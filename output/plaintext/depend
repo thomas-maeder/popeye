@@ -35,3 +35,12 @@ pymsg.h:
 pypipe.h:
 
 trace.h:
+output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
+ output/plaintext/move_inversion_counter.c \
+ output/plaintext/move_inversion_counter.h pypipe.h trace.h
+
+output/plaintext/move_inversion_counter.h:
+
+pypipe.h:
+
+trace.h:

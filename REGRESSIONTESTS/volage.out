@@ -72,6 +72,7 @@
       1...Dh8*h7=wD
           2.Dh7*g6 #
 
+
               empile:       14192
             jouecoup:       12195
         orig_rbechec:         772
@@ -153,6 +154,7 @@ Loesung beendet.
     Aber
       1...d5-d4=wB !
 
+
               empile:        3259
             jouecoup:        2673
         orig_rbechec:         331
@@ -196,6 +198,7 @@ Loesung beendet.
           2.Dh4-f6 #
       1...Sf6-e8=wS +
           2.Le7-f6 #
+
 
               empile:       10407
             jouecoup:        8076
@@ -323,6 +326,7 @@ Loesung beendet.
               2...Ta8*a7=wT [+sBa2] #
               2...Lb8*a7 [+sBa2] #
               2...Lb8*c7 [+sBc2] #
+
 
               empile:        9535
             jouecoup:        5710

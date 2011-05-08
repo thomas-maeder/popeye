@@ -134,6 +134,7 @@ Test: avoid duplicate king moves (e.g. to f5)
 
    1.Ke5-f5 !
 
+
               empile:          35
             jouecoup:          27
         orig_rbechec:          27
@@ -215,6 +216,7 @@ a)
 
    1.Qc1-c8 # !
 
+
               empile:          63
             jouecoup:          61
         orig_rbechec:           6
@@ -222,6 +224,7 @@ a)
 b)  -wQc1
 
    1.h7*g8=R [+wQd1] # !
+
 
               empile:          15
             jouecoup:          21
@@ -1256,6 +1259,7 @@ solution finished.
 
    1.Ka1-b2 !
 
+
               empile:           3
             jouecoup:           3
         orig_rbechec:           3
@@ -1293,6 +1297,7 @@ solution finished.
 
    1.Ka1-b2 !
 
+
               empile:           3
             jouecoup:           3
         orig_rbechec:           3
@@ -1324,6 +1329,7 @@ there is no solution, but 4.51 gave 1.Qb2#
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 3
                  AMU
+
 
               empile:           5
             jouecoup:           5
@@ -1460,6 +1466,7 @@ solution finished.
 
    1.h2*g3 !
 
+
               empile:        1390
             jouecoup:          66
         orig_rbechec:           0
@@ -1495,6 +1502,7 @@ solution finished.
    1.c6-c7 !
 
    1.c6*b7 [+bBa8] !
+
 
               empile:         539
             jouecoup:          64
@@ -1533,6 +1541,7 @@ solution finished.
    1.c6*b7 [+bPa8] !
 
    1.c6*b7 [+bPb8] !
+
 
               empile:         414
             jouecoup:          87
@@ -1577,6 +1586,7 @@ solution finished.
    1.g2-g4 !
 
    1.g2-g3 !
+
 
               empile:         394
             jouecoup:          89
@@ -1627,6 +1637,7 @@ cage for promoted pawn, capturer part of cage
    1.e2-e4 !
 
    1.e2-e3 !
+
 
               empile:         374
             jouecoup:          90
@@ -1830,6 +1841,7 @@ solution finished.
 
    1.Ke8-f7 !
 
+
               empile:           5
             jouecoup:           5
         orig_rbechec:           5
@@ -1930,6 +1942,7 @@ consider previous cage after advancing type of promotee
    1.e2*d1=Q [+wQc8] + !
 
    1.e2*d1=S [+wQc8] !
+
 
               empile:        1700
             jouecoup:         855
@@ -2124,6 +2137,7 @@ White would have to deliver mate after the key
               2...d2*e1=Q #
               2...d2*e1=R #
 
+
               empile:         567
             jouecoup:         400
         orig_rbechec:         364
@@ -2157,6 +2171,7 @@ issue 2903930: countermate used to only work in help play
 
    1.Qa5-c5 + !
       1...Kc8-b7 ##!
+
 
               empile:         234
             jouecoup:         207
@@ -2327,6 +2342,7 @@ a)
 
    1.f7*e8-a8=B # !
 
+
               empile:          25
             jouecoup:          47
         orig_rbechec:           4
@@ -2334,6 +2350,7 @@ a)
 b) nPf7 
 
    1.nPf7*e8-a8=nB # !
+
 
               empile:          51
             jouecoup:          60
@@ -2344,6 +2361,7 @@ c) nhPf7
    1.nhPf7*e8-a8=whQ # !
 
    1.nhPf7*e8-a8=whB # !
+
 
               empile:          25
             jouecoup:          47

@@ -2151,8 +2151,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       {
         slice_index const inverter = alloc_move_inverter_slice();
         help_branch_shorten(next);
-        pipe_link(slices[next].prev,inverter);
-        pipe_set_successor(inverter,next);
+        pipe_append(slices[slices[next].prev].prev,inverter);
       }
       else
       {

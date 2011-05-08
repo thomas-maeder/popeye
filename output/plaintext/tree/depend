@@ -3,6 +3,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  stipulation/branch.h stipulation/battle_play/branch.h \
  output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
+ output/plaintext/move_inversion_counter.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
@@ -12,8 +13,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/trivial_variation_filter.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
- output/plaintext/tree/goal_writer.h \
- output/plaintext/tree/move_inversion_counter.h platform/beep.h trace.h
+ output/plaintext/tree/goal_writer.h platform/beep.h trace.h
 
 output/plaintext/tree/tree.h:
 
@@ -32,6 +32,8 @@ output/plaintext/plaintext.h:
 output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/illegal_selfcheck_writer.h:
+
+output/plaintext/move_inversion_counter.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -54,8 +56,6 @@ output/plaintext/tree/refuting_variation_writer.h:
 output/plaintext/tree/refutation_writer.h:
 
 output/plaintext/tree/goal_writer.h:
-
-output/plaintext/tree/move_inversion_counter.h:
 
 platform/beep.h:
 
@@ -136,7 +136,7 @@ output/plaintext/tree/refuting_variation_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/refuting_variation_writer.c \
  output/plaintext/tree/refuting_variation_writer.h pydata.h pymsg.h \
  pypipe.h stipulation/branch.h stipulation/battle_play/attack_play.h \
- output/plaintext/tree/move_inversion_counter.h trace.h
+ output/plaintext/move_inversion_counter.h trace.h
 
 output/plaintext/tree/refuting_variation_writer.h:
 
@@ -150,7 +150,7 @@ stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
-output/plaintext/tree/move_inversion_counter.h:
+output/plaintext/move_inversion_counter.h:
 
 trace.h:
 output/plaintext/tree/trivial_variation_filter$(OBJ_SUFFIX): \
@@ -259,14 +259,5 @@ stipulation/battle_play/attack_play.h:
 stipulation/battle_play/defense_play.h:
 
 output/plaintext/tree/tree.h:
-
-trace.h:
-output/plaintext/tree/move_inversion_counter$(OBJ_SUFFIX): \
- output/plaintext/tree/move_inversion_counter.c \
- output/plaintext/tree/move_inversion_counter.h pypipe.h trace.h
-
-output/plaintext/tree/move_inversion_counter.h:
-
-pypipe.h:
 
 trace.h:

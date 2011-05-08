@@ -18,7 +18,7 @@ void stip_insert_selfcheck_guards(slice_index si);
 /* Allocate a STSelfCheckGuard slice
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_solvable_filter(void);
+slice_index alloc_selfcheck_guard_slice(void);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

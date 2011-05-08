@@ -1,10 +1,11 @@
 #include "output/plaintext/line/line_writer.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "pyoutput.h"
 #include "trace.h"
 #include "pymsg.h"
 #include "output/plaintext/plaintext.h"
-#include "output/plaintext/line/move_inversion_counter.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/plaintext.h"
 #include "platform/beep.h"
@@ -52,10 +53,8 @@ static void write_line(Side starting_side, goal_type goal)
     }
   }
 
-  TraceValue("%u\n",
-             output_plaintext_line_nr_move_inversions_in_ply[start_ply]);
-
-  switch (output_plaintext_line_nr_move_inversions_in_ply[start_ply])
+  TraceValue("%u\n",output_plaintext_nr_move_inversions);
+  switch (output_plaintext_nr_move_inversions)
   {
     case 2:
       StdString("  1...  ...");
@@ -191,10 +190,10 @@ has_solution_type line_writer_solve(slice_index si)
   if (result==has_solution)
   {
     Goal const goal = slices[si].u.line_writer.goal;
-    slice_index const root_slice = slices[si].u.line_writer.root_slice;
-    Side initial_starter = slices[root_slice].starter;
+    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
     if (areColorsSwapped)
       initial_starter = advers(initial_starter);
+    TraceValue("%u\n",output_plaintext_slice_determining_starter);
     write_line(initial_starter,goal.type);
   }
 

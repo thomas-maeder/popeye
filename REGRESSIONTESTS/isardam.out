@@ -77,6 +77,7 @@ Loesung beendet.
       1...Ke4-d3
           2.Da7-d7 #
 
+
               empile:       18451
             jouecoup:       10462
         orig_rbechec:         407
@@ -130,6 +131,7 @@ Ausschreibungsoriginal, Kingston 1997
           2.Kc6-b5 #
       1...e6-e5
           2.Kc6-d5 #
+
 
               empile:        2918
             jouecoup:        2383
@@ -264,6 +266,7 @@ Loesung beendet.
       1...e2-e1=T
           2.h7-h8=D #
 
+
               empile:        1622
             jouecoup:        1187
         orig_rbechec:          82
@@ -315,6 +318,7 @@ Loesung beendet.
       1...g2*h1=L
           2.Kh5-g6 #
 
+
               empile:        2759
             jouecoup:        2076
         orig_rbechec:         156
@@ -355,6 +359,7 @@ Loesung beendet.
       1...Lc8-g4 +
           2.Ke4-f5 #
 
+
               empile:       16110
             jouecoup:       11738
         orig_rbechec:         323
@@ -393,6 +398,7 @@ Loesung beendet.
           2.Db3-c3 #
       1...Kb1-a2
           2.Db3-a3 #
+
 
               empile:        4699
             jouecoup:        3747
@@ -447,6 +453,7 @@ Loesung beendet.
           2.Lh7-d3
               2...Td8*d3 #
 
+
               empile:      133866
             jouecoup:      105755
         orig_rbechec:       29927
@@ -497,6 +504,7 @@ Loesung beendet.
       1...Te8*e5
           2.Sd7-f6 #
 
+
               empile:       57187
             jouecoup:       36461
         orig_rbechec:        1284
@@ -538,6 +546,7 @@ Loesung beendet.
           2.Dg4-e4 #
       1...Ke5*f6
           2.Dg4-g5 #
+
 
               empile:       38687
             jouecoup:       25060
@@ -581,6 +590,7 @@ The Problemist ix/1997 (early version)
           2.Tf3-f4 #
       1...Lh8-f6
           2.Se8*f6 #
+
 
               empile:       74830
             jouecoup:       47080
@@ -641,6 +651,7 @@ The Problemist i/1998 (Position Reflected)
       1...Td8-c8
           2.Db7*c8 #
 
+
               empile:       12768
             jouecoup:       12628
         orig_rbechec:         201
@@ -681,6 +692,7 @@ Loesung beendet.
           2.h7-h8=D #
       1...Tb5-d5 +
           2.b7-b8=T #
+
 
               empile:       16946
             jouecoup:       13878

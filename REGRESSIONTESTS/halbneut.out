@@ -62,6 +62,7 @@
       1...hLf2-e3=nhL +
           2.nhLe3-d4=whL #
 
+
               empile:        1344
             jouecoup:        1118
         orig_rbechec:         105
@@ -103,6 +104,7 @@ Loesung beendet.
           2.nhSh1-f2=whS #
       1...hBh2-h1=nhL
           2.nhLh1-g2=whL #
+
 
               empile:        2550
             jouecoup:        1496
@@ -254,6 +256,7 @@ Loesung beendet.
       1...hTc5-d5=nhT
           2.nhTd5-d4=whT #
 
+
               empile:        5812
             jouecoup:        3369
         orig_rbechec:         436
@@ -299,6 +302,7 @@ Loesung beendet.
           2.nhSd5-f6=whS #
       1...Sh8*g6 +
           2.Dg7*g6 #
+
 
               empile:       12091
             jouecoup:        6790
@@ -491,6 +495,7 @@ Loesung beendet.
     Aber
       1...Kd5*d6 !
 
+
               empile:       97629
             jouecoup:       66803
         orig_rbechec:        6938
@@ -621,6 +626,7 @@ Loesung beendet.
           2.nhTd1-d8=whT #
     Aber
       1...hTb1-c1=nhT !
+
 
               empile:       12691
             jouecoup:        9709
@@ -797,6 +803,7 @@ Loesung beendet.
           2.Dc4-d4 #
     Aber
       1...Kd5*c4 !
+
 
               empile:        8392
             jouecoup:        4975

@@ -79,7 +79,6 @@
 #include "pythreat.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
-#include "pyselfcg.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
 #include "stipulation/goals/doublestalemate/reached_tester.h"
@@ -2486,10 +2485,8 @@ static char *ParsePlay(char *tok,
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice();
-        slice_index const guard = alloc_selfcheck_guard_solvable_filter();
         slice_index const branch = alloc_series_branch(length-2,min_length);
-        pipe_link(mi,guard);
-        pipe_link(guard,slices[proxy_next].u.pipe.next);
+        pipe_link(mi,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
         series_branch_set_end(branch,proxy_next);
         pipe_link(proxy,branch);
@@ -2723,7 +2720,10 @@ static char *ParsePlay(char *tok,
           }
 
           stip_impose_starter(proxy_next,Black);
-          pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
+          {
+            slice_index const prototype = alloc_output_mode_selector(output_mode_line);
+            root_branch_insert_slices(proxy,&prototype,1);
+          }
         }
       }
     }
@@ -2841,7 +2841,10 @@ static char *ParsePlay(char *tok,
           help_branch_insert_end_of_branch_forced(proxy,proxy_forced);
 
           stip_impose_starter(proxy_forced,Black);
-          pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
+          {
+            slice_index const prototype = alloc_output_mode_selector(output_mode_line);
+            root_branch_insert_slices(proxy,&prototype,1);
+          }
         }
       }
     }
@@ -2866,7 +2869,10 @@ static char *ParsePlay(char *tok,
           help_branch_set_end_goal(branch,proxy_next);
           attach_help_branch(length,proxy,branch);
           stip_impose_starter(proxy_next,Black);
-          pipe_append(proxy,alloc_output_mode_selector(output_mode_line));
+          {
+            slice_index const prototype = alloc_output_mode_selector(output_mode_line);
+            root_branch_insert_slices(proxy,&prototype,1);
+          }
         }
       }
     }

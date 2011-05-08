@@ -1,4 +1,4 @@
-#include "output/plaintext/tree/move_inversion_counter.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -10,19 +10,19 @@
 
 /* Number of move inversions up to the current move
  */
-unsigned int output_plaintext_tree_nr_move_inversions;
+unsigned int output_plaintext_nr_move_inversions;
 
-/* Allocate a STOutputPlaintextTreeMoveInversionCounter slice.
+/* Allocate a STOutputPlaintextMoveInversionCounter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_plaintext_tree_move_inversion_counter_slice(void)
+slice_index alloc_output_plaintext_move_inversion_counter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOutputPlaintextTreeMoveInversionCounter);
+  result = alloc_pipe(STOutputPlaintextMoveInversionCounter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,7 +36,7 @@ slice_index alloc_output_plaintext_tree_move_inversion_counter_slice(void)
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type
-output_plaintext_tree_move_inversion_counter_has_solution(slice_index si)
+output_plaintext_move_inversion_counter_has_solution(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -58,7 +58,7 @@ output_plaintext_tree_move_inversion_counter_has_solution(slice_index si)
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type
-output_plaintext_tree_move_inversion_counter_solve(slice_index si)
+output_plaintext_move_inversion_counter_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -67,9 +67,9 @@ output_plaintext_tree_move_inversion_counter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++output_plaintext_tree_nr_move_inversions;
+  ++output_plaintext_nr_move_inversions;
   result = slice_solve(next);
-  --output_plaintext_tree_nr_move_inversions;
+  --output_plaintext_nr_move_inversions;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

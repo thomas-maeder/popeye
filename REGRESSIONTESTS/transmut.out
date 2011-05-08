@@ -33,6 +33,7 @@ a)
       1...Le6*d5
           2.Sd6-f5 #
 
+
               empile:       20326
             jouecoup:       12616
         orig_rbechec:         504
@@ -45,6 +46,7 @@ b) TransmutierendeKoenige
           2.Sd6-f5 #
       1...Le6*d5
           2.Sd6-b5 #
+
 
               empile:       14440
             jouecoup:        7900
@@ -291,6 +293,7 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                       3...Ke2*e4-e5
                           4.b7-b8=H #
                           4.f6-f7 #
+
 
               empile:      405005
             jouecoup:      303911

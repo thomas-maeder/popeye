@@ -25,6 +25,7 @@ no check if pawn can't promote due to single box type 1
 
    1.Bb8-d6 = !
 
+
               empile:         243
             jouecoup:         148
         orig_rbechec:          47
@@ -60,6 +61,7 @@ solution finished.
    1.Kb1-a1 !
       1...Bh1-e4 =
 
+
               empile:        2877
             jouecoup:        1668
         orig_rbechec:        1485
@@ -93,6 +95,7 @@ solution finished.
           SingleBox    Type1
 
    1.a7-a8=Q # !
+
 
               empile:          21
             jouecoup:          24
@@ -216,6 +219,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kd4-c4
                           4.Qf3-b3 #
 
+
               empile:     1634549
             jouecoup:     1040486
         orig_rbechec:      529301
@@ -323,6 +327,7 @@ Example 1
                                       5...Kg4-f4
                                           6.Qh3-f3 #
 
+
               empile:     7551915
             jouecoup:     6647599
         orig_rbechec:     4982727
@@ -381,6 +386,7 @@ solution finished.
    1.Rc5-d5 + ?
     but
       1...c6*d5 !
+
 
               empile:      755859
             jouecoup:      482575

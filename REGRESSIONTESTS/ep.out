@@ -97,6 +97,7 @@
           2.c7*b8=D #
           2.c7*b8=L #
 
+
               empile:       19548
             jouecoup:       17527
         orig_rbechec:         724
@@ -181,6 +182,7 @@ Loesung beendet.
                                                                   9.De7-f6 Drohung:
                                                                          10.Df6*f5 #
 
+
               empile:     5885563
             jouecoup:     5111783
         orig_rbechec:     3471723
@@ -216,6 +218,7 @@ Loesung beendet.
    1.h5*g6 ep. ! Drohung:
           2.Th8*h7 #
 
+
               empile:         139
             jouecoup:          81
         orig_rbechec:          30
@@ -249,6 +252,7 @@ Loesung beendet.
   #1                         2 + 16
 
    1.h5*g6 ep. # !
+
 
               empile:          43
             jouecoup:          46
@@ -284,6 +288,7 @@ Loesung beendet.
 
    1.c5*b6 ep. + !
       1...Tb4*b6 #
+
 
               empile:         485
             jouecoup:         370
@@ -375,6 +380,7 @@ a)
           2.e5*f6 #
     Aber
       1...c7-c6 !
+
 
               empile:        2123
             jouecoup:        1938
@@ -543,6 +549,7 @@ b) sBc7-->e7
           2.Lf1-h3 #
     Aber
       1...e7*d6 !
+
 
               empile:        2344
             jouecoup:        2189
@@ -728,6 +735,7 @@ N.Y. State Chess Association, 16.8.1894
  28  (d2-d3 )
  29  (c2-c4 )
  30  (c2-c3 )
+
               empile:      209960
             jouecoup:      147534
         orig_rbechec:      114262
@@ -824,6 +832,7 @@ Loesung beendet.
  46  (Td1-g1 )
  47  (Td1-f1 )
  48  (Td1-e1 )
+
               empile:    25289289
             jouecoup:    13259942
         orig_rbechec:    12618610

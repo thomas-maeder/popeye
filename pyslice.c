@@ -50,10 +50,9 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/tree/goal_writer.h"
-#include "output/plaintext/tree/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
-#include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line_writer.h"
 
 #include <assert.h>
@@ -230,12 +229,8 @@ has_solution_type slice_solve(slice_index si)
       result = goal_writer_solve(si);
       break;
 
-    case STOutputPlaintextTreeMoveInversionCounter:
-      result = output_plaintext_tree_move_inversion_counter_solve(si);
-      break;
-
-    case STOutputPlaintextLineMoveInversionCounter:
-      result = output_plaintext_line_move_inversion_counter_solve(si);
+    case STOutputPlaintextMoveInversionCounter:
+      result = output_plaintext_move_inversion_counter_solve(si);
       break;
 
     case STOutputPlaintextLineEndOfIntroSeriesMarker:
@@ -442,12 +437,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = goal_writer_has_solution(si);
       break;
 
-    case STOutputPlaintextTreeMoveInversionCounter:
-      result = output_plaintext_tree_move_inversion_counter_has_solution(si);
-      break;
-
-    case STOutputPlaintextLineMoveInversionCounter:
-      result = output_plaintext_line_move_inversion_counter_has_solution(si);
+    case STOutputPlaintextMoveInversionCounter:
+      result = output_plaintext_move_inversion_counter_has_solution(si);
       break;
 
     case STIllegalSelfcheckWriter:

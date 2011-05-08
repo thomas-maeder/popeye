@@ -239,6 +239,7 @@ a)
 
    1.c6*b7[wBb7->h8=wL] x !
 
+
               empile:           2
             jouecoup:          88
         orig_rbechec:           0
@@ -757,6 +758,7 @@ b) Verschiebung a1 ==> a2
 
    1.c7*b8=L[wLb8->h8] x !
 
+
               empile:           2
             jouecoup:         256
         orig_rbechec:           0
@@ -795,6 +797,7 @@ a)
 
    1.Kd6*c6[wKc6->c7] = !
 
+
               empile:         195
             jouecoup:         138
         orig_rbechec:          67
@@ -802,6 +805,7 @@ a)
 b) AntiSuperCirce  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
+
 
               empile:         192
             jouecoup:         134

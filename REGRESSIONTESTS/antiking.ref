@@ -29,6 +29,7 @@
       1...Ke4-d3
           2.Sc5-d7 #
 
+
               empile:         493
             jouecoup:         265
         orig_rbechec:          68
@@ -198,6 +199,7 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
           2.kBc4-b5 #
       1...kBe8-f7
           2.kBc4-b5 #
+
 
               empile:       31554
             jouecoup:       24868

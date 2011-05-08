@@ -126,6 +126,7 @@ a)
    1.e7-e8=S ! Drohung:
           2.Se8*c7 #
 
+
               empile:         675
             jouecoup:         428
         orig_rbechec:         111
@@ -144,6 +145,7 @@ c) s#2
       1...e6-e5
           2.La4-c2
               2...e5-e4 #
+
 
               empile:        4589
             jouecoup:        3455
@@ -548,6 +550,7 @@ a)
       1...Sg5-e6
           2.Df5*e4 #
 
+
               empile:        8410
             jouecoup:        6166
         orig_rbechec:         881
@@ -587,6 +590,7 @@ b) Circe
           2.Sb1-d2 #
       1...Sg5-e6
           2.Sf7-g5 #
+
 
               empile:        5587
             jouecoup:        3973
@@ -632,6 +636,7 @@ a)
       1...Ke3-d2
           2.Tg5-d5 #
 
+
               empile:        5202
             jouecoup:        2625
         orig_rbechec:         465
@@ -651,6 +656,7 @@ b) s#2
       1...Ke3-d2
           2.Sc5*e4 +
               2...Sg3*e4 #
+
 
               empile:       14297
             jouecoup:        6662
@@ -698,6 +704,7 @@ a)
       1...Kd4-c3
           2.Sg3-f5 #
 
+
               empile:        5374
             jouecoup:        2640
         orig_rbechec:         570
@@ -713,6 +720,7 @@ b) wBe5-->c5
           2.Dd8*d6 #
       1...Kd4-c3
           2.Dd8-f6 #
+
 
               empile:        4663
             jouecoup:        2269
@@ -759,6 +767,7 @@ a)
       1...Kg5-f4
           2.Sf8-e6 #
 
+
               empile:        1424
             jouecoup:         826
         orig_rbechec:         163
@@ -774,6 +783,7 @@ b) =2
           2.Sf8-e6 =
       1...Kg5-f4
           2.g4-g5 =
+
 
               empile:       11063
             jouecoup:        7456
@@ -824,6 +834,7 @@ a)
       1...Gg8*b8 [+wLg8]
           2.Nh7-f3 #
 
+
               empile:       17604
             jouecoup:       11466
         orig_rbechec:         741
@@ -844,6 +855,7 @@ b) Circe
           2.Nh7-f3 #
       1...Gg8*b8 [+wLc1]
           2.Ng4-h2 #
+
 
               empile:       16127
             jouecoup:       10991
@@ -888,6 +900,7 @@ a)
       1...Db8*d6 [+wLc1]
           2.Lc1-b2 #
 
+
               empile:        5898
             jouecoup:        4728
         orig_rbechec:         346
@@ -903,6 +916,7 @@ b) ChamaeleonCirce
       1...Ld8*g5 [+wDd1]
           2.Dd1-a4 #
 
+
               empile:        5485
             jouecoup:        4107
         orig_rbechec:         331
@@ -916,6 +930,7 @@ c) CirceClone
           2.Dd1-a4 #
       1...Ld8*g5 [+wLc1]
           2.Lc1-b2 #
+
 
               empile:        5790
             jouecoup:        4507
@@ -964,6 +979,7 @@ a)
       1...Th8*h7 [+wLf1]
           2.Lf1-e2 #
 
+
               empile:       10636
             jouecoup:        7386
         orig_rbechec:         427
@@ -980,6 +996,7 @@ b) AndernachSchach
           2.Sd3-e5 #
       1...Th8*h7=wT
           2.Th7-h3 #
+
 
               empile:       10169
             jouecoup:        6944
@@ -1029,6 +1046,7 @@ a)
       1...Lg8*f7 [+wBf2]
           2.f2-f3 #
 
+
               empile:        8662
             jouecoup:        6811
         orig_rbechec:         567
@@ -1047,6 +1065,7 @@ b) CirceClone
           2.Th1*h4 [+sTh8] #
       1...Lg8*f7 [+wLf1]
           2.Lf1-d3 #
+
 
               empile:        8315
             jouecoup:        6524
@@ -1092,6 +1111,7 @@ a)
       1...Ld8*e7 [+wTa1]
           2.Ta1-d1 #
 
+
               empile:        8667
             jouecoup:        6641
         orig_rbechec:         486
@@ -1106,6 +1126,7 @@ b) CirceClone
           2.Sg1-f3 #
       1...Ld8*e7 [+wLc1]
           2.Lc1-e3 #
+
 
               empile:       10000
             jouecoup:        8094
@@ -1153,6 +1174,7 @@ a)
       1...Sh8*g6 [+wLf1]
           2.Lf1-c4 #
 
+
               empile:        3389
             jouecoup:        2080
         orig_rbechec:         253
@@ -1171,6 +1193,7 @@ b) CirceClone
           2.Lf1-c4 #
       1...Sh8*g6 [+wSb1]
           2.Sb1-c3 #
+
 
               empile:        3740
             jouecoup:        2505
@@ -1221,6 +1244,7 @@ a)
       1...h7*g6 [+wDd1]
           2.Dd1*d3 #
 
+
               empile:        9017
             jouecoup:        7210
         orig_rbechec:         369
@@ -1237,6 +1261,7 @@ b) ChamaeleonCirce
           2.Sb1-d2 #
       1...Td8*d7 [+wDd1]
           2.Dd1*d3 #
+
 
               empile:        8431
             jouecoup:        6690
@@ -1280,6 +1305,7 @@ a)
       1...Lf8*g7 [+wSb2]
           2.Sb2-c4 #
 
+
               empile:        2171
             jouecoup:        1201
         orig_rbechec:         204
@@ -1292,6 +1318,7 @@ b) EquipollentsCirce
           2.e4-e5 #
       1...Lf8*g7 [+wSh6]
           2.Sh6-f7 #
+
 
               empile:        2108
             jouecoup:        1106
@@ -1338,6 +1365,7 @@ a)
       1...Te8*c8 [+wSb1]
           2.Sb1*c3 [+sBc7] #
 
+
               empile:        3376
             jouecoup:        2642
         orig_rbechec:         212
@@ -1360,6 +1388,7 @@ b) ChamaeleonCirce
       1...Th8*f8
           2.Ld7-c6 #
 
+
               empile:        4593
             jouecoup:        3749
         orig_rbechec:         248
@@ -1374,6 +1403,7 @@ c) CirceClone
           2.Ld7*e6 #
       1...Te8*c8 [+wTh1]
           2.Th1-d1 #
+
 
               empile:        3270
             jouecoup:        2578
@@ -1421,6 +1451,7 @@ a)
       1...Kd4*c3
           2.Se5*c4 #
 
+
               empile:       10073
             jouecoup:        6784
         orig_rbechec:         772
@@ -1438,6 +1469,7 @@ b) sTc4<-->sBd3
           2.Se5*c4 #
       1...Kd4*c3
           2.Se5*d3 #
+
 
               empile:        9203
             jouecoup:        6146
@@ -1486,6 +1518,7 @@ a)
       1...Tf3-g3 +
           2.Sf6-g4 #
 
+
               empile:        9473
             jouecoup:        5935
         orig_rbechec:         687
@@ -1502,6 +1535,7 @@ b) wKg8-->e8
           2.Sf6-g4 #
       1...Tf3-g3
           2.Dg2-e4 #
+
 
               empile:        7879
             jouecoup:        5038

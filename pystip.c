@@ -193,8 +193,7 @@
     ENUMERATOR(STOutputPlaintextTreeDecorationWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
-    ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
-    ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
+    ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
@@ -387,8 +386,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextTreeDecorationWriter */
   slice_structure_pipe,   /* STOutputPlaintextLineLineWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
-  slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
-  slice_structure_pipe,   /* STOutputPlaintextLineMoveInversionCounter */
+  slice_structure_pipe,   /* STOutputPlaintextMoveInversionCounter */
   slice_structure_pipe    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
@@ -532,8 +530,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STOutputPlaintextTreeDecorationWriter */
   slice_function_unspecified,    /* STOutputPlaintextLineLineWriter */
   slice_function_unspecified,    /* STOutputPlaintextTreeGoalWriter */
-  slice_function_unspecified,    /* STOutputPlaintextTreeMoveInversionCounter */
-  slice_function_unspecified,    /* STOutputPlaintextLineMoveInversionCounter */
+  slice_function_unspecified,    /* STOutputPlaintextMoveInversionCounter */
   slice_function_unspecified     /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
@@ -1724,8 +1721,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeDecorationWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextMoveInversionCounter */
   &stip_traverse_structure_pipe             /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
@@ -1962,8 +1958,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STOutputPlaintextTreeDecorationWriter */
     &stip_traverse_moves_pipe,                   /* STOutputPlaintextLineLineWriter */
     &stip_traverse_moves_pipe,                   /* STOutputPlaintextTreeGoalWriter */
-    &stip_traverse_moves_pipe,                   /* STOutputPlaintextTreeMoveInversionCounter */
-    &stip_traverse_moves_pipe,                   /* STOutputPlaintextLineMoveInversionCounter */
+    &stip_traverse_moves_pipe,                   /* STOutputPlaintextMoveInversionCounter */
     &stip_traverse_moves_pipe                    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
   }
 };
