@@ -202,6 +202,7 @@ void stip_flesh_out_goal_testers(slice_index si)
  */
 static slice_index const goal_slice_rank_order[] =
 {
+  STNot,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STGoalMateReachedTester,
@@ -278,9 +279,9 @@ static unsigned int get_goal_slice_rank(SliceType type)
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void goal_branch_insert_slices_nested(slice_index si,
-                                         slice_index const prototypes[],
-                                         unsigned int nr_prototypes)
+static void goal_branch_insert_slices_nested(slice_index si,
+                                             slice_index const prototypes[],
+                                             unsigned int nr_prototypes)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
