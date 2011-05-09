@@ -168,7 +168,7 @@ quelle feenschach 165 "2006"
 
 steine weiss kb1 de1 td1 ld4 sd3
        schwarz ka3 la1 ba4b2c3
-sforderung weiss 14dda=>b
+sforderung weiss 15a[a=>b]d
 steine  weiss   kb1 lc3 sc1
         schwarz ka3 ba4
 option vari ohnedrohung
