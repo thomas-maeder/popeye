@@ -79,6 +79,7 @@
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
+    ENUMERATOR(STFalse),           /* leaf slice */                     \
     /* unary and binary operators */                                    \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \

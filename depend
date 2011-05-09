@@ -547,7 +547,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/attack_play.h pyslice.h pymovenb.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  pystip.h pydegent.h pyflight.h pynontrv.h pythreat.h pydirctg.h \
- pyselfgd.h stipulation/goals/mate/reached_tester.h \
+ pyselfgd.h stipulation/goals/reached_tester.h \
+ stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
@@ -659,6 +660,8 @@ pythreat.h:
 pydirctg.h:
 
 pyselfgd.h:
+
+stipulation/goals/reached_tester.h:
 
 stipulation/goals/mate/reached_tester.h:
 
@@ -1342,7 +1345,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  py4.h trace.h stipulation/constraint.h pyslice.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h stipulation/leaf.h \
+ stipulation/series_play/play.h stipulation/leaf.h stipulation/false.h \
  stipulation/setplay_fork.h pypipe.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h \
@@ -1436,6 +1439,8 @@ stipulation/help_play/play.h:
 stipulation/series_play/play.h:
 
 stipulation/leaf.h:
+
+stipulation/false.h:
 
 stipulation/setplay_fork.h:
 
@@ -1779,10 +1784,11 @@ pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play
  pyslice.h stipulation/battle_play/defense_play.h \
  stipulation/help_play/play.h pystip.h pyslice.h py.h boolean.h pyposit.h \
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h \
- stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h stipulation/series_play/play.h \
- stipulation/series_play/branch.h pyproc.h py4.h pydata.h trace.h
+ stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h pyrecipr.h \
+ stipulation/branch.h stipulation/proxy.h pypipe.h stipulation/leaf.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/series_play/play.h stipulation/series_play/branch.h pyproc.h \
+ py4.h pydata.h trace.h
 
 pyselfcg.h:
 
@@ -1826,7 +1832,15 @@ pyenum.h:
 
 pypipe.h:
 
+pyrecipr.h:
+
 stipulation/branch.h:
+
+stipulation/proxy.h:
+
+pypipe.h:
+
+stipulation/leaf.h:
 
 stipulation/battle_play/branch.h:
 

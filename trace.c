@@ -430,6 +430,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STLeaf:
+      case STFalse:
         Trace_link("",slices[si].prev,"<");
         fprintf(stdout,"\n");
         break;

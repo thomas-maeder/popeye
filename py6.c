@@ -2569,6 +2569,8 @@ static Token iterate_twins(Token prev_token)
 
       optimise_away_redundant_continuation_solvers(template_slice_hook);
 
+      stip_remove_unsatisfiable_goals(template_slice_hook);
+
       stip_insert_check_detectors(template_slice_hook);
 
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */

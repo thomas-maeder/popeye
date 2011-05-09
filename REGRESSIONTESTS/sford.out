@@ -1,4 +1,4 @@
-Direktes Blatt mit Ziel matt (d.h. forderung #1)
+1 weisser Angriffszug zum Matt (d.h. forderung #1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -20,13 +20,77 @@ Direktes Blatt mit Ziel matt (d.h. forderung #1)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss d#                   2 + 16
+  weiss 1a[#]d               2 + 16
 
-  1.h5*g6 ep. # 
+   1.h5*g6 ep. # !
+
+
+              empile:          43
+            jouecoup:          46
+        orig_rbechec:           1
+        orig_rnechec:          47
 Loesung beendet. 
 
 
-Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
+6 Halbzuege sVerteidigung-wAngriff...
+(d.h. forderung #4 option nachschluessel)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .  -B  -B   .   .  -B  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -L   .   L   .  -B   L   .   T   5
+|                                   |
+4  -T   .   .   .   .   .   .   .   4
+|                                   |
+3  -B  -B   .   .   .   .   S   .   3
+|                                   |
+2   .   .   .   .   K   .   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss - 6da[#] /1          6 + 10
+
+ Drohung:
+          2.Th5-h8 #
+      1...Ta4-e4 +
+          2.Sg3*e4 Drohung:
+                  3.Th5-h8 #
+              2...f7-f6
+                  3.Th5-h8 +
+                      3...Ke8-f7
+                          4.Th8-f8 #
+                  3.Lf5-e6 Drohung:
+                          4.Th5-h8 #
+      1...Ta4-h4
+          2.Th5*h4 Drohung:
+                  3.Th4-h8 #
+              2...f7-f6
+                  3.Lf5-e6 Drohung:
+                          4.Th4-h8 #
+                  3.Th4-h8 +
+                      3...Ke8-f7
+                          4.Th8-f8 #
+      1...f7-f6
+          2.Th5-h8 +
+              2...Ke8-f7
+                  3.Th8-f8 #
+
+              empile:       23086
+            jouecoup:       20141
+        orig_rbechec:       11314
+        orig_rnechec:       10235
+Loesung beendet. 
+
+
+1 schwarzer Verteidigungszug zum Matt
+(d.h. forderung s#1 option nachschluessel)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -48,14 +112,52 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss - s#                13 + 14
+  schwarz 1d[#]a            13 + 14
+ +
+   1.Tb4*b6 #
 
-  1...Tb4*b6 # 
-
+              empile:          75
+            jouecoup:          75
+        orig_rbechec:          76
+        orig_rnechec:          51
 Loesung beendet. 
 
 
-direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
+1 schwarzer Verteidigungszug zum Matt
+(d.h. forderung s#1 option nachschluessel)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   D   .   .  -T   .   S   .   S   8
+|                                   |
+7   L   .  -K   B  -B  -B   .  -B   7
+|                                   |
+6  -B   B  -S  -L   .   .  -B   .   6
+|                                   |
+5   .   .   .  -B   .   .   .   .   5
+|                                   |
+4   .  -T  -B   .   .   .   .   .   4
+|                                   |
+3   K   .   .   .   .   .   .   .   3
+|                                   |
+2   B   B   .   .   B   B   B   B   2
+|                                   |
+1   .   .  -D  -L   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss - 1d[#]a            13 + 14
+ +
+      1...Tb4*b6 #
+
+              empile:          75
+            jouecoup:          75
+        orig_rbechec:          76
+        orig_rnechec:          51
+Loesung beendet. 
+
+
+1 weisser Angriffszug zum Ziel Zielfeld a7 (d.h. forderung za71)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -77,14 +179,19 @@ direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss dza7                  1 + 0
+  weiss 1a[za7]d              1 + 0
 
-  1.a6-a7 z 
+   1.a6-a7 z !
+
+
+              empile:           1
+            jouecoup:           1
+        orig_rbechec:           0
+        orig_rnechec:           0
 Loesung beendet. 
 
 
-direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-direktes Blatt mit Ziel matt
+3 Halbzuege wAngriff-sVerteidigung-wAngriff mit Ziel matt
 (d.h. forderung #2)
 
 
@@ -107,26 +214,29 @@ direktes Blatt mit Ziel matt
 1   L   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2dd#                  8 + 4
+  weiss 3a[#]d                8 + 4
            Take&MakeSchach
 
-  1.Dc8-b8 ! Drohung:
-          2.Td5-e5 # 
-      1...Sh3*g5-g6 
-          2.f7-f8=S # 
-      1...Sh3-f4 
-          2.f7-f8=T # 
-      1...d7-d6 
-          2.f7-f8=L # 
-      1...Ke7-e6 
-          2.f7-f8=D # 
+   1.Dc8-b8 ! Drohung:
+          2.Td5-e5 #
+      1...Sh3*g5-g6
+          2.f7-f8=S #
+      1...Sh3-f4
+          2.f7-f8=T #
+      1...d7-d6
+          2.f7-f8=L #
+      1...Ke7-e6
+          2.f7-f8=D #
 
+
+              empile:       22006
+            jouecoup:        8721
+        orig_rbechec:        1001
+        orig_rnechec:        8723
 Loesung beendet. 
 
 
-Hilfszweig von 1 Halbzug mit Fortsetzung:
-direktes Blatt mit Ziel matt
-(d.h. forderung h#1)
+2 Halbzuege sHilfszug+wHilfszug mit Ziel matt (d.h. forderung h#1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -148,17 +258,90 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1hd#                3 + 3
+  schwarz 2hh[#]              3 + 3
 
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
+              empile:         646
+            jouecoup:         539
+        orig_rbechec:           7
+        orig_rnechec:         571
 Loesung beendet. 
 
 
-Serienzweig von 1 Halbzug mit Fortsetzung:
-direktes Blatt mit Ziel matt
-(d.h. forderung h#1)
+2 wSerienzuege mit Ziel matt (d.h. forderung ser-#2)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -L   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   B   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2s[#]                 2 + 2
+
+  1.b5-b6   2.b6-b7 # 
+
+              empile:          15
+            jouecoup:          17
+        orig_rbechec:           6
+        orig_rnechec:          15
+Loesung beendet. 
+
+
+4 wSerienzuge mit Ziel matt (d.h. forderung ser-#4)
+
+            Manfred Seidel
+        Europa-Rochade 6/1991
+           PK-76, S.53, 1)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -S  -T   .   8
+|                                   |
+7   .   B   B  -K   .   B   B  -D   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .  -T   .   .   .   K   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 4s[#]                 5 + 5
+               Madrasi
+
+  1.c7-c8=T   2.f7*g8=L   3.g7*f8=D   4.b7-b8=S # 
+
+              empile:       24019
+            jouecoup:       17230
+        orig_rbechec:        3239
+        orig_rnechec:       16879
+Loesung beendet. 
+
+
+1 sSerienzug mit Ziel 1 wHilfszug mit Ziel matt
+(d.h. forderung ser-h#1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -180,11 +363,15 @@ direktes Blatt mit Ziel matt
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1serd#              3 + 3
+  schwarz 1s[1h[#]h]          3 + 3
 
   1.Kb7-a8 Sd5-c7 # 
   1.Kb7-a8 Sd5-b6 # 
 
+              empile:         742
+            jouecoup:         277
+        orig_rbechec:          97
+        orig_rnechec:         273
 Loesung beendet. 
 
 
@@ -214,11 +401,20 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss !d#                  13 + 3
+  weiss 1a[!#]d              13 + 3
 
+   1.Df8-g8 !
+
+
+              empile:         722
+            jouecoup:         722
+        orig_rbechec:          76
+        orig_rnechec:         713
 Loesung beendet. 
 
 
+2 Halbzuege sHilfszug+wHilfszug zum Matt und 1 sHilfszug zum Matt
+(d.h. forderung reci-h#1)
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -240,49 +436,16 @@ Loesung beendet.
 1   .   .   .   .   .  -S   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz d# & 1hd#          9 + 12
+  schwarz 2hh[#]&1h[#]h      9 + 12
 
-  1.e4*d3 ep. # 
   1.0-0-0 Sa4-b6 # 
 
-Loesung beendet. 
+  1.e4*d3 ep. # 
 
-
-3 Serienzuge mit Fortsetzung:
-Anzuginversion mit Fortsetzung
-direktes Blatt mit Ziel matt
-d.h. eigentlich ser-#4
-Die Anzuginversion ist erforderlich, weil am Ende einer Serie
-der Anzug wechselt.
-
-            Manfred Seidel
-        Europa-Rochade 6/1991
-           PK-76, S.53, 1)
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .  -S  -T   .   8
-|                                   |
-7   .   B   B  -K   .   B   B  -D   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .  -T   .   .   .   K   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  weiss 3ser - d#             5 + 5
-               Madrasi
-
-  1.c7-c8=T   2.f7*g8=L   3.g7*f8=D   4.b7-b8=S # 
-
+              empile:         222
+            jouecoup:         194
+        orig_rbechec:          96
+        orig_rnechec:         120
 Loesung beendet. 
 
 
@@ -312,20 +475,26 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2dd# | -3hd# | 3ds# | -3hd= 8 + 10
+  weiss (3a[#]d) | (- 4hh[#]) | (4ad[#]) | (- 4hh[=]) 8 + 10
 
-  1.e7-e8=S ! Drohung:
-          2.Se8*c7 # 
+   1.e7-e8=S ! Drohung:
+          2.Se8*c7 #
+
 
   1...e6-e5   2.e7-e8=D e5-e4 +   3.De8*e4 # 
 
-  1.e7-e8=L ! Zugzwang.
-      1...e6-e5 
-          2.La4-c2 
-              2...e5-e4 # 
+   1.e7-e8=L ! Zugzwang.
+      1...e6-e5
+          2.La4-c2
+              2...e5-e4 #
+
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
+              empile:       12424
+            jouecoup:        9006
+        orig_rbechec:        5813
+        orig_rnechec:        5859
 Loesung beendet. 
 
 
@@ -353,39 +522,41 @@ eigentlich semi-r#2
 1  -D  -L   .   .   .   D   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3d d#                 8 + 7
+  weiss 3a[>1a[#]d]d          8 + 7
                Isardam
 
-  1.Ld4-h8 ! Zugzwang.
-      1...c5-c4 
-          2.Lh7-d3 
-              2...Kc2*d3 # 
-      1...Tb8-a8 
-          2.Tc7-d7 
-              2...Ta8-a3 # 
-      1...Tb8-g8 
-          2.Lh7-g6 
-              2...Tg8*g6 # 
-      1...Tb8-f8 
-          2.Lh7-f5 
-              2...Tf8*f5 # 
-      1...Tb8-e8 
-          2.Lh7-e4 
-              2...Te8*e4 # 
-      1...Tb8-d8 
-          2.Lh7-d3 
-              2...Td8*d3 # 
+   1.Ld4-h8 ! Zugzwang.
+      1...c5-c4
+          2.Lh7-d3
+              2...Kc2*d3 #
+      1...Tb8-a8
+          2.Tc7-d7
+              2...Ta8-a3 #
+      1...Tb8-g8
+          2.Lh7-g6
+              2...Tg8*g6 #
+      1...Tb8-f8
+          2.Lh7-f5
+              2...Tf8*f5 #
+      1...Tb8-e8
+          2.Lh7-e4
+              2...Te8*e4 #
+      1...Tb8-d8
+          2.Lh7-d3
+              2...Td8*d3 #
 
+
+              empile:      133866
+            jouecoup:      105755
+        orig_rbechec:       29927
+        orig_rnechec:        5622
 Loesung beendet. 
 
 
-direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-Hilfszweig von 1 Halbzug mit Fortsetzung
-direktes Blatt zum Matt
-UND
-NICHT
-direktes Blatt zum Matt
-die ganze Forderung ist somit aequivalent zu r#2
+3 Halbzuege wAngriff-sVerteidigung-wAngriff
+mit Ziel 1 sAngriff zum Matt
+und Einschränkung kein wAngriff zum Matt
+(d.h. forderung r#2)
 
             Jukka Tuovinen
 3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
@@ -410,91 +581,39 @@ die ganze Forderung ist somit aequivalent zu r#2
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d ( 1hd# & !d# )     9 + 8
+  weiss 3a[1a[#]d]d{1a[#]d}   9 + 8
               AntiCirce
 
-  1.b6-b7 ! Zugzwang.
-      1...c4-c3 
-          2.Lc5-b6 
-              2...Le6-c4 # 
-      1...Le6-d5 
-          2.b7*a8=T[wTa8->h1] 
-              2...Ld5*h1[sLh1->c8] # 
-      1...Le6-h3 
-          2.b7*a8=L[wLa8->f1] 
-              2...Lh3*f1[sLf1->c8] # 
-      1...Le6-g4 
-          2.b7*a8=D[wDa8->d1] 
-              2...Lg4*d1[sLd1->c8] # 
-      1...Le6-f5 
-          2.b7*a8=S[wSa8->b1] 
-              2...Lf5*b1[sLb1->c8] # 
+   1.b6-b7 ! Zugzwang.
+      1...c4-c3
+          2.Lc5-b6
+              2...Le6-c4 #
+      1...Le6-d5
+          2.b7*a8=T[wTa8->h1]
+              2...Ld5*h1[sLh1->c8] #
+      1...Le6-h3
+          2.b7*a8=L[wLa8->f1]
+              2...Lh3*f1[sLf1->c8] #
+      1...Le6-g4
+          2.b7*a8=D[wDa8->d1]
+              2...Lg4*d1[sLd1->c8] #
+      1...Le6-f5
+          2.b7*a8=S[wSa8->b1]
+              2...Lf5*b1[sLb1->c8] #
 
+
+              empile:       13887
+            jouecoup:       11397
+        orig_rbechec:       10660
+        orig_rnechec:        1273
 Loesung beendet. 
 
 
-direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-NICHT
-direktes Blatt zum Matt
+2 Halbzuege sHilfszug+wHilfszug mit Ziel
+2 Halbzuege sHilfszug+wHilfszug zum Matt
 UND
-Hilfszweig von 1 Halbzug mit Fortsetzung
-direktes Blatt zum Matt
-die ganze Forderung ist somit aequivalent zu r#2
-(allerdings werden die beiden Operanden von & in der weniger
-effizienten Reihenfolge ausgewertet)
-
-            Jukka Tuovinen
-3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
-   diagrammes spezial #13, 7-9/1993
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8  -T   S   .   .   .   .   .  -K   8
-|                                   |
-7   B   .  -B  -B   .  -B   .   .   7
-|                                   |
-6   K   B  -B   B  -L   S   .   B   6
-|                                   |
-5   B   .   L   .   .   .   .   .   5
-|                                   |
-4   .   .  -B   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  weiss 2d ( !d# & 1hd# )     9 + 8
-              AntiCirce
-
-  1.b6-b7 ! Zugzwang.
-      1...c4-c3 
-          2.Lc5-b6 
-              2...Le6-c4 # 
-      1...Le6-d5 
-          2.b7*a8=T[wTa8->h1] 
-              2...Ld5*h1[sLh1->c8] # 
-      1...Le6-h3 
-          2.b7*a8=L[wLa8->f1] 
-              2...Lh3*f1[sLf1->c8] # 
-      1...Le6-g4 
-          2.b7*a8=D[wDa8->d1] 
-              2...Lg4*d1[sLd1->c8] # 
-      1...Le6-f5 
-          2.b7*a8=S[wSa8->b1] 
-              2...Lf5*b1[sLb1->c8] # 
-
-Loesung beendet. 
-
-
-Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-direktes Blatt zum Matt
-UND
-Hilfszweig von 1 Halbzug mit Fortsetzung
-direktes Blatt zum Matt
-die ganze Forderung ist somit aequivalent zu reci-h#2
+1 s(Hilfs)zug zum Matt
+(d.h. reci-h#2)
 
            Norbert Geissler
     3588, Problemkiste 96, 12/1994
@@ -518,27 +637,34 @@ die ganze Forderung ist somit aequivalent zu reci-h#2
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( 1hd# & d# )   9 + 12
+  schwarz 2hh[(2hh[#]&1h[#]h)] 9 + 12
 
 a) 
 
   1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
   1.f2-f1=S d2-d4   2.e4*d3 ep. # 
 
+              empile:       61201
+            jouecoup:       45299
+        orig_rbechec:       44900
+        orig_rnechec:       10385
 b) sBf2<-->wBh4
 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 # 
   1.h2*g1=L f2-f4   2.e4*f3 ep. # 
 
+              empile:       21757
+            jouecoup:       15431
+        orig_rbechec:       15233
+        orig_rnechec:        6268
 Loesung beendet. 
 
 
-Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-direktes Blatt zum Matt
+2 Halbzuege sHilfszug+wHilfszug mit Ziel
+1 s(Hilfs)zug zum Matt
 UND
-Hilfszweig von 1 Halbzug mit Fortsetzung
-direktes Blatt zum Matt
-die ganze Forderung ist somit aequivalent zu reci-h#2
+2 Halbzuege sHilfszug+wHilfszug zum Matt
+(d.h. reci-h#2)
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
 
@@ -564,25 +690,379 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2h ( d# & 1hd# )   9 + 12
+  schwarz 2hh[(1h[#]h&2hh[#])] 9 + 12
 
 a) 
 
   1.f2-f1=S d2-d4   2.e4*d3 ep. # 
   1.f2-f1=S d2-d4   2.0-0-0 Sa4-b6 # 
 
+              empile:      194442
+            jouecoup:      138350
+        orig_rbechec:       32117
+        orig_rnechec:      135573
 b) sBf2<-->wBh4
 
   1.h2*g1=L f2-f4   2.e4*f3 ep. # 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 # 
 
+              empile:      183330
+            jouecoup:      118358
+        orig_rbechec:       24727
+        orig_rnechec:      119929
 Loesung beendet. 
 
 
-Serienzweig von 2 Halbzuegen mit Fortsetzung
-Serienzweig von 3 Halbzuegen mit Fortsetzung
-direktes Blatt zum Matt
-die ganze Forderung ist somit aequivalent zu 2->ser-h#3
+3 Halbzuege s+w+sHilfszug mit Ziel
+wAngriffszug zum Schlag
+(als forderung nicht formulierbar)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   B   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 3h[1a[x]d]h           4 + 3
+
+  1.g3-g4 h5*g4 x 
+  1.g3-g4 h5*g4   2.h4-h5 g4*f3 x 
+  1.g3-g4 h5*g4   2.g2-g3 f4*g3 x 
+  1.g3-g4 h5*g4   2.g2-g3 g4*f3 x 
+  1.g3-g4 a6-a5   2.g2-g3 f4*g3 x 
+  1.g3-g4 a6-a5   2.g2-g3 h5*g4 x 
+  1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
+
+              empile:          36
+            jouecoup:          49
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+3 Halbzuege s+w+sHilfszug mit Ziel
+wAngriffszug zum Schlag
+wobei das Spiel mit dem weissen Schlag endet
+(d.h. forderung hx2)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -B  -B   .   6
+|                                   |
+5   .   .   .   .   .   B   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 3h[1a[x]d]h{x}      3 + 4
+
+  1.g6-g5 h4*g5 x 
+  1.g6-g5 a3-a4   2.g7-g6 f5*g6 x 
+  1.g6-g5 a3-a4   2.g7-g6 h4*g5 x 
+  1.g6*f5 a3-a4   2.g7-g5 h4*g5 x 
+
+              empile:          25
+            jouecoup:          31
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+3 Halbzuege w+s+wHilfszug mit Ziel
+sAngriffszug zum Schlag
+wobei Weiss schlagen muss, wenn er kann
+(d.h. "Hilfs-Semireflexschlag in 2 Zuegen"
+(als forderung nicht formulierbar)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   B   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 3h[>1a[x]d]h          4 + 3
+
+  1.g3-g4 h5*g4 x 
+  1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
+
+              empile:          18
+            jouecoup:          17
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+exakt 3 Halbzuege w+s+wHilfszug mit Ziel
+sAngriffszug zum Schlag
+wobei Weiss schlagen muss, wenn er kann
+(d.h. "Hilfs-Semireflexschlag in exakt 2 Zuegen"
+(als forderung nicht formulierbar)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   B   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 3:3h[>1a[x]d]h        4 + 3
+
+  1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
+
+              empile:          13
+            jouecoup:          12
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+3 Halbzuege w+s+wHilfszug mit Ziel
+sAngriffszug zum Schlag
+wobei Weiss und Schwarz schlagen muessen, wenn er kann
+und das Spiel endet, wenn Schwarz schlagen musste
+(d.h. forderung hrx2)
+unloesbar, weil Schwarz schlagen muss
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   B   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 3h[>1a[x]d]h{1a[x]d}  4 + 3
+
+  1.g3*f4 x 
+              empile:           2
+            jouecoup:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+2 Halbzuege s+sSerienzug mit Ziel
+wAngriffszug zum Schlag
+(d.h. forderung ser-hx2)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -B   .   B   6
+|                                   |
+5   .   .   .   .   .   B   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 2s[1a[x]d]          4 + 3
+
+  1.g7-g5 f5*g6 ep. x 
+  1.g7-g5 h4*g5 x 
+  1.g7-g6 f5*g6 x 
+  1.g7-g6   2.g6-g5 h4*g5 x 
+
+              empile:          27
+            jouecoup:          23
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+exact 2 Halbzuege s+sSerienzug mit Ziel
+wAngriffszug zum Schlag
+(d.h. forderung exact-ser-hx2)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -B   .   B   6
+|                                   |
+5   .   .   .   .   .   B   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 2:2s[1a[x]d]        4 + 3
+
+  1.g7-g6   2.g6-g5 h4*g5 x 
+
+              empile:          16
+            jouecoup:          11
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+2 Halbzuege w+wSerienzug mit Ziel
+sAngriffszug zum Schlag
+wobei Weiss und Schwarz schlagen muessen, wenn er kann
+und das Spiel endet, wenn Weiss schlagen musste
+(d.h. forderung ser-rx2)
+keine lange Loesung, weil Weiss nach 1.g2-g3 schlagen muss, wenn
+Schwarz nicht schlaegt
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2s[1a[x]d]{1a[x]d}    3 + 3
+
+  1.g2-g4 f4*g3 ep. x 
+  1.g2-g4 h5*g4 x 
+  1.g2-g3 f4*g3 x 
+
+              empile:          15
+            jouecoup:          15
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+2 Halbzuege w+wSerienzug mit Ziel
+sAngriffszug zum Schlag
+wobei Weiss und Schwarz schlagen muessen, wenn er kann
+und das Spiel endet, wenn Weiss schlagen musste
+(d.h. forderung ser-rx2)
+keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6  -B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .  -B   .   B   4
+|                                   |
+3   .   .   .   .   .   B   .   .   3
+|                                   |
+2   .   .   .   .   .   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2s[>1a[x]d]           3 + 3
+
+  1.g2-g4 f4*g3 ep. x 
+  1.g2-g4 h5*g4 x 
+  1.g2-g3 f4*g3 x 
+
+              empile:          14
+            jouecoup:          15
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+2 Halbzuege wSerienzug+wSerienzug zu
+3 Halbzuge sSerienzug+s... zu
+1 Halbzug w(Hilfs)zug mit ZielMatt
+(d.h. forderung 2->ser-h#3
 
             Torsten Lin"s
 
@@ -605,14 +1085,19 @@ die ganze Forderung ist somit aequivalent zu 2->ser-h#3
 1   .   .   .   .   .   .   .  -D   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2ser 3ser d#          2 + 4
+  weiss 2s[3s[1h[#]h]]        2 + 4
               BiWoozles
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 # 
 
+              empile:    11163433
+            jouecoup:     9804561
+        orig_rbechec:      499130
+        orig_rnechec:     9804161
 Loesung beendet. 
 
 
+1 vorgeschalteter Verteidigungszug statt Zwillingsbildung
 eigentlich: sKg4 s#2 b) g4->e3
 
            Valentin Rudenko
@@ -638,41 +1123,45 @@ eigentlich: sKg4 s#2 b) g4->e3
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h 3ds#            11 + 7
-
-      1...Kf3-e3 
-          2.Th8-e8 Zugzwang.
-              2...Sc7*e6 
-                  3.Tf2-f4 
-                      3...Lb8*d6 # 
-                      3...Lb8-c7 # 
-              2...Sc7*a6 
-                  3.Ld6-f4 + 
-                      3...Lb8*f4 # 
-              2...Sc7-b5 
-                  3.Ld6-f4 + 
-                      3...Lb8*f4 # 
-              2...Sc7*e8 
-                  3.Ld6-f4 + 
-                      3...Lb8*f4 # 
-      1...Kf3-g4 
+  weiss - 5d[#]a             11 + 7
+ +
+      1...Kf3-g4
           2.Ld6-h2 Zugzwang.
-              2...Sc7*a6 
-                  3.Tf2-f4 + 
-                      3...Lb8*f4 # 
-              2...Sc7-b5 
-                  3.Tf2-f4 + 
-                      3...Lb8*f4 # 
-              2...Sc7*e6 
-                  3.Lh2-f4 
-                      3...Lb8*f4 # 
-                      3...Lb8-e5 # 
-                      3...Lb8-d6 # 
-                      3...Lb8-c7 # 
-              2...Sc7-e8 
-                  3.Tf2-f4 + 
-                      3...Lb8*f4 # 
+              2...Sc7*a6
+                  3.Tf2-f4 +
+                      3...Lb8*f4 #
+              2...Sc7-b5
+                  3.Tf2-f4 +
+                      3...Lb8*f4 #
+              2...Sc7*e6
+                  3.Lh2-f4
+                      3...Lb8*f4 #
+                      3...Lb8-e5 #
+                      3...Lb8-d6 #
+                      3...Lb8-c7 #
+              2...Sc7-e8
+                  3.Tf2-f4 +
+                      3...Lb8*f4 #
+      1...Kf3-e3
+          2.Th8-e8 Zugzwang.
+              2...Sc7*e6
+                  3.Tf2-f4
+                      3...Lb8*d6 #
+                      3...Lb8-c7 #
+              2...Sc7*a6
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
+              2...Sc7-b5
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
+              2...Sc7*e8
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
 
+              empile:       58961
+            jouecoup:       31453
+        orig_rbechec:       31452
+        orig_rnechec:       18409
 Loesung beendet. 
 
 
@@ -699,53 +1188,75 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss d#                    7 + 8
+  weiss 1a[#]d                7 + 8
                 Circe
 
 a) 
 
-  1.d7-d8=D # 
-b) weiss 2,2d d# 
+   1.d7-d8=D # !
 
-  1.d7-d8=T + ! 
-      1...Sb7*d8 [+wTa1] 
-          2.Ta1-d1 # 
 
-c) weiss 4,4d d# 
+              empile:          13
+            jouecoup:          16
+        orig_rbechec:           2
+        orig_rnechec:          17
+b) weiss 3:3a[#]d 
 
-  1.d7-d8=L ! Zugzwang.
-      1...Sb7*d8 [+wLc1] 
-          2.Lc1-f4 + 
-              2...g5*f4 [+wLc1] 
-                  3.Lc1*f4 [+sBf7] # 
+   1.d7-d8=T + !
+      1...Sb7*d8 [+wTa1]
+          2.Ta1-d1 #
 
-d) weiss 6,6d d# 
 
-  1.d7-d8=S ! Drohung:
+              empile:         140
+            jouecoup:          84
+        orig_rbechec:          22
+        orig_rnechec:          72
+c) weiss 5:5a[#]d 
+
+   1.d7-d8=L ! Zugzwang.
+      1...Sb7*d8 [+wLc1]
+          2.Lc1-f4 +
+              2...g5*f4 [+wLc1]
+                  3.Lc1*f4 [+sBf7] #
+
+
+              empile:        3990
+            jouecoup:        1907
+        orig_rbechec:         831
+        orig_rnechec:        1323
+d) weiss 7:7a[#]d 
+
+   1.d7-d8=S ! Drohung:
           2.Sd8-e6 Drohung:
                   3.Se6-g7 Drohung:
-                          4.Sg7-f5 # 
-                          4.Sg7-e8 # 
-      1...Sb7*d8 [+wSg1] 
+                          4.Sg7-f5 #
+                          4.Sg7-e8 #
+      1...Sb7*d8 [+wSg1]
           2.Sg1*f3 [+sBf7] Drohung:
                   3.Sf3-d2 Drohung:
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
                   3.Sf3-e5 Zugzwang.
-                      3...Sd8-b7 
-                          4.Se5*f7 # 
-                      3...Sd8-e6 
-                          4.Se5*f7 # 
-              2...Sd8-b7 
+                      3...Sd8-b7
+                          4.Se5*f7 #
+                      3...Sd8-e6
+                          4.Se5*f7 #
+              2...Sd8-e6
                   3.Sf3-d2 Drohung:
-                          4.Sd2-e4 # 
-              2...Sd8-e6 
+                          4.Sd2-e4 #
+              2...Sd8-b7
                   3.Sf3-d2 Drohung:
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
 
+
+              empile:       45074
+            jouecoup:       26870
+        orig_rbechec:       17893
+        orig_rnechec:       10685
 Loesung beendet. 
 
 
 
+          exact 3 Halbzuege
      wegen exact nicht 1.Kf1/Kh3#
 
 +---a---b---c---d---e---f---g---h---+
@@ -767,10 +1278,14 @@ Loesung beendet.
 1   .   .   .   .   .   .   .   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz -2,2h d#            2 + 4
+  schwarz - 3:3h[#]h          2 + 4
 
   1...Kg2-f3   2.h6-h5 Kf3-e2 # 
 
+              empile:         243
+            jouecoup:         208
+        orig_rbechec:          92
+        orig_rnechec:         200
 Loesung beendet. 
 
 
@@ -797,7 +1312,7 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 1   T   .   S   .   K   .   .  -L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 10,10ser d00        5 + 2
+  schwarz 10:10s[1h[00]h]     5 + 2
 
   2  (Lh1-b7 )
   1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
@@ -828,6 +1343,10 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
  14  (Kb4-c3 )
  15  (Kb4-a3 )
 
+              empile:      207544
+            jouecoup:      153686
+        orig_rbechec:      102464
+        orig_rnechec:      153508
 Loesung beendet. 
 
 
@@ -856,10 +1375,14 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 1   .   .   .   .   .   .   .       1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h - 13h d#         2 + 4
+  schwarz 1h[- 14hh[#]]h      2 + 4
 
   1.Le5-g3   2.Tc3-c6 Lc7-f4   3.Kb4-c5 Kb2-c3   4.Kc5-b6 + Kc3-d4   5.Tc6-c8 Kd4-e5   6.Kb6-c7 Ke5-f6 +   7.Kc7-d8 Lf4-g5   8.Lg3-c7 Kf6-f7 # 
 
+              empile:      700660
+            jouecoup:      696256
+        orig_rbechec:       53857
+        orig_rnechec:       86455
 Loesung beendet. 
 
 
@@ -887,10 +1410,14 @@ h#8 1.0;1.1;...
 1   .   .   .   .   .   .   .   K   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 1h - 13h d#         2 + 5
+  schwarz 1h[- 14hh[#]]h      2 + 5
 
   1.Df3-f8   2.Tg2-g7 Ld7-a4   3.Kh6-g6 Kh1-g2   4.Kg6-f7 + Kg2-f3   5.b6-b5 Kf3-e4   6.Kf7-e8 Ke4-d5   7.Tg7-f7 Kd5-c6   8.b5-b4 Kc6-c7 # 
 
+              empile:     2821583
+            jouecoup:     2817358
+        orig_rbechec:      154082
+        orig_rnechec:      299252
 Loesung beendet. 
 
 

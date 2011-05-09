@@ -3,6 +3,7 @@
 #include "trace.h"
 #include "stipulation/constraint.h"
 #include "stipulation/leaf.h"
+#include "stipulation/false.h"
 #include "stipulation/setplay_fork.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -87,6 +88,10 @@ has_solution_type slice_solve(slice_index si)
   {
     case STLeaf:
       result = leaf_solve(si);
+      break;
+
+    case STFalse:
+      result = false_solve(si);
       break;
 
     case STSetplayFork:
@@ -315,6 +320,10 @@ has_solution_type slice_has_solution(slice_index si)
   {
     case STLeaf:
       result = leaf_has_solution(si);
+      break;
+
+    case STFalse:
+      result = false_has_solution(si);
       break;
 
     case STSetplayFork:

@@ -113,6 +113,7 @@
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
+    ENUMERATOR(STFalse),           /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
@@ -305,6 +306,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalImmobileReachedTester */
   slice_structure_pipe,   /* STGoalNotCheckReachedTester */
   slice_structure_leaf,   /* STLeaf */
+  slice_structure_leaf,   /* STFalse */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
   slice_structure_pipe,   /* STCheckDetector */
@@ -448,6 +450,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STGoalImmobileReachedTester */
   slice_function_unspecified,    /* STGoalNotCheckReachedTester */
   slice_function_unspecified,    /* STLeaf */
+  slice_function_unspecified,    /* STFalse */
   slice_function_unspecified,    /* STReciprocal */
   slice_function_unspecified,    /* STQuodlibet */
   slice_function_unspecified,    /* STCheckDetector */
@@ -1205,7 +1208,7 @@ boolean transform_to_quodlibet(slice_index si)
 static structure_traversers_visitors setplay_appliers[] =
 {
   { STMoveInverter,    &move_inverter_apply_setplay  },
-  { STNot,             &stip_structure_visitor_noop  },
+  { STConstraint,      &stip_traverse_structure_pipe },
   { STForkOnRemaining, &stip_traverse_structure_pipe },
   { STAttackAdapter,   &attack_adapter_apply_setplay },
   { STDefenseAdapter,  &stip_structure_visitor_noop  },
@@ -1638,6 +1641,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalNotCheckReachedTester */
   &stip_structure_visitor_noop,             /* STLeaf */
+  &stip_structure_visitor_noop,             /* STFalse */
   &stip_traverse_structure_binary,          /* STReciprocal */
   &stip_traverse_structure_binary,          /* STQuodlibet */
   &stip_traverse_structure_pipe,            /* STCheckDetector */
@@ -1874,6 +1878,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_noop,                   /* STLeaf */
+    &stip_traverse_moves_noop,                   /* STFalse */
     &stip_traverse_moves_binary,                 /* STReciprocal */
     &stip_traverse_moves_binary,                 /* STQuodlibet */
     &stip_traverse_moves_pipe,                   /* STCheckDetector */

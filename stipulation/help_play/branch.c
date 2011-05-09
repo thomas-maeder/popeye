@@ -627,7 +627,8 @@ static void constraint_inserter_help_adapter(slice_index si,
   if ((length-slack_length_help)%2==1)
   {
     slice_index const * const constraint = st->param;
-    pipe_append(slices[si].prev,alloc_constraint_slice(*constraint));
+    pipe_append(slices[si].prev,
+                alloc_constraint_slice(stip_deep_copy(*constraint)));
   }
 
   TraceFunctionExit(__func__);

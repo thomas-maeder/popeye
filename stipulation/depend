@@ -35,6 +35,11 @@ stipulation/leaf$(OBJ_SUFFIX): stipulation/leaf.c stipulation/leaf.h trace.h
 stipulation/leaf.h:
 
 trace.h:
+stipulation/false$(OBJ_SUFFIX): stipulation/false.c stipulation/false.h trace.h
+
+stipulation/false.h:
+
+trace.h:
 stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
  stipulation/setplay_fork.h pybrafrk.h stipulation/branch.h trace.h
 

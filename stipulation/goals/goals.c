@@ -2,6 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/false.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
@@ -361,4 +362,65 @@ void goal_branch_insert_slices(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void remove_unsatisfiable_constraint_goal(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_link(slices[si].prev,alloc_false_slice());
+  dealloc_slices(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
+{
+  { STGoalCaptureReachedTester,           &remove_unsatisfiable_constraint_goal },
+  { STGoalCastlingReachedTester,          &remove_unsatisfiable_constraint_goal },
+  { STGoalCircuitReachedTester,           &remove_unsatisfiable_constraint_goal },
+  { STGoalCircuitByRebirthReachedTester,  &remove_unsatisfiable_constraint_goal },
+  { STGoalEnpassantReachedTester,         &remove_unsatisfiable_constraint_goal },
+  { STGoalExchangeReachedTester,          &remove_unsatisfiable_constraint_goal },
+  { STGoalExchangeByRebirthReachedTester, &remove_unsatisfiable_constraint_goal },
+  { STGoalSteingewinnReachedTester,       &remove_unsatisfiable_constraint_goal },
+  { STGoalTargetReachedTester,            &remove_unsatisfiable_constraint_goal },
+  { STAttackAdapter,                      &stip_structure_visitor_noop          },
+  { STDefenseAdapter,                     &stip_structure_visitor_noop          },
+  { STHelpAdapter,                        &stip_structure_visitor_noop          },
+  { STSeriesAdapter,                      &stip_structure_visitor_noop          }
+};
+
+enum
+{
+  nr_unsatisfiable_goal_checker_removers =
+    (sizeof unsatisfiable_goal_checker_removers
+     / sizeof unsatisfiable_goal_checker_removers[0])
+};
+
+/* Remove goal checker slices that we know can't possibly be met
+ * @param si identifies entry slice to stipulation
+ */
+void stip_remove_unsatisfiable_goals(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    unsatisfiable_goal_checker_removers,
+                                    nr_unsatisfiable_goal_checker_removers);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
 }

@@ -480,7 +480,8 @@ static void constraint_inserter_series_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_constraint_slice(*constraint));
+  pipe_append(slices[si].prev,
+              alloc_constraint_slice(stip_deep_copy(*constraint)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

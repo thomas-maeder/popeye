@@ -1,6 +1,10 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
+#include "pyrecipr.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
+#include "stipulation/leaf.h"
+#include "stipulation/goals/goals.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
@@ -406,8 +410,27 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_selfcheck_guard_slice();
-    goal_branch_insert_slices(slices[si].u.goal_tester.fork,&prototype,1);
+    slice_index const fork = slices[si].u.goal_tester.fork;
+    slice_index const not_slice = branch_find_slice(STNot,fork);
+    if (not_slice==no_slice)
+    {
+      slice_index const prototype = alloc_selfcheck_guard_slice();
+      goal_branch_insert_slices(fork,&prototype,1);
+    }
+    else
+    {
+      /* make sure that not_slice doesn't convert has_no_solution into
+       * has_solution if the last move was a self-check
+       */
+      slice_index const proxy_regular = alloc_proxy_slice();
+      slice_index const proxy_selfcheck = alloc_proxy_slice();
+      slice_index const guard = alloc_selfcheck_guard_slice();
+      slice_index const leaf_selfcheck = alloc_leaf_slice();
+      pipe_append(not_slice,proxy_regular);
+      pipe_link(not_slice,alloc_reciprocal_slice(proxy_regular,proxy_selfcheck));
+      pipe_link(proxy_selfcheck,guard);
+      pipe_link(guard,leaf_selfcheck);
+    }
   }
 
   TraceFunctionExit(__func__);

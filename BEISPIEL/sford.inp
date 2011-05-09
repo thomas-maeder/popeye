@@ -2,16 +2,26 @@ anfang
 
 prot sford.out
 
-bemerkung Direktes Blatt mit Ziel matt (d.h. forderung #1)
-sforderung weiss 1ad #
+bemerkung 1 weisser Angriffszug zum Matt (d.h. forderung #1)
+sforderung weiss 1a[#]d
 option enpassant g6
 steine weiss kf7 bh5
        schwarz kh7 dd4 te8h8 lc8h6 se4g8 bd7e3e6f3f6g2g5h4
 
 weiter
 
-bemerkung Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
-sforderung weiss - 1da #
+bemerkung 6 Halbzuege sVerteidigung-wAngriff...
+bemerkung (d.h. forderung #4 option nachschluessel)
+sford weiss - 6da[#]
+option vari droh 1
+steine weiss ke2 ta1h5 lc5f5 sg3
+       schwarz ke8 ta4 la5 ba3b3b7c7e5f7g7
+
+weiter
+
+bemerkung 1 schwarzer Verteidigungszug zum Matt
+bemerkung (d.h. forderung s#1 option nachschluessel)
+sforderung schwarz 1d[#]a
 option varianten
 steine
 weiss ka3 da8 la7 sf8h8 ba2b2b6d7e2f2g2h2
@@ -19,38 +29,64 @@ schwarz kc7 dc1 tb4d8 ld6d1 sc6 ba6c4d5e7f7g6h7
 
 weiter
 
-bemerkung direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
-sforderung weiss 1ad za7
+bemerkung 1 schwarzer Verteidigungszug zum Matt
+bemerkung (d.h. forderung s#1 option nachschluessel)
+sforderung weiss - 1d[#]a
+option varianten
+steine
+weiss ka3 da8 la7 sf8h8 ba2b2b6d7e2f2g2h2
+schwarz kc7 dc1 tb4d8 ld6d1 sc6 ba6c4d5e7f7g6h7
+
+weiter
+
+bemerkung 1 weisser Angriffszug zum Ziel Zielfeld a7 (d.h. forderung za71)
+sforderung weiss 1a[za7]d
 steine weiss ba6
 option ohnewk ohnesk
 
 weiter
 
-bemerkung direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung    direktes Blatt mit Ziel matt
+bemerkung 3 Halbzuege wAngriff-sVerteidigung-wAngriff mit Ziel matt
 bemerkung (d.h. forderung #2)
 steine  weiss   Kc2 Dc8 Td5h7 La1g8 Bf7g5
         schwarz Ke7 Sh3 Ba5d7
-sforderung weiss 3ad #
+sforderung weiss 3a[#]d
 option vari
 bedingung take
 
 weiter
 
-bemerkung Hilfszweig von 1 Halbzug mit Fortsetzung:
-bemerkung  direktes Blatt mit Ziel matt
-bemerkung (d.h. forderung h#1)
-sforderung schwarz 2h #
+bemerkung 2 Halbzuege sHilfszug+wHilfszug mit Ziel matt (d.h. forderung h#1)
+sforderung schwarz 2hh[#]
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 option intelligent
 
 weiter
 
-bemerkung Serienzweig von 1 Halbzug mit Fortsetzung:
-bemerkung  direktes Blatt mit Ziel matt
-bemerkung (d.h. forderung h#1)
-sforderung schwarz 1ser 1h #
+bemerkung 2 wSerienzuege mit Ziel matt (d.h. forderung ser-#2)
+sford weiss 2s[#]
+steine weiss ka6 bb5
+       schwarz ka8 lb8
+
+weiter
+
+autor           Manfred Seidel
+quelle          Europa-Rochade 6/1991
+quelle          PK-76, S.53, 1)
+
+bemerkung       4 wSerienzuge mit Ziel matt (d.h. forderung ser-#4)
+sforderung      weiss 4s[#]
+bedingung       madrasi
+
+steine          weiss   bb7c7f7g7 kg4
+                schwarz sf8 tg8c4 kd7 dh7
+
+weiter
+
+bemerkung 1 sSerienzug mit Ziel 1 wHilfszug mit Ziel matt
+bemerkung (d.h. forderung ser-h#1)
+sforderung schwarz 1s[1h[#]h]
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
@@ -61,35 +97,19 @@ quelle          Konstruktionswettbewerb i&f 1985/86, 1. Platz
 bemerkung       Negationsoperator mit Fortsetzung:
 bemerkung        direktes Blatt mit Ziel matt
 bemerkung       (d.h. Weiss zieht und setzt *nicht* matt)
-sforderung      weiss ! 1da #
+sforderung      weiss 1a[!#]d
 steine          weiss   ke8 df8 tf3g5 lf7h4 sc6f4 be3e4f2g3g4
                 schwarz kf6 td6 la4
 
 weiter
 
-sford schwarz 2h [& 1d #] #
+bemerkung 2 Halbzuege sHilfszug+wHilfszug zum Matt und 1 sHilfszug zum Matt
+bemerkung (d.h. forderung reci-h#1)
+sford schwarz 2hh[#]&1h[#]h
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd4h4
 schw ke8 ta8h8 lb7e3 sf1g3 be4e6f7h2h7
 option enpassant d3
-
-weiter
-
-autor           Manfred Seidel
-quelle          Europa-Rochade 6/1991
-quelle          PK-76, S.53, 1)
-
-bemerkung       3 Serienzuge mit Fortsetzung:
-bemerkung        Anzuginversion mit Fortsetzung
-bemerkung         direktes Blatt mit Ziel matt
-bemerkung       d.h. eigentlich ser-#4
-bemerkung       Die Anzuginversion ist erforderlich, weil am Ende einer Serie
-bemerkung       der Anzug wechselt.
-sforderung      weiss 4ser - #
-bedingung       madrasi
-
-steine          weiss   bb7c7f7g7 kg4
-                schwarz sf8 tg8c4 kd7 dh7
 
 weiter
 
@@ -99,7 +119,7 @@ auszeichnung	1. Preis, O. Kaila JT 1967
 bemerkung       ODER-Verknuepfung statt Vierlinge
 bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
 bemerkung       zweimal eine Anzuginversion (-)
-sforderung      weiss 3ad # | - 4h # | 4ad # | - 4h =
+sforderung      weiss (3a[#]d) | (- 4hh[#]) | (4ad[#]) | (- 4hh[=])
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
         schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
@@ -112,7 +132,7 @@ autor           Stephen Emmerson
 quelle          H, The Problemist 1/1997, S. 7
 
 bemerkung       eigentlich semi-r#2
-sforderung      weiss 3d d#
+sforderung      weiss 3a[>1a[#]d]d
 bedingung       isardam
 
 steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
@@ -126,14 +146,11 @@ autor           Jukka Tuovinen
 quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
 quelle          diagrammes spezial #13, 7-9/1993
 
-bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung        UND
-bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-sforderung      weiss 2d ( 1hd# & !d# )
+bemerkung       3 Halbzuege wAngriff-sVerteidigung-wAngriff
+bemerkung       mit Ziel 1 sAngriff zum Matt
+bemerkung       und Einschränkung kein wAngriff zum Matt
+bemerkung       (d.h. forderung r#2)
+sforderung      weiss 3a[1a[#]d]d{1a[#]d}
 bedingung       anticirce
 option          varianten
 
@@ -142,38 +159,15 @@ steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
 
 weiter
 
-autor           Jukka Tuovinen
-quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
-quelle          diagrammes spezial #13, 7-9/1993
-
-bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt
-bemerkung        UND
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-bemerkung       (allerdings werden die beiden Operanden von & in der weniger
-bemerkung        effizienten Reihenfolge ausgewertet)
-sforderung      weiss 2d ( !d# & 1hd# )
-bedingung       anticirce
-option          varianten
-
-steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
-	schwarz kh8 ta8 le6 bc4c6c7d7f7
-
-weiter
-
-auto Norbert Geissler
+autor Norbert Geissler
 quel 3588, Problemkiste 96, 12/1994
 
-bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         direktes Blatt zum Matt
+bemerkung       2 Halbzuege sHilfszug+wHilfszug mit Ziel
+bemerkung         2 Halbzuege sHilfszug+wHilfszug zum Matt
 bemerkung        UND
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
-sford schwarz 4h [& 1d #] #
+bemerkung         1 s(Hilfs)zug zum Matt
+bemerkung       (d.h. reci-h#2)
+sford schwarz 2hh[(2hh[#]&1h[#]h)]
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
@@ -181,12 +175,135 @@ zwilling tausche f2 h4
 
 weiter
 
+autor Norbert Geissler
+quel 3588, Problemkiste 96, 12/1994
+
+bemerkung       2 Halbzuege sHilfszug+wHilfszug mit Ziel
+bemerkung         1 s(Hilfs)zug zum Matt
+bemerkung        UND
+bemerkung         2 Halbzuege sHilfszug+wHilfszug zum Matt
+bemerkung       (d.h. reci-h#2)
+bemerkung (allerdings werden die beiden Operanden von & in der weniger
+bemerkung effizienten Reihenfolge ausgewertet)
+sford schwarz 2hh[(1h[#]h&2hh[#])]
+stei
+weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
+schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
+zwilling tausche f2 h4
+
+weiter
+
+bemerkung 3 Halbzuege s+w+sHilfszug mit Ziel
+bemerkung wAngriffszug zum Schlag
+bemerkung (als forderung nicht formulierbar)
+sforderung weiss 3h[1a[x]d]h
+steine weiss bf3g3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 3 Halbzuege s+w+sHilfszug mit Ziel
+bemerkung wAngriffszug zum Schlag
+bemerkung wobei das Spiel mit dem weissen Schlag endet
+bemerkung (d.h. forderung hx2)
+sforderung schwarz 3h[1a[x]d]h{x}
+steine weiss ba3f5h4
+       schwarz bf6g6g7h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 3 Halbzuege w+s+wHilfszug mit Ziel
+bemerkung sAngriffszug zum Schlag
+bemerkung wobei Weiss schlagen muss, wenn er kann
+bemerkung (d.h. "Hilfs-Semireflexschlag in 2 Zuegen"
+bemerkung (als forderung nicht formulierbar)
+sforderung weiss 3h[>1a[x]d]h
+steine weiss bf3g3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung exakt 3 Halbzuege w+s+wHilfszug mit Ziel
+bemerkung sAngriffszug zum Schlag
+bemerkung wobei Weiss schlagen muss, wenn er kann
+bemerkung (d.h. "Hilfs-Semireflexschlag in exakt 2 Zuegen"
+bemerkung (als forderung nicht formulierbar)
+sforderung weiss 3:3h[>1a[x]d]h
+steine weiss bf3g3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 3 Halbzuege w+s+wHilfszug mit Ziel
+bemerkung sAngriffszug zum Schlag
+bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
+bemerkung und das Spiel endet, wenn Schwarz schlagen musste
+bemerkung (d.h. forderung hrx2)
+bemerkung unloesbar, weil Schwarz schlagen muss
+sforderung weiss 3h[>1a[x]d]h{1a[x]d}
+steine weiss bf3g3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 2 Halbzuege s+sSerienzug mit Ziel
+bemerkung wAngriffszug zum Schlag
+bemerkung (d.h. forderung ser-hx2)
+sforderung schwarz 2s[1a[x]d]
+steine weiss ba3f5h4h6
+       schwarz bf6g7h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung exact 2 Halbzuege s+sSerienzug mit Ziel
+bemerkung wAngriffszug zum Schlag
+bemerkung (d.h. forderung exact-ser-hx2)
+sforderung schwarz 2:2s[1a[x]d]
+steine weiss ba3f5h4h6
+       schwarz bf6g7h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 2 Halbzuege w+wSerienzug mit Ziel
+bemerkung sAngriffszug zum Schlag
+bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
+bemerkung und das Spiel endet, wenn Weiss schlagen musste
+bemerkung (d.h. forderung ser-rx2)
+bemerkung keine lange Loesung, weil Weiss nach 1.g2-g3 schlagen muss, wenn
+bemerkung Schwarz nicht schlaegt
+sforderung weiss 2s[1a[x]d]{1a[x]d}
+steine weiss bf3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
+bemerkung 2 Halbzuege w+wSerienzug mit Ziel
+bemerkung sAngriffszug zum Schlag
+bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
+bemerkung und das Spiel endet, wenn Weiss schlagen musste
+bemerkung (d.h. forderung ser-rx2)
+bemerkung keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
+sforderung weiss 2s[>1a[x]d]
+steine weiss bf3g2h4
+       schwarz ba6f4h5
+option ohnewk ohnesk
+
+weiter
+
 autor           Torsten Lin"s
-bemerkung       Serienzweig von 2 Halbzuegen mit Fortsetzung
-bemerkung        Serienzweig von 3 Halbzuegen mit Fortsetzung
-bemerkung         direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu 2->ser-h#3
-sforderung      weiss 2ser 3ser 1d #
+bemerkung       2 Halbzuege wSerienzug+wSerienzug zu
+bemerkung        3 Halbzuge sSerienzug+s... zu
+bemerkung         1 Halbzug w(Hilfs)zug mit ZielMatt
+bemerkung       (d.h. forderung 2->ser-h#3
+sforderung      weiss 2s[3s[1h[#]h]]
 bedingung       biwoozles
 steine  weiss   ke7 tf2
         schwarz kc8 dh1 bd7g2
@@ -196,10 +313,11 @@ weiter
 autor           Valentin Rudenko
 autor           Viktor Cepiznij
 quelle          1. WCCT 1972-75, Abt. F2, 6. Platz
+bemerkung       1 vorgeschalteter Verteidigungszug statt Zwillingsbildung
 bemerkung       eigentlich: sKg4 s#2 b) g4->e3
 steine          weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
                 schwarz kf3 ta8 lb8 sc7 ba7c3d5
-sforderung      schwarz 5 da #
+sforderung      weiss - 5d[#]a
 option          vari
 
 weiter
@@ -207,7 +325,7 @@ weiter
 autor           Horst B"acker
 quelle          3137, Problemkiste-85, 12/1992
 
-sforderung weiss 1 ad #
+sforderung weiss 1a[#]d 
 
 bedingung       circe
 
@@ -215,14 +333,15 @@ steine  weiss   sb8 bd7a4c4g4f2 kf6
         schwarz sb7 bc7c6c5a5g5f3 kd6
 option  varianten
 
-zwilling sforderung      weiss 2,2 ad #
-zwilling sforderung      weiss 4,4 ad #
-zwilling sforderung      weiss 6,6 ad #
+zwilling sforderung      weiss 3:3a[#]d
+zwilling sforderung      weiss 5:5a[#]d
+zwilling sforderung      weiss 7:7a[#]d
 
 weiter
 
+titel exact 3 Halbzuege
 titel wegen exact nicht 1.Kf1/Kh3#
-sforderung schwarz - 3,3h #
+sforderung schwarz - 3:3h[#]h
 steine
 weiss kg2 lh1
 schwarz ka8 la7b8 bh6
@@ -231,7 +350,7 @@ weiter
 
 titel eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
 titel zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
-sford schwarz 10,10ser 1ad 00
+sford schwarz 10:10s[1h[00]h]
 stei
 weis ke1 ta1 sc1d4 bd2
 schw kb4 lh1
@@ -243,7 +362,7 @@ autor		Rolf Wiehagen & Torsten Lin"s
 quelle		feenschach 138 p. 394, Lob
 bemerkung	h#8 1.0;1.1;...; 7x8-Brett
 bemerkung       gleiches Problem mit viel komplexerer Eingabe in intell.inp
-sforderung      schwarz 1h - 14h #
+sforderung      schwarz 1h[- 14hh[#]]h 
 steine  weiss   kb2 lc7
         schwarz kb4 tc3 le5 bd7
 bedi    	loch    h1h2h3h4h5h6h7h8
@@ -254,7 +373,7 @@ weiter
 autor		Reinhardt Fiebig
 quelle		feenschach 138 p. 394
 bemerkung	h#8 1.0;1.1;...
-sforderung      schwarz 1h - 14h #
+sforderung      schwarz 1h[- 14hh[#]]h
 steine  weiss   kh1 ld7
         schwarz kh6 df3 tg2 bb6e7
 option 		intell

@@ -1,8 +1,7 @@
 #if !defined(STIPULATION_CONSTRAINT_H)
 #define STIPULATION_CONSTRAINT_H
 
-/* In reflex stipulations, guard against tries that would allow the
- * wrong side to reach the goal.
+/* Stop solving unless a condition is *not* met.
  */
 
 #include "pyslice.h"
@@ -16,6 +15,13 @@
  * @return index of allocated slice
  */
 slice_index alloc_constraint_slice(slice_index proxy_to_condition);
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void constraint_apply_postkeyplay(slice_index si, stip_structure_traversal *st);
 
 /* Solve a slice
  * @param si slice index

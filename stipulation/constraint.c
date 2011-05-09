@@ -37,6 +37,26 @@ slice_index alloc_constraint_slice(slice_index proxy_to_condition)
   return result;
 }
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void constraint_apply_postkeyplay(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const postkey_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  dealloc_slices(slices[si].u.fork.fork);
+  trash_for_postkey_play(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -51,10 +71,25 @@ has_solution_type constraint_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(condition)==has_solution)
-    result = slice_solve(next);
-  else
-    result = has_no_solution;
+  switch (slice_solve(condition))
+  {
+    case has_no_solution:
+      result = slice_solve(next);
+      break;
+
+    case has_solution:
+      result = has_no_solution;
+      break;
+
+    case opponent_self_check:
+      result = opponent_self_check;
+      break;
+
+    default:
+      assert(0);
+      result = opponent_self_check;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,10 +111,25 @@ has_solution_type constraint_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_has_solution(condition)==has_solution)
-    result = slice_has_solution(next);
-  else
-    result = has_no_solution;
+  switch (slice_has_solution(condition))
+  {
+    case has_no_solution:
+      result = slice_has_solution(next);
+      break;
+
+    case has_solution:
+      result = has_no_solution;
+      break;
+
+    case opponent_self_check:
+      result = opponent_self_check;
+      break;
+
+    default:
+      assert(0);
+      result = opponent_self_check;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,11 +167,11 @@ stip_length_type constraint_can_attack(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = n+2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = can_attack(next,n,n_max_unsolvable);
       break;
 
@@ -170,11 +220,11 @@ stip_length_type constraint_attack(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = attack(next,n,n_max_unsolvable);
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = n+2;
       break;
 
@@ -213,10 +263,25 @@ stip_length_type constraint_help(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(condition)==has_solution)
-    result = help(next,n);
-  else
-    result = n+2;
+  switch (slice_has_solution(condition))
+  {
+    case opponent_self_check:
+      result = n+4;
+      break;
+
+    case has_solution:
+      result = n+2;
+      break;
+
+    case has_no_solution:
+      result = help(next,n);
+      break;
+
+    default:
+      assert(0);
+      result = n+4;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -247,10 +312,25 @@ stip_length_type constraint_can_help(slice_index si, stip_length_type n)
   assert(n>slack_length_help);
 
   /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(condition)==has_solution)
-    result = can_help(next,n);
-  else
-    result = n+2;
+  switch (slice_has_solution(condition))
+  {
+    case opponent_self_check:
+      result = n+4;
+      break;
+
+    case has_solution:
+      result = n+2;
+      break;
+
+    case has_no_solution:
+      result = can_help(next,n);
+      break;
+
+    default:
+      assert(0);
+      result = n+4;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -281,10 +361,25 @@ stip_length_type constraint_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(condition)==has_solution)
-    result = series(next,n);
-  else
-    result = n+1;
+  switch (slice_has_solution(condition))
+  {
+    case opponent_self_check:
+      result = n+2;
+      break;
+
+    case has_solution:
+      result = n+1;
+      break;
+
+    case has_no_solution:
+      result = series(next,n);
+      break;
+
+    default:
+      assert(0);
+      result = n+2;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -315,10 +410,25 @@ stip_length_type constraint_has_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(condition)==has_solution)
-    result = has_series(next,n);
-  else
-    result = n+1;
+  switch (slice_has_solution(condition))
+  {
+    case opponent_self_check:
+      result = n+2;
+      break;
+
+    case has_solution:
+      result = n+1;
+      break;
+
+    case has_no_solution:
+      result = has_series(next,n);
+      break;
+
+    default:
+      assert(0);
+      result = n+2;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

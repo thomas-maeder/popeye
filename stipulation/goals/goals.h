@@ -86,4 +86,9 @@ void goal_branch_insert_slices(slice_index si,
                                slice_index const prototypes[],
                                unsigned int nr_prototypes);
 
+/* Remove goal checker slices that we know can't possibly be met
+ * @param si identifies entry slice to stipulation
+ */
+void stip_remove_unsatisfiable_goals(slice_index si);
+
 #endif

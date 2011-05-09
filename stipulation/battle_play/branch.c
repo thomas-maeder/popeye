@@ -601,11 +601,10 @@ void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-
 static structure_traversers_visitors to_postkey_play_appliers[] =
 {
   { STOutputModeSelector, &move_to_postkey_play                },
-  { STConstraint,         &trash_for_postkey_play              },
+  { STConstraint,         &constraint_apply_postkeyplay        },
   { STAttackAdapter,      &trash_for_postkey_play              },
   { STReadyForDefense,    &ready_for_defense_apply_postkeyplay }
 };
@@ -794,7 +793,8 @@ void battle_branch_insert_constraint(slice_index si, slice_index constraint)
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
 
     if (adapter!=no_slice)
-      pipe_append(slices[adapter].prev,alloc_constraint_slice(constraint));
+      pipe_append(slices[adapter].prev,
+                  alloc_constraint_slice(stip_deep_copy(constraint)));
 
     assert(ready!=no_slice);
     pipe_append(slices[ready].prev,alloc_constraint_slice(constraint));

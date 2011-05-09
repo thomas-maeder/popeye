@@ -79,6 +79,7 @@
 #include "pythreat.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
+#include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
 #include "stipulation/goals/doublestalemate/reached_tester.h"
@@ -2598,11 +2599,9 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_series_branch(length,min_length);
 
           /* make the copy before stip_make_goal_attack_branch inserts
-             help play */
+             attack play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
           stip_make_goal_attack_branch(proxy_avoided);
-          pipe_append(proxy_avoided,alloc_not_slice());
-
           stip_make_goal_attack_branch(proxy_forced);
 
           pipe_link(proxy,branch);
@@ -2818,11 +2817,9 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_help_branch(length-1,min);
 
           /* make the copy before stip_make_goal_attack_branch inserts
-             help play */
+             attack play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
           stip_make_goal_attack_branch(proxy_avoided);
-          pipe_append(proxy_avoided,alloc_not_slice());
-
           stip_make_goal_attack_branch(proxy_forced);
 
           attach_help_branch(length,proxy,branch);
@@ -2940,8 +2937,6 @@ static char *ParsePlay(char *tok,
 
           slice_index const proxy_avoided = stip_deep_copy(proxy_forced);
           stip_make_goal_attack_branch(proxy_avoided);
-          pipe_append(proxy_avoided,alloc_not_slice());
-
           stip_make_goal_attack_branch(proxy_forced);
 
           pipe_link(proxy,branch);
@@ -3666,18 +3661,28 @@ static char *ParseStructuredStip_branch(char *tok,
  * @param result index of branch; no_slice if operator couldn't be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_not(char *tok, slice_index proxy)
+static char *ParseStructuredStip_not(char *tok,
+                                     slice_index proxy,
+                                     operand_type *type)
 {
-  operand_type op_type;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type);
+  tok = ParseStructuredStip_operand(tok+1,proxy,type);
   if (tok!=0)
-    pipe_append(proxy,alloc_not_slice());
+  {
+    if (*type==operand_type_goal)
+    {
+      slice_index const tester = branch_find_slice(STGoalReachedTester,proxy);
+      assert(tester!=no_slice);
+      pipe_append(slices[tester].u.goal_tester.fork,alloc_not_slice());
+      slices[tester].u.goal_tester.goal.type = no_goal;
+    }
+    else
+      pipe_append(proxy,alloc_not_slice());
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -3870,10 +3875,10 @@ static char *ParseStructuredStip_operand(char *tok,
   tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='(')
-    tok = ParseStructuredStip_parenthesised_expression(tok, proxy);
+    tok = ParseStructuredStip_parenthesised_expression(tok,proxy);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,proxy);
+    tok = ParseStructuredStip_not(tok,proxy,type);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
     tok = ParseStructuredStip_move_inversion(tok,proxy);
