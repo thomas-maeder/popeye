@@ -572,7 +572,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/goals/exchange_by_rebirth/reached_tester.h \
  stipulation/goals/any/reached_tester.h \
  stipulation/goals/proofgame/reached_tester.h \
- stipulation/goals/atob/reached_tester.h stipulation/battle_play/branch.h \
+ stipulation/goals/atob/reached_tester.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
@@ -726,6 +728,8 @@ stipulation/goals/any/reached_tester.h:
 stipulation/goals/proofgame/reached_tester.h:
 
 stipulation/goals/atob/reached_tester.h:
+
+stipulation/goals/immobile/reached_tester.h:
 
 stipulation/battle_play/branch.h:
 

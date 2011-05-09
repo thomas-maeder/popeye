@@ -27,23 +27,23 @@
    1.Dc1-e1 ! Zugzwang.
       1...e2*f1=D
           2.Kh4*g3
-              2...Df1*e1 #
+              2...Df1*e1 #=
       1...e2*f1=S
           2.De1-f2 +
-              2...Kg1*f2 =
-              2...g3*f2 =
+              2...Kg1*f2 #=
+              2...g3*f2 #=
       1...e2*f1=T
-          2.De1*g3 #
+          2.De1*g3 #=
       1...e2*f1=L
-          2.Kh4*g3 =
+          2.Kh4*g3 #=
       1...g3-g2
-          2.Lf1*e2 #
+          2.Lf1*e2 #=
 
 
               empile:        9474
             jouecoup:        3936
-        orig_rbechec:        4219
-        orig_rnechec:        3239
+        orig_rbechec:        2831
+        orig_rnechec:        2148
 Loesung beendet. 
 
 
@@ -75,28 +75,28 @@ Loesung beendet.
 
    1.h2-h3 ! Drohung:
           2.Dd7*c7 +
-              2...Kb8*c7 =
+              2...Kb8*c7 #=
       1...Dc7-b6
           2.Dd7-d8 +
-              2...Db6*d8 #
+              2...Db6*d8 #=
       1...Dc7-d8 +
-          2.Dd7*d8 #
+          2.Dd7*d8 #=
       1...Dc7*c6
-          2.Dd7*c6 =
+          2.Dd7*c6 #=
       1...Dc7-b7
-          2.Dd7*b7 #
-          2.c6*b7 =
+          2.Dd7*b7 #=
+          2.c6*b7 #=
       1...Dc7*d7
           2.c6-c7 +
-              2...Dd7*c7 =
-              2...Kb8-c8 =
-              2...Kb8*c7 =
+              2...Dd7*c7 #=
+              2...Kb8-c8 #=
+              2...Kb8*c7 #=
 
 
               empile:        6357
             jouecoup:        3134
-        orig_rbechec:        3188
-        orig_rnechec:        2913
+        orig_rbechec:        1688
+        orig_rnechec:        2113
 Loesung beendet. 
 
 

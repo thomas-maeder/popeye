@@ -312,6 +312,7 @@ boolean output_plaintext_goal_writer_replaces_check_writer(goal_type goal)
     case goal_check:
     case goal_doublemate:
     case goal_countermate:
+    case goal_mate_or_stale:
       result = true;
       break;
 

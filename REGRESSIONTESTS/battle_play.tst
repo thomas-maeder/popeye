@@ -280,15 +280,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #=2                         2 + 1
 
-   1.Rc3-c1 # !
+   1.Rc3-c1 #= !
 
-   1.Rc3-b3 = !
+   1.Rc3-b3 #= !
 
 
               empile:        1561
             jouecoup:         728
-        orig_rbechec:         352
-        orig_rnechec:         984
+        orig_rbechec:         297
+        orig_rnechec:         448
 solution finished. 
 
 
@@ -921,14 +921,14 @@ solution finished.
   s#=2                        3 + 3
 
    1.Rh2-b2 + !
-      1...a3*b2 #
-      1...c3*b2 #
+      1...a3*b2 #=
+      1...c3*b2 #=
 
 
               empile:        2835
             jouecoup:        1193
-        orig_rbechec:        1484
-        orig_rnechec:         722
+        orig_rbechec:         788
+        orig_rnechec:         696
 solution finished. 
 
 

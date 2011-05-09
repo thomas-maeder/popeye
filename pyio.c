@@ -106,6 +106,7 @@
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/atob/reached_tester.h"
+#include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
@@ -2026,33 +2027,8 @@ static char *ParseGoal(char *tok, slice_index proxy)
       }
 
       case goal_mate_or_stale:
-      {
-        slice_index const leaf_mate = alloc_leaf_slice();
-        slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
-        slice_index const testing_mate = alloc_goal_testing_slice();
-        slice_index const proxy_mate = alloc_proxy_slice();
-
-        slice_index const leaf_stale = alloc_leaf_slice();
-        slice_index const tester_stale = alloc_goal_stalemate_reached_tester_slice();
-        slice_index const testing_stalemate = alloc_goal_testing_slice();
-        slice_index const proxy_stale = alloc_proxy_slice();
-
-        slice_index const quod = alloc_or_slice(proxy_mate,proxy_stale);
-
-        slices[testing_mate].u.goal_tester.goal.type = goal_mate;
-        slices[testing_stalemate].u.goal_tester.goal.type = goal_stale;
-
-        pipe_link(proxy_mate,testing_mate);
-        pipe_append(slices[testing_mate].u.goal_tester.fork,tester_mate);
-        pipe_link(testing_mate,leaf_mate);
-
-        pipe_link(proxy_stale,testing_stalemate);
-        pipe_append(slices[testing_stalemate].u.goal_tester.fork,tester_stale);
-        pipe_link(testing_stalemate,leaf_stale);
-
-        pipe_link(proxy,quod);
+        attachGoalBranch(proxy,alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter),goal);
         break;
-      }
 
       case goal_mate:
         attachGoalBranch(proxy,alloc_goal_mate_reached_tester_slice(),goal);
