@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
-#include "stipulation/operators/binary.h"
+#include "stipulation/boolean/binary.h"
 #include "trace.h"
 
 #include <assert.h>

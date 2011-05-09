@@ -1,10 +1,10 @@
-#include "stipulation/leaf.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 /* This module provides functionality dealing with leaf slices
  */
 
-/* Allocate a STLeaf slice.
+/* Allocate a STTrue slice.
  * @return index of allocated slice
  */
 slice_index alloc_leaf_slice(void)
@@ -14,7 +14,7 @@ slice_index alloc_leaf_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(STLeaf);
+  result = alloc_slice(STTrue);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -22,8 +22,7 @@ slice_index alloc_leaf_slice(void)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
+/* Determine whether a slice has a solution
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */

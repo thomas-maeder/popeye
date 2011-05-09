@@ -1,5 +1,5 @@
-#if !defined(PYNOT_H)
-#define PYNOT_H
+#if !defined(STIPULATION_BOOLEAN_NOT_H)
+#define STIPULATION_BOOLEAN_NOT_H
 
 #include "py.h"
 #include "pyslice.h"

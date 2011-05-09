@@ -1,8 +1,8 @@
 #include "conditions/circe/circe.h"
 #include "pypipe.h"
-#include "pyquodli.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/boolean/or.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
@@ -41,7 +41,7 @@ static void prepend_circuit_by_rebirth_filter(slice_index si,
     slice_index const proxy_regular = alloc_proxy_slice();
 
     pipe_link(slices[si].prev,
-              alloc_quodlibet_slice(proxy_regular,proxy_special));
+              alloc_or_slice(proxy_regular,proxy_special));
 
     pipe_link(proxy_special,special);
     pipe_link(special,leaf_special);
@@ -70,7 +70,7 @@ static void prepend_exchange_by_rebirth_filter(slice_index si,
     slice_index const proxy_regular = alloc_proxy_slice();
 
     pipe_link(slices[si].prev,
-              alloc_quodlibet_slice(proxy_regular,proxy_special));
+              alloc_or_slice(proxy_regular,proxy_special));
 
     pipe_link(proxy_special,special);
     pipe_link(special,leaf_special);

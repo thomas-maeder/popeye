@@ -78,11 +78,11 @@
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
-    ENUMERATOR(STLeaf),            /* leaf slice */                     \
-    ENUMERATOR(STFalse),           /* leaf slice */                     \
-    /* unary and binary operators */                                    \
-    ENUMERATOR(STReciprocal),      /* logical AND */                    \
-    ENUMERATOR(STQuodlibet),       /* logical OR */                     \
+    /* boolean logic */                                                 \
+    ENUMERATOR(STTrue),            /* true leaf slice */                \
+    ENUMERATOR(STFalse),           /* false leaf slice */               \
+    ENUMERATOR(STAnd),      /* logical AND */                           \
+    ENUMERATOR(STOr),       /* logical OR */                            \
     ENUMERATOR(STNot),             /* logical NOT */                    \
     /* auxiliary slices */                                              \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
@@ -248,7 +248,7 @@ typedef struct
             Side mating;
         } keepmating_guard;
 
-        struct /* for type==STQuodlibet and type==STReciprocal */
+        struct /* for type==STOr and type==STAnd */
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */

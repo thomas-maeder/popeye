@@ -6,6 +6,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move_generator.h"
@@ -19,7 +20,6 @@
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/min_length_guard.h"
-#include "stipulation/operators/binary.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -173,8 +173,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
         break;
       else if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STQuodlibet
-               || slices[next].type==STReciprocal)
+      else if (slices[next].type==STOr
+               || slices[next].type==STAnd)
       {
         battle_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                               prototypes,nr_prototypes,
@@ -320,7 +320,7 @@ void battle_branch_remove_slices(slice_index si,
     }
     else if (slices[next].type==STProxy)
       si = next;
-    else if (slices[next].type==STQuodlibet)
+    else if (slices[next].type==STOr)
     {
       battle_branch_remove_slices(slices[next].u.binary.op1,types,nr_types);
       battle_branch_remove_slices(slices[next].u.binary.op2,types,nr_types);
@@ -559,13 +559,11 @@ slice_index battle_branch_make_setplay(slice_index adapter)
   return result;
 }
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
+/* Remove a slice while converting the stipulation to postkey only play
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-static void trash_for_postkey_play(slice_index si,
-                                   stip_structure_traversal *st)
+void trash_for_postkey_play(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -701,8 +699,8 @@ static structure_traversers_visitors battle_root_slice_inserters[] =
   { STEndOfBranchGoal,    &end_of_branch_goal_make_root   },
   { STAttackFindShortest, &attack_find_shortest_make_root },
   { STDefenseMove,        &defense_move_make_root         },
-  { STReciprocal,         &binary_make_root               },
-  { STQuodlibet,          &binary_make_root               }
+  { STAnd,         &binary_make_root               },
+  { STOr,          &binary_make_root               }
 };
 
 enum

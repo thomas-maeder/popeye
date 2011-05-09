@@ -1,4 +1,4 @@
-#include "stipulation/operators/binary.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 

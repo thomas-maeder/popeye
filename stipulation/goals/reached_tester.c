@@ -1,7 +1,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/leaf.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 /* Allocate a STGoalReachedTester slice

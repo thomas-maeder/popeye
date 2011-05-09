@@ -1,4 +1,4 @@
-#include "pynot.h"
+#include "stipulation/boolean/not.h"
 #include "pyslice.h"
 #include "pypipe.h"
 #include "pyproc.h"

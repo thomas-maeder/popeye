@@ -1,10 +1,6 @@
 #include "pystip.h"
 #include "pydata.h"
-#include "pyquodli.h"
-#include "pyrecipr.h"
-#include "pyquodli.h"
 #include "pybrafrk.h"
-#include "pynot.h"
 #include "pyhash.h"
 #include "pymovein.h"
 #include "pykeepmt.h"
@@ -12,13 +8,17 @@
 #include "pyselfgd.h"
 #include "pydirctg.h"
 #include "pypipe.h"
-#include "stipulation/operators/binary.h"
 #include "stipulation/branch.h"
-#include "stipulation/leaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/boolean/or.h"
+#include "stipulation/boolean/and.h"
+#include "stipulation/boolean/or.h"
+#include "stipulation/boolean/not.h"
+#include "stipulation/boolean/binary.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -112,10 +112,10 @@
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
-    ENUMERATOR(STLeaf),            /* leaf slice */                     \
-    ENUMERATOR(STFalse),           /* leaf slice */                     \
-    ENUMERATOR(STReciprocal),      /* logical AND */                    \
-    ENUMERATOR(STQuodlibet),       /* logical OR */                     \
+    ENUMERATOR(STTrue),            /* true leaf slice */                \
+    ENUMERATOR(STFalse),           /* false leaf slice */               \
+    ENUMERATOR(STAnd),      /* logical AND */                           \
+    ENUMERATOR(STOr),       /* logical OR */                            \
     ENUMERATOR(STNot),             /* logical NOT */                    \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
@@ -305,10 +305,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
   slice_structure_pipe,   /* STGoalImmobileReachedTester */
   slice_structure_pipe,   /* STGoalNotCheckReachedTester */
-  slice_structure_leaf,   /* STLeaf */
+  slice_structure_leaf,   /* STTrue */
   slice_structure_leaf,   /* STFalse */
-  slice_structure_binary, /* STReciprocal */
-  slice_structure_binary, /* STQuodlibet */
+  slice_structure_binary, /* STAnd */
+  slice_structure_binary, /* STOr */
   slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuard */
@@ -449,10 +449,10 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STGoalMateOrStalemateReachedTester */
   slice_function_unspecified,    /* STGoalImmobileReachedTester */
   slice_function_unspecified,    /* STGoalNotCheckReachedTester */
-  slice_function_unspecified,    /* STLeaf */
+  slice_function_unspecified,    /* STTrue */
   slice_function_unspecified,    /* STFalse */
-  slice_function_unspecified,    /* STReciprocal */
-  slice_function_unspecified,    /* STQuodlibet */
+  slice_function_unspecified,    /* STAnd */
+  slice_function_unspecified,    /* STOr */
   slice_function_unspecified,    /* STCheckDetector */
   slice_function_unspecified,    /* STNot */
   slice_function_unspecified,    /* STSelfCheckGuard */
@@ -770,8 +770,8 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STDefenseAdapter, &defense_adapter_make_root },
   { STHelpAdapter,    &help_adapter_make_root    },
   { STSeriesAdapter,  &series_adapter_make_root  },
-  { STReciprocal,     &binary_make_root          },
-  { STQuodlibet,      &binary_make_root          }
+  { STAnd,     &binary_make_root          },
+  { STOr,      &binary_make_root          }
 };
 
 enum
@@ -840,8 +840,8 @@ static moves_traversers_visitors const get_max_nr_moves_functions[] =
   { STDefenseMove,            &get_max_nr_moves_move   },
   { STHelpMove,               &get_max_nr_moves_move   },
   { STSeriesMove,             &get_max_nr_moves_move   },
-  { STQuodlibet,              &get_max_nr_moves_binary },
-  { STReciprocal,             &get_max_nr_moves_binary }
+  { STOr,              &get_max_nr_moves_binary },
+  { STAnd,             &get_max_nr_moves_binary }
 };
 
 enum
@@ -1347,8 +1347,8 @@ static structure_traversers_visitors starter_detectors[] =
   { STHelpMove,         &help_move_detect_starter     },
   { STSeriesMove,       &series_move_detect_starter   },
   { STSeriesDummyMove,  &series_move_detect_starter   },
-  { STReciprocal,       &reci_detect_starter          },
-  { STQuodlibet,        &quodlibet_detect_starter     },
+  { STAnd,       &and_detect_starter          },
+  { STOr,        &or_detect_starter     },
   { STMoveInverter,     &move_inverter_detect_starter },
   { STParryFork,        &pipe_detect_starter          },
   /* .fork has different starter -> detect starter from .next
@@ -1640,10 +1640,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalMateOrStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalNotCheckReachedTester */
-  &stip_structure_visitor_noop,             /* STLeaf */
+  &stip_structure_visitor_noop,             /* STTrue */
   &stip_structure_visitor_noop,             /* STFalse */
-  &stip_traverse_structure_binary,          /* STReciprocal */
-  &stip_traverse_structure_binary,          /* STQuodlibet */
+  &stip_traverse_structure_binary,          /* STAnd */
+  &stip_traverse_structure_binary,          /* STOr */
   &stip_traverse_structure_pipe,            /* STCheckDetector */
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
@@ -1877,10 +1877,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STGoalMateOrStalemateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalNotCheckReachedTester */
-    &stip_traverse_moves_noop,                   /* STLeaf */
+    &stip_traverse_moves_noop,                   /* STTrue */
     &stip_traverse_moves_noop,                   /* STFalse */
-    &stip_traverse_moves_binary,                 /* STReciprocal */
-    &stip_traverse_moves_binary,                 /* STQuodlibet */
+    &stip_traverse_moves_binary,                 /* STAnd */
+    &stip_traverse_moves_binary,                 /* STOr */
     &stip_traverse_moves_pipe,                   /* STCheckDetector */
     &stip_traverse_moves_pipe,                   /* STNot */
     &stip_traverse_moves_pipe,                   /* STSelfCheckGuard */

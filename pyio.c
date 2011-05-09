@@ -67,9 +67,6 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyslice.h"
-#include "pyquodli.h"
-#include "pyrecipr.h"
-#include "pynot.h"
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
@@ -79,6 +76,16 @@
 #include "pythreat.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
+#include "pypipe.h"
+#include "pyint.h"
+#include "pyoutput.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
+#include "stipulation/boolean/or.h"
+#include "stipulation/boolean/and.h"
+#include "stipulation/boolean/not.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
@@ -99,13 +106,6 @@
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/atob/reached_tester.h"
-#include "pypipe.h"
-#include "pyint.h"
-#include "pyoutput.h"
-#include "stipulation/proxy.h"
-#include "stipulation/branch.h"
-#include "stipulation/leaf.h"
-#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
@@ -2037,7 +2037,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const testing_stalemate = alloc_goal_testing_slice();
         slice_index const proxy_stale = alloc_proxy_slice();
 
-        slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
+        slice_index const quod = alloc_or_slice(proxy_mate,proxy_stale);
 
         slices[testing_mate].u.goal_tester.goal.type = goal_mate;
         slices[testing_stalemate].u.goal_tester.goal.type = goal_stale;
@@ -2259,7 +2259,7 @@ static char *ParseReciEnd(char *tok, slice_index proxy)
   tok = ParseReciGoal(tok,op1,op2);
   if (slices[op1].u.pipe.next!=no_slice && slices[op2].u.pipe.next!=no_slice)
   {
-    slice_index const reci = alloc_reciprocal_slice(op1,op2);
+    slice_index const reci = alloc_and_slice(op1,op2);
     pipe_link(proxy,reci);
   }
 
@@ -3739,12 +3739,12 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
   if (tok[0]=='&')
   {
     ++tok;
-    *result = STReciprocal;
+    *result = STAnd;
   }
   else if (tok[0]=='|')
   {
     ++tok;
-    *result = STQuodlibet;
+    *result = STOr;
   }
   else
     *result = no_slice_type;
@@ -3783,17 +3783,17 @@ static char *ParseStructuredStip_expression(char *tok, slice_index proxy)
         if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
           switch (operator_type)
           {
-            case STReciprocal:
+            case STAnd:
             {
-              slice_index const reci = alloc_reciprocal_slice(operand1,
+              slice_index const reci = alloc_and_slice(operand1,
                                                               operand2);
               pipe_link(proxy,reci);
               break;
             }
 
-            case STQuodlibet:
+            case STOr:
             {
-              slice_index const quod = alloc_quodlibet_slice(operand1,
+              slice_index const quod = alloc_or_slice(operand1,
                                                              operand2);
               pipe_link(proxy,quod);
               break;

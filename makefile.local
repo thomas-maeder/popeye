@@ -15,7 +15,6 @@ INCLUDES =      pyenum.h \
 		pydirctg.h pyselfgd.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
 		pynontrv.h pythreat.h pydegent.h \
-		pyquodli.h pyrecipr.h pynot.h \
 		pymovein.h \
 		pymovenb.h \
 		boolean.h trace.h
@@ -30,7 +29,6 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pydirctg.c pyselfgd.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
 		pynontrv.c pythreat.c pydegent.c \
-		pyquodli.c pyrecipr.c pynot.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \

@@ -2,7 +2,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/branch.h pypipe.h pymovein.h \
  stipulation/constraint.h stipulation/proxy.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/end_of_branch_goal.h \
- stipulation/battle_play/attack_adapter.h \
+ stipulation/boolean/binary.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/attack_move.h \
@@ -14,7 +14,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/continuation.h \
  stipulation/battle_play/min_length_optimiser.h \
  stipulation/battle_play/try.h stipulation/battle_play/min_length_guard.h \
- stipulation/operators/binary.h trace.h
+ trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -31,6 +31,8 @@ stipulation/branch.h:
 stipulation/dead_end.h:
 
 stipulation/end_of_branch_goal.h:
+
+stipulation/boolean/binary.h:
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -57,8 +59,6 @@ stipulation/battle_play/min_length_optimiser.h:
 stipulation/battle_play/try.h:
 
 stipulation/battle_play/min_length_guard.h:
-
-stipulation/operators/binary.h:
 
 trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
@@ -123,9 +123,9 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
- pyquodli.h stipulation/constraint.h stipulation/dead_end.h \
+ stipulation/constraint.h stipulation/dead_end.h \
  stipulation/fork_on_remaining.h stipulation/end_of_branch_goal.h \
- stipulation/battle_play/branch.h \
+ stipulation/boolean/or.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_find_shortest.h \
  stipulation/battle_play/attack_move.h \
  stipulation/battle_play/attack_move_generator.h \
@@ -171,8 +171,6 @@ pythreat.h:
 
 pynontrv.h:
 
-pyquodli.h:
-
 stipulation/constraint.h:
 
 stipulation/dead_end.h:
@@ -180,6 +178,8 @@ stipulation/dead_end.h:
 stipulation/fork_on_remaining.h:
 
 stipulation/end_of_branch_goal.h:
+
+stipulation/boolean/or.h:
 
 stipulation/battle_play/branch.h:
 

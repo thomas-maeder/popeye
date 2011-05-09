@@ -2,9 +2,12 @@
 #include "pydata.h"
 #include "trace.h"
 #include "stipulation/constraint.h"
-#include "stipulation/leaf.h"
-#include "stipulation/false.h"
 #include "stipulation/setplay_fork.h"
+#include "stipulation/boolean/true.h"
+#include "stipulation/boolean/false.h"
+#include "stipulation/boolean/or.h"
+#include "stipulation/boolean/and.h"
+#include "stipulation/boolean/not.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/adapter.h"
@@ -26,9 +29,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
-#include "pyquodli.h"
-#include "pyrecipr.h"
-#include "pynot.h"
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyselfgd.h"
@@ -86,7 +86,7 @@ has_solution_type slice_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STTrue:
       result = leaf_solve(si);
       break;
 
@@ -183,12 +183,12 @@ has_solution_type slice_solve(slice_index si)
       result = series_adapter_solve(si);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_solve(si);
+    case STOr:
+      result = or_solve(si);
       break;
 
-    case STReciprocal:
-      result = reci_solve(si);
+    case STAnd:
+      result = and_solve(si);
       break;
 
     case STNot:
@@ -318,7 +318,7 @@ has_solution_type slice_has_solution(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeaf:
+    case STTrue:
       result = leaf_has_solution(si);
       break;
 
@@ -399,12 +399,12 @@ has_solution_type slice_has_solution(slice_index si)
       result = goal_any_reached_tester_has_solution(si);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_has_solution(si);
+    case STOr:
+      result = or_has_solution(si);
       break;
 
-    case STReciprocal:
-      result = reci_has_solution(si);
+    case STAnd:
+      result = and_has_solution(si);
       break;
 
     case STNot:

@@ -1,6 +1,6 @@
 conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
- conditions/anticirce/anticirce.h pypipe.h pyquodli.h \
- stipulation/branch.h stipulation/proxy.h \
+ conditions/anticirce/anticirce.h pypipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/boolean/or.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_special.h \
@@ -10,11 +10,11 @@ conditions/anticirce/anticirce.h:
 
 pypipe.h:
 
-pyquodli.h:
-
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/boolean/or.h:
 
 conditions/anticirce/target_square_filter.h:
 

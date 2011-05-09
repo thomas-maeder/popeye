@@ -1,9 +1,9 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
-#include "pyrecipr.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "stipulation/leaf.h"
+#include "stipulation/boolean/and.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -427,7 +427,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
       slice_index const guard = alloc_selfcheck_guard_slice();
       slice_index const leaf_selfcheck = alloc_leaf_slice();
       pipe_append(not_slice,proxy_regular);
-      pipe_link(not_slice,alloc_reciprocal_slice(proxy_regular,proxy_selfcheck));
+      pipe_link(not_slice,alloc_and_slice(proxy_regular,proxy_selfcheck));
       pipe_link(proxy_selfcheck,guard);
       pipe_link(guard,leaf_selfcheck);
     }

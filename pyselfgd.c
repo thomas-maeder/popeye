@@ -5,8 +5,8 @@
 
 #include <assert.h>
 
-/* Insert a the appropriate proxy slices before each STLeaf slice
- * @param si identifies STLeaf slice
+/* Insert a the appropriate proxy slices before each STTrue slice
+ * @param si identifies STTrue slice
  * @param st address of structure representing the traversal
  */
 static void instrument_leaf(slice_index si, stip_structure_traversal *st)
@@ -26,7 +26,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors direct_leaf_instrumenters[] =
 {
   { STGoalReachedTester, &stip_traverse_structure_pipe },
-  { STLeaf,              &instrument_leaf              }
+  { STTrue,              &instrument_leaf              }
 };
 
 enum

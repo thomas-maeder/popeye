@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_FALSE_H)
-#define STIPULATION_FALSE_H
+#if !defined(STIPULATION_BOOLEAN_FALSE_H)
+#define STIPULATION_BOOLEAN_FALSE_H
 
 #include "pyslice.h"
 

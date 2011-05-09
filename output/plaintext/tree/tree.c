@@ -250,7 +250,7 @@ static void trivial_varation_filter_insert(slice_index si,
 
   if (*state==trivial_varation_filter_insertion_state_defense)
   {
-    while (slices[current].type!=STLeaf)
+    while (slices[current].type!=STTrue)
     {
       if (slices[current].type==STMoveWriter)
         variation_writer = current;

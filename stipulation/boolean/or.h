@@ -1,26 +1,23 @@
-#if !defined(PYQUODLI_H)
-#define PYQUODLI_H
+#if !defined(STIPULATION_BOOLEAN_OR_H)
+#define STIPULATION_BOOLEAN_OR_H
 
-#include "py.h"
 #include "pyslice.h"
-#include "boolean.h"
 
-/* This module provides functionality dealing with quodlibet
- * (i.e. logical OR) stipulation slices.
+/* This module provides functionality dealing logical OR stipulation slices.
  */
 
-/* Allocate a quodlibet slice.
+/* Allocate a STOr slice.
  * @param proxy1 1st operand
  * @param proxy2 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2);
+slice_index alloc_or_slice(slice_index proxy1, slice_index proxy2);
 
-/* Determine whether a quodlibet slice jas a solution
+/* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type quodlibet_has_solution(slice_index si);
+has_solution_type or_has_solution(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -32,15 +29,15 @@ has_solution_type quodlibet_has_solution(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_can_attack(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+stip_length_type or_can_attack(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable);
 
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type quodlibet_solve(slice_index si);
+has_solution_type or_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -53,14 +50,14 @@ has_solution_type quodlibet_solve(slice_index si);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_attack(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type or_attack(slice_index si,
+                           stip_length_type n,
+                           stip_length_type n_max_unsolvable);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st);
+void or_detect_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

@@ -1,4 +1,4 @@
-#include "pyrecipr.h"
+#include "stipulation/boolean/and.h"
 #include "pyslice.h"
 #include "pypipe.h"
 #include "pyproc.h"
@@ -7,12 +7,12 @@
 #include <assert.h>
 
 
-/* Allocate a reciprocal slice.
+/* Allocate a STAnd slice.
  * @param proxy1 proxy to 1st operand
  * @param proxy2 proxy to 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2)
+slice_index alloc_and_slice(slice_index proxy1, slice_index proxy2)
 {
   slice_index result;
 
@@ -26,7 +26,7 @@ slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2)
   assert(proxy2!=no_slice);
   assert(slices[proxy2].type==STProxy);
 
-  result = alloc_slice(STReciprocal);
+  result = alloc_slice(STAnd);
 
   slices[result].u.binary.op1 = proxy1;
   slices[result].u.binary.op2 = proxy2;
@@ -37,12 +37,11 @@ slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2)
   return result;
 }
 
-/* Determine whether there is a solution at the end of a quodlibet
- * slice.
+/* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type reci_has_solution(slice_index si)
+has_solution_type and_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
@@ -72,7 +71,7 @@ has_solution_type reci_has_solution(slice_index si)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type reci_solve(slice_index si)
+has_solution_type and_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const op1 = slices[si].u.binary.op1;
@@ -123,7 +122,7 @@ has_solution_type reci_solve(slice_index si)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void reci_detect_starter(slice_index si, stip_structure_traversal *st)
+void and_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;

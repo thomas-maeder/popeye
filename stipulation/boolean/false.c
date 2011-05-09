@@ -1,4 +1,4 @@
-#include "stipulation/false.h"
+#include "stipulation/boolean/false.h"
 #include "trace.h"
 
 /* Allocate a STFalse slice.

@@ -1,8 +1,8 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pypipe.h"
-#include "pyquodli.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "stipulation/boolean/or.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "trace.h"
@@ -39,7 +39,7 @@ static void append_goal_stalemate_filter(slice_index si,
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
+    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
     pipe_link(proxy_filter,filter);
     pipe_link(filter,tested);
     pipe_link(proxy,si);
@@ -66,7 +66,7 @@ static void append_goal_doublestalemate_filter(slice_index si,
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
+    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
     pipe_link(proxy_filter,filter1);
     pipe_link(filter1,filter2);
     pipe_link(filter2,tested);
@@ -109,7 +109,7 @@ static void append_goal_autostalemate_filter(slice_index si,
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
+    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
     pipe_link(proxy_filter,filter);
     pipe_link(filter,tested);
     pipe_link(proxy,si);

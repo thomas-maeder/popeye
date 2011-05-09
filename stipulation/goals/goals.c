@@ -2,7 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "stipulation/false.h"
+#include "stipulation/boolean/false.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
@@ -236,7 +236,7 @@ static slice_index const goal_slice_rank_order[] =
   STSelfCheckGuard,
   STGoalNotCheckReachedTester,
   STGoalImmobileReachedTester,
-  STLeaf
+  STTrue
 };
 
 enum
@@ -304,8 +304,8 @@ static void goal_branch_insert_slices_nested(slice_index si,
         slice_index const next = slices[si].u.pipe.next;
         if (slices[next].type==STProxy)
           si = next;
-        else if (slices[next].type==STQuodlibet
-                 || slices[next].type==STReciprocal)
+        else if (slices[next].type==STOr
+                 || slices[next].type==STAnd)
         {
           goal_branch_insert_slices_nested(slices[next].u.binary.op1,
                                            prototypes,nr_prototypes);

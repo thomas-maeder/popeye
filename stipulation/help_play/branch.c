@@ -5,7 +5,7 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/operators/binary.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move_generator.h"
@@ -111,7 +111,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
       slice_index const next = slices[si].u.pipe.next;
       if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
+      else if (slices[next].type==STOr || slices[next].type==STAnd)
       {
         help_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                             prototypes,nr_prototypes,
@@ -497,8 +497,8 @@ static structure_traversers_visitors help_root_slice_inserters[] =
 {
   { STHelpFindShortest, &help_find_shortest_make_root },
   { STHelpMove,         &help_move_make_root          },
-  { STReciprocal,       &binary_make_root             },
-  { STQuodlibet,        &binary_make_root             }
+  { STAnd,       &binary_make_root             },
+  { STOr,        &binary_make_root             }
 };
 
 enum

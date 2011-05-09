@@ -4,10 +4,10 @@
 #include "stipulation/constraint.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "stipulation/operators/binary.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
@@ -125,7 +125,7 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
       slice_index const next = slices[si].u.pipe.next;
       if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
+      else if (slices[next].type==STOr || slices[next].type==STAnd)
       {
         series_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                               prototypes,nr_prototypes,
@@ -371,8 +371,8 @@ static structure_traversers_visitors series_root_slice_inserters[] =
   { STSeriesFindShortest, &series_find_shortest_make_root  },
   { STReadyForSeriesMove, &ready_for_series_move_make_root },
   { STSeriesMove,         &series_move_make_root           },
-  { STReciprocal,         &binary_make_root                },
-  { STQuodlibet,          &binary_make_root                }
+  { STAnd,         &binary_make_root                },
+  { STOr,          &binary_make_root                }
 };
 
 enum

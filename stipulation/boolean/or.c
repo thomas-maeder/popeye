@@ -1,4 +1,4 @@
-#include "pyquodli.h"
+#include "stipulation/boolean/or.h"
 #include "pyslice.h"
 #include "pypipe.h"
 #include "pyproc.h"
@@ -7,12 +7,12 @@
 
 #include <assert.h>
 
-/* Allocate a quodlibet slice.
+/* Allocate a STOr slice.
  * @param proxy1 1st operand
  * @param proxy2 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
+slice_index alloc_or_slice(slice_index proxy1, slice_index proxy2)
 {
   slice_index result;
 
@@ -24,7 +24,7 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
   assert(proxy1!=no_slice);
   assert(proxy2!=no_slice);
 
-  result = alloc_slice(STQuodlibet);
+  result = alloc_slice(STOr);
 
   slices[result].u.binary.op1 = proxy1;
   assert(slices[proxy1].type==STProxy);
@@ -37,11 +37,11 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
   return result;
 }
 
-/* Determine whether a quodlibet slice jas a solution
+/* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type quodlibet_has_solution(slice_index si)
+has_solution_type or_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
@@ -99,9 +99,9 @@ has_solution_type quodlibet_has_solution(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_can_attack(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type or_can_attack(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const op1 = slices[si].u.binary.op1;
@@ -127,7 +127,7 @@ stip_length_type quodlibet_can_attack(slice_index si,
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type quodlibet_solve(slice_index si)
+has_solution_type or_solve(slice_index si)
 {
   has_solution_type result;
   has_solution_type result1;
@@ -182,9 +182,9 @@ has_solution_type quodlibet_solve(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type quodlibet_attack(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type or_attack(slice_index si,
+                           stip_length_type n,
+                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   stip_length_type result1;
@@ -212,7 +212,7 @@ stip_length_type quodlibet_attack(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st)
+void or_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;

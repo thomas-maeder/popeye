@@ -128,8 +128,8 @@ static moves_traversers_visitors const end_of_branch_goal_optimisers[] =
   { STSeriesAdapter,             &forget_immobility   },
   { STEndOfBranchGoal,           &optimise            },
   { STGoalImmobileReachedTester, &remember_immobility },
-  { STQuodlibet,                 &and_immobility      },
-  { STReciprocal,                &or_immobility       }
+  { STOr,                 &and_immobility      },
+  { STAnd,                &or_immobility       }
 };
 
 enum

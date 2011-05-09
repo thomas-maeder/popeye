@@ -23,8 +23,8 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
-  STReciprocal,
-  STQuodlibet,
+  STAnd,
+  STOr,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
   STOutputModeSelector,
@@ -114,7 +114,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
                                                 prototype_rank+1);
           break;
         }
-        else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
+        else if (slices[next].type==STOr || slices[next].type==STAnd)
         {
           root_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                               prototypes,nr_prototypes,
@@ -249,8 +249,8 @@ static void branch_insert_slices_recursive(slice_index si_start,
 
       if (slices[next].type==STProxy)
         si = next;
-      else if (slices[next].type==STQuodlibet
-               || slices[next].type==STReciprocal)
+      else if (slices[next].type==STOr
+               || slices[next].type==STAnd)
       {
         branch_insert_slices_recursive(slices[next].u.binary.op1,
                                        prototypes,nr_prototypes,
@@ -319,8 +319,8 @@ void branch_insert_slices_nested(slice_index si,
   if (slices[si].type==STProxy)
     branch_insert_slices_nested(slices[si].u.pipe.next,
                                 prototypes,nr_prototypes);
-  else if (slices[si].type==STQuodlibet
-           || slices[si].type==STReciprocal)
+  else if (slices[si].type==STOr
+           || slices[si].type==STAnd)
   {
     branch_insert_slices_nested(slices[si].u.binary.op1,
                                 prototypes,nr_prototypes);
@@ -391,7 +391,7 @@ static slice_index const leaf_slice_rank_order[] =
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
   STOutputPlaintextLineLineWriter,
-  STLeaf
+  STTrue
 };
 
 enum
@@ -459,8 +459,8 @@ void leaf_branch_insert_slices_nested(slice_index si,
         slice_index const next = slices[si].u.pipe.next;
         if (slices[next].type==STProxy)
           si = next;
-        else if (slices[next].type==STQuodlibet
-                 || slices[next].type==STReciprocal)
+        else if (slices[next].type==STOr
+                 || slices[next].type==STAnd)
         {
           leaf_branch_insert_slices_nested(slices[next].u.binary.op1,
                                            prototypes,nr_prototypes);

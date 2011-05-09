@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_OPERATORS_BINARY_H)
-#define STIPULATION_OPERATORS_BINARY_H
+#if !defined(STIPULATION_BOOLEAN_BINARY_H)
+#define STIPULATION_BOOLEAN_BINARY_H
 
 /* Functionality related to "binary operator slices"
  */

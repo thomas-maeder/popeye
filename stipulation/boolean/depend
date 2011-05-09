@@ -1,8 +1,61 @@
-stipulation/operators/binary$(OBJ_SUFFIX): stipulation/operators/binary.c \
- stipulation/operators/binary.h stipulation/proxy.h trace.h
+stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
+ stipulation/boolean/and.h pyslice.h pypipe.h pyproc.h trace.h
 
-stipulation/operators/binary.h:
+stipulation/boolean/and.h:
+
+pyslice.h:
+
+pypipe.h:
+
+pyproc.h:
+
+trace.h:
+stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
+ stipulation/boolean/or.h pyslice.h pypipe.h pyproc.h \
+ stipulation/battle_play/attack_play.h trace.h
+
+stipulation/boolean/or.h:
+
+pyslice.h:
+
+pypipe.h:
+
+pyproc.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
+stipulation/boolean/binary$(OBJ_SUFFIX): stipulation/boolean/binary.c \
+ stipulation/boolean/binary.h stipulation/proxy.h trace.h
+
+stipulation/boolean/binary.h:
 
 stipulation/proxy.h:
+
+trace.h:
+stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
+ stipulation/boolean/not.h pyslice.h pypipe.h pyproc.h pydata.h trace.h
+
+stipulation/boolean/not.h:
+
+pyslice.h:
+
+pypipe.h:
+
+pyproc.h:
+
+pydata.h:
+
+trace.h:
+stipulation/boolean/true$(OBJ_SUFFIX): stipulation/boolean/true.c \
+ stipulation/boolean/true.h trace.h
+
+stipulation/boolean/true.h:
+
+trace.h:
+stipulation/boolean/false$(OBJ_SUFFIX): stipulation/boolean/false.c \
+ stipulation/boolean/false.h trace.h
+
+stipulation/boolean/false.h:
 
 trace.h:

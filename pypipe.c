@@ -67,9 +67,9 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
  */
 static boolean has_successor_slot(slice_index si)
 {
-  return (slices[si].type!=STLeaf
-          && slices[si].type!=STQuodlibet
-          && slices[si].type!=STReciprocal);
+  return (slices[si].type!=STTrue
+          && slices[si].type!=STOr
+          && slices[si].type!=STAnd);
 }
 #endif
 

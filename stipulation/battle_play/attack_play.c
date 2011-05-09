@@ -9,11 +9,11 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
-#include "pyquodli.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/fork_on_remaining.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -139,8 +139,8 @@ stip_length_type can_attack(slice_index si,
       result = end_of_branch_goal_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_can_attack(si,n,n_max_unsolvable);
+    case STOr:
+      result = or_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STConstraint:
@@ -212,7 +212,7 @@ stip_length_type can_attack(slice_index si,
       result = killer_move_collector_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STLeaf:
+    case STTrue:
       result = n;
       break;
 
@@ -299,8 +299,8 @@ stip_length_type attack(slice_index si,
       result = no_short_variations_attack(si,n,n_max_unsolvable);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_attack(si,n,n_max_unsolvable);
+    case STOr:
+      result = or_attack(si,n,n_max_unsolvable);
       break;
 
     case STAttackFindShortest:
@@ -408,7 +408,7 @@ stip_length_type attack(slice_index si,
       result = killer_move_collector_attack(si,n,n_max_unsolvable);
       break;
 
-    case STLeaf:
+    case STTrue:
       result = n;
       break;
 

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.147 2011/05/07 07:06:38 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.148 2011/05/09 17:18:54 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -199,7 +199,7 @@ PLATFORMS =     platform/other platform/windows32 platform/dos \
 NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 		DHT conditions conditions/amu conditions/ultraschachzwang \
 		conditions/circe conditions/anticirce \
-		stipulation stipulation/operators \
+		stipulation stipulation/boolean \
 		stipulation/battle_play \
 		stipulation/help_play stipulation/series_play \
 		stipulation/goals \
@@ -228,7 +228,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 NESTEDLIBDIRS = . DHT \
 		conditions conditions/amu conditions/ultraschachzwang \
 		conditions/circe conditions/anticirce \
-		stipulation/operators \
+		stipulation/boolean \
 		stipulation/battle_play stipulation/help_play stipulation/series_play \
 		stipulation/goals \
     stipulation/goals/mate \

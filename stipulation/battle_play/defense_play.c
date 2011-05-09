@@ -223,7 +223,7 @@ stip_length_type defend(slice_index si,
       result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
       break;
 
-    case STLeaf:
+    case STTrue:
       result = n;
       break;
 
@@ -432,7 +432,7 @@ stip_length_type can_defend(slice_index si,
       result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STLeaf:
+    case STTrue:
       result = n;
       break;
 

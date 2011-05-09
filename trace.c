@@ -402,8 +402,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
       }
 
-      case STQuodlibet:
-      case STReciprocal:
+      case STOr:
+      case STAnd:
         Trace_slice(si);
         Trace_link("op1:",slices[si].u.binary.op1,"");
         Trace_link("op2:",slices[si].u.binary.op2,"");
@@ -429,7 +429,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STLeaf:
+      case STTrue:
       case STFalse:
         Trace_link("",slices[si].prev,"<");
         fprintf(stdout,"\n");

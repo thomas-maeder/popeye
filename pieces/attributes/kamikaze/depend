@@ -1,7 +1,7 @@
 pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.c \
- pieces/attributes/kamikaze/kamikaze.h pypipe.h pyquodli.h \
- stipulation/branch.h stipulation/proxy.h \
+ pieces/attributes/kamikaze/kamikaze.h pypipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/boolean/or.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h trace.h
@@ -10,11 +10,11 @@ pieces/attributes/kamikaze/kamikaze.h:
 
 pypipe.h:
 
-pyquodli.h:
-
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/boolean/or.h:
 
 conditions/anticirce/target_square_filter.h:
 

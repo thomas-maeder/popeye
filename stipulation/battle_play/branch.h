@@ -78,6 +78,12 @@ slice_index battle_branch_make_setplay(slice_index si);
  */
 slice_index battle_branch_make_postkeyplay(slice_index si);
 
+/* Remove a slice while converting the stipulation to postkey only play
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void trash_for_postkey_play(slice_index si, stip_structure_traversal *st);
+
 /* Attempt to apply the postkey play option to the current stipulation
  * @param root_proxy identifies root proxy slice
  * @return true iff postkey play option is applicable (and has been

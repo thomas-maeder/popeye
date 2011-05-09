@@ -1,8 +1,8 @@
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pypipe.h"
-#include "pyquodli.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/boolean/or.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"
@@ -49,7 +49,7 @@ static void instrument_goal_exchange_filter(slice_index si,
     slice_index const filter = alloc_anticirce_exchange_filter_slice();
 
     pipe_link(slices[si].prev,
-              alloc_quodlibet_slice(proxy_filter,proxy_special));
+              alloc_or_slice(proxy_filter,proxy_special));
 
     pipe_link(proxy_special,special);
     pipe_link(special,leaf_special);
