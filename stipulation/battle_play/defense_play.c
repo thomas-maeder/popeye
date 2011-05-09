@@ -223,6 +223,10 @@ stip_length_type defend(slice_index si,
       result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
       break;
 
+    case STConstraint:
+      result = constraint_defend(si,n,n_max_unsolvable);
+      break;
+
     case STTrue:
       result = n;
       break;
@@ -268,8 +272,8 @@ stip_length_type defend(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type can_defend(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+                            stip_length_type n,
+                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+4;
 
@@ -430,6 +434,10 @@ stip_length_type can_defend(slice_index si,
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STConstraint:
+      result = constraint_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrue:

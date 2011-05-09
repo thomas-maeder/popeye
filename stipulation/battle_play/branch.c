@@ -771,12 +771,13 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a series branch with STConstraint slices (typically for a reflex
+/* Instrument a battle branch with STConstraint slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
  */
-void battle_branch_insert_constraint(slice_index si, slice_index constraint)
+void battle_branch_insert_attack_constraint(slice_index si,
+                                            slice_index constraint)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -789,6 +790,38 @@ void battle_branch_insert_constraint(slice_index si, slice_index constraint)
   {
     slice_index const adapter = branch_find_slice(STAttackAdapter,si);
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
+
+    if (adapter!=no_slice)
+      pipe_append(slices[adapter].prev,
+                  alloc_constraint_slice(stip_deep_copy(constraint)));
+
+    assert(ready!=no_slice);
+    pipe_append(slices[ready].prev,alloc_constraint_slice(constraint));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a battle branch with STConstraint slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_defense_constraint(slice_index si,
+                                            slice_index constraint)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  {
+    slice_index const adapter = branch_find_slice(STDefenseAdapter,si);
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
 
     if (adapter!=no_slice)
       pipe_append(slices[adapter].prev,

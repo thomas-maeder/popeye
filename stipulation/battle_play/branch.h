@@ -121,11 +121,20 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
 void battle_branch_insert_self_end_of_branch_goal(slice_index si,
                                                   slice_index goal);
 
-/* Instrument a series branch with STConstraint slices (typically for a reflex
+/* Instrument a battle branch with STConstraint slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
  */
-void battle_branch_insert_constraint(slice_index si, slice_index constraint);
+void battle_branch_insert_attack_constraint(slice_index si,
+                                            slice_index constraint);
+
+/* Instrument a battle branch with STConstraint slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_defense_constraint(slice_index si,
+                                             slice_index constraint);
 
 #endif

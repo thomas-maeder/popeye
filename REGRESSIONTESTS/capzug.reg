@@ -1,0 +1,154 @@
+
+     Geoff Foster & Arno T"ungler
+ WCCC 2010, CapZug Tourney, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -B   .   .   8
+|                                   |
+7   .   .   .   K   P   .   .   .   7
+|                                   |
+6   .   .   .  -P   .   P  -P   .   6
+|                                   |
+5   .   .   .   B   .   .   Q   .   5
+|                                   |
+4   .   .   R   .   P   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   .   .   3
+|                                   |
+2   P   .   .   .  -P   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   S  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black - 4hh[2a{+}d[x]]      9 + 7
+
+  1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3   4.Qc3*b3 x 
+  1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2   4.Kd3*c2 x 
+  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1   4.Ra1*a2 x 
+  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1   4.Ra1*b1 x 
+  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g3 x 
+  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g5 x 
+
+              empile:    42492397
+            jouecoup:    12431272
+        orig_rbechec:     7808356
+        orig_rnechec:    13823782
+solution finished. 
+
+
+
+    Cornel Pacurar & Arno T"ungler
+WCCC 2010, CapZug Tourney, 1st commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P  -K   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 7h[2a{+}d[x]]h        3 + 3
+
+  1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5   5.a6*b5 x 
+
+  1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5   5.b4*a3 x 
+  1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4   5.b4*a3 ep. x 
+
+              empile:     1430938
+            jouecoup:      661249
+        orig_rbechec:      339081
+        orig_rnechec:      600150
+solution finished. 
+
+
+
+            Arno T"ungler
+                  ??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 7h[2a{+}d[+]]h        2 + 2
+
+  1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8   5.Qa7*a6 + 
+
+              empile:    61270787
+            jouecoup:    14824219
+        orig_rbechec:    15367918
+        orig_rnechec:    14411696
+solution finished. 
+
+
+
+             Dan Meinking
+                  ??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   B   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   P   .   .   5
+|                                   |
+4   .  -P   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -K   .  -P   .   .   .   3
+|                                   |
+2   .  -P   .  -P   P   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 9h[2a{+}d[=]]h        4 + 5
+
+  1  (d2-d1=Q + )
+  2  (d2-d1=S )
+  3  (d2-d1=R + )
+  4  (d2-d1=B )
+  1.d2-d1=B Bg8-b3   2.Bd1*b3 f5-f6   3.Bb3-g8 f6-f7   4.Kc3-b3 f7*g8=B +   5.Kb3-a3 Bg8-b3   6.Ka3*b3 = 
+  5  (Kc3-d3 )
+  6  (Kc3-c4 )
+  7  (Kc3-b3 )
+  8  (Kc3-c2 + )
+  9  (Kc3-d4 )
+ 10  (b4-b3 )
+
+              empile:  1106737770
+            jouecoup:   412993697
+        orig_rbechec:   399627427
+        orig_rnechec:   312553026
+solution finished. 
+
+
