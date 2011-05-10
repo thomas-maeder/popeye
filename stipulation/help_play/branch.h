@@ -29,20 +29,29 @@ void help_branch_shorten(slice_index si);
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end(slice_index si, slice_index next);
+void help_branch_set_end(slice_index si,
+                         slice_index next,
+                         unsigned int parity);
 
 /* Insert a fork to the goal branch
  * @param si identifies the entry slice of a help branch
  * @param to_goal identifies the entry slice of the branch leading to the goal
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end_goal(slice_index si, slice_index to_goal);
+void help_branch_set_end_goal(slice_index si,
+                              slice_index to_goal,
+                              unsigned int parity);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end_forced(slice_index si, slice_index next);
+void help_branch_set_end_forced(slice_index si,
+                                slice_index next,
+                                unsigned int parity);
 
 /* Insert slices into a help branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

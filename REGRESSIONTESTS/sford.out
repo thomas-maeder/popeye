@@ -1421,3 +1421,38 @@ h#8 1.0;1.1;...
 Loesung beendet. 
 
 
+Hilfsspiel mit einem Ziel nach den schwarzen und einem anderen
+Ziel nach den weissen Zuegen
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -S   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   T   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -S   .   .   .   .   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 4h[=]h[#]           2 + 4
+
+  1.a2-a1=D Tg7-g1   2.Da1*g1 = 
+  1.a2-a1=T Tg7-c7   2.Ta1-a3 Tc7-c4 # 
+
+              empile:       82453
+            jouecoup:       60855
+        orig_rbechec:       15811
+        orig_rnechec:       60034
+Loesung beendet. 
+
+

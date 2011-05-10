@@ -339,21 +339,26 @@ void help_branch_shorten(slice_index si)
 /* Insert a slice marking the end of the branch
  * @param si identifies the entry slice of a help branch
  * @param end_proto end of branch prototype slice
+ * @param parity indicates after which help move of the branch to insert
  */
-static void insert_end_of_branch(slice_index si, slice_index end_proto)
+static void insert_end_of_branch(slice_index si,
+                                 slice_index end_proto,
+                                 unsigned int parity)
 {
   slice_index pos = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",end_proto);
+  TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
   do
   {
     pos = branch_find_slice(STReadyForHelpMove,pos);
     assert(pos!=no_slice);
-  } while ((slices[pos].u.branch.length-slack_length_help)%2==0);
+  } while ((slices[pos].u.branch.length-slack_length_help)%2
+           !=(parity-slack_length_help)%2);
 
   help_branch_insert_slices(pos,&end_proto,1);
 
@@ -364,15 +369,19 @@ static void insert_end_of_branch(slice_index si, slice_index end_proto)
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end(slice_index si, slice_index next)
+void help_branch_set_end(slice_index si,
+                         slice_index next,
+                         unsigned int parity)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_branch_slice(next));
+  insert_end_of_branch(si,alloc_end_of_branch_slice(next),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -381,15 +390,20 @@ void help_branch_set_end(slice_index si, slice_index next)
 /* Insert a fork to the goal branch
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end_goal(slice_index si, slice_index to_goal)
+void help_branch_set_end_goal(slice_index si,
+                              slice_index to_goal,
+                              unsigned int parity)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal));
+  TraceStipulation(si);
+  insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -398,15 +412,19 @@ void help_branch_set_end_goal(slice_index si, slice_index to_goal)
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
  * @param next identifies the entry slice of the next branch
+ * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_set_end_forced(slice_index si, slice_index next)
+void help_branch_set_end_forced(slice_index si,
+                                slice_index next,
+                                unsigned int parity)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_branch_forced(next));
+  insert_end_of_branch(si,alloc_end_of_branch_forced(next),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

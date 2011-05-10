@@ -2149,10 +2149,10 @@ static void alloc_reci_end(slice_index proxy_nonreci,
     slice_index const branch_reci = alloc_help_branch(slack_length_help+1,
                                                       slack_length_help+1);
 
-    help_branch_set_end_goal(branch_nonreci,proxy_to_nonreci);
+    help_branch_set_end_goal(branch_nonreci,proxy_to_nonreci,1);
     pipe_link(proxy_nonreci,branch_nonreci);
 
-    help_branch_set_end_goal(branch_reci,proxy_to_reci);
+    help_branch_set_end_goal(branch_reci,proxy_to_reci,1);
     pipe_link(proxy_reci,branch_reci);
   }
 
@@ -2294,7 +2294,7 @@ static char *ParseSerH(char *tok,
     slice_index const branch = alloc_series_branch(length,min_length);
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help+1);
-    help_branch_set_end_goal(help,proxy_next);
+    help_branch_set_end_goal(help,proxy_next,1);
     series_branch_set_end(branch,help);
     pipe_link(proxy,branch);
   }
@@ -2500,7 +2500,7 @@ static char *ParsePlay(char *tok,
             slice_index const help_proxy = alloc_proxy_slice();
             slice_index const help = alloc_help_branch(slack_length_help+1,
                                                        slack_length_help+1);
-            help_branch_set_end_forced(help,defense_branch);
+            help_branch_set_end_forced(help,defense_branch,1);
             pipe_link(help_proxy,help);
 
             series_branch_set_end(series,help_proxy);
@@ -2682,7 +2682,7 @@ static char *ParsePlay(char *tok,
                                                   ? min_length
                                                   : min_length-2);
             slice_index const branch = alloc_help_branch(length-2,min_length2);
-            help_branch_set_end(branch,proxy_next);
+            help_branch_set_end(branch,proxy_next,1);
             attach_help_branch(length,proxy,branch);
           }
 
@@ -2708,7 +2708,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
-          help_branch_set_end_goal(branch,proxy_next);
+          help_branch_set_end_goal(branch,proxy_next,1);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy,White);
           select_output_mode(proxy,output_mode_line);
@@ -2732,7 +2732,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
-          help_branch_set_end_goal(branch,proxy_next);
+          help_branch_set_end_goal(branch,proxy_next,1);
           pipe_link(proxy,branch);
           stip_impose_starter(proxy,Black);
           select_output_mode(proxy,output_mode_line);
@@ -2764,7 +2764,7 @@ static char *ParsePlay(char *tok,
           stip_length_type const min = min_length==slack_length_help ? slack_length_help+1 : min_length-1;
           slice_index const branch = alloc_help_branch(length-1,min);
           pipe_link(aready,deadend);
-          help_branch_set_end_forced(branch,defense_branch);
+          help_branch_set_end_forced(branch,defense_branch,1);
           slice_make_self_goal_branch(proxy_next);
           battle_branch_insert_self_end_of_branch_goal(defense_branch,proxy_next);
           attach_help_branch(length,proxy,branch);
@@ -2825,7 +2825,7 @@ static char *ParsePlay(char *tok,
         {
           slice_index const branch = alloc_help_branch(length,min_length);
 
-          help_branch_set_end_goal(branch,proxy_next);
+          help_branch_set_end_goal(branch,proxy_next,1);
           attach_help_branch(length,proxy,branch);
           stip_impose_starter(proxy_next,Black);
           select_output_mode(proxy,output_mode_line);
@@ -3317,16 +3317,19 @@ static char *ParseStructuredStip_branch_a(char *tok,
 /* Parse a "h operand"
  * @param tok input token
  * @param branch identifier of entry slice of "hh branch"
+ * @param parity indicates after which help move of the branch to insert
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_h_operand(char *tok,
                                                   slice_index branch,
+                                                  unsigned int parity,
                                                   unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",branch);
+  TraceFunctionParam("%u",parity);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
@@ -3350,11 +3353,11 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
       if (tok!=0 && tok[0]==']')
       {
         if (op_type==operand_type_goal)
-          help_branch_set_end_goal(branch,proxy_operand);
+          help_branch_set_end_goal(branch,proxy_operand,parity);
         else if (forced)
-          help_branch_set_end_forced(branch,proxy_operand);
+          help_branch_set_end_forced(branch,proxy_operand,parity);
         else
-          help_branch_set_end(branch,proxy_operand);
+          help_branch_set_end(branch,proxy_operand,parity);
         ++tok;
       }
       else
@@ -3446,10 +3449,10 @@ static char *ParseStructuredStip_branch_h(char *tok,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_h_operand(tok,proxy,level);
+    tok = ParseStructuredStip_branch_h_operand(tok,proxy,max_length,level);
     if (tok!=0 && tok[0]=='h')
     {
-      tok = ParseStructuredStip_branch_h_operand(tok+1,proxy,level);
+      tok = ParseStructuredStip_branch_h_operand(tok+1,proxy,max_length+1,level);
       if (level==0)
         select_output_mode(proxy,output_mode_line);
     }

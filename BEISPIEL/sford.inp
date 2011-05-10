@@ -378,4 +378,12 @@ steine  weiss   kh1 ld7
         schwarz kh6 df3 tg2 bb6e7
 option 		intell
 
+weiter
+
+bemerkung Hilfsspiel mit einem Ziel nach den schwarzen und einem anderen
+bemerkung Ziel nach den weissen Zuegen
+sforderung schwarz 4h[=]h[#]
+steine weiss ka6 tg7
+       schwarz ka4 sd8b3 ba2
+
 ende
