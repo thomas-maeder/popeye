@@ -1456,3 +1456,36 @@ Ziel nach den weissen Zuegen
 Loesung beendet. 
 
 
+Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -L   .   .   .   .   .   .   8
+|                                   |
+7   B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -L   S   6
+|                                   |
+5   .   .   .   .   .   .  -B  -K   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz - 3h[#]{x}h         2 + 4
+
+  1...a7-a8=D   2.Lb8-a7 Da8-h1 # 
+
+              empile:        2003
+            jouecoup:        2011
+        orig_rbechec:           0
+        orig_rnechec:        1998
+Loesung beendet. 
+
+

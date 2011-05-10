@@ -2500,9 +2500,8 @@ static char *ParsePlay(char *tok,
             slice_index const help_proxy = alloc_proxy_slice();
             slice_index const help = alloc_help_branch(slack_length_help+1,
                                                        slack_length_help+1);
-            help_branch_set_end_forced(help,defense_branch,1);
             pipe_link(help_proxy,help);
-
+            help_branch_set_end_forced(help_proxy,defense_branch,1);
             series_branch_set_end(series,help_proxy);
             pipe_link(proxy,series);
           }
@@ -2764,10 +2763,10 @@ static char *ParsePlay(char *tok,
           stip_length_type const min = min_length==slack_length_help ? slack_length_help+1 : min_length-1;
           slice_index const branch = alloc_help_branch(length-1,min);
           pipe_link(aready,deadend);
-          help_branch_set_end_forced(branch,defense_branch,1);
+          attach_help_branch(length,proxy,branch);
+          help_branch_set_end_forced(proxy,defense_branch,1);
           slice_make_self_goal_branch(proxy_next);
           battle_branch_insert_self_end_of_branch_goal(defense_branch,proxy_next);
-          attach_help_branch(length,proxy,branch);
           stip_impose_starter(proxy_next,White);
           select_output_mode(proxy,output_mode_line);
         }
@@ -2799,8 +2798,8 @@ static char *ParsePlay(char *tok,
           stip_make_goal_attack_branch(proxy_forced);
 
           attach_help_branch(length,proxy,branch);
-          help_branch_insert_constraint(proxy,proxy_avoided);
-          help_branch_insert_end_of_branch_forced(proxy,proxy_forced);
+          help_branch_insert_constraint(proxy,proxy_avoided,0);
+          help_branch_set_end_forced(proxy,proxy_forced,1);
 
           stip_impose_starter(proxy_forced,Black);
           select_output_mode(proxy,output_mode_line);
@@ -3371,7 +3370,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
-        help_branch_insert_constraint(branch,proxy_operand);
+        help_branch_insert_constraint(branch,proxy_operand,parity);
       }
       else
         tok = 0;

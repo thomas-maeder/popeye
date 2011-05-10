@@ -44,14 +44,25 @@ void help_branch_set_end_goal(slice_index si,
                               slice_index to_goal,
                               unsigned int parity);
 
-/* Insert a fork to the next branch
- * @param si identifies the entry slice of a help branch
- * @param next identifies the entry slice of the next branch
+/* Instrument a series branch with STEndOfBranchForced slices (typically for a
+ * hr stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param forced identifies branch forced on the defender
  * @param parity indicates after which help move of the branch to insert
  */
 void help_branch_set_end_forced(slice_index si,
-                                slice_index next,
+                                slice_index forced,
                                 unsigned int parity);
+
+/* Instrument a series branch with STConstraint slices (typically for a hr
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ * @param parity indicates after which help move of the branch to insert
+ */
+void help_branch_insert_constraint(slice_index si,
+                                   slice_index constraint,
+                                   unsigned int parity);
 
 /* Insert slices into a help branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
@@ -91,20 +102,5 @@ slice_index help_branch_make_root(slice_index si);
  *         no_slice if set play is not applicable
  */
 slice_index help_branch_make_setplay(slice_index si);
-
-/* Instrument a series branch with STConstraint slices (typically for a hr
- * stipulation)
- * @param si entry slice of branch to be instrumented
- * @param constraint identifies branch that constrains the attacker
- */
-void help_branch_insert_constraint(slice_index si, slice_index constraint);
-
-/* Instrument a series branch with STEndOfBranchForced slices (typically for a
- * hr stipulation)
- * @param si entry slice of branch to be instrumented
- * @param forced identifies branch forced on the defender
- */
-void help_branch_insert_end_of_branch_forced(slice_index si,
-                                             slice_index forced);
 
 #endif

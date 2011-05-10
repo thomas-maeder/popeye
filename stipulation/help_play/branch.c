@@ -409,22 +409,71 @@ void help_branch_set_end_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert a fork to the next branch
- * @param si identifies the entry slice of a help branch
- * @param next identifies the entry slice of the next branch
+/* Instrument a series branch with STEndOfBranchForced slices (typically for a
+ * hr stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param forced identifies branch forced on the defender
  * @param parity indicates after which help move of the branch to insert
  */
 void help_branch_set_end_forced(slice_index si,
-                                slice_index next,
+                                slice_index forced,
                                 unsigned int parity)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",forced);
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  insert_end_of_branch(si,alloc_end_of_branch_forced(next),parity);
+  TraceStipulation(si);
+  TraceStipulation(forced);
+
+  {
+    slice_index const adapter = branch_find_slice(STHelpAdapter,si);
+    assert(adapter!=no_slice);
+    if ((slices[adapter].u.branch.length-slack_length_help)%2
+        ==(parity+1-slack_length_help)%2)
+    {
+      slice_index const prototype = alloc_end_of_branch_forced(forced);
+      help_branch_insert_slices(adapter,&prototype,1);
+    }
+  }
+
+  insert_end_of_branch(si,alloc_end_of_branch_forced(forced),parity);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a series branch with STConstraint slices (typically for a hr
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ * @param parity indicates after which help move of the branch to insert
+ */
+void help_branch_insert_constraint(slice_index si,
+                                   slice_index constraint,
+                                   unsigned int parity)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParam("%u",parity);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  {
+    slice_index const adapter = branch_find_slice(STHelpAdapter,si);
+    assert(adapter!=no_slice);
+    if ((slices[adapter].u.branch.length-slack_length_help)%2
+        ==(parity+1-slack_length_help)%2)
+      pipe_append(slices[adapter].prev,
+                  alloc_constraint_slice(stip_deep_copy(constraint)));
+  }
+
+  insert_end_of_branch(si,alloc_constraint_slice(constraint),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -629,175 +678,4 @@ slice_index help_branch_make_setplay(slice_index adapter)
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
-}
-
-static void constraint_inserter_help_adapter(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((length-slack_length_help)%2==1)
-  {
-    slice_index const * const constraint = st->param;
-    pipe_append(slices[si].prev,
-                alloc_constraint_slice(stip_deep_copy(*constraint)));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void constraint_inserter_help_move(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((length-slack_length_help)%2==0)
-  {
-    slice_index const * const constraint = st->param;
-    slice_index const prototype = alloc_constraint_slice(*constraint);
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors constraint_inserters[] =
-{
-  { STHelpAdapter,      &constraint_inserter_help_adapter },
-  { STReadyForHelpMove, &constraint_inserter_help_move    }
-};
-
-enum
-{
-  nr_constraint_inserters =
-      sizeof constraint_inserters / sizeof constraint_inserters[0]
-};
-
-/* Instrument a series branch with STConstraint slices (typically for a hr
- * stipulation)
- * @param si entry slice of branch to be instrumented
- * @param constraint identifies branch that constrains the attacker
- */
-void help_branch_insert_constraint(slice_index si, slice_index constraint)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",constraint);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-  TraceStipulation(constraint);
-
-  assert(slices[constraint].type==STProxy);
-
-  stip_structure_traversal_init(&st,&constraint);
-  stip_structure_traversal_override(&st,
-                                    constraint_inserters,
-                                    nr_constraint_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void end_of_branch_forced_inserter_help_adapter(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((length-slack_length_help)%2==0)
-  {
-    slice_index const * const forced = st->param;
-    slice_index const prototype = alloc_end_of_branch_forced(*forced);
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void end_of_branch_forced_inserter_help_move(slice_index si,
-                                                    stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((length-slack_length_help)%2==1)
-  {
-    slice_index const * const forced = st->param;
-    slice_index const prototype = alloc_end_of_branch_forced(*forced);
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors end_of_branch_forced_inserters[] =
-{
-  { STHelpAdapter,      &end_of_branch_forced_inserter_help_adapter },
-  { STReadyForHelpMove, &end_of_branch_forced_inserter_help_move    }
-};
-
-enum
-{
-  nr_end_of_branch_forced_inserters =
-      (sizeof end_of_branch_forced_inserters
-       / sizeof end_of_branch_forced_inserters[0])
-};
-
-/* Instrument a series branch with STEndOfBranchForced slices (typically for a
- * hr stipulation)
- * @param si entry slice of branch to be instrumented
- * @param forced identifies branch forced on the defender
- */
-void help_branch_insert_end_of_branch_forced(slice_index si, slice_index forced)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",forced);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-  TraceStipulation(forced);
-
-  assert(slices[forced].type==STProxy);
-
-  stip_structure_traversal_init(&st,&forced);
-  stip_structure_traversal_override(&st,
-                                    end_of_branch_forced_inserters,
-                                    nr_end_of_branch_forced_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
