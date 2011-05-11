@@ -271,8 +271,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsFilter:
       case STMinLengthOptimiser:
       case STMinLengthGuard:
-      case STIntelligentSeriesFilter:
-      case STIntelligentHelpFilter:
         Trace_branch(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -380,6 +378,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STCountNrOpponentMovesMoveGenerator:
       case STOrthodoxMatingMoveGenerator:
       case STKillerMoveFinalDefenseMove:
+      case STIntelligentSeriesFilter:
+      case STIntelligentHelpFilter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

@@ -2585,13 +2585,12 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   ep[1]= is_ep; ep2[1]= is_ep2;
 }
 
-static void IntelligentProof(stip_length_type n, stip_length_type full_length)
+static void IntelligentProof(stip_length_type n)
 {
   boolean const save_movenbr = OptFlag[movenbr];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   ProofInitialiseIntelligent(n);
@@ -2600,10 +2599,8 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
    * position to be reached. We therefore output move numbers as if
    * we were not in intelligent mode, and only if we are solving
    * full-length.
-   * If n is smaller, temporarily disable move number output:
    */
-  if (n<full_length)
-    OptFlag[movenbr] = false;
+  OptFlag[movenbr] = false;
 
   if (find_solutions_in_n(n))
     solutions_found = true;
@@ -3014,8 +3011,7 @@ static void intelligent_guards_inserter_help(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    slice_index const prototype = alloc_intelligent_help_filter(length);
+    slice_index const prototype = alloc_intelligent_help_filter();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -3031,8 +3027,7 @@ static void intelligent_guards_inserter_series(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    slice_index const prototype = alloc_intelligent_series_filter(length);
+    slice_index const prototype = alloc_intelligent_series_filter();
     series_branch_insert_slices(si,&prototype,1);
   }
 
@@ -3102,7 +3097,6 @@ static boolean help_too_short(stip_length_type n)
 boolean IntelligentHelp(slice_index si, stip_length_type n)
 {
   boolean result;
-  stip_length_type const full_length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3111,7 +3105,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n-slack_length_help,full_length-slack_length_help);
+  init_moves_left(si,n-slack_length_help,n-slack_length_help);
 
   MatesMax = 0;
 
@@ -3119,7 +3113,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
 
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proofgame)
-    IntelligentProof(n,full_length);
+    IntelligentProof(n);
   else
   {
     intelligent_duplicate_avoider_init();
@@ -3158,7 +3152,6 @@ static boolean series_too_short(stip_length_type n)
 boolean IntelligentSeries(slice_index si, stip_length_type n)
 {
   boolean result;
-  stip_length_type const full_length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3167,7 +3160,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n-slack_length_series,full_length-slack_length_series);
+  init_moves_left(si,n-slack_length_series,n-slack_length_series);
 
   MatesMax = 0;
 
@@ -3175,7 +3168,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
 
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proofgame)
-    IntelligentProof(n,full_length);
+    IntelligentProof(n);
   else
   {
     intelligent_duplicate_avoider_init();
@@ -3372,6 +3365,8 @@ boolean init_intelligent_mode(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  goal_to_be_reached = no_goal;
+
   switch (stip_supports_intelligent(si))
   {
     case intelligent_not_supported:
@@ -3400,6 +3395,29 @@ boolean init_intelligent_mode(slice_index si)
       result = false;
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether intelligent mode overrides option movenum
+ * @return true iff intelligent mode overrides option movenum
+ */
+boolean intelligent_mode_overrides_movenbr(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (goal_to_be_reached==goal_atob
+      || goal_to_be_reached==goal_proofgame
+      || goal_to_be_reached==no_goal)
+    result = false;
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

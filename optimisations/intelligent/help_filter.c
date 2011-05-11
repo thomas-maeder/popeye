@@ -1,24 +1,22 @@
 #include "optimisations/intelligent/help_filter.h"
 #include "pyint.h"
-#include "stipulation/branch.h"
+#include "pypipe.h"
 #include "stipulation/help_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STIntelligentHelpFilter slice.
- * @apram full_length full length (half-moves) of branch
  * @return allocated slice
  */
-slice_index alloc_intelligent_help_filter(stip_length_type full_length)
+slice_index alloc_intelligent_help_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STIntelligentHelpFilter,full_length,0);
+  result = alloc_pipe(STIntelligentHelpFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

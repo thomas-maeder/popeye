@@ -2606,7 +2606,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards(template_slice_hook);
 
-      if (!OptFlag[intelligent] && OptFlag[movenbr])
+      if (OptFlag[movenbr]
+          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
         stip_insert_restart_guards(template_slice_hook);
 
       if (dealWithMaxtime())
