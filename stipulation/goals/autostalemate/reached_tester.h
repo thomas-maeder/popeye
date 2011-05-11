@@ -7,9 +7,9 @@
  * whether a auto-stalemate goal has just been reached
  */
 
-/* Allocate a STGoalAutoStalemateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether autostalemate has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_autostalemate_reached_tester_slice(void);
+slice_index alloc_goal_autostalemate_reached_tester_system(void);
 
 #endif

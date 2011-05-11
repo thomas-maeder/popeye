@@ -36,7 +36,7 @@ static void prepend_circuit_by_rebirth_filter(slice_index si,
   {
     slice_index const proxy_special = alloc_proxy_slice();
     slice_index const special = alloc_circe_circuit_special_slice();
-    slice_index const leaf_special = alloc_leaf_slice();
+    slice_index const leaf_special = alloc_true_slice();
 
     slice_index const proxy_regular = alloc_proxy_slice();
 
@@ -65,7 +65,7 @@ static void prepend_exchange_by_rebirth_filter(slice_index si,
   {
     slice_index const proxy_special = alloc_proxy_slice();
     slice_index const special = alloc_circe_exchange_special_slice();
-    slice_index const leaf_special = alloc_leaf_slice();
+    slice_index const leaf_special = alloc_true_slice();
 
     slice_index const proxy_regular = alloc_proxy_slice();
 

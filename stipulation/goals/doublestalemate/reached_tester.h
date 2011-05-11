@@ -3,13 +3,14 @@
 
 #include "pyslice.h"
 
-/* This module provides functionality dealing with slices that detect
- * whether a double stalemate goal has just been reached
+/* This module provides functionality that detects whether double stalemate goal
+ * has been reached
  */
 
-/* Allocate a STGoalDoubleStalemateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that test whether double stalemate has
+ * been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_doublestalemate_reached_tester_slice(void);
+slice_index alloc_goal_doublestalemate_reached_tester_system(void);
 
 #endif

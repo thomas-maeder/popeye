@@ -267,7 +267,7 @@ a)
               empile:       18776
             jouecoup:        6044
         orig_rbechec:        2682
-        orig_rnechec:        5911
+        orig_rnechec:        5909
 b) wKf5-->g5
 
   1.Kb6-c7[If6] b7-b8=L[If7] +   2.Kc7-c8[If8] Lb8-d6[Ih6] = 
@@ -275,7 +275,7 @@ b) wKf5-->g5
               empile:       21478
             jouecoup:        6690
         orig_rbechec:        2964
-        orig_rnechec:        6574
+        orig_rnechec:        6573
 c) Imitator c5
 
   1.Kb6-a6[Ib5] b7-b8=T[Ib6]   2.Ka6-a7[Ib7] Tb8-b2[Ib1] = 
@@ -283,7 +283,7 @@ c) Imitator c5
               empile:       20628
             jouecoup:        6331
         orig_rbechec:        2808
-        orig_rnechec:        6187
+        orig_rnechec:        6186
 d) Imitator a7
 
   1.Kb6-c5[Ib6] b7-b8=D[Ib7]   2.Kc5-d5[Ic7] Db8-b4[Ic3] = 
@@ -291,7 +291,7 @@ d) Imitator a7
               empile:        7243
             jouecoup:        1969
         orig_rbechec:         880
-        orig_rnechec:        1915
+        orig_rnechec:        1914
 Loesung beendet. 
 
 
@@ -508,7 +508,7 @@ Loesung beendet.
               empile:       10193
             jouecoup:        4736
         orig_rbechec:        3025
-        orig_rnechec:        2388
+        orig_rnechec:        2384
 Loesung beendet. 
 
 

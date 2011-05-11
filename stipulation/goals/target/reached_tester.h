@@ -7,11 +7,11 @@
  * whether a target goal has just been reached
  */
 
-/* Allocate a STGoalTargetReachedTester slice.
- * @param square target square
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether a target square has been
+ * reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_target_reached_tester_slice(square target);
+slice_index alloc_goal_target_reached_tester_system(square target);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

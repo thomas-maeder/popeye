@@ -1,6 +1,7 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
-#include "pypipe.h"
 #include "pydata.h"
+#include "pypipe.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -30,21 +31,6 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
   return result;
 }
 
-/* Determine whether the move generator produces some halfway (i.e. modulo self
- * check) legal moves
- * @param side side for which to find moves
- * @return true iff side has >=1 move
- */
-static boolean has_move(Side side)
-{
-  boolean result;
-  move_generation_mode = move_generation_not_optimized;
-  genmove(side);
-  result = encore();
-  finply();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier
@@ -69,8 +55,8 @@ has_solution_type paralysing_stalemate_special_has_solution(slice_index si)
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
   if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(stalemated))
-    result = has_no_solution;
+  else if (suffocated_by_paralysis(stalemated))
+    result = has_solution;
   else
     result = slice_has_solution(next);
 
@@ -103,8 +89,8 @@ has_solution_type paralysing_stalemate_special_solve(slice_index si)
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
   if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(stalemated))
-    result = has_no_solution;
+  else if (suffocated_by_paralysis(stalemated))
+    result = has_solution;
   else
     result = slice_solve(next);
 

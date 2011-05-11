@@ -187,7 +187,7 @@ Loesung beendet.
               empile:     2016542
             jouecoup:     1214228
         orig_rbechec:      781055
-        orig_rnechec:     1173440
+        orig_rnechec:     1173439
 Loesung beendet. 
 
 
@@ -455,7 +455,7 @@ b) wKGf7-->c7
               empile:     1349319
             jouecoup:      465961
         orig_rbechec:           0
-        orig_rnechec:      441302
+        orig_rnechec:      441301
 +f) wKGe6-->a2
 
   1.Kd5-d4 Sd6-c4   2.Kd4-c3 Sc4-d2   3.Kc3-b2 KGa2-c2   4.Kb2-a1 KGc2-e2 = 
@@ -463,7 +463,7 @@ b) wKGf7-->c7
               empile:      249837
             jouecoup:       94363
         orig_rbechec:           0
-        orig_rnechec:       86483
+        orig_rnechec:       86482
 +g) wSd6-->b3
 
   1.Kd5-e4 KGa2-d5   2.Ke4-f3 Sb3-d4 +   3.Kf3-g2 KGd5-d2   4.Kg2-h1 Sd4-e2 = 
@@ -471,7 +471,7 @@ b) wKGf7-->c7
               empile:      762381
             jouecoup:      272360
         orig_rbechec:           0
-        orig_rnechec:      257270
+        orig_rnechec:      257269
 +h) wKGa2-->a5
 
   1.Kd5-c6 Sb3-c5   2.Kc6-b6 KGa5-c7   3.Kb6-a7 Sc5-d7   4.Ka7-a8 KGc7-e7 = 
@@ -479,7 +479,7 @@ b) wKGf7-->c7
               empile:      360558
             jouecoup:      128023
         orig_rbechec:           0
-        orig_rnechec:      120486
+        orig_rnechec:      120485
 Loesung beendet. 
 
 
@@ -951,10 +951,10 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
               2...Te7-e6 #
 
 
-              empile:       15658
+              empile:       31224
             jouecoup:       11733
-        orig_rbechec:       18054
-        orig_rnechec:       13750
+        orig_rbechec:       20554
+        orig_rnechec:       13956
 Loesung beendet. 
 
 

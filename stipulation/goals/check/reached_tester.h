@@ -7,6 +7,11 @@
  * whether a check goal has just been reached
  */
 
+/* Allocate a system of slices that tests whether check has been reached
+ * @return index of entry slice
+ */
+slice_index alloc_goal_check_reached_tester_system(void);
+
 /* Allocate a STGoalCheckReachedTester slice.
  * @return index of allocated slice
  */

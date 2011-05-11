@@ -1,6 +1,7 @@
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -9,18 +10,21 @@
  * whether a exchange (by rebirth) goal has just been reached
  */
 
-/* Allocate a STGoalExchangeByRebirthReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether exchange_by_rebirth has been reached
+ * @return index of entry slice
  */
-slice_index
-alloc_goal_exchange_by_rebirth_reached_tester_slice(void)
+slice_index alloc_goal_exchange_by_rebirth_reached_tester_system(void)
 {
   slice_index result;
+  slice_index exchange_by_rebirth_tester;
+  Goal const goal = { goal_exchange_by_rebirth, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalExchangeByRebirthReachedTester);
+  exchange_by_rebirth_tester = alloc_pipe(STGoalExchangeByRebirthReachedTester);
+  pipe_link(exchange_by_rebirth_tester,alloc_true_slice());
+  result = alloc_goal_reached_tester_slice(goal,exchange_by_rebirth_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

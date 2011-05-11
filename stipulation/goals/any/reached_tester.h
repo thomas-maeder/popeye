@@ -7,10 +7,10 @@
  * whether an any goal has just been reached
  */
 
-/* Allocate a STGoalAnyReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether any has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_any_reached_tester_slice(void);
+slice_index alloc_goal_any_reached_tester_system(void);
 
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter

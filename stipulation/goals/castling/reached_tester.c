@@ -1,6 +1,8 @@
 #include "stipulation/goals/castling/reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/goals/reached_tester.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -9,17 +11,21 @@
  * whether a castling goal has just been reached
  */
 
-/* Allocate a STGoalCastlingReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether castling has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_castling_reached_tester_slice(void)
+slice_index alloc_goal_castling_reached_tester_system(void)
 {
   slice_index result;
+  slice_index castling_tester;
+  Goal const goal = { goal_castling, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalCastlingReachedTester);
+  castling_tester = alloc_pipe(STGoalCastlingReachedTester);
+  pipe_link(castling_tester,alloc_true_slice());
+  result = alloc_goal_reached_tester_slice(goal,castling_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

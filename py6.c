@@ -2669,8 +2669,6 @@ static Token iterate_twins(Token prev_token)
       if (TSTFLAG(PieSpExFlags,Kamikaze))
         stip_insert_kamikaze_goal_filters(root_slice);
 
-      stip_flesh_out_goal_testers(root_slice);
-
       stip_insert_selfcheck_guards(root_slice);
 
       stip_optimise_dead_end_slices(root_slice);

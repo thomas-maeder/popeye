@@ -3,13 +3,13 @@
 
 #include "pyslice.h"
 
-/* This module provides functionality dealing with slices that detect
- * whether a mate goal has just been reached
+/* This module provides functionality that detects whether mate goal has
+ * been reached
  */
 
-/* Allocate a STGoalMateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether mate has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_mate_reached_tester_slice(void);
+slice_index alloc_goal_mate_reached_tester_system(void);
 
 #endif

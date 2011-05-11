@@ -4,11 +4,11 @@
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2007/01/28 SE   New condition: NormalPawn 
+ ** 2007/01/28 SE   New condition: NormalPawn
  **
- ** 2007/01/28 SE   New condition: Annan Chess 
+ ** 2007/01/28 SE   New condition: Annan Chess
  **
  ** 2007/04/27 SE   Bugfix: Anticirce + TransmutingK
  **
@@ -24,7 +24,7 @@
  **
  ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
  **
- ** 2008/02/20 SE   Bugfixes: Annan; Neutrals 
+ ** 2008/02/20 SE   Bugfixes: Annan; Neutrals
  **
  **************************** End of List ******************************/
 
@@ -41,6 +41,7 @@
 #include "pydata.h"
 #include "trace.h"
 #include "measure.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 
 boolean rubiech(square  intermediate_square,
                 square  sq_king,
@@ -51,7 +52,7 @@ boolean rubiech(square  intermediate_square,
   numvec k;
 
   square sq_departure;
-    
+
   e_ub[intermediate_square]= obs;
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     sq_departure= intermediate_square+vec[k];
@@ -80,7 +81,7 @@ boolean rrfouech(square intermediate_square,
   piece p1;
 
   square sq_departure;
-    
+
   if (e[intermediate_square+k] == obs)
     return false;
 
@@ -94,7 +95,7 @@ boolean rrfouech(square intermediate_square,
     k1= 5;
     while (vec[k1]!=k)
       k1++;
-    
+
     k1*= 2;
     if (rrfouech(sq_departure,
                  sq_king,
@@ -102,9 +103,9 @@ boolean rrfouech(square intermediate_square,
                  p,
                  x-1,
                  evaluate))
-      
+
       return true;
-    
+
     k1--;
     if (rrfouech(sq_departure,
                  sq_king,
@@ -114,7 +115,7 @@ boolean rrfouech(square intermediate_square,
                  evaluate))
       return true;
   }
-  
+
   return false;
 }
 
@@ -129,7 +130,7 @@ boolean rcardech(square intermediate_square,
   piece p1;
 
   square sq_departure;
-    
+
   finligne(intermediate_square,k,p1,sq_departure);
   if (p1==p) {
     if (evaluate(sq_departure,sq_king,sq_king))
@@ -273,7 +274,7 @@ boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate)
   else
     result = calc_rnechec(ply_id,evaluate);
 
-  return result;    
+  return result;
 }
 
 static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
@@ -345,11 +346,11 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       piece   *ptrans;
       boolean flag = true;
 
-      /* attempted bug fix - wrong eval function used to detect 
-         if wK is checked; this code is a bit hacky but best attempt to 
+      /* attempted bug fix - wrong eval function used to detect
+         if wK is checked; this code is a bit hacky but best attempt to
          guess correct eval function to use, though only one is passed in*/
       evalfunction_t *eval_ad = evaluate;
-      if (eval_white != eval_black) 
+      if (eval_white != eval_black)
         eval_ad= (evaluate == eval_white) ? eval_black :
             (evaluate == eval_black) ? eval_white : evaluate;
 
@@ -379,7 +380,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
           }
         }
       }
-      
+
       calc_whrefl_king = true;
 
       if (!calc_whtrans_king || flag) {
@@ -406,7 +407,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
       }
     }
   }
-  
+
   if (nbpiece[pb]>0) {
     if (rn>=square_a3
         || CondFlag[parrain]
@@ -419,7 +420,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
           && evaluate(sq_departure,rn,rn))
         if (imcheck(sq_departure,rn))
           return true;
-      
+
       sq_departure= rn+dir_down+dir_left;
       if (e[sq_departure]==pb
           && evaluate(sq_departure,rn,rn))
@@ -452,7 +453,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
             return true;
-        
+
         sq_departure= sq_arrival+dir_down+dir_left;
         if (e[sq_departure]==pb && evaluate(sq_departure,sq_arrival,rn))
           if (imcheck(sq_departure,sq_arrival))
@@ -479,7 +480,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         if (ridimcheck(sq_departure,rn,vec[k]))
           return true;
     }
-  
+
   if (nbpiece[db]>0 || nbpiece[fb]>0)
     for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
       finligne(rn,vec[k],p,sq_departure);
@@ -488,7 +489,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
         if (ridimcheck(sq_departure,rn,vec[k]))
           return true;
     }
-  
+
   if (flagfee)
     return feenechec(evaluate);
   else
@@ -524,7 +525,7 @@ boolean singleboxtype3_rnechec(ply ply_id, evalfunction_t *evaluate)
   return promotionstried==0 && orig_rnechec(ply_id,evaluate);
 }
 
-boolean annan_rnechec(ply ply_id, evalfunction_t *evaluate) 
+boolean annan_rnechec(ply ply_id, evalfunction_t *evaluate)
 {
   square annan_sq[nr_squares_on_board];
   piece annan_p[nr_squares_on_board];
@@ -574,7 +575,7 @@ boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate)
   else
     result = calc_rbechec(ply_id,evaluate);
 
-  return result;    
+  return result;
 }
 
 static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
@@ -594,12 +595,12 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
   {
     int nr_flights= WhiteSATFlights;
     boolean mummer_sic = flagwhitemummer;
-    boolean k_sq_checked = false;  
+    boolean k_sq_checked = false;
 
 
     if (CondFlag[strictSAT])
       k_sq_checked = WhiteStrictSAT[parent_ply[ply_id]];
-    
+
     flagwhitemummer = false;
     dont_generate_castling= true;
 
@@ -650,11 +651,11 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
       piece   *ptrans;
       boolean flag= true;
 
-      /* attempted bug fix - wrong eval function used to detect 
-         if bK is checked; this code is a bit hacky but best attempt to 
+      /* attempted bug fix - wrong eval function used to detect
+         if bK is checked; this code is a bit hacky but best attempt to
          guess correct eval function to use, though only one is passed in */
       evalfunction_t *eval_ad = evaluate;
-      if (eval_white != eval_black) 
+      if (eval_white != eval_black)
         eval_ad= (evaluate == eval_white) ? eval_black :
             (evaluate == eval_black) ? eval_white : evaluate;
 
@@ -683,7 +684,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
           }
         }
       }
-      
+
       calc_blrefl_king = true;
 
       if (!calc_bltrans_king || flag) {
@@ -801,7 +802,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
     return false;
 }
 
-boolean annan_rbechec(ply ply_id, evalfunction_t *evaluate) 
+boolean annan_rbechec(ply ply_id, evalfunction_t *evaluate)
 {
   square annan_sq[nr_squares_on_board];
   piece annan_p[nr_squares_on_board];
@@ -1135,26 +1136,6 @@ boolean paraechecc(square sq_departure, square sq_arrival, square sq_capture) {
   }
 }
 
-boolean paralysiert(square i) {
-  square  roi;
-  boolean flag;
-
-  if (e[i] > obs) {
-    roi = rb;
-    rb = i;
-    flag = rbechec(nbply,testparalyse);
-    rb = roi;
-  }
-  else {
-    roi = rn;
-    rn = i;
-    flag = rnechec(nbply,testparalyse);
-    rn = roi;
-  }
-  return flag;
-}
-
-
 static evalfunction_t *next_evaluate;
 
 static boolean eval_up(square sq_departure, square sq_arrival, square sq_capture) {
@@ -1212,7 +1193,7 @@ static boolean AntiCirceEch(ply ply_id,
 {
   if (CondFlag[antisuper])
   {
-    square const *bnp= boardnum; 
+    square const *bnp= boardnum;
     while (!LegalAntiCirceMove(*bnp, sq_capture, sq_departure) && *bnp) bnp++;
     if (!(*bnp && LegalAntiCirceMove(*bnp, sq_capture, sq_departure)))
       return false;
@@ -1353,7 +1334,7 @@ static boolean skycharcheck(piece  p,
       return  true;
     }
   }
-  
+
   return  false;
 }
 

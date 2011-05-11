@@ -7,7 +7,7 @@
 /* Allocate a STTrue slice.
  * @return index of allocated slice
  */
-slice_index alloc_leaf_slice(void)
+slice_index alloc_true_slice(void)
 {
   slice_index result;
 
@@ -26,7 +26,7 @@ slice_index alloc_leaf_slice(void)
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type leaf_has_solution(slice_index si)
+has_solution_type true_has_solution(slice_index si)
 {
   has_solution_type const result = has_solution;
 
@@ -44,7 +44,7 @@ has_solution_type leaf_has_solution(slice_index si)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type leaf_solve(slice_index si)
+has_solution_type true_solve(slice_index si)
 {
   has_solution_type const result = has_solution;
 

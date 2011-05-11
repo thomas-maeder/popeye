@@ -1,4 +1,5 @@
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -8,6 +9,80 @@
 #include "trace.h"
 
 #include <assert.h>
+
+/* Allow paralysis by paralysing pieces to be temporarily suspended
+ */
+static boolean paralysis_suspended = false;
+
+/* Determine whether a side is "suffocated by paralysis", i.e. would the side
+ * have moves (possibly exposing the side to self check) if no piece were
+ * paralysing.
+ * @param side side for which to determine whether it is suffocated
+ * @return true iff side is suffocated by paralysis
+ */
+boolean suffocated_by_paralysis(Side side)
+{
+ boolean result;
+ boolean encore_with_paralysis;
+ boolean encore_without_paralysis;
+
+ TraceFunctionEntry(__func__);
+ TraceEnumerator(Side,side,"");
+ TraceFunctionParamListEnd();
+
+ move_generation_mode = move_generation_not_optimized;
+
+ paralysis_suspended = true;
+ genmove(side);
+ encore_without_paralysis = encore();
+ finply();
+ paralysis_suspended = false;
+
+ genmove(side);
+ encore_with_paralysis = encore();
+ finply();
+
+ result = !encore_with_paralysis && encore_without_paralysis;
+
+ TraceFunctionExit(__func__);
+ TraceFunctionResult("%u",result);
+ TraceFunctionResultEnd();
+ return result;
+}
+
+/* Determine whether a pice is paralysed
+ * @param s position of piece
+ * @return true iff the piece on square s is paralysed
+ */
+boolean paralysiert(square s)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(s);
+  TraceFunctionParamListEnd();
+
+  if (paralysis_suspended)
+    result = false;
+  else if (e[s]>obs)
+  {
+    square const roi = rb;
+    rb = s;
+    result = rbechec(nbply,testparalyse);
+    rb = roi;
+  }
+  else {
+    square const roi = rn;
+    rn = s;
+    result = rnechec(nbply,testparalyse);
+    rn = roi;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st)
 {
@@ -32,18 +107,7 @@ static void append_goal_stalemate_filter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
-    slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
-    slice_index const proxy = alloc_proxy_slice();
-
-    assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
-    pipe_link(proxy_filter,filter);
-    pipe_link(filter,tested);
-    pipe_link(proxy,si);
-  }
+  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -58,20 +122,8 @@ static void append_goal_doublestalemate_filter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
-    slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter1 = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
-    slice_index const filter2 = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
-    slice_index const proxy = alloc_proxy_slice();
-
-    assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
-    pipe_link(proxy_filter,filter1);
-    pipe_link(filter1,filter2);
-    pipe_link(filter2,tested);
-    pipe_link(proxy,si);
-  }
+  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
+  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -102,18 +154,7 @@ static void append_goal_autostalemate_filter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const tested = branch_find_slice(STGoalReachedTester,si);
-    slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
-    slice_index const proxy = alloc_proxy_slice();
-
-    assert(tested!=no_slice);
-    pipe_link(slices[si].prev,alloc_or_slice(proxy,proxy_filter));
-    pipe_link(proxy_filter,filter);
-    pipe_link(filter,tested);
-    pipe_link(proxy,si);
-	}
+  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -305,7 +305,6 @@ piece   champiece(piece p);
 
 boolean testparalyse(square departure, square arrival, square capture);
 boolean paraechecc(square departure, square arrival, square capture);
-boolean paralysiert(square i);
 
 void    PrintTime();
 boolean leapcheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);

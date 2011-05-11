@@ -1,6 +1,8 @@
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/goals/reached_tester.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -9,17 +11,21 @@
  * whether a steingewinn goal has just been reached
  */
 
-/* Allocate a STGoalSteingewinnReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether steingewinn has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_steingewinn_reached_tester_slice(void)
+slice_index alloc_goal_steingewinn_reached_tester_system(void)
 {
   slice_index result;
+  slice_index steingewinn_tester;
+  Goal const goal = { goal_steingewinn, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalSteingewinnReachedTester);
+  steingewinn_tester = alloc_pipe(STGoalSteingewinnReachedTester);
+  pipe_link(steingewinn_tester,alloc_true_slice());
+  result = alloc_goal_reached_tester_slice(goal,steingewinn_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

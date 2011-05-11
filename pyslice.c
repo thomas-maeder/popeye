@@ -87,7 +87,7 @@ has_solution_type slice_solve(slice_index si)
   switch (slices[si].type)
   {
     case STTrue:
-      result = leaf_solve(si);
+      result = true_solve(si);
       break;
 
     case STFalse:
@@ -99,7 +99,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STGoalReachedTester:
-      result = goal_reached_testing_solve(si);
+      result = goal_reached_tester_solve(si);
       break;
 
     case STGoalTargetReachedTester:
@@ -319,7 +319,7 @@ has_solution_type slice_has_solution(slice_index si)
   switch (slices[si].type)
   {
     case STTrue:
-      result = leaf_has_solution(si);
+      result = true_has_solution(si);
       break;
 
     case STFalse:
@@ -331,7 +331,7 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STGoalReachedTester:
-      result = goal_reached_testing_has_solution(si);
+      result = goal_reached_tester_has_solution(si);
       break;
 
     case STGoalTargetReachedTester:

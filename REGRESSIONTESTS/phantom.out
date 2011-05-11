@@ -30,7 +30,7 @@
               empile:       43200
             jouecoup:       18506
         orig_rbechec:        9656
-        orig_rnechec:       15226
+        orig_rnechec:       15224
 Loesung beendet. 
 
 
@@ -274,7 +274,7 @@ Loesung beendet.
               empile:         824
             jouecoup:         352
         orig_rbechec:           0
-        orig_rnechec:         348
+        orig_rnechec:         346
 Loesung beendet. 
 
 
@@ -310,7 +310,7 @@ Loesung beendet.
               empile:       10791
             jouecoup:        3634
         orig_rbechec:           0
-        orig_rnechec:        3584
+        orig_rnechec:        3583
 Loesung beendet. 
 
 
@@ -359,7 +359,7 @@ b) =1
               empile:          23
             jouecoup:          15
         orig_rbechec:           0
-        orig_rnechec:          17
+        orig_rnechec:          16
 c) #1
 
    1.g7-g8=T # !

@@ -104,10 +104,11 @@
       1...Sd7*b8 [+wpGb1]
           2.Kd1-e2 #
 
-              empile:       10033
-            jouecoup:        4943
-        orig_rbechec:        4091
-        orig_rnechec:        8362
+
+              empile:       37008
+            jouecoup:        4924
+        orig_rbechec:        4088
+        orig_rnechec:       12198
 Loesung beendet. 
 
 
@@ -140,10 +141,10 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
 
-              empile:       16818
+              empile:      598647
             jouecoup:       18133
-        orig_rbechec:        6208
-        orig_rnechec:       19686
+        orig_rbechec:        6152
+        orig_rnechec:       49221
 Loesung beendet. 
 
 
@@ -188,10 +189,11 @@ Loesung beendet.
       1...Kd6-c5
           2.Tb4-c4 #
 
-              empile:        4725
-            jouecoup:        2197
-        orig_rbechec:        1608
-        orig_rnechec:        3540
+
+              empile:       20294
+            jouecoup:        2167
+        orig_rbechec:        1597
+        orig_rnechec:        5516
 Loesung beendet. 
 
 
@@ -243,10 +245,11 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
     Aber
       1...Dh3*h1 !
 
-              empile:        6966
-            jouecoup:        3136
-        orig_rbechec:        3886
-        orig_rnechec:        6654
+
+              empile:       21086
+            jouecoup:        3117
+        orig_rbechec:        3878
+        orig_rnechec:        7427
 Loesung beendet. 
 
 
@@ -290,10 +293,11 @@ a)
       1...Lh6*f8 [+wpTa1]
           2.Sb3-d4 #
 
-              empile:        5207
-            jouecoup:        2631
-        orig_rbechec:        2584
-        orig_rnechec:        4673
+
+              empile:       17183
+            jouecoup:        2604
+        orig_rbechec:        2577
+        orig_rnechec:        6510
 b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:
@@ -307,10 +311,11 @@ b) PlatzwechselCirce
       1...Lh6*f8 [+wpTh6]
           2.Dg5*g2 [+spSg5] #
 
-              empile:        5193
-            jouecoup:        2621
-        orig_rbechec:        2584
-        orig_rnechec:        4625
+
+              empile:       17786
+            jouecoup:        2594
+        orig_rbechec:        2577
+        orig_rnechec:        6614
 Loesung beendet. 
 
 
@@ -341,10 +346,11 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 
    1.pKa7-b7 = !
 
-              empile:          52
+
+              empile:         116
             jouecoup:          29
-        orig_rbechec:          38
-        orig_rnechec:         116
+        orig_rbechec:          35
+        orig_rnechec:         113
 Loesung beendet. 
 
 
@@ -376,10 +382,11 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 
    1.Kc2-d3 != !
 
-              empile:          96
+
+              empile:         170
             jouecoup:          16
-        orig_rbechec:          44
-        orig_rnechec:           2
+        orig_rbechec:          43
+        orig_rnechec:           1
 Loesung beendet. 
 
 

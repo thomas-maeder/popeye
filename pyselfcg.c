@@ -425,7 +425,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
       slice_index const proxy_regular = alloc_proxy_slice();
       slice_index const proxy_selfcheck = alloc_proxy_slice();
       slice_index const guard = alloc_selfcheck_guard_slice();
-      slice_index const leaf_selfcheck = alloc_leaf_slice();
+      slice_index const leaf_selfcheck = alloc_true_slice();
       pipe_append(not_slice,proxy_regular);
       pipe_link(not_slice,alloc_and_slice(proxy_regular,proxy_selfcheck));
       pipe_link(proxy_selfcheck,guard);

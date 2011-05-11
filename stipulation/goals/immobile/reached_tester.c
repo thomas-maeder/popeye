@@ -1,11 +1,36 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "pypipe.h"
 #include "pyproc.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
  */
+
+
+/* Allocate a system of slices that tests whether the side to be immobilised has
+ * been
+ * @return index of entry slice
+ */
+slice_index alloc_goal_immobile_reached_tester_system(void)
+{
+  slice_index result;
+  slice_index immobile_tester;
+  Goal const goal = { goal_mate_or_stale, initsquare };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  immobile_tester = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
+  pipe_link(immobile_tester,alloc_true_slice());
+  result = alloc_goal_reached_tester_slice(goal,immobile_tester);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Allocate a STGoalImmobileReachedTester slice.
  * @param starter_or_adversary is the starter immobilised or its adversary?

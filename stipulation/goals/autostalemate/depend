@@ -1,9 +1,21 @@
 stipulation/goals/autostalemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/autostalemate/reached_tester.c \
- stipulation/goals/autostalemate/reached_tester.h pypipe.h trace.h
+ stipulation/goals/autostalemate/reached_tester.h pypipe.h \
+ stipulation/goals/reached_tester.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/goals/notcheck/reached_tester.h stipulation/boolean/true.h \
+ trace.h
 
 stipulation/goals/autostalemate/reached_tester.h:
 
 pypipe.h:
+
+stipulation/goals/reached_tester.h:
+
+stipulation/goals/immobile/reached_tester.h:
+
+stipulation/goals/notcheck/reached_tester.h:
+
+stipulation/boolean/true.h:
 
 trace.h:

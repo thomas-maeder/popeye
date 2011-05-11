@@ -178,7 +178,7 @@ a)  -wGIb3
               empile:       88765
             jouecoup:       56112
         orig_rbechec:       23251
-        orig_rnechec:       52192
+        orig_rnechec:       52191
 b)  -w35g5
 
   1.a2-a1=N h7-h8=35   2.Na1-e3 35h8*e3 = 
@@ -186,7 +186,7 @@ b)  -w35g5
               empile:      109742
             jouecoup:       57868
         orig_rbechec:       30633
-        orig_rnechec:       52659
+        orig_rnechec:       52658
 c)  -wNe1
 
   1.a2-a1=35 h7-h8=N   2.35a1-d6 Nh8*d6 = 
@@ -194,7 +194,7 @@ c)  -wNe1
               empile:       68604
             jouecoup:       44887
         orig_rbechec:       17048
-        orig_rnechec:       41593
+        orig_rnechec:       41592
 Loesung beendet. 
 
 
@@ -810,7 +810,7 @@ NG11, 1. NG-ST, Problemkiste 109, 2/1997
               empile:        2820
             jouecoup:        1833
         orig_rbechec:         825
-        orig_rnechec:        1556
+        orig_rnechec:        1555
 Loesung beendet. 
 
 
@@ -889,7 +889,7 @@ NG28, 1. NG-ST, Problemkiste 109, 2/1997
               empile:       29489
             jouecoup:       13574
         orig_rbechec:        9274
-        orig_rnechec:       13006
+        orig_rnechec:       13005
 Loesung beendet. 
 
 

@@ -10,10 +10,10 @@
 /* TODO get rid of this */
 extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
 
-/* Allocate a STGoalDoubleMateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether doublemate has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_doublemate_reached_tester_slice(void);
+slice_index alloc_doublemate_mate_reached_tester_system(void);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

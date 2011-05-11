@@ -1961,28 +1961,6 @@ static goalInputConfig_t const *detectGoalType(char *tok)
   return gic;
 }
 
-static void attachGoalBranch(slice_index proxy, slice_index tester, Goal goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy);
-  TraceFunctionParam("%u",tester);
-  TraceFunctionParam("%u",goal.type);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const leaf = alloc_leaf_slice();
-    slice_index const testing = alloc_goal_testing_slice();
-    slices[testing].u.goal_tester.goal = goal;
-    pipe_append(slices[testing].u.goal_tester.fork,tester);
-
-    pipe_link(proxy,testing);
-    pipe_link(testing,leaf);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static char *ParseGoal(char *tok, slice_index proxy)
 {
   goalInputConfig_t const *gic;
@@ -2018,89 +1996,87 @@ static char *ParseGoal(char *tok, slice_index proxy)
         }
         else
         {
-          slice_index const
-            tester = alloc_goal_target_reached_tester_slice(goal.target);
-          attachGoalBranch(proxy,tester,goal);
+          pipe_link(proxy,alloc_goal_target_reached_tester_system(goal.target));
           tok += 2; /* skip over target square indication */
         }
         break;
       }
 
       case goal_mate_or_stale:
-        attachGoalBranch(proxy,alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter),goal);
+        pipe_link(proxy,alloc_goal_immobile_reached_tester_system());
         break;
 
       case goal_mate:
-        attachGoalBranch(proxy,alloc_goal_mate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_mate_reached_tester_system());
         break;
 
       case goal_stale:
-        attachGoalBranch(proxy,alloc_goal_stalemate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_stalemate_reached_tester_system());
         break;
 
       case goal_dblstale:
-        attachGoalBranch(proxy,alloc_goal_doublestalemate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_doublestalemate_reached_tester_system());
         break;
 
       case goal_check:
-        attachGoalBranch(proxy,alloc_goal_check_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_check_reached_tester_system());
         break;
 
       case goal_capture:
-        attachGoalBranch(proxy,alloc_goal_capture_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_capture_reached_tester_system());
         break;
 
       case goal_steingewinn:
-        attachGoalBranch(proxy,alloc_goal_steingewinn_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_steingewinn_reached_tester_system());
         break;
 
       case goal_ep:
-        attachGoalBranch(proxy,alloc_goal_enpassant_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_enpassant_reached_tester_system());
         break;
 
       case goal_doublemate:
-        attachGoalBranch(proxy,alloc_goal_doublemate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_doublemate_mate_reached_tester_system());
         break;
 
       case goal_countermate:
-        attachGoalBranch(proxy,alloc_goal_countermate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_countermate_reached_tester_system());
         break;
 
       case goal_castling:
-        attachGoalBranch(proxy,alloc_goal_castling_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_castling_reached_tester_system());
         break;
 
       case goal_autostale:
-        attachGoalBranch(proxy,alloc_goal_autostalemate_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_autostalemate_reached_tester_system());
         break;
 
       case goal_circuit:
-        attachGoalBranch(proxy,alloc_goal_circuit_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_circuit_reached_tester_system());
         break;
 
       case goal_exchange:
-        attachGoalBranch(proxy,alloc_goal_exchange_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_exchange_reached_tester_system());
         break;
 
       case goal_circuit_by_rebirth:
-        attachGoalBranch(proxy,alloc_goal_circuit_by_rebirth_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_circuit_by_rebirth_reached_tester_system());
         break;
 
       case goal_exchange_by_rebirth:
-        attachGoalBranch(proxy,alloc_goal_exchange_by_rebirth_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_exchange_by_rebirth_reached_tester_system());
         break;
 
       case goal_any:
-        attachGoalBranch(proxy,alloc_goal_any_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_any_reached_tester_system());
         break;
 
       case goal_proofgame:
-        attachGoalBranch(proxy,alloc_goal_proofgame_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_proofgame_reached_tester_system());
         break;
 
       case goal_atob:
       {
-        attachGoalBranch(proxy,alloc_goal_atob_reached_tester_slice(),goal);
+        pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 
         ProofSaveStartPosition();
 

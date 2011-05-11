@@ -7,10 +7,10 @@
  * whether a enpassant goal has just been reached
  */
 
-/* Allocate a STGoalEnpassantReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether enpassant has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_enpassant_reached_tester_slice(void);
+slice_index alloc_goal_enpassant_reached_tester_system(void);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

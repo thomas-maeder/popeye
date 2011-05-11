@@ -1,25 +1,42 @@
 #include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "pypipe.h"
-#include "pydata.h"
+#include "stipulation/goals/reached_tester.h"
+#include "stipulation/boolean/true.h"
+#include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/notcheck/reached_tester.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* This module provides functionality dealing with slices that detect
- * whether a double stalemate goal has just been reached
+/* This module provides functionality that detects whether double stalemate goal
+ * has been reached
  */
 
-/* Allocate a STGoalDoubleStalemateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that test whether double stalemate has
+ * been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_doublestalemate_reached_tester_slice(void)
+slice_index alloc_goal_doublestalemate_reached_tester_system(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalDoubleStalemateReachedTester);
+  {
+    Goal const goal = { goal_dblstale, initsquare };
+    slice_index const dblstale_tester = alloc_pipe(STGoalDoubleStalemateReachedTester);
+    slice_index const notcheck_tester = alloc_goal_notcheck_reached_tester_slice();
+    slice_index const immobile_tester_starter = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
+    slice_index const immobile_tester_other = alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary);
+
+    pipe_link(dblstale_tester,notcheck_tester);
+    pipe_link(notcheck_tester,immobile_tester_starter);
+    pipe_link(immobile_tester_starter,immobile_tester_other);
+    pipe_link(immobile_tester_other,alloc_true_slice());
+
+    result = alloc_goal_reached_tester_slice(goal,dblstale_tester);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

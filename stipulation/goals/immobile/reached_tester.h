@@ -7,6 +7,12 @@
  * whether a side is immobile
  */
 
+/* Allocate a system of slices that tests whether the side to be immobilised has
+ * been
+ * @return index of entry slice
+ */
+slice_index alloc_goal_immobile_reached_tester_system(void);
+
 /* Allocate a STGoalImmobileReachedTester slice.
  * @param starter_or_adversary is the starter immobilised or its adversary?
  * @return index of allocated slice

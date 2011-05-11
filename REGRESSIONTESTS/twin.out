@@ -42,8 +42,8 @@ b) h=2
 
               empile:      140319
             jouecoup:       56942
-        orig_rbechec:       41061
-        orig_rnechec:       38372
+        orig_rbechec:       41060
+        orig_rnechec:       38371
 Loesung beendet. 
 
 
@@ -91,8 +91,8 @@ b) h=2
 
               empile:      959044
             jouecoup:      377639
-        orig_rbechec:      254454
-        orig_rnechec:      262212
+        orig_rbechec:      254453
+        orig_rnechec:      262211
 Loesung beendet. 
 
 
@@ -158,7 +158,7 @@ d) h=2
               empile:        6041
             jouecoup:        4237
         orig_rbechec:        1983
-        orig_rnechec:        3244
+        orig_rnechec:        3243
 Loesung beendet. 
 
 
@@ -788,7 +788,7 @@ b) =2
               empile:       11063
             jouecoup:        7456
         orig_rbechec:        1374
-        orig_rnechec:        7452
+        orig_rnechec:        7448
 Loesung beendet. 
 
 
@@ -1644,7 +1644,7 @@ a)
               empile:      759594
             jouecoup:      506970
         orig_rbechec:      112583
-        orig_rnechec:      494915
+        orig_rnechec:      494914
 b) sTe6 
 
   1.Te6-g6 Lh5*g6   2.a2-a1=L Lg6-b1 = 
@@ -1652,7 +1652,7 @@ b) sTe6
               empile:     1378103
             jouecoup:      891095
         orig_rbechec:      236230
-        orig_rnechec:      850565
+        orig_rnechec:      850564
 c) nTe6 
 
   1.nTe6*e1 nTe1-a1   2.b2-b1=S Sf1-d2 = 
@@ -1660,7 +1660,7 @@ c) nTe6
               empile:     1973699
             jouecoup:     1293360
         orig_rbechec:      321221
-        orig_rnechec:     1235524
+        orig_rnechec:     1235523
 Loesung beendet. 
 
 

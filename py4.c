@@ -65,6 +65,7 @@
 #include "pystip.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "conditions/republican.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "trace.h"
 #include "measure.h"
 

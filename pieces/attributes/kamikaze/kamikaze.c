@@ -42,7 +42,7 @@ static void instrument_goal_exchange_filter(slice_index si,
     slice_index const proxy_special = alloc_proxy_slice();
     /* reusing the special exchange detection created for Anticirce */
     slice_index const special = alloc_anticirce_exchange_special_slice();
-    slice_index const leaf_special = alloc_leaf_slice();
+    slice_index const leaf_special = alloc_true_slice();
 
     slice_index const proxy_filter = alloc_proxy_slice();
     /* reusing the special exchange filter created for Anticirce */

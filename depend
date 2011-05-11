@@ -179,7 +179,8 @@ pystip.h:
 trace.h:
 py3$(OBJ_SUFFIX): py3.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
- py.h pyenum.h pydata.h trace.h measure.h
+ py.h pyenum.h pydata.h trace.h measure.h \
+ pieces/attributes/paralysing/paralysing.h pystip.h
 
 py.h:
 
@@ -214,12 +215,16 @@ pydata.h:
 trace.h:
 
 measure.h:
+
+pieces/attributes/paralysing/paralysing.h:
+
+pystip.h:
 py4$(OBJ_SUFFIX): py4.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h py1.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pyenum.h pydata.h pymsg.h pystip.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h conditions/republican.h pyproc.h trace.h \
- measure.h
+ stipulation/goals/goals.h conditions/republican.h pyproc.h \
+ pieces/attributes/paralysing/paralysing.h pystip.h trace.h measure.h
 
 py.h:
 
@@ -265,6 +270,10 @@ conditions/republican.h:
 
 pyproc.h:
 
+pieces/attributes/paralysing/paralysing.h:
+
+pystip.h:
+
 trace.h:
 
 measure.h:
@@ -274,7 +283,7 @@ py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/attack_play.h pyslice.h pydata.h pymsg.h \
  pyslice.h pystip.h stipulation/goals/doublemate/reached_tester.h \
  conditions/exclusive.h pyposit.h pystip.h conditions/republican.h \
- pyproc.h trace.h measure.h
+ pyproc.h pieces/attributes/paralysing/paralysing.h trace.h measure.h
 
 py.h:
 
@@ -331,6 +340,8 @@ pystip.h:
 conditions/republican.h:
 
 pyproc.h:
+
+pieces/attributes/paralysing/paralysing.h:
 
 trace.h:
 
@@ -554,7 +565,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/series_play/play.h stipulation/boolean/or.h \
  stipulation/boolean/and.h stipulation/boolean/not.h \
  stipulation/boolean/true.h stipulation/goals/reached_tester.h \
- stipulation/goals/mate/reached_tester.h \
+ stipulation/goals/goals.h stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
@@ -690,6 +701,8 @@ stipulation/boolean/not.h:
 stipulation/boolean/true.h:
 
 stipulation/goals/reached_tester.h:
+
+stipulation/goals/goals.h:
 
 stipulation/goals/mate/reached_tester.h:
 
@@ -1357,7 +1370,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/boolean/not.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h \
  stipulation/help_play/adapter.h stipulation/series_play/adapter.h \
- stipulation/goals/reached_tester.h \
+ stipulation/goals/reached_tester.h stipulation/goals/goals.h \
  stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
@@ -1468,6 +1481,8 @@ stipulation/help_play/adapter.h:
 stipulation/series_play/adapter.h:
 
 stipulation/goals/reached_tester.h:
+
+stipulation/goals/goals.h:
 
 stipulation/goals/target/reached_tester.h:
 

@@ -2,6 +2,9 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "stipulation/goals/reached_tester.h"
+#include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/boolean/true.h"
 #include "trace.h"
 
 /* This module provides functionality dealing with slices that detect
@@ -10,17 +13,28 @@
 
 extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
 
-/* Allocate a STGoalCounterMateReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether countermate has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_countermate_reached_tester_slice(void)
+slice_index alloc_goal_countermate_reached_tester_system(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalCounterMateReachedTester);
+  {
+    Goal const goal = { goal_countermate, initsquare };
+    slice_index const countermate_tester = alloc_pipe(STGoalCounterMateReachedTester);
+    slice_index const immobile_tester_starter = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
+    slice_index const immobile_tester_other = alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary);
+
+    pipe_link(countermate_tester,immobile_tester_starter);
+    pipe_link(immobile_tester_starter,immobile_tester_other);
+    pipe_link(immobile_tester_other,alloc_true_slice());
+
+    result = alloc_goal_reached_tester_slice(goal,countermate_tester);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

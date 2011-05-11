@@ -7,9 +7,9 @@
  * whether an A=>B game goal has just been reached
  */
 
-/* Allocate a STGoalAToBReachedTester slice.
- * @return index of allocated slice
+/* Allocate a system of slices that tests whether atob has been reached
+ * @return index of entry slice
  */
-slice_index alloc_goal_atob_reached_tester_slice(void);
+slice_index alloc_goal_atob_reached_tester_system(void);
 
 #endif

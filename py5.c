@@ -71,6 +71,7 @@
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "trace.h"
 #include "measure.h"
 

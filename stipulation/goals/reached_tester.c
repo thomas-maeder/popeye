@@ -5,9 +5,11 @@
 #include "trace.h"
 
 /* Allocate a STGoalReachedTester slice
+ * @param goal goal to be tested
+ * @param tester identifies the slice(s) that actually tests
  * @return identifier of the allocated slice
  */
-slice_index alloc_goal_testing_slice(void)
+slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
 {
   slice_index result;
 
@@ -15,8 +17,12 @@ slice_index alloc_goal_testing_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalReachedTester);
+  slices[result].u.goal_tester.goal = goal;
+
   slices[result].u.goal_tester.fork = alloc_proxy_slice();
-  pipe_link(slices[result].u.goal_tester.fork,alloc_leaf_slice());
+  pipe_link(slices[result].u.goal_tester.fork,tester);
+
+  pipe_link(result,alloc_true_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -28,7 +34,7 @@ slice_index alloc_goal_testing_slice(void)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_reached_testing_solve(slice_index si)
+has_solution_type goal_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -50,7 +56,7 @@ has_solution_type goal_reached_testing_solve(slice_index si)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_reached_testing_has_solution(slice_index si)
+has_solution_type goal_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
 

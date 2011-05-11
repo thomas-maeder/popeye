@@ -1,6 +1,6 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pypipe.h"
-#include "pydata.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -30,16 +30,6 @@ alloc_paralysing_mate_filter_slice(goal_applies_to_starter_or_adversary starter_
   return result;
 }
 
-static boolean has_move(Side side)
-{
-  boolean result;
-  move_generation_mode = move_generation_not_optimized;
-  genmove(side);
-  result = encore();
-  finply();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier
@@ -58,9 +48,12 @@ has_solution_type paralysing_mate_filter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (has_move(mated))
-    result = slice_has_solution(next);
-  else
+//  if (!suffocated_by_paralysis(mated))
+//    result = slice_has_solution(next);
+//  else
+//    result = has_no_solution;
+  result = slice_has_solution(next);
+  if (result==has_solution && suffocated_by_paralysis(mated))
     result = has_no_solution;
 
   TraceFunctionExit(__func__);
@@ -86,7 +79,7 @@ has_solution_type paralysing_mate_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (has_move(mated))
+  if (!suffocated_by_paralysis(mated))
     result = slice_solve(next);
   else
     result = has_no_solution;
