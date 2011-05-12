@@ -2511,6 +2511,76 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
+void insert_solving_strategy_help_adapter(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  boolean * const is_root = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*is_root)
+  {
+    *is_root = false;
+    stip_traverse_structure_children(si,st);
+    *is_root = true;
+
+    if (length-min_length>=2)
+    {
+      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
+      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
+      slice_index const ready3 = branch_find_slice(STReadyForHelpMove,ready2);
+      slice_index const prototypes[] =
+      {
+        alloc_help_find_by_increasing_length_slice(length,min_length),
+        alloc_fork_on_remaining_slice(ready3,length-1-slack_length_help)
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      help_branch_insert_slices(si,prototypes,nr_prototypes);
+    }
+  }
+  else
+  {
+    stip_traverse_structure_children(si,st);
+
+    if (length-min_length>=2)
+    {
+      slice_index const prototype = alloc_help_find_shortest_slice(length,min_length);
+      help_branch_insert_slices(si,&prototype,1);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stip_insert_solving_strategy(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean is_root = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,&is_root);
+  stip_structure_traversal_override_single(&st,
+                                           STHelpAdapter,
+                                           insert_solving_strategy_help_adapter);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2566,6 +2636,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
+
+      stip_insert_solving_strategy(template_slice_hook);
 
       optimise_away_redundant_continuation_solvers(template_slice_hook);
 
