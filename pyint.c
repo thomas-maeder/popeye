@@ -3220,8 +3220,8 @@ typedef struct
 } detector_state_type;
 
 static
-void intelligent_mode_support_detector_quodlibet(slice_index si,
-                                                 stip_structure_traversal *st)
+void intelligent_mode_support_detector_or(slice_index si,
+                                          stip_structure_traversal *st)
 {
   detector_state_type * const state = st->param;
   support_for_intelligent_mode support1;
@@ -3308,14 +3308,12 @@ static void intelligent_mode_support_goal_tester(slice_index si,
 
 static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
-  { STAnd,           &intelligent_mode_support_none               },
-  { STOr,            &intelligent_mode_support_detector_quodlibet },
-  { STNot,                  &intelligent_mode_support_none               },
-  { STConstraint,           &intelligent_mode_support_none               },
-  { STRefutationsCollector, &intelligent_mode_support_none               },
-  { STConstraint,           &intelligent_mode_support_none               },
-  { STDefenseMove,          &intelligent_mode_support_none               },
-  { STGoalReachedTester,    &intelligent_mode_support_goal_tester        }
+  { STAnd,               &intelligent_mode_support_none        },
+  { STOr,                &intelligent_mode_support_detector_or },
+  { STNot,               &intelligent_mode_support_none        },
+  { STConstraint,        &intelligent_mode_support_none        },
+  { STReadyForDefense,   &intelligent_mode_support_none        },
+  { STGoalReachedTester, &intelligent_mode_support_goal_tester }
 };
 
 enum
