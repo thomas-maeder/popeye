@@ -371,8 +371,8 @@ static structure_traversers_visitors series_root_slice_inserters[] =
   { STSeriesFindShortest, &series_find_shortest_make_root  },
   { STReadyForSeriesMove, &ready_for_series_move_make_root },
   { STSeriesMove,         &series_move_make_root           },
-  { STAnd,         &binary_make_root                },
-  { STOr,          &binary_make_root                }
+  { STAnd,                &binary_make_root                },
+  { STOr,                 &binary_make_root                }
 };
 
 enum

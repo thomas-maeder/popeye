@@ -533,8 +533,8 @@ static void init_slice_properties_hashed_series(slice_index si,
 
 static structure_traversers_visitors slice_properties_initalisers[] =
 {
-  { STAnd,   &init_slice_properties_binary        },
-  { STOr,    &init_slice_properties_binary        },
+  { STAnd,          &init_slice_properties_binary        },
+  { STOr,           &init_slice_properties_binary        },
   { STAttackHashed, &init_slice_properties_attack_hashed },
   { STHelpHashed,   &init_slice_properties_hashed_help   },
   { STSeriesHashed, &init_slice_properties_hashed_series }

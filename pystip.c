@@ -770,8 +770,8 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STDefenseAdapter, &defense_adapter_make_root },
   { STHelpAdapter,    &help_adapter_make_root    },
   { STSeriesAdapter,  &series_adapter_make_root  },
-  { STAnd,     &binary_make_root          },
-  { STOr,      &binary_make_root          }
+  { STAnd,            &binary_make_root          },
+  { STOr,             &binary_make_root          }
 };
 
 enum
@@ -836,12 +836,12 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const get_max_nr_moves_functions[] =
 {
-  { STAttackMove,             &get_max_nr_moves_move   },
-  { STDefenseMove,            &get_max_nr_moves_move   },
-  { STHelpMove,               &get_max_nr_moves_move   },
-  { STSeriesMove,             &get_max_nr_moves_move   },
-  { STOr,              &get_max_nr_moves_binary },
-  { STAnd,             &get_max_nr_moves_binary }
+  { STAttackMove,  &get_max_nr_moves_move   },
+  { STDefenseMove, &get_max_nr_moves_move   },
+  { STHelpMove,    &get_max_nr_moves_move   },
+  { STSeriesMove,  &get_max_nr_moves_move   },
+  { STOr,          &get_max_nr_moves_binary },
+  { STAnd,         &get_max_nr_moves_binary }
 };
 
 enum
@@ -1342,19 +1342,19 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STAttackMove,       &attack_move_detect_starter   },
-  { STDefenseMove,      &defense_move_detect_starter  },
-  { STHelpMove,         &help_move_detect_starter     },
-  { STSeriesMove,       &series_move_detect_starter   },
-  { STSeriesDummyMove,  &series_move_detect_starter   },
-  { STAnd,       &and_detect_starter          },
-  { STOr,        &or_detect_starter     },
-  { STMoveInverter,     &move_inverter_detect_starter },
-  { STParryFork,        &pipe_detect_starter          },
+  { STAttackMove,      &attack_move_detect_starter   },
+  { STDefenseMove,     &defense_move_detect_starter  },
+  { STHelpMove,        &help_move_detect_starter     },
+  { STSeriesMove,      &series_move_detect_starter   },
+  { STSeriesDummyMove, &series_move_detect_starter   },
+  { STAnd,             &and_detect_starter           },
+  { STOr,              &or_detect_starter     },
+  { STMoveInverter,    &move_inverter_detect_starter },
+  { STParryFork,       &pipe_detect_starter          },
   /* .fork has different starter -> detect starter from .next
    * only */
-  { STThreatSolver,     &pipe_detect_starter          },
-  { STMaxThreatLength,  &pipe_detect_starter          }
+  { STThreatSolver,    &pipe_detect_starter          },
+  { STMaxThreatLength, &pipe_detect_starter          }
 };
 
 enum

@@ -700,8 +700,8 @@ static structure_traversers_visitors battle_root_slice_inserters[] =
   { STEndOfBranchGoal,    &end_of_branch_goal_make_root   },
   { STAttackFindShortest, &attack_find_shortest_make_root },
   { STDefenseMove,        &defense_move_make_root         },
-  { STAnd,         &binary_make_root               },
-  { STOr,          &binary_make_root               }
+  { STAnd,                &binary_make_root               },
+  { STOr,                 &binary_make_root               }
 };
 
 enum
