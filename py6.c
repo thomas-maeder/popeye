@@ -2645,23 +2645,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_check_detectors(template_slice_hook);
 
-      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
-      {
-        if (OptFlag[postkeyplay])
-          stip_insert_postkey_handlers(template_slice_hook);
-        if (!OptFlag[nothreat])
-          stip_insert_threat_handlers(template_slice_hook);
-      }
-      else
-        stip_insert_postkeyplay_suppressors(template_slice_hook);
-
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-      {
-        if (!stip_insert_try_solvers(template_slice_hook,
-                                     get_max_nr_refutations()))
-          Message(TryPlayNotApplicable);
-      }
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards(template_slice_hook);
 
@@ -2747,6 +2730,29 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_dead_end_slices(root_slice);
 
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
+
+      /* ab hier abhängig von root */
+
+      optimise_away_redundant_continuation_solvers(root_slice);
+
+      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
+      {
+        if (OptFlag[postkeyplay])
+          stip_insert_postkey_handlers(root_slice);
+        if (!OptFlag[nothreat])
+          stip_insert_threat_handlers(root_slice);
+      }
+      else
+        stip_insert_postkeyplay_suppressors(root_slice);
+
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+      {
+        if (!stip_insert_try_solvers(root_slice,get_max_nr_refutations()))
+          Message(TryPlayNotApplicable);
+      }
+
+      if (!OptFlag[intelligent] && OptFlag[movenbr])
+        stip_insert_restart_guards(root_slice);
 
       stip_insert_output_slices(root_slice);
 
