@@ -1,8 +1,7 @@
 #if !defined(STIPULATION_SERIES_PLAY_FIND_SHORTEST_H)
 #define STIPULATION_SERIES_PLAY_FIND_SHORTEST_H
 
-#include "py.h"
-#include "pystip.h"
+#include "stipulation/series_play/play.h"
 
 /* This module provides functionality dealing with STSeriesFindShortest
  * stipulation slices.
@@ -15,14 +14,6 @@
  */
 slice_index alloc_series_find_shortest_slice(stip_length_type length,
                                              stip_length_type min_length);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-
-void series_find_shortest_make_root(slice_index si,
-                                    stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index

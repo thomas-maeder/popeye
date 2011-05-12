@@ -31,10 +31,10 @@ slice_index alloc_series_adapter_slice(stip_length_type length,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies slice where to start
  * @param st address of structure holding the traversal state
  */
-void series_adapter_make_root(slice_index si, stip_structure_traversal *st)
+void series_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
 
@@ -42,7 +42,14 @@ void series_adapter_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *root_slice = series_branch_make_root(si);
+  *root_slice = series_make_root(slices[adapter].u.pipe.next);
+
+  if (*root_slice!=no_slice)
+  {
+    pipe_link(adapter,*root_slice);
+    *root_slice = adapter;
+    pipe_unlink(slices[adapter].prev);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -50,18 +57,26 @@ void series_adapter_make_root(slice_index si, stip_structure_traversal *st)
 
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
- * @param si identifies the root from which to apply set play
+ * @param adapter identifies the root from which to apply set play
  * @param st address of structure representing traversal
  */
-void series_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
+void series_adapter_apply_setplay(slice_index adapter, stip_structure_traversal *st)
 {
   slice_index * const setplay_slice = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *setplay_slice = series_branch_make_setplay(si);
+  *setplay_slice = series_make_setplay(slices[adapter].u.pipe.next);
+
+  if (*setplay_slice!=no_slice)
+  {
+    slice_index const set_adapter =
+        alloc_series_adapter_slice(slack_length_series,slack_length_series);
+    link_to_branch(set_adapter,*setplay_slice);
+    *setplay_slice = set_adapter;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

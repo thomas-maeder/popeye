@@ -11,7 +11,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/play.h"
@@ -265,8 +264,6 @@ slice_index alloc_series_branch(stip_length_type length,
 
   {
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
-    slice_index const finder = alloc_series_find_shortest_slice(length,
-                                                                min_length);
     slice_index const ready = alloc_ready_for_series_move_slice(length,
                                                                 min_length);
     slice_index const generator = alloc_series_move_generator_slice();
@@ -276,8 +273,8 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const dummy = alloc_series_dummy_move_slice();
 
     result = adapter;
-    pipe_link(adapter,finder);
-    pipe_set_successor(finder,ready);
+
+    pipe_set_successor(adapter,ready);
 
     pipe_link(ready,generator);
     pipe_link(generator,move);
@@ -366,72 +363,68 @@ void series_branch_set_end_forced(slice_index si, slice_index next)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors series_root_slice_inserters[] =
+static void series_branch_make_root(slice_index si, stip_structure_traversal *st)
 {
-  { STSeriesFindShortest, &series_find_shortest_make_root  },
-  { STReadyForSeriesMove, &ready_for_series_move_make_root },
-  { STSeriesMove,         &series_move_make_root           },
-  { STAnd,                &binary_make_root                },
-  { STOr,                 &binary_make_root                }
-};
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-enum
+  pipe_make_root(si,st);
+  shorten_series_pipe(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
-  nr_series_root_slice_inserters = (sizeof series_root_slice_inserters
-                                    / sizeof series_root_slice_inserters[0])
-};
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *root_slice = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies slice where to start
  * @return identifier of root slice
  */
-slice_index series_branch_make_root(slice_index si)
+slice_index series_make_root(slice_index si)
 {
-  stip_structure_traversal st;
-  slice_structural_type i;
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  for (i = 0; i!=nr_slice_structure_types; ++i)
-    if (slice_structure_is_subclass(i,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
-  stip_structure_traversal_override(&st,
-                                    series_root_slice_inserters,
-                                    nr_series_root_slice_inserters);
-  stip_traverse_structure(si,&st);
+  {
+    stip_structure_traversal st;
+    slice_structural_type i;
+
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    series_branch_insert_slices(si,&prototype,1);
+
+    stip_structure_traversal_init(&st,&result);
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_branch))
+        stip_structure_traversal_override_by_structure(&st,i,&series_branch_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_binary))
+        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
-/* Find the slice where to start spawning off the set play
- * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of slice where to start if setplay is applicable
- *         no_slice otherwise
- */
-static slice_index find_setplay_spawn_slice(slice_index adapter)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  result = branch_find_slice(STEndOfBranch,adapter);
-  if (result==no_slice)
-    result = branch_find_slice(STEndOfBranchForced,adapter);
-
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -440,27 +433,30 @@ static slice_index find_setplay_spawn_slice(slice_index adapter)
  * @return entry point of the slices representing set play
  *         no_slice if set play is not applicable
  */
-slice_index series_branch_make_setplay(slice_index adapter)
+slice_index series_make_setplay(slice_index si)
 {
-  slice_index result;
-  slice_index spawn_pos;
+  slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  spawn_pos = find_setplay_spawn_slice(adapter);
-  if (spawn_pos==no_slice)
-    result = no_slice;
-  else
   {
-    slice_index const fork = slices[spawn_pos].u.fork.fork;
-    slice_index const end_of_branch = alloc_end_of_branch_slice(fork);
-    slice_index const dead_end = alloc_dead_end_slice();
-    result = alloc_series_adapter_slice(slack_length_series,
-                                        slack_length_series);
-    pipe_link(result,end_of_branch);
-    pipe_link(end_of_branch,dead_end);
+    stip_structure_traversal st;
+    slice_structural_type i;
+    slice_index const end = branch_find_slice(STEndOfRoot,si);
+
+    assert(end!=no_slice);
+
+    stip_structure_traversal_init(&st,&result);
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_binary))
+        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&stip_structure_visitor_noop);
+    stip_structure_traversal_override_single(&st,STDeadEnd,&serve_as_root_hook);
+    stip_traverse_structure(end,&st);
   }
 
   TraceFunctionExit(__func__);

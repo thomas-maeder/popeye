@@ -1,17 +1,13 @@
 stipulation/series_play/ready_for_series_move$(OBJ_SUFFIX): \
  stipulation/series_play/ready_for_series_move.c \
- stipulation/series_play/ready_for_series_move.h trace.h pypipe.h \
- stipulation/branch.h stipulation/series_play/branch.h
+ stipulation/series_play/ready_for_series_move.h trace.h \
+ stipulation/branch.h
 
 stipulation/series_play/ready_for_series_move.h:
 
 trace.h:
 
-pypipe.h:
-
 stipulation/branch.h:
-
-stipulation/series_play/branch.h:
 stipulation/series_play/adapter$(OBJ_SUFFIX): stipulation/series_play/adapter.c \
  stipulation/series_play/adapter.h stipulation/branch.h \
  stipulation/series_play/branch.h pypipe.h trace.h
@@ -32,8 +28,7 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/end_of_branch_goal.h stipulation/boolean/binary.h \
  stipulation/battle_play/branch.h \
  stipulation/series_play/ready_for_series_move.h \
- stipulation/series_play/adapter.h \
- stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
+ stipulation/series_play/adapter.h stipulation/series_play/move.h \
  stipulation/series_play/dummy_move.h stipulation/series_play/play.h \
  stipulation/series_play/move_generator.h stipulation/goals/goals.h \
  trace.h
@@ -64,8 +59,6 @@ stipulation/series_play/ready_for_series_move.h:
 
 stipulation/series_play/adapter.h:
 
-stipulation/series_play/find_shortest.h:
-
 stipulation/series_play/move.h:
 
 stipulation/series_play/dummy_move.h:
@@ -91,24 +84,11 @@ trace.h:
 stipulation/branch.h:
 stipulation/series_play/find_shortest$(OBJ_SUFFIX): \
  stipulation/series_play/find_shortest.c \
- stipulation/series_play/find_shortest.h stipulation/branch.h \
- stipulation/series_play/play.h stipulation/series_play/branch.h \
- stipulation/series_play/find_by_increasing_length.h \
- stipulation/fork_on_remaining.h pypipe.h trace.h
+ stipulation/series_play/find_shortest.h stipulation/branch.h trace.h
 
 stipulation/series_play/find_shortest.h:
 
 stipulation/branch.h:
-
-stipulation/series_play/play.h:
-
-stipulation/series_play/branch.h:
-
-stipulation/series_play/find_by_increasing_length.h:
-
-stipulation/fork_on_remaining.h:
-
-pypipe.h:
 
 trace.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \

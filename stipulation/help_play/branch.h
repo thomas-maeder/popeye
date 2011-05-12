@@ -93,7 +93,7 @@ void help_branch_insert_slices_nested(slice_index si,
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return identifier of initial root slice
  */
-slice_index help_branch_make_root(slice_index si);
+slice_index help_make_root(slice_index si);
 
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the

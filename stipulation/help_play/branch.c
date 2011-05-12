@@ -610,7 +610,7 @@ static slice_index help_branch_make_root_slices(slice_index adapter)
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return identifier of initial root slice
  */
-slice_index help_branch_make_root(slice_index adapter)
+slice_index help_make_root(slice_index adapter)
 {
   slice_index result;
 

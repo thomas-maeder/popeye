@@ -43,7 +43,7 @@ void help_adapter_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *root_slice = help_branch_make_root(si);
+  *root_slice = help_make_root(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
