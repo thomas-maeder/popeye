@@ -601,6 +601,21 @@ void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+void branch_apply_postkey(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  slices[si].u.branch.length -= 2;
+  slices[si].u.branch.min_length -= 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors to_postkey_play_appliers[] =
 {
   { STOutputModeSelector, &move_to_postkey_play                },
@@ -631,6 +646,12 @@ slice_index battle_branch_make_postkeyplay(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &branch_apply_postkey);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     to_postkey_play_appliers,
                                     nr_to_postkey_play_appliers);

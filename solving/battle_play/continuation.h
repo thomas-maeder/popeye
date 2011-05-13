@@ -44,10 +44,4 @@ continuation_solver_can_defend(slice_index si,
                                stip_length_type n,
                                stip_length_type n_max_unsolvable);
 
-/* Remove STContinuationSolver slices that don't contribute to the solution (but
- * that may cause unnecessary calculations to be performed)
- * @param si identifies stipulation entry slice
- */
-void optimise_away_redundant_continuation_solvers(slice_index si);
-
 #endif
