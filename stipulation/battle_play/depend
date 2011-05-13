@@ -11,7 +11,6 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/defense_move.h \
  stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/continuation.h \
  stipulation/battle_play/min_length_optimiser.h \
  stipulation/battle_play/try.h stipulation/battle_play/min_length_guard.h \
  trace.h
@@ -51,8 +50,6 @@ stipulation/battle_play/defense_move.h:
 stipulation/battle_play/ready_for_defense.h:
 
 stipulation/battle_play/defense_adapter.h:
-
-stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/min_length_optimiser.h:
 

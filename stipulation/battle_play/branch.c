@@ -16,7 +16,6 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/min_length_guard.h"
@@ -253,10 +252,16 @@ void battle_branch_insert_slices_nested(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  base = get_slice_rank(slices[si].type,0);
-  assert(base!=no_battle_branch_slice_type);
+  if (slices[si].type==STProxy)
+    battle_branch_insert_slices_nested(slices[si].u.pipe.next,
+                                       prototypes,nr_prototypes);
+  else
+  {
+    base = get_slice_rank(slices[si].type,0);
+    assert(base!=no_battle_branch_slice_type);
 
-  battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+    battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -350,14 +355,12 @@ slice_index alloc_defense_branch(slice_index next,
 
   {
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
-    slice_index const solver = alloc_continuation_solver_slice();
     slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_defense_move_slice();
 
-    pipe_link(adapter,solver);
-    pipe_link(solver,ready);
+    pipe_link(adapter,ready);
     pipe_link(ready,deadend);
     pipe_link(deadend,generator);
     pipe_link(generator,defense);
@@ -398,7 +401,6 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     slice_index const agenerator = alloc_attack_move_generator_slice();
     slice_index const attack = alloc_attack_move_slice();
-    slice_index const solver = alloc_continuation_solver_slice();
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const ddeadend = alloc_dead_end_slice();
@@ -411,8 +413,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(adeadend,shortest);
     pipe_link(shortest,agenerator);
     pipe_link(agenerator,attack);
-    pipe_link(attack,solver);
-    pipe_link(solver,dready);
+    pipe_link(attack,dready);
     pipe_link(dready,ddeadend);
     pipe_link(ddeadend,dgenerator);
     pipe_link(dgenerator,defense);
@@ -538,7 +539,7 @@ slice_index battle_branch_make_setplay(slice_index adapter)
   TraceFunctionParamListEnd();
 
   nested = inject_end_of_root(adapter);
-  start = branch_find_slice(STContinuationSolver,adapter);
+  start = branch_find_slice(STReadyForDefense,adapter);
   assert(start!=no_slice);
 
   stip_structure_traversal_init(&st,&nested);
@@ -852,9 +853,10 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
   TraceStipulation(goal);
 
   {
-    slice_index const solver = branch_find_slice(STContinuationSolver,si);
-    assert(solver!=no_slice);
-    pipe_append(slices[solver].prev,alloc_end_of_branch_goal(goal));
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const prototype = alloc_end_of_branch_goal(goal);
+    assert(ready!=no_slice);
+    battle_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
