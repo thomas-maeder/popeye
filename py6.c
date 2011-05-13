@@ -2511,6 +2511,12 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+  boolean is_root;
+  boolean is_setplay;
+} solver_insertion_state;
+
 void insert_solving_strategy_attack_adapter(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -2519,12 +2525,12 @@ void insert_solving_strategy_attack_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    boolean * const is_root = st->param;
-    boolean const save_is_root = *is_root;
+    solver_insertion_state * const state = st->param;
+    boolean const save_is_root = state->is_root;
 
-    *is_root = false;
+    state->is_root = false;
     stip_traverse_structure_children(si,st);
-    *is_root = save_is_root;
+    state->is_root = save_is_root;
 
     {
       slice_index const prototypes[] =
@@ -2542,13 +2548,6 @@ void insert_solving_strategy_attack_adapter(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-
-typedef struct
-{
-  boolean is_root;
-  boolean is_setplay;
-} solver_insertion_state;
 
 void insert_solving_strategy_setplay_fork(slice_index si,
                                           stip_structure_traversal *st)
@@ -2568,7 +2567,6 @@ void insert_solving_strategy_setplay_fork(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 
 void insert_solving_strategy_defense_adapter(slice_index si,
                                              stip_structure_traversal *st)
