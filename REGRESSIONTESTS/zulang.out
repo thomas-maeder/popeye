@@ -26,9 +26,9 @@
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
   1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
-              empile:   154165116
-            jouecoup:    11847456
-        orig_rbechec:    16023138
+              empile:    52830392
+            jouecoup:    11644429
+        orig_rbechec:     4905601
         orig_rnechec:    11568335
 Loesung beendet. 
 
@@ -1578,8 +1578,9 @@ Loesung beendet.
                                               6...Kc3-b2
                                                   7.Tc1-c3 #
 
-              empile:  6399934329
-            jouecoup:  2085889907
+
+              empile:  6399934238
+            jouecoup:  2085889872
         orig_rbechec:   160332234
         orig_rnechec:  1944124886
 Loesung beendet. 
@@ -1630,10 +1631,11 @@ Loesung beendet.
                       3...Kb7-c8
                           4.Lc6-b7 =
 
-              empile:  2407924858
-            jouecoup:   387838998
+
+              empile:  2407924812
+            jouecoup:   387838975
         orig_rbechec:           0
-        orig_rnechec:   320424678
+        orig_rnechec:   320424676
 Loesung beendet. 
 
 
@@ -1669,7 +1671,7 @@ Loesung beendet.
               empile:  1051029823
             jouecoup:   128020479
         orig_rbechec:   193923443
-        orig_rnechec:   167832548
+        orig_rnechec:   167832546
 Loesung beendet. 
 
 
@@ -1717,7 +1719,7 @@ Loesung beendet.
               empile:  1222651305
             jouecoup:   209475141
         orig_rbechec:   291849345
-        orig_rnechec:   237841556
+        orig_rnechec:   237841555
 Loesung beendet. 
 
 
@@ -1766,7 +1768,7 @@ Loesung beendet.
               empile:   874964656
             jouecoup:   106180337
         orig_rbechec:   162325208
-        orig_rnechec:   148479952
+        orig_rnechec:   148479951
 Loesung beendet. 
 
 
@@ -1840,7 +1842,7 @@ Loesung beendet.
               empile:  2262522021
             jouecoup:   257015421
         orig_rbechec:   396457595
-        orig_rnechec:   334014162
+        orig_rnechec:   334014137
 Loesung beendet. 
 
 
@@ -1887,7 +1889,7 @@ Loesung beendet.
               empile:  3828790658
             jouecoup:   475880652
         orig_rbechec:   708134599
-        orig_rnechec:   661586949
+        orig_rnechec:   661586945
 Loesung beendet. 
 
 
@@ -2081,6 +2083,7 @@ a)
  16  (Sb4-c6[Ih8] )
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
+
               empile:   151561975
             jouecoup:    61008988
         orig_rbechec:    60642271
@@ -2119,6 +2122,7 @@ b) sBc4-->c3
  35  (Sb4-c6[Ih8] )
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
+
               empile:   175228859
             jouecoup:    70443494
         orig_rbechec:    70032179
@@ -2156,6 +2160,7 @@ c) sBb3-->c3
  53  (Sb4-c6[Ih8] )
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
+
               empile:   161497438
             jouecoup:    64902840
         orig_rbechec:    64564634
@@ -2212,10 +2217,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
-              empile:  2144604078
-            jouecoup:  2144607847
-        orig_rbechec:  1444112785
-        orig_rnechec:   945900235
+              empile:  2116014610
+            jouecoup:  2116018109
+        orig_rbechec:  1468327093
+        orig_rnechec:   897916431
 Loesung beendet. 
 
 
@@ -2325,10 +2330,11 @@ dauert 13 min mit Athlon 2400 / 200MB
                                                                                                                                                                                                                                                  31.Kb8-c8
                                                                                                                                                                                                                                                      31...Se4-d6 #
 
-              empile:    98155263
-            jouecoup:    62528073
-        orig_rbechec:    62981623
-        orig_rnechec:    11673470
+
+              empile:    89448571
+            jouecoup:    58305580
+        orig_rbechec:    58645117
+        orig_rnechec:    10800225
 Loesung beendet. 
 
 
@@ -2440,10 +2446,11 @@ Loesung beendet.
  55  (Tb1-b2 )
  56  (Tb1-d1 )
  57  (Tb1-c1 )
-              empile: 39035339152
-            jouecoup: 12386167497
-        orig_rbechec: 12386167505
-        orig_rnechec:  8483528881
+
+              empile: 81616692499
+            jouecoup: 13482713986
+        orig_rbechec: 13482713994
+        orig_rnechec:  9030987769
 Loesung beendet. 
 
 
@@ -2487,10 +2494,10 @@ Sake, Portoroz 2002, 2eme Mention d'Honneur
  10  (h2-h1=T + )
  11  (h2-h1=L )
 
-              empile:   248647989
-            jouecoup:   212870147
-        orig_rbechec:    48443336
-        orig_rnechec:   178014037
+              empile:   245168368
+            jouecoup:   211630036
+        orig_rbechec:    47873305
+        orig_rnechec:   176773968
 Loesung beendet. 
 
 
@@ -2517,7 +2524,7 @@ Loesung beendet.
 1   .   K   S   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 14dda=>b              3 + 2
+  weiss 15a[a=>b]d            3 + 2
 
 Initial (Weiss ->):
 
@@ -2543,12 +2550,193 @@ Initial (Weiss ->):
 1  -L   K   .   T   D   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 14dda=>b              5 + 5
+  weiss 15a[a=>b]d            5 + 5
 
-              empile:         210
-            jouecoup:         220
-        orig_rbechec:          41
-        orig_rnechec:         177
+   1.Kb1-c2 !
+      1...b2-b1=D +
+          2.Td1*b1
+              2...La1-b2
+                  3.De1-c1
+                      3...Lb2*c1
+                          4.Tb1*c1
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=S
+          2.Td1*b1
+              2...La1-b2
+                  3.De1-c1
+                      3...Lb2*c1
+                          4.Tb1*c1
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=T
+          2.Td1*b1
+              2...La1-b2
+                  3.De1-c1
+                      3...Lb2*c1
+                          4.Tb1*c1
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...b2-b1=L +
+          2.Td1*b1
+              2...La1-b2
+                  3.De1-c1
+                      3...Lb2*c1
+                          4.Tb1*c1
+                              4...Ka3-a2
+                                  5.Tc1-a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+                      3...Ka3-a2
+                          4.Tb1-a1 +
+                              4...Lb2*a1
+                                  5.Dc1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+              2...Ka3-a2
+                  3.De1-e6 +
+                      3...Ka2-a3
+                          4.De6-a2 +
+                              4...Ka3*a2
+                                  5.Tb1*a1 +
+                                      5...Ka2*a1
+                                          6.Ld4*c3 +
+                                              6...Ka1-a2
+                                                  7.Sd3-c1 +
+                                                      7...Ka2-a3
+                                                          8.Kc2-b1 a=>b
+      1...Ka3-a2
+          2.Td1*a1 +
+              2...b2*a1=D
+                  3.De1*a1 +
+                      3...Ka2*a1
+                          4.Ld4*c3 +
+                              4...Ka1-a2
+                                  5.Sd3-c1 +
+                                      5...Ka2-a3
+                                          6.Kc2-b1 a=>b
+              2...b2*a1=S +
+                  3.De1*a1 +
+                      3...Ka2*a1
+                          4.Ld4*c3 +
+                              4...Ka1-a2
+                                  5.Sd3-c1 +
+                                      5...Ka2-a3
+                                          6.Kc2-b1 a=>b
+              2...b2*a1=T
+                  3.De1*a1 +
+                      3...Ka2*a1
+                          4.Ld4*c3 +
+                              4...Ka1-a2
+                                  5.Sd3-c1 +
+                                      5...Ka2-a3
+                                          6.Kc2-b1 a=>b
+              2...b2*a1=L
+                  3.De1*a1 +
+                      3...Ka2*a1
+                          4.Ld4*c3 +
+                              4...Ka1-a2
+                                  5.Sd3-c1 +
+                                      5...Ka2-a3
+                                          6.Kc2-b1 a=>b
+
+
+              empile:  9043232326
+            jouecoup:  7553531026
+        orig_rbechec:  4040852979
+        orig_rnechec:   392373013
 Loesung beendet. 
 
 
