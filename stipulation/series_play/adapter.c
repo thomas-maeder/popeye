@@ -39,7 +39,7 @@ void series_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
   slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   *root_slice = series_make_root(slices[adapter].u.pipe.next);
