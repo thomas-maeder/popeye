@@ -253,19 +253,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STAttackAdapter:
       case STDefenseAdapter:
-      case STAttackFindShortest:
       case STReadyForAttack:
       case STReadyForDefense:
       case STAttackHashed:
       case STHelpAdapter:
-      case STHelpFindByIncreasingLength:
-      case STHelpFindShortest:
       case STReadyForHelpMove:
       case STSeriesAdapter:
-      case STSeriesFindByIncreasingLength:
-      case STSeriesFindShortest:
       case STReadyForSeriesMove:
       case STReadyForSeriesDummyMove:
+      case STFindShortest:
+      case STFindByIncreasingLength:
       case STHelpHashed:
       case STSeriesHashed:
       case STStopOnShortSolutionsFilter:

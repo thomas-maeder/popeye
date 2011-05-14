@@ -146,18 +146,19 @@ stip_length_type degenerate_tree_can_attack(slice_index si,
   return result;
 }
 
-/* **************** Stipulation instrumentation ***************
- */
-
-static void degenerate_tree_inserter_attack_move(slice_index si,
-                                                 stip_structure_traversal *st)
+static void degenerate_tree_inserter_attack(slice_index si,
+                                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (slices[si].u.branch.length>=slack_length_battle+2)
-    pipe_substitute(si,alloc_degenerate_tree_guard_slice());
+  {
+    slice_index const finder = branch_find_slice(STFindShortest,si);
+    if (finder!=no_slice) /* slice may already have been replaced */
+      pipe_substitute(finder,alloc_degenerate_tree_guard_slice());
+  }
   else
     stip_traverse_structure_children(si,st);
 
@@ -176,10 +177,12 @@ void stip_insert_degenerate_tree_guards(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(si);
+
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STAttackFindShortest,
-                                           &degenerate_tree_inserter_attack_move);
+                                           STReadyForAttack,
+                                           &degenerate_tree_inserter_attack);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

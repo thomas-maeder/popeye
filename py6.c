@@ -127,7 +127,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/check_detector.h"
+#include "solving/battle_play/check_detector.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "solving/solving.h"
@@ -2090,7 +2090,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STHelpAdapter:
-    case STHelpFindShortest:
+    case STFindShortest:
     case STReadyForHelpMove:
     case STHelpMoveGenerator:
     case STHelpMove:
@@ -2564,8 +2564,6 @@ static Token iterate_twins(Token prev_token)
         Message(SetPlayNotApplicable);
 
       stip_remove_unsatisfiable_goals(template_slice_hook);
-
-      stip_insert_check_detectors(template_slice_hook);
 
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards(template_slice_hook);

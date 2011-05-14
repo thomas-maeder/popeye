@@ -23,7 +23,6 @@
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STAttackMove),                                           \
-    ENUMERATOR(STAttackFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
@@ -34,15 +33,11 @@
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
-    ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
-    ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STSeriesFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
@@ -91,6 +86,8 @@
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     /* solver slices */                                                 \
+    ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
+    ENUMERATOR(STFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play tries */           \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \

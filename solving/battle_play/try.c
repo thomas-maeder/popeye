@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/try.h"
+#include "solving/battle_play/try.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"

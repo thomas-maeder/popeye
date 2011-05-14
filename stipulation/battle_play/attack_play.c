@@ -11,22 +11,23 @@
 #include "pynontrv.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/fork_on_remaining.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_generator.h"
-#include "stipulation/battle_play/threat.h"
-#include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/postkeyplay.h"
-#include "stipulation/battle_play/min_length_optimiser.h"
-#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
+#include "solving/fork_on_remaining.h"
+#include "solving/find_shortest.h"
+#include "solving/battle_play/threat.h"
+#include "solving/battle_play/try.h"
+#include "solving/battle_play/postkeyplay.h"
+#include "solving/battle_play/min_length_guard.h"
+#include "solving/battle_play/min_length_optimiser.h"
+#include "solving/battle_play/continuation.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
@@ -110,8 +111,8 @@ stip_length_type can_attack(slice_index si,
       result = fork_on_remaining_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STAttackFindShortest:
-      result = attack_find_shortest_can_attack(si,n,n_max_unsolvable);
+    case STFindShortest:
+      result = find_shortest_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STAttackMoveGenerator:
@@ -303,9 +304,9 @@ stip_length_type attack(slice_index si,
       result = or_attack(si,n,n_max_unsolvable);
       break;
 
-    case STAttackFindShortest:
+    case STFindShortest:
     case STDegenerateTree:
-      result = attack_find_shortest_solve_in_n(si,n,n_max_unsolvable);
+      result = find_shortest_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackMoveGenerator:

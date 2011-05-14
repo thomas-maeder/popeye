@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/min_length_optimiser.h"
+#include "solving/battle_play/min_length_optimiser.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"

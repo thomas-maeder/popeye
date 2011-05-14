@@ -2,7 +2,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "pypipe.h"

@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_FORK_ON_REMAINING_H)
-#define STIPULATION_FORK_ON_REMAINING_H
+#if !defined(SOLVING_FORK_ON_REMAINING_H)
+#define SOLVING_FORK_ON_REMAINING_H
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"

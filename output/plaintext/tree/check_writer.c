@@ -1,6 +1,6 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "pypipe.h"
-#include "stipulation/battle_play/check_detector.h"
+#include "solving/battle_play/check_detector.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"

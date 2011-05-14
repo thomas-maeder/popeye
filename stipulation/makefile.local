@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c proxy.c setplay_fork.c fork_on_remaining.c dead_end.c end_of_branch.c end_of_branch_goal.c constraint.c
-INCLUDES = branch.h proxy.h setplay_fork.h fork_on_remaining.h dead_end.h end_of_branch.h end_of_branch_goal.h constraint.h
+CFILES = branch.c proxy.c setplay_fork.c dead_end.c end_of_branch.c end_of_branch_goal.c constraint.c
+INCLUDES = branch.h proxy.h setplay_fork.h dead_end.h end_of_branch.h end_of_branch_goal.h constraint.h
 
 include makefile.rules $(CURRPWD)depend

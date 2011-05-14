@@ -4,9 +4,9 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "stipulation/fork_on_remaining.h"
 #include "stipulation/proxy.h"
 #include "stipulation/goals/goals.h"
+#include "solving/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>

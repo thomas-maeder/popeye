@@ -36,7 +36,7 @@ static slice_index const slice_rank_order[] =
   STPrerequisiteOptimiser,
   STDeadEnd,
   STDegenerateTree,
-  STAttackFindShortest,
+  STFindShortest,
   STForkOnRemaining,
   STAttackMoveGenerator,
   STKillerMoveMoveGenerator,

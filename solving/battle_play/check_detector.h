@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_CHECK_DETECTOR_H)
-#define STIPULATION_BATTLE_PLAY_CHECK_DETECTOR_H
+#if !defined(SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H)
+#define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
 #include "stipulation/battle_play/defense_play.h"
 
@@ -9,6 +9,11 @@
 /* Does the attack just played give check?
  * Exposed for read-only access only */
 extern boolean attack_gives_check[maxply+1];
+
+/* Allocate a STCheckDetector defender slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_check_detector_slice(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -40,11 +45,5 @@ stip_length_type check_detector_defend(slice_index si,
 stip_length_type check_detector_can_defend(slice_index si,
                                            stip_length_type n,
                                            stip_length_type n_max_unsolvable);
-
-/* Instrument the stipulation representation so that it can deal with
- * continuations
- * @param si identifies slice where to start
- */
-void stip_insert_check_detectors(slice_index si);
 
 #endif

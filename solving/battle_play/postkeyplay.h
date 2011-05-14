@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_POSTKEYPLAY_H)
-#define STIPULATION_BATTLE_PLAY_POSTKEYPLAY_H
+#if !defined(SOLVING_BATTLE_PLAY_POSTKEYPLAY_H)
+#define SOLVING_BATTLE_PLAY_POSTKEYPLAY_H
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"

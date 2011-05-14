@@ -20,8 +20,8 @@ static slice_index const help_slice_rank_order[] =
 {
   STHelpAdapter,
   STStopOnShortSolutionsInitialiser,
-  STHelpFindByIncreasingLength,
-  STHelpFindShortest,
+  STFindByIncreasingLength,
+  STFindShortest,
   STEndOfBranchForced,
   STDeadEnd,
   STIntelligentHelpFilter,

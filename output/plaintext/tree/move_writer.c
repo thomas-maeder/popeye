@@ -3,7 +3,7 @@
 #include "pypipe.h"
 #include "pytable.h"
 #include "pymsg.h"
-#include "stipulation/battle_play/threat.h"
+#include "solving/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"

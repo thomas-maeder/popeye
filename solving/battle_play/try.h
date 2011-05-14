@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_TRY_H)
-#define STIPULATION_BATTLE_PLAY_TRY_H
+#if !defined(SOLVING_BATTLE_PLAY_TRY_H)
+#define SOLVING_BATTLE_PLAY_TRY_H
 
 #include "pytable.h"
 #include "stipulation/battle_play/defense_play.h"

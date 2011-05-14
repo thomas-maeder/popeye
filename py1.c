@@ -61,7 +61,7 @@
 #include "pythreat.h"
 #include "trace.h"
 #include "platform/maxtime.h"
-#include "stipulation/battle_play/try.h"
+#include "solving/battle_play/try.h"
 
 static void initply(ply parent)
 {

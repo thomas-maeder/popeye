@@ -26,27 +26,24 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/ready_for_attack.h"
-#include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/continuation.h"
-#include "stipulation/battle_play/threat.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/find_by_increasing_length.h"
-#include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/find_by_increasing_length.h"
-#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
-#include "stipulation/fork_on_remaining.h"
+#include "solving/fork_on_remaining.h"
+#include "solving/find_shortest.h"
+#include "solving/battle_play/try.h"
+#include "solving/battle_play/continuation.h"
+#include "solving/battle_play/threat.h"
+#include "solving/find_by_increasing_length.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "trace.h"
 
@@ -60,7 +57,6 @@
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STAttackMove),                                           \
-    ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
@@ -70,14 +66,10 @@
     ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
-    ENUMERATOR(STHelpFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STHelpFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
-    ENUMERATOR(STSeriesFindShortest), /* find the shortest solution(s) */ \
-    ENUMERATOR(STSeriesFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
@@ -122,6 +114,8 @@
     ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
+    ENUMERATOR(STFindShortest),                                   \
+    ENUMERATOR(STFindByIncreasingLength), /* find all solutions */  \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
@@ -253,7 +247,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STDefenseAdapter */
   slice_structure_pipe,   /* STAttackMoveGenerator */
   slice_structure_pipe,   /* STAttackMove */
-  slice_structure_branch, /* STAttackFindShortest */
   slice_structure_pipe,   /* STDefenseMove */
   slice_structure_fork,   /* STConstraint */
   slice_structure_fork,   /* STEndOfBranchForced */
@@ -263,14 +256,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STEndOfBattleBranch */
   slice_structure_branch, /* STMinLengthOptimiser */
   slice_structure_branch, /* STHelpAdapter */
-  slice_structure_branch, /* STHelpFindShortest */
-  slice_structure_branch, /* STHelpFindByIncreasingLength */
   slice_structure_pipe,   /* STHelpMoveGenerator */
   slice_structure_pipe,   /* STHelpMove */
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
-  slice_structure_branch, /* STSeriesFindShortest */
-  slice_structure_branch, /* STSeriesFindByIncreasingLength */
   slice_structure_pipe,   /* STSeriesMoveGenerator */
   slice_structure_pipe,   /* STSeriesMove */
   slice_structure_pipe,   /* STSeriesDummyMove */
@@ -315,6 +304,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_branch, /* STMinLengthGuard */
   slice_structure_fork,   /* STForkOnRemaining */
+  slice_structure_branch, /* STFindShortest */
+  slice_structure_branch, /* STFindByIncreasingLength */
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_pipe,   /* STRefutationsSolver */
@@ -397,7 +388,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STDefenseAdapter */
   slice_function_move_generator, /* STAttackMoveGenerator */
   slice_function_unspecified,    /* STAttackMove */
-  slice_function_unspecified,    /* STAttackFindShortest */
   slice_function_unspecified,    /* STDefenseMove */
   slice_function_unspecified,    /* STConstraint */
   slice_function_unspecified,    /* STEndOfBranchForced */
@@ -407,14 +397,10 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfBattleBranch */
   slice_function_unspecified,    /* STMinLengthOptimiser */
   slice_function_unspecified,    /* STHelpAdapter */
-  slice_function_unspecified,    /* STHelpFindShortest */
-  slice_function_unspecified,    /* STHelpFindByIncreasingLength */
   slice_function_move_generator, /* STHelpMoveGenerator */
   slice_function_unspecified,    /* STHelpMove */
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
-  slice_function_unspecified,    /* STSeriesFindShortest */
-  slice_function_unspecified,    /* STSeriesFindByIncreasingLength */
   slice_function_move_generator, /* STSeriesMoveGenerator */
   slice_function_unspecified,    /* STSeriesMove */
   slice_function_unspecified,    /* STSeriesDummyMove */
@@ -459,6 +445,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMoveInverter */
   slice_function_unspecified,    /* STMinLengthGuard */
   slice_function_unspecified,    /* STForkOnRemaining */
+  slice_function_unspecified,    /* STFindShortest */
+  slice_function_unspecified,    /* STFindByIncreasingLength */
   slice_function_unspecified,    /* STRefutationsAllocator */
   slice_function_unspecified,    /* STTrySolver */
   slice_function_unspecified,    /* STRefutationsSolver */
@@ -1588,7 +1576,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseAdapter */
   &stip_traverse_structure_pipe,            /* STAttackMoveGenerator */
   &stip_traverse_structure_pipe,            /* STAttackMove */
-  &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_end_of_branch,   /* STConstraint */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchForced */
@@ -1598,14 +1585,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STEndOfBattleBranch */
   &stip_traverse_structure_pipe,            /* STMinLengthOptimiser */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
-  &stip_traverse_structure_pipe,            /* STHelpFindShortest */
-  &stip_traverse_structure_pipe,            /* STHelpFindByIncreasingLength */
   &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,            /* STHelpMove */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
-  &stip_traverse_structure_pipe,            /* STSeriesFindShortest */
-  &stip_traverse_structure_pipe,            /* STSeriesFindByIncreasingLength */
   &stip_traverse_structure_pipe,            /* STSeriesMoveGenerator */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
@@ -1650,6 +1633,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMoveInverter */
   &stip_traverse_structure_pipe,            /* STMinLengthGuard */
   &stip_traverse_structure_end_of_branch,   /* STForkOnRemaining */
+  &stip_traverse_structure_pipe,            /* STFindShortest */
+  &stip_traverse_structure_pipe,            /* STFindByIncreasingLength */
   &stip_traverse_structure_pipe,            /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STRefutationsSolver */
@@ -1825,7 +1810,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_adapter_slice,   /* STDefenseAdapter */
     &stip_traverse_moves_pipe,                   /* STAttackMoveGenerator */
     &stip_traverse_moves_move_slice,             /* STAttackMove */
-    &stip_traverse_moves_pipe,                   /* STAttackFindShortest */
     &stip_traverse_moves_move_slice,             /* STDefenseMove */
     &stip_traverse_moves_setplay_fork,           /* STConstraint */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
@@ -1835,14 +1819,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,          /* STEndOfBattleBranch */
     &stip_traverse_moves_pipe,                   /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,     /* STHelpAdapter */
-    &stip_traverse_moves_pipe,                   /* STHelpFindShortest */
-    &stip_traverse_moves_pipe,                   /* STHelpFindByIncreasingLength */
     &stip_traverse_moves_pipe,                   /* STHelpMoveGenerator */
     &stip_traverse_moves_move_slice,             /* STHelpMove */
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
-    &stip_traverse_moves_pipe,                   /* STSeriesFindShortest */
-    &stip_traverse_moves_pipe,                   /* STSeriesFindByIncreasingLength */
     &stip_traverse_moves_pipe,                   /* STSeriesMoveGenerator */
     &stip_traverse_moves_move_slice,             /* STSeriesMove */
     &stip_traverse_moves_move_slice,             /* STSeriesDummyMove */
@@ -1887,6 +1867,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STMoveInverter */
     &stip_traverse_moves_pipe,                   /* STMinLengthGuard */
     &stip_traverse_moves_fork_on_remaining,      /* STForkOnRemaining */
+    &stip_traverse_moves_pipe,                   /* STFindShortest */
+    &stip_traverse_moves_pipe,                   /* STFindByIncreasingLength */
     &stip_traverse_moves_pipe,                   /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,                   /* STTrySolver */
     &stip_traverse_moves_pipe,                   /* STRefutationsSolver */

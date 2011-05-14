@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/threat.h"
+#include "solving/battle_play/threat.h"
 #include "pytable.h"
 #include "pydata.h"
 #include "pypipe.h"
@@ -6,9 +6,9 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "solving/battle_play/check_detector.h"
 #include "trace.h"
 
 #include <assert.h>

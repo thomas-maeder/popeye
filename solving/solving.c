@@ -3,21 +3,20 @@
 #include "pypipe.h"
 #include "pymsg.h"
 #include "stipulation/branch.h"
-#include "stipulation/fork_on_remaining.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/threat.h"
-#include "stipulation/battle_play/postkeyplay.h"
-#include "stipulation/battle_play/continuation.h"
-#include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/attack_find_shortest.h"
-#include "stipulation/battle_play/min_length_optimiser.h"
-#include "stipulation/battle_play/min_length_guard.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/find_shortest.h"
-#include "stipulation/help_play/find_by_increasing_length.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/find_shortest.h"
-#include "stipulation/series_play/find_by_increasing_length.h"
+#include "solving/find_by_increasing_length.h"
+#include "solving/fork_on_remaining.h"
+#include "solving/battle_play/threat.h"
+#include "solving/battle_play/postkeyplay.h"
+#include "solving/battle_play/continuation.h"
+#include "solving/battle_play/try.h"
+#include "solving/find_shortest.h"
+#include "solving/battle_play/check_detector.h"
+#include "solving/battle_play/min_length_guard.h"
+#include "solving/battle_play/min_length_optimiser.h"
+#include "solving/battle_play/continuation.h"
 #include "trace.h"
 
 typedef enum
@@ -131,8 +130,7 @@ static void insert_solvers_attack(slice_index si,
 
     if (length>=min_length+2)
     {
-      slice_index const proto = alloc_attack_find_shortest_slice(length,
-                                                                 min_length);
+      slice_index const proto = alloc_find_shortest_slice(length,min_length);
       battle_branch_insert_slices(si,&proto,1);
     }
 
@@ -155,6 +153,11 @@ static void insert_solvers_attack(slice_index si,
   if (length>slack_length_battle)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+  if (slices[si].u.branch.length>slack_length_battle)
+  {
+    slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
 
@@ -198,6 +201,11 @@ static void insert_solvers_defense_adapter(slice_index si,
     }
   }
 
+  {
+    slice_index const prototype = alloc_check_detector_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -239,8 +247,7 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
 
     if (length-min_length>=2)
     {
-      slice_index const prototype = alloc_help_find_shortest_slice(length,
-                                                                   min_length);
+      slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       help_branch_insert_slices(si,&prototype,1);
     }
   }
@@ -258,7 +265,7 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
       slice_index const ready3 = branch_find_slice(STReadyForHelpMove,ready2);
       slice_index const prototypes[] =
       {
-        alloc_help_find_by_increasing_length_slice(length,min_length),
+        alloc_find_by_increasing_length_slice(length,min_length),
         alloc_fork_on_remaining_slice(ready3,length-1-slack_length_help)
       };
       enum
@@ -289,7 +296,7 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 
     if (length-min_length>=2)
     {
-      slice_index const prototype = alloc_series_find_shortest_slice(length,min_length);
+      slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       series_branch_insert_slices(si,&prototype,1);
     }
   }
@@ -307,7 +314,7 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
       slice_index const ready3 = branch_find_slice(STReadyForSeriesMove,ready2);
       slice_index const prototypes[] =
       {
-        alloc_series_find_by_increasing_length_slice(length,min_length),
+        alloc_find_by_increasing_length_slice(length,min_length),
         alloc_fork_on_remaining_slice(ready3,length-1-slack_length_series)
       };
       enum

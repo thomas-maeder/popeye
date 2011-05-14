@@ -1,0 +1,110 @@
+solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.c \
+ solving/battle_play/continuation.h pypipe.h trace.h
+
+solving/battle_play/continuation.h:
+
+pypipe.h:
+
+trace.h:
+solving/battle_play/check_detector$(OBJ_SUFFIX): \
+ solving/battle_play/check_detector.c \
+ solving/battle_play/check_detector.h pydata.h pypipe.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
+ trace.h
+
+solving/battle_play/check_detector.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:
+solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
+ solving/battle_play/threat.h pytable.h pydata.h pypipe.h pybrafrk.h \
+ stipulation/branch.h stipulation/proxy.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/attack_play.h \
+ solving/battle_play/check_detector.h trace.h
+
+solving/battle_play/threat.h:
+
+pytable.h:
+
+pydata.h:
+
+pypipe.h:
+
+pybrafrk.h:
+
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/attack_play.h:
+
+solving/battle_play/check_detector.h:
+
+trace.h:
+solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
+ solving/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
+ stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h trace.h
+
+solving/battle_play/try.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
+solving/battle_play/postkeyplay$(OBJ_SUFFIX): solving/battle_play/postkeyplay.c \
+ solving/battle_play/postkeyplay.h pypipe.h \
+ stipulation/battle_play/branch.h trace.h
+
+solving/battle_play/postkeyplay.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
+
+trace.h:
+solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
+ solving/battle_play/min_length_optimiser.c \
+ solving/battle_play/min_length_optimiser.h stipulation/branch.h \
+ stipulation/battle_play/attack_play.h trace.h
+
+solving/battle_play/min_length_optimiser.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
+solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
+ solving/battle_play/min_length_guard.c \
+ solving/battle_play/min_length_guard.h stipulation/branch.h \
+ stipulation/battle_play/attack_play.h trace.h
+
+solving/battle_play/min_length_guard.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:

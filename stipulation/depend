@@ -40,14 +40,6 @@ pybrafrk.h:
 stipulation/branch.h:
 
 trace.h:
-stipulation/fork_on_remaining$(OBJ_SUFFIX): stipulation/fork_on_remaining.c \
- stipulation/fork_on_remaining.h pypipe.h trace.h
-
-stipulation/fork_on_remaining.h:
-
-pypipe.h:
-
-trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
  pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/series_play/branch.h trace.h
@@ -81,7 +73,6 @@ trace.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
  stipulation/end_of_branch_goal.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
- stipulation/battle_play/min_length_guard.h \
  stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
  pyslice.h pybrafrk.h pydata.h stipulation/proxy.h trace.h
 
@@ -92,8 +83,6 @@ stipulation/branch.h:
 stipulation/dead_end.h:
 
 stipulation/battle_play/branch.h:
-
-stipulation/battle_play/min_length_guard.h:
 
 stipulation/help_play/branch.h:
 
@@ -111,27 +100,12 @@ stipulation/proxy.h:
 
 trace.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
- stipulation/constraint.h stipulation/branch.h stipulation/dead_end.h \
+ stipulation/constraint.h pypipe.h pyslice.h pybrafrk.h pydata.h \
+ stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
  stipulation/end_of_branch_goal.h stipulation/battle_play/branch.h \
- stipulation/battle_play/min_length_guard.h \
- stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
- pyslice.h pybrafrk.h pydata.h stipulation/proxy.h trace.h
+ stipulation/help_play/branch.h stipulation/series_play/branch.h trace.h
 
 stipulation/constraint.h:
-
-stipulation/branch.h:
-
-stipulation/dead_end.h:
-
-stipulation/end_of_branch_goal.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/min_length_guard.h:
-
-stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 pypipe.h:
 
@@ -142,5 +116,17 @@ pybrafrk.h:
 pydata.h:
 
 stipulation/proxy.h:
+
+stipulation/branch.h:
+
+stipulation/dead_end.h:
+
+stipulation/end_of_branch_goal.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/series_play/branch.h:
 
 trace.h:

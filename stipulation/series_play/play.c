@@ -10,15 +10,15 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "stipulation/series_play/find_by_increasing_length.h"
-#include "stipulation/series_play/find_shortest.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
-#include "stipulation/fork_on_remaining.h"
+#include "solving/fork_on_remaining.h"
+#include "solving/find_by_increasing_length.h"
+#include "solving/find_shortest.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
@@ -51,12 +51,12 @@ stip_length_type series(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STSeriesFindShortest:
-      result = series_find_shortest_series(si,n);
+    case STFindShortest:
+      result = find_shortest_series(si,n);
       break;
 
-    case STSeriesFindByIncreasingLength:
-      result = series_find_by_increasing_length_series(si,n);
+    case STFindByIncreasingLength:
+      result = find_by_increasing_length_series(si,n);
       break;
 
     case STSeriesMove:
@@ -208,8 +208,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STSeriesFindShortest:
-      result = series_find_shortest_has_series(si,n);
+    case STFindShortest:
+      result = find_shortest_has_series(si,n);
       break;
 
     case STSeriesMove:

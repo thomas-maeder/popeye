@@ -4,7 +4,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/fork_on_remaining.h"
+#include "solving/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>

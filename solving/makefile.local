@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = solving.c
-INCLUDES = solving.h
+CFILES = solving.c find_shortest.c find_by_increasing_length.c fork_on_remaining.c
+INCLUDES = solving.h find_shortest.h find_by_increasing_length.h fork_on_remaining.h
 
 include makefile.rules $(CURRPWD)depend

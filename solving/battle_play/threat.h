@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_THREAT_H)
-#define STIPULATION_BATTLE_PLAY_THREAT_H
+#if !defined(SOLVING_BATTLE_PLAY_THREAT_H)
+#define SOLVING_BATTLE_PLAY_THREAT_H
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"

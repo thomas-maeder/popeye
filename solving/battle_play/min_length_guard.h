@@ -1,5 +1,5 @@
-#if !defined(MIN_LENGTH_GUARD_H)
-#define MIN_LENGTH_GUARD_H
+#if !defined(SOLVING_MIN_LENGTH_GUARD_H)
+#define SOLVING_MIN_LENGTH_GUARD_H
 
 /* make sure that the minimum length of a branch is respected
  */

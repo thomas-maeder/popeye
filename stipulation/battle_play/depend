@@ -60,23 +60,6 @@ stipulation/battle_play/branch.h:
 pypipe.h:
 
 trace.h:
-stipulation/battle_play/attack_find_shortest$(OBJ_SUFFIX): \
- stipulation/battle_play/attack_find_shortest.c \
- stipulation/battle_play/attack_find_shortest.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/attack_find_shortest.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
 stipulation/battle_play/attack_move_generator$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_move_generator.c \
  stipulation/battle_play/attack_move_generator.h pydata.h pyproc.h \
@@ -109,18 +92,17 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
  stipulation/constraint.h stipulation/dead_end.h \
- stipulation/fork_on_remaining.h stipulation/end_of_branch_goal.h \
- stipulation/boolean/or.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_find_shortest.h \
- stipulation/battle_play/attack_move.h \
+ stipulation/end_of_branch_goal.h stipulation/boolean/or.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/attack_move.h \
  stipulation/battle_play/attack_move_generator.h \
- stipulation/battle_play/threat.h stipulation/battle_play/try.h \
- stipulation/battle_play/postkeyplay.h \
- stipulation/battle_play/min_length_optimiser.h \
- stipulation/battle_play/min_length_guard.h \
  stipulation/series_play/adapter.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
- stipulation/goals/prerequisite_optimiser.h \
+ stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
+ solving/find_shortest.h solving/battle_play/threat.h \
+ solving/battle_play/try.h solving/battle_play/postkeyplay.h \
+ solving/battle_play/min_length_guard.h \
+ solving/battle_play/min_length_optimiser.h \
+ solving/battle_play/continuation.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
@@ -160,29 +142,15 @@ stipulation/constraint.h:
 
 stipulation/dead_end.h:
 
-stipulation/fork_on_remaining.h:
-
 stipulation/end_of_branch_goal.h:
 
 stipulation/boolean/or.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/battle_play/attack_find_shortest.h:
-
 stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/attack_move_generator.h:
-
-stipulation/battle_play/threat.h:
-
-stipulation/battle_play/try.h:
-
-stipulation/battle_play/postkeyplay.h:
-
-stipulation/battle_play/min_length_optimiser.h:
-
-stipulation/battle_play/min_length_guard.h:
 
 stipulation/series_play/adapter.h:
 
@@ -191,6 +159,22 @@ stipulation/goals/doublemate/filter.h:
 stipulation/goals/countermate/filter.h:
 
 stipulation/goals/prerequisite_optimiser.h:
+
+solving/fork_on_remaining.h:
+
+solving/find_shortest.h:
+
+solving/battle_play/threat.h:
+
+solving/battle_play/try.h:
+
+solving/battle_play/postkeyplay.h:
+
+solving/battle_play/min_length_guard.h:
+
+solving/battle_play/min_length_optimiser.h:
+
+solving/battle_play/continuation.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -280,17 +264,16 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.h pyflight.h pykeepmt.h pymovenb.h \
  pynontrv.h pyselfcg.h pyselfgd.h pythreat.h stipulation/constraint.h \
  stipulation/dead_end.h stipulation/end_of_branch_goal.h \
- stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
- stipulation/battle_play/continuation.h \
- stipulation/battle_play/check_detector.h stipulation/battle_play/try.h \
- stipulation/battle_play/threat.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_move_generator.h \
  stipulation/battle_play/defense_move.h \
- stipulation/battle_play/min_length_guard.h \
  stipulation/goals/countermate/filter.h \
- stipulation/goals/prerequisite_optimiser.h \
- stipulation/help_play/find_by_increasing_length.h \
- stipulation/help_play/play.h stipulation/fork_on_remaining.h \
+ stipulation/goals/prerequisite_optimiser.h stipulation/help_play/play.h \
+ solving/fork_on_remaining.h solving/battle_play/postkeyplay.h \
+ solving/battle_play/continuation.h solving/battle_play/check_detector.h \
+ solving/battle_play/try.h solving/battle_play/threat.h \
+ solving/find_by_increasing_length.h \
+ solving/battle_play/min_length_guard.h \
  optimisations/killer_move/move_generator.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
@@ -327,31 +310,31 @@ stipulation/end_of_branch_goal.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/battle_play/postkeyplay.h:
-
-stipulation/battle_play/continuation.h:
-
-stipulation/battle_play/check_detector.h:
-
-stipulation/battle_play/try.h:
-
-stipulation/battle_play/threat.h:
-
 stipulation/battle_play/defense_move_generator.h:
 
 stipulation/battle_play/defense_move.h:
-
-stipulation/battle_play/min_length_guard.h:
 
 stipulation/goals/countermate/filter.h:
 
 stipulation/goals/prerequisite_optimiser.h:
 
-stipulation/help_play/find_by_increasing_length.h:
-
 stipulation/help_play/play.h:
 
-stipulation/fork_on_remaining.h:
+solving/fork_on_remaining.h:
+
+solving/battle_play/postkeyplay.h:
+
+solving/battle_play/continuation.h:
+
+solving/battle_play/check_detector.h:
+
+solving/battle_play/try.h:
+
+solving/battle_play/threat.h:
+
+solving/find_by_increasing_length.h:
+
+solving/battle_play/min_length_guard.h:
 
 optimisations/killer_move/move_generator.h:
 
@@ -380,119 +363,6 @@ output/plaintext/tree/end_of_solution_writer.h:
 output/plaintext/tree/move_writer.h:
 
 output/plaintext/tree/goal_writer.h:
-
-trace.h:
-stipulation/battle_play/continuation$(OBJ_SUFFIX): \
- stipulation/battle_play/continuation.c \
- stipulation/battle_play/continuation.h pypipe.h trace.h
-
-stipulation/battle_play/continuation.h:
-
-pypipe.h:
-
-trace.h:
-stipulation/battle_play/check_detector$(OBJ_SUFFIX): \
- stipulation/battle_play/check_detector.c \
- stipulation/battle_play/check_detector.h pydata.h pypipe.h \
- stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
- trace.h
-
-stipulation/battle_play/check_detector.h:
-
-pydata.h:
-
-pypipe.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/defense_play.h:
-
-trace.h:
-stipulation/battle_play/threat$(OBJ_SUFFIX): stipulation/battle_play/threat.c \
- stipulation/battle_play/threat.h pytable.h pydata.h pypipe.h pybrafrk.h \
- stipulation/branch.h stipulation/proxy.h \
- stipulation/battle_play/branch.h \
- stipulation/battle_play/check_detector.h \
- stipulation/battle_play/defense_play.h \
- stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/threat.h:
-
-pytable.h:
-
-pydata.h:
-
-pypipe.h:
-
-pybrafrk.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/check_detector.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
-stipulation/battle_play/try$(OBJ_SUFFIX): stipulation/battle_play/try.c \
- stipulation/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
- stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/try.h:
-
-pydata.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
-stipulation/battle_play/postkeyplay$(OBJ_SUFFIX): \
- stipulation/battle_play/postkeyplay.c \
- stipulation/battle_play/postkeyplay.h pypipe.h \
- stipulation/battle_play/branch.h trace.h
-
-stipulation/battle_play/postkeyplay.h:
-
-pypipe.h:
-
-stipulation/battle_play/branch.h:
-
-trace.h:
-stipulation/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
- stipulation/battle_play/min_length_optimiser.c \
- stipulation/battle_play/min_length_optimiser.h stipulation/branch.h \
- stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/min_length_optimiser.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
-stipulation/battle_play/min_length_guard$(OBJ_SUFFIX): \
- stipulation/battle_play/min_length_guard.c \
- stipulation/battle_play/min_length_guard.h stipulation/branch.h \
- stipulation/battle_play/attack_play.h trace.h
-
-stipulation/battle_play/min_length_guard.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/battle_play/defense_move_generator$(OBJ_SUFFIX): \

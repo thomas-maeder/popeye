@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/continuation.h"
+#include "solving/battle_play/continuation.h"
 #include "pypipe.h"
 #include "trace.h"
 

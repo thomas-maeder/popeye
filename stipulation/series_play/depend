@@ -70,27 +70,6 @@ stipulation/series_play/move_generator.h:
 stipulation/goals/goals.h:
 
 trace.h:
-stipulation/series_play/find_by_increasing_length$(OBJ_SUFFIX): \
- stipulation/series_play/find_by_increasing_length.c \
- stipulation/series_play/find_by_increasing_length.h pypipe.h trace.h \
- stipulation/branch.h
-
-stipulation/series_play/find_by_increasing_length.h:
-
-pypipe.h:
-
-trace.h:
-
-stipulation/branch.h:
-stipulation/series_play/find_shortest$(OBJ_SUFFIX): \
- stipulation/series_play/find_shortest.c \
- stipulation/series_play/find_shortest.h stipulation/branch.h trace.h
-
-stipulation/series_play/find_shortest.h:
-
-stipulation/branch.h:
-
-trace.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
  stipulation/series_play/move.h stipulation/series_play/branch.h pydata.h \
  pyproc.h pypipe.h trace.h
@@ -163,15 +142,14 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  pyint.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/series_play/parry_fork.h \
- stipulation/series_play/find_by_increasing_length.h \
- stipulation/series_play/find_shortest.h stipulation/series_play/move.h \
+ stipulation/series_play/parry_fork.h stipulation/series_play/move.h \
  stipulation/series_play/dummy_move.h \
  stipulation/series_play/move_generator.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
- stipulation/goals/prerequisite_optimiser.h \
- stipulation/fork_on_remaining.h optimisations/goals/castling/filter.h \
+ stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
+ solving/find_by_increasing_length.h solving/find_shortest.h \
+ optimisations/goals/castling/filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  options/maxtime.h options/maxsolutions/guard.h \
@@ -201,10 +179,6 @@ stipulation/battle_play/defense_adapter.h:
 
 stipulation/series_play/parry_fork.h:
 
-stipulation/series_play/find_by_increasing_length.h:
-
-stipulation/series_play/find_shortest.h:
-
 stipulation/series_play/move.h:
 
 stipulation/series_play/dummy_move.h:
@@ -217,7 +191,11 @@ stipulation/goals/doublemate/filter.h:
 
 stipulation/goals/prerequisite_optimiser.h:
 
-stipulation/fork_on_remaining.h:
+solving/fork_on_remaining.h:
+
+solving/find_by_increasing_length.h:
+
+solving/find_shortest.h:
 
 optimisations/goals/castling/filter.h:
 

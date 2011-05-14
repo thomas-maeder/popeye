@@ -8,20 +8,20 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/help_play/find_by_increasing_length.h"
-#include "stipulation/help_play/find_shortest.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
+#include "solving/fork_on_remaining.h"
+#include "solving/find_by_increasing_length.h"
+#include "solving/find_shortest.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
-#include "stipulation/fork_on_remaining.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "trace.h"
 
@@ -48,12 +48,12 @@ stip_length_type help(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpFindByIncreasingLength:
-      result = help_find_by_increasing_length_help(si,n);
+    case STFindByIncreasingLength:
+      result = find_by_increasing_length_help(si,n);
       break;
 
-    case STHelpFindShortest:
-      result = help_find_shortest_help(si,n);
+    case STFindShortest:
+      result = find_shortest_help(si,n);
       break;
 
     case STForkOnRemaining:
@@ -213,12 +213,12 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_can_help(si,n);
       break;
 
-    case STHelpFindByIncreasingLength:
-      result = help_find_by_increasing_length_can_help(si,n);
+    case STFindByIncreasingLength:
+      result = find_by_increasing_length_can_help(si,n);
       break;
 
-    case STHelpFindShortest:
-      result = help_find_shortest_can_help(si,n);
+    case STFindShortest:
+      result = find_shortest_can_help(si,n);
       break;
 
     case STEndOfBranch:

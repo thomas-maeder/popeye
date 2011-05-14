@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/fork_on_remaining.h"
+#include "solving/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>
