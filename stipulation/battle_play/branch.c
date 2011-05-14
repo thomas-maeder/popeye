@@ -15,8 +15,6 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/battle_play/min_length_optimiser.h"
-#include "stipulation/battle_play/min_length_guard.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -413,10 +411,6 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dgenerator,defense);
     pipe_link(defense,aready);
 
-    if (min_length>slack_length_battle+1)
-      pipe_append(aready,
-                  alloc_min_length_optimiser_slice(length,min_length));
-
     pipe_set_successor(adapter,aready);
 
     result = adapter;
@@ -770,14 +764,8 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
 
   {
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
-    stip_length_type const length = slices[ready].u.branch.length;
-    stip_length_type const min_length = slices[ready].u.branch.min_length;
     assert(ready!=no_slice);
-
     pipe_append(ready,alloc_end_of_branch_forced(forced));
-
-    if (min_length>slack_length_battle)
-      pipe_append(slices[ready].prev,alloc_min_length_guard(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -891,16 +879,10 @@ void battle_branch_insert_self_end_of_branch_goal(slice_index si,
   TraceStipulation(goal);
 
   {
-    slice_index const ready = branch_find_slice(STReadyForAttack,si);
-    slice_index const prev = slices[ready].prev;
-    stip_length_type const length = slices[ready].u.branch.length;
-    stip_length_type const min_length = slices[ready].u.branch.min_length;
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    slice_index const prototype = alloc_end_of_branch_goal(goal);
     assert(ready!=no_slice);
-
-    pipe_append(prev,alloc_end_of_branch_goal(goal));
-
-    if (min_length>slack_length_battle+2)
-      pipe_append(prev,alloc_min_length_guard(length-2,min_length-2));
+    battle_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

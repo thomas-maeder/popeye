@@ -2622,6 +2622,21 @@ void insert_solvers_attack(slice_index si, stip_structure_traversal *st)
                                                                  min_length);
       battle_branch_insert_slices(si,&proto,1);
     }
+
+    if (min_length>slack_length_battle+1)
+    {
+      slice_index const prototypes[] =
+      {
+        alloc_min_length_optimiser_slice(length,min_length),
+        alloc_min_length_guard(length-1,min_length-1)
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,&prototypes,nr_prototypes);
+    }
+
   }
 
   if (length>slack_length_battle)
@@ -2668,6 +2683,27 @@ void insert_solvers_defense_adapter(slice_index si,
       unsigned int const max_nr_refutations = UINT_MAX;
       branch_insert_try_solvers(si,max_nr_refutations);
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void insert_solvers_defense(slice_index si, stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (min_length>slack_length_battle+1)
+  {
+    slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -2775,13 +2811,14 @@ void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 
 structure_traversers_visitors const strategy_inserters[] =
 {
-  { STSetplayFork,    &insert_solvers_setplay_fork    },
-  { STConstraint,     &insert_solvers_constraint      },
-  { STAttackAdapter,  &insert_solvers_attack_adapter  },
-  { STReadyForAttack, &insert_solvers_attack          },
-  { STDefenseAdapter, &insert_solvers_defense_adapter },
-  { STHelpAdapter,    &insert_solvers_help            },
-  { STSeriesAdapter,  &insert_solvers_series          }
+  { STSetplayFork,     &insert_solvers_setplay_fork    },
+  { STConstraint,      &insert_solvers_constraint      },
+  { STAttackAdapter,   &insert_solvers_attack_adapter  },
+  { STReadyForAttack,  &insert_solvers_attack          },
+  { STDefenseAdapter,  &insert_solvers_defense_adapter },
+  { STReadyForDefense, &insert_solvers_defense         },
+  { STHelpAdapter,     &insert_solvers_help            },
+  { STSeriesAdapter,   &insert_solvers_series          }
 };
 
 enum
