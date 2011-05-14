@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = solving.c
+INCLUDES = solving.h
+
+include makefile.rules $(CURRPWD)depend

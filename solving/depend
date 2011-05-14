@@ -1,0 +1,54 @@
+solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
+ pymsg.h stipulation/branch.h stipulation/fork_on_remaining.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/threat.h \
+ stipulation/battle_play/postkeyplay.h \
+ stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
+ stipulation/battle_play/attack_find_shortest.h \
+ stipulation/battle_play/min_length_optimiser.h \
+ stipulation/battle_play/min_length_guard.h \
+ stipulation/help_play/branch.h stipulation/help_play/find_shortest.h \
+ stipulation/help_play/find_by_increasing_length.h \
+ stipulation/series_play/branch.h stipulation/series_play/find_shortest.h \
+ stipulation/series_play/find_by_increasing_length.h trace.h
+
+solving/solving.h:
+
+pydata.h:
+
+pypipe.h:
+
+pymsg.h:
+
+stipulation/branch.h:
+
+stipulation/fork_on_remaining.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/threat.h:
+
+stipulation/battle_play/postkeyplay.h:
+
+stipulation/battle_play/continuation.h:
+
+stipulation/battle_play/try.h:
+
+stipulation/battle_play/attack_find_shortest.h:
+
+stipulation/battle_play/min_length_optimiser.h:
+
+stipulation/battle_play/min_length_guard.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/help_play/find_shortest.h:
+
+stipulation/help_play/find_by_increasing_length.h:
+
+stipulation/series_play/branch.h:
+
+stipulation/series_play/find_shortest.h:
+
+stipulation/series_play/find_by_increasing_length.h:
+
+trace.h:
