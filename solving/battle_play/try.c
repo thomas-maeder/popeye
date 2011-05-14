@@ -272,7 +272,7 @@ stip_length_type try_solver_can_defend(slice_index si,
 /* Allocate a STRefutationsSolver defender slice.
  * @return index of allocated slice
  */
-static slice_index alloc_refutations_solver(void)
+slice_index alloc_refutations_solver(void)
 {
   slice_index result;
 
@@ -506,96 +506,4 @@ void branch_insert_try_solvers(slice_index adapter,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Instrument a branch with a slice that causes it to solve refutations
- * @param adapter adapter slice leading into the branch
- */
-static void branch_insert_refutation_solver(slice_index adapter)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_refutations_solver();
-    battle_branch_insert_slices(adapter,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-typedef struct
-{
-  boolean inserted;
-  unsigned int max_nr_refutations;
-} try_handler_insertion_state;
-
-/* Insert try handler slices into the stipulation if applicable
- * @param si identifies slice to be replaced
- * @param st address of structure defining traversal
- */
-static void insert_try_handlers_attack_adapter(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  try_handler_insertion_state * const state = st->param;
-  slice_index defense;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  defense = branch_find_slice(STReadyForDefense,si);
-  if (defense!=no_slice
-      && slices[defense].u.branch.length>slack_length_battle)
-  {
-    branch_insert_try_solvers(si,state->max_nr_refutations);
-    branch_insert_refutation_solver(si);
-    state->inserted = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors try_handler_inserters[] =
-{
-  { STSetplayFork,   &stip_traverse_structure_pipe       },
-  { STAttackAdapter, &insert_try_handlers_attack_adapter }
-};
-
-enum
-{
-  nr_try_handler_inserters = (sizeof try_handler_inserters
-                              / sizeof try_handler_inserters[0])
-};
-
-/* Instrument the stipulation representation so that it solves tries
- * @param si identifies slice where to start
- * @param max_nr_refutations maximum number of refutations to be allowed
- * @return true iff the stipulation could be instrumented (i.e. iff
- *         try play applies to the stipulation)
- */
-boolean stip_insert_try_solvers(slice_index si, unsigned int max_nr_refutations)
-{
-  try_handler_insertion_state state = { false, max_nr_refutations };
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override(&st,
-                                    try_handler_inserters,
-                                    nr_try_handler_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",state.inserted);
-  TraceFunctionResultEnd();
-  return state.inserted;
 }

@@ -360,7 +360,6 @@ Option  StopOnShortSolutions  not supported with direct play.
 solution finished. 
 
 
-try play not applicable
 
 a) 
 
@@ -384,7 +383,6 @@ c) s#1
         orig_rbechec:           0
         orig_rnechec:           0
 d) r#1
-try play not applicable
 
 
               empile:           0
@@ -392,7 +390,6 @@ try play not applicable
         orig_rbechec:           0
         orig_rnechec:           0
 e) h#3
-try play not applicable
 
 
               empile:           0
@@ -400,7 +397,6 @@ try play not applicable
         orig_rbechec:           0
         orig_rnechec:           0
 f) ser-h#5
-try play not applicable
 
 
               empile:           0

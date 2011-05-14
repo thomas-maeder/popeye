@@ -537,8 +537,8 @@ static void find_restricted_side_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void find_restricted_side_help_root(slice_index si,
-                                           stip_structure_traversal *st)
+static void find_restricted_side_help(slice_index si,
+                                      stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -560,10 +560,10 @@ static void find_restricted_side_help_root(slice_index si,
 
 static structure_traversers_visitors restricted_side_finders[] =
 {
-  { STAttackAdapter,   &find_restricted_side_attack    },
-  { STDefenseAdapter , &find_restricted_side_defense   },
-  { STReadyForDefense, &find_restricted_side_defense   },
-  { STHelpFindByIncreasingLength,        &find_restricted_side_help_root }
+  { STAttackAdapter,   &find_restricted_side_attack  },
+  { STDefenseAdapter , &find_restricted_side_defense },
+  { STReadyForDefense, &find_restricted_side_defense },
+  { STHelpAdapter,     &find_restricted_side_help    }
 };
 
 enum
@@ -2511,10 +2511,11 @@ static void solve_twin(slice_index si,
   TraceFunctionResultEnd();
 }
 
-typedef struct
+typedef enum
 {
-  boolean is_root;
-  boolean is_setplay;
+  solver_insertion_setplay,
+  solver_insertion_root,
+  solver_insertion_nested
 } solver_insertion_state;
 
 void insert_solvers_setplay_fork(slice_index si, stip_structure_traversal *st)
@@ -2527,39 +2528,67 @@ void insert_solvers_setplay_fork(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  state->is_setplay = true;
+  *state = solver_insertion_setplay;
   stip_traverse_structure(slices[si].u.fork.fork,st);
-  state->is_setplay = false;
+  *state = solver_insertion_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void insert_solvers_attack(slice_index si, stip_structure_traversal *st)
+void insert_solvers_constraint(slice_index si, stip_structure_traversal *st)
 {
+  solver_insertion_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (*state==solver_insertion_root)
   {
-    solver_insertion_state * const state = st->param;
-    boolean const save_is_root = state->is_root;
+    stip_traverse_structure_pipe(si,st);
 
-    state->is_root = false;
+    *state = solver_insertion_nested;
+    stip_traverse_structure(slices[si].u.fork.fork,st);
+    *state = solver_insertion_root;
+  }
+  else
     stip_traverse_structure_children(si,st);
-    state->is_root = save_is_root;
 
-    if (slices[si].u.branch.length>slack_length_battle)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void insert_solvers_attack_adapter(slice_index si, stip_structure_traversal *st)
+{
+  solver_insertion_state const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (*state==solver_insertion_root)
+  {
+    if (OptFlag[solvariantes])
     {
-      slice_index const prototypes[] =
+      if (!OptFlag[nothreat])
+        stip_insert_threat_handlers(si);
+    }
+    else
+    {
+      slice_index const prototype = alloc_postkeyplay_suppressor_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+
+    if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+    {
+      branch_insert_try_solvers(si,get_max_nr_refutations());
       {
-        alloc_continuation_solver_slice()
-      };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+        slice_index const prototype = alloc_refutations_solver();
+        battle_branch_insert_slices(si,&prototype,1);
+      }
     }
   }
 
@@ -2567,32 +2596,77 @@ void insert_solvers_attack(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-void insert_solvers_defense(slice_index si, stip_structure_traversal *st)
+void insert_solvers_attack(slice_index si, stip_structure_traversal *st)
 {
+  solver_insertion_state * const state = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (*state==solver_insertion_root)
   {
-    solver_insertion_state * const state = st->param;
-    boolean const save_is_root = state->is_root;
-
-    state->is_root = false;
+    *state = solver_insertion_nested;
     stip_traverse_structure_children(si,st);
-    state->is_root = save_is_root;
+    *state = solver_insertion_root;
+  }
+  else
+  {
+    stip_traverse_structure_children(si,st);
 
-    if ((state->is_setplay || !state->is_root)
-        && slices[si].u.branch.length>slack_length_battle)
+    if (length>=min_length+2)
     {
-      slice_index const prototypes[] =
-      {
-        alloc_continuation_solver_slice()
-      };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+      slice_index const proto = alloc_attack_find_shortest_slice(length,
+                                                                 min_length);
+      battle_branch_insert_slices(si,&proto,1);
+    }
+  }
+
+  if (length>slack_length_battle)
+  {
+    slice_index const prototype = alloc_continuation_solver_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void insert_solvers_defense_adapter(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  solver_insertion_state * const state = st->param;
+  boolean const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *state = solver_insertion_nested;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
+
+  if (*state==solver_insertion_root)
+  {
+    if (!OptFlag[nothreat])
+      stip_insert_threat_handlers(si);
+
+    if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+      Message(TryPlayNotApplicable);
+  }
+  else
+  {
+    if (slices[si].u.branch.length>slack_length_battle)
+    {
+      slice_index const prototype = alloc_continuation_solver_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+    }
+    if (*state==solver_insertion_setplay)
+    {
+      unsigned int const max_nr_refutations = UINT_MAX;
+      branch_insert_try_solvers(si,max_nr_refutations);
     }
   }
 
@@ -2610,11 +2684,23 @@ void insert_solvers_help(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->is_root)
+  if (*state==solver_insertion_nested)
   {
-    state->is_root = false;
     stip_traverse_structure_children(si,st);
-    state->is_root = true;
+
+    if (length-min_length>=2)
+    {
+      slice_index const prototype = alloc_help_find_shortest_slice(length,
+                                                                   min_length);
+      help_branch_insert_slices(si,&prototype,1);
+    }
+  }
+  else
+  {
+    solver_insertion_state const save_state = *state;
+    *state = solver_insertion_nested;
+    stip_traverse_structure_children(si,st);
+    *state = save_state;
 
     if (length-min_length>=2)
     {
@@ -2633,16 +2719,6 @@ void insert_solvers_help(slice_index si, stip_structure_traversal *st)
       help_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
-  else
-  {
-    stip_traverse_structure_children(si,st);
-
-    if (length-min_length>=2)
-    {
-      slice_index const prototype = alloc_help_find_shortest_slice(length,min_length);
-      help_branch_insert_slices(si,&prototype,1);
-    }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2658,11 +2734,22 @@ void insert_solvers_series(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->is_root)
+  if (*state==solver_insertion_nested)
   {
-    state->is_root = false;
     stip_traverse_structure_children(si,st);
-    state->is_root = true;
+
+    if (length-min_length>=2)
+    {
+      slice_index const prototype = alloc_series_find_shortest_slice(length,min_length);
+      series_branch_insert_slices(si,&prototype,1);
+    }
+  }
+  else
+  {
+    solver_insertion_state const save_state = *state;
+    *state = solver_insertion_nested;
+    stip_traverse_structure_children(si,st);
+    *state = save_state;
 
     if (length-min_length>=2)
     {
@@ -2681,16 +2768,6 @@ void insert_solvers_series(slice_index si, stip_structure_traversal *st)
       series_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
-  else
-  {
-    stip_traverse_structure_children(si,st);
-
-    if (length-min_length>=2)
-    {
-      slice_index const prototype = alloc_series_find_shortest_slice(length,min_length);
-      series_branch_insert_slices(si,&prototype,1);
-    }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2699,8 +2776,10 @@ void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 structure_traversers_visitors const strategy_inserters[] =
 {
   { STSetplayFork,    &insert_solvers_setplay_fork    },
+  { STConstraint,     &insert_solvers_constraint      },
+  { STAttackAdapter,  &insert_solvers_attack_adapter  },
   { STReadyForAttack, &insert_solvers_attack          },
-  { STDefenseAdapter, &insert_solvers_defense         },
+  { STDefenseAdapter, &insert_solvers_defense_adapter },
   { STHelpAdapter,    &insert_solvers_help            },
   { STSeriesAdapter,  &insert_solvers_series          }
 };
@@ -2714,7 +2793,7 @@ enum
 void stip_insert_solvers(slice_index si)
 {
   stip_structure_traversal st;
-  solver_insertion_state state = { true, false };
+  solver_insertion_state state = solver_insertion_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2788,8 +2867,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
 
-      stip_insert_solvers(template_slice_hook);
-
       stip_remove_unsatisfiable_goals(template_slice_hook);
 
       stip_insert_check_detectors(template_slice_hook);
@@ -2806,9 +2883,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solmenaces]
           && !stip_insert_maxthreatlength_guards(template_slice_hook))
         Message(ThreatOptionAndExactStipulationIncompatible);
-
-      if (OptFlag[degeneratetree])
-        stip_insert_degenerate_tree_guards(template_slice_hook);
 
       if (OptFlag[movenbr]
           && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
@@ -2882,23 +2956,13 @@ static Token iterate_twins(Token prev_token)
 
       /* operations depend on existance of root slices from here on */
 
-      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
-      {
-        if (OptFlag[postkeyplay])
-          stip_insert_postkey_handlers(root_slice);
-        if (!OptFlag[nothreat])
-          stip_insert_threat_handlers(root_slice);
-      }
-      else
-        stip_insert_postkeyplay_suppressors(root_slice);
+      stip_insert_solvers(root_slice);
 
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-      {
-        if (!stip_insert_try_solvers(root_slice,get_max_nr_refutations()))
-          Message(TryPlayNotApplicable);
-      }
+      if (OptFlag[degeneratetree])
+        stip_insert_degenerate_tree_guards(root_slice);
 
-      if (!OptFlag[intelligent] && OptFlag[movenbr])
+      if (OptFlag[movenbr]
+          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
         stip_insert_restart_guards(root_slice);
 
       stip_insert_output_slices(root_slice);

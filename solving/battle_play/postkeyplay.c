@@ -6,7 +6,7 @@
 /* Allocate a STPostKeyPlaySuppressor defender slice.
  * @return index of allocated slice
  */
-static slice_index alloc_postkeyplay_suppressor_slice(void)
+slice_index alloc_postkeyplay_suppressor_slice(void)
 {
   slice_index result;
 
@@ -49,7 +49,7 @@ postkeyplay_suppressor_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==n_max_unsolvable)
+  if (n==n_max_unsolvable) /* we are solving refutations */
     result = defend(next,n,n);
   else
     result = n;
@@ -91,120 +91,4 @@ postkeyplay_suppressor_can_defend(slice_index si,
   TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Remove the STContinuationSolver slice not used in postkey play
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void remove_continuation_solver(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors postkey_handler_inserters[] =
-{
-  { STContinuationSolver, &remove_continuation_solver  },
-  { STReadyForDefense,    &stip_structure_visitor_noop },
-  { STHelpAdapter,        &stip_structure_visitor_noop },
-  { STSeriesAdapter,      &stip_structure_visitor_noop }
-};
-
-enum
-{
-  nr_postkey_handler_inserters = (sizeof postkey_handler_inserters
-                                  / sizeof postkey_handler_inserters[0])
-};
-
-/* Instrument the stipulation representation for postkey only play
- * @param si identifies slice where to start
- */
-void stip_insert_postkey_handlers(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    postkey_handler_inserters,
-                                    nr_postkey_handler_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Append a variation writer
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void insert_postkeyplay_suppressor(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>slack_length_battle)
-  {
-    slice_index const prototype = alloc_postkeyplay_suppressor_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors postkey_suppressor_inserters[] =
-{
-  { STAttackAdapter, &insert_postkeyplay_suppressor },
-  { STHelpAdapter,   &stip_structure_visitor_noop   },
-  { STSeriesAdapter, &stip_structure_visitor_noop   }
-};
-
-enum
-{
-  nr_postkey_suppressor_inserters = (sizeof postkey_suppressor_inserters
-                                     / sizeof postkey_suppressor_inserters[0])
-};
-
-/* Instrument the stipulation representation so that post key play is
- * suppressed from output
- * @param si identifies slice where to start
- */
-void stip_insert_postkeyplay_suppressors(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    postkey_suppressor_inserters,
-                                    nr_postkey_suppressor_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceStipulation(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

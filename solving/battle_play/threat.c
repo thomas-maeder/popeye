@@ -413,15 +413,13 @@ stip_length_type threat_solver_can_defend(slice_index si,
  */
 static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  if (length>slack_length_battle+1)
+  if (slices[si].u.branch.length>slack_length_battle+1)
   {
     {
       slice_index const prototype = alloc_pipe(STThreatStart);
@@ -430,42 +428,24 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
     {
       slice_index const start = branch_find_slice(STThreatStart,si);
-      if (start!=no_slice)
+      slice_index const prototypes[] =
       {
-        slice_index const prototypes[] =
-        {
-          alloc_threat_solver_slice(start),
-          alloc_threat_enforcer_slice(),
-          alloc_threat_collector_slice()
-        };
-
-        enum
-        {
-          nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-        };
-
-        battle_branch_insert_slices(si,prototypes,nr_prototypes);
-      }
+        alloc_threat_solver_slice(start),
+        alloc_threat_enforcer_slice(),
+        alloc_threat_collector_slice()
+      };
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      assert(start!=no_slice);
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors const threat_handler_inserters[] =
-{
-  { STSetplayFork,       &stip_traverse_structure_pipe },
-  { STDefenseAdapter,    &append_threat_solver         },
-  { STReadyForDefense,   &append_threat_solver         },
-  { STGoalReachedTester, &stip_structure_visitor_noop  }
-};
-
-enum
-{
-  nr_threat_handler_inserters = (sizeof threat_handler_inserters
-                                 / sizeof threat_handler_inserters[0])
-};
 
 /* Instrument the stipulation representation so that it can deal with
  * threats
@@ -483,9 +463,9 @@ void stip_insert_threat_handlers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    threat_handler_inserters,
-                                    nr_threat_handler_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForDefense,
+                                           &append_threat_solver);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)

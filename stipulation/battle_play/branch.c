@@ -8,7 +8,6 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
@@ -17,7 +16,6 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/min_length_optimiser.h"
-#include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/min_length_guard.h"
 #include "trace.h"
 
@@ -396,9 +394,6 @@ slice_index alloc_battle_branch(stip_length_type length,
   {
     slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
     slice_index const adeadend = alloc_dead_end_slice();
-    slice_index const shortest = alloc_attack_find_shortest_slice(length,
-                                                                  min_length);
-
     slice_index const agenerator = alloc_attack_move_generator_slice();
     slice_index const attack = alloc_attack_move_slice();
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
@@ -410,8 +405,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
 
     pipe_link(aready,adeadend);
-    pipe_link(adeadend,shortest);
-    pipe_link(shortest,agenerator);
+    pipe_link(adeadend,agenerator);
     pipe_link(agenerator,attack);
     pipe_link(attack,dready);
     pipe_link(dready,ddeadend);
@@ -532,7 +526,6 @@ slice_index battle_branch_make_setplay(slice_index adapter)
   slice_structural_type type;
   stip_length_type const length = slices[adapter].u.branch.length;
   stip_length_type const min_length = slices[adapter].u.branch.min_length;
-  unsigned int max_nr_refutations = UINT_MAX;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
@@ -552,8 +545,6 @@ slice_index battle_branch_make_setplay(slice_index adapter)
 
   result = alloc_defense_adapter_slice(length-1,min_length-1);
   link_to_branch(result,nested);
-
-  branch_insert_try_solvers(result,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
@@ -718,12 +709,11 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 
 static structure_traversers_visitors battle_root_slice_inserters[] =
 {
-  { STReadyForAttack,     &ready_for_attack_make_root     },
-  { STEndOfBranchGoal,    &end_of_branch_goal_make_root   },
-  { STAttackFindShortest, &attack_find_shortest_make_root },
-  { STDefenseMove,        &defense_move_make_root         },
-  { STAnd,                &binary_make_root               },
-  { STOr,                 &binary_make_root               }
+  { STReadyForAttack,  &ready_for_attack_make_root   },
+  { STEndOfBranchGoal, &end_of_branch_goal_make_root },
+  { STDefenseMove,     &defense_move_make_root       },
+  { STAnd,             &binary_make_root             },
+  { STOr,              &binary_make_root             }
 };
 
 enum

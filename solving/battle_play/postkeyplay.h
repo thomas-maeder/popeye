@@ -7,6 +7,11 @@
 /* This module provides functionality dealing with post key play
  */
 
+/* Allocate a STPostKeyPlaySuppressor defender slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_postkeyplay_suppressor_slice(void);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -38,16 +43,5 @@ stip_length_type
 postkeyplay_suppressor_can_defend(slice_index si,
                                   stip_length_type n,
                                   stip_length_type n_max_unsolvable);
-
-/* Instrument the stipulation representation for postkey only play
- * @param si identifies slice where to start
- */
-void stip_insert_postkey_handlers(slice_index si);
-
-/* Instrument the stipulation representation so that post key play is
- * suppressed from output
- * @param si identifies slice where to start
- */
-void stip_insert_postkeyplay_suppressors(slice_index si);
 
 #endif

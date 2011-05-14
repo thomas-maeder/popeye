@@ -95,6 +95,11 @@ stip_length_type try_solver_can_defend(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable);
 
+/* Allocate a STRefutationsSolver defender slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_solver(void);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -163,13 +168,5 @@ stip_length_type refutations_collector_attack(slice_index si,
  */
 void branch_insert_try_solvers(slice_index adapter,
                                unsigned int max_nr_refutations);
-
-/* Instrument the stipulation representation so that it solves tries
- * @param si identifies slice where to start
- * @param max_nr_refutations maximum number of refutations to be allowed
- * @return true iff the stipulation could be instrumented (i.e. iff
- *         try play applies to the stipulation)
- */
-boolean stip_insert_try_solvers(slice_index si, unsigned int max_nr_refutations);
 
 #endif
