@@ -2563,8 +2563,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
 
-      stip_remove_unsatisfiable_goals(template_slice_hook);
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards(template_slice_hook);
 
@@ -2649,6 +2647,8 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      stip_remove_unsatisfiable_goals(root_slice);
 
       stip_insert_solvers(root_slice);
 
