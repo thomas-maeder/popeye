@@ -290,7 +290,7 @@ enum
  */
 boolean stip_insert_maxthreatlength_guards(slice_index si)
 {
-  boolean result;
+  boolean result = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
