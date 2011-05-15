@@ -1,4 +1,5 @@
 #include "stipulation/battle_play/defense_adapter.h"
+#include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "trace.h"

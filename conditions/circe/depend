@@ -1,6 +1,6 @@
 conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  conditions/circe/circe.h pypipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/boolean/or.h \
+ stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h trace.h
@@ -14,6 +14,8 @@ stipulation/branch.h:
 stipulation/proxy.h:
 
 stipulation/boolean/or.h:
+
+stipulation/boolean/true.h:
 
 conditions/circe/circuit_by_rebirth_special.h:
 

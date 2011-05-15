@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/or.h"
+#include "stipulation/boolean/true.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_special.h"

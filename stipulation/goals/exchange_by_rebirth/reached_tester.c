@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/goals/reached_tester.h"
 #include "trace.h"
 
 #include <assert.h>

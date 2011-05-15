@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pyproc.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/goals/reached_tester.h"
 #include "trace.h"
 
 /* This module provides functionality dealing with slices that detect

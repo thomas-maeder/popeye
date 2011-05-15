@@ -1,7 +1,7 @@
 stipulation/goals/exchange_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/exchange_by_rebirth/reached_tester.c \
  stipulation/goals/exchange_by_rebirth/reached_tester.h pypipe.h pydata.h \
- stipulation/boolean/true.h trace.h
+ stipulation/boolean/true.h stipulation/goals/reached_tester.h trace.h
 
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
 
@@ -10,5 +10,7 @@ pypipe.h:
 pydata.h:
 
 stipulation/boolean/true.h:
+
+stipulation/goals/reached_tester.h:
 
 trace.h:
