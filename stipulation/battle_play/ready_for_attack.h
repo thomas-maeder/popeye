@@ -25,10 +25,4 @@ slice_index alloc_ready_for_attack_slice(stip_length_type length,
 void ready_for_attack_reduce_to_postkey_play(slice_index si,
                                              stip_structure_traversal *st);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st);
-
 #endif

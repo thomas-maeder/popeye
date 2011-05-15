@@ -2557,17 +2557,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
-      stip_insert_root_slices(template_slice_hook);
-
-      if (OptFlag[solapparent] && !OptFlag[restart]
-          && !stip_apply_setplay(template_slice_hook))
-        Message(SetPlayNotApplicable);
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards(template_slice_hook);
-
-      if (!init_intelligent_mode(template_slice_hook))
-        Message(IntelligentRestricted);
 
       if (OptFlag[solflights])
         stip_insert_maxflight_guards(template_slice_hook);
@@ -2575,10 +2566,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solmenaces]
           && !stip_insert_maxthreatlength_guards(template_slice_hook))
         Message(ThreatOptionAndExactStipulationIncompatible);
-
-      if (OptFlag[movenbr]
-          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
-        stip_insert_restart_guards(template_slice_hook);
 
       if (dealWithMaxtime())
         stip_insert_maxtime_guards(template_slice_hook);
@@ -2589,6 +2576,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[stoponshort]
           && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
         Message(NoStopOnShortSolutions);
+
+      stip_insert_root_slices(template_slice_hook);
 
       stip_detect_starter(template_slice_hook);
       stip_impose_starter(template_slice_hook,
@@ -2610,10 +2599,6 @@ static Token iterate_twins(Token prev_token)
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
-
-      stip_optimise_with_orthodox_mating_move_generators(root_slice);
-      stip_optimise_with_countnropponentmoves(root_slice);
-      stip_optimise_with_killer_moves(root_slice);
 
       if (is_hashtable_allocated())
         stip_insert_hash_slices(root_slice);
@@ -2640,6 +2625,10 @@ static Token iterate_twins(Token prev_token)
       if (TSTFLAG(PieSpExFlags,Kamikaze))
         stip_insert_kamikaze_goal_filters(root_slice);
 
+      if (OptFlag[solapparent] && !OptFlag[restart]
+          && !stip_apply_setplay(root_slice))
+        Message(SetPlayNotApplicable);
+
       stip_insert_selfcheck_guards(root_slice);
 
       stip_optimise_dead_end_slices(root_slice);
@@ -2647,6 +2636,17 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      stip_optimise_with_orthodox_mating_move_generators(root_slice);
+      stip_optimise_with_countnropponentmoves(root_slice);
+      stip_optimise_with_killer_moves(root_slice);
+
+      if (!init_intelligent_mode(root_slice))
+        Message(IntelligentRestricted);
+
+      if (OptFlag[movenbr]
+          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
+        stip_insert_restart_guards(root_slice);
 
       stip_remove_unsatisfiable_goals(root_slice);
 

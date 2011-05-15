@@ -50,30 +50,3 @@ void ready_for_attack_reduce_to_postkey_play(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_attack_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const copy = copy_slice(si);
-    link_to_branch(copy,*root_slice);
-    *root_slice = copy;
-  }
-
-  slices[si].u.branch.length -= 2;
-  slices[si].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

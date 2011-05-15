@@ -479,29 +479,18 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Inject an STEndOfRoot where the setplay branch will join the main branch
- * @return identifier of STEndOfRoot slice
- */
-static slice_index inject_end_of_root(slice_index si)
+static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
-  slice_index result;
+  slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prototype = alloc_pipe(STEndOfRoot);
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  result = branch_find_slice(STEndOfRoot,si);
-  assert(result!=no_slice);
+  *root_slice = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
+  TraceFunctionResultEnd();
 }
 
 /* Produce slices representing set play.
@@ -514,31 +503,27 @@ static slice_index inject_end_of_root(slice_index si)
 slice_index battle_branch_make_setplay(slice_index adapter)
 {
   slice_index result;
-  slice_index nested;
-  slice_index start;
-  stip_structure_traversal st;
-  slice_structural_type type;
-  stip_length_type const length = slices[adapter].u.branch.length;
-  stip_length_type const min_length = slices[adapter].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  nested = inject_end_of_root(adapter);
-  start = branch_find_slice(STReadyForDefense,adapter);
-  assert(start!=no_slice);
+  {
+    slice_index const start = branch_find_slice(STReadyForDefense,adapter);
+    stip_structure_traversal st;
+    slice_structural_type type;
 
-  stip_structure_traversal_init(&st,&nested);
-  for (type = 0; type!=nr_slice_structure_types; ++type)
-    stip_structure_traversal_override_by_structure(&st,type,&copy_to_setplay);
-  stip_structure_traversal_override_single(&st,
-                                           STEndOfRoot,
-                                           &stip_structure_visitor_noop);
-  stip_traverse_structure(start,&st);
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    battle_branch_insert_slices(adapter,&prototype,1);
 
-  result = alloc_defense_adapter_slice(length-1,min_length-1);
-  link_to_branch(result,nested);
+    assert(start!=no_slice);
+
+    stip_structure_traversal_init(&st,&result);
+    for (type = 0; type!=nr_slice_structure_types; ++type)
+      stip_structure_traversal_override_by_structure(&st,type,&copy_to_setplay);
+    stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
+    stip_traverse_structure(start,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
@@ -701,44 +686,57 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   return result;
 }
 
-static structure_traversers_visitors battle_root_slice_inserters[] =
+void battle_branch_make_root(slice_index si, stip_structure_traversal *st)
 {
-  { STReadyForAttack,  &ready_for_attack_make_root   },
-  { STEndOfBranchGoal, &end_of_branch_goal_make_root },
-  { STDefenseMove,     &defense_move_make_root       },
-  { STAnd,             &binary_make_root             },
-  { STOr,              &binary_make_root             }
-};
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-enum
-{
-  nr_battle_root_slice_inserters = (sizeof battle_root_slice_inserters
-                                    / sizeof battle_root_slice_inserters[0])
-};
+  pipe_make_root(si,st);
+
+  slices[si].u.branch.length -= 2;
+  slices[si].u.branch.min_length -= 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
  * @return identifier of root slice
  */
-slice_index battle_branch_make_root(slice_index si)
+slice_index battle_make_root(slice_index si)
 {
-  stip_structure_traversal st;
-  slice_structural_type i;
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  for (i = 0; i!=nr_slice_structure_types; ++i)
-    if (slice_structure_is_subclass(i,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
-  stip_structure_traversal_override(&st,
-                                    battle_root_slice_inserters,
-                                    nr_battle_root_slice_inserters);
-  stip_traverse_structure(si,&st);
+  {
+    stip_structure_traversal st;
+    slice_structural_type i;
+
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    battle_branch_insert_slices(si,&prototype,1);
+
+    stip_structure_traversal_init(&st,&result);
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_branch))
+        stip_structure_traversal_override_by_structure(&st,i,&battle_branch_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_binary))
+        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_single(&st,
+                                             STEndOfBranchGoal,
+                                             &end_of_branch_goal_make_root);
+    stip_structure_traversal_override_single(&st,
+                                             STEndOfRoot,
+                                             &serve_as_root_hook);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);

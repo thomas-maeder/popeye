@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -23,25 +22,6 @@ slice_index alloc_defense_move_slice(void)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_move_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(si,alloc_pipe(STEndOfRoot));
-  *root_slice = copy_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible.

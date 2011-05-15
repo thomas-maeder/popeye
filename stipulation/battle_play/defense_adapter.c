@@ -30,18 +30,26 @@ slice_index alloc_defense_adapter_slice(stip_length_type length,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies attack adapter slice
  * @param st address of structure holding the traversal state
  */
-void defense_adapter_make_root(slice_index si, stip_structure_traversal *st)
+void defense_adapter_make_root(slice_index adapter,
+                               stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = battle_branch_make_root(si);
+  *root_slice = battle_make_root(slices[adapter].u.pipe.next);
+
+  if (*root_slice!=no_slice)
+  {
+    pipe_link(adapter,*root_slice);
+    *root_slice = adapter;
+    pipe_unlink(slices[adapter].prev);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

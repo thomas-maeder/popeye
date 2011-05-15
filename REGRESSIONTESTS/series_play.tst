@@ -161,7 +161,6 @@ solution finished.
 solution finished. 
 
 
-SetPlay not applicable - ignored
 both sides need a kingboth sides need a king
    set play not applicable in ser-#
 
@@ -185,6 +184,7 @@ both sides need a kingboth sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#5                      0 + 0
+SetPlay not applicable - ignored
 
 
               empile:           0

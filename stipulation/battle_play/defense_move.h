@@ -12,12 +12,6 @@
  */
 slice_index alloc_defense_move_slice(void);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_move_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

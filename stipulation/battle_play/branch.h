@@ -96,7 +96,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
  * @param si identifies slice where to start
  * @return identifier of root slice
  */
-slice_index battle_branch_make_root(slice_index si);
+slice_index battle_make_root(slice_index si);
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)
