@@ -63,20 +63,16 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
 void end_of_branch_goal_make_root(slice_index si,
                                   stip_structure_traversal *st)
 {
+  slice_index const * const root_slice = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  pipe_make_root(si,st);
 
-  {
-    slice_index * const root_slice = st->param;
-    slice_index const fork = slices[si].u.fork.fork;
-    slice_index const fork_copy = stip_deep_copy(fork);
-    slice_index const defense_root = alloc_end_of_branch_goal(fork_copy);
-    link_to_branch(defense_root,*root_slice);
-    *root_slice = defense_root;
-  }
+  if (*root_slice!=no_slice)
+    slices[*root_slice].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
