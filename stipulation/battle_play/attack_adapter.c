@@ -44,14 +44,32 @@ void attack_adapter_make_root(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = battle_make_root(slices[adapter].u.pipe.next);
+  *root_slice = battle_make_root(adapter);
 
-  if (*root_slice!=no_slice)
-  {
-    pipe_link(adapter,*root_slice);
-    *root_slice = adapter;
-    pipe_unlink(slices[adapter].prev);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Wrap the slices representing the nested slices
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure holding the traversal state
+ */
+void attack_adapter_make_intro(slice_index adapter,
+                               stip_structure_traversal *st)
+{
+  slice_index * const fork_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(adapter,st);
+
+  if (*fork_slice!=no_slice
+      /* this filters out adapters that are not in a loop
+       * TODO  should we get rid of these? */
+      && branch_find_slice(STAttackAdapter,slices[adapter].u.pipe.next)==adapter)
+    battle_spin_off_intro(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

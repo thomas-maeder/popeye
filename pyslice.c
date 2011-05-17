@@ -1,7 +1,6 @@
 #include "pyslice.h"
 #include "pydata.h"
 #include "trace.h"
-#include "stipulation/constraint.h"
 #include "stipulation/setplay_fork.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/false.h"
@@ -193,10 +192,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STNot:
       result = not_solve(si);
-      break;
-
-    case STConstraint:
-      result = constraint_solve(si);
       break;
 
     case STMoveInverter:
@@ -409,10 +404,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STNot:
       result = not_has_solution(si);
-      break;
-
-    case STConstraint:
-      result = constraint_has_solution(si);
       break;
 
     case STAttackAdapter:

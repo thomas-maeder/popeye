@@ -24,6 +24,13 @@ slice_index alloc_series_adapter_slice(stip_length_type length,
  */
 void series_adapter_make_root(slice_index si, stip_structure_traversal *st);
 
+/* Wrap the slices representing the nested slices
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure holding the traversal state
+ */
+void series_adapter_make_intro(slice_index adapter,
+                               stip_structure_traversal *st);
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

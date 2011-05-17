@@ -98,6 +98,11 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
  */
 slice_index battle_make_root(slice_index si);
 
+/* Spin the intro slices off a nested battle branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void battle_spin_off_intro(slice_index adapter);
+
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented

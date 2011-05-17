@@ -2130,7 +2130,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
  */
 static boolean apply_whitetoplay(slice_index proxy)
 {
-  slice_index next = slices[proxy].u.pipe.next;
+  slice_index hook = proxy;
+  slice_index next = slices[hook].u.pipe.next;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -2141,7 +2142,10 @@ static boolean apply_whitetoplay(slice_index proxy)
   assert(slices[proxy].type==STProxy);
 
   while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
-    next = slices[next].u.pipe.next;
+  {
+    hook = next;
+    next = slices[hook].u.pipe.next;
+  }
 
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
@@ -2151,9 +2155,9 @@ static boolean apply_whitetoplay(slice_index proxy)
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
       {
-        slice_index const inverter = alloc_move_inverter_slice();
-        help_branch_shorten(next);
-        pipe_append(slices[slices[next].prev].prev,inverter);
+        slice_index const prototype = alloc_move_inverter_slice();
+        root_branch_insert_slices(proxy,&prototype,1);
+        link_to_branch(hook,help_branch_shorten(next));
       }
       else
       {
@@ -2577,8 +2581,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
         Message(NoStopOnShortSolutions);
 
-      stip_insert_root_slices(template_slice_hook);
-
       stip_detect_starter(template_slice_hook);
       stip_impose_starter(template_slice_hook,
                           slices[template_slice_hook].starter);
@@ -2599,9 +2601,6 @@ static Token iterate_twins(Token prev_token)
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
-
-      if (is_hashtable_allocated())
-        stip_insert_hash_slices(root_slice);
 
       if (OptFlag[noshort])
         stip_insert_no_short_variations_filters(root_slice);
@@ -2625,6 +2624,9 @@ static Token iterate_twins(Token prev_token)
       if (TSTFLAG(PieSpExFlags,Kamikaze))
         stip_insert_kamikaze_goal_filters(root_slice);
 
+      stip_insert_root_slices(root_slice);
+      stip_insert_intro_slices(root_slice);
+
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(root_slice))
         Message(SetPlayNotApplicable);
@@ -2636,6 +2638,9 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      if (is_hashtable_allocated())
+        stip_insert_hash_slices(root_slice);
 
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
       stip_optimise_with_countnropponentmoves(root_slice);

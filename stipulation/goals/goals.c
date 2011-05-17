@@ -262,8 +262,23 @@ static void remove_unsatisfiable_constraint_goal(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
 {
+  { STConstraint,                         &get_fork_of_my_own                   },
   { STGoalCaptureReachedTester,           &remove_unsatisfiable_constraint_goal },
   { STGoalCastlingReachedTester,          &remove_unsatisfiable_constraint_goal },
   { STGoalCircuitReachedTester,           &remove_unsatisfiable_constraint_goal },
@@ -273,10 +288,10 @@ static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
   { STGoalExchangeByRebirthReachedTester, &remove_unsatisfiable_constraint_goal },
   { STGoalSteingewinnReachedTester,       &remove_unsatisfiable_constraint_goal },
   { STGoalTargetReachedTester,            &remove_unsatisfiable_constraint_goal },
-  { STAttackAdapter,                      &stip_structure_visitor_noop          },
-  { STDefenseAdapter,                     &stip_structure_visitor_noop          },
-  { STHelpAdapter,                        &stip_structure_visitor_noop          },
-  { STSeriesAdapter,                      &stip_structure_visitor_noop          }
+  { STReadyForAttack,                     &stip_structure_visitor_noop          },
+  { STReadyForDefense,                    &stip_structure_visitor_noop          },
+  { STReadyForHelpMove,                   &stip_structure_visitor_noop          },
+  { STReadyForSeriesMove,                 &stip_structure_visitor_noop          }
 };
 
 enum

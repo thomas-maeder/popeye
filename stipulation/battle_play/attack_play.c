@@ -34,11 +34,11 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
+#include "output/plaintext/trivial_end_filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/move_writer.h"
-#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
@@ -83,8 +83,8 @@ stip_length_type can_attack(slice_index si,
       result = move_writer_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STTrivialVariationFilter:
-      result = trivial_variation_filter_can_attack(si,n,n_max_unsolvable);
+    case STTrivialEndFilter:
+      result = trivial_end_filter_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STRefutingVariationWriter:
@@ -288,8 +288,8 @@ stip_length_type attack(slice_index si,
       result = move_writer_attack(si,n,n_max_unsolvable);
       break;
 
-    case STTrivialVariationFilter:
-      result = trivial_variation_filter_attack(si,n,n_max_unsolvable);
+    case STTrivialEndFilter:
+      result = trivial_end_filter_attack(si,n,n_max_unsolvable);
       break;
 
     case STRefutingVariationWriter:

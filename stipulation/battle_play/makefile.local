@@ -2,15 +2,11 @@
 #
 
 CFILES = branch.c \
-	attack_adapter.c attack_move_generator.c attack_move.c \
-	attack_play.c ready_for_attack.c \
-	defense_adapter.c defense_move.c ready_for_defense.c \
-  defense_play.c defense_move_generator.c
+	attack_adapter.c attack_move_generator.c attack_move.c attack_play.c \
+	defense_adapter.c defense_move.c defense_play.c defense_move_generator.c
 
 INCLUDES = branch.h \
-	attack_adapter.h attack_move_generator.h attack_move.h \
-	attack_play.h ready_for_attack.h \
-	defense_adapter.h defense_move.h ready_for_defense.h \
-	defense_play.h defense_move_generator.h
+	attack_adapter.h attack_move_generator.h attack_move.h  attack_play.h \
+	defense_adapter.h defense_move.h defense_play.h defense_move_generator.h
 
 include makefile.rules $(CURRPWD)depend

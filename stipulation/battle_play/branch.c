@@ -10,10 +10,8 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
 
@@ -26,7 +24,9 @@
 static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
+  STTrivialEndFilter,
   STConstraint,
+  STEndOfIntro,
   STReadyForAttack,
   STMinLengthOptimiser,
   STCastlingFilter,
@@ -347,11 +347,14 @@ slice_index alloc_defense_branch(slice_index next,
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   {
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
-    slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
+    slice_index const ready = alloc_branch(STReadyForDefense,length,min_length);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_defense_move_slice();
@@ -390,18 +393,18 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(min_length>=slack_length_battle);
 
   {
-    slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
+    slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
+    slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerator = alloc_attack_move_generator_slice();
     slice_index const attack = alloc_attack_move_slice();
-    slice_index const dready = alloc_ready_for_defense_slice(length-1,
-                                                             min_length-1);
+    slice_index const dready = alloc_branch(STReadyForDefense,
+                                            length-1,min_length-1);
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_defense_move_slice();
 
-    slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
-
+    pipe_link(adapter,aready);
     pipe_link(aready,adeadend);
     pipe_link(adeadend,agenerator);
     pipe_link(agenerator,attack);
@@ -409,9 +412,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dready,ddeadend);
     pipe_link(ddeadend,dgenerator);
     pipe_link(dgenerator,defense);
-    pipe_link(defense,aready);
-
-    pipe_set_successor(adapter,aready);
+    pipe_link(defense,adapter);
 
     result = adapter;
   }
@@ -438,7 +439,7 @@ void stip_make_goal_attack_branch(slice_index si)
                                                            slack_length_battle);
     slice_index const prototypes[] =
     {
-      alloc_ready_for_attack_slice(slack_length_battle+1,slack_length_battle),
+      alloc_branch(STReadyForAttack,slack_length_battle+1,slack_length_battle),
       alloc_dead_end_slice(),
       alloc_attack_move_generator_slice(),
       alloc_attack_move_slice(),
@@ -531,101 +532,44 @@ slice_index battle_branch_make_setplay(slice_index adapter)
   return result;
 }
 
-/* Remove a slice while converting the stipulation to postkey only play
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void trash_for_postkey_play(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  pipe_unlink(slices[si].prev);
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (*postkey_slice!=no_slice)
-  {
-    link_to_branch(si,*postkey_slice);
-    *postkey_slice = si;
-    pipe_unlink(slices[si].prev);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void branch_apply_postkey(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  slices[si].u.branch.length -= 2;
-  slices[si].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors to_postkey_play_appliers[] =
-{
-  { STOutputModeSelector, &move_to_postkey_play                },
-  { STConstraint,         &constraint_apply_postkeyplay        },
-  { STAttackAdapter,      &trash_for_postkey_play              },
-  { STReadyForDefense,    &ready_for_defense_apply_postkeyplay }
-};
-
-enum
-{
-  nr_to_postkey_play_appliers = (sizeof to_postkey_play_appliers
-                                 / sizeof to_postkey_play_appliers[0])
-};
-
 /* Make the postkey play representation of a non-postkey play representation
- * @param root_proxy identifies root proxy slice
+ * @param adapter identifies adapter slice into battle branch
  * @return identifier to adapter slice into postkey representation
  */
-slice_index battle_branch_make_postkeyplay(slice_index si)
+slice_index battle_branch_make_postkeyplay(slice_index adapter)
 {
-  slice_index result = no_slice;
-  stip_structure_traversal st;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
+  TraceStipulation(adapter);
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_branch,
-                                                 &branch_apply_postkey);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_fork,
-                                                 &stip_traverse_structure_pipe);
-  stip_structure_traversal_override(&st,
-                                    to_postkey_play_appliers,
-                                    nr_to_postkey_play_appliers);
-  stip_traverse_structure(si,&st);
+  assert(slices[adapter].type==STAttackAdapter);
+
+  {
+    stip_length_type const length = slices[adapter].u.branch.length;
+    stip_length_type const min_length = slices[adapter].u.branch.min_length;
+    slice_index const proto = alloc_defense_adapter_slice(length-1,
+                                                          min_length-1);
+    battle_branch_insert_slices(adapter,&proto,1);
+
+    result = branch_find_slice(STDefenseAdapter,adapter);
+    assert(result!=no_slice);
+
+    {
+      slice_index si;
+      for (si = adapter; si!=result; si = slices[si].u.pipe.next)
+        if (slice_has_structure(si,slice_structure_branch))
+        {
+          slices[si].u.branch.length -= 2;
+          slices[si].u.branch.min_length -= 2;
+        }
+    }
+
+    pipe_remove(adapter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
@@ -633,26 +577,19 @@ slice_index battle_branch_make_postkeyplay(slice_index si)
   return result;
 }
 
-/* Install the slice representing the postkey slice at the stipulation
- * root
- * @param postkey_slice identifies slice to be installed
- */
-static void install_postkey_slice(slice_index si, slice_index postkey_slice)
+static void attack_adapter_make_postkeyplay(slice_index adapter,
+                                            stip_structure_traversal *st)
 {
+  slice_index * const postkey = st->param;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",postkey_slice);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  pipe_link(si,postkey_slice);
-
-  {
-    slice_index const prototype = alloc_move_inverter_slice();
-    root_branch_insert_slices(si,&prototype,1);
-  }
+  *postkey = battle_branch_make_postkeyplay(adapter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  TraceFunctionParamListEnd();
 }
 
 /* Attempt to apply the postkey play option to the current stipulation
@@ -664,19 +601,34 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 {
   boolean result;
   slice_index postkey_slice;
+  stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_proxy);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_proxy);
-  postkey_slice = battle_branch_make_postkeyplay(root_proxy);
-  TraceValue("%u\n",postkey_slice);
+
+  stip_structure_traversal_init(&st,&postkey_slice);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &pipe_make_root);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackAdapter,
+                                           &attack_adapter_make_postkeyplay);
+  stip_traverse_structure(slices[root_proxy].u.pipe.next,&st);
+
   if (postkey_slice==no_slice)
     result = false;
   else
   {
-    install_postkey_slice(root_proxy,postkey_slice);
+    link_to_branch(root_proxy,postkey_slice);
+
+    {
+      slice_index const prototype = alloc_move_inverter_slice();
+      root_branch_insert_slices(root_proxy,&prototype,1);
+    }
+
     result = true;
   }
 
@@ -686,32 +638,17 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   return result;
 }
 
-void battle_branch_make_root(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_make_root(si,st);
-
-  slices[si].u.branch.length -= 2;
-  slices[si].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies the adapter slice at the beginning of the branch
  * @return identifier of root slice
  */
-slice_index battle_make_root(slice_index si)
+slice_index battle_make_root(slice_index adapter)
 {
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   {
@@ -719,29 +656,79 @@ slice_index battle_make_root(slice_index si)
     slice_structural_type i;
 
     slice_index const prototype = alloc_pipe(STEndOfRoot);
-    battle_branch_insert_slices(si,&prototype,1);
+    battle_branch_insert_slices(adapter,&prototype,1);
 
     stip_structure_traversal_init(&st,&result);
     for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_branch))
-        stip_structure_traversal_override_by_structure(&st,i,&battle_branch_make_root);
-      else if (slice_structure_is_subclass(i,slice_structure_pipe))
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
         stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
     stip_structure_traversal_override_single(&st,
-                                             STEndOfBranchGoal,
-                                             &end_of_branch_goal_make_root);
-    stip_structure_traversal_override_single(&st,
                                              STEndOfRoot,
                                              &serve_as_root_hook);
-    stip_traverse_structure(si,&st);
+    stip_traverse_structure(adapter,&st);
+
+    {
+      slice_index si;
+      for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
+        if (slice_has_structure(si,slice_structure_branch))
+        {
+          slices[si].u.branch.length -= 2;
+          slices[si].u.branch.min_length -= 2;
+        }
+    }
+
+    pipe_remove(adapter);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
   return result;
+}
+
+/* Spin the intro slices off a nested battle branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void battle_spin_off_intro(slice_index adapter)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STAttackAdapter);
+
+  TraceStipulation(adapter);
+
+  {
+    slice_index const prototype = alloc_pipe(STEndOfIntro);
+    battle_branch_insert_slices(adapter,&prototype,1);
+  }
+
+  if (branch_find_slice(STEndOfIntro,adapter)!=no_slice)
+  {
+    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index nested = no_slice;
+    stip_structure_traversal st;
+    slice_structural_type i;
+
+    stip_structure_traversal_init(&st,&nested);
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_binary))
+        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
+    stip_traverse_structure(next,&st);
+
+    pipe_link(slices[adapter].prev,next);
+    link_to_branch(adapter,nested);
+    slices[adapter].prev = no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
@@ -787,15 +774,10 @@ void battle_branch_insert_attack_constraint(slice_index si,
   TraceStipulation(constraint);
 
   {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,si);
-    slice_index const ready = branch_find_slice(STReadyForAttack,si);
-
-    if (adapter!=no_slice)
-      pipe_append(slices[adapter].prev,
-                  alloc_constraint_slice(stip_deep_copy(constraint)));
-
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    slice_index const prototype = alloc_constraint_slice(constraint);
     assert(ready!=no_slice);
-    pipe_append(slices[ready].prev,alloc_constraint_slice(constraint));
+    battle_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -819,15 +801,10 @@ void battle_branch_insert_defense_constraint(slice_index si,
   TraceStipulation(constraint);
 
   {
-    slice_index const adapter = branch_find_slice(STDefenseAdapter,si);
-    slice_index const ready = branch_find_slice(STReadyForDefense,si);
-
-    if (adapter!=no_slice)
-      pipe_append(slices[adapter].prev,
-                  alloc_constraint_slice(stip_deep_copy(constraint)));
-
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const prototype = alloc_constraint_slice(constraint);
     assert(ready!=no_slice);
-    pipe_append(slices[ready].prev,alloc_constraint_slice(constraint));
+    battle_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

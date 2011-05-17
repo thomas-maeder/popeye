@@ -154,10 +154,10 @@ solution finished.
 
   1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
 
-              empile:        1198
-            jouecoup:         850
-        orig_rbechec:         689
-        orig_rnechec:         293
+              empile:        1245
+            jouecoup:         900
+        orig_rbechec:         698
+        orig_rnechec:         349
 solution finished. 
 
 

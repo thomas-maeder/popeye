@@ -46,7 +46,7 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
     if (slices[si].u.pipe.next==no_slice
         || slices[slices[si].u.pipe.next].prev!=si)
     {
-      pipe_link(si,*root_slice);
+      link_to_branch(si,*root_slice);
       *root_slice = si;
       if (slices[si].prev!=no_slice)
         pipe_unlink(slices[si].prev);

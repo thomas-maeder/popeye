@@ -56,28 +56,6 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void end_of_branch_goal_make_root(slice_index si,
-                                  stip_structure_traversal *st)
-{
-  slice_index const * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_make_root(si,st);
-
-  if (*root_slice!=no_slice)
-    slices[*root_slice].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -108,12 +86,25 @@ end_of_branch_goal_can_attack(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = can_attack(fork,n,n_max_unsolvable);
-    if (result>n)
-      /* delegate to next even if (n==slack_length_battle) - we need
-       * to distinguish between self-check and other ways of not
-       * reaching the goal */
-      result = can_attack(next,n,n_max_unsolvable);
+    switch (slice_has_solution(fork))
+    {
+      case has_solution:
+        result = slack_length_battle;
+        break;
+
+      case has_no_solution:
+        result = can_attack(next,n,n_max_unsolvable);
+        break;
+
+      case opponent_self_check:
+        result = slack_length_battle-2;
+        break;
+
+      default:
+        assert(0);
+        result = slack_length_battle-2;
+        break;
+    }
   }
   else
     result = can_attack(next,n,n_max_unsolvable);
@@ -155,12 +146,25 @@ end_of_branch_goal_attack(slice_index si,
   if (n_max_unsolvable<slack_length_battle
       || n<=n_max_unsolvable) /* exact refutation */
   {
-    result = attack(fork,n,n_max_unsolvable);
-    if (result>n)
-      /* delegate to next even if (n==slack_length_battle) - we need
-       * to distinguish between self-check and other ways of not
-       * reaching the goal */
-      result = attack(next,n,n_max_unsolvable);
+    switch (slice_solve(fork))
+    {
+      case has_solution:
+        result = slack_length_battle;
+        break;
+
+      case has_no_solution:
+        result = attack(next,n,n_max_unsolvable);
+        break;
+
+      case opponent_self_check:
+        result = slack_length_battle-2;
+        break;
+
+      default:
+        assert(0);
+        result = slack_length_battle-2;
+        break;
+    }
   }
   else
     result = attack(next,n,n_max_unsolvable);

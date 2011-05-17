@@ -4,8 +4,8 @@
 #include "pypipe.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "solving/battle_play/try.h"
+#include "output/plaintext/trivial_end_filter.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -88,7 +88,7 @@ stip_length_type try_writer_defend(slice_index si,
   if (n==n_max_unsolvable)
   {
     /* refutations are never trivial */
-    do_filter_trivial_variations[nbply+1] = false;
+    do_write_trivial_ends[nbply] = true;
 
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
@@ -101,6 +101,8 @@ stip_length_type try_writer_defend(slice_index si,
     output_plaintext_tree_remember_move_decoration(attack_try);
 
   result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
+
+  do_write_trivial_ends[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

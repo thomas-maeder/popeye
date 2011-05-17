@@ -19,6 +19,8 @@
 static slice_index const help_slice_rank_order[] =
 {
   STHelpAdapter,
+  STEndOfBranch,
+  STConstraint,
   STStopOnShortSolutionsInitialiser,
   STFindByIncreasingLength,
   STFindShortest,
@@ -26,6 +28,7 @@ static slice_index const help_slice_rank_order[] =
   STDeadEnd,
   STIntelligentHelpFilter,
   STForkOnRemaining,
+  STEndOfIntro,
 
   STReadyForHelpMove,
   STHelpHashed,
@@ -48,9 +51,7 @@ static slice_index const help_slice_rank_order[] =
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
-  STSelfCheckGuard,
-  STConstraint,
-  STEndOfBranch
+  STSelfCheckGuard
 };
 
 enum
@@ -211,128 +212,59 @@ void help_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Shorten a help slice by 2 half moves
- * @param si identifies slice to be shortened
- */
-void help_branch_shorten_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].u.branch.length -= 2;
-  slices[si].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Shorten the intro slices
- * @param si identifies the entry slice
- * @param length length to shorten to
- * @param min_length min_length to shorten to
- */
-static slice_index shorten_intro(slice_index si,
-                                 stip_length_type length,
-                                 stip_length_type min_length)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  while (true)
-  {
-    if (slice_has_structure(si,slice_structure_branch))
-    {
-      slices[si].u.branch.length = length;
-      slices[si].u.branch.min_length = min_length;
-    }
-
-    if (slices[slices[si].u.pipe.next].prev==si)
-      si = slices[si].u.pipe.next;
-    else
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",si);
-  TraceFunctionResultEnd();
-  return si;
-}
-
-/* Shorten the slices in the loop
- * @param loop_entry identifies the loop entry slice
- * @param length length at entry into the loop
- * @param min_length min_length at entry into the loop
- */
-static void shorten_loop(slice_index loop_entry,
-                         stip_length_type length,
-                         stip_length_type min_length)
-{
-  slice_index si = loop_entry;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  do
-  {
-    TraceValue("%u\n",si);
-    if (slice_has_structure(si,slice_structure_branch))
-    {
-      slices[si].u.branch.length = length;
-      slices[si].u.branch.min_length = min_length;
-    }
-    if (slices[si].type==STHelpMove)
-    {
-      --length;
-      --min_length;
-    }
-    si = slices[si].u.pipe.next;
-  }
-  while (si!=loop_entry);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  */
-void help_branch_shorten(slice_index si)
+slice_index help_branch_shorten(slice_index adapter)
 {
-  stip_length_type length = slices[si].u.branch.length;
-  stip_length_type min_length = slices[si].u.branch.min_length;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STHelpAdapter);
-
-  --length;
-  if (min_length>slack_length_help)
-    --min_length;
-  else
-    ++min_length;
+  assert(slices[adapter].type==STHelpAdapter);
 
   {
-    slice_index const last_in_intro = shorten_intro(si,length,min_length);
-    slice_index const loop_entry = slices[last_in_intro].u.pipe.next;
-    slice_index const new_entry_pos = branch_find_slice(STReadyForHelpMove,
-                                                        loop_entry);
-    shorten_loop(new_entry_pos,length,min_length);
-    link_to_branch(last_in_intro,new_entry_pos);
+    slice_index const next = slices[adapter].u.pipe.next;
+
+    slice_index const copy = copy_slice(adapter);
+    --slices[copy].u.branch.length;
+    --slices[copy].u.branch.min_length;
+
+    help_branch_insert_slices(next,&copy,1);
+    result = branch_find_slice(STHelpAdapter,next);
+    assert(result!=no_slice);
+
+    {
+      slice_index si;
+      for (si = next; si!=result; si = slices[si].u.pipe.next)
+        if (slice_has_structure(si,slice_structure_branch))
+          slices[si].u.branch.length -= 2;
+    }
+
+    if (slices[result].u.branch.min_length<slack_length_help)
+    {
+      slice_index si;
+      for (si = result; si!=adapter; si = slices[si].u.pipe.next)
+        if (slice_has_structure(si,slice_structure_branch))
+          slices[si].u.branch.min_length += 2;
+    }
+    else
+    {
+      slice_index si;
+      for (si = next; si!=result; si = slices[si].u.pipe.next)
+        if (slice_has_structure(si,slice_structure_branch))
+          slices[si].u.branch.min_length -= 2;
+    }
+
+    pipe_remove(adapter);
   }
 
-  TraceStipulation(si);
-
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Insert a slice marking the end of the branch
@@ -380,6 +312,9 @@ void help_branch_set_end(slice_index si,
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(si);
+  TraceStipulation(next);
+
   insert_end_of_branch(si,alloc_end_of_branch_slice(next),parity);
 
   TraceFunctionExit(__func__);
@@ -402,6 +337,8 @@ void help_branch_set_end_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+  TraceStipulation(to_goal);
+
   insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal),parity);
 
   TraceFunctionExit(__func__);
@@ -426,17 +363,6 @@ void help_branch_set_end_forced(slice_index si,
 
   TraceStipulation(si);
   TraceStipulation(forced);
-
-  {
-    slice_index const adapter = branch_find_slice(STHelpAdapter,si);
-    assert(adapter!=no_slice);
-    if ((slices[adapter].u.branch.length-slack_length_help)%2
-        ==(parity+1-slack_length_help)%2)
-    {
-      slice_index const prototype = alloc_end_of_branch_forced(forced);
-      help_branch_insert_slices(adapter,&prototype,1);
-    }
-  }
 
   insert_end_of_branch(si,alloc_end_of_branch_forced(forced),parity);
 
@@ -463,51 +389,10 @@ void help_branch_insert_constraint(slice_index si,
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  {
-    slice_index const adapter = branch_find_slice(STHelpAdapter,si);
-    assert(adapter!=no_slice);
-    if ((slices[adapter].u.branch.length-slack_length_help)%2
-        ==(parity+1-slack_length_help)%2)
-      pipe_append(slices[adapter].prev,
-                  alloc_constraint_slice(stip_deep_copy(constraint)));
-  }
-
   insert_end_of_branch(si,alloc_constraint_slice(constraint),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Allocate the intro slices of a help branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param entry_point identifies the loop entry slice
- * @return index of initial intro slice
- */
-static slice_index alloc_help_branch_intro(stip_length_type length,
-                                           stip_length_type min_length,
-                                           slice_index entry_point)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
-    slice_index const deadend = alloc_dead_end_slice();
-
-    result = adapter;
-    pipe_link(adapter,deadend);
-    link_to_branch(deadend,entry_point);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a help branch.
@@ -527,27 +412,32 @@ slice_index alloc_help_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
+    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const generator1 = alloc_help_move_generator_slice();
     slice_index const move1 = alloc_help_move_slice();
-    slice_index const deadend1 = alloc_dead_end_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const generator2 = alloc_help_move_generator_slice();
     slice_index const move2 = alloc_help_move_slice();
-    slice_index const deadend2 = alloc_dead_end_slice();
 
+    slice_index const deadend = alloc_dead_end_slice();
+
+    pipe_link(adapter,ready1);
     pipe_link(ready1,generator1);
     pipe_link(generator1,move1);
-    pipe_link(move1,deadend1);
-    pipe_link(deadend1,ready2);
+    pipe_link(move1,ready2);
     pipe_link(ready2,generator2);
     pipe_link(generator2,move2);
-    pipe_link(move2,deadend2);
-    pipe_link(deadend2,ready1);
+    pipe_link(move2,adapter);
 
-    result = alloc_help_branch_intro(length,min_length,ready1);
+    if ((length-slack_length_help)%2==0)
+      pipe_append(adapter,deadend);
+    else
+      pipe_append(move1,deadend);
+
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);
@@ -586,8 +476,7 @@ static slice_index help_branch_make_root_slices(slice_index adapter)
     stip_structure_traversal st;
     slice_structural_type i;
 
-    slice_index const prototype = alloc_pipe(STEndOfRoot);
-    help_branch_insert_slices(adapter,&prototype,1);
+    TraceStipulation(adapter);
 
     stip_structure_traversal_init(&st,&result);
     for (i = 0; i!=nr_slice_structure_types; ++i)
@@ -620,27 +509,75 @@ slice_index help_make_root(slice_index adapter)
 
   assert(slices[adapter].type==STHelpAdapter);
 
+  {
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    help_branch_insert_slices(adapter,&prototype,1);
+  }
+
   result = help_branch_make_root_slices(adapter);
 
   {
-    slice_index const ready_root = branch_find_slice(STReadyForHelpMove,result);
-    slice_index const ready1 = branch_find_slice(STReadyForHelpMove,ready_root);
-    slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
-    slice_index si;
-
     /* Shorten the slices of which copies were added to the root intro. We do
      * this here and not in help_branch_make_root_slices() because we don't
      * want to shorten slices when we insert the root slices for the set play
      */
-    for (si = ready2; si!=ready1; si = slices[si].u.pipe.next)
+    slice_index si;
+    for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
       if (slice_has_structure(si,slice_structure_branch))
-        help_branch_shorten_slice(si);
+      {
+        slices[si].u.branch.length -= 2;
+        slices[si].u.branch.min_length -= 2;
+      }
   }
+
+  pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Spin the intro slices off a nested help branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void help_spin_off_intro(slice_index adapter)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STHelpAdapter);
+
+  TraceStipulation(adapter);
+
+  {
+    slice_index const prototype = alloc_pipe(STEndOfIntro);
+    help_branch_insert_slices(adapter,&prototype,1);
+  }
+
+  {
+    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index nested = no_slice;
+    stip_structure_traversal st;
+    slice_structural_type i;
+
+    stip_structure_traversal_init(&st,&nested);
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_binary))
+        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
+    stip_traverse_structure(next,&st);
+
+    pipe_link(slices[adapter].prev,next);
+    link_to_branch(adapter,nested);
+    slices[adapter].prev = no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Produce slices representing set play.
@@ -665,16 +602,24 @@ slice_index help_branch_make_setplay(slice_index adapter)
 
   if (length>slack_length_help+1)
   {
-    slice_index const ready_for_skipped = branch_find_slice(STReadyForHelpMove,
-                                                            adapter);
-    slice_index const ready_for_set = branch_find_slice(STReadyForHelpMove,
-                                                        ready_for_skipped);
-    slice_index const set_intro = alloc_help_branch_intro(length-1,
-                                                          min_length-1,
-                                                          ready_for_set);
-    assert(ready_for_skipped!=no_slice);
-    assert(ready_for_set!=no_slice);
-    result = help_branch_make_root_slices(set_intro);
+    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const prototypes[] =
+    {
+      alloc_help_adapter_slice(length-1,min_length-1),
+      alloc_pipe(STEndOfRoot)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    help_branch_insert_slices(next,prototypes,nr_prototypes);
+
+    {
+      slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
+      assert(set_adapter!=no_slice);
+      result = help_branch_make_root_slices(set_adapter);
+      pipe_remove(set_adapter);
+    }
   }
   else
     result = no_slice;

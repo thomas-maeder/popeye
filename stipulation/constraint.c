@@ -36,104 +36,6 @@ slice_index alloc_constraint_slice(slice_index proxy_to_condition)
   return result;
 }
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void constraint_apply_postkeyplay(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  dealloc_slices(slices[si].u.fork.fork);
-  trash_for_postkey_play(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (slice_solve(condition))
-  {
-    case has_no_solution:
-      result = slice_solve(next);
-      break;
-
-    case has_solution:
-      result = has_no_solution;
-      break;
-
-    case opponent_self_check:
-      result = opponent_self_check;
-      break;
-
-    default:
-      assert(0);
-      result = opponent_self_check;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_has_solution(slice_index si)
-{
-  has_solution_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (slice_has_solution(condition))
-  {
-    case has_no_solution:
-      result = slice_has_solution(next);
-      break;
-
-    case has_solution:
-      result = has_no_solution;
-      break;
-
-    case opponent_self_check:
-      result = opponent_self_check;
-      break;
-
-    default:
-      assert(0);
-      result = opponent_self_check;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -209,9 +111,7 @@ stip_length_type constraint_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  switch (n==n_max_unsolvable
-          ? slice_solve(condition) /* we are solving refutations */
-          : slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = slack_length_battle-2;
@@ -363,8 +263,7 @@ stip_length_type constraint_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  /* TODO exact - but what does it mean??? */
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = n+4;
@@ -412,7 +311,6 @@ stip_length_type constraint_can_help(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  /* TODO exact - but what does it mean??? */
   switch (slice_has_solution(condition))
   {
     case opponent_self_check:
@@ -461,8 +359,7 @@ stip_length_type constraint_series(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  /* TODO exact - but what does it mean??? */
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = n+2;
@@ -510,7 +407,6 @@ stip_length_type constraint_has_series(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  /* TODO exact - but what does it mean??? */
   switch (slice_has_solution(condition))
   {
     case opponent_self_check:

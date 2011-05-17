@@ -1208,6 +1208,7 @@ solution finished.
   r#1                         2 + 4
 
    1.Bg7-f8 #
+
               empile:           7
             jouecoup:           6
         orig_rbechec:           2
@@ -1420,6 +1421,7 @@ r#2, but White must deliver mate immediately
   r#2                         2 + 4
 
    1.Bg7-f8 #
+
               empile:           7
             jouecoup:           6
         orig_rbechec:           2
@@ -1545,6 +1547,7 @@ r#3, but White must deliver mate immediately
   r#3                         2 + 4
 
    1.Bg7-f8 #
+
               empile:           7
             jouecoup:           6
         orig_rbechec:           2

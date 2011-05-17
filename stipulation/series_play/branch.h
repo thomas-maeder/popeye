@@ -8,11 +8,6 @@
  * stipulation slices.
  */
 
-/* Shorten a series pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-void shorten_series_pipe(slice_index pipe);
-
 /* Allocate a series branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -70,6 +65,11 @@ void series_branch_insert_slices_nested(slice_index si,
  * @return identifier of root slice
  */
 slice_index series_make_root(slice_index si);
+
+/* Spin the intro slices off a nested series branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void series_spin_off_intro(slice_index adapter);
 
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch

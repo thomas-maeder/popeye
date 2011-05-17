@@ -32,18 +32,39 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
- * @param si identifies slice where to start
+ * @param adapter identifies slice where to start
  * @param st address of structure holding the traversal state
  */
-void help_adapter_make_root(slice_index si, stip_structure_traversal *st)
+void help_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = help_make_root(si);
+  *root_slice = help_make_root(adapter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Wrap the slices representing the nested slices
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure holding the traversal state
+ */
+void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
+{
+  slice_index * const fork_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(adapter,st);
+
+  if (*fork_slice!=no_slice)
+    help_spin_off_intro(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -112,7 +133,12 @@ has_solution_type help_adapter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = help(next,full_length);
-  result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
+  if (nr_moves_needed<=full_length)
+    result = has_solution;
+  else if (nr_moves_needed<=full_length+2)
+    result = has_no_solution;
+  else
+    result = opponent_self_check;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -136,7 +162,12 @@ has_solution_type help_adapter_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = can_help(next,full_length);
-  result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
+  if (nr_moves_needed<=full_length)
+    result = has_solution;
+  else if (nr_moves_needed<=full_length+2)
+    result = has_no_solution;
+  else
+    result = opponent_self_check;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

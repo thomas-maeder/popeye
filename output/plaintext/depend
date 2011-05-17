@@ -44,3 +44,14 @@ output/plaintext/move_inversion_counter.h:
 pypipe.h:
 
 trace.h:
+output/plaintext/trivial_end_filter$(OBJ_SUFFIX): \
+ output/plaintext/trivial_end_filter.c \
+ output/plaintext/trivial_end_filter.h pydata.h pypipe.h trace.h
+
+output/plaintext/trivial_end_filter.h:
+
+pydata.h:
+
+pypipe.h:
+
+trace.h:

@@ -19,11 +19,28 @@
 #include "solving/battle_play/continuation.h"
 #include "trace.h"
 
+#include <assert.h>
+
 typedef enum
 {
   solver_insertion_setplay,
   solver_insertion_root,
   solver_insertion_nested
+} solver_insertion_level;
+
+typedef enum
+{
+  solver_insertion_global,
+  solver_insertion_attack,
+  solver_insertion_defense,
+  solver_insertion_help,
+  solver_insertion_series
+} solver_insertion_context;
+
+typedef struct
+{
+  solver_insertion_level level;
+  solver_insertion_context context;
 } solver_insertion_state;
 
 static void insert_solvers_setplay_fork(slice_index si,
@@ -35,35 +52,33 @@ static void insert_solvers_setplay_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(state->level==solver_insertion_root);
+
   stip_traverse_structure_pipe(si,st);
 
-  *state = solver_insertion_setplay;
+  state->level = solver_insertion_setplay;
   stip_traverse_structure(slices[si].u.fork.fork,st);
-  *state = solver_insertion_root;
+  state->level = solver_insertion_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_solvers_constraint(slice_index si,
-                                      stip_structure_traversal *st)
+static void insert_solvers_nest(slice_index si, stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==solver_insertion_root)
-  {
-    stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_pipe(si,st);
 
-    *state = solver_insertion_nested;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
-    *state = solver_insertion_root;
-  }
-  else
-    stip_traverse_structure_children(si,st);
+  state->level = solver_insertion_nested;
+  state->context = solver_insertion_global;
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -72,15 +87,18 @@ static void insert_solvers_constraint(slice_index si,
 static void insert_solvers_attack_adapter(slice_index si,
                                           stip_structure_traversal *st)
 {
-  solver_insertion_state const * const state = st->param;
+  solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  state->context = solver_insertion_attack;
+
   stip_traverse_structure_children(si,st);
 
-  if (*state==solver_insertion_root)
+  if (save_state.level==solver_insertion_root)
   {
     if (OptFlag[solvariantes])
     {
@@ -103,6 +121,8 @@ static void insert_solvers_attack_adapter(slice_index si,
     }
   }
 
+  *state = save_state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -111,6 +131,7 @@ static void insert_solvers_attack(slice_index si,
                                   stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -118,12 +139,10 @@ static void insert_solvers_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==solver_insertion_root)
-  {
-    *state = solver_insertion_nested;
+  state->level = solver_insertion_nested;
+
+  if (save_state.level==solver_insertion_root)
     stip_traverse_structure_children(si,st);
-    *state = solver_insertion_root;
-  }
   else
   {
     stip_traverse_structure_children(si,st);
@@ -161,6 +180,8 @@ static void insert_solvers_attack(slice_index si,
     battle_branch_insert_slices(si,&prototype,1);
   }
 
+  *state = save_state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -169,17 +190,18 @@ static void insert_solvers_defense_adapter(slice_index si,
                                            stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
-  boolean const save_state = *state;
+  solver_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *state = solver_insertion_nested;
-  stip_traverse_structure_children(si,st);
-  *state = save_state;
+  state->level = solver_insertion_nested;
+  state->context = solver_insertion_defense;
 
-  if (*state==solver_insertion_root)
+  stip_traverse_structure_children(si,st);
+
+  if (save_state.level==solver_insertion_root)
   {
     if (!OptFlag[nothreat])
       stip_insert_threat_handlers(si);
@@ -194,7 +216,7 @@ static void insert_solvers_defense_adapter(slice_index si,
       slice_index const prototype = alloc_continuation_solver_slice();
       battle_branch_insert_slices(si,&prototype,1);
     }
-    if (*state==solver_insertion_setplay)
+    if (save_state.level==solver_insertion_setplay)
     {
       unsigned int const max_nr_refutations = UINT_MAX;
       branch_insert_try_solvers(si,max_nr_refutations);
@@ -205,6 +227,8 @@ static void insert_solvers_defense_adapter(slice_index si,
     slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
+
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -234,6 +258,7 @@ static void insert_solvers_defense(slice_index si, stip_structure_traversal *st)
 static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -241,11 +266,14 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==solver_insertion_nested)
+  state->level = solver_insertion_nested;
+  state->context = solver_insertion_help;
+
+  if (save_state.level==solver_insertion_nested)
   {
     stip_traverse_structure_children(si,st);
 
-    if (length-min_length>=2)
+    if (save_state.context==solver_insertion_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       help_branch_insert_slices(si,&prototype,1);
@@ -253,12 +281,9 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
   }
   else
   {
-    solver_insertion_state const save_state = *state;
-    *state = solver_insertion_nested;
     stip_traverse_structure_children(si,st);
-    *state = save_state;
 
-    if (length-min_length>=2)
+    if (length-min_length>=2 && length>=slack_length_help+2)
     {
       slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
       slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
@@ -276,6 +301,8 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
     }
   }
 
+  *state = save_state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -283,6 +310,7 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
 static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -290,11 +318,14 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==solver_insertion_nested)
+  state->context = solver_insertion_series;
+  state->level = solver_insertion_nested;
+
+  if (save_state.level==solver_insertion_nested)
   {
     stip_traverse_structure_children(si,st);
 
-    if (length-min_length>=2)
+    if (save_state.context==solver_insertion_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       series_branch_insert_slices(si,&prototype,1);
@@ -302,10 +333,7 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
   }
   else
   {
-    solver_insertion_state const save_state = *state;
-    *state = solver_insertion_nested;
     stip_traverse_structure_children(si,st);
-    *state = save_state;
 
     if (length-min_length>=2)
     {
@@ -325,20 +353,26 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
     }
   }
 
+  *state = save_state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static structure_traversers_visitors const strategy_inserters[] =
 {
-  { STSetplayFork,     &insert_solvers_setplay_fork    },
-  { STConstraint,      &insert_solvers_constraint      },
-  { STAttackAdapter,   &insert_solvers_attack_adapter  },
-  { STReadyForAttack,  &insert_solvers_attack          },
-  { STDefenseAdapter,  &insert_solvers_defense_adapter },
-  { STReadyForDefense, &insert_solvers_defense         },
-  { STHelpAdapter,     &insert_solvers_help            },
-  { STSeriesAdapter,   &insert_solvers_series          }
+  { STSetplayFork,             &insert_solvers_setplay_fork    },
+  { STAttackAdapter,           &insert_solvers_attack_adapter  },
+  { STReadyForAttack,          &insert_solvers_attack          },
+  { STDefenseAdapter,          &insert_solvers_defense_adapter },
+  { STReadyForDefense,         &insert_solvers_defense         },
+  { STHelpAdapter,             &insert_solvers_help            },
+  { STSeriesAdapter,           &insert_solvers_series          },
+  { STConstraint,              &insert_solvers_nest            },
+  { STEndOfBranch,             &insert_solvers_nest            },
+  { STEndOfBranchForced,       &insert_solvers_nest            },
+  { STEndOfBranchGoal,         &insert_solvers_nest            },
+  { STEndOfBranchGoalImmobile, &insert_solvers_nest            }
 };
 
 enum
@@ -353,7 +387,11 @@ enum
 void stip_insert_solvers(slice_index root_slice)
 {
   stip_structure_traversal st;
-  solver_insertion_state state = solver_insertion_root;
+  solver_insertion_state state =
+  {
+    solver_insertion_root,
+    solver_insertion_global
+  };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice);

@@ -9,7 +9,6 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/series_play/ready_for_series_move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
@@ -25,12 +24,14 @@
 static slice_index const series_slice_rank_order[] =
 {
   STSeriesAdapter,
+  STConstraint,
   STStopOnShortSolutionsInitialiser,
   STFindByIncreasingLength,
   STFindShortest,
   STDeadEnd,
   STIntelligentSeriesFilter,
   STForkOnRemaining,
+  STEndOfIntro,
 
   STReadyForSeriesMove,
   STSeriesHashed,
@@ -56,16 +57,17 @@ static slice_index const series_slice_rank_order[] =
   STDeadEndGoal,
   STSelfCheckGuard,
   STParryFork,
+
+  STSeriesAdapter,
   STEndOfBranch,
   STEndOfBranchForced,
   STDeadEnd,
+  STEndOfRoot,
 
   STReadyForSeriesDummyMove,
   STSeriesDummyMove,
   STGoalReachableGuardFilter, /* only used in pser stipulations */
-  STSelfCheckGuard,
-
-  STConstraint
+  STSelfCheckGuard
 };
 
 enum
@@ -230,23 +232,6 @@ void series_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Shorten a series pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-void shorten_series_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  slices[pipe].u.branch.length -= 2;
-  if (slices[pipe].u.branch.min_length>slack_length_series+1)
-    slices[pipe].u.branch.min_length -= 2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a series branch
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -264,8 +249,8 @@ slice_index alloc_series_branch(stip_length_type length,
 
   {
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
-    slice_index const ready = alloc_ready_for_series_move_slice(length,
-                                                                min_length);
+    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+                                           length,min_length);
     slice_index const generator = alloc_series_move_generator_slice();
     slice_index const move = alloc_series_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
@@ -274,14 +259,13 @@ slice_index alloc_series_branch(stip_length_type length,
 
     result = adapter;
 
-    pipe_set_successor(adapter,ready);
-
+    pipe_link(adapter,ready);
     pipe_link(ready,generator);
     pipe_link(generator,move);
     pipe_link(move,deadend);
     pipe_link(deadend,ready2);
     pipe_link(ready2,dummy);
-    pipe_link(dummy,ready);
+    pipe_link(dummy,adapter);
   }
 
   TraceFunctionExit(__func__);
@@ -363,19 +347,6 @@ void series_branch_set_end_forced(slice_index si, slice_index next)
   TraceFunctionResultEnd();
 }
 
-static void series_branch_make_root(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_make_root(si,st);
-  shorten_series_pipe(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
@@ -390,36 +361,34 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Wrap the slices representing the initial moves of the solution with
- * slices of appropriately equipped slice types
- * @param adapter identifies slice where to start
- * @return identifier of root slice
+/* Create the root slices of a series branch
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
  */
-slice_index series_make_root(slice_index si)
+static slice_index series_branch_make_root_slices(slice_index adapter)
 {
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   {
     stip_structure_traversal st;
     slice_structural_type i;
 
-    slice_index const prototype = alloc_pipe(STEndOfRoot);
-    series_branch_insert_slices(si,&prototype,1);
+    TraceStipulation(adapter);
 
     stip_structure_traversal_init(&st,&result);
     for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_branch))
-        stip_structure_traversal_override_by_structure(&st,i,&series_branch_make_root);
-      else if (slice_structure_is_subclass(i,slice_structure_pipe))
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
         stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
     stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
-    stip_traverse_structure(si,&st);
+    stip_traverse_structure(adapter,&st);
+
+    TraceStipulation(result);
   }
 
   TraceFunctionExit(__func__);
@@ -428,35 +397,121 @@ slice_index series_make_root(slice_index si)
   return result;
 }
 
-/* Produce slices representing set play.
- * @param adapter identifies the adapter slice at the beginning of the branch
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param adapter identifies slice where to start
+ * @return identifier of root slice
  */
-slice_index series_make_setplay(slice_index si)
+slice_index series_make_root(slice_index adapter)
 {
   slice_index result = no_slice;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   {
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    series_branch_insert_slices(adapter,&prototype,1);
+  }
+
+  result = series_branch_make_root_slices(adapter);
+
+  {
+    slice_index si;
+    for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
+      if (slice_has_structure(si,slice_structure_branch))
+      {
+        slices[si].u.branch.length -= 2;
+        slices[si].u.branch.min_length -= 2;
+      }
+  }
+
+  pipe_remove(adapter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin the intro slices off a nested series branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void series_spin_off_intro(slice_index adapter)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  assert(slices[adapter].type==STSeriesAdapter);
+
+  TraceStipulation(adapter);
+
+  {
+    slice_index const prototype = alloc_pipe(STEndOfIntro);
+    series_branch_insert_slices(adapter,&prototype,1);
+  }
+
+  {
+    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index nested = no_slice;
     stip_structure_traversal st;
     slice_structural_type i;
-    slice_index const end = branch_find_slice(STEndOfRoot,si);
 
-    assert(end!=no_slice);
-
-    stip_structure_traversal_init(&st,&result);
+    stip_structure_traversal_init(&st,&nested);
     for (i = 0; i!=nr_slice_structure_types; ++i)
       if (slice_structure_is_subclass(i,slice_structure_pipe))
         stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
-    stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&stip_structure_visitor_noop);
-    stip_structure_traversal_override_single(&st,STDeadEnd,&serve_as_root_hook);
-    stip_traverse_structure(end,&st);
+    stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
+    stip_traverse_structure(next,&st);
+
+    pipe_link(slices[adapter].prev,next);
+    link_to_branch(adapter,nested);
+    slices[adapter].prev = no_slice;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Produce slices representing set play.
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index series_make_setplay(slice_index adapter)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const prototypes[] =
+    {
+      alloc_series_adapter_slice(slack_length_series,slack_length_series),
+      alloc_pipe(STEndOfRoot)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    series_branch_insert_slices(next,prototypes,nr_prototypes);
+
+    {
+      slice_index const set_adapter = branch_find_slice(STSeriesAdapter,next);
+      assert(set_adapter!=no_slice);
+      if (slices[slices[set_adapter].u.pipe.next].type==STDeadEnd)
+        ; /* set play not applicable */
+      else
+        result = series_branch_make_root_slices(set_adapter);
+      pipe_remove(set_adapter);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -476,24 +531,8 @@ static void constraint_inserter_series_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,
-              alloc_constraint_slice(stip_deep_copy(*constraint)));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void constraint_inserter_series_dummy_move(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
 
   {
-    slice_index const * const constraint = st->param;
     slice_index const prototype = alloc_constraint_slice(*constraint);
     series_branch_insert_slices(si,&prototype,1);
   }
@@ -501,17 +540,6 @@ static void constraint_inserter_series_dummy_move(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors inserters[] =
-{
-  { STSeriesAdapter,           &constraint_inserter_series_adapter    },
-  { STReadyForSeriesDummyMove, &constraint_inserter_series_dummy_move }
-};
-
-enum
-{
-  nr_inserters = sizeof inserters / sizeof inserters[0]
-};
 
 /* Instrument a series branch with STConstraint slices (typically for a ser-r
  * stipulation)
@@ -533,7 +561,9 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
   assert(slices[constraint].type==STProxy);
 
   stip_structure_traversal_init(&st,&constraint);
-  stip_structure_traversal_override(&st,inserters,nr_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STSeriesAdapter,
+                                           &constraint_inserter_series_adapter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -25,11 +25,9 @@
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
-    ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
-    ENUMERATOR(STEndOfBattleBranch), /* can leave a branch towards the next one? */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
@@ -47,8 +45,10 @@
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
+    ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
+    ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
@@ -156,7 +156,7 @@
     ENUMERATOR(STKeyWriter), /* write battle play keys */               \
     ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
-    ENUMERATOR(STTrivialVariationFilter), /* don't write variations */  \
+    ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
@@ -679,5 +679,10 @@ void stip_traverse_moves_children(slice_index si,
  * @param si identifies slice where to start
  */
 void stip_insert_root_slices(slice_index si);
+
+/* Wrap the slices representing the initial moves of nested slices
+ * @param si identifies slice where to start
+ */
+void stip_insert_intro_slices(slice_index si);
 
 #endif

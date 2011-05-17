@@ -16,15 +16,10 @@
 slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length);
 
-/* Shorten a help slice by 2 half moves
- * @param si identifies slice to be shortened
- */
-void help_branch_shorten_slice(slice_index si);
-
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  */
-void help_branch_shorten(slice_index si);
+slice_index help_branch_shorten(slice_index si);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
@@ -93,7 +88,12 @@ void help_branch_insert_slices_nested(slice_index si,
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return identifier of initial root slice
  */
-slice_index help_make_root(slice_index si);
+slice_index help_make_root(slice_index adapter);
+
+/* Spin the intro slices off a nested help branch
+ * @param adapter identifies adapter slice of the nested help branch
+ */
+void help_spin_off_intro(slice_index adapter);
 
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the

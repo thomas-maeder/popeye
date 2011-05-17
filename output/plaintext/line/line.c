@@ -3,6 +3,7 @@
 #include "pyoutput.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/trivial_end_filter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -71,9 +72,10 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors line_slice_inserters[] =
+static structure_traversers_visitors regular_inserters[] =
 {
   { STEndOfBranch,       &instrument_end_of_branch       },
+  { STConstraint,        &stip_traverse_structure_pipe   },
   { STGoalReachedTester, &instrument_goal_reached_tester },
   { STHelpAdapter,       &instrument_root                },
   { STSeriesAdapter,     &instrument_root                }
@@ -81,9 +83,93 @@ static structure_traversers_visitors line_slice_inserters[] =
 
 enum
 {
-  nr_line_slice_inserters = (sizeof line_slice_inserters
-                             / sizeof line_slice_inserters[0])
+  nr_regular_inserters = sizeof regular_inserters / sizeof regular_inserters[0]
 };
+
+static void insert_regular_slices(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
+  stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_move(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const move_slice = st->param;
+  slice_index const save_move_slice = *move_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *move_slice = si;
+  stip_traverse_structure_children(si,st);
+  *move_slice = save_move_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_constraint(slice_index si, stip_structure_traversal *st)
+{
+  slice_index const * const move_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*move_slice==no_slice)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    slice_index const adapter = branch_find_slice(STAttackAdapter,
+                                                  slices[si].u.fork.fork);
+    if (adapter!=no_slice)
+      pipe_append(adapter,alloc_trivial_end_filter_slice());
+    stip_traverse_structure_pipe(si,st);
+  }
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors root_inserters[] =
+{
+  { STGoalReachedTester, &instrument_goal_reached_tester },
+  { STConstraint,        &instrument_constraint          },
+  { STHelpMove,          &remember_move                  },
+  { STSeriesMove,        &remember_move                  }
+};
+
+enum
+{
+  nr_root_inserters = sizeof root_inserters / sizeof root_inserters[0]
+};
+
+static void instrument_constraints(slice_index si)
+{
+  stip_structure_traversal st;
+  slice_index move_slice = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&move_slice);
+  stip_structure_traversal_override(&st,root_inserters,nr_root_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Instrument the stipulation structure with slices that implement
  * plaintext line mode output.
@@ -91,18 +177,13 @@ enum
  */
 void stip_insert_output_plaintext_line_slices(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
-  stip_structure_traversal_override(&st,
-                                    line_slice_inserters,
-                                    nr_line_slice_inserters);
-  stip_traverse_structure(si,&st);
+  insert_regular_slices(si);
+  instrument_constraints(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -225,7 +225,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     switch (slices[si].type)
     {
       case STSetplayFork:
-      case STEndOfBattleBranch:
       case STEndOfBranch:
       case STEndOfBranchGoal:
       case STEndOfBranchGoalImmobile:
@@ -260,7 +259,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReadyForHelpMove:
       case STSeriesAdapter:
       case STReadyForSeriesMove:
-      case STReadyForSeriesDummyMove:
       case STFindShortest:
       case STFindByIncreasingLength:
       case STHelpHashed:
@@ -282,6 +280,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
+      case STReadyForSeriesDummyMove:
+      case STEndOfIntro:
       case STEndOfRoot:
       case STSelfCheckGuard:
       case STProxy:
@@ -297,7 +297,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:
-      case STTrivialVariationFilter:
+      case STTrivialEndFilter:
       case STThreatEnforcer:
       case STThreatStart:
       case STThreatCollector:

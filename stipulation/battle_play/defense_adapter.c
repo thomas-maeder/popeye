@@ -43,14 +43,24 @@ void defense_adapter_make_root(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = battle_make_root(slices[adapter].u.pipe.next);
+  *root_slice = battle_make_root(adapter);
 
-  if (*root_slice!=no_slice)
-  {
-    pipe_link(adapter,*root_slice);
-    *root_slice = adapter;
-    pipe_unlink(slices[adapter].prev);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Wrap the slices representing the nested slices
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure holding the traversal state
+ */
+void defense_adapter_make_intro(slice_index adapter,
+                                stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(adapter,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

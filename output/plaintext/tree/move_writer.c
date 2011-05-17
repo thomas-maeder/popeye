@@ -4,8 +4,8 @@
 #include "pytable.h"
 #include "pymsg.h"
 #include "solving/battle_play/threat.h"
+#include "output/plaintext/trivial_end_filter.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/trivial_variation_filter.h"
 #include "trace.h"
 
 /* Allocate a STMoveWriter defender slice.
@@ -61,8 +61,9 @@ stip_length_type move_writer_defend(slice_index si,
   }
 
   output_plaintext_tree_write_move();
-  do_filter_trivial_variations[nbply+1] = n>slack_length_battle+1;
+  do_write_trivial_ends[nbply] = n<=slack_length_battle+1;
   result = defend(next,n,n_max_unsolvable);
+  do_write_trivial_ends[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -156,7 +157,9 @@ stip_length_type move_writer_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   output_plaintext_tree_write_move();
+  do_write_trivial_ends[nbply] = n==n_max_unsolvable;
   result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
+  do_write_trivial_ends[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

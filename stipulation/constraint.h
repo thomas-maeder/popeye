@@ -4,7 +4,6 @@
 /* Stop solving unless a condition is *not* met.
  */
 
-#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
@@ -15,25 +14,6 @@
  * @return index of allocated slice
  */
 slice_index alloc_constraint_slice(slice_index proxy_to_condition);
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void constraint_apply_postkeyplay(slice_index si, stip_structure_traversal *st);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_solve(slice_index si);
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_has_solution(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

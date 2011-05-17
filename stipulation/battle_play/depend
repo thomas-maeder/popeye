@@ -5,10 +5,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/boolean/binary.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/attack_move_generator.h \
  stipulation/battle_play/attack_move.h \
- stipulation/battle_play/ready_for_attack.h \
  stipulation/battle_play/defense_move_generator.h \
  stipulation/battle_play/defense_move.h \
- stipulation/battle_play/ready_for_defense.h \
  stipulation/battle_play/defense_adapter.h trace.h
 
 stipulation/battle_play/branch.h:
@@ -35,13 +33,9 @@ stipulation/battle_play/attack_move_generator.h:
 
 stipulation/battle_play/attack_move.h:
 
-stipulation/battle_play/ready_for_attack.h:
-
 stipulation/battle_play/defense_move_generator.h:
 
 stipulation/battle_play/defense_move.h:
-
-stipulation/battle_play/ready_for_defense.h:
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -112,11 +106,11 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.h \
  optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h \
+ output/plaintext/trivial_end_filter.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/move_writer.h \
- output/plaintext/tree/trivial_variation_filter.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/goal_writer.h trace.h
@@ -191,6 +185,8 @@ optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
 
+output/plaintext/trivial_end_filter.h:
+
 output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/decoration_writer.h:
@@ -199,25 +195,11 @@ output/plaintext/tree/zugzwang_writer.h:
 
 output/plaintext/tree/move_writer.h:
 
-output/plaintext/tree/trivial_variation_filter.h:
-
 output/plaintext/tree/refutation_writer.h:
 
 output/plaintext/tree/refuting_variation_writer.h:
 
 output/plaintext/tree/goal_writer.h:
-
-trace.h:
-stipulation/battle_play/ready_for_attack$(OBJ_SUFFIX): \
- stipulation/battle_play/ready_for_attack.c \
- stipulation/battle_play/ready_for_attack.h pypipe.h stipulation/branch.h \
- trace.h
-
-stipulation/battle_play/ready_for_attack.h:
-
-pypipe.h:
-
-stipulation/branch.h:
 
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
@@ -246,20 +228,6 @@ pydata.h:
 pypipe.h:
 
 stipulation/battle_play/attack_play.h:
-
-trace.h:
-stipulation/battle_play/ready_for_defense$(OBJ_SUFFIX): \
- stipulation/battle_play/ready_for_defense.c \
- stipulation/battle_play/ready_for_defense.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/defense_adapter.h trace.h
-
-stipulation/battle_play/ready_for_defense.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/defense_adapter.h:
 
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \

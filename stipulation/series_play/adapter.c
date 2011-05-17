@@ -42,14 +42,29 @@ void series_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = series_make_root(slices[adapter].u.pipe.next);
+  *root_slice = series_make_root(adapter);
 
-  if (*root_slice!=no_slice)
-  {
-    pipe_link(adapter,*root_slice);
-    *root_slice = adapter;
-    pipe_unlink(slices[adapter].prev);
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Wrap the slices representing the nested slices
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure holding the traversal state
+ */
+void series_adapter_make_intro(slice_index adapter,
+                               stip_structure_traversal *st)
+{
+  slice_index * const fork_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(adapter,st);
+
+  if (*fork_slice!=no_slice)
+    series_spin_off_intro(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -69,14 +84,6 @@ void series_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
   TraceFunctionParamListEnd();
 
   *setplay_slice = series_make_setplay(slices[adapter].u.pipe.next);
-
-  if (*setplay_slice!=no_slice)
-  {
-    slice_index const set_adapter =
-        alloc_series_adapter_slice(slack_length_series,slack_length_series);
-    link_to_branch(set_adapter,*setplay_slice);
-    *setplay_slice = set_adapter;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -126,7 +133,12 @@ has_solution_type series_adapter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = series(next,full_length);
-  result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
+  if (nr_moves_needed<=full_length)
+    result = has_solution;
+  else if (nr_moves_needed==full_length+1)
+    result = has_no_solution;
+  else
+    result = opponent_self_check;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -150,7 +162,12 @@ has_solution_type series_adapter_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = has_series(next,full_length);
-  result = nr_moves_needed<=full_length ? has_solution : has_no_solution;
+  if (nr_moves_needed<=full_length)
+    result = has_solution;
+  else if (nr_moves_needed==full_length+1)
+    result = has_no_solution;
+  else
+    result = opponent_self_check;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
