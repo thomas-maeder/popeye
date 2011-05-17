@@ -359,6 +359,12 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
  */
 boolean slice_has_structure(slice_index si, slice_structural_type type);
 
+/* Retrieve the structural type of a slice
+ * @param si identifies slice of which to retrieve structural type
+ * @return structural type of slice si
+ */
+slice_structural_type slice_get_structural_type(slice_index si);
+
 /* Initialize the slice allocation machinery. To be called once at
  * program start
  */

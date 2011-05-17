@@ -224,23 +224,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     fprintf(stdout,"%c ",Side_names[slices[si].starter][0]);
     switch (slices[si].type)
     {
-      case STSetplayFork:
-      case STEndOfBranch:
-      case STEndOfBranchGoal:
-      case STEndOfBranchGoalImmobile:
-      case STThreatSolver:
-      case STParryFork:
-      case STMaxThreatLength:
-      case STConstraint:
-      case STEndOfBranchForced:
-        Trace_pipe(si);
-        Trace_link("fork:",slices[si].u.fork.fork,"");
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.fork.fork,
-                                  done_slices);
-        break;
-
       case STForkOnRemaining:
         Trace_pipe(si);
         Trace_link("fork:",slices[si].u.fork_on_remaining.fork,"");
@@ -250,27 +233,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STAttackAdapter:
-      case STDefenseAdapter:
-      case STReadyForAttack:
-      case STReadyForDefense:
-      case STAttackHashed:
-      case STHelpAdapter:
-      case STReadyForHelpMove:
-      case STSeriesAdapter:
-      case STReadyForSeriesMove:
-      case STFindShortest:
-      case STFindByIncreasingLength:
-      case STHelpHashed:
-      case STSeriesHashed:
-      case STStopOnShortSolutionsFilter:
-      case STMinLengthOptimiser:
-      case STMinLengthGuard:
-        Trace_branch(si);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        break;
-
       case STKeepMatingFilter:
         Trace_pipe(si);
         fprintf(stdout,"mating:%s ",
@@ -278,108 +240,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.keepmating_guard.next,
                                   done_slices);
-        break;
-
-      case STReadyForSeriesDummyMove:
-      case STEndOfIntro:
-      case STEndOfRoot:
-      case STSelfCheckGuard:
-      case STProxy:
-      case STMoveInverter:
-      case STNot:
-      case STMaxThreatLengthHook:
-      case STSeriesDummyMove:
-      case STRefutationsAllocator:
-      case STTrySolver:
-      case STRefutationsSolver:
-      case STRefutationsCollector:
-      case STContinuationSolver:
-      case STPostKeyPlaySuppressor:
-      case STKeyWriter:
-      case STTryWriter:
-      case STTrivialEndFilter:
-      case STThreatEnforcer:
-      case STThreatStart:
-      case STThreatCollector:
-      case STZugzwangWriter:
-      case STRestartGuard:
-      case STIntelligentDuplicateAvoider:
-      case STMaxTimeGuard:
-      case STMaxSolutionsInitialiser:
-      case STMaxSolutionsGuard:
-      case STStopOnShortSolutionsInitialiser:
-      case STMaxNrNonChecks:
-      case STMaxNrNonTrivial:
-      case STMaxNrNonTrivialCounter:
-      case STMaxFlightsquares:
-      case STDegenerateTree:
-      case STNoShortVariations:
-      case STAmuMateFilter:
-      case STUltraschachzwangGoalFilter:
-      case STCirceSteingewinnFilter:
-      case STCirceCircuitSpecial:
-      case STPiecesKamikazeTargetSquareFilter:
-      case STAnticirceTargetSquareFilter:
-      case STAnticirceCircuitSpecial:
-      case STAnticirceExchangeFilter:
-      case STAnticirceExchangeSpecial:
-      case STEndOfPhaseWriter:
-      case STEndOfSolutionWriter:
-      case STMoveWriter:
-      case STRefutationWriter:
-      case STRefutingVariationWriter:
-      case STGoalMateReachedTester:
-      case STGoalStalemateReachedTester:
-      case STGoalDoubleStalemateReachedTester:
-      case STGoalTargetReachedTester:
-      case STGoalCheckReachedTester:
-      case STGoalCaptureReachedTester:
-      case STGoalSteingewinnReachedTester:
-      case STGoalEnpassantReachedTester:
-      case STGoalDoubleMateReachedTester:
-      case STGoalCounterMateReachedTester:
-      case STGoalCastlingReachedTester:
-      case STGoalAutoStalemateReachedTester:
-      case STGoalCircuitReachedTester:
-      case STGoalExchangeReachedTester:
-      case STGoalExchangeByRebirthReachedTester:
-      case STGoalCircuitByRebirthReachedTester:
-      case STGoalAnyReachedTester:
-      case STGoalProofgameReachedTester:
-      case STGoalNotCheckReachedTester:
-      case STGoalAToBReachedTester:
-      case STIllegalSelfcheckWriter:
-      case STOutputPlaintextMoveInversionCounter:
-      case STOutputPlaintextLineEndOfIntroSeriesMarker:
-      case STOutputPlaintextTreeCheckWriter:
-      case STOutputPlaintextTreeDecorationWriter:
-      case STGoalReachableGuardFilter:
-      case STCastlingFilter:
-      case STEnPassantFilter:
-      case STCheckDetector:
-      case STKillerMoveCollector:
-      case STDoubleMateFilter:
-      case STCounterMateFilter:
-      case STPrerequisiteOptimiser:
-      case STDeadEnd:
-      case STDeadEndGoal:
-      case STKillerMoveMoveGenerator:
-      case STAttackMoveGenerator:
-      case STAttackMove:
-      case STDefenseMoveGenerator:
-      case STDefenseMove:
-      case STHelpMoveGenerator:
-      case STHelpMove:
-      case STSeriesMoveGenerator:
-      case STSeriesMove:
-      case STCountNrOpponentMovesMoveGenerator:
-      case STOrthodoxMatingMoveGenerator:
-      case STKillerMoveFinalDefenseMove:
-      case STIntelligentSeriesFilter:
-      case STIntelligentHelpFilter:
-        Trace_pipe(si);
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
       case STOutputModeSelector:
@@ -399,16 +259,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
       }
 
-      case STOr:
-      case STAnd:
-        Trace_slice(si);
-        Trace_link("op1:",slices[si].u.binary.op1,"");
-        Trace_link("op2:",slices[si].u.binary.op2,"");
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
-        TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
-        break;
-
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);
@@ -422,18 +272,50 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         Trace_link("fork:",slices[si].u.goal_tester.fork,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_tester.fork,
-                                  done_slices);
-        break;
-
-      case STTrue:
-      case STFalse:
-        Trace_link("",slices[si].prev,"<");
-        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
         break;
 
       default:
-        fprintf(stdout,"\n");
+        switch (slice_get_structural_type(si))
+        {
+          case slice_structure_leaf:
+            Trace_link("",slices[si].prev,"<");
+            fprintf(stdout,"\n");
+            break;
+
+          case slice_structure_pipe:
+            Trace_pipe(si);
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+            break;
+
+          case slice_structure_branch:
+            Trace_branch(si);
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+            break;
+
+          case slice_structure_fork:
+            Trace_pipe(si);
+            Trace_link("fork:",slices[si].u.fork.fork,"");
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+            TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
+            break;
+
+          case slice_structure_binary:
+            Trace_slice(si);
+            Trace_link("op1:",slices[si].u.binary.op1,"");
+            Trace_link("op2:",slices[si].u.binary.op2,"");
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
+            TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
+            break;
+
+          default:
+            fprintf(stdout,"\n");
+            break;
+        }
         break;
     }
   }

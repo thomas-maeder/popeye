@@ -596,6 +596,16 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
   return result;
 }
 
+/* Retrieve the structural type of a slice
+ * @param si identifies slice of which to retrieve structural type
+ * @return structural type of slice si
+ */
+slice_structural_type slice_get_structural_type(slice_index si)
+{
+  /* no Trace instrumentation here - this is used by the Trace machinery! */
+  return highest_structural_type[slices[si].type];
+}
+
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
