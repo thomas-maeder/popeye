@@ -1832,33 +1832,6 @@ void closehash(void)
   }
 } /* closehash */
 
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void insert_hash_element_attack_move(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>slack_length_battle+1)
-  {
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prototype = alloc_branch(STAttackHashed,
-                                               length-1,min_length-1);
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether a goal type is "move oriented" (i.e. if hashing takes
  * longer than determining it)
  * @param goal goal type
@@ -1884,38 +1857,55 @@ static boolean is_goal_move_oriented(goal_type goal)
   return result;
 }
 
-typedef struct
-{
-  goal_type goal;
-  unsigned int nr_goals;
-} help_series_insertion_state;
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
+static void insert_hash_element_after_defense(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  help_series_insertion_state * const state = st->param;;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_children(si,st);
-
-  TraceValue("%u",st->remaining);
-  TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length || st->level>0)
+  if (length>slack_length_battle+1)
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prototype = alloc_branch(STAttackHashed,
+                                               length-1,min_length-1);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_help(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  slice_index const * const previous_move_slice = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*previous_move_slice!=no_slice && length>slack_length_help)
+  {
     slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
     help_branch_insert_slices(si,&prototype,1);
   }
 
-  state->goal = no_goal;
-  state->nr_goals = 0;
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1925,87 +1915,55 @@ static void insert_hash_element_help(slice_index si, stip_moves_traversal *st)
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-static void insert_hash_element_series(slice_index si, stip_moves_traversal *st)
+static void insert_hash_element_series(slice_index si,
+                                       stip_structure_traversal *st)
 {
-  help_series_insertion_state * const state = st->param;;
+  slice_index const * const previous_move_slice = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_children(si,st);
-
-  TraceValue("%u",st->remaining);
-  TraceValue("%u\n",st->full_length);
-  if (st->remaining+1<st->full_length && st->remaining<=2)
+  if (*previous_move_slice!=no_slice && length>slack_length_series)
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
     series_branch_insert_slices(si,&prototype,1);
   }
 
-  state->goal = no_goal;
-  state->nr_goals = 0;
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void remember_goal(slice_index si, stip_moves_traversal *st)
+static void remember_move(slice_index si, stip_structure_traversal *st)
 {
-  help_series_insertion_state * const state = st->param;;
+  slice_index * const previous_move_slice = st->param;
+  slice_index const save_previous_move_slice = *previous_move_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_children(si,st);
-
-  if (state->goal!=slices[si].u.goal_tester.goal.type)
-  {
-    state->goal = slices[si].u.goal_tester.goal.type;
-    ++state->nr_goals;
-  }
+  *previous_move_slice = si;
+  stip_traverse_structure_children(si,st);
+  *previous_move_slice = save_previous_move_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void forget_goal(slice_index si, stip_moves_traversal *st)
+static structure_traversers_visitors const hash_element_inserters[] =
 {
-  help_series_insertion_state * const state = st->param;;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-
-  state->goal = no_goal;
-  state->nr_goals = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static moves_traversers_visitors const hash_element_inserters[] =
-{
-  /* no need to hash the introductory move of the set play */
-  { STSetplayFork,        &stip_traverse_moves_pipe   },
-  { STReadyForHelpMove,   &insert_hash_element_help   },
-  { STReadyForSeriesMove, &insert_hash_element_series },
-  { STGoalReachedTester,  &remember_goal              },
-  { STAttackAdapter,      &forget_goal                },
-  { STDefenseAdapter,     &forget_goal                }
+  { STReadyForDefense,    &insert_hash_element_after_defense },
+  { STReadyForHelpMove,   &insert_hash_element_help          },
+  { STReadyForSeriesMove, &insert_hash_element_series        },
+  { STAttackMove,         &remember_move                     },
+  { STDefenseMove,        &remember_move                     },
+  { STHelpMove,           &remember_move                     },
+  { STSeriesMove,         &remember_move                     }
 };
 
 enum
@@ -2014,28 +1972,13 @@ enum
   = sizeof hash_element_inserters / sizeof hash_element_inserters[0]
 };
 
-static structure_traversers_visitors const hash_element_inserters2[] =
-{
-  /* no need to hash the introductory move of the set play */
-  { STSetplayFork,     &stip_traverse_structure_pipe    },
-  { STDefenseAdapter,  &insert_hash_element_attack_move },
-  { STReadyForDefense, &insert_hash_element_attack_move }
-};
-
-enum
-{
-  nr_hash_element_inserters2
-  = sizeof hash_element_inserters2 / sizeof hash_element_inserters2[0]
-};
-
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start
  */
 void stip_insert_hash_slices(slice_index si)
 {
-  help_series_insertion_state state = { no_goal, 0 };
-  stip_moves_traversal st;
-  stip_structure_traversal st2;
+  stip_structure_traversal st;
+  slice_index previous_move_slice = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2043,17 +1986,11 @@ void stip_insert_hash_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,&state);
-  stip_moves_traversal_override(&st,
-                                hash_element_inserters,
-                                nr_hash_element_inserters);
-  stip_traverse_moves(si,&st);
-
-  stip_structure_traversal_init(&st2,0);
-  stip_structure_traversal_override(&st2,
-                                    hash_element_inserters2,
-                                    nr_hash_element_inserters2);
-  stip_traverse_structure(si,&st2);
+  stip_structure_traversal_init(&st,&previous_move_slice);
+  stip_structure_traversal_override(&st,
+                                    hash_element_inserters,
+                                    nr_hash_element_inserters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
