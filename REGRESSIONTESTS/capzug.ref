@@ -21,7 +21,7 @@
 1   .   .   .   .   .   .   S  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black - 4hh[2a{+}d[x]]      9 + 7
+  black - 5h[1d[x]a{+}]h      9 + 7
 
   1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3   4.Qc3*b3 x 
   1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2   4.Kd3*c2 x 
@@ -30,10 +30,10 @@
   1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g3 x 
   1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g5 x 
 
-              empile:    42492397
-            jouecoup:    12431272
-        orig_rbechec:     7808356
-        orig_rnechec:    13823782
+              empile:    31388898
+            jouecoup:     9145514
+        orig_rbechec:     5676737
+        orig_rnechec:    10129456
 solution finished. 
 
 
@@ -60,17 +60,17 @@ WCCC 2010, CapZug Tourney, 1st commendation
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[2a{+}d[x]]h        3 + 3
+  black 8hh[1d[x]a{+}]        3 + 3
 
   1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5   5.a6*b5 x 
 
   1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5   5.b4*a3 x 
   1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4   5.b4*a3 ep. x 
 
-              empile:     1430938
-            jouecoup:      661249
-        orig_rbechec:      339081
-        orig_rnechec:      600150
+              empile:      518945
+            jouecoup:      255146
+        orig_rbechec:      118372
+        orig_rnechec:      224417
 solution finished. 
 
 
@@ -97,14 +97,14 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[2a{+}d[+]]h        2 + 2
+  black 8hh[1d[+]a{+}]        2 + 2
 
   1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8   5.Qa7*a6 + 
 
-              empile:    61270787
-            jouecoup:    14824219
-        orig_rbechec:    15367918
-        orig_rnechec:    14411696
+              empile:    27720672
+            jouecoup:     6617794
+        orig_rbechec:     6496101
+        orig_rnechec:     6377346
 solution finished. 
 
 
@@ -131,7 +131,7 @@ solution finished.
 1   .   K   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 9h[2a{+}d[=]]h        4 + 5
+  black 10hh[1d[=]a{+}]       4 + 5
 
   1  (d2-d1=Q + )
   2  (d2-d1=S )
@@ -145,10 +145,10 @@ solution finished.
   9  (Kc3-d4 )
  10  (b4-b3 )
 
-              empile:  1106737770
-            jouecoup:   412993697
-        orig_rbechec:   399627426
-        orig_rnechec:   312553026
+              empile:   412346701
+            jouecoup:   159389611
+        orig_rbechec:   147039388
+        orig_rnechec:   117396951
 solution finished. 
 
 

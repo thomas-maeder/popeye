@@ -4,7 +4,7 @@ prot capzug.ref
 
 author Geoff Foster & Arno T"ungler
 origin WCCC 2010, CapZug Tourney, 1st prize
-sstip black - 4hh[2a{+}d[x]]
+sstip black - 5h[1d[x]a{+}]h
 pieces white kd7 qg5 rc4 bd5 sg1 pa2e4e7f6
        black kd3 bf8h1 pd6e2g2g6
 
@@ -12,7 +12,7 @@ next
 
 author Cornel Pacurar & Arno T"ungler
 origin WCCC 2010, CapZug Tourney, 1st commendation
-sstip black 7h[2a{+}d[x]]h
+sstip black 8hh[1d[x]a{+}]
 pieces white ka5 pa2b3
        black kb7 pa7b5
 option set
@@ -21,7 +21,7 @@ next
 
 author Arno T"ungler
 origin ??
-sstip black 7h[2a{+}d[+]]h
+sstip black 8hh[1d[+]a{+}]
 pieces white ke6 pa7
        black ka8 pg2
 
@@ -29,7 +29,7 @@ next
 
 author Dan Meinking
 origin ??
-sstip black 9h[2a{+}d[=]]h
+sstip black 10hh[1d[=]a{+}]
 pieces white kb1 bg8 pe2f5
        black kc3 pb2b4d2e3
 option movenum
