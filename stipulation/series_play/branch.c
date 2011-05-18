@@ -8,7 +8,6 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/boolean/binary.h"
-#include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
@@ -155,7 +154,7 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
         {
           if (slices[next].type==STDefenseAdapter)
           {
-            battle_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+            branch_insert_slices_nested(next,prototypes,nr_prototypes);
             break;
           }
           else if (slices[next].type==STEndOfBranch
