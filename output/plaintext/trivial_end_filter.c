@@ -88,7 +88,7 @@ stip_length_type trivial_end_filter_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (do_write_trivial_ends[parent_ply[nbply]])
+  if (nbply==nil_ply || do_write_trivial_ends[parent_ply[nbply]])
     result = attack(next,n,n_max_unsolvable);
   else
     /* variation is trivial - just determine the result */

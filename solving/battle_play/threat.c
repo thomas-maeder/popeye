@@ -34,34 +34,18 @@ threat_activity threat_activities[maxply+1];
 static unsigned int nr_threats_to_be_confirmed;
 
 /* Allocate a STThreatEnforcer slice.
+ * @param threat_start identifies the slice where threat play starts
  * @return index of allocated slice
  */
-static slice_index alloc_threat_enforcer_slice(void)
+static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STThreatEnforcer);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STThreatCollector slice.
- * @return index of allocated slice
- */
-static slice_index alloc_threat_collector_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STThreatCollector);
+  result = alloc_branch_fork(STThreatEnforcer,threat_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,7 +101,8 @@ stip_length_type threat_enforcer_attack(slice_index si,
                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
+  slice_index const threat_start = slices[si].u.fork.fork;
   ply const threats_ply = nbply+1;
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
@@ -145,7 +130,7 @@ stip_length_type threat_enforcer_attack(slice_index si,
     nr_threats_to_be_confirmed = table_length(threats_table);
 
     threat_activities[threats_ply] = threat_enforcing;
-    len_test_threats = can_attack(next,len_threat,n_max_unsolvable);
+    len_test_threats = can_attack(threat_start,len_threat,n_max_unsolvable);
     threat_activities[threats_ply] = threat_idle;
 
     if (len_test_threats>len_threat)
@@ -170,19 +155,17 @@ stip_length_type threat_enforcer_attack(slice_index si,
   return result;
 }
 
-/* Allocate a STThreatSolver defender slice.
- * @param fork identifies the slice where threat play starts
+/* Allocate a STThreatCollector slice.
  * @return index of allocated slice
  */
-static slice_index alloc_threat_solver_slice(slice_index fork)
+static slice_index alloc_threat_collector_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STThreatSolver,fork);
+  result = alloc_pipe(STThreatCollector);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -283,6 +266,26 @@ stip_length_type threat_collector_can_defend(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STThreatSolver defender slice.
+ * @param threat_start identifies the slice where threat play starts
+ * @return index of allocated slice
+ */
+static slice_index alloc_threat_solver_slice(slice_index threat_start)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",threat_start);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STThreatSolver,threat_start);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -431,7 +434,7 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
       slice_index const prototypes[] =
       {
         alloc_threat_solver_slice(start),
-        alloc_threat_enforcer_slice(),
+        alloc_threat_enforcer_slice(start),
         alloc_threat_collector_slice()
       };
       enum

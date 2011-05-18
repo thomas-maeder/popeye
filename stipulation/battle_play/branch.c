@@ -25,9 +25,11 @@ static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
   STTrivialEndFilter,
-  STConstraint,
   STEndOfIntro,
   STReadyForAttack,
+  STAttackHashed,
+  STThreatStart,
+  STConstraint,
   STMinLengthOptimiser,
   STCastlingFilter,
   STCounterMateFilter,
@@ -72,8 +74,8 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeDecorationWriter,
   STPostKeyPlaySuppressor,
   STMinLengthGuard,
-  STConstraint,
   STReadyForDefense,
+  STConstraint,
   STEndOfBranchForced,
   STMaxThreatLength,
   STThreatSolver,
@@ -100,14 +102,12 @@ static slice_index const slice_rank_order[] =
   STSeriesAdapter,
   STMaxThreatLengthHook, /* separate from STThreatStart to enable hashing*/
   STNoShortVariations,
-  STAttackHashed,
-  STThreatEnforcer,
   STKeepMatingFilter,
+  STThreatEnforcer,
   STMoveWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter,
-  STThreatStart
+  STOutputPlaintextTreeDecorationWriter
 };
 
 enum
@@ -774,7 +774,7 @@ void battle_branch_insert_attack_constraint(slice_index si,
   TraceStipulation(constraint);
 
   {
-    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_constraint_slice(constraint);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);
@@ -801,7 +801,7 @@ void battle_branch_insert_defense_constraint(slice_index si,
   TraceStipulation(constraint);
 
   {
-    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
     slice_index const prototype = alloc_constraint_slice(constraint);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);

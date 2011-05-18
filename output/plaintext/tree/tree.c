@@ -243,6 +243,29 @@ static void trivial_varation_filter_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void trivial_varation_filter_insert_constraint(slice_index si,
+                                                      stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  trivial_varation_filter_end_of_branch(si,st);
+
+  {
+    slice_index const adapter = branch_find_slice(STAttackAdapter,
+                                                  slices[si].u.fork.fork);
+    if (adapter!=no_slice)
+    {
+      slice_index const prototype = alloc_trivial_end_filter_slice();
+      battle_branch_insert_slices(adapter,&prototype,1);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void trivial_varation_filter_insert_defense(slice_index si,
                                                    stip_structure_traversal *st)
 {
@@ -310,7 +333,7 @@ static structure_traversers_visitors trivial_varation_filter_inserters[] =
   { STReadyForAttack,          &trivial_varation_filter_insertion_attack  },
   { STDefenseAdapter,          &trivial_varation_filter_insertion_defense },
   { STReadyForDefense,         &trivial_varation_filter_insertion_defense },
-  { STConstraint,              &trivial_varation_filter_insert_defense    },
+  { STConstraint,              &trivial_varation_filter_insert_constraint },
   { STEndOfBranchGoal,         &trivial_varation_filter_insert_defense    },
   { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert_defense    },
   { STEndOfBranch,             &trivial_varation_filter_end_of_branch     },
