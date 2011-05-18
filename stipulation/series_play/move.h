@@ -12,12 +12,6 @@
  */
 slice_index alloc_series_move_slice(void);
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void series_move_detect_starter(slice_index si, stip_structure_traversal *st);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

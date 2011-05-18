@@ -24,26 +24,6 @@ slice_index alloc_defense_move_slice(void)
   return result;
 }
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    stip_traverse_structure_pipe(si,st);
-    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

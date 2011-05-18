@@ -139,3 +139,35 @@ void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ */
+void binary_detect_starter(slice_index si, stip_structure_traversal *st)
+{
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].starter==no_side)
+  {
+    stip_traverse_structure(op1,st);
+    stip_traverse_structure(op2,st);
+
+    if (slices[op1].starter==no_side)
+      slices[si].starter = slices[op2].starter;
+    else
+    {
+      assert(slices[op2].starter==no_side
+             || slices[op1].starter==slices[op2].starter);
+      slices[si].starter = slices[op1].starter;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

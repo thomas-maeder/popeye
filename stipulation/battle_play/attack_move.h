@@ -45,6 +45,6 @@ stip_length_type attack_move_attack(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void attack_move_detect_starter(slice_index si, stip_structure_traversal *st);
+void move_detect_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

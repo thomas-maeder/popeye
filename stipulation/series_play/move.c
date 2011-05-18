@@ -25,31 +25,6 @@ slice_index alloc_series_move_slice(void)
   return result;
 }
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    stip_traverse_structure_children(si,st);
-    slices[si].starter = (slices[next].starter==no_side
-                          ? no_side
-                          : advers(slices[next].starter));
-  }
-
-  TraceValue("%u\n",slices[si].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index
  * @param n exact number of moves to reach the end state

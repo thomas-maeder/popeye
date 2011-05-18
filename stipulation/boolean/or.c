@@ -207,37 +207,3 @@ stip_length_type or_attack(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void or_detect_starter(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    stip_traverse_structure(op1,st);
-    stip_traverse_structure(op2,st);
-
-    TraceStipulation(si);
-
-    if (slices[op1].starter==no_side)
-      slices[si].starter = slices[op2].starter;
-    else
-    {
-      assert(slices[op2].starter==no_side
-             || slices[op1].starter==slices[op2].starter);
-      slices[si].starter = slices[op1].starter;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

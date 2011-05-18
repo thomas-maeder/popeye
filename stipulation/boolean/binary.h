@@ -44,4 +44,10 @@ void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st);
  */
 void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st);
 
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ */
+void binary_detect_starter(slice_index si, stip_structure_traversal *st);
+
 #endif

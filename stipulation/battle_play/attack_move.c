@@ -111,7 +111,7 @@ stip_length_type attack_move_attack(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void attack_move_detect_starter(slice_index si, stip_structure_traversal *st)
+void move_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -119,8 +119,11 @@ void attack_move_detect_starter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==no_side)
   {
+    slice_index const next = slices[si].u.pipe.next;
     stip_traverse_structure_pipe(si,st);
-    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
+    slices[si].starter = (slices[next].starter==no_side
+                          ? no_side
+                          : advers(slices[next].starter));
   }
 
   TraceFunctionExit(__func__);

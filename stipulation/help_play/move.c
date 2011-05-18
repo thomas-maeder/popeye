@@ -25,29 +25,6 @@ slice_index alloc_help_move_slice(void)
   return result;
 }
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void help_move_detect_starter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    stip_traverse_structure_children(si,st);
-    slices[si].starter = (slices[next].starter==no_side
-                          ? no_side
-                          : advers(slices[next].starter));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

@@ -1400,13 +1400,13 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STAttackMove,      &attack_move_detect_starter   },
-  { STDefenseMove,     &defense_move_detect_starter  },
-  { STHelpMove,        &help_move_detect_starter     },
-  { STSeriesMove,      &series_move_detect_starter   },
-  { STSeriesDummyMove, &series_move_detect_starter   },
-  { STAnd,             &and_detect_starter           },
-  { STOr,              &or_detect_starter     },
+  { STAttackMove,      &move_detect_starter          },
+  { STDefenseMove,     &move_detect_starter          },
+  { STHelpMove,        &move_detect_starter          },
+  { STSeriesMove,      &move_detect_starter          },
+  { STSeriesDummyMove, &move_detect_starter          },
+  { STAnd,             &binary_detect_starter        },
+  { STOr,              &binary_detect_starter        },
   { STMoveInverter,    &move_inverter_detect_starter },
   { STParryFork,       &pipe_detect_starter          },
   /* .fork has different starter -> detect starter from .next

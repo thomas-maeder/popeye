@@ -25,10 +25,4 @@ has_solution_type and_has_solution(slice_index si);
  */
 has_solution_type and_solve(slice_index si);
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void and_detect_starter(slice_index si, stip_structure_traversal *st);
-
 #endif

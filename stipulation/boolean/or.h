@@ -54,10 +54,4 @@ stip_length_type or_attack(slice_index si,
                            stip_length_type n,
                            stip_length_type n_max_unsolvable);
 
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void or_detect_starter(slice_index si, stip_structure_traversal *st);
-
 #endif
