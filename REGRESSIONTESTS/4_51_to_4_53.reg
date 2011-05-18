@@ -1978,10 +1978,10 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 # 
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 # 
 
-              empile:       66978
-            jouecoup:       39699
-        orig_rbechec:       35569
-        orig_rnechec:       10166
+              empile:       66707
+            jouecoup:       39543
+        orig_rbechec:       35413
+        orig_rnechec:       10134
 solution finished. 
 
 
@@ -2138,10 +2138,10 @@ White would have to deliver mate after the key
               2...d2*e1=R #
 
 
-              empile:         567
-            jouecoup:         400
-        orig_rbechec:         364
-        orig_rnechec:         104
+              empile:         484
+            jouecoup:         343
+        orig_rbechec:         307
+        orig_rnechec:          93
 solution finished. 
 
 

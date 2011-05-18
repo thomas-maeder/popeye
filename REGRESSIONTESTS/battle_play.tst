@@ -1315,10 +1315,10 @@ solution finished.
               2...b3-b2 #
 
 
-              empile:         331
-            jouecoup:         217
-        orig_rbechec:         190
-        orig_rnechec:          59
+              empile:         307
+            jouecoup:         201
+        orig_rbechec:         174
+        orig_rnechec:          55
 solution finished. 
 
 
@@ -1389,10 +1389,10 @@ exact r#2 that would have a solution in 1
               2...c2-c1=Q #
 
 
-              empile:         866
-            jouecoup:         627
-        orig_rbechec:         581
-        orig_rnechec:         175
+              empile:         849
+            jouecoup:         610
+        orig_rbechec:         564
+        orig_rnechec:         174
 solution finished. 
 
 
@@ -1460,10 +1460,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        1236
-            jouecoup:         793
-        orig_rbechec:         713
-        orig_rnechec:         224
+              empile:        1052
+            jouecoup:         695
+        orig_rbechec:         615
+        orig_rnechec:         181
 solution finished. 
 
 
@@ -1515,10 +1515,10 @@ solution finished.
  15  (Ka1-a2 + )
  16  (Ka1-b2 + )
 
-              empile:       11343
-            jouecoup:        6677
-        orig_rbechec:        5934
-        orig_rnechec:        1619
+              empile:       10029
+            jouecoup:        6136
+        orig_rbechec:        5393
+        orig_rnechec:        1354
 solution finished. 
 
 
@@ -1580,9 +1580,9 @@ a r#2 solution does not solve an exact r#3
   exact-r#3                   2 + 1
 
 
-              empile:        1406
-            jouecoup:         581
-        orig_rbechec:         564
+              empile:        1100
+            jouecoup:         482
+        orig_rbechec:         465
         orig_rnechec:           0
 solution finished. 
 
@@ -1627,10 +1627,10 @@ would have to deliver mate (issue 2843251)
               2...d2*e1=R #
 
 
-              empile:         567
-            jouecoup:         400
-        orig_rbechec:         364
-        orig_rnechec:         104
+              empile:         484
+            jouecoup:         343
+        orig_rbechec:         307
+        orig_rnechec:          93
 solution finished. 
 
 
@@ -1867,10 +1867,10 @@ solution finished.
    1.Kd1*c2 !
 
 
-              empile:       62961
-            jouecoup:       37000
-        orig_rbechec:       33580
-        orig_rnechec:       11634
+              empile:       55491
+            jouecoup:       32496
+        orig_rbechec:       29076
+        orig_rnechec:       10325
 solution finished. 
 
 

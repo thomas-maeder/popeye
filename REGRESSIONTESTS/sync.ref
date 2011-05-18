@@ -137,10 +137,10 @@ a)
                                       5...a5-a4 +
 
 
-              empile:       55918
-            jouecoup:       39990
-        orig_rbechec:       23422
-        orig_rnechec:       18123
+              empile:       44103
+            jouecoup:       32206
+        orig_rbechec:       19199
+        orig_rnechec:       14182
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -158,10 +158,10 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
 
-              empile:        1429
-            jouecoup:         833
-        orig_rbechec:         411
-        orig_rnechec:         433
+              empile:        1393
+            jouecoup:         792
+        orig_rbechec:         401
+        orig_rnechec:         404
 solution finished. 
 
 

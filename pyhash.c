@@ -1861,9 +1861,10 @@ static boolean is_goal_move_oriented(goal_type goal)
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-static void insert_hash_element_after_defense(slice_index si,
-                                              stip_structure_traversal *st)
+static void insert_hash_element_attack(slice_index si,
+                                       stip_structure_traversal *st)
 {
+  slice_index const * const previous_move_slice = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -1871,10 +1872,9 @@ static void insert_hash_element_after_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle+1)
+  if (*previous_move_slice!=no_slice && length>slack_length_battle)
   {
-    slice_index const prototype = alloc_branch(STAttackHashed,
-                                               length-1,min_length-1);
+    slice_index const prototype = alloc_branch(STAttackHashed,length,min_length);
     battle_branch_insert_slices(si,&prototype,1);
   }
 
@@ -1957,13 +1957,14 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const hash_element_inserters[] =
 {
-  { STReadyForDefense,    &insert_hash_element_after_defense },
-  { STReadyForHelpMove,   &insert_hash_element_help          },
-  { STReadyForSeriesMove, &insert_hash_element_series        },
-  { STAttackMove,         &remember_move                     },
-  { STDefenseMove,        &remember_move                     },
-  { STHelpMove,           &remember_move                     },
-  { STSeriesMove,         &remember_move                     }
+  { STReadyForAttack,     &insert_hash_element_attack   },
+  { STReadyForHelpMove,   &insert_hash_element_help     },
+  { STReadyForSeriesMove, &insert_hash_element_series   },
+  { STAttackMove,         &remember_move                },
+  { STDefenseMove,        &remember_move                },
+  { STHelpMove,           &remember_move                },
+  { STSeriesMove,         &remember_move                },
+  { STConstraint,         &stip_traverse_structure_pipe }
 };
 
 enum

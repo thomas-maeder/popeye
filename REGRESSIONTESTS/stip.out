@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-              empile:     2742656
-            jouecoup:      399588
+              empile:     1938695
+            jouecoup:      399587
         orig_rbechec:      389778
-        orig_rnechec:      133470
+        orig_rnechec:       95316
 Loesung beendet. 
 
 
@@ -799,10 +799,10 @@ Loesung beendet.
 
   1.Kh5-h4   2.Kh4-g3   3.Kg3-f2   4.Kf2-e2   5.Ke2-d2   6.Kd2-c2   7.Kc2-b3   8.Kb3-b4   9.Kb4-b5  10.Kb5-b6  11.Kb6-b7  12.Kb7-c8  13.Kc8-d8  14.Kd8-e8  15.Ke8-f8  16.Kf8-g7 kBe5-e4 + 
 
-              empile:       10193
-            jouecoup:        8322
-        orig_rbechec:        3294
-        orig_rnechec:        6955
+              empile:        9286
+            jouecoup:        7415
+        orig_rbechec:        2387
+        orig_rnechec:        6879
 Loesung beendet. 
 
 
@@ -1610,10 +1610,10 @@ Loesung beendet.
               2...h2*g1=RO +
 
 
-              empile:        9504
-            jouecoup:       12198
-        orig_rbechec:       12146
-        orig_rnechec:        1234
+              empile:        7656
+            jouecoup:        9632
+        orig_rbechec:        9580
+        orig_rnechec:        1004
 Loesung beendet. 
 
 
