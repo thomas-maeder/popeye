@@ -43,32 +43,54 @@ void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
+typedef enum
+{
+  context_global,
+  context_attack,
+  context_defense,
+  context_help,
+  context_series
+} optimisation_context;
+
 typedef struct
 {
   slice_index optimisable_deadend;
-  stip_length_type min_remaining;
+  stip_length_type nr_deadend_users;
+  optimisation_context context;
 } optimisation_state;
 
 static void optimise_deadend_attack(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
-  stip_length_type const save_min_remaining = state->min_remaining;
+  optimisation_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->min_remaining = 0;
-  stip_traverse_moves_children(si,st);
-  state->min_remaining = save_min_remaining;
+  state->context = context_attack;
+  state->nr_deadend_users = 0;
 
-  if (state->optimisable_deadend!=no_slice)
-  {
-    slice_index const prototype = alloc_pipe(STDeadEndGoal);
-    battle_branch_insert_slices(si,&prototype,1);
-    pipe_remove(state->optimisable_deadend);
-    state->optimisable_deadend = no_slice;
-  }
+  stip_traverse_moves_children(si,st);
+
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void optimise_deadend_defense(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+  optimisation_context const save_context = state->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->context = context_defense;
+  stip_traverse_moves_children(si,st);
+  state->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -77,23 +99,18 @@ static void optimise_deadend_attack(slice_index si, stip_moves_traversal *st)
 static void optimise_deadend_help(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
-  stip_length_type const save_min_remaining = state->min_remaining;
+  optimisation_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->min_remaining = 0;
-  stip_traverse_moves_children(si,st);
-  state->min_remaining = save_min_remaining;
+  state->context = context_help;
+  state->nr_deadend_users = 0;
 
-  if (state->optimisable_deadend!=no_slice)
-  {
-    slice_index const prototype = alloc_pipe(STDeadEndGoal);
-    help_branch_insert_slices(si,&prototype,1);
-    pipe_remove(state->optimisable_deadend);
-    state->optimisable_deadend = no_slice;
-  }
+  stip_traverse_moves_children(si,st);
+
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -102,23 +119,43 @@ static void optimise_deadend_help(slice_index si, stip_moves_traversal *st)
 static void optimise_deadend_series(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
-  stip_length_type const save_min_remaining = state->min_remaining;
+  optimisation_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->min_remaining = 0;
-  stip_traverse_moves_children(si,st);
-  state->min_remaining = save_min_remaining;
+  state->context = context_series;
+  state->nr_deadend_users = 0;
 
-  if (state->optimisable_deadend!=no_slice)
+  stip_traverse_moves_children(si,st);
+
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+
+  assert(state->context!=context_global);
+
+  if (state->optimisable_deadend!=no_slice
+      && state->context!=context_defense)
   {
-    slice_index const prototype = alloc_pipe(STDeadEndGoal);
-    series_branch_insert_slices(si,&prototype,1);
+    pipe_append(si,alloc_pipe(STDeadEndGoal));
     pipe_remove(state->optimisable_deadend);
-    state->optimisable_deadend = no_slice;
   }
+
+  state->optimisable_deadend = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -140,7 +177,7 @@ static void remember_deadend(slice_index si, stip_moves_traversal *st)
 
     case 1:
       stip_traverse_moves_children(si,st);
-      if (state->min_remaining==0)
+      if (state->nr_deadend_users==0)
         pipe_remove(si);
       break;
 
@@ -168,25 +205,7 @@ static void forget_deadend(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void start_battle_move(slice_index si, stip_moves_traversal *st)
-{
-  optimisation_state * const state = st->param;
-  stip_length_type const save_min_remaining = state->min_remaining;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->min_remaining = 0;
-  stip_traverse_moves_children(si,st);
-  state->optimisable_deadend = no_slice;
-  state->min_remaining = save_min_remaining;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void raise_min_remaining(slice_index si, stip_moves_traversal *st)
+static void raise_nr_deadend_users(slice_index si, stip_moves_traversal *st)
 {
   optimisation_state * const state = st->param;
 
@@ -194,9 +213,9 @@ static void raise_min_remaining(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->min_remaining = 1;
+  state->nr_deadend_users = 1;
   stip_traverse_moves_children(si,st);
-  state->min_remaining = 0;
+  state->nr_deadend_users = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -204,18 +223,16 @@ static void raise_min_remaining(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const dead_end_optimisers[] =
 {
-  { STAttackAdapter,         &start_battle_move       },
-  { STDefenseAdapter,        &start_battle_move       },
-  { STHelpAdapter,           &optimise_deadend_help   },
-  { STSeriesAdapter,         &optimise_deadend_series },
-  { STAttackMove,            &optimise_deadend_attack },
-  { STDefenseMove,           &start_battle_move       },
-  { STReadyForHelpMove,      &optimise_deadend_help   },
-  { STReadyForSeriesMove,    &optimise_deadend_series },
-  { STDeadEnd,               &remember_deadend        },
-  { STEndOfBranch,           &forget_deadend          },
-  { STEndOfBranchForced,     &forget_deadend          },
-  { STPrerequisiteOptimiser, &raise_min_remaining     }
+  { STReadyForAttack,          &optimise_deadend_attack  },
+  { STReadyForDefense,         &optimise_deadend_defense },
+  { STReadyForHelpMove,        &optimise_deadend_help    },
+  { STReadyForSeriesMove,      &optimise_deadend_series  },
+  { STPrerequisiteOptimiser,   &raise_nr_deadend_users   },
+  { STEndOfBranchGoal,         &substitute_deadend_goal  },
+  { STEndOfBranchGoalImmobile, &substitute_deadend_goal  },
+  { STEndOfBranch,             &forget_deadend           },
+  { STEndOfBranchForced,       &forget_deadend           },
+  { STDeadEnd,                 &remember_deadend         }
 };
 
 enum
@@ -230,7 +247,7 @@ enum
 void stip_optimise_dead_end_slices(slice_index si)
 {
   stip_moves_traversal mt;
-  optimisation_state state = { no_slice, 0 };
+  optimisation_state state = { no_slice, 0, context_global};
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
