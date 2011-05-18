@@ -249,6 +249,12 @@ void goal_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+typedef enum
+{
+  unsatisfiable_removal_root,
+  unsatisfiable_removal_nested
+} unsatisfiable_removal_level;
+
 static void remove_unsatisfiable_constraint_goal(slice_index si,
                                                  stip_structure_traversal *st)
 {
@@ -265,12 +271,40 @@ static void remove_unsatisfiable_constraint_goal(slice_index si,
 
 static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 {
+  unsatisfiable_removal_level const * const level = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+  /* At root level, there is a STConstraint in the root branch and another one
+   * in the loop. Only the goal in the root branch may be unsatisfiable. So give
+   * the two STConstraint instances separate copies of their goal before
+   * removing.
+   */
+  if (*level==unsatisfiable_removal_root)
+    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+
   stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void unsatisfiable_removal_nest(slice_index si, stip_structure_traversal *st)
+{
+  unsatisfiable_removal_level * const level = st->param;
+  unsatisfiable_removal_level const save_level = *level;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *level = unsatisfiable_removal_nested;
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -288,6 +322,8 @@ static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
   { STGoalExchangeByRebirthReachedTester, &remove_unsatisfiable_constraint_goal },
   { STGoalSteingewinnReachedTester,       &remove_unsatisfiable_constraint_goal },
   { STGoalTargetReachedTester,            &remove_unsatisfiable_constraint_goal },
+  { STEndOfBranch,                        &unsatisfiable_removal_nest           },
+  { STEndOfBranchForced,                  &unsatisfiable_removal_nest           },
   { STReadyForAttack,                     &stip_structure_visitor_noop          },
   { STReadyForDefense,                    &stip_structure_visitor_noop          },
   { STReadyForHelpMove,                   &stip_structure_visitor_noop          },
@@ -307,6 +343,7 @@ enum
 void stip_remove_unsatisfiable_goals(slice_index si)
 {
   stip_structure_traversal st;
+  unsatisfiable_removal_level level = unsatisfiable_removal_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -314,7 +351,7 @@ void stip_remove_unsatisfiable_goals(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&level);
   stip_structure_traversal_override(&st,
                                     unsatisfiable_goal_checker_removers,
                                     nr_unsatisfiable_goal_checker_removers);
