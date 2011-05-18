@@ -1272,7 +1272,9 @@ static boolean verify_position(slice_index si)
           || exist[bishopmooseb]
           || exist[bishopeagleb]
           || exist[bishopsparrb]
-          || exist[doublegb]))
+          || exist[doublegb]
+          || exist[doublerookhopperb]
+          || exist[doublebishopperb]))
   {
     VerifieMsg(SomePiecesAndMaxiHeffa);
     return false;

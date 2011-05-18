@@ -153,7 +153,9 @@ typedef enum
   cs11b,           /* 135 */
   cs33b,           /* 136 */
   cs31b,           /* 137 */
-  hunter0b,       
+  doublerookhopperb, /* 138 */
+  doublebishopperb,  /* 139 */
+  hunter0b,
   derbla =        hunter0b+maxnrhuntertypes,
 
   roin           = -roib,
@@ -281,7 +283,7 @@ typedef enum
   bouncern       = -bouncerb,
   rookbouncern   = -rookbouncerb,
   bishopbouncern = -bishopbouncerb,
-  chinesepawnn   = -chinesepawnb,  
+  chinesepawnn   = -chinesepawnb,
   radialknightn  = -radialknightb,
   reversepn      = -reversepb,
   roselocustn    = -roselocustb,
@@ -292,9 +294,11 @@ typedef enum
   cs11n          = -cs11b,
   cs33n          = -cs33b,
   cs31n          = -cs31b,
+  doublerookhoppern = -doublerookhopperb,
+  doublebishoppern = -doublebishopperb,
   hunter0n       = -hunter0b,
   dernoi         = -derbla
-  
+
 } piece;
 
 #endif

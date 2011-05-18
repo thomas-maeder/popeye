@@ -557,7 +557,9 @@ EXTERN boolean          flag_libre_on_generate;
     /*134*/ {'n','4'},  /*spiralspringer (4,0) */
     /*135*/ {'n','1'},  /*diagonalspiralspringer (1,1) */
     /*136*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'}   /*quintessence */
+    /*137*/ {'q','n'},  /*quintessence */
+    /*138*/ {'d','t'},  /* double tour-sauterelle */
+    /*139*/ {'d','f'}   /* double fou-sauterelle */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -696,7 +698,9 @@ EXTERN boolean          flag_libre_on_generate;
     /*134*/ {'s','4'},  /* spiralspringer (4,0) */
     /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
     /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'}   /* quintessence */
+    /*137*/ {'q','n'},   /* quintessence */
+    /*138*/ {'d','t'},  /* Doppelturmhuepfer */
+    /*139*/ {'d','l'}   /* Doppellaeuferhuepfer */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -835,7 +839,9 @@ EXTERN boolean          flag_libre_on_generate;
     /*134*/ {'s','4'},  /* spiralspringer (4,0) */
     /*135*/ {'s','1'},  /* diagonalspiralspringer (1,1) */
     /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
-    /*137*/ {'q','n'}   /* quintessence */
+    /*137*/ {'q','n'},  /* quintessence */
+    /*138*/ {'d','k'},  /* double rookhopper */
+    /*139*/ {'d','b'}   /* double bishopper */
   }
 	};
 #endif
@@ -2012,7 +2018,7 @@ enum {
 /* 86 */        leap16check,
 /* 87 */        leap24check,
 /* 88 */        leap35check,
-/* 89 */        doublegrascheck,
+/* 89 */        doublegrasshoppercheck,
 /* 90 */        kinghopcheck,
 /* 91 */        orixcheck,
 /* 92 */        leap15check,
@@ -2061,8 +2067,8 @@ enum {
 /*135 */  sp11check,
 /*136 */  sp33check,
 /*137 */  sp31check,
-/*138 */  huntercheck,
-/*139 */  huntercheck,
+/*138 */  doublerookhoppercheck,
+/*139 */  doublebishoppercheck,
 /*140 */  huntercheck,
 /*141 */  huntercheck,
 /*142 */  huntercheck,
@@ -2070,7 +2076,9 @@ enum {
 /*144 */  huntercheck,
 /*145 */  huntercheck,
 /*146 */  huntercheck,
-/*147 */  huntercheck
+/*147 */  huntercheck,
+/*148 */  huntercheck,
+/*149 */  huntercheck
     };
 #endif
 

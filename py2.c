@@ -812,29 +812,27 @@ boolean kinghopcheck(square    i,
   return shopcheck(i, vec_queen_start, vec_queen_end, p, evaluate);
 }
 
-boolean doublegrascheck(square  sq_king,
-                        piece   p,
-                        evalfunction_t *evaluate)
+static boolean doublehoppercheck(square  sq_king,
+                                 piece   p,
+                                 numvec vec_start, numvec vec_end,
+                                 evalfunction_t *evaluate)
 {
-  /* W.B.Trumper feenschach 1968 - but here null moves will not be
-   * allowed by Popeye
-   */
-  piece doublegras;
+  piece double_hopper;
   square    sq_hurdle2, sq_hurdle1;
   numvec    k, k1;
 
   square sq_departure;
 
-  for (k=vec_queen_end; k>=vec_queen_start; k--) {
+  for (k=vec_end; k>=vec_start; k--) {
     sq_hurdle2= sq_king+vec[k];
     if (abs(e[sq_hurdle2])>=roib) {
       sq_hurdle2+= vec[k];
       while (e[sq_hurdle2]==vide) {
-        for (k1= vec_queen_end; k1>=vec_queen_start; k1--) {
+        for (k1= vec_end; k1>=vec_start; k1--) {
           sq_hurdle1= sq_hurdle2+vec[k1];
           if (abs(e[sq_hurdle1]) >= roib) {
-            finligne(sq_hurdle1,vec[k1],doublegras,sq_departure);
-            if (doublegras==p
+            finligne(sq_hurdle1,vec[k1],double_hopper,sq_departure);
+            if (double_hopper==p
                 && evaluate(sq_departure,sq_king,sq_king))
               return true;
           }
@@ -845,6 +843,29 @@ boolean doublegrascheck(square  sq_king,
   }
 
   return false;
+}
+
+boolean doublegrasshoppercheck(square  sq_king,
+                               piece   p,
+                               evalfunction_t *evaluate)
+{
+  /* W.B.Trumper feenschach 1968 - but null moves will not be allowed by Popeye
+   */
+  return doublehoppercheck(sq_king,p,vec_queen_start,vec_queen_end,evaluate);
+}
+
+boolean doublerookhoppercheck(square  sq_king,
+                              piece   p,
+                              evalfunction_t *evaluate)
+{
+  return doublehoppercheck(sq_king,p,vec_rook_start,vec_rook_end,evaluate);
+}
+
+boolean doublebishoppercheck(square  sq_king,
+                             piece   p,
+                             evalfunction_t *evaluate)
+{
+  return doublehoppercheck(sq_king,p,vec_bishop_start,vec_bishop_end,evaluate);
 }
 
 boolean contragrascheck(square    i,

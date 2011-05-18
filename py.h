@@ -474,7 +474,9 @@ typedef enum
   SpiralSpringer11,      /* 135 */
   SpiralSpringer33,      /* 136 */
   Quintessence,          /* 137 */
-  Hunter0,               /* 138 */
+  DoubleRookHopper,      /* 138 */
+  DoubleBishopper,       /* 139 */
+  Hunter0,               /* 140 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

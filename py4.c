@@ -1947,7 +1947,9 @@ void remove_duplicate_moves(numecoup start)
   }
 }
 
-static void gdoubleg(square sq_departure, Side camp) {
+static void gdoublehopper(square sq_departure, Side camp,
+                          numvec vec_start, numvec vec_end)
+{
   numvec k,k1;
   piece hurdle;
   square sq_hurdle, past_sq_hurdle;
@@ -1956,12 +1958,12 @@ static void gdoubleg(square sq_departure, Side camp) {
 
   numecoup save_nbcou = nbcou;
 
-  for (k=vec_queen_end; k>=vec_queen_start; k--) {
+  for (k=vec_end; k>=vec_start; k--) {
     finligne(sq_departure,vec[k],hurdle,sq_hurdle);
     if (hurdle!=obs) {
       past_sq_hurdle= sq_hurdle+vec[k];
       if (e[past_sq_hurdle]==vide)
-        for (k1=vec_queen_end; k1>=vec_queen_start; k1--) {
+        for (k1=vec_end; k1>=vec_start; k1--) {
           finligne(past_sq_hurdle,vec[k1],hurdle,sq_hurdle);
           if (hurdle!=obs) {
             sq_arrival= sq_hurdle+vec[k1];
@@ -1973,6 +1975,18 @@ static void gdoubleg(square sq_departure, Side camp) {
   }
 
   remove_duplicate_moves(save_nbcou);
+}
+
+static void gdoublegrasshopper(square sq_departure, Side camp) {
+  gdoublehopper(sq_departure,camp,vec_queen_start,vec_queen_end);
+}
+
+static void gdoublerookhopper(square sq_departure, Side camp) {
+  gdoublehopper(sq_departure,camp,vec_rook_start,vec_rook_end);
+}
+
+static void gdoublebishopper(square sq_departure, Side camp) {
+  gdoublehopper(sq_departure,camp,vec_bishop_start,vec_bishop_end);
 }
 
 typedef enum
@@ -2314,7 +2328,15 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     return;
 
   case doublegb:
-    gdoubleg(sq_departure, camp);
+    gdoublegrasshopper(sq_departure, camp);
+    return;
+
+  case doublerookhopperb:
+    gdoublerookhopper(sq_departure, camp);
+    return;
+
+  case doublebishopperb:
+    gdoublebishopper(sq_departure, camp);
     return;
 
   case orixb:
