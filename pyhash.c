@@ -2035,21 +2035,21 @@ stip_length_type attack_hashed_attack(slice_index si,
  * @param si index of slice where the current position was reached
  * @param n number of half-moves
  */
-static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
+static void addtohash_battle_nosuccess(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type min_length_adjusted)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const played = slices[si].u.branch.length-n;
-  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
 #if !defined(NDEBUG)
-  stip_length_type const validity_value = ml/2+1;
+  stip_length_type const validity_value = min_length_adjusted/2+1;
 #endif
-  hash_value_type const val = (n+1-ml)/2;
+  hash_value_type const val = (n+1-min_length_adjusted)/2;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
   assert(hashBufferValidity[nbply]==validity_value);
@@ -2081,21 +2081,21 @@ static void addtohash_battle_nosuccess(slice_index si, stip_length_type n)
  * @param si index of slice where the current position was reached
  * @param n number of half-moves
  */
-static void addtohash_battle_success(slice_index si, stip_length_type n)
+static void addtohash_battle_success(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type min_length_adjusted)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const played = slices[si].u.branch.length-n;
-  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
 #if !defined(NDEBUG)
-  stip_length_type const validity_value = ml/2+1;
+  stip_length_type const validity_value = min_length_adjusted/2+1;
 #endif
-  hash_value_type const val = (n+1-ml)/2 - 1;
+  hash_value_type const val = (n+1-min_length_adjusted)/2 - 1;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
   assert(hashBufferValidity[nbply]==validity_value);
@@ -2126,7 +2126,8 @@ static void addtohash_battle_success(slice_index si, stip_length_type n)
 static
 stip_length_type delegate_has_solution_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+                                            stip_length_type n_max_unsolvable,
+                                            stip_length_type min_length_adjusted)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -2135,14 +2136,15 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
   result = can_attack(next,n,n_max_unsolvable);
 
   if (result<=n)
-    addtohash_battle_success(si,result);
+    addtohash_battle_success(si,result,min_length_adjusted);
   else
-    addtohash_battle_nosuccess(si,n);
+    addtohash_battle_nosuccess(si,n,min_length_adjusted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2168,8 +2170,10 @@ stip_length_type attack_hashed_can_attack(slice_index si,
   dhtElement const *he;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const played = slices[si].u.branch.length-n;
-  stip_length_type const ml = min_length<played+slack_length_battle-1 ? slack_length_battle-(min_length-slack_length_battle)%2 : min_length-played;
-  stip_length_type const validity_value = ml/2+1;
+  stip_length_type const min_length_adjusted = (min_length<played+slack_length_battle-1
+                                                ? slack_length_battle-(min_length-slack_length_battle)%2
+                                                : min_length-played);
+  stip_length_type const validity_value = min_length_adjusted/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2184,29 +2188,29 @@ stip_length_type attack_hashed_can_attack(slice_index si,
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
-    result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
+    result = delegate_has_solution_in_n(si,n,n_max_unsolvable,min_length_adjusted);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const parity = (n-ml)%2;
+    stip_length_type const parity = (n-min_length_adjusted)%2;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
     hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,si);
-    stip_length_type const n_nosuccess = 2*val_nosuccess + ml-parity;
+    stip_length_type const n_nosuccess = 2*val_nosuccess + min_length_adjusted-parity;
     if (n_nosuccess>=n)
       result = n+2;
     else
     {
       hash_value_type const val_success = get_value_attack_success(hue,si);
-      stip_length_type const n_success = 2*val_success + ml+2-parity;
+      stip_length_type const n_success = 2*val_success + min_length_adjusted+2-parity;
       if (n_success<=n)
         result = n_success;
       else
       {
         if (n_max_unsolvable<n_nosuccess)
           n_max_unsolvable = n_nosuccess;
-        result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
+        result = delegate_has_solution_in_n(si,n,n_max_unsolvable,min_length_adjusted);
       }
     }
   }
