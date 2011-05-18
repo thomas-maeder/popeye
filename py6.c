@@ -2085,9 +2085,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STDefenseAdapter:
-    case STReadyForDefense:
-    case STContinuationSolver:
-    case STDefenseMove:
       result = whitetoplay_means_shorten;
       break;
 
