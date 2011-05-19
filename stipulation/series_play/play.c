@@ -8,9 +8,9 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -59,8 +59,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = find_by_increasing_length_series(si,n);
       break;
 
-    case STSeriesMove:
-      result = series_move_series(si,n);
+    case STMove:
+      result = move_series(si,n);
       break;
 
     case STDefenseAdapter:
@@ -212,8 +212,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = find_shortest_has_series(si,n);
       break;
 
-    case STSeriesMove:
-      result = series_move_has_series(si,n);
+    case STMove:
+      result = move_has_series(si,n);
       break;
 
     case STDefenseAdapter:

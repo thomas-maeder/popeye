@@ -7,9 +7,9 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/move_generator.h"
@@ -42,7 +42,7 @@ static slice_index const series_slice_rank_order[] =
   STForkOnRemaining,
   STSeriesMoveGenerator,
   STOrthodoxMatingMoveGenerator,
-  STSeriesMove,
+  STMove,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STStopOnShortSolutionsFilter,
@@ -251,7 +251,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            length,min_length);
     slice_index const generator = alloc_series_move_generator_slice();
-    slice_index const move = alloc_series_move_slice();
+    slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
     slice_index const dummy = alloc_series_dummy_move_slice();

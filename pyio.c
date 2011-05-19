@@ -109,11 +109,9 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/defense_move.h"
+#include "stipulation/move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
@@ -2356,7 +2354,7 @@ static char *ParseHelpParrySeries(char *tok,
     slice_index const ready_parrying = alloc_branch(STReadyForSeriesMove,
                                                     length-1,min_length-1);
     slice_index const generator = alloc_series_move_generator_slice();
-    slice_index const parrying = alloc_series_move_slice();
+    slice_index const parrying = alloc_move_slice();
 
     assert(ready!=no_slice);
     assert(dummy!=no_slice);

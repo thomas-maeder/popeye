@@ -146,8 +146,7 @@ static structure_traversers_visitors root_inserters[] =
 {
   { STGoalReachedTester, &instrument_goal_reached_tester },
   { STConstraint,        &instrument_constraint          },
-  { STHelpMove,          &remember_move                  },
-  { STSeriesMove,        &remember_move                  }
+  { STMove,              &remember_move                  }
 };
 
 enum

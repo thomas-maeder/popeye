@@ -9,9 +9,9 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_move_generator.h"
-#include "stipulation/battle_play/defense_move.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/play.h"
@@ -121,8 +121,8 @@ stip_length_type defend(slice_index si,
       result = countnropponentmoves_move_generator_defend(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMove:
-      result = defense_move_defend(si,n,n_max_unsolvable);
+    case STMove:
+      result = move_defend(si,n,n_max_unsolvable);
       break;
 
     case STForkOnRemaining:
@@ -336,8 +336,8 @@ stip_length_type can_defend(slice_index si,
       result = countnropponentmoves_move_generator_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMove:
-      result = defense_move_can_defend(si,n,n_max_unsolvable);
+    case STMove:
+      result = move_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveFinalDefenseMove:

@@ -1960,10 +1960,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
   { STReadyForAttack,     &insert_hash_element_attack   },
   { STReadyForHelpMove,   &insert_hash_element_help     },
   { STReadyForSeriesMove, &insert_hash_element_series   },
-  { STAttackMove,         &remember_move                },
-  { STDefenseMove,        &remember_move                },
-  { STHelpMove,           &remember_move                },
-  { STSeriesMove,         &remember_move                },
+  { STMove,               &remember_move                },
   { STConstraint,         &stip_traverse_structure_pipe }
 };
 

@@ -571,10 +571,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/goals/atob/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/attack_move.h \
- stipulation/battle_play/defense_move.h stipulation/series_play/adapter.h \
- stipulation/series_play/branch.h stipulation/series_play/move.h \
+ stipulation/battle_play/defense_adapter.h stipulation/move.h \
+ stipulation/series_play/adapter.h stipulation/series_play/branch.h \
  stipulation/series_play/parry_fork.h stipulation/help_play/branch.h \
  stipulation/help_play/adapter.h stipulation/series_play/move_generator.h \
  solving/find_shortest.h solving/battle_play/continuation.h \
@@ -729,15 +727,11 @@ stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_adapter.h:
 
-stipulation/battle_play/attack_move.h:
-
-stipulation/battle_play/defense_move.h:
+stipulation/move.h:
 
 stipulation/series_play/adapter.h:
 
 stipulation/series_play/branch.h:
-
-stipulation/series_play/move.h:
 
 stipulation/series_play/parry_fork.h:
 
@@ -1163,12 +1157,10 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_move_generator.h \
- stipulation/battle_play/defense_move.h \
- stipulation/battle_play/attack_move.h stipulation/help_play/adapter.h \
- stipulation/help_play/branch.h stipulation/help_play/move_generator.h \
- stipulation/help_play/move.h stipulation/series_play/adapter.h \
- stipulation/series_play/move.h stipulation/series_play/move_generator.h \
+ stipulation/battle_play/defense_move_generator.h stipulation/move.h \
+ stipulation/help_play/adapter.h stipulation/help_play/branch.h \
+ stipulation/help_play/move_generator.h stipulation/series_play/adapter.h \
+ stipulation/series_play/move_generator.h \
  stipulation/series_play/parry_fork.h stipulation/proxy.h \
  solving/fork_on_remaining.h solving/find_shortest.h \
  solving/battle_play/try.h pytable.h solving/battle_play/continuation.h \
@@ -1273,9 +1265,7 @@ stipulation/battle_play/defense_adapter.h:
 
 stipulation/battle_play/defense_move_generator.h:
 
-stipulation/battle_play/defense_move.h:
-
-stipulation/battle_play/attack_move.h:
+stipulation/move.h:
 
 stipulation/help_play/adapter.h:
 
@@ -1283,11 +1273,7 @@ stipulation/help_play/branch.h:
 
 stipulation/help_play/move_generator.h:
 
-stipulation/help_play/move.h:
-
 stipulation/series_play/adapter.h:
-
-stipulation/series_play/move.h:
 
 stipulation/series_play/move_generator.h:
 

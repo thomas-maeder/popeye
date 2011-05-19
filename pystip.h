@@ -22,9 +22,6 @@
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STAttackMove),                                           \
-    ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
@@ -32,12 +29,10 @@
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
@@ -47,9 +42,11 @@
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
+    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
+    ENUMERATOR(STMove),                                           \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

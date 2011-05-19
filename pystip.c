@@ -23,15 +23,12 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/battle_play/defense_move_generator.h"
-#include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/attack_move.h"
+#include "stipulation/move.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_generator.h"
-#include "stipulation/help_play/move.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
@@ -53,20 +50,15 @@
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STAttackMove),                                           \
-    ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
@@ -75,9 +67,11 @@
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
+    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
+    ENUMERATOR(STMove),                                           \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -243,20 +237,15 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackAdapter */
   slice_structure_branch, /* STDefenseAdapter */
   slice_structure_pipe,   /* STAttackMoveGenerator */
-  slice_structure_pipe,   /* STAttackMove */
-  slice_structure_pipe,   /* STDefenseMove */
-  slice_structure_fork,   /* STConstraint */
   slice_structure_pipe,   /* STDefenseMoveGenerator */
   slice_structure_branch, /* STReadyForAttack */
   slice_structure_branch, /* STReadyForDefense */
   slice_structure_branch, /* STMinLengthOptimiser */
   slice_structure_branch, /* STHelpAdapter */
   slice_structure_pipe,   /* STHelpMoveGenerator */
-  slice_structure_pipe,   /* STHelpMove */
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
   slice_structure_pipe,   /* STSeriesMoveGenerator */
-  slice_structure_pipe,   /* STSeriesMove */
   slice_structure_pipe,   /* STSeriesDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
@@ -265,9 +254,11 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STEndOfBranch */
   slice_structure_fork,   /* STEndOfBranchForced */
   slice_structure_fork,   /* STEndOfBranchGoal */
+  slice_structure_fork,   /* STConstraint */
   slice_structure_pipe,   /* STEndOfRoot */
   slice_structure_pipe,   /* STEndOfIntro */
   slice_structure_pipe,   /* STDeadEnd */
+  slice_structure_pipe,   /* STMove */
   slice_structure_fork,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -384,20 +375,15 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STAttackAdapter */
   slice_function_unspecified,    /* STDefenseAdapter */
   slice_function_move_generator, /* STAttackMoveGenerator */
-  slice_function_unspecified,    /* STAttackMove */
-  slice_function_unspecified,    /* STDefenseMove */
-  slice_function_unspecified,    /* STConstraint */
   slice_function_move_generator, /* STDefenseMoveGenerator */
   slice_function_unspecified,    /* STReadyForAttack */
   slice_function_unspecified,    /* STReadyForDefense */
   slice_function_unspecified,    /* STMinLengthOptimiser */
   slice_function_unspecified,    /* STHelpAdapter */
   slice_function_move_generator, /* STHelpMoveGenerator */
-  slice_function_unspecified,    /* STHelpMove */
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_move_generator, /* STSeriesMoveGenerator */
-  slice_function_unspecified,    /* STSeriesMove */
   slice_function_unspecified,    /* STSeriesDummyMove */
   slice_function_unspecified,    /* STReadyForSeriesMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
@@ -406,9 +392,11 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfBranch */
   slice_function_unspecified,    /* STEndOfBranchForced */
   slice_function_unspecified,    /* STEndOfBranchGoal */
+  slice_function_unspecified,    /* STConstraint */
   slice_function_unspecified,    /* STEndOfRoot */
   slice_function_unspecified,    /* STEndOfIntro */
   slice_function_unspecified,    /* STDeadEnd */
+  slice_function_unspecified,    /* STMove */
   slice_function_unspecified,    /* STGoalReachedTester */
   slice_function_unspecified,    /* STGoalMateReachedTester */
   slice_function_unspecified,    /* STGoalStalemateReachedTester */
@@ -894,12 +882,9 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const get_max_nr_moves_functions[] =
 {
-  { STAttackMove,  &get_max_nr_moves_move   },
-  { STDefenseMove, &get_max_nr_moves_move   },
-  { STHelpMove,    &get_max_nr_moves_move   },
-  { STSeriesMove,  &get_max_nr_moves_move   },
-  { STOr,          &get_max_nr_moves_binary },
-  { STAnd,         &get_max_nr_moves_binary }
+  { STMove, &get_max_nr_moves_move   },
+  { STOr,   &get_max_nr_moves_binary },
+  { STAnd,  &get_max_nr_moves_binary }
 };
 
 enum
@@ -1125,9 +1110,9 @@ static structure_traversers_visitors const defense_proxy_removers[] =
   { STNot,                 &remove_pipe },
   { STAttackAdapter,       &remove_pipe },
   { STReadyForAttack,      &remove_pipe },
-  { STDeadEnd,       &remove_pipe },
+  { STDeadEnd,             &remove_pipe },
   { STAttackMoveGenerator, &remove_pipe },
-  { STAttackMove,          &remove_pipe },
+  { STMove,                &remove_pipe },
   { STDefenseAdapter,      &remove_pipe }
 };
 
@@ -1400,10 +1385,7 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STAttackMove,      &move_detect_starter          },
-  { STDefenseMove,     &move_detect_starter          },
-  { STHelpMove,        &move_detect_starter          },
-  { STSeriesMove,      &move_detect_starter          },
+  { STMove,            &move_detect_starter          },
   { STSeriesDummyMove, &move_detect_starter          },
   { STAnd,             &binary_detect_starter        },
   { STOr,              &binary_detect_starter        },
@@ -1505,10 +1487,7 @@ static void impose_inverted_starter(slice_index si,
  */
 static SliceType starter_inverters[] =
 {
-  STAttackMove,
-  STDefenseMove,
-  STHelpMove,
-  STSeriesMove,
+  STMove,
   STSeriesDummyMove,
   STMoveInverter
 };
@@ -1645,20 +1624,15 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackAdapter */
   &stip_traverse_structure_pipe,            /* STDefenseAdapter */
   &stip_traverse_structure_pipe,            /* STAttackMoveGenerator */
-  &stip_traverse_structure_pipe,            /* STAttackMove */
-  &stip_traverse_structure_pipe,            /* STDefenseMove */
-  &stip_traverse_structure_end_of_branch,   /* STConstraint */
   &stip_traverse_structure_pipe,            /* STDefenseMoveGenerator */
   &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STMinLengthOptimiser */
   &stip_traverse_structure_pipe,            /* STHelpAdapter */
   &stip_traverse_structure_pipe,            /* STHelpMoveGenerator */
-  &stip_traverse_structure_pipe,            /* STHelpMove */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
   &stip_traverse_structure_pipe,            /* STSeriesMoveGenerator */
-  &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
@@ -1667,9 +1641,11 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchForced */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchGoal */
+  &stip_traverse_structure_end_of_branch,   /* STConstraint */
   &stip_traverse_structure_pipe,            /* STEndOfRoot */
   &stip_traverse_structure_pipe,            /* STEndOfIntro */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
+  &stip_traverse_structure_pipe,            /* STMove */
   &stip_traverse_structure_end_of_branch,   /* STGoalReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1879,20 +1855,15 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_adapter_slice,   /* STAttackAdapter */
     &stip_traverse_moves_battle_adapter_slice,   /* STDefenseAdapter */
     &stip_traverse_moves_pipe,                   /* STAttackMoveGenerator */
-    &stip_traverse_moves_move_slice,             /* STAttackMove */
-    &stip_traverse_moves_move_slice,             /* STDefenseMove */
-    &stip_traverse_moves_setplay_fork,           /* STConstraint */
     &stip_traverse_moves_pipe,                   /* STDefenseMoveGenerator */
     &stip_traverse_moves_pipe,                   /* STReadyForAttack */
     &stip_traverse_moves_pipe,                   /* STReadyForDefense */
     &stip_traverse_moves_pipe,                   /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter_slice,     /* STHelpAdapter */
     &stip_traverse_moves_pipe,                   /* STHelpMoveGenerator */
-    &stip_traverse_moves_move_slice,             /* STHelpMove */
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                   /* STSeriesMoveGenerator */
-    &stip_traverse_moves_move_slice,             /* STSeriesMove */
     &stip_traverse_moves_move_slice,             /* STSeriesDummyMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesDummyMove */
@@ -1901,9 +1872,11 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranch */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchGoal */
+    &stip_traverse_moves_setplay_fork,           /* STConstraint */
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_pipe,                   /* STEndOfIntro */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
+    &stip_traverse_moves_move_slice,             /* STMove */
     &stip_traverse_moves_setplay_fork,           /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */

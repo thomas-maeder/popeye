@@ -5,10 +5,10 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/move_generator.h"
-#include "stipulation/help_play/move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -40,7 +40,7 @@ static slice_index const help_slice_rank_order[] =
   STForkOnRemaining,
   STHelpMoveGenerator,
   STOrthodoxMatingMoveGenerator,
-  STHelpMove,
+  STMove,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STStopOnShortSolutionsFilter,
@@ -416,11 +416,11 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const generator1 = alloc_help_move_generator_slice();
-    slice_index const move1 = alloc_help_move_slice();
+    slice_index const move1 = alloc_move_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const generator2 = alloc_help_move_generator_slice();
-    slice_index const move2 = alloc_help_move_slice();
+    slice_index const move2 = alloc_move_slice();
 
     slice_index const deadend = alloc_dead_end_slice();
 

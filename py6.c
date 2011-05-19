@@ -2092,7 +2092,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STFindShortest:
     case STReadyForHelpMove:
     case STHelpMoveGenerator:
-    case STHelpMove:
+    case STMove:
     case STMoveInverter:
     case STDeadEnd:
     case STForkOnRemaining:

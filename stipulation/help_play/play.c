@@ -8,7 +8,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/help_play/move.h"
+#include "stipulation/move.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -68,8 +68,8 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_help(si,n);
       break;
 
-    case STHelpMove:
-      result = help_move_help(si,n);
+    case STMove:
+      result = move_help(si,n);
       break;
 
     case STEndOfBranch:
@@ -197,8 +197,8 @@ stip_length_type can_help(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpMove:
-      result = help_move_can_help(si,n);
+    case STMove:
+      result = move_can_help(si,n);
       break;
 
     case STForkOnRemaining:

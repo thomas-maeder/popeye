@@ -12,9 +12,9 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -119,8 +119,8 @@ stip_length_type can_attack(slice_index si,
       result = attack_move_generator_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STAttackMove:
-      result = attack_move_can_attack(si,n,n_max_unsolvable);
+    case STMove:
+      result = move_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STOrthodoxMatingMoveGenerator:
@@ -314,8 +314,8 @@ stip_length_type attack(slice_index si,
       result = attack_move_generator_attack(si,n,n_max_unsolvable);
       break;
 
-    case STAttackMove:
-      result = attack_move_attack(si,n,n_max_unsolvable);
+    case STMove:
+      result = move_attack(si,n,n_max_unsolvable);
       break;
 
     case STOrthodoxMatingMoveGenerator:
