@@ -22,15 +22,15 @@ slice_index alloc_goal_stalemate_reached_tester_system(void)
 
   {
     Goal const goal = { goal_stale, initsquare };
-    slice_index const statemate_tester = alloc_pipe(STGoalStalemateReachedTester);
+    slice_index const stalemate_tester = alloc_pipe(STGoalStalemateReachedTester);
     slice_index const notcheck_tester = alloc_goal_notcheck_reached_tester_slice();
     slice_index const immobile_tester = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
 
-    pipe_link(statemate_tester,notcheck_tester);
+    pipe_link(stalemate_tester,notcheck_tester);
     pipe_link(notcheck_tester,immobile_tester);
     pipe_link(immobile_tester,alloc_true_slice());
 
-    result = alloc_goal_reached_tester_slice(goal,statemate_tester);
+    result = alloc_goal_reached_tester_slice(goal,stalemate_tester);
   }
 
   TraceFunctionExit(__func__);
