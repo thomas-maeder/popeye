@@ -208,4 +208,12 @@ title earlier versions would crash or produce incorrect output
 stip h#=2
 option intelligent nobk nowk
 
+next
+
+title Popeye hasn't found the solution since version 4.51
+pieces white pe4g6 black ke6 bd5 pc7g7
+stip h+1
+condition isardam
+option nowk
+
 end
