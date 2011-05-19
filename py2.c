@@ -2602,9 +2602,11 @@ boolean pos_legal(void)
   {
     square square_h = square_h8;
     int i;
+    boolean result = true;
 
     initneutre(trait[nbply]);
 
+    nextply(nbply);
     /* for e.p. captures */
     for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
     {
@@ -2612,8 +2614,14 @@ boolean pos_legal(void)
       square z = square_h;
       for (j = nr_files_on_board; j>0; j--, z += dir_left)
         if (e[z]!=vide && !libre(z,false))
-          return false;
+        {
+          result = false;
+          break;
+        }
     }
+    finply();
+    if (!result)
+      return false;
   }
 
   if (CondFlag[ohneschach])
