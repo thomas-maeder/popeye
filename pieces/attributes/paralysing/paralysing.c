@@ -113,38 +113,6 @@ static void append_goal_stalemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void append_goal_doublestalemate_filter(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
-  pipe_append(si,alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void append_goal_doublemate_filter(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
-  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_adversary));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void append_goal_autostalemate_filter(slice_index si,
                                              stip_structure_traversal *st)
 {
@@ -162,12 +130,12 @@ static void append_goal_autostalemate_filter(slice_index si,
 
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalMateReachedTester,            &append_goal_mate_filter            },
-  { STGoalStalemateReachedTester,       &append_goal_stalemate_filter       },
-  { STGoalDoubleStalemateReachedTester, &append_goal_doublestalemate_filter },
-  { STGoalDoubleMateReachedTester,      &append_goal_doublemate_filter      },
-  { STGoalCounterMateReachedTester,     &append_goal_doublemate_filter      },
-  { STGoalAutoStalemateReachedTester,   &append_goal_autostalemate_filter   }
+  /* No need to instrument STGoalDouble*ReachedTester slice types.
+   * Special case isn't possible.
+   */
+  { STGoalMateReachedTester,          &append_goal_mate_filter          },
+  { STGoalStalemateReachedTester,     &append_goal_stalemate_filter     },
+  { STGoalAutoStalemateReachedTester, &append_goal_autostalemate_filter }
 };
 
 enum
