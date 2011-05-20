@@ -1,0 +1,59 @@
+begin
+
+prot haaner_chess.tst
+
+title simple castling
+pieces white ke1 ra1
+stipulation 001
+option nobk
+condition haan
+
+next
+
+title no castling with king landing in hole
+pieces white ke1 ra1
+stipulation 001
+option nobk
+condition haan hole c1
+
+next
+
+title no castling with rook landing in hole
+pieces white ke1 ra1
+stipulation 001
+option nobk
+condition haan hole d1
+
+next
+
+title no castling with rook moving over hole
+pieces white ke1 ra1
+stipulation 001
+option nobk
+condition haan hole b1
+
+next
+
+title no castling with king moving over new hole
+pieces white ke1 ra1 black gd1 pd5
+stipulation h001
+option nobk
+condition haan
+
+next
+
+title no castling with rook moving over new hole
+pieces white ke1 ra1 black sb1
+stipulation h001
+option nobk
+condition haan
+
+next
+
+title castling rook leaves a hole
+pieces white pa7 black ke8 ra8
+stip hza81
+condition haan
+option nowk
+
+end

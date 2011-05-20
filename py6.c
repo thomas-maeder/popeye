@@ -1618,8 +1618,7 @@ static boolean verify_position(slice_index si)
       /* transmuting kings and castling enabled again
        */
       CondFlag[patience]
-      || CondFlag[parrain]
-      || CondFlag[haanerchess]);
+      || CondFlag[parrain]);
 
   complex_castling_through_flag = CondFlag[imitators];
 

@@ -2300,7 +2300,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         e[sq_departure+dir_right]= e[sq_departure+3*dir_right];
 
       spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
-      e[sq_departure+3*dir_right]= vide;
+      e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+3*dir_right]);
       CLRFLAGMASK(castling_flag[ply_id],
                   trait_ply==White ? whk_castling : blk_castling);
@@ -2344,7 +2344,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         e[sq_departure+dir_left]= e[sq_departure+4*dir_left];
 
       spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
-      e[sq_departure+4*dir_left]= vide;
+      e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+4*dir_left]);
       CLRFLAGMASK(castling_flag[ply_id],
                   trait_ply==White ? whq_castling : blq_castling);
@@ -2358,7 +2358,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
      square sq_castle= (sq_departure + sq_arrival) / 2;
      e[sq_castle] = e[rochade_sq[coup_id]];
      spec[sq_castle] = spec[rochade_sq[coup_id]];
-     e[rochade_sq[coup_id]] = vide;
+     e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
      CLEARFL(spec[rochade_sq[coup_id]]);
      if (rn == rochade_sq[coup_id])
        rn= sq_castle;
