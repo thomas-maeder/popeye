@@ -1997,10 +1997,12 @@ static void circecage_advance_norm_prom(ply ply_id,
     e[sq_arrival] = (moving_side==White
                      ? *circecage_next_norm_prom
                      : -*circecage_next_norm_prom);
+    ++nbpiece[e[sq_arrival]];
     circecage_advance_cage(nbply,
                            pi_captured,
                            nextcage,
                            circecage_next_cage_prom);
+    --nbpiece[e[sq_arrival]];
   }
 
   e[sq_arrival] = save_prom;
