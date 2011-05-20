@@ -29,11 +29,13 @@ solution (which is a short solution in 1->ser-h#3)
 
  24  (Rh1-h4 )
   1.Rh1-h4   1.Be4*d3=wB   2.Rc4*h4=wR Bd3-c4 # 
+ 25  (Rh1-h3 )
+ 26  (Rh1-h2 )
 
-              empile:        3271
-            jouecoup:        2051
-        orig_rbechec:         517
-        orig_rnechec:        2003
+              empile:        3876
+            jouecoup:        2448
+        orig_rbechec:         595
+        orig_rnechec:        2423
 solving interrupted. 
 
 
@@ -886,9 +888,9 @@ only example so far of a help stipulation with option stoponshort
 
   1.h2-h4 g7-g5   2.h4*g5 Bb1-c2 # 
 
-              empile:          65
-            jouecoup:          65
-        orig_rbechec:          44
+              empile:         194
+            jouecoup:         177
+        orig_rbechec:         165
         orig_rnechec:           0
 solving interrupted. 
 
@@ -919,10 +921,10 @@ only example so far of a series stipulation with option stoponshort
 
   1.g2-g4   2.g4-g5 # 
 
-              empile:          17
-            jouecoup:          19
-        orig_rbechec:           7
-        orig_rnechec:           9
+              empile:          10
+            jouecoup:          12
+        orig_rbechec:           8
+        orig_rnechec:          10
 solving interrupted. 
 
 
@@ -1029,5 +1031,42 @@ Popeye hasn't found the solution since version 4.51
         orig_rbechec:           0
         orig_rnechec:          34
 solution finished. 
+
+
+
+  maxsolutions+stoponshortsolutions
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia7                      16 + 15
+
+  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a7   6.Sa3-b1 Ra7-a8 dia 
+  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a6   6.Sa3-b1 Ra6-a8 dia 
+  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a4   5.Sb1*a3 Ra4-a5   6.Sa3-b1 Ra5-a8 dia 
+  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a5   5.Sb1*a3 Ra5-a4   6.Sa3-b1 Ra4-a8 dia 
+  1.Sg1-h3 a7-a5   2.Sh3-g1 a5-a4   3.Sg1-h3 a4-a3   4.Sh3-g1 Ra8-a5   5.Sb1*a3 Ra5-a7   6.Sa3-b1 Ra7-a8 dia 
+
+              empile:       52510
+            jouecoup:       52570
+        orig_rbechec:        2633
+        orig_rnechec:        2925
+solving interrupted. 
 
 

@@ -2575,10 +2575,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[maxsols])
         stip_insert_maxsolutions_filters(template_slice_hook);
 
-      if (OptFlag[stoponshort]
-          && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
-        Message(NoStopOnShortSolutions);
-
       stip_detect_starter(template_slice_hook);
       stip_impose_starter(template_slice_hook,
                           slices[template_slice_hook].starter);
@@ -2636,6 +2632,10 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      if (OptFlag[stoponshort]
+          && !stip_insert_stoponshortsolutions_filters(root_slice))
+        Message(NoStopOnShortSolutions);
 
       if (is_hashtable_allocated())
         stip_insert_hash_slices(root_slice);

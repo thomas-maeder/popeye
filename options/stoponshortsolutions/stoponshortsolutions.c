@@ -149,8 +149,8 @@ static void insert_series_filter(slice_index si, stip_structure_traversal *st)
 static
 structure_traversers_visitors stoponshortsolutions_initialiser_inserters[] =
 {
-  { STReadyForHelpMove,   &insert_help_filter   },
-  { STReadyForSeriesMove, &insert_series_filter }
+  { STHelpAdapter,   &insert_help_filter   },
+  { STSeriesAdapter, &insert_series_filter }
 };
 
 enum
