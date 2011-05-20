@@ -43,7 +43,7 @@ stip_length_type intelligent_help_filter_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = IntelligentHelp(si,n);
+  result = IntelligentHelp(si,n) ? n : n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
