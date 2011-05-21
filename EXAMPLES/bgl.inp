@@ -118,4 +118,12 @@ cond bgl 2 2.5
 opt dupl
 fors k1K5/p7/1P6/40
 
+next
+
+auth Petko A. Petkov
+stipulation #2
+pie white kd7 rb1 black ka8
+condition bgl 8 2
+option variation try
+
 end
