@@ -2034,88 +2034,30 @@ static void solveHalfADuplex(slice_index si)
 
 typedef enum
 {
-  dont_know_meaning_of_whitetoplay,
-  whitetoplay_means_change_colors,
-  whitetoplay_means_shorten
+  whitetoplay_means_shorten,
+  whitetoplay_means_change_colors
 } meaning_of_whitetoplay;
+
+static void remember_color_change(slice_index si, stip_structure_traversal *st)
+{
+  meaning_of_whitetoplay * const result = st->param;
+  *result = whitetoplay_means_change_colors;
+}
 
 static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 {
-  meaning_of_whitetoplay result;
+  stip_structure_traversal st;
+  meaning_of_whitetoplay result = whitetoplay_means_shorten;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STGoalReachedTester:
-    {
-      slice_index const fork = slices[si].u.goal_tester.fork;
-      result = detect_meaning_of_whitetoplay(fork);
-      break;
-    }
-
-    case STGoalMateReachedTester:
-    case STGoalStalemateReachedTester:
-    case STGoalDoubleStalemateReachedTester:
-    case STGoalTargetReachedTester:
-    case STGoalCheckReachedTester:
-    case STGoalCaptureReachedTester:
-    case STGoalSteingewinnReachedTester:
-    case STGoalEnpassantReachedTester:
-    case STGoalDoubleMateReachedTester:
-    case STGoalCounterMateReachedTester:
-    case STGoalCastlingReachedTester:
-    case STGoalAutoStalemateReachedTester:
-    case STGoalCircuitReachedTester:
-    case STGoalExchangeReachedTester:
-    case STGoalCircuitByRebirthReachedTester:
-    case STGoalExchangeByRebirthReachedTester:
-    case STGoalAnyReachedTester:
-    case STGoalProofgameReachedTester:
-    case STGoalMateOrStalemateReachedTester:
-      result = whitetoplay_means_shorten;
-      break;
-
-    case STGoalAToBReachedTester:
-      result = whitetoplay_means_change_colors;
-      break;
-
-    case STDefenseAdapter:
-      result = whitetoplay_means_shorten;
-      break;
-
-    case STHelpAdapter:
-    case STFindShortest:
-    case STReadyForHelpMove:
-    case STHelpMoveGenerator:
-    case STMove:
-    case STMoveInverter:
-    case STDeadEnd:
-    case STForkOnRemaining:
-    case STProxy:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = detect_meaning_of_whitetoplay(next);
-      break;
-    }
-
-    case STEndOfBranch:
-    case STEndOfBranchGoal:
-    case STEndOfBranchGoalImmobile:
-    case STEndOfBranchForced:
-    {
-      slice_index const fork = slices[si].u.fork.fork;
-      result = detect_meaning_of_whitetoplay(fork);
-      break;
-    }
-
-    default:
-      result = dont_know_meaning_of_whitetoplay;
-      break;
-  }
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalAToBReachedTester,
+                                           &remember_color_change);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2128,34 +2070,31 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
  */
 static boolean apply_whitetoplay(slice_index proxy)
 {
-  slice_index hook = proxy;
-  slice_index next = slices[hook].u.pipe.next;
+  slice_index next = slices[proxy].u.pipe.next;
   boolean result = false;
+  meaning_of_whitetoplay meaning;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
   TraceStipulation(proxy);
-  assert(slices[proxy].type==STProxy);
+
+  meaning = detect_meaning_of_whitetoplay(next);
 
   while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
-  {
-    hook = next;
-    next = slices[hook].u.pipe.next;
-  }
+    next = slices[next].u.pipe.next;
 
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
     case STHelpAdapter:
     {
-      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
       {
         slice_index const prototype = alloc_move_inverter_slice();
         root_branch_insert_slices(proxy,&prototype,1);
-        link_to_branch(hook,help_branch_shorten(next));
+        help_branch_shorten(next);
       }
       else
       {
@@ -2171,7 +2110,6 @@ static boolean apply_whitetoplay(slice_index proxy)
       /* starting side is already inverted - just allow color change
        * by removing the inverter
        */
-      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_change_colors)
       {
         pipe_remove(next);

@@ -215,56 +215,59 @@ void help_branch_insert_slices(slice_index si,
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  */
-slice_index help_branch_shorten(slice_index adapter)
+void help_branch_shorten(slice_index adapter)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   assert(slices[adapter].type==STHelpAdapter);
 
+  --slices[adapter].u.branch.length;
+  --slices[adapter].u.branch.min_length;
+
   {
     slice_index const next = slices[adapter].u.pipe.next;
 
-    slice_index const copy = copy_slice(adapter);
-    --slices[copy].u.branch.length;
-    --slices[copy].u.branch.min_length;
-
-    help_branch_insert_slices(next,&copy,1);
-    result = branch_find_slice(STHelpAdapter,next);
-    assert(result!=no_slice);
-
     {
-      slice_index si;
-      for (si = next; si!=result; si = slices[si].u.pipe.next)
-        if (slice_has_structure(si,slice_structure_branch))
-          slices[si].u.branch.length -= 2;
+      slice_index const prototype = copy_slice(adapter);
+      help_branch_insert_slices(next,&prototype,1);
     }
 
-    if (slices[result].u.branch.min_length<slack_length_help)
     {
-      slice_index si;
-      for (si = result; si!=adapter; si = slices[si].u.pipe.next)
-        if (slice_has_structure(si,slice_structure_branch))
-          slices[si].u.branch.min_length += 2;
-    }
-    else
-    {
-      slice_index si;
-      for (si = next; si!=result; si = slices[si].u.pipe.next)
-        if (slice_has_structure(si,slice_structure_branch))
-          slices[si].u.branch.min_length -= 2;
-    }
+      slice_index copy = branch_find_slice(STHelpAdapter,next);
+      assert(copy!=no_slice);
 
-    pipe_remove(adapter);
+      pipe_link(slices[adapter].prev,next);
+      pipe_append(copy,adapter);
+      pipe_remove(copy);
+
+      {
+        slice_index si;
+        for (si = next; si!=adapter; si = slices[si].u.pipe.next)
+          if (slice_has_structure(si,slice_structure_branch))
+            slices[si].u.branch.length -= 2;
+      }
+
+      if (slices[adapter].u.branch.min_length<slack_length_help)
+      {
+        slice_index si;
+        for (si = adapter; si!=next; si = slices[si].u.pipe.next)
+          if (slice_has_structure(si,slice_structure_branch))
+            slices[si].u.branch.min_length += 2;
+      }
+      else
+      {
+        slice_index si;
+        for (si = next; si!=adapter; si = slices[si].u.pipe.next)
+          if (slice_has_structure(si,slice_structure_branch))
+            slices[si].u.branch.min_length -= 2;
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a slice marking the end of the branch
