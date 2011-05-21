@@ -1,6 +1,7 @@
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/proxy.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"

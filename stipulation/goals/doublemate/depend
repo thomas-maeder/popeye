@@ -25,7 +25,7 @@ trace.h:
 stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.c \
  stipulation/goals/doublemate/reached_tester.h pypipe.h pydata.h \
- stipulation/goals/prerequisite_guards.h \
+ stipulation/proxy.h stipulation/goals/prerequisite_guards.h \
  stipulation/goals/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
@@ -36,6 +36,8 @@ stipulation/goals/doublemate/reached_tester.h:
 pypipe.h:
 
 pydata.h:
+
+stipulation/proxy.h:
 
 stipulation/goals/prerequisite_guards.h:
 
