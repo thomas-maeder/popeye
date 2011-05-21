@@ -2,8 +2,8 @@ begin
 
 proto hauntedchess.ref
 
-author Mikhaïl MARANDYUK
-origin Sake, Portoroz 2002, 1° Mention d'Honneur
+author Mikha\"il MARANDYUK
+origin Sake, Portoroz 2002, 1er Mention d'Honneur
 pieces white Kh8 Qg7 Bc8b4 Sb8f7 Pe6b3e3
        black Kd5 Qa8 Rb5f5 Bb1 Sc2d2 Ph5a4e4
 stipulation #3
@@ -13,7 +13,7 @@ condition hauntedchess
 nextproblem 
  
 author Vlaicu CRISAN
-origin Sake, Portoroz 2002, 3° Recommandé
+origin Sake, Portoroz 2002, 3eme Recommand\'e
 pieces white Kc8 Rb5 Bf7e3
        black Kd5 Qf1 Se6c5 Pc6
 stipulation h=2
@@ -23,7 +23,7 @@ twin add white re3
 nextproblem
  
 author Mario PARRINELLO & Alessandro CUPPINI
-origin Sake, Portoroz 2002, 5° Recommandé
+origin Sake, Portoroz 2002, 5eme Recommand\'e
 pieces white Ka8 Rf8a7 Ba4 Sd7d5 Pg4f2
        black Ke4 Qf5 Bg5 Sf6
 stipulation h#2
@@ -31,7 +31,7 @@ condition hauntedchess
 
 nextproblem 
  
-author Mikhaïl MARANDYUK
+author Mikha\"il MARANDYUK
 origin Probleemblad 2003
 pieces white Kf8 Rb6c6 Bc5 Sb5b2
        black Ka5 Qa4 Ra3 Bc8e1 Sb1 Pf5b3
@@ -41,8 +41,8 @@ option vari
 
 nextproblem 
 
-author Mikhaïl MARANDYUK
-origin Quartz 2002-03, 2° Recommandé
+author Mikha\"il MARANDYUK
+origin Quartz 2002-03, 2eme Recommand\'e
 pieces white Kb7 Qe3 Rc6 Sc8 Pf4b2
        black Kd5 Qh1 Rh6h5 Bf8g6 Pa7h7c2
 stipulation #3
