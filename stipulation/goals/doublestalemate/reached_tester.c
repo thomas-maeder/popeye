@@ -3,6 +3,7 @@
 #include "pyselfcg.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/boolean/and.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "trace.h"

@@ -2,7 +2,7 @@ stipulation/goals/doublestalemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublestalemate/reached_tester.c \
  stipulation/goals/doublestalemate/reached_tester.h pypipe.h pyselfcg.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- stipulation/goals/immobile/reached_tester.h \
+ stipulation/boolean/and.h stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/notcheck/reached_tester.h trace.h
 
 stipulation/goals/doublestalemate/reached_tester.h:
@@ -14,6 +14,8 @@ pyselfcg.h:
 stipulation/goals/reached_tester.h:
 
 stipulation/boolean/true.h:
+
+stipulation/boolean/and.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
