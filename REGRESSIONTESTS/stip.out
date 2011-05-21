@@ -1476,10 +1476,10 @@ Loesung beendet.
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 == 
 
-              empile:      209599
-            jouecoup:       76578
-        orig_rbechec:       72504
-        orig_rnechec:       56279
+              empile:      127432
+            jouecoup:       77211
+        orig_rbechec:       24182
+        orig_rnechec:       81519
 Loesung beendet. 
 
 

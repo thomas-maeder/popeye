@@ -84,7 +84,7 @@ boolean paralysiert(square s)
   return result;
 }
 
-static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st)
+static void instrument_mate(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -98,8 +98,8 @@ static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st
   TraceFunctionResultEnd();
 }
 
-static void append_goal_stalemate_filter(slice_index si,
-                                         stip_structure_traversal *st)
+static void instrument_stalemate(slice_index si,
+                                 stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -113,8 +113,8 @@ static void append_goal_stalemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void append_goal_autostalemate_filter(slice_index si,
-                                             stip_structure_traversal *st)
+static void instrument_autostalemate(slice_index si,
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -128,14 +128,64 @@ static void append_goal_autostalemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void prepend_stalemate_special_starter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(slices[si].prev,
+              alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void prepend_stalemate_special_other(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(slices[si].prev,
+              alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_doublestalemate(slice_index si,
+                                       stip_structure_traversal *st)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STGoalNotCheckReachedTester,
+                                             &prepend_stalemate_special_starter);
+    stip_structure_traversal_override_single(&st,
+                                             STGoalImmobileReachedTester,
+                                             &prepend_stalemate_special_other);
+    stip_traverse_structure(si,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  /* No need to instrument STGoalDouble*ReachedTester slice types.
-   * Special case isn't possible.
-   */
-  { STGoalMateReachedTester,          &append_goal_mate_filter          },
-  { STGoalStalemateReachedTester,     &append_goal_stalemate_filter     },
-  { STGoalAutoStalemateReachedTester, &append_goal_autostalemate_filter }
+  { STGoalMateReachedTester,            &instrument_mate            },
+  { STGoalStalemateReachedTester,       &instrument_stalemate       },
+  { STGoalAutoStalemateReachedTester,   &instrument_autostalemate   },
+  { STGoalDoubleStalemateReachedTester, &instrument_doublestalemate }
 };
 
 enum

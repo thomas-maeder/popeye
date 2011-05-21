@@ -1763,6 +1763,7 @@ pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play
  stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h \
  stipulation/branch.h stipulation/proxy.h pypipe.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
+ stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/series_play/play.h stipulation/series_play/branch.h pyproc.h \
  py4.h pydata.h trace.h
@@ -1818,6 +1819,8 @@ pypipe.h:
 stipulation/boolean/and.h:
 
 stipulation/boolean/true.h:
+
+stipulation/goals/doublestalemate/reached_tester.h:
 
 stipulation/battle_play/branch.h:
 

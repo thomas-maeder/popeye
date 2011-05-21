@@ -5,6 +5,7 @@
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/goals/goals.h"
+#include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
@@ -414,8 +415,13 @@ static void insert_selfcheck_guard_goal(slice_index si,
     slice_index const not_slice = branch_find_slice(STNot,fork);
     if (not_slice==no_slice)
     {
-      slice_index const prototype = alloc_selfcheck_guard_slice();
-      goal_branch_insert_slices(fork,&prototype,1);
+      if (slices[si].u.goal_tester.goal.type==goal_dblstale)
+        goal_doublestalemate_insert_selfcheck_guard(si);
+      else
+      {
+        slice_index const prototype = alloc_selfcheck_guard_slice();
+        goal_branch_insert_slices(fork,&prototype,1);
+      }
     }
     else
     {
@@ -427,7 +433,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
       slice_index const guard = alloc_selfcheck_guard_slice();
       slice_index const leaf_selfcheck = alloc_true_slice();
       pipe_append(not_slice,proxy_regular);
-      pipe_link(not_slice,alloc_and_slice(proxy_regular,proxy_selfcheck));
+      pipe_link(not_slice,alloc_and_slice(proxy_selfcheck,proxy_regular));
       pipe_link(proxy_selfcheck,guard);
       pipe_link(guard,leaf_selfcheck);
     }

@@ -27,10 +27,10 @@
 
   1.a3-a2 (4.5/3) Kg5-f6 (3.09/3)   2.a2-a1=S (3.09/2) Kf6-e7 (1.68/2) == 
 
-              empile:       11232
+              empile:       12483
             jouecoup:        3474
-        orig_rbechec:        1559
-        orig_rnechec:        3404
+        orig_rbechec:        2996
+        orig_rnechec:         530
 solution finished. 
 
 
@@ -394,10 +394,10 @@ solution finished.
 
   1.Sf6-h7 (4/10.76) Ka1-b2 (2.59/10.76)   2.a2-a1=B (2.59/9.76) + Kb2-b3 (1.59/9.76)   3.Ba1-g7 (1.59/1.27) Kb3-b4 (0.59/1.27) == 
 
-              empile:      209574
-            jouecoup:      114166
-        orig_rbechec:       50871
-        orig_rnechec:       91435
+              empile:      425524
+            jouecoup:      320615
+        orig_rbechec:       56409
+        orig_rnechec:       81857
 solution finished. 
 
 

@@ -46,20 +46,14 @@ has_solution_type and_has_solution(slice_index si)
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
   has_solution_type result;
-  has_solution_type result1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result1 = slice_has_solution(op1);
-  if (result1==opponent_self_check)
-    result = opponent_self_check;
-  else
-  {
-    has_solution_type const result2 = slice_has_solution(op2);
-    result = result1>result2 ? result2 : result1;
-  }
+  result = slice_has_solution(op1);
+  if (result==has_solution)
+    result = slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

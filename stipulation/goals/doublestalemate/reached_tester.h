@@ -13,4 +13,9 @@
  */
 slice_index alloc_goal_doublestalemate_reached_tester_system(void);
 
+/* Instrument a doublestalemate testing system with a self check guard
+ * @param tester STGoalReachedTester slice
+ */
+void goal_doublestalemate_insert_selfcheck_guard(slice_index tester);
+
 #endif

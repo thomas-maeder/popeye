@@ -105,10 +105,10 @@
           2.Kd1-e2 #
 
 
-              empile:       37008
+              empile:       14828
             jouecoup:        4924
         orig_rbechec:        4088
-        orig_rnechec:       12198
+        orig_rnechec:        8362
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
 
-              empile:      598647
+              empile:       17226
             jouecoup:       18133
-        orig_rbechec:        6152
-        orig_rnechec:       49221
+        orig_rbechec:        6208
+        orig_rnechec:       19686
 Loesung beendet. 
 
 
@@ -190,10 +190,10 @@ Loesung beendet.
           2.Tb4-c4 #
 
 
-              empile:       20294
+              empile:        6494
             jouecoup:        2167
-        orig_rbechec:        1597
-        orig_rnechec:        5516
+        orig_rbechec:        1601
+        orig_rnechec:        3540
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
       1...Dh3*h1 !
 
 
-              empile:       21086
+              empile:       15489
             jouecoup:        3117
         orig_rbechec:        3878
-        orig_rnechec:        7427
+        orig_rnechec:        6654
 Loesung beendet. 
 
 
@@ -294,10 +294,10 @@ a)
           2.Sb3-d4 #
 
 
-              empile:       17183
+              empile:        7494
             jouecoup:        2604
         orig_rbechec:        2577
-        orig_rnechec:        6510
+        orig_rnechec:        4673
 b) PlatzwechselCirce
 
    1.Df6-g5 ! Drohung:
@@ -312,10 +312,10 @@ b) PlatzwechselCirce
           2.Dg5*g2 [+spSg5] #
 
 
-              empile:       17786
+              empile:        7431
             jouecoup:        2594
         orig_rbechec:        2577
-        orig_rnechec:        6614
+        orig_rnechec:        4625
 Loesung beendet. 
 
 

@@ -14,6 +14,8 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParam("%u",tester);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalReachedTester);
@@ -42,7 +44,7 @@ has_solution_type goal_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_solve(slices[si].u.goal_tester.fork);
+  result = slice_has_solution(slices[si].u.goal_tester.fork);
   if (result==has_solution)
     result = slice_solve(slices[si].u.goal_tester.next);
 
