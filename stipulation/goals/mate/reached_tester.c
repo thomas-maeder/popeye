@@ -23,7 +23,7 @@ slice_index alloc_goal_mate_reached_tester_system(void)
   {
     Goal const goal = { goal_mate, initsquare };
     slice_index const mate_tester = alloc_pipe(STGoalMateReachedTester);
-    slice_index const check_tester = alloc_goal_check_reached_tester_slice();
+    slice_index const check_tester = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
     slice_index const immobile_tester = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
 
     pipe_link(mate_tester,check_tester);

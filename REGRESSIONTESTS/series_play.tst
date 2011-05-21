@@ -55,10 +55,10 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
   ser-##2                     4 + 4
 
 
-              empile:          28
+              empile:          29
             jouecoup:          19
-        orig_rbechec:          16
-        orig_rnechec:          10
+        orig_rbechec:          19
+        orig_rnechec:           4
 solution finished. 
 
 

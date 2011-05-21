@@ -251,6 +251,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPiecesParalysingMateFilter:
       case STPiecesParalysingStalemateSpecial:
       case STGoalImmobileReachedTester:
+      case STGoalCheckReachedTester:
       {
         Trace_pipe(si);
         TraceValue("%u",slices[si].u.goal_filter.applies_to_who);

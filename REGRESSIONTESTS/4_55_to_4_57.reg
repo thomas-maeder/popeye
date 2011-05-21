@@ -169,10 +169,10 @@ a)
    1.Kh6-h7 ## !
 
 
-              empile:          23
+              empile:          27
             jouecoup:          21
-        orig_rbechec:           8
-        orig_rnechec:          16
+        orig_rbechec:          11
+        orig_rnechec:          12
 b) +bRa5 
 
 
@@ -759,10 +759,10 @@ only example of double mate with neutral king
 
   1...nKa5*a4 ## 
 
-              empile:          68
-            jouecoup:          58
-        orig_rbechec:          27
-        orig_rnechec:          35
+              empile:          69
+            jouecoup:          66
+        orig_rbechec:          46
+        orig_rnechec:          19
 solution finished. 
 
 

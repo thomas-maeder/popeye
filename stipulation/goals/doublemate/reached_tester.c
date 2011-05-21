@@ -3,8 +3,10 @@
 #include "pydata.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/reached_tester.h"
+#include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/boolean/and.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -13,6 +15,7 @@
  * whether a double mate goal has just been reached
  */
 
+/* TODO remove this hack */
 boolean are_we_testing_immobility_with_opposite_king_en_prise = false;
 
 /* Allocate a system of slices that tests whether doublemate has been reached
@@ -28,11 +31,22 @@ slice_index alloc_doublemate_mate_reached_tester_system(void)
   {
     Goal const goal = { goal_doublemate, initsquare };
     slice_index const doublemate_tester = alloc_pipe(STGoalDoubleMateReachedTester);
+    slice_index const proxy_starter = alloc_proxy_slice();
+    slice_index const proxy_other = alloc_proxy_slice();
+    slice_index const and = alloc_and_slice(proxy_other,proxy_starter);
+    slice_index const check_tester_starter = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
+    slice_index const check_tester_other = alloc_goal_check_reached_tester_slice(goal_applies_to_adversary);
     slice_index const immobile_tester_starter = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
     slice_index const immobile_tester_other = alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary);
 
-    pipe_link(doublemate_tester,immobile_tester_starter);
-    pipe_link(immobile_tester_starter,immobile_tester_other);
+    pipe_link(doublemate_tester,and);
+
+    pipe_link(proxy_starter,check_tester_starter);
+    pipe_link(check_tester_starter,immobile_tester_starter);
+    pipe_link(immobile_tester_starter,alloc_true_slice());
+
+    pipe_link(proxy_other,check_tester_other);
+    pipe_link(check_tester_other,immobile_tester_other);
     pipe_link(immobile_tester_other,alloc_true_slice());
 
     result = alloc_goal_reached_tester_slice(goal,doublemate_tester);
@@ -52,22 +66,18 @@ slice_index alloc_doublemate_mate_reached_tester_system(void)
 has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
-  Side const just_moved = advers(starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceValue("%u",parent_ply[nbply]);
-  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate)
-      && echecc(nbply,starter) && echecc(nbply,just_moved))
+  TraceValue("%u\n",parent_ply[nbply]);
+  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    result = slice_has_solution(next);
+    result = slice_has_solution(slices[si].u.pipe.next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
   }
   else
@@ -86,9 +96,6 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
 has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
-  Side const just_moved = advers(starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -96,12 +103,11 @@ has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
 
   TraceValue("%u",nbply);
   TraceValue("%u",parent_ply[nbply]);
-  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate)
-      && echecc(nbply,starter) && echecc(nbply,just_moved))
+  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    result = slice_solve(next);
+    result = slice_solve(slices[si].u.pipe.next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
   }
   else

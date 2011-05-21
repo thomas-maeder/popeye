@@ -180,11 +180,48 @@ static void instrument_doublestalemate(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void instrument_half_doublemate(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  goal_applies_to_starter_or_adversary const who = slices[si].u.goal_filter.applies_to_who;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(who));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STGoalCheckReachedTester,
+                                             &instrument_half_doublemate);
+    stip_traverse_structure(si,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
   { STGoalMateReachedTester,            &instrument_mate            },
   { STGoalStalemateReachedTester,       &instrument_stalemate       },
   { STGoalAutoStalemateReachedTester,   &instrument_autostalemate   },
+  { STGoalDoubleMateReachedTester,      &instrument_doublemate      },
   { STGoalDoubleStalemateReachedTester, &instrument_doublestalemate }
 };
 

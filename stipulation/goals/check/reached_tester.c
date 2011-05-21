@@ -23,7 +23,7 @@ slice_index alloc_goal_check_reached_tester_system(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  check_tester = alloc_goal_check_reached_tester_slice();
+  check_tester = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
   pipe_link(check_tester,alloc_true_slice());
   result = alloc_goal_reached_tester_slice(goal,check_tester);
 
@@ -34,9 +34,10 @@ slice_index alloc_goal_check_reached_tester_system(void)
 }
 
 /* Allocate a STGoalCheckReachedTester slice.
+ * @param starter_or_adversary is the starter or its adversary to be in check?
  * @return index of allocated slice
  */
-slice_index alloc_goal_check_reached_tester_slice(void)
+slice_index alloc_goal_check_reached_tester_slice(goal_applies_to_starter_or_adversary starter_or_adversary)
 {
   slice_index result;
 
@@ -44,6 +45,7 @@ slice_index alloc_goal_check_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCheckReachedTester);
+  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,12 +61,16 @@ slice_index alloc_goal_check_reached_tester_slice(void)
 has_solution_type goal_check_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
+  Side const in_check = (slices[si].u.goal_filter.applies_to_who
+                         ==goal_applies_to_starter
+                         ? slices[si].starter
+                         : advers(slices[si].starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].starter))
+  if (echecc(nbply,in_check))
     result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
@@ -82,12 +88,16 @@ has_solution_type goal_check_reached_tester_has_solution(slice_index si)
 has_solution_type goal_check_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
+  Side const in_check = (slices[si].u.goal_filter.applies_to_who
+                         ==goal_applies_to_starter
+                         ? slices[si].starter
+                         : advers(slices[si].starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].starter))
+  if (echecc(nbply,in_check))
     result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;

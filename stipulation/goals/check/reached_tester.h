@@ -13,9 +13,10 @@
 slice_index alloc_goal_check_reached_tester_system(void);
 
 /* Allocate a STGoalCheckReachedTester slice.
+ * @param starter_or_adversary is the starter or its adversary to be in check?
  * @return index of allocated slice
  */
-slice_index alloc_goal_check_reached_tester_slice(void);
+slice_index alloc_goal_check_reached_tester_slice(goal_applies_to_starter_or_adversary starter_or_adversary);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

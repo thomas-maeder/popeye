@@ -2712,10 +2712,10 @@ Loesung beendet.
 
   1.ELb1-d4 kELd3-b4   2.ELd4-a2 ELa4-c3   3.ELc4-a3 + kELb4-a1   4.ELa3-d4 ELd2-a3   5.ELa2-b4 + ELa3-c4 ## 
 
-              empile:      156526
-            jouecoup:      135601
-        orig_rbechec:       39591
-        orig_rnechec:      106610
+              empile:      188275
+            jouecoup:      150119
+        orig_rbechec:      121546
+        orig_rnechec:       28643
 Loesung beendet. 
 
 

@@ -189,10 +189,10 @@ solution finished.
 
   1.Kg4-h3 Ke4-f3   2.g5-g4 + Kf3*g2 ## 
 
-              empile:       95340
-            jouecoup:       52685
-        orig_rbechec:       18320
-        orig_rnechec:       43833
+              empile:       99152
+            jouecoup:       43229
+        orig_rbechec:       36661
+        orig_rnechec:        6718
 solution finished. 
 
 
