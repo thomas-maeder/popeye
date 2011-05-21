@@ -156,10 +156,10 @@ solution finished.
 
   1.Rg7-g4 Bh7-b1   2.Qh8-c3 + Ka3-a2 ##! 
 
-              empile:       11517
-            jouecoup:        8080
-        orig_rbechec:        5515
-        orig_rnechec:        6855
+              empile:       15132
+            jouecoup:       11148
+        orig_rbechec:        8913
+        orig_rnechec:        6671
 solution finished. 
 
 

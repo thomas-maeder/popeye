@@ -221,8 +221,9 @@ static structure_traversers_visitors goal_filter_inserters[] =
   { STGoalMateReachedTester,            &instrument_mate            },
   { STGoalStalemateReachedTester,       &instrument_stalemate       },
   { STGoalAutoStalemateReachedTester,   &instrument_autostalemate   },
+  { STGoalDoubleStalemateReachedTester, &instrument_doublestalemate },
   { STGoalDoubleMateReachedTester,      &instrument_doublemate      },
-  { STGoalDoubleStalemateReachedTester, &instrument_doublestalemate }
+  { STGoalCounterMateReachedTester,     &instrument_doublemate      }
 };
 
 enum

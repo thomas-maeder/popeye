@@ -215,10 +215,10 @@ solution finished.
           2.Ra8*a4 ##!
 
 
-              empile:         518
-            jouecoup:         348
-        orig_rbechec:         251
-        orig_rnechec:         140
+              empile:         751
+            jouecoup:         514
+        orig_rbechec:         437
+        orig_rnechec:         122
 solution finished. 
 
 
@@ -249,10 +249,10 @@ solution finished.
    1.Kc8-b7 ##! !
 
 
-              empile:          83
-            jouecoup:          77
-        orig_rbechec:          41
-        orig_rnechec:          53
+              empile:         246
+            jouecoup:         237
+        orig_rbechec:         212
+        orig_rnechec:          46
 solution finished. 
 
 
@@ -746,10 +746,10 @@ solution finished.
       1...Kc8-b7 ##!
 
 
-              empile:         234
-            jouecoup:         207
-        orig_rbechec:         160
-        orig_rnechec:         113
+              empile:         561
+            jouecoup:         542
+        orig_rbechec:         111
+        orig_rnechec:         505
 solution finished. 
 
 
@@ -1729,10 +1729,10 @@ solution finished.
       1...Ka3-b2 ##!
 
 the side to play can capture the king
-              empile:          74
-            jouecoup:          71
-        orig_rbechec:          50
-        orig_rnechec:          29
+              empile:         191
+            jouecoup:         182
+        orig_rbechec:          48
+        orig_rnechec:         148
 solution finished. 
 
 

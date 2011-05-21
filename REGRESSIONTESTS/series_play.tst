@@ -88,10 +88,10 @@ solution finished.
 
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##! 
 
-              empile:        1724
-            jouecoup:        1317
-        orig_rbechec:         708
-        orig_rnechec:        1172
+              empile:        2250
+            jouecoup:        1763
+        orig_rbechec:        1206
+        orig_rnechec:        1139
 solution finished. 
 
 

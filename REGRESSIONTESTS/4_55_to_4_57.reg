@@ -221,10 +221,10 @@ a)
    1.Kc8-b7 ##! !
 
 
-              empile:          68
-            jouecoup:          62
-        orig_rbechec:          23
-        orig_rnechec:          45
+              empile:         190
+            jouecoup:         187
+        orig_rbechec:         157
+        orig_rnechec:          40
 b) +wSb4 
 
 
@@ -235,27 +235,27 @@ b) +wSb4
 +c) ##!2
 
 
-              empile:         104
-            jouecoup:          73
-        orig_rbechec:          34
-        orig_rnechec:          47
+              empile:         197
+            jouecoup:         176
+        orig_rbechec:         159
+        orig_rnechec:          28
 +d)  -wSb4
 
    1.Kc8-b7 ##! !
 
 
-              empile:          68
-            jouecoup:          62
-        orig_rbechec:          32
-        orig_rnechec:          45
+              empile:         190
+            jouecoup:         187
+        orig_rbechec:         166
+        orig_rnechec:          40
 +e) ser-##!1
 
   1.Kc8-b7 ##! 
 
-              empile:          68
-            jouecoup:          63
-        orig_rbechec:          23
-        orig_rnechec:          45
+              empile:         190
+            jouecoup:         188
+        orig_rbechec:         157
+        orig_rnechec:          40
 +f) +wSb4 
 
 
@@ -294,10 +294,10 @@ a)
 
   1.Qa3-c5 + Kc8-b7 ##! 
 
-              empile:         224
-            jouecoup:         197
-        orig_rbechec:          75
-        orig_rnechec:         155
+              empile:         516
+            jouecoup:         496
+        orig_rbechec:         457
+        orig_rnechec:          74
 b) +wSd4 
 
 
@@ -337,18 +337,18 @@ a)
       1...Kc8-b7 ##!
 
 
-              empile:         292
-            jouecoup:         257
-        orig_rbechec:         199
-        orig_rnechec:         136
+              empile:         706
+            jouecoup:         681
+        orig_rbechec:         113
+        orig_rnechec:         652
 b) ser-s##!1
 
   1.Qa3-c5 + Kc8-b7 ##! 
 
-              empile:         292
-            jouecoup:         259
-        orig_rbechec:         199
-        orig_rnechec:         137
+              empile:         706
+            jouecoup:         683
+        orig_rbechec:         113
+        orig_rnechec:         653
 solution finished. 
 
 
@@ -726,10 +726,10 @@ since 4.43, h##! with neutral king weren't solved correctly
 
   1...nKa5*a4 ##! 
 
-              empile:         120
-            jouecoup:          98
-        orig_rbechec:          45
-        orig_rnechec:          61
+              empile:         411
+            jouecoup:         395
+        orig_rbechec:         359
+        orig_rnechec:          46
 solution finished. 
 
 
