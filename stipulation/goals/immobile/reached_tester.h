@@ -27,10 +27,4 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
  */
 has_solution_type goal_immobile_reached_tester_has_solution(slice_index si);
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_immobile_reached_tester_solve(slice_index si);
-
 #endif

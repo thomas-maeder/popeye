@@ -57,27 +57,3 @@ goal_circuit_by_rebirth_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type
-goal_circuit_by_rebirth_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(nbcou!=nil_coup);
-
-  /* goal is only reachable in some fairy conditions */
-  result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

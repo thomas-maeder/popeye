@@ -60,30 +60,3 @@ has_solution_type goal_castling_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_castling_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-  unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(nbply!=nil_ply);
-
-  if (diff==whk_castling || diff==whq_castling
-      || diff==blk_castling || diff==blq_castling)
-    result = slice_solve(slices[si].u.pipe.next);
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

@@ -88,33 +88,3 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u",parent_ply[nbply]);
-  if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate))
-  {
-    are_we_testing_immobility_with_opposite_king_en_prise =
-      (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    result = slice_solve(slices[si].u.pipe.next);
-    are_we_testing_immobility_with_opposite_king_en_prise = false;
-  }
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

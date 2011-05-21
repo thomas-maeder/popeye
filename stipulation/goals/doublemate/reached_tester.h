@@ -22,10 +22,4 @@ slice_index alloc_doublemate_mate_reached_tester_system(void);
  */
 has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si);
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_doublemate_reached_tester_solve(slice_index si);
-
 #endif

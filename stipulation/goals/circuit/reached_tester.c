@@ -59,29 +59,3 @@ has_solution_type goal_circuit_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_circuit_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-  square const sq_arrival = move_generation_stack[nbcou].arrival;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(nbcou!=nil_coup);
-
-  if (GetDiaRen(spec[sq_arrival])==sq_arrival)
-    result = slice_solve(slices[si].u.pipe.next);
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

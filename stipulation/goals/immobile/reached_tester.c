@@ -82,31 +82,3 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_immobile_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-  Side const immobilised = (slices[si].u.goal_filter.applies_to_who
-                            ==goal_applies_to_starter
-                            ? slices[si].starter
-                            : advers(slices[si].starter));
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-
-  if (immobile(immobilised))
-    result = slice_solve(slices[si].u.goal_filter.next);
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
