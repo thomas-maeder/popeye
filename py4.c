@@ -363,8 +363,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   TraceValue("%u\n",empilegenre);
   if (empilegenre)
   {
-    if (CondFlag[ghostchess]
-        && TSTFLAG(spec[sq_arrival],Uncapturable))
+    if (TSTFLAG(spec[sq_arrival],Uncapturable))
       return false;
 
     if (CondFlag[messigny]

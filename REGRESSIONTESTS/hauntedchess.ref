@@ -28,7 +28,7 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
    1.Qg7-c3 ! threat:
           2.Qc3*d2 +
               2...Sc2-d4
-                  3.Qd2*d4[+buSd2] #
+                  3.Qd2*d4[+bSd2] #
       1...Qa8*b8
           2.Qc3-c6 +
               2...Kd5*c6
@@ -52,10 +52,10 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
                   3.Bb4-c3 #
 
 
-              empile:      209969
-            jouecoup:      133436
-        orig_rbechec:       55713
-        orig_rnechec:       83805
+              empile:      209837
+            jouecoup:      133321
+        orig_rbechec:       55702
+        orig_rnechec:       83690
 solution finished. 
 
 
@@ -90,18 +90,18 @@ a)
 
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 = 
 
-              empile:     1072275
-            jouecoup:      421665
-        orig_rbechec:      184742
-        orig_rnechec:      390015
+              empile:     1022609
+            jouecoup:      400819
+        orig_rbechec:      173455
+        orig_rnechec:      372262
 b) wRe3 
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 = 
 
-              empile:     1107726
-            jouecoup:      491022
-        orig_rbechec:      195395
-        orig_rnechec:      458179
+              empile:     1051555
+            jouecoup:      464192
+        orig_rbechec:      181942
+        orig_rnechec:      435060
 solution finished. 
 
 
@@ -135,10 +135,10 @@ Sake, Portoroz 2002, 5eme Recommand\'e
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 # 
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 # 
 
-              empile:      687975
-            jouecoup:      269429
-        orig_rbechec:       84252
-        orig_rnechec:      268516
+              empile:      617530
+            jouecoup:      244281
+        orig_rbechec:       75249
+        orig_rnechec:      243368
 solution finished. 
 
 
@@ -188,10 +188,10 @@ solution finished.
                   3.Rb6-b5 #
 
 
-              empile:      128639
-            jouecoup:       86851
-        orig_rbechec:       31807
-        orig_rnechec:       60290
+              empile:      128478
+            jouecoup:       86713
+        orig_rbechec:       31791
+        orig_rnechec:       60152
 solution finished. 
 
 
@@ -243,10 +243,10 @@ solution finished.
                   3.Rc6-c4 #
 
 
-              empile:      245298
-            jouecoup:      152555
-        orig_rbechec:       59576
-        orig_rnechec:      104148
+              empile:      244918
+            jouecoup:      152282
+        orig_rbechec:       59515
+        orig_rnechec:      103875
 solution finished. 
 
 

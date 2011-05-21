@@ -1798,7 +1798,8 @@ static void summon_ghost(square sq_departure)
     piece const piece_summoned = ghosts[ghost_pos].ghost_piece;
     Flags spec_summoned = ghosts[ghost_pos].ghost_flags;
 
-    SETFLAG(spec_summoned,Uncapturable);
+    if (CondFlag[ghostchess])
+      SETFLAG(spec_summoned,Uncapturable);
 
     e[sq_departure] = piece_summoned;
     spec[sq_departure] = spec_summoned;

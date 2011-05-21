@@ -1070,3 +1070,39 @@ solution finished.
 solving interrupted. 
 
 
+
+so far, uncapturable pieces were only supported correctly
+     in ghost chess (bug 3015407)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           Uncapturable a2
+
+   1.Ka1-b2 !
+
+
+              empile:           3
+            jouecoup:           2
+        orig_rbechec:           2
+        orig_rnechec:           0
+solution finished. 
+
+

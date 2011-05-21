@@ -223,4 +223,12 @@ fors rsbqkbsr/1ppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR
 stip dia7             
 option move maxsolutions 5 stoponshortsolutions
 
+next
+
+title so far, uncapturable pieces were only supported correctly
+title in ghost chess (bug 3015407)
+pieces white ka1 black uncap pa2
+stipulation ~1
+option nobk
+
 end
