@@ -303,7 +303,7 @@ static void unsatisfiable_removal_nest(slice_index si, stip_structure_traversal 
   stip_traverse_structure_pipe(si,st);
 
   *level = unsatisfiable_removal_nested;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_pipe(si,st);
   *level = save_level;
 
   TraceFunctionExit(__func__);

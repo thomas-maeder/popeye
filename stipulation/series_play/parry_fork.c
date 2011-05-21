@@ -126,9 +126,8 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 void stip_traverse_structure_parry_fork(slice_index branch,
                                         stip_structure_traversal *st)
 {
-  slice_index const fork = slices[branch].u.fork.fork;
   stip_traverse_structure_pipe(branch,st);
-  stip_traverse_structure(fork,st);
+  stip_traverse_structure_next_branch(branch,st);
 }
 
 /* Traversal of the moves of some pipe slice

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "output/plaintext/plaintext.h"
@@ -167,7 +168,7 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
   {
     /* make sure that the defense's mating moves are written */
     *state = regular_writer_insertion_global;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure_next_branch(si,st);
     *state = regular_writer_insertion_attack;
   }
 

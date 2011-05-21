@@ -1,5 +1,5 @@
 output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
- output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h \
+ output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h pybrafrk.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
@@ -22,6 +22,8 @@ pydata.h:
 pymsg.h:
 
 pypipe.h:
+
+pybrafrk.h:
 
 stipulation/branch.h:
 

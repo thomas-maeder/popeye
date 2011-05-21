@@ -26,12 +26,6 @@ slice_index alloc_branch(SliceType type,
  */
 slice_index branch_find_slice(SliceType type, slice_index si);
 
-/* Traversal of the moves of some branch slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_move_slice(slice_index si, stip_moves_traversal *st);
-
 /* Traversal of the moves of a branch
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

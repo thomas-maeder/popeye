@@ -380,3 +380,24 @@ void move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Traversal of the moves of some branch slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_move(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->remaining>0);
+
+  --st->remaining;
+  TraceValue("->%u\n",st->remaining);
+  stip_traverse_moves_pipe(si,st);
+  ++st->remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

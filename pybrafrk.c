@@ -46,7 +46,7 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.fork.fork!=no_slice)
   {
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure_next_branch(si,st);
     proxy_slice_resolve(&slices[si].u.fork.fork,st);
   }
 
@@ -66,7 +66,7 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(fork,st);
+  stip_traverse_structure_next_branch(si,st);
 
   if (slices[si].starter==no_side)
   {
@@ -78,6 +78,25 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
     else
       slices[si].starter = slices[fork].starter;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Continue a traversal at the start of a branch; this function is typically
+ * invoked by an end of branch slice
+ * @param branch_entry entry slice into branch
+ * @param st address of data structure holding parameters for the operation
+ */
+void stip_traverse_structure_next_branch(slice_index branch_entry,
+                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch_entry);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

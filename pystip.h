@@ -563,7 +563,7 @@ void stip_traverse_structure_children(slice_index si,
                                       stip_structure_traversal *st);
 
 /* (Approximately) depth-first traversal of a stipulation sub-tree
- * @param root root of the sub-tree to traverse
+ * @param root entry slice into stipulation
  * @param st address of structure defining traversal
  */
 void stip_traverse_structure(slice_index root, stip_structure_traversal *st);

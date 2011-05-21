@@ -808,7 +808,7 @@ void insert_intro_end_of_branch(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   *fork_slice = si;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_next_branch(si,st);
   *fork_slice = save_fork_slice;
 
   TraceFunctionExit(__func__);
@@ -1595,7 +1595,7 @@ get_stip_structure_traversal_state(slice_index si,
 }
 
 /* (Approximately) depth-first traversal of the stipulation
- * @param ops mapping from slice types to operations
+ * @param root entry slice into stipulation
  * @param st address of data structure holding parameters for the operation
  */
 void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
@@ -1864,7 +1864,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                   /* STSeriesMoveGenerator */
-    &stip_traverse_moves_move_slice,             /* STSeriesDummyMove */
+    &stip_traverse_moves_move,                   /* STSeriesDummyMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesDummyMove */
     &stip_traverse_moves_parry_fork,             /* STParryFork */
@@ -1876,7 +1876,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STEndOfRoot */
     &stip_traverse_moves_pipe,                   /* STEndOfIntro */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
-    &stip_traverse_moves_move_slice,             /* STMove */
+    &stip_traverse_moves_move,                   /* STMove */
     &stip_traverse_moves_setplay_fork,           /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */

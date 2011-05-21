@@ -1,6 +1,7 @@
 #include "solving/solving.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "pymsg.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
@@ -57,7 +58,7 @@ static void insert_solvers_setplay_fork(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   state->level = solver_insertion_setplay;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_next_branch(si,st);
   state->level = solver_insertion_root;
 
   TraceFunctionExit(__func__);
@@ -77,7 +78,7 @@ static void insert_solvers_nest(slice_index si, stip_structure_traversal *st)
 
   state->level = solver_insertion_nested;
   state->context = solver_insertion_global;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_next_branch(si,st);
   *state = save_state;
 
   TraceFunctionExit(__func__);

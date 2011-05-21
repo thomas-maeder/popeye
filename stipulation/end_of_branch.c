@@ -41,7 +41,7 @@ void stip_traverse_structure_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_next_branch(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

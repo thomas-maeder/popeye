@@ -217,7 +217,7 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
 
   if (slices[pipe].starter==no_side)
   {
-    stip_traverse_structure(slices[pipe].u.pipe.next,st);
+    stip_traverse_structure_pipe(pipe,st);
     slices[pipe].starter = slices[next].starter;
   }
 
