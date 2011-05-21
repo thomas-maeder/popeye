@@ -1752,7 +1752,7 @@ boolean camhopcheck(square    i,
                     piece p,
                     evalfunction_t *evaluate)
 {
-  return rhopcheck(i, vec_chameau_end, vec_chameau_end, p, evaluate);
+  return rhopcheck(i, vec_chameau_start, vec_chameau_end, p, evaluate);
 }
 
 boolean zebhopcheck(square    i,
