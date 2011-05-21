@@ -403,6 +403,46 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void test_self_check_ignorance(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_adversary)
+    *result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether a goal ignores selfcheck
+ * @param goal_reached_tester identifies STGoalReachedTester slice
+ * @return true iff the tested goal ignores selfcheck
+ */
+static boolean does_goal_ignore_selfcheck(slice_index goal_reached_tester)
+{
+  boolean result = false;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal_reached_tester);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalCheckReachedTester,
+                                           &test_self_check_ignorance);
+  stip_traverse_structure(goal_reached_tester,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
@@ -410,6 +450,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (!does_goal_ignore_selfcheck(slices[si].u.fork.fork))
   {
     slice_index const fork = slices[si].u.goal_tester.fork;
     slice_index const not_slice = branch_find_slice(STNot,fork);
@@ -583,99 +624,6 @@ static void insert_selfcheck_guard_adapters(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_guards(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  insert_in_branch_guards(si);
-  stip_impose_starter(si,slices[si].starter);
-  insert_selfcheck_guard_adapters(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_to_ignore(slice_index si, stip_structure_traversal *st)
-{
-  boolean * const ignore = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *ignore = true;
-  stip_traverse_structure_children(si,st);
-  *ignore = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remove_if_ignored(slice_index si, stip_structure_traversal *st)
-{
-  boolean const * const ignore = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (*ignore)
-    pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-SliceType const goals_ignoring_selfcheck[] =
-{
-  STGoalDoubleMateReachedTester,
-  STGoalCounterMateReachedTester
-};
-
-enum
-{
-  nr_goals_ignoring_selfcheck = (sizeof goals_ignoring_selfcheck
-                                 / sizeof goals_ignoring_selfcheck[0])
-};
-
-/* Remove selfcheck guard slices if we are checking for a goal that ignores
- * selfcheck
- * @param si identifies the slice where to start looking for selfcheck guard
- *           slices to be removed
- */
-static void remove_guards_after_selfcheck_ignoring_goals(slice_index si)
-{
-  stip_structure_traversal st;
-  boolean ignore = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&ignore);
-
-  {
-    unsigned int i;
-    for (i = 0; i!=nr_goals_ignoring_selfcheck; ++i)
-      stip_structure_traversal_override_single(&st,
-                                               goals_ignoring_selfcheck[i],
-                                               &remember_to_ignore);
-
-    stip_structure_traversal_override_single(&st,
-                                             STSelfCheckGuard,
-                                             &remove_if_ignored);
-  }
-
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a stipulation with slices dealing with selfcheck detection
  * @param si root of branch to be instrumented
  */
@@ -687,9 +635,9 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   TraceStipulation(si);
 
-  insert_guards(si);
-  remove_guards_after_selfcheck_ignoring_goals(si);
-  TraceStipulation(si);
+  insert_in_branch_guards(si);
+  stip_impose_starter(si,slices[si].starter);
+  insert_selfcheck_guard_adapters(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
