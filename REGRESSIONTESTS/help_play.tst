@@ -224,7 +224,7 @@ solution finished.
 
               empile:       11919
             jouecoup:        9140
-        orig_rbechec:        8234
+        orig_rbechec:        8233
         orig_rnechec:        2301
 solution finished. 
 
@@ -257,7 +257,7 @@ hr#1.5 - don't write long solutions because Black must mate immediately
 
               empile:          10
             jouecoup:          11
-        orig_rbechec:          12
+        orig_rbechec:          11
         orig_rnechec:           2
 solution finished. 
 
@@ -290,7 +290,7 @@ hr#2 - don't write long solutions because Black must mate immediately
 
               empile:          18
             jouecoup:          20
-        orig_rbechec:          19
+        orig_rbechec:          18
         orig_rnechec:           4
 solution finished. 
 

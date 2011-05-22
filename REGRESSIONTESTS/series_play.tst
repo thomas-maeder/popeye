@@ -156,8 +156,8 @@ solution finished.
 
               empile:        1245
             jouecoup:         900
-        orig_rbechec:         698
-        orig_rnechec:         349
+        orig_rbechec:         697
+        orig_rnechec:         343
 solution finished. 
 
 
@@ -222,7 +222,7 @@ no solution in 2 - Black has to deliver mate immediately
 
               empile:          18
             jouecoup:          20
-        orig_rbechec:          19
+        orig_rbechec:          18
         orig_rnechec:           4
 solution finished. 
 

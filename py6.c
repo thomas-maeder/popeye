@@ -2585,20 +2585,16 @@ static Token iterate_twins(Token prev_token)
       if (!init_intelligent_mode(root_slice))
         Message(IntelligentRestricted);
 
+      stip_remove_unsatisfiable_goals(root_slice);
+
       if (OptFlag[movenbr]
           && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
         stip_insert_restart_guards(root_slice);
-
-      stip_remove_unsatisfiable_goals(root_slice);
 
       stip_insert_solvers(root_slice);
 
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards(root_slice);
-
-      if (OptFlag[movenbr]
-          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
-        stip_insert_restart_guards(root_slice);
 
       stip_insert_output_slices(root_slice);
 

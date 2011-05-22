@@ -46,6 +46,7 @@ static boolean is_proxy(slice_index si)
     case STGoalStalemateReachedTester:
     case STGoalMateReachedTester:
     case STOutputModeSelector:
+    case STShortSolutionsStart:
       result = true;
       break;
 

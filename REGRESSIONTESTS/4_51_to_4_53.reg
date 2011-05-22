@@ -273,7 +273,7 @@ White's first move
 
               empile:       12003
             jouecoup:        6653
-        orig_rbechec:        6072
+        orig_rbechec:        6071
         orig_rnechec:        1717
 solution finished. 
 
@@ -1980,7 +1980,7 @@ solving interrupted.
 
               empile:       66707
             jouecoup:       39543
-        orig_rbechec:       35413
+        orig_rbechec:       35411
         orig_rnechec:       10134
 solution finished. 
 
@@ -2014,7 +2014,7 @@ solution finished.
 
               empile:       52675
             jouecoup:       27701
-        orig_rbechec:       19563
+        orig_rbechec:       19562
         orig_rnechec:       14700
 solution finished. 
 

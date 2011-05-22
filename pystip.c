@@ -72,6 +72,7 @@
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                           \
+    ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -259,6 +260,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STEndOfIntro */
   slice_structure_pipe,   /* STDeadEnd */
   slice_structure_pipe,   /* STMove */
+  slice_structure_pipe,   /* STShortSolutionsStart*/
   slice_structure_fork,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -397,6 +399,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfIntro */
   slice_function_unspecified,    /* STDeadEnd */
   slice_function_unspecified,    /* STMove */
+  slice_function_unspecified,    /* STShortSolutionsStart*/
   slice_function_unspecified,    /* STGoalReachedTester */
   slice_function_unspecified,    /* STGoalMateReachedTester */
   slice_function_unspecified,    /* STGoalStalemateReachedTester */
@@ -1646,6 +1649,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STEndOfIntro */
   &stip_traverse_structure_pipe,            /* STDeadEnd */
   &stip_traverse_structure_pipe,            /* STMove */
+  &stip_traverse_structure_pipe,            /* STShortSolutionsStart*/
   &stip_traverse_structure_end_of_branch,   /* STGoalReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1877,6 +1881,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STEndOfIntro */
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
     &stip_traverse_moves_move,                   /* STMove */
+    &stip_traverse_moves_pipe,                   /* STShortSolutionsStart*/
     &stip_traverse_moves_setplay_fork,           /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */

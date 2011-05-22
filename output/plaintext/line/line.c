@@ -74,11 +74,12 @@ static void instrument_end_of_branch(slice_index si,
 
 static structure_traversers_visitors regular_inserters[] =
 {
-  { STEndOfBranch,       &instrument_end_of_branch       },
-  { STConstraint,        &stip_traverse_structure_pipe   },
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STHelpAdapter,       &instrument_root                },
-  { STSeriesAdapter,     &instrument_root                }
+  { STEndOfBranch,           &instrument_end_of_branch       },
+  { STConstraint,            &stip_traverse_structure_pipe   },
+  { STGoalReachedTester,     &instrument_goal_reached_tester },
+  { STAttackAdapter,         &instrument_root                },
+  { STHelpAdapter,           &instrument_root                },
+  { STSeriesAdapter,         &instrument_root                }
 };
 
 enum

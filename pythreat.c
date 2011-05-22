@@ -204,7 +204,7 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
   if (max_len_threat==0)
   {
     if (echecc(nbply,slices[si].starter))
-      result = defend(next,n,n_max_unsolvable);
+      result = can_defend(next,n,n_max_unsolvable);
     else
       result = n+4;
   }
@@ -258,9 +258,14 @@ static void maxthreatlength_guard_inserter(slice_index si,
     {
       slice_index const
         to_attacker = branch_find_slice(STMaxThreatLengthHook,si);
-      slice_index const guard_prototype = alloc_maxthreatlength_guard(length,to_attacker);
+      slice_index const prototypes[] =
+      {
+          alloc_check_detector_slice(),
+          alloc_maxthreatlength_guard(length,to_attacker)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       assert(to_attacker!=no_slice);
-      battle_branch_insert_slices(si,&guard_prototype,1);
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
 
     *inserted = true;

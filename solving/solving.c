@@ -42,7 +42,29 @@ typedef struct
 {
   solver_insertion_level level;
   solver_insertion_context context;
+  output_mode mode;
 } solver_insertion_state;
+
+static void remember_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  solver_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->mode==output_mode_none)
+  {
+    state->mode = slices[si].u.output_mode_selector.mode;
+    stip_traverse_structure_children(si,st);
+    state->mode = output_mode_none;
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void insert_solvers_setplay_fork(slice_index si,
                                         stip_structure_traversal *st)
@@ -101,23 +123,26 @@ static void insert_solvers_attack_adapter(slice_index si,
 
   if (save_state.level==solver_insertion_root)
   {
-    if (OptFlag[solvariantes])
+    if (save_state.mode==output_mode_tree)
     {
-      if (!OptFlag[nothreat])
-        stip_insert_threat_handlers(si);
-    }
-    else
-    {
-      slice_index const prototype = alloc_postkeyplay_suppressor_slice();
-      battle_branch_insert_slices(si,&prototype,1);
-    }
-
-    if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    {
-      branch_insert_try_solvers(si,get_max_nr_refutations());
+      if (OptFlag[solvariantes])
       {
-        slice_index const prototype = alloc_refutations_solver();
+        if (!OptFlag[nothreat])
+          stip_insert_threat_handlers(si);
+      }
+      else
+      {
+        slice_index const prototype = alloc_postkeyplay_suppressor_slice();
         battle_branch_insert_slices(si,&prototype,1);
+      }
+
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+      {
+        branch_insert_try_solvers(si,get_max_nr_refutations());
+        {
+          slice_index const prototype = alloc_refutations_solver();
+          battle_branch_insert_slices(si,&prototype,1);
+        }
       }
     }
   }
@@ -143,7 +168,35 @@ static void insert_solvers_attack(slice_index si,
   state->level = solver_insertion_nested;
 
   if (save_state.level==solver_insertion_root)
+  {
     stip_traverse_structure_children(si,st);
+
+    if (state->mode==output_mode_line)
+    {
+      if (!OptFlag[restart] && length>=min_length+2)
+      {
+        {
+          slice_index const ready1 = branch_find_slice(STReadyForAttack,si);
+          slice_index const ready2 = branch_find_slice(STReadyForAttack,ready1);
+          slice_index const shortcut_start = alloc_pipe(STShortSolutionsStart);
+          assert(ready1!=no_slice);
+          assert(ready2!=no_slice);
+          battle_branch_insert_slices(ready2,&shortcut_start,1);
+        }
+        {
+          slice_index const dest = branch_find_slice(STShortSolutionsStart,si);
+          slice_index const prototypes[] =
+          {
+            alloc_find_shortest_slice(length,min_length),
+            alloc_fork_on_remaining_slice(dest,length-1-slack_length_battle)
+          };
+          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+          assert(dest!=no_slice);
+          battle_branch_insert_slices(si,prototypes,nr_prototypes);
+        }
+      }
+    }
+  }
   else
   {
     stip_traverse_structure_children(si,st);
@@ -175,7 +228,9 @@ static void insert_solvers_attack(slice_index si,
     slice_index const prototype = alloc_continuation_solver_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
-  if (slices[si].u.branch.length>slack_length_battle)
+
+  if (state->mode==output_mode_tree
+      && slices[si].u.branch.length>slack_length_battle)
   {
     slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
@@ -204,11 +259,14 @@ static void insert_solvers_defense_adapter(slice_index si,
 
   if (save_state.level==solver_insertion_root)
   {
-    if (!OptFlag[nothreat])
-      stip_insert_threat_handlers(si);
+    if (save_state.mode==output_mode_tree)
+    {
+      if (!OptFlag[nothreat])
+        stip_insert_threat_handlers(si);
 
-    if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-      Message(TryPlayNotApplicable);
+      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+        Message(TryPlayNotApplicable);
+    }
   }
   else
   {
@@ -362,6 +420,7 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const strategy_inserters[] =
 {
+  { STOutputModeSelector,      &remember_output_mode           },
   { STSetplayFork,             &insert_solvers_setplay_fork    },
   { STAttackAdapter,           &insert_solvers_attack_adapter  },
   { STReadyForAttack,          &insert_solvers_attack          },
@@ -391,7 +450,8 @@ void stip_insert_solvers(slice_index root_slice)
   solver_insertion_state state =
   {
     solver_insertion_root,
-    solver_insertion_global
+    solver_insertion_global,
+    output_mode_none
   };
 
   TraceFunctionEntry(__func__);
