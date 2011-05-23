@@ -33,10 +33,9 @@
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
+    ENUMERATOR(STDummyMove),    /* dummy move */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
-    ENUMERATOR(STParryFork),       /* parry move in series */           \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
@@ -48,6 +47,8 @@
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                                \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
+    ENUMERATOR(STCheckZigzagJump),                                     \
+    ENUMERATOR(STCheckZigzagLanding),                                  \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \

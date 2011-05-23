@@ -355,13 +355,13 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
   if (slices[si].u.branch.length>slack_length_battle)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -374,12 +374,12 @@ static void insert_selfcheck_guard_help_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     help_branch_insert_slices(si,&prototype,1);
   }
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -392,12 +392,12 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     series_branch_insert_slices(si,&prototype,1);
   }
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -484,6 +484,24 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remove_selfcheck_guard_fork(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_index const guard = branch_find_slice(STSelfCheckGuard,
+                                              slices[si].u.fork.fork);
+  if (guard!=no_slice)
+    pipe_remove(guard);
+
+  stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
   { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
@@ -492,8 +510,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
   { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
   { STGoalReachedTester,       &insert_selfcheck_guard_goal          },
-  /* parry fork already tests for check */
-  { STParryFork,               &stip_traverse_structure_pipe         }
+  { STCheckZigzagJump,         &remove_selfcheck_guard_fork          }
 };
 
 enum

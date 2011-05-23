@@ -1,33 +1,18 @@
-#if !defined(STIPULATION_END_OF_BRANCH_H)
-#define STIPULATION_END_OF_BRANCH_H
-
-/* Branch fork - branch decides that when to continue play in branch
- * and when to change to slice representing subsequent play
- */
+#if !defined(STIPULATION_DUMMY_MOVE_H)
+#define STIPULATION_DUMMY_MOVE_H
 
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 
-/* Allocate a STEndOfBranch slice.
- * @param to_goal identifies slice leading towards goal
+/* Slices of type STDummyMove are used to represent the "dummy move" not
+ * played by the side not playing the series.
+ */
+
+/* Allocate a STDummyMove slice.
  * @return index of allocated slice
  */
-slice_index alloc_end_of_branch_slice(slice_index to_goal);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_end_of_branch(slice_index si,
-                                           stip_structure_traversal *st);
-
-/* Traversal of the moves beyond a help fork slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_end_of_branch(slice_index si,
-                                       stip_moves_traversal *st);
+slice_index alloc_dummy_move_slice(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -37,28 +22,30 @@ void stip_traverse_moves_end_of_branch(slice_index si,
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
+ *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_defend(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+stip_length_type dummy_move_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_can_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable);
+stip_length_type dummy_move_can_defend(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -69,7 +56,7 @@ stip_length_type end_of_branch_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_branch_help(slice_index si, stip_length_type n);
+stip_length_type dummy_move_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -80,7 +67,7 @@ stip_length_type end_of_branch_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type end_of_branch_can_help(slice_index si, stip_length_type n);
+stip_length_type dummy_move_can_help(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -91,8 +78,7 @@ stip_length_type end_of_branch_can_help(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-
-stip_length_type end_of_branch_series(slice_index si, stip_length_type n);
+stip_length_type dummy_move_series(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -103,6 +89,6 @@ stip_length_type end_of_branch_series(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type end_of_branch_has_series(slice_index si, stip_length_type n);
+stip_length_type dummy_move_has_series(slice_index si, stip_length_type n);
 
 #endif

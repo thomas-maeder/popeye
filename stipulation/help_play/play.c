@@ -9,6 +9,8 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
+#include "stipulation/dummy_move.h"
+#include "stipulation/check_zigzag_jump.h"
 #include "stipulation/help_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -145,6 +147,14 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STPrerequisiteOptimiser:
       result = goal_prerequisite_optimiser_help(si,n);
+      break;
+
+    case STCheckZigzagJump:
+      result = check_zigzag_jump_help(si,n);
+      break;
+
+    case STDummyMove:
+      result = dummy_move_help(si,n);
       break;
 
     default:
@@ -286,6 +296,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STPrerequisiteOptimiser:
       result = goal_prerequisite_optimiser_can_help(si,n);
+      break;
+
+    case STDummyMove:
+      result = dummy_move_help(si,n);
       break;
 
     default:

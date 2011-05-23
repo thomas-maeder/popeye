@@ -32,6 +32,7 @@ static slice_index const help_slice_rank_order[] =
   STEndOfIntro,
 
   STReadyForHelpMove,
+  STCheckZigzagJump,
   STHelpHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
@@ -42,6 +43,7 @@ static slice_index const help_slice_rank_order[] =
   STHelpMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
+  STDummyMove,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STRestartGuard,
@@ -51,7 +53,8 @@ static slice_index const help_slice_rank_order[] =
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
-  STSelfCheckGuard
+  STSelfCheckGuard,
+  STCheckZigzagLanding
 };
 
 enum
@@ -144,6 +147,9 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
                    || slices[next].type==STEndOfBranchForced)
             branch_insert_slices_nested(slices[next].u.fork.fork,
                                         prototypes,nr_prototypes);
+          else if (slices[next].type==STCheckZigzagJump)
+            help_branch_insert_slices_nested(slices[next].u.fork.fork,
+                                             prototypes,nr_prototypes);
 
           base = rank_next;
           si = next;
@@ -275,9 +281,9 @@ void help_branch_shorten(slice_index adapter)
  * @param end_proto end of branch prototype slice
  * @param parity indicates after which help move of the branch to insert
  */
-static void insert_end_of_branch(slice_index si,
-                                 slice_index end_proto,
-                                 unsigned int parity)
+void insert_end_of_branch(slice_index si,
+                          slice_index end_proto,
+                          unsigned int parity)
 {
   slice_index pos = si;
 

@@ -8,9 +8,9 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
+#include "stipulation/dummy_move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/dummy_move.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/goals.h"
@@ -55,7 +55,6 @@ static slice_index const series_slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
-  STParryFork,
 
   STSeriesAdapter,
   STEndOfBranch,
@@ -64,7 +63,7 @@ static slice_index const series_slice_rank_order[] =
   STEndOfRoot,
 
   STReadyForSeriesDummyMove,
-  STSeriesDummyMove,
+  STDummyMove,
   STGoalReachableGuardFilter, /* only used in pser stipulations */
   STSelfCheckGuard
 };
@@ -254,7 +253,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
-    slice_index const dummy = alloc_series_dummy_move_slice();
+    slice_index const dummy = alloc_dummy_move_slice();
 
     result = adapter;
 

@@ -30,7 +30,6 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/move_generator.h"
-#include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_shortest.h"
@@ -59,10 +58,9 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STSeriesDummyMove),    /* dummy move by the side that does *not* play the series */ \
+    ENUMERATOR(STDummyMove),    /* dummy move */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
-    ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
@@ -73,6 +71,8 @@
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                           \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
+    ENUMERATOR(STCheckZigzagJump),                                     \
+    ENUMERATOR(STCheckZigzagLanding),                                  \
     ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
@@ -247,10 +247,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
   slice_structure_pipe,   /* STSeriesMoveGenerator */
-  slice_structure_pipe,   /* STSeriesDummyMove */
+  slice_structure_pipe,   /* STDummyMove */
   slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
-  slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_fork,   /* STEndOfBranch */
   slice_structure_fork,   /* STEndOfBranchForced */
@@ -261,6 +260,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDeadEnd */
   slice_structure_pipe,   /* STMove */
   slice_structure_pipe,   /* STShortSolutionsStart*/
+  slice_structure_fork,   /* STCheckZigzagJump */
+  slice_structure_pipe,   /* STCheckZigzagLanding */
   slice_structure_fork,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
   slice_structure_pipe,   /* STGoalStalemateReachedTester */
@@ -386,10 +387,9 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_move_generator, /* STSeriesMoveGenerator */
-  slice_function_unspecified,    /* STSeriesDummyMove */
+  slice_function_unspecified,    /* STDummyMove */
   slice_function_unspecified,    /* STReadyForSeriesMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
-  slice_function_unspecified,    /* STParryFork */
   slice_function_unspecified,    /* STSetplayFork */
   slice_function_unspecified,    /* STEndOfBranch */
   slice_function_unspecified,    /* STEndOfBranchForced */
@@ -400,6 +400,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STDeadEnd */
   slice_function_unspecified,    /* STMove */
   slice_function_unspecified,    /* STShortSolutionsStart*/
+  slice_function_unspecified,    /* STCheckZigzagJump */
+  slice_function_unspecified,    /* STCheckZigzagLanding */
   slice_function_unspecified,    /* STGoalReachedTester */
   slice_function_unspecified,    /* STGoalMateReachedTester */
   slice_function_unspecified,    /* STGoalStalemateReachedTester */
@@ -1389,13 +1391,10 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 static structure_traversers_visitors starter_detectors[] =
 {
   { STMove,            &move_detect_starter          },
-  { STSeriesDummyMove, &move_detect_starter          },
+  { STDummyMove, &move_detect_starter          },
   { STAnd,             &binary_detect_starter        },
   { STOr,              &binary_detect_starter        },
   { STMoveInverter,    &move_inverter_detect_starter },
-  { STParryFork,       &pipe_detect_starter          },
-  /* .fork has different starter -> detect starter from .next
-   * only */
   { STThreatSolver,    &pipe_detect_starter          },
   { STMaxThreatLength, &pipe_detect_starter          }
 };
@@ -1491,7 +1490,7 @@ static void impose_inverted_starter(slice_index si,
 static SliceType starter_inverters[] =
 {
   STMove,
-  STSeriesDummyMove,
+  STDummyMove,
   STMoveInverter
 };
 
@@ -1621,6 +1620,17 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_parry_fork(slice_index branch,
+                                        stip_structure_traversal *st)
+{
+  stip_traverse_structure_pipe(branch,st);
+  stip_traverse_structure_next_branch(branch,st);
+}
+
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,            /* STProxy */
@@ -1636,10 +1646,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
   &stip_traverse_structure_pipe,            /* STSeriesAdapter */
   &stip_traverse_structure_pipe,            /* STSeriesMoveGenerator */
-  &stip_traverse_structure_pipe,            /* STSeriesDummyMove */
+  &stip_traverse_structure_pipe,            /* STDummyMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,            /* STReadyForSeriesDummyMove */
-  &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_end_of_branch,   /* STSetplayFork */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranch */
   &stip_traverse_structure_end_of_branch,   /* STEndOfBranchForced */
@@ -1650,6 +1659,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDeadEnd */
   &stip_traverse_structure_pipe,            /* STMove */
   &stip_traverse_structure_pipe,            /* STShortSolutionsStart*/
+  &stip_traverse_structure_parry_fork,      /* STCheckZigzagJump */
+  &stip_traverse_structure_pipe,            /* STCheckZigzagLanding */
   &stip_traverse_structure_end_of_branch,   /* STGoalReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
@@ -1852,6 +1863,22 @@ void stip_traverse_structure_children(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traversal of the moves of some pipe slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_parry_fork(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static moves_visitor_map_type const moves_children_traversers =
 {
   {
@@ -1868,10 +1895,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STReadyForHelpMove */
     &stip_traverse_moves_series_adapter_slice,   /* STSeriesAdapter */
     &stip_traverse_moves_pipe,                   /* STSeriesMoveGenerator */
-    &stip_traverse_moves_move,                   /* STSeriesDummyMove */
+    &stip_traverse_moves_move,                   /* STDummyMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,                   /* STReadyForSeriesDummyMove */
-    &stip_traverse_moves_parry_fork,             /* STParryFork */
     &stip_traverse_moves_setplay_fork,           /* STSetplayFork */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranch */
     &stip_traverse_moves_end_of_branch,          /* STEndOfBranchForced */
@@ -1882,6 +1908,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_dead_end,               /* STDeadEnd */
     &stip_traverse_moves_move,                   /* STMove */
     &stip_traverse_moves_pipe,                   /* STShortSolutionsStart*/
+    &stip_traverse_moves_parry_fork,             /* STCheckZigzagJump */
+    &stip_traverse_moves_pipe,                   /* STCheckZigzagLanding */
     &stip_traverse_moves_setplay_fork,           /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,                   /* STGoalStalemateReachedTester */

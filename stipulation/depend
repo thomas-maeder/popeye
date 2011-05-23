@@ -28,6 +28,17 @@ pyproc.h:
 pypipe.h:
 
 trace.h:
+stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
+ stipulation/dummy_move.h pypipe.h stipulation/battle_play/attack_play.h \
+ trace.h
+
+stipulation/dummy_move.h:
+
+pypipe.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h pypipe.h \
  pybrafrk.h stipulation/branch.h stipulation/boolean/binary.h trace.h
 
@@ -140,5 +151,18 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 stipulation/series_play/branch.h:
+
+trace.h:
+stipulation/check_zigzag_jump$(OBJ_SUFFIX): stipulation/check_zigzag_jump.c \
+ stipulation/check_zigzag_jump.h pydata.h pybrafrk.h \
+ stipulation/help_play/branch.h trace.h
+
+stipulation/check_zigzag_jump.h:
+
+pydata.h:
+
+pybrafrk.h:
+
+stipulation/help_play/branch.h:
 
 trace.h:

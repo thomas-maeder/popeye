@@ -9,9 +9,7 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
-#include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/series_play/parry_fork.h"
-#include "stipulation/series_play/dummy_move.h"
+#include "stipulation/dummy_move.h"
 #include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
@@ -63,14 +61,6 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = move_series(si,n);
       break;
 
-    case STDefenseAdapter:
-      result = defense_adapter_series(si,n);
-      break;
-
-    case STParryFork:
-      result = parry_fork_series(si,n);
-      break;
-
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_series(si,n);
@@ -90,8 +80,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = series_hashed_series(si,n);
       break;
 
-    case STSeriesDummyMove:
-      result = series_dummy_move_series(si,n);
+    case STDummyMove:
+      result = dummy_move_series(si,n);
       break;
 
     case STConstraint:
@@ -216,14 +206,6 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = move_has_series(si,n);
       break;
 
-    case STDefenseAdapter:
-      result = defense_adapter_has_series(si,n);
-      break;
-
-    case STParryFork:
-      result = parry_fork_has_series(si,n);
-      break;
-
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_has_series(si,n);
@@ -259,8 +241,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = selfcheck_guard_has_series(si,n);
       break;
 
-    case STSeriesDummyMove:
-      result = series_dummy_move_has_series(si,n);
+    case STDummyMove:
+      result = dummy_move_has_series(si,n);
       break;
 
     case STMaxTimeGuard:

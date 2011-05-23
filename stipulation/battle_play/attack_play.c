@@ -16,7 +16,6 @@
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move_generator.h"
-#include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
@@ -129,10 +128,6 @@ stip_length_type can_attack(slice_index si,
 
     case STAttackHashed:
       result = attack_hashed_can_attack(si,n,n_max_unsolvable);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STEndOfBranchGoal:
@@ -336,10 +331,6 @@ stip_length_type attack(slice_index si,
 
     case STForkOnRemaining:
       result = fork_on_remaining_attack(si,n,n_max_unsolvable);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_attack(si,n,n_max_unsolvable);
       break;
 
     case STAttackHashed:

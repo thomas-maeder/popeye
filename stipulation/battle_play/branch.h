@@ -113,6 +113,13 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
 
 /* Instrument a branch with slices dealing with direct play
  * @param si root of branch to be instrumented
+ * @param next identifies slice leading towards goal
+ */
+void battle_branch_insert_direct_end_of_branch(slice_index si,
+                                               slice_index next);
+
+/* Instrument a branch with slices dealing with direct play
+ * @param si root of branch to be instrumented
  * @param goal identifies slice leading towards goal
  */
 void battle_branch_insert_direct_end_of_branch_goal(slice_index si,

@@ -8,8 +8,10 @@
 #include "pythreat.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/end_of_branch_goal.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/move.h"
+#include "stipulation/dummy_move.h"
+#include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -133,10 +135,6 @@ stip_length_type defend(slice_index si,
       result = selfcheck_guard_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBranchForced:
-      result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
-      break;
-
     case STMinLengthGuard:
       result = min_length_guard_defend(si,n,n_max_unsolvable);
       break;
@@ -219,13 +217,23 @@ stip_length_type defend(slice_index si,
       result = goal_prerequisite_optimiser_defend(si,n,n_max_unsolvable);
       break;
 
+    case STEndOfBranch:
+    case STEndOfBranchForced:
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
-      result = end_of_branch_goal_defend(si,n,n_max_unsolvable);
+      result = end_of_branch_defend(si,n,n_max_unsolvable);
       break;
 
     case STConstraint:
       result = constraint_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STDummyMove:
+      result = dummy_move_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STCheckZigzagJump:
+      result = check_zigzag_jump_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrue:
@@ -348,10 +356,6 @@ stip_length_type can_defend(slice_index si,
       result = fork_on_remaining_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STEndOfBranchForced:
-      result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
-      break;
-
     case STMinLengthGuard:
       result = min_length_guard_can_defend(si,n,n_max_unsolvable);
       break;
@@ -432,13 +436,23 @@ stip_length_type can_defend(slice_index si,
       result = goal_prerequisite_optimiser_can_defend(si,n,n_max_unsolvable);
       break;
 
+    case STEndOfBranch:
+    case STEndOfBranchForced:
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
-      result = end_of_branch_goal_can_defend(si,n,n_max_unsolvable);
+      result = end_of_branch_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STConstraint:
       result = constraint_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STCheckZigzagJump:
+      result = check_zigzag_jump_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STDummyMove:
+      result = dummy_move_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrue:

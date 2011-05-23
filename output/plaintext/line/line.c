@@ -47,6 +47,40 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Determine whether an end of branch slice ends an intro series
+ * @param end_of_branch identifies end of branch slice
+ * @return true iff end_of_branch ends an intro series
+ */
+static boolean ends_intro_series(slice_index end_of_branch)
+{
+  slice_index const fork = slices[end_of_branch].u.fork.fork;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",end_of_branch);
+  TraceFunctionParamListEnd();
+
+  if (branch_find_slice(STSeriesAdapter,fork)!=no_slice)
+    result = true;
+  else
+  {
+    slice_index const attack = branch_find_slice(STAttackAdapter,fork);
+    if (attack!=no_slice && slices[attack].u.branch.length>slack_length_battle+1)
+      result = true;
+    else
+    {
+      slice_index const help = branch_find_slice(STHelpAdapter,fork);
+      if (help!=no_slice && slices[help].u.branch.length>slack_length_help+1)
+        result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void instrument_end_of_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -56,9 +90,7 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* if we start another series branch, si is part of an intro series;
-   * restart move counting after forking */
-  if (branch_find_slice(STSeriesAdapter,fork)!=no_slice)
+  if (ends_intro_series(si))
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();

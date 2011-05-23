@@ -38,8 +38,8 @@ static slice_index const slice_rank_order[] =
   STDeadEnd,
   STDegenerateTree,
   STFindShortest,
-  STForkOnRemaining,
   STShortSolutionsStart,
+  STForkOnRemaining,
   STAttackMoveGenerator,
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
@@ -56,6 +56,7 @@ static slice_index const slice_rank_order[] =
   STDeadEndGoal,
   STSelfCheckGuard,
   STKeepMatingFilter,
+  STEndOfBranch,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
 
@@ -83,6 +84,7 @@ static slice_index const slice_rank_order[] =
   STEnPassantFilter,
   STPrerequisiteOptimiser,
   STDeadEnd,
+  STCheckZigzagJump,
   STForkOnRemaining,
   STForkOnRemaining,
   STDefenseMoveGenerator,
@@ -99,7 +101,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STSelfCheckGuard,
-  STSeriesAdapter,
+  STCheckZigzagLanding,
   STMaxThreatLengthHook, /* separate from STThreatStart to enable hashing*/
   STNoShortVariations,
   STKeepMatingFilter,
@@ -209,7 +211,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                       prototypes,nr_prototypes);
           si = next;
         }
-        else if (slices[next].type==STForkOnRemaining)
+        else if (slices[next].type==STForkOnRemaining
+                 || slices[next].type==STCheckZigzagJump)
         {
           battle_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
@@ -829,6 +832,31 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
   {
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_end_of_branch_goal(goal);
+    assert(ready!=no_slice);
+    battle_branch_insert_slices(ready,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a branch with slices dealing with direct play
+ * @param si root of branch to be instrumented
+ * @param next identifies slice leading towards goal
+ */
+void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(next);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const prototype = alloc_end_of_branch_slice(next);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);
   }

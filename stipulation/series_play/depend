@@ -16,8 +16,8 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/constraint.h stipulation/branch.h stipulation/proxy.h \
  stipulation/dead_end.h stipulation/end_of_branch.h \
  stipulation/end_of_branch_goal.h stipulation/move.h \
- stipulation/boolean/binary.h stipulation/series_play/adapter.h \
- stipulation/series_play/dummy_move.h stipulation/series_play/play.h \
+ stipulation/dummy_move.h stipulation/boolean/binary.h \
+ stipulation/series_play/adapter.h stipulation/series_play/play.h \
  stipulation/series_play/move_generator.h stipulation/goals/goals.h \
  trace.h
 
@@ -41,11 +41,11 @@ stipulation/end_of_branch_goal.h:
 
 stipulation/move.h:
 
+stipulation/dummy_move.h:
+
 stipulation/boolean/binary.h:
 
 stipulation/series_play/adapter.h:
-
-stipulation/series_play/dummy_move.h:
 
 stipulation/series_play/play.h:
 
@@ -71,48 +71,11 @@ pypipe.h:
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 trace.h:
-stipulation/series_play/dummy_move$(OBJ_SUFFIX): \
- stipulation/series_play/dummy_move.c \
- stipulation/series_play/dummy_move.h stipulation/series_play/play.h \
- pypipe.h trace.h
-
-stipulation/series_play/dummy_move.h:
-
-stipulation/series_play/play.h:
-
-pypipe.h:
-
-trace.h:
-stipulation/series_play/parry_fork$(OBJ_SUFFIX): \
- stipulation/series_play/parry_fork.c \
- stipulation/series_play/parry_fork.h pydata.h pyproc.h pybrafrk.h \
- stipulation/series_play/play.h stipulation/branch.h stipulation/proxy.h \
- pypipe.h trace.h
-
-stipulation/series_play/parry_fork.h:
-
-pydata.h:
-
-pyproc.h:
-
-pybrafrk.h:
-
-stipulation/series_play/play.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
-
-pypipe.h:
-
-trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  stipulation/series_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
  pyint.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move.h stipulation/battle_play/defense_adapter.h \
- stipulation/series_play/parry_fork.h \
- stipulation/series_play/dummy_move.h \
+ stipulation/move.h stipulation/dummy_move.h \
  stipulation/series_play/move_generator.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
@@ -146,11 +109,7 @@ stipulation/end_of_branch_goal.h:
 
 stipulation/move.h:
 
-stipulation/battle_play/defense_adapter.h:
-
-stipulation/series_play/parry_fork.h:
-
-stipulation/series_play/dummy_move.h:
+stipulation/dummy_move.h:
 
 stipulation/series_play/move_generator.h:
 

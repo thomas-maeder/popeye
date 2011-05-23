@@ -1,6 +1,8 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c move.c proxy.c setplay_fork.c dead_end.c end_of_branch.c end_of_branch_goal.c constraint.c
-INCLUDES = branch.h  move.h proxy.h setplay_fork.h dead_end.h end_of_branch.h end_of_branch_goal.h constraint.h
+CFILES = branch.c move.c dummy_move.c proxy.c setplay_fork.c dead_end.c \
+         end_of_branch.c end_of_branch_goal.c constraint.c check_zigzag_jump.c
+INCLUDES = branch.h  move.h dummy_move.h proxy.h setplay_fork.h dead_end.h \
+           end_of_branch.h end_of_branch_goal.h constraint.h check_zigzag_jump.h
 
 include makefile.rules $(CURRPWD)depend

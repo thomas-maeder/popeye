@@ -1,9 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = adapter.c branch.c move_generator.c dummy_move.c \
-         parry_fork.c play.c
+CFILES = adapter.c branch.c move_generator.c play.c
 
-INCLUDES = adapter.h branch.h move_generator.h dummy_move.h \
-           parry_fork.h play.h
+INCLUDES = adapter.h branch.h move_generator.h play.h
 
 include makefile.rules $(CURRPWD)depend

@@ -2926,25 +2926,6 @@ void goalreachable_guards_inserter_series_move(slice_index si,
 }
 
 static
-void goalreachable_guards_inserter_parry_fork(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_goalreachable_guard_filter();
-    series_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
 void
 goalreachable_guards_duplicate_avoider_inserter(slice_index si,
                                                 stip_structure_traversal *st)
@@ -2970,8 +2951,7 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,   &goalreachable_guards_inserter_help_move         },
   { STReadyForSeriesMove, &goalreachable_guards_inserter_series_move       },
-  { STGoalReachedTester,  &goalreachable_guards_duplicate_avoider_inserter },
-  { STParryFork,          &goalreachable_guards_inserter_parry_fork        }
+  { STGoalReachedTester,  &goalreachable_guards_duplicate_avoider_inserter }
 };
 
 enum

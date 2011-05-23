@@ -47,6 +47,7 @@ static boolean is_proxy(slice_index si)
     case STGoalMateReachedTester:
     case STOutputModeSelector:
     case STShortSolutionsStart:
+    case STCheckZigzagLanding:
       result = true;
       break;
 
