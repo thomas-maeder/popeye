@@ -2397,7 +2397,7 @@ static char *ParseSeries(char *tok,
  */
 slice_index MakeEndOfSelfPlay(slice_index proxy_to_goal)
 {
-  slice_index const result;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy_to_goal);
