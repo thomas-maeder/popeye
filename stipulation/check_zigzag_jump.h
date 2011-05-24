@@ -14,6 +14,13 @@
  */
 slice_index alloc_check_zigzag_jump_slice(slice_index shortcut);
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_check_zigzag_jump(slice_index si,
+                                               stip_structure_traversal *st);
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

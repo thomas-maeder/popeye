@@ -71,7 +71,7 @@ end_of_branch_goal_can_attack(slice_index si,
                               stip_length_type n,
                               stip_length_type n_max_unsolvable)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   slice_index const fork = slices[si].u.fork.fork;
   stip_length_type result;
 
@@ -132,7 +132,7 @@ end_of_branch_goal_attack(slice_index si,
                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
@@ -188,7 +188,7 @@ stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const fork = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   has_solution_type avoided_sol;
 
   TraceFunctionEntry(__func__);
@@ -241,7 +241,7 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
 {
   stip_length_type result;
   slice_index const fork = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -289,7 +289,7 @@ stip_length_type end_of_branch_goal_series(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const fork = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   has_solution_type avoided_sol;
 
   TraceFunctionEntry(__func__);
@@ -342,7 +342,7 @@ stip_length_type end_of_branch_goal_has_series(slice_index si,
 {
   stip_length_type result;
   slice_index const fork = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
