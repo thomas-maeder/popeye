@@ -491,10 +491,12 @@ static void remove_selfcheck_guard_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                              slices[si].u.fork.fork);
-  if (guard!=no_slice)
-    pipe_remove(guard);
+  {
+    slice_index const guard = branch_find_slice(STSelfCheckGuard,
+                                                slices[si].u.fork.fork);
+    if (guard!=no_slice)
+      pipe_remove(guard);
+  }
 
   stip_traverse_structure_pipe(si,st);
 

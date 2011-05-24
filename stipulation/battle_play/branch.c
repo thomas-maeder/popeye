@@ -5,6 +5,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"

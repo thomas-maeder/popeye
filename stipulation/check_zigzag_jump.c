@@ -1,6 +1,10 @@
 #include "stipulation/check_zigzag_jump.h"
 #include "pydata.h"
+#include "pypipe.h"
 #include "pybrafrk.h"
+#include "stipulation/branch.h"
+#include "stipulation/dummy_move.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "trace.h"
 
@@ -186,21 +190,26 @@ void battle_branch_insert_defense_zigzag(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  slice_index const dummy = alloc_dummy_move_slice();
-  slice_index const ready = branch_find_slice(STReadyForDefense,adapter);
-  assert(ready!=no_slice);
-  slice_index const prototypes[] =
   {
-    alloc_check_zigzag_jump_slice(dummy),
-    alloc_pipe(STCheckZigzagLanding)
-  };
-  enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-  battle_branch_insert_slices(ready,prototypes,nr_prototypes);
-  slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
-  slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
-  assert(jump!=no_slice);
-  assert(landing!=no_slice);
-  pipe_set_successor(dummy,landing);
+    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const ready = branch_find_slice(STReadyForDefense,adapter);
+    slice_index const prototypes[] =
+    {
+      alloc_check_zigzag_jump_slice(dummy),
+      alloc_pipe(STCheckZigzagLanding)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    assert(ready!=no_slice);
+    battle_branch_insert_slices(ready,prototypes,nr_prototypes);
+
+    {
+      slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
+      assert(jump!=no_slice);
+      assert(landing!=no_slice);
+      pipe_set_successor(dummy,landing);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -217,15 +226,23 @@ void help_branch_insert_zigzag(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  slice_index const dummy = alloc_dummy_move_slice();
-  insert_end_of_branch(adapter,alloc_check_zigzag_jump_slice(dummy),parity);
-  slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
-  assert(jump!=no_slice);
-  slice_index landing_proto = alloc_pipe(STCheckZigzagLanding);
-  help_branch_insert_slices(jump,&landing_proto,1);
-  slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
-  assert(landing!=no_slice);
-  pipe_set_successor(dummy,landing);
+  {
+    slice_index const dummy = alloc_dummy_move_slice();
+    insert_end_of_branch(adapter,alloc_check_zigzag_jump_slice(dummy),parity);
+
+    {
+      slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
+      slice_index landing_proto = alloc_pipe(STCheckZigzagLanding);
+      assert(jump!=no_slice);
+      help_branch_insert_slices(jump,&landing_proto,1);
+
+      {
+        slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
+        assert(landing!=no_slice);
+        pipe_set_successor(dummy,landing);
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
