@@ -2416,7 +2416,7 @@ slice_index MakeEndOfSelfPlay(slice_index proxy_to_goal)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
