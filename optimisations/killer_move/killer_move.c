@@ -125,7 +125,8 @@ static void optimise_final_defense_move_with_killer_moves(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_collector(slice_index si, stip_structure_traversal *st)
+static void substitute_killermove_machinery(slice_index si,
+                                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -137,23 +138,8 @@ static void insert_collector(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototype = alloc_killer_move_collector_slice();
     battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void optimise_move_generator(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (enabled[slices[si].starter])
     pipe_substitute(si,alloc_killer_move_move_generator_slice());
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -161,11 +147,9 @@ static void optimise_move_generator(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,          &stip_traverse_structure_pipe },
-  { STReadyForAttack,       &insert_collector             },
-  { STReadyForDefense,      &insert_collector             },
-  { STAttackMoveGenerator,  &optimise_move_generator      },
-  { STDefenseMoveGenerator, &optimise_move_generator      }
+  { STSetplayFork,          &stip_traverse_structure_pipe    },
+  { STAttackMoveGenerator,  &substitute_killermove_machinery },
+  { STDefenseMoveGenerator, &substitute_killermove_machinery },
 };
 
 enum
