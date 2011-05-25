@@ -130,6 +130,7 @@ stip_length_type can_attack(slice_index si,
       result = attack_hashed_can_attack(si,n,n_max_unsolvable);
       break;
 
+    case STEndOfBranch:
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_goal_can_attack(si,n,n_max_unsolvable);
@@ -337,6 +338,7 @@ stip_length_type attack(slice_index si,
       result = attack_hashed_attack(si,n,n_max_unsolvable);
       break;
 
+    case STEndOfBranch:
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_goal_attack(si,n,n_max_unsolvable);
