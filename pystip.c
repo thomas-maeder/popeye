@@ -44,149 +44,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#define ENUMERATION_TYPENAME SliceType
-#define ENUMERATORS \
-  ENUMERATOR(STProxy),                                                  \
-    ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
-    ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
-    ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator slice */ \
-    ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
-    ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
-    ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
-    ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
-    ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STReadyForHelpMove),                                     \
-    ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
-    ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STDummyMove),    /* dummy move */ \
-    ENUMERATOR(STReadyForSeriesMove),                                   \
-    ENUMERATOR(STReadyForSeriesDummyMove),                              \
-    ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
-    ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
-    ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
-    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
-    ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
-    ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
-    ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
-    ENUMERATOR(STMove),                                           \
-    ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
-    ENUMERATOR(STCheckZigzagJump),                                     \
-    ENUMERATOR(STCheckZigzagLanding),                                  \
-    ENUMERATOR(STGoalReachedTester), /* proxy slice marking the start of goal testing */ \
-    ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
-    ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
-    ENUMERATOR(STGoalDoubleStalemateReachedTester), /* tests whether a double stalemate goal has been reached */ \
-    ENUMERATOR(STGoalTargetReachedTester), /* tests whether a target goal has been reached */ \
-    ENUMERATOR(STGoalCheckReachedTester), /* tests whether a check goal has been reached */ \
-    ENUMERATOR(STGoalCaptureReachedTester), /* tests whether a capture goal has been reached */ \
-    ENUMERATOR(STGoalSteingewinnReachedTester), /* tests whether a steingewinn goal has been reached */ \
-    ENUMERATOR(STGoalEnpassantReachedTester), /* tests whether an en passant goal has been reached */ \
-    ENUMERATOR(STGoalDoubleMateReachedTester), /* tests whether a double mate goal has been reached */ \
-    ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
-    ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
-    ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
-    ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
-    ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
-    ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a "circuit by rebirth" goal has been reached */ \
-    ENUMERATOR(STGoalExchangeByRebirthReachedTester), /* tests whether an "exchange by rebirth" goal has been reached */ \
-    ENUMERATOR(STGoalAnyReachedTester), /* tests whether an any goal has been reached */ \
-    ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
-    ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
-    ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
-    ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
-    ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
-    ENUMERATOR(STTrue),            /* true leaf slice */                \
-    ENUMERATOR(STFalse),           /* false leaf slice */               \
-    ENUMERATOR(STAnd),      /* logical AND */                           \
-    ENUMERATOR(STOr),       /* logical OR */                            \
-    ENUMERATOR(STNot),             /* logical NOT */                    \
-    ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
-    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
-    ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
-    ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
-    ENUMERATOR(STFindShortest),                                   \
-    ENUMERATOR(STFindByIncreasingLength), /* find all solutions */  \
-    ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
-    ENUMERATOR(STTrySolver), /* find battle play solutions */           \
-    ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
-    ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
-    ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
-    ENUMERATOR(STThreatSolver), /* solves threats */                    \
-    ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
-    ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
-    ENUMERATOR(STThreatCollector), /* collects threats */               \
-    ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
-    ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
-    ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
-    ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
-    ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
-    ENUMERATOR(STRestartGuard),    /* write move numbers */             \
-    ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxSolutionsInitialiser), /* deals with option maxsolutions */  \
-    ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
-    ENUMERATOR(STEndOfBranchGoalImmobile), /* end of branch leading to "immobile goal" (#, =, ...) */ \
-    ENUMERATOR(STDeadEndGoal), /* like STDeadEnd, but all ends are goals */ \
-    ENUMERATOR(STOrthodoxMatingMoveGenerator),                          \
-    ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
-    ENUMERATOR(STKillerMoveMoveGenerator), /* generate attack moves, prioritise killer move (if any) */ \
-    ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
-    ENUMERATOR(STCountNrOpponentMovesMoveGenerator), \
-    ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
-    ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
-    ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
-    ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
-    ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
-    ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
-    ENUMERATOR(STGoalReachableGuardFilter), /* goal still reachable in intelligent mode? */ \
-    ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
-    ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
-    ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
-    ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
-    ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
-    ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
-    ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
-    ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
-    ENUMERATOR(STMaxThreatLengthHook), /* where should STMaxThreatLength start looking for threats */ \
-    ENUMERATOR(STStopOnShortSolutionsInitialiser), /* intialise stoponshortsolutions machinery */  \
-    ENUMERATOR(STStopOnShortSolutionsFilter), /* enforce option stoponshortsolutions */  \
-    ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
-    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
-    ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
-    ENUMERATOR(STCirceCircuitSpecial), /* has reborn capturee made a circuit? */ \
-    ENUMERATOR(STCirceExchangeSpecial), /* has reborn capturee made an exchange? */ \
-    ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
-    ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
-    ENUMERATOR(STAnticirceExchangeSpecial), /* special exchange by rebirth */ \
-    ENUMERATOR(STAnticirceExchangeFilter), /* only apply special test after capture in Anticirce */ \
-    ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
-    ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
-    ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
-    ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
-    ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
-    ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
-    ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
-    ENUMERATOR(STMoveWriter), /* writes moves */ \
-    ENUMERATOR(STKeyWriter), /* write battle play solutions */ \
-    ENUMERATOR(STTryWriter), /* write "but" */                          \
-    ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
-    ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
-    ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
-    ENUMERATOR(STRefutationWriter), /* writes refutations */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeDecorationWriter), /* plain text output, tree mode: write checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
-    ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
-    ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
-    ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    ENUMERATOR(nr_slice_types),                                         \
-    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
-
+#include "stipulation/slice_type.h"
 #define ENUMERATION_MAKESTRINGS
-
 #include "pyenum.h"
 
 
@@ -576,7 +435,7 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
   TraceEnumerator(slice_structural_type,type,"");
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"");
+  TraceEnumerator(slice_type,slices[si].type,"");
   TraceEnumerator(slice_structural_type,
                   highest_structural_type[slices[si].type],
                   "\n");
@@ -615,7 +474,7 @@ void assert_no_leaked_slices(void)
     if (!is_slice_index_free[i])
     {
       TraceValue("leaked:%u",i);
-      TraceEnumerator(SliceType,slices[i].type,"\n");
+      TraceEnumerator(slice_type,slices[i].type,"\n");
     }
     assert(is_slice_index_free[i]);
   }
@@ -645,12 +504,12 @@ void init_slice_allocator(void)
  * @param type which type
  * @return a so far unused slice index
  */
-slice_index alloc_slice(SliceType type)
+slice_index alloc_slice(slice_type type)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   for (result = 0; result!=max_nr_slices; ++result)
@@ -679,7 +538,7 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   assert(!is_slice_index_free[si]);
   is_slice_index_free[si] = true;
 
@@ -1024,7 +883,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
     slices[result].starter = no_side;
     (*copies)[si] = result;
 
-    TraceEnumerator(SliceType,slices[si].type,"\n");
+    TraceEnumerator(slice_type,slices[si].type,"\n");
     switch (highest_structural_type[slices[si].type])
     {
       case slice_structure_leaf:
@@ -1506,7 +1365,7 @@ static void impose_inverted_starter(slice_index si,
 
 /* Slice types that change the starting side
  */
-static SliceType starter_inverters[] =
+static slice_type starter_inverters[] =
 {
   STMove,
   STDummyMove,
@@ -1527,7 +1386,7 @@ void stip_impose_starter(slice_index si, Side starter)
 {
   stip_structure_traversal st;
   unsigned int i;
-  SliceType type;
+  slice_type type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1582,7 +1441,7 @@ void stip_structure_visit_slice(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   assert(slices[si].type<=nr_slice_types);
 
   {
@@ -1833,7 +1692,7 @@ void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
  * @param visitor overrider
  */
 void stip_structure_traversal_override_single(stip_structure_traversal *st,
-                                              SliceType type,
+                                              slice_type type,
                                               stip_structure_visitor visitor)
 {
   st->map.visitors[type] = visitor;
@@ -2111,7 +1970,7 @@ void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
  * @param visitor overrider
  */
 void stip_moves_traversal_override_single(stip_moves_traversal *st,
-                                          SliceType type,
+                                          slice_type type,
                                           stip_moves_visitor visitor)
 {
   TraceFunctionEntry(__func__);
@@ -2136,7 +1995,7 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
 
   TraceValue("%u\n",st->remaining);
 
-  TraceEnumerator(SliceType,slices[root].type,"\n");
+  TraceEnumerator(slice_type,slices[root].type,"\n");
   assert(slices[root].type<=nr_slice_types);
 
   {
@@ -2174,11 +2033,11 @@ void stip_traverse_moves_children(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   assert(slices[si].type<=nr_slice_types);
 
   {
-    SliceType const type = slices[si].type;
+    slice_type const type = slices[si].type;
     stip_moves_visitor const operation = moves_children_traversers.visitors[type];
     assert(operation!=0);
     (*operation)(si,st);

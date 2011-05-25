@@ -47,7 +47,7 @@ stip_length_type help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STFindByIncreasingLength:
@@ -204,7 +204,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STMove:

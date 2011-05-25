@@ -44,7 +44,7 @@ void battle_branch_insert_slices(slice_index si,
  * @param nr_types number of elements of array types
  */
 void battle_branch_remove_slices(slice_index si,
-                                 SliceType const types[],
+                                 slice_type const types[],
                                  unsigned int nr_types);
 
 /* Insert slices into a battle branch; the elements of

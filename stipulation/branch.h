@@ -13,7 +13,7 @@
  * @param min_length minimum number of half moves until end of slice
  * @return newly allocated slice
  */
-slice_index alloc_branch(SliceType type,
+slice_index alloc_branch(slice_type type,
                          stip_length_type length,
                          stip_length_type min_length);
 
@@ -24,7 +24,7 @@ slice_index alloc_branch(SliceType type,
  *           recursive, it may be visited as the last slice of the search)
  * @return identifier for slice with type type; no_slice if none is found
  */
-slice_index branch_find_slice(SliceType type, slice_index si);
+slice_index branch_find_slice(slice_type type, slice_index si);
 
 /* Traversal of the moves of a branch
  * @param si identifies root of subtree

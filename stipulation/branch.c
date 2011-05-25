@@ -48,13 +48,13 @@ enum
  * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_root_slice_rank(SliceType type, unsigned int base)
+static unsigned int get_root_slice_rank(slice_type type, unsigned int base)
 {
   unsigned int result = no_root_branch_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
@@ -83,7 +83,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_root_slice_rank(prototype_type,base);
 
     do
@@ -205,13 +205,13 @@ enum
   no_slice_rank_order = INT_MAX
 };
 
-static unsigned int get_slice_rank(SliceType type, unsigned int base)
+static unsigned int get_slice_rank(slice_type type, unsigned int base)
 {
   unsigned int result = no_slice_rank_order;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
@@ -240,7 +240,7 @@ static void branch_insert_slices_recursive(slice_index si_start,
 
   {
     slice_index si = si_start;
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_slice_rank(prototype_type,base);
 
     do
@@ -406,13 +406,13 @@ enum
  * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_leaf_slice_rank(SliceType type)
+static unsigned int get_leaf_slice_rank(slice_type type)
 {
   unsigned int result = no_leaf_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_leaf_slice_rank_order_elmts; ++i)
@@ -445,7 +445,7 @@ void leaf_branch_insert_slices_nested(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_leaf_slice_rank(prototype_type);
 
     if (prototype_rank==no_leaf_slice_type)
@@ -525,14 +525,14 @@ void leaf_branch_insert_slices(slice_index si,
  * @param min_length minimum number of half moves until end of slice
  * @return newly allocated slice
  */
-slice_index alloc_branch(SliceType type,
+slice_index alloc_branch(slice_type type,
                          stip_length_type length,
                          stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
@@ -552,13 +552,13 @@ slice_index alloc_branch(SliceType type,
  * @param si identifies the slice where to start searching
  * @return identifier for slice with type type; no_slice if none is found
  */
-slice_index branch_find_slice(SliceType type, slice_index si)
+slice_index branch_find_slice(slice_type type, slice_index si)
 {
   slice_index result = si;
   boolean slices_visited[max_nr_slices] = { false };
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 

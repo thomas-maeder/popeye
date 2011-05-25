@@ -75,7 +75,7 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(*si,st);
 
-  TraceEnumerator(SliceType,slices[*si].type,"\n");
+  TraceEnumerator(slice_type,slices[*si].type,"\n");
   while (*si!=no_slice && is_proxy(*si))
   {
     (*is_resolved_proxy)[*si] = true;

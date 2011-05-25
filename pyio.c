@@ -3695,7 +3695,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
  *               be parsed
  * @return remainder of input token; 0 if parsing failed
  */
-static char *ParseStructuredStip_operator(char *tok, SliceType *result)
+static char *ParseStructuredStip_operator(char *tok, slice_type *result)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -3746,7 +3746,7 @@ static char *ParseStructuredStip_expression(char *tok,
     tok = ParseStructuredStip_operand(tok,operand1,&op1_type,level);
     if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
     {
-      SliceType operator_type;
+      slice_type operator_type;
       tok = ParseStructuredStip_operator(tok,&operator_type);
       if (tok!=0 && operator_type!=no_slice_type)
       {

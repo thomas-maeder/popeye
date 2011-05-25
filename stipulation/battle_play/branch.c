@@ -128,13 +128,13 @@ enum
  * @return rank of type (>=base)
  *         base+nr_slice_rank_order_elmts if the rank can't be determined
  */
-static unsigned int get_slice_rank(SliceType type, unsigned int base)
+static unsigned int get_slice_rank(slice_type type, unsigned int base)
 {
   unsigned int result = no_battle_branch_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
@@ -164,7 +164,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
 
   {
     slice_index si = si_start;
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_slice_rank(prototype_type,base);
 
     do
@@ -304,7 +304,7 @@ void battle_branch_insert_slices(slice_index si,
  * @param nr_types number of elements of array types
  */
 void battle_branch_remove_slices(slice_index si,
-                                 SliceType const types[],
+                                 slice_type const types[],
                                  unsigned int nr_types)
 {
   TraceFunctionEntry(__func__);

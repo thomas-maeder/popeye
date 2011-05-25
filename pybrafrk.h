@@ -12,7 +12,7 @@
  * @param fork identifies proxy slice that leads towards goal from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(SliceType type, slice_index fork);
+slice_index alloc_branch_fork(slice_type type, slice_index fork);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies

@@ -46,7 +46,7 @@ stip_length_type series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STFindShortest:
@@ -195,7 +195,7 @@ stip_length_type has_series(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
+  TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STFindShortest:

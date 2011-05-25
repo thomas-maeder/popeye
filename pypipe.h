@@ -13,7 +13,7 @@
  * @param type which slice type
  * @return newly allocated slice
  */
-slice_index alloc_pipe(SliceType type);
+slice_index alloc_pipe(slice_type type);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice

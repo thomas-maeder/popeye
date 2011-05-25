@@ -2085,7 +2085,7 @@ static boolean apply_whitetoplay(slice_index proxy)
   while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
     next = slices[next].u.pipe.next;
 
-  TraceEnumerator(SliceType,slices[next].type,"\n");
+  TraceEnumerator(slice_type,slices[next].type,"\n");
   switch (slices[next].type)
   {
     case STHelpAdapter:

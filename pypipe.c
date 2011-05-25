@@ -9,12 +9,12 @@
  * @param type which slice type
  * @return newly allocated slice
  */
-slice_index alloc_pipe(SliceType type)
+slice_index alloc_pipe(slice_type type)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   result = alloc_slice(type);

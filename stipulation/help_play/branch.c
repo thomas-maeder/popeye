@@ -70,13 +70,13 @@ enum
  * @return rank of type; nr_help_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_slice_rank(SliceType type, unsigned int base)
+static unsigned int get_slice_rank(slice_type type, unsigned int base)
 {
   unsigned int result = no_help_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
@@ -106,7 +106,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
 
   {
     slice_index si = si_start;
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_slice_rank(prototype_type,base);
 
     do

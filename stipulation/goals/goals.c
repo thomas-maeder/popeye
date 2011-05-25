@@ -136,13 +136,13 @@ enum
  * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_goal_slice_rank(SliceType type)
+static unsigned int get_goal_slice_rank(slice_type type)
 {
   unsigned int result = no_goal_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_goal_slice_rank_order_elmts; ++i)
@@ -175,7 +175,7 @@ static void goal_branch_insert_slices_nested(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    SliceType const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_goal_slice_rank(prototype_type);
 
     if (prototype_rank==no_goal_slice_type)

@@ -14,12 +14,12 @@
  *                from the branch
  * @return newly allocated slice
  */
-slice_index alloc_branch_fork(SliceType type, slice_index fork)
+slice_index alloc_branch_fork(slice_type type, slice_index fork)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",fork);
   TraceFunctionParamListEnd();
 
