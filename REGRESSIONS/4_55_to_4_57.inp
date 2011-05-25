@@ -271,4 +271,12 @@ pieces white ke1 sh2 pg3
 stip phser-s#2
 option set
 
+next
+
+title only example of ser-r#2*
+pieces white ke1 pg3
+       black ke3 bh5 sh2 pd3
+stip ser-r#2
+option set
+
 end

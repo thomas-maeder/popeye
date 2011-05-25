@@ -1281,3 +1281,38 @@ solution finished.
 solution finished. 
 
 
+
+       only example of ser-r#2*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P  -K   .   P   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-r#2                     2 + 4
+
+  1...d3-d2 # 
+
+  1.g3-g4   2.g4-g5 d3-d2 # 
+
+              empile:          87
+            jouecoup:          61
+        orig_rbechec:          58
+        orig_rnechec:          15
+solution finished. 
+
+
