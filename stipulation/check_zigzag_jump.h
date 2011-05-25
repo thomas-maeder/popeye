@@ -80,11 +80,11 @@ stip_length_type check_zigzag_jump_can_help(slice_index si, stip_length_type n);
  * shortcut for the defense moe
  * @param adapter identifies adapter slice into the battle branch
  */
-void battle_branch_insert_defense_zigzag(slice_index adapter);
+void battle_branch_insert_defense_check_zigzag(slice_index adapter);
 
 /* Instrument a help branch with a STCheckZigzagJump slice
  * @param adapter identifies adapter slice into the help branch
  */
-void help_branch_insert_zigzag(slice_index adapter);
+void help_branch_insert_check_zigzag(slice_index adapter);
 
 #endif

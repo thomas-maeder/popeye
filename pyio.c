@@ -2594,6 +2594,7 @@ static char *ParsePlay(char *tok,
       stip_make_goal_attack_branch(proxy_to_goal);
       help_branch_insert_constraint(proxy,stip_deep_copy(proxy_to_goal),0);
       help_branch_set_end_forced(proxy,proxy_to_goal,1);
+      help_branch_insert_check_zigzag(proxy);
       stip_impose_starter(proxy_to_goal,Black);
     }
   }
@@ -2608,6 +2609,7 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
+      help_branch_insert_check_zigzag(proxy);
       stip_impose_starter(proxy_to_goal,White);
     }
   }
@@ -2623,7 +2625,7 @@ static char *ParsePlay(char *tok,
     {
       stip_make_direct_goal_branch(proxy_to_goal);
       help_branch_set_end_goal(proxy,proxy_to_goal,1);
-      help_branch_insert_zigzag(proxy);
+      help_branch_insert_check_zigzag(proxy);
       stip_impose_starter(proxy_to_goal,Black);
     }
   }
@@ -2640,7 +2642,7 @@ static char *ParsePlay(char *tok,
       slice_index const to_goal = slices[proxy_to_goal].u.pipe.next;
       slice_index const nested = alloc_help_branch(slack_length_help+1,
                                                    slack_length_help+1);
-      help_branch_insert_zigzag(proxy);
+      help_branch_insert_check_zigzag(proxy);
       help_branch_set_end_goal(nested,proxy_to_goal,1);
       help_branch_set_end(proxy,nested,1);
       if (slices[to_goal].type==STGoalReachedTester
@@ -2664,7 +2666,7 @@ static char *ParsePlay(char *tok,
       stip_make_goal_attack_branch(proxy_to_goal);
       battle_branch_insert_attack_constraint(proxy,stip_deep_copy(proxy_to_goal));
       battle_branch_insert_end_of_branch_forced(proxy,proxy_to_goal);
-      battle_branch_insert_defense_zigzag(proxy);
+      battle_branch_insert_defense_check_zigzag(proxy);
     }
   }
 
@@ -2681,7 +2683,7 @@ static char *ParsePlay(char *tok,
                                                 MakeEndOfSelfPlay(proxy_to_goal));
       stip_impose_starter(proxy_to_goal,Black);
       select_output_mode(proxy,output_mode_line);
-      battle_branch_insert_defense_zigzag(proxy);
+      battle_branch_insert_defense_check_zigzag(proxy);
     }
   }
 
@@ -2697,7 +2699,7 @@ static char *ParsePlay(char *tok,
       select_output_mode(proxy,output_mode_line);
       stip_make_direct_goal_branch(proxy_to_goal);
       battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
-      battle_branch_insert_defense_zigzag(proxy);
+      battle_branch_insert_defense_check_zigzag(proxy);
     }
   }
 

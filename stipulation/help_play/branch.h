@@ -92,6 +92,12 @@ void help_branch_insert_slices_nested(slice_index si,
                                       slice_index const prototypes[],
                                       unsigned int nr_prototypes);
 
+/* Create the root slices of a help branch
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
+ */
+slice_index help_branch_make_root_slices(slice_index adapter);
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param adapter identifies the adapter slice at the beginning of the branch

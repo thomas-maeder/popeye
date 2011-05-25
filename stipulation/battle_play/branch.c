@@ -56,12 +56,12 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
+
+  STDefenseAdapter,
   STKeepMatingFilter,
   STEndOfBranch,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
-
-  STDefenseAdapter,
   STRefutationsAllocator,
   STContinuationSolver,
   STMoveWriter,
@@ -659,12 +659,11 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   return result;
 }
 
-/* Wrap the slices representing the initial moves of the solution with
- * slices of appropriately equipped slice types
+/* Create the root slices of a battle branch
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of root slice
+ * @return identifier of initial root slice
  */
-slice_index battle_make_root(slice_index adapter)
+slice_index battle_branch_make_root_slices(slice_index adapter)
 {
   slice_index result = no_slice;
 
@@ -689,19 +688,40 @@ slice_index battle_make_root(slice_index adapter)
                                              STEndOfRoot,
                                              &serve_as_root_hook);
     stip_traverse_structure(adapter,&st);
-
-    {
-      slice_index si;
-      for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
-        if (slice_has_structure(si,slice_structure_branch))
-        {
-          slices[si].u.branch.length -= 2;
-          slices[si].u.branch.min_length -= 2;
-        }
-    }
-
-    pipe_remove(adapter);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of root slice
+ */
+slice_index battle_make_root(slice_index adapter)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  result = battle_branch_make_root_slices(adapter);
+
+  {
+    slice_index si;
+    for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
+      if (slice_has_structure(si,slice_structure_branch))
+      {
+        slices[si].u.branch.length -= 2;
+        slices[si].u.branch.min_length -= 2;
+      }
+  }
+
+  pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);

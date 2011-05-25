@@ -469,11 +469,11 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Create the root slices of a helpbranch
+/* Create the root slices of a help branch
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return identifier of initial root slice
  */
-static slice_index help_branch_make_root_slices(slice_index adapter)
+slice_index help_branch_make_root_slices(slice_index adapter)
 {
   slice_index result = no_slice;
 

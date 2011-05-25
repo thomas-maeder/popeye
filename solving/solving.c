@@ -272,13 +272,15 @@ static void insert_solvers_defense_adapter(slice_index si,
   {
     if (slices[si].u.branch.length>slack_length_battle)
     {
-      slice_index const prototype = alloc_continuation_solver_slice();
-      battle_branch_insert_slices(si,&prototype,1);
-    }
-    if (save_state.level==solver_insertion_setplay)
-    {
-      unsigned int const max_nr_refutations = UINT_MAX;
-      branch_insert_try_solvers(si,max_nr_refutations);
+      {
+        slice_index const prototype = alloc_continuation_solver_slice();
+        battle_branch_insert_slices(si,&prototype,1);
+      }
+      if (save_state.level==solver_insertion_setplay)
+      {
+        unsigned int const max_nr_refutations = UINT_MAX;
+        branch_insert_try_solvers(si,max_nr_refutations);
+      }
     }
   }
 

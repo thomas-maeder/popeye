@@ -1106,3 +1106,178 @@ so far, uncapturable pieces were only supported correctly
 solution finished. 
 
 
+
+      only example of pser-s#N*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P  -P   .   .   .   4
+|                                   |
+3   .   .   .  -P  -K   .   P  -P   3
+|                                   |
+2   .   .   .   .  -P   .   .   S   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-s#2                    3 + 6
+
+  1...d3-d2 # 
+
+  1.Sh2-f3   2.Sf3-h2 d3-d2 # 
+
+              empile:         442
+            jouecoup:         283
+        orig_rbechec:         218
+        orig_rnechec:         150
+solution finished. 
+
+
+
+      only example of pser-r#N*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P  -K   .   P   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-r#2                    2 + 4
+
+  1...d3-d2 # 
+
+  1.g3-g4   2.g4-g5 d3-d2 # 
+
+              empile:         103
+            jouecoup:          72
+        orig_rbechec:          55
+        orig_rnechec:          24
+solution finished. 
+
+
+
+      only example of pser-h#N*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   S   7
+|                                   |
+6   .   .   .   P   K   .  -P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-h#2                    4 + 2
+
+  1...d6-d7 # 
+
+  1.g6-g5   2.g5-g4 d6-d7 # 
+
+              empile:          75
+            jouecoup:          53
+        orig_rbechec:          13
+        orig_rnechec:          50
+solution finished. 
+
+
+
+      only example of phser-r#2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -P  -K   .   P   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  phser-r#2                   2 + 4
+
+  1...d3-d2 # 
+
+  1.g3-g4   2.g4-g5 d3-d2 # 
+
+              empile:          87
+            jouecoup:          61
+        orig_rbechec:          58
+        orig_rnechec:          15
+solution finished. 
+
+
+
+      only example of phser-s#N*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P  -P   .   .   .   4
+|                                   |
+3   .   .   .  -P  -K   .   P  -P   3
+|                                   |
+2   .   .   .   .  -P   .   .   S   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  phser-s#2                   3 + 6
+
+  1...d3-d2 # 
+
+  1.Sh2-f3   2.Sf3-h2 d3-d2 # 
+
+              empile:         318
+            jouecoup:         234
+        orig_rbechec:         215
+        orig_rnechec:         102
+solution finished. 
+
+

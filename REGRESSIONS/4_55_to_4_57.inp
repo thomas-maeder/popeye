@@ -231,4 +231,44 @@ pieces white ka1 black uncap pa2
 stipulation ~1
 option nobk
 
+next
+
+title only example of pser-s#N*
+pieces white ke1 sh2 pg3
+       black ke3 pd3d4e2e4h3
+stip pser-s#2
+option set
+
+next
+
+title only example of pser-r#N*
+pieces white ke1 pg3
+       black ke3 bh5 sh2 pd3
+stip pser-r#2
+option set
+
+next
+
+title only example of pser-h#N*
+pieces white ke6 sh7 bh4 pd6
+       black ke8 pg6
+stip pser-h#2
+option set
+
+next
+
+title only example of phser-r#2
+pieces white ke1 pg3
+       black ke3 bh5 sh2 pd3
+stip phser-r#2
+option set
+
+next
+
+title only example of phser-s#N*
+pieces white ke1 sh2 pg3
+       black ke3 pd3d4e2e4h3
+stip phser-s#2
+option set
+
 end

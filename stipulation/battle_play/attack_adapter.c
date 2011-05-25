@@ -120,14 +120,33 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
 
   if (length>slack_length_battle)
   {
-    *setplay_slice = battle_branch_make_setplay(adapter);
-
-    if (*setplay_slice!=no_slice)
+    slice_index zigzag = branch_find_slice(STCheckZigzagJump,adapter);
+    if (zigzag==no_slice)
     {
-      slice_index const set_adapter = alloc_defense_adapter_slice(length-1,
-                                                                  min_length-1);
-      link_to_branch(set_adapter,*setplay_slice);
-      *setplay_slice = set_adapter;
+      *setplay_slice = battle_branch_make_setplay(adapter);
+
+      if (*setplay_slice!=no_slice)
+      {
+        slice_index const set_adapter = alloc_defense_adapter_slice(length-1,
+                                                                    min_length-1);
+        link_to_branch(set_adapter,*setplay_slice);
+        *setplay_slice = set_adapter;
+      }
+    }
+    else
+    {
+      /* set play of some pser stipulation */
+      slice_index const proto = alloc_defense_adapter_slice(slack_length_battle,
+                                                            slack_length_battle);
+      battle_branch_insert_slices(adapter,&proto,1);
+
+      {
+        slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
+                                                              adapter);
+        assert(defense_adapter!=no_slice);
+        *setplay_slice = battle_branch_make_root_slices(defense_adapter);
+        pipe_remove(defense_adapter);
+      }
     }
   }
 

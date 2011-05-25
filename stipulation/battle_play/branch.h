@@ -91,6 +91,12 @@ void trash_for_postkey_play(slice_index si, stip_structure_traversal *st);
  */
 boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
 
+/* Create the root slices of a battle branch
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @return identifier of initial root slice
+ */
+slice_index battle_branch_make_root_slices(slice_index adapter);
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
