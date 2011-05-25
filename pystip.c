@@ -840,15 +840,16 @@ void insert_intro_end_of_branch(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors intro_slice_inserters[] =
 {
-  { STAttackAdapter,           &attack_adapter_make_intro  },
-  { STDefenseAdapter,          &defense_adapter_make_intro },
-  { STHelpAdapter,             &help_adapter_make_intro    },
-  { STSeriesAdapter,           &series_adapter_make_intro  },
-  { STEndOfBranch,             &insert_intro_end_of_branch },
-  { STEndOfBranchGoal,         &insert_intro_end_of_branch },
-  { STEndOfBranchGoalImmobile, &insert_intro_end_of_branch },
-  { STEndOfBranchForced,       &insert_intro_end_of_branch },
-  { STConstraint,              &insert_intro_end_of_branch }
+  { STAttackAdapter,           &attack_adapter_make_intro   },
+  { STDefenseAdapter,          &defense_adapter_make_intro  },
+  { STHelpAdapter,             &help_adapter_make_intro     },
+  { STSeriesAdapter,           &series_adapter_make_intro   },
+  { STEndOfBranch,             &insert_intro_end_of_branch  },
+  { STEndOfBranchGoal,         &insert_intro_end_of_branch  },
+  { STEndOfBranchGoalImmobile, &insert_intro_end_of_branch  },
+  { STEndOfBranchForced,       &insert_intro_end_of_branch  },
+  { STConstraint,              &insert_intro_end_of_branch  },
+  { STGoalReachedTester,       &stip_structure_visitor_noop }
 };
 
 enum
