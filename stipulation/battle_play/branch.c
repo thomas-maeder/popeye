@@ -596,6 +596,23 @@ static void attack_adapter_make_postkeyplay(slice_index adapter,
   TraceFunctionParamListEnd();
 }
 
+static void move_to_postkey(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  link_to_branch(si,*root_slice);
+  *root_slice = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Attempt to apply the postkey play option to the current stipulation
  * @param root_proxy identifies root proxy slice
  * @return true iff postkey play option is applicable (and has been
@@ -616,7 +633,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   stip_structure_traversal_init(&st,&postkey_slice);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
-                                                 &pipe_make_root);
+                                                 &move_to_postkey);
   stip_structure_traversal_override_single(&st,
                                            STAttackAdapter,
                                            &attack_adapter_make_postkeyplay);

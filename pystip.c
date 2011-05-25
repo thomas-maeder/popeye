@@ -753,6 +753,23 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void move_to_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  link_to_branch(si,*root_slice);
+  *root_slice = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors root_slice_inserters[] =
 {
   { STAttackAdapter,  &attack_adapter_make_root  },
@@ -790,7 +807,7 @@ void stip_insert_root_slices(slice_index si)
   stip_structure_traversal_init(&st,&root_slice);
   for (i = 0; i!=nr_slice_structure_types; ++i)
     if (slice_structure_is_subclass(i,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+      stip_structure_traversal_override_by_structure(&st,i,&move_to_root);
   stip_structure_traversal_override(&st,
                                     root_slice_inserters,
                                     nr_root_slice_inserters);

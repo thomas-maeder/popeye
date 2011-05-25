@@ -43,20 +43,9 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
 
   if (*root_slice!=no_slice)
   {
-    if (slices[si].u.pipe.next==no_slice
-        || slices[slices[si].u.pipe.next].prev!=si)
-    {
-      link_to_branch(si,*root_slice);
-      *root_slice = si;
-      if (slices[si].prev!=no_slice)
-        pipe_unlink(slices[si].prev);
-    }
-    else
-    {
-      slice_index const copy = copy_slice(si);
-      link_to_branch(copy,*root_slice);
-      *root_slice = copy;
-    }
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,*root_slice);
+    *root_slice = copy;
   }
 
   TraceFunctionExit(__func__);
