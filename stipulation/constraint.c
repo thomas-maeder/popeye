@@ -168,7 +168,7 @@ stip_length_type constraint_can_defend(slice_index si,
       break;
 
     case has_solution:
-      result = n+2;
+      result = n+4;
       break;
 
     case has_no_solution:
@@ -177,7 +177,7 @@ stip_length_type constraint_can_defend(slice_index si,
 
     default:
       assert(0);
-      result = n+2;
+      result = n+4;
       break;
   }
 
@@ -226,12 +226,12 @@ stip_length_type constraint_defend(slice_index si,
       break;
 
     case has_solution:
-      result = n+2;
+      result = n+4;
       break;
 
     default:
       assert(0);
-      result = n+2;
+      result = n+4;
       break;
   }
 
