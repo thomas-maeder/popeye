@@ -563,6 +563,7 @@ static structure_traversers_visitors root_writer_inserters[] =
   { STSetplayFork,             &stip_traverse_structure_pipe },
   { STAttackAdapter,           &instrument_attack_adapter    },
   { STDefenseAdapter,          &instrument_defense_adapter   },
+  { STEndOfBranch,             &get_fork_of_my_own           },
   { STEndOfBranchGoal,         &get_fork_of_my_own           },
   { STEndOfBranchGoalImmobile, &get_fork_of_my_own           },
   { STConstraint,              &instrument_root_constraint   },
