@@ -131,6 +131,12 @@ void battle_branch_insert_direct_end_of_branch(slice_index si,
 void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
                                                     slice_index goal);
 
+/* Instrument a branch with slices dealing with self play
+ * @param si root of branch to be instrumented
+ * @param next identifies slice leading towards goal
+ */
+void battle_branch_insert_self_end_of_branch(slice_index si, slice_index goal);
+
 /* Instrument a branch for detecting whether the defense was forced to reach a
  * goal
  * @param si root of branch to be instrumented

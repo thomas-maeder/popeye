@@ -3077,8 +3077,13 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
-        slice_make_self_goal_branch(proxy_operand);
-        battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
+        if (op_type==operand_type_goal)
+        {
+          slice_make_self_goal_branch(proxy_operand);
+          battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
+        }
+        else
+          battle_branch_insert_self_end_of_branch(branch,proxy_operand);
       }
       else
         tok = 0;

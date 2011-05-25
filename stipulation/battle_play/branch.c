@@ -58,6 +58,7 @@ static slice_index const slice_rank_order[] =
   STSelfCheckGuard,
 
   STDefenseAdapter,
+  STEndOfIntro,
   STKeepMatingFilter,
   STEndOfBranch,
   STMaxNrNonTrivial,
@@ -110,7 +111,8 @@ static slice_index const slice_rank_order[] =
   STMoveWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeDecorationWriter
+  STOutputPlaintextTreeDecorationWriter,
+  STEndOfBranch
 };
 
 enum
@@ -738,7 +740,8 @@ void battle_spin_off_intro(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STAttackAdapter);
+  assert(slices[adapter].type==STAttackAdapter
+         || slices[adapter].type==STDefenseAdapter);
 
   TraceStipulation(adapter);
 
@@ -895,6 +898,31 @@ void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
   {
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_end_of_branch_slice(next);
+    assert(ready!=no_slice);
+    battle_branch_insert_slices(ready,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a branch with slices dealing with self play
+ * @param si root of branch to be instrumented
+ * @param next identifies slice leading towards goal
+ */
+void battle_branch_insert_self_end_of_branch(slice_index si, slice_index goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(goal);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    slice_index const prototype = alloc_end_of_branch_slice(goal);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);
   }
