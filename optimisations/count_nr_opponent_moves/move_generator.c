@@ -136,9 +136,29 @@ countnropponentmoves_move_generator_can_defend(slice_index si,
   return result;
 }
 
+static void remember_length(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  stip_length_type * const length = st->param;
+  stip_length_type const save_length = *length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *length = slices[si].u.branch.length;
+  stip_traverse_structure_children(si,st);
+  *length = save_length;
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
+  stip_length_type const * const length = st->param;
   Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -149,7 +169,7 @@ static void optimise_defense_move_generator(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (enabled[defender])
+  if (enabled[defender] && *length>slack_length_battle+2)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const copy = copy_slice(si);
@@ -171,6 +191,7 @@ static void optimise_defense_move_generator(slice_index si,
 static structure_traversers_visitors const countnropponentmoves_optimisers[] =
 {
   { STSetplayFork,          &stip_traverse_structure_pipe    },
+  { STReadyForDefense,      &remember_length                 },
   { STDefenseMoveGenerator, &optimise_defense_move_generator }
 };
 
@@ -188,6 +209,7 @@ enum
 void stip_optimise_with_countnropponentmoves(slice_index si)
 {
   stip_structure_traversal st;
+  stip_length_type length = slack_length_battle;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -195,7 +217,7 @@ void stip_optimise_with_countnropponentmoves(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&length);
   stip_structure_traversal_override(&st,
                                     countnropponentmoves_optimisers,
                                     nr_countnropponentmoves_optimisers);
