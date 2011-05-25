@@ -56,11 +56,16 @@ void defense_adapter_make_root(slice_index adapter,
 void defense_adapter_make_intro(slice_index adapter,
                                 stip_structure_traversal *st)
 {
+  slice_index * const fork_slice = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(adapter,st);
+
+  if (*fork_slice!=no_slice)
+    battle_spin_off_intro(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
