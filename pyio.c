@@ -3009,10 +3009,16 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
+      boolean forced = false;
+
       ++tok;
-      /* '>' supported for consistency only - only meaningful in h and ser play */
+
       if (tok[0]=='>')
+      {
+        forced = true;
         ++tok;
+      }
+
       tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
@@ -3022,8 +3028,10 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
           stip_make_direct_goal_branch(proxy_operand);
           battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
         }
-        else
+        else if (forced)
           battle_branch_insert_end_of_branch_forced(branch,proxy_operand);
+        else
+          battle_branch_insert_direct_end_of_branch(branch,proxy_operand);
       }
       else
         tok = 0;

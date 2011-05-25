@@ -581,7 +581,7 @@ und Einschränkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[1a[#]d]d{1a[#]d}   9 + 8
+  weiss 3a[>1a[#]d]d{1a[#]d}  9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.

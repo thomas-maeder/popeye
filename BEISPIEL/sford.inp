@@ -150,7 +150,7 @@ bemerkung       3 Halbzuege wAngriff-sVerteidigung-wAngriff
 bemerkung       mit Ziel 1 sAngriff zum Matt
 bemerkung       und Einschränkung kein wAngriff zum Matt
 bemerkung       (d.h. forderung r#2)
-sforderung      weiss 3a[1a[#]d]d{1a[#]d}
+sforderung      weiss 3a[>1a[#]d]d{1a[#]d}
 bedingung       anticirce
 option          varianten
 
