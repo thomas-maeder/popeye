@@ -522,7 +522,7 @@ eigentlich semi-r#2
 1  -D  -L   .   .   .   D   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d          8 + 7
+  weiss 3a[1f[#]d]d           8 + 7
                Isardam
 
    1.Ld4-h8 ! Zugzwang.
@@ -555,7 +555,7 @@ Loesung beendet.
 
 3 Halbzuege wAngriff-sVerteidigung-wAngriff
 mit Ziel 1 sAngriff zum Matt
-und Einschränkung kein wAngriff zum Matt
+und Einschraenkung kein wAngriff zum Matt
 (d.h. forderung r#2)
 
             Jukka Tuovinen
@@ -581,7 +581,7 @@ und Einschränkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d{1a[#]d}  9 + 8
+  weiss 3a[1f[#]d]d{1a[#]d}   9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.
@@ -819,7 +819,7 @@ wobei Weiss schlagen muss, wenn er kann
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h          4 + 3
+  weiss 3h[1f[x]d]h           4 + 3
 
   1.g3-g4 h5*g4 x 
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
@@ -857,7 +857,7 @@ wobei Weiss schlagen muss, wenn er kann
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3:3h[>1a[x]d]h        4 + 3
+  weiss 3:3h[1f[x]d]h         4 + 3
 
   1.g3*f4 a6-a5   2.g2-g4 h5*g4 x 
 
@@ -895,7 +895,7 @@ unloesbar, weil Schwarz schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h{1a[x]d}  4 + 3
+  weiss 3h[1f[x]d]h{1a[x]d}   4 + 3
 
   1.g3*f4 x 
 
@@ -1047,7 +1047,7 @@ keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[>1a[x]d]           3 + 3
+  weiss 2s[1f[x]d]            3 + 3
 
   1.g2-g4 f4*g3 ep. x 
   1.g2-g4 h5*g4 x 

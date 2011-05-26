@@ -2943,7 +2943,9 @@ Side ParseStructuredStip_starter(char *tok)
 typedef enum
 {
   operand_type_goal,
-  operand_type_non_goal
+  operand_type_attack, /* this includes help and series */
+  operand_type_forced,
+  operand_type_defense
 } operand_type;
 
 /* Parse an stipulation operand
@@ -3009,32 +3011,36 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
-      boolean forced = false;
-
       ++tok;
-
-      if (tok[0]=='>')
-      {
-        forced = true;
-        ++tok;
-      }
 
       tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
-        if (op_type==operand_type_goal)
+        switch (op_type)
         {
-          stip_make_direct_goal_branch(proxy_operand);
-          battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
+          case operand_type_goal:
+            stip_make_direct_goal_branch(proxy_operand);
+            battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
+            break;
+
+          case operand_type_forced:
+            battle_branch_insert_end_of_branch_forced(branch,proxy_operand);
+            break;
+
+          case operand_type_defense:
+            battle_branch_insert_direct_end_of_branch(branch,proxy_operand);
+            break;
+
+          case operand_type_attack:
+            tok = 0;
+            break;
+
+          default:
+            assert(0);
+            break;
         }
-        else if (forced)
-          battle_branch_insert_end_of_branch_forced(branch,proxy_operand);
-        else
-          battle_branch_insert_direct_end_of_branch(branch,proxy_operand);
       }
-      else
-        tok = 0;
     }
     else if (tok[0]=='{')
     {
@@ -3085,16 +3091,27 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
-        if (op_type==operand_type_goal)
+        switch (op_type)
         {
-          slice_make_self_goal_branch(proxy_operand);
-          battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
+          case operand_type_goal:
+            slice_make_self_goal_branch(proxy_operand);
+            battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
+            break;
+
+          case operand_type_attack:
+            battle_branch_insert_self_end_of_branch(branch,proxy_operand);
+            break;
+
+          case operand_type_defense:
+          case operand_type_forced:
+            tok = 0;
+            break;
+
+          default:
+            assert(0);
+            break;
         }
-        else
-          battle_branch_insert_self_end_of_branch(branch,proxy_operand);
       }
-      else
-        tok = 0;
     }
     else if (tok[0]=='{')
     {
@@ -3259,26 +3276,32 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
-      boolean forced = false;
 
       ++tok;
-
-      if (tok[0]=='>')
-      {
-        forced = true;
-        ++tok;
-      }
 
       tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
-        if (op_type==operand_type_goal)
-          help_branch_set_end_goal(branch,proxy_operand,parity);
-        else if (forced)
-          help_branch_set_end_forced(branch,proxy_operand,parity);
-        else
-          help_branch_set_end(branch,proxy_operand,parity);
         ++tok;
+        switch (op_type)
+        {
+          case operand_type_goal:
+            help_branch_set_end_goal(branch,proxy_operand,parity);
+            break;
+
+          case operand_type_forced:
+            help_branch_set_end_forced(branch,proxy_operand,parity);
+            break;
+
+          case operand_type_defense:
+          case operand_type_attack:
+            help_branch_set_end(branch,proxy_operand,parity);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
       }
       else
         tok = 0;
@@ -3444,25 +3467,31 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
-      boolean forced = false;
       ++tok;
-
-      if (tok[0]=='>')
-      {
-        forced = true;
-        ++tok;
-      }
 
       tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
-        if (op_type==operand_type_goal)
-          series_branch_set_end_goal(branch,proxy_operand);
-        else if (forced)
-          series_branch_set_end_forced(branch,proxy_operand);
-        else
-          series_branch_set_end(branch,proxy_operand);
+        switch (op_type)
+        {
+          case operand_type_goal:
+            series_branch_set_end_goal(branch,proxy_operand);
+            break;
+
+          case operand_type_defense:
+          case operand_type_forced:
+            series_branch_set_end_forced(branch,proxy_operand);
+            break;
+
+          case operand_type_attack:
+            series_branch_set_end(branch,proxy_operand);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
       }
       else
         tok = 0;
@@ -3586,6 +3615,7 @@ static char *ParseStructuredStip_branch_length(char *tok,
  */
 static char *ParseStructuredStip_branch(char *tok,
                                         slice_index proxy,
+                                        operand_type *type,
                                         unsigned int level)
 {
   stip_length_type min_length;
@@ -3601,14 +3631,26 @@ static char *ParseStructuredStip_branch(char *tok,
 
   if (tok!=0)
   {
-    if (tok[0]=='s')
-      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,proxy,level);
-    else if (tok[0]=='a')
-      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,proxy,level);
-    else if (tok[0]=='d')
+    if (tok[0]=='d')
+    {
+      *type = operand_type_defense;
       tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,proxy,level);
-    else if (tok[0]=='h')
-      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,proxy,level);
+    }
+    else if (tok[0]=='f')
+    {
+      *type = operand_type_forced;
+      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,proxy,level);
+    }
+    else
+    {
+      *type = operand_type_attack;
+      if (tok[0]=='s')
+        tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,proxy,level);
+      else if (tok[0]=='a')
+        tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,proxy,level);
+      else if (tok[0]=='h')
+        tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,proxy,level);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -3662,17 +3704,16 @@ static char *ParseStructuredStip_not(char *tok,
  */
 static char *ParseStructuredStip_move_inversion(char *tok,
                                                 slice_index proxy,
+                                                operand_type *type,
                                                 unsigned int level)
 {
-  operand_type op_type;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,&op_type,level);
+  tok = ParseStructuredStip_operand(tok+1,proxy,type,level);
 
   {
     slice_index const operand = slices[proxy].u.pipe.next;
@@ -3732,6 +3773,7 @@ static char *ParseStructuredStip_operator(char *tok, slice_type *result)
  */
 static char *ParseStructuredStip_expression(char *tok,
                                             slice_index proxy,
+                                            operand_type *type,
                                             unsigned int level)
 {
   TraceFunctionEntry(__func__);
@@ -3742,8 +3784,7 @@ static char *ParseStructuredStip_expression(char *tok,
 
   {
     slice_index const operand1 = alloc_proxy_slice();
-    operand_type op1_type;
-    tok = ParseStructuredStip_operand(tok,operand1,&op1_type,level);
+    tok = ParseStructuredStip_operand(tok,operand1,type,level);
     if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
     {
       slice_type operator_type;
@@ -3751,28 +3792,34 @@ static char *ParseStructuredStip_expression(char *tok,
       if (tok!=0 && operator_type!=no_slice_type)
       {
         slice_index const operand2 = alloc_proxy_slice();
-        tok = ParseStructuredStip_expression(tok,operand2,level);
+        operand_type op2_type;
+        tok = ParseStructuredStip_expression(tok,operand2,&op2_type,level);
         if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
-          switch (operator_type)
-          {
-            case STAnd:
+        {
+          if (*type==op2_type)
+            switch (operator_type)
             {
-              slice_index const reci = alloc_and_slice(operand1,operand2);
-              pipe_link(proxy,reci);
-              break;
-            }
+              case STAnd:
+              {
+                slice_index const and = alloc_and_slice(operand1,operand2);
+                pipe_link(proxy,and);
+                break;
+              }
 
-            case STOr:
-            {
-              slice_index const quod = alloc_or_slice(operand1,operand2);
-              pipe_link(proxy,quod);
-              break;
-            }
+              case STOr:
+              {
+                slice_index const or = alloc_or_slice(operand1,operand2);
+                pipe_link(proxy,or);
+                break;
+              }
 
-            default:
-              assert(0);
-              break;
-          }
+              default:
+                assert(0);
+                break;
+            }
+          else
+            tok = 0;
+        }
       }
       else
       {
@@ -3802,6 +3849,7 @@ static char *ParseStructuredStip_expression(char *tok,
 static char *
 ParseStructuredStip_parenthesised_expression(char *tok,
                                              slice_index proxy,
+                                             operand_type *type,
                                              unsigned int level)
 {
   TraceFunctionEntry(__func__);
@@ -3810,7 +3858,7 @@ ParseStructuredStip_parenthesised_expression(char *tok,
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_expression(tok+1,proxy,level);
+  tok = ParseStructuredStip_expression(tok+1,proxy,type,level);
 
   if (tok!=0)
   {
@@ -3846,22 +3894,20 @@ static char *ParseStructuredStip_operand(char *tok,
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  *type = operand_type_non_goal;
-
   /* allow space between operands */
   tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='(')
-    tok = ParseStructuredStip_parenthesised_expression(tok,proxy,level);
+    tok = ParseStructuredStip_parenthesised_expression(tok,proxy,type,level);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
     tok = ParseStructuredStip_not(tok,proxy,type,level);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,proxy,level);
+    tok = ParseStructuredStip_move_inversion(tok,proxy,type,level);
   else if (isdigit(tok[0]) && tok[0]!='0')
     /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
-    tok = ParseStructuredStip_branch(tok,proxy,level);
+    tok = ParseStructuredStip_branch(tok,proxy,type,level);
   else
   {
     /* e.g. d= for a =1 */
@@ -3895,10 +3941,11 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
   starter = ParseStructuredStip_starter(tok);
   if (starter!=no_side)
   {
+    operand_type type;
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,root_slice_hook,0);
+    tok = ParseStructuredStip_expression(tok,root_slice_hook,&type,0);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (slices[root_slice_hook].u.pipe.next!=no_slice)

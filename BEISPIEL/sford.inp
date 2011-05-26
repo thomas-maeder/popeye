@@ -132,7 +132,7 @@ autor           Stephen Emmerson
 quelle          H, The Problemist 1/1997, S. 7
 
 bemerkung       eigentlich semi-r#2
-sforderung      weiss 3a[>1a[#]d]d
+sforderung      weiss 3a[1f[#]d]d
 bedingung       isardam
 
 steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
@@ -148,9 +148,9 @@ quelle          diagrammes spezial #13, 7-9/1993
 
 bemerkung       3 Halbzuege wAngriff-sVerteidigung-wAngriff
 bemerkung       mit Ziel 1 sAngriff zum Matt
-bemerkung       und Einschränkung kein wAngriff zum Matt
+bemerkung       und Einschraenkung kein wAngriff zum Matt
 bemerkung       (d.h. forderung r#2)
-sforderung      weiss 3a[>1a[#]d]d{1a[#]d}
+sforderung      weiss 3a[1f[#]d]d{1a[#]d}
 bedingung       anticirce
 option          varianten
 
@@ -219,7 +219,7 @@ bemerkung sAngriffszug zum Schlag
 bemerkung wobei Weiss schlagen muss, wenn er kann
 bemerkung (d.h. "Hilfs-Semireflexschlag in 2 Zuegen"
 bemerkung (als forderung nicht formulierbar)
-sforderung weiss 3h[>1a[x]d]h
+sforderung weiss 3h[1f[x]d]h
 steine weiss bf3g3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk
@@ -231,7 +231,7 @@ bemerkung sAngriffszug zum Schlag
 bemerkung wobei Weiss schlagen muss, wenn er kann
 bemerkung (d.h. "Hilfs-Semireflexschlag in exakt 2 Zuegen"
 bemerkung (als forderung nicht formulierbar)
-sforderung weiss 3:3h[>1a[x]d]h
+sforderung weiss 3:3h[1f[x]d]h
 steine weiss bf3g3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk
@@ -244,7 +244,7 @@ bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
 bemerkung und das Spiel endet, wenn Schwarz schlagen musste
 bemerkung (d.h. forderung hrx2)
 bemerkung unloesbar, weil Schwarz schlagen muss
-sforderung weiss 3h[>1a[x]d]h{1a[x]d}
+sforderung weiss 3h[1f[x]d]h{1a[x]d}
 steine weiss bf3g3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk
@@ -291,7 +291,7 @@ bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
 bemerkung und das Spiel endet, wenn Weiss schlagen musste
 bemerkung (d.h. forderung ser-rx2)
 bemerkung keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
-sforderung weiss 2s[>1a[x]d]
+sforderung weiss 2s[1f[x]d]
 steine weiss bf3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk

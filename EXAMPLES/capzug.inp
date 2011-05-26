@@ -34,4 +34,22 @@ pieces white kb1 bg8 pe2f5
        black kc3 pb2b4d2e3
 option movenum
 
+next
+
+author Arno Tuengler
+origin ??
+sstip white 3a[1d[+]a{+}]d
+pieces white kf3 qb5 re2g1 bf5 sf2 pd2g3h2
+       black kc2 re4 pg2
+option vari
+
+next
+
+author Arno Tuengler
+origin ??
+sstip white 2ad[2a{+}d[+]]
+pieces white kf3 qb5 re2g1 bf5 sf2 pd2g3h2
+       black kc2 re4 pg2
+option vari
+
 end

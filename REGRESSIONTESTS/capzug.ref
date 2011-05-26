@@ -32,8 +32,8 @@
 
               empile:    31388898
             jouecoup:     9145514
-        orig_rbechec:     5676737
-        orig_rnechec:    10129456
+        orig_rbechec:     5118592
+        orig_rnechec:     9013166
 solution finished. 
 
 
@@ -69,8 +69,8 @@ WCCC 2010, CapZug Tourney, 1st commendation
 
               empile:      518945
             jouecoup:      255146
-        orig_rbechec:      118372
-        orig_rnechec:      224417
+        orig_rbechec:      117706
+        orig_rnechec:      223085
 solution finished. 
 
 
@@ -103,8 +103,8 @@ solution finished.
 
               empile:    27720672
             jouecoup:     6617794
-        orig_rbechec:     6496101
-        orig_rnechec:     6377346
+        orig_rbechec:     6220144
+        orig_rnechec:     5825432
 solution finished. 
 
 
@@ -147,8 +147,112 @@ solution finished.
 
               empile:   412346701
             jouecoup:   159389611
-        orig_rbechec:   147039388
-        orig_rnechec:   117396951
+        orig_rbechec:   145720378
+        orig_rnechec:   114758931
+solution finished. 
+
+
+
+            Arno Tuengler
+                  ??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   Q   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .  -R   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   P   .   3
+|                                   |
+2   .   .  -K   P   R   S  -P   P   2
+|                                   |
+1   .   .   .   .   .   .   R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  white 3a[1d[+]a{+}]d        9 + 3
+
+   1.Sf2-h1 ! zugzwang.
+      1...g2*h1=Q +
+          2.Kf3-f2
+              2...Qh1-f3 +
+              2...Qh1-g2 +
+              2...Qh1*g1 +
+              2...Qh1*h2 +
+      1...g2*h1=S
+          2.Kf3*e4
+              2...Sh1*g3 +
+              2...Sh1-f2 +
+      1...g2*h1=R
+          2.Kf3-g2
+              2...Rh1*g1 +
+              2...Rh1*h2 +
+      1...g2*h1=B +
+          2.Re2-g2
+              2...Bh1*g2 +
+
+
+              empile:       15615
+            jouecoup:        5465
+        orig_rbechec:        5497
+        orig_rnechec:        5197
+solution finished. 
+
+
+
+            Arno Tuengler
+                  ??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   Q   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .  -R   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   P   .   3
+|                                   |
+2   .   .  -K   P   R   S  -P   P   2
+|                                   |
+1   .   .   .   .   .   .   R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  white 2ad[2a{+}d[+]]        9 + 3
+
+   1.Sf2-h1 !
+      1...g2*h1=Q +
+          2.Kf3-f2
+              2...Qh1-f3 +
+              2...Qh1-g2 +
+              2...Qh1*g1 +
+              2...Qh1*h2 +
+      1...g2*h1=S
+          2.Kf3*e4
+              2...Sh1*g3 +
+              2...Sh1-f2 +
+      1...g2*h1=R
+          2.Kf3-g2
+              2...Rh1*g1 +
+              2...Rh1*h2 +
+      1...g2*h1=B +
+          2.Re2-g2
+              2...Bh1*g2 +
+
+
+              empile:       14582
+            jouecoup:        4984
+        orig_rbechec:        4917
+        orig_rnechec:        4669
 solution finished. 
 
 
