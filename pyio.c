@@ -3011,9 +3011,8 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
-      ++tok;
 
-      tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
+      tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -3277,9 +3276,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
 
-      ++tok;
-
-      tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
+      tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -3461,15 +3458,14 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  while (true)
+  while (tok!=0)
   {
     if (tok[0]=='[')
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       operand_type op_type;
-      ++tok;
 
-      tok = ParseStructuredStip_operand(tok,proxy_operand,&op_type,level+1);
+      tok = ParseStructuredStip_operand(tok+1,proxy_operand,&op_type,level+1);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;

@@ -52,4 +52,28 @@ pieces white kf3 qb5 re2g1 bf5 sf2 pd2g3h2
        black kc2 re4 pg2
 option vari
 
+next
+
+author Arno Tuengler
+origin ??
+sstip black 8s[1a[1d[+]a{+}]d]
+pieces white kc8 pb6
+       black ka8 pa7
+
+next
+
+author Felix Seidemann
+origin The Problemist Fairy Chess Supplement 1930 (v)
+sstip white 5h[1d[#]a{+}]h
+pieces white kc1 re1h1 pa2
+       black ka1 qh2 pb3d3e3f3
+
+next
+
+author Albert H. Kniest
+origin feenschach 1965
+sstip white 7h[1d[=]a{+}]h
+pieces white ke4 pa2
+       black kb2 pb3b4b5
+
 end
