@@ -140,6 +140,8 @@ void InitCond(void) {
   anymars= anyantimars= anygeneva= false;
   blacknull= whitenull= nullgenre= false;
 
+  anyparrain= false;
+
   immrenroib= immrenroin= cirrenroib= cirrenroin= initsquare;
 
   antirenai= rennormal;
@@ -773,8 +775,21 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
       }
     }
 
+    if (CondFlag[contraparrain] && pprise[parent_ply[parent_ply[nbply]]] != vide)
+    {
+      cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
+            - sq_arrival + sq_departure);
+      pc = e[cr];
+      if (pc==vide)
+      {
+        e[cr]= pprise[parent_ply[parent_ply[nbply]]];
+        TraceSquare(cr);
+        TraceText("\n");
+      }
+    }
+
     if (pp != vide && pp != obs) {
-      if (anycirce && abs(pp) > roib && !CondFlag[parrain]) {
+      if (anycirce && abs(pp) > roib && !anyparrain) {
         /* This still doesn't work with neutral pieces.
         ** Eventually we must add the colour of the side making
         ** the move or potentially giving the check to the

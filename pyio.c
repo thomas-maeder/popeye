@@ -4882,8 +4882,10 @@ static char *ParseCond(void) {
         anycirce= true;
         break;
       case parrain:
+      case contraparrain:
         anycirprom= true;
         anycirce= true;
+        anyparrain= true;
         break;
       case circediametral:
         circerenai= rendiametral;

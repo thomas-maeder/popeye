@@ -1538,7 +1538,7 @@ static boolean ProofFairyImpossible(void)
         return true;
     }
 
-    pparr = CondFlag[parrain] ? pprise[nbply] : vide;
+    pparr = anyparrain ? pprise[nbply] : vide;
     if (!CondFlag[sentinelles])
     {
       /* note, that we are in the !change_moving_piece section

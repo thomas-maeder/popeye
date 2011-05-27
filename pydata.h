@@ -420,6 +420,7 @@ EXTERN square           rochade_sq[toppile + 1];
 EXTERN piece            rochade_pc[toppile + 1];
 EXTERN Flags            rochade_sp[toppile + 1];
 EXTERN boolean          flag_libre_on_generate;
+EXTERN boolean			anyparrain;
 
 #if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LanguageCount];
@@ -1181,7 +1182,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*176*/ "EchecsProvacateurs",
     /*177*/ "CirceCage",
     /*178*/ "ImmunCage",
-    /*179*/ "Football"
+    /*179*/ "Football",
+    /*179*/ "ContraParrain"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1363,7 +1365,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*176*/ "ProvokationSchach",
     /*177*/ "KaefigCirce",
     /*178*/ "KaefigImmunSchach",
-    /*179*/ "Fussball"
+    /*179*/ "Fussball",
+    /*179*/ "KontraParrain"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1545,7 +1548,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*176*/ "ProvocationChess",
     /*177*/ "CageCirce",
     /*178*/ "CageImmunChess",
-    /*179*/ "Football"
+    /*179*/ "Football",
+    /*179*/ "ContraParrain"
     }
     };
 #endif

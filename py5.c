@@ -1266,9 +1266,17 @@ static void joueparrain(ply ply_id)
   numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
   piece const pi_captured = pprise[ply_id-1];
   Flags spec_captured = pprispec[ply_id-1];
-  square const sq_rebirth = (move_generation_stack[repere[ply_id]].capture
-                             + move_generation_stack[coup_id].arrival
-                             - move_generation_stack[coup_id].departure);
+  square sq_rebirth;
+  if (CondFlag[parrain]) {
+	sq_rebirth = (move_generation_stack[repere[ply_id]].capture
+                               + move_generation_stack[coup_id].arrival
+                               - move_generation_stack[coup_id].departure);
+  }
+  if (CondFlag[contraparrain]) {
+	sq_rebirth = (move_generation_stack[repere[ply_id]].capture
+                               - move_generation_stack[coup_id].arrival
+                               + move_generation_stack[coup_id].departure);
+  }
 
   if (e[sq_rebirth]==vide)
   {
@@ -3147,7 +3155,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
           nbpiece[pi_arriving]--;
       } /* Kamikaze */
 
-      if (CondFlag[parrain])
+      if (anyparrain)
       {
         if (pprise[ply_id-1]!=vide)
           joueparrain(ply_id);

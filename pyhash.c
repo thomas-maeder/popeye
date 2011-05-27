@@ -1245,7 +1245,7 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     len+=2;
   }
 
-  if (CondFlag[parrain])
+  if (anyparrain)
     /*
     ** only one out of three positions with a capture
     ** assumed.
@@ -1345,7 +1345,7 @@ static byte *CommonEncode(byte *bp, stip_length_type validity_value)
   if (OptFlag[nontrivial])
     *bp++ = (byte)(max_nr_nontrivial);
 
-  if (CondFlag[parrain]) {
+  if (anyparrain) {
     /* a piece has been captured and can be reborn */
     *bp++ = (byte)(move_generation_stack[nbcou].capture - square_a1);
     if (one_byte_hash) {

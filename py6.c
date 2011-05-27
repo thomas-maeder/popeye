@@ -644,7 +644,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (CondFlag[parrain] && stip_ends_in(si,goal_steingewinn))
+  if (anyparrain && stip_ends_in(si,goal_steingewinn))
   {
     VerifieMsg(PercentAndParrain);
     return false;
@@ -751,7 +751,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[haanerchess]
         || anycirce           /* rebirth square may coincide with I */
         || anyanticirce       /* rebirth square may coincide with I */
-        || CondFlag[parrain]) /* verkraftet nicht 2 IUW in einem Zug !!! */
+        || anyparrain) /* verkraftet nicht 2 IUW in einem Zug !!! */
     {
       VerifieMsg(ImitWFairy);
       return false;
@@ -1414,7 +1414,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
       || CondFlag[antikoeko]
-      || CondFlag[parrain]
+      || anyparrain
       || flagwhitemummer
       || flagblackmummer
       || CondFlag[vogt]
@@ -1653,7 +1653,7 @@ static boolean verify_position(slice_index si)
       /* transmuting kings and castling enabled again
        */
       CondFlag[patience]
-      || CondFlag[parrain]);
+      || anyparrain);
 
   complex_castling_through_flag = CondFlag[imitators];
 

@@ -3633,7 +3633,7 @@ void genpb(square sq_departure)
   if (sq_departure<=square_h1)
   {
     /* pawn on first rank */
-    if (CondFlag[parrain]
+    if (anyparrain
         || CondFlag[einstein]
         || CondFlag[normalp]
         || CondFlag[circecage]
@@ -3673,7 +3673,7 @@ void genpn(square sq_departure)
   if (sq_departure>=square_a8)
   {
     /* pawn on last rank */
-    if (CondFlag[parrain]
+    if (anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -3709,7 +3709,7 @@ void genreversepb(square sq_departure)
   if (sq_departure>=square_a8)
   {
     /* pawn on last rank */
-    if (CondFlag[parrain]
+    if (anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -3736,7 +3736,7 @@ void genreversepn(square sq_departure)
   if (sq_departure<=square_h1)
   {
     /* pawn on last rank */
-    if (CondFlag[parrain]
+    if (anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -3763,7 +3763,7 @@ void genpbb(square sq_departure)
   if (sq_departure<=square_h1)
   {
     /* pawn on first rank */
-    if ( CondFlag[parrain]
+    if ( anyparrain
          || CondFlag[normalp]
          || CondFlag[einstein]
          || CondFlag[circecage]
@@ -3789,7 +3789,7 @@ void genpbn(square sq_departure) {
   if (sq_departure>=square_a8)
   {
     /* pawn on last rank */
-    if ( CondFlag[parrain]
+    if ( anyparrain
          || CondFlag[normalp]
          || CondFlag[einstein]
          || CondFlag[circecage]

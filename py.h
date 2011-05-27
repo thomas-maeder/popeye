@@ -797,7 +797,8 @@ typedef enum
   circecage,              /* 177 */
   immuncage,              /* 178 */
   football,               /* 179 */
-  CondCount               /* 180 */
+  contraparrain,          /* 180 */
+  CondCount               /* 181 */
 } Cond;
 
 /* Some remarks to the conditions:

@@ -1265,7 +1265,7 @@ boolean pbcheck(square  sq_king,
 
   if (p<=roin) {
     if (sq_king<=square_h6
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -1455,7 +1455,7 @@ boolean dragoncheck(square  sq_king,
       || (calc_blrefl_king && p==roin))
   {
     if (sq_king<=square_h6
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp])
     {
       sq_departure= sq_king+dir_up+dir_left;
@@ -1474,7 +1474,7 @@ boolean dragoncheck(square  sq_king,
   else {/* hopefully ((p == dragonb)
            || (calc_whrefl_king && p == roib)) */
     if (sq_king>=square_a3
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp])
     {
       sq_departure= sq_king+dir_down+dir_right;
@@ -1966,7 +1966,7 @@ boolean pioncheck(square sq_king,
 
   if (p<=roin) {
     if (sq_king<=square_h6
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -1986,7 +1986,7 @@ boolean pioncheck(square sq_king,
   }
   else {      /* hopefully (p >= roib) */
     if (sq_king>=square_a3
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -2027,7 +2027,7 @@ boolean reversepcheck(square sq_king,
 
   if (p >= roib) {
     if (sq_king <= square_h8 - 2*onerow
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]
@@ -2048,7 +2048,7 @@ boolean reversepcheck(square sq_king,
   }
   else {      /* hopefully (p <= roin) */
     if (sq_king >= square_a1 + 2*onerow
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]

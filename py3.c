@@ -410,7 +410,7 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
   if (nbpiece[pb]>0) {
     if (rn>=square_a3
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage])
@@ -716,7 +716,7 @@ static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate)
 
   if (nbpiece[pn]>0) {
     if (rb<=square_h6
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage])
