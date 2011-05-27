@@ -3838,34 +3838,39 @@ static char *ParseStructuredStip_expression(char *tok,
       tok = ParseStructuredStip_operator(tok,&operator_type);
       if (tok!=0 && operator_type!=no_slice_type)
       {
-        slice_index const operand2 = alloc_proxy_slice();
-        expression_type type2;
-        tok = ParseStructuredStip_expression(tok,operand2,&type2,level);
-        if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
+        if (*type==expression_type_defense)
+          tok = 0;
+        else
         {
-          if (*type==type2)
-            switch (operator_type)
-            {
-              case STAnd:
+          slice_index const operand2 = alloc_proxy_slice();
+          expression_type type2;
+          tok = ParseStructuredStip_expression(tok,operand2,&type2,level);
+          if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
+          {
+            if (*type==type2)
+              switch (operator_type)
               {
-                slice_index const and = alloc_and_slice(operand1,operand2);
-                pipe_link(proxy,and);
-                break;
-              }
+                case STAnd:
+                {
+                  slice_index const and = alloc_and_slice(operand1,operand2);
+                  pipe_link(proxy,and);
+                  break;
+                }
 
-              case STOr:
-              {
-                slice_index const or = alloc_or_slice(operand1,operand2);
-                pipe_link(proxy,or);
-                break;
-              }
+                case STOr:
+                {
+                  slice_index const or = alloc_or_slice(operand1,operand2);
+                  pipe_link(proxy,or);
+                  break;
+                }
 
-              default:
-                assert(0);
-                break;
-            }
-          else
-            tok = 0;
+                default:
+                  assert(0);
+                  break;
+              }
+            else
+              tok = 0;
+          }
         }
       }
       else
