@@ -1199,16 +1199,20 @@ static boolean AntiCirceEch(ply ply_id,
       return false;
   }
   else
-    if ((is_forwardpawn(e[sq_departure])
-         && PromSq(advers(camp),sq_capture))
-        || (is_reversepawn(e[sq_departure])
-            && ReversePromSq(advers(camp),sq_capture))) {
-      /* Pawn checking on last rank */
-      piece pprom= getprompiece[vide];
+  {
+	piece* acprompieces= GetPromotingPieces(sq_departure,
+										    e[sq_departure],
+										    advers(camp),
+										    spec[sq_departure],
+										    sq_arrival,
+										    e[sq_capture]);
+    if (acprompieces) {
+      /* Pawn checking on last rank or football check on a/h file */
+      piece pprom= acprompieces[vide];
       square    cren;
       do {
         cren= (*antirenai)(ply_id, pprom, spec[sq_departure], sq_capture, sq_departure, sq_arrival, camp);
-        pprom= getprompiece[pprom];
+        pprom= acprompieces[pprom];
       } while (!LegalAntiCirceMove(cren, sq_capture, sq_departure) && pprom != vide);
       if (  !LegalAntiCirceMove(cren, sq_capture, sq_departure)
             && pprom == vide)
@@ -1226,6 +1230,7 @@ static boolean AntiCirceEch(ply ply_id,
         return false;
       }
     }
+  }
 
   return eval_2(sq_departure,sq_arrival,sq_capture);
 } /* AntiCirceEch */

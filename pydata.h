@@ -254,6 +254,7 @@ EXTERN  ply      parent_ply[maxply + 1];
 
 EXTERN  boolean  exist[derbla + 1];
 EXTERN  boolean  promonly[derbla + 1];
+EXTERN  boolean  footballpiece[derbla + 1];
 
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
@@ -354,6 +355,11 @@ EXTERN  boolean         is_phantomchess;
 EXTERN  square          marsid;
 
 EXTERN  piece           getprompiece[derbla + 1];       /* it's a inittable ! */
+EXTERN  piece           getfootballpiece[derbla + 1];       /* it's a inittable ! */
+
+EXTERN  piece* 			prompieces[maxply+1];
+
+EXTERN  boolean         footballpromlimited;
 EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
 
 EXTERN  piece           whitetransmpieces[derbla],
@@ -1174,7 +1180,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*175*/ "EchecsHantes",
     /*176*/ "EchecsProvacateurs",
     /*177*/ "CirceCage",
-    /*178*/ "ImmunCage"
+    /*178*/ "ImmunCage",
+    /*179*/ "Football"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1355,7 +1362,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*175*/ "Spukschach",
     /*176*/ "ProvokationSchach",
     /*177*/ "KaefigCirce",
-    /*178*/ "KaefigImmunSchach"
+    /*178*/ "KaefigImmunSchach",
+    /*179*/ "Fussball"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1536,7 +1544,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*175*/ "HauntedChess",
     /*176*/ "ProvocationChess",
     /*177*/ "CageCirce",
-    /*178*/ "CageImmunChess"
+    /*178*/ "CageImmunChess",
+    /*179*/ "Football"
     }
     };
 #endif

@@ -316,7 +316,7 @@ static void initPieces(void)
             : db);
        p <= derbla;
        p++)
-    if (promonly[p])
+    if (promonly[p] || footballpiece[p])
       exist[p] = true;
 
   if (CondFlag[protean])
@@ -604,7 +604,7 @@ static boolean verify_position(slice_index si)
   square const *bnp;
   piece     p;
   ply           n;
-  int      cp, pp, tp, op;
+  int      cp, pp, tp, op, fp;
 
   jouegenre = false;
   jouetestgenre = false;
@@ -686,7 +686,7 @@ static boolean verify_position(slice_index si)
   flagleofamilyonly = CondFlag[leofamily] ? true : false;
   for (p = fb + 1; p <= derbla; p++)
   {
-    if (exist[p] || promonly[p])
+    if (exist[p] || promonly[p] || footballpiece[p])
     {
       flagfee = true;
       if (is_rider(p))
@@ -1219,6 +1219,10 @@ static boolean verify_position(slice_index si)
     }
   }
 
+  if (CondFlag[football]) {
+	  add_ortho_mating_moves_generation_obstacle();
+  }
+
   if ( ( CondFlag[whmin]
          + CondFlag[whmax]
          + CondFlag[whcapt]
@@ -1440,13 +1444,14 @@ static boolean verify_position(slice_index si)
   /* init promotioncounter and checkcounter */
   pp = 0;
   cp = 0;
+  fp = 0;
   {
     piece p;
     piece firstprompiece;
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
       firstprompiece = roib;
-    else if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
+    else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
       firstprompiece = pb;
     else
       firstprompiece = db;
@@ -1454,24 +1459,54 @@ static boolean verify_position(slice_index si)
     for (p = firstprompiece; p<=derbla; ++p)
     {
       getprompiece[p] = vide;
+      getfootballpiece[p] = vide;
 
       if (exist[p])
       {
-        if ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
-            && (p!=roib
-                || CondFlag[losingchess]
-                || CondFlag[dynasty]
-                || CondFlag[extinction])
-            && p!=dummyb
-            && p!=pbb
-            && p!=bspawnb
-            && p!=spawnb
-            && p!=reversepb
-            && (!CondFlag[promotiononly] || promonly[p]))
-        {
-          getprompiece[pp] = p;
-          pp = p;
-        }
+          if ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+              && (p!=roib
+                  || CondFlag[losingchess]
+                  || CondFlag[dynasty]
+                  || CondFlag[extinction])
+              && p!=dummyb
+              && p!=pbb
+              && p!=bspawnb
+              && p!=spawnb
+              && p!=reversepb
+              && (!CondFlag[promotiononly] || promonly[p]))
+          {
+            getprompiece[pp] = p;
+            pp = p;
+          }
+
+          if (footballpromlimited ? footballpiece[p] :
+        		  ((p!=pb || (CondFlag[singlebox] && SingleBoxType!=singlebox_type1))
+              && (p!=roib
+                  || CondFlag[losingchess]
+                  || CondFlag[dynasty]
+                  || CondFlag[extinction])
+              && p!=dummyb
+              && p!=pbb
+              && p!=bspawnb
+              && p!=spawnb
+              && p!=reversepb)
+              )
+          {
+            getfootballpiece[fp] = p;
+            fp = p;
+          }
+
+          if (!footballpromlimited) {
+        	  footballpiece[p] = (p!=roib
+                  || CondFlag[losingchess]
+                  || CondFlag[dynasty]
+                  || CondFlag[extinction])
+              && p!=dummyb
+              && p!=pbb
+              && p!=bspawnb
+              && p!=spawnb
+              && p!=reversepb;
+      	  }
 
         if (p>fb && p!=dummyb) {
           /* only fairy pieces until now ! */

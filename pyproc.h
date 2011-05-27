@@ -527,4 +527,10 @@ attackfunction_t GetDiagonalSpiralSpringerAttackVectors;
 
 void ChangeColour(square sq);
 
+piece* GetPromotingPieces (square sq_departure,
+							piece pi_departing,
+						    Side camp,
+						    Flags spec_pi_moving,
+						    square sq_arrival,
+						    piece pi_captured);
 #endif  /* PYPROC_H */

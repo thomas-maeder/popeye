@@ -212,6 +212,7 @@ void InitCond(void) {
   }
 
   memset((char *) promonly, 0, sizeof(promonly));
+  memset((char *) footballpiece, 0, sizeof(promonly));
   memset((char *) isapril,0,sizeof(isapril));
   checkhopim = false;
   koekofunc= nokingcontact;
@@ -1587,4 +1588,43 @@ void ChangeColour(square sq)
     SETFLAGMASK(castling_flag[nbply],ra8_cancastle);
   if (e[sq] == tn && sq == square_h8)
     SETFLAGMASK(castling_flag[nbply],rh8_cancastle);
+}
+
+piece* GetPromotingPieces (square sq_departure,
+							piece pi_departing,
+							Side camp,
+						    Flags spec_pi_moving,
+						    square sq_arrival,
+						    piece pi_captured) {
+    if (is_pawn(pi_departing) &&
+	    PromSq(is_reversepawn(pi_departing)^camp,sq_arrival) &&
+	    ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean)) || pi_captured == vide)) {
+    	return getprompiece;
+    }
+
+    if (CondFlag[football] &&
+    	sq_departure != rn && sq_departure != rb &&
+    	(sq_arrival % 24 == 8 || sq_arrival % 24 == 15)) {
+    	piece p = abs(pi_departing), tmp = getfootballpiece[vide];
+
+    	/* ensure moving piece is on list to allow null (= non-) promotions */
+    	if (tmp != p)
+    	{
+    		/* remove old head-of-list if not part of standard set */
+    		if (!footballpiece[tmp])
+    		{
+    			getfootballpiece[vide]= getfootballpiece[tmp];
+    		}
+    		/* add moving piece to head-of-list if not already part of standard set */
+    		if (!footballpiece[p])
+    		{
+    			getfootballpiece[p] = getfootballpiece[vide];
+    			getfootballpiece[vide] = p;
+    		}
+    	}
+
+    	return getfootballpiece;
+    }
+
+    return NULL;
 }

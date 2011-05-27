@@ -2511,10 +2511,11 @@ boolean jouecoup(ply ply_id, joue_type jt)
         }
       }
     }
-    /* promotion */
-    if (PromSq(is_reversepawn(pi_departing)^trait[ply_id],sq_arrival)
-        && ((!CondFlag[protean] && !TSTFLAG(spec_pi_moving, Protean))
-            || pi_captured == vide))
+  }
+
+  prompieces[ply_id] = GetPromotingPieces(sq_departure, pi_departing, trait[ply_id], spec_pi_moving, sq_arrival, pi_captured);
+
+  if (prompieces[ply_id] != NULL)
     {
       pi_arriving = norm_prom[ply_id];
       if (pi_arriving==vide)
@@ -2530,7 +2531,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
         }
         else
         {
-          pi_arriving= getprompiece[vide];
+          pi_arriving= (prompieces[ply_id])[vide];
 
           if (CondFlag[frischauf])
             SETFLAG(spec_pi_moving, FrischAuf);
@@ -2548,7 +2549,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 break;
               if (LegalAntiCirceMove(sq_rebirth, sq_capture, sq_departure))
                 break;
-              pi_arriving= getprompiece[pi_arriving];
+              pi_arriving= (prompieces[ply_id])[pi_arriving];
             } while (1);
 #endif /*BETTER_READABLE*/
 
@@ -2564,11 +2565,11 @@ boolean jouecoup(ply ply_id, joue_type jt)
                                           sq_capture,
                                           sq_departure))
             {
-              pi_arriving= getprompiece[pi_arriving];
+              pi_arriving= (prompieces[ply_id])[pi_arriving];
               if (!pi_arriving && CondFlag[antisuper])
               {
                 super[ply_id]++;
-                pi_arriving= getprompiece[vide];
+                pi_arriving= (prompieces[ply_id])[vide];
               }
             }
           }
@@ -2598,8 +2599,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
       else
         pi_arriving= vide; /* imitator-promotion */
-    }
-  } /* is_pawn() */
+    } /* promotion */
 
   if (sq_arrival!=sq_capture)
   {
@@ -2915,17 +2915,21 @@ boolean jouecoup(ply ply_id, joue_type jt)
       e[sq_arrival]= vide;
       spec[sq_arrival]= 0;
       sq_rebirth_capturing[ply_id]= sq_rebirth;
-      if ((is_forwardpawn(pi_departing)
-           && PromSq(trait_ply,sq_rebirth))
-          || (is_reversepawn(pi_departing)
-              && ReversePromSq(trait_ply,sq_rebirth)))
+      prompieces[ply_id]= GetPromotingPieces(sq_departure,
+    		  	  	  	  	  	  	   pi_departing,
+    		  	  	  	  	  	  	   trait_ply,
+    		  	  	  	  	  	  	   spec_pi_moving,
+    		  	  	  	  	  	  	   sq_arrival,
+    		  	  	  	  	  	  	   pi_captured);
+
+      if (prompieces[ply_id])
       {
         /* white pawn on eighth rank or
            black pawn on first rank - promotion ! */
         nbpiece[pi_arriving]--;
         pi_arriving= norm_prom[ply_id];
         if (pi_arriving == vide)
-          norm_prom[ply_id]= pi_arriving= getprompiece[vide];
+          norm_prom[ply_id]= pi_arriving= prompieces[ply_id][vide];
         if (pi_departing < vide)
           pi_arriving= -pi_arriving;
         nbpiece[pi_arriving]++;
@@ -3912,10 +3916,12 @@ void repcoup(void)
 
   if (next_prom)
   {
+	piece* prompieceset = prompieces[nbply] ? prompieces[nbply] : getprompiece;
+
     piece prom_kind_moving = norm_prom[nbply];
     if (prom_kind_moving!=vide)
     {
-      prom_kind_moving = getprompiece[prom_kind_moving];
+      prom_kind_moving = prompieceset[prom_kind_moving];
       if (!(CondFlag[singlebox] && SingleBoxType==singlebox_type2))
       {
         if (pi_captured!=vide)
@@ -3934,7 +3940,7 @@ void repcoup(void)
                   || LegalAntiCirceMove(sq_rebirth,sq_capture,sq_departure))
                 break;
               else
-                prom_kind_moving = getprompiece[prom_kind_moving];
+                prom_kind_moving = prompieceset[prom_kind_moving];
             }
         }
       }
@@ -3945,7 +3951,7 @@ void repcoup(void)
           && TSTFLAG(PieSpExFlags,Chameleon)
           && !norm_cham_prom[nbply])
       {
-        prom_kind_moving= getprompiece[vide];
+        prom_kind_moving= prompieceset[vide];
         if (pi_captured != vide && anyanticirce)
           while (prom_kind_moving != vide
                  && ((sq_rebirth= (*antirenai)(nbply,
@@ -3957,7 +3963,7 @@ void repcoup(void)
                                                advers(trait[nbply])))
                      != sq_departure)
                  && e[sq_rebirth] != vide)
-            prom_kind_moving= getprompiece[prom_kind_moving];
+            prom_kind_moving= prompieceset[prom_kind_moving];
 
         norm_prom[nbply]= prom_kind_moving;
         norm_cham_prom[nbply]= true;

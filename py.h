@@ -796,7 +796,8 @@ typedef enum
   provacateurs,           /* 176 */
   circecage,              /* 177 */
   immuncage,              /* 178 */
-  CondCount               /* 179 */
+  football,               /* 179 */
+  CondCount               /* 180 */
 } Cond;
 
 /* Some remarks to the conditions:

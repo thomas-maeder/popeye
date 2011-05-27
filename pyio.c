@@ -501,6 +501,28 @@ static void WriteConditions(int alignment)
       }
     }
 
+    if (cond == football) {
+      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
+      char LocalBuf[4];
+      piece pp= vide;
+      while ((pp= getfootballpiece[pp]) != vide) {
+        if (PieceTab[pp][1] != ' ')
+          sprintf(LocalBuf, " %c%c",
+                  UPCASE(PieceTab[pp][0]),
+                  UPCASE(PieceTab[pp][1]));
+        else
+          sprintf(LocalBuf, " %c",
+                  UPCASE(PieceTab[pp][0]));
+        strcat(CondLine, LocalBuf);
+      }
+      if (strlen(CondLine) <= strlen(CondTab[football])) {
+        /* due to zeroposition, where getprompiece is not */
+        /* set (it's set in verifieposition), I suppress  */
+        /* output of promotiononly for now.  */
+        continue;
+      }
+    }
+
     if (cond == april) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
       char LocalBuf[4];
@@ -5214,6 +5236,10 @@ static char *ParseCond(void) {
       case promotiononly:
         tok = ReadPieces(promotiononly);
         break;
+      case football:
+    	footballpromlimited = false;
+    	tok = ReadPieces(football);
+    	break;
       case april:
         tok = ReadPieces(april);
         break;
@@ -6263,19 +6289,23 @@ char *ReadPieces(int condition) {
       piece_read= true;
       break;
     default:
-      if (!piece_read) {
+      if (!piece_read && condition != football) {
         CondFlag[condition]= false;
         IoErrorMsg(WrongPieceName,0);
       }
       return tok;
     }
-    if (!tmp_piece) {
+    if (!tmp_piece && condition != football) {
       IoErrorMsg(WrongPieceName,0);
       break;
     }
     switch (condition) {
     case promotiononly:
       promonly[tmp_piece]= true;
+      break;
+    case football:
+      footballpiece[tmp_piece]= true;
+      footballpromlimited = true;
       break;
     case april:
       isapril[tmp_piece]= true;
