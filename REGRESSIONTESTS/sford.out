@@ -637,7 +637,7 @@ UND
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[(2hh[#]&1h[#]h)] 9 + 12
+  schwarz 2hh[2hh[#]&1h[#]h] 9 + 12
 
 a) 
 
@@ -690,7 +690,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[(1h[#]h&2hh[#])] 9 + 12
+  schwarz 2hh[1h[#]h&2hh[#]] 9 + 12
 
 a) 
 

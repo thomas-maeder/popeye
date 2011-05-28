@@ -167,7 +167,7 @@ bemerkung         2 Halbzuege sHilfszug+wHilfszug zum Matt
 bemerkung        UND
 bemerkung         1 s(Hilfs)zug zum Matt
 bemerkung       (d.h. reci-h#2)
-sford schwarz 2hh[(2hh[#]&1h[#]h)]
+sford schwarz 2hh[2hh[#]&1h[#]h]
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
@@ -185,7 +185,7 @@ bemerkung         2 Halbzuege sHilfszug+wHilfszug zum Matt
 bemerkung       (d.h. reci-h#2)
 bemerkung (allerdings werden die beiden Operanden von & in der weniger
 bemerkung effizienten Reihenfolge ausgewertet)
-sford schwarz 2hh[(1h[#]h&2hh[#])]
+sford schwarz 2hh[1h[#]h&2hh[#]]
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
