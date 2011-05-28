@@ -1,4 +1,5 @@
 #include "platform/maxtime_impl.h"
+#include "windows.h"
 #include "boolean.h"
 #include "pymsg.h"
 
@@ -55,10 +56,10 @@ static void calibrate_timer_resolution(void)
 /* Callback function for Multimedia Timer.
  * Called back by Windows every timer_delayMS milliseconds
  */
-static void CALLBACK tick(unsigned int timer_id,      
-                          unsigned int reserved1,     
-                          unsigned long long unused_user_data,  
-                          unsigned long long reserved2,     
+static void CALLBACK tick(unsigned int timer_id,
+                          unsigned int reserved1,
+                          unsigned long long unused_user_data,
+                          unsigned long long reserved2,
                           unsigned long long reserved3)
 {
   /* assert(timer_id==current_timer);
@@ -70,7 +71,7 @@ static void CALLBACK tick(unsigned int timer_id,
 }
 
 /* Attempt to set up a new timer for timing out solving after a number
- * of seconds. 
+ * of seconds.
  * @param seconds number of seconds after which solving is aborted
  */
 static void setupNewTimer(maxtime_type seconds)
