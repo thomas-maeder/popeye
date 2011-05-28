@@ -8,9 +8,9 @@
 #
 # The following tools can be used to produce executables for the
 # target plarform and can be found in the $PATH:
-# - x86_64-pc-mingw32-gcc
-# - x86_64-pc-mingw32-ranlib
-# - x86_64-pc-mingw32-strip
+# - x86_64-w64-mingw32-gcc
+# - x86_64-w64-mingw32-ranlib
+# - x86_64-w64-mingw32-strip
 
 # Include "regular" gcc settings
 include toolchains/gcc/make.incl
@@ -22,18 +22,18 @@ include toolchains/gcc/make.incl
 # ==================
 
 # Compiler for creating executables on target
-CCTARGET=x86_64-pc-mingw32-gcc
+CCTARGET=x86_64-w64-mingw32-gcc
 
 # Linker for creating executables on target
-LDTARGET=x86_64-pc-mingw32-gcc
+LDTARGET=x86_64-w64-mingw32-gcc
 
 # Strip utility to remove unnecessary symbols from executable
-STRIPTARGET=x86_64-pc-mingw32-strip
+STRIPTARGET=x86_64-w64-mingw32-strip
 
 
 # Archive index generator
 # -----------------------
-ARCHIVE_INDEXER=x86_64-pc-mingw32-ranlib
+ARCHIVE_INDEXER=x86_64-w64-mingw32-ranlib
 
 
 # Linker options
