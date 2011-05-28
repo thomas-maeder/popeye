@@ -150,7 +150,7 @@ bemerkung       3 Halbzuege wAngriff-sVerteidigung-wAngriff
 bemerkung       mit Ziel 1 sAngriff zum Matt
 bemerkung       und Einschraenkung kein wAngriff zum Matt
 bemerkung       (d.h. forderung r#2)
-sforderung      weiss 3a[>1a[#]d]d{1a[#]d}
+sforderung      weiss 3a[>1a[#]d]d{!1a[#]d}
 bedingung       anticirce
 option          varianten
 
@@ -207,7 +207,7 @@ bemerkung 3 Halbzuege s+w+sHilfszug mit Ziel
 bemerkung wAngriffszug zum Schlag
 bemerkung wobei das Spiel mit dem weissen Schlag endet
 bemerkung (d.h. forderung hx2)
-sforderung schwarz 3h[1a[x]d]h{x}
+sforderung schwarz 3h[1a[x]d]h{!x}
 steine weiss ba3f5h4
        schwarz bf6g6g7h5
 option ohnewk ohnesk
@@ -244,7 +244,7 @@ bemerkung wobei Weiss und Schwarz schlagen muessen, wenn er kann
 bemerkung und das Spiel endet, wenn Schwarz schlagen musste
 bemerkung (d.h. forderung hrx2)
 bemerkung unloesbar, weil Schwarz schlagen muss
-sforderung weiss 3h[>1a[x]d]h{1a[x]d}
+sforderung weiss 3h[>1a[x]d]h{!1a[x]d}
 steine weiss bf3g3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk
@@ -278,7 +278,7 @@ bemerkung und das Spiel endet, wenn Weiss schlagen musste
 bemerkung (d.h. forderung ser-rx2)
 bemerkung keine lange Loesung, weil Weiss nach 1.g2-g3 schlagen muss, wenn
 bemerkung Schwarz nicht schlaegt
-sforderung weiss 2s[1a[x]d]{1a[x]d}
+sforderung weiss 2s[1a[x]d]{!1a[x]d}
 steine weiss bf3g2h4
        schwarz ba6f4h5
 option ohnewk ohnesk
@@ -391,7 +391,7 @@ weiter
 bemerkung Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
 steine weiss sh6 ba7
        schwarz kh5 lg6b8 bg5
-sford schwarz - 3h[#]{x}h
+sford schwarz - 3h[#]{!x}h
 option ohnewk
 
 ende

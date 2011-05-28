@@ -2587,9 +2587,14 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       stip_make_goal_attack_branch(proxy_to_goal);
-      series_branch_insert_constraint(proxy,stip_deep_copy(proxy_to_goal));
       series_branch_insert_end_of_branch_forced(proxy,proxy_to_goal);
       stip_impose_starter(proxy_to_goal,Black);
+
+      {
+        slice_index const avoided = stip_deep_copy(proxy_to_goal);
+        pipe_append(avoided,alloc_not_slice());
+        series_branch_insert_constraint(proxy,avoided);
+      }
     }
   }
 
@@ -2614,10 +2619,15 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       stip_make_goal_attack_branch(proxy_to_goal);
-      help_branch_insert_constraint(proxy,stip_deep_copy(proxy_to_goal),0);
       help_branch_set_end_forced(proxy,proxy_to_goal,1);
       help_branch_insert_check_zigzag(proxy);
       stip_impose_starter(proxy_to_goal,Black);
+
+      {
+        slice_index const avoided = stip_deep_copy(proxy_to_goal);
+        pipe_append(avoided,alloc_not_slice());
+        help_branch_insert_constraint(proxy,avoided,0);
+      }
     }
   }
 
@@ -2686,9 +2696,14 @@ static char *ParsePlay(char *tok,
     {
       select_output_mode(proxy,output_mode_line);
       stip_make_goal_attack_branch(proxy_to_goal);
-      battle_branch_insert_attack_constraint(proxy,stip_deep_copy(proxy_to_goal));
       battle_branch_insert_end_of_branch_forced(proxy,proxy_to_goal);
       battle_branch_insert_defense_check_zigzag(proxy);
+
+      {
+        slice_index const avoided = stip_deep_copy(proxy_to_goal);
+        pipe_append(avoided,alloc_not_slice());
+        battle_branch_insert_attack_constraint(proxy,avoided);
+      }
     }
   }
 
@@ -2805,9 +2820,14 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       stip_make_goal_attack_branch(proxy_to_goal);
-      help_branch_insert_constraint(proxy,stip_deep_copy(proxy_to_goal),0);
       help_branch_set_end_forced(proxy,proxy_to_goal,1);
       stip_impose_starter(proxy_to_goal,Black);
+
+      {
+        slice_index const avoided = stip_deep_copy(proxy_to_goal);
+        pipe_append(avoided,alloc_not_slice());
+        help_branch_insert_constraint(proxy,avoided,0);
+      }
     }
   }
 
@@ -2866,8 +2886,13 @@ static char *ParsePlay(char *tok,
     {
       select_output_mode(proxy,output_mode_tree);
       stip_make_goal_attack_branch(proxy_to_goal);
-      battle_branch_insert_attack_constraint(proxy,stip_deep_copy(proxy_to_goal));
       battle_branch_insert_end_of_branch_forced(proxy,proxy_to_goal);
+
+      {
+        slice_index const avoided = stip_deep_copy(proxy_to_goal);
+        pipe_append(avoided,alloc_not_slice());
+        battle_branch_insert_attack_constraint(proxy,avoided);
+      }
     }
   }
 

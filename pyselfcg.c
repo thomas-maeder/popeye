@@ -1,5 +1,6 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/and.h"
@@ -443,9 +444,30 @@ static boolean does_goal_ignore_selfcheck(slice_index goal_reached_tester)
   return result;
 }
 
+static void insert_selfcheck_guard_constraint(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  boolean * const in_constraint = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *in_constraint = true;
+  stip_traverse_structure_next_branch(si,st);
+  *in_constraint = false;
+
+  stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
+  boolean const * const in_constraint = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -454,7 +476,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
   {
     slice_index const fork = slices[si].u.goal_tester.fork;
     slice_index const not_slice = branch_find_slice(STNot,fork);
-    if (not_slice==no_slice)
+    if (not_slice==no_slice || *in_constraint)
     {
       if (slices[si].u.goal_tester.goal.type==goal_dblstale)
         goal_doublestalemate_insert_selfcheck_guard(si);
@@ -511,6 +533,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
   { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
   { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
+  { STConstraint,              &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester,       &insert_selfcheck_guard_goal          },
   { STCheckZigzagJump,         &remove_selfcheck_guard_fork          }
 };
@@ -524,12 +547,13 @@ enum
 static void insert_in_branch_guards(slice_index si)
 {
   stip_structure_traversal st;
+  boolean in_constraint = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&in_constraint);
   stip_structure_traversal_override(&st,
                                     in_branch_guards_inserters,
                                     nr_in_branch_guards_inserters);

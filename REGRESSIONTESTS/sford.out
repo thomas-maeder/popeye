@@ -581,7 +581,7 @@ und Einschraenkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d{1a[#]d}  9 + 8
+  weiss 3a[>1a[#]d]d{!1a[#]d} 9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.
@@ -779,7 +779,7 @@ wobei das Spiel mit dem weissen Schlag endet
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 3h[1a[x]d]h{x}      3 + 4
+  schwarz 3h[1a[x]d]h{!x}     3 + 4
 
   1.g6-g5 h4*g5 x 
   1.g6-g5 a3-a4   2.g7-g6 f5*g6 x 
@@ -895,7 +895,7 @@ unloesbar, weil Schwarz schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h{1a[x]d}  4 + 3
+  weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
 
   1.g3*f4 x 
 
@@ -1007,7 +1007,7 @@ Schwarz nicht schlaegt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2s[1a[x]d]{1a[x]d}    3 + 3
+  weiss 2s[1a[x]d]{!1a[x]d}   3 + 3
 
   1.g2-g4 f4*g3 ep. x 
   1.g2-g4 h5*g4 x 
@@ -1479,7 +1479,7 @@ Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz - 3h[#]{x}h         2 + 4
+  schwarz - 3h[#]{!x}h        2 + 4
 
   1...a7-a8=D   2.Lb8-a7 Da8-h1 # 
 

@@ -121,4 +121,9 @@ stip_length_type constraint_series(slice_index si, stip_length_type n);
  */
 stip_length_type constraint_has_series(slice_index si, stip_length_type n);
 
+/* Remove goal checker slices that we know can't possibly be met
+ * @param si identifies entry slice to stipulation
+ */
+void stip_remove_irrelevant_constraints(slice_index si);
+
 #endif

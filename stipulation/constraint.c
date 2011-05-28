@@ -66,11 +66,11 @@ stip_length_type constraint_can_attack(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = can_attack(next,n,n_max_unsolvable);
       break;
 
@@ -117,11 +117,11 @@ stip_length_type constraint_attack(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = attack(next,n,n_max_unsolvable);
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+2;
       break;
 
@@ -167,11 +167,11 @@ stip_length_type constraint_can_defend(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+4;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = can_defend(next,n,n_max_unsolvable);
       break;
 
@@ -221,11 +221,11 @@ stip_length_type constraint_defend(slice_index si,
       result = slack_length_battle-2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = defend(next,n,n_max_unsolvable);
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+4;
       break;
 
@@ -269,11 +269,11 @@ stip_length_type constraint_help(slice_index si, stip_length_type n)
       result = n+4;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = help(next,n);
       break;
 
@@ -317,11 +317,11 @@ stip_length_type constraint_can_help(slice_index si, stip_length_type n)
       result = n+4;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+2;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = can_help(next,n);
       break;
 
@@ -365,11 +365,11 @@ stip_length_type constraint_series(slice_index si, stip_length_type n)
       result = n+2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+1;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = series(next,n);
       break;
 
@@ -413,11 +413,11 @@ stip_length_type constraint_has_series(slice_index si, stip_length_type n)
       result = n+2;
       break;
 
-    case has_solution:
+    case has_no_solution:
       result = n+1;
       break;
 
-    case has_no_solution:
+    case has_solution:
       result = has_series(next,n);
       break;
 
@@ -431,4 +431,66 @@ stip_length_type constraint_has_series(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void remove_constraint_if_irrelevant(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (branch_find_slice(STGoalReachedTester,slices[si].u.fork.fork)==no_slice)
+  {
+    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+    stip_traverse_structure_children(si,st);
+  }
+  else
+  {
+    stip_traverse_structure_pipe(si,st);
+    pipe_remove(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
+{
+  { STConstraint,              &remove_constraint_if_irrelevant },
+  { STReadyForAttack,          &stip_structure_visitor_noop     },
+  { STReadyForDefense,         &stip_structure_visitor_noop     },
+  { STReadyForHelpMove,        &stip_structure_visitor_noop     },
+  { STReadyForSeriesDummyMove, &stip_structure_visitor_noop     },
+  { STReadyForSeriesMove,      &stip_structure_visitor_noop     }
+};
+
+enum
+{
+  nr_unsatisfiable_goal_checker_removers =
+    (sizeof unsatisfiable_goal_checker_removers
+     / sizeof unsatisfiable_goal_checker_removers[0])
+};
+
+/* Remove goal checker slices that we know can't possibly be met
+ * @param si identifies entry slice to stipulation
+ */
+void stip_remove_irrelevant_constraints(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    unsatisfiable_goal_checker_removers,
+                                    nr_unsatisfiable_goal_checker_removers);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
 }
