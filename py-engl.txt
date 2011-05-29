@@ -582,6 +582,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	This form allows all stipulations to be indicated that can also be
 	indicated in traditional form using the command "stipulation". In
 	addition, it allows many more stipulations to be indicated.
+	(Exception: pser stipulations are not supported currently)
 
 	With sstipulation, the play is described as a tree structure. Play 
 	starts at the root, continues through branches that may fork,
@@ -590,186 +591,196 @@ commands expect further parameters. Lets start with the simpler commands:
 	and the leaves in the language as specified below.
 
 
-	Root
-	----
+	Anatomy of a sstipulation
+	-------------------------
 
-	The side to move is indicated; either white or black.
+	Example: sstipulation white 5s[#]
 
+	In this stipulation, it is White to move. Play consists of a
+	branch that leads into a leaf. The branch consists of 5
+	*s*eries moves. The leaf simply tests whether a mate has been
+	reached.
 
-	Leaves
-	------
+        The definition of a branch normally consists of:
+	- the maximum length in half-moves (in the example: 5)
+	- the type of the branch           (s for series)
+	- forks                            ([#])
+        - Constraints                      (don't occur in the example)
 
-	Each leaf represents 1 half move. It is indicated by a letter
-	('d' or 's') that identifies its type, followed by the
-	goal; the goal is indicated as in the command stipulation (see
-	above). No spaces are allowed between type and goal.
+	Play ends in one or multiple leaves. Their definition normally
+	consists of the goal (in the example: #) to be reached.
 
-	direct leaf:
-	   Notation example:  d=  [direct half-move for stalemate]
-	   Main purpose:      Termination of a non-self stipulation
-	   Alternative:       (negated using ! (see below)) Indication of
-	                      the stipulation which must not be solvable
-	                      in reflex stipulations
-	   Meaning:           A solution of a direct leaf is a move by the
-	                      side at the move that reaches the goal.
-	   Output:            all solutions
+	When changing from a branch to another or to a leaf, the right
+	to move is change. In the example, it is Black to move in the
+	leaf, i.e. the leaf tests whether Black is mate.
 
-	self leaf:
-	   Notation example:  s==  [forced half-move for double stalemate]
-	   Main purpose:      Termination of a direct or series branch to
-	                      form a (series) self stipulation
-	   Meaning:           A self leaf has a solution if the side at the
-	                      move has at least one legal move and if all of
-	                      its legal moves reach the goal
-	   Output:            If solvable: all legal moves by the side at
-			      the move
+	The example is thus a synonym for
+
+	stipulation ser-#5
 
 
-	Branches
-	--------
+	Branch types
+	------------
 
-	Each branch represents a sequence of half moves that are subject
-	to a specific type of play (direct, help, series). It is indicated
-	by the number of half moves followed by the type of play; inside the
-	indication of a branch, no spaces are allowed.
+	Type           Notation    Examples        Synonyms as stipulation
+	Series         s           5s[#]           ser-#5
+	"Battle play"  ad          3a[+]d, 4ad[x]  +2, sx2
+	               da          3d[==]a         s==2 option postkeyplay
+	Help play      hh          5h[=]h          h=2.5
 
-	The maximal number of half moves is normally indicated as
-	single positive number, e.g. 6d (6 half-moves of direct play
-	(i.e. 3 by each side)).
+	The letters s (series move), a (attacking move), d (defending
+	move) and h (help move) represent a half-move each.
 
-	Alternatively, the minimal and maximal number of half moves
-	can be indicated, separated by a comma (example
-	3,3h).
+	A fork following a, h or s defines what the respective move is
+	supposed to reach, and a fork following d what the move
+	defends against.
 
-	direct branch:
-	   Notation example:  4d [at most 2 half moves by attacker and
-	                         defender]
-	   Purpose:           direct and self stipulations
-	   Meaning:           The side at the move (attacker) and the other
-	                      side (defender) play alternately and against
-	                      each other.
-	                      A solution of a direct branch is a move by the
-	                      attacker that allows him to reach a position in
-	                      the required number of moves (against any play
-	                      by the defender) where the subsequent
-	                      stipulation is solvable.
-	   Right/duty of move:In the subsequent stipulation, the attacker is
-	                      at the move if and only if the number of half
-	                      moves is divisible by 2.
-	   Output:            Key, threat (resp. Zugzwang) and all variations
-	                      that are different from the threat.
-	   Remark:            If the subsequent stipulation is a direct leaf,
-	                      the number of half moves has to be divisible by
-	                      2; if the subsequent stipulation is a self leaf,
-	                      the number of half moves must not be
-	                      divisible by 2 (because the attacker
-	                      makes the last half move of the branch).
-
-	help branch:
-	   Notation example:  3h  [2 half moves by the side at the
-				   move, with 1 half move by the other side
-				   in between]
-	   Purpose:           - help stipulations
-	                      - penultimate half move in reflex stipulations
-	   Meaning:           Both sides play alternately and collaborate. A
-	                      solution of a help branch is a move sequence
-	                      that leads to a position where the subsequent
-	                      stipulation is solvable.
-	   Right/duty of move:In the subsequent stipulation, the same side as
-	                      in the help branch is at the move if and only
-	                      if the number of half moves is divisible by 2.
-	   Output:            all solutions
-
-	series branch:
-	   Notation example:  5ser [at most 5 half moves by the side
-	                            at the move]
-	   Purpose:           series stipulations
-	   Meaning:           A solution is a series of half-moves by the side
-			      at the move that leads to a position where the
-			      subsequent stipulation is solvable.
-	   Right/duty of move:In the subsequent stipulation, the side is at
-	                      the move which is not at the move in the series
-	                      branch.
-	   Output:            all solutions
+	Note: a da branch is solvable if the side to move doesn't have
+	a refutation.
 
 
-	Connections
+	Fork into a branch
+	------------------
+
+	A fork can also lead into a nested branch.
+
+	Examples        Synonyms as stipulation
+        3a[1a[#]d]d     semi-r#2
+	4hh[1a[#]d]     not supported (Help-Semireflexmate in 2.5)
+	6s[1d[#]a]      ser-s#6
+
+
+	Branches with more than one fork
+	--------------------------------
+
+	For a half-move, both a fork into a leaf and into a branch can
+	be indicated. And for battle and help branches, forks can be
+	indicated for both half-moves.
+
+	Examples        Synonyms as stipulation
+	4a[#=]d[#=]     s#=2 option quodlibet
+        3a[#][1a[#]d]d  semi-r#2 option quodlibet
+
+
+	Logical expressions
+	-------------------
+
+	The following operators can be applied to leaves and branches
+	to form expressions:
+
+	Operator  Meaning
+	!         Negation
+        |         OR
+	&         AND
+
+	Examples         Meaning  
+	!#               the side to move is not mate
+	!3a[#]d          there is no solution to a direct twomover
+	4ad[#] | 3h[#]h  s#2 or h#1.5
+	1h[#]h & 2hh[#]  #1 and h#1 (i.e. reci-h#1)
+
+	Both operands of the binary operators have to belong to the
+	same of the following groups:
+	- leaf     # = zh1 ...
+	- attack   ad hh s
+	- defense  da
+
+	An expression belongs to the same group as its operand(s) and
+	can therefore be the operand of an expression, e.g. (as
+	alternative to triplets):
+
+	3a[#]d | 4hh[#] | 4ad[#]
+
+	The three partial expressions as well as the | expressions
+	belong to the attack group.
+
+
+	Operators are normally evaluated from left to right. If
+	necessary, use () to define the proper precedence. E.g.
+
+	4hh[#] & ( 4ad[#] | 4hh[=] )
+
+
+	Constraints
 	-----------
 
-	Connections combine two or modify one partial
-	stipulation. They are indicated using symbols; between the
-	symbols and the partial stipulations, spaces are allowed.
+	Constraints can be indicated in branches using curly braces
+	({}).
 
-	Sequence:	      (no symbol; optional spaces to separate)
-	   Notation examples: 2dd#  [equivalent to stipulation #2]
-	                      3h d# [equivalent to stipulation h#2]
-	   Purpose:           Indication of the subsequent stipulation
-	   Meaning:           The second partial stipulation is the
-	                      subsequent stipulation of the first partial
-	                      stipulation.
+	Example                Synonym as stipulation
+        3a[1a[#]d]d{!1a[#]d}   r#2
 
-	Negation:             (symbol !)
-	   Notation example:  !d==  ["no double-stalemate in 0.5"]
-	   Purpose:           Negation of the subsequent stipulation
-	   Meaning:           The negation of a stipulation is solvable if
-	                      the negated stipulation isn't solvable.
-	   Output:            None
-	   Remark:            Typically used in reflex stipulations (the
-	                      attacker must not have a solution for the
-	                      subsequent stipulation).
+	Note: even if the constraint follows the d, it is enforced
+	before each attacking move (including the first one!). The
+	problem has thus no solution if the constraint is violated in
+	the diagram.
 
-	Boolean AND:          (symbol &)
-	   Notation example:  1h d# & d#  [end of a reci-h#]
-	   Purpose:           Connection of partial stipulations that both
-	                      have to be solvable.
-	   Output:            Solutions of the partial stipulations
-	   Remarks:           Typical usages:
-	                      - reciprocal helpmate (see notation example)
-	                      - reflex stipulations (attacker must have a
-	                        solution for one partial stipulation AND not
-	                        for the other)
-	                      To optimise solving time, indicate the more
-	                      complex partial stipulation before the & and
-	                      the simpler one after the &.
-
-	Boolean OR:           (symbol |)
-	   Notation example:  2d d# | 3d s=  [#2 OR s=2]
-	   Purpose:           Connection of two partial stipulations of which
-	                      at least 1 has to be solvable.
-	   Output:            Solutions of the partial stipulations
-	   Remark:            Typical usage: quodlibet
-
-	Parentheses:          (symbol ())
-	   Notation example:  2d ( 1h d# & !d# )  [equiv. to stipulation r#2]
-	   Purpose:           Grouping of partial stipulations for indicating
-	                      the order of evaluation
-	   Output:            same as for partial stipulation
-	   Remark:            Without parentheses, connections are evaluated
-	                      left to right.
-
-	Move inversion:       (symbol -)
-	   Notation example:  5ser -d#  [equivalent to stipulation ser-#6]
-	   Purpose:           Change of the side at the move
-	   Output:            same as for partial stipulation
+	The two principal differences between nested branches/leaves
+	and restrictions are:
+	- the requirement expressed by the nested branch/leaf only
+	  needs to be fulfilled at the end of play; a restriction,
+	  however, has to be fulfilled each time before the respective
+	  move is played
+	- the moves played for the verification of a constraint don't
+	  appear in the printed solution, with the following 2
+	  exceptions:
+	  * if a constraint is violated in the diagram position
+	  * if the refutation of a try leads to a violated constraint
+	    ("reflex defense")
 
 
-	Examples:
-	---------
-	#3                    white 4d d#
-	s#2                   white 3d d#
-	r#2                   white 2d ( 1h d# & !d# )
-	semi-r#2              white 3d d#
-	h#2                   black 3h d#
-	h#2.5                 white 4h d#
-	hs#2                  white 3h s#
-	ser-#2                white 1ser -d#  
-	ser-h#2               black 2ser d#
-	ser-s#2               white 2ser s#
-	ser-r#2               white 1ser (1h d# & !d#)
-	reci-h#2              black 2h (1h d# & d#)
-	2->ser-h#2            black 2ser 2ser d#
+	Branches with minimal length
+	----------------------------
 
-	See commented (in German) examples in BEISPIEL/sford.inp
+	The syntax m:n can be used to define a branch with minimal
+	length (m=minimal, n=maximal length):
+
+	Examples    synonym as stipulation
+	4:4hh[#]    exact-h#2
+	3:5s[#]     not supported (series mate in 3 to 5 moves)
+
+
+	Special operators at the beginning of a branch
+	----------------------------------------------
+
+	The operators >, / and - can occur in this order at the
+	beginning of branches.
+
+	> at the beginning of the definition of a nested branch ends
+	play in the containing branch in positions where the nested
+	branch has a solution. E.g. a problem with
+
+	sstipulation white 3h[1a[x]d]h
+
+	can have the solutions
+
+	1.g3-g4 h5*g4 x 
+	1.g3-g4 h5*g4   2.h4-h5 g4*f3 x 
+
+	The longer sequence is a solution although the goal has been
+	reached after the first two half-moves already. If play is to
+	end as soon as the goal is reached, write
+
+	sstipulation white 3h[>1a[x]d]h
+
+
+	The operator / at the beginning of a nested branch prevents
+	the moves played in that branch from appearing in the output.
+
+	E.g. the capturing moves forced by Zugzwang in CapZug
+	stipulations are not part of the solution. Help CapZug in 2.5
+	moves is thus defined as
+
+	sstipulation black - 5h[/1d[x]a{!+}]h
+
+
+	The side to move at the beginning of a branch can be changed
+	using the - operator.
+
+	Examples        Synonyms as stipulation
+	- 7h[#]h        h#3.5
+	3h[- 4hh[#]]h   not supported (h#4 without 2nd white move)
+
 
 
  - forsyth: With this command you can enter the position in forsyth notation.
@@ -848,9 +859,7 @@ sstipulation). A little bit more elaborate is the command
 	ct      CAT (cavalier trojan)
 	cy      charybdis
 	da      dabbabba
-	db      doublebishopper
 	dg      doublegrasshopper
-	dk      doublerookhopper
 	do      dolphin                        grasshopper + kangaroo
 	dr      dragon
 	ds      ("Diagonalspiralspringer")

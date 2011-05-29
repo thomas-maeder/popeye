@@ -602,6 +602,7 @@ Kommandos:
 	angegeben werden. In dieser Form lassen sich alle Forderungen
 	angeben, welche sich auch in traditioneller Form mit dem Befehl
 	"Forderung" angeben lassen, aber darueberhinaus viele mehr.
+	(Ausnahme: pser-Forderungen werden zurzeit nicht unterstuetzt)
 
 	Eine mit SForderung angegebene Forderung ist wie ein Baum
 	aufgebaut: das Spiel beginnt an der Wurzel, geht ueber Aeste,
@@ -610,191 +611,207 @@ Kommandos:
 
 	Nach dem Schluesselwort SForderung wird an der Wurzel die Seite
 	angegeben, welche am Zug ist, dann die Aeste und Blaetter in
-	der weiter unten beschriebenen Sprache.
+	der im folgenden beschriebenen Sprache.
 
 
-	Wurzel
-	------
+	Anatomie einer SForderung
+	-------------------------
 
-	Die Seite am Zug wird angegeben; entweder Weiss oder Schwarz.
+	Beispiel: sforderung weiss 5s[#]
 
+	In dieser Forderung ist Weiss am Zug. Das Spiel besteht aus
+	einem Aesten, welcher in ein Blatt muendet. Der Ast besteht
+	aus 5 *S*erienzuegen; im Blatt wird lediglich geprueft, ob
+	eine Mattstellung erreicht worden ist.
 
-	Blaetter
-	--------
+	Die Definition eines besteht normalerweise aus:
+	- der maximalen Laenge in Halbzuegen (im Beispiel 5)
+	- dem Typ des Asts                   (s fuer Serie)
+	- Verzweigungen                      ([#])
+	- Einschraenkungen                   (kommen im Beispiel nicht vor)
 
-	Jedes Blatt repraesentiert einen Halbzug. Es wird angegeben
-	durch einen Buchstaben ('d' oder 's'), welches seinen Typ
-	festlegt, gefolgt vom Ziel; das Ziel wird gleich angegeben wie
-	im Befehl Forderung (siehe oben). Zwischen dem Typ und dem
-	Ziel sind keine Leerschlaege erlaubt.
+	Das Spiel endet in einem oder mehreren Blaettern. Ihre
+	Definition besteht normalerweise aus dem Ziel (im Beispiel:
+	#), welches erreicht werden soll.
 
-	direktes Blatt:
-	   Notationsbeispiel: d=  [direkter Halbzug zum Patt]
-	   Hauptzweck:        Abschluss einer Nicht-Selbst-Forderung
-	   Alternativzweck:   (negiert mit ! (siehe unten)) Angabe der
-	                      Forderung, welche in einer
-	                      Reflexforderung nicht erfuellt sein
-	                      darf,
-	   Bedeutung:         Eine Loesung eines direkten Blatts ist ein
-			      Zug der Seite am Zug, welcher das Ziel
-			      erreicht.
-	   Ausgabe:           alle Loesungszuege
+	Beim Wechsel von einem Ast in einen anderen oder in ein Blatt
+	aendert der Anzug. Im Beispiel ist also im Blatt Schwarz am
+	Zug; d.h. das Blatt prueft, ob Schwarz matt ist.
 
-	Selbst-Blatt:
-	   Notationsbeispiel: s==  [erzwungener Halbzug zum Doppelpatt]
-	   Hauptzweck:        Abschluss einer Selbst-Forderung
-	   Bedeutung:         Ein Selbst-Blatt hat eine Loesung, wenn die
-	                      Seite am Zug mindestens einen legalen Zug hat
-	                      und alle ihre legalen Zuege das Ziel erreichen.
-	   Ausgabe:           Wenn loesbar: alle legalen Zuege der Seite
-			      am Zug
+	Das Beispiel ist also ein Synonym fuer
+
+	forderung ser-#5
 
 
-	Aeste
-	-----
-
-	Jeder Ast repraesentiert eine Folge von Halbzuegen, welche
-	einer bestimmten Spielweise (direktes Spiel, Hilfsspiel, Serie)
-	unterliegen. Er wird angegeben durch die Anzahl Halbzuege
-	gefolgt von der Angabe der Spielweise; innerhalb der Angabe eines Asts
-	sind keine Leerschlaege erlaubt.
-
-	Die Anzahl Halbzuege wird normalerweise als einzelne positive
-	Zahl angegeben (z.B. 6d (d.h. 3 durch jede Seite)).
-
-	Alternativ koennen (durch Komma getrennt) die minimal und
-	maximal erlaubte Anzahl Halbzuege angegeben werden
-	(z.B. 3,3h).
-
-	direkter Ast:
-	   Notationsbeispiel: 4d  [hoechstens je 2 Halbzuege von
-	                      Angreifer und Verteidiger]
-	   Zweck:             direkte und Selbst-Forderungen
-	   Bedeutung:         Die Seite am Zug (Angreifer) und ihre Gegenseite
-	                      (Verteidiger) spielen abwechslungsweise
-                              gegeneinander.
-	                      Eine Loesung eines direkten Asts ist ein Zug des
-	                      Angreifers, welcher es ihm erlaubt, gegen
-                              jegliche Gegenwehr des Verteidigers in der
-                              angegebenen Zugzahl jeweils eine Stellung zu
-                              erreichen, in welcher die Anschlussforderung
-                              loesbar ist.
-	   Anzug im Anschluss:In der Anschlussforderung ist der
-	                      Angreifer genau dann am Zug, wenn die
-	                      Anzahl Halbzuege durch 2 teilbar ist.
-	   Ausgabe:           Schluessel, Drohung (bzw. Zugzwang) und alle
-	                      Varianten der Loesung, welche sich von der
-	                      Drohung unterscheiden.
-	   Bemerkung:         Wenn die Anschlussforderung ein direktes Blatt
-	                      ist, muss eine durch 2 teilbare Anzahl Halbzuege
-	                      angegeben werden; wenn die Anschlussforderung
-	                      ein Selbstblatt ist, eine nicht durch 2 teilbare
-	                      (da in diesem Fall der Angreifer den letzten Zug
-	                      des Asts ausfuehrt).
-
-	Hilfs-Ast:
-	   Notationsbeispiel: 3h  [2 Halbzuege durch die Seite am Zug,
-	                      dazwischen 1 Halbzug durch die andere Seite]
-	   Zweck:             - Hilfs-Forderungen
-	                      - vorletzter Halbzug in Reflexforderungen
-	   Bedeutung:         Die Seite am Zug und die andere Seite spielen
-	                      abwechslungsweise miteinander.
-                              Eine Loesung eines Hilfsasts ist eine Zugfolge,
-                              die eine Stellung erreicht, in welcher die
-                              Anschlussforderung eine Loesung hat.
-	   Anzug im Anschluss:In der Anschlussforderung ist die
-	                      gleiche Seite wie im Hilfs-Ast genau dann
-	                      am Zug, wenn die Anzahl Halbzuege durch
-	                      2 teilbar ist.
-	   Ausgabe:           alle Loesungen
-
-	Serien-Ast:
-	   Notationsbeispiel: 5ser  [hoechstens 5 Halbzuege der Seite am Zug]
-	   Zweck:             Serienzug-Forderungen
-	   Bedeutung:         Eine Loesung ist eine Serie von Halbzuegen der
-	                      Seite am Zug, welche eine Stellung erreicht, in
-	                      der die Anschlussforderung loesbar ist.
-	   Anzug im Anschluss:In der Anschlussforderung ist die Seite am Zug,
-	                      welche im Serien-Ast nicht am Zug ist.
-	   Ausgabe:           alle Loesungen
-
-
-	Verbindungen
-	------------
-
-	Verbindungen kombinieren zwei oder modifizieren eine
-	Teilforderung. Sie werden durch Symbole angegeben; zwischen den
-	Symbolen und den Teilforderungen sind Leerschlaege erlaubt.
-
-	Sequenz:	      (kein Symbol; optionale Leerschlaege)
-	   Notationsbeispiele:2dd#   [entspricht Forderung #2]
-	                      3h d#  [entspricht Forderung h#2]
-	   Zweck:             Angabe der Anschlussforderung
-	   Bedeutung:         Die zweite angegebene Teilforderung ist die
-	                      Anschlussforderung der ersten.
-
-	Negation:	      (Symbol !)
-	   Notationsbeispiel: !d==  ["kein Doppelpatt in 0.5"]
-	   Zweck:             Negation der Anschlussforderung
-	   Bedeutung:         Die Negation einer Teilforderung ist loesbar,
-	                      wenn die Teilforderung nicht loesbar ist.
-	   Ausgabe:           Keine
-	   Bemerkung:         Typische Verwendung bei Reflexforderungen (der
-	                      Angreifer darf die Anschlussforderung nicht
-	                      selbst loesen koennen).
-
-	Boolesches UND:	      (Symbol &)
-	   Notationsbeispiel: 1h d# & d#  [Schluss eines reci-h#]
-	   Zweck:             Verbindung von Teilforderungen, die beide
-	                      loesbar sein muessen.
-	   Ausgabe:           Loesungen der Teilforderungen
-	   Bemerkungen:       Typische Verwendungen:
-	                      - reziprokes Hilfsmatt (siehe Notationsbeispiel)
-	                      - Reflexforderungen (Angreifer muss die
-	                        eine Anschlussforderung loesen UND darf
-	                        die andere nicht loesen koennen)
-	                      Bezueglich Loesungszeit ist es effizienter, wenn
-	                      die komplexere Teilforderung vor und die
-	                      einfachere nach dem & angegeben wird.
-
-	Boolesches ODER:      (Symbol |)
-	   Notationsbeispiel: 2d d# | 3d s= (#2 ODER s=2)
-	   Zweck:             Verbindung von Teilforderungen, von denen
-	                      mindestens eine loesbar sein muss.
-	   Ausgabe:           Loesungen der Teilforderungen
-	   Bemerkung:         Typische Verwendung: Quodlibet
-
-	Klammerung:           (Symbol ())
-	   Notationsbeispiel: 2d ( 1h d# & !d# )  [entspricht Forderung r#2]
-	   Zweck:             Gruppierung von Teilforderungen zur Festlegung
-	                      der Reihenfolge der Auswertung
-	   Ausgabe:           wie Teilforderung
-	   Bemerkung:         Ohne Klammerung werden Verbindungen von links
-	                      nach rechts ausgewertet.
-
-	Wechsel des Anzugs:   (Symbol -)
-	   Notationsbeispiel: 5ser -d#  [entspricht Forderung ser-#6]
-	   Zweck:             Aenderung des Anzugs in einer Teilforderung
-	   Ausgabe:           wie Teilforderung
-
-
-	Bespiele:
+	Ast-Typen
 	---------
-	#3                    weiss 4d d#
-	s#2                   weiss 3d d#
-	r#2                   weiss 2d ( 1h d# & !d# )
-	semi-r#2              weiss 3d d#
-	h#2                   schwarz 3h d#
-	h#2.5                 weiss 4h d#
-	hs#2                  weiss 3h s#
-	ser-#2                weiss 1ser -d#  
-	ser-h#2               schwarz 2ser d#
-	ser-s#2               weiss 2ser s#
-	ser-r#2               weiss 1ser (1h d# & !d#)
-	reci-h#2              schwarz 2h (1h d# & d#)
-	2->ser-h#2            schwarz 2ser 2ser d#
 
-	Kommentierte Beispiele in BEISPIEL/sford.inp
+	Typ            Notation   Beispiele       Synonyme als forderung
+	Serie          s          5s[#]           ser-#5
+	"Kampfspiel"   ad         3a[+]d, 4ad[x]  +2, sx2
+	               da         3d[==]a         s==2 option nachschluessel
+	Hilfsspiel     hh         5h[=]h          h=2.5
+
+	Die Buchstaben s (Serienzug), a (Angriffszug), d
+	(Verteidigungszug - defense) und h Hilfszug stehen jeweils
+	fuer einen Halbzug.
+
+	Eine a, h or s nachgestelle Gabelung legt fest, was mit dem
+	betreffenden Zug zu erreichen ist, eine d nachgstellte
+	Gabelung, wogegen der Zug verteidigt.
+
+	Beachte: Ein da-Ast ist loesbar, falls die Seite am Zug keine
+	Widerlegung hat.
+
+
+	Gabelung in einen Ast
+	---------------------
+
+	Eine Gabelung kann zu einem anderen Ast fuehren.
+
+	Beispiel        Synonyme als forderung
+        3a[1a[#]d]d     semi-r#2
+	4hh[1a[#]d]     nicht unterstuetzt (Hilfs-Semireflexmatt in 2.5)
+	6s[1d[#]a]      ser-s#6
+
+
+	Aeste mit mehreren Gabelungen
+	-----------------------------
+
+	Fuer einen Halbzug kann je eine Gabelung in ein Blatt und in
+	einen Ast angegeben werden. Und fuer Kampf- und Hilfsaeste
+	koennen nach beiden Halbzuegen Gabelungen angegeben werden.
+
+	Beispiele       Synonyme als forderung
+	4a[#=]d[#=]     s#=2 option quodlibet
+        3a[#][1a[#]d]d  semi-r#2 option quodlibet
+
+
+	Logische Ausdruecke
+	-------------------
+
+	Auf Blaetter und Aeste koennen mit folgenden Operatoren
+	Ausdruecke gebildet werden:
+
+	Operator  Bedeutung
+	!         Negation
+        |         ODER
+	&         UND
+
+	Beispiele        Bedeutung
+	!#               die Seite am Zug ist nicht matt
+	!3a[#]d          es gibt keine Loesung zum direkten Matt in 2 Zuegen
+	4ad[#] | 3h[#]h  s#2 oder h#1.5
+	1h[#]h & 2hh[#]  #1 und h#1 (d.h. reci-h#1)
+
+
+	Bei den binaeren Operatoren muessen beide Operanden der
+	gleichen der folgenden drei Gruppen angehoeren:
+	- Blatt         # = zh1 ...
+	- Angriff       ad hh s
+	- Verteidigung  da
+
+	Ein Ausdruck gehoert der selben Gruppe an wie sein(e)
+	Operand(en) und kann somit seinerseits Operand eines Ausdrucks
+	sein, z.B. (als Alternatie zur Drillingsbildung):
+
+	3a[#]d | 4hh[#] | 4ad[#]
+
+	Alle drei Teilausdruecke und somit auch die |-Ausdruecke
+	gehoeren zur Gruppe Angriff.
+
+
+	Die Operatoren werden normalerweise von links nach rechts
+	ausgewertet. Wenn notwendig, kann der Vorrang mit ()
+	festgelegt werden, z.B.:
+
+	4hh[#] & ( 4ad[#] | 4hh[=] )
+
+
+	Einschraenkungen
+	----------------
+
+	Neben Gabelungen koennen in Aesten auch Einschraenkungen
+	definiert werden. Einschraenkungen werden von geschweiften
+	Klammern ({}) umgeben.
+
+	Beispiel               Synonym als forderung
+        3a[1a[#]d]d{!1a[#]d}   r#2
+
+	Beachte: auch wenn die Einschraenkung auf das d folgt, wird
+	sie vor jedem Angriffszug ueberprueft, auch vor dem ersten! 
+	Wenn Weiss also in der Beispielforderung in der
+	Diagrammstellung direkt matt setzen kann, hat die Aufgabe
+	keine Loesung.
+
+	Die beiden Hauptunterschiede zwischen einem verschachtelten
+	Ast bzw. Blatt und einer Einschränkung sind:
+        - der/das verschachtelte Ast/Blatt muss nur am Ende des Spiels
+	  erfuellt sein, die Einschraenkung hingegen jedesmal bevor der
+	  betreffende Zug gespielt wird
+	- die bei der Ueberpruefung einer Einschraenkung gespielten
+	  Zuege tauchen mit zwei Ausnahmen in der Ausgabe nicht auf:
+	  * wenn eine Einschraenkung bereits in der Diagrammstellung
+	    nicht erfuellt ist
+	  * wenn die Widerlegung einer Verfuehrung dazu fuehrt, dass
+	    eine Einschraenkung nicht erfuellt ist
+	    ("Reflexverteidigung")
+
+
+	Aeste mit minimaler Laenge
+	--------------------------
+
+	Wenn fuer einen Ast neben der maximalen auch die minimale
+	Laenge definiert werden soll, wird die Syntax m:n
+	verwendet (m=minimale, n=maximale Laenge):
+
+	Beispiele   Synonym als forderung
+	4:4hh[#]    exact-h#2
+	3:5s[#]     nicht unterstuetzt (Serienzugmatt in 3-5 Zuegen)
+
+
+	Spezielle Operatoren am Anfang eines Asts
+	-----------------------------------------
+
+	Die drei Operatoren >, / und - koennen in dieser Reihenfolge
+	am Anfang der Definition von Aesten vorkommen.
+
+	> am Anfang eines verschachtelten Asts beendet das Spiel im
+	uebergeordneten Ast in Stellungen, in denen der
+	verschachtelte Ast eine Loesung hat. Z.B. kann ein Problem
+	mit
+
+	sforderung weiss 3h[1a[x]d]h
+
+	die Loesungen
+
+	1.g3-g4 h5*g4 x 
+	1.g3-g4 h5*g4   2.h4-h5 g4*f3 x 
+
+	haben; die lange Zugfolge loest, obwohl das Ziel schon nach
+	ihren ersten beiden Halbzuegen erreicht ist. Wenn das Spiel mit
+	dem erreichten Ziel beendet sein soll, schreibt man als
+	sforderung weiss 3h[>1a[x]d]h.
+
+
+	Der Operator / am Anfang eines verschachtelten Asts bewirkt,
+	dass die in diesem Ast gespielten Zuege nicht in der Ausgabe
+	erscheinen.
+
+	Z.B. gehoert in der "CapZug"-Forderung der durch Zugzwang
+	erzwungene Schlagzug nicht mehr zur Loesung. Hilfs-CapZug in
+	2.5 schreibt sich als
+
+	sforderung schwarz - 5h[/1d[x]a{!+}]h
+
+
+	Der Wechsel des Zugrechts am Anfang eines Asts kann durch den
+	Operator - bewirkt werden.
+
+	Beispiele       Synonym als forderung
+	- 7h[#]h        h#3.5
+	3h[- 4hh[#]]h   nicht unterstuetzt (h#4 ohne 2. weissen Zug)
+
 
 
  - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
@@ -868,10 +885,8 @@ aufwendiger ist das Kommando
 	da      Dabbaba                         0,2 Springer
 	de      Delphin                         Grashupfer + Kaenguruh
 	dg      Doppelgrashuepfer
-	dl      Doppellaeuferhuepfer
 	dr      Drache                          Bauer + 1,2 Springer
 	ds      Diagonalspiralspringer
-	dt      Doppelturmhuepfer
 	du      Dummy
 	ei      Eichhoernchen                   0,2+1,2+2,2 Springer
 	ek      Erlkoenig                       0,1+1,1 Springer

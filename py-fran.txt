@@ -584,6 +584,7 @@ simples:
 	"structuree". Sous cette forme, toutes les enonces peuvent
 	etre indiques qui peuvent etre indiques avec la commande
 	enonce, mais aussi beaucoup d'enonces additionnels.
+	(Exception: enonces pser ne sont pas supportees actuellement)
 
 	Un enonce indique par senonce a la structure d'un arbre. Le
 	jeu commence a la racine, traverse les branches (qui se pevent
@@ -594,186 +595,199 @@ simples:
 	ci-dessous.
 
 
-	Racine
-	------
+	Anatomie d'un senonce
+        ---------------------
 
-	Indiquez le camp au trait; Blanc ou Noir.
+	Exemple: senonce blanc 5s[#]
 
+	Dans cette stipulation, les Blancs ont le trait. Le jeu
+	consiste d'une branche de 5 coups de serie. La branche mene a
+	une feuille,dont la seule tache est de verifier si une
+	position de mate vient d'etre atteinte.
 
-	Feuilles
-	--------
+	La definition d'une branche consiste normalement:
+	- de la longueur maximale en demi-coups (dans l'exemple: 5)
+	- du type de la branche                 (s pour serie)
+	- des bifurcations                      ([#])
+	- des restrictions                      (aucune dans l'exemple)
 
-	Chaque feuille represente un demi-coup. Elle est indiquee par
-	une lettre ('d' ou 's') qui definit son type, suivi par le
-	but; le but est indique comme dans la commande enonce (voir
-	ci-dessus). Entre le type et le but, les espaces ne sonst pas
-	permises.
+	Le jeu se termine a une ou plusieurs feuilles. Leur definition
+	consiste normalement du but (dans l'exemple: #) a atteindre.
 
-	Feuille directe:
-	   Exemple:           d=  [demi-coup direct menant au pat]
-	   Raison principale: Terminaison d'un enonce non-inverse
-	   Raison alternative:(nie avec ! (voir ci-dessous)) Indication de
-			      l'enonce partielle qui ne doit pas etre
-			      rempli dans un enonce reflexe.
-	   Signification:     Une solution d'une feuille directe est un coup
-			      du camp au trait qui mene au but.
-	   Output:            Toutes les solutions
+	Lors du changement d'une branche a une autre ou a une feuille,
+	le trait change. Les Noirs ont donc le trait dans la feuille,
+	ce qui signifie que la feuille verifie si les Noirs sont mats.
 
-	Feuille inverse:
-	   Exemple:           s==  [demi-coup force menant au pat double]
-	   Raison principale: Terminaison d'un enonce inverse
-	   Signification:     Une feuille inverse est soluble si le camp au
-			      trait a au moins un coup legal et si
-			      tous les coups legaux de ce camp menent
-			      au but.
-	   Output:            Si soluble: tous les coup legaux du camp au trait
+	L'exemple est donc un synonyme pour
+
+	enonce ser-#5
 
 
-	Branches
-	--------
+	Types de branche
+	----------------
 
-	Chaque branche represente une suite de demi-coups qui obeissent
-	a un certain type de jeu (jeu direct, jeu aide, jeu de
-	serie). Elle est indiquee par le nombre de demi-coups, suivi
-	par le type de jeu; entre le nombre et le type, les espaces ne
-	sont pas permises.
+	Type           Notation    Exemples        Synonymes comme enonce
+	Serie          s           5s[#]           ser-#5
+	"Bataille"     ad          3a[+]d, 4ad[x]  +2, sx2
+	               da          3d[==]a         s==2 option ApresCle
+	Aide           hh          5h[=]h          h=2.5
 
-	Le nombre de demi-coups est normalement indique comme un seul
-	chiffre positif (p.ex. 6d (3 demi-coups par camp)).
+	Les lettres s (coup de serie), a (attaque), d (defense) et h
+	(aide - help) representent chacun un demi-coup.
 
-	Alternativement, le nombre de demi-coups minimal est maximal
-	peuvent etre indiques, separes par une virgule (p.ex. 3,3h).
+	Une bifurcation qui suit a, h ou s definit le but du coup
+	d'attaque; et une bifurcation qui suit d definit contre quoi
+	on se defend.
 
-	branche directe:
-	   Exemple:           4d  [2 demi-coups par attaquant et defendeur]
-	   Raison:            enonces directes et inverses
-	   Signification:     Le camp au trait (attaquant) et l'autre camp
-	                      (defendeur) jouent alternativement l'un contre
-			      l'autre.
-	                      Une solution d'une branche directe est
-	                      un coup par le camp de l'attaquant qui
-	                      lui permet d'atteindre, dans le nombre de
-	                      coups exige, contre tout jeu du
-	                      defendeur, a une position ou l'enonce
-	                      suivant est soluble.
-	   Trait a la suite:  Dans l'enonce suivant, l'attaquant a le trait
-			      si le nombre de demi-coups de la branche
-			      directe est pair, et le defendant si ce nombre
-			      est impair.
-	   Output:            Cle, menace (resp. Zugzwang) et toutes les
- 			      variantes de la solution differentes de
- 			      la menace.
-	   Remarque:          Si l'enonce suivant est une feuille directe,
- 			      le nombre de demi-coups doit etre pair;
- 			      si l'enonce suivant est une feuille
- 			      inverse, le nombre de demi-coups doit
- 			      etre impair (puisque c'est l'attaquant
- 			      qui effectue le dernier coup de la
- 			      branche).
-
-	branche aide:
-	   Exemple:           3h  [2 demi-coups par le camp au trait, avec
-	                      1 demi-coup par l'autre camps entre les deux]
-	   Raison:            - enonces aide
-	                      - avant-dernier coup dans les enonces reflexes
-	   Signification:     Les deux camps effectuent des coup alternatifs
-			      en collaboration.
-                              Une solution d'une branche aide est une suite
-                              de coups qui mene a une position ou
-                              l'enonce suivant est soluble
-	   Trait a la suite:  Dans l'enonce suivant, le meme camp a le trait
- 			      que dans la branche aide si le nombre
- 			      de demi-coups est pair, et l'autre camp si ce
-			      nombre est impair.
-	   Output:            Toutes les solutions
-
-	branche de serie:
-	   Exemple:           5ser  [5 demi-coups de serie]
-	   Raison:            Enonces de serie
-	   Signification:     Une solution est une suite de demi-coups par le
-			      camp au trait qui mene a une position ou
-			      l'enonce suivant est soluble.
-	   Trait a la suite:  Dans l'enonce suivant, le camp a le trait qui
-			      n'a pas le trait dans la branche de serie.
-	   Output:            Toutes les solutions
+	Note: une branche da est soluble quand le camp qui a le trait
+	n'a pas de refutation.
 
 
-	Connexions
-	----------
+	Bifurcation menant a une branche
+	--------------------------------
 
-	Les connexions combines deux enonces partiels ou en modifient
-	un. Elles sont indiquees par des symboles; entre les symboles
-	est les enonces partiels, les espaces sont permises.
+	Une bifurcation peut aussi mener a une branche imbriquee.
 
-	Sequence:	      (pas de symbole; espaces optionnelles)
-	   Exemples:          2dd#   [equivalent a #2]
-	                      3h d#  [equivalent a h#2]
-	   Raison:            Indication de l'enonce suivant
-	   Signification:     Le deuxieme enonce partiel est l'enonce
-			      suivante a celle indiquee comme premier.
-
-	Negation:	      (symbole !)
-	   Exemple:           !d==  ["pas de pat double en 0.5"]
-	   Raison:            Negation de l'enonce suivant
-	   Signification:     La negation d'un enonce partiel est soluble si
-			      l'enonce partiel n'est pas soluble.
-	   Output:            Keine
-	   Remarque:          Typische Verwendung bei Reflexforderungen (der
-	                      Angreifer darf die Anschlussforderung nicht
-	                      selbst loesen koennen).
-
-	ET booleen:	      (symbole &)
-	   Exemple:           1h d# & d#  [Terminaison d'un reci-h#]
-	   Raison:            Connexion de deux enonces partiels dont tous
-			      les deux doivent etre solubles
-	   Output:            Solutions des enonces partiels
-	   Bemerkungen:       Utilisations typiques:
-	                      - aides reciproques (voir exemple ci-dessus)
-	                      - enonces de reflexe (attaquant doit resoudre
-	                        un des enonces suivants ET ne doit pas
-	                        resoudre l'autre)
-			      Pour optimiser le temps de solution, indiquez
-			      l'enonce partiel le plus complexe avant le &
-			      et celui plus simple apres le &.
-
-	OU booleen:           (symbole |)
-	   Exemple:           2d d# | 3d s= (#2 OU s=2)
-	   Raison:            Connexion de deux enonces partiels dont au moins
-			      un doit etre soluble.
-	   Output:            Solutions des enonces partiels
-	   Remarque:          Utilisation typique: Quodlibet
-
-	Parantheses:          (symboles ())
-	   Exemple:           2d ( 1h d# & !d# )  [equivalent a r#2]
-	   Raison:            association d'enonces partiels pour definir
-			      leur ordre d'evaluation
-	   Output:            comme pour les enonces partiels
-	   Remarque:          Sans parentheses, les connexions sont evaluees
-			      de gauche a droite
-
-	Changement de trait:  (symbole -)
-	   Exemple:           5ser -d#  [equivalent a ser-#6]
-	   Raison:            Changement de trait dans l'enonce partiel
-	   Output:            comme pour l'enonce partiel
+	Exemples        Synonymes comme enonce
+        3a[1a[#]d]d     semi-r#2
+	4hh[1a[#]d]     non supporte (aide semireflexe en 2.5)
+	6s[1d[#]a]      ser-s#6
 
 
-	Exemples:
-	---------
-	#3                    blanc 4d d#
-	s#2                   blanc 3d d#
-	r#2                   blanc 2d ( 1h d# & !d# )
-	semi-r#2              blanc 3d d#
-	h#2                   noir 3h d#
-	h#2.5                 blanc 4h d#
-	hs#2                  blanc 3h s#
-	ser-#2                blanc 1ser -d#  
-	ser-h#2               noir 2ser d#
-	ser-s#2               blanc 2ser s#
-	ser-r#2               blanc 1ser (1h d# & !d#)
-	reci-h#2              noir 2h (1h d# & d#)
-	2->ser-h#2            noir 2ser 2ser d#
+	Branches avec plusieurs bifurcations
+	------------------------------------
 
-	Exemples commentes (en allemand) dans BEISPIEL/sford.inp
+	Une bifurcation a une feuille et une bifurcation a une branche
+	peuvent etre indiquees pour le meme demi-coup. Et pour les
+	branches battaille et aide, des bifurcations peuvent etre
+	indiquees pour les deux demi-coups.
+
+	Exemples        Synonymes comme enonce
+	4a[#=]d[#=]     s#=2 option quodlibet
+        3a[#][1a[#]d]d  semi-r#2 option quodlibet
+
+
+	Expressions logiques
+	--------------------
+
+	Les operateurs suivants peuvent etre appliques a des feuilles
+	et des branches pour formuler des expressions:
+
+	Operateur  Signification
+	!          Negation
+        |          OU
+	&          ET
+
+	Exemples         Signification
+	!#               le camp qui a le trait n'est pas mate
+	!3a[#]d          il n'y a pas de solution a un deux-coups direct
+	4ad[#] | 3h[#]h  s#2 ou h#1.5
+	1h[#]h & 2hh[#]  #1 et h#1 (c'est-a-dire reci-h#1)
+
+	Les deux operandes des operateurs binaires doivent appartenir
+	au meme des trois groupes suivants:
+	- feuille  # = zh1 ...
+	- attaque  ad hh s
+	- defense  da
+
+	Une expression appartient au meme groupe que son/ses
+	operande(s). Elle peut donc elle-meme etre l'operande d'une
+	expression, p.ex. (comme alternative a des jumeaux):
+
+	3a[#]d | 4hh[#] | 4ad[#]
+
+	Les trois expressions partielles ainsi que les expressions |
+	appartiennent au groupe attaque.
+
+
+	Les operators sont normalement evalues de gauche a droite. Si
+	necessaire, des () peuvent etre utilisees pour definir la
+	precedence correcte, p.ex.
+
+	4hh[#] & ( 4ad[#] | 4hh[=] )
+
+
+	Restrictions
+	------------
+
+	Les restrictions peuvent etre indiquees en utilisant {}.
+
+	Exemple                Synonyme comme enonce
+        3a[1a[#]d]d{!1a[#]d}   r#2
+
+	A noter: meme si la restriction est indiquee apres le d, elle
+	est verifiee avant chaque coup, y inclus le premier! Le
+	probleme n'a donc pas de solution, si la restriction est
+	violee dans la position du diagramme.
+
+	Les deux differences principales entre des branches/feuilles
+	imbriquees et des restrictions sont:
+	- l'exigence defini par une branche ou feuille imbriquee doit
+	  seulement etre remplie a la fin du jeu; une restriction doit
+	  cependant etre remplie chaque fois que le coup respectif est
+	  joue
+	- les coups joues lors de la verification d'une restriction
+	  n'apparaissent pas dans la solution ecrite sauf dans les deux
+	  cas suivants:
+	  * si une restriction est violee dans la position du diagramme
+	  * si la refutation d'un essai mene a une restriction violee
+	    ("defense reflexe")
+
+
+	Branches a longueur minimale
+	----------------------------
+
+	Pour definir la longueur minmale d'une branche, la notation
+	m:n peut etre utilisee (m=minimum, n=maximum):
+
+	Exemples    synonym comme enonce
+	4:4hh[#]    exact-h#2
+	3:5s[#]     pas supporte (series de 3 a 5 moves)
+
+
+	Operateur speciaux au debut d'une branche
+	-----------------------------------------
+
+	Les operateurs >, / et - peuvent apparaitre dans cet order au
+	debut de la defintion de branches.
+
+	> au debut d'une branche de la definition termine le jeu de la
+	branche superieure dans des position ou la branche imbriquee
+	a une solution. P.ex. un probleme avec
+
+	senonce blanc 3h[1a[x]d]h
+
+	peut avoir les solutions
+
+	1.g3-g4 h5*g4 x 
+	1.g3-g4 h5*g4   2.h4-h5 g4*f3 x 
+
+	La deuxieme sequence est une solution malgre que le but soit
+	atteint apres les deux premier demi-coups deja. Si le jeu doit
+	se terminer quand le but est atteint, on peut ecrire
+
+	senonce blanc 3h[>1a[x]d]h
+
+
+	Si la definition d'une branche imbriquee contient l'operateur
+	/, les coups joues dans cette branche ne font pas partie de la
+	solution ecrite.
+
+	P.ex. la capture forcee par Zugzwang n'appartient pas a la
+	solution d'un probleme a enonce "CapZug". CapZug aide en 2.5
+	s'ecrit donc
+
+	senonce noir - 5h[/1d[x]a{!+}]h
+
+
+	Le trait peut etre passe a l'autre camp au debug d'une branch
+	avec l'operateur -.
+
+	Exemples        Synonyms as stipulation
+	- 7h[#]h        h#3.5
+	3h[- 4hh[#]]h   pas supporte (h#4 sans 2eme coup blanc)
+
+
 
 
  - forsyth: Cette commande est utiliser pour l'entree de la position en
@@ -847,11 +861,9 @@ suivante est un peu plus compliquee:
 	cy      charybdis
 	d       dame
 	da      dabbabba
-	df      double fou-sauterelle 
 	dn      dauphin                         sauterelle + kangourou
 	dr      dragon   
 	ds      double sauterelle 
-	dt      double tour-sauterelle 
 	ea      equisauteur anglais
 	ec      ecureuil   
 	eh      ("edgehog", "randschwein")
