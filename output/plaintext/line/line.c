@@ -11,6 +11,22 @@
 
 #include <assert.h>
 
+static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+
+  {
+    Goal const goal = { no_goal, initsquare };
+    pipe_append(slices[si].prev,alloc_line_writer_slice(goal));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_goal_reached_tester(slice_index si,
                                            stip_structure_traversal *st)
 {
@@ -108,6 +124,7 @@ static structure_traversers_visitors regular_inserters[] =
 {
   { STEndOfBranch,           &instrument_end_of_branch       },
   { STConstraint,            &stip_traverse_structure_pipe   },
+  { STPostKeyPlaySuppressor, &instrument_suppressor          },
   { STGoalReachedTester,     &instrument_goal_reached_tester },
   { STAttackAdapter,         &instrument_root                },
   { STHelpAdapter,           &instrument_root                },

@@ -195,9 +195,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           slice_index const copy = copy_slice(prototypes[0]);
           pipe_append(si,copy);
           if (nr_prototypes>1)
-            battle_branch_insert_slices_recursive(copy,
-                                                  prototypes+1,nr_prototypes-1,
-                                                  prototype_rank+1);
+            battle_branch_insert_slices_nested(copy,
+                                               prototypes+1,nr_prototypes-1);
           break;
         }
         else if (slices[next].type==STGoalReachedTester)
@@ -205,10 +204,8 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           branch_insert_slices_nested(next,prototypes,nr_prototypes);
           break;
         }
-        else if (slices[next].type==STEndOfBranch
-                 || slices[next].type==STEndOfBranchGoal
-                 || slices[next].type==STEndOfBranchGoalImmobile
-                 || slices[next].type==STEndOfBranchForced)
+        else if (slices[next].type==STEndOfBranchGoal
+                 || slices[next].type==STEndOfBranchGoalImmobile)
         {
           branch_insert_slices_nested(slices[next].u.fork.fork,
                                       prototypes,nr_prototypes);
@@ -217,10 +214,13 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
         else if (slices[next].type==STForkOnRemaining
                  || slices[next].type==STCheckZigzagJump)
         {
+          battle_branch_insert_slices_recursive(next,
+                                                prototypes,nr_prototypes,
+                                                base);
           battle_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                                 prototypes,nr_prototypes,
                                                 base);
-          si = next;
+          break;
         }
         else
         {
@@ -712,6 +712,7 @@ slice_index battle_make_root(slice_index adapter)
   TraceFunctionParamListEnd();
 
   result = battle_branch_make_root_slices(adapter);
+  assert(result!=no_slice);
 
   {
     slice_index si;

@@ -145,6 +145,7 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
                                                               adapter);
         assert(defense_adapter!=no_slice);
         *setplay_slice = battle_branch_make_root_slices(defense_adapter);
+        assert(*setplay_slice!=no_slice);
         pipe_remove(defense_adapter);
       }
     }

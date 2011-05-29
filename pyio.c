@@ -3027,6 +3027,8 @@ static char *ParseStructuredStip_nested_branch(char *tok,
                                                unsigned int level)
 {
   expression_type * const etype = (expression_type *)type;
+  boolean is_forced = false;
+  boolean is_suppressed = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -3036,14 +3038,31 @@ static char *ParseStructuredStip_nested_branch(char *tok,
 
   if (tok[0]=='>')
   {
-    tok = ParseStructuredStip_expression(tok+1,proxy_operand,etype,level+1);
+    is_forced = true;
+    ++tok;
+  }
+
+  if (tok[0]=='/')
+  {
+    is_suppressed = true;
+    ++tok;
+  }
+
+  tok = ParseStructuredStip_expression(tok,proxy_operand,etype,level+1);
+
+  if (is_suppressed)
+  {
+    slice_index const prototype = alloc_postkeyplay_suppressor_slice();
+    branch_insert_slices(proxy_operand,&prototype,1);
+  }
+
+  if (is_forced)
+  {
     if (*etype==expression_type_attack)
-      *type = nested_branch_type_forced;
+    *type = nested_branch_type_forced;
     else
       tok = 0;
   }
-  else
-    tok = ParseStructuredStip_expression(tok,proxy_operand,etype,level+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

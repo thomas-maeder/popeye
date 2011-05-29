@@ -327,6 +327,8 @@ void branch_insert_slices_nested(slice_index si,
     branch_insert_slices_nested(slices[si].u.binary.op2,
                                 prototypes,nr_prototypes);
   }
+  else if (slices[si].type==STDefenseAdapter)
+    battle_branch_insert_slices_nested(si,prototypes,nr_prototypes);
   else if (slices[si].type==STGoalReachedTester)
     leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
   else

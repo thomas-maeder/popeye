@@ -4,7 +4,7 @@ prot capzug.ref
 
 author Geoff Foster & Arno T"ungler
 origin WCCC 2010, CapZug Tourney, 1st prize
-sstip black - 5h[1d[x]a{!+}]h
+sstip black - 5h[/1d[x]a{!+}]h
 pieces white kd7 qg5 rc4 bd5 sg1 pa2e4e7f6
        black kd3 bf8h1 pd6e2g2g6
 
@@ -12,7 +12,7 @@ next
 
 author Cornel Pacurar & Arno T"ungler
 origin WCCC 2010, CapZug Tourney, 1st commendation
-sstip black 8hh[1d[x]a{!+}]
+sstip black 8hh[/1d[x]a{!+}]
 pieces white ka5 pa2b3
        black kb7 pa7b5
 option set
@@ -21,7 +21,7 @@ next
 
 author Arno T"ungler
 origin ??
-sstip black 8hh[1d[+]a{!+}]
+sstip black 8hh[/1d[+]a{!+}]
 pieces white ke6 pa7
        black ka8 pg2
 
@@ -29,7 +29,7 @@ next
 
 author Dan Meinking
 origin ??
-sstip black 10hh[1d[=]a{!+}]
+sstip black 10hh[/1d[=]a{!+}]
 pieces white kb1 bg8 pe2f5
        black kc3 pb2b4d2e3
 option movenum
@@ -38,7 +38,7 @@ next
 
 author Arno Tuengler
 origin ??
-sstip white 3a[1d[+]a{!+}]d
+sstip white 3a[/1d[+]a{!+}]d
 pieces white kf3 qb5 re2g1 bf5 sf2 pd2g3h2
        black kc2 re4 pg2
 option vari
@@ -47,16 +47,7 @@ next
 
 author Arno Tuengler
 origin ??
-sstip white 2ad[2a{!+}d[+]]
-pieces white kf3 qb5 re2g1 bf5 sf2 pd2g3h2
-       black kc2 re4 pg2
-option vari
-
-next
-
-author Arno Tuengler
-origin ??
-sstip black 8s[1a[1d[+]a{!+}]d]
+sstip black 8s[1a[/1d[+]a{!+}]d]
 pieces white kc8 pb6
        black ka8 pa7
 
@@ -64,7 +55,7 @@ next
 
 author Felix Seidemann
 origin The Problemist Fairy Chess Supplement 1930 (v)
-sstip white 5h[1d[#]a{!+}]h
+sstip white 5h[/1d[#]a{!+}]h
 pieces white kc1 re1h1 pa2
        black ka1 qh2 pb3d3e3f3
 
@@ -72,7 +63,7 @@ next
 
 author Albert H. Kniest
 origin feenschach 1965
-sstip white 7h[1d[=]a{!+}]h
+sstip white 7h[/1d[=]a{!+}]h
 pieces white ke4 pa2
        black kb2 pb3b4b5
 

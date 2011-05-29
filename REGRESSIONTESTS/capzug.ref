@@ -21,19 +21,17 @@
 1   .   .   .   .   .   .   S  -B   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black - 5h[1d[x]a{!+}]h     9 + 7
+  black - 5h[/1d[x]a{!+}]h    9 + 7
 
-  1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3   4.Qc3*b3 x 
-  1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2   4.Kd3*c2 x 
-  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1   4.Ra1*a2 x 
-  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1   4.Ra1*b1 x 
-  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g3 x 
-  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3   4.Bh4*g5 x 
+  1...e7*f8=Q   2.e2-e1=Q Qf8-b8   3.Qe1-c3 Qb8-b3 
+  1...e7*f8=S   2.e2-e1=S Sf8-e6   3.Se1-c2 Rc4*c2 
+  1...e7*f8=R   2.e2-e1=R Rf8-b8   3.Re1-a1 Rb8-b1 
+  1...e7*f8=B   2.e2-e1=B Bf8*d6   3.Be1-h4 Bd6-g3 
 
-              empile:    31388898
-            jouecoup:     9145514
-        orig_rbechec:     5118592
-        orig_rnechec:     9013166
+              empile:    31388850
+            jouecoup:     9145450
+        orig_rbechec:     5118582
+        orig_rnechec:     9013108
 solution finished. 
 
 
@@ -60,17 +58,17 @@ WCCC 2010, CapZug Tourney, 1st commendation
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[1d[x]a{!+}]       3 + 3
+  black 8hh[/1d[x]a{!+}]      3 + 3
 
-  1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5   5.a6*b5 x 
+  1...Ka5-b4   2.Kb7-a6 Kb4-c5   3.Ka6-a5 a2-a4   4.a7-a6 a4*b5 
 
-  1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5   5.b4*a3 x 
-  1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4   5.b4*a3 ep. x 
+  1.b5-b4 Ka5-b5   2.a7-a6 + Kb5-c4   3.Kb7-b6 a2-a3   4.Kb6-a5 Kc4-c5 
+  1.Kb7-c6 Ka5-a6   2.b5-b4 Ka6*a7   3.Kc6-b5 Ka7-b7   4.Kb5-a5 a2-a4 
 
-              empile:      518945
-            jouecoup:      255146
-        orig_rbechec:      117706
-        orig_rnechec:      223085
+              empile:      518931
+            jouecoup:      255129
+        orig_rbechec:      117703
+        orig_rnechec:      223068
 solution finished. 
 
 
@@ -97,14 +95,14 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8hh[1d[+]a{!+}]       2 + 2
+  black 8hh[/1d[+]a{!+}]      2 + 2
 
-  1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8   5.Qa7*a6 + 
+  1.Ka8-b7 a7-a8=R   2.g2-g1=Q Ra8-a6   3.Qg1-a7 Ke6-d7   4.Kb7-a8 + Kd7-c8 
 
-              empile:    27720672
-            jouecoup:     6617794
-        orig_rbechec:     6220144
-        orig_rnechec:     5825432
+              empile:    27720655
+            jouecoup:     6617776
+        orig_rbechec:     6220127
+        orig_rnechec:     5825414
 solution finished. 
 
 
@@ -131,13 +129,13 @@ solution finished.
 1   .   K   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 10hh[1d[=]a{!+}]      4 + 5
+  black 10hh[/1d[=]a{!+}]     4 + 5
 
   1  (d2-d1=Q + )
   2  (d2-d1=S )
   3  (d2-d1=R + )
   4  (d2-d1=B )
-  1.d2-d1=B Bg8-b3   2.Bd1*b3 f5-f6   3.Bb3-g8 f6-f7   4.Kc3-b3 f7*g8=B +   5.Kb3-a3 Bg8-b3   6.Ka3*b3 = 
+  1.d2-d1=B Bg8-b3   2.Bd1*b3 f5-f6   3.Bb3-g8 f6-f7   4.Kc3-b3 f7*g8=B +   5.Kb3-a3 Bg8-b3 
   5  (Kc3-d3 )
   6  (Kc3-c4 )
   7  (Kc3-b3 )
@@ -145,10 +143,10 @@ solution finished.
   9  (Kc3-d4 )
  10  (b4-b3 )
 
-              empile:   412346701
-            jouecoup:   159389611
-        orig_rbechec:   145720378
-        orig_rnechec:   114758931
+              empile:   412346693
+            jouecoup:   159389602
+        orig_rbechec:   145720372
+        orig_rnechec:   114758927
 solution finished. 
 
 
@@ -175,84 +173,23 @@ solution finished.
 1   .   .   .   .   .   .   R   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 3a[1d[+]a{!+}]d       9 + 3
+  white 3a[/1d[+]a{!+}]d      9 + 3
 
    1.Sf2-h1 ! zugzwang.
       1...g2*h1=Q +
           2.Kf3-f2
-              2...Qh1-f3 +
-              2...Qh1-g2 +
-              2...Qh1*g1 +
-              2...Qh1*h2 +
       1...g2*h1=S
           2.Kf3*e4
-              2...Sh1*g3 +
-              2...Sh1-f2 +
       1...g2*h1=R
           2.Kf3-g2
-              2...Rh1*g1 +
-              2...Rh1*h2 +
       1...g2*h1=B +
           2.Re2-g2
-              2...Bh1*g2 +
 
 
-              empile:       15615
-            jouecoup:        5465
-        orig_rbechec:        5497
-        orig_rnechec:        5197
-solution finished. 
-
-
-
-            Arno Tuengler
-                  ??
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   Q   .   .   .   B   .   .   5
-|                                   |
-4   .   .   .   .  -R   .   .   .   4
-|                                   |
-3   .   .   .   .   .   K   P   .   3
-|                                   |
-2   .   .  -K   P   R   S  -P   P   2
-|                                   |
-1   .   .   .   .   .   .   R   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  white 2ad[2a{!+}d[+]]       9 + 3
-
-   1.Sf2-h1 !
-      1...g2*h1=Q +
-          2.Kf3-f2
-              2...Qh1-f3 +
-              2...Qh1-g2 +
-              2...Qh1*g1 +
-              2...Qh1*h2 +
-      1...g2*h1=S
-          2.Kf3*e4
-              2...Sh1*g3 +
-              2...Sh1-f2 +
-      1...g2*h1=R
-          2.Kf3-g2
-              2...Rh1*g1 +
-              2...Rh1*h2 +
-      1...g2*h1=B +
-          2.Re2-g2
-              2...Bh1*g2 +
-
-
-              empile:       14941
-            jouecoup:        4959
-        orig_rbechec:        4917
-        orig_rnechec:        4644
+              empile:       15534
+            jouecoup:        5384
+        orig_rbechec:        5416
+        orig_rnechec:        5112
 solution finished. 
 
 
@@ -279,15 +216,14 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8s[1a[1d[+]a{!+}]d]   2 + 2
+  black 8s[1a[/1d[+]a{!+}]d]  2 + 2
 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7   9.Ba7*b6 + 
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7   9.Ba7-b8 + 
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7 
 
-              empile:      112816
-            jouecoup:       32427
-        orig_rbechec:       29885
-        orig_rnechec:       24718
+              empile:      112812
+            jouecoup:       32412
+        orig_rbechec:       29873
+        orig_rnechec:       24712
 solution finished. 
 
 
@@ -314,20 +250,14 @@ The Problemist Fairy Chess Supplement 1930 (v)
 1  -K   .   K   .   R   .   .   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 5h[1d[#]a{!+}]h       4 + 6
+  white 5h[/1d[#]a{!+}]h      4 + 6
 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 Qa2-b1 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 Qa2*a3 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 Qa2-d2 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 Qa2-c2 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 Qa2-b2 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 b3-b2 # 
-  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 d3-d2 # 
+  1.a2-a3 Qh2-a2   2.Re1-e2 f3*e2   3.Rh1-e1 
 
-              empile:     2749118
-            jouecoup:     1448205
-        orig_rbechec:     1392903
-        orig_rnechec:      905707
+              empile:     2749033
+            jouecoup:     1448083
+        orig_rbechec:     1392806
+        orig_rnechec:      905679
 solution finished. 
 
 
@@ -354,15 +284,14 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  white 7h[1d[=]a{!+}]h       2 + 4
+  white 7h[/1d[=]a{!+}]h      2 + 4
 
-  1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1 Ka3-b3 = 
-  1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1 b4-b3 = 
+  1.a2-a4 Kb2-a3   2.Ke4-d3 b3-b2   3.Kd3-c2 b5*a4   4.Kc2-b1 
 
-              empile:     1220122
-            jouecoup:      343680
-        orig_rbechec:      308601
-        orig_rnechec:      317429
+              empile:     1220109
+            jouecoup:      343658
+        orig_rbechec:      308586
+        orig_rnechec:      317421
 solution finished. 
 
 

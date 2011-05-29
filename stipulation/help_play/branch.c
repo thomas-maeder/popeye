@@ -141,10 +141,8 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
-          if (slices[next].type==STEndOfBranch
-                   || slices[next].type==STEndOfBranchGoal
-                   || slices[next].type==STEndOfBranchGoalImmobile
-                   || slices[next].type==STEndOfBranchForced)
+          if (slices[next].type==STEndOfBranchGoal
+             || slices[next].type==STEndOfBranchGoalImmobile)
             branch_insert_slices_nested(slices[next].u.fork.fork,
                                         prototypes,nr_prototypes);
           else if (slices[next].type==STCheckZigzagJump)

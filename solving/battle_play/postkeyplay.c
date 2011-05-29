@@ -92,3 +92,43 @@ postkeyplay_suppressor_can_defend(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type postkeyplay_suppressor_solve(slice_index si)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_has_solution(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type postkeyplay_suppressor_has_solution(slice_index si)
+{
+  has_solution_type result = has_no_solution;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_has_solution(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

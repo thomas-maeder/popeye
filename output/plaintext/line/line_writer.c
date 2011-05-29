@@ -109,7 +109,8 @@ static void write_line(Side starting_side, goal_type goal)
       if (!output_plaintext_goal_writer_replaces_check_writer(goal)
           && echecc(current_ply,advers(trait[current_ply])))
         StdString(" +");
-      StdString(goal_end_marker[goal]);
+      if (goal!=no_goal)
+        StdString(goal_end_marker[goal]);
     }
     else if (echecc(current_ply,advers(trait[current_ply])))
       StdString(" +");
@@ -176,13 +177,12 @@ has_solution_type line_writer_has_solution(slice_index si)
 has_solution_type line_writer_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_handler.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_solve(next);
+  result = slice_solve(slices[si].u.goal_handler.next);
 
   if (result==has_solution)
   {
@@ -196,6 +196,81 @@ has_solution_type line_writer_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @note n==n_max_unsolvable means that we are solving refutations
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type line_writer_defend(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = defend(slices[si].u.goal_handler.next,n,n_max_unsolvable);
+
+  if (result<=n+2)
+  {
+    Goal const goal = slices[si].u.goal_handler.goal;
+    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
+    if (areColorsSwapped)
+      initial_starter = advers(initial_starter);
+    TraceValue("%u\n",output_plaintext_slice_determining_starter);
+    write_line(initial_starter,goal.type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type line_writer_can_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
+{
+  stip_length_type result = n+4;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = can_defend(slices[si].u.goal_handler.next,n,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

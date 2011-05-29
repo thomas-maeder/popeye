@@ -40,6 +40,7 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/line/line_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -234,6 +235,10 @@ stip_length_type defend(slice_index si,
 
     case STCheckZigzagJump:
       result = check_zigzag_jump_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextLineLineWriter:
+      result = line_writer_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrue:
@@ -453,6 +458,10 @@ stip_length_type can_defend(slice_index si,
 
     case STDummyMove:
       result = dummy_move_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextLineLineWriter:
+      result = line_writer_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STTrue:
