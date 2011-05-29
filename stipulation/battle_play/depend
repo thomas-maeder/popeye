@@ -81,8 +81,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
- solving/find_shortest.h solving/battle_play/threat.h \
- solving/battle_play/try.h solving/play_suppressor.h \
+ solving/find_shortest.h solving/play_suppressor.h \
+ solving/battle_play/threat.h solving/battle_play/try.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/battle_play/continuation.h \
@@ -145,11 +145,11 @@ solving/fork_on_remaining.h:
 
 solving/find_shortest.h:
 
+solving/play_suppressor.h:
+
 solving/battle_play/threat.h:
 
 solving/battle_play/try.h:
-
-solving/play_suppressor.h:
 
 solving/battle_play/min_length_guard.h:
 

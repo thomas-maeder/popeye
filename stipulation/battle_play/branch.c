@@ -228,7 +228,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           si = next;
         }
       }
-    } while (si!=si_start && prototype_type!=slices[si].type);
+    } while (prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);
