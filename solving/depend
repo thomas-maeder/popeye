@@ -2,7 +2,7 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  pybrafrk.h pymsg.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/series_play/branch.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- solving/battle_play/threat.h solving/battle_play/postkeyplay.h \
+ solving/battle_play/threat.h solving/play_suppressor.h \
  solving/battle_play/continuation.h solving/battle_play/try.h \
  solving/find_shortest.h solving/battle_play/check_detector.h \
  solving/battle_play/min_length_guard.h \
@@ -32,7 +32,7 @@ solving/fork_on_remaining.h:
 
 solving/battle_play/threat.h:
 
-solving/battle_play/postkeyplay.h:
+solving/play_suppressor.h:
 
 solving/battle_play/continuation.h:
 
@@ -81,5 +81,16 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
 solving/fork_on_remaining.h:
 
 pypipe.h:
+
+trace.h:
+solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
+ solving/play_suppressor.h pypipe.h stipulation/battle_play/branch.h \
+ trace.h
+
+solving/play_suppressor.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
 
 trace.h:

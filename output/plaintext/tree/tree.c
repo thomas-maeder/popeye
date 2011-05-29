@@ -212,16 +212,16 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors regular_writer_inserters[] =
 {
-  { STMoveInverter,          &instrument_move_inverter           },
-  { STThreatSolver,          &instrument_threat_solver           },
-  { STPostKeyPlaySuppressor, &stip_structure_visitor_noop        },
-  { STReadyForAttack,        &insert_continuation_writers        },
-  { STReadyForDefense,       &instrument_ready_for_defense       },
-  { STGoalReachedTester,     &instrument_goal_tester             },
-  { STConstraint,            &instrument_constraint              },
-  { STDefenseAdapter,        &instrument_defense_adapter_regular },
-  { STHelpAdapter,           &stip_structure_visitor_noop        },
-  { STSeriesAdapter,         &stip_structure_visitor_noop        }
+  { STMoveInverter,      &instrument_move_inverter           },
+  { STThreatSolver,      &instrument_threat_solver           },
+  { STPlaySuppressor,    &stip_structure_visitor_noop        },
+  { STReadyForAttack,    &insert_continuation_writers        },
+  { STReadyForDefense,   &instrument_ready_for_defense       },
+  { STGoalReachedTester, &instrument_goal_tester             },
+  { STConstraint,        &instrument_constraint              },
+  { STDefenseAdapter,    &instrument_defense_adapter_regular },
+  { STHelpAdapter,       &stip_structure_visitor_noop        },
+  { STSeriesAdapter,     &stip_structure_visitor_noop        }
 };
 
 enum

@@ -73,17 +73,6 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
-solving/battle_play/postkeyplay$(OBJ_SUFFIX): solving/battle_play/postkeyplay.c \
- solving/battle_play/postkeyplay.h pypipe.h \
- stipulation/battle_play/branch.h trace.h
-
-solving/battle_play/postkeyplay.h:
-
-pypipe.h:
-
-stipulation/battle_play/branch.h:
-
-trace.h:
 solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
  solving/battle_play/min_length_optimiser.c \
  solving/battle_play/min_length_optimiser.h stipulation/branch.h \

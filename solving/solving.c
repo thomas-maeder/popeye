@@ -10,7 +10,7 @@
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/battle_play/threat.h"
-#include "solving/battle_play/postkeyplay.h"
+#include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
 #include "solving/find_shortest.h"
@@ -132,7 +132,7 @@ static void insert_solvers_attack_adapter(slice_index si,
       }
       else
       {
-        slice_index const prototype = alloc_postkeyplay_suppressor_slice();
+        slice_index const prototype = alloc_play_suppressor_slice();
         battle_branch_insert_slices(si,&prototype,1);
       }
 

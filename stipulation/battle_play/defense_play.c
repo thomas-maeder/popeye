@@ -18,7 +18,7 @@
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/play.h"
 #include "solving/fork_on_remaining.h"
-#include "solving/battle_play/postkeyplay.h"
+#include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/try.h"
@@ -98,8 +98,8 @@ stip_length_type defend(slice_index si,
       result = threat_solver_defend(si,n,n_max_unsolvable);
       break;
 
-    case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_defend(si,n,n_max_unsolvable);
+    case STPlaySuppressor:
+      result = play_suppressor_defend(si,n,n_max_unsolvable);
       break;
 
     case STDeadEnd:
@@ -312,8 +312,8 @@ stip_length_type can_defend(slice_index si,
       result = refutations_solver_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_can_defend(si,n,n_max_unsolvable);
+    case STPlaySuppressor:
+      result = play_suppressor_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STContinuationSolver:

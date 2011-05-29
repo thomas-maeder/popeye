@@ -1,19 +1,19 @@
-#include "solving/battle_play/postkeyplay.h"
+#include "solving/play_suppressor.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "trace.h"
 
-/* Allocate a STPostKeyPlaySuppressor defender slice.
+/* Allocate a STPlaySuppressor defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_postkeyplay_suppressor_slice(void)
+slice_index alloc_play_suppressor_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STPostKeyPlaySuppressor);
+  result = alloc_pipe(STPlaySuppressor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -35,10 +35,9 @@ slice_index alloc_postkeyplay_suppressor_slice(void)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-postkeyplay_suppressor_defend(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+stip_length_type play_suppressor_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -71,10 +70,9 @@ postkeyplay_suppressor_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-postkeyplay_suppressor_can_defend(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable)
+stip_length_type play_suppressor_can_defend(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -97,7 +95,7 @@ postkeyplay_suppressor_can_defend(slice_index si,
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type postkeyplay_suppressor_solve(slice_index si)
+has_solution_type play_suppressor_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -117,7 +115,7 @@ has_solution_type postkeyplay_suppressor_solve(slice_index si)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type postkeyplay_suppressor_has_solution(slice_index si)
+has_solution_type play_suppressor_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
 

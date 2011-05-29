@@ -85,7 +85,7 @@
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play tries */           \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
-    ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
+    ENUMERATOR(STPlaySuppressor), /* suppresses play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \

@@ -118,6 +118,7 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/move_generator.h"
 #include "solving/find_shortest.h"
+#include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
 #include "conditions/republican.h"
@@ -3052,7 +3053,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
 
   if (is_suppressed)
   {
-    slice_index const prototype = alloc_postkeyplay_suppressor_slice();
+    slice_index const prototype = alloc_play_suppressor_slice();
     branch_insert_slices(proxy_operand,&prototype,1);
   }
 

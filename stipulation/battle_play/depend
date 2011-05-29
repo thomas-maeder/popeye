@@ -82,7 +82,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_shortest.h solving/battle_play/threat.h \
- solving/battle_play/try.h solving/battle_play/postkeyplay.h \
+ solving/battle_play/try.h solving/play_suppressor.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/battle_play/continuation.h \
@@ -149,7 +149,7 @@ solving/battle_play/threat.h:
 
 solving/battle_play/try.h:
 
-solving/battle_play/postkeyplay.h:
+solving/play_suppressor.h:
 
 solving/battle_play/min_length_guard.h:
 
@@ -210,7 +210,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_move_generator.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/play.h \
- solving/fork_on_remaining.h solving/battle_play/postkeyplay.h \
+ solving/fork_on_remaining.h solving/play_suppressor.h \
  solving/battle_play/continuation.h solving/battle_play/check_detector.h \
  solving/battle_play/try.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
@@ -267,7 +267,7 @@ stipulation/help_play/play.h:
 
 solving/fork_on_remaining.h:
 
-solving/battle_play/postkeyplay.h:
+solving/play_suppressor.h:
 
 solving/battle_play/continuation.h:
 
