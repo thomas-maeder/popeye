@@ -119,7 +119,7 @@ auszeichnung	1. Preis, O. Kaila JT 1967
 bemerkung       ODER-Verknuepfung statt Vierlinge
 bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
 bemerkung       zweimal eine Anzuginversion (-)
-sforderung      weiss (3a[#]d) | (- 4hh[#]) | (4ad[#]) | (- 4hh[=])
+sforderung      weiss 3a[#]d | - 4hh[#] | 4ad[#] | - 4hh[=]
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
         schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
@@ -393,5 +393,15 @@ steine weiss sh6 ba7
        schwarz kh5 lg6b8 bg5
 sford schwarz - 3h[#]{!x}h
 option ohnewk
+
+weiter
+
+titel eigentlich: s#2 option quodlibet
+autor Nils Hoeg
+quelle Skakschwadet 1907, 1. Preis
+option variante
+steine weiss   kh4 dc1 lf1 bf3h3f4g5
+       schwarz kg1 th1 be2h2g3f5g6
+sforderung weiss 4a[#=]d[#=]
 
 ende
