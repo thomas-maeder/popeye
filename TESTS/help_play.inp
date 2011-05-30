@@ -70,4 +70,11 @@ stip hsx2
 pieces white dua4b3b4c3 ph3 black pa5
 option nowk nobk
 
+next
+
+title no solution because White must mate
+stip hr#1
+pieces white ka6 qf6
+       black kb8 rg4h5
+
 end

@@ -328,3 +328,36 @@ stop solving when the goal is reached
 solution finished. 
 
 
+
+ no solution because White must mate
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   K   .   .   .   .   Q   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -R   5
+|                                   |
+4   .   .   .   .   .   .  -R   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hr#1                        2 + 3
+
+  1.Qf6-d8 # 
+
+              empile:          76
+            jouecoup:          55
+        orig_rbechec:           8
+        orig_rnechec:          55
+solution finished. 
+
+
