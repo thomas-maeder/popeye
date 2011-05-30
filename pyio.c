@@ -3089,6 +3089,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
 
   while (tok!=0)
   {
+    tok = ParseStructuredStip_skip_whitespace(tok);
     if (tok[0]=='[')
     {
       slice_index const proxy_operand = alloc_proxy_slice();
@@ -3161,6 +3162,7 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
 
   while (tok!=0)
   {
+    tok = ParseStructuredStip_skip_whitespace(tok);
     if (tok[0]=='[')
     {
       slice_index const proxy_operand = alloc_proxy_slice();
@@ -3380,6 +3382,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
 
   while (tok!=0)
   {
+    tok = ParseStructuredStip_skip_whitespace(tok);
     if (tok[0]=='[')
     {
       slice_index const proxy_operand = alloc_proxy_slice();
@@ -3569,6 +3572,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
 
   while (tok!=0)
   {
+    tok = ParseStructuredStip_skip_whitespace(tok);
     if (tok[0]=='[')
     {
       slice_index const proxy_operand = alloc_proxy_slice();
