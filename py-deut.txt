@@ -885,8 +885,10 @@ aufwendiger ist das Kommando
 	da      Dabbaba                         0,2 Springer
 	de      Delphin                         Grashupfer + Kaenguruh
 	dg      Doppelgrashuepfer
+	dl      Doppellaeuferhuepfer
 	dr      Drache                          Bauer + 1,2 Springer
 	ds      Diagonalspiralspringer
+	dt      Doppelturmhuepfer
 	du      Dummy
 	ei      Eichhoernchen                   0,2+1,2+2,2 Springer
 	ek      Erlkoenig                       0,1+1,1 Springer

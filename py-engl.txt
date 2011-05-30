@@ -859,7 +859,9 @@ sstipulation). A little bit more elaborate is the command
 	ct      CAT (cavalier trojan)
 	cy      charybdis
 	da      dabbabba
+	db      doublebishopper
 	dg      doublegrasshopper
+	dk      doublerookhopper
 	do      dolphin                        grasshopper + kangaroo
 	dr      dragon
 	ds      ("Diagonalspiralspringer")

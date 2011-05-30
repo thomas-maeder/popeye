@@ -861,9 +861,11 @@ suivante est un peu plus compliquee:
 	cy      charybdis
 	d       dame
 	da      dabbabba
+	df      double fou-sauterelle 
 	dn      dauphin                         sauterelle + kangourou
 	dr      dragon   
 	ds      double sauterelle 
+	dt      double tour-sauterelle 
 	ea      equisauteur anglais
 	ec      ecureuil   
 	eh      ("edgehog", "randschwein")
