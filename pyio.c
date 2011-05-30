@@ -6484,8 +6484,16 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             return tk;
 
           case StipToken:
-            *AlphaStip='\0';
-            tok = ParseStip(root_slice_hook);
+            if (slices[root_slice_hook].u.pipe.next==no_slice)
+            {
+              *AlphaStip='\0';
+              tok = ParseStip(root_slice_hook);
+            }
+            else
+            {
+              IoErrorMsg(UnrecStip,0);
+              tok = ReadNextTokStr();
+            }
             break;
 
           case StructStipToken:
