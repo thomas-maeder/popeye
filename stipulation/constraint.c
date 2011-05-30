@@ -433,21 +433,41 @@ stip_length_type constraint_has_series(slice_index si, stip_length_type n)
   return result;
 }
 
+static boolean is_constraint_irrelevant(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (branch_find_slice(STAttackAdapter,si)==no_slice
+            && branch_find_slice(STDefenseAdapter,si)==no_slice
+            && branch_find_slice(STHelpAdapter,si)==no_slice
+            && branch_find_slice(STSeriesAdapter,si)==no_slice
+            && branch_find_slice(STGoalReachedTester,si)!=no_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void remove_constraint_if_irrelevant(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (branch_find_slice(STGoalReachedTester,slices[si].u.fork.fork)==no_slice)
-  {
-    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
-    stip_traverse_structure_children(si,st);
-  }
-  else
+  if (is_constraint_irrelevant(slices[si].u.fork.fork))
   {
     stip_traverse_structure_pipe(si,st);
     pipe_remove(si);
+  }
+  else
+  {
+    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+    stip_traverse_structure_children(si,st);
   }
 
   TraceFunctionExit(__func__);
