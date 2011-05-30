@@ -2521,7 +2521,12 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
   }
 
-  prompieces[ply_id] = GetPromotingPieces(sq_departure, pi_departing, trait[ply_id], spec_pi_moving, sq_arrival, pi_captured);
+  prompieces[ply_id] = GetPromotingPieces(sq_departure,
+		  	  	  	  	  	  	  	      pi_departing,
+		  	  	  	  	  	  	  	      trait[ply_id],
+		  	  	  	  	  	  	  	      spec_pi_moving,
+		  	  	  	  	  	  	  	      sq_arrival,
+		  	  	  	  	  	  	  	      pi_captured);
 
   if (prompieces[ply_id] != NULL)
     {
@@ -2927,7 +2932,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
     		  	  	  	  	  	  	   pi_departing,
     		  	  	  	  	  	  	   trait_ply,
     		  	  	  	  	  	  	   spec_pi_moving,
-    		  	  	  	  	  	  	   sq_arrival,
+    		  	  	  	  	  	       sq_rebirth,
     		  	  	  	  	  	  	   pi_captured);
 
       if (prompieces[ply_id])
