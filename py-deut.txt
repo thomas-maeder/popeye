@@ -198,6 +198,7 @@ Kommandos:
 	WeisserVerfolgungszueger
 	DuellantenSchach
 	CirceParrain
+	KontraParrain
 	SymmetrieCirce
 	OhneIUW              (= Bauernumwandlungen in Imitator nicht erlaubt)
 	VogtlaenderSchach
@@ -328,6 +329,7 @@ Kommandos:
 	Schlagschach
 	Geisterschach
 	KaefigCirce
+	Fussball
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines

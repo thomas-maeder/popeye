@@ -186,6 +186,7 @@ simples:
 	BlancPoursuite
 	Duelliste
 	CirceParrain
+	ContraParrain
 	CirceSymmetrique
 	SansIProm      (= Les pions ne peuvent se promouvoir pas en imitator)
 	EchecsVogtlaender
@@ -315,6 +316,7 @@ simples:
 	QuiPerdGagne
 	EchecsGhost
 	CirceCage
+	Football
 
 	Apres les mots-cle Imitator, CaseMagique, Trou, FrischaufCirce,
 	BlancCasePromotion, NoirCasePromotion ou 
