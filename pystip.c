@@ -198,7 +198,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxNrNonChecks */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
-  slice_structure_pipe,   /* STMaxThreatLengthHook */
+  slice_structure_pipe,   /* STMaxThreatLengthStart */
   slice_structure_pipe,   /* STStopOnShortSolutionsInitialiser */
   slice_structure_branch, /* STStopOnShortSolutionsFilter */
   slice_structure_pipe,   /* STAmuMateFilter */
@@ -338,7 +338,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMaxNrNonChecks */
   slice_function_unspecified,    /* STMaxNrNonTrivialCounter */
   slice_function_unspecified,    /* STMaxThreatLength */
-  slice_function_unspecified,    /* STMaxThreatLengthHook */
+  slice_function_unspecified,    /* STMaxThreatLengthStart */
   slice_function_unspecified,    /* STStopOnShortSolutionsInitialiser */
   slice_function_unspecified,    /* STStopOnShortSolutionsFilter */
   slice_function_unspecified,    /* STAmuMateFilter */
@@ -1604,7 +1604,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,              /* STMaxThreatLength */
-  &stip_traverse_structure_pipe,              /* STMaxThreatLengthHook */
+  &stip_traverse_structure_pipe,              /* STMaxThreatLengthStart */
   &stip_traverse_structure_pipe,              /* STStopOnShortSolutionsInitialiser */
   &stip_traverse_structure_pipe,              /* STStopOnShortSolutionsFilter */
   &stip_traverse_structure_pipe,              /* STAmuMateFilter */
@@ -1837,7 +1837,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                   /* STMaxNrNonChecks */
     &stip_traverse_moves_pipe,                   /* STMaxNrNonTrivialCounter */
     &stip_traverse_moves_pipe,                   /* STMaxThreatLength */
-    &stip_traverse_moves_pipe,                   /* STMaxThreatLengthHook */
+    &stip_traverse_moves_pipe,                   /* STMaxThreatLengthStart */
     &stip_traverse_moves_pipe,                   /* STStopOnShortSolutionsInitialiser */
     &stip_traverse_moves_pipe,                   /* STStopOnShortSolutionsFilter */
     &stip_traverse_moves_pipe,                   /* STAmuMateFilter */

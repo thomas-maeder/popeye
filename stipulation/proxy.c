@@ -37,7 +37,7 @@ static boolean is_proxy(slice_index si)
     case STThreatStart:
     case STReadyForAttack:
     case STReadyForDefense:
-    case STMaxThreatLengthHook:
+    case STMaxThreatLengthStart:
     case STReadyForHelpMove:
     case STReadyForSeriesMove:
     case STReadyForSeriesDummyMove:

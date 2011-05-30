@@ -252,12 +252,12 @@ static void maxthreatlength_guard_inserter(slice_index si,
       || length>=2*(max_len_threat-1)+slack_length_battle+2)
   {
     boolean * const inserted = st->param;
-    slice_index const checked_prototype = alloc_pipe(STMaxThreatLengthHook);
+    slice_index const checked_prototype = alloc_pipe(STMaxThreatLengthStart);
     battle_branch_insert_slices(si,&checked_prototype,1);
 
     {
       slice_index const
-        to_attacker = branch_find_slice(STMaxThreatLengthHook,si);
+        to_attacker = branch_find_slice(STMaxThreatLengthStart,si);
       slice_index const prototypes[] =
       {
           alloc_check_detector_slice(),

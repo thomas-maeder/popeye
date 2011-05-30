@@ -27,6 +27,7 @@ static slice_index const slice_rank_order[] =
   STTrivialEndFilter,
   STEndOfIntro,
   STReadyForAttack,
+  STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
   STThreatStart,
   STConstraint,
@@ -104,7 +105,6 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STSelfCheckGuard,
   STCheckZigzagLanding,
-  STMaxThreatLengthHook, /* separate from STThreatStart to enable hashing*/
   STNoShortVariations,
   STKeepMatingFilter,
   STThreatEnforcer,
