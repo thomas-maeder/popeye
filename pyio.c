@@ -3051,18 +3051,21 @@ static char *ParseStructuredStip_nested_branch(char *tok,
 
   tok = ParseStructuredStip_expression(tok,proxy_operand,etype,level+1);
 
-  if (is_suppressed)
+  if (tok!=0)
   {
-    slice_index const prototype = alloc_play_suppressor_slice();
-    branch_insert_slices(proxy_operand,&prototype,1);
-  }
+    if (is_suppressed)
+    {
+      slice_index const prototype = alloc_play_suppressor_slice();
+      branch_insert_slices(proxy_operand,&prototype,1);
+    }
 
-  if (is_forced)
-  {
-    if (*etype==expression_type_attack)
-    *type = nested_branch_type_forced;
-    else
-      tok = 0;
+    if (is_forced)
+    {
+      if (*etype==expression_type_attack)
+      *type = nested_branch_type_forced;
+      else
+        tok = 0;
+    }
   }
 
   TraceFunctionExit(__func__);
