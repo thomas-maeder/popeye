@@ -107,6 +107,67 @@ static void insert_solvers_nest(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void battle_insert_find_shortest(slice_index si)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length>=min_length+2)
+  {
+    slice_index const defense = branch_find_slice(STReadyForDefense,si);
+    slice_index const attack = branch_find_slice(STReadyForAttack,defense);
+    slice_index const proto = alloc_find_shortest_slice(length,min_length);
+    assert(defense!=no_slice);
+    assert(attack!=no_slice);
+    battle_branch_insert_slices(attack,&proto,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void battle_insert_min_length_handlers(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const defense = branch_find_slice(STReadyForDefense,si);
+    if (defense!=no_slice)
+    {
+      stip_length_type const length = slices[defense].u.branch.length;
+      stip_length_type const min_length = slices[defense].u.branch.min_length;
+
+      if (min_length>slack_length_battle+1)
+      {
+        slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+        battle_branch_insert_slices(defense,&prototype,1);
+
+        if (min_length>slack_length_battle+2)
+        {
+          slice_index const prototypes[] =
+          {
+            alloc_min_length_optimiser_slice(length-1,min_length-1),
+            alloc_min_length_guard(length-2,min_length-2)
+          };
+          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+          slice_index const attack = branch_find_slice(STReadyForAttack,defense);
+          assert(attack!=no_slice);
+          battle_branch_insert_slices(attack,prototypes,nr_prototypes);
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_solvers_attack_adapter(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -118,12 +179,13 @@ static void insert_solvers_attack_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   state->context = solver_insertion_attack;
-
+  state->level = solver_insertion_nested;
   stip_traverse_structure_children(si,st);
+  *state = save_state;
 
-  if (save_state.level==solver_insertion_root)
+  if (state->level==solver_insertion_root)
   {
-    if (save_state.mode==output_mode_tree)
+    if (state->mode==output_mode_tree)
     {
       if (OptFlag[solvariantes])
       {
@@ -147,14 +209,15 @@ static void insert_solvers_attack_adapter(slice_index si,
     }
   }
 
-  *state = save_state;
+  battle_insert_find_shortest(si);
+  battle_insert_min_length_handlers(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_solvers_attack(slice_index si,
-                                  stip_structure_traversal *st)
+static void insert_solvers_defense_adapter(slice_index si,
+                                           stip_structure_traversal *st)
 {
   solver_insertion_state * const state = st->param;
   solver_insertion_state const save_state = *state;
@@ -166,69 +229,13 @@ static void insert_solvers_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   state->level = solver_insertion_nested;
-
+  state->context = solver_insertion_defense;
   stip_traverse_structure_children(si,st);
-
-  if (save_state.level==solver_insertion_nested)
-  {
-    if (length>=min_length+2)
-    {
-      slice_index const proto = alloc_find_shortest_slice(length,min_length);
-      battle_branch_insert_slices(si,&proto,1);
-    }
-
-    if (min_length>slack_length_battle+1)
-    {
-      slice_index const prototypes[] =
-      {
-        alloc_min_length_optimiser_slice(length,min_length),
-        alloc_min_length_guard(length-1,min_length-1)
-      };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
-    }
-  }
-
-  if (length>slack_length_battle)
-  {
-    slice_index const prototype = alloc_continuation_solver_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  if (state->mode==output_mode_tree
-      && slices[si].u.branch.length>slack_length_battle)
-  {
-    slice_index const prototype = alloc_check_detector_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
   *state = save_state;
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_solvers_defense_adapter(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  solver_insertion_state * const state = st->param;
-  solver_insertion_state const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->level = solver_insertion_nested;
-  state->context = solver_insertion_defense;
-
-  stip_traverse_structure_children(si,st);
-
-  if (save_state.level==solver_insertion_root)
+  if (state->level==solver_insertion_root)
   {
-    if (save_state.mode==output_mode_tree)
+    if (state->mode==output_mode_tree)
     {
       if (!OptFlag[nothreat])
         stip_insert_threat_handlers(si);
@@ -238,19 +245,13 @@ static void insert_solvers_defense_adapter(slice_index si,
     }
     else
     {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
       if (!OptFlag[restart] && length>=min_length+2)
       {
         {
-          slice_index const ready1 = branch_find_slice(STReadyForAttack,si);
-          slice_index const ready2 = branch_find_slice(STReadyForAttack,ready1);
-          slice_index const ready3 = branch_find_slice(STReadyForAttack,ready2);
+          slice_index const ready = branch_find_slice(STReadyForAttack,si);
           slice_index const shortcut_start = alloc_pipe(STShortSolutionsStart);
-          assert(ready1!=no_slice);
-          assert(ready2!=no_slice);
-          assert(ready3!=no_slice);
-          battle_branch_insert_slices(ready3,&shortcut_start,1);
+          assert(ready!=no_slice);
+          battle_branch_insert_slices(ready,&shortcut_start,1);
         }
         {
           slice_index const dest = branch_find_slice(STShortSolutionsStart,si);
@@ -268,13 +269,13 @@ static void insert_solvers_defense_adapter(slice_index si,
   }
   else
   {
-    if (slices[si].u.branch.length>slack_length_battle)
+    if (length>slack_length_battle)
     {
       {
         slice_index const prototype = alloc_continuation_solver_slice();
         battle_branch_insert_slices(si,&prototype,1);
       }
-      if (save_state.level==solver_insertion_setplay)
+      if (state->level==solver_insertion_setplay)
       {
         unsigned int const max_nr_refutations = UINT_MAX;
         branch_insert_try_solvers(si,max_nr_refutations);
@@ -282,33 +283,61 @@ static void insert_solvers_defense_adapter(slice_index si,
     }
   }
 
+  battle_insert_find_shortest(si);
+  battle_insert_min_length_handlers(si);
+
   {
     slice_index const prototype = alloc_check_detector_slice();
     battle_branch_insert_slices(si,&prototype,1);
   }
 
-  *state = save_state;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_solvers_defense(slice_index si, stip_structure_traversal *st)
+static void insert_solvers_attack(slice_index si,
+                                  stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  state->context = solver_insertion_attack;
   stip_traverse_structure_children(si,st);
+  *state = save_state;
 
-  if (min_length>slack_length_battle+1)
+  if (slices[si].u.branch.length>slack_length_battle)
   {
-    slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+    slice_index const prototype = alloc_continuation_solver_slice();
     battle_branch_insert_slices(si,&prototype,1);
+
+    if (state->mode==output_mode_tree)
+    {
+      slice_index const prototype = alloc_check_detector_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+    }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_solvers_defense(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  solver_insertion_state * const state = st->param;
+  solver_insertion_state const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->context = solver_insertion_defense;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -327,12 +356,12 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
 
   state->level = solver_insertion_nested;
   state->context = solver_insertion_help;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
 
-  if (save_state.level==solver_insertion_nested)
+  if (state->level==solver_insertion_nested)
   {
-    stip_traverse_structure_children(si,st);
-
-    if (save_state.context==solver_insertion_global && length-min_length>=2)
+    if (state->context==solver_insertion_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       help_branch_insert_slices(si,&prototype,1);
@@ -340,8 +369,6 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
   }
   else
   {
-    stip_traverse_structure_children(si,st);
-
     if (length-min_length>=2 && length>=slack_length_help+2)
     {
       slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
@@ -352,15 +379,13 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
         alloc_find_by_increasing_length_slice(length,min_length),
         alloc_fork_on_remaining_slice(ready3,length-1-slack_length_help)
       };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      assert(ready1!=no_slice);
+      assert(ready2!=no_slice);
+      assert(ready3!=no_slice);
       help_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
-
-  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -379,12 +404,12 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 
   state->context = solver_insertion_series;
   state->level = solver_insertion_nested;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
 
-  if (save_state.level==solver_insertion_nested)
+  if (state->level==solver_insertion_nested)
   {
-    stip_traverse_structure_children(si,st);
-
-    if (save_state.context==solver_insertion_global && length-min_length>=2)
+    if (state->context==solver_insertion_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       series_branch_insert_slices(si,&prototype,1);
@@ -392,27 +417,21 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
   }
   else
   {
-    stip_traverse_structure_children(si,st);
-
     if (length-min_length>=2)
     {
       slice_index const ready1 = branch_find_slice(STReadyForSeriesMove,si);
       slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,ready1);
-      slice_index const ready3 = branch_find_slice(STReadyForSeriesMove,ready2);
       slice_index const prototypes[] =
       {
         alloc_find_by_increasing_length_slice(length,min_length),
-        alloc_fork_on_remaining_slice(ready3,length-1-slack_length_series)
+        alloc_fork_on_remaining_slice(ready2,length-1-slack_length_series)
       };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      assert(ready1!=no_slice);
+      assert(ready2!=no_slice);
       series_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
-
-  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
