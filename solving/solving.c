@@ -167,40 +167,10 @@ static void insert_solvers_attack(slice_index si,
 
   state->level = solver_insertion_nested;
 
-  if (save_state.level==solver_insertion_root)
-  {
-    stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children(si,st);
 
-    if (state->mode==output_mode_line)
-    {
-      if (!OptFlag[restart] && length>=min_length+2)
-      {
-        {
-          slice_index const ready1 = branch_find_slice(STReadyForAttack,si);
-          slice_index const ready2 = branch_find_slice(STReadyForAttack,ready1);
-          slice_index const shortcut_start = alloc_pipe(STShortSolutionsStart);
-          assert(ready1!=no_slice);
-          assert(ready2!=no_slice);
-          battle_branch_insert_slices(ready2,&shortcut_start,1);
-        }
-        {
-          slice_index const dest = branch_find_slice(STShortSolutionsStart,si);
-          slice_index const prototypes[] =
-          {
-            alloc_find_shortest_slice(length,min_length),
-            alloc_fork_on_remaining_slice(dest,length-1-slack_length_battle)
-          };
-          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-          assert(dest!=no_slice);
-          battle_branch_insert_slices(si,prototypes,nr_prototypes);
-        }
-      }
-    }
-  }
-  else
+  if (save_state.level==solver_insertion_nested)
   {
-    stip_traverse_structure_children(si,st);
-
     if (length>=min_length+2)
     {
       slice_index const proto = alloc_find_shortest_slice(length,min_length);
@@ -220,7 +190,6 @@ static void insert_solvers_attack(slice_index si,
       };
       battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
-
   }
 
   if (length>slack_length_battle)
@@ -266,6 +235,35 @@ static void insert_solvers_defense_adapter(slice_index si,
 
       if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
         Message(TryPlayNotApplicable);
+    }
+    else
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      if (!OptFlag[restart] && length>=min_length+2)
+      {
+        {
+          slice_index const ready1 = branch_find_slice(STReadyForAttack,si);
+          slice_index const ready2 = branch_find_slice(STReadyForAttack,ready1);
+          slice_index const ready3 = branch_find_slice(STReadyForAttack,ready2);
+          slice_index const shortcut_start = alloc_pipe(STShortSolutionsStart);
+          assert(ready1!=no_slice);
+          assert(ready2!=no_slice);
+          assert(ready3!=no_slice);
+          battle_branch_insert_slices(ready3,&shortcut_start,1);
+        }
+        {
+          slice_index const dest = branch_find_slice(STShortSolutionsStart,si);
+          slice_index const prototypes[] =
+          {
+            alloc_find_shortest_slice(length,min_length),
+            alloc_fork_on_remaining_slice(dest,length-1-slack_length_battle)
+          };
+          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+          assert(dest!=no_slice);
+          battle_branch_insert_slices(si,prototypes,nr_prototypes);
+        }
+      }
     }
   }
   else
