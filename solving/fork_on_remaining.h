@@ -18,6 +18,13 @@
 slice_index alloc_fork_on_remaining_slice(slice_index fork,
                                           stip_length_type threshold);
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_fork_on_remaining(slice_index si,
+                                               stip_structure_traversal *st);
+
 /* Traversal of the moves beyond an STForkOnRemaining slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

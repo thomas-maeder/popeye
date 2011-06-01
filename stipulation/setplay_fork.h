@@ -13,6 +13,13 @@
  */
 slice_index alloc_setplay_fork_slice(slice_index set);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_setplay_fork(slice_index si,
+                                          stip_structure_traversal *st);
+
 /* Traversal of the moves of some pipe slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

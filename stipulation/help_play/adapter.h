@@ -29,6 +29,13 @@ void help_adapter_make_root(slice_index si, stip_structure_traversal *st);
  */
 void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_help_adpater(slice_index si,
+                                          stip_structure_traversal *st);
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

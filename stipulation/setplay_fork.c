@@ -26,7 +26,30 @@ slice_index alloc_setplay_fork_slice(slice_index set)
   return result;
 }
 
-/* Traversal of the moves of some pipe slice
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_setplay_fork(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->level==structure_traversal_level_root);
+
+  stip_traverse_structure_pipe(si,st);
+
+  st->level = structure_traversal_level_setplay;
+  stip_traverse_structure_next_branch(si,st);
+  st->level = structure_traversal_level_root;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

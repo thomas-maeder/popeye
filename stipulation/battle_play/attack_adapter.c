@@ -75,6 +75,30 @@ void attack_adapter_make_intro(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_attack_adpater(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  structure_traversal_level_type const save_level = st->level;
+  structure_traversal_context_type const save_context = st->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  st->context = structure_traversal_context_attack;
+  st->level = structure_traversal_level_nested;
+  stip_traverse_structure_pipe(si,st);
+  st->level = save_level;
+  st->context = save_context;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -213,4 +237,25 @@ has_solution_type attack_adapter_solve(slice_index si)
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_ready_for_attack(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  structure_traversal_context_type const save_context = st->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  st->context = structure_traversal_context_attack;
+  stip_traverse_structure_pipe(si,st);
+  st->context = save_context;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

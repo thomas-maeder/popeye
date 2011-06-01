@@ -432,8 +432,8 @@ static void keepmating_filter_inserter_reciprocal(slice_index si,
 }
 
 static
-void keepmating_filter_inserter_branch_fork(slice_index si,
-                                            stip_structure_traversal *st)
+void keepmating_filter_inserter_end_of_branch(slice_index si,
+                                              stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -524,20 +524,19 @@ static void keepmating_filter_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STReadyForAttack,     &keepmating_filter_inserter_battle_move },
-  { STDefenseAdapter ,    &keepmating_filter_inserter_battle_move },
-  { STReadyForDefense,    &keepmating_filter_inserter_battle_move },
-  { STReadyForHelpMove,   &keepmating_filter_inserter_help_move   },
-  { STSeriesAdapter,      &keepmating_filter_inserter_series_move },
-  { STReadyForSeriesMove, &keepmating_filter_inserter_series_move },
-  { STAnd,                &keepmating_filter_inserter_reciprocal  },
-  { STOr,                 &keepmating_filter_inserter_quodlibet   },
-  { STEndOfBranch,        &keepmating_filter_inserter_branch_fork },
-  { STEndOfBranchGoal,    &keepmating_filter_inserter_branch_fork },
-  { STEndOfBranchForced,  &keepmating_filter_inserter_branch_fork },
-  { STConstraint,         &keepmating_filter_inserter_branch_fork },
-  { STForkOnRemaining,    &keepmating_filter_inserter_branch_fork },
-  { STGoalReachedTester,  &keepmating_filter_inserter_goal        }
+  { STReadyForAttack,     &keepmating_filter_inserter_battle_move   },
+  { STDefenseAdapter ,    &keepmating_filter_inserter_battle_move   },
+  { STReadyForDefense,    &keepmating_filter_inserter_battle_move   },
+  { STReadyForHelpMove,   &keepmating_filter_inserter_help_move     },
+  { STSeriesAdapter,      &keepmating_filter_inserter_series_move   },
+  { STReadyForSeriesMove, &keepmating_filter_inserter_series_move   },
+  { STAnd,                &keepmating_filter_inserter_reciprocal    },
+  { STOr,                 &keepmating_filter_inserter_quodlibet     },
+  { STEndOfBranch,        &keepmating_filter_inserter_end_of_branch },
+  { STEndOfBranchGoal,    &keepmating_filter_inserter_end_of_branch },
+  { STEndOfBranchForced,  &keepmating_filter_inserter_end_of_branch },
+  { STConstraint,         &keepmating_filter_inserter_end_of_branch },
+  { STGoalReachedTester,  &keepmating_filter_inserter_goal          }
 };
 
 enum

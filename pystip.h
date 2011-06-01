@@ -325,10 +325,28 @@ typedef enum
   slice_traversed
 } stip_structure_traversal_state;
 
+typedef enum
+{
+  structure_traversal_level_root,
+  structure_traversal_level_setplay,
+  structure_traversal_level_nested
+} structure_traversal_level_type;
+
+typedef enum
+{
+  structure_traversal_context_global,
+  structure_traversal_context_attack,
+  structure_traversal_context_defense,
+  structure_traversal_context_help,
+  structure_traversal_context_series
+} structure_traversal_context_type;
+
 typedef struct stip_structure_traversal
 {
     structure_visitor_map_type map;
     stip_structure_traversal_state traversed[max_nr_slices];
+    structure_traversal_level_type level;
+    structure_traversal_context_type context;
     void *param;
 } stip_structure_traversal;
 

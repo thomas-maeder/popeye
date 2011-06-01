@@ -14,6 +14,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/check_zigzag_jump.h"
+#include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/or.h"
@@ -1501,22 +1502,22 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,              /* STProxy */
-  &stip_traverse_structure_pipe,              /* STAttackAdapter */
-  &stip_traverse_structure_pipe,              /* STDefenseAdapter */
+  &stip_traverse_structure_attack_adpater,    /* STAttackAdapter */
+  &stip_traverse_structure_defense_adapter,   /* STDefenseAdapter */
   &stip_traverse_structure_pipe,              /* STAttackMoveGenerator */
   &stip_traverse_structure_pipe,              /* STDefenseMoveGenerator */
-  &stip_traverse_structure_pipe,              /* STReadyForAttack */
-  &stip_traverse_structure_pipe,              /* STReadyForDefense */
+  &stip_traverse_structure_ready_for_attack,  /* STReadyForAttack */
+  &stip_traverse_structure_ready_for_defense, /* STReadyForDefense */
   &stip_traverse_structure_pipe,              /* STMinLengthOptimiser */
-  &stip_traverse_structure_pipe,              /* STHelpAdapter */
+  &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STHelpMoveGenerator */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
-  &stip_traverse_structure_pipe,              /* STSeriesAdapter */
+  &stip_traverse_structure_series_adpater,    /* STSeriesAdapter */
   &stip_traverse_structure_pipe,              /* STSeriesMoveGenerator */
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesDummyMove */
-  &stip_traverse_structure_end_of_branch,     /* STSetplayFork */
+  &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranch */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranchForced */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranchGoal */
@@ -1528,7 +1529,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
   &stip_traverse_structure_check_zigzag_jump, /* STCheckZigzagJump */
   &stip_traverse_structure_pipe,              /* STCheckZigzagLanding */
-  &stip_traverse_structure_end_of_branch,     /* STGoalReachedTester */
+  &stip_traverse_structure_goal_reached_tester, /* STGoalReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalStalemateReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalDoubleStalemateReachedTester */
@@ -1560,7 +1561,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,              /* STMoveInverter */
   &stip_traverse_structure_pipe,              /* STMinLengthGuard */
-  &stip_traverse_structure_end_of_branch,     /* STForkOnRemaining */
+  &stip_traverse_structure_fork_on_remaining, /* STForkOnRemaining */
   &stip_traverse_structure_pipe,              /* STFindShortest */
   &stip_traverse_structure_pipe,              /* STFindByIncreasingLength */
   &stip_traverse_structure_pipe,              /* STRefutationsAllocator */
@@ -1650,6 +1651,9 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = structure_children_traversers[i];
+
+  st->level = structure_traversal_level_root;
+  st->context = structure_traversal_context_global;
 
   st->param = param;
 }

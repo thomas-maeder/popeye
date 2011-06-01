@@ -520,7 +520,7 @@ static void instrument_attack_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children(si,st);
 
   {
     slice_index const prototypes[] =

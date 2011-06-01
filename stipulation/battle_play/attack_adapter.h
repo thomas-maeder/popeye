@@ -28,6 +28,13 @@ void attack_adapter_make_root(slice_index si, stip_structure_traversal *st);
 void attack_adapter_make_intro(slice_index adapter,
                                stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_attack_adpater(slice_index si,
+                                            stip_structure_traversal *st);
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -53,5 +60,12 @@ has_solution_type attack_adapter_has_solution(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type attack_adapter_solve(slice_index si);
+
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_ready_for_attack(slice_index si,
+                                              stip_structure_traversal *st);
 
 #endif

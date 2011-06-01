@@ -89,6 +89,30 @@ void series_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_series_adpater(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  structure_traversal_level_type const save_level = st->level;
+  structure_traversal_context_type const save_context = st->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  st->context = structure_traversal_context_series;
+  st->level = structure_traversal_level_nested;
+  stip_traverse_structure_pipe(si,st);
+  st->level = save_level;
+  st->context = save_context;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

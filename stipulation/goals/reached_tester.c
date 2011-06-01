@@ -32,6 +32,25 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   return result;
 }
 
+
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_goal_reached_tester(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_next_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
