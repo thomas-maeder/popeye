@@ -17,7 +17,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
   pipe_append(slices[si].prev,
               alloc_attack_adapter_slice(slack_length_battle,
-                                         slack_length_battle-2));
+                                         slack_length_battle));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
