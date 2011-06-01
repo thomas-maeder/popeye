@@ -62,9 +62,9 @@ Liste der Quellfiles:
 
 
 
-Rückmeldungen:
+Rueckmeldungen:
 
-Für Fehlermeldungen und Erweiterungsvorschläge verwenden Sie bitte die
+Fuer Fehlermeldungen und Erweiterungsvorschluege verwenden Sie bitte die
 dafuer vorgesehenen Werkzeuge auf sourceforge.net .
 
 Oeffnen Sie in Ihrem Browser
@@ -747,7 +747,7 @@ Kommandos:
 	keine Loesung.
 
 	Die beiden Hauptunterschiede zwischen einem verschachtelten
-	Ast bzw. Blatt und einer Einschränkung sind:
+	Ast bzw. Blatt und einer Einschraenkung sind:
         - der/das verschachtelte Ast/Blatt muss nur am Ende des Spiels
 	  erfuellt sein, die Einschraenkung hingegen jedesmal bevor der
 	  betreffende Zug gespielt wird
