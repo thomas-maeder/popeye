@@ -42,7 +42,7 @@ SCRIPTS =       $(wildcard scripts/*.sh)
 
 include makefile.rules $(CURRPWD)/depend
 
-DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES) $(SCRIPTS)
+DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
 
 
 
