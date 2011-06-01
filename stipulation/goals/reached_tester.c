@@ -32,7 +32,6 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   return result;
 }
 
-
 /* Traverse a subtree
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -45,7 +44,7 @@ void stip_traverse_structure_goal_reached_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure_next_branch(si,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
