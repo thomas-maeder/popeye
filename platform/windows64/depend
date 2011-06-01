@@ -1,24 +1,26 @@
-platform/windows64/maxmem.obj: platform/windows64/maxmem.c \
+platform/windows64/maxmem$(OBJ_SUFFIX): platform/windows64/maxmem.c \
  platform/maxmem.h
 
 platform/maxmem.h:
-platform/windows64/maxtime.obj: platform/windows64/maxtime.c \
- platform/maxtime_impl.h boolean.h pymsg.h
+platform/windows64/maxtime$(OBJ_SUFFIX): platform/windows64/maxtime.c \
+ platform/maxtime_impl.h windows.h boolean.h pymsg.h
 
 platform/maxtime_impl.h:
+
+windows.h:
 
 boolean.h:
 
 pymsg.h:
-platform/windows64/pytime.obj: platform/windows64/pytime.c \
+platform/windows64/pytime$(OBJ_SUFFIX): platform/windows64/pytime.c \
  platform/pytime.h
 
 platform/pytime.h:
-platform/windows64/priority.obj: platform/windows64/priority.c \
+platform/windows64/priority$(OBJ_SUFFIX): platform/windows64/priority.c \
  platform/priority.h
 
 platform/priority.h:
-platform/windows64/beep.obj: platform/windows64/beep.c platform/beep.h \
+platform/windows64/beep$(OBJ_SUFFIX): platform/windows64/beep.c platform/beep.h \
  platform/beep_impl.h
 
 platform/beep.h:

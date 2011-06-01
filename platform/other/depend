@@ -1,1 +1,4 @@
 platform/other/pytime$(OBJ_SUFFIX): platform/other/pytime.c
+platform/other/beep$(OBJ_SUFFIX): platform/other/beep.c platform/beep.h
+
+platform/beep.h:
