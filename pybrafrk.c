@@ -98,7 +98,7 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  st->context = structure_traversal_context_global;
+  st->context = stip_traversal_context_global;
   stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
   st->context = save_context;
 

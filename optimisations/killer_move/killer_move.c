@@ -60,7 +60,7 @@ void optimise_final_defense_moves_defense_move_generator(slice_index si,
 
   stip_traverse_moves_children(si,st);
 
-  if (st->context==structure_traversal_context_defense
+  if (st->context==stip_traversal_context_defense
       && st->remaining==1
       && goal->type!=no_goal
       && enabled[slices[si].starter])

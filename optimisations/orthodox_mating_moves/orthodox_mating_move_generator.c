@@ -145,7 +145,7 @@ static void optimise_final_moves_move_generator(slice_index si,
 
   stip_traverse_moves_children(si,st);
 
-  if (st->context!=structure_traversal_context_defense
+  if (st->context!=stip_traversal_context_defense
       && st->remaining==1
       && state->nr_goals_to_be_reached==1
       && is_goal_eligible(state->goal_to_be_reached.type)

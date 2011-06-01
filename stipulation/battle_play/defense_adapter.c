@@ -44,7 +44,7 @@ void stip_traverse_structure_defense_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   st->level = structure_traversal_level_nested;
-  st->context = structure_traversal_context_defense;
+  st->context = stip_traversal_context_defense;
   stip_traverse_structure_pipe(si,st);
   st->level = save_level;
   st->context = save_context;
@@ -64,18 +64,18 @@ void stip_traverse_moves_defense_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==structure_traversal_context_global)
+  if (st->context==stip_traversal_context_global)
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = slices[si].u.branch.length-slack_length_battle;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
-    st->context = structure_traversal_context_defense;
+    st->context = stip_traversal_context_defense;
 
     stip_traverse_moves_pipe(si,st);
 
-    st->context = structure_traversal_context_global;
+    st->context = stip_traversal_context_global;
     st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
     st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   }
@@ -193,9 +193,9 @@ void stip_traverse_structure_ready_for_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->context!=structure_traversal_context_global);
+  assert(st->context!=stip_traversal_context_global);
 
-  st->context = structure_traversal_context_defense;
+  st->context = stip_traversal_context_defense;
   stip_traverse_structure_pipe(si,st);
   st->context = save_context;
 
@@ -217,9 +217,9 @@ void stip_traverse_moves_ready_for_defense(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",st->context);
-  assert(st->context!=structure_traversal_context_global);
+  assert(st->context!=stip_traversal_context_global);
 
-  st->context = structure_traversal_context_defense;
+  st->context = stip_traversal_context_defense;
   stip_traverse_moves_pipe(si,st);
   st->context = save_context;
 

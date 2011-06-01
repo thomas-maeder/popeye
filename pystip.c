@@ -1631,7 +1631,7 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
     st->map.visitors[i] = structure_children_traversers[i];
 
   st->level = structure_traversal_level_root;
-  st->context = structure_traversal_context_global;
+  st->context = stip_traversal_context_global;
 
   st->param = param;
 }
@@ -1871,7 +1871,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
   st->level = 0;
-  st->context = structure_traversal_context_global;
+  st->context = stip_traversal_context_global;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->param = param;

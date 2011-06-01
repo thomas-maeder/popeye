@@ -169,7 +169,7 @@ static void optimise_defense_move_generator(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (st->context==structure_traversal_context_defense
+  if (st->context==stip_traversal_context_defense
       && enabled[defender] && *length>slack_length_battle+2)
   {
     slice_index const proxy1 = alloc_proxy_slice();

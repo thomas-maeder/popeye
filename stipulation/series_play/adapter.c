@@ -101,7 +101,7 @@ void stip_traverse_structure_series_adpater(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  st->context = structure_traversal_context_series;
+  st->context = stip_traversal_context_series;
   st->level = structure_traversal_level_nested;
   stip_traverse_structure_pipe(si,st);
   st->level = save_level;
@@ -122,18 +122,18 @@ void stip_traverse_moves_series_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==structure_traversal_context_global)
+  if (st->context==stip_traversal_context_global)
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = slices[si].u.branch.length-slack_length_series;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
-    st->context = structure_traversal_context_series;
+    st->context = stip_traversal_context_series;
 
     stip_traverse_moves_pipe(si,st);
 
-    st->context = structure_traversal_context_global;
+    st->context = stip_traversal_context_global;
     st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
     st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   }

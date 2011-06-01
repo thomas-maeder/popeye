@@ -603,7 +603,7 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   ++st->level;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  st->context = structure_traversal_context_global;
+  st->context = stip_traversal_context_global;
 
   stip_traverse_moves(si,st);
 

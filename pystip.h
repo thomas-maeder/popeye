@@ -334,11 +334,11 @@ typedef enum
 
 typedef enum
 {
-  structure_traversal_context_global,
-  structure_traversal_context_attack,
-  structure_traversal_context_defense,
-  structure_traversal_context_help,
-  structure_traversal_context_series
+  stip_traversal_context_global,
+  stip_traversal_context_attack,
+  stip_traversal_context_defense,
+  stip_traversal_context_help,
+  stip_traversal_context_series
 } stip_traversal_context_type;
 
 typedef struct stip_structure_traversal

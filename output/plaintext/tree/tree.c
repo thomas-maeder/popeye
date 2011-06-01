@@ -159,7 +159,7 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==structure_traversal_context_attack)
+  if (st->context==stip_traversal_context_attack)
     stip_traverse_structure_next_branch(si,st);
 
   stip_traverse_structure_pipe(si,st);
@@ -241,7 +241,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
 
-  if (st->context==structure_traversal_context_defense)
+  if (st->context==stip_traversal_context_defense)
   {
     slice_index const adapter = branch_find_slice(STAttackAdapter,
                                                   slices[si].u.fork.fork);

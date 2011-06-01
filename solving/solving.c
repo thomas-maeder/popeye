@@ -263,7 +263,7 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
 
   if (st->level==structure_traversal_level_nested)
   {
-    if (st->context==structure_traversal_context_global && length-min_length>=2)
+    if (st->context==stip_traversal_context_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       help_branch_insert_slices(si,&prototype,1);
@@ -306,7 +306,7 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
 
   if (st->level==structure_traversal_level_nested)
   {
-    if (st->context==structure_traversal_context_global && length-min_length>=2)
+    if (st->context==stip_traversal_context_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
       series_branch_insert_slices(si,&prototype,1);
