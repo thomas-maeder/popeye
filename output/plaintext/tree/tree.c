@@ -209,33 +209,6 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-typedef enum
-{
-  trivial_varation_filter_insertion_state_global,
-  trivial_varation_filter_insertion_state_attack,
-  trivial_varation_filter_insertion_state_defense
-} trivial_varation_filter_insertion_state_type;
-
-static void trivial_varation_filter_end_of_branch(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  trivial_varation_filter_insertion_state_type * const state = st->param;
-  trivial_varation_filter_insertion_state_type const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  *state = trivial_varation_filter_insertion_state_global;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void trivial_varation_filter_insert_constraint(slice_index si,
                                                       stip_structure_traversal *st)
 {
@@ -243,7 +216,7 @@ static void trivial_varation_filter_insert_constraint(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  trivial_varation_filter_end_of_branch(si,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index const adapter = branch_find_slice(STAttackAdapter,
@@ -259,18 +232,16 @@ static void trivial_varation_filter_insert_constraint(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void trivial_varation_filter_insert_defense(slice_index si,
-                                                   stip_structure_traversal *st)
+static void trivial_varation_filter_insert_self(slice_index si,
+                                                stip_structure_traversal *st)
 {
-  trivial_varation_filter_insertion_state_type const * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  trivial_varation_filter_end_of_branch(si,st);
+  stip_traverse_structure_pipe(si,st);
 
-  if (*state==trivial_varation_filter_insertion_state_defense)
+  if (st->context==structure_traversal_context_defense)
   {
     slice_index const adapter = branch_find_slice(STAttackAdapter,
                                                   slices[si].u.fork.fork);
@@ -282,55 +253,11 @@ static void trivial_varation_filter_insert_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static
-void trivial_varation_filter_insertion_attack(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  trivial_varation_filter_insertion_state_type * const state = st->param;
-  trivial_varation_filter_insertion_state_type const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *state = trivial_varation_filter_insertion_state_attack;
-  stip_traverse_structure_children(si,st);
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
-void trivial_varation_filter_insertion_defense(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  trivial_varation_filter_insertion_state_type * const state = st->param;
-  trivial_varation_filter_insertion_state_type const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *state = trivial_varation_filter_insertion_state_defense;
-  stip_traverse_structure_children(si,st);
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
-  { STAttackAdapter,           &trivial_varation_filter_insertion_attack  },
-  { STReadyForAttack,          &trivial_varation_filter_insertion_attack  },
-  { STDefenseAdapter,          &trivial_varation_filter_insertion_defense },
-  { STReadyForDefense,         &trivial_varation_filter_insertion_defense },
   { STConstraint,              &trivial_varation_filter_insert_constraint },
-  { STEndOfBranchGoal,         &trivial_varation_filter_insert_defense    },
-  { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert_defense    },
-  { STEndOfBranch,             &trivial_varation_filter_end_of_branch     },
-  { STEndOfBranchForced,       &trivial_varation_filter_end_of_branch     }
+  { STEndOfBranchGoal,         &trivial_varation_filter_insert_self       },
+  { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert_self       }
 };
 
 enum
@@ -343,13 +270,12 @@ enum
 static void insert_trivial_varation_filters(slice_index si)
 {
   stip_structure_traversal st;
-  trivial_varation_filter_insertion_state_type state = trivial_varation_filter_insertion_state_global;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     trivial_varation_filter_inserters,
                                     nr_trivial_varation_filter_inserters);
