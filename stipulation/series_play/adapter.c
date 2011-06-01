@@ -95,7 +95,7 @@ void stip_traverse_structure_series_adpater(slice_index si,
                                             stip_structure_traversal *st)
 {
   structure_traversal_level_type const save_level = st->level;
-  structure_traversal_context_type const save_context = st->context;
+  stip_traversal_context_type const save_context = st->context;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,22 +115,27 @@ void stip_traverse_structure_series_adpater(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_series_adapter_slice(slice_index si,
-                                              stip_moves_traversal *st)
+void stip_traverse_moves_series_adapter(slice_index si,
+                                        stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED)
+  if (st->context==structure_traversal_context_global)
   {
-    stip_length_type const save_full_length = st->full_length;
+    assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
+    assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     st->full_length = slices[si].u.branch.length-slack_length_series;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
+    st->context = structure_traversal_context_series;
+
     stip_traverse_moves_pipe(si,st);
+
+    st->context = structure_traversal_context_global;
     st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-    st->full_length = save_full_length;
+    st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   }
   else
     stip_traverse_moves_pipe(si,st);

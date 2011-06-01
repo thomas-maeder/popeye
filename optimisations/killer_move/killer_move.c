@@ -60,7 +60,8 @@ void optimise_final_defense_moves_defense_move_generator(slice_index si,
 
   stip_traverse_moves_children(si,st);
 
-  if (st->remaining==1
+  if (st->context==structure_traversal_context_defense
+      && st->remaining==1
       && goal->type!=no_goal
       && enabled[slices[si].starter])
     killer_move_optimise_final_defense_move(si);
@@ -93,7 +94,10 @@ static void optimise_final_defense_moves_goal(slice_index si,
 static moves_traversers_visitors const final_defense_move_optimisers[] =
 {
   { STSetplayFork,          &stip_traverse_moves_pipe                            },
+  { STAttackMoveGenerator,  &optimise_final_defense_moves_defense_move_generator },
   { STDefenseMoveGenerator, &optimise_final_defense_moves_defense_move_generator },
+  { STHelpMoveGenerator,    &optimise_final_defense_moves_defense_move_generator },
+  { STSeriesMoveGenerator,  &optimise_final_defense_moves_defense_move_generator },
   { STGoalReachedTester,    &optimise_final_defense_moves_goal                   }
 };
 

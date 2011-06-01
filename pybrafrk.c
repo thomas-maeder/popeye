@@ -91,7 +91,7 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
 void stip_traverse_structure_next_branch(slice_index branch_entry,
                                          stip_structure_traversal *st)
 {
-  structure_traversal_context_type const save_context = st->context;
+  stip_traversal_context_type const save_context = st->context;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch_entry);

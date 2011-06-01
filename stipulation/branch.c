@@ -594,6 +594,7 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
 {
   stip_length_type const save_remaining = st->remaining;
   stip_length_type const save_full_length = st->full_length;
+  stip_traversal_context_type const save_context = st->context;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -601,9 +602,12 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
 
   ++st->level;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
+  st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
+  st->context = structure_traversal_context_global;
 
   stip_traverse_moves(si,st);
 
+  st->context = save_context;
   st->full_length = save_full_length;
   st->remaining = save_remaining;
   TraceFunctionParam("->%u\n",st->remaining);

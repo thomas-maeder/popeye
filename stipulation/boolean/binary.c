@@ -42,6 +42,8 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
   proxy_slice_resolve(&slices[si].u.binary.op1,st);
   proxy_slice_resolve(&slices[si].u.binary.op2,st);
 

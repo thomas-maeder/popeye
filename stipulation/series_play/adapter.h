@@ -42,8 +42,8 @@ void stip_traverse_structure_series_adpater(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_series_adapter_slice(slice_index si,
-                                              stip_moves_traversal *st);
+void stip_traverse_moves_series_adapter(slice_index si,
+                                        stip_moves_traversal *st);
 
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)

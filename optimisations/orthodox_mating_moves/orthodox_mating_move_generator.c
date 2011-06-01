@@ -145,7 +145,8 @@ static void optimise_final_moves_move_generator(slice_index si,
 
   stip_traverse_moves_children(si,st);
 
-  if (st->remaining==1
+  if (st->context!=structure_traversal_context_defense
+      && st->remaining==1
       && state->nr_goals_to_be_reached==1
       && is_goal_eligible(state->goal_to_be_reached.type)
       && !state->notNecessarilyFinalMove
@@ -264,14 +265,15 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STSetplayFork,         &stip_traverse_moves_pipe                    },
-  { STAttackMoveGenerator, &optimise_final_moves_move_generator         },
-  { STHelpMoveGenerator,   &optimise_final_moves_move_generator         },
-  { STSeriesMoveGenerator, &optimise_final_moves_move_generator         },
-  { STEndOfBranch,         &optimise_final_moves_end_of_branch_non_goal },
-  { STEndOfBranchForced,   &optimise_final_moves_end_of_branch_non_goal },
-  { STGoalReachedTester,   &optimise_final_moves_goal                   },
-  { STNot,                 &optimise_final_moves_suppress               }
+  { STSetplayFork,          &stip_traverse_moves_pipe                    },
+  { STAttackMoveGenerator,  &optimise_final_moves_move_generator         },
+  { STDefenseMoveGenerator, &optimise_final_moves_move_generator         },
+  { STHelpMoveGenerator,    &optimise_final_moves_move_generator         },
+  { STSeriesMoveGenerator,  &optimise_final_moves_move_generator         },
+  { STEndOfBranch,          &optimise_final_moves_end_of_branch_non_goal },
+  { STEndOfBranchForced,    &optimise_final_moves_end_of_branch_non_goal },
+  { STGoalReachedTester,    &optimise_final_moves_goal                   },
+  { STNot,                  &optimise_final_moves_suppress               }
 };
 
 enum

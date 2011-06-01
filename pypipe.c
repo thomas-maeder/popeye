@@ -224,7 +224,7 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children(si,st);
 
   if (slices[si].u.pipe.next!=no_slice)
     proxy_slice_resolve(&slices[si].u.pipe.next,st);

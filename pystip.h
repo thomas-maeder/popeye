@@ -339,14 +339,14 @@ typedef enum
   structure_traversal_context_defense,
   structure_traversal_context_help,
   structure_traversal_context_series
-} structure_traversal_context_type;
+} stip_traversal_context_type;
 
 typedef struct stip_structure_traversal
 {
     structure_visitor_map_type map;
     stip_structure_traversal_state traversed[max_nr_slices];
     structure_traversal_level_type level;
-    structure_traversal_context_type context;
+    stip_traversal_context_type context;
     void *param;
 } stip_structure_traversal;
 
@@ -450,6 +450,7 @@ typedef struct stip_moves_traversal
 {
     moves_visitor_map_type map;
     unsigned int level;
+    stip_traversal_context_type context;
     stip_length_type full_length;
     stip_length_type remaining;
     void *param;

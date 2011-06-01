@@ -21,6 +21,13 @@ slice_index alloc_defense_adapter_slice(stip_length_type length,
 void stip_traverse_structure_defense_adapter(slice_index si,
                                              stip_structure_traversal *st);
 
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_defense_adapter(slice_index si,
+                                         stip_moves_traversal *st);
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
@@ -53,5 +60,12 @@ has_solution_type defense_adapter_has_solution(slice_index si);
  */
 void stip_traverse_structure_ready_for_defense(slice_index si,
                                                stip_structure_traversal *st);
+
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_ready_for_defense(slice_index si,
+                                           stip_moves_traversal *st);
 
 #endif

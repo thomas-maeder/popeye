@@ -39,8 +39,8 @@ void stip_traverse_structure_attack_adpater(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_battle_adapter_slice(slice_index si,
-                                              stip_moves_traversal *st);
+void stip_traverse_moves_attack_adapter(slice_index si,
+                                        stip_moves_traversal *st);
 
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
@@ -67,5 +67,12 @@ has_solution_type attack_adapter_solve(slice_index si);
  */
 void stip_traverse_structure_ready_for_attack(slice_index si,
                                               stip_structure_traversal *st);
+
+/* Traversal of the moves of some adapter slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_ready_for_attack(slice_index si,
+                                          stip_moves_traversal *st);
 
 #endif
