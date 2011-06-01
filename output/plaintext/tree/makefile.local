@@ -11,7 +11,7 @@ CFILES = tree.c end_of_solution_writer.c \
 INCLUDES = tree.h end_of_solution_writer.h \
 	key_writer.h try_writer.h move_writer.h \
 	refuting_variation_writer.h \
-	refutation_writer.c zugzwang_writer.h goal_writer.h \
+	refutation_writer.h zugzwang_writer.h goal_writer.h \
 	check_writer.h decoration_writer.h
 
 include makefile.rules $(CURRPWD)depend
