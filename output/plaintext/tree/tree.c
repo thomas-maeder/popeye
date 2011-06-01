@@ -58,25 +58,14 @@ static void instrument_threat_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-typedef enum
-{
-  regular_writer_insertion_root,
-  regular_writer_insertion_nested,
-  regular_writer_insertion_attack,
-  regular_writer_insertion_defense
-} regular_writer_insertion_state;
-
 static void instrument_defense_adapter_regular(slice_index si,
                                                stip_structure_traversal *st)
 {
-  regular_writer_insertion_state * const state = st->param;
-  regular_writer_insertion_state const save_state = *state;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state!=regular_writer_insertion_root)
+  if (st->level==structure_traversal_level_nested)
   {
     slice_index const prototypes[] =
     {
@@ -84,16 +73,11 @@ static void instrument_defense_adapter_regular(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  *state = regular_writer_insertion_attack;
   stip_traverse_structure_children(si,st);
-  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -102,9 +86,6 @@ static void instrument_defense_adapter_regular(slice_index si,
 static void instrument_ready_for_defense(slice_index si,
                                          stip_structure_traversal *st)
 {
-  regular_writer_insertion_state * const state = st->param;
-  regular_writer_insertion_state const save_state = *state;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -116,16 +97,11 @@ static void instrument_ready_for_defense(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  *state = regular_writer_insertion_defense;
   stip_traverse_structure_children(si,st);
-  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -134,9 +110,6 @@ static void instrument_ready_for_defense(slice_index si,
 static void insert_continuation_writers(slice_index si,
                                         stip_structure_traversal *st)
 {
-  regular_writer_insertion_state * const state = st->param;
-  regular_writer_insertion_state const save_state = *state;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -148,16 +121,11 @@ static void insert_continuation_writers(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  *state = regular_writer_insertion_attack;
   stip_traverse_structure_children(si,st);
-  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -175,10 +143,7 @@ static void instrument_goal_tester(slice_index si, stip_structure_traversal *st)
     {
       alloc_goal_writer_slice(slices[si].u.goal_tester.goal)
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     leaf_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
@@ -190,19 +155,12 @@ static void instrument_goal_tester(slice_index si, stip_structure_traversal *st)
 
 static void instrument_constraint(slice_index si, stip_structure_traversal *st)
 {
-  regular_writer_insertion_state * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==regular_writer_insertion_attack)
-  {
-    /* make sure that the defense's mating moves are written */
-    *state = regular_writer_insertion_nested;
+  if (st->context==structure_traversal_context_attack)
     stip_traverse_structure_next_branch(si,st);
-    *state = regular_writer_insertion_attack;
-  }
 
   stip_traverse_structure_pipe(si,st);
 
@@ -236,13 +194,12 @@ enum
 static void insert_regular_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
-  regular_writer_insertion_state state = regular_writer_insertion_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     regular_writer_inserters,
                                     nr_regular_writer_inserters);
@@ -417,10 +374,7 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
@@ -530,10 +484,7 @@ static void instrument_attack_adapter(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
@@ -556,10 +507,7 @@ static void instrument_defense_adapter(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_refuting_variation_writer_slice()
     };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
