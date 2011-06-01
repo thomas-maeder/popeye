@@ -600,7 +600,6 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++st->level;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->context = stip_traversal_context_global;
@@ -611,7 +610,6 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   st->full_length = save_full_length;
   st->remaining = save_remaining;
   TraceFunctionParam("->%u\n",st->remaining);
-  --st->level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

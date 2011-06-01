@@ -1870,7 +1870,6 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
-  st->level = 0;
   st->context = stip_traversal_context_global;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
