@@ -57,15 +57,13 @@ void attack_adapter_make_root(slice_index adapter,
 void attack_adapter_make_intro(slice_index adapter,
                                stip_structure_traversal *st)
 {
-  slice_index * const fork_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(adapter,st);
 
-  if (*fork_slice!=no_slice
+  if (st->level==structure_traversal_level_nested
       /* this filters out adapters that are not in a loop
        * TODO  should we get rid of these? */
       && branch_find_slice(STAttackAdapter,slices[adapter].u.pipe.next)==adapter)

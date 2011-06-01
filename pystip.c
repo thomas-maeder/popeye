@@ -679,37 +679,13 @@ void stip_insert_root_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void insert_intro_end_of_branch(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const fork_slice = st->param;
-  slice_index const save_fork_slice = *fork_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  *fork_slice = si;
-  stip_traverse_structure_next_branch(si,st);
-  *fork_slice = save_fork_slice;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors intro_slice_inserters[] =
 {
-  { STAttackAdapter,           &attack_adapter_make_intro   },
-  { STDefenseAdapter,          &defense_adapter_make_intro  },
-  { STHelpAdapter,             &help_adapter_make_intro     },
-  { STSeriesAdapter,           &series_adapter_make_intro   },
-  { STEndOfBranch,             &insert_intro_end_of_branch  },
-  { STEndOfBranchGoal,         &insert_intro_end_of_branch  },
-  { STEndOfBranchGoalImmobile, &insert_intro_end_of_branch  },
-  { STEndOfBranchForced,       &insert_intro_end_of_branch  },
-  { STConstraint,              &insert_intro_end_of_branch  },
-  { STGoalReachedTester,       &stip_structure_visitor_noop }
+  { STAttackAdapter,     &attack_adapter_make_intro   },
+  { STDefenseAdapter,    &defense_adapter_make_intro  },
+  { STHelpAdapter,       &help_adapter_make_intro     },
+  { STSeriesAdapter,     &series_adapter_make_intro   },
+  { STGoalReachedTester, &stip_structure_visitor_noop }
 };
 
 enum
@@ -724,7 +700,6 @@ enum
 void stip_insert_intro_slices(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index fork_slice = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -733,7 +708,7 @@ void stip_insert_intro_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  stip_structure_traversal_init(&st,&fork_slice);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     intro_slice_inserters,
                                     nr_intro_slice_inserters);
