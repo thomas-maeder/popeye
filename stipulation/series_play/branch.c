@@ -151,13 +151,8 @@ static void series_branch_insert_slices_recursive(slice_index si_start,
         }
         else
         {
-          if (slices[next].type==STDefenseAdapter)
-          {
-            branch_insert_slices_nested(next,prototypes,nr_prototypes);
-            break;
-          }
-          else if (slices[next].type==STEndOfBranchGoal
-                   || slices[next].type==STEndOfBranchGoalImmobile)
+          if (slices[next].type==STEndOfBranchGoal
+              || slices[next].type==STEndOfBranchGoalImmobile)
             branch_insert_slices_nested(slices[next].u.fork.fork,
                                         prototypes,nr_prototypes);
 
