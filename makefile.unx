@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.150 2011/05/14 13:29:22 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.151 2011/06/01 16:07:13 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -290,10 +290,6 @@ purify-py:      $(OBJECTS) $(OURLIBS)
 # targets built using recursive makes
 # ===========================================================
 
-./sourcedist: FORCE
-	$(MAKE) CURRPWD=./ -f makefile.local $@
-
-
 # ===========================================================
 # Build dependency information
 
@@ -317,7 +313,7 @@ endif
 sourcedist: $(NESTEDSRCDIRS:%=%/nestedsourcedist)
 
 $(NESTEDSRCDIRS:%=%/nestedsourcedist): FORCE
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local sourcedist
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $(dir $@)sourcedist
 
 
 # ===========================================================
