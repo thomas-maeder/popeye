@@ -119,7 +119,7 @@ enum
 {
   nr_slice_rank_order_elmts = (sizeof slice_rank_order
                                / sizeof slice_rank_order[0]),
-  no_battle_branch_slice_type = INT_MAX
+  no_slice_rank = INT_MAX
 };
 
 /* Determine the rank of a defense slice type, relative to some base rank
@@ -130,7 +130,7 @@ enum
  */
 static unsigned int get_slice_rank(slice_type type, unsigned int base)
 {
-  unsigned int result = no_battle_branch_slice_type;
+  unsigned int result = no_slice_rank;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -188,7 +188,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
       else
       {
         unsigned int const rank_next = get_slice_rank(slices[next].type,base);
-        if (rank_next==no_battle_branch_slice_type)
+        if (rank_next==no_slice_rank)
           break;
         else if (rank_next>prototype_rank)
         {
@@ -254,16 +254,10 @@ void battle_branch_insert_slices_nested(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==STProxy)
-    battle_branch_insert_slices_nested(slices[si].u.pipe.next,
-                                       prototypes,nr_prototypes);
-  else
-  {
-    base = get_slice_rank(slices[si].type,0);
-    assert(base!=no_battle_branch_slice_type);
+  base = get_slice_rank(slices[si].type,0);
+  assert(base!=no_slice_rank);
 
-    battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
-  }
+  battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
