@@ -20,7 +20,7 @@
 
 /* Order in which the slice types dealing with series moves appear
  */
-static slice_index const series_slice_rank_order[] =
+static slice_index const slice_rank_order[] =
 {
   STSeriesAdapter,
   STConstraint,
@@ -70,28 +70,27 @@ static slice_index const series_slice_rank_order[] =
 
 enum
 {
-  nr_series_slice_rank_order_elmts = (sizeof series_slice_rank_order
-                                      / sizeof series_slice_rank_order[0]),
-  no_series_slice_type = INT_MAX
+  nr_slice_rank_order_elmts = (sizeof slice_rank_order
+                               / sizeof slice_rank_order[0]),
+  no_slice_rank = INT_MAX
 };
 
 /* Determine the rank of a series slice type
  * @param type series slice type
  * @param base base rank value
- * @return rank of type; nr_series_slice_rank_order_elmts if the rank can't
- *         be determined
+ * @return rank of type; no_slice_rank if the rank can't be determined
  */
-static unsigned int get_series_slice_rank(slice_type type, unsigned int base)
+static unsigned int get_slice_rank(slice_type type, unsigned int base)
 {
-  unsigned int result = no_series_slice_type;
+  unsigned int result = no_slice_rank;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_series_slice_rank_order_elmts; ++i)
-    if (series_slice_rank_order[(i+base)%nr_series_slice_rank_order_elmts]==type)
+  for (i = 0; i!=nr_slice_rank_order_elmts; ++i)
+    if (slice_rank_order[(i+base)%nr_slice_rank_order_elmts]==type)
     {
       result = i+base;
       break;
@@ -127,8 +126,8 @@ static boolean prepend_copy(insertion_state_type *state, unsigned int rank)
   {
     slice_index const prototype = state->prototypes[0];
     slice_type const prototype_type = slices[prototype].type;
-    unsigned int const prototype_rank = get_series_slice_rank(prototype_type,
-                                                              state->base);
+    unsigned int const prototype_rank = get_slice_rank(prototype_type,
+                                                       state->base);
     if (rank>prototype_rank)
     {
       slice_index const copy = copy_slice(prototype);
@@ -169,8 +168,8 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
       ; /* nothing - we are done */
     else
     {
-      unsigned int const rank = get_series_slice_rank(type,state->base);
-      if (rank==no_series_slice_type)
+      unsigned int const rank = get_slice_rank(type,state->base);
+      if (rank==no_slice_rank)
         ; /* nothing - not for insertion into this branch */
       else if (prepend_copy(state,rank))
         ; /* nothing - work is done*/
@@ -204,8 +203,8 @@ static void insert_visit_end_of_branch_goal(slice_index si, stip_structure_trave
       ; /* nothing - we are done */
     else
     {
-      unsigned int const rank = get_series_slice_rank(type,state->base);
-      if (rank==no_series_slice_type)
+      unsigned int const rank = get_slice_rank(type,state->base);
+      if (rank==no_slice_rank)
         ; /* nothing - not for insertion into this branch */
       else if (prepend_copy(state,rank))
         ; /* nothing - work is done*/
@@ -267,9 +266,9 @@ static void start_insertion_traversal(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,state);
-  for (i = 0; i!=nr_series_slice_rank_order_elmts; ++i)
+  for (i = 0; i!=nr_slice_rank_order_elmts; ++i)
     stip_structure_traversal_override_single(&st,
-                                             series_slice_rank_order[i],
+                                             slice_rank_order[i],
                                              &insert_visit_regular);
   stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
   stip_traverse_structure(si,&st);
@@ -300,10 +299,10 @@ void series_branch_insert_slices_nested(slice_index si,
     {
         prototypes,
         nr_prototypes,
-        get_series_slice_rank(slices[si].type,0),
+        get_slice_rank(slices[si].type,0),
         si
     };
-    assert(state.base!=no_series_slice_type);
+    assert(state.base!=no_slice_rank);
     start_insertion_traversal(slices[si].u.pipe.next,&state);
   }
 
