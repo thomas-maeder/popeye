@@ -1220,8 +1220,10 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[football]) {
-	  add_ortho_mating_moves_generation_obstacle();
+  if (CondFlag[football])
+  {
+    optim_neutralretractable = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if ( ( CondFlag[whmin]
