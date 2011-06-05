@@ -2087,7 +2087,8 @@ void ProofInitialise(slice_index si)
                   || flagAssassin
                   || CondFlag[messigny]
                   || CondFlag[mars]
-                  || CondFlag[castlingchess]);
+                  || CondFlag[castlingchess]
+                  || CondFlag[football]);
 
     /* TODO Masand can't possibly be the only condition that doesn't
      * allow any optimisation at all.
