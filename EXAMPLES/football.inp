@@ -1,0 +1,27 @@
+begin
+
+protocol football.ref
+
+author Henk le Grand
+stipulation #2
+opt var
+fors B4k2/5P2/5K2/8/b6p/7P/8/8/
+condition football r s
+
+next
+
+author Gerard Smits
+fors 7K/1r6/1p1pP3/1R1P4/1Spk3P/2s2sB1/5Pr1/3b2b1/
+stipulation h#2
+condition football r b s
+twin move c3 e4
+twin move h8 g8
+
+next
+
+author be & J\"org Kuhlmann
+fors 1k4B1/4bb2/5B2/8/8/8/8/K7/
+stipulation h#2
+condition football r
+
+end

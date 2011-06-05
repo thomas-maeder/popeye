@@ -1,0 +1,124 @@
+
+            Henk le Grand
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .  -K   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -B   .   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          4 + 3
+             Football S R
+
+   1.Ba8-e4 ! threat:
+          2.Be4-h7=S #
+      1...Ba4-c2
+          2.Be4-a8=R #
+
+
+              empile:        1205
+            jouecoup:         928
+        orig_rbechec:          95
+        orig_rnechec:         930
+solution finished. 
+
+
+
+             Gerard Smits
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .  -R   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .  -P   P   .   .   .   6
+|                                   |
+5   .   R   .   P   .   .   .   .   5
+|                                   |
+4   .   S  -P  -K   .   .   .   P   4
+|                                   |
+3   .   .  -S   .   .  -S   B   .   3
+|                                   |
+2   .   .   .   .   .   P  -R   .   2
+|                                   |
+1   .   .   .  -B   .   .  -B   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        8 + 10
+            Football S R B
+
+a) 
+
+  1.Rb7-h7=B Rb5-a5=B   2.Bh7-e4 Ba5*b6 # 
+
+              empile:     1241301
+            jouecoup:     1214017
+        orig_rbechec:       95955
+        orig_rnechec:     1212630
+b) bSc3-->e4
+
+  1.Bd1-a4=S Bg3-h2=S   2.Sa4-c3 Sh2*f3 # 
+
+              empile:     1102516
+            jouecoup:     1143980
+        orig_rbechec:       85155
+        orig_rnechec:     1142677
+c) wKh8-->g8
+
+  1.Sf3*h4=R Sb4-a2=R   2.Rh4-e4 Ra2-d2 # 
+
+              empile:      989248
+            jouecoup:     1066351
+        orig_rbechec:       83893
+        orig_rnechec:     1064866
+solution finished. 
+
+
+
+         be & J\"org Kuhlmann
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -K   .   .   .   .   B   .   8
+|                                   |
+7   .   .   .   .  -B  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+              Football R
+
+  1.Bf7-h5=R Bf6-h8=R   2.Be7-h4=R Bg8-h7=R # 
+
+              empile:      143159
+            jouecoup:      135899
+        orig_rbechec:        8367
+        orig_rnechec:      135449
+solution finished. 
+
+
