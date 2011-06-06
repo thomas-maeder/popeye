@@ -23,8 +23,6 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
-  STAnd,
-  STOr,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
   STOutputModeSelector,
@@ -40,7 +38,7 @@ enum
 {
   nr_root_slice_rank_order_elmts = (sizeof root_slice_rank_order
                                     / sizeof root_slice_rank_order[0]),
-                                    no_root_branch_slice_type = INT_MAX
+  no_root_branch_slice_type = INT_MAX
 };
 
 /* Determine the rank of a slice type
@@ -96,7 +94,20 @@ static void root_branch_insert_slices_recursive(slice_index si,
         root_branch_insert_slices_recursive(slices[next].u.fork.fork,
                                             prototypes,nr_prototypes,
                                             base);
-        si = next;
+        root_branch_insert_slices_recursive(next,
+                                            prototypes,nr_prototypes,
+                                            base);
+        break;
+      }
+      else if (slices[next].type==STOr || slices[next].type==STAnd)
+      {
+        root_branch_insert_slices_recursive(slices[next].u.binary.op1,
+                                            prototypes,nr_prototypes,
+                                            base);
+        root_branch_insert_slices_recursive(slices[next].u.binary.op2,
+                                            prototypes,nr_prototypes,
+                                            base);
+        break;
       }
       else
       {
@@ -112,16 +123,6 @@ static void root_branch_insert_slices_recursive(slice_index si,
             root_branch_insert_slices_recursive(copy,
                                                 prototypes+1,nr_prototypes-1,
                                                 prototype_rank+1);
-          break;
-        }
-        else if (slices[next].type==STOr || slices[next].type==STAnd)
-        {
-          root_branch_insert_slices_recursive(slices[next].u.binary.op1,
-                                              prototypes,nr_prototypes,
-                                              base);
-          root_branch_insert_slices_recursive(slices[next].u.binary.op2,
-                                              prototypes,nr_prototypes,
-                                              base);
           break;
         }
         else if (slices[next].type==STGoalReachedTester)
