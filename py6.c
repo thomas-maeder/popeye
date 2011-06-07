@@ -2348,7 +2348,6 @@ static void fini_duplex(slice_index si)
   TraceFunctionResultEnd();
 }
 
-
 /* Perform verifications and initialisations before solving a twin
  * (which can be the only twin of the problem)
  * @param si identifies the root slice of the stipulation
@@ -2480,6 +2479,44 @@ static void solve_twin(slice_index si,
   WRITE_COUNTER(jouecoup);
   WRITE_COUNTER(orig_rbechec);
   WRITE_COUNTER(orig_rnechec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void allocatePieceIdSpace(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  SETFLAGMASK(PieSpExFlags,PieceIdMask);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void initGoals(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalCircuitReachedTester,
+                                           &allocatePieceIdSpace);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalExchangeReachedTester,
+                                           &allocatePieceIdSpace);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalCircuitByRebirthReachedTester,
+                                           &allocatePieceIdSpace);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalExchangeByRebirthReachedTester,
+                                           &allocatePieceIdSpace);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2646,7 +2683,9 @@ static Token iterate_twins(Token prev_token)
                           slices[slices[template_slice_hook].u.pipe.next].starter);
       TraceStipulation(root_slice);
 
+      initGoals(root_slice);
       solve_twin(root_slice,twin_index,prev_token);
+      CLRFLAGMASK(PieSpExFlags,PieceIdMask);
 
       dealloc_slices(root_slice);
     }

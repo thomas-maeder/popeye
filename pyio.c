@@ -4234,7 +4234,10 @@ static char *ReadFrischAufSquares(void)
         if (e[sq]==vide || e[sq]==obs || is_pawn(e[sq]))
           Message(NoFrischAufPromPiece);
         else
+        {
           SETFLAG(spec[sq],FrischAuf);
+          SETFLAG(PieSpExFlags,FrischAuf);
+        }
 
         tok += 2;
       }

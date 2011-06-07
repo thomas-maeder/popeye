@@ -877,6 +877,7 @@ typedef unsigned int        PieceIdType;
 
 #define PieceIdOffset       (PieSpCount+1)
 #define PieSpMask           ((1<<PieceIdOffset)-1)
+#define PieceIdMask         (~PieSpMask)
 #define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
