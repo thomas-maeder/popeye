@@ -176,7 +176,7 @@ void InitCond(void) {
   {
     PieceIdType id;
     for (id = MinPieceId; id<=MaxPieceId; ++id)
-      DiaRenSquares[id] = initsquare;
+      PiecePositionsInDiagram[id] = initsquare;
   }
 
   for (bnp= boardnum; *bnp; bnp++) {

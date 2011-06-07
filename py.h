@@ -882,9 +882,11 @@ typedef unsigned int        PieceIdType;
 
 extern square DiaRenSquares[MaxPieceId+1];
 
-#define GetDiaRen(spec)     DiaRenSquares[GetPieceId(spec)]
-#define SetDiaRen(spec,ren) (DiaRenSquares[GetPieceId(spec)] = (ren))
-#define ClrDiaRen(spec)     SetDiaRen(spec,initsquare)
+extern square PiecePositionsInDiagram[MaxPieceId+1];
+
+#define GetPositionInDiagram(spec)     PiecePositionsInDiagram[GetPieceId(spec)]
+#define SavePositionInDiagram(spec,sq) (PiecePositionsInDiagram[GetPieceId(spec)] = (sq))
+#define ClearPositionInDiagram(spec)   SavePositionInDiagram(spec,initsquare)
 
 #define FrischAuf       PieSpCount
 

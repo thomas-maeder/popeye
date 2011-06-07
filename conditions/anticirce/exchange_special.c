@@ -45,8 +45,8 @@ has_solution_type anticirce_exchange_special_has_solution(slice_index si)
   else
   {
     Side const just_moved = advers(slices[si].starter);
-    square const sq_diagram = GetDiaRen(spec[sq_rebirth]);
-    if (GetDiaRen(spec[sq_diagram])==sq_rebirth
+    square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
+    if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
         && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
         && sq_diagram!=sq_rebirth)
       result = slice_has_solution(slices[si].u.pipe.next);
@@ -78,8 +78,8 @@ has_solution_type anticirce_exchange_special_solve(slice_index si)
   else
   {
     Side const just_moved = advers(slices[si].starter);
-    square const sq_diagram = GetDiaRen(spec[sq_rebirth]);
-    if (GetDiaRen(spec[sq_diagram])==sq_rebirth
+    square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
+    if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
         && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
         && sq_diagram!=sq_rebirth)
       result = slice_solve(slices[si].u.pipe.next);

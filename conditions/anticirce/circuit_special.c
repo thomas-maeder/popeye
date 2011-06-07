@@ -40,7 +40,7 @@ has_solution_type anticirce_circuit_special_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
+  if (sq_rebirth!=initsquare && GetPositionInDiagram(spec[sq_rebirth])==sq_rebirth)
     result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
@@ -64,7 +64,7 @@ has_solution_type anticirce_circuit_special_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
+  if (sq_rebirth!=initsquare && GetPositionInDiagram(spec[sq_rebirth])==sq_rebirth)
     result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;

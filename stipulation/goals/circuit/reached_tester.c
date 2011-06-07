@@ -49,7 +49,7 @@ has_solution_type goal_circuit_reached_tester_has_solution(slice_index si)
 
   assert(nbcou!=nil_coup);
 
-  if (GetDiaRen(spec[sq_arrival])==sq_arrival)
+  if (GetPositionInDiagram(spec[sq_arrival])==sq_arrival)
     result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;

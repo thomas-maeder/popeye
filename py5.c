@@ -491,7 +491,7 @@ square rendiagramm(ply ply_id,
                    square sq_capture, square sq_departure, square sq_arrival,
                    Side capturer)
 {
-  return GetDiaRen(p_captured_spec);
+  return GetPositionInDiagram(p_captured_spec);
 }
 
 square rennormal(ply ply_id,

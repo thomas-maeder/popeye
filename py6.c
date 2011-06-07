@@ -468,7 +468,7 @@ static boolean locateRoyal(void)
 }
 
 /* initialize elmt at index NullPieceId with initsquare */
-square DiaRenSquares[MaxPieceId+1] = { initsquare };
+square PiecePositionsInDiagram[MaxPieceId+1] = { initsquare };
 
 static void initialise_piece_flags(void)
 {
@@ -485,7 +485,7 @@ static void initialise_piece_flags(void)
       assert(id<=MaxPieceId);
       SetPieceId(spec[*bnp], id);
       ++id;
-      SetDiaRen(spec[*bnp], *bnp);
+      SavePositionInDiagram(spec[*bnp], *bnp);
 
       if (TSTFLAG(spec[*bnp],ColourChange)
           && !is_simplehopper(abs(e[*bnp])))

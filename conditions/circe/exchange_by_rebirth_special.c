@@ -35,7 +35,7 @@ has_solution_type circe_exchange_special_has_solution(slice_index si)
 {
   has_solution_type result;
   square const sq_rebirth = sqrenais[nbply];
-  square const sq_diagram = GetDiaRen(spec[sq_rebirth]);
+  square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
@@ -43,7 +43,7 @@ has_solution_type circe_exchange_special_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_rebirth!=initsquare
-      && GetDiaRen(spec[sq_diagram])==sq_rebirth
+      && GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
       && (just_moved==Black ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_rebirth)
     result = slice_has_solution(slices[si].u.pipe.next);
@@ -64,7 +64,7 @@ has_solution_type circe_exchange_special_solve(slice_index si)
 {
   has_solution_type result;
   square const sq_rebirth = sqrenais[nbply];
-  square const sq_diagram = GetDiaRen(spec[sq_rebirth]);
+  square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
@@ -72,7 +72,7 @@ has_solution_type circe_exchange_special_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_rebirth!=initsquare
-      && GetDiaRen(spec[sq_diagram])==sq_rebirth
+      && GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
       && (just_moved==Black ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_rebirth)
     result = slice_solve(slices[si].u.pipe.next);

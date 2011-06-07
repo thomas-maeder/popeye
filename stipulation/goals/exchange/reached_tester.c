@@ -42,7 +42,7 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
-  square const sq_diagram = GetDiaRen(spec[sq_arrival]);
+  square const sq_diagram = GetPositionInDiagram(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
@@ -51,7 +51,7 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 
   assert(nbcou!=nil_coup);
 
-  if (GetDiaRen(spec[sq_diagram])==sq_arrival
+  if (GetPositionInDiagram(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_arrival)
     result = slice_has_solution(slices[si].u.pipe.next);
