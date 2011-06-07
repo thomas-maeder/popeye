@@ -835,10 +835,10 @@ typedef enum
   PieSpCount
 } PieSpec;
 
+/* not part of PieSpec because PieSpCount must be <16 in pyhash.c ...*/
+#define FrischAuf PieSpCount
+
 typedef Side pileside[maxply+1];
-
-#define PieSpMask ((1<<PieSpCount)-1)
-
 
 enum
 {
@@ -870,12 +870,13 @@ enum
 {
   NullPieceId = 0,
   MinPieceId = 1,
-  MaxPieceId = 100
+  MaxPieceId = 63
 };
 
 typedef unsigned int        PieceIdType;
 
-#define PieceIdOffset       PieSpCount
+#define PieceIdOffset       (PieSpCount+1)
+#define PieSpMask           ((1<<PieceIdOffset)-1)
 #define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
 #define GetPieceId(spec)    ((spec) >> PieceIdOffset)
 #define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
@@ -887,8 +888,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define GetPositionInDiagram(spec)     PiecePositionsInDiagram[GetPieceId(spec)]
 #define SavePositionInDiagram(spec,sq) (PiecePositionsInDiagram[GetPieceId(spec)] = (sq))
 #define ClearPositionInDiagram(spec)   SavePositionInDiagram(spec,initsquare)
-
-#define FrischAuf       PieSpCount
 
 #define encore()        (nbcou > repere[nbply])
 #define advers(camp)    ((camp) ? White : Black)
