@@ -103,16 +103,22 @@ typedef struct
 static void start_insertion_traversal(slice_index si,
                                       insertion_state_type *state);
 
-static boolean prepend_copy(insertion_state_type *state, unsigned int rank)
+static boolean insert_common(slice_index si,
+                             unsigned int rank,
+                             insertion_state_type *state)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",rank);
+  TraceFunctionParam("%u",state->prev);
   TraceFunctionParam("%u",state->base);
   TraceFunctionParamListEnd();
 
+  if (slices[si].type==slices[state->prototypes[0]].type)
+    result = true; /* we are done */
+  else
   {
     slice_index const prototype = state->prototypes[0];
     slice_type const prototype_type = slices[prototype].type;
@@ -128,7 +134,7 @@ static boolean prepend_copy(insertion_state_type *state, unsigned int rank)
         {
             state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, copy
         };
-        start_insertion_traversal(slices[copy].u.pipe.next,&nested_state);
+        start_insertion_traversal(copy,&nested_state);
       }
 
       result = true;
@@ -153,22 +159,16 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_type const type = slices[si].type;
-    if (type==slices[state->prototypes[0]].type)
-      ; /* nothing - we are done */
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    if (rank==no_slice_rank)
+      ; /* nothing - not for insertion into this branch */
+    else if (insert_common(si,rank,state))
+      ; /* nothing - work is done*/
     else
     {
-      unsigned int const rank = get_slice_rank(type,state->base);
-      if (rank==no_slice_rank)
-        ; /* nothing - not for insertion into this branch */
-      else if (prepend_copy(state,rank))
-        ; /* nothing - work is done*/
-      else
-      {
-        state->base = rank;
-        state->prev = si;
-        stip_traverse_structure_pipe(si,st);
-      }
+      state->base = rank;
+      state->prev = si;
+      stip_traverse_structure_pipe(si,st);
     }
   }
 
@@ -189,24 +189,17 @@ static void insert_visit_end_of_branch_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_type const type = slices[si].type;
-    if (type==slices[state->prototypes[0]].type)
-      ; /* nothing - we are done */
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    assert(rank!=no_slice_rank);
+    if (insert_common(si,rank,state))
+      ; /* nothing - work is done*/
     else
     {
-      unsigned int const rank = get_slice_rank(type,state->base);
-      if (rank==no_slice_rank)
-        ; /* nothing - not for insertion into this branch */
-      else if (prepend_copy(state,rank))
-        ; /* nothing - work is done*/
-      else
-      {
-        branch_insert_slices_nested(slices[si].u.fork.fork,
-                                    state->prototypes,state->nr_prototypes);
-        state->base = rank;
-        state->prev = si;
-        stip_traverse_structure_pipe(si,st);
-      }
+      branch_insert_slices_nested(slices[si].u.fork.fork,
+                                  state->prototypes,state->nr_prototypes);
+      state->base = rank;
+      state->prev = si;
+      stip_traverse_structure_pipe(si,st);
     }
   }
 
@@ -227,25 +220,18 @@ static void insert_visit_check_zigzag_jump(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_type const type = slices[si].type;
-    if (type==slices[state->prototypes[0]].type)
-      ; /* nothing - we are done */
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    assert(rank!=no_slice_rank);
+    if (insert_common(si,rank,state))
+      ; /* nothing - work is done*/
     else
     {
-      unsigned int const rank = get_slice_rank(type,state->base);
-      if (rank==no_slice_rank)
-        ; /* nothing - not for insertion into this branch */
-      else if (prepend_copy(state,rank))
-        ; /* nothing - work is done*/
-      else
-      {
-        help_branch_insert_slices_nested(slices[si].u.fork.fork,
-                                         state->prototypes,
-                                         state->nr_prototypes);
-        state->base = rank;
-        state->prev = si;
-        stip_traverse_structure_pipe(si,st);
-      }
+      help_branch_insert_slices_nested(slices[si].u.fork.fork,
+                                       state->prototypes,
+                                       state->nr_prototypes);
+      state->base = rank;
+      state->prev = si;
+      stip_traverse_structure_pipe(si,st);
     }
   }
 
@@ -302,7 +288,7 @@ static void start_insertion_traversal(slice_index si,
                                              slice_rank_order[i],
                                              &insert_visit_regular);
   stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
-  stip_traverse_structure(si,&st);
+  stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -334,7 +320,7 @@ void help_branch_insert_slices_nested(slice_index si,
         si
     };
     assert(state.base!=no_slice_rank);
-    start_insertion_traversal(slices[si].u.pipe.next,&state);
+    start_insertion_traversal(si,&state);
   }
 
   TraceFunctionExit(__func__);
