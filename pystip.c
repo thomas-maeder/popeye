@@ -161,7 +161,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_pipe,   /* STRefutationsSolver */
-  slice_structure_branch, /* STPlaySuppressor */
+  slice_structure_pipe,   /* STPlaySuppressor */
   slice_structure_pipe,   /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_fork,   /* STThreatEnforcer */

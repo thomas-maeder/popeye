@@ -28,6 +28,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
+#include "solving/play_suppressor.h"
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyselfgd.h"
@@ -219,6 +220,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STAnticirceExchangeFilter:
       result = anticirce_exchange_filter_solve(si);
+      break;
+
+    case STPlaySuppressor:
+      result = play_suppressor_solve(si);
       break;
 
     default:
@@ -439,6 +444,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAnticirceExchangeFilter:
       result = anticirce_exchange_filter_has_solution(si);
+      break;
+
+    case STPlaySuppressor:
+      result = play_suppressor_has_solution(si);
       break;
 
     default:

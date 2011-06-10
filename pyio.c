@@ -3063,6 +3063,8 @@ static char *ParseStructuredStip_nested_branch(char *tok,
     {
       slice_index const prototype = alloc_play_suppressor_slice();
       branch_insert_slices(proxy_operand,&prototype,1);
+      if (branch_find_slice(STPlaySuppressor,proxy_operand)==no_slice)
+        pipe_append(proxy_operand,alloc_play_suppressor_slice());
     }
 
     if (is_forced)
