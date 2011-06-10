@@ -418,6 +418,42 @@ static void branch_insert_visit_battle_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void help_insert_visit_battle_adapter(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  branch_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  help_branch_insert_slices_nested(si,
+                                   state->prototypes,
+                                   state->nr_prototypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void series_insert_visit_battle_adapter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  branch_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  series_branch_insert_slices_nested(si,
+                                     state->prototypes,
+                                     state->nr_prototypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void branch_insert_visit_goal_tester(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -440,6 +476,8 @@ static structure_traversers_visitors const branch_insertion_visitors[] =
 {
   { STAttackAdapter,     &branch_insert_visit_battle_adapter },
   { STDefenseAdapter,    &branch_insert_visit_battle_adapter },
+  { STHelpAdapter,       &help_insert_visit_battle_adapter   },
+  { STSeriesAdapter,     &series_insert_visit_battle_adapter },
   { STGoalReachedTester, &branch_insert_visit_goal_tester    }
 };
 
