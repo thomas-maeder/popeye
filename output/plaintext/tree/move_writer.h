@@ -1,6 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_MOVE_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_MOVE_WRITER_H
 
+#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
@@ -8,6 +9,18 @@
  * @return index of allocated slice
  */
 slice_index alloc_move_writer_slice(void);
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type move_writer_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type move_writer_has_solution(slice_index si);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

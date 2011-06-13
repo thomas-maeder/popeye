@@ -59,11 +59,6 @@ void battle_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes);
 
-/* Instrument a branch leading to a goal to be an attack branch
- * @param si identifies entry slice of branch
- */
-void stip_make_goal_attack_branch(slice_index si);
-
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the
  *           move(s) not played in set play

@@ -267,31 +267,6 @@ static void insert_visit_end_of_branch_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_visit_goal_reached_tester(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParamListEnd();
-
-  {
-    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    assert(rank!=no_slice_rank);
-    if (insert_common(si,rank,state))
-      ; /* nothing - work is done*/
-    else
-      branch_insert_slices_nested(si,state->prototypes,state->nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_visit_check_zigzag_jump(slice_index si,
                                            stip_structure_traversal *st)
 {
@@ -351,7 +326,6 @@ static structure_traversers_visitors const insertion_visitors[] =
   { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal  },
   { STForkOnRemaining,         &insert_visit_check_zigzag_jump   },
   { STCheckZigzagJump,         &insert_visit_check_zigzag_jump   },
-  { STGoalReachedTester,       &insert_visit_goal_reached_tester },
   { STProxy,                   &insert_visit_proxy               }
 };
 
@@ -574,39 +548,6 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Instrument a branch leading to a goal to be an attack branch
- * @param si identifies entry slice of branch
- */
-void stip_make_goal_attack_branch(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  {
-    slice_index const adapter = alloc_attack_adapter_slice(slack_length_battle+1,
-                                                           slack_length_battle);
-    slice_index const prototypes[] =
-    {
-      alloc_branch(STReadyForAttack,slack_length_battle+1,slack_length_battle),
-      alloc_dead_end_slice(),
-      alloc_attack_move_generator_slice(),
-      alloc_move_slice(),
-      alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1)
-    };
-    enum {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    pipe_append(si,adapter);
-    battle_branch_insert_slices(adapter,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Add the copy of a slice into the set play branch

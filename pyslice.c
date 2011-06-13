@@ -29,6 +29,7 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "solving/play_suppressor.h"
+#include "solving/battle_play/check_detector.h"
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyselfgd.h"
@@ -53,7 +54,10 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
+#include "output/plaintext/tree/move_writer.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/line/line_writer.h"
 
@@ -166,8 +170,24 @@ has_solution_type slice_solve(slice_index si)
       result = intelligent_duplicate_avoider_solve(si);
       break;
 
+    case STCheckDetector:
+      result = check_detector_solve(si);
+      break;
+
+    case STMoveWriter:
+      result = move_writer_solve(si);
+      break;
+
     case STOutputPlaintextTreeGoalWriter:
       result = goal_writer_solve(si);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriter:
+      result = decoration_writer_solve(si);
+      break;
+
+    case STOutputPlaintextTreeCheckWriter:
+      result = output_plaintext_tree_check_writer_solve(si);
       break;
 
     case STOutputPlaintextMoveInversionCounter:
@@ -382,8 +402,24 @@ has_solution_type slice_has_solution(slice_index si)
       result = maxsolutions_guard_has_solution(si);
       break;
 
+    case STCheckDetector:
+      result = check_detector_has_solution(si);
+      break;
+
+    case STMoveWriter:
+      result = move_writer_has_solution(si);
+      break;
+
     case STOutputPlaintextTreeGoalWriter:
       result = goal_writer_has_solution(si);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriter:
+      result = decoration_writer_has_solution(si);
+      break;
+
+    case STOutputPlaintextTreeCheckWriter:
+      result = output_plaintext_tree_check_writer_has_solution(si);
       break;
 
     case STOutputPlaintextMoveInversionCounter:

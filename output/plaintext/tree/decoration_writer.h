@@ -10,6 +10,19 @@
  */
 slice_index alloc_output_plaintext_tree_decoration_writer_slice(void);
 
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type decoration_writer_solve(slice_index si);
+
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type decoration_writer_has_solution(slice_index si);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal

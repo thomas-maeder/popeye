@@ -1,6 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H)
 #define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
+#include "pyslice.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality around STCheckDetector slices.
@@ -14,6 +15,18 @@ extern boolean attack_gives_check[maxply+1];
  * @return index of allocated slice
  */
 slice_index alloc_check_detector_slice(void);
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type check_detector_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type check_detector_has_solution(slice_index si);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

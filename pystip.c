@@ -947,69 +947,11 @@ slice_index stip_deep_copy(slice_index si)
   return result;
 }
 
-/* Remove a pipe slice being travrsed
- * @param si identifies slice being traversed
- * @param st points to structure holding the state of the traversal
- */
-static void remove_pipe(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_remove(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors const defense_proxy_removers[] =
-{
-  { STNot,                  &remove_pipe },
-  { STAttackAdapter,        &remove_pipe },
-  { STReadyForAttack,       &remove_pipe },
-  { STDeadEnd,              &remove_pipe },
-  { STAttackMoveGenerator,  &remove_pipe },
-  { STDefenseMoveGenerator, &remove_pipe },
-  { STHelpMoveGenerator,    &remove_pipe },
-  { STSeriesMoveGenerator,  &remove_pipe },
-  { STMove,                 &remove_pipe },
-  { STDefenseAdapter,       &remove_pipe }
-};
-
-enum
-{
-  nr_defense_proxy_removers = (sizeof defense_proxy_removers
-                               / sizeof defense_proxy_removers[0])
-};
-
 typedef struct
 {
   slice_index to_goal;
   boolean has_attack_ended;
 } quodlibet_transformation_state;
-
-/* Remove the defensive proxy slices from a branch
- * @param si identifies slice where to start
- */
-static void remove_non_goal_slices(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    defense_proxy_removers,
-                                    nr_defense_proxy_removers);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 static void remember_end_of_attack(slice_index si, stip_structure_traversal *st)
 {
@@ -1053,10 +995,10 @@ static void insert_direct_guards(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length_battle
+  if (st->level==structure_traversal_level_root
+      && slices[si].u.branch.length>slack_length_battle
       && state->to_goal!=no_slice)
   {
-    remove_non_goal_slices(state->to_goal);
     stip_make_direct_goal_branch(state->to_goal);
     battle_branch_insert_direct_end_of_branch_goal(si,state->to_goal);
   }
@@ -1067,10 +1009,9 @@ static void insert_direct_guards(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
-  { STReadyForAttack,    &insert_direct_guards                 },
-  { STReadyForDefense,   &remember_end_of_attack               },
-  { STEndOfBranchForced, &transform_to_quodlibet_end_of_branch },
-  { STEndOfBranchGoal,   &transform_to_quodlibet_end_of_branch }
+  { STAttackAdapter,   &insert_direct_guards                 },
+  { STReadyForDefense, &remember_end_of_attack               },
+  { STEndOfBranchGoal, &transform_to_quodlibet_end_of_branch }
 };
 
 enum
