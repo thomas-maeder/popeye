@@ -799,6 +799,66 @@ slice_index alloc_branch(slice_type type,
   return result;
 }
 
+typedef struct
+{
+  slice_type to_be_found;
+  slice_index result;
+} branch_find_slice_state_type;
+
+static void branch_find_slice_pipe(slice_index si, stip_structure_traversal *st)
+{
+  branch_find_slice_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type==state->to_be_found)
+    state->result = si;
+  else
+    stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void branch_find_slice_binary(slice_index si, stip_structure_traversal *st)
+{
+  branch_find_slice_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type==state->to_be_found)
+    state->result = si;
+  else
+  {
+    slice_index result1;
+    slice_index result2;
+
+    stip_traverse_structure(slices[si].u.binary.op1,st);
+    result1 = state->result;
+    state->result = no_slice;
+
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+    result2 = state->result;
+
+    if (result1==no_slice)
+      state->result = result2;
+    else if (result2==no_slice)
+      state->result = result1;
+    else
+    {
+      assert(result1==result2);
+      state->result = result1;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Find the next slice with a specific type in a branch
  * @param type type of slice to be found
  * @param si identifies the slice where to start searching
@@ -806,34 +866,32 @@ slice_index alloc_branch(slice_type type,
  */
 slice_index branch_find_slice(slice_type type, slice_index si)
 {
-  slice_index result = si;
-  boolean slices_visited[max_nr_slices] = { false };
+  branch_find_slice_state_type state = { type, no_slice };
+  stip_structure_traversal st;
+  slice_structural_type structural_type;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  do
-  {
-    TraceValue("%u\n",slices[result].u.pipe.next);
-    result = slices[result].u.pipe.next;
-    if (result==no_slice || slices[result].type==type)
-      break;
-    else if (slices_visited[result]
-             || !slice_has_structure(result,slice_structure_pipe))
-    {
-      result = no_slice;
-      break;
-    }
-    else
-      slices_visited[result] = true;
-  } while (true);
+  stip_structure_traversal_init(&st,&state);
+  for (structural_type = 0;
+       structural_type!=nr_slice_structure_types;
+       ++structural_type)
+    if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &branch_find_slice_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &branch_find_slice_binary);
+  stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",state.result);
   TraceFunctionResultEnd();
-  return result;
+  return state.result;
 }
 
 /* Traversal of the moves of a branch
