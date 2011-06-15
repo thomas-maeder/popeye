@@ -355,59 +355,84 @@ void help_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void increase_min_length_branch(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  slices[si].u.branch.min_length += 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
+/* Increase the min_length values of a branch to prevent subsequent shortening
+ * to set it to an invalidly low value
+ * @param si identifies slice where to start
+ */
+static void increase_min_length(slice_index si)
+{
+  stip_structure_traversal st;
+  slice_structural_type structural_type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  for (structural_type = 0;
+       structural_type!=nr_slice_structure_types;
+       ++structural_type)
+    if (slice_structure_is_subclass(structural_type,slice_structure_branch))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &increase_min_length_branch);
+    else if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &stip_traverse_structure_pipe);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  */
 void help_branch_shorten(slice_index adapter)
 {
+  slice_index const next = slices[adapter].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   assert(slices[adapter].type==STHelpAdapter);
 
-  --slices[adapter].u.branch.length;
-  --slices[adapter].u.branch.min_length;
+  {
+    /* find the new spot for adapter by inserting a copy */
+    slice_index const prototype = copy_slice(adapter);
+    help_branch_insert_slices(next,&prototype,1);
+  }
 
   {
-    slice_index const next = slices[adapter].u.pipe.next;
-
-    {
-      slice_index const prototype = copy_slice(adapter);
-      help_branch_insert_slices(next,&prototype,1);
-    }
-
-    {
-      slice_index copy = branch_find_slice(STHelpAdapter,next);
-      assert(copy!=no_slice);
-
-      pipe_link(slices[adapter].prev,next);
-      pipe_append(copy,adapter);
-      pipe_remove(copy);
-
-      {
-        slice_index si;
-        for (si = next; si!=adapter; si = slices[si].u.pipe.next)
-          if (slice_has_structure(si,slice_structure_branch))
-            slices[si].u.branch.length -= 2;
-      }
-
-      if (slices[adapter].u.branch.min_length<slack_length_help)
-      {
-        slice_index si;
-        for (si = adapter; si!=next; si = slices[si].u.pipe.next)
-          if (slice_has_structure(si,slice_structure_branch))
-            slices[si].u.branch.min_length += 2;
-      }
-      else
-      {
-        slice_index si;
-        for (si = next; si!=adapter; si = slices[si].u.pipe.next)
-          if (slice_has_structure(si,slice_structure_branch))
-            slices[si].u.branch.min_length -= 2;
-      }
-    }
+    /* move adapter to its new spot */
+    slice_index const copy = branch_find_slice(STHelpAdapter,next);
+    assert(copy!=no_slice);
+    pipe_link(slices[adapter].prev,next);
+    pipe_append(copy,adapter);
+    pipe_remove(copy);
   }
+
+  /* adjust the length and min_length members */
+  --slices[adapter].u.branch.length;
+  --slices[adapter].u.branch.min_length;
+  if (slices[adapter].u.branch.min_length<slack_length_help)
+    increase_min_length(adapter);
+  branch_shorten_slices(next,STHelpAdapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
