@@ -418,49 +418,6 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Remove slices from a battle branch
- * @param si identifies starting point of deletion
- * @param types contains the types of slices to be removed in the order that
- *              they occur in types
- * @param nr_types number of elements of array types
- */
-void battle_branch_remove_slices(slice_index si,
-                                 slice_type const types[],
-                                 unsigned int nr_types)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",nr_types);
-  TraceFunctionParamListEnd();
-
-  do
-  {
-    slice_index next = slices[si].u.pipe.next;
-    if (slices[next].type==types[0])
-    {
-      pipe_remove(next);
-      if (nr_types>1)
-      {
-        ++types,
-        --nr_types;
-      }
-      else
-        break;
-    }
-    else if (slices[next].type==STProxy)
-      si = next;
-    else if (slices[next].type==STOr)
-    {
-      battle_branch_remove_slices(slices[next].u.binary.op1,types,nr_types);
-      battle_branch_remove_slices(slices[next].u.binary.op2,types,nr_types);
-      break;
-    }
-  } while (1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a branch consisting mainly of an defense move
  * @param next identifies the slice that the defense branch lead sto
  * @param length maximum number of half-moves of slice (+ slack)

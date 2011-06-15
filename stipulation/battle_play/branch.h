@@ -37,16 +37,6 @@ void battle_branch_insert_slices(slice_index si,
                                  slice_index const prototypes[],
                                  unsigned int nr_prototypes);
 
-/* Remove slices from a battle branch
- * @param si identifies starting point of deletion
- * @param types contains the types of slices to be removed in the order that
- *              they occur in types
- * @param nr_types number of elements of array types
- */
-void battle_branch_remove_slices(slice_index si,
-                                 slice_type const types[],
-                                 unsigned int nr_types);
-
 /* Insert slices into a battle branch; the elements of
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
