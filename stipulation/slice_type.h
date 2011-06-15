@@ -16,18 +16,14 @@
     /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
-    ENUMERATOR(STAttackMoveGenerator), /* unoptimised move generator */ \
-    ENUMERATOR(STDefenseMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
-    ENUMERATOR(STHelpMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
-    ENUMERATOR(STSeriesMoveGenerator), /* unoptimised move generator */ \
     ENUMERATOR(STDummyMove),    /* dummy move */ \
     ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
@@ -76,16 +72,17 @@
     /* auxiliary slices */                                              \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STMoveInverter),    /* inverts side to move */ \
+    ENUMERATOR(STMoveInverter),    /* inverts side to move */           \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
     /* solver slices */                                                 \
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
-    ENUMERATOR(STFindByIncreasingLength), /* find all solutions */  \
+    ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
+    ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
-    ENUMERATOR(STTrySolver), /* find battle play tries */           \
-    ENUMERATOR(STRefutationsSolver), /* find battle play refutations */           \
-    ENUMERATOR(STPlaySuppressor), /* suppresses play */ \
+    ENUMERATOR(STTrySolver), /* find battle play tries */               \
+    ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
+    ENUMERATOR(STPlaySuppressor), /* suppresses play */                 \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
@@ -99,7 +96,7 @@
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
-    ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */         \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
     /* slices implementing optimisations */                             \

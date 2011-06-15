@@ -18,8 +18,7 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
  stipulation/end_of_branch_goal.h stipulation/move.h \
  stipulation/dummy_move.h stipulation/boolean/binary.h \
  stipulation/series_play/adapter.h stipulation/series_play/play.h \
- stipulation/series_play/move_generator.h stipulation/goals/goals.h \
- trace.h
+ stipulation/goals/goals.h trace.h
 
 stipulation/series_play/branch.h:
 
@@ -49,26 +48,7 @@ stipulation/series_play/adapter.h:
 
 stipulation/series_play/play.h:
 
-stipulation/series_play/move_generator.h:
-
 stipulation/goals/goals.h:
-
-trace.h:
-stipulation/series_play/move_generator$(OBJ_SUFFIX): \
- stipulation/series_play/move_generator.c \
- stipulation/series_play/move_generator.h pydata.h pyproc.h pypipe.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- trace.h
-
-stipulation/series_play/move_generator.h:
-
-pydata.h:
-
-pyproc.h:
-
-pypipe.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
@@ -76,12 +56,11 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
  pyint.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move.h stipulation/dummy_move.h \
- stipulation/series_play/move_generator.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_by_increasing_length.h solving/find_shortest.h \
- optimisations/goals/castling/filter.h \
+ solving/move_generator.h optimisations/goals/castling/filter.h \
  optimisations/intelligent/series_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  options/maxtime.h options/maxsolutions/guard.h \
@@ -111,8 +90,6 @@ stipulation/move.h:
 
 stipulation/dummy_move.h:
 
-stipulation/series_play/move_generator.h:
-
 stipulation/goals/countermate/filter.h:
 
 stipulation/goals/doublemate/filter.h:
@@ -124,6 +101,8 @@ solving/fork_on_remaining.h:
 solving/find_by_increasing_length.h:
 
 solving/find_shortest.h:
+
+solving/move_generator.h:
 
 optimisations/goals/castling/filter.h:
 

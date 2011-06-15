@@ -17,8 +17,7 @@ stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h pypipe.h stipulation/constraint.h \
  stipulation/branch.h stipulation/end_of_branch.h stipulation/dead_end.h \
  stipulation/end_of_branch_goal.h stipulation/move.h \
- stipulation/boolean/binary.h stipulation/help_play/adapter.h \
- stipulation/help_play/move_generator.h trace.h
+ stipulation/boolean/binary.h stipulation/help_play/adapter.h trace.h
 
 stipulation/help_play/branch.h:
 
@@ -40,34 +39,17 @@ stipulation/boolean/binary.h:
 
 stipulation/help_play/adapter.h:
 
-stipulation/help_play/move_generator.h:
-
-trace.h:
-stipulation/help_play/move_generator$(OBJ_SUFFIX): \
- stipulation/help_play/move_generator.c \
- stipulation/help_play/move_generator.h pydata.h pyproc.h pypipe.h \
- trace.h
-
-stipulation/help_play/move_generator.h:
-
-pydata.h:
-
-pyproc.h:
-
-pypipe.h:
-
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
  pyint.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move.h stipulation/dummy_move.h \
- stipulation/check_zigzag_jump.h stipulation/help_play/move_generator.h \
- stipulation/goals/countermate/filter.h \
+ stipulation/check_zigzag_jump.h stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_by_increasing_length.h solving/find_shortest.h \
- optimisations/goals/enpassant/filter.h \
+ solving/move_generator.h optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h \
  optimisations/intelligent/help_filter.h options/maxtime.h \
  options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
@@ -100,8 +82,6 @@ stipulation/dummy_move.h:
 
 stipulation/check_zigzag_jump.h:
 
-stipulation/help_play/move_generator.h:
-
 stipulation/goals/countermate/filter.h:
 
 stipulation/goals/doublemate/filter.h:
@@ -113,6 +93,8 @@ solving/fork_on_remaining.h:
 solving/find_by_increasing_length.h:
 
 solving/find_shortest.h:
+
+solving/move_generator.h:
 
 optimisations/goals/enpassant/filter.h:
 

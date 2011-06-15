@@ -15,12 +15,12 @@
 #include "stipulation/move.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_move_generator.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_shortest.h"
+#include "solving/move_generator.h"
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
@@ -114,8 +114,8 @@ stip_length_type can_attack(slice_index si,
       result = find_shortest_can_attack(si,n,n_max_unsolvable);
       break;
 
-    case STAttackMoveGenerator:
-      result = attack_move_generator_can_attack(si,n,n_max_unsolvable);
+    case STMoveGenerator:
+      result = move_generator_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STMove:
@@ -305,9 +305,9 @@ stip_length_type attack(slice_index si,
       result = find_shortest_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackMoveGenerator:
+    case STMoveGenerator:
     case STKillerMoveMoveGenerator:
-      result = attack_move_generator_attack(si,n,n_max_unsolvable);
+      result = move_generator_attack(si,n,n_max_unsolvable);
       break;
 
     case STMove:

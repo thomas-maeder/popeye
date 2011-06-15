@@ -4,6 +4,7 @@
 #include "pybrafrk.h"
 #include "pymsg.h"
 #include "stipulation/branch.h"
+#include "solving/move_generator.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
@@ -250,7 +251,7 @@ static void insert_solvers_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
+static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -293,7 +294,7 @@ static void insert_solvers_help(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
+static void insert_solvers_series_adapter(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -334,14 +335,29 @@ static void insert_solvers_series(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void prepend_move_generator(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(slices[si].prev,alloc_move_generator_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const strategy_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode           },
   { STAttackAdapter,      &insert_solvers_attack_adapter  },
-  { STReadyForAttack,     &insert_solvers_attack          },
   { STDefenseAdapter,     &insert_solvers_defense_adapter },
-  { STHelpAdapter,        &insert_solvers_help            },
-  { STSeriesAdapter,      &insert_solvers_series          }
+  { STHelpAdapter,        &insert_solvers_help_adapter    },
+  { STSeriesAdapter,      &insert_solvers_series_adapter  },
+  { STReadyForAttack,     &insert_solvers_attack          },
+  { STMove,               &prepend_move_generator         }
 };
 
 enum

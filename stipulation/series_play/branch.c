@@ -12,7 +12,6 @@
 #include "stipulation/boolean/binary.h"
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/series_play/play.h"
-#include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/goals.h"
 #include "trace.h"
 
@@ -41,7 +40,7 @@ static slice_index const slice_rank_order[] =
   STCastlingFilter,
   STPrerequisiteOptimiser,
   STForkOnRemaining,
-  STSeriesMoveGenerator,
+  STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
   STMaxTimeGuard,
@@ -350,7 +349,6 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            length,min_length);
-    slice_index const generator = alloc_series_move_generator_slice();
     slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
@@ -359,8 +357,7 @@ slice_index alloc_series_branch(stip_length_type length,
     result = adapter;
 
     pipe_link(adapter,ready);
-    pipe_link(ready,generator);
-    pipe_link(generator,move);
+    pipe_link(ready,move);
     pipe_link(move,deadend);
     pipe_link(deadend,ready2);
     pipe_link(ready2,dummy);

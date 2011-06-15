@@ -4,7 +4,7 @@
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side in
- * STDefenseMoveGenerator stipulation slices.
+ * STMoveGenerator stipulation slices.
  * These slices provide unoptimised move generation
  */
 

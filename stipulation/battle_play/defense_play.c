@@ -13,11 +13,11 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/play.h"
 #include "solving/fork_on_remaining.h"
+#include "solving/move_generator.h"
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/check_detector.h"
@@ -111,9 +111,9 @@ stip_length_type defend(slice_index si,
       result = threat_collector_defend(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMoveGenerator:
+    case STMoveGenerator:
     case STKillerMoveFinalDefenseMove:
-      result = defense_move_generator_defend(si,n,n_max_unsolvable);
+      result = move_generator_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveMoveGenerator:
@@ -337,8 +337,8 @@ stip_length_type can_defend(slice_index si,
       result = threat_collector_can_defend(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMoveGenerator:
-      result = defense_move_generator_can_defend(si,n,n_max_unsolvable);
+    case STMoveGenerator:
+      result = move_generator_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveMoveGenerator:

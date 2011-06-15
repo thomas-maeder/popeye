@@ -10,13 +10,13 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
 #include "stipulation/dummy_move.h"
-#include "stipulation/series_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_shortest.h"
+#include "solving/move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
@@ -136,8 +136,8 @@ stip_length_type series(slice_index si, stip_length_type n)
       result = goal_prerequisite_optimiser_series(si,n);
       break;
 
-    case STSeriesMoveGenerator:
-      result = series_move_generator_series(si,n);
+    case STMoveGenerator:
+      result = move_generator_series(si,n);
       break;
 
     case STOrthodoxMatingMoveGenerator:
@@ -265,8 +265,8 @@ stip_length_type has_series(slice_index si, stip_length_type n)
       result = doublemate_filter_has_series(si,n);
       break;
 
-    case STSeriesMoveGenerator:
-      result = series_move_generator_has_series(si,n);
+    case STMoveGenerator:
+      result = move_generator_has_series(si,n);
       break;
 
     case STOrthodoxMatingMoveGenerator:

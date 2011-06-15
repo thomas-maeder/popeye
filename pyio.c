@@ -116,7 +116,6 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/move_generator.h"
 #include "solving/find_shortest.h"
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"

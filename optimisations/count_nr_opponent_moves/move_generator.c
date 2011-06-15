@@ -193,10 +193,7 @@ static structure_traversers_visitors const countnropponentmoves_optimisers[] =
 {
   { STSetplayFork,          &stip_traverse_structure_pipe    },
   { STReadyForDefense,      &remember_length                 },
-  { STAttackMoveGenerator,  &optimise_defense_move_generator },
-  { STDefenseMoveGenerator, &optimise_defense_move_generator },
-  { STHelpMoveGenerator,    &optimise_defense_move_generator },
-  { STSeriesMoveGenerator,  &optimise_defense_move_generator }
+  { STMoveGenerator,        &optimise_defense_move_generator }
 };
 
 enum

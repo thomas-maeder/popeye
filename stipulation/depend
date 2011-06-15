@@ -1,7 +1,7 @@
 stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/proxy.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/series_play/branch.h pypipe.h \
- trace.h
+ trace.h solving/fork_on_remaining.h stipulation/check_zigzag_jump.h
 
 stipulation/branch.h:
 
@@ -16,6 +16,10 @@ stipulation/series_play/branch.h:
 pypipe.h:
 
 trace.h:
+
+solving/fork_on_remaining.h:
+
+stipulation/check_zigzag_jump.h:
 stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h pydata.h \
  pyproc.h pypipe.h trace.h
 

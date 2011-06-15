@@ -27,7 +27,7 @@ static slice_index alloc_defense_move_against_goal_slice(void)
   return result;
 }
 
-/* Optimise a STDefenseMoveGenerator slice for defending against a goal
+/* Optimise a STMoveGenerator slice for defending against a goal
  * @param si identifies slice to be optimised
  */
 void killer_move_optimise_final_defense_move(slice_index si)

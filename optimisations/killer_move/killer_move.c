@@ -93,12 +93,9 @@ static void optimise_final_defense_moves_goal(slice_index si,
 
 static moves_traversers_visitors const final_defense_move_optimisers[] =
 {
-  { STSetplayFork,          &stip_traverse_moves_pipe                            },
-  { STAttackMoveGenerator,  &optimise_final_defense_moves_defense_move_generator },
-  { STDefenseMoveGenerator, &optimise_final_defense_moves_defense_move_generator },
-  { STHelpMoveGenerator,    &optimise_final_defense_moves_defense_move_generator },
-  { STSeriesMoveGenerator,  &optimise_final_defense_moves_defense_move_generator },
-  { STGoalReachedTester,    &optimise_final_defense_moves_goal                   }
+  { STSetplayFork,       &stip_traverse_moves_pipe                            },
+  { STMoveGenerator,     &optimise_final_defense_moves_defense_move_generator },
+  { STGoalReachedTester, &optimise_final_defense_moves_goal                   }
 };
 
 enum
@@ -132,16 +129,23 @@ static void optimise_final_defense_move_with_killer_moves(slice_index si)
 static void substitute_killermove_machinery(slice_index si,
                                             stip_structure_traversal *st)
 {
+  stip_traversal_context_type context = st->context;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  if (enabled[slices[si].starter])
+  if ((context==stip_traversal_context_attack
+      || context==stip_traversal_context_defense)
+      && enabled[slices[si].starter])
   {
     slice_index const prototype = alloc_killer_move_collector_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    if (st->context==stip_traversal_context_attack)
+      defense_branch_insert_slices(si,&prototype,1);
+    else
+      attack_branch_insert_slices(si,&prototype,1);
     pipe_substitute(si,alloc_killer_move_move_generator_slice());
   }
 
@@ -151,9 +155,8 @@ static void substitute_killermove_machinery(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,          &stip_traverse_structure_pipe    },
-  { STAttackMoveGenerator,  &substitute_killermove_machinery },
-  { STDefenseMoveGenerator, &substitute_killermove_machinery },
+  { STSetplayFork,   &stip_traverse_structure_pipe    },
+  { STMoveGenerator, &substitute_killermove_machinery }
 };
 
 enum

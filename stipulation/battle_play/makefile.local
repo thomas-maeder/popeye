@@ -1,12 +1,10 @@
 # -*- Makefile -*-
 #
 
-CFILES = branch.c \
-	attack_adapter.c attack_move_generator.c attack_play.c \
-	defense_adapter.c defense_play.c defense_move_generator.c
+CFILES = branch.c attack_adapter.c attack_play.c \
+         defense_adapter.c defense_play.c
 
-INCLUDES = branch.h \
-	attack_adapter.h attack_move_generator.h attack_play.h \
-	defense_adapter.h defense_play.h defense_move_generator.h
+INCLUDES = branch.h attack_adapter.h attack_play.h \
+           defense_adapter.h defense_play.h
 
 include makefile.rules $(CURRPWD)depend

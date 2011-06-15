@@ -7,11 +7,9 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
-#include "stipulation/battle_play/attack_move_generator.h"
-#include "stipulation/move.h"
-#include "stipulation/battle_play/defense_move_generator.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
 
@@ -42,7 +40,7 @@ static slice_index const slice_rank_order[] =
   STFindShortest,
   STShortSolutionsStart,
   STForkOnRemaining,
-  STAttackMoveGenerator,
+  STMoveGenerator,
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
@@ -90,7 +88,7 @@ static slice_index const slice_rank_order[] =
   STCheckZigzagJump,
   STForkOnRemaining,
   STForkOnRemaining,
-  STDefenseMoveGenerator,
+  STMoveGenerator,
   STKillerMoveMoveGenerator,
   STCountNrOpponentMovesMoveGenerator,
   STKillerMoveFinalDefenseMove,
@@ -418,6 +416,84 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Insert slices into a battle branch, starting between defense and attack move
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by battle_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void attack_branch_insert_slices(slice_index si,
+                                 slice_index const prototypes[],
+                                 unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const ready_rank = get_slice_rank(STReadyForDefense,0);
+    unsigned int const move_rank = get_slice_rank(STMove,ready_rank);
+    insertion_state_type state =
+    {
+      prototypes, nr_prototypes,
+      move_rank,
+      si
+    };
+    assert(state.base!=no_slice_rank);
+    start_insertion_traversal(si,&state);
+  }
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a battle branch, starting between attack and defense move
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by battle_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void defense_branch_insert_slices(slice_index si,
+                                  slice_index const prototypes[],
+                                  unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const ready_rank = get_slice_rank(STReadyForAttack,0);
+    unsigned int const move_rank = get_slice_rank(STMove,ready_rank);
+    insertion_state_type state =
+    {
+      prototypes, nr_prototypes,
+      move_rank,
+      si
+    };
+    assert(state.base!=no_slice_rank);
+    start_insertion_traversal(si,&state);
+  }
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a branch consisting mainly of an defense move
  * @param next identifies the slice that the defense branch lead sto
  * @param length maximum number of half-moves of slice (+ slack)
@@ -440,13 +516,11 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForDefense,length,min_length);
     slice_index const deadend = alloc_dead_end_slice();
-    slice_index const generator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,ready);
     pipe_link(ready,deadend);
-    pipe_link(deadend,generator);
-    pipe_link(generator,defense);
+    pipe_link(deadend,defense);
     pipe_link(defense,next);
 
     result = adapter;
@@ -480,22 +554,18 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const adeadend = alloc_dead_end_slice();
-    slice_index const agenerator = alloc_attack_move_generator_slice();
     slice_index const attack = alloc_move_slice();
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const ddeadend = alloc_dead_end_slice();
-    slice_index const dgenerator = alloc_defense_move_generator_slice();
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,aready);
     pipe_link(aready,adeadend);
-    pipe_link(adeadend,agenerator);
-    pipe_link(agenerator,attack);
+    pipe_link(adeadend,attack);
     pipe_link(attack,dready);
     pipe_link(dready,ddeadend);
-    pipe_link(ddeadend,dgenerator);
-    pipe_link(dgenerator,defense);
+    pipe_link(ddeadend,defense);
     pipe_link(defense,adapter);
 
     result = adapter;

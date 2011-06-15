@@ -265,15 +265,12 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STSetplayFork,          &stip_traverse_moves_pipe                    },
-  { STAttackMoveGenerator,  &optimise_final_moves_move_generator         },
-  { STDefenseMoveGenerator, &optimise_final_moves_move_generator         },
-  { STHelpMoveGenerator,    &optimise_final_moves_move_generator         },
-  { STSeriesMoveGenerator,  &optimise_final_moves_move_generator         },
-  { STEndOfBranch,          &optimise_final_moves_end_of_branch_non_goal },
-  { STEndOfBranchForced,    &optimise_final_moves_end_of_branch_non_goal },
-  { STGoalReachedTester,    &optimise_final_moves_goal                   },
-  { STNot,                  &optimise_final_moves_suppress               }
+  { STSetplayFork,       &stip_traverse_moves_pipe                    },
+  { STMoveGenerator,     &optimise_final_moves_move_generator         },
+  { STEndOfBranch,       &optimise_final_moves_end_of_branch_non_goal },
+  { STEndOfBranchForced, &optimise_final_moves_end_of_branch_non_goal },
+  { STGoalReachedTester, &optimise_final_moves_goal                   },
+  { STNot,               &optimise_final_moves_suppress               }
 };
 
 enum

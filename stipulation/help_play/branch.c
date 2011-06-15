@@ -8,7 +8,6 @@
 #include "stipulation/move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/help_play/move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -40,7 +39,7 @@ static slice_index const slice_rank_order[] =
   STCastlingFilter,
   STPrerequisiteOptimiser,
   STForkOnRemaining,
-  STHelpMoveGenerator,
+  STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
   STDummyMove,
@@ -586,21 +585,17 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
-    slice_index const generator1 = alloc_help_move_generator_slice();
     slice_index const move1 = alloc_move_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
-    slice_index const generator2 = alloc_help_move_generator_slice();
     slice_index const move2 = alloc_move_slice();
 
     slice_index const deadend = alloc_dead_end_slice();
 
     pipe_link(adapter,ready1);
-    pipe_link(ready1,generator1);
-    pipe_link(generator1,move1);
+    pipe_link(ready1,move1);
     pipe_link(move1,ready2);
-    pipe_link(ready2,generator2);
-    pipe_link(generator2,move2);
+    pipe_link(ready2,move2);
     pipe_link(move2,adapter);
 
     if ((length-slack_length_help)%2==0)

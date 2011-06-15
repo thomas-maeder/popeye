@@ -2615,10 +2615,6 @@ static Token iterate_twins(Token prev_token)
       if (is_hashtable_allocated())
         stip_insert_hash_slices(root_slice);
 
-      stip_optimise_with_orthodox_mating_move_generators(root_slice);
-      stip_optimise_with_countnropponentmoves(root_slice);
-      stip_optimise_with_killer_moves(root_slice);
-
       if (!init_intelligent_mode(root_slice))
         Message(IntelligentRestricted);
 
@@ -2629,6 +2625,12 @@ static Token iterate_twins(Token prev_token)
         stip_insert_restart_guards(root_slice);
 
       stip_insert_solvers(root_slice);
+
+      stip_impose_starter(root_slice,slices[root_slice].starter);
+
+      stip_optimise_with_orthodox_mating_move_generators(root_slice);
+      stip_optimise_with_countnropponentmoves(root_slice);
+      stip_optimise_with_killer_moves(root_slice);
 
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards(root_slice);

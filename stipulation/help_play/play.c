@@ -11,13 +11,13 @@
 #include "stipulation/move.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
-#include "stipulation/help_play/move_generator.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_shortest.h"
+#include "solving/move_generator.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/help_filter.h"
@@ -62,8 +62,8 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = fork_on_remaining_help(si,n);
       break;
 
-    case STHelpMoveGenerator:
-      result = help_move_generator_help(si,n);
+    case STMoveGenerator:
+      result = move_generator_help(si,n);
       break;
 
     case STOrthodoxMatingMoveGenerator:
@@ -215,8 +215,8 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = fork_on_remaining_can_help(si,n);
       break;
 
-    case STHelpMoveGenerator:
-      result = help_move_generator_can_help(si,n);
+    case STMoveGenerator:
+      result = move_generator_can_help(si,n);
       break;
 
     case STOrthodoxMatingMoveGenerator:
