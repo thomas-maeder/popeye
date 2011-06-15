@@ -671,6 +671,14 @@ void stip_insert_root_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void link_to_intro(slice_index si, stip_structure_traversal *st)
+{
+  stip_traverse_structure_children(si,st);
+
+  /* make sure that the entry slices into the intro have a correct .prev value */
+  link_to_branch(si,slices[si].u.pipe.next);
+}
+
 static structure_traversers_visitors intro_slice_inserters[] =
 {
   { STAttackAdapter,     &attack_adapter_make_intro   },
@@ -691,6 +699,7 @@ enum
  */
 void stip_insert_intro_slices(slice_index si)
 {
+  slice_structural_type structural_type;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -701,6 +710,11 @@ void stip_insert_intro_slices(slice_index si)
   assert(slices[si].type==STProxy);
 
   stip_structure_traversal_init(&st,0);
+  for (structural_type = 0; structural_type!=nr_slice_structure_types; ++structural_type)
+    if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &link_to_intro);
   stip_structure_traversal_override(&st,
                                     intro_slice_inserters,
                                     nr_intro_slice_inserters);
