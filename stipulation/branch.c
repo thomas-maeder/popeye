@@ -1,8 +1,10 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/branch.h"
+#include "solving/fork_on_remaining.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -822,6 +824,44 @@ static void branch_find_slice_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void branch_find_slice_fork_on_remaining(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  branch_find_slice_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type==state->to_be_found)
+    state->result = si;
+  else
+  {
+    slice_index result1;
+    slice_index result2;
+
+    stip_traverse_structure_pipe(si,st);
+    result1 = state->result;
+    state->result = no_slice;
+
+    stip_traverse_structure(slices[si].u.fork.fork,st);
+    result2 = state->result;
+
+    if (result1==no_slice)
+      state->result = result2;
+    else if (result2==no_slice)
+      state->result = result1;
+    else
+    {
+      assert(result1==result2);
+      state->result = result1;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void branch_find_slice_binary(slice_index si, stip_structure_traversal *st)
 {
   branch_find_slice_state_type * const state = st->param;
@@ -886,6 +926,12 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_binary,
                                                  &branch_find_slice_binary);
+  stip_structure_traversal_override_single(&st,
+                                           STForkOnRemaining,
+                                           &branch_find_slice_fork_on_remaining);
+  stip_structure_traversal_override_single(&st,
+                                           STCheckZigzagJump,
+                                           &branch_find_slice_fork_on_remaining);
   stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);
