@@ -86,18 +86,11 @@ refuting_variation_writer_attack(slice_index si,
 
   if (result>n)
   {
-    if (encore())
-    {
-      unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
-      Message(NewLine);
-      sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
-      StdString(GlobalStr);
-      Message(Refutation);
-    }
-    else
-    {
-      /* no defense was played - we have been solving threats */
-    }
+    unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
+    Message(NewLine);
+    sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
+    StdString(GlobalStr);
+    Message(Refutation);
   }
 
   TraceFunctionExit(__func__);
