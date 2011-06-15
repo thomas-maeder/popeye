@@ -943,3 +943,68 @@ void link_to_branch(slice_index pipe, slice_index entry)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static void shorten_pipe(slice_index si, stip_structure_traversal *st)
+{
+  slice_type const * const end_type = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type!=*end_type)
+    stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
+static void shorten_branch(slice_index si, stip_structure_traversal *st)
+{
+  slice_type const * const end_type = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].type!=*end_type)
+  {
+    stip_traverse_structure_pipe(si,st);
+    slices[si].u.branch.length -= 2;
+    slices[si].u.branch.min_length -= 2;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
+/* Shorten slices of a branch by 2 half moves
+ * @param start identfies start of sequence of slices to be shortened
+ * @param end_type identifies type of slice where to stop shortening
+ */
+void branch_shorten_slices(slice_index start, slice_type end_type)
+{
+  stip_structure_traversal st;
+  slice_structural_type structural_type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&end_type);
+  for (structural_type = 0;
+       structural_type!=nr_slice_structure_types;
+       ++structural_type)
+    if (slice_structure_is_subclass(structural_type,slice_structure_branch))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &shorten_branch);
+    else if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &shorten_pipe);
+  stip_traverse_structure(start,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}

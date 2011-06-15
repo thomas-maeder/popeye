@@ -652,16 +652,7 @@ slice_index battle_branch_make_postkeyplay(slice_index adapter)
     result = branch_find_slice(STDefenseAdapter,adapter);
     assert(result!=no_slice);
 
-    {
-      slice_index si;
-      for (si = adapter; si!=result; si = slices[si].u.pipe.next)
-        if (slice_has_structure(si,slice_structure_branch))
-        {
-          slices[si].u.branch.length -= 2;
-          slices[si].u.branch.min_length -= 2;
-        }
-    }
-
+    branch_shorten_slices(adapter,STDefenseAdapter);
     pipe_remove(adapter);
   }
 
@@ -802,16 +793,7 @@ slice_index battle_make_root(slice_index adapter)
   result = battle_branch_make_root_slices(adapter);
   assert(result!=no_slice);
 
-  {
-    slice_index si;
-    for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
-      if (slice_has_structure(si,slice_structure_branch))
-      {
-        slices[si].u.branch.length -= 2;
-        slices[si].u.branch.min_length -= 2;
-      }
-  }
-
+  branch_shorten_slices(adapter,STEndOfRoot);
   pipe_remove(adapter);
 
   TraceFunctionExit(__func__);

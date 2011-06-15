@@ -38,6 +38,12 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st);
  */
 void link_to_branch(slice_index pipe, slice_index entry);
 
+/* Shorten slices of a branch by 2 half moves
+ * @param start identfies start of sequence of slices to be shortened
+ * @param end_type identifies type of slice where to stop shortening
+ */
+void branch_shorten_slices(slice_index start, slice_type end_type);
+
 /* Insert slices into a root branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by root_branch_insert_slices().

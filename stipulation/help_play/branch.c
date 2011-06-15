@@ -658,25 +658,10 @@ slice_index help_make_root(slice_index adapter)
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
     help_branch_insert_slices(adapter,&prototype,1);
+    result = help_branch_make_root_slices(adapter);
+    branch_shorten_slices(adapter,STEndOfRoot);
+    pipe_remove(adapter);
   }
-
-  result = help_branch_make_root_slices(adapter);
-
-  {
-    /* Shorten the slices of which copies were added to the root intro. We do
-     * this here and not in help_branch_make_root_slices() because we don't
-     * want to shorten slices when we insert the root slices for the set play
-     */
-    slice_index si;
-    for (si = adapter; slices[si].type!=STEndOfRoot; si = slices[si].u.pipe.next)
-      if (slice_has_structure(si,slice_structure_branch))
-      {
-        slices[si].u.branch.length -= 2;
-        slices[si].u.branch.min_length -= 2;
-      }
-  }
-
-  pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
