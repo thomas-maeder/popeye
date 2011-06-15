@@ -39,6 +39,7 @@ DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt license.txt *.mod
 DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
+SPECIALCFILES = pymain.c measure.h
 
 include makefile.rules $(CURRPWD)/depend
 
