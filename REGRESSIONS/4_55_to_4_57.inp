@@ -279,4 +279,12 @@ pieces white ke1 pg3
 stip ser-r#2
 option set
 
+next
+
+title Popeye didn't find a solution since at least 4.37
+stip    ser-h<>13
+pieces  white kf5 ph2h4
+        black kg1
+cond    pwc
+
 end
