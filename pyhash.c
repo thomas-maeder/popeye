@@ -2288,8 +2288,6 @@ static void addtohash_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(hashBufferValidity[nbply]==validity_value);
-
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
   {
