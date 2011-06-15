@@ -2277,9 +2277,6 @@ static void addtohash_help(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
-#if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length/2+1;
-#endif
   hash_value_type const val = (n-min_length)/2+1;
   dhtElement *he;
 
