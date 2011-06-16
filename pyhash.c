@@ -105,7 +105,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
@@ -2499,7 +2498,7 @@ static void addtohash_series(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_hashed_series(slice_index si, stip_length_type n)
+stip_length_type series_hashed_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2511,22 +2510,22 @@ stip_length_type series_hashed_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   if (inhash_series(si,n))
-    result = n+1;
+    result = n+2;
   else
   {
     if (slices[si].u.branch.min_length>slack_length_series+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = series(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = series(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
-    assert(result<=n+1);
+    assert(result<=n+2);
 
-    if (result==n+1)
+    if (result==n+2)
       addtohash_series(si,n);
   }
 
@@ -2545,7 +2544,7 @@ stip_length_type series_hashed_series(slice_index si, stip_length_type n)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_hashed_has_series(slice_index si, stip_length_type n)
+stip_length_type series_hashed_has_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -2557,22 +2556,22 @@ stip_length_type series_hashed_has_series(slice_index si, stip_length_type n)
   assert(n>slack_length_series);
 
   if (inhash_series(si,n))
-    result = n+1;
+    result = n+2;
   else
   {
     if (slices[si].u.branch.min_length>slack_length_series+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = has_series(slices[si].u.pipe.next,n);
+      result = can_help(slices[si].u.pipe.next,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = has_series(slices[si].u.pipe.next,n);
+      result = can_help(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
-    assert(result<=n+1);
+    assert(result<=n+2);
 
-    if (result==n+1)
+    if (result==n+2)
       addtohash_series(si,n);
   }
 

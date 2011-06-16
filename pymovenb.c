@@ -2,11 +2,8 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/play.h"
 #include "output/plaintext/plaintext.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -170,39 +167,6 @@ stip_length_type restart_guard_help(slice_index si, stip_length_type n)
     result = n+2;
   else
     result = help(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type restart_guard_series(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  IncrementMoveNbr(si);
-
-  if (MoveNbr<=RestartNbr)
-    result = n+1;
-  else
-    result = series(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

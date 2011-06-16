@@ -1,9 +1,7 @@
 stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.c \
  stipulation/goals/doublemate/filter.h pypipe.h pydata.h pyproc.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h stipulation/goals/prerequisite_guards.h \
- trace.h
+ stipulation/goals/prerequisite_guards.h trace.h
 
 stipulation/goals/doublemate/filter.h:
 
@@ -12,12 +10,6 @@ pypipe.h:
 pydata.h:
 
 pyproc.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/help_play/play.h:
-
-stipulation/series_play/play.h:
 
 stipulation/goals/prerequisite_guards.h:
 

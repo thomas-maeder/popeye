@@ -20,9 +20,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/play.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
@@ -93,11 +91,8 @@ static boolean find_solutions_in_n(stip_length_type n)
   switch (slices[current_start_slice].type)
   {
     case STIntelligentHelpFilter:
-      result = help(next,n)<=n;
-      break;
-
     case STIntelligentSeriesFilter:
-      result = series(next,n)<=n;
+      result = help(next,n)<=n;
       break;
 
     default:
@@ -2799,85 +2794,6 @@ stip_length_type goalreachable_guard_can_help(slice_index si,
     result = can_help(slices[si].u.pipe.next,n);
   else
     result = n+2;
-
-  ++MovesLeft[just_moved];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_series(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  --MovesLeft[just_moved];
-  TraceValue("%u",slices[si].starter);
-  TraceValue("%u",just_moved);
-  TraceValue("%u",MovesLeft[slices[si].starter]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
-
-  if (isGoalReachable())
-    result = series(slices[si].u.pipe.next,n);
-  else
-    result = n+1;
-
-  ++MovesLeft[just_moved];
-  TraceValue("%u",MovesLeft[slices[si].starter]);
-  TraceValue("%u\n",MovesLeft[just_moved]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_has_series(slice_index si,
-                                                stip_length_type n)
-{
-  stip_length_type result;
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  --MovesLeft[just_moved];
-
-  if (isGoalReachable())
-    result = has_series(slices[si].u.pipe.next,n);
-  else
-    result = n+1;
 
   ++MovesLeft[just_moved];
 

@@ -38,17 +38,12 @@ trace.h:
 options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
  options/stoponshortsolutions/filter.h \
- options/stoponshortsolutions/stoponshortsolutions.h \
- stipulation/help_play/play.h stipulation/series_play/play.h \
- stipulation/branch.h trace.h
+ options/stoponshortsolutions/stoponshortsolutions.h stipulation/branch.h \
+ trace.h
 
 options/stoponshortsolutions/filter.h:
 
 options/stoponshortsolutions/stoponshortsolutions.h:
-
-stipulation/help_play/play.h:
-
-stipulation/series_play/play.h:
 
 stipulation/branch.h:
 

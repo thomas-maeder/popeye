@@ -2,7 +2,6 @@
 #define STIPULATION_SERIES_PLAY_ADAPTER_H
 
 #include "pyslice.h"
-#include "stipulation/series_play/play.h"
 
 /* This module provides functionality dealing with STSeriesAdapter
  * stipulation slices. STSeriesAdapter slices switch from general play to series

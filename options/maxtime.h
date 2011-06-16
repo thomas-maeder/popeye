@@ -9,7 +9,6 @@
 
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/series_play/play.h"
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -64,28 +63,6 @@ stip_length_type maxtime_guard_help(slice_index si, stip_length_type n);
  *         n   solution found
  */
 stip_length_type maxtime_guard_can_help(slice_index si, stip_length_type n);
-
-/* Determine and write the solution(s) in a series stipulation
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type maxtime_guard_series(slice_index si, stip_length_type n);
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type maxtime_guard_has_series(slice_index si, stip_length_type n);
 
 /* Instrument a stipulation with STMaxTimeGuard slices
  * @param si identifies slice where to start

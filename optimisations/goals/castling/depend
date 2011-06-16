@@ -1,21 +1,13 @@
 optimisations/goals/castling/filter$(OBJ_SUFFIX): \
  optimisations/goals/castling/filter.c \
  optimisations/goals/castling/filter.h pydata.h pypipe.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
- stipulation/series_play/play.h stipulation/goals/prerequisite_guards.h \
- trace.h
+ stipulation/goals/prerequisite_guards.h trace.h
 
 optimisations/goals/castling/filter.h:
 
 pydata.h:
 
 pypipe.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/help_play/play.h:
-
-stipulation/series_play/play.h:
 
 stipulation/goals/prerequisite_guards.h:
 

@@ -4,7 +4,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/series_play/play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMove stipulation slices.
@@ -96,28 +95,6 @@ stip_length_type move_help(slice_index si, stip_length_type n);
  *         n   solution found
  */
 stip_length_type move_can_help(slice_index si, stip_length_type n);
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type move_series(slice_index si, stip_length_type n);
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type move_has_series(slice_index si, stip_length_type n);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

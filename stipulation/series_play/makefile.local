@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = adapter.c branch.c play.c
+CFILES = adapter.c branch.c
 
-INCLUDES = adapter.h branch.h play.h
+INCLUDES = adapter.h branch.h
 
 include makefile.rules $(CURRPWD)depend

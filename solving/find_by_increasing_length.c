@@ -92,36 +92,3 @@ stip_length_type find_by_increasing_length_can_help(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type find_by_increasing_length_series(slice_index si,
-                                                  stip_length_type n)
-{
-  stip_length_type result = n+1;
-  stip_length_type len = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  while (len<=n)
-  {
-    if (series(slices[si].u.pipe.next,len)==len && len<result)
-      result = len;
-    len += 2;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

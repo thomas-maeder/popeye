@@ -149,7 +149,7 @@ enum
 {
   slack_length_battle = 3, /* half moves */
   slack_length_help = 2,   /* half moves */
-  slack_length_series = 1  /* half moves */
+  slack_length_series = 2  /* half moves */
 };
 
 /* Characterisation of attacking moves:

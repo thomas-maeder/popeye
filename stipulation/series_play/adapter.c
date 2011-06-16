@@ -1,6 +1,7 @@
 #include "stipulation/series_play/adapter.h"
 #include "stipulation/branch.h"
 #include "stipulation/series_play/branch.h"
+#include "stipulation/help_play/play.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -159,10 +160,10 @@ has_solution_type series_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = series(next,full_length);
+  nr_moves_needed = help(next,full_length);
   if (nr_moves_needed<=full_length)
     result = has_solution;
-  else if (nr_moves_needed==full_length+1)
+  else if (nr_moves_needed==full_length+2)
     result = has_no_solution;
   else
     result = opponent_self_check;
@@ -188,10 +189,10 @@ has_solution_type series_adapter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = has_series(next,full_length);
+  nr_moves_needed = can_help(next,full_length);
   if (nr_moves_needed<=full_length)
     result = has_solution;
-  else if (nr_moves_needed==full_length+1)
+  else if (nr_moves_needed==full_length+2)
     result = has_no_solution;
   else
     result = opponent_self_check;

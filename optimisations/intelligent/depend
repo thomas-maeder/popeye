@@ -14,16 +14,13 @@ stipulation/help_play/play.h:
 trace.h:
 optimisations/intelligent/series_filter$(OBJ_SUFFIX): \
  optimisations/intelligent/series_filter.c \
- optimisations/intelligent/series_filter.h pyint.h pypipe.h \
- stipulation/series_play/play.h trace.h
+ optimisations/intelligent/series_filter.h pyint.h pypipe.h trace.h
 
 optimisations/intelligent/series_filter.h:
 
 pyint.h:
 
 pypipe.h:
-
-stipulation/series_play/play.h:
 
 trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \

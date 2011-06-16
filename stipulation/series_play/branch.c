@@ -11,7 +11,6 @@
 #include "stipulation/dummy_move.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/play.h"
 #include "stipulation/goals/goals.h"
 #include "trace.h"
 

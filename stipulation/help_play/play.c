@@ -93,6 +93,10 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_hashed_help(si,n);
       break;
 
+    case STSeriesHashed:
+      result = series_hashed_help(si,n);
+      break;
+
     case STConstraint:
       result = constraint_help(si,n);
       break;
@@ -103,6 +107,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STIntelligentHelpFilter:
       result = intelligent_help_filter_help(si,n);
+      break;
+
+    case STIntelligentSeriesFilter:
+      result = intelligent_series_filter_help(si,n);
       break;
 
     case STGoalReachableGuardFilter:
@@ -248,6 +256,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = help_hashed_can_help(si,n);
+      break;
+
+    case STSeriesHashed:
+      result = series_hashed_has_help(si,n);
       break;
 
     case STConstraint:
