@@ -224,13 +224,7 @@ typedef struct
         {
             unsigned int offsetNoSucc;
             unsigned int maskNoSucc;
-            slice_index anchor;
         } h;
-        struct
-        {
-            unsigned int offsetNoSucc;
-            unsigned int maskNoSucc;
-        } s;
     } u;
 } slice_properties_t;
 
@@ -519,8 +513,8 @@ static void init_slice_properties_hashed_series(slice_index si,
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
-  slice_properties[si].u.s.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.s.maskNoSucc = mask << sis->nrBitsLeft;
+  slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
+  slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
 
   hash_slices[nr_hash_slices++] = si;
 
@@ -698,31 +692,6 @@ static void set_value_help(hashElement_union_t *hue,
   TraceFunctionResultEnd();
 }
 
-static void set_value_series(hashElement_union_t *hue,
-                             slice_index si,
-                             hash_value_type val)
-{
-  unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
-  unsigned int const bits = val << offset;
-  unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
-  element_t * const e = &hue->e;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",val);
-  TraceFunctionParamListEnd();
-  TraceValue("%u",slice_properties[si].size);
-  TraceValue("%u",offset);
-  TraceValue("%08x ",mask);
-  TraceValue("pre:%08x ",e->data);
-  TraceValue("%08x\n",bits);
-  assert((bits&mask)==bits);
-  e->data &= ~mask;
-  e->data |= bits;
-  TraceValue("post:%08x\n",e->data);
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static hash_value_type get_value_attack_success(hashElement_union_t const *hue,
                                                 slice_index si)
 {
@@ -774,24 +743,6 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
   TraceValue("0x%08x ",mask);
   TraceValue("0x%08x ",&e->data);
   TraceValue("0x%08x\n",e->data);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static hash_value_type get_value_series(hashElement_union_t const *hue,
-                                        slice_index si)
-{
-  unsigned int const offset = slice_properties[si].u.s.offsetNoSucc;
-  unsigned int const mask = slice_properties[si].u.s.maskNoSucc;
-  element_t const * const e = &hue->e;
-  data_type const result = (e->data & mask) >> offset;
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceValue("%08x ",mask);
-  TraceValue("%08x\n",e->data);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -857,30 +808,6 @@ static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
   return result;
 }
 
-/* Determine the contribution of a series slice to the value of
- * a hash table element node.
- * @param he address of hash table element to determine value of
- * @param si slice index of series slice
- * @return value of contribution of slice si to *he's value
- */
-static hash_value_type own_value_of_data_series(hashElement_union_t const *hue,
-                                                slice_index si)
-{
-  hash_value_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p",hue);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = get_value_series(hue,si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine the contribution of a slice to the value of a hash table
  * element node.
  * @param he address of hash table element to determine value of
@@ -908,11 +835,8 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
       break;
 
     case STHelpHashed:
-      result = own_value_of_data_help(hue,si) << offset;
-      break;
-
     case STSeriesHashed:
-      result = own_value_of_data_series(hue,si) << offset;
+      result = own_value_of_data_help(hue,si) << offset;
       break;
 
     default:
@@ -1557,7 +1481,7 @@ static void init_elements(hashElement_union_t *hue)
         break;
 
       case STSeriesHashed:
-        set_value_series(hue,si,0);
+        set_value_help(hue,si,0);
         break;
 
       default:
@@ -2339,6 +2263,9 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
     else
       result = help(slices[si].u.pipe.next,n);
 
+    /* self check test should be over when we arrive here */
+    assert(result<=n+2);
+
     if (result==n+2)
       addtohash_help(si,n);
   }
@@ -2382,197 +2309,11 @@ stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
     else
       result = can_help(slices[si].u.pipe.next,n);
 
+    /* self check test should be over when we arrive here */
+    assert(result<=n+2);
+
     if (result>n)
       addtohash_help(si,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Look up whether the current position in the hash table to find out
- * if it has a solution in a number of half-moves
- * @param si index slice where current position was reached
- * @param n number of half-moves
- * @return true iff we know that the current position has no solution
- *         in n half-moves
- */
-static boolean inhash_series(slice_index si, stip_length_type n)
-{
-  boolean result;
-  HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement const *he;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const validity_value = min_length/2+1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u",hashBufferValidity[nbply]);
-  TraceValue("%u\n",validity_value);
-  if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(validity_value);
-
-  ifHASHRATE(use_all++);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    result = false;
-  else
-  {
-    hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    hash_value_type const val = (n-min_length)/2+1;
-    hash_value_type const nosuccess = get_value_series(hue,si);
-    TraceValue("%u",min_length);
-    TraceValue("%u\n",val);
-    if (nosuccess>=val)
-    {
-      ifHASHRATE(use_pos++);
-      result = true;
-    }
-    else
-      result = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Remember that the current position does not have a solution in a
- * number of half-moves
- * @param si index of slice where the current position was reached
- * @param n number of half-moves
- */
-static void addtohash_series(slice_index si, stip_length_type n)
-{
-  HashBuffer const * const hb = &hashBuffers[nbply];
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-#if !defined(NDEBUG)
-  stip_length_type const validity_value = min_length/2+1;
-#endif
-  hash_value_type const val = (n-min_length)/2+1;
-  dhtElement *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(hashBufferValidity[nbply]==validity_value);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_series(hue,si,val);
-  }
-  else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_series(hue,si)<val)
-      set_value_series(hue,si,val);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-
-#if defined(HASHRATE)
-  if (dhtKeyCount(pyhash)%1000 == 0)
-    HashStats(3, "\n");
-#endif /*HASHRATE*/
-}
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type series_hashed_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  if (inhash_series(si,n))
-    result = n+2;
-  else
-  {
-    if (slices[si].u.branch.min_length>slack_length_help+1)
-    {
-      slices[si].u.branch.min_length -= 2;
-      result = help(slices[si].u.pipe.next,n);
-      slices[si].u.branch.min_length += 2;
-    }
-    else
-      result = help(slices[si].u.pipe.next,n);
-
-    /* self check test should be over when we arrive here */
-    assert(result<=n+2);
-
-    if (result==n+2)
-      addtohash_series(si,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type series_hashed_has_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  if (inhash_series(si,n))
-    result = n+2;
-  else
-  {
-    if (slices[si].u.branch.min_length>slack_length_help+1)
-    {
-      slices[si].u.branch.min_length -= 2;
-      result = can_help(slices[si].u.pipe.next,n);
-      slices[si].u.branch.min_length += 2;
-    }
-    else
-      result = can_help(slices[si].u.pipe.next,n);
-
-    /* self check test should be over when we arrive here */
-    assert(result<=n+2);
-
-    if (result==n+2)
-      addtohash_series(si,n);
   }
 
   TraceFunctionExit(__func__);
