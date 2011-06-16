@@ -74,39 +74,6 @@ static boolean solutions_found;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- * @return true iff >= 1 solution was found
- */
-static boolean find_solutions_in_n(stip_length_type n)
-{
-  boolean result;
-  slice_index const next = slices[current_start_slice].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  switch (slices[current_start_slice].type)
-  {
-    case STIntelligentHelpFilter:
-    case STIntelligentSeriesFilter:
-      result = help(next,n)<=n;
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean guards(square bk, piece p, square sq)
 {
   int diff = bk-sq;
@@ -685,7 +652,7 @@ static void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    if (find_solutions_in_n(n))
+    if (help(slices[current_start_slice].u.pipe.next,n)<=n)
       solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
@@ -922,7 +889,7 @@ static void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    if (find_solutions_in_n(n))
+    if (help(slices[current_start_slice].u.pipe.next,n)<=n)
       solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
@@ -2597,7 +2564,7 @@ static void IntelligentProof(stip_length_type n)
    */
   OptFlag[movenbr] = false;
 
-  if (find_solutions_in_n(n))
+  if (help(slices[current_start_slice].u.pipe.next,n)<=n)
     solutions_found = true;
 
   OptFlag[movenbr] = save_movenbr;
