@@ -105,7 +105,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/series_play/branch.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -489,48 +488,12 @@ static void init_slice_properties_hashed_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Initialise the slice_properties array
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-static void init_slice_properties_hashed_series(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  slice_initializer_state * const sis = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  unsigned int const size = bit_width((length-min_length)/2+1);
-  data_type const mask = (1<<size)-1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  sis->valueOffset -= size;
-
-  slice_properties[si].size = size;
-  slice_properties[si].valueOffset = sis->valueOffset;
-
-  assert(sis->nrBitsLeft>=size);
-  sis->nrBitsLeft -= size;
-  slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
-  slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
-
-  hash_slices[nr_hash_slices++] = si;
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors slice_properties_initalisers[] =
 {
   { STAnd,          &init_slice_properties_binary        },
   { STOr,           &init_slice_properties_binary        },
   { STAttackHashed, &init_slice_properties_attack_hashed },
-  { STHelpHashed,   &init_slice_properties_hashed_help   },
-  { STSeriesHashed, &init_slice_properties_hashed_series }
+  { STHelpHashed,   &init_slice_properties_hashed_help   }
 };
 
 enum
@@ -835,7 +798,6 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
       break;
 
     case STHelpHashed:
-    case STSeriesHashed:
       result = own_value_of_data_help(hue,si) << offset;
       break;
 
@@ -1113,10 +1075,6 @@ static unsigned int estimateNumberOfHoles(void)
 
       case STHelpHashed:
         result += (length-slack_length_help+1)/2;
-        break;
-
-      case STSeriesHashed:
-        result += length-slack_length_help;
         break;
 
       default:
@@ -1480,10 +1438,6 @@ static void init_elements(hashElement_union_t *hue)
         set_value_help(hue,si,0);
         break;
 
-      case STSeriesHashed:
-        set_value_help(hue,si,0);
-        break;
-
       default:
         assert(0);
         break;
@@ -1834,33 +1788,6 @@ static void insert_hash_element_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void insert_hash_element_series(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  slice_index const * const previous_move_slice = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*previous_move_slice!=no_slice && length>slack_length_help)
-  {
-    slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void remember_move(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const previous_move_slice = st->param;
@@ -1882,7 +1809,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
 {
   { STReadyForAttack,     &insert_hash_element_attack   },
   { STReadyForHelpMove,   &insert_hash_element_help     },
-  { STReadyForSeriesMove, &insert_hash_element_series   },
+  { STReadyForSeriesMove, &insert_hash_element_help     },
   { STMove,               &remember_move                },
   { STConstraint,         &stip_traverse_structure_pipe }
 };

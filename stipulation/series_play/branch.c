@@ -32,7 +32,7 @@ static slice_index const slice_rank_order[] =
   STEndOfIntro,
 
   STReadyForSeriesMove,
-  STSeriesHashed,
+  STHelpHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
   STEnPassantFilter,
