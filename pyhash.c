@@ -1788,6 +1788,33 @@ static void insert_hash_element_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_series(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  slice_index const * const previous_move_slice = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*previous_move_slice!=no_slice && length>slack_length_help)
+  {
+    slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
+    series_branch_insert_slices(si,&prototype,1);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void remember_move(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const previous_move_slice = st->param;
@@ -1809,7 +1836,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
 {
   { STReadyForAttack,     &insert_hash_element_attack   },
   { STReadyForHelpMove,   &insert_hash_element_help     },
-  { STReadyForSeriesMove, &insert_hash_element_help     },
+  { STReadyForSeriesMove, &insert_hash_element_series   },
   { STMove,               &remember_move                },
   { STConstraint,         &stip_traverse_structure_pipe }
 };
