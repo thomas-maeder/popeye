@@ -102,7 +102,7 @@ static void min_distance_to_goal_series(slice_index si,
                                         stip_structure_traversal *st)
 {
   stip_length_type * const min_distance_to_goal = st->param;
-  stip_length_type const min_dist = slices[si].u.branch.length-slack_length_series;
+  stip_length_type const min_dist = slices[si].u.branch.length-slack_length_help;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -578,7 +578,7 @@ slice_index series_make_setplay(slice_index adapter)
     slice_index const next = slices[adapter].u.pipe.next;
     slice_index const prototypes[] =
     {
-      alloc_series_adapter_slice(slack_length_series,slack_length_series),
+      alloc_series_adapter_slice(slack_length_help,slack_length_help),
       alloc_pipe(STEndOfRoot)
     };
     enum

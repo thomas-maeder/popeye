@@ -1946,9 +1946,9 @@ static char *ParseSeriesLength(char *tok,
     {
       /* we count half moves in series play */
       *length *= 2;
-      *length += slack_length_series-1;
+      *length += slack_length_help-1;
       if (play_length==play_length_minimum)
-        *min_length = slack_length_series+1;
+        *min_length = slack_length_help+1;
       else
         *min_length = *length;
     }
@@ -2513,9 +2513,9 @@ static char *ParsePlay(char *tok,
       if (result!=0 && slices[proxy_next].u.pipe.next!=no_slice)
       {
         /* >=1 move of starting side required */
-        stip_length_type const min_length = 1+slack_length_series;
+        stip_length_type const min_length = 1+slack_length_help;
         slice_index const branch = alloc_series_branch(2*intro_len
-                                                       +slack_length_series-1,
+                                                       +slack_length_help-1,
                                                        min_length);
         series_branch_set_end(branch,proxy_next);
         link_to_branch(proxy,branch);
@@ -2568,7 +2568,7 @@ static char *ParsePlay(char *tok,
 
         /* in ser-hs, the series is 1 half-move longer than in usual
          * series play! */
-        if (length==slack_length_series)
+        if (length==slack_length_help)
           pipe_link(proxy,defense_branch);
         else
         {
@@ -3561,14 +3561,14 @@ static slice_index ParseStructuredStip_make_branch_s(stip_length_type min_length
   TraceFunctionParamListEnd();
 
   max_length *= 2;
-  max_length += slack_length_series-1;
+  max_length += slack_length_help-1;
 
   if (min_length==0)
-    min_length = slack_length_series+1;
+    min_length = slack_length_help+1;
   else
   {
     min_length *= 2;
-    min_length += slack_length_series-1;
+    min_length += slack_length_help-1;
     if (min_length>max_length)
       min_length = max_length;
   }

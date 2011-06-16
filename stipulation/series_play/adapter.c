@@ -127,7 +127,7 @@ void stip_traverse_moves_series_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length_series;
+    st->full_length = slices[si].u.branch.length-slack_length_help;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_series;

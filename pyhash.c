@@ -1192,7 +1192,7 @@ static unsigned int estimateNumberOfHoles(void)
         break;
 
       case STSeriesHashed:
-        result += length-slack_length_series;
+        result += length-slack_length_help;
         break;
 
       default:
@@ -1925,7 +1925,7 @@ static void insert_hash_element_series(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*previous_move_slice!=no_slice && length>slack_length_series)
+  if (*previous_move_slice!=no_slice && length>slack_length_help)
   {
     slice_index const prototype = alloc_branch(STSeriesHashed,length,min_length);
     series_branch_insert_slices(si,&prototype,1);
@@ -2507,13 +2507,13 @@ stip_length_type series_hashed_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
+  assert(n>slack_length_help);
 
   if (inhash_series(si,n))
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_series+1)
+    if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
       result = help(slices[si].u.pipe.next,n);
@@ -2553,13 +2553,13 @@ stip_length_type series_hashed_has_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_series);
+  assert(n>slack_length_help);
 
   if (inhash_series(si,n))
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_series+1)
+    if (slices[si].u.branch.min_length>slack_length_help+1)
     {
       slices[si].u.branch.min_length -= 2;
       result = can_help(slices[si].u.pipe.next,n);

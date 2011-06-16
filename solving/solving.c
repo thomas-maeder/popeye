@@ -322,7 +322,7 @@ static void insert_solvers_series_adapter(slice_index si, stip_structure_travers
       slice_index const prototypes[] =
       {
         alloc_find_by_increasing_length_slice(length,min_length),
-        alloc_fork_on_remaining_slice(ready2,length-1-slack_length_series)
+        alloc_fork_on_remaining_slice(ready2,length-1-slack_length_help)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       assert(ready1!=no_slice);

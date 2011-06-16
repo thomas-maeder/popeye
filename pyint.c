@@ -3035,7 +3035,7 @@ static boolean series_too_short(stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (OptFlag[restart])
-    result = (n+1-slack_length_series)/2<get_restart_number();
+    result = (n+1-slack_length_help)/2<get_restart_number();
   else
     result = false;
 
@@ -3056,7 +3056,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
 
   current_start_slice = si;
 
-  init_moves_left(si,n-slack_length_series,n-slack_length_series);
+  init_moves_left(si,n-slack_length_help,n-slack_length_help);
 
   MatesMax = 0;
 
