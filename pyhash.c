@@ -102,9 +102,8 @@
 #include "pyproof.h"
 #include "pystip.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -470,6 +469,8 @@ static void init_slice_properties_hashed_help(slice_index si,
         && slices[sibling].u.branch.length>slack_length_help
         && get_stip_structure_traversal_state(sibling,st)==slice_not_traversed)
     {
+      assert(sibling!=si);
+
       /* 1 bit more because we have two slices whose values are added
        * for computing the value of this branch */
       --sis->valueOffset;
