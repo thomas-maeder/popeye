@@ -1292,7 +1292,7 @@ boolean pbcheck(square  sq_king,
   }
   else {      /* hopefully (p >= roib) */
     if (sq_king>=square_a3
-        || CondFlag[parrain]
+        || anyparrain
         || CondFlag[normalp]
         || CondFlag[einstein]
         || CondFlag[circecage]

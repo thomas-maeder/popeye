@@ -762,10 +762,16 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
     TracePiece(pprise[parent_ply[nbply]]);
     TracePiece(pprise[parent_ply[parent_ply[nbply]]]);
     TraceText("\n");
-    if (CondFlag[parrain] && pprise[parent_ply[parent_ply[nbply]]] != vide)
+    if (anyparrain && pprise[parent_ply[parent_ply[nbply]]] != vide)
     {
-      cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
+      if (CondFlag[parrain]) {
+        cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
             + sq_arrival - sq_departure);
+      }
+      if (CondFlag[contraparrain]) {
+        cr = (move_generation_stack[repere[parent_ply[nbply]]].capture
+            - sq_arrival + sq_departure);
+      }
       pc = e[cr];
       if (pc==vide)
       {
