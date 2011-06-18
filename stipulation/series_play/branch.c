@@ -22,16 +22,18 @@ static slice_index const slice_rank_order[] =
 {
   STSeriesAdapter,
   STConstraint,
-  STStopOnShortSolutionsInitialiser,
   STFindByIncreasingLength,
   STFindShortest,
-  STDeadEnd,
   STStopOnShortSolutionsFilter,
   STIntelligentSeriesFilter,
+  STEndOfBranch,
+  STEndOfBranchForced,
+  STDeadEnd,
   STForkOnRemaining,
   STEndOfIntro,
 
   STReadyForSeriesMove,
+  STReadyForSeriesDummyMove,
   STHelpHashed,
   STDoubleMateFilter,
   STCounterMateFilter,
@@ -42,6 +44,7 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
+  STDummyMove,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STRestartGuard,
@@ -52,17 +55,6 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
-  STSelfCheckGuard,
-
-  STSeriesAdapter,
-  STEndOfBranch,
-  STEndOfBranchForced,
-  STDeadEnd,
-  STEndOfRoot,
-
-  STReadyForSeriesDummyMove,
-  STDummyMove,
-  STGoalReachableGuardFilter, /* only used in pser stipulations */
   STSelfCheckGuard
 };
 
