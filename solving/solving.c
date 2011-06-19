@@ -325,7 +325,6 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STAttackAdapter,      &insert_solvers_attack_adapter  },
   { STDefenseAdapter,     &insert_solvers_defense_adapter },
   { STHelpAdapter,        &insert_solvers_help_adapter    },
-  { STSeriesAdapter,      &insert_solvers_help_adapter    },
   { STReadyForAttack,     &insert_solvers_attack          },
   { STMove,               &prepend_move_generator         }
 };

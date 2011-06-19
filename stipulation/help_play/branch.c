@@ -18,7 +18,6 @@
 static slice_index const slice_rank_order[] =
 {
   STHelpAdapter,
-  STSeriesAdapter,
   STConstraint,
   STFindByIncreasingLength,
   STFindShortest,
@@ -675,8 +674,7 @@ slice_index help_make_root(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter
-         || slices[adapter].type==STSeriesAdapter);
+  assert(slices[adapter].type==STHelpAdapter);
 
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
@@ -701,8 +699,7 @@ void help_spin_off_intro(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter
-         || slices[adapter].type==STSeriesAdapter);
+  assert(slices[adapter].type==STHelpAdapter);
 
   TraceStipulation(adapter);
 

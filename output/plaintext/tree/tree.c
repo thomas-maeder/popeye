@@ -178,8 +178,7 @@ static structure_traversers_visitors regular_writer_inserters[] =
   { STGoalReachedTester, &instrument_goal_tester             },
   { STConstraint,        &instrument_constraint              },
   { STDefenseAdapter,    &instrument_defense_adapter_regular },
-  { STHelpAdapter,       &stip_structure_visitor_noop        },
-  { STSeriesAdapter,     &stip_structure_visitor_noop        }
+  { STHelpAdapter,       &stip_structure_visitor_noop        }
 };
 
 enum
@@ -477,8 +476,7 @@ static structure_traversers_visitors root_writer_inserters[] =
   { STEndOfBranchGoalImmobile, &get_fork_of_my_own           },
   { STConstraint,              &instrument_root_constraint   },
   { STReadyForDefense,         &stip_structure_visitor_noop  },
-  { STHelpAdapter,             &stip_structure_visitor_noop  },
-  { STSeriesAdapter,           &stip_structure_visitor_noop  }
+  { STHelpAdapter,             &stip_structure_visitor_noop  }
 };
 
 enum

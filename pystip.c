@@ -27,8 +27,6 @@
 #include "stipulation/move.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/adapter.h"
-#include "stipulation/series_play/adapter.h"
 #include "stipulation/proxy.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_shortest.h"
@@ -101,7 +99,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STMinLengthOptimiser */
   slice_structure_branch, /* STHelpAdapter */
   slice_structure_branch, /* STReadyForHelpMove */
-  slice_structure_branch, /* STSeriesAdapter */
   slice_structure_pipe,   /* STDummyMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
   slice_structure_fork,   /* STSetplayFork */
@@ -235,7 +232,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMinLengthOptimiser */
   slice_function_unspecified,    /* STHelpAdapter */
   slice_function_unspecified,    /* STReadyForHelpMove */
-  slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_unspecified,    /* STDummyMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
   slice_function_unspecified,    /* STSetplayFork */
@@ -621,7 +617,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STAttackAdapter,  &attack_adapter_make_root  },
   { STDefenseAdapter, &defense_adapter_make_root },
   { STHelpAdapter,    &help_adapter_make_root    },
-  { STSeriesAdapter,  &help_adapter_make_root    },
   { STAnd,            &binary_make_root          },
   { STOr,             &binary_make_root          }
 };
@@ -678,7 +673,6 @@ static structure_traversers_visitors intro_slice_inserters[] =
   { STAttackAdapter,     &attack_adapter_make_intro   },
   { STDefenseAdapter,    &defense_adapter_make_intro  },
   { STHelpAdapter,       &help_adapter_make_intro     },
-  { STSeriesAdapter,     &help_adapter_make_intro     },
   { STGoalReachedTester, &stip_structure_visitor_noop }
 };
 
@@ -1058,8 +1052,7 @@ static structure_traversers_visitors setplay_appliers[] =
   { STForkOnRemaining, &stip_traverse_structure_pipe },
   { STAttackAdapter,   &attack_adapter_apply_setplay },
   { STDefenseAdapter,  &stip_structure_visitor_noop  },
-  { STHelpAdapter,     &help_adapter_apply_setplay   },
-  { STSeriesAdapter,   &help_adapter_apply_setplay   }
+  { STHelpAdapter,     &help_adapter_apply_setplay   }
 };
 
 enum
@@ -1428,7 +1421,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMinLengthOptimiser */
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
-  &stip_traverse_structure_help_adpater,      /* STSeriesAdapter */
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesDummyMove */
   &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
@@ -1658,7 +1650,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter,      /* STHelpAdapter */
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */
-    &stip_traverse_moves_help_adapter,      /* STSeriesAdapter */
     &stip_traverse_moves_move,              /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForSeriesDummyMove */
     &stip_traverse_moves_setplay_fork,      /* STSetplayFork */

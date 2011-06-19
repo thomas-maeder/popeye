@@ -2844,8 +2844,8 @@ static void stip_insert_goalreachable_guards(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void intelligent_guards_inserter_help(slice_index si,
-                                             stip_structure_traversal *st)
+static void intelligent_guards_inserter(slice_index si,
+                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2859,18 +2859,6 @@ static void intelligent_guards_inserter_help(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors intelligent_filter_inserters[] =
-{
-  { STHelpAdapter,   &intelligent_guards_inserter_help },
-  { STSeriesAdapter, &intelligent_guards_inserter_help }
-};
-
-enum
-{
-  nr_intelligent_filter_inserters = (sizeof intelligent_filter_inserters
-                                     / sizeof intelligent_filter_inserters[0])
-};
 
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
@@ -2886,9 +2874,9 @@ static void stip_insert_intelligent_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    intelligent_filter_inserters,
-                                    nr_intelligent_filter_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STHelpAdapter,
+                                           &intelligent_guards_inserter);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

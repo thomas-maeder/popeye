@@ -23,7 +23,6 @@
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* series play structural slices */                                 \
-    ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STDummyMove),    /* dummy move */ \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
     /* other structural slices */                                       \

@@ -588,11 +588,11 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/goals/immobile/reached_tester.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/move.h \
- stipulation/series_play/adapter.h stipulation/series_play/branch.h \
- stipulation/help_play/branch.h stipulation/help_play/adapter.h \
- solving/find_shortest.h solving/play_suppressor.h \
- solving/battle_play/continuation.h solving/battle_play/try.h pytable.h \
- conditions/republican.h pyproc.h options/maxsolutions/maxsolutions.h \
+ stipulation/series_play/branch.h stipulation/help_play/branch.h \
+ stipulation/help_play/adapter.h solving/find_shortest.h \
+ solving/play_suppressor.h solving/battle_play/continuation.h \
+ solving/battle_play/try.h pytable.h conditions/republican.h pyproc.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h platform/beep.h \
  platform/maxtime.h platform/maxmem.h trace.h
 
@@ -745,8 +745,6 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/defense_adapter.h:
 
 stipulation/move.h:
-
-stipulation/series_play/adapter.h:
 
 stipulation/series_play/branch.h:
 
@@ -1178,8 +1176,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move.h \
  stipulation/help_play/adapter.h stipulation/help_play/branch.h \
- stipulation/series_play/adapter.h stipulation/proxy.h \
- solving/fork_on_remaining.h solving/find_shortest.h \
+ stipulation/proxy.h solving/fork_on_remaining.h solving/find_shortest.h \
  solving/move_generator.h solving/battle_play/try.h pytable.h \
  solving/battle_play/continuation.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
@@ -1292,8 +1289,6 @@ stipulation/move.h:
 stipulation/help_play/adapter.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/adapter.h:
 
 stipulation/proxy.h:
 

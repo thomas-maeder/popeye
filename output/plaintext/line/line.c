@@ -118,7 +118,6 @@ structure_traversers_visitors const min_distance_to_goal_finders[] =
   { STAttackAdapter,     &min_distance_to_goal_battle },
   { STDefenseAdapter,    &min_distance_to_goal_battle },
   { STHelpAdapter,       &min_distance_to_goal_help   },
-  { STSeriesAdapter,     &min_distance_to_goal_help   },
   { STGoalReachedTester, &min_distance_to_goal_goal   }
 };
 
@@ -183,8 +182,7 @@ static structure_traversers_visitors regular_inserters[] =
   { STPlaySuppressor,    &instrument_suppressor          },
   { STGoalReachedTester, &instrument_goal_reached_tester },
   { STAttackAdapter,     &instrument_root                },
-  { STHelpAdapter,       &instrument_root                },
-  { STSeriesAdapter,     &instrument_root                }
+  { STHelpAdapter,       &instrument_root                }
 };
 
 enum

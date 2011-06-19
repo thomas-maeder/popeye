@@ -546,7 +546,6 @@ static structure_traversers_visitors adapters_guards_inserters[] =
   { STAttackAdapter,  &insert_selfcheck_guard_adapter  },
   { STDefenseAdapter, &insert_selfcheck_guard_adapter  },
   { STHelpAdapter,    &insert_selfcheck_guard_adapter  },
-  { STSeriesAdapter,  &insert_selfcheck_guard_adapter  },
   { STSelfCheckGuard, &remember_checked_side           },
   { STMoveInverter,   &insert_selfcheck_guard_inverter }
 };

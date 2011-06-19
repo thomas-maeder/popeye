@@ -4,7 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/dummy_move.h"
-#include "stipulation/series_play/adapter.h"
+#include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "trace.h"
 
@@ -26,7 +26,7 @@ slice_index alloc_series_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const adapter = alloc_series_adapter_slice(length,min_length);
+    slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForHelpMove,
                                            length,min_length);
     slice_index const move = alloc_move_slice();
@@ -67,14 +67,14 @@ slice_index series_branch_make_setplay(slice_index adapter)
     slice_index const next = slices[adapter].u.pipe.next;
     slice_index const prototypes[] =
     {
-      alloc_series_adapter_slice(slack_length_help,slack_length_help),
+      alloc_help_adapter_slice(slack_length_help,slack_length_help),
       alloc_pipe(STEndOfRoot)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     help_branch_insert_slices(next,prototypes,nr_prototypes);
 
     {
-      slice_index const set_adapter = branch_find_slice(STSeriesAdapter,next);
+      slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
       assert(set_adapter!=no_slice);
       if (slices[slices[set_adapter].u.pipe.next].type==STDeadEnd)
         ; /* set play not applicable */

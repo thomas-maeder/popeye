@@ -125,7 +125,6 @@ static moves_traversers_visitors const end_of_branch_goal_optimisers[] =
   { STAttackAdapter,             &forget_immobility   },
   { STDefenseAdapter,            &forget_immobility   },
   { STHelpAdapter,               &forget_immobility   },
-  { STSeriesAdapter,             &forget_immobility   },
   { STEndOfBranchGoal,           &optimise            },
   { STGoalImmobileReachedTester, &remember_immobility },
   { STOr,                        &and_immobility      },

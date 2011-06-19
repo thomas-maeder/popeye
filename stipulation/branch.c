@@ -31,8 +31,7 @@ static slice_index const root_slice_rank_order[] =
   STEndOfPhaseWriter,
   STDefenseAdapter,
   STAttackAdapter,
-  STHelpAdapter,
-  STSeriesAdapter
+  STHelpAdapter
 };
 
 enum
@@ -294,7 +293,6 @@ static structure_traversers_visitors const root_insertion_visitors[] =
   { STAttackAdapter,     &root_insert_visit_battle_adapter },
   { STDefenseAdapter,    &root_insert_visit_battle_adapter },
   { STHelpAdapter,       &root_insert_visit_help_adapter   },
-  { STSeriesAdapter,     &root_insert_visit_help_adapter   },
   { STGoalReachedTester, &root_insert_visit_goal_tester    },
   { STProxy,             &root_insert_visit_proxy          }
 };
@@ -433,7 +431,6 @@ static structure_traversers_visitors const branch_insertion_visitors[] =
   { STAttackAdapter,     &branch_insert_visit_battle_adapter },
   { STDefenseAdapter,    &branch_insert_visit_battle_adapter },
   { STHelpAdapter,       &branch_insert_visit_help_adapter   },
-  { STSeriesAdapter,     &branch_insert_visit_help_adapter   },
   { STGoalReachedTester, &branch_insert_visit_goal_tester    }
 };
 

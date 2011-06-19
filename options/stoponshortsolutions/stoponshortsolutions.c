@@ -85,7 +85,7 @@ boolean has_short_solution_been_found_in_phase(void)
   return result;
 }
 
-static void insert_help_filter(slice_index si, stip_structure_traversal *st)
+static void insert_filter(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
 
@@ -98,15 +98,9 @@ static void insert_help_filter(slice_index si, stip_structure_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prototypes[] =
-    {
-      alloc_stoponshortsolutions_filter(length,min_length)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    help_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_stoponshortsolutions_filter(length,
+                                                                    min_length);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   *inserted = true;
@@ -114,20 +108,6 @@ static void insert_help_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static
-structure_traversers_visitors stoponshortsolutions_initialiser_inserters[] =
-{
-  { STHelpAdapter,   &insert_help_filter },
-  { STSeriesAdapter, &insert_help_filter }
-};
-
-enum
-{
-  nr_stoponshortsolutions_initialiser_inserters =
-  (sizeof stoponshortsolutions_initialiser_inserters
-   / sizeof stoponshortsolutions_initialiser_inserters[0])
-};
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
  * @param si identifies slice where to start
@@ -145,21 +125,12 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,
-                                    stoponshortsolutions_initialiser_inserters,
-                                    nr_stoponshortsolutions_initialiser_inserters);
+  stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
   stip_traverse_structure(si,&st);
 
   {
-    slice_index const prototypes[] =
-    {
-      alloc_stoponshortsolutions_initialiser_slice(),
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_stoponshortsolutions_initialiser_slice();
+    root_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

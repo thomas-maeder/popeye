@@ -348,7 +348,6 @@ static boolean is_constraint_irrelevant(slice_index si)
   result = (branch_find_slice(STAttackAdapter,si)==no_slice
             && branch_find_slice(STDefenseAdapter,si)==no_slice
             && branch_find_slice(STHelpAdapter,si)==no_slice
-            && branch_find_slice(STSeriesAdapter,si)==no_slice
             && branch_find_slice(STGoalReachedTester,si)!=no_slice);
 
   TraceFunctionExit(__func__);

@@ -205,11 +205,10 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors restart_guard_inserters[] =
 {
-  { STAttackAdapter, &insert_guard_attack          },
-  { STDefenseAdapter,&stip_structure_visitor_noop  },
-  { STHelpAdapter,   &insert_guard_help            },
-  { STSeriesAdapter, &insert_guard_help            },
-  { STConstraint,    &stip_traverse_structure_pipe }
+  { STAttackAdapter,  &insert_guard_attack          },
+  { STDefenseAdapter, &stip_structure_visitor_noop  },
+  { STHelpAdapter,    &insert_guard_help            },
+  { STConstraint,     &stip_traverse_structure_pipe }
 };
 
 enum

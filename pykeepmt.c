@@ -434,7 +434,6 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STDefenseAdapter ,   &keepmating_filter_inserter_battle_move   },
   { STReadyForDefense,   &keepmating_filter_inserter_battle_move   },
   { STReadyForHelpMove,  &keepmating_filter_inserter_help_move     },
-  { STSeriesAdapter,     &keepmating_filter_inserter_help_move     },
   { STAnd,               &keepmating_filter_inserter_reciprocal    },
   { STOr,                &keepmating_filter_inserter_quodlibet     },
   { STEndOfBranch,       &keepmating_filter_inserter_end_of_branch },
