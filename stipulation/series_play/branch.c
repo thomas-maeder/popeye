@@ -300,33 +300,3 @@ void end_of_branch_forced_inserter_series_move(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Instrument a series branch with STEndOfBranchForced slices (typically for a
- * ser-r stipulation)
- * @param si entry slice of branch to be instrumented
- * @param forced identifies branch forced on the defender
- */
-void series_branch_insert_end_of_branch_forced(slice_index si,
-                                               slice_index forced)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",forced);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-  TraceStipulation(forced);
-
-  assert(slices[forced].type==STProxy);
-
-  stip_structure_traversal_init(&st,&forced);
-  stip_structure_traversal_override_single(&st,
-                                           STReadyForHelpMove,
-                                           &end_of_branch_forced_inserter_series_move);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

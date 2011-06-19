@@ -2630,7 +2630,7 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
-      series_branch_insert_end_of_branch_forced(proxy,proxy_semi);
+      help_branch_set_end_forced(proxy,proxy_semi,1);
       series_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi));
       stip_impose_starter(proxy_to_goal,White);
     }

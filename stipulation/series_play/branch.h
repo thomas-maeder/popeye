@@ -73,12 +73,4 @@ slice_index series_make_setplay(slice_index adapter);
  */
 void series_branch_insert_constraint(slice_index si, slice_index constraint);
 
-/* Instrument a series branch with STEndOfBranchForced slices (typically for a
- * ser-r stipulation)
- * @param si entry slice of branch to be instrumented
- * @param forced identifies branch forced on the defender
- */
-void series_branch_insert_end_of_branch_forced(slice_index si,
-                                               slice_index forced);
-
 #endif
