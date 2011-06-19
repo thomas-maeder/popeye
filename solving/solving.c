@@ -250,6 +250,19 @@ static void insert_solvers_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static slice_index find_ready_for_move_in_loop(slice_index adapter)
+{
+  slice_index const ready_root = branch_find_slice(STReadyForHelpMove,adapter);
+  slice_index result = ready_root;
+  assert(ready_root!=no_slice);
+  do
+  {
+    result = branch_find_slice(STReadyForHelpMove,result);
+  } while ((slices[result].u.branch.length-slack_length_help)%2
+           !=(slices[ready_root].u.branch.length-slack_length_help)%2);
+  return result;
+}
+
 static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
@@ -261,72 +274,30 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
 
   stip_traverse_structure_children(si,st);
 
-  if (st->level==structure_traversal_level_nested)
+  if (length-min_length>=2)
   {
-    if (st->context==stip_traversal_context_global && length-min_length>=2)
+    if (st->level==structure_traversal_level_nested)
     {
-      slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-      help_branch_insert_slices(si,&prototype,1);
-    }
-  }
-  else
-  {
-    if (length-min_length>=2 && length>=slack_length_help+2)
-    {
-      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
-      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
-      slice_index const ready3 = branch_find_slice(STReadyForHelpMove,ready2);
-      slice_index const prototypes[] =
+      if (st->context==stip_traversal_context_global)
       {
-        alloc_find_by_increasing_length_slice(length,min_length),
-        alloc_fork_on_remaining_slice(ready3,length-1-slack_length_help)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      assert(ready1!=no_slice);
-      assert(ready2!=no_slice);
-      assert(ready3!=no_slice);
-      help_branch_insert_slices(si,prototypes,nr_prototypes);
+        slice_index const prototype = alloc_find_shortest_slice(length,min_length);
+        help_branch_insert_slices(si,&prototype,1);
+      }
     }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_solvers_series_adapter(slice_index si, stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (st->level==structure_traversal_level_nested)
-  {
-    if (st->context==stip_traversal_context_global && length-min_length>=2)
+    else
     {
-      slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-      help_branch_insert_slices(si,&prototype,1);
-    }
-  }
-  else
-  {
-    if (length-min_length>=2)
-    {
-      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
-      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
-      slice_index const prototypes[] =
+      if (length>=slack_length_help+2)
       {
-        alloc_find_by_increasing_length_slice(length,min_length),
-        alloc_fork_on_remaining_slice(ready2,length-1-slack_length_help)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      assert(ready1!=no_slice);
-      assert(ready2!=no_slice);
-      help_branch_insert_slices(si,prototypes,nr_prototypes);
+        slice_index const ready_loop = find_ready_for_move_in_loop(si);
+        slice_index const prototypes[] =
+        {
+          alloc_find_by_increasing_length_slice(length,min_length),
+          alloc_fork_on_remaining_slice(ready_loop,length-1-slack_length_help)
+        };
+        enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+        assert(ready_loop!=no_slice);
+        help_branch_insert_slices(si,prototypes,nr_prototypes);
+      }
     }
   }
 
@@ -354,7 +325,7 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STAttackAdapter,      &insert_solvers_attack_adapter  },
   { STDefenseAdapter,     &insert_solvers_defense_adapter },
   { STHelpAdapter,        &insert_solvers_help_adapter    },
-  { STSeriesAdapter,      &insert_solvers_series_adapter  },
+  { STSeriesAdapter,      &insert_solvers_help_adapter    },
   { STReadyForAttack,     &insert_solvers_attack          },
   { STMove,               &prepend_move_generator         }
 };
