@@ -150,27 +150,6 @@ slice_index series_make_setplay(slice_index adapter)
   return result;
 }
 
-
-static void constraint_inserter_series_adapter(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  slice_index const * const constraint = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_constraint_slice(*constraint);
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a series branch with STConstraint slices (typically for a ser-r
  * stipulation)
  * @param si entry slice of branch to be instrumented
@@ -178,8 +157,6 @@ static void constraint_inserter_series_adapter(slice_index si,
  */
 void series_branch_insert_constraint(slice_index si, slice_index constraint)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",constraint);
@@ -190,11 +167,10 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
 
   assert(slices[constraint].type==STProxy);
 
-  stip_structure_traversal_init(&st,&constraint);
-  stip_structure_traversal_override_single(&st,
-                                           STSeriesAdapter,
-                                           &constraint_inserter_series_adapter);
-  stip_traverse_structure(si,&st);
+  {
+    slice_index const prototype = alloc_constraint_slice(constraint);
+    branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
