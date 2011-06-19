@@ -10,17 +10,11 @@ stipulation/series_play/branch.h:
 
 trace.h:
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
- stipulation/series_play/branch.h pyslice.h pypipe.h \
- stipulation/constraint.h stipulation/branch.h stipulation/proxy.h \
- stipulation/dead_end.h stipulation/end_of_branch.h \
- stipulation/end_of_branch_goal.h stipulation/move.h \
- stipulation/dummy_move.h stipulation/boolean/binary.h \
- stipulation/series_play/adapter.h stipulation/help_play/branch.h \
- stipulation/goals/goals.h trace.h
+ stipulation/series_play/branch.h pypipe.h stipulation/constraint.h \
+ stipulation/branch.h stipulation/move.h stipulation/dummy_move.h \
+ stipulation/series_play/adapter.h stipulation/help_play/branch.h trace.h
 
 stipulation/series_play/branch.h:
-
-pyslice.h:
 
 pypipe.h:
 
@@ -28,24 +22,12 @@ stipulation/constraint.h:
 
 stipulation/branch.h:
 
-stipulation/proxy.h:
-
-stipulation/dead_end.h:
-
-stipulation/end_of_branch.h:
-
-stipulation/end_of_branch_goal.h:
-
 stipulation/move.h:
 
 stipulation/dummy_move.h:
 
-stipulation/boolean/binary.h:
-
 stipulation/series_play/adapter.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/goals/goals.h:
 
 trace.h:
