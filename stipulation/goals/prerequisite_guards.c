@@ -241,67 +241,6 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void insert_goal_prerequisite_guards_series(slice_index si,
-                                                   stip_moves_traversal *st)
-{
-  prerequisite_guards_insertion_state * const state = st->param;
-  prerequisite_guards_insertion_state const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_children(si,st);
-
-  if (st->remaining==1)
-  {
-    unsigned int nr_optimisable = 0;
-    unsigned int nr_unoptimisable = 0;
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    goal_type goal;
-
-    pipe_link(proxy1,proxy2);
-
-    for (goal = 0; goal!=nr_goals; ++goal)
-      if (state->imminent_goals[goal])
-      {
-        if (insert_goal_prerequisite_guard_series(proxy1,goal)
-            || is_goal_reaching_move_optimisable(goal))
-          ++nr_optimisable;
-        else
-          ++nr_unoptimisable;
-      }
-
-    if (nr_optimisable>0 && nr_unoptimisable==0)
-    {
-      for (goal = 0; goal!=nr_goals; ++goal)
-        if (state->imminent_goals[goal])
-          insert_goal_optimisation_series_filter(proxy1,goal);
-
-      pipe_append(slices[proxy2].prev,
-                  alloc_goal_prerequisite_optimiser_slice());
-    }
-
-    if (nr_optimisable>0)
-    {
-      pipe_append(si,proxy2);
-      pipe_append(si,alloc_fork_on_remaining_slice(proxy1,1));
-    }
-    else
-      dealloc_slices(proxy1);
-  }
-
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert goal prerequisite guards
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
 static
 void insert_goal_prerequisite_guards_doublemate(slice_index si,
                                                 stip_moves_traversal *st)
@@ -345,7 +284,7 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
   { STReadyForAttack,               &insert_goal_prerequisite_guards_battle      },
   { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
   { STReadyForHelpMove,             &insert_goal_prerequisite_guards_help        },
-  { STReadyForSeriesMove,           &insert_goal_prerequisite_guards_series      },
+  { STReadyForSeriesMove,           &insert_goal_prerequisite_guards_help        },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate }
 };

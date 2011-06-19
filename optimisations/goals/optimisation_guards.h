@@ -37,10 +37,4 @@ void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal);
  */
 void insert_goal_optimisation_help_filter(slice_index si, goal_type goal);
 
-/* Insert a goal optimisation filter slice into a series branch
- * @param si identifies entry slice into battle branch
- * @param goal goal to provide optimisation for
- */
-void insert_goal_optimisation_series_filter(slice_index si, goal_type goal);
-
 #endif

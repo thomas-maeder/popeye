@@ -184,32 +184,3 @@ void insert_goal_optimisation_help_filter(slice_index si, goal_type goal)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Insert a goal optimisation filter slice into a series branch
- * @param si identifies entry slice into battle branch
- * @param goal goal to provide optimisation for
- */
-void insert_goal_optimisation_series_filter(slice_index si, goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_ep:
-      pipe_append(si,alloc_enpassant_filter_slice());
-      break;
-
-    case goal_castling:
-      pipe_append(si,alloc_castling_filter_slice());
-      break;
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

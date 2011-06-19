@@ -98,23 +98,6 @@ static void min_distance_to_goal_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void min_distance_to_goal_series(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  stip_length_type * const min_distance_to_goal = st->param;
-  stip_length_type const min_dist = slices[si].u.branch.length-slack_length_help;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (min_dist<*min_distance_to_goal)
-    *min_distance_to_goal = min_dist;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void min_distance_to_goal_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
@@ -135,7 +118,7 @@ structure_traversers_visitors const min_distance_to_goal_finders[] =
   { STAttackAdapter,     &min_distance_to_goal_battle },
   { STDefenseAdapter,    &min_distance_to_goal_battle },
   { STHelpAdapter,       &min_distance_to_goal_help   },
-  { STSeriesAdapter,     &min_distance_to_goal_series },
+  { STSeriesAdapter,     &min_distance_to_goal_help   },
   { STGoalReachedTester, &min_distance_to_goal_goal   }
 };
 
