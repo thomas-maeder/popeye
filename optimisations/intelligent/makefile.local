@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = help_filter.c series_filter.c duplicate_avoider.c
-INCLUDES = help_filter.h series_filter.h duplicate_avoider.h
+CFILES = filter.c duplicate_avoider.c
+INCLUDES = filter.h duplicate_avoider.h
 
 include makefile.rules $(CURRPWD)depend

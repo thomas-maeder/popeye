@@ -50,9 +50,9 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_by_increasing_length.h solving/find_shortest.h \
  solving/move_generator.h optimisations/goals/enpassant/filter.h \
- optimisations/goals/castling/filter.h \
- optimisations/intelligent/help_filter.h options/maxtime.h \
- options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
+ optimisations/goals/castling/filter.h optimisations/intelligent/filter.h \
+ options/maxtime.h options/maxsolutions/guard.h \
+ options/stoponshortsolutions/filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  trace.h
 
@@ -100,7 +100,7 @@ optimisations/goals/enpassant/filter.h:
 
 optimisations/goals/castling/filter.h:
 
-optimisations/intelligent/help_filter.h:
+optimisations/intelligent/filter.h:
 
 options/maxtime.h:
 

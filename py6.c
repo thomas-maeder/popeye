@@ -2264,18 +2264,6 @@ static void intelligent_init_duplex(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors duplex_initialisers[] =
-{
-  { STIntelligentHelpFilter,   &intelligent_init_duplex     },
-  { STIntelligentSeriesFilter, &intelligent_init_duplex     }
-};
-
-enum
-{
-  nr_duplex_initialisers = (sizeof duplex_initialisers
-                            / sizeof duplex_initialisers[0])
-};
-
 /* Perform initialisations for solving a duplex
  * @param si identifies the root slice of the stipulation
  */
@@ -2288,9 +2276,9 @@ static void init_duplex(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    duplex_initialisers,
-                                    nr_duplex_initialisers);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentFilter,
+                                           &intelligent_init_duplex);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -2319,17 +2307,6 @@ static void intelligent_fini_duplex(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors duplex_finishers[] =
-{
-  { STIntelligentHelpFilter,    &intelligent_fini_duplex     },
-  { STIntelligentSeriesFilter,  &intelligent_fini_duplex     }
-};
-
-enum
-{
-  nr_duplex_finishers = (sizeof duplex_finishers / sizeof duplex_finishers[0])
-};
-
 /* Un-initialise from solving a duplex
  * @param si identifies the root slice of the stipulation
  */
@@ -2341,7 +2318,9 @@ static void fini_duplex(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,duplex_finishers,nr_duplex_finishers);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentFilter,
+                                           &intelligent_fini_duplex);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -2596,6 +2575,8 @@ static Token iterate_twins(Token prev_token)
       stip_insert_root_slices(root_slice);
       stip_insert_intro_slices(root_slice);
 
+      /* operations depend on existance of root slices from here on */
+
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(root_slice))
         Message(SetPlayNotApplicable);
@@ -2605,8 +2586,6 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_dead_end_slices(root_slice);
 
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
-
-      /* operations depend on existance of root slices from here on */
 
       if (OptFlag[stoponshort]
           && !stip_insert_stoponshortsolutions_filters(root_slice))

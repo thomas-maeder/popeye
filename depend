@@ -1081,8 +1081,7 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  pystip.h stipulation/slice_type.h stipulation/help_play/branch.h \
  pybrafrk.h pyproof.h pypipe.h pymovenb.h \
  stipulation/battle_play/defense_play.h stipulation/branch.h \
- optimisations/intelligent/help_filter.h \
- optimisations/intelligent/series_filter.h \
+ optimisations/intelligent/filter.h \
  optimisations/intelligent/duplicate_avoider.h \
  options/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
 
@@ -1152,9 +1151,7 @@ stipulation/battle_play/defense_play.h:
 
 stipulation/branch.h:
 
-optimisations/intelligent/help_filter.h:
-
-optimisations/intelligent/series_filter.h:
+optimisations/intelligent/filter.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 

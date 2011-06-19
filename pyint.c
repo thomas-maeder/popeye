@@ -25,8 +25,7 @@
 #include "pypipe.h"
 #include "pymovenb.h"
 #include "stipulation/branch.h"
-#include "optimisations/intelligent/help_filter.h"
-#include "optimisations/intelligent/series_filter.h"
+#include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
@@ -2854,23 +2853,7 @@ static void intelligent_guards_inserter_help(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_intelligent_help_filter();
-    help_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void intelligent_guards_inserter_series(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_intelligent_series_filter();
+    slice_index const prototype = alloc_intelligent_filter();
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -2880,8 +2863,8 @@ static void intelligent_guards_inserter_series(slice_index si,
 
 static structure_traversers_visitors intelligent_filter_inserters[] =
 {
-  { STHelpAdapter,   &intelligent_guards_inserter_help   },
-  { STSeriesAdapter, &intelligent_guards_inserter_series }
+  { STHelpAdapter,   &intelligent_guards_inserter_help },
+  { STSeriesAdapter, &intelligent_guards_inserter_help }
 };
 
 enum
@@ -2913,7 +2896,7 @@ static void stip_insert_intelligent_filters(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean help_too_short(stip_length_type n)
+static boolean too_short(stip_length_type n)
 {
   boolean result;
 
@@ -2926,7 +2909,7 @@ static boolean help_too_short(stip_length_type n)
     stip_length_type min_length = 2*get_restart_number();
     if ((n-slack_length_help)%2==1)
       --min_length;
-    result = n<min_length;
+    result = n-slack_length_help<min_length;
   }
   else
     result = false;
@@ -2937,7 +2920,7 @@ static boolean help_too_short(stip_length_type n)
   return result;
 }
 
-boolean IntelligentHelp(slice_index si, stip_length_type n)
+boolean Intelligent(slice_index si, stip_length_type n)
 {
   boolean result;
 
@@ -2960,65 +2943,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
     else
     {
       intelligent_duplicate_avoider_init();
-      if (!help_too_short(n))
-        IntelligentRegulargoal_types(n);
-      intelligent_duplicate_avoider_cleanup();
-    }
-
-    result = solutions_found;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean series_too_short(stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (OptFlag[restart])
-    result = (n+1-slack_length_help)/2<get_restart_number();
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean IntelligentSeries(slice_index si, stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  init_moves_left(si,n-slack_length_help,n-slack_length_help);
-
-  if (MovesLeft[White]+MovesLeft[Black]>0)
-  {
-    current_start_slice = si;
-    MatesMax = 0;
-    solutions_found = false;
-
-    if (goal_to_be_reached==goal_atob
-        || goal_to_be_reached==goal_proofgame)
-      IntelligentProof(n);
-    else
-    {
-      intelligent_duplicate_avoider_init();
-      if (!series_too_short(n))
+      if (!too_short(n))
         IntelligentRegulargoal_types(n);
       intelligent_duplicate_avoider_cleanup();
     }

@@ -111,8 +111,7 @@
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
-    ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
-    ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
+    ENUMERATOR(STIntelligentFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \

@@ -20,7 +20,7 @@
 #include "solving/move_generator.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
-#include "optimisations/intelligent/help_filter.h"
+#include "optimisations/intelligent/filter.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
@@ -101,12 +101,8 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = keepmating_filter_help(si,n);
       break;
 
-    case STIntelligentHelpFilter:
-      result = intelligent_help_filter_help(si,n);
-      break;
-
-    case STIntelligentSeriesFilter:
-      result = intelligent_series_filter_help(si,n);
+    case STIntelligentFilter:
+      result = intelligent_filter_help(si,n);
       break;
 
     case STGoalReachableGuardFilter:

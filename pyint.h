@@ -17,9 +17,7 @@ extern int MovesLeft[nr_sides];
 
 boolean isGoalReachable(void);
 
-boolean IntelligentHelp(slice_index si, stip_length_type n);
-
-boolean IntelligentSeries(slice_index si, stip_length_type n);
+boolean Intelligent(slice_index si, stip_length_type n);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it

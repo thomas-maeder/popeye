@@ -182,8 +182,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
-  slice_structure_pipe,   /* STIntelligentHelpFilter */
-  slice_structure_pipe,   /* STIntelligentSeriesFilter */
+  slice_structure_pipe,   /* STIntelligentFilter */
   slice_structure_pipe,   /* STGoalReachableGuardFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingFilter */
@@ -318,8 +317,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STCastlingFilter */
   slice_function_unspecified,    /* STAttackHashed */
   slice_function_unspecified,    /* STHelpHashed */
-  slice_function_unspecified,    /* STIntelligentHelpFilter */
-  slice_function_unspecified,    /* STIntelligentSeriesFilter */
+  slice_function_unspecified,    /* STIntelligentFilter */
   slice_function_unspecified,    /* STGoalReachableGuardFilter */
   slice_function_unspecified,    /* STIntelligentDuplicateAvoider */
   slice_function_unspecified,    /* STKeepMatingFilter */
@@ -1513,8 +1511,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STCastlingFilter */
   &stip_traverse_structure_pipe,              /* STAttackHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashed */
-  &stip_traverse_structure_pipe,              /* STIntelligentHelpFilter */
-  &stip_traverse_structure_pipe,              /* STIntelligentSeriesFilter */
+  &stip_traverse_structure_pipe,              /* STIntelligentFilter */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
@@ -1745,8 +1742,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STCastlingFilter */
     &stip_traverse_moves_pipe,              /* STAttackHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashed */
-    &stip_traverse_moves_pipe,              /* STIntelligentHelpFilter */
-    &stip_traverse_moves_pipe,              /* STIntelligentSeriesFilter */
+    &stip_traverse_moves_pipe,              /* STIntelligentFilter */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
