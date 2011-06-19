@@ -96,9 +96,9 @@ Loesung beendet.
   1.e2-e1=D e7-e8=D   2.De1-e3 De8*e3 = 
   1.e2-e1=D e7-e8=D   2.De1-h4 # 
 
-              empile:        5306
-            jouecoup:        2971
-        orig_rbechec:        1395
+              empile:        5307
+            jouecoup:        2975
+        orig_rbechec:        1399
         orig_rnechec:        2412
 Loesung beendet. 
 
@@ -202,9 +202,9 @@ Loesung beendet.
   1.b7-b5 kBh2-h4   2.b5-b4 kBh4-h5   3.b4-b3 kBh5-h6   4.b3-b2 kBh6-h7   5.b2-b1=D + kBh7-h8=kS   6.Db1-g6 kSh8*g6 = 
   1.b7-b5 kBh2-h4   2.b5-b4 kBh4-h5   3.b4-b3 kBh5-h6   4.b3-b2 kBh6-h7   5.b2-b1=D + kBh7-h8=kS   6.Db1-h7 # 
 
-              empile:        1999
-            jouecoup:         631
-        orig_rbechec:         457
+              empile:        2001
+            jouecoup:         633
+        orig_rbechec:         459
         orig_rnechec:           0
 Loesung beendet. 
 
