@@ -185,7 +185,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STDegenerateTree */
   slice_structure_pipe,   /* STMaxNrNonTrivial */
-  slice_structure_pipe,   /* STMaxNrNonChecks */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxThreatLengthStart */
@@ -318,7 +317,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMaxFlightsquares */
   slice_function_unspecified,    /* STDegenerateTree */
   slice_function_unspecified,    /* STMaxNrNonTrivial */
-  slice_function_unspecified,    /* STMaxNrNonChecks */
   slice_function_unspecified,    /* STMaxNrNonTrivialCounter */
   slice_function_unspecified,    /* STMaxThreatLength */
   slice_function_unspecified,    /* STMaxThreatLengthStart */
@@ -1507,7 +1505,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivial */
-  &stip_traverse_structure_pipe,              /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,              /* STMaxThreatLength */
   &stip_traverse_structure_pipe,              /* STMaxThreatLengthStart */
@@ -1736,7 +1733,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STMaxFlightsquares */
     &stip_traverse_moves_pipe,              /* STDegenerateTree */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivial */
-    &stip_traverse_moves_pipe,              /* STMaxNrNonChecks */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivialCounter */
     &stip_traverse_moves_pipe,              /* STMaxThreatLength */
     &stip_traverse_moves_pipe,              /* STMaxThreatLengthStart */

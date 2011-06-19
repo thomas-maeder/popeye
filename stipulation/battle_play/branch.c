@@ -61,7 +61,6 @@ static slice_index const slice_rank_order[] =
   STKeepMatingFilter,
   STEndOfBranch,
   STMaxNrNonTrivial,
-  STMaxNrNonChecks,
   STRefutationsAllocator,
   STContinuationSolver,
   STMoveWriter,

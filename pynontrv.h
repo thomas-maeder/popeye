@@ -105,35 +105,4 @@ max_nr_nontrivial_counter_attack(slice_index si,
                                  stip_length_type n,
                                  stip_length_type n_max_unsolvable);
 
-/* Try to defend after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-max_nr_noncheck_guard_defend(slice_index si,
-                             stip_length_type n,
-                             stip_length_type n_max_unsolvable);
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-max_nr_noncheck_guard_can_defend(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable);
-
 #endif
