@@ -5,7 +5,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"

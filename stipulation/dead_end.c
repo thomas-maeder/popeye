@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>

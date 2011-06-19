@@ -3,7 +3,6 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
