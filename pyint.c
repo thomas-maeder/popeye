@@ -2966,26 +2966,29 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_start_slice = si;
-
   init_moves_left(si,n-slack_length_help,n-slack_length_help);
 
-  MatesMax = 0;
-
-  solutions_found = false;
-
-  if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proofgame)
-    IntelligentProof(n);
-  else
+  if (MovesLeft[White]+MovesLeft[Black]>0)
   {
-    intelligent_duplicate_avoider_init();
-    if (!help_too_short(n))
-      IntelligentRegulargoal_types(n);
-    intelligent_duplicate_avoider_cleanup();
-  }
+    current_start_slice = si;
+    MatesMax = 0;
+    solutions_found = false;
 
-  result = solutions_found;
+    if (goal_to_be_reached==goal_atob
+        || goal_to_be_reached==goal_proofgame)
+      IntelligentProof(n);
+    else
+    {
+      intelligent_duplicate_avoider_init();
+      if (!help_too_short(n))
+        IntelligentRegulargoal_types(n);
+      intelligent_duplicate_avoider_cleanup();
+    }
+
+    result = solutions_found;
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3021,26 +3024,29 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_start_slice = si;
-
   init_moves_left(si,n-slack_length_help,n-slack_length_help);
 
-  MatesMax = 0;
-
-  solutions_found = false;
-
-  if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proofgame)
-    IntelligentProof(n);
-  else
+  if (MovesLeft[White]+MovesLeft[Black]>0)
   {
-    intelligent_duplicate_avoider_init();
-    if (!series_too_short(n))
-      IntelligentRegulargoal_types(n);
-    intelligent_duplicate_avoider_cleanup();
-  }
+    current_start_slice = si;
+    MatesMax = 0;
+    solutions_found = false;
 
-  result = solutions_found;
+    if (goal_to_be_reached==goal_atob
+        || goal_to_be_reached==goal_proofgame)
+      IntelligentProof(n);
+    else
+    {
+      intelligent_duplicate_avoider_init();
+      if (!series_too_short(n))
+        IntelligentRegulargoal_types(n);
+      intelligent_duplicate_avoider_cleanup();
+    }
+
+    result = solutions_found;
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

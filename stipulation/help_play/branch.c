@@ -18,15 +18,14 @@
 static slice_index const slice_rank_order[] =
 {
   STHelpAdapter,
-  STEndOfBranch,
   STConstraint,
-  STStopOnShortSolutionsInitialiser,
   STFindByIncreasingLength,
   STFindShortest,
-  STEndOfBranchForced,
-  STDeadEnd,
   STStopOnShortSolutionsFilter,
   STIntelligentHelpFilter,
+  STEndOfBranch,
+  STEndOfBranchForced,
+  STDeadEnd,
   STForkOnRemaining,
   STEndOfIntro,
 
@@ -49,6 +48,7 @@ static slice_index const slice_rank_order[] =
   STKeepMatingFilter,
   STGoalReachableGuardFilter,
   STEndOfRoot,
+
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
