@@ -1059,7 +1059,7 @@ static structure_traversers_visitors setplay_appliers[] =
   { STAttackAdapter,   &attack_adapter_apply_setplay },
   { STDefenseAdapter,  &stip_structure_visitor_noop  },
   { STHelpAdapter,     &help_adapter_apply_setplay   },
-  { STSeriesAdapter,   &series_adapter_apply_setplay }
+  { STSeriesAdapter,   &help_adapter_apply_setplay   }
 };
 
 enum

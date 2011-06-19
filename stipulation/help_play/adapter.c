@@ -81,26 +81,10 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index dummy = branch_find_slice(STDummyMove,si);
-    if (dummy==no_slice)
-      *setplay_slice = help_branch_make_setplay(si);
-    else
-    {
-      /* set play of some pser stipulation */
-      slice_index const next = slices[si].u.pipe.next;
-      slice_index const prototype = alloc_help_adapter_slice(slack_length_help,
-                                                             slack_length_help);
-      help_branch_insert_slices(next,&prototype,1);
-
-      {
-        slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
-        assert(set_adapter!=no_slice);
-        *setplay_slice = help_branch_make_root_slices(set_adapter);
-        pipe_remove(set_adapter);
-      }
-    }
-  }
+  if (branch_find_slice(STDummyMove,si)==no_slice)
+    *setplay_slice = help_branch_make_setplay(si);
+  else
+    *setplay_slice = series_branch_make_setplay(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

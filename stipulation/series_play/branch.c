@@ -55,7 +55,7 @@ slice_index alloc_series_branch(stip_length_type length,
  * @return entry point of the slices representing set play
  *         no_slice if set play is not applicable
  */
-slice_index series_make_setplay(slice_index adapter)
+slice_index series_branch_make_setplay(slice_index adapter)
 {
   slice_index result = no_slice;
 
