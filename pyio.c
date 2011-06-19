@@ -2642,7 +2642,7 @@ static char *ParsePlay(char *tok,
     result = ParseSeries(tok+4,proxy,proxy_to_goal,play_length); /* skip over "ser-" */
     if (result!=0)
     {
-      series_branch_set_end_goal(proxy,proxy_to_goal);
+      help_branch_set_end_goal(proxy,proxy_to_goal,1);
       stip_impose_starter(proxy_to_goal,Black);
     }
   }
@@ -3612,7 +3612,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
         switch (nested_type)
         {
           case nested_branch_type_goal:
-            series_branch_set_end_goal(branch,proxy_operand);
+            help_branch_set_end_goal(branch,proxy_operand,1);
             break;
 
           case nested_branch_type_defense:

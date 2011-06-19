@@ -16,37 +16,6 @@
 slice_index alloc_series_branch(stip_length_type length,
                                 stip_length_type min_length);
 
-/* Insert a fork to the branch leading to the goal
- * @param si identifies the entry slice of a series branch
- * @param to_goal identifies the entry slice of the branch leading to
- *                the goal
- */
-void series_branch_set_end_goal(slice_index si, slice_index to_goal);
-
-/* Insert slices into a series branch.
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by series_branch_insert_slices().
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void series_branch_insert_slices(slice_index si,
-                                 slice_index const prototypes[],
-                                 unsigned int nr_prototypes);
-
-/* Insert slices into a series branch; the elements of
- * prototypes are *not* deallocated by series_branch_insert_slices_nested().
- * The inserted slices are copies of the elements of prototypes).
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void series_branch_insert_slices_nested(slice_index si,
-                                        slice_index const prototypes[],
-                                        unsigned int nr_prototypes);
-
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return entry point of the slices representing set play
