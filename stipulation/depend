@@ -1,8 +1,7 @@
 stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/proxy.h stipulation/check_zigzag_jump.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h solving/fork_on_remaining.h pypipe.h \
- trace.h
+ solving/fork_on_remaining.h pypipe.h trace.h
 
 stipulation/branch.h:
 
@@ -13,8 +12,6 @@ stipulation/check_zigzag_jump.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 solving/fork_on_remaining.h:
 

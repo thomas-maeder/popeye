@@ -82,8 +82,8 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index zigzag = branch_find_slice(STCheckZigzagJump,si);
-    if (zigzag==no_slice)
+    slice_index dummy = branch_find_slice(STDummyMove,si);
+    if (dummy==no_slice)
       *setplay_slice = help_branch_make_setplay(si);
     else
     {

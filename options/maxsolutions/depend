@@ -1,8 +1,7 @@
 options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolutions.c \
  options/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h options/maxsolutions/initialiser.h \
- options/maxsolutions/guard.h trace.h
+ options/maxsolutions/initialiser.h options/maxsolutions/guard.h trace.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -13,8 +12,6 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 options/maxsolutions/initialiser.h:
 

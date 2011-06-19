@@ -10,7 +10,6 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/series_play/adapter.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
@@ -115,11 +114,8 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STHelpAdapter:
-      result = help_adapter_solve(si);
-      break;
-
     case STSeriesAdapter:
-      result = series_adapter_solve(si);
+      result = help_adapter_solve(si);
       break;
 
     case STOr:
@@ -375,15 +371,12 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STHelpAdapter:
+    case STSeriesAdapter:
       result = help_adapter_has_solution(si);
       break;
 
     case STMoveInverter:
       result = move_inverter_has_solution(si);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_has_solution(si);
       break;
 
     case STSelfCheckGuard:

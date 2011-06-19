@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "output/plaintext/plaintext.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -204,27 +203,12 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_guard_series(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_restart_guard();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors restart_guard_inserters[] =
 {
   { STAttackAdapter, &insert_guard_attack          },
   { STDefenseAdapter,&stip_structure_visitor_noop  },
   { STHelpAdapter,   &insert_guard_help            },
-  { STSeriesAdapter, &insert_guard_series          },
+  { STSeriesAdapter, &insert_guard_help            },
   { STConstraint,    &stip_traverse_structure_pipe }
 };
 

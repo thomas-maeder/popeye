@@ -625,7 +625,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STAttackAdapter,  &attack_adapter_make_root  },
   { STDefenseAdapter, &defense_adapter_make_root },
   { STHelpAdapter,    &help_adapter_make_root    },
-  { STSeriesAdapter,  &series_adapter_make_root  },
+  { STSeriesAdapter,  &help_adapter_make_root    },
   { STAnd,            &binary_make_root          },
   { STOr,             &binary_make_root          }
 };
@@ -682,7 +682,7 @@ static structure_traversers_visitors intro_slice_inserters[] =
   { STAttackAdapter,     &attack_adapter_make_intro   },
   { STDefenseAdapter,    &defense_adapter_make_intro  },
   { STHelpAdapter,       &help_adapter_make_intro     },
-  { STSeriesAdapter,     &series_adapter_make_intro   },
+  { STSeriesAdapter,     &help_adapter_make_intro     },
   { STGoalReachedTester, &stip_structure_visitor_noop }
 };
 
@@ -1432,7 +1432,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMinLengthOptimiser */
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
-  &stip_traverse_structure_series_adpater,    /* STSeriesAdapter */
+  &stip_traverse_structure_help_adpater,      /* STSeriesAdapter */
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesDummyMove */
@@ -1664,7 +1664,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter,      /* STHelpAdapter */
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */
-    &stip_traverse_moves_series_adapter,    /* STSeriesAdapter */
+    &stip_traverse_moves_help_adapter,      /* STSeriesAdapter */
     &stip_traverse_moves_move,              /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,              /* STReadyForSeriesDummyMove */

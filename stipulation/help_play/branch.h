@@ -26,9 +26,9 @@ void help_branch_shorten(slice_index si);
  * @param end_proto end of branch prototype slice (will be deallocated)
  * @param parity indicates after which help move of the branch to insert
  */
-void insert_end_of_branch(slice_index si,
-                          slice_index end_proto,
-                          unsigned int parity);
+void help_branch_insert_end_of_branch(slice_index si,
+                                      slice_index end_proto,
+                                      unsigned int parity);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch

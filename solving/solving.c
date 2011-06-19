@@ -7,7 +7,6 @@
 #include "solving/move_generator.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/battle_play/threat.h"
@@ -310,7 +309,7 @@ static void insert_solvers_series_adapter(slice_index si, stip_structure_travers
     if (st->context==stip_traversal_context_global && length-min_length>=2)
     {
       slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-      series_branch_insert_slices(si,&prototype,1);
+      help_branch_insert_slices(si,&prototype,1);
     }
   }
   else
@@ -327,7 +326,7 @@ static void insert_solvers_series_adapter(slice_index si, stip_structure_travers
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       assert(ready1!=no_slice);
       assert(ready2!=no_slice);
-      series_branch_insert_slices(si,prototypes,nr_prototypes);
+      help_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
 

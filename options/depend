@@ -1,6 +1,6 @@
 options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h pypipe.h \
  platform/maxtime.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h stipulation/series_play/branch.h trace.h
+ stipulation/help_play/branch.h trace.h
 
 options/maxtime.h:
 
@@ -11,7 +11,5 @@ platform/maxtime.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 trace.h:

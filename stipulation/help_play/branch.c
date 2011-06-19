@@ -18,11 +18,13 @@
 static slice_index const slice_rank_order[] =
 {
   STHelpAdapter,
+  STSeriesAdapter,
   STConstraint,
   STFindByIncreasingLength,
   STFindShortest,
   STStopOnShortSolutionsFilter,
   STIntelligentHelpFilter,
+  STIntelligentSeriesFilter,
   STEndOfBranch,
   STEndOfBranchForced,
   STDeadEnd,
@@ -30,6 +32,8 @@ static slice_index const slice_rank_order[] =
   STEndOfIntro,
 
   STReadyForHelpMove,
+  STReadyForSeriesMove,
+  STReadyForSeriesDummyMove,
   STHelpHashed,
   STCheckZigzagJump,
   STDoubleMateFilter,
@@ -442,9 +446,9 @@ void help_branch_shorten(slice_index adapter)
  * @param end_proto end of branch prototype slice
  * @param parity indicates after which help move of the branch to insert
  */
-void insert_end_of_branch(slice_index si,
-                          slice_index end_proto,
-                          unsigned int parity)
+void help_branch_insert_end_of_branch(slice_index si,
+                                      slice_index end_proto,
+                                      unsigned int parity)
 {
   slice_index pos = si;
 
@@ -485,7 +489,7 @@ void help_branch_set_end(slice_index si,
   TraceStipulation(si);
   TraceStipulation(next);
 
-  insert_end_of_branch(si,alloc_end_of_branch_slice(next),parity);
+  help_branch_insert_end_of_branch(si,alloc_end_of_branch_slice(next),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -509,7 +513,7 @@ void help_branch_set_end_goal(slice_index si,
   TraceStipulation(si);
   TraceStipulation(to_goal);
 
-  insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal),parity);
+  help_branch_insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -534,7 +538,7 @@ void help_branch_set_end_forced(slice_index si,
   TraceStipulation(si);
   TraceStipulation(forced);
 
-  insert_end_of_branch(si,alloc_end_of_branch_forced(forced),parity);
+  help_branch_insert_end_of_branch(si,alloc_end_of_branch_forced(forced),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -559,7 +563,7 @@ void help_branch_insert_constraint(slice_index si,
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  insert_end_of_branch(si,alloc_constraint_slice(constraint),parity);
+  help_branch_insert_end_of_branch(si,alloc_constraint_slice(constraint),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -673,7 +677,8 @@ slice_index help_make_root(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(slices[adapter].type==STHelpAdapter
+         || slices[adapter].type==STSeriesAdapter);
 
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
@@ -698,7 +703,8 @@ void help_spin_off_intro(slice_index adapter)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(slices[adapter].type==STHelpAdapter
+         || slices[adapter].type==STSeriesAdapter);
 
   TraceStipulation(adapter);
 

@@ -59,18 +59,6 @@ void series_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes);
 
-/* Wrap the slices representing the initial moves of the solution with
- * slices of appropriately equipped slice types
- * @param si identifies slice where to start
- * @return identifier of root slice
- */
-slice_index series_make_root(slice_index si);
-
-/* Spin the intro slices off a nested series branch
- * @param adapter identifies adapter slice of the nested help branch
- */
-void series_spin_off_intro(slice_index adapter);
-
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @return entry point of the slices representing set play

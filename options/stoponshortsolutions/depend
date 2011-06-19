@@ -3,8 +3,7 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/stoponshortsolutions.h \
  options/stoponshortsolutions/initialiser.h \
  options/stoponshortsolutions/filter.h pystip.h pypipe.h \
- stipulation/branch.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h trace.h
+ stipulation/branch.h stipulation/help_play/branch.h trace.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -19,8 +18,6 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 trace.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \

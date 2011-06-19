@@ -9,7 +9,6 @@
 #include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "trace.h"
@@ -320,24 +319,6 @@ static void insert_selfcheck_guard_help_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_selfcheck_guard_series_branch(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_selfcheck_guard_slice();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void test_self_check_ignorance(slice_index si, stip_structure_traversal *st)
 {
   boolean * const result = st->param;
@@ -465,8 +446,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,         &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
-  { STReadyForSeriesMove,      &insert_selfcheck_guard_series_branch },
-  { STReadyForSeriesDummyMove, &insert_selfcheck_guard_series_branch },
+  { STReadyForSeriesMove,      &insert_selfcheck_guard_help_branch   },
+  { STReadyForSeriesDummyMove, &insert_selfcheck_guard_help_branch   },
   { STConstraint,              &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester,       &insert_selfcheck_guard_goal          },
   { STCheckZigzagJump,         &remove_selfcheck_guard_fork          }

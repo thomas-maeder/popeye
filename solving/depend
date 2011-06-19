@@ -1,11 +1,10 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
  pybrafrk.h pymsg.h stipulation/branch.h solving/move_generator.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/series_play/branch.h solving/find_by_increasing_length.h \
- solving/fork_on_remaining.h solving/battle_play/threat.h \
- solving/play_suppressor.h solving/battle_play/continuation.h \
- solving/battle_play/try.h solving/find_shortest.h \
- solving/battle_play/check_detector.h \
+ solving/find_by_increasing_length.h solving/fork_on_remaining.h \
+ solving/battle_play/threat.h solving/play_suppressor.h \
+ solving/battle_play/continuation.h solving/battle_play/try.h \
+ solving/find_shortest.h solving/battle_play/check_detector.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h trace.h
 
@@ -26,8 +25,6 @@ solving/move_generator.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-stipulation/series_play/branch.h:
 
 solving/find_by_increasing_length.h:
 

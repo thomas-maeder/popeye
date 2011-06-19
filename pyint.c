@@ -20,7 +20,6 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
@@ -2790,25 +2789,6 @@ void goalreachable_guards_inserter_help_move(slice_index si,
 }
 
 static
-void goalreachable_guards_inserter_series_move(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_goalreachable_guard_filter();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
 void
 goalreachable_guards_duplicate_avoider_inserter(slice_index si,
                                                 stip_structure_traversal *st)
@@ -2833,7 +2813,7 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
 static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,   &goalreachable_guards_inserter_help_move         },
-  { STReadyForSeriesMove, &goalreachable_guards_inserter_series_move       },
+  { STReadyForSeriesMove, &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester,  &goalreachable_guards_duplicate_avoider_inserter }
 };
 
@@ -2891,7 +2871,7 @@ static void intelligent_guards_inserter_series(slice_index si,
 
   {
     slice_index const prototype = alloc_intelligent_series_filter();
-    series_branch_insert_slices(si,&prototype,1);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -228,7 +228,7 @@ void help_branch_insert_check_zigzag(slice_index adapter)
 
   {
     slice_index const dummy = alloc_dummy_move_slice();
-    insert_end_of_branch(adapter,alloc_check_zigzag_jump_slice(dummy),parity);
+    help_branch_insert_end_of_branch(adapter,alloc_check_zigzag_jump_slice(dummy),parity);
 
     {
       slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);

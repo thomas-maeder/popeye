@@ -3,7 +3,6 @@
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "solving/fork_on_remaining.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -243,33 +242,6 @@ static void root_insert_visit_help_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void root_insert_visit_series_adapter(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  root_insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParamListEnd();
-
-  {
-    unsigned int const rank = get_root_slice_rank(slices[si].type,state->base);
-    assert(rank!=no_root_slice_rank);
-    if (root_insert_common(si,rank,state))
-      ; /* nothing - work is done*/
-    else
-      series_branch_insert_slices_nested(si,
-                                         state->prototypes,
-                                         state->nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void root_insert_visit_goal_tester(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -322,7 +294,7 @@ static structure_traversers_visitors const root_insertion_visitors[] =
   { STAttackAdapter,     &root_insert_visit_battle_adapter },
   { STDefenseAdapter,    &root_insert_visit_battle_adapter },
   { STHelpAdapter,       &root_insert_visit_help_adapter   },
-  { STSeriesAdapter,     &root_insert_visit_series_adapter },
+  { STSeriesAdapter,     &root_insert_visit_help_adapter   },
   { STGoalReachedTester, &root_insert_visit_goal_tester    },
   { STProxy,             &root_insert_visit_proxy          }
 };
@@ -420,7 +392,7 @@ static void branch_insert_visit_battle_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void help_insert_visit_battle_adapter(slice_index si,
+static void branch_insert_visit_help_adapter(slice_index si,
                                              stip_structure_traversal *st)
 {
   branch_insertion_state_type * const state = st->param;
@@ -433,24 +405,6 @@ static void help_insert_visit_battle_adapter(slice_index si,
   help_branch_insert_slices_nested(si,
                                    state->prototypes,
                                    state->nr_prototypes);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void series_insert_visit_battle_adapter(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  branch_insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParamListEnd();
-
-  series_branch_insert_slices_nested(si,
-                                     state->prototypes,
-                                     state->nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -478,8 +432,8 @@ static structure_traversers_visitors const branch_insertion_visitors[] =
 {
   { STAttackAdapter,     &branch_insert_visit_battle_adapter },
   { STDefenseAdapter,    &branch_insert_visit_battle_adapter },
-  { STHelpAdapter,       &help_insert_visit_battle_adapter   },
-  { STSeriesAdapter,     &series_insert_visit_battle_adapter },
+  { STHelpAdapter,       &branch_insert_visit_help_adapter   },
+  { STSeriesAdapter,     &branch_insert_visit_help_adapter   },
   { STGoalReachedTester, &branch_insert_visit_goal_tester    }
 };
 

@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/guard.h"
@@ -152,26 +151,6 @@ static void insert_maxsolutions_help_filter(slice_index si,
 
 /* Insert STMaxSolutionsGuard slices
  */
-static void insert_maxsolutions_series_filter(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_maxsolutions_guard_slice();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert STMaxSolutionsGuard slices
- */
 static
 void insert_maxsolutions_root_defender_filter(slice_index si,
                                               stip_structure_traversal *st)
@@ -218,7 +197,7 @@ static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
   { STMaxSolutionsGuard,  &stip_structure_visitor_noop              },
   { STReadyForHelpMove,   &insert_maxsolutions_help_filter          },
-  { STReadyForSeriesMove, &insert_maxsolutions_series_filter        },
+  { STReadyForSeriesMove, &insert_maxsolutions_help_filter          },
   { STAttackAdapter,      &insert_maxsolutions_root_defender_filter },
   { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      }
 };

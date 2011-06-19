@@ -5,7 +5,6 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -116,41 +115,11 @@ static void insert_help_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_series_filter(slice_index si, stip_structure_traversal *st)
-{
-  boolean * const inserted = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prototypes[] =
-    {
-      alloc_stoponshortsolutions_filter(length,min_length)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    series_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  *inserted = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static
 structure_traversers_visitors stoponshortsolutions_initialiser_inserters[] =
 {
-  { STHelpAdapter,   &insert_help_filter   },
-  { STSeriesAdapter, &insert_series_filter }
+  { STHelpAdapter,   &insert_help_filter },
+  { STSeriesAdapter, &insert_help_filter }
 };
 
 enum

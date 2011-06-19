@@ -3,7 +3,6 @@
 #include "platform/maxtime.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/series_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -173,26 +172,6 @@ static void insert_maxtime_help_guard(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert a STMaxTimeGuard slice after a STSeriesMove slice
- */
-static void insert_maxtime_series_guard(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_maxtime_guard();
-    series_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_maxtime_defender_guard(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -214,7 +193,7 @@ static void insert_maxtime_defender_guard(slice_index si,
 static structure_traversers_visitors maxtime_guard_inserters[] =
 {
   { STReadyForHelpMove,   &insert_maxtime_help_guard     },
-  { STReadyForSeriesMove, &insert_maxtime_series_guard   },
+  { STReadyForSeriesMove, &insert_maxtime_help_guard     },
   { STReadyForAttack,     &insert_maxtime_defender_guard }
 };
 enum
