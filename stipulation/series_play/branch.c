@@ -272,31 +272,3 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static
-void end_of_branch_forced_inserter_series_move(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const * const forced = st->param;
-    slice_index const prototypes[] =
-    {
-        alloc_end_of_branch_forced(*forced),
-        alloc_dead_end_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    help_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
