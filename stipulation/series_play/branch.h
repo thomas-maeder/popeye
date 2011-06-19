@@ -29,12 +29,6 @@ void series_branch_set_end_goal(slice_index si, slice_index to_goal);
  */
 void series_branch_set_end(slice_index si, slice_index next);
 
-/* Insert a fork to the next branch
- * @param si identifies the entry slice of a series branch
- * @param next identifies the entry slice of the next branch
- */
-void series_branch_set_end_forced(slice_index si, slice_index next);
-
 /* Insert slices into a series branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by series_branch_insert_slices().

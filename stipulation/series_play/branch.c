@@ -113,23 +113,6 @@ void series_branch_set_end(slice_index si, slice_index next)
   TraceFunctionResultEnd();
 }
 
-/* Insert a fork to the next branch
- * @param si identifies the entry slice of a series branch
- * @param next identifies the entry slice of the next branch
- */
-void series_branch_set_end_forced(slice_index si, slice_index next)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",next);
-  TraceFunctionParamListEnd();
-
-  insert_end_of_branch(si,alloc_end_of_branch_forced(next));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
