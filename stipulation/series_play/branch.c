@@ -34,7 +34,7 @@ slice_index alloc_series_branch(stip_length_type length,
 
   {
     slice_index const adapter = alloc_series_adapter_slice(length,min_length);
-    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+    slice_index const ready = alloc_branch(STReadyForHelpMove,
                                            length,min_length);
     slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
@@ -69,7 +69,7 @@ static void insert_end_of_branch(slice_index si, slice_index end_proto)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
+    slice_index const ready = branch_find_slice(STReadyForHelpMove,si);
     assert(ready!=no_slice);
     help_branch_insert_slices(ready,&end_proto,1);
   }
@@ -323,7 +323,7 @@ void series_branch_insert_end_of_branch_forced(slice_index si,
 
   stip_structure_traversal_init(&st,&forced);
   stip_structure_traversal_override_single(&st,
-                                           STReadyForSeriesMove,
+                                           STReadyForHelpMove,
                                            &end_of_branch_forced_inserter_series_move);
   stip_traverse_structure(si,&st);
 

@@ -316,8 +316,8 @@ static void insert_solvers_series_adapter(slice_index si, stip_structure_travers
   {
     if (length-min_length>=2)
     {
-      slice_index const ready1 = branch_find_slice(STReadyForSeriesMove,si);
-      slice_index const ready2 = branch_find_slice(STReadyForSeriesMove,ready1);
+      slice_index const ready1 = branch_find_slice(STReadyForHelpMove,si);
+      slice_index const ready2 = branch_find_slice(STReadyForHelpMove,ready1);
       slice_index const prototypes[] =
       {
         alloc_find_by_increasing_length_slice(length,min_length),

@@ -446,7 +446,6 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForAttack,          &insert_selfcheck_guard_battle_branch },
   { STReadyForDefense,         &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,        &insert_selfcheck_guard_help_branch   },
-  { STReadyForSeriesMove,      &insert_selfcheck_guard_help_branch   },
   { STReadyForSeriesDummyMove, &insert_selfcheck_guard_help_branch   },
   { STConstraint,              &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester,       &insert_selfcheck_guard_goal          },

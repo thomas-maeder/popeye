@@ -192,9 +192,8 @@ static void insert_maxtime_defender_guard(slice_index si,
 
 static structure_traversers_visitors maxtime_guard_inserters[] =
 {
-  { STReadyForHelpMove,   &insert_maxtime_help_guard     },
-  { STReadyForSeriesMove, &insert_maxtime_help_guard     },
-  { STReadyForAttack,     &insert_maxtime_defender_guard }
+  { STReadyForHelpMove, &insert_maxtime_help_guard     },
+  { STReadyForAttack,   &insert_maxtime_defender_guard }
 };
 enum
 {

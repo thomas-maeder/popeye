@@ -25,7 +25,6 @@
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesAdapter), /* switch from generic play to series play */ \
     ENUMERATOR(STDummyMove),    /* dummy move */ \
-    ENUMERATOR(STReadyForSeriesMove),                                   \
     ENUMERATOR(STReadyForSeriesDummyMove),                              \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \

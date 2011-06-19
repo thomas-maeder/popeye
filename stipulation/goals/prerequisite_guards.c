@@ -284,7 +284,6 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
   { STReadyForAttack,               &insert_goal_prerequisite_guards_battle      },
   { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
   { STReadyForHelpMove,             &insert_goal_prerequisite_guards_help        },
-  { STReadyForSeriesMove,           &insert_goal_prerequisite_guards_help        },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate }
 };

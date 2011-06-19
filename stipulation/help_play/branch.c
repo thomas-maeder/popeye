@@ -31,7 +31,6 @@ static slice_index const slice_rank_order[] =
   STEndOfIntro,
 
   STReadyForHelpMove,
-  STReadyForSeriesMove,
   STReadyForSeriesDummyMove,
   STHelpHashed,
   STCheckZigzagJump,

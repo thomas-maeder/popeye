@@ -103,7 +103,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STReadyForHelpMove */
   slice_structure_branch, /* STSeriesAdapter */
   slice_structure_pipe,   /* STDummyMove */
-  slice_structure_branch, /* STReadyForSeriesMove */
   slice_structure_branch, /* STReadyForSeriesDummyMove */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_fork,   /* STEndOfBranch */
@@ -238,7 +237,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STReadyForHelpMove */
   slice_function_unspecified,    /* STSeriesAdapter */
   slice_function_unspecified,    /* STDummyMove */
-  slice_function_unspecified,    /* STReadyForSeriesMove */
   slice_function_unspecified,    /* STReadyForSeriesDummyMove */
   slice_function_unspecified,    /* STSetplayFork */
   slice_function_unspecified,    /* STEndOfBranch */
@@ -1432,7 +1430,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
   &stip_traverse_structure_help_adpater,      /* STSeriesAdapter */
   &stip_traverse_structure_pipe,              /* STDummyMove */
-  &stip_traverse_structure_pipe,              /* STReadyForSeriesMove */
   &stip_traverse_structure_pipe,              /* STReadyForSeriesDummyMove */
   &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranch */
@@ -1663,7 +1660,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */
     &stip_traverse_moves_help_adapter,      /* STSeriesAdapter */
     &stip_traverse_moves_move,              /* STDummyMove */
-    &stip_traverse_moves_pipe,              /* STReadyForSeriesMove */
     &stip_traverse_moves_pipe,              /* STReadyForSeriesDummyMove */
     &stip_traverse_moves_setplay_fork,      /* STSetplayFork */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranch */

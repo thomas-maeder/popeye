@@ -384,8 +384,7 @@ static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
   { STReadyForAttack,          &stip_structure_visitor_noop     },
   { STReadyForDefense,         &stip_structure_visitor_noop     },
   { STReadyForHelpMove,        &stip_structure_visitor_noop     },
-  { STReadyForSeriesDummyMove, &stip_structure_visitor_noop     },
-  { STReadyForSeriesMove,      &stip_structure_visitor_noop     }
+  { STReadyForSeriesDummyMove, &stip_structure_visitor_noop     }
 };
 
 enum

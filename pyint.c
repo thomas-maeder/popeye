@@ -2811,9 +2811,8 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
 
 static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
-  { STReadyForHelpMove,   &goalreachable_guards_inserter_help_move         },
-  { STReadyForSeriesMove, &goalreachable_guards_inserter_help_move         },
-  { STGoalReachedTester,  &goalreachable_guards_duplicate_avoider_inserter }
+  { STReadyForHelpMove,  &goalreachable_guards_inserter_help_move         },
+  { STGoalReachedTester, &goalreachable_guards_duplicate_avoider_inserter }
 };
 
 enum
