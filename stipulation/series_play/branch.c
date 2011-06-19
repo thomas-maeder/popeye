@@ -31,7 +31,7 @@ slice_index alloc_series_branch(stip_length_type length,
                                            length,min_length);
     slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
-    slice_index const ready2 = alloc_pipe(STReadyForSeriesDummyMove);
+    slice_index const ready2 = alloc_pipe(STReadyForDummyMove);
     slice_index const dummy = alloc_dummy_move_slice();
 
     result = adapter;
