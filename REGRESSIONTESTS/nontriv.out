@@ -54,9 +54,9 @@
                                                                          10.Nd8-f7 +
                                                                              10...Kb5-b4
                                                                                  11.Lb2-c3 +
-                                                                                     11...Kb4-c4
+                                                                                     11...Kb4-c5
                                                                                          12.Lc3-f6 +
-                                                                                             12...Kc4-b4
+                                                                                             12...Kc5-b4
                                                                                                  13.Nf7-d8 +
                                                                                                      13...Kb4-b5
                                                                                                          14.Lf3-c6 +
@@ -81,9 +81,9 @@
                                                                                                                                                                                      23...Kb4-b5
                                                                                                                                                                                          24.Tc1-b1 +
                                                                                                                                                                                              24...De1*b1 #
-                                                                                     11...Kb4-c5
+                                                                                     11...Kb4-c4
                                                                                          12.Lc3-f6 +
-                                                                                             12...Kc5-b4
+                                                                                             12...Kc4-b4
                                                                                                  13.Nf7-d8 +
                                                                                                      13...Kb4-b5
                                                                                                          14.Lf3-c6 +
@@ -151,10 +151,10 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-              empile:    29671467
-            jouecoup:    20896447
-        orig_rbechec:    17720677
-        orig_rnechec:    15171421
+              empile:    29672520
+            jouecoup:    20897705
+        orig_rbechec:    17721935
+        orig_rnechec:    15172679
 Loesung beendet. 
 
 
@@ -283,10 +283,10 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-              empile:   147918267
-            jouecoup:   117633263
-        orig_rbechec:   104621008
-        orig_rnechec:    75725160
+              empile:   147918814
+            jouecoup:   117633906
+        orig_rbechec:   104621651
+        orig_rnechec:    75725803
 Loesung beendet. 
 
 
@@ -407,10 +407,10 @@ Loesung beendet.
  43  (Tc1-e1 )
  44  (Tc1-d1 )
 
-              empile:     1283569
-            jouecoup:     1051454
-        orig_rbechec:      877650
-        orig_rnechec:      704431
+              empile:     1284196
+            jouecoup:     1052121
+        orig_rbechec:      878317
+        orig_rnechec:      705098
 Loesung beendet. 
 
 
@@ -516,10 +516,10 @@ Loesung beendet.
  31  (EQf4-b8 )
  32  (EQf4-h6 )
 
-              empile:    15053323
-            jouecoup:    10713877
-        orig_rbechec:     8448493
-        orig_rnechec:     7850681
+              empile:    15054167
+            jouecoup:    10714721
+        orig_rbechec:     8449337
+        orig_rnechec:     7851525
 Loesung beendet. 
 
 
@@ -643,10 +643,10 @@ Loesung beendet.
  46  (Lc1-a3 )
  47  (Lc1-b2 )
 
-              empile:    11149913
-            jouecoup:     9487163
-        orig_rbechec:     7672005
-        orig_rnechec:     6806741
+              empile:    11150726
+            jouecoup:     9488032
+        orig_rbechec:     7672874
+        orig_rnechec:     6807610
 Loesung beendet. 
 
 
@@ -763,10 +763,10 @@ Loesung beendet.
  43  (La2-c4 + )
  44  (La2-b3 )
 
-              empile:     3820637
-            jouecoup:     2654569
-        orig_rbechec:     2304485
-        orig_rnechec:     1786069
+              empile:     3821251
+            jouecoup:     2655183
+        orig_rbechec:     2305099
+        orig_rnechec:     1786683
 Loesung beendet. 
 
 
@@ -821,9 +821,9 @@ Loesung beendet.
                                                   7.Ke3*f2
                                                       7...e4-e3 +
                                                           8.Kf2-e1
-                                                              8...e5-e4
+                                                              8...e3-e2
                                                                   9.g6-g7
-                                                                      9...e3-e2
+                                                                      9...e5-e4
                                                                          10.g7-g8=S
                                                                              10...e4-e3
                                                                                  11.Sg8-f6
@@ -835,9 +835,9 @@ Loesung beendet.
                                                                                                          14.Se8-d6
                                                                                                              14...f4-f3
                                                                                                                  15.Sd6-c8 #
-                                                              8...e3-e2
+                                                              8...e5-e4
                                                                   9.g6-g7
-                                                                      9...e5-e4
+                                                                      9...e3-e2
                                                                          10.g7-g8=S
                                                                              10...e4-e3
                                                                                  11.Sg8-f6
@@ -868,10 +868,10 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-              empile:     4442198
-            jouecoup:     3056111
-        orig_rbechec:     1072885
-        orig_rnechec:     2435701
+              empile:     4442325
+            jouecoup:     3056237
+        orig_rbechec:     1072886
+        orig_rnechec:     2435827
 Loesung beendet. 
 
 
