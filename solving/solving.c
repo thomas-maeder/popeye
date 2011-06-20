@@ -171,29 +171,6 @@ static void insert_solvers_defense_adapter(slice_index si,
       if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
         Message(TryPlayNotApplicable);
     }
-    else
-    {
-      if (!OptFlag[restart] && length>=min_length+2)
-      {
-        {
-          slice_index const ready = branch_find_slice(STReadyForAttack,si);
-          slice_index const shortcut_start = alloc_pipe(STShortSolutionsStart);
-          assert(ready!=no_slice);
-          battle_branch_insert_slices(ready,&shortcut_start,1);
-        }
-        {
-          slice_index const dest = branch_find_slice(STShortSolutionsStart,si);
-          slice_index const prototypes[] =
-          {
-            alloc_find_shortest_slice(length,min_length),
-            alloc_fork_on_remaining_slice(dest,length-1-slack_length_battle)
-          };
-          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-          assert(dest!=no_slice);
-          battle_branch_insert_slices(si,prototypes,nr_prototypes);
-        }
-      }
-    }
   }
   else
   {
@@ -250,11 +227,9 @@ static void insert_solvers_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static slice_index find_ready_for_move_in_loop(slice_index adapter)
+static slice_index find_ready_for_move_in_loop(slice_index ready_root)
 {
-  slice_index const ready_root = branch_find_slice(STReadyForHelpMove,adapter);
   slice_index result = ready_root;
-  assert(ready_root!=no_slice);
   do
   {
     result = branch_find_slice(STReadyForHelpMove,result);
@@ -280,23 +255,27 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
     {
       if (st->context==stip_traversal_context_global)
       {
-        slice_index const prototype = alloc_find_shortest_slice(length,min_length);
+        slice_index const prototype =
+            alloc_find_shortest_slice(length,min_length);
         help_branch_insert_slices(si,&prototype,1);
       }
     }
-    else
+    else /* root or set play */
     {
       if (length>=slack_length_help+2)
       {
-        slice_index const ready_loop = find_ready_for_move_in_loop(si);
-        slice_index const prototypes[] =
         {
-          alloc_find_by_increasing_length_slice(length,min_length),
-          alloc_fork_on_remaining_slice(ready_loop,length-1-slack_length_help)
-        };
-        enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-        assert(ready_loop!=no_slice);
-        help_branch_insert_slices(si,prototypes,nr_prototypes);
+          slice_index const prototype =
+              alloc_find_by_increasing_length_slice(length,min_length);
+          help_branch_insert_slices(si,&prototype,1);
+        }
+        {
+          slice_index const ready_root = branch_find_slice(STReadyForHelpMove,si);
+          slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
+          pipe_append(slices[ready_root].prev,
+                      alloc_fork_on_remaining_slice(ready_loop,
+                                                    length-1-slack_length_help));
+        }
       }
     }
   }
