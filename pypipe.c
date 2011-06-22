@@ -54,6 +54,28 @@ void pipe_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void pipe_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+
+  state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
+  TraceValue("%u\n",state->spun_off[si]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 #if !defined(NDEBUG)
 /* Does a slice have a successor
  * @param si identifies slice

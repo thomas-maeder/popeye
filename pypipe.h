@@ -21,6 +21,12 @@ slice_index alloc_pipe(slice_type type);
  */
 void pipe_make_root(slice_index si, stip_structure_traversal *st);
 
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void pipe_apply_setplay(slice_index si, stip_structure_traversal *st);
+
 /* Make a slice the successor of a pipe
  * @param pipe identifies the pipe
  * @param succ slice to be made the successor of pipe

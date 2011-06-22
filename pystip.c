@@ -626,6 +626,15 @@ enum
                              / sizeof root_slice_inserters[0])
 };
 
+/* Initialise a spin_off_state_type object
+ */
+static void spin_off_state_init(spin_off_state_type *state)
+{
+  slice_index i;
+  for (i = 0; i!=max_nr_slices; ++i)
+    state->spun_off[i] = no_slice;
+}
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
@@ -643,12 +652,7 @@ void stip_insert_root_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  {
-    unsigned int i;
-    for (i = 0; i!=max_nr_slices; ++i)
-      state.spun_off[i] = no_slice;
-  }
-
+  spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
   {
     slice_structural_type i;
@@ -704,12 +708,7 @@ void stip_insert_intro_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  {
-    unsigned int i;
-    for (i = 0; i!=max_nr_slices; ++i)
-      state.spun_off[i] = no_slice;
-  }
-
+  spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
   {
     slice_structural_type i;
@@ -1111,24 +1110,6 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   TraceFunctionParamListEnd();
 }
 
-static void pipe_adopt_setplay(slice_index si, stip_structure_traversal *st)
-{
-  spin_off_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
-
-  state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
-  TraceValue("%u\n",state->spun_off[si]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Attempt to add set play to the stipulation
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added
@@ -1144,19 +1125,16 @@ boolean stip_apply_setplay(slice_index si)
 
   TraceStipulation(si);
 
-  {
-    unsigned int i;
-    for (i = 0; i!=max_nr_slices; ++i)
-      state.spun_off[i] = no_slice;
-  }
-
+  spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
+
   {
     slice_structural_type i;
     for (i = 0; i!=nr_slice_structure_types; ++i)
       if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_adopt_setplay);
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_apply_setplay);
   }
+
   stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
   stip_traverse_structure(si,&st);
 
