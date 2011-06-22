@@ -458,31 +458,49 @@ void help_branch_shorten(slice_index adapter)
   TraceFunctionResultEnd();
 }
 
+/* Find a STReadyMove slice with a specific parity
+ * @param si identifies the entry slice of a help branch
+ * @param parity indicates after which help move of the branch to insert
+ * @return identifier of found STReadyMove slice
+ */
+slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
+{
+  slice_index result = si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",parity);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    result = branch_find_slice(STReadyForHelpMove,result);
+    assert(result!=no_slice);
+  } while ((slices[result].u.branch.length-slack_length_help)%2
+           !=(parity-slack_length_help)%2);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Insert a slice marking the end of the branch
  * @param si identifies the entry slice of a help branch
  * @param end_proto end of branch prototype slice
  * @param parity indicates after which help move of the branch to insert
  */
-void help_branch_insert_end_of_branch(slice_index si,
-                                      slice_index end_proto,
-                                      unsigned int parity)
+static void help_branch_insert_end_of_branch(slice_index si,
+                                             slice_index end_proto,
+                                             unsigned int parity)
 {
-  slice_index pos = si;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",end_proto);
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  do
-  {
-    pos = branch_find_slice(STReadyForHelpMove,pos);
-    assert(pos!=no_slice);
-  } while ((slices[pos].u.branch.length-slack_length_help)%2
-           !=(parity-slack_length_help)%2);
-
-  help_branch_insert_slices(pos,&end_proto,1);
+  help_branch_insert_slices(help_branch_locate_ready(si,parity),&end_proto,1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

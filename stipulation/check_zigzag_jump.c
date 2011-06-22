@@ -191,21 +191,19 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const dummy = alloc_dummy_move_slice();
     slice_index const ready = branch_find_slice(STReadyForDefense,adapter);
-    slice_index const prototypes[] =
-    {
-      alloc_check_zigzag_jump_slice(dummy),
-      alloc_pipe(STCheckZigzagLanding)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_index const deadend = branch_find_slice(STDeadEnd,ready);
+    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const jump = alloc_check_zigzag_jump_slice(dummy);
+    slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
+
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,prototypes,nr_prototypes);
+    assert(deadend!=no_slice);
+    pipe_append(deadend,jump);
+    battle_branch_insert_slices(jump,&landing_proto,1);
 
     {
-      slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
       slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
-      assert(jump!=no_slice);
       assert(landing!=no_slice);
       pipe_set_successor(dummy,landing);
     }
@@ -220,27 +218,25 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
  */
 void help_branch_insert_check_zigzag(slice_index adapter)
 {
-  unsigned int const parity = 0;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
   {
+    unsigned int const parity = 0;
+    slice_index const ready = help_branch_locate_ready(adapter,parity);
     slice_index const dummy = alloc_dummy_move_slice();
-    help_branch_insert_end_of_branch(adapter,alloc_check_zigzag_jump_slice(dummy),parity);
+    slice_index const jump = alloc_check_zigzag_jump_slice(dummy);
+    slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
+
+    assert(jump!=no_slice);
+    pipe_append(ready,jump);
+    help_branch_insert_slices(jump,&landing_proto,1);
 
     {
-      slice_index const jump = branch_find_slice(STCheckZigzagJump,adapter);
-      slice_index landing_proto = alloc_pipe(STCheckZigzagLanding);
-      assert(jump!=no_slice);
-      help_branch_insert_slices(jump,&landing_proto,1);
-
-      {
-        slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
-        assert(landing!=no_slice);
-        pipe_set_successor(dummy,landing);
-      }
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
+      assert(landing!=no_slice);
+      pipe_set_successor(dummy,landing);
     }
   }
 

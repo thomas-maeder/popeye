@@ -21,14 +21,12 @@ slice_index alloc_help_branch(stip_length_type length,
  */
 void help_branch_shorten(slice_index si);
 
-/* Insert a slice marking the end of the branch
+/* Find a STReadyMove slice with a specific parity
  * @param si identifies the entry slice of a help branch
- * @param end_proto end of branch prototype slice (will be deallocated)
  * @param parity indicates after which help move of the branch to insert
+ * @return identifier of found STReadyMove slice
  */
-void help_branch_insert_end_of_branch(slice_index si,
-                                      slice_index end_proto,
-                                      unsigned int parity);
+slice_index help_branch_locate_ready(slice_index si, unsigned int parity);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
