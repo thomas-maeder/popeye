@@ -37,13 +37,13 @@ slice_index alloc_help_adapter_slice(stip_length_type length,
  */
 void help_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = help_make_root(adapter);
+  help_make_root(adapter,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -62,7 +62,10 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested)
-    help_spin_off_intro(adapter);
+  {
+    spin_off_state_type * const state = st->param;
+    help_spin_off_intro(adapter,state);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -75,16 +78,16 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
  */
 void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const setplay_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (branch_find_slice(STDummyMove,si)==no_slice)
-    *setplay_slice = help_branch_make_setplay(si);
+    help_branch_make_setplay(si,state);
   else
-    *setplay_slice = series_branch_make_setplay(si);
+    series_branch_make_setplay(si,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

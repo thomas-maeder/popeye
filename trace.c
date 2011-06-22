@@ -225,12 +225,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     switch (slices[si].type)
     {
       case STForkOnRemaining:
-        Trace_pipe(si);
-        Trace_link("fork:",slices[si].u.fork_on_remaining.fork,"");
-        fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.fork_on_remaining.fork,
-                                  done_slices);
+        Trace_slice(si);
+        fprintf(stdout,"threshold:%u",slices[si].u.fork_on_remaining.threshold);
+        Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
+        Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
+        TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
         break;
 
       case STKeepMatingFilter:

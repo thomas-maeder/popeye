@@ -272,9 +272,13 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
         {
           slice_index const ready_root = branch_find_slice(STReadyForHelpMove,si);
           slice_index const ready_loop = find_ready_for_move_in_loop(ready_root);
-          pipe_append(slices[ready_root].prev,
-                      alloc_fork_on_remaining_slice(ready_loop,
-                                                    length-1-slack_length_help));
+          slice_index const proxy_root = alloc_proxy_slice();
+          slice_index const proxy_loop = alloc_proxy_slice();
+          pipe_set_successor(proxy_loop,ready_loop);
+          pipe_link(slices[ready_root].prev,
+                    alloc_fork_on_remaining_slice(proxy_root,proxy_loop,
+                                                  length-1-slack_length_help));
+          pipe_link(proxy_root,ready_root);
         }
       }
     }

@@ -30,20 +30,22 @@ slice_index alloc_move_inverter_slice(void)
  */
 void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const setplay_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
 
-  if (*setplay_slice!=no_slice)
+  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
   {
-    slice_index const copy = copy_slice(si);
-    pipe_link(copy,*setplay_slice);
-    *setplay_slice = copy;
+    state->spun_off[si] = copy_slice(si);
+    pipe_link(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
   }
+
+  TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

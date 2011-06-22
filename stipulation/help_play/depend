@@ -16,8 +16,9 @@ trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h pypipe.h stipulation/constraint.h \
  stipulation/branch.h stipulation/end_of_branch.h stipulation/dead_end.h \
- stipulation/end_of_branch_goal.h stipulation/move.h \
- stipulation/boolean/binary.h stipulation/help_play/adapter.h trace.h
+ stipulation/end_of_branch_goal.h stipulation/dummy_move.h \
+ stipulation/move.h stipulation/boolean/binary.h \
+ stipulation/help_play/adapter.h trace.h
 
 stipulation/help_play/branch.h:
 
@@ -32,6 +33,8 @@ stipulation/end_of_branch.h:
 stipulation/dead_end.h:
 
 stipulation/end_of_branch_goal.h:
+
+stipulation/dummy_move.h:
 
 stipulation/move.h:
 

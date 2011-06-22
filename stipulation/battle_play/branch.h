@@ -76,10 +76,9 @@ void battle_branch_insert_slices_nested(slice_index si,
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the
  *           move(s) not played in set play
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+ * @param state address of structure holding state
  */
-slice_index battle_branch_make_setplay(slice_index si);
+void battle_branch_make_setplay(slice_index si, spin_off_state_type *state);
 
 /* Make the postkey play representation of a non-postkey play representation
  * @param root_proxy identifies root proxy slice
@@ -102,21 +101,23 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy);
 
 /* Create the root slices of a battle branch
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of initial root slice
+ * @param state address of structure holding state
  */
-slice_index battle_branch_make_root_slices(slice_index adapter);
+void battle_branch_make_root_slices(slice_index adapter,
+                                    spin_off_state_type *state);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
- * @return identifier of root slice
+ * @param state address of structure holding state
  */
-slice_index battle_make_root(slice_index si);
+void battle_make_root(slice_index si, spin_off_state_type *state);
 
 /* Spin the intro slices off a nested battle branch
  * @param adapter identifies adapter slice of the nested help branch
+ * @param state address of structure holding state
  */
-void battle_spin_off_intro(slice_index adapter);
+void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state);
 
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)

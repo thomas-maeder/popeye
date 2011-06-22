@@ -39,7 +39,6 @@ static slice_index const slice_rank_order[] =
   STDegenerateTree,
   STFindShortest,
   STShortSolutionsStart,
-  STForkOnRemaining,
   STMoveGenerator,
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
@@ -85,8 +84,6 @@ static slice_index const slice_rank_order[] =
   STPrerequisiteOptimiser,
   STDeadEnd,
   STCheckZigzagJump,
-  STForkOnRemaining,
-  STForkOnRemaining,
   STMoveGenerator,
   STKillerMoveMoveGenerator,
   STCountNrOpponentMovesMoveGenerator,
@@ -299,6 +296,26 @@ static void insert_visit_check_zigzag_jump(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+  insertion_state_type const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  start_insertion_traversal(slices[si].u.binary.op1,state);
+  *state = save_state;
+  start_insertion_traversal(slices[si].u.binary.op2,state);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
@@ -319,11 +336,11 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const insertion_visitors[] =
 {
-  { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal  },
-  { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal  },
-  { STForkOnRemaining,         &insert_visit_check_zigzag_jump   },
-  { STCheckZigzagJump,         &insert_visit_check_zigzag_jump   },
-  { STProxy,                   &insert_visit_proxy               }
+  { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal      },
+  { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal      },
+  { STCheckZigzagJump,         &insert_visit_check_zigzag_jump       },
+  { STForkOnRemaining,         &insert_visit_binary                  },
+  { STProxy,                   &insert_visit_proxy                   }
 };
 
 enum
@@ -582,19 +599,18 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const result = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
 
-  {
-    slice_index const copy = copy_slice(si);
-    link_to_branch(copy,*result);
-    *result = copy;
-  }
+  state->spun_off[si] = copy_slice(si);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -602,13 +618,13 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
 
 static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *root_slice = si;
+  state->spun_off[si] = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -618,13 +634,10 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
  * This is supposed to be invoked from within the slice type specific
  * functions invoked by stip_apply_setplay.
  * @param adapter identifies the adapter slice into the battle branch
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+ * @param state address of structure holding state
  */
-slice_index battle_branch_make_setplay(slice_index adapter)
+void battle_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
@@ -639,17 +652,20 @@ slice_index battle_branch_make_setplay(slice_index adapter)
 
     assert(start!=no_slice);
 
-    stip_structure_traversal_init(&st,&result);
+    stip_structure_traversal_init(&st,state);
     for (type = 0; type!=nr_slice_structure_types; ++type)
-      stip_structure_traversal_override_by_structure(&st,type,&copy_to_setplay);
+      if (slice_structure_is_subclass(type,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,type,&copy_to_setplay);
     stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
     stip_traverse_structure(start,&st);
+    TraceValue("%u\n",state->spun_off[start]);
+    state->spun_off[adapter] = state->spun_off[start];
   }
 
+  TraceValue("%u\n",state->spun_off[adapter]);
+
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
-  return result;
 }
 
 /* Make the postkey play representation of a non-postkey play representation
@@ -766,14 +782,35 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   return result;
 }
 
+static void fork_make_root(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+
+  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  {
+    state->spun_off[si] = copy_slice(si);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  }
+  TraceValue("%u\n",state->spun_off[si]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Create the root slices of a battle branch
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of initial root slice
+ * @param state address of structure holding state
  */
-slice_index battle_branch_make_root_slices(slice_index adapter)
+void battle_branch_make_root_slices(slice_index adapter,
+                                    spin_off_state_type *state)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
@@ -785,9 +822,11 @@ slice_index battle_branch_make_root_slices(slice_index adapter)
     slice_index const prototype = alloc_pipe(STEndOfRoot);
     battle_branch_insert_slices(adapter,&prototype,1);
 
-    stip_structure_traversal_init(&st,&result);
+    stip_structure_traversal_init(&st,state);
     for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_pipe))
+      if (slice_structure_is_subclass(i,slice_structure_fork))
+        stip_structure_traversal_override_by_structure(&st,i,&fork_make_root);
+      else if (slice_structure_is_subclass(i,slice_structure_pipe))
         stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
@@ -798,40 +837,34 @@ slice_index battle_branch_make_root_slices(slice_index adapter)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
-  return result;
 }
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of root slice
+ * @param state address of structure holding state
  */
-slice_index battle_make_root(slice_index adapter)
+void battle_make_root(slice_index adapter, spin_off_state_type *state)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  result = battle_branch_make_root_slices(adapter);
-  assert(result!=no_slice);
+  battle_branch_make_root_slices(adapter,state);
 
   branch_shorten_slices(adapter,STEndOfRoot);
   pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
   TraceFunctionParamListEnd();
-  return result;
 }
 
 /* Spin the intro slices off a nested battle branch
  * @param adapter identifies adapter slice of the nested help branch
+ * @param state address of structure holding state
  */
-void battle_spin_off_intro(slice_index adapter)
+void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
@@ -850,11 +883,10 @@ void battle_spin_off_intro(slice_index adapter)
   if (branch_find_slice(STEndOfIntro,adapter)!=no_slice)
   {
     slice_index const next = slices[adapter].u.pipe.next;
-    slice_index nested = no_slice;
     stip_structure_traversal st;
     slice_structural_type i;
 
-    stip_structure_traversal_init(&st,&nested);
+    stip_structure_traversal_init(&st,state);
     for (i = 0; i!=nr_slice_structure_types; ++i)
       if (slice_structure_is_subclass(i,slice_structure_pipe))
         stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
@@ -864,7 +896,8 @@ void battle_spin_off_intro(slice_index adapter)
     stip_traverse_structure(next,&st);
 
     pipe_link(slices[adapter].prev,next);
-    link_to_branch(adapter,nested);
+    link_to_branch(adapter,state->spun_off[next]);
+    state->spun_off[adapter] = state->spun_off[next];
     slices[adapter].prev = no_slice;
   }
 

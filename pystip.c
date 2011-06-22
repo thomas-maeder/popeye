@@ -145,7 +145,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STSelfCheckGuard */
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_branch, /* STMinLengthGuard */
-  slice_structure_fork,   /* STForkOnRemaining */
+  slice_structure_binary, /* STForkOnRemaining */
   slice_structure_branch, /* STFindShortest */
   slice_structure_branch, /* STFindByIncreasingLength */
   slice_structure_pipe,   /* STMoveGenerator */
@@ -595,7 +595,8 @@ void dealloc_slices(slice_index si)
 
 static void move_to_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
+  spin_off_state_type * const state = st->param;
+  slice_index const save_next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -603,8 +604,8 @@ static void move_to_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_pipe(si,st);
 
-  link_to_branch(si,*root_slice);
-  *root_slice = si;
+  link_to_branch(si,state->spun_off[save_next]);
+  state->spun_off[si] = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -632,9 +633,8 @@ enum
 void stip_insert_root_slices(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index root_slice = no_slice;
+  spin_off_state_type state;
   slice_index const next = slices[si].u.pipe.next;
-  slice_structural_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -643,16 +643,25 @@ void stip_insert_root_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  stip_structure_traversal_init(&st,&root_slice);
-  for (i = 0; i!=nr_slice_structure_types; ++i)
-    if (slice_structure_is_subclass(i,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,i,&move_to_root);
+  {
+    unsigned int i;
+    for (i = 0; i!=max_nr_slices; ++i)
+      state.spun_off[i] = no_slice;
+  }
+
+  stip_structure_traversal_init(&st,&state);
+  {
+    slice_structural_type i;
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&move_to_root);
+  }
   stip_structure_traversal_override(&st,
                                     root_slice_inserters,
                                     nr_root_slice_inserters);
   stip_traverse_structure(next,&st);
 
-  pipe_link(si,root_slice);
+  pipe_link(si,state.spun_off[next]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -685,7 +694,7 @@ enum
  */
 void stip_insert_intro_slices(slice_index si)
 {
-  slice_structural_type structural_type;
+  spin_off_state_type state;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -695,12 +704,19 @@ void stip_insert_intro_slices(slice_index si)
   TraceStipulation(si);
   assert(slices[si].type==STProxy);
 
-  stip_structure_traversal_init(&st,0);
-  for (structural_type = 0; structural_type!=nr_slice_structure_types; ++structural_type)
-    if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &link_to_intro);
+  {
+    unsigned int i;
+    for (i = 0; i!=max_nr_slices; ++i)
+      state.spun_off[i] = no_slice;
+  }
+
+  stip_structure_traversal_init(&st,&state);
+  {
+    slice_structural_type i;
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&link_to_intro);
+  }
   stip_structure_traversal_override(&st,
                                     intro_slice_inserters,
                                     nr_intro_slice_inserters);
@@ -1045,12 +1061,11 @@ boolean transform_to_quodlibet(slice_index si)
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STMoveInverter,    &move_inverter_apply_setplay  },
-  { STConstraint,      &stip_traverse_structure_pipe },
-  { STForkOnRemaining, &stip_traverse_structure_pipe },
-  { STAttackAdapter,   &attack_adapter_apply_setplay },
-  { STDefenseAdapter,  &stip_structure_visitor_noop  },
-  { STHelpAdapter,     &help_adapter_apply_setplay   }
+  { STMoveInverter,   &move_inverter_apply_setplay  },
+  { STConstraint,     &stip_traverse_structure_pipe },
+  { STAttackAdapter,  &attack_adapter_apply_setplay },
+  { STDefenseAdapter, &stip_structure_visitor_noop  },
+  { STHelpAdapter,    &help_adapter_apply_setplay   }
 };
 
 enum
@@ -1096,6 +1111,24 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   TraceFunctionParamListEnd();
 }
 
+static void pipe_adopt_setplay(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+
+  state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
+  TraceValue("%u\n",state->spun_off[si]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Attempt to add set play to the stipulation
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added
@@ -1103,7 +1136,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 boolean stip_apply_setplay(slice_index si)
 {
   boolean result;
-  slice_index setplay_slice = no_slice;
+  spin_off_state_type state;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -1111,15 +1144,27 @@ boolean stip_apply_setplay(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&setplay_slice);
-  stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
-  stip_traverse_structure_pipe(si,&st);
+  {
+    unsigned int i;
+    for (i = 0; i!=max_nr_slices; ++i)
+      state.spun_off[i] = no_slice;
+  }
 
-  if (setplay_slice==no_slice)
+  stip_structure_traversal_init(&st,&state);
+  {
+    slice_structural_type i;
+    for (i = 0; i!=nr_slice_structure_types; ++i)
+      if (slice_structure_is_subclass(i,slice_structure_pipe))
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_adopt_setplay);
+  }
+  stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
+  stip_traverse_structure(si,&st);
+
+  if (state.spun_off[si]==no_slice)
     result = false;
   else
   {
-    insert_set_play(si,setplay_slice);
+    insert_set_play(si,state.spun_off[si]);
     result = true;
   }
 
@@ -1181,8 +1226,6 @@ static structure_traversers_visitors starter_detectors[] =
 {
   { STMove,            &move_detect_starter          },
   { STDummyMove,       &move_detect_starter          },
-  { STAnd,             &binary_detect_starter        },
-  { STOr,              &binary_detect_starter        },
   { STMoveInverter,    &move_inverter_detect_starter },
   { STThreatSolver,    &pipe_detect_starter          },
   { STMaxThreatLength, &pipe_detect_starter          }
@@ -1208,6 +1251,9 @@ void stip_detect_starter(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,NULL);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &binary_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &branch_fork_detect_starter);
@@ -1547,12 +1593,17 @@ static stip_structure_visitor structure_children_traversers[] =
  */
 void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 {
-  unsigned int i;
-  for (i = 0; i!=max_nr_slices; ++i)
-    st->traversed[i] = slice_not_traversed;
+  {
+    unsigned int i;
+    for (i = 0; i!=max_nr_slices; ++i)
+      st->traversed[i] = slice_not_traversed;
+  }
 
-  for (i = 0; i!=nr_slice_types; ++i)
-    st->map.visitors[i] = structure_children_traversers[i];
+  {
+    slice_type i;
+    for (i = 0; i!=nr_slice_types; ++i)
+      st->map.visitors[i] = structure_children_traversers[i];
+  }
 
   st->level = structure_traversal_level_root;
   st->context = stip_traversal_context_global;
@@ -1571,7 +1622,7 @@ void stip_structure_traversal_override_by_structure(stip_structure_traversal *st
                                                     slice_structural_type type,
                                                     stip_structure_visitor visitor)
 {
-  unsigned int i;
+  slice_type i;
   for (i = 0; i!=nr_slice_types; ++i)
     if (highest_structural_type[i]==type)
       st->map.visitors[i] = visitor;
@@ -1586,7 +1637,7 @@ void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
                                                    slice_functional_type type,
                                                    stip_structure_visitor visitor)
 {
-  unsigned int i;
+  slice_type i;
   for (i = 0; i!=nr_slice_types; ++i)
     if (functional_type[i]==type)
       st->map.visitors[i] = visitor;

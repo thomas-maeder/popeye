@@ -94,13 +94,13 @@ void stip_traverse_moves_defense_adapter(slice_index si,
 void defense_adapter_make_root(slice_index adapter,
                                stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = battle_make_root(adapter);
+  battle_make_root(adapter,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -120,7 +120,10 @@ void defense_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested)
-    battle_spin_off_intro(adapter);
+  {
+    spin_off_state_type * const state = st->param;
+    battle_spin_off_intro(adapter,state);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

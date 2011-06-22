@@ -70,8 +70,8 @@ typedef struct
 
         struct
         {
-            slice_index next;
-            slice_index fork;
+            slice_index op1;
+            slice_index op2;
             stip_length_type threshold; /* without slack */
         } fork_on_remaining;
 
@@ -263,12 +263,6 @@ stip_length_type get_max_nr_moves(slice_index si);
  * @return true iff quodlibet could be applied
  */
 boolean transform_to_quodlibet(slice_index si);
-
-/* Attempt to add set play to the stipulation
- * @param si identifies the root from which to apply set play
- * @return true iff set play could be added
- */
-boolean stip_apply_setplay(slice_index si);
 
 /* Does the current stipulation end in a specific goal?
  * @param si identifies slice where to start
@@ -539,6 +533,16 @@ void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st);
 void stip_traverse_moves_children(slice_index si,
                                   stip_moves_traversal *st);
 
+/* structure holding state in traversals for
+ * stip_insert_root_slices()
+ * stip_insert_intro_slices()
+ * stip_apply_setplay()
+ */
+typedef struct
+{
+    slice_index spun_off[max_nr_slices];
+} spin_off_state_type;
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
@@ -549,5 +553,11 @@ void stip_insert_root_slices(slice_index si);
  * @param si identifies slice where to start
  */
 void stip_insert_intro_slices(slice_index si);
+
+/* Attempt to add set play to the stipulation
+ * @param si identifies the root from which to apply set play
+ * @return true iff set play could be added
+ */
+boolean stip_apply_setplay(slice_index si);
 
 #endif

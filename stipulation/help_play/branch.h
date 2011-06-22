@@ -94,29 +94,29 @@ void help_branch_insert_slices_nested(slice_index si,
 
 /* Create the root slices of a help branch
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of initial root slice
+ * @param state address of structure holding state
  */
-slice_index help_branch_make_root_slices(slice_index adapter);
+void help_branch_make_root_slices(slice_index adapter,
+                                  spin_off_state_type *state);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return identifier of initial root slice
+ * @param state address of structure holding state
  */
-slice_index help_make_root(slice_index adapter);
+void help_make_root(slice_index adapter, spin_off_state_type *state);
 
 /* Spin the intro slices off a nested help branch
  * @param adapter identifies adapter slice of the nested help branch
+ * @param state address of structure holding state
  */
-void help_spin_off_intro(slice_index adapter);
+void help_spin_off_intro(slice_index adapter, spin_off_state_type *state);
 
 /* Produce slices representing set play.
- * @param si identifies the successor of the slice representing the
- *           move(s) not played in set play
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+ * @param adapter identifies the adapter slice at the beginning of the branch
+ * @param state address of structure holding state
  */
-slice_index help_branch_make_setplay(slice_index si);
+void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state);
 
 /* Allocate a series branch.
  * @param length maximum number of half-moves of slice (+ slack)
@@ -128,10 +128,10 @@ slice_index alloc_series_branch(stip_length_type length,
 
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch
- * @return entry point of the slices representing set play
- *         no_slice if set play is not applicable
+ * @param state address of structure holding state
  */
-slice_index series_branch_make_setplay(slice_index adapter);
+void series_branch_make_setplay(slice_index adapter,
+                                spin_off_state_type *state);
 
 /* Instrument a series branch with STConstraint slices (typically for a ser-r
  * stipulation)

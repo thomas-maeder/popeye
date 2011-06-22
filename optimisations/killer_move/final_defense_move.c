@@ -39,12 +39,14 @@ void killer_move_optimise_final_defense_move(slice_index si)
   {
     slice_index const last_defense = alloc_defense_move_against_goal_slice();
     slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,1);
     slice_index const proxy2 = alloc_proxy_slice();
-    pipe_append(si,proxy2);
-    pipe_append(slices[si].prev,fork);
-    pipe_link(proxy1,last_defense);
-    pipe_set_successor(last_defense,proxy2);
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+    slice_index const proxy3 = alloc_proxy_slice();
+    pipe_append(si,proxy3);
+    pipe_link(slices[si].prev,fork);
+    pipe_link(proxy1,si);
+    pipe_link(proxy2,last_defense);
+    pipe_set_successor(last_defense,proxy3);
   }
 
   TraceFunctionExit(__func__);

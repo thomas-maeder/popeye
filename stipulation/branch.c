@@ -791,11 +791,11 @@ static void branch_find_slice_fork_on_remaining(slice_index si,
     slice_index result1;
     slice_index result2;
 
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure(slices[si].u.fork_on_remaining.op1,st);
     result1 = state->result;
     state->result = no_slice;
 
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure(slices[si].u.fork_on_remaining.op2,st);
     result2 = state->result;
 
     if (result1==no_slice)

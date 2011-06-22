@@ -10,11 +10,13 @@
  */
 
 /* Allocate a STForkOnRemaining slice.
- * @param fork identifies slice leading towards goal
- * @param threshold at which move should we optimise
+ * @param op1 identifies direction taken if threshold is not met
+ * @param op2 identifies direction taken if threshold is met
+ * @param threshold at which move should we continue with op2?
  * @return index of allocated slice
  */
-slice_index alloc_fork_on_remaining_slice(slice_index fork,
+slice_index alloc_fork_on_remaining_slice(slice_index op1,
+                                          slice_index op2,
                                           stip_length_type threshold);
 
 /* Traverse a subtree

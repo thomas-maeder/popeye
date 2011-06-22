@@ -38,13 +38,13 @@ slice_index alloc_attack_adapter_slice(stip_length_type length,
 void attack_adapter_make_root(slice_index adapter,
                               stip_structure_traversal *st)
 {
-  slice_index * const root_slice = st->param;
+  spin_off_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  *root_slice = battle_make_root(adapter);
+  battle_make_root(adapter,state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -67,7 +67,10 @@ void attack_adapter_make_intro(slice_index adapter,
       /* this filters out adapters that are not in a loop
        * TODO  should we get rid of these? */
       && branch_find_slice(STAttackAdapter,slices[adapter].u.pipe.next)==adapter)
-    battle_spin_off_intro(adapter);
+  {
+    spin_off_state_type * const state = st->param;
+    battle_spin_off_intro(adapter,state);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -137,7 +140,7 @@ void stip_traverse_moves_attack_adapter(slice_index si,
  */
 void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal *st)
 {
-  slice_index * const setplay_slice = st->param;
+  spin_off_state_type * const state = st->param;
   stip_length_type const length = slices[adapter].u.branch.length;
   stip_length_type const min_length = slices[adapter].u.branch.min_length;
 
@@ -150,14 +153,12 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
     slice_index zigzag = branch_find_slice(STCheckZigzagJump,adapter);
     if (zigzag==no_slice)
     {
-      *setplay_slice = battle_branch_make_setplay(adapter);
-
-      if (*setplay_slice!=no_slice)
+      battle_branch_make_setplay(adapter,state);
+      if (state->spun_off[adapter]!=no_slice)
       {
-        slice_index const set_adapter = alloc_defense_adapter_slice(length-1,
-                                                                    min_length-1);
-        link_to_branch(set_adapter,*setplay_slice);
-        *setplay_slice = set_adapter;
+        slice_index const nested = state->spun_off[adapter];
+        state->spun_off[adapter] = alloc_defense_adapter_slice(length-1,min_length-1);
+        link_to_branch(state->spun_off[adapter],nested);
       }
     }
     else
@@ -171,12 +172,15 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
         slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
                                                               adapter);
         assert(defense_adapter!=no_slice);
-        *setplay_slice = battle_branch_make_root_slices(defense_adapter);
-        assert(*setplay_slice!=no_slice);
+        battle_branch_make_root_slices(defense_adapter,state);
+        assert(state->spun_off[defense_adapter]!=no_slice);
+        state->spun_off[adapter] = state->spun_off[defense_adapter];
         pipe_remove(defense_adapter);
       }
     }
   }
+
+  TraceValue("%u\n",state->spun_off[adapter]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
