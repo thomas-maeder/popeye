@@ -745,20 +745,6 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static moves_traversers_visitors const get_max_nr_moves_functions[] =
-{
-  { STMove,            &get_max_nr_moves_move   },
-  { STOr,              &get_max_nr_moves_binary },
-  { STAnd,             &get_max_nr_moves_binary },
-  { STCheckZigzagJump, &get_max_nr_moves_binary }
-};
-
-enum
-{
-  nr_get_max_nr_moves_functions = (sizeof get_max_nr_moves_functions
-                                   / sizeof get_max_nr_moves_functions[0])
-};
-
 /* Determine the maximally possible number of half-moves until the
  * goal has to be reached.
  * @param si root of subtree
@@ -775,9 +761,10 @@ stip_length_type get_max_nr_moves(slice_index si)
 
   TraceStipulation(si);
   stip_moves_traversal_init(&st,&result);
-  stip_moves_traversal_override(&st,
-                                get_max_nr_moves_functions,
-                                nr_get_max_nr_moves_functions);
+  stip_moves_traversal_override_by_structure(&st,
+                                             slice_structure_binary,
+                                             &get_max_nr_moves_binary);
+  stip_moves_traversal_override_single(&st,STMove,&get_max_nr_moves_move);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
@@ -1871,6 +1858,28 @@ void stip_moves_traversal_override(stip_moves_traversal *st,
 }
 
 /* Override the behavior of a moves traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_by_structure(stip_moves_traversal *st,
+                                                slice_structural_type type,
+                                                stip_moves_visitor visitor)
+{
+  slice_type i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_slice_types; ++i)
+    if (highest_structural_type[i]==type)
+      st->map.visitors[i] = visitor;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Override the behavior of a moves traversal at slices of a functional type
  * @param st to be initialised
  * @param type type for which to override the visitor
  * @param visitor overrider
