@@ -1,35 +1,24 @@
 #include "stipulation/boolean/and.h"
-#include "pyslice.h"
-#include "pypipe.h"
-#include "pyproc.h"
+#include "stipulation/boolean/binary.h"
 #include "trace.h"
 
 #include <assert.h>
 
-
 /* Allocate a STAnd slice.
- * @param proxy1 proxy to 1st operand
- * @param proxy2 proxy to 2nd operand
+ * @param op1 proxy to 1st operand
+ * @param op2 proxy to 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_and_slice(slice_index proxy1, slice_index proxy2)
+slice_index alloc_and_slice(slice_index op1, slice_index op2)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy1);
-  TraceFunctionParam("%u",proxy2);
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u",op2);
   TraceFunctionParamListEnd();
 
-  assert(proxy1!=no_slice);
-  assert(slices[proxy1].type==STProxy);
-  assert(proxy2!=no_slice);
-  assert(slices[proxy2].type==STProxy);
-
-  result = alloc_slice(STAnd);
-
-  slices[result].u.binary.op1 = proxy1;
-  slices[result].u.binary.op2 = proxy2;
+  result = alloc_binary_slice(STAnd,op1,op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

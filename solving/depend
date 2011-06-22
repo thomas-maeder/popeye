@@ -76,11 +76,11 @@ stipulation/help_play/branch.h:
 
 trace.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
- solving/fork_on_remaining.h pypipe.h trace.h
+ solving/fork_on_remaining.h stipulation/boolean/binary.h trace.h
 
 solving/fork_on_remaining.h:
 
-pypipe.h:
+stipulation/boolean/binary.h:
 
 trace.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \

@@ -1,5 +1,5 @@
 #include "solving/fork_on_remaining.h"
-#include "pypipe.h"
+#include "stipulation/boolean/binary.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -22,9 +22,7 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
   TraceFunctionParam("%u",threshold);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(STForkOnRemaining);
-  slices[result].u.fork_on_remaining.op1 = op1;
-  slices[result].u.fork_on_remaining.op2 = op2;
+  result = alloc_binary_slice(STForkOnRemaining,op1,op2);
   slices[result].u.fork_on_remaining.threshold = threshold;
 
   TraceFunctionExit(__func__);

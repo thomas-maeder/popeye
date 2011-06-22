@@ -4,6 +4,38 @@
 
 #include <assert.h>
 
+/* Allocate a binary slice.
+ * @param op1 proxy to 1st operand
+ * @param op2 proxy to 2nd operand
+ * @return index of allocated slice
+ */
+slice_index alloc_binary_slice(slice_type type,
+                               slice_index op1, slice_index op2)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u",op2);
+  TraceFunctionParamListEnd();
+
+  assert(op1!=no_slice);
+  assert(slices[op1].type==STProxy);
+
+  assert(op2!=no_slice);
+  assert(slices[op2].type==STProxy);
+
+  result = alloc_slice(type);
+  slices[result].u.binary.op1 = op1;
+  slices[result].u.binary.op2 = op2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

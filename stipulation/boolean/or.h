@@ -7,11 +7,11 @@
  */
 
 /* Allocate a STOr slice.
- * @param proxy1 1st operand
- * @param proxy2 2nd operand
+ * @param op1 proxy to 1st operand
+ * @param op2 proxy to 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_or_slice(slice_index proxy1, slice_index proxy2);
+slice_index alloc_or_slice(slice_index op1, slice_index op2);
 
 /* Determine whether a slice has a solution
  * @param si slice index

@@ -1,26 +1,18 @@
 stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
- stipulation/boolean/and.h pyslice.h pypipe.h pyproc.h trace.h
+ stipulation/boolean/and.h stipulation/boolean/binary.h trace.h
 
 stipulation/boolean/and.h:
 
-pyslice.h:
-
-pypipe.h:
-
-pyproc.h:
+stipulation/boolean/binary.h:
 
 trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
- stipulation/boolean/or.h pyslice.h pypipe.h pyproc.h \
+ stipulation/boolean/or.h stipulation/boolean/binary.h \
  stipulation/battle_play/attack_play.h trace.h
 
 stipulation/boolean/or.h:
 
-pyslice.h:
-
-pypipe.h:
-
-pyproc.h:
+stipulation/boolean/binary.h:
 
 stipulation/battle_play/attack_play.h:
 
