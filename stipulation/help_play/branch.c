@@ -247,8 +247,6 @@ static structure_traversers_visitors const insertion_visitors[] =
 {
   { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal },
   { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal },
-  { STCheckZigzagJump,         &insert_visit_binary             },
-  { STForkOnRemaining,         &insert_visit_binary             },
   { STProxy,                   &insert_visit_proxy              }
 };
 
@@ -274,6 +272,9 @@ static void start_insertion_traversal(slice_index si,
     stip_structure_traversal_override_single(&st,
                                              slice_rank_order[i],
                                              &insert_visit_regular);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &insert_visit_binary);
   stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
   stip_traverse_structure(slices[si].u.pipe.next,&st);
 
