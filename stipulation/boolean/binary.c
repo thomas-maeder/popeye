@@ -112,32 +112,6 @@ void stip_traverse_structure_binary(slice_index fork,
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves of an operand of a binary operator
- * @param op identifies operand
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_binary_operand(slice_index op,
-                                        stip_moves_traversal *st)
-{
-  stip_length_type const save_remaining = st->remaining;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",op);
-  TraceFunctionParamListEnd();
-
-  if (st->context==stip_traversal_context_global)
-  {
-    st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-    stip_traverse_moves(op,st);
-    st->remaining = save_remaining;
-  }
-  else
-    stip_traverse_moves(op,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traversal of the moves of a binary operator
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -149,8 +123,8 @@ void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op1,st);
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op2,st);
+  stip_traverse_moves(slices[si].u.binary.op1,st);
+  stip_traverse_moves(slices[si].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -171,12 +145,12 @@ void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op1,st);
+  stip_traverse_moves(slices[si].u.binary.op1,st);
   result1 = *result;
   TraceValue("%u\n",result1);
 
   *result = save_result;
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op2,st);
+  stip_traverse_moves(slices[si].u.binary.op2,st);
   result2 = *result;
   TraceValue("%u\n",result2);
 

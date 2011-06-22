@@ -26,13 +26,6 @@ void binary_make_root(slice_index si, stip_structure_traversal *st);
  */
 void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
-/* Traversal of the moves of an operand of a binary operator
- * @param op identifies operand
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_binary_operand(slice_index op,
-                                        stip_moves_traversal *st);
-
 /* Traverse a subtree
  * @param fork root slice of subtree
  * @param st address of structure defining traversal
