@@ -2592,6 +2592,18 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void moves_left_zigzag(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves(slices[si].u.binary.op1,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Calculate the number of moves of each side, starting at the root
  * slice.
  * @param si identifies starting slice
@@ -2616,10 +2628,12 @@ static void init_moves_left(slice_index si,
   MovesLeft[White] = 0;
 
   stip_moves_traversal_init(&st,&n);
+  st.context = stip_traversal_context_help;
   stip_moves_traversal_set_remaining(&st,n,full_length);
   stip_moves_traversal_override_single(&st,
                                        STGoalReachableGuardFilter,
                                        &moves_left_move);
+  stip_moves_traversal_override_single(&st,STCheckZigzagJump,moves_left_zigzag);
   stip_traverse_moves(si,&st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -3071,6 +3085,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
   { STAnd,               &intelligent_mode_support_none        },
   { STOr,                &intelligent_mode_support_detector_or },
+  { STCheckZigzagJump,   &intelligent_mode_support_detector_or },
   { STNot,               &intelligent_mode_support_none        },
   { STConstraint,        &intelligent_mode_support_none        },
   { STReadyForDefense,   &intelligent_mode_support_none        },

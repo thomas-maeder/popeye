@@ -290,6 +290,25 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
   return result;
 }
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_check_threat_solver(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* don't depend on generic order of traversal */
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve threats after an attacker's move
  * @param si slice index
  * @return length of threats

@@ -13,7 +13,6 @@
 #include "stipulation/setplay_fork.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/check_zigzag_jump.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/boolean/and.h"
@@ -111,7 +110,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDummyMove */
   slice_structure_branch, /* STReadyForDummyMove */
   slice_structure_pipe,   /* STShortSolutionsStart*/
-  slice_structure_fork,   /* STCheckZigzagJump */
+  slice_structure_binary, /* STCheckZigzagJump */
   slice_structure_pipe,   /* STCheckZigzagLanding */
   slice_structure_fork,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
@@ -748,9 +747,10 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const get_max_nr_moves_functions[] =
 {
-  { STMove, &get_max_nr_moves_move   },
-  { STOr,   &get_max_nr_moves_binary },
-  { STAnd,  &get_max_nr_moves_binary }
+  { STMove,            &get_max_nr_moves_move   },
+  { STOr,              &get_max_nr_moves_binary },
+  { STAnd,             &get_max_nr_moves_binary },
+  { STCheckZigzagJump, &get_max_nr_moves_binary }
 };
 
 enum
@@ -1455,7 +1455,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForDummyMove */
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
-  &stip_traverse_structure_check_zigzag_jump, /* STCheckZigzagJump */
+  &stip_traverse_structure_binary,            /* STCheckZigzagJump */
   &stip_traverse_structure_pipe,              /* STCheckZigzagLanding */
   &stip_traverse_structure_goal_reached_tester, /* STGoalReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateReachedTester */
@@ -1498,7 +1498,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
   &stip_traverse_structure_pipe,              /* STContinuationSolver */
-  &stip_traverse_structure_check_zigzag_jump, /* STThreatSolver */
+  &stip_traverse_structure_check_threat_solver, /* STThreatSolver */
   &stip_traverse_structure_pipe,              /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
   &stip_traverse_structure_pipe,              /* STThreatCollector */
@@ -1688,7 +1688,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_move,              /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForDummyMove */
     &stip_traverse_moves_pipe,              /* STShortSolutionsStart*/
-    &stip_traverse_moves_pipe,              /* STCheckZigzagJump */
+    &stip_traverse_moves_binary,            /* STCheckZigzagJump */
     &stip_traverse_moves_pipe,              /* STCheckZigzagLanding */
     &stip_traverse_moves_setplay_fork,      /* STGoalReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateReachedTester */

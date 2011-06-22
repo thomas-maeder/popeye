@@ -83,7 +83,6 @@ static slice_index const slice_rank_order[] =
   STEnPassantFilter,
   STPrerequisiteOptimiser,
   STDeadEnd,
-  STCheckZigzagJump,
   STMoveGenerator,
   STKillerMoveMoveGenerator,
   STCountNrOpponentMovesMoveGenerator,
@@ -261,41 +260,6 @@ static void insert_visit_end_of_branch_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_visit_check_zigzag_jump(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParamListEnd();
-
-  {
-    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    assert(rank!=no_slice_rank);
-    if (insert_common(si,rank,state))
-      ; /* nothing - work is done*/
-    else
-    {
-      state->base = rank;
-      state->prev = si;
-      stip_traverse_structure_pipe(si,st);
-
-      state->base = rank;
-      state->prev = slices[si].u.fork.fork;
-      /* start a new traversal to avoid a clash at the slice where next and
-       * fork join */
-      start_insertion_traversal(slices[si].u.fork.fork,state);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
@@ -336,11 +300,11 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const insertion_visitors[] =
 {
-  { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal      },
-  { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal      },
-  { STCheckZigzagJump,         &insert_visit_check_zigzag_jump       },
-  { STForkOnRemaining,         &insert_visit_binary                  },
-  { STProxy,                   &insert_visit_proxy                   }
+  { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal },
+  { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal },
+  { STCheckZigzagJump,         &insert_visit_binary             },
+  { STForkOnRemaining,         &insert_visit_binary             },
+  { STProxy,                   &insert_visit_proxy              }
 };
 
 enum

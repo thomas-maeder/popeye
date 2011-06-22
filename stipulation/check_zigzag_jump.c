@@ -1,9 +1,10 @@
 #include "stipulation/check_zigzag_jump.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/dummy_move.h"
+#include "stipulation/proxy.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "trace.h"
@@ -14,37 +15,19 @@
  * @param shortcut identifies entry slice of shortcut
  * @return index of allocated slice
  */
-slice_index alloc_check_zigzag_jump_slice(slice_index shortcut)
+static slice_index alloc_check_zigzag_jump_slice(slice_index op1, slice_index op2)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result =  alloc_branch_fork(STCheckZigzagJump,shortcut);
+  result =  alloc_binary_slice(STCheckZigzagJump,op1,op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_check_zigzag_jump(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to defend after an attacking move
@@ -67,8 +50,8 @@ stip_length_type check_zigzag_jump_defend(slice_index si,
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,7 +59,7 @@ stip_length_type check_zigzag_jump_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? next : fork;
+  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
   result = defend(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -102,8 +85,8 @@ stip_length_type check_zigzag_jump_can_defend(slice_index si,
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -111,7 +94,7 @@ stip_length_type check_zigzag_jump_can_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? next : fork;
+  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
   result = can_defend(succ,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -133,15 +116,15 @@ stip_length_type check_zigzag_jump_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? next : fork;
+  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
   result = help(succ,n);
 
   TraceFunctionExit(__func__);
@@ -163,15 +146,15 @@ stip_length_type check_zigzag_jump_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? next : fork;
+  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
   result = can_help(succ,n);
 
   TraceFunctionExit(__func__);
@@ -193,19 +176,23 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
   {
     slice_index const ready = branch_find_slice(STReadyForDefense,adapter);
     slice_index const deadend = branch_find_slice(STDeadEnd,ready);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
-    slice_index const jump = alloc_check_zigzag_jump_slice(dummy);
+    slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
     assert(ready!=no_slice);
     assert(deadend!=no_slice);
-    pipe_append(deadend,jump);
-    battle_branch_insert_slices(jump,&landing_proto,1);
+    battle_branch_insert_slices(ready,&landing_proto,1);
+    pipe_link(proxy1,slices[deadend].u.pipe.next);
+    pipe_link(proxy2,dummy);
+    pipe_link(deadend,jump);
 
     {
-      slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,deadend);
       assert(landing!=no_slice);
-      pipe_set_successor(dummy,landing);
+      link_to_branch(dummy,landing);
     }
   }
 
@@ -225,18 +212,22 @@ void help_branch_insert_check_zigzag(slice_index adapter)
   {
     unsigned int const parity = 0;
     slice_index const ready = help_branch_locate_ready(adapter,parity);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
-    slice_index const jump = alloc_check_zigzag_jump_slice(dummy);
+    slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
-    assert(jump!=no_slice);
-    pipe_append(ready,jump);
-    help_branch_insert_slices(jump,&landing_proto,1);
+    assert(ready!=no_slice);
+    help_branch_insert_slices(ready,&landing_proto,1);
+    pipe_link(proxy1,slices[ready].u.pipe.next);
+    pipe_link(proxy2,dummy);
+    pipe_link(ready,jump);
 
     {
-      slice_index const landing = branch_find_slice(STCheckZigzagLanding,jump);
+      slice_index const landing = branch_find_slice(STCheckZigzagLanding,ready);
       assert(landing!=no_slice);
-      pipe_set_successor(dummy,landing);
+      link_to_branch(dummy,landing);
     }
   }
 

@@ -150,9 +150,10 @@ stipulation/help_play/branch.h:
 
 trace.h:
 stipulation/check_zigzag_jump$(OBJ_SUFFIX): stipulation/check_zigzag_jump.c \
- stipulation/check_zigzag_jump.h pydata.h pypipe.h pybrafrk.h \
- stipulation/branch.h stipulation/dummy_move.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+ stipulation/check_zigzag_jump.h pydata.h pypipe.h stipulation/branch.h \
+ stipulation/dummy_move.h stipulation/proxy.h \
+ stipulation/boolean/binary.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h trace.h
 
 stipulation/check_zigzag_jump.h:
 
@@ -160,11 +161,13 @@ pydata.h:
 
 pypipe.h:
 
-pybrafrk.h:
-
 stipulation/branch.h:
 
 stipulation/dummy_move.h:
+
+stipulation/proxy.h:
+
+stipulation/boolean/binary.h:
 
 stipulation/battle_play/branch.h:
 

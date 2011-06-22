@@ -421,8 +421,8 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remove_selfcheck_guard_fork(slice_index si,
-                                        stip_structure_traversal *st)
+static void remove_selfcheck_guard_check_zigzag(slice_index si,
+                                                stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -430,7 +430,7 @@ static void remove_selfcheck_guard_fork(slice_index si,
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.fork.fork);
+                                                slices[si].u.binary.op2);
     if (guard!=no_slice)
       pipe_remove(guard);
   }
@@ -449,7 +449,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForDummyMove, &insert_selfcheck_guard_help_branch   },
   { STConstraint,        &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester, &insert_selfcheck_guard_goal          },
-  { STCheckZigzagJump,   &remove_selfcheck_guard_fork          }
+  { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  }
 };
 
 enum

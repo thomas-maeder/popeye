@@ -1165,11 +1165,11 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  pypipe.h stipulation/branch.h stipulation/setplay_fork.h pypipe.h \
  stipulation/dead_end.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- stipulation/end_of_branch.h stipulation/check_zigzag_jump.h \
- stipulation/goals/reached_tester.h stipulation/goals/goals.h \
- stipulation/boolean/or.h stipulation/boolean/and.h \
- stipulation/boolean/not.h stipulation/boolean/binary.h \
- stipulation/boolean/true.h stipulation/battle_play/branch.h \
+ stipulation/end_of_branch.h stipulation/goals/reached_tester.h \
+ stipulation/goals/goals.h stipulation/boolean/or.h \
+ stipulation/boolean/and.h stipulation/boolean/not.h \
+ stipulation/boolean/binary.h stipulation/boolean/true.h \
+ stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move.h \
  stipulation/help_play/adapter.h stipulation/help_play/branch.h \
@@ -1258,8 +1258,6 @@ stipulation/battle_play/defense_play.h:
 stipulation/help_play/play.h:
 
 stipulation/end_of_branch.h:
-
-stipulation/check_zigzag_jump.h:
 
 stipulation/goals/reached_tester.h:
 

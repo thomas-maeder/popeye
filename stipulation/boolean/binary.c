@@ -125,10 +125,14 @@ void stip_traverse_moves_binary_operand(slice_index op,
   TraceFunctionParam("%u",op);
   TraceFunctionParamListEnd();
 
-  st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  stip_traverse_moves(op,st);
-
-  st->remaining = save_remaining;
+  if (st->context==stip_traversal_context_global)
+  {
+    st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
+    stip_traverse_moves(op,st);
+    st->remaining = save_remaining;
+  }
+  else
+    stip_traverse_moves(op,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
