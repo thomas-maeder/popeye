@@ -775,7 +775,7 @@ static void branch_find_slice_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void branch_find_slice_fork_on_remaining(slice_index si,
+static void branch_find_slice_check_zigzag_jump(slice_index si,
                                                 stip_structure_traversal *st)
 {
   branch_find_slice_state_type * const state = st->param;
@@ -791,11 +791,11 @@ static void branch_find_slice_fork_on_remaining(slice_index si,
     slice_index result1;
     slice_index result2;
 
-    stip_traverse_structure(slices[si].u.fork_on_remaining.op1,st);
+    stip_traverse_structure_pipe(si,st);
     result1 = state->result;
     state->result = no_slice;
 
-    stip_traverse_structure(slices[si].u.fork_on_remaining.op2,st);
+    stip_traverse_structure(slices[si].u.fork.fork,st);
     result2 = state->result;
 
     if (result1==no_slice)
@@ -874,15 +874,13 @@ slice_index branch_find_slice(slice_type type, slice_index si)
       stip_structure_traversal_override_by_structure(&st,
                                                      structural_type,
                                                      &branch_find_slice_pipe);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &branch_find_slice_binary);
-  stip_structure_traversal_override_single(&st,
-                                           STForkOnRemaining,
-                                           &branch_find_slice_fork_on_remaining);
+    else if (slice_structure_is_subclass(structural_type,slice_structure_binary))
+      stip_structure_traversal_override_by_structure(&st,
+                                                     structural_type,
+                                                     &branch_find_slice_binary);
   stip_structure_traversal_override_single(&st,
                                            STCheckZigzagJump,
-                                           &branch_find_slice_fork_on_remaining);
+                                           &branch_find_slice_check_zigzag_jump);
   stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);
