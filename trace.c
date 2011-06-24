@@ -226,7 +226,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STForkOnRemaining:
         Trace_slice(si);
-        fprintf(stdout,"threshold:%u",slices[si].u.fork_on_remaining.threshold);
+        fprintf(stdout,"threshold:%u ",slices[si].u.fork_on_remaining.threshold);
         Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
         Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
         fprintf(stdout,"\n");
