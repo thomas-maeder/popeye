@@ -4,6 +4,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyint.h"
+#include "pyflight.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
@@ -158,7 +159,7 @@ stip_length_type help(slice_index si, stip_length_type n)
       break;
 
     default:
-      assert(n=slack_length_help);
+      assert(n==slack_length_help);
       switch (slice_solve(si))
       {
         case opponent_self_check:
@@ -302,8 +303,12 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = dummy_move_help(si,n);
       break;
 
+    case STFlightsquaresCounter:
+      result = flightsquares_counter_can_help(si,n);
+      break;
+
     default:
-      assert(n=slack_length_help);
+      assert(n==slack_length_help);
       switch (slice_has_solution(si))
       {
         case opponent_self_check:

@@ -1,8 +1,9 @@
 #include "pyflight.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_play.h"
+#include "stipulation/help_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -51,45 +52,27 @@ unsigned int get_max_flights(void)
 /* **************** Private helpers ***************
  */
 
+static unsigned int number_flights_left;
+static square save_rbn;
+
 /* Determine whether the defending side has more flights than allowed
  * by the user.
- * @param defender defending side
  * @return true iff the defending side has too many flights.
  */
-static boolean has_too_many_flights(Side defender)
+static boolean are_there_too_many_flights(slice_index si)
 {
   boolean result;
-  square const save_rbn = defender==Black ? rn : rb;
+  Side const fleeing = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",defender);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (save_rbn==initsquare)
-    result = false;
-  else
-  {
-    unsigned int number_flights_left = max_nr_flights+1;
-
-    genmove(defender);
-
-    while (encore() && number_flights_left>0)
-    {
-      if (jouecoup(nbply,first_play))
-      {
-        square const rbn = defender==Black ? rn : rb;
-        if (save_rbn!=rbn && !echecc(nbply,defender))
-          --number_flights_left;
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    result = number_flights_left==0;
-  }
-
+  assert(save_rbn==initsquare); /* is there already a check going on? */
+  number_flights_left = max_nr_flights+1;
+  save_rbn = fleeing==Black ? rn : rb;
+  result = slice_has_solution(slices[si].u.fork.fork)==has_solution;
+  save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -110,7 +93,13 @@ static slice_index alloc_maxflight_guard_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxFlightsquares);
+  {
+    slice_index const counter = alloc_help_branch(slack_length_help+1,
+                                                  slack_length_help+1);
+    slice_index const prototype = alloc_pipe(STFlightsquaresCounter);
+    help_branch_insert_slices(counter,&prototype,1);
+    result = alloc_branch_fork(STMaxFlightsquares,counter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -140,7 +129,6 @@ stip_length_type maxflight_guard_defend(slice_index si,
                                         stip_length_type n,
                                         stip_length_type n_max_unsolvable)
 {
-  Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
 
@@ -150,7 +138,7 @@ stip_length_type maxflight_guard_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle+3 && has_too_many_flights(defender))
+  if (n>slack_length_battle+3 && are_there_too_many_flights(si))
     result = n+4;
   else
     result = defend(next,n,n_max_unsolvable);
@@ -176,7 +164,6 @@ stip_length_type maxflight_guard_can_defend(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_max_unsolvable)
 {
-  Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
 
@@ -186,10 +173,45 @@ stip_length_type maxflight_guard_can_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle+3 && has_too_many_flights(defender))
+  if (n>slack_length_battle+3 && are_there_too_many_flights(si))
     result = n+4;
   else
     result = can_defend(next,n,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type flightsquares_counter_can_help(slice_index si,
+                                                stip_length_type n)
+{
+  unsigned int result = n+2;
+  Side const fleeing = advers(slices[si].starter);
+  square const rbn = fleeing==Black ? rn : rb;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (save_rbn!=rbn)
+  {
+    assert(number_flights_left>0);
+    --number_flights_left;
+    if (number_flights_left==0)
+      result = n;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

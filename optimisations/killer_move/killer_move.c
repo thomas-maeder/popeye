@@ -155,8 +155,9 @@ static void substitute_killermove_machinery(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,   &stip_traverse_structure_pipe    },
-  { STMoveGenerator, &substitute_killermove_machinery }
+  { STSetplayFork,      &stip_traverse_structure_pipe    },
+  { STMoveGenerator,    &substitute_killermove_machinery },
+  { STMaxFlightsquares, &stip_traverse_structure_pipe    }
 };
 
 enum

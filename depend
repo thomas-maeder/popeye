@@ -1843,16 +1843,21 @@ pydata.h:
 
 trace.h:
 pyflight$(OBJ_SUFFIX): pyflight.c pyflight.h stipulation/battle_play/defense_play.h \
- pyslice.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h pyboard.h \
- pybitmsk.h pypiece.h pyenum.h pylang.h stipulation/goals/goals.h \
- boolean.h py.h pyenum.h pypipe.h pystip.h stipulation/slice_type.h \
- pyslice.h stipulation/battle_play/branch.h pystip.h trace.h
+ pyslice.h stipulation/help_play/play.h pystip.h pydata.h pyproc.h py4.h \
+ py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
+ pylang.h stipulation/goals/goals.h boolean.h py.h pyenum.h pypipe.h \
+ pystip.h stipulation/slice_type.h pyslice.h pybrafrk.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
 
 pyflight.h:
 
 stipulation/battle_play/defense_play.h:
 
 pyslice.h:
+
+stipulation/help_play/play.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -1892,9 +1897,11 @@ stipulation/slice_type.h:
 
 pyslice.h:
 
+pybrafrk.h:
+
 stipulation/battle_play/branch.h:
 
-pystip.h:
+stipulation/help_play/branch.h:
 
 trace.h:
 pynontrv$(OBJ_SUFFIX): pynontrv.c pynontrv.h stipulation/battle_play/defense_play.h \

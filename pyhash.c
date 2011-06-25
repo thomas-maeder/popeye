@@ -1283,7 +1283,6 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
 
   return bp;
 }
-extern size_t fxfMINSIZE;
 
 static void LargeEncode(stip_length_type validity_value)
 {
@@ -1709,31 +1708,6 @@ void closehash(void)
   }
 } /* closehash */
 
-/* Determine whether a goal type is "move oriented" (i.e. if hashing takes
- * longer than determining it)
- * @param goal goal type
- * @return true iff goal is move oriented
- */
-static boolean is_goal_move_oriented(goal_type goal)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  result = (goal==goal_target
-            || goal==goal_ep
-            || goal==goal_capture
-            || goal==goal_steingewinn
-            || goal==goal_castling);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -1810,7 +1784,8 @@ static structure_traversers_visitors const hash_element_inserters[] =
   { STReadyForAttack,   &insert_hash_element_attack   },
   { STReadyForHelpMove, &insert_hash_element_help     },
   { STMove,             &remember_move                },
-  { STConstraint,       &stip_traverse_structure_pipe }
+  { STConstraint,       &stip_traverse_structure_pipe },
+  { STMaxFlightsquares, &stip_traverse_structure_pipe }
 };
 
 enum

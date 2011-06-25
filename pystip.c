@@ -181,7 +181,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalReachableGuardFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingFilter */
-  slice_structure_pipe,   /* STMaxFlightsquares */
+  slice_structure_fork,   /* STMaxFlightsquares */
+  slice_structure_pipe,   /* STFlightsquaresCounter */
   slice_structure_pipe,   /* STDegenerateTree */
   slice_structure_pipe,   /* STMaxNrNonTrivial */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
@@ -314,6 +315,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STIntelligentDuplicateAvoider */
   slice_function_unspecified,    /* STKeepMatingFilter */
   slice_function_unspecified,    /* STMaxFlightsquares */
+  slice_function_unspecified,    /* STFlightsquaresCounter */
   slice_function_unspecified,    /* STDegenerateTree */
   slice_function_unspecified,    /* STMaxNrNonTrivial */
   slice_function_unspecified,    /* STMaxNrNonTrivialCounter */
@@ -1513,7 +1515,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
-  &stip_traverse_structure_pipe,              /* STMaxFlightsquares */
+  &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
+  &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
@@ -1746,7 +1749,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
-    &stip_traverse_moves_pipe,              /* STMaxFlightsquares */
+    &stip_traverse_moves_end_of_branch,     /* STMaxFlightsquares */
+    &stip_traverse_moves_pipe,              /* STFlightsquaresCounter */
     &stip_traverse_moves_pipe,              /* STDegenerateTree */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivial */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivialCounter */

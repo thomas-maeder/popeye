@@ -113,6 +113,7 @@
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
+    ENUMERATOR(STFlightsquaresCounter), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \

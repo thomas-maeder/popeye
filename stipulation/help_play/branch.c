@@ -52,6 +52,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
+  STFlightsquaresCounter,
   STCheckZigzagLanding
 };
 
