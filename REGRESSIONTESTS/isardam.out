@@ -29,10 +29,10 @@
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 # 
 
-              empile:      562175
-            jouecoup:      254319
-        orig_rbechec:       69234
-        orig_rnechec:       93616
+              empile:      278625
+            jouecoup:      215974
+        orig_rbechec:       69204
+        orig_rnechec:       81124
 Loesung beendet. 
 
 
@@ -78,10 +78,10 @@ Loesung beendet.
           2.Da7-d7 #
 
 
-              empile:       18451
-            jouecoup:       10462
+              empile:       14411
+            jouecoup:       10275
         orig_rbechec:         407
-        orig_rnechec:        4704
+        orig_rnechec:        4036
 Loesung beendet. 
 
 
@@ -180,10 +180,10 @@ b) Circe
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 # 
 
-              empile:      242715
-            jouecoup:      119317
+              empile:      113757
+            jouecoup:       90643
         orig_rbechec:        6496
-        orig_rnechec:       63218
+        orig_rnechec:       53603
 Loesung beendet. 
 
 
@@ -217,18 +217,18 @@ a)
 
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 # 
 
-              empile:      334265
-            jouecoup:      242675
+              empile:      202951
+            jouecoup:      193203
         orig_rbechec:        5696
-        orig_rnechec:      117732
+        orig_rnechec:       90290
 b) sKc6-->b7
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 # 
 
-              empile:       65336
-            jouecoup:       60202
+              empile:       59377
+            jouecoup:       59071
         orig_rbechec:        1335
-        orig_rnechec:       28936
+        orig_rnechec:       28135
 Loesung beendet. 
 
 
@@ -267,10 +267,10 @@ Loesung beendet.
           2.h7-h8=D #
 
 
-              empile:        1622
-            jouecoup:        1187
+              empile:        1591
+            jouecoup:        1269
         orig_rbechec:          82
-        orig_rnechec:         705
+        orig_rnechec:         748
 Loesung beendet. 
 
 
@@ -319,10 +319,10 @@ Loesung beendet.
           2.Kh5-g6 #
 
 
-              empile:        2759
-            jouecoup:        2076
+              empile:        2736
+            jouecoup:        2298
         orig_rbechec:         156
-        orig_rnechec:        1459
+        orig_rnechec:        1569
 Loesung beendet. 
 
 
@@ -360,10 +360,10 @@ Loesung beendet.
           2.Ke4-f5 #
 
 
-              empile:       16110
-            jouecoup:       11738
+              empile:       11769
+            jouecoup:        9119
         orig_rbechec:         323
-        orig_rnechec:        5354
+        orig_rnechec:        4152
 Loesung beendet. 
 
 
@@ -400,10 +400,10 @@ Loesung beendet.
           2.Db3-a3 #
 
 
-              empile:        4699
-            jouecoup:        3747
+              empile:        3930
+            jouecoup:        3434
         orig_rbechec:         190
-        orig_rnechec:        1872
+        orig_rnechec:        1739
 Loesung beendet. 
 
 
@@ -454,9 +454,9 @@ Loesung beendet.
               2...Td8*d3 #
 
 
-              empile:      111380
-            jouecoup:       87036
-        orig_rbechec:       24809
+              empile:      115837
+            jouecoup:      109083
+        orig_rbechec:       32648
         orig_rnechec:        4566
 Loesung beendet. 
 
@@ -505,10 +505,10 @@ Loesung beendet.
           2.Sd7-f6 #
 
 
-              empile:       57187
-            jouecoup:       36461
+              empile:       44988
+            jouecoup:       37508
         orig_rbechec:        1284
-        orig_rnechec:       19220
+        orig_rnechec:       19950
 Loesung beendet. 
 
 
@@ -548,10 +548,10 @@ Loesung beendet.
           2.Dg4-g5 #
 
 
-              empile:       38687
-            jouecoup:       25060
+              empile:       26241
+            jouecoup:       20863
         orig_rbechec:         705
-        orig_rnechec:       11674
+        orig_rnechec:        9169
 Loesung beendet. 
 
 
@@ -592,10 +592,10 @@ The Problemist ix/1997 (early version)
           2.Se8*f6 #
 
 
-              empile:       74830
-            jouecoup:       47080
+              empile:       54814
+            jouecoup:       44081
         orig_rbechec:        1041
-        orig_rnechec:       19543
+        orig_rnechec:       18018
 Loesung beendet. 
 
 
@@ -652,10 +652,10 @@ The Problemist i/1998 (Position Reflected)
           2.Db7*c8 #
 
 
-              empile:       12768
-            jouecoup:       12628
+              empile:       10152
+            jouecoup:       10988
         orig_rbechec:         201
-        orig_rnechec:        4402
+        orig_rnechec:        3858
 Loesung beendet. 
 
 
@@ -694,10 +694,10 @@ Loesung beendet.
           2.b7-b8=T #
 
 
-              empile:       16946
-            jouecoup:       13878
+              empile:       16129
+            jouecoup:       14022
         orig_rbechec:         156
-        orig_rnechec:        4290
+        orig_rnechec:        4308
 Loesung beendet. 
 
 
@@ -728,10 +728,10 @@ Loesung beendet.
 
   1...h7-h8=T ##! 
 
-              empile:         381
-            jouecoup:         362
-        orig_rbechec:         131
-        orig_rnechec:          59
+              empile:         306
+            jouecoup:         280
+        orig_rbechec:         111
+        orig_rnechec:          38
 Loesung beendet. 
 
 

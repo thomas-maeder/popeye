@@ -1670,8 +1670,11 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
                    && !echecc(nbply,Black))
            ))
     result = false;
-  else if ((CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach])
-           && !pos_legal())
+  else if (CondFlag[exclusive] && !exclusive_pos_legal())
+    result = false;
+  else if (CondFlag[ohneschach] && !ohneschach_pos_legal(trait[nbply]))
+    result = false;
+  else if (CondFlag[isardam] && !isardam_pos_legal())
     result = false;
   else if (flagAssassin && (sq_rebirth==rb || sq_rebirth==rn))
     result = false;
@@ -4040,174 +4043,297 @@ void repcoup(void)
 /* Generate (piece by piece) candidate moves to check if camp is
  * immobile. Do *not* generate moves by the camp's king; it has
  * already been taken care of. */
-static boolean immobile_encore(Side camp, square const * *immobilesquare)
+static boolean advance_departure_square(Side camp,
+                                        square const **next_square_to_try)
 {
-  square i;
-  piece p;
-
-  if (encore())
-    return true;
-
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(advers(camp));
 
-  while ((i= *(*immobilesquare)++)) {
-    if ((p= e[i]) != vide) {
-      if (TSTFLAG(spec[i], Neutral))
-        p= -p;
-      if (camp == White) {
-        if ((p > obs) && (i != rb)) {
-          gen_wh_piece(i, p);
+  while (true)
+  {
+    square const sq_departure = **next_square_to_try;
+    if (sq_departure==0)
+      break;
+    else
+    {
+      piece p = e[sq_departure];
+      ++*next_square_to_try;
+      if (p!=vide)
+      {
+        if (TSTFLAG(spec[sq_departure],Neutral))
+          p = -p;
+
+        if (camp==White)
+        {
+          if (p>obs && sq_departure!=rb)
+            gen_wh_piece(sq_departure,p);
         }
-      }
-      else if ((p < vide) && (i != rn)) {
-        gen_bl_piece(i, p);
-      }
-      if (encore()) {
+        else
+        {
+          if (p<vide && sq_departure!=rn)
+            gen_bl_piece(sq_departure,p);
+        }
+
         return true;
       }
     }
   }
+
   return false;
-} /* immobileencore */
+}
+
+static boolean find_any_move(Side camp)
+{
+  boolean result = false;
+
+  move_generation_mode= move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(camp);
+
+  while (!result && encore())
+  {
+    if (jouecoup(nbply,first_play)
+        && TraceCurrentMove(nbply)
+        && !echecc(nbply,camp))
+      result = true;
+
+    repcoup();
+  }
+
+  finply();
+
+  return result;
+}
+
+static boolean ohneschach_find_nonchecking_move(Side camp)
+{
+  boolean result = false;
+  Side const ad = advers(camp);
+
+  move_generation_mode= move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(camp);
+
+  /* temporarily deactivate ohneschach to avoid the expensive test for checkmate
+   * after moves that deliver check */
+  CondFlag[ohneschach] = false;
+
+  while (!result && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !echecc(nbply,ad) && !echecc(nbply,camp))
+      result = true;
+    repcoup();
+  }
+
+  CondFlag[ohneschach] = true;
+
+  finply();
+
+  return result;
+}
+
+static boolean ohneschach_find_any_move(Side camp)
+{
+  boolean result = false;
+
+  move_generation_mode= move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(camp);
+
+  while (!result && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+      /* no test for self-check necessary
+       * was already done by ohneschach_pos_legal() */
+      result = true;
+
+    repcoup();
+  }
+
+  finply();
+
+  return result;
+}
+
+static boolean ohneschach_immobile(Side camp)
+{
+  boolean result = true;
+
+  /* ohneschach_immobile() may invoke itself recursively. Protect ourselves from
+   * infinite recursion. */
+  if (nbply>maxply-2)
+    FtlMsg(ChecklessUndecidable);
+
+  /* first try to find a move that doesn't deliver check ... */
+  if (ohneschach_find_nonchecking_move(camp))
+    result = false;
+
+  /* ... then try to find a move that delivers mate. This is efficient
+   * because determining whether ad is immobile is costly.
+   */
+  else if (ohneschach_find_any_move(camp))
+    result = false;
+
+  return result;
+}
+
+static void generate_king_moves(Side camp)
+{
+  if (camp == White)
+  {
+    if (rb != initsquare)
+      gen_wh_piece(rb, abs(e[rb]));
+  }
+  else
+  {
+    if (rn != initsquare)
+      gen_bl_piece(rn, -abs(e[rn]));
+  }
+}
+
+static boolean find_any_move_king_first(Side camp)
+{
+  boolean result = false;
+
+  square const *next_square_to_try = boardnum;
+  do
+  {
+    while (!result && encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !echecc(nbply,camp))
+        result = true;
+      repcoup();
+    }
+  } while (!result
+           && advance_departure_square(camp,&next_square_to_try));
+
+  return result;
+}
+
+static boolean owu_is_king_immobile(Side camp)
+{
+  unsigned int nr_king_flights = 0;
+  unsigned int nr_king_captures = 0;
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(camp));
+  generate_king_moves(camp);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
+        ++nr_king_captures; /* assuming OWU is OBU for checks to wK !! */
+      if (!echecc(nbply,camp))
+        ++nr_king_flights;
+    }
+    repcoup();
+  }
+
+  return nr_king_flights==0 && nr_king_captures==1;
+}
+
+static boolean maff_is_king_immobile(Side camp)
+{
+  unsigned int nr_king_flights = 0;
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(camp));
+  generate_king_moves(camp);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !echecc(nbply,camp))
+      ++nr_king_flights;
+    repcoup();
+  }
+
+  return nr_king_flights==1;
+}
+
+static boolean maff_immobile(Side camp)
+{
+  boolean result = true;
+  nextply(nbply);
+  current_killer_state = null_killer_state;
+  trait[nbply] = camp;
+  if (!maff_is_king_immobile(camp))
+    result = false;
+  else if (find_any_move_king_first(camp))
+    result = false;
+  finply();
+  return result;
+}
+
+static boolean owu_immobile(Side camp)
+{
+  boolean result = true;
+  nextply(nbply);
+  current_killer_state = null_killer_state;
+  trait[nbply] = camp;
+  if (!owu_is_king_immobile(camp))
+    result = false;
+  else if (find_any_move_king_first(camp))
+    result = false;
+  finply();
+  return result;
+}
+
+static boolean test_immobility_king_first(Side camp)
+{
+  boolean result = true;
+  nextply(nbply);
+  current_killer_state = null_killer_state;
+  trait[nbply]= camp;
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(camp));
+  generate_king_moves(camp);
+  if (find_any_move_king_first(camp))
+    result = false;
+  finply();
+  return result;
+}
 
 /* Is camp immobile? */
 boolean immobile(Side camp)
 {
-  square const *immobilesquare= boardnum;  /* local to allow recursion */
-  boolean const whbl_exact= camp==White ? wh_exact : bl_exact;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
-  if (whbl_exact || CondFlag[exclusive] || CondFlag[isardam] || CondFlag[ohneschach])
-  {
-    Side ad= advers(camp);
-
-    /* exact-maxis, ohneschach */
-    move_generation_mode= move_generation_optimized_by_killer_move;
-    TraceValue("->%u\n",move_generation_mode);
-    if (!CondFlag[ohneschach]) {
-      genmove(camp);
-      while (encore())
-      {
-        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        {
-          if (!echecc(nbply,camp))
-          {
-            repcoup();
-            finply();
-            TraceFunctionExit(__func__);
-            TraceFunctionResult("%d\n",false);
-            return false;
-          }
-        }
-
-        repcoup();
-      }
-
-      finply();
-    } else {
-      genmove(camp);
-      while (encore())
-      {
-        CondFlag[ohneschach]= false;
-        jouecoup(nbply,first_play);
-        TraceCurrentMove(nbply);
-        CondFlag[ohneschach]= true;
-        if (!echecc(nbply,ad) && pos_legal())
-        {
-          repcoup();
-          finply();
-          TraceFunctionExit(__func__);
-          TraceFunctionResult("%d\n",false);
-          return false;
-        }
-        repcoup();
-      }
-      finply();
-      move_generation_mode= move_generation_optimized_by_killer_move;
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(camp);
-      while (encore())
-      {
-        CondFlag[ohneschach]= false;
-        jouecoup(nbply,first_play);
-        TraceCurrentMove(nbply);
-        CondFlag[ohneschach]= true;
-        if (echecc(nbply,ad) && pos_legal())
-        {
-          repcoup();
-          finply();
-          TraceFunctionExit(__func__);
-          TraceFunctionResult("%d\n",false);
-          return false;
-        }
-        repcoup();
-      }
-      finply();
-    }
-  }
+  if (CondFlag[ohneschach])
+    result = ohneschach_immobile(camp);
+  else if (CondFlag[exclusive])
+    /* TODO why does test_immobility_king_first() not work?? */
+    result = !find_any_move(camp);
+  else if (CondFlag[MAFF])
+    result = maff_immobile(camp);
+  else if (CondFlag[OWU])
+    result = owu_immobile(camp);
   else
-  {
-    nextply(nbply);
-    current_killer_state= null_killer_state;
-    trait[nbply]= camp;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(advers(camp));
-    if (camp == White)
-    {
-      if (rb != initsquare)
-        gen_wh_piece(rb, abs(e[rb]));
-    }
-    else
-    {
-      if (rn != initsquare)
-        gen_bl_piece(rn, -abs(e[rn]));
-    }
-
-    if (CondFlag[MAFF] || CondFlag[OWU])
-    {
-      int k_fl= 0, w_unit= 0;
-      while (encore()) {
-        if (jouecoup(nbply,first_play)) {
-          if (camp==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
-            w_unit++;        /* assuming OWU is OBU for checks to wK !! */
-          if (!echecc(nbply,camp))
-            k_fl++;
-        }
-        repcoup();
-      }
-      if ((CondFlag[OWU] && (k_fl!=0 || w_unit!=1))
-          || (CondFlag[MAFF] && (k_fl!=1)) )
-      {
-        finply();
-        TraceFunctionExit(__func__);
-        TraceFunctionResult("%d\n",false);
-        return false;
-      }
-    }
-
-    while (immobile_encore(camp,&immobilesquare))
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        if (!echecc(nbply,camp))
-        {
-          repcoup();
-          finply();
-          TraceFunctionExit(__func__);
-          TraceFunctionResult("%d\n",false);
-          return false;
-        }
-
-      repcoup();
-    }
-    finply();
-  }
+    result = test_immobility_king_first(camp);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",true);
   TraceFunctionResultEnd();
+  return result;
+}
+
+boolean ohneschach_pos_legal(Side just_moved)
+{
+  Side const ad = advers(just_moved);
+
+  if (echecc(nbply,just_moved))
+    return false;
+
+  if (echecc(nbply,ad) && !ohneschach_immobile(ad))
+    return false;
+
   return true;
-} /* immobile */
+}
