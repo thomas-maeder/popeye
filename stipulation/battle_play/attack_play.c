@@ -181,7 +181,7 @@ stip_length_type can_attack(slice_index si,
       break;
 
     case STCounterMateFilter:
-      result = countermate_attacker_filter_can_attack(si,n,n_max_unsolvable);
+      result = countermate_filter_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STEnPassantFilter:
@@ -379,7 +379,7 @@ stip_length_type attack(slice_index si,
       break;
 
     case STCounterMateFilter:
-      result = countermate_attacker_filter_attack(si,n,n_max_unsolvable);
+      result = countermate_filter_attack(si,n,n_max_unsolvable);
       break;
 
     case STEnPassantFilter:

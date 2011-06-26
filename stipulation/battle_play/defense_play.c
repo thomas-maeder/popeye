@@ -207,7 +207,7 @@ stip_length_type defend(slice_index si,
       break;
 
     case STCounterMateFilter:
-      result = countermate_defender_filter_defend(si,n,n_max_unsolvable);
+      result = countermate_filter_defend(si,n,n_max_unsolvable);
       break;
 
     case STPrerequisiteOptimiser:
@@ -426,7 +426,7 @@ stip_length_type can_defend(slice_index si,
       break;
 
     case STCounterMateFilter:
-      result = countermate_defender_filter_can_defend(si,n,n_max_unsolvable);
+      result = countermate_filter_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STPrerequisiteOptimiser:

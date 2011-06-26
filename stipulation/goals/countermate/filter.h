@@ -27,10 +27,9 @@ slice_index alloc_countermate_filter_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-countermate_attacker_filter_can_attack(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable);
+stip_length_type countermate_filter_can_attack(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -43,10 +42,9 @@ countermate_attacker_filter_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-countermate_attacker_filter_attack(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable);
+stip_length_type countermate_filter_attack(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -58,10 +56,9 @@ countermate_attacker_filter_attack(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-countermate_defender_filter_can_defend(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable);
+stip_length_type countermate_filter_can_defend(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -73,10 +70,9 @@ countermate_defender_filter_can_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-countermate_defender_filter_defend(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable);
+stip_length_type countermate_filter_defend(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
