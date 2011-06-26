@@ -4310,7 +4310,7 @@ boolean immobile(Side camp)
   if (CondFlag[ohneschach])
     result = ohneschach_immobile(camp);
   else if (CondFlag[exclusive])
-    /* TODO why does test_immobility_king_first() not work?? */
+    /* use regular move generation to filter out non-unique mating moves */
     result = !find_any_move(camp);
   else if (CondFlag[MAFF])
     result = maff_immobile(camp);
