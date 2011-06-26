@@ -177,7 +177,7 @@ stip_length_type can_attack(slice_index si,
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_attacker_filter_can_attack(si,n,n_max_unsolvable);
+      result = doublemate_filter_can_attack(si,n,n_max_unsolvable);
       break;
 
     case STCounterMateFilter:
@@ -375,7 +375,7 @@ stip_length_type attack(slice_index si,
       break;
 
     case STDoubleMateFilter:
-      result = doublemate_attacker_filter_attack(si,n,n_max_unsolvable);
+      result = doublemate_filter_attack(si,n,n_max_unsolvable);
       break;
 
     case STCounterMateFilter:

@@ -26,10 +26,9 @@ slice_index alloc_doublemate_filter_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-doublemate_attacker_filter_can_attack(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_max_unsolvable);
+stip_length_type doublemate_filter_can_attack(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_max_unsolvable);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -42,10 +41,9 @@ doublemate_attacker_filter_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-doublemate_attacker_filter_attack(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max_unsolvable);
+stip_length_type doublemate_filter_attack(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
