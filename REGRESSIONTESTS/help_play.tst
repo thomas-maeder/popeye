@@ -159,7 +159,7 @@ solution finished.
               empile:       15132
             jouecoup:       11148
         orig_rbechec:        8913
-        orig_rnechec:        6671
+        orig_rnechec:        5813
 solution finished. 
 
 

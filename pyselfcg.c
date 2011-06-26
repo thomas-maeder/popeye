@@ -449,7 +449,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STReadyForDummyMove, &insert_selfcheck_guard_help_branch   },
   { STConstraint,        &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester, &insert_selfcheck_guard_goal          },
-  { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  }
+  { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  },
+  { STCounterMateFilter, &stip_traverse_structure_pipe         }
 };
 
 enum
@@ -543,11 +544,11 @@ static void remember_checked_side(slice_index si,
 
 static structure_traversers_visitors adapters_guards_inserters[] =
 {
-  { STAttackAdapter,  &insert_selfcheck_guard_adapter  },
-  { STDefenseAdapter, &insert_selfcheck_guard_adapter  },
-  { STHelpAdapter,    &insert_selfcheck_guard_adapter  },
-  { STSelfCheckGuard, &remember_checked_side           },
-  { STMoveInverter,   &insert_selfcheck_guard_inverter }
+  { STAttackAdapter,     &insert_selfcheck_guard_adapter  },
+  { STDefenseAdapter,    &insert_selfcheck_guard_adapter  },
+  { STHelpAdapter,       &insert_selfcheck_guard_adapter  },
+  { STSelfCheckGuard,    &remember_checked_side           },
+  { STMoveInverter,      &insert_selfcheck_guard_inverter }
 };
 
 enum

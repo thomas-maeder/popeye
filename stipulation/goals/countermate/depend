@@ -1,7 +1,8 @@
 stipulation/goals/countermate/filter$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.c \
- stipulation/goals/countermate/filter.h pypipe.h pydata.h \
- stipulation/goals/prerequisite_guards.h trace.h
+ stipulation/goals/countermate/filter.h pypipe.h pydata.h pybrafrk.h \
+ stipulation/goals/prerequisite_guards.h \
+ stipulation/goals/mate/reached_tester.h trace.h
 
 stipulation/goals/countermate/filter.h:
 
@@ -9,7 +10,11 @@ pypipe.h:
 
 pydata.h:
 
+pybrafrk.h:
+
 stipulation/goals/prerequisite_guards.h:
+
+stipulation/goals/mate/reached_tester.h:
 
 trace.h:
 stipulation/goals/countermate/reached_tester$(OBJ_SUFFIX): \

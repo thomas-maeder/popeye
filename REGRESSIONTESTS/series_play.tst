@@ -91,7 +91,7 @@ solution finished.
               empile:        2250
             jouecoup:        1763
         orig_rbechec:        1206
-        orig_rnechec:        1139
+        orig_rnechec:        1023
 solution finished. 
 
 

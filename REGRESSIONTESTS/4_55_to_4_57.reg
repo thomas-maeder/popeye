@@ -224,21 +224,21 @@ a)
               empile:         190
             jouecoup:         187
         orig_rbechec:         157
-        orig_rnechec:          40
+        orig_rnechec:          39
 b) +wSb4 
 
 
               empile:           8
             jouecoup:           7
         orig_rbechec:           8
-        orig_rnechec:           2
+        orig_rnechec:           1
 +c) ##!2
 
 
               empile:         197
             jouecoup:         176
         orig_rbechec:         159
-        orig_rnechec:          28
+        orig_rnechec:          26
 +d)  -wSb4
 
    1.Kc8-b7 ##! !
@@ -247,7 +247,7 @@ b) +wSb4
               empile:         190
             jouecoup:         187
         orig_rbechec:         166
-        orig_rnechec:          40
+        orig_rnechec:          39
 +e) ser-##!1
 
   1.Kc8-b7 ##! 
@@ -255,14 +255,14 @@ b) +wSb4
               empile:         190
             jouecoup:         188
         orig_rbechec:         157
-        orig_rnechec:          40
+        orig_rnechec:          39
 +f) +wSb4 
 
 
               empile:           8
             jouecoup:           7
         orig_rbechec:           8
-        orig_rnechec:           2
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -297,14 +297,14 @@ a)
               empile:         516
             jouecoup:         496
         orig_rbechec:         457
-        orig_rnechec:          74
+        orig_rnechec:          70
 b) +wSd4 
 
 
               empile:          56
             jouecoup:          47
         orig_rbechec:          44
-        orig_rnechec:          28
+        orig_rnechec:          24
 solution finished. 
 
 
@@ -339,7 +339,7 @@ a)
 
               empile:         706
             jouecoup:         681
-        orig_rbechec:         113
+        orig_rbechec:         108
         orig_rnechec:         652
 b) ser-s##!1
 
@@ -347,7 +347,7 @@ b) ser-s##!1
 
               empile:         706
             jouecoup:         683
-        orig_rbechec:         113
+        orig_rbechec:         108
         orig_rnechec:         653
 solution finished. 
 
@@ -729,7 +729,7 @@ since 4.43, h##! with neutral king weren't solved correctly
               empile:         411
             jouecoup:         395
         orig_rbechec:         359
-        orig_rnechec:          46
+        orig_rnechec:          45
 solution finished. 
 
 

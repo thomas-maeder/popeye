@@ -2021,8 +2021,12 @@ static char *ParseGoal(char *tok, slice_index proxy)
         break;
 
       case goal_mate:
-        pipe_link(proxy,alloc_goal_mate_reached_tester_system());
+      {
+        Goal const goal = { goal_mate, initsquare };
+        slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
+        pipe_link(proxy,alloc_goal_reached_tester_slice(goal,mate_tester));
         break;
+      }
 
       case goal_stale:
         pipe_link(proxy,alloc_goal_stalemate_reached_tester_system());
