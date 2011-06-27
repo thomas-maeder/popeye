@@ -91,6 +91,7 @@ static boolean is_slice_index_free[max_nr_slices];
 static slice_structural_type highest_structural_type[nr_slice_types] =
 {
   slice_structure_pipe,   /* STProxy */
+  slice_structure_fork,   /* STTemporaryHackFork */
   slice_structure_branch, /* STAttackAdapter */
   slice_structure_branch, /* STDefenseAdapter */
   slice_structure_branch, /* STReadyForAttack */
@@ -224,6 +225,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
 static slice_functional_type functional_type[nr_slice_types] =
 {
   slice_function_unspecified,    /* STProxy */
+  slice_function_unspecified,    /* STTemporaryHackFork */
   slice_function_unspecified,    /* STAttackAdapter */
   slice_function_unspecified,    /* STDefenseAdapter */
   slice_function_unspecified,    /* STReadyForAttack */
@@ -1191,11 +1193,12 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STMove,            &move_detect_starter          },
-  { STDummyMove,       &move_detect_starter          },
-  { STMoveInverter,    &move_inverter_detect_starter },
-  { STThreatSolver,    &pipe_detect_starter          },
-  { STMaxThreatLength, &pipe_detect_starter          }
+  { STMove,              &move_detect_starter          },
+  { STDummyMove,         &move_detect_starter          },
+  { STMoveInverter,      &move_inverter_detect_starter },
+  { STThreatSolver,      &pipe_detect_starter          },
+  { STMaxThreatLength,   &pipe_detect_starter          },
+  { STTemporaryHackFork, &pipe_detect_starter          }
 };
 
 enum
@@ -1425,6 +1428,7 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,              /* STProxy */
+  &stip_traverse_structure_end_of_branch,     /* STTemporaryHackFork */
   &stip_traverse_structure_attack_adpater,    /* STAttackAdapter */
   &stip_traverse_structure_defense_adapter,   /* STDefenseAdapter */
   &stip_traverse_structure_ready_for_attack,  /* STReadyForAttack */
@@ -1659,6 +1663,7 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,              /* STProxy */
+    &stip_traverse_moves_end_of_branch,     /* STTemporaryHackFork */
     &stip_traverse_moves_attack_adapter,    /* STAttackAdapter */
     &stip_traverse_moves_defense_adapter,   /* STDefenseAdapter */
     &stip_traverse_moves_ready_for_attack,  /* STReadyForAttack */

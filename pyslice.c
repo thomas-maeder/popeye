@@ -241,6 +241,10 @@ has_solution_type slice_solve(slice_index si)
       result = play_suppressor_solve(si);
       break;
 
+    case STTemporaryHackFork:
+      result = slice_solve(slices[si].u.pipe.next);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;

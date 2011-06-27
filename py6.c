@@ -148,6 +148,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "stipulation/temporary_hacks.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -2513,22 +2514,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
-      if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards(template_slice_hook);
-
-      if (OptFlag[solflights])
-        stip_insert_maxflight_guards(template_slice_hook);
-
-      if (OptFlag[solmenaces]
-          && !stip_insert_maxthreatlength_guards(template_slice_hook))
-        Message(ThreatOptionAndExactStipulationIncompatible);
-
-      if (dealWithMaxtime())
-        stip_insert_maxtime_guards(template_slice_hook);
-
-      if (OptFlag[maxsols])
-        stip_insert_maxsolutions_filters(template_slice_hook);
-
       stip_detect_starter(template_slice_hook);
       stip_impose_starter(template_slice_hook,
                           slices[template_slice_hook].starter);
@@ -2546,7 +2531,24 @@ static Token iterate_twins(Token prev_token)
       Side const starter = slices[template].starter;
       stip_impose_starter(root_slice,starter);
 
-      /* only now that we can find out which side's pieces to keep */
+      insert_temporary_hacks(root_slice);
+
+      if (OptFlag[nontrivial])
+        stip_insert_max_nr_nontrivial_guards(root_slice);
+
+      if (OptFlag[solflights])
+        stip_insert_maxflight_guards(root_slice);
+
+      if (OptFlag[solmenaces]
+          && !stip_insert_maxthreatlength_guards(root_slice))
+        Message(ThreatOptionAndExactStipulationIncompatible);
+
+      if (dealWithMaxtime())
+        stip_insert_maxtime_guards(root_slice);
+
+      if (OptFlag[maxsols])
+        stip_insert_maxsolutions_filters(root_slice);
+
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
 

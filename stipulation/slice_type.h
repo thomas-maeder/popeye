@@ -13,7 +13,8 @@
 #define ENUMERATION_TYPENAME slice_type
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
-    /* battle play structural slices */                                 \
+  ENUMERATOR(STTemporaryHackFork),                                      \
+  /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \

@@ -103,6 +103,9 @@ void stip_insert_output_slices(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMoveInverter,
                                            &insert_move_inversion_counter);
+  stip_structure_traversal_override_single(&st,
+                                           STTemporaryHackFork,
+                                           &stip_traverse_structure_pipe);
   stip_traverse_structure(si,&st);
 
   {

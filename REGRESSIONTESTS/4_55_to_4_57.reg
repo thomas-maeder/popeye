@@ -442,7 +442,6 @@ try play not applicable
 solution finished. 
 
 
-Option "Threat" not applicable or indicated maximum threat length too big
 
 option Threat only applicable in sufficiently long battle play
 
@@ -466,6 +465,7 @@ option Threat only applicable in sufficiently long battle play
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3/3                        0 + 0
+Option "Threat" not applicable or indicated maximum threat length too big
 
 a) 
 

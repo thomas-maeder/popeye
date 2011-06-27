@@ -2677,6 +2677,9 @@ static void init_goal_to_be_reached(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTester,
                                            &goal_to_be_reached_goal);
+  stip_structure_traversal_override_single(&st,
+                                           STTemporaryHackFork,
+                                           &stip_traverse_structure_pipe);
   stip_traverse_structure(si,&st);
 
   TraceValue("%u",goal_to_be_reached);
@@ -3089,7 +3092,8 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STNot,               &intelligent_mode_support_none        },
   { STConstraint,        &intelligent_mode_support_none        },
   { STReadyForDefense,   &intelligent_mode_support_none        },
-  { STGoalReachedTester, &intelligent_mode_support_goal_tester }
+  { STGoalReachedTester, &intelligent_mode_support_goal_tester },
+  { STTemporaryHackFork, &stip_traverse_structure_pipe         }
 };
 
 enum

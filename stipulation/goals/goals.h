@@ -45,29 +45,12 @@ typedef struct
 /* how to decorate a move that reached a goal */
 extern char const *goal_end_marker[nr_goals];
 
-#define ENUMERATION_TYPENAME goal_checker_result_type
-#define ENUMERATORS                             \
-  ENUMERATOR(goal_not_reached),                 \
-    ENUMERATOR(goal_not_reached_selfcheck),     \
-    ENUMERATOR(goal_reached)
-
-#define ENUMERATION_DECLARE
-
-#include "pyenum.h"
-
 /* Determine whether two goals are equal
  * @param goal1 first goal
  * @param goal2 second goal
  * @return true iff goal1 and goal2 are equal
  */
 boolean are_goals_equal(Goal goal1, Goal goal2);
-
-/* Determine whether a goal has been reached by a side in the current
- * position.
- * @param camp side that has just moved and may have reached the goal
- * @return true iff side has reached goal
- */
-goal_checker_result_type goal_checker_mate(Side just_moved);
 
 /* Insert slices into a goal branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

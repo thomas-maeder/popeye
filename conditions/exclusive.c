@@ -3,7 +3,8 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pymsg.h"
 #include "pydata.h"
-#include "stipulation/goals/goals.h"
+#include "pyslice.h"
+#include "stipulation/temporary_hacks.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -65,7 +66,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || goal_checker_mate(trait[nbply])!=goal_reached);
+            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -102,7 +103,7 @@ void exclusive_init_genmove(Side side)
   while (encore() && nr_moves_reaching_goal<2)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && goal_checker_mate(side)==goal_reached)
+        && slice_has_solution(slices[temporary_hack_mate_tester[advers(side)]].u.fork.fork)==has_solution)
       ++nr_moves_reaching_goal;
     repcoup();
   }

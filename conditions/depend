@@ -1,7 +1,7 @@
 conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h \
  boolean.h pyposit.h pystip.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- pymsg.h pydata.h stipulation/goals/goals.h trace.h
+ pymsg.h pydata.h pyslice.h stipulation/temporary_hacks.h trace.h
 
 conditions/exclusive.h:
 
@@ -17,12 +17,15 @@ pymsg.h:
 
 pydata.h:
 
-stipulation/goals/goals.h:
+pyslice.h:
+
+stipulation/temporary_hacks.h:
 
 trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \
- pyproc.h pydata.h pylang.h pystip.h pymsg.h stipulation/goals/goals.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h
+ pyproc.h pydata.h pylang.h pystip.h pyslice.h pymsg.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+ stipulation/temporary_hacks.h
 
 conditions/republican.h:
 
@@ -34,8 +37,10 @@ pylang.h:
 
 pystip.h:
 
+pyslice.h:
+
 pymsg.h:
 
-stipulation/goals/goals.h:
-
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
+
+stipulation/temporary_hacks.h:

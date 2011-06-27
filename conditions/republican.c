@@ -2,9 +2,10 @@
 #include "pydata.h"
 #include "pylang.h"
 #include "pystip.h"
+#include "pyslice.h"
 #include "pymsg.h"
-#include "stipulation/goals/goals.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "stipulation/temporary_hacks.h"
 
 #include <assert.h>
 #include <string.h>
@@ -35,7 +36,7 @@ static void find_mate_square(Side camp)
       if (e[rn]==vide)
       {
         e[rn]= roin;
-        if (goal_checker_mate(camp)==goal_reached)
+        if (slice_has_solution(slices[temporary_hack_mate_tester[Black]].u.fork.fork)==has_solution)
           return;
         e[rn]= vide;
       }
@@ -55,7 +56,7 @@ static void find_mate_square(Side camp)
       if (e[rb]==vide)
       {
         e[rb]= roib;
-        if (goal_checker_mate(camp)==goal_reached)
+        if (slice_has_solution(slices[temporary_hack_mate_tester[White]].u.fork.fork)==has_solution)
           return;
         e[rb]= vide;
       }

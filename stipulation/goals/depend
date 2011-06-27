@@ -1,6 +1,6 @@
 stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
- stipulation/goals/goals.h pystip.h pypipe.h pydata.h \
- stipulation/boolean/false.h trace.h pyenum.h
+ stipulation/goals/goals.h pystip.h pypipe.h stipulation/boolean/false.h \
+ trace.h
 
 stipulation/goals/goals.h:
 
@@ -8,13 +8,9 @@ pystip.h:
 
 pypipe.h:
 
-pydata.h:
-
 stipulation/boolean/false.h:
 
 trace.h:
-
-pyenum.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
  stipulation/goals/reached_tester.h pypipe.h stipulation/proxy.h \
  stipulation/boolean/true.h trace.h

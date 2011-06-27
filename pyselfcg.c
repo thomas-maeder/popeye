@@ -387,6 +387,8 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
   if (!does_goal_ignore_selfcheck(slices[si].u.fork.fork))
   {
     slice_index const fork = slices[si].u.goal_tester.fork;
@@ -548,7 +550,8 @@ static structure_traversers_visitors adapters_guards_inserters[] =
   { STDefenseAdapter,    &insert_selfcheck_guard_adapter  },
   { STHelpAdapter,       &insert_selfcheck_guard_adapter  },
   { STSelfCheckGuard,    &remember_checked_side           },
-  { STMoveInverter,      &insert_selfcheck_guard_inverter }
+  { STMoveInverter,      &insert_selfcheck_guard_inverter },
+  { STTemporaryHackFork, &stip_traverse_structure_pipe    }
 };
 
 enum

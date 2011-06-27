@@ -1,21 +1,10 @@
 #include "stipulation/goals/goals.h"
 #include "pystip.h"
 #include "pypipe.h"
-#include "pydata.h"
 #include "stipulation/boolean/false.h"
 #include "trace.h"
 
 #include <assert.h>
-
-#define ENUMERATION_TYPENAME goal_checker_result_type
-#define ENUMERATORS                             \
-  ENUMERATOR(goal_not_reached),                 \
-    ENUMERATOR(goal_not_reached_selfcheck),     \
-    ENUMERATOR(goal_reached)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "pyenum.h"
 
 /* Determine whether two goals are equal
  * @param goal1 first goal
@@ -40,22 +29,6 @@ boolean are_goals_equal(Goal goal1, Goal goal2)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-goal_checker_result_type goal_checker_mate(Side just_moved)
-{
-  Side const ad = advers(just_moved);
-  if (echecc(nbply,ad))
-  {
-    if (echecc(nbply,just_moved))
-      return goal_not_reached_selfcheck;
-    else if (immobile(ad))
-      return goal_reached;
-    else
-      return goal_not_reached;
-  }
-  else
-    return goal_not_reached;
 }
 
 char const *goal_end_marker[nr_goals] =
