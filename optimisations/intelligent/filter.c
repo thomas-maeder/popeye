@@ -1,7 +1,8 @@
 #include "optimisations/intelligent/filter.h"
 #include "pyint.h"
-#include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/goals/immobile/reached_tester.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -16,7 +17,8 @@ slice_index alloc_intelligent_filter(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STIntelligentFilter);
+  result = alloc_branch_fork(STIntelligentFilter,
+                             alloc_goal_immobile_reached_tester_system());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,14 +1,17 @@
 optimisations/intelligent/filter$(OBJ_SUFFIX): optimisations/intelligent/filter.c \
- optimisations/intelligent/filter.h pyint.h pypipe.h \
- stipulation/help_play/play.h trace.h
+ optimisations/intelligent/filter.h pyint.h pybrafrk.h \
+ stipulation/help_play/play.h stipulation/goals/immobile/reached_tester.h \
+ trace.h
 
 optimisations/intelligent/filter.h:
 
 pyint.h:
 
-pypipe.h:
+pybrafrk.h:
 
 stipulation/help_play/play.h:
+
+stipulation/goals/immobile/reached_tester.h:
 
 trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \

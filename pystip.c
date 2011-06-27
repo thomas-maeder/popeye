@@ -178,7 +178,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
-  slice_structure_pipe,   /* STIntelligentFilter */
+  slice_structure_fork,   /* STIntelligentFilter */
   slice_structure_pipe,   /* STGoalReachableGuardFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingFilter */
@@ -1290,6 +1290,31 @@ static void impose_inverted_starter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Impose the starting side on a stipulation.
+ * @param si identifies slice
+ * @param st address of structure that holds the state of the traversal
+ */
+static void impose_starter_intelligent(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  stip_traverse_structure_pipe(si,st);
+
+  *starter = Black;
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *starter = slices[si].starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Slice types that change the starting side
  */
 static slice_type starter_inverters[] =
@@ -1331,6 +1356,9 @@ void stip_impose_starter(slice_index si, Side starter)
     stip_structure_traversal_override_single(&st,
                                              starter_inverters[i],
                                              &impose_inverted_starter);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentFilter,
+                                           &impose_starter_intelligent);
 
   stip_traverse_structure(si,&st);
 
@@ -1515,7 +1543,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STCastlingFilter */
   &stip_traverse_structure_pipe,              /* STAttackHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashed */
-  &stip_traverse_structure_pipe,              /* STIntelligentFilter */
+  &stip_traverse_structure_end_of_branch,     /* STIntelligentFilter */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
@@ -1750,7 +1778,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STCastlingFilter */
     &stip_traverse_moves_pipe,              /* STAttackHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashed */
-    &stip_traverse_moves_pipe,              /* STIntelligentFilter */
+    &stip_traverse_moves_end_of_branch,     /* STIntelligentFilter */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */

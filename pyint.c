@@ -768,34 +768,32 @@ static void PreventCheckAgainstWhK(
 
 static boolean Redundant(void)
 {
+  boolean result = false;
   square const *bnp;
-  square sq;
-  piece p;
-  Flags sp;
-  boolean   flag;
 
   /* check for redundant white pieces */
-  for (bnp= boardnum; *bnp; bnp++)
+  for (bnp = boardnum; !result && *bnp; bnp++)
   {
-    if (e[sq= *bnp] > obs)
+    square const sq = *bnp;
+    if (sq!=rb && e[sq]>obs)
     {
-      if (sq == rb)
-        continue;
+      piece const p = e[sq];
+      Flags const sp = spec[sq];
 
       /* remove piece */
-      p= e[sq]; sp= spec[sq];
-      e[sq]= vide; spec[sq]= EmptySpec;
+      e[sq] = vide;
+      spec[sq] = EmptySpec;
 
-      flag= echecc(nbply,Black) && immobile(Black);
+      result = (echecc(nbply,Black)
+                && slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution);
 
       /* restore piece */
-      e[sq]= p; spec[sq]= sp;
-      if (flag)
-        return true;
+      e[sq] = p;
+      spec[sq] = sp;
     }
   }
 
-  return false;
+  return result;
 } /* Redundant */
 
 static void StoreMate(
@@ -810,7 +808,7 @@ static void StoreMate(
   square _rb, _rn;
   Flags sp;
 
-  if (!immobile(Black)) {
+  if (slice_has_solution(slices[current_start_slice].u.fork.fork)!=has_solution) {
     NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc, n);
     return;
   }
@@ -1038,7 +1036,7 @@ static void ImmobilizeByPin(
               FroTo(f_p, white[i].sq, Bishop, sq, false);
             if (time <= whmoves) {
               SetPiece(Bishop, sq, white[i].sp);
-              if (immobile(Black)) {
+              if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
                 StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed, n);
               }
@@ -1053,7 +1051,7 @@ static void ImmobilizeByPin(
             time= FroTo(f_p, white[i].sq, Rook, sq, false);
             if (time <= whmoves) {
               SetPiece(Rook, sq, white[i].sp);
-              if (immobile(Black)) {
+              if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
                 StaleStoreMate(blmoves, whmoves-time,
                                blpcallowed-1, whpcallowed, n);
               }
@@ -1066,7 +1064,7 @@ static void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, Queen, sq, false);
           if (time <= whmoves) {
             SetPiece(Queen, sq, white[i].sp);
-            if (immobile(Black)) {
+            if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
               StaleStoreMate(blmoves,
                              whmoves-time, blpcallowed-1,
                              whpcallowed, n);
@@ -1082,7 +1080,7 @@ static void ImmobilizeByPin(
           time= FroTo(f_p, white[i].sq, f_p, sq, false);
           if (time <= whmoves) {
             SetPiece(f_p, sq, white[i].sp);
-            if (immobile(Black)) {
+            if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
               StaleStoreMate(
                 blmoves, whmoves-time, blpcallowed-1,
                 whpcallowed, n);
@@ -1156,7 +1154,7 @@ void DeposeWhKing(int   blmoves,
                             blpcallowed, whpcallowed, n);
     }
     else {
-      if (immobile(Black)) {
+      if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
         StaleStoreMate(blmoves,
                        whmoves, blpcallowed, whpcallowed, n);
       }
@@ -1232,7 +1230,7 @@ void ImmobilizeByBlBlock(
                                       n);
               }
               else {
-                if (immobile(Black)) {
+                if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
                   StaleStoreMate(blmoves-time,
                                  whmoves,
                                  blpcallowed, whpcallowed-1, n);
@@ -1268,7 +1266,7 @@ void ImmobilizeByBlBlock(
                                   blpcallowed-pcreq, whpcallowed-1, n);
           }
           else {
-            if (immobile(Black)) {
+            if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
               StaleStoreMate(blmoves-time, whmoves,
                              blpcallowed-pcreq, whpcallowed-1, n);
             }
@@ -1339,7 +1337,7 @@ static void ImmobilizeByWhBlock(
                                       whpcallowed, n);
               }
               else {
-                if (immobile(Black)) {
+                if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
                   StaleStoreMate(blmoves,
                                  whmoves-time,
                                  blpcallowed-1, whpcallowed, n);
@@ -1379,7 +1377,7 @@ static void ImmobilizeByWhBlock(
                                 whpcallowed-pcreq, n);
         }
         else {
-          if (immobile(Black)) {
+          if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
             StaleStoreMate(blmoves, whmoves-time,
                            blpcallowed-decpc, whpcallowed-pcreq, n);
           }
@@ -1992,7 +1990,7 @@ static void GenerateBlocking(
                                 whmoves, blpcallowed, whpcallowed, n);
         }
         else {
-          if (immobile(Black)) {
+          if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution) {
             StaleStoreMate(timetowaste,
                            whmoves, blpcallowed, whpcallowed, n);
           }
