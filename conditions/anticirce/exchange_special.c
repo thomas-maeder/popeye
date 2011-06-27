@@ -51,7 +51,7 @@ has_solution_type anticirce_exchange_special_has_solution(slice_index si)
         && sq_diagram!=sq_rebirth)
       result = slice_has_solution(slices[si].u.pipe.next);
     else
-      result = goal_not_reached;
+      result = has_no_solution;
   }
 
   TraceFunctionExit(__func__);
@@ -84,7 +84,7 @@ has_solution_type anticirce_exchange_special_solve(slice_index si)
         && sq_diagram!=sq_rebirth)
       result = slice_solve(slices[si].u.pipe.next);
     else
-      result = goal_not_reached;
+      result = has_no_solution;
   }
 
   TraceFunctionExit(__func__);
