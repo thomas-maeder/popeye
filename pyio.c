@@ -2017,8 +2017,12 @@ static char *ParseGoal(char *tok, slice_index proxy)
       }
 
       case goal_mate_or_stale:
-        pipe_link(proxy,alloc_goal_immobile_reached_tester_system());
+      {
+        Goal const goal = { goal_mate_or_stale, initsquare };
+        slice_index const immobile_tester = alloc_goal_immobile_reached_tester_system();
+        pipe_link(proxy,alloc_goal_reached_tester_slice(goal,immobile_tester));
         break;
+      }
 
       case goal_mate:
       {

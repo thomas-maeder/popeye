@@ -17,15 +17,13 @@
 slice_index alloc_goal_immobile_reached_tester_system(void)
 {
   slice_index result;
-  slice_index immobile_tester;
   Goal const goal = { goal_mate_or_stale, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  immobile_tester = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
-  pipe_link(immobile_tester,alloc_true_slice());
-  result = alloc_goal_reached_tester_slice(goal,immobile_tester);
+  result = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
+  pipe_link(result,alloc_true_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

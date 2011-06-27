@@ -1,8 +1,8 @@
 #include "stipulation/goals/doublemate/filter.h"
-#include "pypipe.h"
 #include "pydata.h"
-#include "pyproc.h"
+#include "pybrafrk.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "stipulation/goals/immobile/reached_tester.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -17,7 +17,8 @@ slice_index alloc_doublemate_filter_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STDoubleMateFilter);
+  result = alloc_branch_fork(STDoubleMateFilter,
+                             alloc_goal_immobile_reached_tester_system());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -41,7 +42,6 @@ stip_length_type doublemate_filter_can_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -49,7 +49,8 @@ stip_length_type doublemate_filter_can_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (!immobile(starter))
+  if (n_max_unsolvable<slack_length_battle+1
+      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = can_attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
@@ -77,7 +78,6 @@ stip_length_type doublemate_filter_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -85,7 +85,8 @@ stip_length_type doublemate_filter_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (!immobile(starter))
+  if (n_max_unsolvable<slack_length_battle+1
+      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
@@ -109,7 +110,6 @@ stip_length_type doublemate_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -118,7 +118,7 @@ stip_length_type doublemate_filter_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (!immobile(starter))
+  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
@@ -142,7 +142,6 @@ stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -151,7 +150,7 @@ stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (!immobile(starter))
+  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = can_help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);

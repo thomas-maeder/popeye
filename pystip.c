@@ -159,7 +159,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STThreatStart */
   slice_structure_pipe,   /* STThreatCollector */
   slice_structure_pipe,   /* STRefutationsCollector */
-  slice_structure_pipe,   /* STDoubleMateFilter */
+  slice_structure_fork,   /* STDoubleMateFilter */
   slice_structure_fork,   /* STCounterMateFilter */
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
   slice_structure_pipe,   /* STNoShortVariations */
@@ -1496,7 +1496,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STThreatStart */
   &stip_traverse_structure_pipe,              /* STThreatCollector */
   &stip_traverse_structure_pipe,              /* STRefutationsCollector */
-  &stip_traverse_structure_pipe,              /* STDoubleMateFilter */
+  &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
   &stip_traverse_structure_end_of_branch,     /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
   &stip_traverse_structure_pipe,              /* STNoShortVariations */
@@ -1731,7 +1731,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STThreatStart */
     &stip_traverse_moves_pipe,              /* STThreatCollector */
     &stip_traverse_moves_pipe,              /* STRefutationsCollector */
-    &stip_traverse_moves_pipe,              /* STDoubleMateFilter */
+    &stip_traverse_moves_end_of_branch,     /* STDoubleMateFilter */
     &stip_traverse_moves_end_of_branch,     /* STCounterMateFilter */
     &stip_traverse_moves_pipe,              /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,              /* STNoShortVariations */

@@ -1,5 +1,4 @@
 #include "stipulation/goals/countermate/filter.h"
-#include "pypipe.h"
 #include "pydata.h"
 #include "pybrafrk.h"
 #include "stipulation/goals/prerequisite_guards.h"
@@ -43,7 +42,6 @@ stip_length_type countermate_filter_can_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -80,7 +78,6 @@ stip_length_type countermate_filter_attack(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -117,7 +114,6 @@ stip_length_type countermate_filter_can_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -154,7 +150,6 @@ stip_length_type countermate_filter_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -186,7 +181,6 @@ stip_length_type countermate_filter_defend(slice_index si,
 stip_length_type countermate_filter_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -218,7 +212,6 @@ stip_length_type countermate_filter_help(slice_index si, stip_length_type n)
 stip_length_type countermate_filter_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
