@@ -134,6 +134,11 @@
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
+    ENUMERATOR(STImmobilityTester), \
+    ENUMERATOR(STImmobilityTesterKingFirst), \
+    ENUMERATOR(STOhneschachImmobilityTester), \
+    ENUMERATOR(STMaffImmobilityTester), \
+    ENUMERATOR(STOWUImmobilityTester), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

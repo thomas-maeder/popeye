@@ -24,6 +24,7 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/move.h"
+#include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/proxy.h"
@@ -135,7 +136,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalProofgameReachedTester */
   slice_structure_pipe,   /* STGoalAToBReachedTester */
   slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
-  slice_structure_pipe,   /* STGoalImmobileReachedTester */
+  slice_structure_fork,   /* STGoalImmobileReachedTester */
   slice_structure_pipe,   /* STGoalNotCheckReachedTester */
   slice_structure_leaf,   /* STTrue */
   slice_structure_leaf,   /* STFalse */
@@ -204,6 +205,11 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
+  slice_structure_pipe,   /* STImmobilityTester */
+  slice_structure_pipe,   /* STImmobilityTesterKingFirst */
+  slice_structure_pipe,   /* STOhneschachImmobilityTester */
+  slice_structure_pipe,   /* STMaffImmobilityTester */
+  slice_structure_pipe,   /* STOWUImmobilityTester */
   slice_structure_pipe,   /* STOutputModeSelector */
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
   slice_structure_pipe,   /* STEndOfPhaseWriter */
@@ -338,6 +344,11 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STPiecesParalysingMateFilter */
   slice_function_unspecified,    /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,    /* STPiecesKamikazeTargetSquareFilter */
+  slice_function_unspecified,    /* STImmobilityTester */
+  slice_function_unspecified,    /* STImmobilityTesterKingFirst */
+  slice_function_unspecified,    /* STOhneschachImmobilityTester */
+  slice_function_unspecified,    /* STMaffImmobilityTester */
+  slice_function_unspecified,    /* STOWUImmobilityTester */
   slice_function_unspecified,    /* STOutputModeSelector */
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
   slice_function_unspecified,    /* STEndOfPhaseWriter */
@@ -1335,6 +1346,9 @@ void stip_impose_starter(slice_index si, Side starter)
   stip_structure_traversal_override_single(&st,
                                            STIntelligentFilter,
                                            &impose_starter_intelligent_filter);
+ stip_structure_traversal_override_single(&st,
+                                          STGoalImmobileReachedTester,
+                                          &impose_starter_immobility_tester);
 
   stip_traverse_structure(si,&st);
 
@@ -1475,7 +1489,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateOrStalemateReachedTester */
-  &stip_traverse_structure_pipe,              /* STGoalImmobileReachedTester */
+  &stip_traverse_structure_end_of_branch,     /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalNotCheckReachedTester */
   &stip_structure_visitor_noop,               /* STTrue */
   &stip_structure_visitor_noop,               /* STFalse */
@@ -1544,6 +1558,11 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPiecesParalysingMateFilter */
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
+  &stip_traverse_structure_pipe,              /* STImmobilityTester */
+  &stip_traverse_structure_pipe,              /* STImmobilityTesterKingFirst */
+  &stip_traverse_structure_pipe,              /* STOhneschachImmobilityTester */
+  &stip_traverse_structure_pipe,              /* STMaffImmobilityTester */
+  &stip_traverse_structure_pipe,              /* STOWUImmobilityTester */
   &stip_traverse_structure_pipe,              /* STOutputModeSelector */
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */
   &stip_traverse_structure_pipe,              /* STEndOfPhaseWriter */
@@ -1710,7 +1729,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateOrStalemateReachedTester */
-    &stip_traverse_moves_pipe,              /* STGoalImmobileReachedTester */
+    &stip_traverse_moves_end_of_branch,     /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_noop,              /* STTrue */
     &stip_traverse_moves_noop,              /* STFalse */
@@ -1779,6 +1798,11 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingMateFilter */
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
+    &stip_traverse_moves_pipe,              /* STImmobilityTester */
+    &stip_traverse_moves_pipe,              /* STImmobilityTesterKingFirst */
+    &stip_traverse_moves_pipe,              /* STOhneschachImmobilityTester */
+    &stip_traverse_moves_pipe,              /* STMaffImmobilityTester */
+    &stip_traverse_moves_pipe,              /* STOWUImmobilityTester */
     &stip_traverse_moves_pipe,              /* STOutputModeSelector */
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */
     &stip_traverse_moves_pipe,              /* STEndOfPhaseWriter */

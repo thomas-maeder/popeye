@@ -1883,6 +1883,17 @@ static boolean verify_position(slice_index si)
   if (flagwhitemummer)
     disable_orthodox_mating_move_optimisation(White);
 
+  if (CondFlag[ohneschach])
+    goal_immobile_reached_tester_optimise(si,STOhneschachImmobilityTester);
+  else if (CondFlag[exclusive])
+    ; /* use regular move generation to filter out non-unique mating moves */
+  else if (CondFlag[MAFF])
+    goal_immobile_reached_tester_optimise(si,STMaffImmobilityTester);
+  else if (CondFlag[OWU])
+    goal_immobile_reached_tester_optimise(si,STOWUImmobilityTester);
+  else
+    goal_immobile_reached_tester_optimise(si,STImmobilityTesterKingFirst);
+
   return true;
 }
 

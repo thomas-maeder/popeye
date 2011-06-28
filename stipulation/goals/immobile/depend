@@ -1,13 +1,20 @@
 stipulation/goals/immobile/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/immobile/reached_tester.c \
- stipulation/goals/immobile/reached_tester.h pypipe.h pyproc.h \
- stipulation/boolean/true.h stipulation/goals/reached_tester.h trace.h
+ stipulation/goals/immobile/reached_tester.h pypipe.h pydata.h pyproc.h \
+ pymsg.h pybrafrk.h stipulation/boolean/true.h \
+ stipulation/goals/reached_tester.h trace.h
 
 stipulation/goals/immobile/reached_tester.h:
 
 pypipe.h:
 
+pydata.h:
+
 pyproc.h:
+
+pymsg.h:
+
+pybrafrk.h:
 
 stipulation/boolean/true.h:
 

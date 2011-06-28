@@ -260,7 +260,6 @@ void nextply(ply parent);
 
 boolean nocontact(square departure, square arrival, square capture, nocontactfunc_t nocontactfunc);
 boolean nogridcontact(square a);
-boolean immobile(Side a);
 boolean rbcircech(square departure, square arrival, square capture);
 
 extern boolean (*rbechec)(ply ply_id, evalfunction_t *evaluate);

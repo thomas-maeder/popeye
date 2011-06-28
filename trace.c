@@ -251,13 +251,23 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STPiecesParalysingMateFilter:
       case STPiecesParalysingStalemateSpecial:
-      case STGoalImmobileReachedTester:
       case STGoalCheckReachedTester:
       {
         Trace_pipe(si);
         TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.goal_filter.next,done_slices);
+        break;
+      }
+
+      case STGoalImmobileReachedTester:
+      {
+        Trace_pipe(si);
+        Trace_link("fork:",slices[si].u.immobility_tester.fork,"");
+        TraceValue("%u",slices[si].u.immobility_tester.applies_to_who);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.immobility_tester.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.immobility_tester.fork,done_slices);
         break;
       }
 

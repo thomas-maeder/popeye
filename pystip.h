@@ -55,6 +55,13 @@ typedef struct
             goal_applies_to_starter_or_adversary applies_to_who;
         } goal_filter;
 
+        struct /* for goal filter types * */
+        {
+            slice_index next;
+            slice_index fork;
+            goal_applies_to_starter_or_adversary applies_to_who;
+        } immobility_tester;
+
         struct
         {
             slice_index next;

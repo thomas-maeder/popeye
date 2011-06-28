@@ -1,0 +1,11 @@
+conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_tester.c \
+ conditions/maff/immobility_tester.h pydata.h \
+ stipulation/goals/immobile/reached_tester.h trace.h
+
+conditions/maff/immobility_tester.h:
+
+pydata.h:
+
+stipulation/goals/immobile/reached_tester.h:
+
+trace.h:

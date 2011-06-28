@@ -46,6 +46,8 @@
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
+#include "conditions/maff/immobility_tester.h"
+#include "conditions/owu/immobility_tester.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/initialiser.h"
@@ -343,6 +345,26 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalImmobileReachedTester:
       result = goal_immobile_reached_tester_has_solution(si);
+      break;
+
+    case STImmobilityTester:
+      result = immobility_tester_has_solution(si);
+      break;
+
+    case STImmobilityTesterKingFirst:
+      result = immobility_tester_king_first_has_solution(si);
+      break;
+
+    case STOhneschachImmobilityTester:
+      result = ohneschach_immobility_tester_has_solution(si);
+      break;
+
+    case STMaffImmobilityTester:
+      result = maff_immobility_tester_has_solution(si);
+      break;
+
+    case STOWUImmobilityTester:
+      result = owu_immobility_tester_has_solution(si);
       break;
 
     case STGoalNotCheckReachedTester:

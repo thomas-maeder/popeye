@@ -280,7 +280,8 @@ py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  pyslice.h pystip.h stipulation/slice_type.h \
  stipulation/goals/doublemate/reached_tester.h conditions/exclusive.h \
  pyposit.h conditions/republican.h pyproc.h \
- pieces/attributes/paralysing/paralysing.h trace.h measure.h
+ pieces/attributes/paralysing/paralysing.h trace.h measure.h \
+ stipulation/goals/immobile/reached_tester.h
 
 py.h:
 
@@ -345,6 +346,8 @@ pieces/attributes/paralysing/paralysing.h:
 trace.h:
 
 measure.h:
+
+stipulation/goals/immobile/reached_tester.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h py1.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h pymsg.h pyhash.h DHT/dhtbcmem.h \
@@ -1143,6 +1146,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move.h \
+ stipulation/goals/immobile/reached_tester.h \
  stipulation/help_play/adapter.h stipulation/help_play/branch.h \
  stipulation/proxy.h solving/fork_on_remaining.h solving/find_shortest.h \
  solving/move_generator.h solving/battle_play/try.h pytable.h \
@@ -1251,6 +1255,8 @@ stipulation/battle_play/defense_adapter.h:
 
 stipulation/move.h:
 
+stipulation/goals/immobile/reached_tester.h:
+
 stipulation/help_play/adapter.h:
 
 stipulation/help_play/branch.h:
@@ -1318,6 +1324,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/ultraschachzwang/goal_filter.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
  stipulation/help_play/play.h options/stoponshortsolutions/initialiser.h \
  optimisations/intelligent/duplicate_avoider.h \
@@ -1476,6 +1483,10 @@ conditions/anticirce/exchange_filter.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 
+conditions/maff/immobility_tester.h:
+
+conditions/owu/immobility_tester.h:
+
 options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
@@ -1552,8 +1563,7 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/branch.h pystip.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h trace.h py.h boolean.h pyposit.h \
- pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h
+ stipulation/battle_play/defense_play.h trace.h
 
 pydirctg.h:
 
@@ -1570,22 +1580,6 @@ stipulation/battle_play/defense_adapter.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
-
-py.h:
-
-boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pystip.h stipulation/goals/goals.h \
  boolean.h py.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h stipulation/slice_type.h \
@@ -2158,14 +2152,18 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
- pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
- boolean.h py.h pydata.h pyhash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h pyslice.h \
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+ pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
+ stipulation/goals/goals.h boolean.h py.h pydata.h pyhash.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
  stipulation/help_play/play.h pystip.h pystip.h stipulation/slice_type.h \
  output/plaintext/plaintext.h stipulation/goals/goals.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2182,10 +2180,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 stipulation/goals/goals.h:
 
