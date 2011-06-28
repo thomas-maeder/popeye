@@ -4,6 +4,7 @@
 #include "pyoutput.h"
 #include "trace.h"
 #include "pymsg.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"

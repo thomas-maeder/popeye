@@ -3,17 +3,18 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "pymsg.h"
+#include "stipulation/proxy.h"
 #include "stipulation/branch.h"
-#include "solving/move_generator.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/move_generator.h"
+#include "solving/play_suppressor.h"
+#include "solving/find_shortest.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/battle_play/threat.h"
-#include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
-#include "solving/find_shortest.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/min_length_optimiser.h"
@@ -153,7 +154,6 @@ static void insert_solvers_defense_adapter(slice_index si,
 {
   output_mode const * const mode = st->param;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

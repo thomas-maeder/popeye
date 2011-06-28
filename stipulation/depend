@@ -175,13 +175,19 @@ stipulation/help_play/branch.h:
 
 trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
- stipulation/temporary_hacks.h pybrafrk.h \
- stipulation/goals/reached_tester.h \
+ stipulation/temporary_hacks.h pybrafrk.h pymovein.h pypipe.h \
+ stipulation/proxy.h stipulation/goals/reached_tester.h \
  stipulation/goals/mate/reached_tester.h trace.h
 
 stipulation/temporary_hacks.h:
 
 pybrafrk.h:
+
+pymovein.h:
+
+pypipe.h:
+
+stipulation/proxy.h:
 
 stipulation/goals/reached_tester.h:
 

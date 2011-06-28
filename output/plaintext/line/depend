@@ -27,8 +27,8 @@ output/plaintext/line/end_of_intro_series_marker.h:
 trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
  output/plaintext/line/line_writer.h pypipe.h pydata.h pyoutput.h trace.h \
- pymsg.h output/plaintext/plaintext.h \
- output/plaintext/move_inversion_counter.h \
+ pymsg.h stipulation/battle_play/defense_play.h \
+ output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h platform/beep.h
 
 output/plaintext/line/line_writer.h:
@@ -42,6 +42,8 @@ pyoutput.h:
 trace.h:
 
 pymsg.h:
+
+stipulation/battle_play/defense_play.h:
 
 output/plaintext/plaintext.h:
 

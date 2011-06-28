@@ -1,5 +1,8 @@
 #include "stipulation/temporary_hacks.h"
 #include "pybrafrk.h"
+#include "pymovein.h"
+#include "pypipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "trace.h"

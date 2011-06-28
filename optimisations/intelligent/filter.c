@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/filter.h"
 #include "pyint.h"
 #include "pybrafrk.h"
+#include "pypipe.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "trace.h"
