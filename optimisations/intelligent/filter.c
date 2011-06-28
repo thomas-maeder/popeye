@@ -26,6 +26,35 @@ slice_index alloc_intelligent_filter(void)
   return result;
 }
 
+/* Impose the starting side on a stipulation.
+ * @param si identifies slice
+ * @param st address of structure that holds the state of the traversal
+ */
+void impose_starter_intelligent_filter(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",*starter);
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  stip_traverse_structure_pipe(si,st);
+
+  /* in duplexes, the colors swapped when looking for the "black solutions".
+   * we thus have to make sure that our immobility tester always tests for
+   * Black's immobility.
+   */
+  *starter = Black;
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *starter = slices[si].starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

@@ -35,6 +35,7 @@
 #include "solving/battle_play/threat.h"
 #include "solving/find_by_increasing_length.h"
 #include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/intelligent/filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -1290,31 +1291,6 @@ static void impose_inverted_starter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-static void impose_starter_intelligent(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  stip_traverse_structure_pipe(si,st);
-
-  *starter = Black;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-  *starter = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Slice types that change the starting side
  */
 static slice_type starter_inverters[] =
@@ -1358,7 +1334,7 @@ void stip_impose_starter(slice_index si, Side starter)
                                              &impose_inverted_starter);
   stip_structure_traversal_override_single(&st,
                                            STIntelligentFilter,
-                                           &impose_starter_intelligent);
+                                           &impose_starter_intelligent_filter);
 
   stip_traverse_structure(si,&st);
 

@@ -1148,7 +1148,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  solving/move_generator.h solving/battle_play/try.h pytable.h \
  solving/battle_play/continuation.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
- optimisations/goals/enpassant/filter.h trace.h
+ optimisations/goals/enpassant/filter.h \
+ optimisations/intelligent/filter.h trace.h
 
 pystip.h:
 
@@ -1273,6 +1274,8 @@ solving/battle_play/threat.h:
 solving/find_by_increasing_length.h:
 
 optimisations/goals/enpassant/filter.h:
+
+optimisations/intelligent/filter.h:
 
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \

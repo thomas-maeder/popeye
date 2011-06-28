@@ -14,6 +14,13 @@
  */
 slice_index alloc_intelligent_filter(void);
 
+/* Impose the starting side on a stipulation.
+ * @param si identifies slice
+ * @param st address of structure that holds the state of the traversal
+ */
+void impose_starter_intelligent_filter(slice_index si,
+                                       stip_structure_traversal *st);
+
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
