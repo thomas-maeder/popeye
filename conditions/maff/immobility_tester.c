@@ -11,7 +11,6 @@
 
 static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
 {
-  slice_type const * const type = st->param;
   slices[si].type = STMaffImmobilityTester;
   stip_traverse_structure_children(si,st);
 }
@@ -76,11 +75,16 @@ static boolean maff_advance_departure_square(Side side,
   return false;
 }
 
-static boolean maff_find_any_legal_move_king_first(Side side)
+static boolean maff_find_any_legal_move_king_first(slice_index si)
 {
   boolean result = false;
-
+  Side const side = slices[si].starter;
   square const *next_square_to_try = boardnum;
+
+  move_generation_mode = move_generation_not_optimized;
+  nextply(nbply);
+  trait[nbply] = side;
+
   do
   {
     while (!result && encore())
@@ -93,41 +97,36 @@ static boolean maff_find_any_legal_move_king_first(Side side)
   } while (!result
            && maff_advance_departure_square(side,&next_square_to_try));
 
+  finply();
+
   return result;
 }
 
-static boolean maff_is_king_immobile(Side camp)
+static boolean maff_is_king_immobile(slice_index si)
 {
   unsigned int nr_king_flights = 0;
+  Side const side = slices[si].starter;
+
+  move_generation_mode = move_generation_not_optimized;
+  nextply(nbply);
+  trait[nbply] = side;
 
   if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(camp));
-  generate_king_moves(camp);
+    initneutre(advers(side));
+  generate_king_moves(side);
 
   /* don't stop if nr_king_flights>1 - we want to use up all king moves here */
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,camp))
+        && !echecc(nbply,side))
       ++nr_king_flights;
     repcoup();
   }
 
-  return nr_king_flights==1;
-}
-
-static boolean maff_immobile(Side camp)
-{
-  boolean result = true;
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = camp;
-  if (!maff_is_king_immobile(camp))
-    result = false;
-  else if (maff_find_any_legal_move_king_first(camp))
-    result = false;
   finply();
-  return result;
+
+  return nr_king_flights==1;
 }
 
 /* Determine whether a slice.has just been solved with the move
@@ -137,15 +136,14 @@ static boolean maff_immobile(Side camp)
  */
 has_solution_type maff_immobility_tester_has_solution(slice_index si)
 {
-  has_solution_type result;
+  has_solution_type result = has_solution;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (maff_immobile(slices[si].starter))
-    result = slice_has_solution(slices[si].u.immobility_tester.next);
-  else
+  if (!maff_is_king_immobile(si)
+      || maff_find_any_legal_move_king_first(si))
     result = has_no_solution;
 
   TraceFunctionExit(__func__);
