@@ -27,7 +27,7 @@ static void substitute_maff_specific_testers(slice_index si,
     slice_index const next1 = slices[si].u.pipe.next;
     slice_index const next2 = stip_deep_copy(next1);
     slice_index const king_tester = alloc_pipe(STMaffImmobilityTesterKing);
-    slice_index const other_tester = alloc_pipe(STMaffImmobilityTesterOther);
+    slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
@@ -60,45 +60,6 @@ void maff_replace_immobility_testers(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static boolean maff_advance_departure_square(Side side,
-                                             square const **next_square_to_try)
-{
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-
-  while (true)
-  {
-    square const sq_departure = **next_square_to_try;
-    if (sq_departure==0)
-      break;
-    else
-    {
-      piece p = e[sq_departure];
-      ++*next_square_to_try;
-      if (p!=vide)
-      {
-        if (TSTFLAG(spec[sq_departure],Neutral))
-          p = -p;
-
-        if (side==White)
-        {
-          if (p>obs && sq_departure!=rb)
-            gen_wh_piece(sq_departure,p);
-        }
-        else
-        {
-          if (p<vide && sq_departure!=rn)
-            gen_bl_piece(sq_departure,p);
-        }
-
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
 /* Determine whether a slice.has just been solved with the move
@@ -135,48 +96,6 @@ has_solution_type maff_immobility_tester_king_has_solution(slice_index si)
   finply();
 
   result = nr_king_flights==1 ? has_solution : has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type maff_immobility_tester_other_has_solution(slice_index si)
-{
-  has_solution_type result = has_solution;
-  Side const side = slices[si].starter;
-  square const *next_square_to_try = boardnum;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = side;
-
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-
-  do
-  {
-    while (result==has_solution && encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !echecc(nbply,side))
-        result = has_no_solution;
-      repcoup();
-    }
-  } while (result==has_solution
-           && maff_advance_departure_square(side,&next_square_to_try));
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

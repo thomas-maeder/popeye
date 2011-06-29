@@ -355,6 +355,10 @@ has_solution_type slice_has_solution(slice_index si)
       result = immobility_tester_king_first_has_solution(si);
       break;
 
+    case STImmobilityTesterNonKing:
+      result = immobility_tester_non_king_has_solution(si);
+      break;
+
     case STOhneschachImmobilityTester:
       result = ohneschach_immobility_tester_has_solution(si);
       break;
@@ -363,16 +367,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = maff_immobility_tester_king_has_solution(si);
       break;
 
-    case STMaffImmobilityTesterOther:
-      result = maff_immobility_tester_other_has_solution(si);
-      break;
-
     case STOWUImmobilityTesterKing:
       result = owu_immobility_tester_king_has_solution(si);
-      break;
-
-    case STOWUImmobilityTesterOther:
-      result = owu_immobility_tester_other_has_solution(si);
       break;
 
     case STGoalNotCheckReachedTester:

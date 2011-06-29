@@ -444,3 +444,45 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Determine whether a slice.has just been solved with the move
+ * by the non-starter
+ * @param si slice identifier
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type immobility_tester_non_king_has_solution(slice_index si)
+{
+  has_solution_type result = has_solution;
+  Side const side = slices[si].starter;
+  square const *next_square_to_try = boardnum;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_generation_mode = move_generation_not_optimized;
+  nextply(nbply);
+  trait[nbply] = side;
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(side));
+
+  do
+  {
+    while (result==has_solution && encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !echecc(nbply,side))
+        result = has_no_solution;
+      repcoup();
+    }
+  } while (result==has_solution
+           && advance_departure_square(side,&next_square_to_try));
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
