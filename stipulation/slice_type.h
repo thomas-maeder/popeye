@@ -137,7 +137,8 @@
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STImmobilityTesterKingFirst), \
     ENUMERATOR(STOhneschachImmobilityTester), \
-    ENUMERATOR(STMaffImmobilityTester), \
+    ENUMERATOR(STMaffImmobilityTesterKing), \
+    ENUMERATOR(STMaffImmobilityTesterOther), \
     ENUMERATOR(STOWUImmobilityTester), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

@@ -208,7 +208,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STImmobilityTester */
   slice_structure_pipe,   /* STImmobilityTesterKingFirst */
   slice_structure_pipe,   /* STOhneschachImmobilityTester */
-  slice_structure_pipe,   /* STMaffImmobilityTester */
+  slice_structure_pipe,   /* STMaffImmobilityTesterKing */
+  slice_structure_pipe,   /* STMaffImmobilityTesterOther */
   slice_structure_pipe,   /* STOWUImmobilityTester */
   slice_structure_pipe,   /* STOutputModeSelector */
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
@@ -347,7 +348,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STImmobilityTester */
   slice_function_unspecified,    /* STImmobilityTesterKingFirst */
   slice_function_unspecified,    /* STOhneschachImmobilityTester */
-  slice_function_unspecified,    /* STMaffImmobilityTester */
+  slice_function_unspecified,    /* STMaffImmobilityTesterKing */
+  slice_function_unspecified,    /* STMaffImmobilityTesterOther */
   slice_function_unspecified,    /* STOWUImmobilityTester */
   slice_function_unspecified,    /* STOutputModeSelector */
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
@@ -1561,7 +1563,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
   &stip_traverse_structure_pipe,              /* STImmobilityTesterKingFirst */
   &stip_traverse_structure_pipe,              /* STOhneschachImmobilityTester */
-  &stip_traverse_structure_pipe,              /* STMaffImmobilityTester */
+  &stip_traverse_structure_pipe,              /* STMaffImmobilityTesterKing */
+  &stip_traverse_structure_pipe,              /* STMaffImmobilityTesterOther */
   &stip_traverse_structure_pipe,              /* STOWUImmobilityTester */
   &stip_traverse_structure_pipe,              /* STOutputModeSelector */
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */
@@ -1801,7 +1804,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
     &stip_traverse_moves_pipe,              /* STImmobilityTesterKingFirst */
     &stip_traverse_moves_pipe,              /* STOhneschachImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STMaffImmobilityTester */
+    &stip_traverse_moves_pipe,              /* STMaffImmobilityTesterKing */
+    &stip_traverse_moves_pipe,              /* STMaffImmobilityTesterOther */
     &stip_traverse_moves_pipe,              /* STOWUImmobilityTester */
     &stip_traverse_moves_pipe,              /* STOutputModeSelector */
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */

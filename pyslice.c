@@ -359,8 +359,12 @@ has_solution_type slice_has_solution(slice_index si)
       result = ohneschach_immobility_tester_has_solution(si);
       break;
 
-    case STMaffImmobilityTester:
-      result = maff_immobility_tester_has_solution(si);
+    case STMaffImmobilityTesterKing:
+      result = maff_immobility_tester_king_has_solution(si);
+      break;
+
+    case STMaffImmobilityTesterOther:
+      result = maff_immobility_tester_other_has_solution(si);
       break;
 
     case STOWUImmobilityTester:

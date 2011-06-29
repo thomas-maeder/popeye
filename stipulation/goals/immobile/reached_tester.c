@@ -4,6 +4,7 @@
 #include "pyproc.h"
 #include "pymsg.h"
 #include "pybrafrk.h"
+#include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/goals/reached_tester.h"
 #include "trace.h"
@@ -47,10 +48,14 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
   TraceValue("%u",starter_or_adversary);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STGoalImmobileReachedTester,
-                             alloc_pipe(STImmobilityTester));
-  slices[result].u.immobility_tester.applies_to_who = starter_or_adversary;
-  pipe_link(slices[result].u.immobility_tester.fork,alloc_true_slice());
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const tester = alloc_pipe(STImmobilityTester);
+    result = alloc_branch_fork(STGoalImmobileReachedTester,proxy);
+    pipe_link(proxy,tester);
+    pipe_link(tester,alloc_true_slice());
+    slices[result].u.immobility_tester.applies_to_who = starter_or_adversary;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
