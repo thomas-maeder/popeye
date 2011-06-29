@@ -67,6 +67,12 @@ void generate_king_moves(Side side);
  */
 boolean find_any_legal_move_king_first(Side side);
 
+/* Replace immobility tester slices' type
+ * @param si where to start (entry slice into stipulation)
+ * @param type substitute type
+ */
+void goal_immobile_reached_tester_replace(slice_index si, slice_type type);
+
 /* Determine whether a side is immobile in Ohneschach
  * @return true iff side is immobile
  */

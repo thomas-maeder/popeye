@@ -65,7 +65,11 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 }
 
-void goal_immobile_reached_tester_optimise(slice_index si, slice_type type)
+/* Replace immobility tester slices' type
+ * @param si where to start (entry slice into stipulation)
+ * @param type substitute type
+ */
+void goal_immobile_reached_tester_replace(slice_index si, slice_type type)
 {
   stip_structure_traversal st;
 
@@ -397,10 +401,7 @@ boolean immobile(slice_index si, Side side)
 
   if (CondFlag[ohneschach])
     result = ohneschach_immobile(side);
-  else if (CondFlag[exclusive])
-    /* use regular move generation to filter out non-unique mating moves */
-    result = !find_any_move(side);
-  else if (CondFlag[MAFF] || CondFlag[OWU])
+  else if (CondFlag[exclusive] || CondFlag[MAFF] || CondFlag[OWU])
     result = slice_has_solution(slices[si].u.immobility_tester.fork)==has_solution;
   else
     result = test_immobility_king_first(side);

@@ -7,6 +7,11 @@
  * whether a side is immobile
  */
 
+/* Replace immobility tester slices to cope with condition MAFF
+ * @param si where to start (entry slice into stipulation)
+ */
+void maff_replace_immobility_testers(slice_index si);
+
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier

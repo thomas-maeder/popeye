@@ -119,6 +119,7 @@
 #include "pyoutput.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
+#include "conditions/maff/immobility_tester.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -131,6 +132,8 @@
 #include "stipulation/constraint.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "stipulation/temporary_hacks.h"
+#include "stipulation/goals/immobile/reached_tester.h"
 #include "solving/solving.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
@@ -148,7 +151,6 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
-#include "stipulation/temporary_hacks.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -1884,15 +1886,15 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(White);
 
   if (CondFlag[ohneschach])
-    goal_immobile_reached_tester_optimise(si,STOhneschachImmobilityTester);
+    goal_immobile_reached_tester_replace(si,STOhneschachImmobilityTester);
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
-    goal_immobile_reached_tester_optimise(si,STMaffImmobilityTester);
+    maff_replace_immobility_testers(si);
   else if (CondFlag[OWU])
-    goal_immobile_reached_tester_optimise(si,STOWUImmobilityTester);
+    goal_immobile_reached_tester_replace(si,STOWUImmobilityTester);
   else
-    goal_immobile_reached_tester_optimise(si,STImmobilityTesterKingFirst);
+    goal_immobile_reached_tester_replace(si,STImmobilityTesterKingFirst);
 
   return true;
 }
