@@ -80,6 +80,11 @@ boolean find_any_legal_move_king_first(Side side);
  */
 void goal_immobile_reached_tester_replace(slice_index si, slice_type type);
 
+/* Replace immobility tester slices' type
+ * @param si where to start (entry slice into stipulation)
+ */
+void immobility_testers_substitute_king_first(slice_index si);
+
 /* Determine whether a side is immobile in Ohneschach
  * @return true iff side is immobile
  */

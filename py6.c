@@ -1895,7 +1895,7 @@ static boolean verify_position(slice_index si)
   else if (CondFlag[OWU])
     owu_replace_immobility_testers(si);
   else
-    goal_immobile_reached_tester_replace(si,STImmobilityTesterKingFirst);
+    immobility_testers_substitute_king_first(si);
 
   return true;
 }

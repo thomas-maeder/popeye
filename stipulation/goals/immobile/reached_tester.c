@@ -92,6 +92,33 @@ void goal_immobile_reached_tester_replace(slice_index si, slice_type type)
   TraceFunctionResultEnd();
 }
 
+static void substitute_king_first(slice_index si, stip_structure_traversal *st)
+{
+  slices[si].type = STImmobilityTesterKingFirst;
+  stip_traverse_structure_children(si,st);
+}
+
+/* Replace immobility tester slices' type
+ * @param si where to start (entry slice into stipulation)
+ */
+void immobility_testers_substitute_king_first(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STImmobilityTester,
+                                           &substitute_king_first);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Impose the starting side on a stipulation.
  * @param si identifies slice
  * @param st address of structure that holds the state of the traversal
