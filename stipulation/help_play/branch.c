@@ -39,6 +39,7 @@ static slice_index const slice_rank_order[] =
   STPrerequisiteOptimiser,
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
+  STKingMoveGenerator,
   STMove,
   STDummyMove,
   STMaxTimeGuard,
@@ -52,6 +53,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
+  STLegalMoveCounter,
   STFlightsquaresCounter,
   STCheckZigzagLanding
 };

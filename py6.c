@@ -1886,17 +1886,6 @@ static boolean verify_position(slice_index si)
   if (flagwhitemummer)
     disable_orthodox_mating_move_optimisation(White);
 
-  if (CondFlag[ohneschach])
-    goal_immobile_reached_tester_replace(si,STOhneschachImmobilityTester);
-  else if (CondFlag[exclusive])
-    ; /* use regular move generation to filter out non-unique mating moves */
-  else if (CondFlag[MAFF])
-    maff_replace_immobility_testers(si);
-  else if (CondFlag[OWU])
-    owu_replace_immobility_testers(si);
-  else
-    immobility_testers_substitute_king_first(si);
-
   return true;
 }
 
@@ -2620,6 +2609,17 @@ static Token iterate_twins(Token prev_token)
         stip_insert_restart_guards(root_slice);
 
       stip_insert_solvers(root_slice);
+
+      if (CondFlag[ohneschach])
+        goal_immobile_reached_tester_replace(root_slice,STOhneschachImmobilityTester);
+      else if (CondFlag[exclusive])
+        ; /* use regular move generation to filter out non-unique mating moves */
+      else if (CondFlag[MAFF])
+        maff_replace_immobility_testers(root_slice);
+      else if (CondFlag[OWU])
+        owu_replace_immobility_testers(root_slice);
+      else
+        immobility_testers_substitute_king_first(root_slice);
 
       stip_impose_starter(root_slice,slices[root_slice].starter);
 

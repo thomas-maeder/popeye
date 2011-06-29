@@ -1781,11 +1781,12 @@ static void remember_move(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const hash_element_inserters[] =
 {
-  { STReadyForAttack,   &insert_hash_element_attack   },
-  { STReadyForHelpMove, &insert_hash_element_help     },
-  { STMove,             &remember_move                },
-  { STConstraint,       &stip_traverse_structure_pipe },
-  { STMaxFlightsquares, &stip_traverse_structure_pipe }
+  { STReadyForAttack,            &insert_hash_element_attack   },
+  { STReadyForHelpMove,          &insert_hash_element_help     },
+  { STMove,                      &remember_move                },
+  { STConstraint,                &stip_traverse_structure_pipe },
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
+  { STMaxFlightsquares,          &stip_traverse_structure_pipe }
 };
 
 enum

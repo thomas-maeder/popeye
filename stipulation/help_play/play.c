@@ -19,6 +19,8 @@
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_shortest.h"
 #include "solving/move_generator.h"
+#include "solving/king_move_generator.h"
+#include "solving/legal_move_counter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/filter.h"
@@ -305,6 +307,14 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STFlightsquaresCounter:
       result = flightsquares_counter_can_help(si,n);
+      break;
+
+    case STKingMoveGenerator:
+      result = king_move_generator_can_help(si,n);
+      break;
+
+    case STLegalMoveCounter:
+      result = legal_move_counter_can_help(si,n);
       break;
 
     default:

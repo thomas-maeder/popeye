@@ -77,6 +77,7 @@
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
+    ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play tries */               \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
@@ -86,7 +87,8 @@
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
-    ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
+    ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
+    ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \

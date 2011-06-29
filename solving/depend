@@ -109,3 +109,23 @@ pyproc.h:
 pypipe.h:
 
 trace.h:
+solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
+ solving/king_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+
+solving/king_move_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
+solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
+ solving/legal_move_counter.h pypipe.h trace.h
+
+solving/legal_move_counter.h:
+
+pypipe.h:
+
+trace.h:

@@ -2,10 +2,14 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "solving/king_move_generator.h"
+#include "solving/legal_move_counter.h"
 #include "trace.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 /* This module provides functionality dealing with slices that detect
@@ -28,6 +32,15 @@ static void substitute_maff_specific_testers(slice_index si,
     slice_index const next2 = stip_deep_copy(next1);
     slice_index const king_tester = alloc_pipe(STMaffImmobilityTesterKing);
     slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
+
+    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
+    assert(generator1!=no_slice);
+    pipe_substitute(generator1,alloc_king_move_generator_slice());
+
+    {
+      slice_index const prototype = alloc_pipe(STLegalMoveCounter);
+      branch_insert_slices(next1,&prototype,1);
+    }
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
@@ -77,25 +90,19 @@ has_solution_type maff_immobility_tester_king_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = side;
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count==0);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-  generate_king_moves(side);
+  /* stop counting once we have >1 legal king moves */
+  legal_move_counter_interesting = 1;
 
-  while (nr_king_flights<=1 && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,side))
-      ++nr_king_flights;
-    repcoup();
-  }
+  slice_has_solution(slices[si].u.pipe.next);
 
-  finply();
+  /* apply the MAFF rule */
+  result = legal_move_counter_count==1 ? has_solution : has_no_solution;
 
-  result = nr_king_flights==1 ? has_solution : has_no_solution;
+  /* clean up after ourselves */
+  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

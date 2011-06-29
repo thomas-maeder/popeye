@@ -7,9 +7,9 @@
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/goals/reached_tester.h"
+#include "stipulation/help_play/branch.h"
+#include "solving/king_move_generator.h"
 #include "trace.h"
-
-#include <stdlib.h>
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
@@ -53,7 +53,7 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
     slice_index const tester = alloc_pipe(STImmobilityTester);
     result = alloc_branch_fork(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
-    pipe_link(tester,alloc_true_slice());
+    pipe_link(tester,alloc_help_branch(slack_length_help+1,slack_length_help+1));
     slices[result].u.immobility_tester.applies_to_who = starter_or_adversary;
   }
 
@@ -190,23 +190,6 @@ static boolean advance_departure_square(Side side,
   }
 
   return false;
-}
-
-/* Generate moves for the king (if any) of a side
- * @param side side for which to generate king moves
- */
-void generate_king_moves(Side side)
-{
-  if (side==White)
-  {
-    if (rb!=initsquare)
-      gen_wh_piece(rb,abs(e[rb]));
-  }
-  else
-  {
-    if (rn!=initsquare)
-      gen_bl_piece(rn,-abs(e[rn]));
-  }
 }
 
 /* Find a legal move for a side. Start with the king moves that have already
@@ -361,10 +344,7 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (find_any_move(slices[si].starter))
-    result = has_no_solution;
-  else
-    result = slice_has_solution(slices[si].u.immobility_tester.next);
+  result = find_any_move(slices[si].starter) ? has_no_solution : has_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

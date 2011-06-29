@@ -62,11 +62,6 @@ has_solution_type immobility_tester_non_king_has_solution(slice_index si);
  */
 has_solution_type ohneschach_immobility_tester_has_solution(slice_index si);
 
-/* Generate moves for the king (if any) of a side
- * @param side side for which to generate king moves
- */
-void generate_king_moves(Side side);
-
 /* Find a legal move for a side. Start with the king moves that have already
  * been generated
  * @param side side for which to find a legal move
