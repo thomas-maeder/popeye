@@ -1,11 +1,16 @@
 conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.c \
- conditions/owu/immobility_tester.h pydata.h \
- stipulation/goals/immobile/reached_tester.h trace.h
+ conditions/owu/immobility_tester.h pydata.h stipulation/proxy.h \
+ stipulation/goals/immobile/reached_tester.h stipulation/boolean/and.h \
+ trace.h
 
 conditions/owu/immobility_tester.h:
 
 pydata.h:
 
+stipulation/proxy.h:
+
 stipulation/goals/immobile/reached_tester.h:
+
+stipulation/boolean/and.h:
 
 trace.h:

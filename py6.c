@@ -120,6 +120,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/maff/immobility_tester.h"
+#include "conditions/owu/immobility_tester.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1892,7 +1893,7 @@ static boolean verify_position(slice_index si)
   else if (CondFlag[MAFF])
     maff_replace_immobility_testers(si);
   else if (CondFlag[OWU])
-    goal_immobile_reached_tester_replace(si,STOWUImmobilityTester);
+    owu_replace_immobility_testers(si);
   else
     goal_immobile_reached_tester_replace(si,STImmobilityTesterKingFirst);
 

@@ -367,8 +367,12 @@ has_solution_type slice_has_solution(slice_index si)
       result = maff_immobility_tester_other_has_solution(si);
       break;
 
-    case STOWUImmobilityTester:
-      result = owu_immobility_tester_has_solution(si);
+    case STOWUImmobilityTesterKing:
+      result = owu_immobility_tester_king_has_solution(si);
+      break;
+
+    case STOWUImmobilityTesterOther:
+      result = owu_immobility_tester_other_has_solution(si);
       break;
 
     case STGoalNotCheckReachedTester:

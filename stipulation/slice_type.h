@@ -139,7 +139,8 @@
     ENUMERATOR(STOhneschachImmobilityTester), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STMaffImmobilityTesterOther), \
-    ENUMERATOR(STOWUImmobilityTester), \
+    ENUMERATOR(STOWUImmobilityTesterKing), \
+    ENUMERATOR(STOWUImmobilityTesterOther), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
