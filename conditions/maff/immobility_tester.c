@@ -50,7 +50,6 @@ void maff_replace_immobility_testers(slice_index si)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
