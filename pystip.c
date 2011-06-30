@@ -163,6 +163,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STThreatCollector */
   slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_pipe,   /* STLegalMoveCounter */
+  slice_structure_pipe,   /* STCaptureCounter */
   slice_structure_fork,   /* STDoubleMateFilter */
   slice_structure_fork,   /* STCounterMateFilter */
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
@@ -305,6 +306,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STThreatCollector */
   slice_function_unspecified,    /* STRefutationsCollector */
   slice_function_unspecified,    /* STLegalMoveCounter */
+  slice_function_unspecified,    /* STCaptureCounter */
   slice_function_unspecified,    /* STDoubleMateFilter */
   slice_function_unspecified,    /* STCounterMateFilter */
   slice_function_unspecified,    /* STPrerequisiteOptimiser */
@@ -1522,6 +1524,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STThreatCollector */
   &stip_traverse_structure_pipe,              /* STRefutationsCollector */
   &stip_traverse_structure_pipe,              /* STLegalMoveCounter */
+  &stip_traverse_structure_pipe,              /* STCaptureCounter */
   &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
   &stip_traverse_structure_end_of_branch,     /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
@@ -1765,6 +1768,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STThreatCollector */
     &stip_traverse_moves_pipe,              /* STRefutationsCollector */
     &stip_traverse_moves_pipe,              /* STLegalMoveCounter */
+    &stip_traverse_moves_pipe,              /* STCaptureCounter */
     &stip_traverse_moves_end_of_branch,     /* STDoubleMateFilter */
     &stip_traverse_moves_end_of_branch,     /* STCounterMateFilter */
     &stip_traverse_moves_pipe,              /* STPrerequisiteOptimiser */

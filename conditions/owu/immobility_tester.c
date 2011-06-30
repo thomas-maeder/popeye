@@ -1,10 +1,15 @@
 #include "conditions/owu/immobility_tester.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/and.h"
+#include "solving/king_move_generator.h"
+#include "solving/legal_move_counter.h"
+#include "solving/capture_counter.h"
 #include "trace.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 /* This module provides functionality dealing with slices that detect
@@ -27,6 +32,20 @@ static void substitute_owu_specific_testers(slice_index si,
     slice_index const next2 = stip_deep_copy(next1);
     slice_index const king_tester = alloc_pipe(STOWUImmobilityTesterKing);
     slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
+
+    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
+    assert(generator1!=no_slice);
+    pipe_substitute(generator1,alloc_king_move_generator_slice());
+
+    {
+      slice_index const prototypes[] =
+      {
+          alloc_pipe(STCaptureCounter),
+          alloc_pipe(STLegalMoveCounter)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      branch_insert_slices(next1,prototypes,nr_prototypes);
+    }
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
@@ -69,37 +88,30 @@ void owu_replace_immobility_testers(slice_index si)
 has_solution_type owu_immobility_tester_king_has_solution(slice_index si)
 {
   has_solution_type result;
-  unsigned int nr_king_flights = 0;
-  unsigned int nr_king_captures = 0;
-  Side const side = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
-  current_killer_state = null_killer_state;
-  trait[nbply] = side;
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count==0);
+  assert(capture_counter_count==0);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-  generate_king_moves(side);
+  /* stop counting once we have >1 legal king moves */
+  legal_move_counter_interesting = 0;
 
-  while (nr_king_flights==0 && nr_king_captures<=1 && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      if (side==Black ? pprise[nbply]>=roib : pprise[nbply]<=roib)
-        ++nr_king_captures; /* assuming OWU is OBU for checks to wK !! */
-      if (!echecc(nbply,side))
-        ++nr_king_flights;
-    }
-    repcoup();
-  }
+  /* stop counting once we have >1 legal king captures */
+  capture_counter_interesting = 1;
 
-  finply();
+  slice_has_solution(slices[si].u.pipe.next);
 
-  result = nr_king_flights==0 && nr_king_captures==1 ? has_solution : has_no_solution;
+  result = (legal_move_counter_count==0 && capture_counter_count==1
+            ? has_solution
+            : has_no_solution);
+
+  /* clean up after ourselves */
+  capture_counter_count = 0;
+  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

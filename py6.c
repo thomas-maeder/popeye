@@ -561,10 +561,12 @@ static void find_restricted_side_help(slice_index si,
 
 static structure_traversers_visitors restricted_side_finders[] =
 {
-  { STAttackAdapter,   &find_restricted_side_attack  },
-  { STDefenseAdapter , &find_restricted_side_defense },
-  { STReadyForDefense, &find_restricted_side_defense },
-  { STHelpAdapter,     &find_restricted_side_help    }
+  { STAttackAdapter,             &find_restricted_side_attack  },
+  { STDefenseAdapter ,           &find_restricted_side_defense },
+  { STReadyForDefense,           &find_restricted_side_defense },
+  { STHelpAdapter,               &find_restricted_side_help    },
+  /* the help branch for detecting immobility must not be considered */
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
 };
 
 enum

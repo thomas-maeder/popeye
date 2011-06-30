@@ -89,6 +89,7 @@
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
+    ENUMERATOR(STCaptureCounter), /* counts captures */            \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \

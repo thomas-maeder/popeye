@@ -42,6 +42,7 @@ static slice_index const slice_rank_order[] =
   STKingMoveGenerator,
   STMove,
   STDummyMove,
+  STCaptureCounter,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STRestartGuard,
