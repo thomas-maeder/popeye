@@ -192,44 +192,65 @@ static boolean advance_departure_square(Side side,
   return false;
 }
 
-/* Find a legal move for a side. Start with the king moves that have already
- * been generated
- * @param side side for which to find a legal move
- * @return true iff a legal move has been found
- */
-boolean find_any_legal_move_king_first(Side side)
+static boolean test_immobility_king(Side side)
 {
-  boolean result = false;
+  boolean result = true;
+
+  nextply(nbply);
+  current_killer_state = null_killer_state;
+  trait[nbply]= side;
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(side));
+
+  generate_king_moves(side);
+
+  while (result && encore())
+  {
+    if (jouecoup(nbply,first_play)
+        && TraceCurrentMove(nbply)
+        && !echecc(nbply,side))
+      result = false;
+
+    repcoup();
+  }
+
+  finply();
+
+  return result;
+}
+
+static boolean test_immobility_other(Side side)
+{
+  boolean result = true;
 
   square const *next_square_to_try = boardnum;
+
+  nextply(nbply);
+  current_killer_state = null_killer_state;
+  trait[nbply]= side;
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(advers(side));
+
   do
   {
-    while (!result && encore())
+    while (result && encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !echecc(nbply,side))
-        result = true;
+        result = false;
       repcoup();
     }
-  } while (!result
+  } while (result
            && advance_departure_square(side,&next_square_to_try));
+
+  finply();
 
   return result;
 }
 
 static boolean test_immobility_king_first(Side side)
 {
-  boolean result = true;
-  nextply(nbply);
-  current_killer_state = null_killer_state;
-  trait[nbply]= side;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-  generate_king_moves(side);
-  if (find_any_legal_move_king_first(side))
-    result = false;
-  finply();
-  return result;
+  return test_immobility_king(side) && test_immobility_other(side);
 }
 
 static boolean find_any_move(Side side)

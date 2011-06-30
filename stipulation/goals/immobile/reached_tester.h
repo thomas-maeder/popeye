@@ -62,13 +62,6 @@ has_solution_type immobility_tester_non_king_has_solution(slice_index si);
  */
 has_solution_type ohneschach_immobility_tester_has_solution(slice_index si);
 
-/* Find a legal move for a side. Start with the king moves that have already
- * been generated
- * @param side side for which to find a legal move
- * @return true iff a legal move has been found
- */
-boolean find_any_legal_move_king_first(Side side);
-
 /* Replace immobility tester slices' type
  * @param si where to start (entry slice into stipulation)
  * @param type substitute type
