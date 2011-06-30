@@ -83,8 +83,6 @@ void maff_replace_immobility_testers(slice_index si)
 has_solution_type maff_immobility_tester_king_has_solution(slice_index si)
 {
   has_solution_type result;
-  unsigned int nr_king_flights = 0;
-  Side const side = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
