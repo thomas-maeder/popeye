@@ -14,11 +14,4 @@
  */
 slice_index make_immobility_tester_non_king(slice_index help_branch);
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type immobility_tester_non_king_has_solution(slice_index si);
-
 #endif

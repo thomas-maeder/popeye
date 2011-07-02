@@ -25,7 +25,6 @@
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
-#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "solving/play_suppressor.h"
@@ -49,6 +48,7 @@
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
+#include "conditions/ohneschach/immobility_tester.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/initialiser.h"
@@ -349,15 +349,9 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STImmobilityTester:
-      result = immobility_tester_has_solution(si);
-      break;
-
     case STImmobilityTesterKing:
-      result = immobility_tester_king_has_solution(si);
-      break;
-
     case STImmobilityTesterNonKing:
-      result = immobility_tester_non_king_has_solution(si);
+      result = immobility_tester_has_solution(si);
       break;
 
     case STOhneschachImmobilityTester:
