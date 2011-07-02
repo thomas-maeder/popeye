@@ -1,6 +1,5 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "pydata.h"
-#include "pyproc.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -102,36 +101,6 @@ void impose_starter_immobility_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean find_any_move(Side side)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  move_generation_mode= move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side);
-
-  while (!result && encore())
-  {
-    if (jouecoup(nbply,first_play)
-        && TraceCurrentMove(nbply)
-        && !echecc(nbply,side))
-      result = true;
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier
@@ -145,7 +114,18 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = find_any_move(slices[si].starter) ? has_no_solution : has_solution;
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count==0);
+
+  /* stop counting once we have >1 legal king moves */
+  legal_move_counter_interesting = 0;
+
+  slice_has_solution(slices[si].u.pipe.next);
+
+  result = legal_move_counter_count==0 ? has_solution : has_no_solution;
+
+  /* clean up after ourselves */
+  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
