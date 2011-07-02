@@ -9,6 +9,7 @@
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/goals/reached_tester.h"
+#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "solving/king_move_generator.h"
@@ -105,28 +106,23 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const next1 = slices[si].u.pipe.next;
-    slice_index const next2 = stip_deep_copy(next1);
+    slice_index const next = slices[si].u.pipe.next;
     slice_index const king_tester = alloc_pipe(STImmobilityTesterKing);
-    slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
-    link_to_branch(king_tester,next1);
-    pipe_link(proxy2,other_tester);
-    link_to_branch(other_tester,next2);
+    link_to_branch(king_tester,next);
 
-    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
-    assert(generator1!=no_slice);
-    pipe_substitute(generator1,alloc_king_move_generator_slice());
-
-    slice_index const generator2 = branch_find_slice(STMoveGenerator,next2);
-    assert(generator2!=no_slice);
-    pipe_substitute(generator2,alloc_non_king_move_generator_slice());
+    pipe_link(proxy2,make_immobility_tester_non_king(stip_deep_copy(next)));
 
     {
+      slice_index const generator = branch_find_slice(STMoveGenerator,next);
       slice_index const prototype = alloc_pipe(STLegalMoveCounter);
-      branch_insert_slices(si,&prototype,1);
+
+      assert(generator!=no_slice);
+      pipe_substitute(generator,alloc_king_move_generator_slice());
+
+      branch_insert_slices(next,&prototype,1);
     }
 
     pipe_remove(si);
@@ -431,38 +427,6 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
     result = slice_has_solution(slices[si].u.immobility_tester.next);
   else
     result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type immobility_tester_non_king_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count==0);
-
-  /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting = 0;
-
-  slice_has_solution(slices[si].u.pipe.next);
-
-  result = legal_move_counter_count==0 ? has_solution : has_no_solution;
-
-  /* clean up after ourselves */
-  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

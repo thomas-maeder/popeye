@@ -1,13 +1,10 @@
 conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_tester.c \
- conditions/maff/immobility_tester.h pydata.h pypipe.h \
- stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
- stipulation/goals/immobile/reached_tester.h \
- solving/king_move_generator.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h trace.h
+ conditions/maff/immobility_tester.h pypipe.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/boolean/and.h \
+ stipulation/goals/immobile/reached_tester_non_king.h \
+ solving/king_move_generator.h solving/legal_move_counter.h trace.h
 
 conditions/maff/immobility_tester.h:
-
-pydata.h:
 
 pypipe.h:
 
@@ -17,11 +14,9 @@ stipulation/branch.h:
 
 stipulation/boolean/and.h:
 
-stipulation/goals/immobile/reached_tester.h:
+stipulation/goals/immobile/reached_tester_non_king.h:
 
 solving/king_move_generator.h:
-
-solving/non_king_move_generator.h:
 
 solving/legal_move_counter.h:
 

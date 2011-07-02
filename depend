@@ -1317,7 +1317,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/exchange_by_rebirth/reached_tester.h \
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h \
- stipulation/goals/notcheck/reached_tester.h \
+ stipulation/goals/immobile/reached_tester_non_king.h \
+ stipulation/help_play/play.h stipulation/goals/notcheck/reached_tester.h \
  stipulation/goals/any/reached_tester.h solving/play_suppressor.h \
  solving/battle_play/check_detector.h pymovein.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
@@ -1334,7 +1335,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
- stipulation/help_play/play.h options/stoponshortsolutions/initialiser.h \
+ options/stoponshortsolutions/initialiser.h \
  optimisations/intelligent/duplicate_avoider.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/end_of_phase_writer.h \
@@ -1439,6 +1440,10 @@ stipulation/goals/proofgame/reached_tester.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
+stipulation/goals/immobile/reached_tester_non_king.h:
+
+stipulation/help_play/play.h:
+
 stipulation/goals/notcheck/reached_tester.h:
 
 stipulation/goals/any/reached_tester.h:
@@ -1498,8 +1503,6 @@ conditions/owu/immobility_tester.h:
 options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
-
-stipulation/help_play/play.h:
 
 options/stoponshortsolutions/initialiser.h:
 

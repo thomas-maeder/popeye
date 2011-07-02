@@ -25,6 +25,7 @@
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "solving/play_suppressor.h"

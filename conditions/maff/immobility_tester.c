@@ -1,17 +1,14 @@
 #include "conditions/maff/immobility_tester.h"
-#include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
-#include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "solving/king_move_generator.h"
-#include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "trace.h"
 
 #include <assert.h>
-#include <stdlib.h>
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
@@ -29,28 +26,23 @@ static void substitute_maff_specific_testers(slice_index si,
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const next1 = slices[si].u.pipe.next;
-    slice_index const next2 = stip_deep_copy(next1);
+    slice_index const next = slices[si].u.pipe.next;
     slice_index const king_tester = alloc_pipe(STMaffImmobilityTesterKing);
-    slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
-    pipe_link(king_tester,next1);
-    pipe_link(proxy2,other_tester);
-    pipe_link(other_tester,next2);
+    pipe_link(king_tester,next);
 
-    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
-    assert(generator1!=no_slice);
-    pipe_substitute(generator1,alloc_king_move_generator_slice());
-
-    slice_index const generator2 = branch_find_slice(STMoveGenerator,next2);
-    assert(generator2!=no_slice);
-    pipe_substitute(generator2,alloc_non_king_move_generator_slice());
+    pipe_link(proxy2,make_immobility_tester_non_king(stip_deep_copy(next)));
 
     {
+      slice_index const generator = branch_find_slice(STMoveGenerator,next);
       slice_index const prototype = alloc_pipe(STLegalMoveCounter);
-      branch_insert_slices(si,&prototype,1);
+
+      assert(generator!=no_slice);
+      pipe_substitute(generator,alloc_king_move_generator_slice());
+
+      branch_insert_slices(next,&prototype,1);
     }
 
     pipe_remove(si);

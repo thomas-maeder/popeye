@@ -53,13 +53,6 @@ has_solution_type immobility_tester_king_has_solution(slice_index si);
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type immobility_tester_non_king_has_solution(slice_index si);
-
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
 has_solution_type ohneschach_immobility_tester_has_solution(slice_index si);
 
 /* Replace immobility tester slices' type
