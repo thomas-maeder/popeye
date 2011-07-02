@@ -148,7 +148,7 @@ has_solution_type ohneschach_immobility_tester_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   if (ohneschach_immobile(slices[si].starter))
-    result = slice_has_solution(slices[si].u.immobility_tester.next);
+    result = has_solution;
   else
     result = has_no_solution;
 

@@ -6,7 +6,6 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
-#include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -133,27 +132,6 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   return result;
 }
 
-/* Is side immobile? */
-boolean immobile(slice_index si, Side side)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[ohneschach])
-    result = ohneschach_immobile(side);
-  else
-    result = slice_has_solution(slices[si].u.immobility_tester.fork)==has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier
@@ -162,16 +140,12 @@ boolean immobile(slice_index si, Side side)
 has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  Side const immobilised = (slices[si].u.immobility_tester.applies_to_who
-                            ==goal_applies_to_starter
-                            ? slices[si].starter
-                            : advers(slices[si].starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (immobile(si,immobilised))
+  if (slice_has_solution(slices[si].u.immobility_tester.fork)==has_solution)
     result = slice_has_solution(slices[si].u.immobility_tester.next);
   else
     result = has_no_solution;
