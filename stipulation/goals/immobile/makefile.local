@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = reached_tester.c reached_tester_non_king.c
-INCLUDES = reached_tester.h reached_tester_non_king.h
+CFILES = reached_tester.c reached_tester_king.c reached_tester_non_king.c
+INCLUDES = reached_tester.h reached_tester_king.h reached_tester_non_king.h
 
 include makefile.rules $(CURRPWD)depend
