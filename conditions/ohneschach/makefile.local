@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = immobility_tester.c
+INCLUDES = immobility_tester.h
+
+include makefile.rules $(CURRPWD)depend

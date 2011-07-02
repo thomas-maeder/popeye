@@ -69,7 +69,7 @@
 #include "pymsg.h"
 #include "pyslice.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
-#include "stipulation/goals/immobile/reached_tester.h"
+#include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"

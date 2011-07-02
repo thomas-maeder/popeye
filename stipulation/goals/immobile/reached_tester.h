@@ -48,27 +48,9 @@ has_solution_type immobility_tester_has_solution(slice_index si);
  */
 has_solution_type immobility_tester_king_has_solution(slice_index si);
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type ohneschach_immobility_tester_has_solution(slice_index si);
-
-/* Replace immobility tester slices' type
- * @param si where to start (entry slice into stipulation)
- * @param type substitute type
- */
-void goal_immobile_reached_tester_replace(slice_index si, slice_type type);
-
 /* Replace immobility tester slices' type
  * @param si where to start (entry slice into stipulation)
  */
 void immobility_testers_substitute_king_first(slice_index si);
-
-/* Determine whether a side is immobile in Ohneschach
- * @return true iff side is immobile
- */
-boolean ohneschach_immobile(Side isde);
 
 #endif

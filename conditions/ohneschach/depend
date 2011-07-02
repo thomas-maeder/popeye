@@ -1,0 +1,14 @@
+conditions/ohneschach/immobility_tester$(OBJ_SUFFIX): \
+ conditions/ohneschach/immobility_tester.c \
+ conditions/ohneschach/immobility_tester.h pydata.h pyproc.h pymsg.h \
+ trace.h
+
+conditions/ohneschach/immobility_tester.h:
+
+pydata.h:
+
+pyproc.h:
+
+pymsg.h:
+
+trace.h:

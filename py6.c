@@ -121,6 +121,7 @@
 #include "conditions/republican.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
+#include "conditions/ohneschach/immobility_tester.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -2613,7 +2614,7 @@ static Token iterate_twins(Token prev_token)
       stip_insert_solvers(root_slice);
 
       if (CondFlag[ohneschach])
-        goal_immobile_reached_tester_replace(root_slice,STOhneschachImmobilityTester);
+        ohneschach_replace_immobility_testers(root_slice);
       else if (CondFlag[exclusive])
         ; /* use regular move generation to filter out non-unique mating moves */
       else if (CondFlag[MAFF])
