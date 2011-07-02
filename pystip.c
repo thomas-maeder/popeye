@@ -152,6 +152,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STFindByIncreasingLength */
   slice_structure_pipe,   /* STMoveGenerator */
   slice_structure_pipe,   /* STKingMoveGenerator */
+  slice_structure_pipe,   /* STNonKingMoveGenerator */
   slice_structure_pipe,   /* STRefutationsAllocator */
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_pipe,   /* STRefutationsSolver */
@@ -295,6 +296,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STFindByIncreasingLength */
   slice_function_move_generator, /* STMoveGenerator */
   slice_function_move_generator, /* STKingMoveGenerator */
+  slice_function_move_generator, /* STNonKingMoveGenerator */
   slice_function_unspecified,    /* STRefutationsAllocator */
   slice_function_unspecified,    /* STTrySolver */
   slice_function_unspecified,    /* STRefutationsSolver */
@@ -1513,6 +1515,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STFindByIncreasingLength */
   &stip_traverse_structure_pipe,              /* STMoveGenerator */
   &stip_traverse_structure_pipe,              /* STKingMoveGenerator */
+  &stip_traverse_structure_pipe,              /* STNonKingMoveGenerator */
   &stip_traverse_structure_pipe,              /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,              /* STTrySolver */
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
@@ -1757,6 +1760,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STFindByIncreasingLength */
     &stip_traverse_moves_pipe,              /* STMoveGenerator */
     &stip_traverse_moves_pipe,              /* STKingMoveGenerator */
+    &stip_traverse_moves_pipe,              /* STNonKingMoveGenerator */
     &stip_traverse_moves_pipe,              /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,              /* STTrySolver */
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */

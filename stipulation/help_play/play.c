@@ -20,6 +20,7 @@
 #include "solving/find_shortest.h"
 #include "solving/move_generator.h"
 #include "solving/king_move_generator.h"
+#include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
 #include "optimisations/goals/enpassant/filter.h"
@@ -312,6 +313,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STKingMoveGenerator:
       result = king_move_generator_can_help(si,n);
+      break;
+
+    case STNonKingMoveGenerator:
+      result = non_king_move_generator_can_help(si,n);
       break;
 
     case STLegalMoveCounter:

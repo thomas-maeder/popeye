@@ -12,6 +12,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "solving/king_move_generator.h"
+#include "solving/non_king_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -109,20 +110,24 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
     slice_index const king_tester = alloc_pipe(STImmobilityTesterKing);
     slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
 
-    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
-    assert(generator1!=no_slice);
-    pipe_substitute(generator1,alloc_king_move_generator_slice());
-
-    {
-      slice_index const prototype = alloc_pipe(STLegalMoveCounter);
-      branch_insert_slices(next1,&prototype,1);
-    }
-
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
     link_to_branch(king_tester,next1);
     pipe_link(proxy2,other_tester);
     link_to_branch(other_tester,next2);
+
+    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
+    assert(generator1!=no_slice);
+    pipe_substitute(generator1,alloc_king_move_generator_slice());
+
+    slice_index const generator2 = branch_find_slice(STMoveGenerator,next2);
+    assert(generator2!=no_slice);
+    pipe_substitute(generator2,alloc_non_king_move_generator_slice());
+
+    {
+      slice_index const prototype = alloc_pipe(STLegalMoveCounter);
+      branch_insert_slices(si,&prototype,1);
+    }
 
     pipe_remove(si);
   }
@@ -178,48 +183,6 @@ void impose_starter_immobility_tester(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Generate (piece by piece) candidate moves to check if side is
- * immobile. Do *not* generate moves by the side's king; it has
- * already been taken care of. */
-static boolean advance_departure_square(Side side,
-                                        square const **next_square_to_try)
-{
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
-
-  while (true)
-  {
-    square const sq_departure = **next_square_to_try;
-    if (sq_departure==0)
-      break;
-    else
-    {
-      piece p = e[sq_departure];
-      ++*next_square_to_try;
-      if (p!=vide)
-      {
-        if (TSTFLAG(spec[sq_departure],Neutral))
-          p = -p;
-
-        if (side==White)
-        {
-          if (p>obs && sq_departure!=rb)
-            gen_wh_piece(sq_departure,p);
-        }
-        else
-        {
-          if (p<vide && sq_departure!=rn)
-            gen_bl_piece(sq_departure,p);
-        }
-
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
 /* Determine whether a slice.has just been solved with the move
@@ -482,34 +445,24 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
  */
 has_solution_type immobility_tester_non_king_has_solution(slice_index si)
 {
-  has_solution_type result = has_solution;
-  Side const side = slices[si].starter;
-  square const *next_square_to_try = boardnum;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = side;
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count==0);
 
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side));
+  /* stop counting once we have >1 legal king moves */
+  legal_move_counter_interesting = 0;
 
-  do
-  {
-    while (result==has_solution && encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !echecc(nbply,side))
-        result = has_no_solution;
-      repcoup();
-    }
-  } while (result==has_solution
-           && advance_departure_square(side,&next_square_to_try));
+  slice_has_solution(slices[si].u.pipe.next);
 
-  finply();
+  result = legal_move_counter_count==0 ? has_solution : has_no_solution;
+
+  /* clean up after ourselves */
+  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

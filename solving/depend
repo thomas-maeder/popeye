@@ -121,6 +121,18 @@ pyproc.h:
 pypipe.h:
 
 trace.h:
+solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c \
+ solving/non_king_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+
+solving/non_king_move_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
 solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
  solving/legal_move_counter.h pypipe.h trace.h
 

@@ -78,6 +78,7 @@
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
+    ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play tries */               \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \

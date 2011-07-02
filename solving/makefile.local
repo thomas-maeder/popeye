@@ -2,11 +2,13 @@
 #
 CFILES =   solving.c \
            find_shortest.c find_by_increasing_length.c fork_on_remaining.c \
-           play_suppressor.c move_generator.c king_move_generator.c \
+           play_suppressor.c move_generator.c \
+           king_move_generator.c non_king_move_generator.c \
            legal_move_counter.c capture_counter.c
 INCLUDES = solving.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
-           play_suppressor.h move_generator.h king_move_generator.h \
+           play_suppressor.h move_generator.h \
+           king_move_generator.h non_king_move_generator.h \
            legal_move_counter.h capture_counter.h
 
 include makefile.rules $(CURRPWD)depend

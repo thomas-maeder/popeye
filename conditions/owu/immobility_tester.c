@@ -5,6 +5,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/and.h"
 #include "solving/king_move_generator.h"
+#include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
 #include "trace.h"
@@ -33,25 +34,29 @@ static void substitute_owu_specific_testers(slice_index si,
     slice_index const king_tester = alloc_pipe(STOWUImmobilityTesterKing);
     slice_index const other_tester = alloc_pipe(STImmobilityTesterNonKing);
 
-    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
-    assert(generator1!=no_slice);
-    pipe_substitute(generator1,alloc_king_move_generator_slice());
-
-    {
-      slice_index const prototypes[] =
-      {
-          alloc_pipe(STCaptureCounter),
-          alloc_pipe(STLegalMoveCounter)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      branch_insert_slices(next1,prototypes,nr_prototypes);
-    }
-
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
     pipe_link(proxy1,king_tester);
     pipe_link(king_tester,next1);
     pipe_link(proxy2,other_tester);
     pipe_link(other_tester,next2);
+
+    slice_index const generator1 = branch_find_slice(STMoveGenerator,next1);
+    assert(generator1!=no_slice);
+    pipe_substitute(generator1,alloc_king_move_generator_slice());
+
+    slice_index const generator2 = branch_find_slice(STMoveGenerator,next2);
+    assert(generator2!=no_slice);
+    pipe_substitute(generator2,alloc_non_king_move_generator_slice());
+
+    {
+      slice_index const prototype = alloc_pipe(STCaptureCounter);
+      branch_insert_slices(next1,&prototype,1);
+    }
+
+    {
+      slice_index const prototype = alloc_pipe(STLegalMoveCounter);
+      branch_insert_slices(si,&prototype,1);
+    }
 
     pipe_remove(si);
   }

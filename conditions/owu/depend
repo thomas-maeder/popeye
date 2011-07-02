@@ -2,7 +2,8 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  conditions/owu/immobility_tester.h pydata.h stipulation/proxy.h \
  stipulation/branch.h stipulation/goals/immobile/reached_tester.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
- solving/legal_move_counter.h solving/capture_counter.h trace.h
+ solving/non_king_move_generator.h solving/legal_move_counter.h \
+ solving/capture_counter.h trace.h
 
 conditions/owu/immobility_tester.h:
 
@@ -17,6 +18,8 @@ stipulation/goals/immobile/reached_tester.h:
 stipulation/boolean/and.h:
 
 solving/king_move_generator.h:
+
+solving/non_king_move_generator.h:
 
 solving/legal_move_counter.h:
 
