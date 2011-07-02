@@ -2588,8 +2588,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_apply_setplay(root_slice))
         Message(SetPlayNotApplicable);
 
-      stip_insert_selfcheck_guards(root_slice);
-
       stip_optimise_dead_end_slices(root_slice);
 
       stip_optimise_with_end_of_branch_goal_immobile(root_slice);
@@ -2603,6 +2601,8 @@ static Token iterate_twins(Token prev_token)
 
       if (!init_intelligent_mode(root_slice))
         Message(IntelligentRestricted);
+
+      stip_insert_selfcheck_guards(root_slice);
 
       stip_remove_irrelevant_constraints(root_slice);
 

@@ -233,6 +233,7 @@ void init_move_generation_optimizer(void) {
   switch (move_generation_mode) {
   case move_generation_optimized_by_nr_opponent_moves:
     empile_optimization_table_count= 0;
+    current_killer_state = null_killer_state;
     break;
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];

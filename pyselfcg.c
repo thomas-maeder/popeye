@@ -480,6 +480,38 @@ static void insert_in_branch_guards(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void instrument_immobile_reached_tester(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insert_in_branch_guards(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guards_in_immobility_testers(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean in_constraint = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&in_constraint);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalImmobileReachedTester,
+                                           &instrument_immobile_reached_tester);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 typedef struct
 {
   Side last_guarded_side;
@@ -596,6 +628,7 @@ void stip_insert_selfcheck_guards(slice_index si)
   TraceStipulation(si);
 
   insert_in_branch_guards(si);
+  insert_guards_in_immobility_testers(si);
   stip_impose_starter(si,slices[si].starter);
   insert_selfcheck_guard_adapters(si);
 

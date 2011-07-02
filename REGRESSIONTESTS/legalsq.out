@@ -28,13 +28,13 @@
    1.Lg7-h6 !
       1...Kh7*h6
           2.f6-f7
-              2...Kh6-h7
-                  3.f7-f8=T
-                      3...Kh7-h6
-                          4.Tf8-h8 #
               2...Kh6-h5
                   3.f7-f8=T
                       3...Kh5-h6
+                          4.Tf8-h8 #
+              2...Kh6-h7
+                  3.f7-f8=T
+                      3...Kh7-h6
                           4.Tf8-h8 #
       1...Kh7-g8
           2.f6-f7 +
@@ -113,17 +113,17 @@ Loesung beendet.
           2.Ka1-b2
               2...Sc8-a7
                   3.Kb2-c3
-                      3...Sa7-c8
-                          4.Kc3-d4
-                              4...Sc8-a7
-                                  5.Kd4-e5 #
-                              4...La8-h1
-                                  5.Kd4-e5 #
                       3...La8-h1
                           4.Kc3-d4
                               4...Sa7-c8
                                   5.Kd4-e5 #
                               4...Lh1-a8
+                                  5.Kd4-e5 #
+                      3...Sa7-c8
+                          4.Kc3-d4
+                              4...Sc8-a7
+                                  5.Kd4-e5 #
+                              4...La8-h1
                                   5.Kd4-e5 #
               2...La8-h1
                   3.Kb2-c3
@@ -141,10 +141,10 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-              empile:      113444
-            jouecoup:       30634
-        orig_rbechec:       24940
-        orig_rnechec:        5759
+              empile:       85781
+            jouecoup:       23634
+        orig_rbechec:       19219
+        orig_rnechec:        4480
 Loesung beendet. 
 
 
@@ -186,10 +186,10 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-              empile:       17040
-            jouecoup:        5590
-        orig_rbechec:        2956
-        orig_rnechec:        2578
+              empile:       15637
+            jouecoup:        5200
+        orig_rbechec:        2651
+        orig_rnechec:        2493
 Loesung beendet. 
 
 
@@ -231,10 +231,10 @@ Loesung beendet.
                                   5.Ta8-a1 #
 
 
-              empile:     1497070
-            jouecoup:      698697
-        orig_rbechec:      539364
-        orig_rnechec:      196309
+              empile:     1143290
+            jouecoup:      571831
+        orig_rbechec:      450739
+        orig_rnechec:      148921
 Loesung beendet. 
 
 
@@ -301,10 +301,10 @@ Loesung beendet.
                                   5.Th1-h8 #
 
 
-              empile:     1287496
-            jouecoup:      586151
-        orig_rbechec:      463235
-        orig_rnechec:      143853
+              empile:     1234158
+            jouecoup:      581120
+        orig_rbechec:      464544
+        orig_rnechec:      136280
 Loesung beendet. 
 
 
@@ -542,10 +542,10 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-              empile:     2239807
-            jouecoup:      449459
-        orig_rbechec:      461830
-        orig_rnechec:      242253
+              empile:     2188854
+            jouecoup:      438741
+        orig_rbechec:      452774
+        orig_rnechec:      235636
 Loesung beendet. 
 
 

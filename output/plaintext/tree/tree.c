@@ -604,7 +604,8 @@ static structure_traversers_visitors goal_writer_slice_inserters[] =
   { STKeyWriter,                      &remember_key_writer                  },
   { STMoveWriter,                     &remove_continuation_writer_if_unused },
   { STCheckDetector,                  &remove_check_handler_if_unused       },
-  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
+  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       },
+  { STGoalImmobileReachedTester,      &stip_traverse_structure_pipe         }
 };
 
 enum

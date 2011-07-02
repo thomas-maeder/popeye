@@ -1515,10 +1515,10 @@ solution finished.
  15  (Ka1-a2 + )
  16  (Ka1-b2 + )
 
-              empile:       10029
-            jouecoup:        6136
-        orig_rbechec:        5393
-        orig_rnechec:        1354
+              empile:        9363
+            jouecoup:        6027
+        orig_rbechec:        5365
+        orig_rnechec:        1267
 solution finished. 
 
 

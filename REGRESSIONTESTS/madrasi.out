@@ -38,8 +38,6 @@
                                           6.Gg3-e5 +
                                               6...Gf4-f7
                                                   7.Ge5-g7
-                                                      7...Gf7*c7
-                                                          8.Gg7*c7 #
                                                       7...Gf7-c4
                                                           8.c2-c3
                                                               8...Gc4-f4
@@ -58,16 +56,18 @@
                                                                          10.Gg7*c7 #
                                                               8...Gc4*c7
                                                                   9.Gg7*c7 #
+                                                      7...Gf7*c7
+                                                          8.Gg7*c7 #
                                       5...Gc4*c7
                                           6.Gg3*c7 #
                               4...Gf7*c7
                                   5.Gg7*c7 #
 
 
-              empile:     1075140
-            jouecoup:      978128
-        orig_rbechec:      616583
-        orig_rnechec:      368194
+              empile:     1022338
+            jouecoup:      934019
+        orig_rbechec:      592138
+        orig_rnechec:      348026
 Loesung beendet. 
 
 
@@ -357,10 +357,10 @@ Loesung beendet.
    1.Lb6-c7 !
 
 
-              empile:      633612
-            jouecoup:      531682
-        orig_rbechec:      330934
-        orig_rnechec:      207765
+              empile:      632508
+            jouecoup:      530919
+        orig_rbechec:      330826
+        orig_rnechec:      207037
 Loesung beendet. 
 
 

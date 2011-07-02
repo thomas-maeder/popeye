@@ -351,8 +351,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = immobility_tester_has_solution(si);
       break;
 
-    case STImmobilityTesterKingFirst:
-      result = immobility_tester_king_first_has_solution(si);
+    case STImmobilityTesterKing:
+      result = immobility_tester_king_has_solution(si);
       break;
 
     case STImmobilityTesterNonKing:

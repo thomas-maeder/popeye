@@ -208,16 +208,16 @@ Loesung beendet.
    1.Ke2-d2[Id1] !
       1...Kf8-g8[Ie1]
           2.Tc7-c8[Ie2]
-              2...Kg8-h8[If2]
-                  3.Td7-d6[If1]
-                      3...Kh8-g8[Ie1]
-                          4.Td6-a6[Ib1] #
               2...Kg8-h7[If1]
                   3.Td7-a7[Ic1]
                       3...Kh7-h8[Ic2]
                           4.Ta7-a6[Ic1] #
                       3...Kh7-g8[Ib2]
                           4.Ta7-a6[Ib1] #
+              2...Kg8-h8[If2]
+                  3.Td7-d6[If1]
+                      3...Kh8-g8[Ie1]
+                          4.Td6-a6[Ib1] #
       1...Kf8-e8[Ic1]
           2.Tc7-b7[Ib1]
               2...Ke8-f8[Ic1]
@@ -226,10 +226,10 @@ Loesung beendet.
                           4.Td7-d6[Ib1] #
 
 
-              empile:       53484
-            jouecoup:       30741
-        orig_rbechec:        9666
-        orig_rnechec:       22441
+              empile:       52785
+            jouecoup:       30388
+        orig_rbechec:        9584
+        orig_rnechec:       22147
 Loesung beendet. 
 
 
@@ -463,10 +463,10 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-              empile:       17735
-            jouecoup:        9037
-        orig_rbechec:        8381
-        orig_rnechec:        2722
+              empile:       17213
+            jouecoup:        8592
+        orig_rbechec:        8336
+        orig_rnechec:        2322
 Loesung beendet. 
 
 
@@ -590,10 +590,10 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-              empile:      450905
-            jouecoup:      313785
-        orig_rbechec:      286499
-        orig_rnechec:       32156
+              empile:      450160
+            jouecoup:      313258
+        orig_rbechec:      286001
+        orig_rnechec:       32117
 Loesung beendet. 
 
 

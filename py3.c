@@ -306,7 +306,6 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
     nextply(ply_id);
 
-    current_killer_state = null_killer_state;
     trait[nbply]= Black;
     if (TSTFLAG(PieSpExFlags,Neutral))
       initneutre(White);

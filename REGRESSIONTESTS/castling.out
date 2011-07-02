@@ -268,10 +268,10 @@ Loesung beendet.
       1...Kc2-c3 !
 
 
-              empile:       61340
-            jouecoup:       26320
-        orig_rbechec:       11587
-        orig_rnechec:       21297
+              empile:       61160
+            jouecoup:       26116
+        orig_rbechec:       11403
+        orig_rnechec:       21273
 Loesung beendet. 
 
 
@@ -483,6 +483,89 @@ Loesung beendet.
                           4.0-0-0 #
                       3...f4*e3
                           4.0-0-0 #
+      1...b4-b3
+          2.Sd1-c3 Drohung:
+                  3.Lc1*f4 Drohung:
+                          4.0-0-0 #
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+              2...Ld8-a5
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+              2...Ld8-g5
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+              2...Ld8-c7
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+      1...Ld8-f6
+          2.Lc1-e3 +
+              2...f4*e3
+                  3.Sd1*e3 Drohung:
+                          4.0-0-0 #
+              2...Kg1-h1
+                  3.Sd1-c3 Drohung:
+                          4.0-0-0 #
+      1...Ld8-g5
+          2.Sd1-c3 Drohung:
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+      1...Ld8-c7
+          2.Sd1-c3 Drohung:
+                  3.Lc1-e3 +
+                      3...Kg1-h1
+                          4.0-0-0 #
+                      3...f4*e3
+                          4.0-0-0 #
+      1...Ld8-b6
+          2.Lc1-e3 +
+              2...f4*e3
+                  3.Sd1*e3 Drohung:
+                          4.0-0-0 #
+              2...Kg1-h1
+                  3.Sd1-c3 Drohung:
+                          4.0-0-0 #
+      1...h3-h2
+          2.Lc1-e3 +
+              2...f4*e3
+                  3.Sd1*e3 Drohung:
+                          4.0-0-0 #
+                          4.Ke1-e2 #
+                      3...h2-h1=D
+                          4.0-0-0 #
+                      3...h2-h1=S
+                          4.Tb2-g2 #
+                          4.0-0-0 #
+                      3...h2-h1=T
+                          4.Tb2-g2 #
+                          4.0-0-0 #
+                      3...h2-h1=L
+                          4.0-0-0 #
+              2...Kg1-h1
+                  3.Ke1-f2 Drohung:
+                          4.Sd1-c3 #
+                      3...f4*e3 +
+                          4.Sd1*e3 #
+                  3.Sd1-c3 Drohung:
+                          4.0-0-0 #
+                          4.Ke1-f2 #
+                      3...f4*e3
+                          4.0-0-0 #
       1...Kg1-h1
           2.Ke1-f1 Drohung:
                   3.Sd1-f2 +
@@ -654,95 +737,12 @@ Loesung beendet.
               2...f4*e3
                   3.Sd1*e3 Drohung:
                           4.0-0-0 #
-      1...b4-b3
-          2.Sd1-c3 Drohung:
-                  3.Lc1*f4 Drohung:
-                          4.0-0-0 #
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-              2...Ld8-a5
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-              2...Ld8-g5
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-              2...Ld8-c7
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-      1...Ld8-f6
-          2.Lc1-e3 +
-              2...f4*e3
-                  3.Sd1*e3 Drohung:
-                          4.0-0-0 #
-              2...Kg1-h1
-                  3.Sd1-c3 Drohung:
-                          4.0-0-0 #
-      1...Ld8-g5
-          2.Sd1-c3 Drohung:
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-      1...Ld8-c7
-          2.Sd1-c3 Drohung:
-                  3.Lc1-e3 +
-                      3...Kg1-h1
-                          4.0-0-0 #
-                      3...f4*e3
-                          4.0-0-0 #
-      1...Ld8-b6
-          2.Lc1-e3 +
-              2...f4*e3
-                  3.Sd1*e3 Drohung:
-                          4.0-0-0 #
-              2...Kg1-h1
-                  3.Sd1-c3 Drohung:
-                          4.0-0-0 #
-      1...h3-h2
-          2.Lc1-e3 +
-              2...f4*e3
-                  3.Sd1*e3 Drohung:
-                          4.0-0-0 #
-                          4.Ke1-e2 #
-                      3...h2-h1=D
-                          4.0-0-0 #
-                      3...h2-h1=S
-                          4.Tb2-g2 #
-                          4.0-0-0 #
-                      3...h2-h1=T
-                          4.Tb2-g2 #
-                          4.0-0-0 #
-                      3...h2-h1=L
-                          4.0-0-0 #
-              2...Kg1-h1
-                  3.Ke1-f2 Drohung:
-                          4.Sd1-c3 #
-                      3...f4*e3 +
-                          4.Sd1*e3 #
-                  3.Sd1-c3 Drohung:
-                          4.0-0-0 #
-                          4.Ke1-f2 #
-                      3...f4*e3
-                          4.0-0-0 #
 
 
-              empile:      556872
-            jouecoup:      348323
-        orig_rbechec:      269971
-        orig_rnechec:      110203
+              empile:      545985
+            jouecoup:      351072
+        orig_rbechec:      276022
+        orig_rnechec:      105774
 Loesung beendet. 
 
 
@@ -920,10 +920,10 @@ Loesung beendet.
       1...0-0 !
 
 
-              empile:     1102079
-            jouecoup:      801156
-        orig_rbechec:      605865
-        orig_rnechec:      243049
+              empile:     1100529
+            jouecoup:      800905
+        orig_rbechec:      605713
+        orig_rnechec:      242794
 Loesung beendet. 
 
 
@@ -967,10 +967,10 @@ Loesung beendet.
                   3.c7-c8=T #
 
 
-              empile:       14343
-            jouecoup:        7236
-        orig_rbechec:        4504
-        orig_rnechec:        3878
+              empile:       14491
+            jouecoup:        7289
+        orig_rbechec:        4524
+        orig_rnechec:        3931
 Loesung beendet. 
 
 
@@ -1286,10 +1286,10 @@ Loesung beendet.
  40  (Ta1-c1 )
  41  (Ta1-b1 )
 
-              empile:     1225753
-            jouecoup:      531053
-        orig_rbechec:      249714
-        orig_rnechec:      431135
+              empile:     1225472
+            jouecoup:      530892
+        orig_rbechec:      249674
+        orig_rnechec:      431069
 Loesung beendet. 
 
 
@@ -1508,10 +1508,10 @@ Loesung beendet.
                   3.De5-h8 #
 
 
-              empile:     1785256
-            jouecoup:     1375039
-        orig_rbechec:      960788
-        orig_rnechec:      489411
+              empile:     1779516
+            jouecoup:     1371677
+        orig_rbechec:      960401
+        orig_rnechec:      485899
 Loesung beendet. 
 
 
@@ -2233,10 +2233,10 @@ Loesung beendet.
       1...Kf8-g8 !
 
 
-              empile:     1228340
-            jouecoup:      769235
-        orig_rbechec:      591704
-        orig_rnechec:      248380
+              empile:     1214177
+            jouecoup:      763321
+        orig_rbechec:      589742
+        orig_rnechec:      242998
 Loesung beendet. 
 
 
@@ -3299,10 +3299,10 @@ Loesung beendet.
  12  (Ke1-d2 )
  13  (Ke1-f2 )
 
-              empile:    13663444
-            jouecoup:     8347698
-        orig_rbechec:     7489587
-        orig_rnechec:      861315
+              empile:    13262724
+            jouecoup:     8043756
+        orig_rbechec:     7207966
+        orig_rnechec:      838562
 Loesung beendet. 
 
 
@@ -3374,10 +3374,10 @@ Loesung beendet.
  30  (Ke1-d2 )
  31  (Ke1-f2 + )
 
-              empile:      682189
-            jouecoup:      568929
-        orig_rbechec:      516360
-        orig_rnechec:       70987
+              empile:      680850
+            jouecoup:      568564
+        orig_rbechec:      516088
+        orig_rnechec:       70716
 Loesung beendet. 
 
 
@@ -4272,10 +4272,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...0-0 !
 
 
-              empile:      726310
-            jouecoup:      381610
-        orig_rbechec:      138374
-        orig_rnechec:      330669
+              empile:      726303
+            jouecoup:      381605
+        orig_rbechec:      138372
+        orig_rnechec:      330664
 Loesung beendet. 
 
 

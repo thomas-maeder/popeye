@@ -209,7 +209,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
   slice_structure_pipe,   /* STImmobilityTester */
-  slice_structure_pipe,   /* STImmobilityTesterKingFirst */
+  slice_structure_pipe,   /* STImmobilityTesterKing */
   slice_structure_pipe,   /* STImmobilityTesterNonKing */
   slice_structure_pipe,   /* STOhneschachImmobilityTester */
   slice_structure_pipe,   /* STMaffImmobilityTesterKing */
@@ -352,7 +352,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,    /* STPiecesKamikazeTargetSquareFilter */
   slice_function_unspecified,    /* STImmobilityTester */
-  slice_function_unspecified,    /* STImmobilityTesterKingFirst */
+  slice_function_unspecified,    /* STImmobilityTesterKing */
   slice_function_unspecified,    /* STImmobilityTesterNonKing */
   slice_function_unspecified,    /* STOhneschachImmobilityTester */
   slice_function_unspecified,    /* STMaffImmobilityTesterKing */
@@ -1570,7 +1570,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
-  &stip_traverse_structure_pipe,              /* STImmobilityTesterKingFirst */
+  &stip_traverse_structure_pipe,              /* STImmobilityTesterKing */
   &stip_traverse_structure_pipe,              /* STImmobilityTesterNonKing */
   &stip_traverse_structure_pipe,              /* STOhneschachImmobilityTester */
   &stip_traverse_structure_pipe,              /* STMaffImmobilityTesterKing */
@@ -1814,7 +1814,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STImmobilityTesterKingFirst */
+    &stip_traverse_moves_pipe,              /* STImmobilityTesterKing */
     &stip_traverse_moves_pipe,              /* STImmobilityTesterNonKing */
     &stip_traverse_moves_pipe,              /* STOhneschachImmobilityTester */
     &stip_traverse_moves_pipe,              /* STMaffImmobilityTesterKing */
