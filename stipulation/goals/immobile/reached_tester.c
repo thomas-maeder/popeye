@@ -6,6 +6,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/legal_move_counter.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
 
@@ -53,9 +54,14 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
     slice_index const tester = alloc_pipe(STImmobilityTester);
     result = alloc_branch_fork(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
-    link_to_branch(tester,alloc_help_branch(slack_length_help+1,
-                                            slack_length_help+1));
+    link_to_branch(tester,
+                   alloc_help_branch(slack_length_help+1,slack_length_help+1));
     slices[result].u.immobility_tester.applies_to_who = starter_or_adversary;
+
+    {
+      slice_index const prototype = alloc_legal_move_counter_slice();
+      branch_insert_slices(tester,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);

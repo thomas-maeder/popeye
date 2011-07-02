@@ -37,12 +37,8 @@ static void substitute_maff_specific_testers(slice_index si,
 
     {
       slice_index const generator = branch_find_slice(STMoveGenerator,next);
-      slice_index const prototype = alloc_pipe(STLegalMoveCounter);
-
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_king_move_generator_slice());
-
-      branch_insert_slices(next,&prototype,1);
     }
 
     pipe_remove(si);

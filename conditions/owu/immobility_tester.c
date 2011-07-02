@@ -37,18 +37,12 @@ static void substitute_owu_specific_testers(slice_index si,
 
     {
       slice_index const generator = branch_find_slice(STMoveGenerator,next);
-
-      slice_index const prototypes[] =
-      {
-        alloc_pipe(STCaptureCounter),
-        alloc_pipe(STLegalMoveCounter)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_index const prototype = alloc_pipe(STCaptureCounter);
 
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_king_move_generator_slice());
 
-      branch_insert_slices(next,prototypes,nr_prototypes);
+      branch_insert_slices(next,&prototype,1);
     }
 
     pipe_remove(si);

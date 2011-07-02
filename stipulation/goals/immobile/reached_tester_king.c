@@ -28,12 +28,8 @@ slice_index make_immobility_tester_king(slice_index help_branch)
 
   {
     slice_index const generator = branch_find_slice(STMoveGenerator,help_branch);
-    slice_index const prototype = alloc_pipe(STLegalMoveCounter);
-
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_king_move_generator_slice());
-
-    branch_insert_slices(help_branch,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
