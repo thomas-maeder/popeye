@@ -1,15 +1,10 @@
 #include "stipulation/goals/immobile/reached_tester.h"
-#include "pypipe.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
-#include "stipulation/goals/reached_tester.h"
-#include "stipulation/goals/immobile/reached_tester_king.h"
-#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "stipulation/help_play/branch.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
@@ -67,43 +62,6 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void substitute_king_first(slice_index si, stip_structure_traversal *st)
-{
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const next = slices[si].u.pipe.next;
-
-    pipe_link(si,alloc_and_slice(proxy1,proxy2));
-    pipe_link(proxy2,make_immobility_tester_non_king(stip_deep_copy(next)));
-    pipe_link(proxy1,make_immobility_tester_king(next));
-
-    pipe_remove(si);
-  }
-}
-
-/* Replace immobility tester slices' type
- * @param si where to start (entry slice into stipulation)
- */
-void immobility_testers_substitute_king_first(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STImmobilityTester,
-                                           &substitute_king_first);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Impose the starting side on a stipulation.

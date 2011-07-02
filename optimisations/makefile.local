@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = end_of_branch_goal_immobile.c
+CFILES = end_of_branch_goal_immobile.c immobility_tester_king_first.c
 
-INCLUDES = end_of_branch_goal_immobile.h
+INCLUDES = end_of_branch_goal_immobile.h immobility_tester_king_first.h
 
 include makefile.rules $(CURRPWD)depend
