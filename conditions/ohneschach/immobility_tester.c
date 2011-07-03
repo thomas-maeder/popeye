@@ -67,6 +67,8 @@ static boolean ohneschach_find_any_move(Side side)
   return result;
 }
 
+static boolean is_ohneschach_suspended;
+
 static boolean ohneschach_find_nonchecking_move(Side side)
 {
   boolean result = false;
@@ -80,9 +82,10 @@ static boolean ohneschach_find_nonchecking_move(Side side)
   TraceValue("->%u\n",move_generation_mode);
   genmove(side);
 
-  /* temporarily deactivate ohneschach to avoid the expensive test for checkmate
-   * after moves that deliver check */
-  CondFlag[ohneschach] = false;
+  /* temporarily suspend Ohneschach to avoid the expensive test for checkmate
+   * in ohneschach_pos_legal()
+   */
+  is_ohneschach_suspended = true;
 
   while (!result && encore())
   {
@@ -92,7 +95,7 @@ static boolean ohneschach_find_nonchecking_move(Side side)
     repcoup();
   }
 
-  CondFlag[ohneschach] = true;
+  is_ohneschach_suspended = false;
 
   finply();
 
@@ -148,7 +151,9 @@ boolean ohneschach_pos_legal(Side just_moved)
   TraceEnumerator(Side,just_moved,"");
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,just_moved))
+  if (is_ohneschach_suspended)
+    result = true;
+  else if (echecc(nbply,just_moved))
     result = false;
   else if (echecc(nbply,ad) && !ohneschach_immobile(ad))
     result = false;
