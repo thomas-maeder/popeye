@@ -24,4 +24,11 @@ has_solution_type ohneschach_immobility_tester_has_solution(slice_index si);
  */
 boolean ohneschach_immobile(Side isde);
 
+/* Determine whether the move just played has led to a legal position according
+ * to condition Ohneschach
+ * @param just_moved identifies the side that has just moved
+ * @return true iff the position reached is legal according to Ohneschach
+ */
+boolean ohneschach_pos_legal(Side just_moved);
+
 #endif

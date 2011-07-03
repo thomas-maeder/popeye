@@ -410,7 +410,6 @@ char *ReadPieces(int cond);
 
 
 boolean eval_isardam(square departure, square arrival, square capture);
-boolean ohneschach_pos_legal(Side just_moved);
 boolean isardam_pos_legal(void);
 square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 

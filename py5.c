@@ -4040,23 +4040,3 @@ void repcoup(void)
     }
   } /* next_prom*/
 } /* end of repcoup */
-
-boolean ohneschach_pos_legal(Side just_moved)
-{
-  boolean result = true;
-  Side const ad = advers(just_moved);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,just_moved,"");
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,just_moved))
-    result = false;
-  else if (echecc(nbply,ad) && !ohneschach_immobile(ad))
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
-}

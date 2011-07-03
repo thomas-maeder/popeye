@@ -134,6 +134,31 @@ boolean ohneschach_immobile(Side side)
   return result;
 }
 
+/* Determine whether the move just played has led to a legal position according
+ * to condition Ohneschach
+ * @param just_moved identifies the side that has just moved
+ * @return true iff the position reached is legal according to Ohneschach
+ */
+boolean ohneschach_pos_legal(Side just_moved)
+{
+  boolean result = true;
+  Side const ad = advers(just_moved);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,just_moved,"");
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,just_moved))
+    result = false;
+  else if (echecc(nbply,ad) && !ohneschach_immobile(ad))
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter
  * @param si slice identifier
