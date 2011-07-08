@@ -121,7 +121,7 @@ static void GenMatingPawn(square sq_departure,
                 && (CheckDirQueen[sq_king-sq_arrival]
                     || CheckDirKnight[sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
-      
+
       /* capture+dir_up+dir_right */
       sq_arrival= sq_departure+dir_up+dir_right;
       if (e[sq_arrival]!=vide && TSTFLAG(spec[sq_arrival],Black))
@@ -587,9 +587,9 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
 void generate_move_reaching_goal(Side side_at_move)
 {
   Goal const goal = empile_for_goal;
-  
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",side_at_move);
+  TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
   if (side_at_move==White ? flagwhitemummer : flagblackmummer)
