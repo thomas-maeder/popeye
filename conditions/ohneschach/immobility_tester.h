@@ -17,7 +17,7 @@ void ohneschach_replace_immobility_testers(slice_index si);
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type ohneschach_immobility_tester_check_has_solution(slice_index si);
+has_solution_type ohneschach_immobility_tester_nonchecking_has_solution(slice_index si);
 
 /* Determine whether a slice.has just been solved with the move
  * by the non-starter

@@ -23,7 +23,7 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const next = slices[si].u.pipe.next;
-    slice_index const testerCheck = alloc_pipe(STOhneschachImmobilityTesterCheck);
+    slice_index const testerCheck = alloc_pipe(STOhneschachImmobilityTesterNonchecking);
     slice_index const testerAny = alloc_pipe(STOhneschachImmobilityTesterAny);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
@@ -194,7 +194,7 @@ boolean ohneschach_pos_legal(Side just_moved)
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type ohneschach_immobility_tester_check_has_solution(slice_index si)
+has_solution_type ohneschach_immobility_tester_nonchecking_has_solution(slice_index si)
 {
   has_solution_type result;
 
@@ -203,9 +203,9 @@ has_solution_type ohneschach_immobility_tester_check_has_solution(slice_index si
   TraceFunctionParamListEnd();
 
   if (ohneschach_find_nonchecking_move(slices[si].starter))
-    result = has_solution;
-  else
     result = has_no_solution;
+  else
+    result = has_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

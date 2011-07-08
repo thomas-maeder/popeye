@@ -141,7 +141,7 @@
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STImmobilityTesterKing), \
     ENUMERATOR(STImmobilityTesterNonKing), \
-    ENUMERATOR(STOhneschachImmobilityTesterCheck), \
+    ENUMERATOR(STOhneschachImmobilityTesterNonchecking), \
     ENUMERATOR(STOhneschachImmobilityTesterAny), \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \

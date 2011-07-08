@@ -354,8 +354,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = immobility_tester_has_solution(si);
       break;
 
-    case STOhneschachImmobilityTesterCheck:
-      result = ohneschach_immobility_tester_check_has_solution(si);
+    case STOhneschachImmobilityTesterNonchecking:
+      result = ohneschach_immobility_tester_nonchecking_has_solution(si);
       break;
 
     case STOhneschachImmobilityTesterAny:
