@@ -177,7 +177,12 @@ has_solution_type ohneschach_immobility_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (ohneschach_immobile(slices[si].starter))
+  /* first try to find a move that doesn't deliver check ... */
+  if (!ohneschach_find_nonchecking_move(slices[si].starter)
+      /* ... then try to find a move that delivers mate. This is efficient
+       * because determining whether ad is immobile is costly.
+       */
+       && !ohneschach_find_any_move(slices[si].starter))
     result = has_solution;
   else
     result = has_no_solution;
