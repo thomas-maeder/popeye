@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
+#include "stipulation/boolean/and.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -12,8 +13,32 @@
 
 static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
 {
-  slices[si].type = STOhneschachImmobilityTester;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const testerCheck = alloc_pipe(STOhneschachImmobilityTesterCheck);
+    slice_index const testerAny = alloc_pipe(STOhneschachImmobilityTesterAny);
+
+    pipe_link(si,alloc_and_slice(proxy1,proxy2));
+
+    pipe_link(proxy1,testerCheck);
+    pipe_link(testerCheck,next);
+
+    pipe_link(proxy2,testerAny);
+    pipe_link(testerAny,stip_deep_copy(next));
+
+    pipe_remove(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Replace immobility tester slices to cope with condition Ohneschach
@@ -169,7 +194,7 @@ boolean ohneschach_pos_legal(Side just_moved)
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type ohneschach_immobility_tester_has_solution(slice_index si)
+has_solution_type ohneschach_immobility_tester_check_has_solution(slice_index si)
 {
   has_solution_type result;
 
@@ -177,15 +202,34 @@ has_solution_type ohneschach_immobility_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* first try to find a move that doesn't deliver check ... */
-  if (!ohneschach_find_nonchecking_move(slices[si].starter)
-      /* ... then try to find a move that delivers mate. This is efficient
-       * because determining whether ad is immobile is costly.
-       */
-       && !ohneschach_find_any_move(slices[si].starter))
+  if (ohneschach_find_nonchecking_move(slices[si].starter))
     result = has_solution;
   else
     result = has_no_solution;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice.has just been solved with the move
+ * by the non-starter
+ * @param si slice identifier
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type ohneschach_immobility_tester_any_has_solution(slice_index si)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (ohneschach_find_any_move(slices[si].starter))
+    result = has_no_solution;
+  else
+    result = has_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

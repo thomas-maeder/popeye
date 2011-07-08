@@ -1,7 +1,7 @@
 conditions/ohneschach/immobility_tester$(OBJ_SUFFIX): \
  conditions/ohneschach/immobility_tester.c \
  conditions/ohneschach/immobility_tester.h pydata.h pyproc.h pymsg.h \
- trace.h
+ stipulation/boolean/and.h trace.h
 
 conditions/ohneschach/immobility_tester.h:
 
@@ -10,5 +10,7 @@ pydata.h:
 pyproc.h:
 
 pymsg.h:
+
+stipulation/boolean/and.h:
 
 trace.h:

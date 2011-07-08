@@ -141,7 +141,9 @@
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STImmobilityTesterKing), \
     ENUMERATOR(STImmobilityTesterNonKing), \
-    ENUMERATOR(STOhneschachImmobilityTester), \
+    ENUMERATOR(STOhneschachImmobilityTesterCheck), \
+    ENUMERATOR(STOhneschachImmobilityTesterAny), \
+    ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
     /* output slices */                                                 \
