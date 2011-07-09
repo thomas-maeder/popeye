@@ -1,8 +1,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/and.h"
-#include "stipulation/goals/immobile/reached_tester_king.h"
-#include "stipulation/goals/immobile/reached_tester_non_king.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -18,11 +16,30 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const next = slices[si].u.pipe.next;
+    slice_index const king_branch = slices[si].u.pipe.next;
+    slice_index const nonking_branch = stip_deep_copy(king_branch);
+    slice_index const king_move_tester = alloc_pipe(STImmobilityTester);
+    slice_index const nonking_move_tester = alloc_pipe(STImmobilityTester);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
-    pipe_link(proxy2,make_immobility_tester_non_king(stip_deep_copy(next)));
-    pipe_link(proxy1,make_immobility_tester_king(next));
+
+    pipe_link(proxy1,king_move_tester);
+    link_to_branch(king_move_tester,king_branch);
+
+    {
+      slice_index const generator = branch_find_slice(STMoveGenerator,king_branch);
+      assert(generator!=no_slice);
+      pipe_substitute(generator,alloc_king_move_generator_slice());
+    }
+
+    pipe_link(proxy2,nonking_move_tester);
+    link_to_branch(nonking_move_tester,nonking_branch);
+
+    {
+      slice_index const generator = branch_find_slice(STMoveGenerator,nonking_branch);
+      assert(generator!=no_slice);
+      pipe_substitute(generator,alloc_non_king_move_generator_slice());
+    }
 
     pipe_remove(si);
   }

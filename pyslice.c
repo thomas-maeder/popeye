@@ -349,17 +349,7 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STImmobilityTester:
-    case STImmobilityTesterKing:
-    case STImmobilityTesterNonKing:
       result = immobility_tester_has_solution(si);
-      break;
-
-    case STOhneschachImmobilityTesterNonchecking:
-      result = ohneschach_immobility_tester_nonchecking_has_solution(si);
-      break;
-
-    case STOhneschachImmobilityTesterAny:
-      result = ohneschach_immobility_tester_any_has_solution(si);
       break;
 
     case STMaffImmobilityTesterKing:

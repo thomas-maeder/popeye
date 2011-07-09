@@ -21,31 +21,3 @@ stipulation/help_play/branch.h:
 solving/legal_move_counter.h:
 
 trace.h:
-stipulation/goals/immobile/reached_tester_king$(OBJ_SUFFIX): \
- stipulation/goals/immobile/reached_tester_king.c \
- stipulation/goals/immobile/reached_tester_king.h pypipe.h \
- stipulation/branch.h solving/king_move_generator.h trace.h
-
-stipulation/goals/immobile/reached_tester_king.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-solving/king_move_generator.h:
-
-trace.h:
-stipulation/goals/immobile/reached_tester_non_king$(OBJ_SUFFIX): \
- stipulation/goals/immobile/reached_tester_non_king.c \
- stipulation/goals/immobile/reached_tester_non_king.h pypipe.h \
- stipulation/branch.h solving/non_king_move_generator.h trace.h
-
-stipulation/goals/immobile/reached_tester_non_king.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-solving/non_king_move_generator.h:
-
-trace.h:

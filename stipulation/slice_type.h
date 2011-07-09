@@ -140,10 +140,6 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STImmobilityTester), \
-    ENUMERATOR(STImmobilityTesterKing), \
-    ENUMERATOR(STImmobilityTesterNonKing), \
-    ENUMERATOR(STOhneschachImmobilityTesterNonchecking), \
-    ENUMERATOR(STOhneschachImmobilityTesterAny), \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \

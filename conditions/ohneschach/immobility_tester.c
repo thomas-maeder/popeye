@@ -23,16 +23,20 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const proxy_nonchecking = alloc_proxy_slice();
+    slice_index const proxy_any = alloc_proxy_slice();
     slice_index const next = slices[si].u.pipe.next;
-    slice_index const testerNonchecking = alloc_pipe(STOhneschachImmobilityTesterNonchecking);
-    slice_index const testerAny = alloc_pipe(STOhneschachImmobilityTesterAny);
+    slice_index const tester_nonchecking = alloc_pipe(STImmobilityTester);
+    slice_index const tester_any = alloc_pipe(STImmobilityTester);
 
-    pipe_link(si,alloc_and_slice(proxy1,proxy2));
+    pipe_link(si,alloc_and_slice(proxy_nonchecking,proxy_any));
 
-    pipe_link(proxy1,testerNonchecking);
-    pipe_link(testerNonchecking,next);
+    pipe_link(proxy_nonchecking,tester_nonchecking);
+    pipe_link(tester_nonchecking,next);
+
+    pipe_link(proxy_any,tester_any);
+    pipe_link(tester_any,stip_deep_copy(next));
+
     {
       slice_index const prototypes[] =
       {
@@ -40,11 +44,17 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
           alloc_pipe(STOhneschachCheckGuard)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      branch_insert_slices(testerNonchecking,prototypes,nr_prototypes);
+      branch_insert_slices(tester_nonchecking,prototypes,nr_prototypes);
     }
 
-    pipe_link(proxy2,testerAny);
-    pipe_link(testerAny,stip_deep_copy(next));
+    {
+      /* no test for self-check necessary
+       * already done by ohneschach_pos_legal() */
+      slice_index const selfcheckguard = branch_find_slice(STSelfCheckGuard,
+                                                           tester_any);
+      assert(selfcheckguard!=no_slice);
+      pipe_remove(selfcheckguard);
+    }
 
     pipe_remove(si);
   }
@@ -197,62 +207,6 @@ boolean ohneschach_pos_legal(Side just_moved)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type ohneschach_immobility_tester_nonchecking_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count==0);
-
-  /* stop counting once we have >0 legal moves */
-  legal_move_counter_interesting = 0;
-
-  slice_has_solution(slices[si].u.pipe.next);
-
-  result = legal_move_counter_count==1 ? has_no_solution : has_solution;
-
-  /* clean up after ourselves */
-  legal_move_counter_count = 0;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type ohneschach_immobility_tester_any_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (ohneschach_find_any_move(slices[si].starter))
-    result = has_no_solution;
-  else
-    result = has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

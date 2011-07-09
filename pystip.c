@@ -211,10 +211,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
   slice_structure_pipe,   /* STImmobilityTester */
-  slice_structure_pipe,   /* STImmobilityTesterKing */
-  slice_structure_pipe,   /* STImmobilityTesterNonKing */
-  slice_structure_pipe,   /* STOhneschachImmobilityTesterNonchecking */
-  slice_structure_pipe,   /* STOhneschachImmobilityTesterAny */
   slice_structure_pipe,   /* STOhneschachSuspender */
   slice_structure_pipe,   /* STMaffImmobilityTesterKing */
   slice_structure_pipe,   /* STOWUImmobilityTesterKing) */
@@ -358,10 +354,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,    /* STPiecesKamikazeTargetSquareFilter */
   slice_function_unspecified,    /* STImmobilityTester */
-  slice_function_unspecified,    /* STImmobilityTesterKing */
-  slice_function_unspecified,    /* STImmobilityTesterNonKing */
-  slice_function_unspecified,    /* STOhneschachImmobilityTesterNonchecking */
-  slice_function_unspecified,    /* STOhneschachImmobilityTesterAny */
   slice_function_unspecified,    /* STOhneschachSuspender */
   slice_function_unspecified,    /* STMaffImmobilityTesterKing */
   slice_function_unspecified,    /* STOWUImmobilityTesterKing */
@@ -1580,10 +1572,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
-  &stip_traverse_structure_pipe,              /* STImmobilityTesterKing */
-  &stip_traverse_structure_pipe,              /* STImmobilityTesterNonKing */
-  &stip_traverse_structure_pipe,              /* STOhneschachImmobilityTesterNonchecking */
-  &stip_traverse_structure_pipe,              /* STOhneschachImmobilityTesterAny */
   &stip_traverse_structure_pipe,              /* STOhneschachSuspender */
   &stip_traverse_structure_pipe,              /* STMaffImmobilityTesterKing */
   &stip_traverse_structure_pipe,              /* STOWUImmobilityTesterKing */
@@ -1828,10 +1816,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STImmobilityTesterKing */
-    &stip_traverse_moves_pipe,              /* STImmobilityTesterNonKing */
-    &stip_traverse_moves_pipe,              /* STOhneschachImmobilityTesterNonchecking */
-    &stip_traverse_moves_pipe,              /* STOhneschachImmobilityTesterAny */
     &stip_traverse_moves_pipe,              /* STOhneschachSuspender */
     &stip_traverse_moves_pipe,              /* STMaffImmobilityTesterKing */
     &stip_traverse_moves_pipe,              /* STOWUImmobilityTesterKing */
