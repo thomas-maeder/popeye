@@ -5,7 +5,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
-#include "solving/legal_move_counter.h"
+#include "stipulation/temporary_hacks.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -84,78 +84,12 @@ void ohneschach_replace_immobility_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean ohneschach_find_any_move(Side side)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  move_generation_mode= move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side);
-
-  while (!result && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      /* no test for self-check necessary
-       * was already done by ohneschach_pos_legal() */
-      result = true;
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean is_ohneschach_suspended;
-
-static boolean ohneschach_find_nonchecking_move(Side side)
-{
-  boolean result = false;
-  Side const ad = advers(side);
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  move_generation_mode= move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(side);
-
-  /* temporarily suspend Ohneschach to avoid the expensive test for checkmate
-   * in ohneschach_pos_legal()
-   */
-  is_ohneschach_suspended = true;
-
-  while (!result && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,side) && !echecc(nbply,ad))
-      result = true;
-    repcoup();
-  }
-
-  is_ohneschach_suspended = false;
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Determine whether a side is immobile in Ohneschach
  * @return true iff side is immobile
  */
-boolean ohneschach_immobile(Side side)
+static boolean ohneschach_immobile(Side side)
 {
   boolean result = true;
 
@@ -168,15 +102,7 @@ boolean ohneschach_immobile(Side side)
   if (nbply>maxply-2)
     FtlMsg(ChecklessUndecidable);
 
-  /* first try to find a move that doesn't deliver check ... */
-  if (ohneschach_find_nonchecking_move(side))
-    result = false;
-
-  /* ... then try to find a move that delivers mate. This is efficient
-   * because determining whether ad is immobile is costly.
-   */
-  else if (ohneschach_find_any_move(side))
-    result = false;
+  result = slice_has_solution(slices[temporary_hack_immobility_tester[side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

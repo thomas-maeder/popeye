@@ -177,7 +177,8 @@ trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/temporary_hacks.h pybrafrk.h pymovein.h pypipe.h \
  stipulation/proxy.h stipulation/goals/reached_tester.h \
- stipulation/goals/mate/reached_tester.h trace.h
+ stipulation/goals/mate/reached_tester.h \
+ stipulation/goals/immobile/reached_tester.h trace.h
 
 stipulation/temporary_hacks.h:
 
@@ -192,5 +193,7 @@ stipulation/proxy.h:
 stipulation/goals/reached_tester.h:
 
 stipulation/goals/mate/reached_tester.h:
+
+stipulation/goals/immobile/reached_tester.h:
 
 trace.h:

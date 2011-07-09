@@ -367,10 +367,10 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/boolean/or.h stipulation/battle_play/branch.h \
- solving/battle_play/check_detector.h stipulation/constraint.h \
- stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
- stipulation/temporary_hacks.h \
+ stipulation/constraint.h stipulation/help_play/branch.h \
+ stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h solving/solving.h \
+ solving/battle_play/check_detector.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
  conditions/circe/circe.h conditions/anticirce/anticirce.h \
@@ -509,8 +509,6 @@ stipulation/boolean/or.h:
 
 stipulation/battle_play/branch.h:
 
-solving/battle_play/check_detector.h:
-
 stipulation/constraint.h:
 
 stipulation/help_play/branch.h:
@@ -522,6 +520,8 @@ stipulation/temporary_hacks.h:
 stipulation/goals/immobile/reached_tester.h:
 
 solving/solving.h:
+
+solving/battle_play/check_detector.h:
 
 pieces/attributes/paralysing/paralysing.h:
 

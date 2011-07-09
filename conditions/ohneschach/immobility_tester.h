@@ -36,11 +36,6 @@ stip_length_type ohneschach_suspender_can_help(slice_index si,
 stip_length_type ohneschach_check_guard_can_help(slice_index si,
                                                  stip_length_type n);
 
-/* Determine whether a side is immobile in Ohneschach
- * @return true iff side is immobile
- */
-boolean ohneschach_immobile(Side isde);
-
 /* Determine whether the move just played has led to a legal position according
  * to condition Ohneschach
  * @param just_moved identifies the side that has just moved

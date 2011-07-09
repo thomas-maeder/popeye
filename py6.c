@@ -130,13 +130,14 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/battle_play/check_detector.h"
 #include "stipulation/constraint.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
+#include "solving/battle_play/check_detector.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "conditions/amu/mate_filter.h"
@@ -2447,6 +2448,7 @@ static void solve_twin(slice_index si,
   {
     /* Set next side to calculate for duplex "twin" */
     stip_impose_starter(si,advers(slices[si].starter));
+    temporary_hacks_swap_colors();
     TraceStipulation(si);
 
     init_duplex(si);
@@ -2456,6 +2458,7 @@ static void solve_twin(slice_index si,
 
     fini_duplex(si);
 
+    temporary_hacks_swap_colors();
     stip_impose_starter(si,advers(slices[si].starter));
   }
 
