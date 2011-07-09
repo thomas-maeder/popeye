@@ -115,7 +115,7 @@ static boolean ohneschach_find_nonchecking_move(Side side)
   while (!result && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,ad) && !echecc(nbply,side))
+        && !echecc(nbply,side) && !echecc(nbply,ad))
       result = true;
     repcoup();
   }
