@@ -40,6 +40,7 @@ static slice_index const slice_rank_order[] =
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STKingMoveGenerator,
+  STOhneschachSuspender,
   STMove,
   STDummyMove,
   STCaptureCounter,
@@ -54,6 +55,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
+  STOhneschachCheckGuard,
   STLegalMoveCounter,
   STFlightsquaresCounter,
   STCheckZigzagLanding

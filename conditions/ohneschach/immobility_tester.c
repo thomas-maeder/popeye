@@ -2,7 +2,10 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
+#include "solving/legal_move_counter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -23,13 +26,22 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const next = slices[si].u.pipe.next;
-    slice_index const testerCheck = alloc_pipe(STOhneschachImmobilityTesterNonchecking);
+    slice_index const testerNonchecking = alloc_pipe(STOhneschachImmobilityTesterNonchecking);
     slice_index const testerAny = alloc_pipe(STOhneschachImmobilityTesterAny);
 
     pipe_link(si,alloc_and_slice(proxy1,proxy2));
 
-    pipe_link(proxy1,testerCheck);
-    pipe_link(testerCheck,next);
+    pipe_link(proxy1,testerNonchecking);
+    pipe_link(testerNonchecking,next);
+    {
+      slice_index const prototypes[] =
+      {
+          alloc_pipe(STOhneschachSuspender),
+          alloc_pipe(STOhneschachCheckGuard)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      branch_insert_slices(testerNonchecking,prototypes,nr_prototypes);
+    }
 
     pipe_link(proxy2,testerAny);
     pipe_link(testerAny,stip_deep_copy(next));
@@ -202,10 +214,18 @@ has_solution_type ohneschach_immobility_tester_nonchecking_has_solution(slice_in
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (ohneschach_find_nonchecking_move(slices[si].starter))
-    result = has_no_solution;
-  else
-    result = has_solution;
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count==0);
+
+  /* stop counting once we have >0 legal moves */
+  legal_move_counter_interesting = 0;
+
+  slice_has_solution(slices[si].u.pipe.next);
+
+  result = legal_move_counter_count==1 ? has_no_solution : has_solution;
+
+  /* clean up after ourselves */
+  legal_move_counter_count = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -233,6 +253,65 @@ has_solution_type ohneschach_immobility_tester_any_has_solution(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type ohneschach_suspender_can_help(slice_index si,
+                                               stip_length_type n)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  is_ohneschach_suspended = true;
+  result = can_help(slices[si].u.pipe.next,n);
+  is_ohneschach_suspended = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type ohneschach_check_guard_can_help(slice_index si,
+                                                 stip_length_type n)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,slices[si].starter))
+    result = n+2;
+  else
+    result = can_help(slices[si].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

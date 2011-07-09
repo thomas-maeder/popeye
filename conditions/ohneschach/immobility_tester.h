@@ -26,6 +26,30 @@ has_solution_type ohneschach_immobility_tester_nonchecking_has_solution(slice_in
  */
 has_solution_type ohneschach_immobility_tester_any_has_solution(slice_index si);
 
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type ohneschach_suspender_can_help(slice_index si,
+                                               stip_length_type n);
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type ohneschach_check_guard_can_help(slice_index si,
+                                                 stip_length_type n);
+
 /* Determine whether a side is immobile in Ohneschach
  * @return true iff side is immobile
  */

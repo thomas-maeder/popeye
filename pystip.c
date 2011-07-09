@@ -145,6 +145,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuard */
+  slice_structure_pipe,   /* STOhneschachCheckGuard */
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_branch, /* STMinLengthGuard */
   slice_structure_binary, /* STForkOnRemaining */
@@ -291,6 +292,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STCheckDetector */
   slice_function_unspecified,    /* STNot */
   slice_function_unspecified,    /* STSelfCheckGuard */
+  slice_function_unspecified,    /* STOhneschachCheckGuard */
   slice_function_unspecified,    /* STMoveInverter */
   slice_function_unspecified,    /* STMinLengthGuard */
   slice_function_unspecified,    /* STForkOnRemaining */
@@ -1512,6 +1514,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STCheckDetector */
   &stip_traverse_structure_pipe,              /* STNot */
   &stip_traverse_structure_pipe,              /* STSelfCheckGuard */
+  &stip_traverse_structure_pipe,              /* STOhneschachCheckGuard */
   &stip_traverse_structure_pipe,              /* STMoveInverter */
   &stip_traverse_structure_pipe,              /* STMinLengthGuard */
   &stip_traverse_structure_fork_on_remaining, /* STForkOnRemaining */
@@ -1759,6 +1762,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STCheckDetector */
     &stip_traverse_moves_pipe,              /* STNot */
     &stip_traverse_moves_pipe,              /* STSelfCheckGuard */
+    &stip_traverse_moves_pipe,              /* STOhneschachCheckGuard */
     &stip_traverse_moves_pipe,              /* STMoveInverter */
     &stip_traverse_moves_pipe,              /* STMinLengthGuard */
     &stip_traverse_moves_fork_on_remaining, /* STForkOnRemaining */

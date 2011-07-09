@@ -327,6 +327,14 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = capture_counter_can_help(si,n);
       break;
 
+    case STOhneschachSuspender:
+      result = ohneschach_suspender_can_help(si,n);
+      break;
+
+    case STOhneschachCheckGuard:
+      result = ohneschach_check_guard_can_help(si,n);
+      break;
+
     default:
       assert(n==slack_length_help);
       switch (slice_has_solution(si))
