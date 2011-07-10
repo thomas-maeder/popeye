@@ -32,15 +32,18 @@ static slice_index const slice_rank_order[] =
   STReadyForHelpMove,
   STReadyForDummyMove,
   STHelpHashed,
+  STTestingPrerequisites,
   STDoubleMateFilter,
   STCounterMateFilter,
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
+  STGeneratingMoves,
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STKingMoveGenerator,
   STOhneschachSuspender,
+  STExclusiveChessUnsuspender,
   STMove,
   STDummyMove,
   STCaptureCounter,
@@ -120,7 +123,8 @@ static boolean insert_common(slice_index si,
   TraceFunctionParam("%u",state->base);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==slices[state->prototypes[0]].type)
+  if (slices[slices[state->prev].u.pipe.next].type
+      ==slices[state->prototypes[0]].type)
     result = true; /* we are done */
   else
   {
@@ -598,17 +602,25 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
+    slice_index const testpre1 = alloc_pipe(STTestingPrerequisites);
+    slice_index const generating1 = alloc_pipe(STGeneratingMoves);
     slice_index const move1 = alloc_move_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
+    slice_index const testpre2 = alloc_pipe(STTestingPrerequisites);
+    slice_index const generating2 = alloc_pipe(STGeneratingMoves);
     slice_index const move2 = alloc_move_slice();
 
     slice_index const deadend = alloc_dead_end_slice();
 
     pipe_link(adapter,ready1);
-    pipe_link(ready1,move1);
+    pipe_link(ready1,testpre1);
+    pipe_link(testpre1,generating1);
+    pipe_link(generating1,move1);
     pipe_link(move1,ready2);
-    pipe_link(ready2,move2);
+    pipe_link(ready2,testpre2);
+    pipe_link(testpre2,generating2);
+    pipe_link(generating2,move2);
     pipe_link(move2,adapter);
 
     if ((length-slack_length_help)%2==0)
@@ -833,6 +845,8 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const adapter = alloc_help_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForHelpMove,
                                            length,min_length);
+    slice_index const testpre = alloc_pipe(STTestingPrerequisites);
+    slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const move = alloc_move_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForDummyMove);
@@ -841,7 +855,9 @@ slice_index alloc_series_branch(stip_length_type length,
     result = adapter;
 
     pipe_link(adapter,ready);
-    pipe_link(ready,move);
+    pipe_link(ready,testpre);
+    pipe_link(testpre,generating);
+    pipe_link(generating,move);
     pipe_link(move,deadend);
     pipe_link(deadend,ready2);
     pipe_link(ready2,dummy);

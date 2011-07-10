@@ -191,15 +191,18 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
 
   stip_traverse_moves_children(si,st);
 
-  if (st->remaining==1)
+  if (st->remaining==1
+      && st->context==stip_traversal_context_help)
   {
     unsigned int nr_optimisable = 0;
     unsigned int nr_unoptimisable = 0;
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const proxy_joint = alloc_proxy_slice();
     goal_type goal;
 
-    pipe_link(proxy1,proxy2);
+    pipe_link(proxy1,proxy_joint);
+    pipe_set_successor(proxy2,proxy_joint);
 
     for (goal = 0; goal!=nr_goals; ++goal)
       if (state->imminent_goals[goal])
@@ -217,18 +220,21 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
         if (state->imminent_goals[goal])
           insert_goal_optimisation_help_filter(proxy1,goal);
 
-      pipe_append(slices[proxy2].prev,
+      pipe_append(slices[proxy_joint].prev,
                   alloc_goal_prerequisite_optimiser_slice());
     }
 
     if (nr_optimisable>0)
     {
-      slice_set_predecessor(proxy2,no_slice);
-      pipe_link(proxy2,slices[si].u.pipe.next);
+      slice_set_predecessor(proxy_joint,no_slice);
+      pipe_link(proxy_joint,slices[si].u.pipe.next);
       pipe_link(si,alloc_fork_on_remaining_slice(proxy2,proxy1,1));
     }
     else
+    {
       dealloc_slices(proxy1);
+      dealloc_slice(proxy2);
+    }
   }
 
   *state = save_state;
@@ -296,7 +302,7 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
   { STReadyForAttack,               &insert_goal_prerequisite_guards_battle      },
   { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
-  { STReadyForHelpMove,             &insert_goal_prerequisite_guards_help        },
+  { STTestingPrerequisites,         &insert_goal_prerequisite_guards_help        },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate },
   { STCheckZigzagJump,              &insert_goal_prerequisite_guards_zigzag      }

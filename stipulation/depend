@@ -176,9 +176,11 @@ stipulation/help_play/branch.h:
 trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/temporary_hacks.h pybrafrk.h pymovein.h pypipe.h \
- stipulation/proxy.h stipulation/goals/reached_tester.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/end_of_branch.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/mate/reached_tester.h \
- stipulation/goals/immobile/reached_tester.h trace.h
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/help_play/branch.h solving/legal_move_counter.h trace.h
 
 stipulation/temporary_hacks.h:
 
@@ -188,12 +190,20 @@ pymovein.h:
 
 pypipe.h:
 
+stipulation/branch.h:
+
 stipulation/proxy.h:
+
+stipulation/end_of_branch.h:
 
 stipulation/goals/reached_tester.h:
 
 stipulation/goals/mate/reached_tester.h:
 
 stipulation/goals/immobile/reached_tester.h:
+
+stipulation/help_play/branch.h:
+
+solving/legal_move_counter.h:
 
 trace.h:

@@ -1,13 +1,10 @@
 conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h \
- boolean.h pyposit.h pystip.h \
+ pystip.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- pymsg.h pydata.h pyslice.h stipulation/temporary_hacks.h trace.h
+ pymsg.h pydata.h pyslice.h stipulation/temporary_hacks.h \
+ solving/legal_move_counter.h trace.h
 
 conditions/exclusive.h:
-
-boolean.h:
-
-pyposit.h:
 
 pystip.h:
 
@@ -20,6 +17,8 @@ pydata.h:
 pyslice.h:
 
 stipulation/temporary_hacks.h:
+
+solving/legal_move_counter.h:
 
 trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \

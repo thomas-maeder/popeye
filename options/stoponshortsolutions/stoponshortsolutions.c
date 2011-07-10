@@ -113,7 +113,8 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
 {
   { STHelpAdapter,               &insert_filter    },
   /* the help branch for detecting immobility must not be considered */
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
+  { STTemporaryHackFork,         &stip_traverse_structure_pipe }
 };
 
 enum

@@ -47,6 +47,8 @@ static boolean is_proxy(slice_index si)
     case STOutputModeSelector:
     case STShortSolutionsStart:
     case STCheckZigzagLanding:
+    case STTestingPrerequisites:
+    case STGeneratingMoves:
       result = true;
       break;
 

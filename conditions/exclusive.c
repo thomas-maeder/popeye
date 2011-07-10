@@ -1,10 +1,11 @@
-#include "exclusive.h"
+#include "conditions/exclusive.h"
 #include "pystip.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pymsg.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/legal_move_counter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -80,8 +81,6 @@ boolean exclusive_pos_legal(void)
  */
 void exclusive_init_genmove(Side side)
 {
-  unsigned int nr_moves_reaching_goal = 0;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
@@ -89,30 +88,101 @@ void exclusive_init_genmove(Side side)
   assert(exclusive_goal.type==goal_mate);
 
   CondFlag[exclusive] = false;
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
   remove_ortho_mating_moves_generation_obstacle();
-  empile_for_goal = exclusive_goal;
-  generate_move_reaching_goal(side);
-  empile_for_goal.type = no_goal;
+
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count[nbply+1]==0);
+
+  /* stop counting once we have found >1 mating moves */
+  legal_move_counter_interesting[nbply+1] = 1;
+
+  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
+
+  is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
+  TraceValue("%u",legal_move_counter_count[nbply+1]);
+  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
+
+  /* clean up after ourselves */
+  legal_move_counter_count[nbply+1] = 0;
+
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
 
-  is_reaching_goal_allowed[nbply] = true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-  while (encore() && nr_moves_reaching_goal<2)
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type exclusive_chess_unsuspender_can_help(slice_index si,
+                                                      stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  add_ortho_mating_moves_generation_obstacle();
+  CondFlag[exclusive] = true;
+  is_reaching_goal_allowed[nbply] = true;
+  result = can_help(slices[si].u.pipe.next,n);
+  is_reaching_goal_allowed[nbply] = false;
+  CondFlag[exclusive] = false;
+  remove_ortho_mating_moves_generation_obstacle();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void remove_guard(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && slice_has_solution(slices[temporary_hack_mate_tester[advers(side)]].u.fork.fork)==has_solution)
-      ++nr_moves_reaching_goal;
-    repcoup();
+    slice_index const guard = branch_find_slice(STSelfCheckGuard,
+                                                slices[si].u.fork.fork);
+    assert(guard!=no_slice);
+    pipe_remove(guard);
   }
 
-  finply();
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-  is_reaching_goal_allowed[nbply] = nr_moves_reaching_goal<2;
-  TraceValue("%u",nr_moves_reaching_goal);
-  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
+/* When counting mating moves, it is not necessary to detect self-check in moves
+ * that don't deliver mate; remove the slices that would detect these
+ * self-checks
+ * @param si identifies slice where to start
+ */
+void optimise_away_unnecessary_selfcheckguards(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean in_constraint = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&in_constraint);
+  stip_structure_traversal_override_single(&st,
+                                           STExclusiveChessMatingMoveCounter,
+                                           &remove_guard);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

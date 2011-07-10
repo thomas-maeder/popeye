@@ -1,8 +1,10 @@
 #include "conditions/owu/immobility_tester.h"
+#include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "solving/king_move_generator.h"
+#include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
 #include "trace.h"
@@ -97,24 +99,24 @@ has_solution_type owu_immobility_tester_king_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count==0);
+  assert(legal_move_counter_count[nbply+1]==0);
   assert(capture_counter_count==0);
 
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting = 0;
+  legal_move_counter_interesting[nbply+1] = 0;
 
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
 
   slice_has_solution(slices[si].u.pipe.next);
 
-  result = (legal_move_counter_count==0 && capture_counter_count==1
+  result = (legal_move_counter_count[nbply+1]==0 && capture_counter_count==1
             ? has_solution
             : has_no_solution);
 
   /* clean up after ourselves */
   capture_counter_count = 0;
-  legal_move_counter_count = 0;
+  legal_move_counter_count[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

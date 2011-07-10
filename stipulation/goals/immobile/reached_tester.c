@@ -114,17 +114,17 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
-  assert(legal_move_counter_count==0);
+  assert(legal_move_counter_count[nbply+1]==0);
 
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting = 0;
+  legal_move_counter_interesting[nbply+1] = 0;
 
   slice_has_solution(slices[si].u.pipe.next);
 
-  result = legal_move_counter_count==0 ? has_solution : has_no_solution;
+  result = legal_move_counter_count[nbply+1]==0 ? has_solution : has_no_solution;
 
   /* clean up after ourselves */
-  legal_move_counter_count = 0;
+  legal_move_counter_count[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

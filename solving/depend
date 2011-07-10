@@ -134,11 +134,13 @@ pypipe.h:
 
 trace.h:
 solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
- solving/legal_move_counter.h pypipe.h trace.h
+ solving/legal_move_counter.h pypipe.h pydata.h trace.h
 
 solving/legal_move_counter.h:
 
 pypipe.h:
+
+pydata.h:
 
 trace.h:
 solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \

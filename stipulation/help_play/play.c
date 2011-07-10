@@ -30,6 +30,8 @@
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "conditions/exclusive.h"
+#include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -333,6 +335,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STOhneschachCheckGuard:
       result = ohneschach_check_guard_can_help(si,n);
+      break;
+
+    case STExclusiveChessUnsuspender:
+      result = exclusive_chess_unsuspender_can_help(si,n);
       break;
 
     default:

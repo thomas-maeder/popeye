@@ -59,7 +59,7 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  options/maxtime.h options/maxsolutions/guard.h \
  options/stoponshortsolutions/filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- trace.h
+ conditions/exclusive.h conditions/ohneschach/immobility_tester.h trace.h
 
 stipulation/help_play/play.h:
 
@@ -124,5 +124,9 @@ options/maxsolutions/guard.h:
 options/stoponshortsolutions/filter.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+conditions/exclusive.h:
+
+conditions/ohneschach/immobility_tester.h:
 
 trace.h:

@@ -510,6 +510,7 @@ static slice_index const leaf_slice_rank_order[] =
   STGoalReachableGuardFilter,
   STGoalReachedTester,
   STIntelligentDuplicateAvoider,
+  STLegalMoveCounter,
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,
@@ -643,6 +644,30 @@ static void leaf_insert_visit_regular(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void leaf_insert_visit_true_false(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  leaf_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank = get_leaf_slice_rank(slices[si].type);
+    if (rank==no_leaf_slice_rank)
+      ; /* nothing - not for insertion into this branch */
+    else
+      leaf_insert_common(si,rank,state);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void start_leaf_insertion_traversal(slice_index si,
                                            leaf_insertion_state_type *state)
 {
@@ -660,6 +685,12 @@ static void start_leaf_insertion_traversal(slice_index si,
     stip_structure_traversal_override_single(&st,
                                              leaf_slice_rank_order[i],
                                              &leaf_insert_visit_regular);
+  stip_structure_traversal_override_single(&st,
+                                           STTrue,
+                                           &leaf_insert_visit_true_false);
+  stip_structure_traversal_override_single(&st,
+                                           STFalse,
+                                           &leaf_insert_visit_true_false);
   stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);

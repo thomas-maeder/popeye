@@ -77,6 +77,7 @@
     /* solver slices */                                                 \
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \
+    ENUMERATOR(STGeneratingMoves),  /* proxy marking start of move generation */ \
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
@@ -93,6 +94,7 @@
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     ENUMERATOR(STCaptureCounter), /* counts captures */            \
     /* slices enforcing prerequisites of some stipulations */           \
+    ENUMERATOR(STTestingPrerequisites),  /* proxy marking start of prerequisites tests */ \
     ENUMERATOR(STDoubleMateFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STCounterMateFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STPrerequisiteOptimiser), /* optimise if prerequisites are not met */ \
@@ -141,6 +143,8 @@
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STOhneschachSuspender), \
+    ENUMERATOR(STExclusiveChessMatingMoveCounter), \
+    ENUMERATOR(STExclusiveChessUnsuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
     /* output slices */                                                 \

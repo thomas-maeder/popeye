@@ -568,7 +568,8 @@ static structure_traversers_visitors restricted_side_finders[] =
   { STReadyForDefense,           &find_restricted_side_defense },
   { STHelpAdapter,               &find_restricted_side_help    },
   /* the help branch for detecting immobility must not be considered */
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
+  { STTemporaryHackFork,         &stip_traverse_structure_pipe }
 };
 
 enum
@@ -588,6 +589,13 @@ static Side findRestrictedSide(slice_index si)
 {
   stip_structure_traversal st;
   is_restricted_type is_restricted = { false, false };
+  Side result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&is_restricted);
   stip_structure_traversal_override(&st,
@@ -596,11 +604,16 @@ static Side findRestrictedSide(slice_index si)
   stip_traverse_structure(si,&st);
 
   if (is_restricted[White] && !is_restricted[Black])
-    return White;
+    result = White;
   else if (is_restricted[Black] && !is_restricted[White])
-    return Black;
+    result = Black;
   else
-    return no_side;
+    result = no_side;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(Side,result,"");
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Verify the user input and our interpretation of it
@@ -2626,6 +2639,9 @@ static Token iterate_twins(Token prev_token)
         owu_replace_immobility_testers(root_slice);
       else
         immobility_testers_substitute_king_first(root_slice);
+
+      if (CondFlag[exclusive])
+        optimise_away_unnecessary_selfcheckguards(root_slice);
 
       stip_impose_starter(root_slice,slices[root_slice].starter);
 
