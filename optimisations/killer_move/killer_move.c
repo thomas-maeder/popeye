@@ -143,9 +143,9 @@ static void substitute_killermove_machinery(slice_index si,
   {
     slice_index const prototype = alloc_killer_move_collector_slice();
     if (st->context==stip_traversal_context_attack)
-      defense_branch_insert_slices(si,&prototype,1);
-    else
       attack_branch_insert_slices(si,&prototype,1);
+    else
+      defense_branch_insert_slices(si,&prototype,1);
     pipe_substitute(si,alloc_killer_move_move_generator_slice());
   }
 

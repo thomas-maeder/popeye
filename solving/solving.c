@@ -296,26 +296,27 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (st->context==stip_traversal_context_help)
   {
     slice_index const prototype = alloc_move_generator_slice();
-    help_branch_insert_slices(si,&prototype,1);
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void prepend_move_generator(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (st->context!=stip_traversal_context_help)
-    pipe_append(slices[si].prev,alloc_move_generator_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -328,8 +329,7 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STDefenseAdapter,     &insert_solvers_defense_adapter },
   { STHelpAdapter,        &insert_solvers_help_adapter    },
   { STReadyForAttack,     &insert_solvers_attack          },
-  { STGeneratingMoves,    &insert_move_generator          },
-  { STMove,               &prepend_move_generator         }
+  { STGeneratingMoves,    &insert_move_generator          }
 };
 
 enum

@@ -30,6 +30,7 @@ static slice_index const slice_rank_order[] =
   STThreatStart,
   STConstraint,
   STMinLengthOptimiser,
+  STTestingPrerequisites,
   STCastlingFilter,
   STCounterMateFilter,
   STDoubleMateFilter,
@@ -39,6 +40,7 @@ static slice_index const slice_rank_order[] =
   STDegenerateTree,
   STFindShortest,
   STShortSolutionsStart,
+  STGeneratingMoves,
   STMoveGenerator,
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
@@ -79,10 +81,12 @@ static slice_index const slice_rank_order[] =
   STMaxFlightsquares,
   STMaxThreatLength,
   STThreatSolver,
+  STTestingPrerequisites,
   STCounterMateFilter,
   STEnPassantFilter,
   STPrerequisiteOptimiser,
   STDeadEnd,
+  STGeneratingMoves,
   STMoveGenerator,
   STKillerMoveMoveGenerator,
   STCountNrOpponentMovesMoveGenerator,
@@ -417,12 +421,11 @@ void attack_branch_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const ready_rank = get_slice_rank(STReadyForDefense,0);
-    unsigned int const move_rank = get_slice_rank(STMove,ready_rank);
+    unsigned int const ready_rank = get_slice_rank(STReadyForAttack,0);
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      move_rank,
+      ready_rank+1,
       si
     };
     assert(state.base!=no_slice_rank);
@@ -456,12 +459,11 @@ void defense_branch_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const ready_rank = get_slice_rank(STReadyForAttack,0);
-    unsigned int const move_rank = get_slice_rank(STMove,ready_rank);
+    unsigned int const ready_rank = get_slice_rank(STReadyForDefense,0);
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      move_rank,
+      ready_rank+1,
       si
     };
     assert(state.base!=no_slice_rank);
@@ -497,11 +499,13 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForDefense,length,min_length);
     slice_index const deadend = alloc_dead_end_slice();
+    slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,ready);
     pipe_link(ready,deadend);
-    pipe_link(deadend,defense);
+    pipe_link(deadend,dgenerating);
+    pipe_link(dgenerating,defense);
     pipe_link(defense,next);
 
     result = adapter;
@@ -535,18 +539,22 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const adeadend = alloc_dead_end_slice();
+    slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_move_slice();
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const ddeadend = alloc_dead_end_slice();
+    slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,aready);
     pipe_link(aready,adeadend);
-    pipe_link(adeadend,attack);
+    pipe_link(adeadend,agenerating);
+    pipe_link(agenerating,attack);
     pipe_link(attack,dready);
     pipe_link(dready,ddeadend);
-    pipe_link(ddeadend,defense);
+    pipe_link(ddeadend,dgenerating);
+    pipe_link(dgenerating,defense);
     pipe_link(defense,adapter);
 
     result = adapter;
