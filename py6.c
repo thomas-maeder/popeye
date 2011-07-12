@@ -1126,7 +1126,10 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[brunner])
-    eval_white=eval_isardam;
+    /* Isardam + Brunner may be possible!
+     * in which case eval_brunner is the correct evaluation function to use!
+    */
+    eval_white = eval_brunner;
 
   if (CondFlag[isardam] && IsardamB)
     eval_white=eval_ortho;
@@ -1601,7 +1604,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if ((eval_white==eval_isardam) && CondFlag[vogt])
+  if ((eval_white==eval_isardam || eval_white==eval_brunner) && CondFlag[vogt])
   {
     VerifieMsg(VogtlanderandIsardam);
     return false;

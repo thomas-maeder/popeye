@@ -2621,54 +2621,82 @@ boolean isardam_pos_legal(void)
   return result;
 }
 
-boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) {
-  boolean flag=false;
-  Side camp;
+static Side guess_side_at_move(square sq_departure, square sq_capture)
+{
+  Side result;
 
   /* the following does not suffice if we have neutral kings,
      but we have no chance to recover the information who is to
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if ((TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral)) {        /* will this do for neutral Ks? */
-    camp= neutcoul;
-  }
-  else if (sq_capture == rn) {
-    camp=White;
-  }
-  else if (sq_capture == rb) {
-    camp=Black;
-  }
-  else {
-    camp= e[sq_departure]<0 ? Black : White;
-  }
+  if (TSTFLAG(PieSpExFlags,Neutral)
+      && rb!=initsquare
+      && TSTFLAG(spec[rb],Neutral))
+    /* will this do for neutral Ks? */
+    result = neutcoul;
+  else if (sq_capture==rn)
+    result = White;
+  else if (sq_capture==rb)
+    result = Black;
+  else
+    result = e[sq_departure]<0 ? Black : White;
+
+  return result;
+}
+
+boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result = false;
+  Side const camp = guess_side_at_move(sq_departure,sq_capture);
 
   nextply(nbply);
-  trait[nbply]= camp;
+  trait[nbply] = camp;
 
   init_move_generation_optimizer();
-  k_cap=true;         /* set to allow K capture in e.g. AntiCirce */
-  empile(sq_departure,sq_arrival,sq_capture);     /* generate only the K capture */
-  k_cap=false;
+  k_cap = true;         /* allow K capture */
+  empile(sq_departure,sq_arrival,sq_capture); /* generate only the K capture */
+  k_cap = false;
   finish_move_generation_optimizer();
 
-  while (encore() && !flag) {
+  while (encore() && !result)
+  {
     /* may be several K capture moves e.g. PxK=S,B,R,Q */
-    if (CondFlag[brunner])
-      /* For neutral Ks will need to return true always */
-      flag= jouecoup(nbply,first_play) && !echecc(nbply,camp);
-    else if (CondFlag[isardam])
-      flag= jouecoup(nbply,first_play);
-    /* Isardam + Brunner may be possible! in which case this logic
-       is correct
-    */
+    result = jouecoup(nbply,first_play);
     repcoup();
   }
 
   finply();
-  return flag;
-} /* eval_isardam */
 
+  return result;
+}
+
+boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
+{
+  boolean result = false;
+  Side const camp = guess_side_at_move(sq_departure,sq_capture);
+
+  nextply(nbply);
+  trait[nbply] = camp;
+
+  init_move_generation_optimizer();
+  k_cap = true;         /* allow K */
+  empile(sq_departure,sq_arrival,sq_capture); /* generate only the K capture */
+  k_cap = false;
+  finish_move_generation_optimizer();
+
+  while (encore() && !result)
+  {
+    /* may be several K capture moves e.g. PxK=S,B,R,Q */
+    /* For neutral Ks will need to return true always */
+    result = jouecoup(nbply,first_play) && !echecc(nbply,camp);
+    repcoup();
+  }
+
+  finply();
+
+  return result;
+}
 
 boolean orixcheck(square sq_king,
                   piece p,

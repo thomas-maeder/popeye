@@ -410,6 +410,7 @@ char *ReadPieces(int cond);
 
 
 boolean eval_isardam(square departure, square arrival, square capture);
+boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture);
 boolean isardam_pos_legal(void);
 square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 
