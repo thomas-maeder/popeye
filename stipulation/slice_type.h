@@ -142,6 +142,7 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STImmobilityTester), \
+    /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
     ENUMERATOR(STExclusiveChessUnsuspender), \
