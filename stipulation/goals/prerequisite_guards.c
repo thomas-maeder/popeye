@@ -125,24 +125,17 @@ boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
   return result;
 }
 
-/* Insert goal prerequisite guards
+/* Insert goal prerequisite guards for battle play
  * @param si identifies root of subtree
- * @param st address of structure representing traversal
+ * @param state address of structure representing insertion state
  */
 static void insert_goal_prerequisite_guards_battle(slice_index si,
-                                                   stip_moves_traversal *st)
+                                                   prerequisite_guards_insertion_state const * state)
 {
-  prerequisite_guards_insertion_state * const state = st->param;
-  prerequisite_guards_insertion_state const save_state = *state;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_children(si,st);
-
-  TraceValue("%u\n",st->remaining);
-  if (st->remaining==1)
   {
     unsigned int nr_optimisable = 0;
     unsigned int nr_unoptimisable = 0;
@@ -169,30 +162,21 @@ static void insert_goal_prerequisite_guards_battle(slice_index si,
     }
   }
 
-  *state = save_state;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Insert goal prerequisite guards
+/* Insert goal prerequisite guards for help play
  * @param si identifies root of subtree
- * @param st address of structure representing traversal
+ * @param state address of structure representing insertion state
  */
 static void insert_goal_prerequisite_guards_help(slice_index si,
-                                                 stip_moves_traversal *st)
+                                                 prerequisite_guards_insertion_state const * state)
 {
-  prerequisite_guards_insertion_state * const state = st->param;
-  prerequisite_guards_insertion_state const save_state = *state;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_children(si,st);
-
-  if (st->remaining==1
-      && st->context==stip_traversal_context_help)
   {
     unsigned int nr_optimisable = 0;
     unsigned int nr_unoptimisable = 0;
@@ -236,6 +220,43 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
       dealloc_slice(proxy2);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void insert_goal_prerequisite_guards(slice_index si,
+                                            stip_moves_traversal *st)
+{
+  prerequisite_guards_insertion_state * const state = st->param;
+  prerequisite_guards_insertion_state const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_children(si,st);
+
+  if (st->remaining==1)
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+      case stip_traversal_context_defense:
+        insert_goal_prerequisite_guards_battle(si,state);
+        break;
+
+      case stip_traversal_context_help:
+        insert_goal_prerequisite_guards_help(si,state);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
 
   *state = save_state;
 
@@ -300,9 +321,7 @@ static void insert_goal_prerequisite_guards_zigzag(slice_index si,
 
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STReadyForAttack,               &insert_goal_prerequisite_guards_battle      },
-  { STReadyForDefense,              &insert_goal_prerequisite_guards_battle      },
-  { STTestingPrerequisites,         &insert_goal_prerequisite_guards_help        },
+  { STTestingPrerequisites,         &insert_goal_prerequisite_guards             },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate },
   { STCheckZigzagJump,              &insert_goal_prerequisite_guards_zigzag      }

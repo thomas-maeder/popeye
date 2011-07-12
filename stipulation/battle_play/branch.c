@@ -498,14 +498,16 @@ slice_index alloc_defense_branch(slice_index next,
   {
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     slice_index const ready = alloc_branch(STReadyForDefense,length,min_length);
+    slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const deadend = alloc_dead_end_slice();
-    slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
+    slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,ready);
-    pipe_link(ready,deadend);
-    pipe_link(deadend,dgenerating);
-    pipe_link(dgenerating,defense);
+    pipe_link(ready,testpre);
+    pipe_link(testpre,deadend);
+    pipe_link(deadend,generating);
+    pipe_link(generating,defense);
     pipe_link(defense,next);
 
     result = adapter;
@@ -538,21 +540,25 @@ slice_index alloc_battle_branch(stip_length_type length,
   {
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
+    slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_move_slice();
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
+    slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
     pipe_link(adapter,aready);
-    pipe_link(aready,adeadend);
+    pipe_link(aready,atestpre);
+    pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
     pipe_link(attack,dready);
-    pipe_link(dready,ddeadend);
+    pipe_link(dready,dtestpre);
+    pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
     pipe_link(defense,adapter);
