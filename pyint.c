@@ -2828,7 +2828,8 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,          &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester,         &goalreachable_guards_duplicate_avoider_inserter },
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe                    }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe                    },
+  { STBrunnerDefenderFinder,     &stip_traverse_structure_pipe                    }
 };
 
 enum
@@ -2876,6 +2877,18 @@ static void intelligent_guards_inserter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static structure_traversers_visitors intelligent_filters_inserters[] =
+{
+  { STHelpAdapter,           &intelligent_guards_inserter  },
+  { STBrunnerDefenderFinder, &stip_traverse_structure_pipe }
+};
+
+enum
+{
+  nr_intelligent_filters_inserters = (sizeof intelligent_filters_inserters
+                                     / sizeof intelligent_filters_inserters[0])
+};
+
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
@@ -2890,9 +2903,9 @@ static void stip_insert_intelligent_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STHelpAdapter,
-                                           &intelligent_guards_inserter);
+  stip_structure_traversal_override(&st,
+                                    intelligent_filters_inserters,
+                                    nr_intelligent_filters_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

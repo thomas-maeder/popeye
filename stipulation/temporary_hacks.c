@@ -5,6 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
@@ -12,9 +13,12 @@
 #include "solving/legal_move_counter.h"
 #include "trace.h"
 
+#include <assert.h>
+
 slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
+slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -48,7 +52,6 @@ static slice_index make_mate_tester_fork(Side side)
 static slice_index make_mating_move_counter_fork(Side side)
 {
   slice_index result;
-  Goal const dummy_goal = { no_goal, initsquare };
   slice_index const proxy_branch = alloc_proxy_slice();
   slice_index const proxy_to_goal = alloc_proxy_slice();
   Goal const goal = { goal_mate, initsquare };
@@ -71,6 +74,20 @@ static slice_index make_mating_move_counter_fork(Side side)
 static slice_index make_immobility_tester_fork(Side side)
 {
   slice_index const result = alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter);
+  stip_impose_starter(result,side);
+  return result;
+}
+
+static slice_index make_brunner_check_defense_finder(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length_help+1,
+                                             slack_length_help+1);
+  slice_index const counter_proto = alloc_legal_move_counter_slice();
+  help_branch_insert_slices(help,&counter_proto,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_branch_fork(STBrunnerDefenderFinder,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }
@@ -98,6 +115,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_exclusive_mating_move_counter[Black] = make_mating_move_counter_fork(Black);
     temporary_hack_exclusive_mating_move_counter[White] = make_mating_move_counter_fork(White);
 
+    temporary_hack_brunner_check_defense_finder[Black] = make_brunner_check_defense_finder(Black);
+    temporary_hack_brunner_check_defense_finder[White] = make_brunner_check_defense_finder(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -105,13 +125,17 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_immobility_tester[White]);
     pipe_append(temporary_hack_immobility_tester[White],
                 temporary_hack_exclusive_mating_move_counter[White]);
-    pipe_append(temporary_hack_exclusive_mating_move_counter[White],inverter);
+    pipe_append(temporary_hack_exclusive_mating_move_counter[White],
+                temporary_hack_brunner_check_defense_finder[White]);
+    pipe_append(temporary_hack_brunner_check_defense_finder[White],inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
     pipe_append(temporary_hack_mate_tester[Black],
                 temporary_hack_immobility_tester[Black]);
     pipe_append(temporary_hack_immobility_tester[Black],
                 temporary_hack_exclusive_mating_move_counter[Black]);
+    pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
+                temporary_hack_brunner_check_defense_finder[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

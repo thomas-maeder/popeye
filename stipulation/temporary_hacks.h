@@ -14,6 +14,9 @@ extern slice_index temporary_hack_immobility_tester[nr_sides];
 /* fork slice into mating move counter */
 extern slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 
+/* fork slice into branch finding Brunner Chess specific defenses */
+extern slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
+
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation
  */

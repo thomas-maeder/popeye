@@ -7,7 +7,8 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  solving/battle_play/continuation.h solving/battle_play/try.h \
  solving/battle_play/check_detector.h \
  solving/battle_play/min_length_guard.h \
- solving/battle_play/min_length_optimiser.h trace.h
+ solving/battle_play/min_length_optimiser.h \
+ solving/single_move_generator_with_king_capture.h trace.h
 
 solving/solving.h:
 
@@ -48,6 +49,8 @@ solving/battle_play/check_detector.h:
 solving/battle_play/min_length_guard.h:
 
 solving/battle_play/min_length_optimiser.h:
+
+solving/single_move_generator_with_king_capture.h:
 
 trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -125,6 +128,20 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  solving/non_king_move_generator.h pydata.h pyproc.h pypipe.h trace.h
 
 solving/non_king_move_generator.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
+solving/single_move_generator_with_king_capture$(OBJ_SUFFIX): \
+ solving/single_move_generator_with_king_capture.c \
+ solving/single_move_generator_with_king_capture.h pydata.h pyproc.h \
+ pypipe.h trace.h
+
+solving/single_move_generator_with_king_capture.h:
 
 pydata.h:
 

@@ -148,6 +148,8 @@
     ENUMERATOR(STExclusiveChessUnsuspender), \
     ENUMERATOR(STMaffImmobilityTesterKing), \
     ENUMERATOR(STOWUImmobilityTesterKing), \
+    ENUMERATOR(STSingleMoveGeneratorWithKingCapture),                          \
+    ENUMERATOR(STBrunnerDefenderFinder), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
