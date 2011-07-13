@@ -6,6 +6,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/temporary_hacks.h"
+#include "stipulation/help_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
