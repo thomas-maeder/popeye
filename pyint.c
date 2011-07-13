@@ -2829,7 +2829,7 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
   { STReadyForHelpMove,          &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester,         &goalreachable_guards_duplicate_avoider_inserter },
   { STGoalImmobileReachedTester, &stip_traverse_structure_pipe                    },
-  { STBrunnerDefenderFinder,     &stip_traverse_structure_pipe                    }
+  { STTemporaryHackFork,         &stip_traverse_structure_pipe                    }
 };
 
 enum
@@ -2879,8 +2879,8 @@ static void intelligent_guards_inserter(slice_index si,
 
 static structure_traversers_visitors intelligent_filters_inserters[] =
 {
-  { STHelpAdapter,           &intelligent_guards_inserter  },
-  { STBrunnerDefenderFinder, &stip_traverse_structure_pipe }
+  { STHelpAdapter,       &intelligent_guards_inserter  },
+  { STTemporaryHackFork, &stip_traverse_structure_pipe }
 };
 
 enum
