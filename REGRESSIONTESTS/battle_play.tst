@@ -1867,10 +1867,10 @@ solution finished.
    1.Kd1*c2 !
 
 
-              empile:       55491
-            jouecoup:       32496
-        orig_rbechec:       29076
-        orig_rnechec:       10325
+              empile:       55042
+            jouecoup:       32181
+        orig_rbechec:       28761
+        orig_rnechec:       10228
 solution finished. 
 
 

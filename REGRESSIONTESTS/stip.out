@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-              empile:     1952054
-            jouecoup:      397402
-        orig_rbechec:      387636
-        orig_rnechec:       97001
+              empile:     1948441
+            jouecoup:      397069
+        orig_rbechec:      387295
+        orig_rnechec:       96761
 Loesung beendet. 
 
 
@@ -800,9 +800,9 @@ Loesung beendet.
   1.Kh5-h4   2.Kh4-g3   3.Kg3-f2   4.Kf2-e2   5.Ke2-d2   6.Kd2-c2   7.Kc2-b3   8.Kb3-b4   9.Kb4-b5  10.Kb5-b6  11.Kb6-b7  12.Kb7-c8  13.Kc8-d8  14.Kd8-e8  15.Ke8-f8  16.Kf8-g7 kBe5-e4 + 
 
               empile:        9286
-            jouecoup:        7415
+            jouecoup:        7424
         orig_rbechec:        2386
-        orig_rnechec:        6759
+        orig_rnechec:        6768
 Loesung beendet. 
 
 
@@ -2745,10 +2745,10 @@ Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 
   1.Kd1-c1 e3*d2 +   2.Kc1-b1 d2-d1=D # 
 
-              empile:       20660
-            jouecoup:       11154
-        orig_rbechec:        9842
-        orig_rnechec:        4594
+              empile:       20670
+            jouecoup:       11160
+        orig_rbechec:        9844
+        orig_rnechec:        4600
 Loesung beendet. 
 
 
