@@ -2651,26 +2651,34 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
 boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
 {
   boolean result = false;
-  Side const camp = guess_side_at_move(sq_departure,sq_capture);
+  Side side;
 
-  nextply(nbply);
-  trait[nbply] = camp;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
 
-  init_move_generation_optimizer();
-  k_cap = true;         /* allow K capture */
-  empile(sq_departure,sq_arrival,sq_capture); /* generate only the K capture */
-  k_cap = false;
-  finish_move_generation_optimizer();
+  side = guess_side_at_move(sq_departure,sq_capture);
 
-  while (encore() && !result)
-  {
-    /* may be several K capture moves e.g. PxK=S,B,R,Q */
-    result = jouecoup(nbply,first_play);
-    repcoup();
-  }
+  single_move_generator_with_king_capture_init_next(sq_departure,
+                                                    sq_arrival,
+                                                    sq_capture);
 
-  finply();
+  /* avoid concurrent counts */
+  assert(legal_move_counter_count[nbply+1]==0);
 
+  /* iterate until we have a legal move */
+  legal_move_counter_interesting[nbply+1] = 0;
+  slice_has_solution(slices[temporary_hack_isardam_defense_finder[side]].u.fork.fork);
+  result = legal_move_counter_count[nbply+1]==1;
+
+  /* clean up after ourselves */
+  legal_move_counter_count[nbply+1] = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

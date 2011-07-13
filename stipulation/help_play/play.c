@@ -323,6 +323,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       break;
 
     case STLegalMoveCounter:
+    case STAnyMoveCounter:
       result = legal_move_counter_can_help(si,n);
       break;
 

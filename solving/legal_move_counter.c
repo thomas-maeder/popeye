@@ -29,6 +29,24 @@ slice_index alloc_legal_move_counter_slice(void)
   return result;
 }
 
+/* Allocate a STAnyMoveCounter slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_any_move_counter_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STAnyMoveCounter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached

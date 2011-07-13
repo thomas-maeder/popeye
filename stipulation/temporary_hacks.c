@@ -19,6 +19,7 @@ slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
+slice_index temporary_hack_isardam_defense_finder[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -92,6 +93,20 @@ static slice_index make_brunner_check_defense_finder(Side side)
   return result;
 }
 
+static slice_index make_isardam_defense_finder(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length_help+1,
+                                             slack_length_help+1);
+  slice_index const counter_proto = alloc_any_move_counter_slice();
+  help_branch_insert_slices(help,&counter_proto,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_branch_fork(STIsardamDefenderFinder,proxy_branch);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -118,6 +133,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_brunner_check_defense_finder[Black] = make_brunner_check_defense_finder(Black);
     temporary_hack_brunner_check_defense_finder[White] = make_brunner_check_defense_finder(White);
 
+    temporary_hack_isardam_defense_finder[Black] = make_isardam_defense_finder(Black);
+    temporary_hack_isardam_defense_finder[White] = make_isardam_defense_finder(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -127,7 +145,10 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_exclusive_mating_move_counter[White]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[White],
                 temporary_hack_brunner_check_defense_finder[White]);
-    pipe_append(temporary_hack_brunner_check_defense_finder[White],inverter);
+    pipe_append(temporary_hack_brunner_check_defense_finder[White],
+                temporary_hack_isardam_defense_finder[White]);
+    pipe_append(temporary_hack_isardam_defense_finder[White],
+                inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
     pipe_append(temporary_hack_mate_tester[Black],
@@ -136,6 +157,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_exclusive_mating_move_counter[Black]);
     pipe_append(temporary_hack_exclusive_mating_move_counter[Black],
                 temporary_hack_brunner_check_defense_finder[Black]);
+    pipe_append(temporary_hack_brunner_check_defense_finder[Black],
+                temporary_hack_isardam_defense_finder[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

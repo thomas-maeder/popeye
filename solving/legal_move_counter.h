@@ -19,6 +19,11 @@ extern unsigned int legal_move_counter_interesting[maxply];
  */
 slice_index alloc_legal_move_counter_slice(void);
 
+/* Allocate a STAnyMoveCounter slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_any_move_counter_slice(void);
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

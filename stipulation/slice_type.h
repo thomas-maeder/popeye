@@ -92,6 +92,7 @@
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
+    ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \
     ENUMERATOR(STCaptureCounter), /* counts captures */            \
     /* slices enforcing prerequisites of some stipulations */           \
     ENUMERATOR(STTestingPrerequisites),  /* proxy marking start of prerequisites tests */ \
@@ -150,6 +151,7 @@
     ENUMERATOR(STOWUImmobilityTesterKing), \
     ENUMERATOR(STSingleMoveGeneratorWithKingCapture),                          \
     ENUMERATOR(STBrunnerDefenderFinder), \
+    ENUMERATOR(STIsardamDefenderFinder), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

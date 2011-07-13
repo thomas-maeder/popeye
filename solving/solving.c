@@ -350,7 +350,8 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STHelpAdapter,        &insert_solvers_help_adapter    },
   { STReadyForAttack,     &insert_solvers_attack          },
   { STGeneratingMoves,    &insert_move_generator          },
-  { STBrunnerDefenderFinder, &insert_single_move_generator_with_king_capture }
+  { STBrunnerDefenderFinder, &insert_single_move_generator_with_king_capture },
+  { STIsardamDefenderFinder, &insert_single_move_generator_with_king_capture }
 };
 
 enum

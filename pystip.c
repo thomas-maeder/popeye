@@ -166,6 +166,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STThreatCollector */
   slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_pipe,   /* STLegalMoveCounter */
+  slice_structure_pipe,   /* STAnyMoveCounter */
   slice_structure_pipe,   /* STCaptureCounter */
   slice_structure_pipe,   /* STTestingPrerequisites */
   slice_structure_fork,   /* STDoubleMateFilter */
@@ -220,6 +221,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOWUImmobilityTesterKing) */
   slice_structure_pipe,   /* STSingleMoveGeneratorWithKingCapture */
   slice_structure_fork,   /* STBrunnerDefenderFinder */
+  slice_structure_fork,   /* STIsardamDefenderFinder */
   slice_structure_pipe,   /* STOutputModeSelector */
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
   slice_structure_pipe,   /* STEndOfPhaseWriter */
@@ -315,6 +317,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STThreatCollector */
   slice_function_unspecified,    /* STRefutationsCollector */
   slice_function_unspecified,    /* STLegalMoveCounter */
+  slice_function_unspecified,    /* STAnyMoveCounter */
   slice_function_unspecified,    /* STCaptureCounter */
   slice_function_unspecified,    /* STTestingPrerequisites */
   slice_function_unspecified,    /* STDoubleMateFilter */
@@ -369,6 +372,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STOWUImmobilityTesterKing */
   slice_function_move_generator, /* STSingleMoveGeneratorWithKingCapture */
   slice_function_unspecified,    /* STBrunnerDefenderFinder */
+  slice_function_unspecified,    /* STIsardamDefenderFinder */
   slice_function_unspecified,    /* STOutputModeSelector */
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
   slice_function_unspecified,    /* STEndOfPhaseWriter */
@@ -1539,6 +1543,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STThreatCollector */
   &stip_traverse_structure_pipe,              /* STRefutationsCollector */
   &stip_traverse_structure_pipe,              /* STLegalMoveCounter */
+  &stip_traverse_structure_pipe,              /* STAnyMoveCounter */
   &stip_traverse_structure_pipe,              /* STCaptureCounter */
   &stip_traverse_structure_pipe,              /* STTestingPrerequisites */
   &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
@@ -1593,6 +1598,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STOWUImmobilityTesterKing */
   &stip_traverse_structure_pipe,              /* STSingleMoveGeneratorWithKingCapture */
   &stip_traverse_structure_goal_reached_tester,/* STBrunnerDefenderFinder */
+  &stip_traverse_structure_goal_reached_tester,/* STIsardamDefenderFinder */
   &stip_traverse_structure_pipe,              /* STOutputModeSelector */
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */
   &stip_traverse_structure_pipe,              /* STEndOfPhaseWriter */
@@ -1789,6 +1795,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STThreatCollector */
     &stip_traverse_moves_pipe,              /* STRefutationsCollector */
     &stip_traverse_moves_pipe,              /* STLegalMoveCounter */
+    &stip_traverse_moves_pipe,              /* STAnyMoveCounter */
     &stip_traverse_moves_pipe,              /* STCaptureCounter */
     &stip_traverse_moves_pipe,              /* STTestingPrerequisites */
     &stip_traverse_moves_end_of_branch,     /* STDoubleMateFilter */
@@ -1843,6 +1850,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STOWUImmobilityTesterKing */
     &stip_traverse_moves_pipe,              /* STSingleMoveGeneratorWithKingCapture */
     &stip_traverse_moves_setplay_fork,      /* STBrunnerDefenderFinder */
+    &stip_traverse_moves_setplay_fork,      /* STIsardamDefenderFinder */
     &stip_traverse_moves_pipe,              /* STOutputModeSelector */
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */
     &stip_traverse_moves_pipe,              /* STEndOfPhaseWriter */
