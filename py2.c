@@ -61,7 +61,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "conditions/exclusive.h"
-#include "solving/legal_move_counter.h"
+#include "pyslice.h"
 #include "solving/single_move_generator_with_king_capture.h"
 #include "stipulation/temporary_hacks.h"
 #include "trace.h"
@@ -2650,7 +2650,7 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
 
 boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
 {
-  boolean result = false;
+  boolean result;
   Side side;
 
   TraceFunctionEntry(__func__);
@@ -2664,17 +2664,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
   single_move_generator_with_king_capture_init_next(sq_departure,
                                                     sq_arrival,
                                                     sq_capture);
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
-
-  /* iterate until we have a legal move */
-  legal_move_counter_interesting[nbply+1] = 0;
-  slice_has_solution(slices[temporary_hack_isardam_defense_finder[side]].u.fork.fork);
-  result = legal_move_counter_count[nbply+1]==1;
-
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply+1] = 0;
+  result = slice_has_solution(slices[temporary_hack_isardam_defense_finder[side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

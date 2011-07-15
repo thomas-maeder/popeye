@@ -132,10 +132,9 @@ stipulation/battle_play/defense_play.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pydata.h pymsg.h pystip.h stipulation/slice_type.h \
- conditions/exclusive.h pyposit.h pystip.h solving/legal_move_counter.h \
- stipulation/help_play/play.h pyslice.h \
+ conditions/exclusive.h pyposit.h pystip.h pyslice.h \
  solving/single_move_generator_with_king_capture.h \
- stipulation/temporary_hacks.h trace.h
+ stipulation/help_play/play.h stipulation/temporary_hacks.h trace.h
 
 py.h:
 
@@ -177,13 +176,11 @@ pyposit.h:
 
 pystip.h:
 
-solving/legal_move_counter.h:
-
-stipulation/help_play/play.h:
-
 pyslice.h:
 
 solving/single_move_generator_with_king_capture.h:
+
+stipulation/help_play/play.h:
 
 stipulation/temporary_hacks.h:
 

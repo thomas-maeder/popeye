@@ -452,7 +452,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STConstraint,        &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester, &insert_selfcheck_guard_goal          },
   { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  },
-  { STCounterMateFilter, &stip_traverse_structure_pipe         }
+  { STCounterMateFilter, &stip_traverse_structure_pipe         },
+  { STIsardamDefenderFinder, &stip_traverse_structure_pipe     }
 };
 
 enum

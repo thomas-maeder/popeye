@@ -101,8 +101,10 @@ static slice_index make_isardam_defense_finder(Side side)
   slice_index const proxy_branch = alloc_proxy_slice();
   slice_index const help = alloc_help_branch(slack_length_help+1,
                                              slack_length_help+1);
-  slice_index const counter_proto = alloc_any_move_counter_slice();
-  help_branch_insert_slices(help,&counter_proto,1);
+  slice_index const proxy_goal = alloc_proxy_slice();
+  slice_index const system = alloc_goal_any_reached_tester_system();
+  link_to_branch(proxy_goal,system);
+  help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_branch_fork(STIsardamDefenderFinder,proxy_branch);
   stip_impose_starter(result,side);
