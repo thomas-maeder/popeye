@@ -2698,17 +2698,7 @@ boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
   single_move_generator_with_king_capture_init_next(sq_departure,
                                                     sq_arrival,
                                                     sq_capture);
-
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply+1]==0);
-
-  /* iterate until we have a legal move */
-  legal_move_counter_interesting[nbply+1] = 0;
-  slice_has_solution(slices[temporary_hack_brunner_check_defense_finder[side]].u.fork.fork);
-  result = legal_move_counter_count[nbply+1]==1;
-
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply+1] = 0;
+  result = slice_has_solution(slices[temporary_hack_brunner_check_defense_finder[side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
