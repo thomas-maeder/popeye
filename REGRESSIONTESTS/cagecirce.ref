@@ -1,0 +1,104 @@
+
+knights can't be captured - there is no cage
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 2
+              CageCirce
+            CageImmunChess
+
+  1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6 [+bBd8] +   3.Ke7-d7 Sg6-e7 = 
+
+              empile:    27335107
+            jouecoup:     6522250
+        orig_rbechec:     5547885
+        orig_rnechec:     1247328
+solution finished. 
+
+
+
+knights can't be captured - g1 is occupied
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 2
+              ImmunChess
+              CageCirce
+
+  1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6 [+bBd8] +   3.Ke7-d7 Sg6-e7 = 
+
+              empile:    11366517
+            jouecoup:     3064812
+        orig_rbechec:     2168921
+        orig_rnechec:     1053378
+solution finished. 
+
+
+
+       no solution - g1 is free
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .  -K   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 2
+              ImmunChess
+              CageCirce
+
+
+              empile:    11733781
+            jouecoup:     3146914
+        orig_rbechec:     2208733
+        orig_rnechec:     1103950
+solution finished. 
+
+

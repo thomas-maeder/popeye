@@ -1866,17 +1866,11 @@ static boolean find_non_capturing_move(ply ply_id,
 
   while (!result && encore())
   {
-    TraceSquare(move_generation_stack[nbcou].arrival);
-    TraceText("\n");
-    if (e[move_generation_stack[nbcou].arrival]==vide)
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !echecc(nbply,moving_side))
-        result = true;
-      repcoup();
-    }
-    else
-      --nbcou;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && pprise[nbply]==vide
+        && !echecc(nbply,moving_side))
+      result = true;
+    repcoup();
   }
 
   finply();
@@ -1887,9 +1881,9 @@ static boolean find_non_capturing_move(ply ply_id,
   return result;
 }
 
-static void circecage_advance_cage_prom(ply ply_id,
-                                        square cage,
-                                        piece *circecage_next_cage_prom)
+static void circecage_advance_cage_prom_impl(ply ply_id,
+                                             square cage,
+                                             piece *circecage_next_cage_prom)
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
@@ -1927,10 +1921,10 @@ static void circecage_advance_cage_prom(ply ply_id,
   TraceFunctionResultEnd();
 }
 
-static void circecage_advance_cage(ply ply_id,
-                                   piece pi_captured,
-                                   square *nextcage,
-                                   piece *circecage_next_cage_prom)
+static void circecage_advance_cage_impl(ply ply_id,
+                                        piece pi_captured,
+                                        square *nextcage,
+                                        piece *circecage_next_cage_prom)
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
@@ -1956,7 +1950,7 @@ static void circecage_advance_cage(ply ply_id,
       {
         if (is_pawn(pi_captured) && PromSq(prisoner_side,*nextcage))
         {
-          circecage_advance_cage_prom(ply_id,*nextcage,circecage_next_cage_prom);
+          circecage_advance_cage_prom_impl(ply_id,*nextcage,circecage_next_cage_prom);
           if (*circecage_next_cage_prom!=vide)
             break;
         }
@@ -1984,11 +1978,11 @@ static void circecage_advance_cage(ply ply_id,
   TraceFunctionResultEnd();
 }
 
-static void circecage_advance_norm_prom(ply ply_id,
-                                        square sq_arrival, piece pi_captured,
-                                        square *nextcage,
-                                        piece *circecage_next_cage_prom,
-                                        piece *circecage_next_norm_prom)
+static void circecage_advance_norm_prom_impl(ply ply_id,
+                                             square sq_arrival, piece pi_captured,
+                                             square *nextcage,
+                                             piece *circecage_next_cage_prom,
+                                             piece *circecage_next_norm_prom)
 {
   Side const moving_side = trait[ply_id];
   piece const save_prom = e[sq_arrival];
@@ -2011,14 +2005,125 @@ static void circecage_advance_norm_prom(ply ply_id,
                      ? *circecage_next_norm_prom
                      : -*circecage_next_norm_prom);
     ++nbpiece[e[sq_arrival]];
-    circecage_advance_cage(nbply,
-                           pi_captured,
-                           nextcage,
-                           circecage_next_cage_prom);
+    circecage_advance_cage_impl(nbply,
+                                pi_captured,
+                                nextcage,
+                                circecage_next_cage_prom);
     --nbpiece[e[sq_arrival]];
   }
 
   e[sq_arrival] = save_prom;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void circecage_find_initial_cage_impl(ply ply_id,
+                                             piece pi_departing,
+                                             square sq_arrival, piece pi_captured,
+                                             square *nextcage,
+                                             piece *circecage_next_cage_prom,
+                                             piece *circecage_next_norm_prom)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(pi_departing);
+  TraceSquare(sq_arrival);
+  TracePiece(pi_captured);
+  TraceSquare(*nextcage);
+  TracePiece(*circecage_next_cage_prom);
+  TracePiece(*circecage_next_norm_prom);
+  TraceFunctionParamListEnd();
+
+  if (is_pawn(pi_departing) && PromSq(trait[ply_id],sq_arrival))
+    circecage_advance_norm_prom_impl(ply_id,
+                                     sq_arrival,pi_captured,
+                                     nextcage,
+                                     circecage_next_cage_prom,
+                                     circecage_next_norm_prom);
+  else
+    circecage_advance_cage_impl(ply_id,
+                                pi_captured,
+                                nextcage,
+                                circecage_next_cage_prom);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean circecage_are_we_finding_cage = false;
+
+static void circecage_advance_cage(ply ply_id,
+                                   piece pi_captured,
+                                   square *nextcage,
+                                   piece *circecage_next_cage_prom)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(pi_captured);
+  TraceSquare(*nextcage);
+  TracePiece(*circecage_next_cage_prom);
+  TraceFunctionParamListEnd();
+
+  if (circecage_are_we_finding_cage)
+    *nextcage = square_h8+1;
+  else
+  {
+    circecage_are_we_finding_cage = true;
+    circecage_advance_cage_impl(ply_id,pi_captured,nextcage,circecage_next_cage_prom);
+    circecage_are_we_finding_cage = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void circecage_advance_norm_prom(ply ply_id,
+                                        square sq_arrival, piece pi_captured,
+                                        square *nextcage,
+                                        piece *circecage_next_cage_prom,
+                                        piece *circecage_next_norm_prom)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(sq_arrival);
+  TracePiece(pi_captured);
+  TraceSquare(*nextcage);
+  TracePiece(*circecage_next_cage_prom);
+  TracePiece(*circecage_next_norm_prom);
+  TraceFunctionParamListEnd();
+
+  if (circecage_are_we_finding_cage)
+    *circecage_next_norm_prom = vide;
+  else
+  {
+    circecage_are_we_finding_cage = true;
+    circecage_advance_norm_prom_impl(ply_id,sq_arrival,pi_captured,nextcage,circecage_next_cage_prom,circecage_next_norm_prom);
+    circecage_are_we_finding_cage = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void circecage_advance_cage_prom(ply ply_id,
+                                        square cage,
+                                        piece *circecage_next_cage_prom)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TraceSquare(cage);
+  TracePiece(*circecage_next_cage_prom);
+  TraceFunctionParamListEnd();
+
+  if (circecage_are_we_finding_cage)
+    *circecage_next_cage_prom = vide;
+  else
+  {
+    circecage_are_we_finding_cage = true;
+    circecage_advance_cage_prom_impl(ply_id,cage,circecage_next_cage_prom);
+    circecage_are_we_finding_cage = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2041,25 +2146,23 @@ static void circecage_find_initial_cage(ply ply_id,
   TracePiece(*circecage_next_norm_prom);
   TraceFunctionParamListEnd();
 
+
   *nextcage = superbas;
 
-  if (is_pawn(pi_departing) && PromSq(trait[ply_id],sq_arrival))
-    circecage_advance_norm_prom(ply_id,
-                                sq_arrival,pi_captured,
-                                nextcage,
-                                circecage_next_cage_prom,
-                                circecage_next_norm_prom);
-  else
-    circecage_advance_cage(ply_id,
-                           pi_captured,
-                           nextcage,
-                           circecage_next_cage_prom);
+  if (!circecage_are_we_finding_cage)
+  {
+    circecage_are_we_finding_cage = true;
+    circecage_find_initial_cage_impl(ply_id,
+                                     pi_departing,sq_arrival,pi_captured,
+                                     nextcage,
+                                     circecage_next_cage_prom,
+                                     circecage_next_norm_prom);
+    circecage_are_we_finding_cage = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static boolean are_we_doing_rencage = false;
 
 square rencage(ply ply_id,
                piece p_captured, Flags p_captured_spec,
@@ -2067,7 +2170,7 @@ square rencage(ply ply_id,
                square sq_departure, square sq_arrival,
                Side capturer)
 {
-  square result;
+  square result = superbas;
   piece nextcageprom = vide;
   piece nextnormprom = vide;
   piece const pi_departing = e[sq_departure];
@@ -2080,38 +2183,28 @@ square rencage(ply ply_id,
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",are_we_doing_rencage);
   TracePiece(e[sq_departure]);
   TracePiece(e[sq_capture]);
   TracePiece(e[sq_arrival]);
   TraceText("\n");
 
-  if (are_we_doing_rencage)
-    /* We are generating moves for finding a non-capturing move by
-     * p_captured from sq_departure.
-     * If rencage() is invoked in that process, the move currently
-     * attempted is a capture (i.e. we are not interested in it);
-     * let's filter it out by returning a rebirth square that is
-     * guaranteed to be occupied.
-     */
-    result = superbas;
-  else
+  if (!circecage_are_we_finding_cage)
   {
-    are_we_doing_rencage = true;
+    circecage_are_we_finding_cage = true;
 
     e[sq_departure] = vide;
     e[sq_capture] = vide;
     e[sq_arrival] = pi_departing;
 
-    circecage_find_initial_cage(ply_id,
-                                pi_departing,sq_capture,p_captured,
-                                &result,&nextcageprom,&nextnormprom);
+    circecage_find_initial_cage_impl(ply_id,
+                                     pi_departing,sq_capture,p_captured,
+                                     &result,&nextcageprom,&nextnormprom);
 
     e[sq_arrival] = vide;
     e[sq_capture] = p_captured;
     e[sq_departure] = pi_departing;
 
-    are_we_doing_rencage = false;
+    circecage_are_we_finding_cage = false;
   }
 
   TraceFunctionExit(__func__);

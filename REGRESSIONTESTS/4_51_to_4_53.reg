@@ -1468,7 +1468,7 @@ solution finished.
 
 
               empile:        1390
-            jouecoup:          66
+            jouecoup:          68
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1505,7 +1505,7 @@ solution finished.
 
 
               empile:         539
-            jouecoup:          64
+            jouecoup:          67
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1544,7 +1544,7 @@ solution finished.
 
 
               empile:         414
-            jouecoup:          87
+            jouecoup:          90
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1589,7 +1589,7 @@ solution finished.
 
 
               empile:         394
-            jouecoup:          89
+            jouecoup:          94
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1640,7 +1640,7 @@ cage for promoted pawn, capturer part of cage
 
 
               empile:         374
-            jouecoup:          90
+            jouecoup:         100
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -1675,7 +1675,7 @@ solution finished.
   1.Ke4*f3 [+wRh1] g1*h2   2.g5-g4 0-0 # 
 
               empile:     9505679
-            jouecoup:     1106494
+            jouecoup:     1364642
         orig_rbechec:      892026
         orig_rnechec:      267566
 solution finished. 
@@ -1740,7 +1740,7 @@ never generates the same solution twice (but some solutions
   1.Qb3*d5 [+bPf3] Ke8-d7   2.Qd5*f3 [+bPc2] a=>b 
 
               empile:       28345
-            jouecoup:       13262
+            jouecoup:       16863
         orig_rbechec:        2913
         orig_rnechec:        6015
 solution finished. 
@@ -1802,7 +1802,7 @@ promote to bishop (no cage for queen) even if there was a cage
   1.e2*d1=B a=>b 
 
               empile:        1829
-            jouecoup:         911
+            jouecoup:        1077
         orig_rbechec:         824
         orig_rnechec:           2
 solution finished. 
@@ -1945,7 +1945,7 @@ consider previous cage after advancing type of promotee
 
 
               empile:        1700
-            jouecoup:         855
+            jouecoup:        1045
         orig_rbechec:         786
         orig_rnechec:          35
 solving interrupted. 
