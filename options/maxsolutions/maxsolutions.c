@@ -198,7 +198,8 @@ static structure_traversers_visitors maxsolutions_filter_inserters[] =
   { STMaxSolutionsGuard,  &stip_structure_visitor_noop              },
   { STReadyForHelpMove,   &insert_maxsolutions_help_filter          },
   { STAttackAdapter,      &insert_maxsolutions_root_defender_filter },
-  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      }
+  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      },
+  { STTemporaryHackFork,  &stip_traverse_structure_pipe             }
 };
 
 enum
