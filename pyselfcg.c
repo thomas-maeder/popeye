@@ -437,7 +437,7 @@ static void remove_selfcheck_guard_check_zigzag(slice_index si,
       pipe_remove(guard);
   }
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure(slices[si].u.binary.op1,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
