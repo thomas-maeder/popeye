@@ -488,7 +488,7 @@ static void instrument_immobile_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_in_branch_guards(si);
+  insert_in_branch_guards(slices[si].u.fork.fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
