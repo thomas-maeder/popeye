@@ -24,6 +24,7 @@
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
 #include "solving/single_move_generator_with_king_capture.h"
+#include "solving/single_piece_move_generator.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/filter.h"
@@ -345,6 +346,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STSingleMoveGeneratorWithKingCapture:
       result = single_move_generator_with_king_capture_can_help(si,n);
+      break;
+
+    case STSinglePieceMoveGenerator:
+      result = single_piece_move_generator_can_help(si,n);
       break;
 
     default:

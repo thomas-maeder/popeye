@@ -293,7 +293,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STEndOfBranchForced, &optimise_final_moves_end_of_branch_non_goal },
   { STGoalReachedTester, &optimise_final_moves_goal                   },
   { STNot,               &optimise_final_moves_suppress               },
-  { STTemporaryHackFork, &optimise_final_moves_temporary_hack_fork    }
+  { STTemporaryHackFork, &optimise_final_moves_temporary_hack_fork    },
+  { STCageCirceNonCapturingMoveFinder, &optimise_final_moves_end_of_branch_non_goal}
 };
 
 enum

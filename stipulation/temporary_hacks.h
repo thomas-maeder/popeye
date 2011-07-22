@@ -20,6 +20,9 @@ extern slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 /* fork slice into branch finding Isardam specific defenses */
 extern slice_index temporary_hack_isardam_defense_finder[nr_sides];
 
+/* fork slice into branch finding non-capturing moves in Cage Circe */
+extern slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
+
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation
  */

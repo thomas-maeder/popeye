@@ -43,6 +43,7 @@ static slice_index const slice_rank_order[] =
   STOrthodoxMatingMoveGenerator,
   STKingMoveGenerator,
   STSingleMoveGeneratorWithKingCapture,
+  STSinglePieceMoveGenerator,
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
   STMove,

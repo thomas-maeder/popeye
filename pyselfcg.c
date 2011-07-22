@@ -443,6 +443,25 @@ static void remove_selfcheck_guard_check_zigzag(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void avoid_unnecessary_check(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const guard = branch_find_slice(STSelfCheckGuard,
+                                                slices[si].u.fork.fork);
+    if (guard!=no_slice)
+      pipe_remove(guard);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
   { STReadyForAttack,    &insert_selfcheck_guard_battle_branch },
@@ -453,7 +472,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STGoalReachedTester, &insert_selfcheck_guard_goal          },
   { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  },
   { STCounterMateFilter, &stip_traverse_structure_pipe         },
-  { STIsardamDefenderFinder, &stip_traverse_structure_pipe     }
+  { STIsardamDefenderFinder, &stip_traverse_structure_pipe     },
+  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_check }
 };
 
 enum

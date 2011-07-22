@@ -6,9 +6,12 @@
 #include "stipulation/proxy.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/boolean/not.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/any/reached_tester.h"
+#include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "trace.h"
@@ -20,6 +23,7 @@ slice_index temporary_hack_immobility_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];
 slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 slice_index temporary_hack_isardam_defense_finder[nr_sides];
+slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -35,6 +39,10 @@ void temporary_hacks_swap_colors(void)
 
   swap_colors(&temporary_hack_mate_tester);
   swap_colors(&temporary_hack_immobility_tester);
+  swap_colors(&temporary_hack_exclusive_mating_move_counter);
+  swap_colors(&temporary_hack_brunner_check_defense_finder);
+  swap_colors(&temporary_hack_isardam_defense_finder);
+  swap_colors(&temporary_hack_cagecirce_noncapture_finder);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -111,6 +119,26 @@ static slice_index make_isardam_defense_finder(Side side)
   return result;
 }
 
+static slice_index make_cagecirce_noncapture_finder(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length_help+1,
+                                             slack_length_help+1);
+  slice_index const proxy_goal = alloc_proxy_slice();
+  slice_index const system = alloc_goal_capture_reached_tester_system();
+  link_to_branch(proxy_goal,system);
+  slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
+  assert(tester!=no_slice);
+  pipe_append(slices[tester].u.goal_tester.fork,alloc_not_slice());
+  slices[tester].u.goal_tester.goal.type = no_goal;
+  help_branch_set_end_goal(help,proxy_goal,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_branch_fork(STCageCirceNonCapturingMoveFinder,proxy_branch);
+  stip_impose_starter(result,side);
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -140,6 +168,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_isardam_defense_finder[Black] = make_isardam_defense_finder(Black);
     temporary_hack_isardam_defense_finder[White] = make_isardam_defense_finder(White);
 
+    temporary_hack_cagecirce_noncapture_finder[Black] = make_cagecirce_noncapture_finder(Black);
+    temporary_hack_cagecirce_noncapture_finder[White] = make_cagecirce_noncapture_finder(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -152,6 +183,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_brunner_check_defense_finder[White],
                 temporary_hack_isardam_defense_finder[White]);
     pipe_append(temporary_hack_isardam_defense_finder[White],
+                temporary_hack_cagecirce_noncapture_finder[White]);
+    pipe_append(temporary_hack_cagecirce_noncapture_finder[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -163,6 +196,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_brunner_check_defense_finder[Black]);
     pipe_append(temporary_hack_brunner_check_defense_finder[Black],
                 temporary_hack_isardam_defense_finder[Black]);
+    pipe_append(temporary_hack_isardam_defense_finder[Black],
+                temporary_hack_cagecirce_noncapture_finder[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

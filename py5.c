@@ -69,6 +69,8 @@
 #include "pymsg.h"
 #include "pyslice.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
+#include "stipulation/temporary_hacks.h"
+#include "solving/single_piece_move_generator.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
@@ -1846,7 +1848,7 @@ static boolean find_non_capturing_move(ply ply_id,
                                        Side moving_side,
                                        piece p_moving)
 {
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -1854,26 +1856,8 @@ static boolean find_non_capturing_move(ply ply_id,
   TracePiece(p_moving);
   TraceFunctionParamListEnd();
 
-  nextply(nbply);
-
-  TraceValue("%d",(int)e[sq_departure]);
-  TraceValue("%u\n",nbcou);
-  if (moving_side==White)
-    gen_wh_piece(sq_departure,p_moving);
-  else
-    gen_bl_piece(sq_departure,p_moving);
-  TraceValue("%u\n",nbcou);
-
-  while (!result && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && pprise[nbply]==vide
-        && !echecc(nbply,moving_side))
-      result = true;
-    repcoup();
-  }
-
-  finply();
+  init_single_piece_move_generator(sq_departure,p_moving);
+  result = slice_has_solution(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
