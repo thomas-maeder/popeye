@@ -378,10 +378,60 @@ static void insert_selfcheck_guard_constraint(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remember_goal_not_move_oriented(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors goal_move_oriented_testers[] =
+{
+  { STGoalCheckReachedTester,    &remember_goal_not_move_oriented },
+  { STGoalImmobileReachedTester, &remember_goal_not_move_oriented },
+  { STGoalNotCheckReachedTester, &remember_goal_not_move_oriented }
+};
+
+enum
+{
+  nr_goal_move_oriented_testers = (sizeof goal_move_oriented_testers
+                                   / sizeof goal_move_oriented_testers[0])
+};
+
+static boolean is_goal_move_oriented(slice_index goal_reached_tester)
+{
+  boolean result = true;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal_reached_tester);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    goal_move_oriented_testers,
+                                    nr_goal_move_oriented_testers);
+  stip_traverse_structure(goal_reached_tester,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   boolean const * const in_constraint = st->param;
+  slice_index const fork = slices[si].u.goal_tester.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -389,9 +439,8 @@ static void insert_selfcheck_guard_goal(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (!does_goal_ignore_selfcheck(slices[si].u.fork.fork))
+  if (!does_goal_ignore_selfcheck(fork))
   {
-    slice_index const fork = slices[si].u.goal_tester.fork;
     slice_index const not_slice = branch_find_slice(STNot,fork);
     if (not_slice==no_slice || *in_constraint)
     {
@@ -408,12 +457,15 @@ static void insert_selfcheck_guard_goal(slice_index si,
       /* make sure that not_slice doesn't convert has_no_solution into
        * has_solution if the last move was a self-check
        */
-      slice_index const proxy_regular = alloc_proxy_slice();
+      slice_index const proxy_not = alloc_proxy_slice();
       slice_index const proxy_selfcheck = alloc_proxy_slice();
       slice_index const guard = alloc_selfcheck_guard_slice();
       slice_index const leaf_selfcheck = alloc_true_slice();
-      pipe_append(not_slice,proxy_regular);
-      pipe_link(not_slice,alloc_and_slice(proxy_selfcheck,proxy_regular));
+      if (is_goal_move_oriented(slices[not_slice].u.pipe.next))
+        pipe_link(slices[not_slice].prev,alloc_and_slice(proxy_not,proxy_selfcheck));
+      else
+        pipe_link(slices[not_slice].prev,alloc_and_slice(proxy_selfcheck,proxy_not));
+      pipe_link(proxy_not,not_slice);
       pipe_link(proxy_selfcheck,guard);
       pipe_link(guard,leaf_selfcheck);
     }
