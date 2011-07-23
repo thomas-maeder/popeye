@@ -128,14 +128,18 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_capture_reached_tester_system();
   link_to_branch(proxy_goal,system);
-  slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
-  assert(tester!=no_slice);
-  pipe_append(slices[tester].u.goal_tester.fork,alloc_not_slice());
-  slices[tester].u.goal_tester.goal.type = no_goal;
-  help_branch_set_end_goal(help,proxy_goal,1);
-  link_to_branch(proxy_branch,help);
-  result = alloc_branch_fork(STCageCirceNonCapturingMoveFinder,proxy_branch);
-  stip_impose_starter(result,side);
+
+  {
+    slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
+    assert(tester!=no_slice);
+    pipe_append(slices[tester].u.goal_tester.fork,alloc_not_slice());
+    slices[tester].u.goal_tester.goal.type = no_goal;
+    help_branch_set_end_goal(help,proxy_goal,1);
+    link_to_branch(proxy_branch,help);
+    result = alloc_branch_fork(STCageCirceNonCapturingMoveFinder,proxy_branch);
+    stip_impose_starter(result,side);
+  }
+
   return result;
 }
 
