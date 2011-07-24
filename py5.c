@@ -699,6 +699,54 @@ boolean is_reversepawn(piece p)
   }
 }
 
+static boolean are_squares_free(square from, square to, int direction)
+{
+  square s;
+  for (s = from+direction; s!=to; s += direction)
+    if (e[s]!=vide)
+      return false;
+
+  return true;
+}
+
+static boolean is_intermediate_king_move_legal(Side side, square from, square to)
+{
+  boolean result = false;
+
+  if (complex_castling_through_flag)
+  {
+    numecoup sic_nbcou= nbcou;
+
+    /* temporarily deactivate maximummer etc. */
+    boolean const save_flagmummer = flagmummer[side];
+    flagmummer[side] = false;
+    empile(from,to,to);
+    flagmummer[side] = save_flagmummer;
+    if (nbcou>sic_nbcou)
+    {
+      result = jouecoup(nbply,first_play) && !echecc(nbply,side);
+      repcoup();
+    }
+  }
+  else
+  {
+    piece const sides_king = side==White ? roib : roin;
+    e[from]= vide;
+    e[to]= sides_king;
+    if (king_square[side]!=initsquare)
+      king_square[side] = to;
+
+    result = !echecc(nbply,side);
+
+    e[from]= sides_king;
+    e[to]= vide;
+    if (king_square[side]!=initsquare)
+      king_square[side] = from;
+  }
+
+  return result;
+}
+
 void generate_castling(Side side)
 {
   /* It works only for castling_supported == TRUE
@@ -706,15 +754,8 @@ void generate_castling(Side side)
   */
 
   square const square_a = side==White ? square_a1 : square_a8;
-  square const square_b = square_a+row_b;
-  square const square_c = square_a+row_c;
-  square const square_d = square_a+row_d;
   square const square_e = square_a+row_e;
-  square const square_f = square_a+row_f;
-  square const square_g = square_a+row_g;
-  square const square_h = square_a+row_h;
   piece const sides_king = side==White ? roib : roin;
-  piece const sides_rook = side==White ? tb : tn;
 
   if (dont_generate_castling)
     return;
@@ -724,94 +765,26 @@ void generate_castling(Side side)
       /* then the king on e8 and at least one rook can castle !! */
       && !echecc(nbply,side))
   {
+    square const square_c = square_a+row_c;
+    square const square_d = square_a+row_d;
+    square const square_f = square_a+row_f;
+    square const square_g = square_a+row_g;
+    square const square_h = square_a+row_h;
+    piece const sides_rook = side==White ? tb : tn;
+
     /* 0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
         && e[square_h]==sides_rook
-        && e[square_f]==vide
-        && e[square_g]==vide)
-    {
-      if (complex_castling_through_flag)
-      {
-        numecoup sic_nbcou= nbcou;
-
-        /* temporarily deactivate maximummer etc. */
-        boolean const sic_flagmummer = flagmummer[side];
-        flagmummer[side] = false;
-        empile(square_e,square_f,square_f);
-        flagmummer[side] = sic_flagmummer;
-        if (nbcou>sic_nbcou)
-        {
-          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,side);
-          repcoup();
-          if (ok)
-            empile(square_e,square_g,kingside_castling);
-        }
-      }
-      else
-      {
-        boolean is_castling_possible;
-
-        e[square_e]= vide;
-        e[square_f]= sides_king;
-        if (king_square[side] !=initsquare)
-          king_square[side] = square_f;
-
-        is_castling_possible= !echecc(nbply,side);
-
-        e[square_e]= sides_king;
-        e[square_f]= vide;
-        if (king_square[side] !=initsquare)
-          king_square[side] = square_e;
-
-        if (is_castling_possible)
-          empile(square_e,square_g,kingside_castling);
-      }
-    }
+        && are_squares_free(square_e,square_h,dir_right)
+        && is_intermediate_king_move_legal(side,square_e,square_f))
+      empile(square_e,square_g,kingside_castling);
 
     /* 0-0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
         && e[square_a]==sides_rook
-        && e[square_d]==vide
-        && e[square_c]==vide
-        && e[square_b]==vide)
-    {
-      if (complex_castling_through_flag)
-      {
-        numecoup sic_nbcou= nbcou;
-
-        /* temporarily deactivate maximummer etc. */
-        boolean const sic_flagmummer = flagmummer[side];
-        flagmummer[side] = false;
-        empile(square_e,square_d,square_d);
-        flagmummer[side] = sic_flagmummer;
-        if (nbcou>sic_nbcou)
-        {
-          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,side));
-          repcoup();
-          if (ok)
-            empile(square_e,square_c,queenside_castling);
-        }
-      }
-      else
-      {
-        boolean is_castling_possible;
-
-        e[square_e]= vide;
-        e[square_d]= sides_king;
-        if (king_square[side]!=initsquare)
-          king_square[side] = square_d;
-
-        is_castling_possible= !echecc(nbply,side);
-
-        e[square_e]= sides_king;
-        e[square_d]= vide;
-        if (king_square[side]!=initsquare)
-          king_square[side] = square_e;
-
-        if (is_castling_possible)
-          empile(square_e,square_c,queenside_castling);
-      }
-    }
+        && are_squares_free(square_e,square_a,dir_left)
+        && is_intermediate_king_move_legal(side,square_e,square_d))
+      empile(square_e,square_c,queenside_castling);
   }
 }
 
