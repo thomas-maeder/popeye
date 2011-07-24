@@ -212,6 +212,7 @@ EXTERN  boolean testcastling;
 EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
 #define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*4,(mask))
+#define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*4))
 
 /* Stop solving when a given number of solutions is reached */
 

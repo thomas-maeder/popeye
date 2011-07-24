@@ -2883,16 +2883,16 @@ boolean jouecoup(ply ply_id, joue_type jt)
         if (TSTFLAG(spec_pi_moving, White)) {
           /* new white/neutral rook */
           if (sq_arrival == square_h1)
-            SETFLAGMASK(castling_flag[ply_id],rh1_cancastle);
+            SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
           else if (sq_arrival == square_a1)
-            SETFLAGMASK(castling_flag[ply_id],ra1_cancastle);
+            SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
         }
         if (TSTFLAG(spec_pi_moving, Black)) {
           /* new black/neutral rook */
           if (sq_arrival == square_h8)
-            SETFLAGMASK(castling_flag[ply_id],rh8_cancastle);
+            SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
           else if (sq_arrival == square_a8)
-            SETFLAGMASK(castling_flag[ply_id],ra8_cancastle);
+            SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
         }
       }
     } /* castling_supported */
@@ -3040,35 +3040,29 @@ boolean jouecoup(ply ply_id, joue_type jt)
         if (abspja==King) {
           if (TSTFLAG(spec_pi_moving, White)
               && sq_rebirth == square_e1
-              && (!CondFlag[dynasty] || nbpiece[roib]==1)) {
+              && (!CondFlag[dynasty] || nbpiece[roib]==1))
             /* white king new on e1 */
-            SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
-          }
+            SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
           else if (TSTFLAG(spec_pi_moving, Black)
                    && sq_rebirth == square_e8
-                   && (!CondFlag[dynasty] || nbpiece[roin]==1)) {
+                   && (!CondFlag[dynasty] || nbpiece[roin]==1))
             /* black king new on e8 */
-            SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
-          }
+            SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
         }
         else if (abspja==Rook) {
           if (TSTFLAG(spec_pi_moving, White)) {
             /* new white/neutral rook */
-            if (sq_rebirth == square_h1) {
-              SETFLAGMASK(castling_flag[ply_id],rh1_cancastle);
-            }
-            else if (sq_rebirth == square_a1) {
-              SETFLAGMASK(castling_flag[ply_id],ra1_cancastle);
-            }
+            if (sq_rebirth == square_h1)
+              SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+            else if (sq_rebirth == square_a1)
+              SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
           }
           if (TSTFLAG(spec_pi_moving, Black)) {
             /* new black/neutral rook */
-            if (sq_rebirth == square_h8) {
-              SETFLAGMASK(castling_flag[ply_id],rh8_cancastle);
-            }
-            else if (sq_rebirth == square_a8) {
-              SETFLAGMASK(castling_flag[ply_id],ra8_cancastle);
-            }
+            if (sq_rebirth == square_h8)
+              SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+            else if (sq_rebirth == square_a8)
+              SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
           }
         }
       } /* castling_supported */
@@ -3202,39 +3196,33 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 && (abs(pi_arriving) == King)) {
               if (TSTFLAG(spec_pi_moving, White)
                   && sq_rebirth == square_e1
-                  && (!CondFlag[dynasty] || nbpiece[roib]==1)) {
+                  && (!CondFlag[dynasty] || nbpiece[roib]==1))
                 /* white king reborn on e1 */
-                SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
-              }
+                SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
               else if (TSTFLAG(spec_pi_moving, Black)
                        && sq_rebirth == square_e8
-                       && (!CondFlag[dynasty] || nbpiece[roin]==1)) {
+                       && (!CondFlag[dynasty] || nbpiece[roin]==1))
                 /* black king reborn on e8 */
-                SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
-              }
+                SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
             }
           }
           if (castling_supported
               && (abs(pi_arriving) == Rook)) {
             if (TSTFLAG(spec_pi_moving, White)) {
-              if (sq_rebirth == square_h1) {
+              if (sq_rebirth == square_h1)
                 /* white rook reborn on h1 */
-                SETFLAGMASK(castling_flag[ply_id],rh1_cancastle);
-              }
-              else if (sq_rebirth == square_a1) {
+                SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+              else if (sq_rebirth == square_a1)
                 /* white rook reborn on a1 */
-                SETFLAGMASK(castling_flag[ply_id],ra1_cancastle);
-              }
+                SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
             }
             if (TSTFLAG(spec_pi_moving, Black)) {
-              if (sq_rebirth == square_h8) {
+              if (sq_rebirth == square_h8)
                 /* black rook reborn on h8 */
-                SETFLAGMASK(castling_flag[ply_id],rh8_cancastle);
-              }
-              else if (sq_rebirth == square_a8) {
+                SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+              else if (sq_rebirth == square_a8)
                 /* black rook reborn on a8 */
-                SETFLAGMASK(castling_flag[ply_id],ra8_cancastle);
-              }
+                SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
             }
           }
         } else
@@ -3330,40 +3318,34 @@ boolean jouecoup(ply ply_id, joue_type jt)
                   && (abs(pi_reborn) == King)) {
                 if (TSTFLAG(spec_pi_captured, White)
                     && sq_rebirth == square_e1
-                    && (!CondFlag[dynasty] || nbpiece[roib]==1)) {
+                    && (!CondFlag[dynasty] || nbpiece[roib]==1))
                   /* white king reborn on e1 */
-                  SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
-                }
+                  SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
                 else if (TSTFLAG(spec_pi_captured, Black)
                          && sq_rebirth == square_e8
-                         && (!CondFlag[dynasty] || nbpiece[roin]==1)) {
+                         && (!CondFlag[dynasty] || nbpiece[roin]==1))
                   /* black king reborn on e8 */
-                  SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
-                }
+                  SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
               }
             }
 
             if (castling_supported
                 && (abs(pi_reborn) == Rook)) {
               if (TSTFLAG(spec_pi_captured, White)) {
-                if (sq_rebirth == square_h1) {
+                if (sq_rebirth == square_h1)
                   /* white rook reborn on h1 */
-                  SETFLAGMASK(castling_flag[ply_id],rh1_cancastle);
-                }
-                else if (sq_rebirth == square_a1) {
+                  SETCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
+                else if (sq_rebirth == square_a1)
                   /* white rook reborn on a1 */
-                  SETFLAGMASK(castling_flag[ply_id],ra1_cancastle);
-                }
+                  SETCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
               }
               if (TSTFLAG(spec_pi_captured, Black)) {
-                if (sq_rebirth == square_h8) {
+                if (sq_rebirth == square_h8)
                   /* black rook reborn on h8 */
-                  SETFLAGMASK(castling_flag[ply_id],rh8_cancastle);
-                }
-                else if (sq_rebirth == square_a8) {
+                  SETCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
+                else if (sq_rebirth == square_a8)
                   /* black rook reborn on a8 */
-                  SETFLAGMASK(castling_flag[ply_id],ra8_cancastle);
-                }
+                  SETCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
               }
             }
             if (anycirprom
@@ -3481,9 +3463,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
         rn= temp;
         CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle|ke8_cancastle);
         if (rb==square_e1)
-          SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
+          SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
         if (rn==square_e8)
-          SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
+          SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
         if (OscillatingKingsTypeB[trait_ply] && priorcheck)
           return false;
       }
@@ -3509,7 +3491,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             s = *bnp;
             if (e[s] == roib) {
               if (s==square_e1)
-                SETFLAGMASK(castling_flag[ply_id],ke1_cancastle);
+                SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
               rb = *bnp;
               break;
             }
@@ -3524,7 +3506,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             s = *bnp;
             if (e[s] == roin) {
               if (s==square_e8)
-                SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
+                SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
               rn = *bnp;
               break;
             }

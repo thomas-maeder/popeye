@@ -1589,13 +1589,13 @@ void ChangeColour(square sq)
   change(sq);
   CHANGECOLOR(spec[sq]);
   if (e[sq] == tb && sq == square_a1)
-    SETFLAGMASK(castling_flag[nbply],ra1_cancastle);
+    SETCASTLINGFLAGMASK(nbply,White,ra_cancastle);
   if (e[sq] == tb && sq == square_h1)
-    SETFLAGMASK(castling_flag[nbply],rh1_cancastle);
+    SETCASTLINGFLAGMASK(nbply,White,rh_cancastle);
   if (e[sq] == tn && sq == square_a8)
-    SETFLAGMASK(castling_flag[nbply],ra8_cancastle);
+    SETCASTLINGFLAGMASK(nbply,Black,ra_cancastle);
   if (e[sq] == tn && sq == square_h8)
-    SETFLAGMASK(castling_flag[nbply],rh8_cancastle);
+    SETCASTLINGFLAGMASK(nbply,Black,rh_cancastle);
 }
 
 piece* GetPromotingPieces (square sq_departure,
