@@ -1687,18 +1687,18 @@ static boolean verify_position(slice_index si)
   if (castling_supported) {
     if ((abs(e[square_e1])== King) && TSTFLAG(spec[square_e1], White)
         && (!CondFlag[dynasty] || nbpiece[roib]==1))
-      SETFLAGMASK(castling_flag[0],ke1_cancastle);
+      SETCASTLINGFLAGMASK(0,White,k_cancastle);
     if ((abs(e[square_h1])== Rook) && TSTFLAG(spec[square_h1], White))
-      SETFLAGMASK(castling_flag[0],rh1_cancastle);
+      SETCASTLINGFLAGMASK(0,White,rh_cancastle);
     if ((abs(e[square_a1])== Rook) && TSTFLAG(spec[square_a1], White))
-      SETFLAGMASK(castling_flag[0],ra1_cancastle);
+      SETCASTLINGFLAGMASK(0,White,ra_cancastle);
     if ((abs(e[square_e8])== King) && TSTFLAG(spec[square_e8], Black)
         && (!CondFlag[dynasty] || nbpiece[roin]==1))
-      SETFLAGMASK(castling_flag[0],ke8_cancastle);
+      SETCASTLINGFLAGMASK(0,Black,k_cancastle);
     if ((abs(e[square_h8])== Rook) && TSTFLAG(spec[square_h8], Black))
-      SETFLAGMASK(castling_flag[0],rh8_cancastle);
+      SETCASTLINGFLAGMASK(0,Black,rh_cancastle);
     if ((abs(e[square_a8])== Rook) && TSTFLAG(spec[square_a8], Black))
-      SETFLAGMASK(castling_flag[0],ra8_cancastle);
+      SETCASTLINGFLAGMASK(0,Black,ra_cancastle);
   }
 
   if (stip_ends_in(si,goal_castling) && !castling_supported)
@@ -1707,16 +1707,16 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  castling_flag[0] &= no_castling;
+  castling_flag[0] &= castling_flag[castlings_flags_no_castling];
   castling_flag[1] = castling_flag[0];
   castling_flag[2] = castling_flag[0];
   /* At which ply do we begin ??  NG */
 
   testcastling=
-      TSTCASTLINGFLAGMASK(0,White,q_castling&no_castling)==q_castling
-      || TSTCASTLINGFLAGMASK(0,White,k_castling&no_castling)==k_castling
-      || TSTCASTLINGFLAGMASK(0,Black,q_castling&no_castling)==q_castling
-      || TSTCASTLINGFLAGMASK(0,Black,k_castling&no_castling)==k_castling;
+      TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
+      || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
+      || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
+      || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
 
   /* a small hack to enable ep keys */
   trait[1] = no_side;

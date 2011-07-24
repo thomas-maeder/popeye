@@ -242,14 +242,14 @@ static int FroTo(piece f_p,
       if (f_p == roib) {
         /* white king */
         if (f_sq == square_e1) {
-          if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&no_castling))
+          if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
           {
             withcast= FroToKing(square_c1, t_sq);
             if (withcast < minmoves) {
               minmoves= withcast;
             }
           }
-          if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&no_castling))
+          if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
           {
             withcast= FroToKing(square_g1, t_sq);
             if (withcast < minmoves) {
@@ -261,13 +261,13 @@ static int FroTo(piece f_p,
       else {
         /* black king */
         if (f_sq == square_e8) {
-          if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&no_castling)) {
+          if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling])) {
             withcast= FroToKing(square_c8, t_sq);
             if (withcast < minmoves) {
               minmoves= withcast;
             }
           }
-          if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&no_castling)) {
+          if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling])) {
             withcast= FroToKing(square_g8, t_sq);
             if (withcast < minmoves) {
               minmoves= withcast;

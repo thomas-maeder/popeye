@@ -49,6 +49,7 @@ has_solution_type goal_castling_reached_tester_has_solution(slice_index si)
 
   assert(nbply!=nil_ply);
 
+  /* castling means that both bits of a castling were cleared */
   if (diff==whk_castling || diff==whq_castling
       || diff==blk_castling || diff==blq_castling)
     result = slice_has_solution(slices[si].u.pipe.next);

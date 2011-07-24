@@ -363,27 +363,27 @@ void ProofInitialiseIntelligent(stip_length_type length)
     /* update castling possibilities */
     if (BlockedBishopc1)
       /* wh long castling impossible */
-      CLRFLAGMASK(castling_flag[0],ra1_cancastle);
+      CLRCASTLINGFLAGMASK(0,White,ra_cancastle);
 
     if (BlockedBishopf1)
       /* wh short castling impossible */
-      CLRFLAGMASK(castling_flag[0],rh1_cancastle);
+      CLRCASTLINGFLAGMASK(0,White,rh_cancastle);
 
     if (BlockedBishopc8)
       /* blank long castling impossible */
-      CLRFLAGMASK(castling_flag[0],ra8_cancastle);
+      CLRCASTLINGFLAGMASK(0,Black,ra_cancastle);
 
     if (BlockedBishopf8)
       /* blank short castling impossible */
-      CLRFLAGMASK(castling_flag[0],rh8_cancastle);
+      CLRCASTLINGFLAGMASK(0,Black,rh_cancastle);
 
     if (!TSTCASTLINGFLAGMASK(0,White,ra_cancastle|rh_cancastle))
       /* no wh rook can castle, so the wh king cannot either */
-      CLRFLAGMASK(castling_flag[0],ke1_cancastle);
+      CLRCASTLINGFLAGMASK(0,White,k_cancastle);
 
     if (!TSTCASTLINGFLAGMASK(0,Black,ra_cancastle|rh_cancastle))
       /* no blank rook can castle, so the blank king cannot either */
-      CLRFLAGMASK(castling_flag[0],ke8_cancastle);
+      CLRCASTLINGFLAGMASK(0,Black,k_cancastle);
 
     castling_flag[2] = castling_flag[1] = castling_flag[0];
 

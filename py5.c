@@ -2394,8 +2394,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       spec[sq_departure+dir_right]= spec[sq_departure+3*dir_right];
       e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+3*dir_right]);
-      CLRFLAGMASK(castling_flag[ply_id],
-                  trait_ply==White ? whk_castling : blk_castling);
+      CLRCASTLINGFLAGMASK(ply_id,trait_ply,k_castling);
       CLRFLAGMASK(castling_flag[ply_id],
                   castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
       break;
@@ -2438,8 +2437,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       spec[sq_departure+dir_left]= spec[sq_departure+4*dir_left];
       e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+4*dir_left]);
-      CLRFLAGMASK(castling_flag[ply_id],
-                  trait_ply==White ? whq_castling : blq_castling);
+      CLRCASTLINGFLAGMASK(ply_id,trait_ply,q_castling);
       CLRFLAGMASK(castling_flag[ply_id],
                   castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
       break;
@@ -2826,13 +2824,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
   {
     if (rb!=initsquare)
       rb = sq_arrival;
-    CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle);
+    CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
   }
   if (sq_departure==prev_rn)
   {
     if (rn!=initsquare)
       rn = sq_arrival;
-    CLRFLAGMASK(castling_flag[ply_id],ke8_cancastle);
+    CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
   }
 
   /* Needed for castling */
@@ -2840,23 +2838,23 @@ boolean jouecoup(ply ply_id, joue_type jt)
   {
     /* pieces vacating a1, h1, a8, h8 */
     if (sq_departure == square_h1)
-      CLRFLAGMASK(castling_flag[ply_id],rh1_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
     else if (sq_departure == square_a1)
-      CLRFLAGMASK(castling_flag[ply_id],ra1_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
     else if (sq_departure == square_h8)
-      CLRFLAGMASK(castling_flag[ply_id],rh8_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
     else if (sq_departure == square_a8)
-      CLRFLAGMASK(castling_flag[ply_id],ra8_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
 
     /* pieces arriving at a1, h1, a8, h8 and possibly capturing a rook */
     if (sq_arrival == square_h1)
-      CLRFLAGMASK(castling_flag[ply_id],rh1_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,White,rh_cancastle);
     else if (sq_arrival == square_a1)
-      CLRFLAGMASK(castling_flag[ply_id],ra1_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,White,ra_cancastle);
     else if (sq_arrival == square_h8)
-      CLRFLAGMASK(castling_flag[ply_id],rh8_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,Black,rh_cancastle);
     else if (sq_arrival == square_a8)
-      CLRFLAGMASK(castling_flag[ply_id],ra8_cancastle);
+      CLRCASTLINGFLAGMASK(ply_id,Black,ra_cancastle);
 
     if (CondFlag[losingchess])
     {
@@ -2864,9 +2862,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
        * are not royal
        */
       if (sq_arrival==square_e1)
-        CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle);
+        CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
       else if (sq_arrival==square_e8)
-        CLRFLAGMASK(castling_flag[ply_id],ke8_cancastle);
+        CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
     }
   }     /* castling_supported */
 
@@ -3461,7 +3459,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
         spec[rn]= temp2;
         rb= rn;
         rn= temp;
-        CLRFLAGMASK(castling_flag[ply_id],ke1_cancastle|ke8_cancastle);
+        CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
+        CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
         if (rb==square_e1)
           SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
         if (rn==square_e8)

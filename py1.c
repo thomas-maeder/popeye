@@ -253,7 +253,7 @@ void InitOpt(void)
         castling_mutual_exclusive[side][castling-min_castling] = 0;
   }
 
-  no_castling = bl_castlings|wh_castlings;
+  castling_flag[castlings_flags_no_castling] = bl_castlings|wh_castlings;
 
   ep[nbply] = initsquare;
   ep2[nbply] = initsquare;

@@ -4202,22 +4202,22 @@ static char *ReadSquares(SquareListContext context)
           switch (sq)
           {
             case square_a1:
-              CLRFLAGMASK(no_castling,ra1_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,ra_cancastle);
               break;
             case square_e1:
-              CLRFLAGMASK(no_castling,ke1_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,k_cancastle);
               break;
             case square_h1:
-              CLRFLAGMASK(no_castling,rh1_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,White,rh_cancastle);
               break;
             case square_a8:
-              CLRFLAGMASK(no_castling,ra8_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,ra_cancastle);
               break;
             case square_e8:
-              CLRFLAGMASK(no_castling,ke8_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,k_cancastle);
               break;
             case square_h8:
-              CLRFLAGMASK(no_castling,rh8_cancastle);
+              CLRCASTLINGFLAGMASK(castlings_flags_no_castling,Black,rh_cancastle);
               break;
             default:
               break;
@@ -5613,7 +5613,7 @@ static char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case nocastling:
-        no_castling= bl_castlings|wh_castlings;
+        castling_flag[castlings_flags_no_castling]= bl_castlings|wh_castlings;
         ReadSquares(ReadNoCastlingSquares);
         break;
 

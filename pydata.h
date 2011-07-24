@@ -173,18 +173,22 @@ EXTERN change_rec push_colour_change_stack[push_colour_change_stack_size];
 EXTERN boolean flag_outputmultiplecolourchanges;
 
 
+enum
+{
+  black_castling_offset = 4
+};
+
 /* symbols for bits in castling_flag */
 typedef enum
 {
-  rh1_cancastle = 0x01,
-  ra1_cancastle = 0x02,
-  ke1_cancastle = 0x04,
-  rh8_cancastle = 0x10,
-  ra8_cancastle = 0x20,
-  ke8_cancastle = 0x40,
   rh_cancastle = 0x01,
   ra_cancastle = 0x02,
-  k_cancastle = 0x04
+  k_cancastle = 0x04,
+
+  rh1_cancastle = rh_cancastle,
+  ra1_cancastle = ra_cancastle,
+  rh8_cancastle = rh_cancastle<<black_castling_offset,
+  ra8_cancastle = ra_cancastle<<black_castling_offset,
 } castling_flag_type;
 /* NOTE: ke[18]_cancastle must be larger than the respective
  * r[ah][18]_cancastle or evaluations of the form
@@ -194,25 +198,27 @@ typedef enum
 /* symbols for bit combinations in castling_flag */
 enum
 {
-  whk_castling = ke1_cancastle|rh1_cancastle,
-  whq_castling = ke1_cancastle|ra1_cancastle,
-  wh_castlings = ke1_cancastle|ra1_cancastle|rh1_cancastle,
-  blk_castling = ke8_cancastle|rh8_cancastle,
-  blq_castling = ke8_cancastle|ra8_cancastle,
-  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle,
+  whk_castling = k_cancastle|rh_cancastle,
+  whq_castling = k_cancastle|ra_cancastle,
+  wh_castlings = k_cancastle|ra_cancastle|rh_cancastle,
+  blk_castling = whk_castling<<black_castling_offset,
+  blq_castling = whq_castling<<black_castling_offset,
+  bl_castlings = wh_castlings<<black_castling_offset,
+
   k_castling = k_cancastle|rh_cancastle,
   q_castling = k_cancastle|ra_cancastle,
   castlings = k_cancastle|ra_cancastle|rh_cancastle
 };
 
-EXTERN  castling_flag_type castling_flag[maxply + 1];
-EXTERN  castling_flag_type no_castling;
+EXTERN  castling_flag_type castling_flag[maxply+2];
+enum { castlings_flags_no_castling = maxply+1 };
 EXTERN  boolean castling_supported;
 EXTERN  boolean testcastling;
 EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
-#define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*4,(mask))
-#define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*4))
+#define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*black_castling_offset,(mask))
+#define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
+#define CLRCASTLINGFLAGMASK(ply_id,side,mask) CLRFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 
 /* Stop solving when a given number of solutions is reached */
 
