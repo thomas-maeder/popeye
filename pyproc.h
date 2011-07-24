@@ -425,8 +425,7 @@ void LaTeXEndDiagram(void);
 square renplus(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void transformPosition(SquareTransformation transformation);
-void genrb_cast(void);
-void genrn_cast(Side side);
+void generate_castling(Side side);
 
 boolean woohefflibre(square a, square b);
 boolean eval_wooheff(square departure, square arrival, square capture);

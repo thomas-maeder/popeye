@@ -261,14 +261,8 @@ static void GenMatingKing(goal_type goal,
   }
 
   /* castling */
-  if (castling_supported) {
-    if (ColourMovingPiece==White)
-      /* white to play */
-      genrb_cast();
-    else
-      /* black to play */
-      genrn_cast(Black);
-  }
+  if (castling_supported)
+    generate_castling(ColourMovingPiece);
 }
 
 static void GenMatingKnight(square sq_departure,

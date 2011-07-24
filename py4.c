@@ -2968,108 +2968,6 @@ void gfeernoir(square i, piece p) {
   }
 } /* end of gfeernoir */
 
-void genrb_cast(void) {
-  /* It works only for castling_supported == TRUE
-     have a look at funtion verifieposition() in py6.c
-  */
-
-  boolean is_castling_possible;
-
-  if (dont_generate_castling)
-    return;
-
-  if (TSTCASTLINGFLAGMASK(nbply,White,castlings)>k_cancastle
-      && e[square_e1]==roib
-      /* then the king on e1 and at least one rook can castle !! */
-      && !echecc(nbply,White))
-  {
-    /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,White,k_castling)==k_castling
-        && e[square_h1]==tb
-        && e[square_f1]==vide
-        && e[square_g1]==vide)
-    {
-      if (complex_castling_through_flag)
-      {
-        numecoup sic_nbcou= nbcou;
-
-        /* temporarily deactivate maximummer etc. */
-        boolean const sic_flagmummer = flagmummer[White];
-        flagmummer[White] = false;
-        empile(square_e1,square_f1,square_f1);
-        flagmummer[White] = sic_flagmummer;
-        if (nbcou>sic_nbcou)
-        {
-          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,White);
-          repcoup();
-          if (ok)
-            empile(square_e1,square_g1,kingside_castling);
-        }
-      }
-      else
-      {
-        e[square_e1]= vide;
-        e[square_f1]= roib;
-        if (king_square[White]!=initsquare)
-          king_square[White]= square_f1;
-
-        is_castling_possible= !echecc(nbply,White);
-
-        e[square_e1]= roib;
-        e[square_f1]= vide;
-        if (king_square[White]!=initsquare)
-          king_square[White]= square_e1;
-
-        if (is_castling_possible)
-          empile(square_e1,square_g1,kingside_castling);
-      }
-    }
-
-    /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,White,q_castling)==q_castling
-        && e[square_a1]==tb
-        && e[square_d1]==vide
-        && e[square_c1]==vide
-        && e[square_b1]==vide)
-    {
-      if (complex_castling_through_flag)
-      {
-        numecoup sic_nbcou= nbcou;
-
-        /* temporarily deactivate maximummer etc. */
-        boolean const sic_flagmummer = flagmummer[White];
-        flagmummer[White] = false;
-        empile(square_e1,square_d1,square_d1);
-        flagmummer[White] = sic_flagmummer;
-        if (nbcou>sic_nbcou)
-        {
-          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,White));
-          repcoup();
-          if (ok)
-            empile(square_e1,square_c1,queenside_castling);
-        }
-      }
-      else
-      {
-        e[square_e1]= vide;
-        e[square_d1]= roib;
-        if (king_square[White]!=initsquare)
-          king_square[White]= square_d1;
-
-        is_castling_possible= !echecc(nbply,White);
-
-        e[square_e1]= roib;
-        e[square_d1]= vide;
-        if (king_square[White]!=initsquare)
-          king_square[White]= square_e1;
-
-        if (is_castling_possible)
-          empile(square_e1,square_c1,queenside_castling);
-      }
-    }
-  }
-} /* genrb_cast */
-
 void genrb(square sq_departure)
 {
   numvec    k;
@@ -3141,7 +3039,7 @@ void genrb(square sq_departure)
 
   /* Now we test castling */
   if (castling_supported)
-    genrb_cast();
+    generate_castling(White);
 
   if (CondFlag[castlingchess] && !echecc(nbply,White)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {

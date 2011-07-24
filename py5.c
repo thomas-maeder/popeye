@@ -699,7 +699,8 @@ boolean is_reversepawn(piece p)
   }
 }
 
-void genrn_cast(Side side) {
+void generate_castling(Side side)
+{
   /* It works only for castling_supported == TRUE
      have a look at funtion verifieposition() in py6.c
   */
@@ -719,7 +720,7 @@ void genrn_cast(Side side) {
     return;
 
   if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
-      && e[square_e]==roin
+      && e[square_e]==sides_king
       /* then the king on e8 and at least one rook can castle !! */
       && !echecc(nbply,side))
   {
@@ -812,7 +813,7 @@ void genrn_cast(Side side) {
       }
     }
   }
-} /* genrn_cast */
+}
 
 void genrn(square sq_departure)
 {
@@ -880,7 +881,7 @@ void genrn(square sq_departure)
 
   /* Now we test castling */
   if (castling_supported)
-    genrn_cast(Black);
+    generate_castling(Black);
 
   if (CondFlag[castlingchess] && !echecc(nbply,Black)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
