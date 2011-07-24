@@ -126,8 +126,7 @@ static boolean insert_common(slice_index si,
   TraceFunctionParam("%u",state->base);
   TraceFunctionParamListEnd();
 
-  if (slices[slices[state->prev].u.pipe.next].type
-      ==slices[state->prototypes[0]].type)
+  if (slices[si].type==slices[state->prototypes[0]].type)
     result = true; /* we are done */
   else
   {
