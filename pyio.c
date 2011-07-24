@@ -865,7 +865,7 @@ static void WriteCastlingMutuallyExclusive(void)
     StdString(OptString[UserLanguage][mutuallyexclusivecastling]);
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
-         &ra8_cancastle))
+         &ra_cancastle))
     {
       StdChar(' ');
       WriteSquare(square_a1);
@@ -873,7 +873,7 @@ static void WriteCastlingMutuallyExclusive(void)
     }
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
-         &rh8_cancastle))
+         &rh_cancastle))
     {
       StdChar(' ');
       WriteSquare(square_a1);
@@ -881,7 +881,7 @@ static void WriteCastlingMutuallyExclusive(void)
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
-         &ra8_cancastle))
+         &ra_cancastle))
     {
       StdChar(' ');
       WriteSquare(square_h1);
@@ -889,7 +889,7 @@ static void WriteCastlingMutuallyExclusive(void)
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
-         &rh8_cancastle))
+         &rh_cancastle))
     {
       StdChar(' ');
       WriteSquare(square_h1);
@@ -5434,14 +5434,14 @@ static void ReadMutuallyExclusiveCastling(void)
                                      ? queenside_castling
                                      : kingside_castling);
       castling_flag_type const white_flag = (white_rook_square==square_a1
-                                             ? ra1_cancastle
-                                             : rh1_cancastle);
+                                             ? ra_cancastle
+                                             : rh_cancastle);
       square const black_castling = (black_rook_square==square_a8
                                      ? queenside_castling
                                      : kingside_castling);
       castling_flag_type const black_flag = (black_rook_square==square_a8
-                                             ? ra8_cancastle
-                                             : rh8_cancastle);
+                                             ? ra_cancastle
+                                             : rh_cancastle);
       castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
       castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
       return;

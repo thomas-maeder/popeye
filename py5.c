@@ -2395,8 +2395,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
       e[sq_departure+3*dir_right]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+3*dir_right]);
       CLRCASTLINGFLAGMASK(ply_id,trait_ply,k_castling);
-      CLRFLAGMASK(castling_flag[ply_id],
-                  castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
+      CLRCASTLINGFLAGMASK(ply_id,advers(trait_ply),
+                          castling_mutual_exclusive[trait_ply][kingside_castling-min_castling]);
       break;
 
     case queenside_castling:
@@ -2438,8 +2438,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
       e[sq_departure+4*dir_left]= CondFlag[haanerchess] ? obs : vide;
       CLEARFL(spec[sq_departure+4*dir_left]);
       CLRCASTLINGFLAGMASK(ply_id,trait_ply,q_castling);
-      CLRFLAGMASK(castling_flag[ply_id],
-                  castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
+      CLRCASTLINGFLAGMASK(ply_id,advers(trait_ply),
+                          castling_mutual_exclusive[trait_ply][queenside_castling-min_castling]);
       break;
   } /* switch (sq_capture) */
 

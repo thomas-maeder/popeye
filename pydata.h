@@ -178,37 +178,29 @@ enum
   black_castling_offset = 4
 };
 
-/* symbols for bits in castling_flag */
+/* symbols for bits and their combinations in castling_flag */
 typedef enum
 {
   rh_cancastle = 0x01,
   ra_cancastle = 0x02,
   k_cancastle = 0x04,
 
-  rh1_cancastle = rh_cancastle,
-  ra1_cancastle = ra_cancastle,
-  rh8_cancastle = rh_cancastle<<black_castling_offset,
-  ra8_cancastle = ra_cancastle<<black_castling_offset,
-} castling_flag_type;
-/* NOTE: ke[18]_cancastle must be larger than the respective
- * r[ah][18]_cancastle or evaluations of the form
- * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
- * stop working. */
+  k_castling = k_cancastle|rh_cancastle,
+  q_castling = k_cancastle|ra_cancastle,
+  castlings = k_cancastle|ra_cancastle|rh_cancastle,
 
-/* symbols for bit combinations in castling_flag */
-enum
-{
   whk_castling = k_cancastle|rh_cancastle,
   whq_castling = k_cancastle|ra_cancastle,
   wh_castlings = k_cancastle|ra_cancastle|rh_cancastle,
+
   blk_castling = whk_castling<<black_castling_offset,
   blq_castling = whq_castling<<black_castling_offset,
-  bl_castlings = wh_castlings<<black_castling_offset,
-
-  k_castling = k_cancastle|rh_cancastle,
-  q_castling = k_cancastle|ra_cancastle,
-  castlings = k_cancastle|ra_cancastle|rh_cancastle
-};
+  bl_castlings = wh_castlings<<black_castling_offset
+} castling_flag_type;
+/* NOTE: k_cancastle must be larger than the respective
+ * r[ah]_cancastle or evaluations of the form
+ * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
+ * stop working. */
 
 EXTERN  castling_flag_type castling_flag[maxply+2];
 enum { castlings_flags_no_castling = maxply+1 };
