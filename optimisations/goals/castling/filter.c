@@ -48,9 +48,7 @@ stip_length_type castling_filter_can_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (starter==White
-      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle)
+  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
     SETFLAG(goal_preprequisites_met[nbply],goal_castling);
   result = can_attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_castling);
@@ -86,9 +84,7 @@ stip_length_type castling_filter_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (starter==White
-      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle)
+  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
     SETFLAG(goal_preprequisites_met[nbply],goal_castling);
   result = attack(next,n,n_max_unsolvable);
   CLRFLAG(goal_preprequisites_met[nbply],goal_castling);
@@ -121,9 +117,7 @@ stip_length_type castling_filter_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (starter==White
-      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle)
+  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
     SETFLAG(goal_preprequisites_met[nbply],goal_castling);
   result = help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_castling);
@@ -156,9 +150,7 @@ stip_length_type castling_filter_can_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (starter==White
-      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle)
+  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
     SETFLAG(goal_preprequisites_met[nbply],goal_castling);
   result = can_help(next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_castling);

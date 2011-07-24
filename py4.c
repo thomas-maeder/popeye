@@ -2977,13 +2977,13 @@ void genrb_cast(void) {
   if (dont_generate_castling)
     return;
 
-  if (TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
+  if (TSTCASTLINGFLAGMASK(nbply,White,castlings)>k_cancastle
       && e[square_e1]==roib
       /* then the king on e1 and at least one rook can castle !! */
       && !echecc(nbply,White))
   {
     /* 0-0 */
-    if (TSTFLAGMASK(castling_flag[nbply],whk_castling)==whk_castling
+    if (TSTCASTLINGFLAGMASK(nbply,White,k_castling)==k_castling
         && e[square_h1]==tb
         && e[square_f1]==vide
         && e[square_g1]==vide)
@@ -3025,7 +3025,7 @@ void genrb_cast(void) {
     }
 
     /* 0-0-0 */
-    if (TSTFLAGMASK(castling_flag[nbply],whq_castling)==whq_castling
+    if (TSTCASTLINGFLAGMASK(nbply,White,q_castling)==q_castling
         && e[square_a1]==tb
         && e[square_d1]==vide
         && e[square_c1]==vide

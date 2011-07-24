@@ -176,16 +176,19 @@ EXTERN boolean flag_outputmultiplecolourchanges;
 /* symbols for bits in castling_flag */
 typedef enum
 {
-  rh8_cancastle = 0x01,
-  ra8_cancastle = 0x02,
-  ke8_cancastle = 0x04,
-  rh1_cancastle = 0x10,
-  ra1_cancastle = 0x20,
-  ke1_cancastle = 0x40
+  rh1_cancastle = 0x01,
+  ra1_cancastle = 0x02,
+  ke1_cancastle = 0x04,
+  rh8_cancastle = 0x10,
+  ra8_cancastle = 0x20,
+  ke8_cancastle = 0x40,
+  rh_cancastle = 0x01,
+  ra_cancastle = 0x02,
+  k_cancastle = 0x04
 } castling_flag_type;
 /* NOTE: ke[18]_cancastle must be larger than the respective
  * r[ah][18]_cancastle or evaluations of the form
- * TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
+ * TSTCASTLINGFLAGMASK(nbply,White,castlings)<=k_cancastle
  * stop working. */
 
 /* symbols for bit combinations in castling_flag */
@@ -196,7 +199,10 @@ enum
   wh_castlings = ke1_cancastle|ra1_cancastle|rh1_cancastle,
   blk_castling = ke8_cancastle|rh8_cancastle,
   blq_castling = ke8_cancastle|ra8_cancastle,
-  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle
+  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle,
+  k_castling = k_cancastle|rh_cancastle,
+  q_castling = k_cancastle|ra_cancastle,
+  castlings = k_cancastle|ra_cancastle|rh_cancastle
 };
 
 EXTERN  castling_flag_type castling_flag[maxply + 1];
@@ -205,6 +211,7 @@ EXTERN  boolean castling_supported;
 EXTERN  boolean testcastling;
 EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
+#define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*4,(mask))
 
 /* Stop solving when a given number of solutions is reached */
 

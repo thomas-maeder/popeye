@@ -709,13 +709,13 @@ void genrn_cast(void) {
   if (dont_generate_castling)
     return;
 
-  if (TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle
+  if (TSTCASTLINGFLAGMASK(nbply,Black,castlings)>k_cancastle
       && e[square_e8]==roin
       /* then the king on e8 and at least one rook can castle !! */
       && !echecc(nbply,Black))
   {
     /* 0-0 */
-    if (TSTFLAGMASK(castling_flag[nbply],blk_castling)==blk_castling
+    if (TSTCASTLINGFLAGMASK(nbply,Black,k_castling)==k_castling
         && e[square_h8]==tn
         && e[square_f8]==vide
         && e[square_g8]==vide)
@@ -757,7 +757,7 @@ void genrn_cast(void) {
     }
 
     /* 0-0-0 */
-    if (TSTFLAGMASK(castling_flag[nbply],blq_castling)==blq_castling
+    if (TSTCASTLINGFLAGMASK(nbply,Black,q_castling)==q_castling
         && e[square_a8]==tn
         && e[square_d8]==vide
         && e[square_c8]==vide

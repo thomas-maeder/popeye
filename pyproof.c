@@ -377,11 +377,11 @@ void ProofInitialiseIntelligent(stip_length_type length)
       /* blank short castling impossible */
       CLRFLAGMASK(castling_flag[0],rh8_cancastle);
 
-    if (!TSTFLAGMASK(castling_flag[0],ra1_cancastle|rh1_cancastle))
+    if (!TSTCASTLINGFLAGMASK(0,White,ra_cancastle|rh_cancastle))
       /* no wh rook can castle, so the wh king cannot either */
       CLRFLAGMASK(castling_flag[0],ke1_cancastle);
 
-    if (!TSTFLAGMASK(castling_flag[0],ra8_cancastle|rh8_cancastle))
+    if (!TSTCASTLINGFLAGMASK(0,Black,ra_cancastle|rh_cancastle))
       /* no blank rook can castle, so the blank king cannot either */
       CLRFLAGMASK(castling_flag[0],ke8_cancastle);
 
@@ -783,9 +783,9 @@ static int ProofBlKingMovesNeeded(void)
   {
     needed= BlKingMoves[rn];
 
-    if (TSTFLAGMASK(castling_flag[nbply],ke8_cancastle))
+    if (TSTCASTLINGFLAGMASK(nbply,Black,k_cancastle))
     {
-      if (TSTFLAGMASK(castling_flag[nbply],ra8_cancastle))
+      if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle))
       {
         /* blank long castling */
         /* BlKingMoves is the number of moves the blank king
@@ -796,7 +796,7 @@ static int ProofBlKingMovesNeeded(void)
         if (cast < needed)
           needed= cast;
       }
-      if (TSTFLAGMASK(castling_flag[nbply],rh8_cancastle))
+      if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle))
       {
         /* blank short castling */
         /* BlKingMoves is the number of moves the blank king still
@@ -835,9 +835,9 @@ static int ProofWhKingMovesNeeded(void)
   {
     needed = WhKingMoves[rb];
 
-    if (TSTFLAGMASK(castling_flag[nbply],ke1_cancastle))
+    if (TSTCASTLINGFLAGMASK(nbply,White,k_cancastle))
     {
-      if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle))
+      if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle))
       {
         /* wh long castling */
         /* WhKingMoves is the number of moves the wh king still
@@ -848,7 +848,7 @@ static int ProofWhKingMovesNeeded(void)
         if (cast<needed)
           needed= cast;
       }
-      if (TSTFLAGMASK(castling_flag[nbply],rh1_cancastle))
+      if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle))
       {
         /* wh short castling */
         /* WhKingMoves is the number of moves the wh king still
