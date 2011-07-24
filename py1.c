@@ -153,7 +153,8 @@ void InitCond(void) {
   bl_royal_sq= wh_royal_sq= initsquare;
 
   flagAssassin= false;
-  flagwhitemummer= flagblackmummer= false;
+  flagmummer[White] = false;
+  flagmummer[Black] = false;
   flagmaxi= flagultraschachzwang= false;
   flagparasent= false;
   rex_mad= rex_circe= rex_immun= rex_phan= rex_geneva=
@@ -338,8 +339,8 @@ void InitBoard(void)
   for (bnp = boardnum; *bnp; bnp++)
     e[*bnp] = vide;
 
-  rb = initsquare;
-  rn = initsquare;
+  king_square[White] = initsquare;
+  king_square[Black] = initsquare;
 
   CLEARFL(PieSpExFlags);
 
@@ -788,7 +789,7 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
         ** the move or potentially giving the check to the
         ** argument list!
         */
-        if (anyclone && sq_departure != rn && sq_departure != rb) {
+        if (anyclone && sq_departure != king_square[Black] && sq_departure != king_square[White]) {
           /* Circe Clone */
           pren = (pj * pp < 0) ? -pj : pj;
         }
@@ -876,8 +877,8 @@ static ghost_index_type sic_nr_ghosts;
 
 void StorePosition(void)
 {
-  rn_sic = rn;
-  rb_sic = rb;
+  rn_sic = king_square[Black];
+  rb_sic = king_square[White];
 
   {
     unsigned int i;
@@ -913,8 +914,8 @@ void ResetPosition(void)
       nbpiece[p]= 0;
   }
 
-  rn = rn_sic;
-  rb = rb_sic;
+  king_square[Black] = rn_sic;
+  king_square[White] = rb_sic;
 
   {
     unsigned int i;
@@ -1156,11 +1157,11 @@ boolean whannan(square rear, square front)
   case 0:
     return true;
   case 1:
-    return rear != rb;
+    return rear != king_square[White];
   case 2:
-    return front != rb;
+    return front != king_square[White];
   case 3:
-    return rear != rb && front != rb;
+    return rear != king_square[White] && front != king_square[White];
   }
   return true;
 }
@@ -1174,11 +1175,11 @@ boolean blannan(square rear, square front)
   case 0:
     return true;
   case 1:
-    return rear != rn;
+    return rear != king_square[Black];
   case 2:
-    return front != rn;
+    return front != king_square[Black];
   case 3:
-    return rear != rn && front != rn;
+    return rear != king_square[Black] && front != king_square[Black];
   }
   return true;
 }
@@ -1452,7 +1453,7 @@ void PushMagicViews(void)
     {
       /* for each magic piece */
       piece const p = e[*bnp];
-      square * const royal = p<=roin ? &rb : &rn;
+      square * const royal = p<=roin ? &king_square[White] : &king_square[Black];
       square const royal_save = *royal;
       square const *bnp1;
       fromspecificsquare= *bnp;
@@ -1611,7 +1612,7 @@ piece* GetPromotingPieces (square sq_departure,
     }
 
     if (CondFlag[football] &&
-    	sq_departure != rn && sq_departure != rb &&
+    	sq_departure != king_square[Black] && sq_departure != king_square[White] &&
     	(sq_arrival % 24 == 8 || sq_arrival % 24 == 15)) {
     	piece p = abs(pi_departing), tmp = getfootballpiece[vide];
 

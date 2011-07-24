@@ -101,9 +101,9 @@
 
 #pragma map( renspiegelfile, "RENSPI01" )
 #pragma map( renspiegel, "RENSPI02" )
-#pragma map( flagwhitemummer, "FLAGWH01" )
+#pragma map( flagmummer[White], "FLAGWH01" )
 #pragma map( flagwhiteexact, "FLAGWH02" )
-#pragma map( flagblackmummer, "FLAGBL01" )
+#pragma map( flagmummer[Black], "FLAGBL01" )
 #pragma map( flagblackexact, "FLAGBL02" )
 #pragma map( cirrenroib, "CIRREN01" )
 #pragma map( cirrenroin, "CIRREN02" )

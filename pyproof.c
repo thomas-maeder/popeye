@@ -464,8 +464,8 @@ void ProofSaveStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  start.rn = rn;
-  start.rb = rb;
+  start.rn = king_square[Black];
+  start.rb = king_square[White];
 
   for (i = roib; i <= derbla; ++i)
   {
@@ -494,8 +494,8 @@ void ProofRestoreStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  rn = start.rn;
-  rb = start.rb;
+  king_square[Black] = start.rn;
+  king_square[White] = start.rb;
 
   for (i = 0; i<nr_squares_on_board; ++i)
   {
@@ -586,8 +586,8 @@ void ProofSaveTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  target.rb = rb;
-  target.rn = rn;
+  target.rb = king_square[White];
+  target.rn = king_square[Black];
 
   for (i = roib; i <= derbla; ++i)
   {
@@ -616,8 +616,8 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  rn = target.rn;
-  rb = target.rb;
+  king_square[Black] = target.rn;
+  king_square[White] = target.rb;
 
   for (i = 0; i<maxsquare; ++i)
     e[i] = target.board[i];
@@ -774,14 +774,14 @@ static int ProofBlKingMovesNeeded(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (rn==initsquare)
+  if (king_square[Black]==initsquare)
     /* no king in play, or king can be created by promotion
      * -> no optimisation possible */
     needed = 0;
 
   else
   {
-    needed= BlKingMoves[rn];
+    needed= BlKingMoves[king_square[Black]];
 
     if (TSTCASTLINGFLAGMASK(nbply,Black,k_cancastle))
     {
@@ -824,16 +824,16 @@ static int ProofWhKingMovesNeeded(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(rb);
+  TraceSquare(king_square[White]);
   TraceText("\n");
 
-  if (rb==initsquare)
+  if (king_square[White]==initsquare)
     /* no king in play, or king can be created by promotion
      * -> no optimisation possible */
     needed = 0;
   else
   {
-    needed = WhKingMoves[rb];
+    needed = WhKingMoves[king_square[White]];
 
     if (TSTCASTLINGFLAGMASK(nbply,White,k_cancastle))
     {

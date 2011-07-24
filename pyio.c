@@ -1480,10 +1480,10 @@ static char *ParseSquareList(char *tok,
           StdChar(' ');
           Message(OverwritePiece);
         }
-        if (Square == rb)
-          rb= initsquare;
-        if (Square == rn)
-          rn= initsquare;
+        if (Square == king_square[White])
+          king_square[White]= initsquare;
+        if (Square == king_square[Black])
+          king_square[Black]= initsquare;
       }
       /* echo the piece if desired -- twinning */
       if (echo == '+')
@@ -1653,8 +1653,8 @@ static char *ParseForsyth(boolean output)
   for (bnp= boardnum; *bnp; bnp++)
     e[*bnp]= vide;
 
-  rb = initsquare;
-  rn = initsquare;
+  king_square[White] = initsquare;
+  king_square[Black] = initsquare;
 
   sprintf(GlobalStr, "  %s  \n", tok);
   if (output)
@@ -4797,64 +4797,66 @@ static char *ParseCond(void) {
         break;
       case blmax:
         black_length= len_max;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case blmin:
         black_length= len_min;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case blcapt:
         black_length= len_capt;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case blfollow:
         black_length= len_follow;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case whmax:
         white_length= len_max;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case whmin:
         white_length= len_min;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case whcapt:
         white_length= len_capt;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case whfollow:
         white_length= len_follow;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case duellist:
         white_length= len_whduell;
         black_length= len_blduell;
-        flagwhitemummer= flagblackmummer= true;
+        flagmummer[White] = true;
+        flagmummer[Black] = true;
         break;
       case alphabetic:
         white_length= len_alphabetic;
         black_length= len_alphabetic;
-        flagwhitemummer= flagblackmummer= true;
+        flagmummer[White] = true;
+        flagmummer[Black] = true;
         break;
       case blacksynchron:
         black_length= len_synchron;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         flag_synchron= true;
         break;
       case whitesynchron:
         white_length= len_synchron;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         flag_synchron= true;
         break;
       case blackantisynchron:
         black_length= len_antisynchron;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         flag_synchron= true;
         break;
       case whiteantisynchron:
         white_length= len_antisynchron;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         flag_synchron= true;
         break;
       case trans_king:
@@ -4904,12 +4906,12 @@ static char *ParseCond(void) {
         break;
       case whsupertrans_king:
         calc_whrefl_king= true;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case blsupertrans_king:
         calc_bltrans_king= true;
         calc_blrefl_king= true;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case antieinstein:
         CondFlag[einstein]= true;
@@ -4920,29 +4922,29 @@ static char *ParseCond(void) {
       case whforsqu:
         ReadSquares(WhForcedSq);
         white_length= len_whforcedsquare;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case blforsqu:
         ReadSquares(BlForcedSq);
         black_length= len_blforcedsquare;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
         wh_ultra=
             wh_exact= true;
         white_length= len_whforcedsquare;
-        flagwhitemummer= true;
+        flagmummer[White] = true;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
         bl_ultra=
             bl_exact= true;
         black_length= len_blforcedsquare;
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         break;
       case schwarzschacher:
-        flagblackmummer= true;
+        flagmummer[Black] = true;
         black_length= len_schwarzschacher;
         nullgenre= true;
         blacknull= true;
@@ -5652,8 +5654,8 @@ static void TwinStorePosition(void)
 {
   int i;
 
-  twin_rb= rb;
-  twin_rn= rn;
+  twin_rb= king_square[White];
+  twin_rn= king_square[Black];
   for (i= 0; i < nr_squares_on_board; i++)
   {
     twin_e[i]= e[boardnum[i]];
@@ -5668,8 +5670,8 @@ static void TwinResetPosition(void)
 {
   int i;
 
-  rb= twin_rb;
-  rn= twin_rn;
+  king_square[White]= twin_rb;
+  king_square[Black]= twin_rn;
   for (i= 0; i < nr_squares_on_board; i++) {
     e[boardnum[i]]= twin_e[i];
     spec[boardnum[i]]= twin_spec[i];
@@ -5688,8 +5690,8 @@ void transformPosition(SquareTransformation transformation)
   int i;
 
   /* save the position to be mirrored/rotated */
-  t_rb = rb;
-  t_rn = rn;
+  t_rb = king_square[White];
+  t_rn = king_square[Black];
   for (i = 0; i<nr_squares_on_board; i++)
   {
     t_e[i] = e[boardnum[i]];
@@ -5710,9 +5712,9 @@ void transformPosition(SquareTransformation transformation)
     spec[sq2] = t_spec[i];
 
     if (sq1==t_rb)
-      rb = sq2;
+      king_square[White] = sq2;
     if (sq1==t_rn)
-      rn = sq2;
+      king_square[Black] = sq2;
   }
 
   /* imitators */
@@ -5884,17 +5886,17 @@ static char *ParseTwinningMove(int indexx)
   spec[sq1]= indexx == TwinningMove ? 0 : sp;
 
   /* update king pointer */
-  if (sq1 == rb) {
-    rb= sq2;
+  if (sq1 == king_square[White]) {
+    king_square[White]= sq2;
   }
-  else if (sq2 == rb) {
-    rb= indexx == TwinningExchange ? sq1 : initsquare;
+  else if (sq2 == king_square[White]) {
+    king_square[White]= indexx == TwinningExchange ? sq1 : initsquare;
   }
-  if (sq1 == rn) {
-    rn= sq2;
+  if (sq1 == king_square[Black]) {
+    king_square[Black]= sq2;
   }
-  else if (sq2 == rn) {
-    rn= indexx == TwinningExchange ? sq1 : initsquare;
+  else if (sq2 == king_square[Black]) {
+    king_square[Black]= indexx == TwinningExchange ? sq1 : initsquare;
   }
 
   /* read next token */
@@ -5908,11 +5910,11 @@ static void MovePieceFromTo(square from, square to)
   spec[to]= spec[from];
   e[from]= vide;
   spec[from]= 0;
-  if (from == rb) {
-    rb= to;
+  if (from == king_square[White]) {
+    king_square[White]= to;
   }
-  if (from == rn) {
-    rn= to;
+  if (from == king_square[Black]) {
+    king_square[Black]= to;
   }
 } /* MovePieceFromTo */
 
@@ -6083,11 +6085,11 @@ static char *ParseTwinningRemove(void) {
       WriteSquare(sq);
       e[sq]= vide;
       spec[sq]= 0;
-      if (sq == rb) {
-        rb= initsquare;
+      if (sq == king_square[White]) {
+        king_square[White]= initsquare;
       }
-      if (sq == rn) {
-        rn= initsquare;
+      if (sq == king_square[Black]) {
+        king_square[Black]= initsquare;
       }
     }
     tok += 2;
@@ -6100,9 +6102,9 @@ static char *ParseTwinningPolish(void) {
   square const *bnp;
   square king;
 
-  king= rb;
-  rb= rn;
-  rn= king;
+  king= king_square[White];
+  king_square[White]= king_square[Black];
+  king_square[Black]= king;
 
   for (bnp= boardnum; *bnp; bnp++) {
     if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide) {
@@ -6658,8 +6660,8 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
                 else if (p <= roin)
                   SETFLAG(spec[boardnum[i]], Black);
               }
-              rb = square_e1;
-              rn = square_e8;
+              king_square[White] = square_e1;
+              king_square[Black] = square_e8;
             }
             break;
 

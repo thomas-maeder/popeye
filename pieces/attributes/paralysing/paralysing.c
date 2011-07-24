@@ -66,16 +66,16 @@ boolean paralysiert(square s)
     result = false;
   else if (e[s]>obs)
   {
-    square const roi = rb;
-    rb = s;
+    square const roi = king_square[White];
+    king_square[White] = s;
     result = rbechec(nbply,testparalyse);
-    rb = roi;
+    king_square[White] = roi;
   }
   else {
-    square const roi = rn;
-    rn = s;
+    square const roi = king_square[Black];
+    king_square[Black] = s;
     result = rnechec(nbply,testparalyse);
-    rn = roi;
+    king_square[Black] = roi;
   }
 
   TraceFunctionExit(__func__);

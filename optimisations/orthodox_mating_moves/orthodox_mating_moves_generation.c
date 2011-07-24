@@ -213,7 +213,7 @@ static void GenMatingKing(goal_type goal,
 
   square sq_arrival;
 
-  if (rb==rn) {
+  if (king_square[White]==king_square[Black]) {
     /* neutral kings */
     for (k2= vec_queen_start; k2<=vec_queen_end; k2++) {
       sq_arrival= sq_departure+vec[k2];
@@ -267,7 +267,7 @@ static void GenMatingKing(goal_type goal,
       genrb_cast();
     else
       /* black to play */
-      genrn_cast();
+      genrn_cast(Black);
   }
 }
 
@@ -509,7 +509,7 @@ void remove_ortho_mating_moves_generation_obstacle(void)
 static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move)
 {
   square square_a = square_a1;
-  square const OpponentsKing = side_at_move==White ? rn : rb;
+  square const OpponentsKing = side_at_move==White ? king_square[Black] : king_square[White];
   int i;
 
   TraceFunctionEntry(__func__);
@@ -592,7 +592,7 @@ void generate_move_reaching_goal(Side side_at_move)
   TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
-  if (side_at_move==White ? flagwhitemummer : flagblackmummer)
+  if (flagmummer[side_at_move])
     empile_for_goal.type = no_goal;
 
   switch (goal.type)

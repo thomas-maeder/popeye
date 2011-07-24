@@ -77,7 +77,7 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
   if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_doublemate))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
-      (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
+      (TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral);
     result = slice_has_solution(slices[si].u.pipe.next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
   }

@@ -699,103 +699,116 @@ boolean is_reversepawn(piece p)
   }
 }
 
-void genrn_cast(void) {
+void genrn_cast(Side side) {
   /* It works only for castling_supported == TRUE
      have a look at funtion verifieposition() in py6.c
   */
 
-  boolean is_castling_possible;
+  square const square_a = side==White ? square_a1 : square_a8;
+  square const square_b = square_a+row_b;
+  square const square_c = square_a+row_c;
+  square const square_d = square_a+row_d;
+  square const square_e = square_a+row_e;
+  square const square_f = square_a+row_f;
+  square const square_g = square_a+row_g;
+  square const square_h = square_a+row_h;
+  piece const sides_king = side==White ? roib : roin;
+  piece const sides_rook = side==White ? tb : tn;
 
   if (dont_generate_castling)
     return;
 
-  if (TSTCASTLINGFLAGMASK(nbply,Black,castlings)>k_cancastle
-      && e[square_e8]==roin
+  if (TSTCASTLINGFLAGMASK(nbply,side,castlings)>k_cancastle
+      && e[square_e]==roin
       /* then the king on e8 and at least one rook can castle !! */
-      && !echecc(nbply,Black))
+      && !echecc(nbply,side))
   {
     /* 0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,Black,k_castling)==k_castling
-        && e[square_h8]==tn
-        && e[square_f8]==vide
-        && e[square_g8]==vide)
+    if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
+        && e[square_h]==sides_rook
+        && e[square_f]==vide
+        && e[square_g]==vide)
     {
       if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
 
         /* temporarily deactivate maximummer etc. */
-        boolean sic_flagblackmummer = flagblackmummer;
-        flagblackmummer = false;
-        empile(square_e8,square_f8,square_f8);
-        flagblackmummer = sic_flagblackmummer;
+        boolean const sic_flagmummer = flagmummer[side];
+        flagmummer[side] = false;
+        empile(square_e,square_f,square_f);
+        flagmummer[side] = sic_flagmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,Black);
+          boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,side);
           repcoup();
           if (ok)
-            empile(square_e8,square_g8,kingside_castling);
+            empile(square_e,square_g,kingside_castling);
         }
       }
       else
       {
-        e[square_e8]= vide;
-        e[square_f8]= roin;
-        if (rn!=initsquare)
-          rn= square_f8;
+        boolean is_castling_possible;
 
-        is_castling_possible= !echecc(nbply,Black);
+        e[square_e]= vide;
+        e[square_f]= sides_king;
+        if (king_square[side] !=initsquare)
+          king_square[side] = square_f;
 
-        e[square_e8]= roin;
-        e[square_f8]= vide;
-        if (rn!=initsquare)
-          rn= square_e8;
+        is_castling_possible= !echecc(nbply,side);
+
+        e[square_e]= sides_king;
+        e[square_f]= vide;
+        if (king_square[side] !=initsquare)
+          king_square[side] = square_e;
 
         if (is_castling_possible)
-          empile(square_e8,square_g8,kingside_castling);
+          empile(square_e,square_g,kingside_castling);
       }
     }
 
     /* 0-0-0 */
-    if (TSTCASTLINGFLAGMASK(nbply,Black,q_castling)==q_castling
-        && e[square_a8]==tn
-        && e[square_d8]==vide
-        && e[square_c8]==vide
-        && e[square_b8]==vide)
+    if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
+        && e[square_a]==sides_rook
+        && e[square_d]==vide
+        && e[square_c]==vide
+        && e[square_b]==vide)
     {
       if (complex_castling_through_flag)
       {
         numecoup sic_nbcou= nbcou;
 
         /* temporarily deactivate maximummer etc. */
-        boolean sic_flagblackmummer = flagblackmummer;
-        flagblackmummer = false;
-        empile(square_e8,square_d8,square_d8);
-        flagblackmummer = sic_flagblackmummer;
+        boolean const sic_flagmummer = flagmummer[side];
+        flagmummer[side] = false;
+        empile(square_e,square_d,square_d);
+        flagmummer[side] = sic_flagmummer;
         if (nbcou>sic_nbcou)
         {
-          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,Black));
+          boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,side));
           repcoup();
           if (ok)
-            empile(square_e8,square_c8,queenside_castling);
+            empile(square_e,square_c,queenside_castling);
         }
       }
       else
       {
-        e[square_e8]= vide;
-        e[square_d8]= roin;
-        if (rn!=initsquare)
-          rn= square_d8;
+        boolean is_castling_possible;
 
-        is_castling_possible= !echecc(nbply,Black);
+        e[square_e]= vide;
+        e[square_d]= sides_king;
+        if (king_square[side]!=initsquare)
+          king_square[side] = square_d;
 
-        e[square_e8]= roin;
-        e[square_d8]= vide;
-        if (rn!=initsquare)
-          rn= square_e8;
+        is_castling_possible= !echecc(nbply,side);
+
+        e[square_e]= sides_king;
+        e[square_d]= vide;
+        if (king_square[side]!=initsquare)
+          king_square[side] = square_e;
 
         if (is_castling_possible)
-          empile(square_e8,square_c8,queenside_castling);
+          empile(square_e,square_c,queenside_castling);
       }
     }
   }
@@ -838,14 +851,14 @@ void genrn(square sq_departure)
     calctransmute= false;
 
     if (flag && nbpiece[orphanb]>0) {
-      piece king= e[rn];
-      e[rn]= dummyn;
+      piece king= e[king_square[Black]];
+      e[king_square[Black]]= dummyn;
       if (!echecc(nbply,Black)) {
         /* black king checked only by an orphan
         ** empowered by the king */
         flag= false;
       }
-      e[rn]= king;
+      e[king_square[Black]]= king;
     }
 
     /* K im Schach zieht nur */
@@ -867,7 +880,7 @@ void genrn(square sq_departure)
 
   /* Now we test castling */
   if (castling_supported)
-    genrn_cast();
+    genrn_cast(Black);
 
   if (CondFlag[castlingchess] && !echecc(nbply,Black)) {
     for (k= vec_queen_end; k>= vec_queen_start; k--) {
@@ -896,8 +909,8 @@ void genrn(square sq_departure)
           boolean checked;
           e[sq_departure]= vide;
           e[sq_passed]= roin;
-          if (rn!=initsquare)
-            rn= sq_passed;
+          if (king_square[Black]!=initsquare)
+            king_square[Black]= sq_passed;
           checked = echecc(nbply,Black);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -909,8 +922,8 @@ void genrn(square sq_departure)
           }
           e[sq_departure]= roin;
           e[sq_passed]= vide;
-          if (rn!=initsquare)
-            rn= sq_departure;
+          if (king_square[Black]!=initsquare)
+            king_square[Black]= sq_departure;
         }
       }
     }
@@ -997,7 +1010,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
       gen_bl_piece_aux(sq_departure,p);
 
       /* Kings normally don't move from their rebirth-square */
-      if (p == e[rn] && !rex_phan) {
+      if (p == e[king_square[Black]] && !rex_phan) {
         return;
       }
       /* generate moves from rebirth square */
@@ -1098,7 +1111,7 @@ static void orig_gen_bl_piece(square sq_departure, piece p)
   else
     gen_bl_piece_aux(sq_departure,p);
 
-  if (CondFlag[messigny] && !(rn==sq_departure && rex_mess_ex))
+  if (CondFlag[messigny] && !(king_square[Black]==sq_departure && rex_mess_ex))
   {
     square const *bnp;
     for (bnp= boardnum; *bnp; bnp++)
@@ -1371,8 +1384,8 @@ static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
 
   if (trait_ply == White) {
 
-    square const rb_=rb;
-    rb = sq_departure;
+    square const rb_=king_square[White];
+    king_square[White] = sq_departure;
 
     for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
     {
@@ -1390,12 +1403,12 @@ static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
         }
       }
 
-      rb = rb_;
+      king_square[White] = rb_;
 
   } else {
 
-    square const rn_=rn;
-    rn = sq_departure;
+    square const rn_=king_square[Black];
+    king_square[Black] = sq_departure;
 
     for (i = nr_rows_on_board; i>0; --i, square_a += dir_up)
     {
@@ -1413,7 +1426,7 @@ static boolean att_once(square sq_departure, Side trait_ply, ply ply_id)
         }
       }
 
-      rn = rn_;
+      king_square[Black] = rn_;
   }
   return count==1;
 }
@@ -1679,9 +1692,9 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
     result = false;
   else if (CondFlag[isardam] && !isardam_pos_legal())
     result = false;
-  else if (flagAssassin && (sq_rebirth==rb || sq_rebirth==rn))
+  else if (flagAssassin && (sq_rebirth==king_square[White] || sq_rebirth==king_square[Black]))
     result = false;
-  else if (are_we_testing_immobility_with_opposite_king_en_prise && (rb==initsquare || rn==initsquare))
+  else if (are_we_testing_immobility_with_opposite_king_en_prise && (king_square[White]==initsquare || king_square[Black]==initsquare))
     result = false;
   else if (CondFlag[patience] && !PatienceB && !patience_legal()) /* don't call patience_legal if TypeB as obs > vide ! */
     result = false;
@@ -2223,8 +2236,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
   numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
 
-  square const prev_rb = rb;
-  square const prev_rn = rn;
+  square const prev_rb = king_square[White];
+  square const prev_rn = king_square[Black];
 
   square const sq_arrival = move_gen_top->arrival;
   square sq_capture = move_gen_top->capture;
@@ -2238,8 +2251,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   INCREMENT_COUNTER(jouecoup);
 
-  RB_[ply_id] = rb;
-  RN_[ply_id] = rn;
+  RB_[ply_id] = king_square[White];
+  RN_[ply_id] = king_square[Black];
 
   pjoue[ply_id] = pi_arriving;
   jouespec[ply_id] = spec_pi_moving;
@@ -2304,14 +2317,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
         && trait_ply==Black
         && ctrans[coup_id]!=vide)
     {
-      rn=initsquare;
+      king_square[Black]=initsquare;
       pi_arriving=ctrans[coup_id];
     }
     if (CondFlag[whsupertrans_king]
         && trait_ply==White
         && ctrans[coup_id]!=vide)
     {
-      rb=initsquare;
+      king_square[White]=initsquare;
       pi_arriving=ctrans[coup_id];
     }
 
@@ -2345,14 +2358,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
       pprispec[ply_id]= spec[sq_departure]= spec[sq_arrival];
       jouearr[ply_id]= e[sq_arrival]= pi_departing;
       spec[sq_arrival]= spec_pi_moving;
-      if (rb==sq_departure)
-        rb = sq_arrival;
-      else if (rb==sq_arrival)
-        rb = sq_departure;
-      if (rn==sq_departure)
-        rn = sq_arrival;
-      else if (rn==sq_arrival)
-        rn= sq_departure;
+      if (king_square[White]==sq_departure)
+        king_square[White] = sq_arrival;
+      else if (king_square[White]==sq_arrival)
+        king_square[White] = sq_departure;
+      if (king_square[Black]==sq_departure)
+        king_square[Black] = sq_arrival;
+      else if (king_square[Black]==sq_arrival)
+        king_square[Black]= sq_departure;
 
       return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
 
@@ -2450,10 +2463,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
      spec[sq_castle] = spec[rochade_sq[coup_id]];
      e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
      CLEARFL(spec[rochade_sq[coup_id]]);
-     if (rn == rochade_sq[coup_id])
-       rn= sq_castle;
-     if (rb == rochade_sq[coup_id])
-       rb= sq_castle;
+     if (king_square[Black] == rochade_sq[coup_id])
+       king_square[Black]= sq_castle;
+     if (king_square[White] == rochade_sq[coup_id])
+       king_square[White]= sq_castle;
   }
 
   e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
@@ -2516,7 +2529,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (abs(pi_departing) == andergb) {
     square sq= sq_arrival - direction(sq_departure, sq_arrival);
 
-    if (!TSTFLAG(spec[sq], Neutral) && (sq != rb) && (sq != rn)) {
+    if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
       change(sq);
       CHANGECOLOR(spec[sq]);
     }
@@ -2703,10 +2716,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
   {
     nbpiece[pi_captured]--;
 
-    if (sq_capture==rb)
-      rb = initsquare;
-    if (sq_capture==rn)
-      rn = initsquare;
+    if (sq_capture==king_square[White])
+      king_square[White] = initsquare;
+    if (sq_capture==king_square[Black])
+      king_square[Black] = initsquare;
   }
 
   if (change_moving_piece)
@@ -2822,14 +2835,14 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   if (sq_departure==prev_rb)
   {
-    if (rb!=initsquare)
-      rb = sq_arrival;
+    if (king_square[White]!=initsquare)
+      king_square[White] = sq_arrival;
     CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
   }
   if (sq_departure==prev_rn)
   {
-    if (rn!=initsquare)
-      rn = sq_arrival;
+    if (king_square[Black]!=initsquare)
+      king_square[Black] = sq_arrival;
     CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
   }
 
@@ -2904,19 +2917,19 @@ boolean jouecoup(ply ply_id, joue_type jt)
       CLRFLAG(spec_pi_moving, Neutral);
       pi_arriving= trait_ply==Black ? -abs(pi_arriving) : abs(pi_arriving);
 
-      if (rn == sq_arrival && trait_ply == White)
-        rn= initsquare;
+      if (king_square[Black] == sq_arrival && trait_ply == White)
+        king_square[Black]= initsquare;
 
-      if (rb == sq_arrival && trait_ply == Black)
-        rb= initsquare;
+      if (king_square[White] == sq_arrival && trait_ply == Black)
+        king_square[White]= initsquare;
     }
     else if (trait_ply==Black) {
       if (TSTFLAG(spec_pi_moving, Black)) {
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, White);
         pi_arriving= abs(pi_arriving);
-        if (rn == sq_arrival)
-          rb = sq_arrival;
+        if (king_square[Black] == sq_arrival)
+          king_square[White] = sq_arrival;
       }
     }
     else if (trait_ply==White) {
@@ -2924,8 +2937,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
         SETFLAG(spec_pi_moving, Neutral);
         SETFLAG(spec_pi_moving, Black);
         pi_arriving= -abs(pi_arriving);
-        if (rb == sq_arrival)
-          rn = sq_arrival;
+        if (king_square[White] == sq_arrival)
+          king_square[Black] = sq_arrival;
       }
     }
   }
@@ -3029,9 +3042,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
       e[sq_rebirth]= pi_arriving;
       spec[sq_rebirth]= spec_pi_moving;
       if (sq_departure == prev_rb)
-        rb= sq_rebirth;
+        king_square[White]= sq_rebirth;
       if (sq_departure == prev_rn)
-        rn= sq_rebirth;
+        king_square[Black]= sq_rebirth;
 
       if (castling_supported) {
         PieNam const abspja= abs(pi_arriving);
@@ -3186,9 +3199,9 @@ boolean jouecoup(ply ply_id, joue_type jt)
           spec[sq_rebirth]= spec_pi_moving;
           if (rex_circe) {
             if (sq_departure == prev_rb)
-              rb= sq_rebirth;
+              king_square[White]= sq_rebirth;
             if (sq_departure == prev_rn)
-              rn= sq_rebirth;
+              king_square[Black]= sq_rebirth;
 
             if (castling_supported
                 && (abs(pi_arriving) == King)) {
@@ -3306,10 +3319,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
             if (rex_circe) {
               /* neutral K */
               if (prev_rb == sq_capture) {
-                rb= sq_rebirth;
+                king_square[White]= sq_rebirth;
               }
               if (prev_rn == sq_capture) {
-                rn= sq_rebirth;
+                king_square[Black]= sq_rebirth;
               }
 
               if (castling_supported
@@ -3383,10 +3396,10 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (bl_royal_sq != initsquare)
-      rn= bl_royal_sq;
+      king_square[Black]= bl_royal_sq;
 
     if (wh_royal_sq != initsquare)
-      rb= wh_royal_sq;
+      king_square[White]= wh_royal_sq;
 
     if (CondFlag[republican])
       republican_place_king(jt,trait_ply,ply_id);
@@ -3416,23 +3429,23 @@ boolean jouecoup(ply ply_id, joue_type jt)
         e[square_d5]= piece_temp;
         spec[square_d5]= spec_temp;
 
-        if (rb==square_d4)
-          rb= square_d5;
-        else if (rb==square_d5)
-          rb= square_e5;
-        else if (rb==square_e5)
-          rb= square_e4;
-        else if (rb==square_e4)
-          rb= square_d4;
+        if (king_square[White]==square_d4)
+          king_square[White]= square_d5;
+        else if (king_square[White]==square_d5)
+          king_square[White]= square_e5;
+        else if (king_square[White]==square_e5)
+          king_square[White]= square_e4;
+        else if (king_square[White]==square_e4)
+          king_square[White]= square_d4;
 
-        if (rn==square_d4)
-          rn= square_d5;
-        else if (rn==square_d5)
-          rn= square_e5;
-        else if (rn==square_e5)
-          rn= square_e4;
-        else if (rn==square_e4)
-          rn= square_d4;
+        if (king_square[Black]==square_d4)
+          king_square[Black]= square_d5;
+        else if (king_square[Black]==square_d5)
+          king_square[Black]= square_e5;
+        else if (king_square[Black]==square_e5)
+          king_square[Black]= square_e4;
+        else if (king_square[Black]==square_e4)
+          king_square[Black]= square_d4;
       }
     }
 
@@ -3443,27 +3456,27 @@ boolean jouecoup(ply ply_id, joue_type jt)
         ? CondFlag[white_oscillatingKs]
         : CondFlag[black_oscillatingKs]) {
       boolean priorcheck= false;
-      square temp= rb;
-      piece temp1= e[rb];
-      Flags temp2= spec[rb];
+      square temp= king_square[White];
+      piece temp1= e[king_square[White]];
+      Flags temp2= spec[king_square[White]];
 
       if (OscillatingKingsTypeB[trait_ply])
         priorcheck= echecc(ply_id,trait_ply);
       if ((oscillatedKs[ply_id]= (!OscillatingKingsTypeC[trait_ply]
                                  || echecc(ply_id,advers(trait_ply)))))
       {
-        e[rb]= e[rn];
-        spec[rb]= spec[rn];
+        e[king_square[White]]= e[king_square[Black]];
+        spec[king_square[White]]= spec[king_square[Black]];
 
-        e[rn]= temp1;
-        spec[rn]= temp2;
-        rb= rn;
-        rn= temp;
+        e[king_square[Black]]= temp1;
+        spec[king_square[Black]]= temp2;
+        king_square[White]= king_square[Black];
+        king_square[Black]= temp;
         CLRCASTLINGFLAGMASK(ply_id,White,k_cancastle);
         CLRCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
-        if (rb==square_e1)
+        if (king_square[White]==square_e1)
           SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
-        if (rn==square_e8)
+        if (king_square[Black]==square_e8)
           SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
         if (OscillatingKingsTypeB[trait_ply] && priorcheck)
           return false;
@@ -3480,39 +3493,39 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
 
     if (CondFlag[dynasty]) {
-      /* adjust rn, rb and/or castling flags */
+      /* adjust king_square[Black], king_square[White] and/or castling flags */
       square const *bnp;
       square s;
 
       if (nbpiece[roib]==1) {
-        if (rb==initsquare)
+        if (king_square[White]==initsquare)
           for (bnp= boardnum; *bnp; bnp++) {
             s = *bnp;
             if (e[s] == roib) {
               if (s==square_e1)
                 SETCASTLINGFLAGMASK(ply_id,White,k_cancastle);
-              rb = *bnp;
+              king_square[White] = *bnp;
               break;
             }
           }
       }
       else
-        rb = initsquare;
+        king_square[White] = initsquare;
 
       if (nbpiece[roin]==1) {
-        if (rn==initsquare)
+        if (king_square[Black]==initsquare)
           for (bnp= boardnum; *bnp; bnp++) {
             s = *bnp;
             if (e[s] == roin) {
               if (s==square_e8)
                 SETCASTLINGFLAGMASK(ply_id,Black,k_cancastle);
-              rn = *bnp;
+              king_square[Black] = *bnp;
               break;
             }
           }
       }
       else
-        rn = initsquare;
+        king_square[Black] = initsquare;
     }
 
     if (CondFlag[strictSAT] && SATCheck)
@@ -3525,7 +3538,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
     if (CondFlag[masand]
         && echecc(ply_id,advers(trait_ply))
-        && observed(trait_ply == White ? rn : rb,
+        && observed(trait_ply == White ? king_square[Black] : king_square[White],
                     move_gen_top->arrival))
       change_observed(ply_id,
                       move_gen_top->arrival,
@@ -3587,21 +3600,21 @@ void repcoup(void)
 
     if (CondFlag[masand]
         && echecc(nbply,advers(trait[nbply]))
-        && observed(trait[nbply] == White ? rn : rb,
+        && observed(trait[nbply] == White ? king_square[Black] : king_square[White],
                     sq_arrival))
       change_observed(nbply,sq_arrival,false);
 
     if (oscillatedKs[nbply])  /* for Osc Type C */
     {
-      square temp= rb;
-      piece temp1= e[rb];
-      Flags temp2= spec[rb];
-      e[rb]= e[rn];
-      spec[rb]= spec[rn];
-      e[rn]= temp1;
-      spec[rn]= temp2;
-      rb= rn;
-      rn= temp;
+      square temp= king_square[White];
+      piece temp1= e[king_square[White]];
+      Flags temp2= spec[king_square[White]];
+      e[king_square[White]]= e[king_square[Black]];
+      spec[king_square[White]]= spec[king_square[Black]];
+      e[king_square[Black]]= temp1;
+      spec[king_square[Black]]= temp2;
+      king_square[White]= king_square[Black];
+      king_square[Black]= temp;
     }
 
     if (CondFlag[actrevolving])
@@ -3625,29 +3638,29 @@ void repcoup(void)
         spec[square_e5]= spec[square_e4];
         e[square_e4]= ptemp;
         spec[square_e4]= temp;
-        if (rb==square_d4) {
-          rb= square_e4;
+        if (king_square[White]==square_d4) {
+          king_square[White]= square_e4;
         }
-        else if (rb==square_d5) {
-          rb= square_d4;
+        else if (king_square[White]==square_d5) {
+          king_square[White]= square_d4;
         }
-        else if (rb==square_e5) {
-          rb= square_d5;
+        else if (king_square[White]==square_e5) {
+          king_square[White]= square_d5;
         }
-        else if (rb==square_e4) {
-          rb= square_e5;
+        else if (king_square[White]==square_e4) {
+          king_square[White]= square_e5;
         }
-        if (rn==square_d4) {
-          rn= square_e4;
+        if (king_square[Black]==square_d4) {
+          king_square[Black]= square_e4;
         }
-        else if (rn==square_d5) {
-          rn= square_d4;
+        else if (king_square[Black]==square_d5) {
+          king_square[Black]= square_d4;
         }
-        else if (rn==square_e5) {
-          rn= square_d5;
+        else if (king_square[Black]==square_e5) {
+          king_square[Black]= square_d5;
         }
-        else if (rn==square_e4) {
-          rn= square_e5;
+        else if (king_square[Black]==square_e4) {
+          king_square[Black]= square_e5;
         }
       }
     }
@@ -3732,8 +3745,8 @@ void repcoup(void)
     e[sq_departure]= pi_departing;
     spec[sq_departure]= spec_pi_moving;
     nbcou--;
-    rb= RB_[nbply];
-    rn= RN_[nbply];
+    king_square[White]= RB_[nbply];
+    king_square[Black]= RN_[nbply];
     return;
 
   case kingside_castling:
@@ -3947,10 +3960,10 @@ void repcoup(void)
      e[rochade_sq[nbcou]] = e[sq_castle];
      spec[rochade_sq[nbcou]] = spec[sq_castle];
      e[sq_castle] = vide;
-     if (rn == sq_castle)
-       rn= rochade_sq[nbcou];
-     if (rb == sq_castle)
-       rb= rochade_sq[nbcou];
+     if (king_square[Black] == sq_castle)
+       king_square[Black]= rochade_sq[nbcou];
+     if (king_square[White] == sq_castle)
+       king_square[White]= rochade_sq[nbcou];
      CLEARFL(spec[sq_castle]);
   }
 
@@ -3972,13 +3985,13 @@ void repcoup(void)
   if (pi_captured != vide)
     nbpiece[pi_captured]++;
 
-  rb= RB_[nbply];
-  rn= RN_[nbply];
+  king_square[White]= RB_[nbply];
+  king_square[Black]= RN_[nbply];
 
   if (abs(pi_departing) == andergb) {
     square sq= sq_arrival - direction(sq_departure, sq_arrival);
 
-    if (!TSTFLAG(spec[sq], Neutral) && (sq != rb) && (sq != rn)) {
+    if (!TSTFLAG(spec[sq], Neutral) && (sq != king_square[White]) && (sq != king_square[Black])) {
       change(sq);
       CHANGECOLOR(spec[sq]);
     }

@@ -367,8 +367,8 @@ static void countPieces(void)
 
 static boolean locateRoyal(void)
 {
-  rb = initsquare;
-  rn = initsquare;
+  king_square[White] = initsquare;
+  king_square[Black] = initsquare;
 
   if (TSTFLAG(PieSpExFlags,Neutral))
     /* neutral king has to be white for initialisation of r[bn] */
@@ -388,7 +388,7 @@ static boolean locateRoyal(void)
         s = *bnp;
         if (e[s]==roib)
         {
-          if (!SetKing(&rb,s))
+          if (!SetKing(&king_square[White],s))
           {
             VerifieMsg(OneKing);
             return false;
@@ -397,7 +397,7 @@ static boolean locateRoyal(void)
         }
       }
     else
-      rb = initsquare;
+      king_square[White] = initsquare;
 
     if (nbpiece[roin]==1)
       for (bnp = boardnum; *bnp; bnp++)
@@ -405,7 +405,7 @@ static boolean locateRoyal(void)
         s = *bnp;
         if (e[s]==roin)
         {
-          if (!SetKing(&rn,s))
+          if (!SetKing(&king_square[Black],s))
           {
             VerifieMsg(OneKing);
             return false;
@@ -414,7 +414,7 @@ static boolean locateRoyal(void)
         }
       }
     else
-      rn = initsquare;
+      king_square[Black] = initsquare;
   }
   else if (CondFlag[losingchess] || CondFlag[extinction])
   {
@@ -431,18 +431,18 @@ static boolean locateRoyal(void)
       if (p==roib
           || (p>roib && TSTFLAG(spec[s],Royal)))
       {
-        if (!SetKing(&rb,s))
+        if (!SetKing(&king_square[White],s))
         {
           VerifieMsg(OneKing);
           return false;
         }
         if (TSTFLAG(spec[s],Neutral))
-          SetKing(&rn,s);
+          SetKing(&king_square[Black],s);
       }
 
       if (s==wh_royal_sq)
       {
-        if (!SetKing(&rb,s))
+        if (!SetKing(&king_square[White],s))
         {
           VerifieMsg(OneKing);
           return false;
@@ -452,7 +452,7 @@ static boolean locateRoyal(void)
       if (p==roin
           || (p<roin && TSTFLAG(spec[s],Royal)))
       {
-        if (!SetKing(&rn,s))
+        if (!SetKing(&king_square[Black],s))
         {
           VerifieMsg(OneKing);
           return false;
@@ -461,7 +461,7 @@ static boolean locateRoyal(void)
 
       if (s==bl_royal_sq)
       {
-        if (!SetKing(&rn,s))
+        if (!SetKing(&king_square[Black],s))
         {
           VerifieMsg(OneKing);
           return false;
@@ -485,7 +485,7 @@ static void initialise_piece_flags(void)
     piece const p = e[*bnp];
     if (p!=vide)
     {
-      if (CondFlag[volage] && rb!=*bnp && rn!=*bnp)
+      if (CondFlag[volage] && king_square[White]!=*bnp && king_square[Black]!=*bnp)
         SETFLAG(spec[*bnp], Volage);
 
       assert(id<=MaxPieceId);
@@ -827,8 +827,8 @@ static boolean verify_position(slice_index si)
       bl_ultra = CondFlag[ultra];
       bl_exact = CondFlag[exact];
       black_length = len_max;
-      flagblackmummer = true;
-      flagwhitemummer = false;
+      flagmummer[Black] = true;
+      flagmummer[White] = false;
     }
     else
     {
@@ -837,8 +837,8 @@ static boolean verify_position(slice_index si)
       wh_ultra = CondFlag[ultra];
       wh_exact = CondFlag[exact];
       white_length = len_max;
-      flagwhitemummer = true;
-      flagblackmummer = false;
+      flagmummer[White] = true;
+      flagmummer[Black] = false;
     }
   }
 
@@ -870,17 +870,17 @@ static boolean verify_position(slice_index si)
     flagfee = true;
   }
 
-  if (OptFlag[sansrb] && rb!=initsquare)
+  if (OptFlag[sansrb] && king_square[White]!=initsquare)
     OptFlag[sansrb] = false;
 
-  if (OptFlag[sansrn] && rn!=initsquare)
+  if (OptFlag[sansrn] && king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
 
-  if (rb==initsquare && nbpiece[roib]==0
+  if (king_square[White]==initsquare && nbpiece[roib]==0
       && !OptFlag[sansrb])
     ErrorMsg(MissingKing);
 
-  if (rn==initsquare && nbpiece[roin]==0
+  if (king_square[Black]==initsquare && nbpiece[roin]==0
       && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
 
@@ -898,8 +898,8 @@ static boolean verify_position(slice_index si)
          in echecc */
       /* would require knowledge of id. Other forms now allowed
        */
-      if (((! OptFlag[sansrb]) && rb!=initsquare && (e[rb] != roib))
-          || ((! OptFlag[sansrn]) && rn!=initsquare && (e[rn] != roin)))
+      if (((! OptFlag[sansrb]) && king_square[White]!=initsquare && (e[king_square[White]] != roib))
+          || ((! OptFlag[sansrn]) && king_square[Black]!=initsquare && (e[king_square[Black]] != roin)))
       {
         VerifieMsg(RoyalPWCRexCirce);
         return false;
@@ -1055,7 +1055,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs])
   {
-    if (rb==initsquare || rn==initsquare)
+    if (king_square[White]==initsquare || king_square[Black]==initsquare)
       CondFlag[black_oscillatingKs] = CondFlag[white_oscillatingKs] = false;
     else
     {
@@ -1166,14 +1166,14 @@ static boolean verify_position(slice_index si)
     if (rex_circe) {
       eval_white = rbcircech;
       eval_black = rncircech;
-      cirrenroib = (*circerenai)(nbply, roib, spec[rb], initsquare, initsquare, initsquare, Black);
-      cirrenroin = (*circerenai)(nbply, roin, spec[rn], initsquare, initsquare, initsquare, White);
+      cirrenroib = (*circerenai)(nbply, roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
+      cirrenroin = (*circerenai)(nbply, roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
     }
     else {
       eval_white = rbimmunech;
       eval_black = rnimmunech;
-      immrenroib = (*immunrenai)(nbply, roib, spec[rb], initsquare, initsquare, initsquare, Black);
-      immrenroin = (*immunrenai)(nbply, roin, spec[rn], initsquare, initsquare, initsquare, White);
+      immrenroib = (*immunrenai)(nbply, roib, spec[king_square[White]], initsquare, initsquare, initsquare, Black);
+      immrenroin = (*immunrenai)(nbply, roin, spec[king_square[Black]], initsquare, initsquare, initsquare, White);
     }
   }
 
@@ -1393,10 +1393,10 @@ static boolean verify_position(slice_index si)
       || CondFlag[nocapture]
       || CondFlag[nowhcapture]
       || CondFlag[noblcapture]
-      || TSTFLAG(spec[rb], Kamikaze)
-      || TSTFLAG(spec[rn], Kamikaze)
-      || flagwhitemummer
-      || flagblackmummer
+      || TSTFLAG(spec[king_square[White]], Kamikaze)
+      || TSTFLAG(spec[king_square[Black]], Kamikaze)
+      || flagmummer[White]
+      || flagmummer[Black]
       || TSTFLAG(PieSpExFlags, Paralyse)
       || CondFlag[vogt]
       || anyanticirce
@@ -1422,7 +1422,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[dynasty])
   {
-    /* checking for TSTFLAG(spec[rb],Kamikaze) may not be sufficient
+    /* checking for TSTFLAG(spec[king_square[White]],Kamikaze) may not be sufficient
      * in dynasty */
     square s;
 
@@ -1442,13 +1442,13 @@ static boolean verify_position(slice_index si)
       || CondFlag[koeko]
       || CondFlag[antikoeko]
       || anyparrain
-      || flagwhitemummer
-      || flagblackmummer
+      || flagmummer[White]
+      || flagmummer[Black]
       || CondFlag[vogt]
       || (eval_white != eval_ortho
           && eval_white != legalsquare)
-      || (rb != initsquare && abs(e[rb]) != King)
-      || (rn != initsquare && abs(e[rn]) != King)
+      || (king_square[White] != initsquare && abs(e[king_square[White]]) != King)
+      || (king_square[Black] != initsquare && abs(e[king_square[Black]]) != King)
       || TSTFLAG(PieSpExFlags, Chameleon)
       || CondFlag[einstein]
       || CondFlag[degradierung]
@@ -1584,11 +1584,11 @@ static boolean verify_position(slice_index si)
   orphanpieces[op] = vide;
 
   if ((calc_whrefl_king
-       && rb != initsquare
-       && (e[rb] != roib || CondFlag[sting]))
+       && king_square[White] != initsquare
+       && (e[king_square[White]] != roib || CondFlag[sting]))
       || (calc_blrefl_king
-          && rn != initsquare
-          && (e[rn] != roin || CondFlag[sting])))
+          && king_square[Black] != initsquare
+          && (e[king_square[Black]] != roin || CondFlag[sting])))
   {
     VerifieMsg(TransmRoyalPieces);
     return false;
@@ -1661,8 +1661,8 @@ static boolean verify_position(slice_index si)
     /* capturing moves are "longer" than non-capturing moves */
     black_length = &len_losingchess;
     white_length = &len_losingchess;
-    flagwhitemummer = true;
-    flagblackmummer = true;
+    flagmummer[White] = true;
+    flagmummer[Black] = true;
   }
 
   /* check castling possibilities */
@@ -1792,8 +1792,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  RB_[1] = rb;
-  RN_[1] = rn;
+  RB_[1] = king_square[White];
+  RN_[1] = king_square[Black];
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
   {
@@ -1817,7 +1817,7 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (flagwhitemummer /* counting opponents moves not useful */
+  if (flagmummer[White] /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -1838,7 +1838,7 @@ static boolean verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
-  if (flagblackmummer /* counting opponents moves not useful */
+  if (flagmummer[Black] /* counting opponents moves not useful */
       || TSTFLAG(PieSpExFlags, Neutral)
       || CondFlag[exclusive]
       || CondFlag[isardam]
@@ -1880,7 +1880,7 @@ static boolean verify_position(slice_index si)
     jouegenre = true;
   }
 
-  if (flagblackmummer
+  if (flagmummer[Black]
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -1890,7 +1890,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[isardam]
       || CondFlag[ohneschach])
     disable_killer_move_optimisation(Black);
-  if (flagwhitemummer
+  if (flagmummer[White]
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
       || CondFlag[whsupertrans_king]
@@ -1901,9 +1901,9 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach])
     disable_killer_move_optimisation(White);
 
-  if (flagblackmummer)
+  if (flagmummer[Black])
     disable_orthodox_mating_move_optimisation(Black);
-  if (flagwhitemummer)
+  if (flagmummer[White])
     disable_orthodox_mating_move_optimisation(White);
 
   return true;

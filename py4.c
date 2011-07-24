@@ -564,7 +564,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (CondFlag[norsk]
-          && (sq_departure == rb || sq_departure == rn || abs(e[sq_capture]) != abs(e[sq_departure])))
+          && (sq_departure == king_square[White] || sq_departure == king_square[Black] || abs(e[sq_capture]) != abs(e[sq_departure])))
       {
         return  true;
       }
@@ -593,7 +593,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       }
 
       if (!k_cap) {
-        /* We have to avoid captures by the rb because he
+        /* We have to avoid captures by the king_square[White] because he
          * wouldn't be reborn! This might also be placed in
          * the function genrb(), but here, it works for all
          * royal pieces.
@@ -603,8 +603,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         /* capturing kamikaze pieces without circe condition are possible now */
         if (TSTFLAG(spec[sq_departure], Kamikaze)
             &&  ((traitnbply == White)
-                 ? ((sq_departure == rb) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
-                 : ((sq_departure == rn) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
+                 ? ((sq_departure == king_square[White]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)))
+                 : ((sq_departure == king_square[Black]) && (!anycirce ||  (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide)))))
         {
           return true;
         }
@@ -612,16 +612,16 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         if ((CondFlag[vogt]
              || CondFlag[antikings])
             && ((traitnbply == Black)
-                ? ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide))
-                : ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+                ? ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide))
+                : ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
         {
           return true;
         }
 
         if (SATCheck &&
             ((traitnbply == Black) ?
-             ((sq_capture == rb) && (!rex_circe || e[(*circerenai)(nbply, e[rb], spec[rb], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
-             ((sq_capture == rn) && (!rex_circe || e[(*circerenai)(nbply, e[rn], spec[rn], sq_capture, sq_departure, sq_arrival, White)] != vide))))
+             ((sq_capture == king_square[White]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[White]], spec[king_square[White]], sq_capture, sq_departure, sq_arrival, Black)] != vide)) :
+             ((sq_capture == king_square[Black]) && (!rex_circe || e[(*circerenai)(nbply, e[king_square[Black]], spec[king_square[Black]], sq_capture, sq_departure, sq_arrival, White)] != vide))))
           return true;
 
         if (anyanticirce
@@ -646,7 +646,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
      *  needed for generation like follow my leader,
      * maximummer.....
      */
-    if (!k_cap && traitnbply == Black ? flagblackmummer : flagwhitemummer) {
+    if (!k_cap && flagmummer[traitnbply])
+    {
       boolean       flag= true;
       numecoup      test;
       boolean is_new_longest_move;
@@ -772,9 +773,9 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
          * TODO can we optimise like this when we are not generating
          * goal reaching moves?
          */
-        if (rb==rn)
+        if (king_square[White]==king_square[Black])
         {
-          if (rb==sq_departure)
+          if (king_square[White]==sq_departure)
           {
             if (e[sq_capture]==vide)
               return true;
@@ -2993,10 +2994,10 @@ void genrb_cast(void) {
         numecoup sic_nbcou= nbcou;
 
         /* temporarily deactivate maximummer etc. */
-        boolean sic_flagwhitemummer = flagwhitemummer;
-        flagwhitemummer = false;
+        boolean const sic_flagmummer = flagmummer[White];
+        flagmummer[White] = false;
         empile(square_e1,square_f1,square_f1);
-        flagwhitemummer = sic_flagwhitemummer;
+        flagmummer[White] = sic_flagmummer;
         if (nbcou>sic_nbcou)
         {
           boolean ok= jouecoup(nbply,first_play) && !echecc(nbply,White);
@@ -3009,15 +3010,15 @@ void genrb_cast(void) {
       {
         e[square_e1]= vide;
         e[square_f1]= roib;
-        if (rb!=initsquare)
-          rb= square_f1;
+        if (king_square[White]!=initsquare)
+          king_square[White]= square_f1;
 
         is_castling_possible= !echecc(nbply,White);
 
         e[square_e1]= roib;
         e[square_f1]= vide;
-        if (rb!=initsquare)
-          rb= square_e1;
+        if (king_square[White]!=initsquare)
+          king_square[White]= square_e1;
 
         if (is_castling_possible)
           empile(square_e1,square_g1,kingside_castling);
@@ -3036,10 +3037,10 @@ void genrb_cast(void) {
         numecoup sic_nbcou= nbcou;
 
         /* temporarily deactivate maximummer etc. */
-        boolean sic_flagwhitemummer = flagwhitemummer;
-        flagwhitemummer = false;
+        boolean const sic_flagmummer = flagmummer[White];
+        flagmummer[White] = false;
         empile(square_e1,square_d1,square_d1);
-        flagwhitemummer = sic_flagwhitemummer;
+        flagmummer[White] = sic_flagmummer;
         if (nbcou>sic_nbcou)
         {
           boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,White));
@@ -3052,15 +3053,15 @@ void genrb_cast(void) {
       {
         e[square_e1]= vide;
         e[square_d1]= roib;
-        if (rb!=initsquare)
-          rb= square_d1;
+        if (king_square[White]!=initsquare)
+          king_square[White]= square_d1;
 
         is_castling_possible= !echecc(nbply,White);
 
         e[square_e1]= roib;
         e[square_d1]= vide;
-        if (rb!=initsquare)
-          rb= square_e1;
+        if (king_square[White]!=initsquare)
+          king_square[White]= square_e1;
 
         if (is_castling_possible)
           empile(square_e1,square_c1,queenside_castling);
@@ -3107,14 +3108,14 @@ void genrb(square sq_departure)
 
     if (flag && nbpiece[orphann]>0)
     {
-      piece king= e[rb];
-      e[rb]= dummyb;
+      piece king= e[king_square[White]];
+      e[king_square[White]]= dummyb;
       if (!echecc(nbply,White)) {
         /* white king checked only by an orphan
         ** empowered by the king */
         flag= false;
       }
-      e[rb]= king;
+      e[king_square[White]]= king;
     }
 
 
@@ -3169,8 +3170,8 @@ void genrb(square sq_departure)
           boolean checked;
           e[sq_departure]= vide;
           e[sq_passed]= roib;
-          if (rb!=initsquare)
-            rb= sq_passed;
+          if (king_square[White]!=initsquare)
+            king_square[White]= sq_passed;
           checked = echecc(nbply,White);
           if (!checked) {
             empile(sq_departure, sq_arrival, maxsquare+sq_castler);
@@ -3182,8 +3183,8 @@ void genrb(square sq_departure)
           }
           e[sq_departure]= roib;
           e[sq_passed]= vide;
-          if (rb!=initsquare)
-            rb= sq_departure;
+          if (king_square[White]!=initsquare)
+            king_square[White]= sq_departure;
         }
       }
     }
@@ -3301,7 +3302,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       gen_wh_piece_aux(sq_departure,p);
 
       /* Kings normally don't move from their rebirth-square */
-      if (p == e[rb] && !rex_phan)
+      if (p == e[king_square[White]] && !rex_phan)
       {
         TraceFunctionExit(__func__);
         TraceFunctionResultEnd();
@@ -3394,7 +3395,7 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   else
     gen_wh_piece_aux(sq_departure,p);
 
-  if (CondFlag[messigny] && !(rb==sq_departure && rex_mess_ex))
+  if (CondFlag[messigny] && !(king_square[White]==sq_departure && rex_mess_ex))
   {
     square const *bnp;
     for (bnp= boardnum; *bnp; bnp++)

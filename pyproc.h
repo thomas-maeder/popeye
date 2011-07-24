@@ -426,7 +426,7 @@ square renplus(ply ply_id, piece p, Flags pspec, square j, square i, square ia, 
 
 void transformPosition(SquareTransformation transformation);
 void genrb_cast(void);
-void genrn_cast(void);
+void genrn_cast(Side side);
 
 boolean woohefflibre(square a, square b);
 boolean eval_wooheff(square departure, square arrival, square capture);

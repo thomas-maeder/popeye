@@ -85,12 +85,10 @@ EXTERN boolean flag_regression;
 
 EXTERN char versionString[100];
 
-EXTERN  boolean         flagpassive, flagcapture,
-			flagactive,
-			flagwhitemummer,
-			flagblackmummer;
+EXTERN  boolean         flagpassive, flagcapture, flagactive;
+EXTERN boolean flagmummer[nr_sides];
 
-EXTERN square rb, rn;
+EXTERN square king_square[nr_sides];
 EXTERN square bl_royal_sq, wh_royal_sq;
 
 EXTERN echiquier e, e_ubi, e_ubi_mad;

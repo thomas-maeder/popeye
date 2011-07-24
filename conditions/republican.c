@@ -29,43 +29,43 @@ static void find_mate_square(Side camp)
 
   if (camp == White)
   {
-    rn = ++super[nbply];
+    king_square[Black] = ++super[nbply];
     nbpiece[roin]++;
-    while (rn<=square_h8)
+    while (king_square[Black]<=square_h8)
     {
-      if (e[rn]==vide)
+      if (e[king_square[Black]]==vide)
       {
-        e[rn]= roin;
+        e[king_square[Black]]= roin;
         if (slice_has_solution(slices[temporary_hack_mate_tester[Black]].u.fork.fork)==has_solution)
           return;
-        e[rn]= vide;
+        e[king_square[Black]]= vide;
       }
 
-      rn = ++super[nbply];
+      king_square[Black] = ++super[nbply];
     }
 
     nbpiece[roin]--;
-    rn = initsquare;
+    king_square[Black] = initsquare;
   }
   else
   {
-    rb = ++super[nbply];
+    king_square[White] = ++super[nbply];
     nbpiece[roib]++;
-    while (rb<=square_h8)
+    while (king_square[White]<=square_h8)
     {
-      if (e[rb]==vide)
+      if (e[king_square[White]]==vide)
       {
-        e[rb]= roib;
+        e[king_square[White]]= roib;
         if (slice_has_solution(slices[temporary_hack_mate_tester[White]].u.fork.fork)==has_solution)
           return;
-        e[rb]= vide;
+        e[king_square[White]]= vide;
       }
 
-      rb = ++super[nbply];
+      king_square[White] = ++super[nbply];
     }
 
     nbpiece[roib]--;
-    rb = initsquare;
+    king_square[White] = initsquare;
   }
 }
 
@@ -142,14 +142,14 @@ void republican_place_king(joue_type jt, Side moving, ply ply_id)
     {
       if (moving==White)
       {
-        rn = republican_king_placement[ply_id];
-        e[rn] = roin;
+        king_square[Black] = republican_king_placement[ply_id];
+        e[king_square[Black]] = roin;
         nbpiece[roin]++;
       }
       else
       {
-        rb = republican_king_placement[ply_id];
-        e[rb] = roib;
+        king_square[White] = republican_king_placement[ply_id];
+        e[king_square[White]] = roib;
         nbpiece[roib]++;
       }
     }
@@ -190,14 +190,14 @@ void republican_unplace_king(void)
   if (sq!=initsquare)
   {
     e[sq] = vide;
-    if (sq==rn)
+    if (sq==king_square[Black])
     {
-      rn = initsquare;
+      king_square[Black] = initsquare;
       nbpiece[roin]--;
     }
-    if (sq==rb)
+    if (sq==king_square[White])
     {
-      rb = initsquare;
+      king_square[White] = initsquare;
       nbpiece[roib]--;
     }
 

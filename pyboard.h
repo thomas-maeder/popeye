@@ -129,6 +129,18 @@ enum
   square_h8
 };
 
+enum
+{
+  row_a = square_a1-square_a1,
+  row_b = square_b1-square_a1,
+  row_c = square_c1-square_a1,
+  row_d = square_d1-square_a1,
+  row_e = square_e1-square_a1,
+  row_f = square_f1-square_a1,
+  row_g = square_g1-square_a1,
+  row_h = square_h1-square_a1,
+};
+
 typedef enum
 {
   rot90,        /* 0 */

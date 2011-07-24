@@ -32,13 +32,13 @@ void generate_king_moves(Side side)
 {
   if (side==White)
   {
-    if (rb!=initsquare)
-      gen_wh_piece(rb,abs(e[rb]));
+    if (king_square[White]!=initsquare)
+      gen_wh_piece(king_square[White],abs(e[king_square[White]]));
   }
   else
   {
-    if (rn!=initsquare)
-      gen_bl_piece(rn,-abs(e[rn]));
+    if (king_square[Black]!=initsquare)
+      gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
   }
 }
 

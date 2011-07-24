@@ -51,7 +51,7 @@ static boolean advance_departure_square(Side side,
         TraceEnumerator(Side,side,"\n");
         if (side==White)
         {
-          if (p>obs && sq_departure!=rb)
+          if (p>obs && sq_departure!=king_square[White])
           {
             gen_wh_piece(sq_departure,p);
             return true;
@@ -59,7 +59,7 @@ static boolean advance_departure_square(Side side,
         }
         else
         {
-          if (p<vide && sq_departure!=rn)
+          if (p<vide && sq_departure!=king_square[Black])
           {
             gen_bl_piece(sq_departure,p);
             return true;

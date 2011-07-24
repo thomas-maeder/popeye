@@ -117,10 +117,10 @@ boolean legalsquare(square sq_departure, square sq_arrival, square sq_capture) {
     }
   }
   if (anygeneva) {
-    if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != rb)))
+    if ((e[sq_capture] <= roin) && (rex_geneva || (sq_departure != king_square[White])))
       if (e[(*genevarenai)(nbply,e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,Black)] != vide)
         return(false);
-    if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != rn)))
+    if ((e[sq_capture] >= roib) && (rex_geneva || (sq_departure != king_square[Black])))
       if (e[(*genevarenai)(nbply,e[sq_departure],spec[sq_departure],sq_departure,sq_departure,sq_arrival,White)] != vide)
         return(false);
   }
@@ -1260,8 +1260,8 @@ boolean pbcheck(square  sq_king,
 {
   if (anymars) {
     boolean anymarscheck=
-        (p==e[rb] && e[sq_king+dir_down]==p)
-        || (p==e[rn] && e[sq_king+dir_up]==p);
+        (p==e[king_square[White]] && e[sq_king+dir_down]==p)
+        || (p==e[king_square[Black]] && e[sq_king+dir_up]==p);
     if (!CondFlag[phantom] || anymarscheck)
       return anymarscheck;
   }
@@ -1281,9 +1281,9 @@ boolean pbcheck(square  sq_king,
         return true;
 
       if (ep[nbply]!=initsquare
-          && RB_[nbply]!=rb
-          && (rb==ep[nbply]+dir_up+dir_left
-              || rb==ep[nbply]+dir_up+dir_right)) {
+          && RB_[nbply]!=king_square[White]
+          && (king_square[White]==ep[nbply]+dir_up+dir_left
+              || king_square[White]==ep[nbply]+dir_up+dir_right)) {
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_up;
         if (e[sq_departure]==pbn
@@ -1308,9 +1308,9 @@ boolean pbcheck(square  sq_king,
         return true;
 
       if (ep[nbply]!=initsquare
-          && RN_[nbply]!=rn
-          && (rn==ep[nbply]+dir_down+dir_right
-              || rn==ep[nbply]+dir_down+dir_left)) {
+          && RN_[nbply]!=king_square[Black]
+          && (king_square[Black]==ep[nbply]+dir_down+dir_right
+              || king_square[Black]==ep[nbply]+dir_down+dir_left)) {
         /* ep captures of royal pawns */
         sq_departure= ep[nbply]+dir_down;
         if (e[sq_departure] == pbb
@@ -1956,10 +1956,10 @@ boolean pioncheck(square sq_king,
 
   if (anymars) {
     boolean anymarscheck=
-        (p==e[rb]
+        (p==e[king_square[White]]
          && (e[sq_king+dir_down+dir_right]==p
              || e[sq_king+dir_down+dir_left]==p))
-        || (p==e[rn]
+        || (p==e[king_square[Black]]
             && (e[sq_king+dir_up+dir_left]==p
                 || e[sq_king+dir_up+dir_right]==p));
     if (!CondFlag[phantom] || anymarscheck) {
@@ -2017,10 +2017,10 @@ boolean reversepcheck(square sq_king,
 {
   if (anymars) {
     boolean anymarscheck=
-        (p==e[rb]
+        (p==e[king_square[White]]
          && (e[sq_king+dir_down+dir_right]==p
              || e[sq_king+dir_down+dir_left]==p))
-        || (p==e[rn]
+        || (p==e[king_square[Black]]
             && (e[sq_king+dir_up+dir_right]==p
                 || e[sq_king+dir_up+dir_left]==p));
     if (!is_phantomchess || anymarscheck) {
@@ -2117,7 +2117,7 @@ boolean libre(square sq, boolean generating)
   TraceFunctionParamListEnd();
 
   if ((CondFlag[madras] || CondFlag[isardam])
-      && !rex_mad && (sq==rb || sq==rn))
+      && !rex_mad && (sq==king_square[White] || sq==king_square[Black]))
    ; /* nothing */
   else
   {
@@ -2254,7 +2254,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   evalfunction_t *evaluate;
 
   if (CondFlag[central]) {
-    if ( sq_departure == rb || sq_departure == rn) {
+    if ( sq_departure == king_square[White] || sq_departure == king_square[Black]) {
       return true;
     }
     nbpiece[p= e[sq_departure]]--;
@@ -2318,34 +2318,34 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   if (testenemyobs) {
     if (color(sq_departure)!=White)
     {
-      sq_arrival= rn;
-      rn= sq_departure;
+      sq_arrival= king_square[Black];
+      king_square[Black]= sq_departure;
       enemyobserveok= testenemyanti ^ rnechec(nbply,evaluate);
-      rn= sq_arrival;
+      king_square[Black]= sq_arrival;
     }
     else
     {
-      sq_arrival= rb;
-      rb= sq_departure;
+      sq_arrival= king_square[White];
+      king_square[White]= sq_departure;
       enemyobserveok= testenemyanti ^ rbechec(nbply,evaluate);
-      rb= sq_arrival;
+      king_square[White]= sq_arrival;
     }
   }
 
   if (testfriendobs) {
     if (color(sq_departure)==White)
     {
-      sq_arrival= rn;
-      rn= sq_departure;
+      sq_arrival= king_square[Black];
+      king_square[Black]= sq_departure;
       friendobserveok= testfriendanti ^ rnechec(nbply,evaluate);
-      rn= sq_arrival;
+      king_square[Black]= sq_arrival;
     }
     else
     {
-      sq_arrival= rb;
-      rb= sq_departure;
+      sq_arrival= king_square[White];
+      king_square[White]= sq_departure;
       friendobserveok= testfriendanti ^ rbechec(nbply,evaluate);
-      rb= sq_arrival;
+      king_square[White]= sq_arrival;
     }
   }
 
@@ -2371,8 +2371,8 @@ boolean eval_madrasi(square sq_departure, square sq_arrival, square sq_capture) 
 } /* eval_madrasi */
 
 boolean eval_shielded(square sq_departure, square sq_arrival, square sq_capture) {
-  if ((sq_departure==rn && sq_capture==rb)
-      || (sq_departure==rb && sq_capture==rn)) {
+  if ((sq_departure==king_square[Black] && sq_capture==king_square[White])
+      || (sq_departure==king_square[White] && sq_capture==king_square[Black])) {
     return !soutenu(sq_capture,sq_departure,sq_departure);  /* won't work for locust Ks etc.*/
   }
   else {
@@ -2634,13 +2634,13 @@ static Side guess_side_at_move(square sq_departure, square sq_capture)
      TLi
   */
   if (TSTFLAG(PieSpExFlags,Neutral)
-      && rb!=initsquare
-      && TSTFLAG(spec[rb],Neutral))
+      && king_square[White]!=initsquare
+      && TSTFLAG(spec[king_square[White]],Neutral))
     /* will this do for neutral Ks? */
     result = neutcoul;
-  else if (sq_capture==rn)
+  else if (sq_capture==king_square[Black])
     result = White;
-  else if (sq_capture==rb)
+  else if (sq_capture==king_square[White])
     result = Black;
   else
     result = e[sq_departure]<0 ? Black : White;
@@ -2816,7 +2816,7 @@ boolean woohefflibre(square to, square from)
 {
   piece   *pcheck, p;
 
-  if (rex_wooz_ex && (from == rb || from == rn)) {
+  if (rex_wooz_ex && (from == king_square[White] || from == king_square[Black])) {
     return true;
   }
 
@@ -3027,11 +3027,11 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if ((TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral))        /* will this do for neutral Ks? */
+  if ((TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral))        /* will this do for neutral Ks? */
     camp = neutcoul;
-  else if (sq_capture==rn)
+  else if (sq_capture==king_square[Black])
     camp = White;
-  else if (sq_capture==rb)
+  else if (sq_capture==king_square[White])
     camp = Black;
   else
     camp = e[sq_departure]<0 ? Black : White;
@@ -3055,17 +3055,17 @@ boolean observed(square on_this, square by_that) {
   fromspecificsquare= by_that;
   if (e[by_that] > vide)
   {
-    k= rn;
-    rn= on_this;
+    k= king_square[Black];
+    king_square[Black]= on_this;
     flag= rnechec(nbply,eval_fromspecificsquare);
-    rn= k;
+    king_square[Black]= k;
   }
   else
   {
-    k= rb;
-    rb= on_this;
+    k= king_square[White];
+    king_square[White]= on_this;
     flag= rbechec(nbply,eval_fromspecificsquare);
-    rb= k;
+    king_square[White]= k;
   }
   return flag;
 }
@@ -3075,7 +3075,7 @@ void change_observed(ply ply, square z, boolean push)
   square const *bnp;
 
   for (bnp= boardnum; *bnp; bnp++)
-    if (e[*bnp]!=vide && *bnp!=rn && *bnp!=rb && *bnp!=z
+    if (e[*bnp]!=vide && *bnp!=king_square[Black] && *bnp!=king_square[White] && *bnp!=z
         && observed(*bnp,z))
     {
       ChangeColour(*bnp);
