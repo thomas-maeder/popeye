@@ -23,50 +23,29 @@ static Goal republican_goal = { no_goal, initsquare };
 /* Find a square for the opposite king
  * @param camp side looking for a square for the opposite king
  */
-static void find_mate_square(Side camp)
+static void find_mate_square(Side side)
 {
+  Side const other_side = advers(side);
+  piece const king_type = other_side==Black ? roin : roib;
   assert(republican_goal.type==goal_mate);
 
-  if (camp == White)
+  king_square[other_side] = ++super[nbply];
+  ++nbpiece[king_type];
+  while (king_square[other_side]<=square_h8)
   {
-    king_square[Black] = ++super[nbply];
-    nbpiece[roin]++;
-    while (king_square[Black]<=square_h8)
+    if (e[king_square[other_side]]==vide)
     {
-      if (e[king_square[Black]]==vide)
-      {
-        e[king_square[Black]]= roin;
-        if (slice_has_solution(slices[temporary_hack_mate_tester[Black]].u.fork.fork)==has_solution)
-          return;
-        e[king_square[Black]]= vide;
-      }
-
-      king_square[Black] = ++super[nbply];
+      e[king_square[other_side]]= king_type;
+      if (slice_has_solution(slices[temporary_hack_mate_tester[other_side]].u.fork.fork)==has_solution)
+        return;
+      e[king_square[other_side]]= vide;
     }
 
-    nbpiece[roin]--;
-    king_square[Black] = initsquare;
+    king_square[other_side] = ++super[nbply];
   }
-  else
-  {
-    king_square[White] = ++super[nbply];
-    nbpiece[roib]++;
-    while (king_square[White]<=square_h8)
-    {
-      if (e[king_square[White]]==vide)
-      {
-        e[king_square[White]]= roib;
-        if (slice_has_solution(slices[temporary_hack_mate_tester[White]].u.fork.fork)==has_solution)
-          return;
-        e[king_square[White]]= vide;
-      }
 
-      king_square[White] = ++super[nbply];
-    }
-
-    nbpiece[roib]--;
-    king_square[White] = initsquare;
-  }
+  --nbpiece[king_type];
+  king_square[other_side] = initsquare;
 }
 
 /* Perform the necessary verification steps for solving a Republican
@@ -140,18 +119,11 @@ void republican_place_king(joue_type jt, Side moving, ply ply_id)
   {
     if (republican_king_placement[ply_id]!=initsquare)
     {
-      if (moving==White)
-      {
-        king_square[Black] = republican_king_placement[ply_id];
-        e[king_square[Black]] = roin;
-        nbpiece[roin]++;
-      }
-      else
-      {
-        king_square[White] = republican_king_placement[ply_id];
-        e[king_square[White]] = roib;
-        nbpiece[roib]++;
-      }
+      Side const not_moving = advers(moving);
+      piece const king_type = not_moving==White ? roib : roin;
+      king_square[not_moving] = republican_king_placement[ply_id];
+      e[king_square[not_moving]] = king_type;
+      ++nbpiece[king_type];
     }
   }
   else if (is_republican_suspended)

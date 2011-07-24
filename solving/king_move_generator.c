@@ -30,14 +30,11 @@ slice_index alloc_king_move_generator_slice(void)
  */
 void generate_king_moves(Side side)
 {
-  if (side==White)
+  if (king_square[side]!=initsquare)
   {
-    if (king_square[White]!=initsquare)
+    if (side==White)
       gen_wh_piece(king_square[White],abs(e[king_square[White]]));
-  }
-  else
-  {
-    if (king_square[Black]!=initsquare)
+    else
       gen_bl_piece(king_square[Black],-abs(e[king_square[Black]]));
   }
 }

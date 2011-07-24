@@ -70,7 +70,7 @@ static boolean are_there_too_many_flights(slice_index si)
 
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
-  save_rbn = fleeing==Black ? king_square[Black] : king_square[White];
+  save_rbn = king_square[fleeing];
   result = slice_has_solution(slices[si].u.fork.fork)==has_solution;
   save_rbn = initsquare;
 
@@ -198,14 +198,13 @@ stip_length_type flightsquares_counter_can_help(slice_index si,
 {
   unsigned int result = n+2;
   Side const fleeing = advers(slices[si].starter);
-  square const rbn = fleeing==Black ? king_square[Black] : king_square[White];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (save_rbn!=rbn)
+  if (save_rbn!=king_square[fleeing])
   {
     assert(number_flights_left>0);
     --number_flights_left;
