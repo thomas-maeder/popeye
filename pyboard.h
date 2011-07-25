@@ -131,14 +131,14 @@ enum
 
 enum
 {
-  row_a = square_a1-square_a1,
-  row_b = square_b1-square_a1,
-  row_c = square_c1-square_a1,
-  row_d = square_d1-square_a1,
-  row_e = square_e1-square_a1,
-  row_f = square_f1-square_a1,
-  row_g = square_g1-square_a1,
-  row_h = square_h1-square_a1,
+  file_a = square_a1-square_a1,
+  file_b = square_b1-square_a1,
+  file_c = square_c1-square_a1,
+  file_d = square_d1-square_a1,
+  file_e = square_e1-square_a1,
+  file_f = square_f1-square_a1,
+  file_g = square_g1-square_a1,
+  file_h = square_h1-square_a1,
 };
 
 typedef enum

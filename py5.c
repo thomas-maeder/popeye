@@ -699,7 +699,13 @@ boolean is_reversepawn(piece p)
   }
 }
 
-static boolean are_squares_free(square from, square to, int direction)
+/* Determine whether a sequence of squares are empty
+ * @param from start of sequence
+ * @param to end of sequence
+ * @param direction delta to (repeatedly) apply to reach to from from
+ * @return true if the squares between (and not including) from and to are empty
+ */
+static boolean are_squares_empty(square from, square to, int direction)
 {
   square s;
   for (s = from+direction; s!=to; s += direction)
@@ -715,18 +721,18 @@ static boolean is_intermediate_king_move_legal(Side side, square from, square to
 
   if (complex_castling_through_flag)
   {
-    numecoup sic_nbcou= nbcou;
+    numecoup const sic_nbcou = nbcou;
 
     /* temporarily deactivate maximummer etc. */
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
     empile(from,to,to);
-    flagmummer[side] = save_flagmummer;
     if (nbcou>sic_nbcou)
     {
       result = jouecoup(nbply,first_play) && !echecc(nbply,side);
       repcoup();
     }
+    flagmummer[side] = save_flagmummer;
   }
   else
   {
@@ -754,7 +760,7 @@ void generate_castling(Side side)
   */
 
   square const square_a = side==White ? square_a1 : square_a8;
-  square const square_e = square_a+row_e;
+  square const square_e = square_a+file_e;
   piece const sides_king = side==White ? roib : roin;
 
   if (dont_generate_castling)
@@ -765,24 +771,24 @@ void generate_castling(Side side)
       /* then the king on e8 and at least one rook can castle !! */
       && !echecc(nbply,side))
   {
-    square const square_c = square_a+row_c;
-    square const square_d = square_a+row_d;
-    square const square_f = square_a+row_f;
-    square const square_g = square_a+row_g;
-    square const square_h = square_a+row_h;
+    square const square_c = square_a+file_c;
+    square const square_d = square_a+file_d;
+    square const square_f = square_a+file_f;
+    square const square_g = square_a+file_g;
+    square const square_h = square_a+file_h;
     piece const sides_rook = side==White ? tb : tn;
 
     /* 0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
         && e[square_h]==sides_rook
-        && are_squares_free(square_e,square_h,dir_right)
+        && are_squares_empty(square_e,square_h,dir_right)
         && is_intermediate_king_move_legal(side,square_e,square_f))
       empile(square_e,square_g,kingside_castling);
 
     /* 0-0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
         && e[square_a]==sides_rook
-        && are_squares_free(square_e,square_a,dir_left)
+        && are_squares_empty(square_e,square_a,dir_left)
         && is_intermediate_king_move_legal(side,square_e,square_d))
       empile(square_e,square_c,queenside_castling);
   }
