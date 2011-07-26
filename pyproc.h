@@ -426,6 +426,7 @@ square renplus(ply ply_id, piece p, Flags pspec, square j, square i, square ia, 
 
 void transformPosition(SquareTransformation transformation);
 void generate_castling(Side side);
+boolean is_intermediate_king_move_legal(Side side, square from, square to);
 
 boolean woohefflibre(square a, square b);
 boolean eval_wooheff(square departure, square arrival, square capture);

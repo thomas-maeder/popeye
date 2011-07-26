@@ -3050,40 +3050,15 @@ void genrb(square sq_departure)
     numvec k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)
     {
-      square sq_castler;
-      piece p;
       square const sq_passed = sq_departure+vec[k];
       square const sq_arrival = sq_passed+vec[k];
+      square sq_castler;
+      piece p;
 
       finligne(sq_departure,vec[k],p,sq_castler);
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib)
-      {
-        if (complex_castling_through_flag)  /* V3.80  SE */
-        {
-          numecoup const sic_nbcou = nbcou;
-          empile (sq_departure,sq_passed,sq_passed);
-          if (nbcou>sic_nbcou)
-          {
-            boolean const ok = jouecoup(nbply,first_play) && !echecc(nbply,side);
-            repcoup();
-            if (ok)
-              empile(sq_departure,sq_arrival,maxsquare+sq_castler);
-          }
-        }
-        else
-        {
-          e[sq_departure] = vide;
-          e[sq_passed] = roib;
-          if (king_square[side]!=initsquare)
-            king_square[side] = sq_passed;
-          if (!echecc(nbply,side))
-            empile(sq_departure,sq_arrival,maxsquare+sq_castler);
-          e[sq_departure] = roib;
-          e[sq_passed] = vide;
-          if (king_square[side]!=initsquare)
-            king_square[side] = sq_departure;
-        }
-      }
+      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
+          && is_intermediate_king_move_legal(side,sq_departure,sq_passed))
+        empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
 }
