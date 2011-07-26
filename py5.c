@@ -796,63 +796,66 @@ void generate_castling(Side side)
 
 void genrn(square sq_departure)
 {
-  numvec k;
+  Side const side = Black;
   boolean flag = false;  /* K im Schach ? */
   numecoup const save_nbcou = nbcou;
 
-  if (calc_blrefl_king && !calctransmute)
+  if (calc_refl_king[side] && !calctransmute)
   {
     /* K im Schach zieht auch */
-    piece *ptrans;
-
-    calctransmute= true;
-    if (!blacknormaltranspieces && echecc(nbply,Black))
+    calctransmute = true;
+    if (!normaltranspieces[side] && echecc(nbply,side))
     {
-      for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
+      piece *ptrans;
+      for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
+      {
         flag = true;
-        current_trans_gen=-*ptrans;
-        gen_bl_piece(sq_departure, -*ptrans);
-        current_trans_gen=vide;
+        current_trans_gen = -*ptrans;
+        gen_bl_piece(sq_departure,-*ptrans);
+        current_trans_gen = vide;
       }
     }
-    else if (blacknormaltranspieces)
+    else if (normaltranspieces[side])
     {
-      for (ptrans= blacktransmpieces; *ptrans; ptrans++) {
+      piece const *ptrans;
+      for (ptrans = transmpieces[side]; *ptrans!=vide; ++ptrans)
         if (nbpiece[*ptrans]>0
             && (*checkfunctions[*ptrans])(sq_departure,*ptrans,eval_black))
         {
           flag = true;
-          current_trans_gen=-*ptrans;
-          gen_bl_piece(sq_departure, -*ptrans);
-          current_trans_gen=vide;
+          current_trans_gen = -*ptrans;
+          gen_bl_piece(sq_departure,-*ptrans);
+          current_trans_gen = vide;
         }
-      }
     }
-    calctransmute= false;
+    calctransmute = false;
 
-    if (flag && nbpiece[orphanb]>0) {
-      piece king= e[king_square[Black]];
-      e[king_square[Black]]= dummyn;
-      if (!echecc(nbply,Black)) {
-        /* black king checked only by an orphan
-        ** empowered by the king */
-        flag= false;
-      }
-      e[king_square[Black]]= king;
+    if (flag && nbpiece[orphanb]>0)
+    {
+      piece const king = e[king_square[side]];
+      e[king_square[side]] = dummyn;
+      if (!echecc(nbply,side))
+        /* side's king checked only by an orphan empowered by the king */
+        flag = false;
+      e[king_square[side]] = king;
     }
 
     /* K im Schach zieht nur */
-    if (calc_bltrans_king && flag)
+    if (calc_trans_king[side] && flag)
       return;
   }
 
   if (CondFlag[sting])
-    gerhop(sq_departure,vec_queen_start,vec_queen_end,Black);
+    gerhop(sq_departure,vec_queen_start,vec_queen_end,side);
 
-  for (k= vec_queen_end; k>=vec_queen_start; k--) {
-    square sq_arrival= sq_departure+vec[k];
-    if (e[sq_arrival]==vide || e[sq_arrival]>=roib)
-      empile(sq_departure,sq_arrival,sq_arrival);
+  {
+    numvec k;
+    for (k = vec_queen_end; k>=vec_queen_start; --k)
+    {
+      square const sq_arrival = sq_departure+vec[k];
+      if (e[sq_arrival]==vide || e[sq_arrival]>=roib)
+        empile(sq_departure,sq_arrival,sq_arrival);
+    }
   }
 
   if (flag)
@@ -860,50 +863,45 @@ void genrn(square sq_departure)
 
   /* Now we test castling */
   if (castling_supported)
-    generate_castling(Black);
+    generate_castling(side);
 
-  if (CondFlag[castlingchess] && !echecc(nbply,Black)) {
-    for (k= vec_queen_end; k>= vec_queen_start; k--) {
-      square sq_passed, sq_castler, sq_arrival;
+  if (CondFlag[castlingchess] && !echecc(nbply,side))
+  {
+    numvec k;
+    for (k = vec_queen_end; k>= vec_queen_start; --k)
+    {
+      square sq_castler;
       piece p;
-      sq_passed= sq_departure + vec[k];
-      sq_arrival= sq_passed + vec[k];
+      square const sq_passed = sq_departure+vec[k];
+      square const sq_arrival = sq_passed+vec[k];
 
-      finligne(sq_departure,vec[k], p, sq_castler);
-      if (sq_castler != sq_passed && sq_castler != sq_arrival && abs(p) >= roib)
+      finligne(sq_departure,vec[k],p,sq_castler);
+      if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib)
       {
         if (complex_castling_through_flag)  /* V3.80  SE */
         {
-          numecoup sic_nbcou= nbcou;
-          empile (sq_departure, sq_passed, sq_passed);
-          if (nbcou > sic_nbcou)
+          numecoup const sic_nbcou = nbcou;
+          empile (sq_departure,sq_passed,sq_passed);
+          if (nbcou>sic_nbcou)
           {
-            boolean ok= (jouecoup(nbply,first_play) && !echecc(nbply,Black));
+            boolean const ok = jouecoup(nbply,first_play) && !echecc(nbply,side);
             repcoup();
             if (ok)
-              empile(sq_departure, sq_arrival, maxsquare+sq_castler);
+              empile(sq_departure,sq_arrival,maxsquare+sq_castler);
           }
         }
         else
         {
-          boolean checked;
-          e[sq_departure]= vide;
-          e[sq_passed]= roin;
-          if (king_square[Black]!=initsquare)
-            king_square[Black]= sq_passed;
-          checked = echecc(nbply,Black);
-          if (!checked) {
-            empile(sq_departure, sq_arrival, maxsquare+sq_castler);
-            if (0) {
-              char buf[100];
-              sprintf(buf, "%i %i %i \n", sq_departure, sq_arrival, sq_castler);
-              StdString(buf);
-            }
-          }
-          e[sq_departure]= roin;
-          e[sq_passed]= vide;
-          if (king_square[Black]!=initsquare)
-            king_square[Black]= sq_departure;
+          e[sq_departure] = vide;
+          e[sq_passed] = roin;
+          if (king_square[side]!=initsquare)
+            king_square[side]= sq_passed;
+          if (!echecc(nbply,side))
+            empile(sq_departure,sq_arrival,maxsquare+sq_castler);
+          e[sq_departure] = roin;
+          e[sq_passed] = vide;
+          if (king_square[side]!=initsquare)
+            king_square[side]= sq_departure;
         }
       }
     }

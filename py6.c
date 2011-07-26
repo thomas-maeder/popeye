@@ -1070,10 +1070,10 @@ static boolean verify_position(slice_index si)
   if (anymars||anyantimars) {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
-    if (calc_whtrans_king
-        || calc_whrefl_king
-        || calc_bltrans_king
-        || calc_blrefl_king
+    if (calc_trans_king[White]
+        || calc_refl_king[White]
+        || calc_trans_king[Black]
+        || calc_refl_king[Black]
         || CondFlag[bicolores]
         || CondFlag[sting]
         || flagsimplehoppers
@@ -1345,7 +1345,7 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(PieSpExFlags,HalfNeutral)
       || exist[Orphan]
       || exist[Friend]
-      || calc_whrefl_king || calc_blrefl_king
+      || calc_refl_king[White] || calc_refl_king[Black]
       || CondFlag[phantom]
       || CondFlag[extinction] /* TODO why? */
       || CondFlag[amu]
@@ -1558,10 +1558,10 @@ static boolean verify_position(slice_index si)
     for (p = King; p<PieceCount; ++p) {
       if (exist[p] && p!=Dummy && p!=Hamster)
       {
-        if (whitenormaltranspieces)
-          whitetransmpieces[tp] = p;
-        if (blacknormaltranspieces)
-          blacktransmpieces[tp] = p;
+        if (normaltranspieces[White])
+          transmpieces[White][tp] = p;
+        if (normaltranspieces[Black])
+          transmpieces[Black][tp] = p;
         tp++;
         if (p!=Orphan
             && p!=Friend
@@ -1571,22 +1571,22 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (whitenormaltranspieces)
-    whitetransmpieces[tp] = vide;
-  if (blacknormaltranspieces)
-    blacktransmpieces[tp] = vide;
+  if (normaltranspieces[White])
+    transmpieces[White][tp] = vide;
+  if (normaltranspieces[Black])
+    transmpieces[Black][tp] = vide;
 
-  if (calc_whrefl_king || calc_blrefl_king)
+  if (calc_refl_king[White] || calc_refl_king[Black])
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
   orphanpieces[op] = vide;
 
-  if ((calc_whrefl_king
+  if ((calc_refl_king[White]
        && king_square[White] != initsquare
        && (e[king_square[White]] != roib || CondFlag[sting]))
-      || (calc_blrefl_king
+      || (calc_refl_king[Black]
           && king_square[Black] != initsquare
           && (e[king_square[Black]] != roin || CondFlag[sting])))
   {
@@ -1596,8 +1596,8 @@ static boolean verify_position(slice_index si)
 
   if ((exist[Orphan]
        || exist[Friend]
-       || calc_whrefl_king
-       || calc_blrefl_king)
+       || calc_refl_king[White]
+       || calc_refl_king[Black])
       && TSTFLAG(PieSpExFlags, Neutral))
   {
     VerifieMsg(NeutralAndOrphanReflKing);

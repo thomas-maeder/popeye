@@ -452,9 +452,9 @@ static void WriteConditions(int alignment)
 
     if ( cond == whvault_king || cond == vault_king)
     {
-        if (whitetransmpieces[0] != equib || whitetransmpieces[1] != vide)
-          WritePieces(whitetransmpieces, CondLine);
-        if (calc_whtrans_king)
+        if (transmpieces[White][0] != equib || transmpieces[White][1] != vide)
+          WritePieces(transmpieces[White], CondLine);
+        if (calc_trans_king[White])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -465,9 +465,9 @@ static void WriteConditions(int alignment)
 
     if ( cond == blvault_king )
     {
-        if (blacktransmpieces[0] != equib || blacktransmpieces[1] != vide)
-          WritePieces(blacktransmpieces, CondLine);
-        if (calc_bltrans_king)
+        if (transmpieces[Black][0] != equib || transmpieces[Black][1] != vide)
+          WritePieces(transmpieces[Black], CondLine);
+        if (calc_trans_king[Black])
         {
           char LocalBuf[4];
           sprintf(LocalBuf, " -%c",
@@ -4617,9 +4617,9 @@ static char *ParseVaultingPieces(Flags fl)
       {
         case Transmuting:
           if (TSTFLAG(fl, White))
-            calc_whtrans_king= true;
+            calc_trans_king[White]= true;
           if (TSTFLAG(fl, Black))
-            calc_bltrans_king= true;
+            calc_trans_king[Black]= true;
           break;
 
         default:
@@ -4629,17 +4629,17 @@ static char *ParseVaultingPieces(Flags fl)
     if (gotpiece)
     {
       if (TSTFLAG(fl, White)) {
-        whitetransmpieces[tp] = p;
+        transmpieces[White][tp] = p;
       }
       if (TSTFLAG(fl, Black)) {
-        blacktransmpieces[tp] = p;
+        transmpieces[Black][tp] = p;
       }
       tp++;
       if (TSTFLAG(fl, White)) {
-        whitetransmpieces[tp] = vide;
+        transmpieces[White][tp] = vide;
       }
       if (TSTFLAG(fl, Black)) {
-        blacktransmpieces[tp] = vide;
+        transmpieces[Black][tp] = vide;
       }
     }
   }
@@ -4860,57 +4860,57 @@ static char *ParseCond(void) {
         flag_synchron= true;
         break;
       case trans_king:
-        calc_whtrans_king= true;
-        calc_bltrans_king= true;
-        calc_whrefl_king= true;
-        calc_blrefl_king= true;
+        calc_trans_king[White]= true;
+        calc_trans_king[Black]= true;
+        calc_refl_king[White]= true;
+        calc_refl_king[Black]= true;
         break;
       case refl_king:
-        calc_whrefl_king= true;
-        calc_blrefl_king= true;
+        calc_refl_king[White]= true;
+        calc_refl_king[Black]= true;
         break;
       case whrefl_king:
-        calc_whrefl_king= true;
+        calc_refl_king[White]= true;
         break;
       case blrefl_king:
-        calc_blrefl_king= true;
+        calc_refl_king[Black]= true;
         break;
       case whtrans_king:
-        calc_whtrans_king= true;
-        calc_whrefl_king= true;
+        calc_trans_king[White]= true;
+        calc_refl_king[White]= true;
         break;
       case bltrans_king:
-        calc_bltrans_king= true;
-        calc_blrefl_king= true;
+        calc_trans_king[Black]= true;
+        calc_refl_king[Black]= true;
         break;
       case whvault_king:
-        calc_whrefl_king= true;
-        whitenormaltranspieces = false;
-        whitetransmpieces[0]= equib;
-        whitetransmpieces[1]= vide;
+        calc_refl_king[White]= true;
+        normaltranspieces[White] = false;
+        transmpieces[White][0]= equib;
+        transmpieces[White][1]= vide;
         break;
       case blvault_king:
-        calc_blrefl_king= true;
-        blacknormaltranspieces = false;
-        blacktransmpieces[0]= equib;
-        blacktransmpieces[1]= vide;
+        calc_refl_king[Black]= true;
+        normaltranspieces[Black] = false;
+        transmpieces[Black][0]= equib;
+        transmpieces[Black][1]= vide;
       case vault_king:
-        calc_whrefl_king= true;
-        calc_blrefl_king= true;
-        whitenormaltranspieces = false;
-        blacknormaltranspieces = false;
-        whitetransmpieces[0]= equib;
-        blacktransmpieces[0]= equib;
-        whitetransmpieces[1]= vide;
-        blacktransmpieces[1]= vide;
+        calc_refl_king[White]= true;
+        calc_refl_king[Black]= true;
+        normaltranspieces[White] = false;
+        normaltranspieces[Black] = false;
+        transmpieces[White][0]= equib;
+        transmpieces[Black][0]= equib;
+        transmpieces[White][1]= vide;
+        transmpieces[Black][1]= vide;
         break;
       case whsupertrans_king:
-        calc_whrefl_king= true;
+        calc_refl_king[White]= true;
         flagmummer[White] = true;
         break;
       case blsupertrans_king:
-        calc_bltrans_king= true;
-        calc_blrefl_king= true;
+        calc_trans_king[Black]= true;
+        calc_refl_king[Black]= true;
         flagmummer[Black] = true;
         break;
       case antieinstein:
@@ -5396,16 +5396,16 @@ static char *ParseCond(void) {
         tok = ParseRex(&rex_geneva, rexincl);
         break;
       case whvault_king:
-        whitenormaltranspieces = false;
+        normaltranspieces[White] = false;
         tok = ParseVaultingPieces(BIT(White));
         break;
       case blvault_king:
-        blacknormaltranspieces = false;
+        normaltranspieces[Black] = false;
         tok = ParseVaultingPieces(BIT(Black));
         break;
       case vault_king:
-        whitenormaltranspieces = false;
-        blacknormaltranspieces = false;
+        normaltranspieces[White] = false;
+        normaltranspieces[Black] = false;
         tok = ParseVaultingPieces(BIT(White) | BIT(Black));
         break;
       case gridchess:

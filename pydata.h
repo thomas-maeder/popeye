@@ -366,10 +366,8 @@ EXTERN  piece* 			prompieces[maxply+1];
 EXTERN  boolean         footballpromlimited;
 EXTERN  piece           checkpieces[derbla - leob + 1]; /* only fairies ! */
 
-EXTERN  piece           whitetransmpieces[derbla],
-                        blacktransmpieces[derbla];
-EXTERN  boolean         whitenormaltranspieces,
-                        blacknormaltranspieces;
+EXTERN  piece           transmpieces[nr_sides][derbla];
+EXTERN  boolean         normaltranspieces[nr_sides];
 EXTERN  piece           orphanpieces[derbla + 1];
 
 EXTERN boolean isBoardReflected;
@@ -416,8 +414,8 @@ EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
-EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
-                        calc_whrefl_king, calc_blrefl_king;
+EXTERN boolean          calc_trans_king[nr_sides];
+EXTERN boolean          calc_refl_king[nr_sides];
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
 EXTERN square           rochade_sq[toppile + 1];

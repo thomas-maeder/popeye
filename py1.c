@@ -232,14 +232,14 @@ void InitCond(void) {
   BGL_whiteinfinity= BGL_blackinfinity= true;
   BGL_global= false;
 
-  calc_whtrans_king = false;
-  calc_whtrans_king = false;
+  calc_trans_king[White] = false;
+  calc_trans_king[White] = false;
 
-  calc_whrefl_king = false;
-  calc_blrefl_king = false;
+  calc_refl_king[White] = false;
+  calc_refl_king[Black] = false;
 
-  whitenormaltranspieces = true;
-  blacknormaltranspieces = true;
+  normaltranspieces[White] = true;
+  normaltranspieces[Black] = true;
 
   obsgenre = false;
 } /* InitCond */
