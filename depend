@@ -290,8 +290,10 @@ py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  pyslice.h pystip.h stipulation/slice_type.h \
  stipulation/goals/doublemate/reached_tester.h \
  stipulation/temporary_hacks.h solving/single_piece_move_generator.h \
- stipulation/help_play/play.h conditions/ohneschach/immobility_tester.h \
- conditions/exclusive.h pyposit.h conditions/republican.h pyproc.h \
+ stipulation/help_play/play.h \
+ solving/castling_intermediate_move_generator.h \
+ conditions/ohneschach/immobility_tester.h conditions/exclusive.h \
+ pyposit.h conditions/republican.h pyproc.h \
  pieces/attributes/paralysing/paralysing.h trace.h measure.h
 
 py.h:
@@ -349,6 +351,8 @@ stipulation/temporary_hacks.h:
 solving/single_piece_move_generator.h:
 
 stipulation/help_play/play.h:
+
+solving/castling_intermediate_move_generator.h:
 
 conditions/ohneschach/immobility_tester.h:
 

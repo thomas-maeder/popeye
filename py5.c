@@ -71,6 +71,7 @@
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_piece_move_generator.h"
+#include "solving/castling_intermediate_move_generator.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
@@ -715,23 +716,17 @@ static boolean are_squares_empty(square from, square to, int direction)
   return true;
 }
 
-boolean is_intermediate_king_move_legal(Side side, square from, square to)
+boolean castling_is_intermediate_king_move_legal(Side side, square from, square to)
 {
   boolean result = false;
 
   if (complex_castling_through_flag)
   {
-    numecoup const sic_nbcou = nbcou;
-
     /* temporarily deactivate maximummer etc. */
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
-    empile(from,to,to);
-    if (nbcou>sic_nbcou)
-    {
-      result = jouecoup(nbply,first_play) && !echecc(nbply,side);
-      repcoup();
-    }
+    castling_intermediate_move_generator_init_next(from,to);
+    result = slice_has_solution(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.fork.fork)==has_solution;
     flagmummer[side] = save_flagmummer;
   }
   else
@@ -782,14 +777,14 @@ void generate_castling(Side side)
     if (TSTCASTLINGFLAGMASK(nbply,side,k_castling)==k_castling
         && e[square_h]==sides_rook
         && are_squares_empty(square_e,square_h,dir_right)
-        && is_intermediate_king_move_legal(side,square_e,square_f))
+        && castling_is_intermediate_king_move_legal(side,square_e,square_f))
       empile(square_e,square_g,kingside_castling);
 
     /* 0-0-0 */
     if (TSTCASTLINGFLAGMASK(nbply,side,q_castling)==q_castling
         && e[square_a]==sides_rook
         && are_squares_empty(square_e,square_a,dir_left)
-        && is_intermediate_king_move_legal(side,square_e,square_d))
+        && castling_is_intermediate_king_move_legal(side,square_e,square_d))
       empile(square_e,square_c,queenside_castling);
   }
 }
@@ -877,7 +872,7 @@ void genrn(square sq_departure)
 
       finligne(sq_departure,vec[k],p,sq_castler);
       if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
-          && is_intermediate_king_move_legal(side,sq_departure,sq_passed))
+          && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }

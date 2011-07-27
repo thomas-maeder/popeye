@@ -3057,7 +3057,7 @@ void genrb(square sq_departure)
 
       finligne(sq_departure,vec[k],p,sq_castler);
       if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
-          && is_intermediate_king_move_legal(side,sq_departure,sq_passed))
+          && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }

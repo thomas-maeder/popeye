@@ -21,6 +21,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/single_move_generator_with_king_capture.h"
+#include "solving/castling_intermediate_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -361,6 +362,24 @@ static void insert_single_piece_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_castling_intermediate_move_generator(slice_index si,
+                                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index const proto = alloc_castling_intermediate_move_generator_slice();
+    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const strategy_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode           },
@@ -371,7 +390,8 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STGeneratingMoves,    &insert_move_generator          },
   { STBrunnerDefenderFinder, &insert_single_move_generator_with_king_capture },
   { STIsardamDefenderFinder, &insert_single_move_generator_with_king_capture },
-  { STCageCirceNonCapturingMoveFinder, &insert_single_piece_move_generator }
+  { STCageCirceNonCapturingMoveFinder, &insert_single_piece_move_generator },
+  { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator }
 };
 
 enum

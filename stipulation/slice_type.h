@@ -81,6 +81,8 @@
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
+    ENUMERATOR(STCastlingIntermediateMoveGenerator), /* generates intermediate castling moves */ \
+    ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STTrySolver), /* find battle play tries */               \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \

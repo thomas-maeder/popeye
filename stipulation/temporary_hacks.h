@@ -23,6 +23,9 @@ extern slice_index temporary_hack_isardam_defense_finder[nr_sides];
 /* fork slice into branch finding non-capturing moves in Cage Circe */
 extern slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 
+/* fork slice into branch that tests the legality of intermediate castling moves */
+extern slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
+
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation
  */

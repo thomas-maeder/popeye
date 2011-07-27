@@ -6,13 +6,15 @@ CFILES =   solving.c \
            king_move_generator.c non_king_move_generator.c \
            single_piece_move_generator.c \
            single_move_generator_with_king_capture.c \
-           legal_move_counter.c capture_counter.c
+           legal_move_counter.c capture_counter.c \
+           castling_intermediate_move_generator.c
 INCLUDES = solving.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
            king_move_generator.h non_king_move_generator.h \
            single_piece_move_generator.h \
            single_move_generator_with_king_capture.h \
-           legal_move_counter.h capture_counter.h
+           legal_move_counter.h capture_counter.h \
+           castling_intermediate_move_generator.h
 
 include makefile.rules $(CURRPWD)depend
