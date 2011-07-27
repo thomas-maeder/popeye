@@ -193,7 +193,6 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
 static int count_opponent_moves(void)
 {
   int result = INT_MAX; /* moves leading to self check get maximum count */
-  numecoup const save_nbcou = nbcou;
   Side const side = trait[nbply];
   Side const ad = advers(side);
 
@@ -201,10 +200,17 @@ static int count_opponent_moves(void)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  assert(legal_move_counter_count[nbply+1]==0);
-  legal_move_counter_interesting[nbply+1] = UINT_MAX;
+  assert(legal_move_counter_count[nbply+2]==0);
+  legal_move_counter_interesting[nbply+2] = UINT_MAX;
 
-  while (save_nbcou==nbcou)
+  nextply(nbply);
+  trait[nbply] = side;
+  add_to_move_generation_stack(move_generation_stack[nbcou].departure,
+                               move_generation_stack[nbcou].arrival,
+                               move_generation_stack[nbcou].capture,
+                               cmren[nbcou]);
+
+  while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && result==INT_MAX
@@ -217,8 +223,9 @@ static int count_opponent_moves(void)
     repcoup();
   }
 
-  legal_move_counter_count[nbply+1] = 0;
-  ++nbcou;
+  finply();
+
+  legal_move_counter_count[nbply+2] = 0;
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
 
   TraceFunctionExit(__func__);
