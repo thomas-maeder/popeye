@@ -451,9 +451,9 @@ solution finished.
                   3.Se6-c7 #
 
               empile:         473
-            jouecoup:         312
+            jouecoup:         315
         orig_rbechec:         124
-        orig_rnechec:         223
+        orig_rnechec:         226
 solution finished. 
 
 
@@ -512,9 +512,9 @@ solution finished.
 
 
               empile:        3545
-            jouecoup:        2549
+            jouecoup:        2555
         orig_rbechec:        1486
-        orig_rnechec:        1175
+        orig_rnechec:        1181
 solution finished. 
 
 
@@ -1461,9 +1461,9 @@ solution finished.
                       3...b3-b2 #
 
               empile:        1052
-            jouecoup:         695
+            jouecoup:         699
         orig_rbechec:         615
-        orig_rnechec:         181
+        orig_rnechec:         185
 solution finished. 
 
 
@@ -1516,9 +1516,9 @@ solution finished.
  16  (Ka1-b2 + )
 
               empile:        9363
-            jouecoup:        6027
+            jouecoup:        6035
         orig_rbechec:        5365
-        orig_rnechec:        1267
+        orig_rnechec:        1275
 solution finished. 
 
 
@@ -1821,9 +1821,9 @@ solution finished.
                   3.Rh8-f8 #
 
               empile:       23086
-            jouecoup:       20141
+            jouecoup:       20156
         orig_rbechec:       11314
-        orig_rnechec:       10235
+        orig_rnechec:       10250
 solution finished. 
 
 

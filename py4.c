@@ -190,34 +190,35 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
   return e[sq_capture]!=vide ? 1 : 0;
 }
 
-static boolean count_opponent_moves(int *nr_opponent_moves, Side camp)
+static int count_opponent_moves(void)
 {
-  boolean result = false;
-  numecoup const sic_nbc = nbcou;
-  Side const ad = advers(camp);
+  int result = INT_MAX; /* moves leading to self check get maximum count */
+  numecoup const save_nbcou = nbcou;
+  Side const side = trait[nbply];
+  Side const ad = advers(side);
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,camp,"");
+  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  do {
+  assert(legal_move_counter_count[nbply+1]==0);
+  legal_move_counter_interesting[nbply+1] = UINT_MAX;
+
+  while (save_nbcou==nbcou)
+  {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !result
-        && !echecc(nbply,camp))
+        && result==INT_MAX
+        && !echecc(nbply,side))
     {
-      result = true;
-      assert(legal_move_counter_count[nbply+1]==0);
-      legal_move_counter_interesting[nbply+1] = UINT_MAX;
       slice_has_solution(slices[temporary_hack_legal_move_counter[ad]].u.fork.fork);
-      *nr_opponent_moves = legal_move_counter_count[nbply+1];
-      legal_move_counter_count[nbply+1] = 0;
+      result = legal_move_counter_count[nbply+1];
     }
 
     repcoup();
-  } while (sic_nbc==nbcou);
+  }
 
-  nbcou = sic_nbc;
-
+  legal_move_counter_count[nbply+1] = 0;
+  ++nbcou;
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
 
   TraceFunctionExit(__func__);
@@ -307,7 +308,8 @@ static void add_to_empile_optimization_table(square sq_departure,
                                              square sq_capture,
                                              square mren)
 {
-  int   nr_opponent_moves = 0;
+  empile_optimization_table_elmt * const
+    curr_elmt = empile_optimization_table+empile_optimization_table_count;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -319,20 +321,14 @@ static void add_to_empile_optimization_table(square sq_departure,
    * number of opponent moves */
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,initsquare);
 
-  if (count_opponent_moves(&nr_opponent_moves,trait[nbply]))
-  {
-    empile_optimization_table_elmt * const
-      curr_elmt = empile_optimization_table+empile_optimization_table_count;
-    TraceValue("%d\n",nr_opponent_moves);
-    if (is_killer_move(sq_departure,sq_arrival,sq_capture))
-      nr_opponent_moves -= empile_optimization_priorize_killmove_by;
-    curr_elmt->move.departure= sq_departure;
-    curr_elmt->move.arrival= sq_arrival;
-    curr_elmt->move.capture= sq_capture;
-    curr_elmt->mren = mren;
-    curr_elmt->nr_opponent_moves= nr_opponent_moves;
-    empile_optimization_table_count++;
-  }
+  curr_elmt->move.departure = sq_departure;
+  curr_elmt->move.arrival = sq_arrival;
+  curr_elmt->move.capture = sq_capture;
+  curr_elmt->mren = mren;
+  curr_elmt->nr_opponent_moves = count_opponent_moves();
+  if (is_killer_move(sq_departure,sq_arrival,sq_capture))
+    curr_elmt->nr_opponent_moves -= empile_optimization_priorize_killmove_by;
+  ++empile_optimization_table_count;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

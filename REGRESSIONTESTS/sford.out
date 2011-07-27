@@ -83,9 +83,9 @@ Loesung beendet.
                   3.Th8-f8 #
 
               empile:       23086
-            jouecoup:       20141
+            jouecoup:       20156
         orig_rbechec:       11314
-        orig_rnechec:       10235
+        orig_rnechec:       10250
 Loesung beendet. 
 
 
@@ -1160,9 +1160,9 @@ eigentlich: sKg4 s#2 b) g4->e3
                       3...Lb8*f4 #
 
               empile:       58961
-            jouecoup:       31453
-        orig_rbechec:       31452
-        orig_rnechec:       18409
+            jouecoup:       31463
+        orig_rbechec:       31462
+        orig_rnechec:       18419
 Loesung beendet. 
 
 
@@ -1222,9 +1222,9 @@ c) weiss 5:5a[#]d
 
 
               empile:        3990
-            jouecoup:        1907
+            jouecoup:        1923
         orig_rbechec:         831
-        orig_rnechec:        1323
+        orig_rnechec:        1339
 d) weiss 7:7a[#]d 
 
    1.d7-d8=S ! Drohung:
@@ -1250,9 +1250,9 @@ d) weiss 7:7a[#]d
 
 
               empile:       43979
-            jouecoup:       26451
+            jouecoup:       26544
         orig_rbechec:       17772
-        orig_rnechec:       10293
+        orig_rnechec:       10386
 Loesung beendet. 
 
 
