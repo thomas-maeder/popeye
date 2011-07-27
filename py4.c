@@ -65,6 +65,7 @@
 #include "pystip.h"
 #include "pyslice.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/legal_move_counter.h"
 #include "solving/maximummer_candidate_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "conditions/republican.h"
@@ -189,7 +190,8 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
   return e[sq_capture]!=vide ? 1 : 0;
 }
 
-static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
+static boolean count_opponent_moves(int *nr_opponent_moves, Side camp)
+{
   boolean result = false;
   numecoup const sic_nbc = nbcou;
   Side const ad = advers(camp);
@@ -203,28 +205,20 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
         && !result
         && !echecc(nbply,camp))
     {
-      result= true;
-      *nr_opponent_moves = 0;
-      move_generation_mode= move_generation_not_optimized;
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(ad);
-      move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
-      TraceValue("->%u\n",move_generation_mode);
-      while (encore())
-      {
-        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-            && !echecc(nbply,ad))
-          ++*nr_opponent_moves;
-        repcoup();
-      }
-
-      finply();
+      result = true;
+      assert(legal_move_counter_count[nbply+1]==0);
+      legal_move_counter_interesting[nbply+1] = UINT_MAX;
+      slice_has_solution(slices[temporary_hack_legal_move_counter[ad]].u.fork.fork);
+      *nr_opponent_moves = legal_move_counter_count[nbply+1];
+      legal_move_counter_count[nbply+1] = 0;
     }
 
     repcoup();
   } while (sic_nbc==nbcou);
 
   nbcou = sic_nbc;
+
+  move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
