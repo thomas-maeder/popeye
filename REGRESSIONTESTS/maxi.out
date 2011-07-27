@@ -49,7 +49,7 @@
 
 
               empile:     1372222
-            jouecoup:      626555
+            jouecoup:      626054
         orig_rbechec:      142867
         orig_rnechec:      551287
 Loesung beendet. 
@@ -324,7 +324,7 @@ a)
   1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
 
               empile:        1314
-            jouecoup:         824
+            jouecoup:         794
         orig_rbechec:         420
         orig_rnechec:         391
 b) sBb3-->b5
@@ -332,7 +332,7 @@ b) sBb3-->b5
   1...c7-c8=D   2.c2-c1=T Dc8-c2 # 
 
               empile:        1310
-            jouecoup:         826
+            jouecoup:         796
         orig_rbechec:         419
         orig_rnechec:         393
 Loesung beendet. 
@@ -385,7 +385,7 @@ Loesung beendet.
 
 
               empile:       81775
-            jouecoup:       61241
+            jouecoup:       61010
         orig_rbechec:        5146
         orig_rnechec:       59502
 Loesung beendet. 
@@ -422,7 +422,7 @@ Preis, 7. PK-Kompositionsturnier 1991
   1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 # 
 
               empile:      135270
-            jouecoup:       72551
+            jouecoup:       57595
         orig_rbechec:       31642
         orig_rnechec:       30856
 Loesung beendet. 
@@ -476,7 +476,7 @@ Loesung beendet.
 
 
               empile:     2585903
-            jouecoup:      800019
+            jouecoup:      799557
         orig_rbechec:      279506
         orig_rnechec:      642655
 Loesung beendet. 

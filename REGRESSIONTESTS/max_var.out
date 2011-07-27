@@ -27,7 +27,7 @@
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 # 
 
               empile:     1808321
-            jouecoup:     1092398
+            jouecoup:     1092059
         orig_rbechec:      235878
         orig_rnechec:      934608
 Loesung beendet. 
@@ -96,7 +96,7 @@ Loesung beendet.
 
 
               empile:       78554
-            jouecoup:       35550
+            jouecoup:       35217
         orig_rbechec:        8180
         orig_rnechec:       28017
 Loesung beendet. 
@@ -131,7 +131,7 @@ Loesung beendet.
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 # 
 
               empile:      323133
-            jouecoup:      263205
+            jouecoup:      258915
         orig_rbechec:      102163
         orig_rnechec:      237883
 Loesung beendet. 
@@ -335,7 +335,7 @@ Loesung beendet.
 
 
               empile:    14297407
-            jouecoup:     5322205
+            jouecoup:     5322121
         orig_rbechec:     1059445
         orig_rnechec:     4434696
 Loesung beendet. 

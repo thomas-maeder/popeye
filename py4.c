@@ -648,8 +648,6 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
      */
     if (!k_cap && flagmummer[traitnbply])
     {
-      boolean       flag= true;
-      numecoup      test;
       boolean is_new_longest_move;
 
       if (encore()
@@ -702,37 +700,44 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           return true;
         }
 
-        is_new_longest_move= curleng<len;
+        is_new_longest_move = curleng<len;
       }
       else
-        is_new_longest_move= true;
+        is_new_longest_move = true;
 
-      if (is_new_longest_move) {
-        if (!we_generate_exact) {
+      if (is_new_longest_move)
+      {
+        if (!we_generate_exact)
+        {
           /* not exact-maxi -> test for selfcheck */
-          Side oneutcoul= neutcoul;
-          boolean is_republican_suspended_sic = is_republican_suspended;
+          Side const save_neutcoul = neutcoul;
+          boolean const save_is_republican_suspended = is_republican_suspended;
+          boolean is_this_move_illegal = true;
           is_republican_suspended = true;
-          test= nbcou++;
-          move_generation_stack[nbcou].departure= sq_departure;
-          move_generation_stack[nbcou].arrival= sq_arrival;
-          move_generation_stack[nbcou].capture= sq_capture;
-          cmren[nbcou]= mren;
-          ctrans[nbcou]=current_trans_gen;
-          while (test < nbcou) {
+          nextply(nbply);
+          trait[nbply] = trait[nbply-1];
+          ++nbcou;
+          move_generation_stack[nbcou].departure = sq_departure;
+          move_generation_stack[nbcou].arrival = sq_arrival;
+          move_generation_stack[nbcou].capture = sq_capture;
+          cmren[nbcou] = mren;
+          ctrans[nbcou] = current_trans_gen;
+          while (is_this_move_illegal && encore())
+          {
             if (jouecoup(nbply,first_play))
-              flag= flag && echecc(nbply,traitnbply);
+              is_this_move_illegal = echecc(nbply,traitnbply);
             repcoup();
           }
-          is_republican_suspended = is_republican_suspended_sic;
+          finply();
+          is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
-          initneutre(oneutcoul);
-          if (flag)
+          initneutre(save_neutcoul);
+          if (is_this_move_illegal)
             return true;
         }
 
-        nbcou= repere[nbply];
-        current_killer_state.found= false;
+        nbcou = repere[nbply];
+        current_killer_state.found = false;
       }
     }
   }

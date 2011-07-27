@@ -181,7 +181,7 @@ Loesung beendet.
   1.Kc8-d7 Ka8-b8   2.Kd7-c6 Kb8-c8   3.b6*a7 Kc8-d8   4.Kc6-b7 Kd8-d7   5.Kb7-a8 Kd7-c7 = 
 
               empile:       16498
-            jouecoup:        8616
+            jouecoup:        8565
         orig_rbechec:        6217
         orig_rnechec:        3699
 Loesung beendet. 
@@ -220,7 +220,7 @@ Loesung beendet.
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-h8=S   7.Sh8-g6=D   8.Dg6-b1=S   9.Sb1-a3=D  10.Da3-f8=S  11.Sf8-d7=D # 
 
               empile:        1686
-            jouecoup:        1164
+            jouecoup:        1143
         orig_rbechec:         240
         orig_rnechec:        1064
 Loesung beendet. 

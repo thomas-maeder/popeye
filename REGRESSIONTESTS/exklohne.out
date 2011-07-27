@@ -2353,10 +2353,10 @@ Loesung beendet.
 
   1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L = 
 
-              empile:      135487
-            jouecoup:       68317
-        orig_rbechec:       67952
-        orig_rnechec:       90640
+              empile:      135459
+            jouecoup:       68279
+        orig_rbechec:       67914
+        orig_rnechec:       90610
 Loesung beendet. 
 
 
@@ -2389,10 +2389,10 @@ Loesung beendet.
 
   1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D = 
 
-              empile:     2184026
-            jouecoup:      984216
-        orig_rbechec:      918672
-        orig_rnechec:     1202267
+              empile:     2183341
+            jouecoup:      983446
+        orig_rbechec:      917902
+        orig_rnechec:     1201918
 Loesung beendet. 
 
 
@@ -3697,9 +3697,9 @@ Loesung beendet.
   1.f2-f1=L Kc2-d1   2.a2-a1=S c7-c8=D   3.g2-g1=T Dc8-h3 # 
 
               empile:      101038
-            jouecoup:       64249
-        orig_rbechec:       76050
-        orig_rnechec:       84059
+            jouecoup:       64216
+        orig_rbechec:       76017
+        orig_rnechec:       84026
 Loesung beendet. 
 
 
@@ -4524,10 +4524,10 @@ Loesung beendet.
 
   1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L = 
 
-              empile:     1305400
-            jouecoup:      682254
-        orig_rbechec:      618544
-        orig_rnechec:      669498
+              empile:     1302515
+            jouecoup:      679716
+        orig_rbechec:      616006
+        orig_rnechec:      668992
 Loesung beendet. 
 
 

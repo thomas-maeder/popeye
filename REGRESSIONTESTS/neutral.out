@@ -234,7 +234,7 @@ Loesung beendet.
   1...nSBf2-f8=nS   2.nSBb4-b1=nL nSBe2-e8=nT   3.nLb1-g6 nSBa3*f8=nD # 
 
               empile:      275101
-            jouecoup:      245284
+            jouecoup:      241219
         orig_rbechec:       25079
         orig_rnechec:      237832
 Loesung beendet. 
@@ -271,7 +271,7 @@ Loesung beendet.
   1.nBBa7-b8=nL   2.nBBb7*b8=nD [+nLb7]   3.nBf7-f8=nT   4.nBg7*f8=nS [+nTg7] # 
 
               empile:       50197
-            jouecoup:       25649
+            jouecoup:       24039
         orig_rbechec:        8117
         orig_rnechec:       20859
 Loesung beendet. 
@@ -313,7 +313,7 @@ Loesung beendet.
 
 
               empile:      332299
-            jouecoup:      220852
+            jouecoup:      220237
         orig_rbechec:       32872
         orig_rnechec:      211418
 Loesung beendet. 
