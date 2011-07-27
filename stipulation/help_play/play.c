@@ -26,6 +26,7 @@
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling_intermediate_move_generator.h"
+#include "solving/maximummer_candidate_move_generator.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/filter.h"
@@ -355,6 +356,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STCastlingIntermediateMoveGenerator:
       result = castling_intermediate_move_generator_can_help(si,n);
+      break;
+
+    case STMaximummerCandidateMoveGenerator:
+      result = maximummer_candidate_move_generator_can_help(si,n);
       break;
 
     default:

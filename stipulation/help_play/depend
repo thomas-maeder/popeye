@@ -58,6 +58,7 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h \
  solving/castling_intermediate_move_generator.h \
+ solving/maximummer_candidate_move_generator.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h optimisations/intelligent/filter.h \
  options/maxtime.h options/maxsolutions/guard.h \
@@ -120,6 +121,8 @@ solving/single_move_generator_with_king_capture.h:
 solving/single_piece_move_generator.h:
 
 solving/castling_intermediate_move_generator.h:
+
+solving/maximummer_candidate_move_generator.h:
 
 optimisations/goals/enpassant/filter.h:
 

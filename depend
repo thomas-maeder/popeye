@@ -228,9 +228,12 @@ pystip.h:
 py4$(OBJ_SUFFIX): py4.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h py1.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h pymsg.h pystip.h stipulation/slice_type.h \
+ pyslice.h stipulation/temporary_hacks.h pystip.h \
+ solving/maximummer_candidate_move_generator.h \
+ stipulation/help_play/play.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/goals/goals.h conditions/republican.h pyproc.h \
- pieces/attributes/paralysing/paralysing.h pystip.h trace.h measure.h
+ pieces/attributes/paralysing/paralysing.h trace.h measure.h
 
 py.h:
 
@@ -268,6 +271,16 @@ pystip.h:
 
 stipulation/slice_type.h:
 
+pyslice.h:
+
+stipulation/temporary_hacks.h:
+
+pystip.h:
+
+solving/maximummer_candidate_move_generator.h:
+
+stipulation/help_play/play.h:
+
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/goals/goals.h:
@@ -277,8 +290,6 @@ conditions/republican.h:
 pyproc.h:
 
 pieces/attributes/paralysing/paralysing.h:
-
-pystip.h:
 
 trace.h:
 

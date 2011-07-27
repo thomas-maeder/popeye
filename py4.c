@@ -63,6 +63,9 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyslice.h"
+#include "stipulation/temporary_hacks.h"
+#include "solving/maximummer_candidate_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -292,10 +295,10 @@ void finish_move_generation_optimizer(void) {
   }
 }
 
-static void add_to_move_generation_stack(square sq_departure,
-                                         square sq_arrival,
-                                         square sq_capture,
-                                         square mren)
+void add_to_move_generation_stack(square sq_departure,
+                                  square sq_arrival,
+                                  square sq_capture,
+                                  square mren)
 {
   nbcou++;
   move_generation_stack[nbcou].departure= sq_departure;
@@ -712,27 +715,14 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           /* not exact-maxi -> test for selfcheck */
           Side const save_neutcoul = neutcoul;
           boolean const save_is_republican_suspended = is_republican_suspended;
-          boolean is_this_move_illegal = true;
+          boolean is_this_move_legal;
           is_republican_suspended = true;
-          nextply(nbply);
-          trait[nbply] = trait[nbply-1];
-          ++nbcou;
-          move_generation_stack[nbcou].departure = sq_departure;
-          move_generation_stack[nbcou].arrival = sq_arrival;
-          move_generation_stack[nbcou].capture = sq_capture;
-          cmren[nbcou] = mren;
-          ctrans[nbcou] = current_trans_gen;
-          while (is_this_move_illegal && encore())
-          {
-            if (jouecoup(nbply,first_play))
-              is_this_move_illegal = echecc(nbply,traitnbply);
-            repcoup();
-          }
-          finply();
+          maximummer_candidate_move_generator_init_next(sq_departure,sq_arrival,sq_capture,mren);
+          is_this_move_legal = slice_has_solution(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.fork.fork)==has_solution;
           is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initneutre(save_neutcoul);
-          if (is_this_move_illegal)
+          if (!is_this_move_legal)
             return true;
         }
 
