@@ -61,7 +61,8 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
 
   stip_traverse_structure_children(adapter,st);
 
-  if (st->level==structure_traversal_level_nested)
+  if (st->level==structure_traversal_level_nested
+      && slices[adapter].u.branch.length>slack_length_help)
   {
     spin_off_state_type * const state = st->param;
     help_spin_off_intro(adapter,state);

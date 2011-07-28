@@ -64,9 +64,7 @@ void attack_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      /* this filters out adapters that are not in a loop
-       * TODO  should we get rid of these? */
-      && branch_find_slice(STAttackAdapter,slices[adapter].u.pipe.next)==adapter)
+      && slices[adapter].u.branch.length>slack_length_battle)
   {
     spin_off_state_type * const state = st->param;
     battle_spin_off_intro(adapter,state);

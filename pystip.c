@@ -732,12 +732,28 @@ static void link_to_intro(slice_index si, stip_structure_traversal *st)
   link_to_branch(si,slices[si].u.pipe.next);
 }
 
+void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(fork,st);
+
+  st->level = structure_traversal_level_nested;
+  stip_traverse_structure(slices[fork].u.fork.fork,st);
+  st->level = structure_traversal_level_root;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors intro_slice_inserters[] =
 {
   { STAttackAdapter,     &attack_adapter_make_intro   },
   { STDefenseAdapter,    &defense_adapter_make_intro  },
   { STHelpAdapter,       &help_adapter_make_intro     },
-  { STGoalReachedTester, &stip_structure_visitor_noop }
+  { STTemporaryHackFork, &hack_fork_make_intro        }
 };
 
 enum
