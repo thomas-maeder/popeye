@@ -58,12 +58,12 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h \
  solving/castling_intermediate_move_generator.h \
- solving/maximummer_candidate_move_generator.h \
- optimisations/goals/enpassant/filter.h \
+ solving/single_move_generator.h optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h optimisations/intelligent/filter.h \
  options/maxtime.h options/maxsolutions/guard.h \
  options/stoponshortsolutions/filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  conditions/exclusive.h conditions/ohneschach/immobility_tester.h trace.h
 
 stipulation/help_play/play.h:
@@ -122,7 +122,7 @@ solving/single_piece_move_generator.h:
 
 solving/castling_intermediate_move_generator.h:
 
-solving/maximummer_candidate_move_generator.h:
+solving/single_move_generator.h:
 
 optimisations/goals/enpassant/filter.h:
 
@@ -137,6 +137,8 @@ options/maxsolutions/guard.h:
 options/stoponshortsolutions/filter.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 conditions/exclusive.h:
 

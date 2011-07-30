@@ -216,7 +216,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
   slice_structure_pipe,   /* STImmobilityTester */
-  slice_structure_fork,   /* STLegalMovesCounter */
+  slice_structure_fork,   /* STOpponentMovesCounterFork */
+  slice_structure_pipe,   /* STOpponentMovesCounter */
   slice_structure_pipe,   /* STOhneschachSuspender */
   slice_structure_fork,   /* STExclusiveChessMatingMoveCounter */
   slice_structure_pipe,   /* STExclusiveChessUnsuspender */
@@ -227,7 +228,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STIsardamDefenderFinder */
   slice_structure_fork,   /* STCageCirceNonCapturingMoveFinder */
   slice_structure_pipe,   /* STSinglePieceMoveGenerator */
-  slice_structure_pipe,   /* STMaximummerCandidateMoveGenerator */
+  slice_structure_pipe,   /* STSingleMoveGenerator */
   slice_structure_fork,   /* STMaximummerCandidateMoveTester */
   slice_structure_pipe,   /* STOutputModeSelector */
   slice_structure_pipe,   /* STIllegalSelfcheckWriter */
@@ -374,7 +375,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,    /* STPiecesKamikazeTargetSquareFilter */
   slice_function_unspecified,    /* STImmobilityTester */
-  slice_function_unspecified,    /* STLegalMovesCounter */
+  slice_function_unspecified,    /* STOpponentMovesCounterFork */
+  slice_function_unspecified,    /* STOpponentMovesCounter */
   slice_function_unspecified,    /* STOhneschachSuspender */
   slice_function_unspecified,    /* STExclusiveChessMatingMoveCounter */
   slice_function_unspecified,    /* STExclusiveChessUnsuspender */
@@ -385,7 +387,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STIsardamDefenderFinder */
   slice_function_unspecified,    /* STCageCirceNonCapturingMoveFinder */
   slice_function_unspecified,    /* STSinglePieceMoveGenerator */
-  slice_function_move_generator, /* STMaximummerCandidateMoveGenerator */
+  slice_function_move_generator, /* STSingleMoveGenerator */
   slice_function_unspecified,    /* STMaximummerCandidateMoveTester */
   slice_function_unspecified,    /* STOutputModeSelector */
   slice_function_unspecified,    /* STIllegalSelfcheckWriter */
@@ -666,11 +668,12 @@ static void move_to_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STAttackAdapter,  &attack_adapter_make_root  },
-  { STDefenseAdapter, &defense_adapter_make_root },
-  { STHelpAdapter,    &help_adapter_make_root    },
-  { STAnd,            &binary_make_root          },
-  { STOr,             &binary_make_root          }
+  { STAttackAdapter,     &attack_adapter_make_root  },
+  { STDefenseAdapter,    &defense_adapter_make_root },
+  { STHelpAdapter,       &help_adapter_make_root    },
+  { STAnd,               &binary_make_root          },
+  { STOr,                &binary_make_root          },
+  { STTemporaryHackFork, &move_to_root              }
 };
 
 enum
@@ -1115,13 +1118,33 @@ boolean transform_to_quodlibet(slice_index si)
   return result;
 }
 
+static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+
+  state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
+  TraceValue("%u\n",state->spun_off[si]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 static structure_traversers_visitors setplay_appliers[] =
 {
   { STMoveInverter,   &move_inverter_apply_setplay  },
   { STConstraint,     &stip_traverse_structure_pipe },
   { STAttackAdapter,  &attack_adapter_apply_setplay },
   { STDefenseAdapter, &stip_structure_visitor_noop  },
-  { STHelpAdapter,    &help_adapter_apply_setplay   }
+  { STHelpAdapter,    &help_adapter_apply_setplay   },
+  { STTemporaryHackFork,    &hack_fork_apply_setplay }
 };
 
 enum
@@ -1623,7 +1646,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
-  &stip_traverse_structure_goal_reached_tester, /* STLegalMovesCounter */
+  &stip_traverse_structure_goal_reached_tester, /* STOpponentMovesCounterFork */
+  &stip_traverse_structure_pipe,              /* STOpponentMovesCounter */
   &stip_traverse_structure_pipe,              /* STOhneschachSuspender */
   &stip_traverse_structure_goal_reached_tester, /* STExclusiveChessMatingMoveCounter */
   &stip_traverse_structure_pipe,              /* STExclusiveChessUnsuspender */
@@ -1634,7 +1658,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_goal_reached_tester,/* STIsardamDefenderFinder */
   &stip_traverse_structure_goal_reached_tester,/* STCageCirceNonCapturingMoveFinder */
   &stip_traverse_structure_pipe,              /* STSinglePieceMoveGenerator */
-  &stip_traverse_structure_pipe,              /* STMaximummerCandidateMoveGenerator */
+  &stip_traverse_structure_pipe,              /* STSingleMoveGenerator */
   &stip_traverse_structure_goal_reached_tester, /* STMaximummerCandidateMoveTester */
   &stip_traverse_structure_pipe,              /* STOutputModeSelector */
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */
@@ -1882,7 +1906,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STLegalMovesCounter */
+    &stip_traverse_moves_pipe,              /* STOpponentMovesCounterFork */
+    &stip_traverse_moves_pipe,              /* STOpponentMovesCounter */
     &stip_traverse_moves_pipe,              /* STOhneschachSuspender */
     &stip_traverse_moves_setplay_fork,      /* STExclusiveChessMatingMoveCounter */
     &stip_traverse_moves_pipe,              /* STExclusiveChessUnsuspender */
@@ -1893,7 +1918,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_setplay_fork,      /* STIsardamDefenderFinder */
     &stip_traverse_moves_setplay_fork,      /* STCageCirceNonCapturingMoveFinder */
     &stip_traverse_moves_pipe,              /* STSinglePieceMoveGenerator */
-    &stip_traverse_moves_pipe,              /* STMaximummerCandidateMoveGenerator */
+    &stip_traverse_moves_pipe,              /* STSingleMoveGenerator */
     &stip_traverse_moves_setplay_fork,      /* STMaximummerCandidateMoveTester */
     &stip_traverse_moves_pipe,              /* STOutputModeSelector */
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */

@@ -229,10 +229,11 @@ py4$(OBJ_SUFFIX): py4.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  pyenum.h pylang.h py1.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h pymsg.h pystip.h stipulation/slice_type.h \
  pyslice.h stipulation/temporary_hacks.h pystip.h \
- solving/legal_move_counter.h stipulation/help_play/play.h pyslice.h \
- solving/maximummer_candidate_move_generator.h \
+ solving/single_move_generator.h stipulation/help_play/play.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h conditions/republican.h pyproc.h \
+ stipulation/goals/goals.h \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ conditions/republican.h pyproc.h \
  pieces/attributes/paralysing/paralysing.h trace.h measure.h
 
 py.h:
@@ -277,17 +278,15 @@ stipulation/temporary_hacks.h:
 
 pystip.h:
 
-solving/legal_move_counter.h:
+solving/single_move_generator.h:
 
 stipulation/help_play/play.h:
-
-pyslice.h:
-
-solving/maximummer_candidate_move_generator.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/goals/goals.h:
+
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 conditions/republican.h:
 

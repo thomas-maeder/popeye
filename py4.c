@@ -65,9 +65,9 @@
 #include "pystip.h"
 #include "pyslice.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/legal_move_counter.h"
-#include "solving/maximummer_candidate_move_generator.h"
+#include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "trace.h"
@@ -192,40 +192,23 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
 
 static int count_opponent_moves(void)
 {
-  int result = INT_MAX; /* moves leading to self check get maximum count */
-  Side const side = trait[nbply];
-  Side const ad = advers(side);
+  int result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  assert(legal_move_counter_count[nbply+2]==0);
-  legal_move_counter_interesting[nbply+2] = UINT_MAX;
+  init_opponent_moves_counter();
 
-  nextply(nbply);
-  trait[nbply] = side;
-  add_to_move_generation_stack(move_generation_stack[nbcou].departure,
-                               move_generation_stack[nbcou].arrival,
-                               move_generation_stack[nbcou].capture,
-                               cmren[nbcou]);
+  init_single_move_generator(move_generation_stack[nbcou].departure,
+                             move_generation_stack[nbcou].arrival,
+                             move_generation_stack[nbcou].capture,
+                             cmren[nbcou]);
 
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && result==INT_MAX
-        && !echecc(nbply,side))
-    {
-      slice_has_solution(slices[temporary_hack_legal_move_counter[ad]].u.fork.fork);
-      result = legal_move_counter_count[nbply+1];
-    }
+  slice_has_solution(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].u.fork.fork);
 
-    repcoup();
-  }
+  result = fini_opponent_moves_counter();
 
-  finply();
-
-  legal_move_counter_count[nbply+2] = 0;
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
 
   TraceFunctionExit(__func__);
@@ -714,7 +697,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           boolean const save_is_republican_suspended = is_republican_suspended;
           boolean is_this_move_legal;
           is_republican_suspended = true;
-          maximummer_candidate_move_generator_init_next(sq_departure,sq_arrival,sq_capture,mren);
+          init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
           is_this_move_legal = slice_has_solution(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.fork.fork)==has_solution;
           is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */

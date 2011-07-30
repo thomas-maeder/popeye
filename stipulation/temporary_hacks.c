@@ -14,6 +14,7 @@
 #include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
+#include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -26,7 +27,7 @@ slice_index temporary_hack_isardam_defense_finder[nr_sides];
 slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
-slice_index temporary_hack_legal_move_counter[nr_sides];
+slice_index temporary_hack_opponent_moves_counter[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -48,7 +49,7 @@ void temporary_hacks_swap_colors(void)
   swap_colors(&temporary_hack_cagecirce_noncapture_finder);
   swap_colors(&temporary_hack_castling_intermediate_move_legality_tester);
   swap_colors(&temporary_hack_maximummer_candidate_move_tester);
-  swap_colors(&temporary_hack_legal_move_counter);
+  swap_colors(&temporary_hack_opponent_moves_counter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -183,16 +184,22 @@ static slice_index make_maximummer_candidate_move_tester(Side side)
   return result;
 }
 
-static slice_index make_legal_move_counter_fork(Side side)
+static slice_index make_opponent_moves_counter_fork(Side side)
 {
   slice_index result;
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
-  slice_index const counter_proto = alloc_legal_move_counter_slice();
-  branch_insert_slices(help,&counter_proto,1);
+  slice_index const help = alloc_help_branch(slack_length_help+2,
+                                             slack_length_help+2);
+  slice_index const legal_moves_counter_proto = alloc_legal_move_counter_slice();
+  slice_index const opp_moves_counter_proto = alloc_pipe(STOpponentMovesCounter);
+  slice_index ready = help;
+  do {
+    ready = branch_find_slice(STReadyForHelpMove,ready);
+  } while (slices[ready].u.branch.length!=slack_length_help+1);
+  help_branch_insert_slices(ready,&legal_moves_counter_proto,1);
+  help_branch_insert_slices(help,&opp_moves_counter_proto,1);
   link_to_branch(proxy,help);
-  result = alloc_branch_fork(STLegalMovesCounter,proxy);
+  result = alloc_branch_fork(STOpponentMovesCounterFork,proxy);
   stip_impose_starter(result,side);
   return result;
 }
@@ -235,8 +242,8 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_maximummer_candidate_move_tester[Black] = make_maximummer_candidate_move_tester(Black);
     temporary_hack_maximummer_candidate_move_tester[White] = make_maximummer_candidate_move_tester(White);
 
-    temporary_hack_legal_move_counter[Black] = make_legal_move_counter_fork(Black);
-    temporary_hack_legal_move_counter[White] = make_legal_move_counter_fork(White);
+    temporary_hack_opponent_moves_counter[Black] = make_opponent_moves_counter_fork(Black);
+    temporary_hack_opponent_moves_counter[White] = make_opponent_moves_counter_fork(White);
 
     pipe_append(root_slice,entry_point);
 
@@ -256,8 +263,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[White],
                 temporary_hack_maximummer_candidate_move_tester[White]);
     pipe_append(temporary_hack_maximummer_candidate_move_tester[White],
-                temporary_hack_legal_move_counter[White]);
-    pipe_append(temporary_hack_legal_move_counter[White],
+                temporary_hack_opponent_moves_counter[White]);
+    pipe_append(temporary_hack_opponent_moves_counter[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -276,7 +283,7 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_castling_intermediate_move_legality_tester[Black],
                 temporary_hack_maximummer_candidate_move_tester[Black]);
     pipe_append(temporary_hack_maximummer_candidate_move_tester[Black],
-                temporary_hack_legal_move_counter[Black]);
+                temporary_hack_opponent_moves_counter[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

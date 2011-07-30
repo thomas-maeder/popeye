@@ -194,7 +194,7 @@ stip_length_type selfcheck_guard_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = n+2;
+    result = n+4;
   else
     result = help(slices[si].u.pipe.next,n);
 
@@ -225,7 +225,7 @@ stip_length_type selfcheck_guard_can_help(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = n+2;
+    result = n+4;
   else
     result = can_help(slices[si].u.pipe.next,n);
 

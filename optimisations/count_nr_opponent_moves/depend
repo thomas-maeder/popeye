@@ -14,3 +14,17 @@ stipulation/proxy.h:
 solving/fork_on_remaining.h:
 
 trace.h:
+optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h pypipe.h \
+ pydata.h solving/legal_move_counter.h trace.h
+
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+pypipe.h:
+
+pydata.h:
+
+solving/legal_move_counter.h:
+
+trace.h:

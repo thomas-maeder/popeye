@@ -1,4 +1,4 @@
-#include "solving/maximummer_candidate_move_generator.h"
+#include "solving/single_move_generator.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
@@ -7,23 +7,23 @@
 #include <assert.h>
 
 /* In conditions such as Ohneschach, there may recursive infocations of
- * maximummer_candidate_move_generator_can_help in different plys */
+ * single_move_generator_can_help in different plys */
 static square square_departure[maxply+1];
 static square square_arrival[maxply+1];
 static square square_capture[maxply+1];
 static square square_mars_rebirth[maxply+1];
 
-/* Allocate a STMaximummerCandidateMoveGenerator slice.
+/* Allocate a STSingleMoveGenerator slice.
  * @return index of allocated slice
  */
-slice_index alloc_maximummer_candidate_move_generator_slice(void)
+slice_index alloc_single_move_generator_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaximummerCandidateMoveGenerator);
+  result = alloc_pipe(STSingleMoveGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -37,10 +37,10 @@ slice_index alloc_maximummer_candidate_move_generator_slice(void)
  * @param sq_capture capture square of move to be generated
  * @param sq_mren Mars Circe rebirth square
  */
-void maximummer_candidate_move_generator_init_next(square sq_departure,
-                                                   square sq_arrival,
-                                                   square sq_capture,
-                                                   square sq_mren)
+void init_single_move_generator(square sq_departure,
+                                square sq_arrival,
+                                square sq_capture,
+                                square sq_mren)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
@@ -70,9 +70,8 @@ void maximummer_candidate_move_generator_init_next(square sq_departure,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type
-maximummer_candidate_move_generator_can_help(slice_index si,
-                                             stip_length_type n)
+stip_length_type single_move_generator_can_help(slice_index si,
+                                                stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;

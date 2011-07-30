@@ -145,7 +145,8 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     ENUMERATOR(STImmobilityTester), \
-    ENUMERATOR(STLegalMovesCounter), \
+    ENUMERATOR(STOpponentMovesCounterFork), \
+    ENUMERATOR(STOpponentMovesCounter), \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \
@@ -157,7 +158,7 @@
     ENUMERATOR(STIsardamDefenderFinder), \
     ENUMERATOR(STCageCirceNonCapturingMoveFinder), \
     ENUMERATOR(STSinglePieceMoveGenerator),                          \
-    ENUMERATOR(STMaximummerCandidateMoveGenerator), \
+    ENUMERATOR(STSingleMoveGenerator), \
     ENUMERATOR(STMaximummerCandidateMoveTester), \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

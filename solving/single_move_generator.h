@@ -4,13 +4,13 @@
 #include "stipulation/help_play/play.h"
 
 /* This module provides functionality dealing with the attacking side
- * in STMaximummerCandidateMoveGenerator stipulation slices.
+ * in STSingleMoveGenerator stipulation slices.
  */
 
-/* Allocate a STMaximummerCandidateMoveGenerator slice.
+/* Allocate a STSingleMoveGenerator slice.
  * @return index of allocated slice
  */
-slice_index alloc_maximummer_candidate_move_generator_slice(void);
+slice_index alloc_single_move_generator_slice(void);
 
 /* Initialise the next move generation
  * @param sq_departure departure square of move to be generated
@@ -18,7 +18,7 @@ slice_index alloc_maximummer_candidate_move_generator_slice(void);
  * @param sq_capture capture square of move to be generated
  * @param sq_mren Mars Circe rebirth square
  */
-void maximummer_candidate_move_generator_init_next(square sq_departure,
+void init_single_move_generator(square sq_departure,
                                                    square sq_arrival,
                                                    square sq_capture,
                                                    square sq_mren);
@@ -33,7 +33,7 @@ void maximummer_candidate_move_generator_init_next(square sq_departure,
  *         n   solution found
  */
 stip_length_type
-maximummer_candidate_move_generator_can_help(slice_index si,
+single_move_generator_can_help(slice_index si,
                                              stip_length_type n);
 
 #endif

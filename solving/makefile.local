@@ -8,7 +8,7 @@ CFILES =   solving.c \
            single_move_generator_with_king_capture.c \
            legal_move_counter.c capture_counter.c \
            castling_intermediate_move_generator.c \
-           maximummer_candidate_move_generator.c
+           single_move_generator.c
 INCLUDES = solving.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -17,6 +17,6 @@ INCLUDES = solving.h \
            single_move_generator_with_king_capture.h \
            legal_move_counter.h capture_counter.h \
            castling_intermediate_move_generator.h \
-           maximummer_candidate_move_generator.h
+           single_move_generator.h
 
 include makefile.rules $(CURRPWD)depend

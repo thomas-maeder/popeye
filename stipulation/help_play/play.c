@@ -26,7 +26,7 @@
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling_intermediate_move_generator.h"
-#include "solving/maximummer_candidate_move_generator.h"
+#include "solving/single_move_generator.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/intelligent/filter.h"
@@ -34,6 +34,7 @@
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
+#include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
@@ -358,8 +359,12 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = castling_intermediate_move_generator_can_help(si,n);
       break;
 
-    case STMaximummerCandidateMoveGenerator:
-      result = maximummer_candidate_move_generator_can_help(si,n);
+    case STSingleMoveGenerator:
+      result = single_move_generator_can_help(si,n);
+      break;
+
+    case STOpponentMovesCounter:
+      result = opponent_moves_counter_can_help(si,n);
       break;
 
     default:

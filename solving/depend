@@ -11,7 +11,7 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/castling_intermediate_move_generator.h \
- solving/maximummer_candidate_move_generator.h trace.h
+ solving/single_move_generator.h trace.h
 
 solving/solving.h:
 
@@ -59,7 +59,7 @@ solving/single_move_generator_with_king_capture.h:
 
 solving/castling_intermediate_move_generator.h:
 
-solving/maximummer_candidate_move_generator.h:
+solving/single_move_generator.h:
 
 trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -206,12 +206,10 @@ pyproc.h:
 pypipe.h:
 
 trace.h:
-solving/maximummer_candidate_move_generator$(OBJ_SUFFIX): \
- solving/maximummer_candidate_move_generator.c \
- solving/maximummer_candidate_move_generator.h pydata.h pyproc.h pypipe.h \
- trace.h
+solving/single_move_generator$(OBJ_SUFFIX): solving/single_move_generator.c \
+ solving/single_move_generator.h pydata.h pyproc.h pypipe.h trace.h
 
-solving/maximummer_candidate_move_generator.h:
+solving/single_move_generator.h:
 
 pydata.h:
 
