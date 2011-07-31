@@ -4,7 +4,7 @@
  **
  ** 2006/06/14 TLi  bug fix in function impact()
  **
- ** 2007/12/27 TLi  bug fix in function Immobilize()
+ ** 2007/12/27 TLi  bug fix in function Immobilise()
  **
  **************************** End of List ******************************/
 
@@ -502,10 +502,10 @@ static boolean isGoalReachableRegularGoals(void)
 } /* isGoalReachableRegularGoals */
 
 /* declarations */
-static void ImmobilizeByBlBlock(
+static void ImmobiliseByBlackBlock(
     int, int, int, int, square, boolean, stip_length_type n);
 static void DeposeBlPiece(int, int, int, int, stip_length_type n);
-static void Immobilize(int, int, int, int, stip_length_type n);
+static void Immobilise(int, int, int, int, stip_length_type n);
 static void AvoidCheckInStalemate(int, int, int, int, stip_length_type n);
 static int MovesToBlock(square, int);
 static void DeposeWhKing(int, int, int, int, stip_length_type n);
@@ -712,7 +712,7 @@ void DeposeBlPiece(
       StdString(" ");
 #endif
       deposebnp= bnp;
-      ImmobilizeByBlBlock(blmoves,
+      ImmobiliseByBlackBlock(blmoves,
                           whmoves, blpcallowed, whpcallowed, *bnp, false, n);
     }
   }
@@ -982,7 +982,7 @@ static void PinBlPiece(
   }
 }
 
-static void ImmobilizeByPin(
+static void ImmobiliseByPin(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -1043,7 +1043,7 @@ static void ImmobilizeByPin(
                                blpcallowed-1, whpcallowed, n);
               }
               else {
-                Immobilize(blmoves,
+                Immobilise(blmoves,
                            whmoves-time, blpcallowed-1,
                            whpcallowed, n);
               }
@@ -1058,7 +1058,7 @@ static void ImmobilizeByPin(
                                blpcallowed-1, whpcallowed, n);
               }
               else {
-                Immobilize(blmoves, whmoves-time,
+                Immobilise(blmoves, whmoves-time,
                            blpcallowed-1, whpcallowed, n);
               }
             }
@@ -1072,7 +1072,7 @@ static void ImmobilizeByPin(
                              whpcallowed, n);
             }
             else {
-              Immobilize(blmoves,
+              Immobilise(blmoves,
                          whmoves-time, blpcallowed-1,
                          whpcallowed, n);
             }
@@ -1088,7 +1088,7 @@ static void ImmobilizeByPin(
                 whpcallowed, n);
             }
             else {
-              Immobilize(blmoves,
+              Immobilise(blmoves,
                          whmoves-time, blpcallowed-1,
                          whpcallowed, n);
             }
@@ -1100,7 +1100,7 @@ static void ImmobilizeByPin(
     e[sq]= vide;
     spec[sq]= EmptySpec;
   }
-} /* ImmobilizeByPin */
+} /* ImmobiliseByPin */
 
 static boolean BlIllegalCheck(square from, piece p) {
   int const dir = from-king_square[White];
@@ -1161,7 +1161,7 @@ void DeposeWhKing(int   blmoves,
                        whmoves, blpcallowed, whpcallowed, n);
       }
       else {
-        Immobilize(blmoves, whmoves, blpcallowed, whpcallowed, n);
+        Immobilise(blmoves, whmoves, blpcallowed, whpcallowed, n);
       }
     }
   }
@@ -1175,7 +1175,7 @@ void DeposeWhKing(int   blmoves,
 #endif
 }
 
-void ImmobilizeByBlBlock(
+void ImmobiliseByBlackBlock(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -1238,7 +1238,7 @@ void ImmobilizeByBlBlock(
                                  blpcallowed, whpcallowed-1, n);
                 }
                 else {
-                  Immobilize(blmoves-time, whmoves,
+                  Immobilise(blmoves-time, whmoves,
                              blpcallowed, whpcallowed-1,
                              n);
                 }
@@ -1273,7 +1273,7 @@ void ImmobilizeByBlBlock(
                              blpcallowed-pcreq, whpcallowed-1, n);
             }
             else {
-              Immobilize(blmoves-time, whmoves,
+              Immobilise(blmoves-time, whmoves,
                          blpcallowed-pcreq, whpcallowed-1, n);
             }
           }
@@ -1288,9 +1288,9 @@ void ImmobilizeByBlBlock(
 #if defined(DEBUG)
   write_indentation();StdString("leaving ImmobilizeByblBlock\n");
 #endif
-} /* ImmobilizeByBlBlock */
+} /* ImmobiliseByBlackBlock */
 
-static void ImmobilizeByWhBlock(
+static void ImmobiliseByWhiteBlock(
   int   blmoves,
   int   whmoves,
   int   blpcallowed,
@@ -1345,7 +1345,7 @@ static void ImmobilizeByWhBlock(
                                  blpcallowed-1, whpcallowed, n);
                 }
                 else {
-                  Immobilize(blmoves, whmoves-time,
+                  Immobilise(blmoves, whmoves-time,
                              blpcallowed-1, whpcallowed, n);
                 }
               }
@@ -1384,7 +1384,7 @@ static void ImmobilizeByWhBlock(
                            blpcallowed-decpc, whpcallowed-pcreq, n);
           }
           else {
-            Immobilize(blmoves, whmoves-time,
+            Immobilise(blmoves, whmoves-time,
                        blpcallowed-decpc, whpcallowed-pcreq, n);
           }
         }
@@ -1401,29 +1401,154 @@ static void ImmobilizeByWhBlock(
 #if defined(DEBUG)
   write_indentation();StdString("leaving ImmobilizeByWhBlock\n");
 #endif
-} /* ImmobilizeByWhBlock */
+} /* ImmobiliseByWhiteBlock */
 
-void Immobilize(int blmoves,
-                int whmoves,
-                int blpcallowed,
-                int whpcallowed,
+static boolean can_white_pin(int whmoves)
+{
+  boolean result = false;
+  int i;
+
+  for (i = 1; i<MaxPiece[White]; i++)
+    if (!(white[i].used
+          || white[i].p==cb
+          || (white[i].p==pb && whmoves<moves_to_prom[i])))
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
+static
+boolean can_we_block_all_necessary_squares(unsigned int const nr_blocks_needed[nr_sides])
+{
+  unsigned int nr_unused_pieces[nr_sides] = { 0, 0 };
+
+  int i;
+  for (i = 1; i<MaxPiece[Black]; ++i)
+    if (!black[i].used)
+      ++nr_unused_pieces[Black];
+
+  if (nr_unused_pieces[Black]<nr_blocks_needed[Black])
+    return false;
+
+  for (i = 0; i<MaxPiece[White]; ++i)
+    if (!white[i].used)
+      ++nr_unused_pieces[White];
+
+  if (nr_unused_pieces[White]+nr_unused_pieces[Black]
+      <nr_blocks_needed[Black]+nr_blocks_needed[White])
+    return false;
+
+  return true;
+}
+
+typedef enum
+{
+  no_block_needed_on_square,
+  white_block_sufficient_on_square,
+  black_block_needed_on_square
+} block_requirement_type;
+
+/* Find the most expensive square (if any) that must be blocked by Black
+ * @param blmoves number of remaining black moves
+ * @param block_requirement blocking requirements for each square
+ * @param nr_blocks_needed number of blocks needed per side
+ * @return * nullsquare more squares need to be blocked than Black can in the
+ *                      blmoves remaining moves
+ *         * initsquare no square is required to be blocked by Black
+ *         * otherwise: most expensive square that must be blocked by Black
+ */
+static square find_most_expensive_square_to_be_blocked_by_black(int blmoves,
+                                                 block_requirement_type const block_requirement[maxsquare+4])
+{
+  square result = initsquare;
+  int max_number_black_moves_to_squares_to_be_blocked = -1;
+  int total_number_black_moves_to_squares_to_be_blocked = 0;
+
+  square const *bnp;
+  for (bnp = boardnum; *bnp; ++bnp)
+    if (block_requirement[*bnp]==black_block_needed_on_square)
+    {
+      int const nr_black_blocking_moves = MovesToBlock(*bnp,blmoves);
+      total_number_black_moves_to_squares_to_be_blocked += nr_black_blocking_moves;
+      if (total_number_black_moves_to_squares_to_be_blocked>blmoves)
+      {
+        result = nullsquare;
+        break;
+      }
+      else if (nr_black_blocking_moves>max_number_black_moves_to_squares_to_be_blocked)
+      {
+        max_number_black_moves_to_squares_to_be_blocked = nr_black_blocking_moves;
+        result = *bnp;
+      }
+    }
+
+
+  return result;
+}
+
+static void update_block_requirements(square last_found_square_to_be_blocked,
+                                      block_requirement_type block_requirement[maxsquare+4],
+                                      unsigned int nr_blocks_needed[nr_sides])
+{
+  switch (block_requirement[last_found_square_to_be_blocked])
+  {
+    case no_block_needed_on_square:
+      if (pjoue[nbply]==pn)
+      {
+        block_requirement[last_found_square_to_be_blocked] = white_block_sufficient_on_square;
+        ++nr_blocks_needed[White];
+      }
+      else
+      {
+        block_requirement[last_found_square_to_be_blocked] = black_block_needed_on_square;
+        ++nr_blocks_needed[Black];
+      }
+      break;
+
+    case white_block_sufficient_on_square:
+      if (pjoue[nbply]!=pn)
+      {
+        block_requirement[last_found_square_to_be_blocked] = black_block_needed_on_square;
+        --nr_blocks_needed[White];
+        ++nr_blocks_needed[Black];
+      }
+      break;
+
+    case black_block_needed_on_square:
+      /* nothing */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+void Immobilise(int blmoves, int whmoves,
+                int blpcallowed, int whpcallowed,
                 stip_length_type n)
 {
-  square    trouble, block, blblock;
-  square const *bnp;
-  int   i, blockwhite, blockblack, bpl, wpl, mtba, weight;
-  boolean   nopinpossible, pinnecessary;
-  unsigned int toblock[maxsquare+4];
+  square position_of_trouble_maker = initsquare;
+  square last_found_trouble_square = initsquare;
+  unsigned int nr_blocks_needed[nr_sides] = { 0, 0 };
+  block_requirement_type block_requirement[maxsquare+4];
+
+  typedef enum
+  {
+    no_requirement,
+    block_required,
+    king_block_required,
+    pin_required,
+    immobilisation_impossible
+  } square_status_type;
+
+  square_status_type last_found_trouble_square_status = no_requirement;
 
   if (max_nr_solutions_found_in_phase())
     return;
-
-  VARIABLE_INIT(block);
-
-  trouble= initsquare;
-  blockwhite= blockblack= bpl= wpl= 0;
-  nopinpossible= true;
-  pinnecessary= false;
 
 #if defined(DEBUG)
   write_indentation();
@@ -1433,138 +1558,137 @@ void Immobilize(int blmoves,
   StdString(GlobalStr);
 #endif
 
-  if (blpcallowed < 0 || whpcallowed<0)
+  if (blpcallowed<0 || whpcallowed<0)
     return;
 
-  /* determine number of white pinning pieces available */
-  for (i = 1; i<MaxPiece[White] && nopinpossible; i++)
-    nopinpossible = (white[i].used
-                     || white[i].p==cb
-                     || (white[i].p==pb && whmoves<moves_to_prom[i]));
-
-  for (bnp = boardnum; *bnp; bnp++)
-    toblock[*bnp] = 0;
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      block_requirement[*bnp] = no_block_needed_on_square;
+  }
 
   genmove(Black);
-  while (encore() && trouble!=king_square[Black] && !pinnecessary)
+  while (encore() && last_found_trouble_square_status<king_block_required)
   {
     if (jouecoup(nbply,first_play) && !echecc(nbply,Black))
     {
-      trouble = move_generation_stack[nbcou].departure;
-      switch (-e[move_generation_stack[nbcou].arrival])
+      position_of_trouble_maker = move_generation_stack[nbcou].departure;
+      switch (e[move_generation_stack[nbcou].arrival])
       {
-        case Knight:
-        case King:
-          block= move_generation_stack[nbcou].arrival;
-          break;
-        default:
-          block = (move_generation_stack[nbcou].departure
-                   + CheckDirQueen[(move_generation_stack[nbcou].arrival
-                                    -move_generation_stack[nbcou].departure)]);
-      }
-      pinnecessary= (move_generation_stack[nbcou].arrival==block
-                     && pprise[nbply]!=vide);
-      switch (toblock[block])
-      {
-        case 1:
-          if (pjoue[nbply]!=-Pawn)
-          {
-            toblock[block]= 2;
-            blockwhite--;
-            blockblack++;
-          }
+        case roin: /* unpinnable leaper */
+          last_found_trouble_square = move_generation_stack[nbcou].arrival;
+          last_found_trouble_square_status = pprise[nbply]==vide ? king_block_required : immobilisation_impossible;
           break;
 
-        case 0:
-          if (pjoue[nbply]==-Pawn)
-          {
-            toblock[block] = 1;
-            blockwhite++;
-          }
+        case cn: /* pinnable leaper */
+          last_found_trouble_square = move_generation_stack[nbcou].arrival;
+          last_found_trouble_square_status = pprise[nbply]==vide ? block_required : pin_required;
+          break;
+
+        case dn: /* unpinnable rider */
+        {
+          int const diff = (move_generation_stack[nbcou].arrival
+                            -move_generation_stack[nbcou].departure);
+          last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                       +CheckDirQueen[diff]);
+          if (move_generation_stack[nbcou].arrival==last_found_trouble_square
+              && pprise[nbply]!=vide)
+            last_found_trouble_square_status = immobilisation_impossible;
           else
-          {
-            toblock[block] = 2;
-            blockblack++;
-          }
+            last_found_trouble_square_status = block_required;
+          break;
+        }
+
+        case tn:
+        case fn:
+        case pn: /* pinnable riders */
+        {
+          int const diff = (move_generation_stack[nbcou].arrival
+                            -move_generation_stack[nbcou].departure);
+          last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                       +CheckDirQueen[diff]);
+          if (move_generation_stack[nbcou].arrival==last_found_trouble_square
+              && pprise[nbply]!=vide)
+            last_found_trouble_square_status = pin_required;
+          else
+            last_found_trouble_square_status = block_required;
+          break;
+        }
+
+        default:  /* no support for fairy chess */
+          assert(0);
           break;
       }
+
+      update_block_requirements(last_found_trouble_square,
+                                block_requirement,
+                                nr_blocks_needed);
     }
     repcoup();
   }
   finply();
 
-  if (trouble == king_square[Black])
-    nopinpossible= true;
+  assert(last_found_trouble_square_status>no_requirement);
+  assert(position_of_trouble_maker!=initsquare);
 
-#if defined(DEBUG)
-  if (trouble == initsquare) {
-    StdString("something is wrong\n");
-  }
-#endif
+  if (last_found_trouble_square_status<immobilisation_impossible)
+  {
+    if (last_found_trouble_square_status!=king_block_required
+        && can_white_pin(whmoves))
+      ImmobiliseByPin(blmoves,whmoves,blpcallowed,whpcallowed,position_of_trouble_maker,n);
 
-  /* pin the trouble maker */
-  if (!nopinpossible) {
-    ImmobilizeByPin(blmoves,
-                    whmoves, blpcallowed, whpcallowed, trouble, n);
-  }
+    if (last_found_trouble_square_status<pin_required
+        && can_we_block_all_necessary_squares(nr_blocks_needed))
+    {
+      square const most_expensive_square_to_be_blocked_by_black
+        = find_most_expensive_square_to_be_blocked_by_black(blmoves,
+                                                            block_requirement);
+      switch (most_expensive_square_to_be_blocked_by_black)
+      {
+        case nullsquare:
+          /* Black doesn't have time to provide all required blocks */
+          break;
 
-  /* block the trouble maker */
-  if (!pinnecessary) {
-    blblock= block;
+        case initsquare:
+          assert(block_requirement[last_found_trouble_square]
+                 ==white_block_sufficient_on_square);
+        {
+          /* All required blocks can equally well be provided by White or Black,
+           * i.e. they all concern black pawns!
+           * We could now try to find the most expensive one, but we assume that
+           * there isn't much difference; so simply pick
+           * last_found_trouble_square.
+           */
+          boolean const morethanonecheck = false;
+          ImmobiliseByBlackBlock(blmoves,whmoves,
+                                 blpcallowed,whpcallowed,
+                                 last_found_trouble_square,
+                                 morethanonecheck,n);
+          ImmobiliseByWhiteBlock(blmoves,whmoves,
+                                 blpcallowed,whpcallowed,
+                                 last_found_trouble_square,n);
+          break;
+        }
 
-    if (nopinpossible) {
-      for (i= 1; i < MaxPiece[Black]; i++) {
-        if (!black[i].used) {
-          bpl++;
+        default:
+        {
+          /* most_expensive_square_to_be_blocked_by_black is the most expensive
+           * square among those that Black must block */
+          boolean const morethanonecheck = false;
+          ImmobiliseByBlackBlock(blmoves,whmoves,
+                                 blpcallowed,whpcallowed,
+                                 most_expensive_square_to_be_blocked_by_black,
+                                 morethanonecheck,n);
+          break;
         }
       }
-
-      if (bpl < blockblack) {
-        return;
-      }
-
-      for (i= 0; i < MaxPiece[White]; i++) {
-        if (!white[i].used) {
-          wpl++;
-        }
-      }
-
-      if (wpl + bpl < blockblack + blockwhite) {
-        return;
-      }
-
-      mtba= 0;
-      weight= 0;
-      for (bnp= boardnum; *bnp && (mtba <= blmoves); bnp++) {
-        if (toblock[*bnp]>1) {
-          int nw= MovesToBlock(*bnp, blmoves);
-          mtba += nw;
-          if (nw > weight) {
-            weight= nw;
-            blblock= *bnp;
-          }
-        }
-      }
-
-      if (mtba > blmoves) {
-        return;
-      }
-    }
-
-    ImmobilizeByBlBlock(blmoves,
-                        whmoves, blpcallowed, whpcallowed, blblock, false,
-                        n);
-
-    if ((blblock == block) && (-e[trouble] == Pawn)) {
-      ImmobilizeByWhBlock(blmoves,
-                          whmoves, blpcallowed, whpcallowed, block, n);
     }
   }
 
 #if defined(DEBUG)
   write_indentation();StdString("leaving Immobilize\n");
 #endif
-} /* Immobilize */
+} /* Immobilise */
 
 void AvoidWhKingInCheck(
   int   blmoves,
@@ -1612,9 +1736,9 @@ void AvoidWhKingInCheck(
   for (i= 0; i < md; i++) {
     square sq= king_square[Black];
     while (e[sq+=checkdirs[i]] == vide) {
-      ImmobilizeByBlBlock(blmoves,
+      ImmobiliseByBlackBlock(blmoves,
                           whmoves, blpcallowed, whpcallowed, sq, md-1, n);
-      ImmobilizeByWhBlock(blmoves,
+      ImmobiliseByWhiteBlock(blmoves,
                           whmoves, blpcallowed, whpcallowed, sq, n);
     }
   }
@@ -1686,9 +1810,9 @@ void AvoidCheckInStalemate(
   for (i= 0; i < md; i++) {
     square sq= king_square[Black];
     while (e[sq+=checkdirs[i]] == vide) {
-      ImmobilizeByBlBlock(blmoves,
+      ImmobiliseByBlackBlock(blmoves,
                           whmoves, blpcallowed, whpcallowed, sq, md-1, n);
-      ImmobilizeByWhBlock(blmoves,
+      ImmobiliseByWhiteBlock(blmoves,
                           whmoves, blpcallowed, whpcallowed, sq, n);
     }
   }
@@ -1920,39 +2044,42 @@ void NeutralizeMateGuardingPieces(
   }
 }
 
-int MovesToBlock(square sq, int blmoves) {
+int MovesToBlock(square sq, int blmoves)
+{
+  int mintime = maxply+1;
+
   int i;
-  int mintime= maxply+1;
+  for (i = 1; i<MaxPiece[Black]; ++i)
+  {
+    piece const p = black[i].p;
 
-  for (i= 1; i < MaxPiece[Black]; i++) {
-    int  time;
-    piece     p= black[i].p;
-
-    if (p!=-Pawn || sq>=square_a2) {
-      time=  FroTo(p, black[i].sq, p, sq, false);
-      if (time < mintime) {
-        mintime= time;
-      }
+    if (p!=-Pawn || sq>=square_a2)
+    {
+      boolean const genchk = false;
+      int const time = FroTo(p,black[i].sq,p,sq,genchk);
+      if (time<mintime)
+        mintime = time;
     }
 
     /* pawn promotions */
-    if (p == -Pawn) {
-      /* A rough check whether it is worth thinking about promotions. */
-      int moves= black[i].sq / onerow - 8;
-      if (moves > 5)
-        moves= 5;
+    if (p==-Pawn)
+    {
+      /* A rough check whether it is worth thinking about promotions */
+      int moves = black[i].sq>=square_a7 ? 5 : black[i].sq/onerow - nr_of_slack_rows_below_board;
+      assert(moves<=5);
 
       if (sq>=square_a2)
-        moves++;
+        ++moves;
 
-      if (blmoves >= moves) {
-        piece pp= -getprompiece[vide];
-        while (pp != vide) {
-          time= FroTo(p, black[i].sq, -pp, sq, false);
-          if (time < mintime) {
-            mintime= time;
-          }
-          pp= -getprompiece[-pp];
+      if (blmoves>=moves)
+      {
+        piece pp;
+        for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+        {
+          boolean const genchk = false;
+          int const time = FroTo(p,black[i].sq,-pp,sq,genchk);
+          if (time<mintime)
+            mintime = time;
         }
       }
     }
@@ -1997,7 +2124,7 @@ static void GenerateBlocking(
                            whmoves, blpcallowed, whpcallowed, n);
           }
           else {
-            Immobilize(timetowaste,
+            Immobilise(timetowaste,
                        whmoves, blpcallowed, whpcallowed, n);
           }
         }
