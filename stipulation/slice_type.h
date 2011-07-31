@@ -122,6 +122,8 @@
     ENUMERATOR(STIntelligentFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
+    ENUMERATOR(STIntelligentImmobilisationTester), /* determine how immobile the side to be stalemated is already */ \
+    ENUMERATOR(STIntelligentImmobilisationCounter), /* determine how immobile the side to be stalemated is already */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STFlightsquaresCounter), /* deals with option MaxFlightsquares */ \

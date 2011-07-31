@@ -193,6 +193,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STIntelligentFilter */
   slice_structure_pipe,   /* STGoalReachableGuardFilter */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
+  slice_structure_fork,   /* STIntelligentImmobilisationTester */
+  slice_structure_pipe,   /* STIntelligentImmobilisationCounter */
   slice_structure_pipe,   /* STKeepMatingFilter */
   slice_structure_fork,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STFlightsquaresCounter */
@@ -352,6 +354,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STIntelligentFilter */
   slice_function_unspecified,    /* STGoalReachableGuardFilter */
   slice_function_unspecified,    /* STIntelligentDuplicateAvoider */
+  slice_function_unspecified,    /* STIntelligentImmobilisationTester */
+  slice_function_unspecified,    /* STIntelligentImmobilisationCounter */
   slice_function_unspecified,    /* STKeepMatingFilter */
   slice_function_unspecified,    /* STMaxFlightsquares */
   slice_function_unspecified,    /* STFlightsquaresCounter */
@@ -1623,6 +1627,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STIntelligentFilter */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
+  &stip_traverse_structure_goal_reached_tester, /* STIntelligentImmobilisationTester */
+  &stip_traverse_structure_pipe,              /* STIntelligentImmobilisationCounter */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
   &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
@@ -1883,6 +1889,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,     /* STIntelligentFilter */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
+    &stip_traverse_moves_setplay_fork,      /* STIntelligentImmobilisationTester */
+    &stip_traverse_moves_pipe,              /* STIntelligentImmobilisationCounter */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
     &stip_traverse_moves_end_of_branch,     /* STMaxFlightsquares */
     &stip_traverse_moves_pipe,              /* STFlightsquaresCounter */

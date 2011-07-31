@@ -28,6 +28,7 @@ slice_index temporary_hack_cagecirce_noncapture_finder[nr_sides];
 slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
+slice_index temporary_hack_intelligent_immobilisation_tester[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -50,6 +51,7 @@ void temporary_hacks_swap_colors(void)
   swap_colors(&temporary_hack_castling_intermediate_move_legality_tester);
   swap_colors(&temporary_hack_maximummer_candidate_move_tester);
   swap_colors(&temporary_hack_opponent_moves_counter);
+  swap_colors(&temporary_hack_intelligent_immobilisation_tester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -204,6 +206,21 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   return result;
 }
 
+static slice_index make_intelligent_immobilisation_tester(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length_help+1,
+                                             slack_length_help+1);
+  slice_index const proto = alloc_pipe(STIntelligentImmobilisationCounter);
+  help_branch_insert_slices(help,&proto,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_branch_fork(STIntelligentImmobilisationTester,proxy_branch);
+  stip_impose_starter(result,side);
+
+  return result;
+}
+
 void insert_temporary_hacks(slice_index root_slice)
 {
   TraceFunctionEntry(__func__);
@@ -245,6 +262,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_opponent_moves_counter[Black] = make_opponent_moves_counter_fork(Black);
     temporary_hack_opponent_moves_counter[White] = make_opponent_moves_counter_fork(White);
 
+    temporary_hack_intelligent_immobilisation_tester[Black] = make_intelligent_immobilisation_tester(Black);
+    temporary_hack_intelligent_immobilisation_tester[White] = make_intelligent_immobilisation_tester(White);
+
     pipe_append(root_slice,entry_point);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
@@ -265,6 +285,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_maximummer_candidate_move_tester[White],
                 temporary_hack_opponent_moves_counter[White]);
     pipe_append(temporary_hack_opponent_moves_counter[White],
+                temporary_hack_intelligent_immobilisation_tester[White]);
+    pipe_append(temporary_hack_intelligent_immobilisation_tester[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -284,6 +306,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_maximummer_candidate_move_tester[Black]);
     pipe_append(temporary_hack_maximummer_candidate_move_tester[Black],
                 temporary_hack_opponent_moves_counter[Black]);
+    pipe_append(temporary_hack_opponent_moves_counter[Black],
+                temporary_hack_intelligent_immobilisation_tester[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

@@ -32,6 +32,10 @@ extern slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 /* fork slice into branch that tests the legality of a candidate move */
 extern slice_index temporary_hack_opponent_moves_counter[nr_sides];
 
+/* fork slice into branch that tests the immobilisation of the side to be stalemated */
+extern slice_index temporary_hack_intelligent_immobilisation_tester[nr_sides];
+
+
 /* Initialise temporary hack slices
  * @param root_slice identifies root slice of stipulation
  */

@@ -28,6 +28,7 @@
 #include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "stipulation/temporary_hacks.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -1454,14 +1455,13 @@ typedef enum
 /* Find the most expensive square (if any) that must be blocked by Black
  * @param blmoves number of remaining black moves
  * @param block_requirement blocking requirements for each square
- * @param nr_blocks_needed number of blocks needed per side
  * @return * nullsquare more squares need to be blocked than Black can in the
  *                      blmoves remaining moves
  *         * initsquare no square is required to be blocked by Black
  *         * otherwise: most expensive square that must be blocked by Black
  */
 static square find_most_expensive_square_to_be_blocked_by_black(int blmoves,
-                                                 block_requirement_type const block_requirement[maxsquare+4])
+                                                                block_requirement_type const block_requirement[maxsquare+4])
 {
   square result = initsquare;
   int max_number_black_moves_to_squares_to_be_blocked = -1;
@@ -1489,31 +1489,49 @@ static square find_most_expensive_square_to_be_blocked_by_black(int blmoves,
   return result;
 }
 
-static void update_block_requirements(square last_found_square_to_be_blocked,
-                                      block_requirement_type block_requirement[maxsquare+4],
-                                      unsigned int nr_blocks_needed[nr_sides])
+typedef enum
 {
-  switch (block_requirement[last_found_square_to_be_blocked])
+  no_requirement,
+  block_required,
+  king_block_required,
+  pin_required,
+  immobilisation_impossible
+} last_found_trouble_square_status_type;
+
+typedef struct
+{
+  square position_of_trouble_maker;
+  square last_found_trouble_square;
+  unsigned int nr_blocks_needed[nr_sides];
+  block_requirement_type block_requirement[maxsquare+4];
+  last_found_trouble_square_status_type last_found_trouble_square_status;
+} immobilisation_state_type;
+
+static immobilisation_state_type const null_immobilisation_state;
+
+static void update_block_requirements(immobilisation_state_type *state)
+{
+  switch (state->block_requirement[state->last_found_trouble_square])
   {
     case no_block_needed_on_square:
       if (pjoue[nbply]==pn)
       {
-        block_requirement[last_found_square_to_be_blocked] = white_block_sufficient_on_square;
-        ++nr_blocks_needed[White];
+        state->block_requirement[state->last_found_trouble_square] = white_block_sufficient_on_square;
+        ++state->nr_blocks_needed[White];
       }
       else
       {
-        block_requirement[last_found_square_to_be_blocked] = black_block_needed_on_square;
-        ++nr_blocks_needed[Black];
+        state->block_requirement[state->last_found_trouble_square] = black_block_needed_on_square;
+        ++state->nr_blocks_needed[Black];
       }
       break;
 
     case white_block_sufficient_on_square:
       if (pjoue[nbply]!=pn)
       {
-        block_requirement[last_found_square_to_be_blocked] = black_block_needed_on_square;
-        --nr_blocks_needed[White];
-        ++nr_blocks_needed[Black];
+        state->block_requirement[state->last_found_trouble_square] = black_block_needed_on_square;
+        --state->nr_blocks_needed[White];
+        ++state->nr_blocks_needed[Black];
       }
       break;
 
@@ -1527,122 +1545,127 @@ static void update_block_requirements(square last_found_square_to_be_blocked,
   }
 }
 
+static immobilisation_state_type * current_immobilisation_state;
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
+                                                             stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_immobilisation_state->position_of_trouble_maker = move_generation_stack[nbcou].departure;
+  switch (e[move_generation_stack[nbcou].arrival])
+  {
+    case roin: /* unpinnable leaper */
+      current_immobilisation_state->last_found_trouble_square = move_generation_stack[nbcou].arrival;
+      current_immobilisation_state->last_found_trouble_square_status = pprise[nbply]==vide ? king_block_required : immobilisation_impossible;
+      break;
+
+    case cn: /* pinnable leaper */
+      current_immobilisation_state->last_found_trouble_square = move_generation_stack[nbcou].arrival;
+      current_immobilisation_state->last_found_trouble_square_status = pprise[nbply]==vide ? block_required : pin_required;
+      break;
+
+    case dn: /* unpinnable rider */
+    {
+      int const diff = (move_generation_stack[nbcou].arrival
+                        -move_generation_stack[nbcou].departure);
+      current_immobilisation_state->last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                                                 +CheckDirQueen[diff]);
+      if (move_generation_stack[nbcou].arrival==current_immobilisation_state->last_found_trouble_square
+          && pprise[nbply]!=vide)
+        current_immobilisation_state->last_found_trouble_square_status = immobilisation_impossible;
+      else
+        current_immobilisation_state->last_found_trouble_square_status = block_required;
+      break;
+    }
+
+    case tn:
+    case fn:
+    case pn: /* pinnable riders */
+    {
+      int const diff = (move_generation_stack[nbcou].arrival
+                        -move_generation_stack[nbcou].departure);
+      current_immobilisation_state->last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                                                 +CheckDirQueen[diff]);
+      if (move_generation_stack[nbcou].arrival==current_immobilisation_state->last_found_trouble_square
+          && pprise[nbply]!=vide)
+        current_immobilisation_state->last_found_trouble_square_status = pin_required;
+      else
+        current_immobilisation_state->last_found_trouble_square_status = block_required;
+      break;
+    }
+
+    default:  /* no support for fairy chess */
+      assert(0);
+      break;
+  }
+
+  update_block_requirements(current_immobilisation_state);
+
+  if (current_immobilisation_state->last_found_trouble_square_status<king_block_required)
+    result = n+2;
+  else
+    result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void Immobilise(int blmoves, int whmoves,
                 int blpcallowed, int whpcallowed,
                 stip_length_type n)
 {
-  square position_of_trouble_maker = initsquare;
-  square last_found_trouble_square = initsquare;
-  unsigned int nr_blocks_needed[nr_sides] = { 0, 0 };
-  block_requirement_type block_requirement[maxsquare+4];
-
-  typedef enum
-  {
-    no_requirement,
-    block_required,
-    king_block_required,
-    pin_required,
-    immobilisation_impossible
-  } square_status_type;
-
-  square_status_type last_found_trouble_square_status = no_requirement;
+  immobilisation_state_type immobilisation_state = null_immobilisation_state;
 
   if (max_nr_solutions_found_in_phase())
     return;
 
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,
-          "entering Immobilize(%d, %d,%d,%d)\n",
-          blmoves, whmoves, blpcallowed, whpcallowed);
-  StdString(GlobalStr);
-#endif
-
   if (blpcallowed<0 || whpcallowed<0)
     return;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_immobilisation_state = &immobilisation_state;
+  slice_has_solution(slices[temporary_hack_intelligent_immobilisation_tester[Black]].u.fork.fork);
+  current_immobilisation_state = 0;
+
+  assert(immobilisation_state.last_found_trouble_square_status>no_requirement);
+  assert(immobilisation_state.position_of_trouble_maker!=initsquare);
+
+  if (immobilisation_state.last_found_trouble_square_status<immobilisation_impossible)
   {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      block_requirement[*bnp] = no_block_needed_on_square;
-  }
-
-  genmove(Black);
-  while (encore() && last_found_trouble_square_status<king_block_required)
-  {
-    if (jouecoup(nbply,first_play) && !echecc(nbply,Black))
-    {
-      position_of_trouble_maker = move_generation_stack[nbcou].departure;
-      switch (e[move_generation_stack[nbcou].arrival])
-      {
-        case roin: /* unpinnable leaper */
-          last_found_trouble_square = move_generation_stack[nbcou].arrival;
-          last_found_trouble_square_status = pprise[nbply]==vide ? king_block_required : immobilisation_impossible;
-          break;
-
-        case cn: /* pinnable leaper */
-          last_found_trouble_square = move_generation_stack[nbcou].arrival;
-          last_found_trouble_square_status = pprise[nbply]==vide ? block_required : pin_required;
-          break;
-
-        case dn: /* unpinnable rider */
-        {
-          int const diff = (move_generation_stack[nbcou].arrival
-                            -move_generation_stack[nbcou].departure);
-          last_found_trouble_square = (move_generation_stack[nbcou].departure
-                                       +CheckDirQueen[diff]);
-          if (move_generation_stack[nbcou].arrival==last_found_trouble_square
-              && pprise[nbply]!=vide)
-            last_found_trouble_square_status = immobilisation_impossible;
-          else
-            last_found_trouble_square_status = block_required;
-          break;
-        }
-
-        case tn:
-        case fn:
-        case pn: /* pinnable riders */
-        {
-          int const diff = (move_generation_stack[nbcou].arrival
-                            -move_generation_stack[nbcou].departure);
-          last_found_trouble_square = (move_generation_stack[nbcou].departure
-                                       +CheckDirQueen[diff]);
-          if (move_generation_stack[nbcou].arrival==last_found_trouble_square
-              && pprise[nbply]!=vide)
-            last_found_trouble_square_status = pin_required;
-          else
-            last_found_trouble_square_status = block_required;
-          break;
-        }
-
-        default:  /* no support for fairy chess */
-          assert(0);
-          break;
-      }
-
-      update_block_requirements(last_found_trouble_square,
-                                block_requirement,
-                                nr_blocks_needed);
-    }
-    repcoup();
-  }
-  finply();
-
-  assert(last_found_trouble_square_status>no_requirement);
-  assert(position_of_trouble_maker!=initsquare);
-
-  if (last_found_trouble_square_status<immobilisation_impossible)
-  {
-    if (last_found_trouble_square_status!=king_block_required
+    if (immobilisation_state.last_found_trouble_square_status!=king_block_required
         && can_white_pin(whmoves))
-      ImmobiliseByPin(blmoves,whmoves,blpcallowed,whpcallowed,position_of_trouble_maker,n);
+      ImmobiliseByPin(blmoves,whmoves,blpcallowed,whpcallowed,immobilisation_state.position_of_trouble_maker,n);
 
-    if (last_found_trouble_square_status<pin_required
-        && can_we_block_all_necessary_squares(nr_blocks_needed))
+    if (immobilisation_state.last_found_trouble_square_status<pin_required
+        && can_we_block_all_necessary_squares(immobilisation_state.nr_blocks_needed))
     {
       square const most_expensive_square_to_be_blocked_by_black
         = find_most_expensive_square_to_be_blocked_by_black(blmoves,
-                                                            block_requirement);
+                                                            immobilisation_state.block_requirement);
       switch (most_expensive_square_to_be_blocked_by_black)
       {
         case nullsquare:
@@ -1650,23 +1673,23 @@ void Immobilise(int blmoves, int whmoves,
           break;
 
         case initsquare:
-          assert(block_requirement[last_found_trouble_square]
+          assert(immobilisation_state.block_requirement[immobilisation_state.last_found_trouble_square]
                  ==white_block_sufficient_on_square);
         {
           /* All required blocks can equally well be provided by White or Black,
            * i.e. they all concern black pawns!
            * We could now try to find the most expensive one, but we assume that
            * there isn't much difference; so simply pick
-           * last_found_trouble_square.
+           * immobilisation_state.last_found_trouble_square.
            */
           boolean const morethanonecheck = false;
           ImmobiliseByBlackBlock(blmoves,whmoves,
                                  blpcallowed,whpcallowed,
-                                 last_found_trouble_square,
+                                 immobilisation_state.last_found_trouble_square,
                                  morethanonecheck,n);
           ImmobiliseByWhiteBlock(blmoves,whmoves,
                                  blpcallowed,whpcallowed,
-                                 last_found_trouble_square,n);
+                                 immobilisation_state.last_found_trouble_square,n);
           break;
         }
 
@@ -1685,9 +1708,8 @@ void Immobilise(int blmoves, int whmoves,
     }
   }
 
-#if defined(DEBUG)
-  write_indentation();StdString("leaving Immobilize\n");
-#endif
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* Immobilise */
 
 void AvoidWhKingInCheck(

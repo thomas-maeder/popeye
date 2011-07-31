@@ -367,6 +367,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = opponent_moves_counter_can_help(si,n);
       break;
 
+    case STIntelligentImmobilisationCounter:
+      result = intelligent_immobilisation_counter_can_help(si,n);
+      break;
+
     default:
       assert(n==slack_length_help);
       switch (slice_has_solution(si))
