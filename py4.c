@@ -195,7 +195,6 @@ static int count_opponent_moves(void)
   int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
   init_opponent_moves_counter();
