@@ -126,9 +126,9 @@ solution finished.
   1.h2-h1=Q   2.Kg1-h2   3.Qh1-c1 + Sd5-f4   4.Qc1-c6 + Sf4-e6   5.Qc6-c1 + Se6-g5   6.Qc1-h1 Sg5-f3 # 
 
               empile:      822833
-            jouecoup:      714273
+            jouecoup:      709350
         orig_rbechec:       71902
-        orig_rnechec:      424127
+        orig_rnechec:      419204
 solution finished. 
 
 
@@ -162,17 +162,17 @@ a)
   1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 # 
 
               empile:      398338
-            jouecoup:      356597
+            jouecoup:      199466
         orig_rbechec:       18521
-        orig_rnechec:      368821
+        orig_rnechec:      211690
 b) wBd1 
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
               empile:      716893
-            jouecoup:      647797
+            jouecoup:      423515
         orig_rbechec:       52659
-        orig_rnechec:      610900
+        orig_rnechec:      386618
 solution finished. 
 
 
@@ -204,9 +204,9 @@ solution finished.
   1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
 
               empile:   269549837
-            jouecoup:   261320385
+            jouecoup:   247503767
         orig_rbechec:    68910017
-        orig_rnechec:   161382259
+        orig_rnechec:   147565641
 solution finished. 
 
 

@@ -63,7 +63,8 @@ static int moves_to_prom[nr_squares_on_board];
 static square squarechecking;
 static square const *deposebnp;
 static piece piecechecking;
-static int nbrchecking;
+static int index_of_piece_delivering_check;
+enum { index_of_king = 0 };
 
 static PIECE Mate[nr_squares_on_board];
 static int IndxChP;
@@ -377,7 +378,8 @@ static boolean isGoalReachableRegularGoals(void)
           && castling_flag[nbply] != castling_flag[nbply-1]))
   {
     square const *bnp;
-    whmoves= blmoves= 0;
+    whmoves = 0;
+    blmoves = 0;
     for (bnp= boardnum; *bnp; bnp++) {
       square f_sq= *bnp;
       if ( (f_p= e[f_sq]) != vide
@@ -516,12 +518,9 @@ static void BlackPieceTo(square, int, int, int, int, stip_length_type n);
 static void WhitePieceTo(square, int, int, int, int, stip_length_type n);
 static void AvoidWhKingInCheck(int, int, int, int, stip_length_type n);
 
-static void StaleStoreMate(
-  int   blmoves,
-  int   whmoves,
-  int   blpcallowed,
-  int   whpcallowed,
-  stip_length_type n)
+static void StaleStoreMate(int blmoves, int whmoves,
+                           int blpcallowed, int whpcallowed,
+                           stip_length_type n)
 {
   int   i, index, unused= 0;
   square const *bnp;
@@ -535,10 +534,10 @@ static void StaleStoreMate(
     return;
   }
 
-  if ((king_square[White] == initsquare)
-      && (white[0].sq != initsquare)
-      && (white[0].sq != square_e1)
-      && (whmoves == 0))
+  if (king_square[White]==initsquare
+      && white[index_of_king].sq!=initsquare
+      && white[index_of_king].sq!=square_e1
+      && whmoves==0)
   {
     DeposeWhKing(blmoves, whmoves, blpcallowed, whpcallowed, n);
     return;
@@ -603,9 +602,9 @@ static void StaleStoreMate(
     }
   }
 
-  IndxChP= nbrchecking == -1
+  IndxChP= index_of_piece_delivering_check == -1
     ? -1
-    : GetIndex(white[nbrchecking].sp);
+    : GetIndex(white[index_of_piece_delivering_check].sp);
   _rb= king_square[White];
   _rn= king_square[Black];
 
@@ -800,12 +799,9 @@ static boolean Redundant(void)
   return result;
 } /* Redundant */
 
-static void StoreMate(
-  int   blmoves,
-  int   whmoves,
-  int   blpc,
-  int   whpc,
-  stip_length_type n)
+static void StoreMate(int blmoves, int whmoves,
+                      int blpc, int whpc,
+                      stip_length_type n)
 {
   int i, index;
   square const *bnp;
@@ -820,12 +816,12 @@ static void StoreMate(
   if (Redundant())
     return;
 
-  if (   (king_square[White] == initsquare)
-         && (white[0].sq != initsquare)
-         && (white[0].sq != square_e1)
-         && (whmoves == 0))
+  if (king_square[White]==initsquare
+      && white[index_of_king].sq!=initsquare
+      && white[index_of_king].sq!=square_e1
+      && whmoves==0)
   {
-    if (e[white[0].sq] != vide) {
+    if (e[white[index_of_king].sq]!=vide) {
       return;
     }
   }
@@ -855,9 +851,9 @@ static void StoreMate(
     }
   }
 
-  IndxChP= nbrchecking == -1
+  IndxChP= index_of_piece_delivering_check == -1
     ? -1
-    : GetIndex(white[nbrchecking].sp);
+    : GetIndex(white[index_of_piece_delivering_check].sp);
   _rb= king_square[White];
   _rn= king_square[Black];
 
@@ -1144,14 +1140,14 @@ void DeposeWhKing(int   blmoves,
   StdString(GlobalStr);
 #endif
 
-  king_square[White]= white[0].sq;
+  king_square[White]= white[index_of_king].sq;
   if (e[king_square[White]] != vide) {
     king_square[White]= initsquare;
     return;
   }
-  f_p= white[0].p;
-  white[0].used= true;
-  SetPiece(f_p, king_square[White], white[0].sp);
+  f_p = white[index_of_king].p;
+  white[index_of_king].used = true;
+  SetPiece(f_p, king_square[White], white[index_of_king].sp);
   if (!IllegalCheck(Black) && !IllegalCheck(White)) {
     if (echecc(nbply,Black)) {
       AvoidCheckInStalemate(blmoves, whmoves,
@@ -1169,7 +1165,7 @@ void DeposeWhKing(int   blmoves,
   }
   e[king_square[White]]= vide;
   spec[king_square[White]]= EmptySpec;
-  white[0].used= false;
+  white[index_of_king].used= false;
   king_square[White]= initsquare;
 
 #if defined(DEBUG)
@@ -1369,11 +1365,11 @@ static void ImmobiliseByWhiteBlock(
     if (time <= whmoves) {
       int decpc= i ? 1 : 0;
       SetPiece(f_p, toblock, white[i].sp);
-      if (i == 0) {
+      if (i==index_of_king)
         king_square[White]= toblock;
-      }
+
       if (!IllegalCheck(Black)
-          && (i > 0 || !IllegalCheck(White)))
+          && (i!=index_of_king || !IllegalCheck(White)))
       {
         if (echecc(nbply,Black)) {
           AvoidCheckInStalemate(blmoves,
@@ -1393,9 +1389,8 @@ static void ImmobiliseByWhiteBlock(
       }
     }
     white[i].used= false;
-    if (i == 0) {
+    if (i==index_of_king)
       king_square[White]= initsquare;
-    }
   }
   e[toblock]= vide;
   spec[toblock]= EmptySpec;
@@ -2258,282 +2253,348 @@ static void GenerateBlocking(
   }
 } /* GenerateBlocking */
 
-static void GenerateGuarding(
-  int   actpwh,
-  int   whmoves,
-  int   blmoves,
-  int   whcaptures,
-  stip_length_type n)
+static int count_black_flights(square toblock[8], int min_nr_white_captures)
 {
-  square const *bnp;
-  square toblock[8];
-  int   flights;
-  boolean   unblockable= false;
+  int result = 0;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",min_nr_white_captures);
+  TraceFunctionParamListEnd();
+
+  genmove(Black);
+  while(encore() && min_nr_white_captures+result<MaxPiece[Black])
+  {
+    if (jouecoup(nbply,first_play))
+    {
+      if (goal_to_be_reached==goal_stale)
+        e[move_generation_stack[nbcou].departure] = obs;
+
+      if (!echecc(nbply,Black))
+      {
+        if (pprise[nbply]==vide)
+        {
+          toblock[result] = move_generation_stack[nbcou].arrival;
+          ++result;
+        }
+        else
+          result = MaxPiece[Black];
+      }
+    }
+
+    repcoup();
+  }
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static int count_max_nr_allowed_black_pawn_captures(void)
+{
+  int result = 0;
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 1; i<MaxPiece[White]; ++i)
+    if (!white[i].used)
+      ++result;
+
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static int count_min_nr_black_moves_for_blocks(int blmoves,
+                                               int nr_flights,
+                                               square const toblock[8],
+                                               int mintime[8])
+{
+  int result = 0;
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<nr_flights && result<=blmoves; ++i)
+  {
+    mintime[i] = MovesToBlock(toblock[i],blmoves);
+    result += mintime[i];
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void PlaceWhiteKing(int whmoves, int blmoves,
+                           int min_nr_white_captures,
+                           stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",whmoves);
+  TraceFunctionParam("%d",blmoves);
+  TraceFunctionParam("%d",min_nr_white_captures);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (e[white[index_of_king].sq]==vide
+      && move_diff_code[abs(king_square[Black]-white[index_of_king].sq)]>=3)
+  {
+    square toblock[8];
+    int const nr_flights = count_black_flights(toblock,min_nr_white_captures);
+    if (min_nr_white_captures+nr_flights<MaxPiece[Black])
+    {
+      int mintime[8];
+      int const mtba = count_min_nr_black_moves_for_blocks(blmoves,
+                                                           nr_flights,
+                                                           toblock,
+                                                           mintime);
+      if (mtba<=blmoves)
+      {
+        int const blpcallowed = count_max_nr_allowed_black_pawn_captures();
+
+        king_square[White] = white[index_of_king].sq;
+        SetPiece(white[index_of_king].p,king_square[White],white[index_of_king].sp);
+        white[index_of_king].used = true;
+        GenerateBlocking(whmoves,
+                         nr_flights,toblock,mintime,blpcallowed,
+                         MaxPiece[Black]-1-min_nr_white_captures,blmoves-mtba,n);
+        white[index_of_king].used = false;
+        e[king_square[White]] = vide;
+        spec[king_square[White]] = EmptySpec;
+        king_square[White] = initsquare;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void FinaliseGuarding(int whmoves, int blmoves,
+                             int min_nr_white_captures,
+                             stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",whmoves);
+  TraceFunctionParam("%d",blmoves);
+  TraceFunctionParam("%d",min_nr_white_captures);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (king_square[White]==initsquare
+      && white[index_of_king].sq!=initsquare
+      && white[index_of_king].sq!=square_e1
+      && whmoves==0)
+    PlaceWhiteKing(whmoves,blmoves,min_nr_white_captures,n);
+  else
+  {
+    square toblock[8];
+    int const nr_flights = count_black_flights(toblock,min_nr_white_captures);
+
+    if (min_nr_white_captures+nr_flights<MaxPiece[Black])
+    {
+      int mintime[8];
+      int const mtba = count_min_nr_black_moves_for_blocks(blmoves,
+                                                           nr_flights,
+                                                           toblock,
+                                                           mintime);
+      if (mtba<=blmoves)
+      {
+        int const blpcallowed = count_max_nr_allowed_black_pawn_captures();
+        GenerateBlocking(whmoves,
+                         nr_flights,toblock,mintime,blpcallowed,
+                         MaxPiece[Black]-1-min_nr_white_captures,blmoves-mtba,n);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void DealWithFlights(int actpwh,
+                            int whmoves, int blmoves,
+                            int min_nr_white_captures,
+                            stip_length_type n)
+{
 #if defined(DEBUG)
   sprintf(GlobalStr,
           "GenerateGuarding(%d, %d, %d, %d)\n",
-          actpwh, whmoves, blmoves, whcaptures);
+          actpwh, whmoves, blmoves, min_nr_white_captures);
   StdString(GlobalStr);
 #endif
 
   if (max_nr_solutions_found_in_phase())
     return;
 
-  if (whcaptures > MaxPiece[Black]-1
-      || hasMaxtimeElapsed()) {
+  if (min_nr_white_captures>MaxPiece[Black]-1
+      || hasMaxtimeElapsed())
     return;
+
+  if (actpwh==index_of_piece_delivering_check)
+    ++actpwh;
+
+  if (actpwh==MaxPiece[White])
+  {
+    /* guarding potential used up */
+    if (goal_to_be_reached==goal_stale || echecc(nbply,Black))
+      FinaliseGuarding(whmoves,blmoves,min_nr_white_captures,n);
   }
+  else
+  {
+    piece const p = white[actpwh].p;
+    Flags const sp = white[actpwh].sp;
+    square const sq = white[actpwh].sq;
+    square const *bnp;
 
-  if (actpwh == nbrchecking) {
-    actpwh++;
-  }
+    white[actpwh].used = true;
 
-  if (actpwh == MaxPiece[White]) {
-    int i, blpcallowed, mtba, mintime[8];
-    boolean set_king= false;
-    flights= 0;
-
-    /* check for check */
-    if (goal_to_be_reached == goal_mate && !echecc(nbply,Black)) {
-      return;
-    }
-
-    if (    (king_square[White] == initsquare)
-            && (white[0].sq != initsquare)
-            && (white[0].sq != square_e1)
-            && (whmoves == 0))
-    {
-      if (    (e[white[0].sq] != vide)
-              || (move_diff_code[abs(king_square[Black]-white[0].sq)] < 3))
+    for (bnp = boardnum; *bnp; bnp++)
+      if (e[*bnp]==vide)
       {
-        return;
-      }
-      set_king= true;
-    }
-
-    /* determine flights */
-    genmove(Black);
-    while(encore() && !unblockable) {
-      if (jouecoup(nbply,first_play)
-          && goal_to_be_reached==goal_stale)
-      {
-        e[move_generation_stack[nbcou].departure]= obs;
-      }
-
-      if (!echecc(nbply,Black)) {
-        toblock[flights++]= move_generation_stack[nbcou].arrival;
-        if (pprise[nbply] != vide) {
-          unblockable= true;
-        }
-      }
-      repcoup();
-    }
-    finply();
-
-    if (unblockable || (flights > MaxPiece[Black]-1)) {
-      return;
-    }
-
-#if defined(DEBUG)
-    WritePosition();
-    sprintf(GlobalStr, "flights: %d, ", flights);
-    StdString(GlobalStr);
-    sprintf(GlobalStr, "whcaptures: %d\n", whcaptures);
-    StdString(GlobalStr);
-#endif
-    if (whcaptures+flights > MaxPiece[Black]-1) {
-      return;
-    }
-
-    mtba= 0;
-    for (i= 0; i < flights && mtba <= blmoves; i++) {
-      mtba += mintime[i]= MovesToBlock(toblock[i], blmoves);
-    }
-
-    if (mtba > blmoves) {
-      return;
-    }
-
-    /* count black pawn captures allowed */
-    blpcallowed= 0;
-    for (i= 1; i < MaxPiece[White]; i++) {
-      if (!white[i].used) {
-        blpcallowed++;
-      }
-    }
-
-#if defined(DEBUG)
-    sprintf(GlobalStr,
-            "GenerateBlocking with timetowaste=%d\n", blmoves-mtba);
-    StdString(GlobalStr);
-#endif
-
-    if (set_king) {
-      king_square[White]= white[0].sq;
-      SetPiece(white[0].p, king_square[White], white[0].sp);
-      white[0].used= true;
-      GenerateBlocking(whmoves,
-                       flights, toblock, mintime, blpcallowed,
-                       MaxPiece[Black]-1-whcaptures, blmoves-mtba, n);
-      white[0].used= false;
-      e[king_square[White]]= vide;
-      spec[king_square[White]]= EmptySpec;
-      king_square[White]= initsquare;
-    }
-    else {
-      GenerateBlocking(whmoves, flights, toblock, mintime,
-                       blpcallowed, MaxPiece[Black]-1-whcaptures, blmoves-mtba,
-                       n);
-    }
-  }
-  else {
-    piece   p= white[actpwh].p;
-    Flags   sp= white[actpwh].sp;
-    square  sq= white[actpwh].sq;
-
-    white[actpwh].used= true;
-
-    for (bnp= boardnum; *bnp; bnp++) {
-      int time;
-      if (e[*bnp] != vide)
-        continue;
-
-      /* set piece */
-      time= FroTo(p, sq, p, *bnp, false);
-      if (actpwh == 0) {
-        if (move_diff_code[abs(king_square[Black]-*bnp)] < 3) {
-          continue;
-        }
-        king_square[White]= *bnp;
-      }
-      /* white piece */
-      if (time <= whmoves && impact(king_square[Black], p, *bnp)) {
-        if (guards(king_square[Black], p, *bnp)
-            && actpwh < nbrchecking)
+        int const time = FroTo(p,sq,p,*bnp,false);
+        if (actpwh==index_of_king)
         {
-          continue;
+          if (move_diff_code[abs(king_square[Black]-*bnp)]<3)
+            continue;
+          else
+            king_square[White]= *bnp;
         }
-        SetPiece(p, *bnp, sp);
-        if (!IllegalCheck(Black)) {
-          if (p == pb) {
-            int diffcol= sq % onerow - *bnp % onerow;
-            GenerateGuarding(actpwh+1, whmoves-time,
-                             blmoves, whcaptures+abs(diffcol), n);
-          }
-          else {
-            GenerateGuarding(actpwh+1, whmoves-time,
-                             blmoves, whcaptures, n);
-          }
-        }
-      }
-      /* pawn promotions */
-      if (p == pb) {
-        /* A rough check whether it is worth thinking about
-           promotions.
-        */
-        if (whmoves
-            >= (*bnp<=square_h7
-                ? moves_to_prom[actpwh]+1
-                : moves_to_prom[actpwh]))
+
+        if (time<=whmoves && impact(king_square[Black],p,*bnp))
         {
-          piece pp= getprompiece[vide];
-          while (pp != vide) {
-            time= FroTo(p, sq, pp, *bnp, false);
-            if (impact(king_square[Black], pp, *bnp) && time <= whmoves) {
-              if (!(guards(king_square[Black], pp, *bnp)
-                    && actpwh < nbrchecking))
+          if (guards(king_square[Black],p,*bnp) && actpwh<index_of_piece_delivering_check)
+            continue;
+          else
+          {
+            SetPiece(p,*bnp,sp);
+            if (!IllegalCheck(Black))
+            {
+              if (p==pb)
               {
-                SetPiece(pp, *bnp, sp);
-                if (!IllegalCheck(Black))
-                  GenerateGuarding(actpwh+1,
-                                   whmoves-time, blmoves,
-                                   whcaptures,
-                                   n);
+                int const diffcol = abs(sq % onerow - *bnp % onerow);
+                DealWithFlights(actpwh+1,whmoves-time,
+                                blmoves,min_nr_white_captures+diffcol,n);
+              }
+              else
+                DealWithFlights(actpwh+1,whmoves-time,blmoves,min_nr_white_captures,n);
+            }
+          }
+        }
+        /* pawn promotions */
+        if (p==pb)
+        {
+          /* A rough check whether it is worth thinking about promotions.
+          */
+          if (whmoves
+              >= (*bnp<=square_h7
+                  ? moves_to_prom[actpwh]+1
+                  : moves_to_prom[actpwh]))
+          {
+            piece pp;
+            for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+            {
+              int const time = FroTo(p,sq,pp,*bnp,false);
+              if (impact(king_square[Black], pp, *bnp) && time <= whmoves)
+              {
+                if (!(guards(king_square[Black],pp,*bnp)
+                      && actpwh<index_of_piece_delivering_check))
+                {
+                  SetPiece(pp, *bnp, sp);
+                  if (!IllegalCheck(Black))
+                    DealWithFlights(actpwh+1,whmoves-time,blmoves,min_nr_white_captures,n);
+                }
               }
             }
-            /* get next promotion piece */
-            pp= getprompiece[pp];
           }
         }
+        e[*bnp] = vide;
+        spec[*bnp] = EmptySpec;
       }
-      e[*bnp]= vide;
-      spec[*bnp]= EmptySpec;
-    }
 
     /* captured piece */
-    if (actpwh == 0) {
-      king_square[White]= initsquare;
-    }
-    white[actpwh].used= false;
-    GenerateGuarding(actpwh+1, whmoves, blmoves, whcaptures, n);
+    if (actpwh==index_of_king)
+      king_square[White] = initsquare;
+
+    white[actpwh].used = false;
+    DealWithFlights(actpwh+1,whmoves,blmoves,min_nr_white_captures,n);
   }
-} /* GenerateGuarding */
+} /* DealWithFlights */
 
 static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
 {
-  int   i, j, time;
-  square    sq;
-
 #if defined(DEBUG)
   sprintf(GlobalStr, "GenerateChecking(%d, %d)\n", whmoves, blmoves);
   StdString(GlobalStr);
 #endif
 
-  for (j= 1; j < MaxPiece[White]; j++) {
-    piece   p= white[j].p;
-    Flags   sp= white[j].sp;
+  for (index_of_piece_delivering_check = 1;
+       index_of_piece_delivering_check<MaxPiece[White];
+       ++index_of_piece_delivering_check)
+  {
+    piece const p = white[index_of_piece_delivering_check].p;
+    Flags const sp = white[index_of_piece_delivering_check].sp;
+    int i;
 
-    white[j].used= true;
-    nbrchecking= j;
-    for (i= 0; i < nr_squares_on_board; i++) {
-      sq= boardnum[i];
-      if (e[sq] != vide) {
-        continue;
-      }
-      /* set piece */
-      time= FroTo(p, white[j].sq, p, sq, true);
-      /* white piece */
-      if (time <= whmoves && guards(king_square[Black], p, sq)) {
-        SetPiece(p, sq, sp);
-        piecechecking= p;
-        squarechecking= sq;
-        if (p == pb) {
-          int diffcol= white[j].sq % onerow - sq % onerow;
-          GenerateGuarding(0,
-                           whmoves-time, blmoves, abs(diffcol), n);
-        }
-        else {
-          GenerateGuarding(0, whmoves-time, blmoves, 0, n);
-        }
-      }
-      /* pawn promotions */
-      if (p == pb) {
-        /* A rough check whether it is worth thinking about
-           promotions.
-        */
-        if (whmoves
-            >= (sq<=square_h7 ? moves_to_prom[j]+1 : moves_to_prom[j]))
+    white[index_of_piece_delivering_check].used = true;
+
+    for (i = 0; i<nr_squares_on_board; ++i)
+    {
+      square const sq = boardnum[i];
+      if (e[sq]==vide)
+      {
+        int const time = FroTo(p,white[index_of_piece_delivering_check].sq,p,sq,true);
+        if (time<=whmoves && guards(king_square[Black],p,sq))
         {
-          piece pp= getprompiece[vide];
-          while (pp != vide) {
-            time= FroTo(p, white[j].sq, pp, sq, false);
-            if (time <= whmoves && guards(king_square[Black], pp, sq)) {
-              piecechecking= pp;
-              squarechecking= sq;
-              SetPiece(pp, sq, sp);
-              GenerateGuarding(0,
-                               whmoves-time, blmoves, 0, n);
+          SetPiece(p, sq, sp);
+          piecechecking= p;
+          squarechecking= sq;
+          if (p==pb)
+          {
+            int diffcol = white[index_of_piece_delivering_check].sq % onerow - sq % onerow;
+            DealWithFlights(0,whmoves-time,blmoves,abs(diffcol),n);
+          }
+          else
+            DealWithFlights(0,whmoves-time,blmoves,0,n);
+        }
+
+        /* pawn promotion */
+        if (p==pb)
+        {
+          /* A rough check whether it is worth thinking about promotions */
+          int const min_nr_moves_by_p = (sq<=square_h7
+                                         ? moves_to_prom[index_of_piece_delivering_check]+1
+                                         : moves_to_prom[index_of_piece_delivering_check]);
+          if (whmoves>=min_nr_moves_by_p)
+          {
+            piece pp;
+            for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+            {
+              int const time= FroTo(p,white[index_of_piece_delivering_check].sq,pp,sq,false);
+              if (time<=whmoves && guards(king_square[Black],pp,sq))
+              {
+                piecechecking = pp;
+                squarechecking = sq;
+                SetPiece(pp,sq,sp);
+                DealWithFlights(0,whmoves-time,blmoves,0,n);
+              }
             }
-            /* get next promotion piece */
-            pp= getprompiece[pp];
           }
         }
+        e[sq] = vide;
+        spec[sq] = EmptySpec;
       }
-      e[sq]= vide;
-      spec[sq]= EmptySpec;
     }
-    white[j].used= false;
+
+    white[index_of_piece_delivering_check].used = false;
   }
 } /* GenerateChecking */
 
@@ -2541,8 +2602,8 @@ static void GenerateBlackKing(stip_length_type n)
 {
   int   i, time;
   square    sq;
-  piece p= black[0].p;
-  Flags sp= black[0].sp;
+  piece p= black[index_of_king].p;
+  Flags sp= black[index_of_king].sp;
   int whmoves = MovesLeft[White];
   int blmoves = MovesLeft[Black];
 
@@ -2560,7 +2621,7 @@ static void GenerateBlackKing(stip_length_type n)
       continue;
 
     /* set piece */
-    time= FroTo(p, black[0].sq, p, sq, false);
+    time= FroTo(p, black[index_of_king].sq, p, sq, false);
     if (time <= blmoves) {
       SetPiece(p, sq, sp);
       king_square[Black]= sq;
@@ -2570,13 +2631,13 @@ static void GenerateBlackKing(stip_length_type n)
       WriteSquare(sq);
       StdString("\n");
 #endif
-      if (goal_to_be_reached==goal_mate) {
-        GenerateChecking(whmoves, blmoves-time, n);
-      }
-      else {
+      if (goal_to_be_reached==goal_mate)
+        GenerateChecking(whmoves,blmoves-time,n);
+      else
+      {
         /* stale mate */
-        nbrchecking= -1;
-        GenerateGuarding(0, whmoves, blmoves-time, 0, n);
+        index_of_piece_delivering_check = -1;
+        DealWithFlights(0,whmoves,blmoves-time,0,n);
       }
       e[sq]= vide;
       spec[sq]= EmptySpec;
@@ -2603,18 +2664,18 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   castling_supported= false;
 
   SetIndex(spec[king_square[Black]], 0);
-  black[0].p= e[king_square[Black]];
-  black[0].sp= spec[king_square[Black]];
-  black[0].sq= king_square[Black];
+  black[index_of_king].p= e[king_square[Black]];
+  black[index_of_king].sp= spec[king_square[Black]];
+  black[index_of_king].sq= king_square[Black];
   MaxPiece[Black]= 1;
 
   SetIndex(spec[king_square[White]], 1);
-  white[0].p= e[king_square[White]];
-  white[0].sp= spec[king_square[White]];
-  white[0].sq= king_square[White];
+  white[index_of_king].p= e[king_square[White]];
+  white[index_of_king].sp= spec[king_square[White]];
+  white[index_of_king].sq= king_square[White];
   MaxPiece[White]= 1;
   if (king_square[White] == initsquare)
-    white[0].used= true;
+    white[index_of_king].used= true;
 
   MaxPieceAll= 2;
 
