@@ -24,11 +24,12 @@
 #include "pyproof.h"
 #include "pypipe.h"
 #include "pymovenb.h"
-#include "stipulation/branch.h"
 #include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/legal_move_finder.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -510,7 +511,7 @@ static void Immobilise(int, int, int, int, stip_length_type n);
 static void AvoidCheckInStalemate(int, int, int, int, stip_length_type n);
 static int MovesToBlock(square, int);
 static void DeposeWhKing(int, int, int, int, stip_length_type n);
-static void NeutralizeMateGuardingPieces(int, int, int, int, stip_length_type n);
+static void NeutraliseMateGuardingPieces(int, int, int, int, stip_length_type n);
 static void BlackPieceTo(square, int, int, int, int, stip_length_type n);
 static void WhitePieceTo(square, int, int, int, int, stip_length_type n);
 static void AvoidWhKingInCheck(int, int, int, int, stip_length_type n);
@@ -812,7 +813,7 @@ static void StoreMate(
   Flags sp;
 
   if (slice_has_solution(slices[current_start_slice].u.fork.fork)!=has_solution) {
-    NeutralizeMateGuardingPieces(blmoves, whmoves, blpc, whpc, n);
+    NeutraliseMateGuardingPieces(blmoves, whmoves, blpc, whpc, n);
     return;
   }
 
@@ -920,7 +921,7 @@ static void StoreMate(
   castling_supported= false;
 } /* StoreMate */
 
-static void PinBlPiece(
+static void PinBlackPiece(
   square    topin,
   int   blmoves,
   int   whmoves,
@@ -2027,43 +2028,54 @@ void WhitePieceTo(
   spec[sq]= EmptySpec;
 } /* WhitePieceTo */
 
-void NeutralizeMateGuardingPieces(
-  int   blmoves,
-  int   whmoves,
-  int   blpc,
-  int   whpc,
-  stip_length_type n)
+void NeutraliseMateGuardingPieces(int blmoves, int whmoves,
+                                  int blpc, int whpc,
+                                  stip_length_type n)
 {
-  square trouble, trto;
+  square trouble = initsquare;
+  square trto = initsquare;
+#if !defined(NDEBUG)
+  has_solution_type search_result;
+#endif
 
-  VARIABLE_INIT(trto);
-  trouble= initsquare;
-  genmove(Black);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  while(encore() && (trouble == initsquare)) {
-    if (jouecoup(nbply,first_play) && !echecc(nbply,Black)) {
-      trouble= move_generation_stack[nbcou].departure;
-      trto= move_generation_stack[nbcou].arrival;
-    }
-    repcoup();
-  }
+  init_legal_move_finder();
 
-  finply();
-
-  if (trouble == initsquare) {
+#if !defined(NDEBUG)
+  search_result =
+#endif
+  slice_has_solution(slices[temporary_hack_legal_move_finder[Black]].u.fork.fork);
+  assert(search_result==has_solution);
+  if (legal_move_finder_departure==initsquare)
     FtlMsg(ErrUndef);
-  }
+  trouble = legal_move_finder_departure;
+  trto = legal_move_finder_arrival;
 
-  PinBlPiece(trouble, blmoves, whmoves, blpc, whpc, n);
-  if (is_rider(abs(e[trouble]))) {
-    square   sq;
-    int dir= CheckDirQueen[trto-trouble];
+  fini_legal_move_finder();
 
-    for (sq= trouble+dir; sq != trto; sq+=dir) {
-      BlackPieceTo(sq, blmoves, whmoves, blpc, whpc, n);
-      WhitePieceTo(sq, blmoves, whmoves, blpc, whpc, n);
+  PinBlackPiece(trouble,blmoves,whmoves,blpc,whpc,n);
+
+  if (is_rider(abs(e[trouble])))
+  {
+    int const dir = CheckDirQueen[trto-trouble];
+
+    square sq;
+    for (sq = trouble+dir; sq!=trto; sq+=dir)
+    {
+      BlackPieceTo(sq,blmoves,whmoves,blpc,whpc,n);
+      WhitePieceTo(sq,blmoves,whmoves,blpc,whpc,n);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 int MovesToBlock(square sq, int blmoves)

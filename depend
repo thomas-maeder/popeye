@@ -1099,10 +1099,12 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  pyslice.h stipulation/help_play/play.h pystip.h pymsg.h pyint.h pydata.h \
  pyslice.h pystip.h stipulation/slice_type.h \
  stipulation/help_play/branch.h pybrafrk.h pyproof.h pypipe.h pymovenb.h \
- stipulation/battle_play/defense_play.h stipulation/branch.h \
+ stipulation/battle_play/defense_play.h \
  optimisations/intelligent/filter.h \
  optimisations/intelligent/duplicate_avoider.h \
- options/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
+ options/maxsolutions/maxsolutions.h stipulation/branch.h \
+ stipulation/temporary_hacks.h solving/legal_move_finder.h \
+ platform/maxtime.h trace.h
 
 py.h:
 
@@ -1166,13 +1168,17 @@ pymovenb.h:
 
 stipulation/battle_play/defense_play.h:
 
-stipulation/branch.h:
-
 optimisations/intelligent/filter.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 
 options/maxsolutions/maxsolutions.h:
+
+stipulation/branch.h:
+
+stipulation/temporary_hacks.h:
+
+solving/legal_move_finder.h:
 
 platform/maxtime.h:
 
@@ -1359,10 +1365,11 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/notcheck/reached_tester.h \
  stipulation/goals/any/reached_tester.h solving/play_suppressor.h \
  solving/battle_play/check_detector.h solving/legal_move_counter.h \
- stipulation/help_play/play.h pymovein.h pyhash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/play.h \
- pystip.h pyselfgd.h pyselfcg.h stipulation/battle_play/defense_play.h \
- pykeepmt.h pypipe.h pieces/attributes/paralysing/mate_filter.h \
+ stipulation/help_play/play.h solving/legal_move_finder.h pymovein.h \
+ pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
+ stipulation/help_play/play.h pystip.h pyselfgd.h pyselfcg.h \
+ stipulation/battle_play/defense_play.h pykeepmt.h pypipe.h \
+ pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
  conditions/circe/circuit_by_rebirth_special.h \
@@ -1491,6 +1498,8 @@ solving/battle_play/check_detector.h:
 solving/legal_move_counter.h:
 
 stipulation/help_play/play.h:
+
+solving/legal_move_finder.h:
 
 pymovein.h:
 

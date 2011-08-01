@@ -14,6 +14,7 @@
 #include "stipulation/goals/capture/reached_tester.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
+#include "solving/legal_move_finder.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "trace.h"
 
@@ -29,6 +30,7 @@ slice_index temporary_hack_castling_intermediate_move_legality_tester[nr_sides];
 slice_index temporary_hack_maximummer_candidate_move_tester[nr_sides];
 slice_index temporary_hack_opponent_moves_counter[nr_sides];
 slice_index temporary_hack_intelligent_immobilisation_tester[nr_sides];
+slice_index temporary_hack_legal_move_finder[nr_sides];
 
 static void swap_colors(slice_index (*testers)[nr_sides])
 {
@@ -52,6 +54,7 @@ void temporary_hacks_swap_colors(void)
   swap_colors(&temporary_hack_maximummer_candidate_move_tester);
   swap_colors(&temporary_hack_opponent_moves_counter);
   swap_colors(&temporary_hack_intelligent_immobilisation_tester);
+  swap_colors(&temporary_hack_legal_move_finder);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -206,7 +209,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   return result;
 }
 
-static slice_index make_intelligent_immobilisation_tester(Side side)
+static slice_index make_intelligent_immobilisation_tester_fork(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
@@ -216,6 +219,25 @@ static slice_index make_intelligent_immobilisation_tester(Side side)
   help_branch_insert_slices(help,&proto,1);
   link_to_branch(proxy_branch,help);
   result = alloc_branch_fork(STIntelligentImmobilisationTester,proxy_branch);
+  stip_impose_starter(result,side);
+
+  return result;
+}
+
+static slice_index make_legal_move_finder_fork(Side side)
+{
+  slice_index result;
+  slice_index const proxy_branch = alloc_proxy_slice();
+  slice_index const help = alloc_help_branch(slack_length_help+1,
+                                             slack_length_help+1);
+  slice_index const proto = alloc_legal_move_finder_slice();
+  slice_index const proxy_goal = alloc_proxy_slice();
+  slice_index const system = alloc_goal_any_reached_tester_system();
+  link_to_branch(proxy_goal,system);
+  help_branch_set_end_goal(help,proxy_goal,1);
+  branch_insert_slices(proxy_goal,&proto,1);
+  link_to_branch(proxy_branch,help);
+  result = alloc_branch_fork(STLegalMoveFinderFork,proxy_branch);
   stip_impose_starter(result,side);
 
   return result;
@@ -262,8 +284,11 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_opponent_moves_counter[Black] = make_opponent_moves_counter_fork(Black);
     temporary_hack_opponent_moves_counter[White] = make_opponent_moves_counter_fork(White);
 
-    temporary_hack_intelligent_immobilisation_tester[Black] = make_intelligent_immobilisation_tester(Black);
-    temporary_hack_intelligent_immobilisation_tester[White] = make_intelligent_immobilisation_tester(White);
+    temporary_hack_intelligent_immobilisation_tester[Black] = make_intelligent_immobilisation_tester_fork(Black);
+    temporary_hack_intelligent_immobilisation_tester[White] = make_intelligent_immobilisation_tester_fork(White);
+
+    temporary_hack_legal_move_finder[Black] = make_legal_move_finder_fork(Black);
+    temporary_hack_legal_move_finder[White] = make_legal_move_finder_fork(White);
 
     pipe_append(root_slice,entry_point);
 
@@ -287,6 +312,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_opponent_moves_counter[White],
                 temporary_hack_intelligent_immobilisation_tester[White]);
     pipe_append(temporary_hack_intelligent_immobilisation_tester[White],
+                temporary_hack_legal_move_finder[White]);
+    pipe_append(temporary_hack_legal_move_finder[White],
                 inverter);
 
     pipe_append(inverter,temporary_hack_mate_tester[Black]);
@@ -308,6 +335,8 @@ void insert_temporary_hacks(slice_index root_slice)
                 temporary_hack_opponent_moves_counter[Black]);
     pipe_append(temporary_hack_opponent_moves_counter[Black],
                 temporary_hack_intelligent_immobilisation_tester[Black]);
+    pipe_append(temporary_hack_intelligent_immobilisation_tester[Black],
+                temporary_hack_legal_move_finder[Black]);
 
     if (slices[root_slice].starter==Black)
       pipe_append(proxy,alloc_move_inverter_slice());

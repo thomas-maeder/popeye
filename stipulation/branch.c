@@ -511,6 +511,7 @@ static slice_index const leaf_slice_rank_order[] =
   STGoalReachedTester,
   STIntelligentDuplicateAvoider,
   STLegalMoveCounter,
+  STLegalMoveFinder,
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,

@@ -182,6 +182,16 @@ pypipe.h:
 pydata.h:
 
 trace.h:
+solving/legal_move_finder$(OBJ_SUFFIX): solving/legal_move_finder.c \
+ solving/legal_move_finder.h pypipe.h pydata.h trace.h
+
+solving/legal_move_finder.h:
+
+pypipe.h:
+
+pydata.h:
+
+trace.h:
 solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
  solving/capture_counter.h pypipe.h pydata.h trace.h
 

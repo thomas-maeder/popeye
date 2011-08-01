@@ -220,6 +220,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STImmobilityTester */
   slice_structure_fork,   /* STOpponentMovesCounterFork */
   slice_structure_pipe,   /* STOpponentMovesCounter */
+  slice_structure_fork,   /* STLegalMoveFinderFork */
+  slice_structure_pipe,   /* STLegalMoveFinder */
   slice_structure_pipe,   /* STOhneschachSuspender */
   slice_structure_fork,   /* STExclusiveChessMatingMoveCounter */
   slice_structure_pipe,   /* STExclusiveChessUnsuspender */
@@ -381,6 +383,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STImmobilityTester */
   slice_function_unspecified,    /* STOpponentMovesCounterFork */
   slice_function_unspecified,    /* STOpponentMovesCounter */
+  slice_function_unspecified,    /* STLegalMoveFinderFork */
+  slice_function_unspecified,    /* STLegalMoveFinder */
   slice_function_unspecified,    /* STOhneschachSuspender */
   slice_function_unspecified,    /* STExclusiveChessMatingMoveCounter */
   slice_function_unspecified,    /* STExclusiveChessUnsuspender */
@@ -1654,6 +1658,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
   &stip_traverse_structure_goal_reached_tester, /* STOpponentMovesCounterFork */
   &stip_traverse_structure_pipe,              /* STOpponentMovesCounter */
+  &stip_traverse_structure_goal_reached_tester, /* STLegalMoveFinderFork */
+  &stip_traverse_structure_pipe,              /* STLegalMoveFinder */
   &stip_traverse_structure_pipe,              /* STOhneschachSuspender */
   &stip_traverse_structure_goal_reached_tester, /* STExclusiveChessMatingMoveCounter */
   &stip_traverse_structure_pipe,              /* STExclusiveChessUnsuspender */
@@ -1914,8 +1920,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STOpponentMovesCounterFork */
+    &stip_traverse_moves_setplay_fork,      /* STOpponentMovesCounterFork */
     &stip_traverse_moves_pipe,              /* STOpponentMovesCounter */
+    &stip_traverse_moves_setplay_fork,      /* STLegalMoveFinderFork */
+    &stip_traverse_moves_pipe,              /* STLegalMoveFinder */
     &stip_traverse_moves_pipe,              /* STOhneschachSuspender */
     &stip_traverse_moves_setplay_fork,      /* STExclusiveChessMatingMoveCounter */
     &stip_traverse_moves_pipe,              /* STExclusiveChessUnsuspender */
