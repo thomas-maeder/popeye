@@ -2,7 +2,7 @@
  **
  ** Date       Who  What
  **
- ** 2006/06/14 TLi  bug fix in function impact()
+ ** 2006/06/14 TLi  bug fix in function guards_black_flight()
  **
  ** 2007/12/27 TLi  bug fix in function Immobilise()
  **
@@ -159,19 +159,36 @@ static boolean IllegalCheck(Side camp)
                 || (*checkfunctions[ErlKing])( king_square[White], dn, eval_ortho)));
 }
 
-static boolean impact(square bk, piece p, square sq) {
-  int   i;
-  boolean   ret= guards(bk, p, sq);
+static boolean guards_black_flight(piece as_piece, square from)
+{
+  int i;
+  /* if we initialised result to false, we'd miss some solutions with
+   * double-check. Cf. 4_47_to_4_49.reg
+   */
+  boolean result = guards(king_square[Black],as_piece,from);
 
-  e[bk]= vide;
-  for (i= 8; i && !ret; i--) {
-    if (e[bk+vec[i]] != obs && guards(bk+vec[i], p, sq)) {
-      ret= true;
+  TraceFunctionEntry(__func__);
+  TracePiece(as_piece);
+  TraceSquare(from);
+  TraceSquare(king_square[Black]);
+  TraceFunctionParamListEnd();
+
+  e[king_square[Black]]= vide;
+
+  for (i = 8; i!=0; --i)
+    if (e[king_square[Black]+vec[i]]!=obs
+        && guards(king_square[Black]+vec[i],as_piece,from))
+    {
+      result= true;
+      break;
     }
-  }
-  e[bk]= roin;
 
-  return ret;
+  e[king_square[Black]]= roin;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static int FroToKing(square f_sq, square t_sq) {
@@ -2264,7 +2281,7 @@ static int count_black_flights(square toblock[8], int min_nr_white_captures)
   genmove(Black);
   while(encore() && min_nr_white_captures+result<MaxPiece[Black])
   {
-    if (jouecoup(nbply,first_play))
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       if (goal_to_be_reached==goal_stale)
         e[move_generation_stack[nbcou].departure] = obs;
@@ -2420,17 +2437,12 @@ static void FinaliseGuarding(int whmoves, int blmoves,
   TraceFunctionResultEnd();
 }
 
-static void DealWithFlights(int actpwh,
+static void DealWithFlights(int index_of_first_guarding_piece,
                             int whmoves, int blmoves,
                             int min_nr_white_captures,
                             stip_length_type n)
 {
-#if defined(DEBUG)
-  sprintf(GlobalStr,
-          "GenerateGuarding(%d, %d, %d, %d)\n",
-          actpwh, whmoves, blmoves, min_nr_white_captures);
-  StdString(GlobalStr);
-#endif
+  int index_of_current_guarding_piece;
 
   if (max_nr_solutions_found_in_phase())
     return;
@@ -2439,102 +2451,155 @@ static void DealWithFlights(int actpwh,
       || hasMaxtimeElapsed())
     return;
 
-  if (actpwh==index_of_piece_delivering_check)
-    ++actpwh;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",index_of_first_guarding_piece);
+  TraceFunctionParam("%d",whmoves);
+  TraceFunctionParam("%d",blmoves);
+  TraceFunctionParam("%d",min_nr_white_captures);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  if (actpwh==MaxPiece[White])
-  {
-    /* guarding potential used up */
-    if (goal_to_be_reached==goal_stale || echecc(nbply,Black))
-      FinaliseGuarding(whmoves,blmoves,min_nr_white_captures,n);
-  }
-  else
-  {
-    piece const p = white[actpwh].p;
-    Flags const sp = white[actpwh].sp;
-    square const sq = white[actpwh].sq;
-    square const *bnp;
+  assert(index_of_first_guarding_piece>index_of_king);
 
-    white[actpwh].used = true;
+  for (index_of_current_guarding_piece = index_of_first_guarding_piece;
+       index_of_current_guarding_piece<MaxPiece[White];
+       ++index_of_current_guarding_piece)
+    if (index_of_current_guarding_piece!=index_of_piece_delivering_check)
+    {
+      piece const p = white[index_of_current_guarding_piece].p;
+      Flags const sp = white[index_of_current_guarding_piece].sp;
+      square const sq = white[index_of_current_guarding_piece].sq;
+      square const *bnp;
 
-    for (bnp = boardnum; *bnp; bnp++)
-      if (e[*bnp]==vide)
-      {
-        int const time = FroTo(p,sq,p,*bnp,false);
-        if (actpwh==index_of_king)
+      white[index_of_current_guarding_piece].used = true;
+
+      for (bnp = boardnum; *bnp; bnp++)
+        if (e[*bnp]==vide)
         {
-          if (move_diff_code[abs(king_square[Black]-*bnp)]<3)
-            continue;
-          else
-            king_square[White]= *bnp;
-        }
-
-        if (time<=whmoves && impact(king_square[Black],p,*bnp))
-        {
-          if (guards(king_square[Black],p,*bnp) && actpwh<index_of_piece_delivering_check)
-            continue;
-          else
+          int const time = FroTo(p,sq,p,*bnp,false);
+          if (time<=whmoves && guards_black_flight(p,*bnp))
           {
-            SetPiece(p,*bnp,sp);
-            if (!IllegalCheck(Black))
+            if (guards(king_square[Black],p,*bnp)
+                && index_of_current_guarding_piece<index_of_piece_delivering_check)
+              continue;
+            else
             {
-              if (p==pb)
+              SetPiece(p,*bnp,sp);
+              if (!IllegalCheck(Black))
               {
-                int const diffcol = abs(sq % onerow - *bnp % onerow);
-                DealWithFlights(actpwh+1,whmoves-time,
-                                blmoves,min_nr_white_captures+diffcol,n);
+                if (p==pb)
+                {
+                  int const diffcol = abs(sq % onerow - *bnp % onerow);
+                  DealWithFlights(index_of_current_guarding_piece+1,
+                                  whmoves-time,blmoves,
+                                  min_nr_white_captures+diffcol,n);
+                }
+                else
+                  DealWithFlights(index_of_current_guarding_piece+1,
+                                  whmoves-time,blmoves,
+                                  min_nr_white_captures,n);
               }
-              else
-                DealWithFlights(actpwh+1,whmoves-time,blmoves,min_nr_white_captures,n);
             }
           }
-        }
-        /* pawn promotions */
-        if (p==pb)
-        {
-          /* A rough check whether it is worth thinking about promotions.
-          */
-          if (whmoves
-              >= (*bnp<=square_h7
-                  ? moves_to_prom[actpwh]+1
-                  : moves_to_prom[actpwh]))
+
+          /* pawn promotions */
+          if (p==pb)
           {
-            piece pp;
-            for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+            /* A rough check whether it is worth thinking about promotions */
+            int const min_nr_moves_by_p = (*bnp<=square_h7
+                                           ? moves_to_prom[index_of_current_guarding_piece]+1
+                                           : moves_to_prom[index_of_current_guarding_piece]);
+            if (whmoves>=min_nr_moves_by_p)
             {
-              int const time = FroTo(p,sq,pp,*bnp,false);
-              if (impact(king_square[Black], pp, *bnp) && time <= whmoves)
+              piece pp;
+              for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
               {
-                if (!(guards(king_square[Black],pp,*bnp)
-                      && actpwh<index_of_piece_delivering_check))
+                int const time = FroTo(p,sq,pp,*bnp,false);
+                if (guards_black_flight(pp,*bnp)
+                    && time<=whmoves
+                    && !(guards(king_square[Black],pp,*bnp)
+                         && index_of_current_guarding_piece<index_of_piece_delivering_check))
                 {
                   SetPiece(pp, *bnp, sp);
                   if (!IllegalCheck(Black))
-                    DealWithFlights(actpwh+1,whmoves-time,blmoves,min_nr_white_captures,n);
+                    DealWithFlights(index_of_current_guarding_piece+1,
+                                    whmoves-time,blmoves,
+                                    min_nr_white_captures,n);
                 }
               }
             }
           }
+
+          e[*bnp] = vide;
+          spec[*bnp] = EmptySpec;
         }
+
+      white[index_of_current_guarding_piece].used = false;
+    }
+
+  if (goal_to_be_reached==goal_stale || echecc(nbply,Black))
+    FinaliseGuarding(whmoves,blmoves,min_nr_white_captures,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+} /* DealWithFlights */
+
+static void DealWithFlightsKing(int whmoves, int blmoves,
+                                int min_nr_white_captures,
+                                stip_length_type n)
+{
+  Flags const sp = white[index_of_king].sp;
+  square const sq = white[index_of_king].sq;
+  square const *bnp;
+
+  if (max_nr_solutions_found_in_phase())
+    return;
+
+  if (min_nr_white_captures>MaxPiece[Black]-1
+      || hasMaxtimeElapsed())
+    return;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",whmoves);
+  TraceFunctionParam("%d",blmoves);
+  TraceFunctionParam("%d",min_nr_white_captures);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  white[index_of_king].used = true;
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (e[*bnp]==vide
+        && move_diff_code[abs(king_square[Black]-*bnp)]>=3)
+    {
+      int const time = FroTo(roib,sq,roib,*bnp,false);
+      if (time<=whmoves && guards_black_flight(roib,*bnp))
+      {
+        king_square[White]= *bnp;
+        SetPiece(roib,*bnp,sp);
+        if (!IllegalCheck(Black))
+          DealWithFlights(1,whmoves-time,blmoves,min_nr_white_captures,n);
         e[*bnp] = vide;
         spec[*bnp] = EmptySpec;
       }
+    }
 
-    /* captured piece */
-    if (actpwh==index_of_king)
-      king_square[White] = initsquare;
+  king_square[White] = initsquare;
+  white[index_of_king].used = false;
 
-    white[actpwh].used = false;
-    DealWithFlights(actpwh+1,whmoves,blmoves,min_nr_white_captures,n);
-  }
-} /* DealWithFlights */
+  DealWithFlights(1,whmoves,blmoves,min_nr_white_captures,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+} /* DealWithFlightsKing */
 
 static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
 {
-#if defined(DEBUG)
-  sprintf(GlobalStr, "GenerateChecking(%d, %d)\n", whmoves, blmoves);
-  StdString(GlobalStr);
-#endif
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",whmoves);
+  TraceFunctionParam("%d",blmoves);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
   for (index_of_piece_delivering_check = 1;
        index_of_piece_delivering_check<MaxPiece[White];
@@ -2544,26 +2609,33 @@ static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
     Flags const sp = white[index_of_piece_delivering_check].sp;
     int i;
 
+    TraceSquare(white[index_of_piece_delivering_check].sq);
+    TracePiece(p);
+    TraceValue("%u\n",index_of_piece_delivering_check);
+
     white[index_of_piece_delivering_check].used = true;
 
     for (i = 0; i<nr_squares_on_board; ++i)
     {
       square const sq = boardnum[i];
+      TraceSquare(sq);
+      TracePiece(e[sq]);
+      TraceText("\n");
       if (e[sq]==vide)
       {
         int const time = FroTo(p,white[index_of_piece_delivering_check].sq,p,sq,true);
         if (time<=whmoves && guards(king_square[Black],p,sq))
         {
-          SetPiece(p, sq, sp);
-          piecechecking= p;
-          squarechecking= sq;
+          SetPiece(p,sq,sp);
+          piecechecking = p;
+          squarechecking = sq;
           if (p==pb)
           {
             int diffcol = white[index_of_piece_delivering_check].sq % onerow - sq % onerow;
-            DealWithFlights(0,whmoves-time,blmoves,abs(diffcol),n);
+            DealWithFlightsKing(whmoves-time,blmoves,abs(diffcol),n);
           }
           else
-            DealWithFlights(0,whmoves-time,blmoves,0,n);
+            DealWithFlightsKing(whmoves-time,blmoves,0,n);
         }
 
         /* pawn promotion */
@@ -2584,7 +2656,7 @@ static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
                 piecechecking = pp;
                 squarechecking = sq;
                 SetPiece(pp,sq,sp);
-                DealWithFlights(0,whmoves-time,blmoves,0,n);
+                DealWithFlightsKing(whmoves-time,blmoves,0,n);
               }
             }
           }
@@ -2596,61 +2668,52 @@ static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
 
     white[index_of_piece_delivering_check].used = false;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* GenerateChecking */
 
 static void GenerateBlackKing(stip_length_type n)
 {
-  int   i, time;
-  square    sq;
-  piece p= black[index_of_king].p;
-  Flags sp= black[index_of_king].sp;
-  int whmoves = MovesLeft[White];
-  int blmoves = MovesLeft[Black];
+  int i;
+  piece const p = black[index_of_king].p;
+  Flags const sp = black[index_of_king].sp;
+  int const whmoves = MovesLeft[White];
+  int const blmoves = MovesLeft[Black];
 
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,
-          "entering GenerateBlackKing() - %d %d\n",
-          whmoves, blmoves);
-  StdString(GlobalStr);
-#endif
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  for (i= 0; i < nr_squares_on_board; i++) {
-    sq= boardnum[i];
-    if (e[sq] == obs)
-      continue;
 
-    /* set piece */
-    time= FroTo(p, black[index_of_king].sq, p, sq, false);
-    if (time <= blmoves) {
-      SetPiece(p, sq, sp);
-      king_square[Black]= sq;
-#if defined(DEBUG)
-      WriteSpec(spec[king_square[Black]], false);
-      WritePiece(p);
-      WriteSquare(sq);
-      StdString("\n");
-#endif
-      if (goal_to_be_reached==goal_mate)
-        GenerateChecking(whmoves,blmoves-time,n);
-      else
+  for (i= 0; i<nr_squares_on_board && !hasMaxtimeElapsed(); i++)
+  {
+    square const sq = boardnum[i];
+    TraceSquare(sq);
+    TraceText("\n");
+    if (e[sq]!=obs)
+    {
+      int const time = FroTo(p,black[index_of_king].sq,p,sq,false);
+      if (time<=blmoves)
       {
-        /* stale mate */
-        index_of_piece_delivering_check = -1;
-        DealWithFlights(0,whmoves,blmoves-time,0,n);
+        SetPiece(p,sq,sp);
+        king_square[Black] = sq;
+        if (goal_to_be_reached==goal_mate)
+          GenerateChecking(whmoves,blmoves-time,n);
+        else
+        {
+          /* stale mate */
+          index_of_piece_delivering_check = -1;
+          DealWithFlightsKing(whmoves,blmoves-time,0,n);
+        }
+        e[sq] = vide;
+        spec[sq] = EmptySpec;
       }
-      e[sq]= vide;
-      spec[sq]= EmptySpec;
-    }
-    if (hasMaxtimeElapsed()) {
-      break;
     }
   }
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,"leaving GenerateBlackKing\n");
-  StdString(GlobalStr);
-#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* GenerateBlackKing */
 
 static void IntelligentRegulargoal_types(stip_length_type n)
