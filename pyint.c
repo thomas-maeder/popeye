@@ -2688,6 +2688,9 @@ static void mate_generate_checking_move_by_one_promoted_pawn(unsigned int whmove
       spec[check_from] = EmptySpec;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void mate_generate_checking_move_by_one_unpromoted_pawn(unsigned int whmoves,
@@ -2729,6 +2732,9 @@ static void mate_generate_checking_move_by_one_unpromoted_pawn(unsigned int whmo
       spec[check_from] = EmptySpec;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void mate_generate_checking_move_by_one_officer(piece checker_type,
@@ -2771,6 +2777,9 @@ static void mate_generate_checking_move_by_one_officer(piece checker_type,
       spec[check_from] = EmptySpec;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void mate_generate_checking_move(unsigned int whmoves,
