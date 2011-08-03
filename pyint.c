@@ -389,14 +389,14 @@ static boolean isGoalReachableRegularGoals(void)
       square const *bnp;
       MovesRequired[White][nbply] = 0;
       MovesRequired[Black][nbply] = 0;
-      for (bnp = boardnum; *bnp!=vide; bnp++)
+      for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
         piece const from_piece = e[from_square];
         if (from_piece!=vide && from_piece!=obs)
         {
           unsigned const index = GetIndex(spec[from_square]);
-          if (Mate[index].sq!= initsquare)
+          if (Mate[index].sq!=initsquare)
           {
             Side const from_side = from_piece>vide ? White : Black;
             if (index==IndxChP && MovesLeft[White]>0)
@@ -508,6 +508,7 @@ static void WhitePieceTo(square sq,
 static void stalemate_avoid_check_to_white_king(unsigned int blmoves, unsigned int whmoves,
                                                 unsigned int blpcallowed, unsigned int whpcallowed,
                                                 stip_length_type n);
+
 static void stalemate_store_target_position(unsigned int blmoves, unsigned int whmoves,
                                             unsigned int blpcallowed, unsigned int whpcallowed,
                                             stip_length_type n)
@@ -782,8 +783,8 @@ static boolean mate_exists_redundant_white_piece(void)
 } /* mate_exists_redundant_white_piece */
 
 static void mate_store_target_position(unsigned int blmoves, unsigned int whmoves,
-                                      unsigned int blpc, unsigned int whpc,
-                                      stip_length_type n)
+                                       unsigned int blpc, unsigned int whpc,
+                                       stip_length_type n)
 {
   unsigned int i, index;
   square const *bnp;
@@ -2460,10 +2461,10 @@ static void FinaliseGuarding(unsigned int whmoves, unsigned int blmoves,
   TraceFunctionResultEnd();
 }
 
-static void DealWithFlights(unsigned int index_of_first_guarding_piece,
-                            unsigned int whmoves, unsigned int blmoves,
-                            unsigned int min_nr_white_captures,
-                            stip_length_type n);
+static void guard_flights_non_king(unsigned int index_of_first_guarding_piece,
+                                   unsigned int whmoves, unsigned int blmoves,
+                                   unsigned int min_nr_white_captures,
+                                   stip_length_type n);
 
 static void use_a_white_piece_for_guarding(unsigned int index,
                                            unsigned int whmoves, unsigned int blmoves,
@@ -2500,14 +2501,14 @@ static void use_a_white_piece_for_guarding(unsigned int index,
             if (p==pb)
             {
               unsigned int const diffcol = abs(sq % onerow - *bnp % onerow);
-              DealWithFlights(index+1,
-                              whmoves-time,blmoves,
-                              min_nr_white_captures+diffcol,n);
+              guard_flights_non_king(index+1,
+                                     whmoves-time,blmoves,
+                                     min_nr_white_captures+diffcol,n);
             }
             else
-              DealWithFlights(index+1,
-                              whmoves-time,blmoves,
-                              min_nr_white_captures,n);
+              guard_flights_non_king(index+1,
+                                     whmoves-time,blmoves,
+                                     min_nr_white_captures,n);
           }
         }
       }
@@ -2532,9 +2533,9 @@ static void use_a_white_piece_for_guarding(unsigned int index,
             {
               SetPiece(pp,*bnp,sp);
               if (!IllegalCheck(Black))
-                DealWithFlights(index+1,
-                                whmoves-time,blmoves,
-                                min_nr_white_captures,n);
+                guard_flights_non_king(index+1,
+                                       whmoves-time,blmoves,
+                                       min_nr_white_captures,n);
             }
           }
         }
@@ -2548,10 +2549,10 @@ static void use_a_white_piece_for_guarding(unsigned int index,
   TraceFunctionResultEnd();
 }
 
-static void DealWithFlights(unsigned int index_of_first_guarding_piece,
-                            unsigned int whmoves, unsigned int blmoves,
-                            unsigned int min_nr_white_captures,
-                            stip_length_type n)
+static void guard_flights_non_king(unsigned int index_of_first_guarding_piece,
+                                   unsigned int whmoves, unsigned int blmoves,
+                                   unsigned int min_nr_white_captures,
+                                   stip_length_type n)
 {
   unsigned int index_of_current_guarding_piece;
 
@@ -2589,9 +2590,9 @@ static void DealWithFlights(unsigned int index_of_first_guarding_piece,
   TraceFunctionResultEnd();
 }
 
-static void DealWithFlightsKing(unsigned int whmoves, unsigned int blmoves,
-                                unsigned int min_nr_white_captures,
-                                stip_length_type n)
+static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
+                               unsigned int min_nr_white_captures,
+                               stip_length_type n)
 {
   Flags const sp = white[index_of_king].sp;
   square const sq = white[index_of_king].sq;
@@ -2610,7 +2611,8 @@ static void DealWithFlightsKing(unsigned int whmoves, unsigned int blmoves,
   {
     white[index_of_king].used = true;
 
-    for (bnp = boardnum; *bnp; bnp++)
+    /* try using white king for guarding from every square */
+    for (bnp = boardnum; *bnp!=initsquare; ++bnp)
       if (e[*bnp]==vide
           && move_diff_code[abs(king_square[Black]-*bnp)]>=3)
       {
@@ -2620,7 +2622,7 @@ static void DealWithFlightsKing(unsigned int whmoves, unsigned int blmoves,
           king_square[White]= *bnp;
           SetPiece(roib,*bnp,sp);
           if (!IllegalCheck(Black))
-            DealWithFlights(1,whmoves-time,blmoves,min_nr_white_captures,n);
+            guard_flights_non_king(1,whmoves-time,blmoves,min_nr_white_captures,n);
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
         }
@@ -2629,14 +2631,150 @@ static void DealWithFlightsKing(unsigned int whmoves, unsigned int blmoves,
     king_square[White] = initsquare;
     white[index_of_king].used = false;
 
-    DealWithFlights(1,whmoves,blmoves,min_nr_white_captures,n);
+    /* try not using white king for guarding */
+    guard_flights_non_king(1,whmoves,blmoves,min_nr_white_captures,n);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* DealWithFlightsKing */
+}
 
-static void mate_generate_checking_move(unsigned int whmoves, unsigned int blmoves,
+static void mate_generate_checking_move_by_one_promoted_pawn(unsigned int whmoves,
+                                                             unsigned int blmoves,
+                                                             stip_length_type n)
+{
+  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const check_from = boardnum[i];
+    TraceSquare(check_from);
+    TracePiece(e[check_from]);
+    TraceText("\n");
+    if (e[check_from]==vide)
+    {
+      /* A rough check whether it is worth thinking about promotions */
+      unsigned int const min_nr_moves_by_p = (check_from<=square_h7
+                                              ? moves_to_prom[index_of_piece_delivering_check]+1
+                                              : moves_to_prom[index_of_piece_delivering_check]);
+      if (whmoves>=min_nr_moves_by_p)
+      {
+        piece pp;
+        square const pawn_origin = white[index_of_piece_delivering_check].sq;
+        for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+        {
+          unsigned int const time= count_nr_of_moves_from_to_no_check(pb,
+                                                                      pawn_origin,
+                                                                      pp,
+                                                                      check_from);
+          if (time<=whmoves && guards(king_square[Black],pp,check_from))
+          {
+            piecechecking = pp;
+            squarechecking = check_from;
+            SetPiece(pp,check_from,checker_flags);
+            guard_flights_king(whmoves-time,blmoves,0,n);
+          }
+        }
+      }
+
+      e[check_from] = vide;
+      spec[check_from] = EmptySpec;
+    }
+  }
+}
+
+static void mate_generate_checking_move_by_one_unpromoted_pawn(unsigned int whmoves,
+                                                               unsigned int blmoves,
+                                                               stip_length_type n)
+{
+  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const check_from = boardnum[i];
+    TraceSquare(check_from);
+    TracePiece(e[check_from]);
+    TraceText("\n");
+    if (e[check_from]==vide)
+    {
+      square const pawn_origin = white[index_of_piece_delivering_check].sq;
+      unsigned int const time = count_nr_of_moves_from_to_checking(pb,
+                                                                   pawn_origin,
+                                                                   pb,
+                                                                   check_from);
+      if (time<=whmoves && guards(king_square[Black],pb,check_from))
+      {
+        int diffcol = pawn_origin%onerow - check_from%onerow;
+        SetPiece(pb,check_from,checker_flags);
+        piecechecking = pb;
+        squarechecking = check_from;
+        guard_flights_king(whmoves-time,blmoves,abs(diffcol),n);
+      }
+
+      e[check_from] = vide;
+      spec[check_from] = EmptySpec;
+    }
+  }
+}
+
+static void mate_generate_checking_move_by_one_officer(piece checker_type,
+                                                       unsigned int whmoves,
+                                                       unsigned int blmoves,
+                                                       stip_length_type n)
+{
+  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(checker_type);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<nr_squares_on_board; ++i)
+  {
+    square const check_from = boardnum[i];
+    TraceSquare(check_from);
+    TracePiece(e[check_from]);
+    TraceText("\n");
+    if (e[check_from]==vide)
+    {
+      square const checker_origin = white[index_of_piece_delivering_check].sq;
+      unsigned int const time = count_nr_of_moves_from_to_checking(checker_type,
+                                                                   checker_origin,
+                                                                   checker_type,
+                                                                   check_from);
+      if (time<=whmoves && guards(king_square[Black],checker_type,check_from))
+      {
+        SetPiece(checker_type,check_from,checker_flags);
+        piecechecking = checker_type;
+        squarechecking = check_from;
+        guard_flights_king(whmoves-time,blmoves,0,n);
+      }
+
+      e[check_from] = vide;
+      spec[check_from] = EmptySpec;
+    }
+  }
+}
+
+static void mate_generate_checking_move(unsigned int whmoves,
+                                        unsigned int blmoves,
                                         stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -2649,73 +2787,29 @@ static void mate_generate_checking_move(unsigned int whmoves, unsigned int blmov
        index_of_piece_delivering_check<MaxPiece[White];
        ++index_of_piece_delivering_check)
   {
-    piece const p = white[index_of_piece_delivering_check].p;
-    Flags const sp = white[index_of_piece_delivering_check].sp;
-    int i;
+    piece const checker_type = white[index_of_piece_delivering_check].p;
 
+    TraceValue("%u",index_of_piece_delivering_check);
     TraceSquare(white[index_of_piece_delivering_check].sq);
-    TracePiece(p);
-    TraceValue("%u\n",index_of_piece_delivering_check);
+    TracePiece(checker_type);
+    TraceText("\n");
 
     white[index_of_piece_delivering_check].used = true;
 
-    for (i = 0; i<nr_squares_on_board; ++i)
+    if (checker_type==pb)
     {
-      square const sq = boardnum[i];
-      TraceSquare(sq);
-      TracePiece(e[sq]);
-      TraceText("\n");
-      if (e[sq]==vide)
-      {
-        unsigned int const time = count_nr_of_moves_from_to_checking(p,white[index_of_piece_delivering_check].sq,p,sq);
-        if (time<=whmoves && guards(king_square[Black],p,sq))
-        {
-          SetPiece(p,sq,sp);
-          piecechecking = p;
-          squarechecking = sq;
-          if (p==pb)
-          {
-            int diffcol = white[index_of_piece_delivering_check].sq % onerow - sq % onerow;
-            DealWithFlightsKing(whmoves-time,blmoves,abs(diffcol),n);
-          }
-          else
-            DealWithFlightsKing(whmoves-time,blmoves,0,n);
-        }
-
-        /* pawn promotion */
-        if (p==pb)
-        {
-          /* A rough check whether it is worth thinking about promotions */
-          unsigned int const min_nr_moves_by_p = (sq<=square_h7
-                                                  ? moves_to_prom[index_of_piece_delivering_check]+1
-                                                  : moves_to_prom[index_of_piece_delivering_check]);
-          if (whmoves>=min_nr_moves_by_p)
-          {
-            piece pp;
-            for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-            {
-              unsigned int const time= count_nr_of_moves_from_to_no_check(p,white[index_of_piece_delivering_check].sq,pp,sq);
-              if (time<=whmoves && guards(king_square[Black],pp,sq))
-              {
-                piecechecking = pp;
-                squarechecking = sq;
-                SetPiece(pp,sq,sp);
-                DealWithFlightsKing(whmoves-time,blmoves,0,n);
-              }
-            }
-          }
-        }
-        e[sq] = vide;
-        spec[sq] = EmptySpec;
-      }
+      mate_generate_checking_move_by_one_unpromoted_pawn(whmoves,blmoves,n);
+      mate_generate_checking_move_by_one_promoted_pawn(whmoves,blmoves,n);
     }
+    else
+      mate_generate_checking_move_by_one_officer(checker_type,whmoves,blmoves,n);
 
     white[index_of_piece_delivering_check].used = false;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* mate_generate_checking_move */
+}
 
 static void GenerateBlackKing(stip_length_type n)
 {
@@ -2746,7 +2840,7 @@ static void GenerateBlackKing(stip_length_type n)
         else
         {
           index_of_piece_delivering_check = 0;
-          DealWithFlightsKing(whmoves,blmoves-time,0,n);
+          guard_flights_king(whmoves,blmoves-time,0,n);
         }
         e[king_pos] = vide;
         spec[king_pos] = EmptySpec;
