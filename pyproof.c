@@ -43,7 +43,7 @@ static piece ProofPieces[32];
 static square ProofSquares[32];
 static unsigned int ProofNbrAllPieces;
 
-static int ProofNbrWhitePieces, ProofNbrBlackPieces;
+static unsigned int ProofNbrWhitePieces, ProofNbrBlackPieces;
 
 static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   BlockedBishopc8, BlockedBishopf8, BlockedQueend8,
@@ -1467,6 +1467,10 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
 
 static boolean NeverImpossible(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionResult("%u",false);
   return false;
 }
 
@@ -1475,8 +1479,10 @@ static boolean ProofFairyImpossible(void)
   square const *bnp;
   square sq;
   piece pparr;
-  int   NbrWh, NbrBl;
-  int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
+  unsigned int   NbrWh, NbrBl;
+  unsigned int MovesAvailable = MovesLeft[Black]+MovesLeft[White];
+
+  TraceText("ProofFairyImpossible\n");
 
   NbrWh = nbpiece[pb]
     + nbpiece[cb]
@@ -1495,13 +1501,14 @@ static boolean ProofFairyImpossible(void)
   /* not enough time to capture the remaining pieces */
   if (change_moving_piece)
   {
-    if (NbrWh + NbrBl - ProofNbrWhitePieces - ProofNbrBlackPieces
-        > MovesAvailable)
+    if (NbrWh + NbrBl
+        > MovesAvailable + ProofNbrWhitePieces + ProofNbrBlackPieces)
       return true;
+
 
     if (CondFlag[andernach]
         && !anycirce) {
-      int count= 0;
+      unsigned int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
          reestablished via a capture of the opposite side.
@@ -1510,21 +1517,21 @@ static boolean ProofFairyImpossible(void)
       */
       for (sq= square_a2; sq <= square_h2; sq++)
         if (e[sq]!=pb && target.board[sq]==pb)
-          count++;
+          ++count;
 
-      if ((16 - count) < ProofNbrBlackPieces)
+      if (16-count < ProofNbrBlackPieces)
         return true;
 
-      count= 0;
+      count = 0;
 
       /* has a black pawn on the seventh rank moved or has it
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++)
         if (e[sq]!=pn && target.board[sq]==pn)
-          count++;
+          ++count;
 
-      if ((16 - count) < ProofNbrWhitePieces)
+      if (16-count < ProofNbrWhitePieces)
         return true;
     }
   }
@@ -1533,8 +1540,8 @@ static boolean ProofFairyImpossible(void)
     if (!CondFlag[masand])
     {
       /* not enough time to capture the remaining pieces */
-      if (NbrWh-ProofNbrWhitePieces > MovesLeft[Black]
-          || NbrBl-ProofNbrBlackPieces > MovesLeft[White])
+      if (NbrWh > MovesLeft[Black]+ProofNbrWhitePieces
+          || NbrBl > MovesLeft[White]+ProofNbrBlackPieces)
         return true;
     }
 
@@ -1552,7 +1559,7 @@ static boolean ProofFairyImpossible(void)
     if (CondFlag[anti])
     {
       /* note, that we are in the !change_moving_piece section */
-      int count= 0;
+      unsigned int count= 0;
       /* in AntiCirce we need at least 2 captures if a pawn
          residing at his initial square has moved and has to be
          reborn via capture because we need a second pawn to do
@@ -1571,7 +1578,7 @@ static boolean ProofFairyImpossible(void)
                 && target.board[sq+3*dir_up]!=pb
                 && target.board[sq+4*dir_up]!=pb
                 && target.board[sq+5*dir_up]!=pb)
-              count++;
+              ++count;
           }
           else if (target.board[sq+dir_up] == pb
                    && e[sq+dir_up] != pb)
@@ -1580,14 +1587,14 @@ static boolean ProofFairyImpossible(void)
                 && target.board[sq+3*dir_up]!=pb
                 && target.board[sq+4*dir_up]!=pb
                 && target.board[sq+5*dir_up]!=pb)
-              count++;
+              ++count;
           }
         }
 
       if (count%2 == 1)
-        count++;
+        ++count;
 
-      if ((16 - count) < ProofNbrBlackPieces)
+      if (16-count < ProofNbrBlackPieces)
         return true;
 
       count= 0;
@@ -1604,7 +1611,7 @@ static boolean ProofFairyImpossible(void)
                 && target.board[sq+3*dir_down]!=pn
                 && target.board[sq+4*dir_down]!=pn
                 && target.board[sq+5*dir_down]!=pn)
-              count++;
+              ++count;
           }
           else if (target.board[sq+dir_down]==pn
                    && e[sq+dir_down]!=pn)
@@ -1613,13 +1620,13 @@ static boolean ProofFairyImpossible(void)
                 && target.board[sq+3*dir_down]!=pn
                 && target.board[sq+4*dir_down]!=pn
                 && target.board[sq+5*dir_down]!=pn)
-              count++;
+              ++count;
           }
         }
 
       if (count%2 == 1)
-        count++;
-      if ((16 - count) < ProofNbrWhitePieces)
+        ++count;
+      if (16-count < ProofNbrWhitePieces)
         return true;
     }
   }
@@ -1631,10 +1638,15 @@ static boolean ProofFairyImpossible(void)
   {
     piece const p = target.board[*bnp];
     if (p!=vide && p!=e[*bnp])
-      MovesAvailable--;
+    {
+      if (MovesAvailable==0)
+        return true;
+      else
+        --MovesAvailable;
+    }
   }
 
-  return MovesAvailable < 0;
+  return false;
 }
 
 static boolean ProofImpossible(void)
@@ -1647,7 +1659,9 @@ static boolean ProofImpossible(void)
   stip_length_type white_king_moves_needed, black_king_moves_needed;
   piece p1, p2;
   square    sq;
-  int       NbrWh, NbrBl;
+  unsigned int       NbrWh, NbrBl;
+
+  TraceText("ProofFairyImpossible\n");
 
   /* too many pawns captured or promoted */
   if (nr_piece(target)[pb] > nbpiece[pb])
@@ -1924,7 +1938,7 @@ static boolean ProofSeriesImpossible(void)
   square const *bnp;
   square sq;
   stip_length_type BlPieToBeCapt, BlCapturesRequired;
-  int       NbrBl;
+  unsigned int       NbrBl;
   stip_length_type white_moves_left= MovesLeft[Black]+MovesLeft[White];
   stip_length_type white_king_moves_needed;
 

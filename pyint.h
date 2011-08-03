@@ -12,7 +12,7 @@
 #include "pyposit.h"
 #include "stipulation/help_play/play.h"
 
-extern int MovesLeft[nr_sides];
+extern unsigned int MovesLeft[nr_sides];
 
 
 boolean isGoalReachable(void);
