@@ -149,39 +149,42 @@ static boolean guards(square to_be_guarded, piece guarding, square guarding_from
   return result;
 }
 
-static boolean IllegalCheck(Side camp)
+static boolean are_kings_too_close(void)
 {
-  if (king_square[White]!=initsquare && move_diff_code[abs(king_square[White]-king_square[Black])]<3)
-    return true;
+  return (king_square[White]!=initsquare
+          && move_diff_code[abs(king_square[White]-king_square[Black])]<3);
+}
 
-  if (camp == Black)
-  {
-    int nrChecks= 0;
-    numvec k;
-    for (k = vec_rook_start; k<=vec_rook_end; k++)
-      if (e[king_square[Black]+vec[k]]==tb || e[king_square[Black]+vec[k]]==db)
-        nrChecks++;
+static boolean is_black_king_attacked_by_non_king_too_often(void)
+{
+  unsigned int nrChecks = 0;
+  numvec k;
+  for (k = vec_rook_start; k<=vec_rook_end; k++)
+    if (e[king_square[Black]+vec[k]]==tb || e[king_square[Black]+vec[k]]==db)
+      ++nrChecks;
 
-    for (k = vec_bishop_start; k<=vec_bishop_end; k++)
-      if (e[king_square[Black]+vec[k]]==fb || e[king_square[Black]+vec[k]]==db)
-        nrChecks++;
+  for (k = vec_bishop_start; k<=vec_bishop_end; k++)
+    if (e[king_square[Black]+vec[k]]==fb || e[king_square[Black]+vec[k]]==db)
+      ++nrChecks;
 
-    for (k = vec_knight_start; k<=vec_knight_end; k++)
-      if (e[king_square[Black]+vec[k]] == cb)
-        nrChecks++;
+  for (k = vec_knight_start; k<=vec_knight_end; k++)
+    if (e[king_square[Black]+vec[k]] == cb)
+      ++nrChecks;
 
-    if (e[king_square[Black]+dir_down+dir_right]==pb || e[king_square[Black]+dir_down+dir_left]==pb)
-      nrChecks++;
+  if (e[king_square[Black]+dir_down+dir_right]==pb
+      || e[king_square[Black]+dir_down+dir_left]==pb)
+    ++nrChecks;
 
-    return (nrChecks > (goal_to_be_reached==goal_stale ? 0: 1));
-  }
-  else
-    return (king_square[White]!=initsquare
-            && ((*checkfunctions[Pawn])( king_square[White],pn,eval_ortho)
-                || (*checkfunctions[Knight])( king_square[White],cn,eval_ortho)
-                || (*checkfunctions[Fers])( king_square[White],fn,eval_ortho)
-                || (*checkfunctions[Wesir])( king_square[White],tn,eval_ortho)
-                || (*checkfunctions[ErlKing])( king_square[White],dn,eval_ortho)));
+  return nrChecks>(goal_to_be_reached==goal_stale ? 0: 1);
+}
+
+static boolean is_white_king_attacked_by_non_king(void)
+{
+  return ((*checkfunctions[Pawn])(king_square[White],pn,eval_ortho)
+          || (*checkfunctions[Knight])(king_square[White],cn,eval_ortho)
+          || (*checkfunctions[Fers])(king_square[White],fn,eval_ortho)
+          || (*checkfunctions[Wesir])(king_square[White],tn,eval_ortho)
+          || (*checkfunctions[ErlKing])(king_square[White],dn,eval_ortho));
 }
 
 static boolean guards_black_flight(piece as_piece, square from)
@@ -1145,7 +1148,9 @@ static void stalemate_place_white_king(unsigned int blmoves, unsigned int whmove
   f_p = white[index_of_king].p;
   white[index_of_king].used = true;
   SetPiece(f_p,king_square[White],white[index_of_king].sp);
-  if (!IllegalCheck(Black) && !IllegalCheck(White))
+  if (!are_kings_too_close()
+      && !is_black_king_attacked_by_non_king_too_often()
+      && !is_white_king_attacked_by_non_king())
   {
     if (echecc(nbply,Black))
       stalemate_avoid_check(blmoves,whmoves,blpcallowed,whpcallowed,n);
@@ -1307,7 +1312,7 @@ static void stalemate_block_square_white(unsigned int blmoves, unsigned int whmo
           if (time <= whmoves && blpcallowed>=1)
           {
             SetPiece(pp,toblock,white[i].sp);
-            if (!IllegalCheck(Black))
+            if (!is_black_king_attacked_by_non_king_too_often())
             {
               if (echecc(nbply,Black))
                 stalemate_avoid_check(blmoves,whmoves-time,
@@ -1335,10 +1340,12 @@ static void stalemate_block_square_white(unsigned int blmoves, unsigned int whmo
       if (i==index_of_king)
         king_square[White]= toblock;
 
-      if (!IllegalCheck(Black)
-          && (i!=index_of_king || !IllegalCheck(White))
-          && blpcallowed>=decpc
-          && whpcallowed>=pcreq)
+      if (blpcallowed>=decpc
+          && whpcallowed>=pcreq
+          && !is_black_king_attacked_by_non_king_too_often()
+          && !(i==index_of_king
+               && (are_kings_too_close()
+                   || is_white_king_attacked_by_non_king())))
       {
         if (echecc(nbply,Black))
           stalemate_avoid_check(blmoves,whmoves-time,
@@ -1744,11 +1751,7 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(!((*checkfunctions[Knight])(king_square[Black],cb,eval_ortho)
-           || (*checkfunctions[Pawn])(king_square[Black],pb,eval_ortho)
-           || (*checkfunctions[Fers])(king_square[Black],fb,eval_ortho)
-           || (*checkfunctions[Wesir])(king_square[Black],tb,eval_ortho)
-           || (*checkfunctions[ErlKing])(king_square[Black],db,eval_ortho)));
+  assert(!is_white_king_attacked_by_non_king());
 
   for (i = vec_queen_end; i>=vec_queen_start; --i)
   {
@@ -1998,7 +2001,7 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
     if (time<=whmoves)
     {
       SetPiece(pb,placed_on,white[placed_index].sp);
-      if (!IllegalCheck(Black))
+      if (!is_black_king_attacked_by_non_king_too_often())
       {
         unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
         if (diffcol<=whpc)
@@ -2053,7 +2056,7 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
         if (diffcol<=whpc && time<=whmoves)
         {
           SetPiece(pp,placed_on,white[placed_index].sp);
-          if (!IllegalCheck(Black))
+          if (!is_black_king_attacked_by_non_king_too_often())
             mate_store_target_position(blmoves,whmoves-time,blpc,whpc-diffcol,n);
         }
       }
@@ -2091,7 +2094,7 @@ static void mate_place_white_officer_on(unsigned int placed_index,
     {
       Flags const placed_flags = white[placed_index].sp;
       SetPiece(placed_type,placed_on,placed_flags);
-      if (!IllegalCheck(Black))
+      if (!is_black_king_attacked_by_non_king_too_often())
         mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
     }
   }
@@ -2258,7 +2261,8 @@ static void finalise_blocking(unsigned int whmoves,
 
   if (goal_to_be_reached==goal_stale)
   {
-    assert(!IllegalCheck(White));
+    assert(!are_kings_too_close());
+    assert(king_square[White]==initsquare || !is_white_king_attacked_by_non_king());
     if (echecc(nbply,Black))
       stalemate_avoid_check(timetowaste,whmoves,blpcallowed,whpcallowed,n);
     else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
@@ -2268,7 +2272,8 @@ static void finalise_blocking(unsigned int whmoves,
   }
   else if (echecc(nbply,Black))
   {
-    assert(!IllegalCheck(White));
+    assert(!are_kings_too_close());
+    assert(king_square[White]==initsquare || !is_white_king_attacked_by_non_king());
     mate_store_target_position(timetowaste,whmoves,blpcallowed,whpcallowed,n);
   }
 
@@ -2751,7 +2756,7 @@ static void guard_flight_unpromoted_pawn(unsigned int index,
                && guards(king_square[Black],pb,*bnp)))
       {
         SetPiece(pb,*bnp,pawn_flags);
-        if (!IllegalCheck(Black))
+        if (!is_black_king_attacked_by_non_king_too_often())
         {
           unsigned int const diffcol = abs(guard_from % onerow - *bnp % onerow);
           guard_flights_non_king(index+1,
@@ -2810,7 +2815,7 @@ static void guard_flight_promoted_pawn(unsigned int index,
                    && guards(king_square[Black],pp,*bnp)))
           {
             SetPiece(pp,*bnp,pawn_flags);
-            if (!IllegalCheck(Black))
+            if (!is_black_king_attacked_by_non_king_too_often())
               guard_flights_non_king(index+1,
                                      whmoves-time,blmoves,
                                      min_nr_white_captures,n);
@@ -2860,7 +2865,7 @@ static void guard_flight_officer(unsigned int index,
                && guards(king_square[Black],guard_type,*bnp)))
       {
         SetPiece(guard_type,*bnp,guard_flags);
-        if (!IllegalCheck(Black))
+        if (!is_black_king_attacked_by_non_king_too_often())
           guard_flights_non_king(index+1,
                                  whmoves-time,blmoves,
                                  min_nr_white_captures,n);
@@ -2961,7 +2966,8 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
         {
           king_square[White]= *bnp;
           SetPiece(roib,*bnp,sp);
-          if (!IllegalCheck(Black))
+          if (!are_kings_too_close()
+              && !is_black_king_attacked_by_non_king_too_often())
             guard_flights_non_king(1,whmoves-time,blmoves,min_nr_white_captures,n);
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
