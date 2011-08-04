@@ -521,14 +521,14 @@ static void stalemate_place_white_king(unsigned int blmoves, unsigned int whmove
 static void mate_neutralise_guarding_pieces(unsigned int blmoves, unsigned int whmoves,
                                             unsigned int blpc, unsigned int whpc,
                                             stip_length_type n);
-static void BlackPieceTo(square sq,
-                         unsigned int blmoves, unsigned int whmoves,
-                         unsigned int blpc, unsigned int whpc,
-                         stip_length_type n);
-static void WhitePieceTo(square sq,
-                         unsigned int blmoves, unsigned int whmoves,
-                         unsigned int blpc, unsigned int whpc,
-                         stip_length_type n);
+static void mate_place_any_black_piece_on(square placed_on,
+                                          unsigned int blmoves, unsigned int whmoves,
+                                          unsigned int blpc, unsigned int whpc,
+                                          stip_length_type n);
+static void mate_place_any_white_piece_on(square placed_on,
+                                          unsigned int blmoves, unsigned int whmoves,
+                                          unsigned int blpc, unsigned int whpc,
+                                          stip_length_type n);
 static void stalemate_avoid_check_to_white_king(unsigned int blmoves, unsigned int whmoves,
                                                 unsigned int blpcallowed, unsigned int whpcallowed,
                                                 stip_length_type n);
@@ -768,8 +768,8 @@ static void mate_prevent_check_against_white_king(unsigned int blmoves, unsigned
 
     for (sq= trouble+dir; sq != king_square[White]; sq+=dir)
     {
-      BlackPieceTo(sq,blmoves,whmoves,blpc,whpc,n);
-      WhitePieceTo(sq,blmoves,whmoves,blpc,whpc,n);
+      mate_place_any_black_piece_on(sq,blmoves,whmoves,blpc,whpc,n);
+      mate_place_any_white_piece_on(sq,blmoves,whmoves,blpc,whpc,n);
     }
   }
 
@@ -1092,7 +1092,8 @@ static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmov
   }
 } /* stalemate_immobilise_by_pin */
 
-static boolean BlIllegalCheck(square from, piece p) {
+static boolean BlIllegalCheck(square from, piece p)
+{
   int const dir = from-king_square[White];
   switch(p)
   {
@@ -1762,166 +1763,365 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
   TraceFunctionResultEnd();
 } /* stalemate_avoid_check */
 
-static void BlackPieceTo(square sq,
-                         unsigned int blmoves, unsigned int whmoves,
-                         unsigned int blpc, unsigned int whpc,
-                         stip_length_type n)
+static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
+                                              square placed_on,
+                                              unsigned int blmoves, unsigned int whmoves,
+                                              unsigned int blpc, unsigned int whpc,
+                                              stip_length_type n)
 {
-  unsigned int time = 0;
-  unsigned int actpbl;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  for (actpbl= 1; actpbl < MaxPiece[Black]; actpbl++) {
-    if (!black[actpbl].used) {
-      piece p;
+  {
+    /* A rough check whether it is worth thinking about promotions */
+    unsigned int time = black[placed_index].sq/onerow - nr_of_slack_rows_below_board;
+    if (time>5)
+      time = 5;
+    if (placed_on>=square_a2)
+      ++time;
 
-      p= black[actpbl].p;
-      black[actpbl].used= true;
-
-      if (p != -Pawn || sq>=square_a2) {
-        time= count_nr_of_moves_from_to_no_check(p,black[actpbl].sq,p,sq);
-        if (time<=blmoves
-            && ((king_square[White] == initsquare) || !BlIllegalCheck(sq,p)))
+    if (time<=blmoves)
+    {
+      square const placed_from = black[placed_index].sq;
+      piece pp;
+      for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+      {
+        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                     placed_from,
+                                                                     -pp,
+                                                                     placed_on);
+        unsigned int diffcol = 0;
+        if (pp==fn)
         {
-          Flags sp= black[actpbl].sp;
-          SetPiece(p,sq,sp);
-          if (p == -Pawn) {
-            unsigned int const diffcol= abs(black[actpbl].sq%onerow - sq%onerow);
-            if (diffcol <= blpc)
-              mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
-          }
-          else {
-            mate_store_target_position(blmoves-time,whmoves,blpc,whpc,n);
-          }
+          unsigned int const placed_from_file = placed_from%nr_files_on_board;
+          square const promotion_square_on_same_file = square_a1+placed_from_file;
+          if (SquareCol(placed_on)!=SquareCol(promotion_square_on_same_file))
+            diffcol = 1;
+        }
+
+        if (diffcol<=blpc && time<=blmoves
+            && (king_square[White]==initsquare || !BlIllegalCheck(placed_on,pp)))
+        {
+          SetPiece(pp,placed_on,black[placed_index].sp);
+          mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
         }
       }
-
-      /* pawn promotions */
-      if (p == -Pawn) {
-        /* A rough check whether it is worth thinking about
-           promotions.
-        */
-        time= black[actpbl].sq / onerow - 8;
-        if (time > 5) {
-          time= 5;
-        }
-        if (sq>=square_a2)
-          time++;
-
-        if (time <= blmoves) {
-          piece pp= -getprompiece[vide];
-          while (pp != vide) {
-            unsigned int diffcol;
-            time= count_nr_of_moves_from_to_no_check(p,black[actpbl].sq,-pp,sq);
-            /* black piece */
-            if (pp == -Bishop
-                && SquareCol(sq)
-                != SquareCol(black[actpbl].sq%onerow+192))
-            {
-              diffcol= 1;
-            }
-            else {
-              diffcol= 0;
-            }
-            if ( (diffcol <= blpc && time <= blmoves)
-                 && (king_square[White] == initsquare
-                     || !BlIllegalCheck(sq,pp)))
-            {
-              Flags sp= black[actpbl].sp;
-              SetPiece(pp,sq,sp);
-              mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
-            }
-
-            /* get next promotion piece */
-            pp= -getprompiece[-pp];
-          }
-        }
-      }
-      black[actpbl].used= false;
     }
   }
-  e[sq]= vide;
-  spec[sq]= EmptySpec;
-} /* BlackPieceTo */
 
-static void WhitePieceTo(square sq,
-                         unsigned int blmoves, unsigned int whmoves,
-                         unsigned int blpc, unsigned int whpc,
-                         stip_length_type n)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
+                                                square placed_on,
+                                                unsigned int blmoves, unsigned int whmoves,
+                                                unsigned int blpc, unsigned int whpc,
+                                                stip_length_type n)
 {
-  unsigned int time = 0;
-  unsigned int actpwh;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  for (actpwh= 1; actpwh < MaxPiece[White]; actpwh++) {
-    piece p;
-    if (white[actpwh].used) {
-      continue;
+  {
+    square const placed_from = black[placed_index].sq;
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                 placed_from,
+                                                                 pn,
+                                                                 placed_on);
+    if (time<=blmoves
+        && (king_square[White]==initsquare || !BlIllegalCheck(placed_on,pn)))
+    {
+      unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
+      SetPiece(pn,placed_on,black[placed_index].sp);
+      if (diffcol<=blpc)
+        mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
     }
+  }
 
-    p= white[actpwh].p;
-    white[actpwh].used= true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-    if (p != pb || sq < 360) {
-      time= count_nr_of_moves_from_to_no_check(p,white[actpwh].sq,p,sq);
-      if (time <= whmoves) {
-        Flags sp= white[actpwh].sp;
-        SetPiece(p,sq,sp);
-        if (IllegalCheck(Black)) {
-          continue;
-        }
-        if (p == pb) {
-          unsigned int const diffcol = abs(white[actpwh].sq%onerow - sq%onerow);
-          if (diffcol <= whpc)
+static void mate_place_black_officer_on(unsigned int placed_index,
+                                        piece placed_type, square placed_on,
+                                        unsigned int blmoves, unsigned int whmoves,
+                                        unsigned int blpc, unsigned int whpc,
+                                        stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TracePiece(placed_type);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    square const placed_from = black[placed_index].sq;
+    unsigned int const time = count_nr_of_moves_from_to_no_check(placed_type,
+                                                                 placed_from,
+                                                                 placed_type,
+                                                                 placed_on);
+    if (time<=blmoves
+        && (king_square[White]==initsquare
+            || !BlIllegalCheck(placed_on,placed_type)))
+    {
+      SetPiece(placed_type,placed_on,black[placed_index].sp);
+      mate_store_target_position(blmoves-time,whmoves,blpc,whpc,n);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_any_black_piece_on(square placed_on,
+                                          unsigned int blmoves, unsigned int whmoves,
+                                          unsigned int blpc, unsigned int whpc,
+                                          stip_length_type n)
+{
+  unsigned int placed_index;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
+  {
+    if (!black[placed_index].used)
+    {
+      piece const placed_type = black[placed_index].p;
+
+      black[placed_index].used= true;
+
+      if (placed_type==pn)
+      {
+        if (placed_on>=square_a2)
+          mate_place_unpromoted_black_pawn_on(placed_index,placed_on,
+                                              blmoves,whmoves,
+                                              blpc,whpc,
+                                              n);
+        mate_place_promoted_black_pawn_on(placed_index,placed_on,
+                                          blmoves,whmoves,
+                                          blpc,whpc,
+                                          n);
+      }
+      else
+        mate_place_black_officer_on(placed_index,placed_type,placed_on,
+                                    blmoves,whmoves,
+                                    blpc,whpc,
+                                    n);
+
+      black[placed_index].used = false;
+    }
+  }
+
+  e[placed_on] = vide;
+  spec[placed_on] = EmptySpec;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
+                                                square placed_on,
+                                                unsigned int blmoves, unsigned int whmoves,
+                                                unsigned int blpc, unsigned int whpc,
+                                                stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    square const placed_from = white[placed_index].sq;
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
+                                                                 placed_from,
+                                                                 pb,
+                                                                 placed_on);
+    if (time<=whmoves)
+    {
+      SetPiece(pb,placed_on,white[placed_index].sp);
+      if (!IllegalCheck(Black))
+      {
+        unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
+        if (diffcol<=whpc)
+          mate_store_target_position(blmoves,whmoves-time,blpc,whpc-diffcol,n);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
+                                              square placed_on,
+                                              unsigned int blmoves, unsigned int whmoves,
+                                              unsigned int blpc, unsigned int whpc,
+                                              stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    /* A rough check whether it is worth thinking about promotions */
+    square const placed_from = white[placed_index].sq;
+    unsigned int time = placed_from/onerow - nr_of_slack_rows_below_board;
+    if (time>5)
+      time= 5;
+    if (placed_on<=square_h7)
+      ++time;
+    if (time<=whmoves)
+    {
+      piece pp;
+      for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+      {
+        unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
+                                                                     placed_from,
+                                                                     pp,
+                                                                     placed_on);
+        unsigned int diffcol;
+        if (pp==fb && SquareCol(placed_on)==SquareCol(placed_from%onerow))
+          diffcol= 1;
+        else
+          diffcol= 0;
+
+        if (diffcol<=whpc && time<=whmoves)
+        {
+          SetPiece(pp,placed_on,white[placed_index].sp);
+          if (!IllegalCheck(Black))
             mate_store_target_position(blmoves,whmoves-time,blpc,whpc-diffcol,n);
         }
-        else {
-          mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
-        }
       }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_white_officer_on(unsigned int placed_index,
+                                        piece placed_type, square placed_on,
+                                        unsigned int blmoves, unsigned int whmoves,
+                                        unsigned int blpc, unsigned int whpc,
+                                        stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TracePiece(placed_type);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    square const placed_from = white[placed_index].sq;
+    unsigned int const time= count_nr_of_moves_from_to_no_check(placed_type,
+                                                                placed_from,
+                                                                placed_type,
+                                                                placed_on);
+    if (time<=whmoves)
+    {
+      Flags const placed_flags = white[placed_index].sp;
+      SetPiece(placed_type,placed_on,placed_flags);
+      if (!IllegalCheck(Black))
+        mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_place_any_white_piece_on(square placed_on,
+                                          unsigned int blmoves, unsigned int whmoves,
+                                          unsigned int blpc, unsigned int whpc,
+                                          stip_length_type n)
+{
+  unsigned int placed_index;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (placed_index = 1; placed_index<MaxPiece[White]; ++placed_index)
+    if (!white[placed_index].used)
+    {
+      piece const placed_type = white[placed_index].p;
+
+      white[placed_index].used = true;
+
+      if (placed_type==pb)
+      {
+        if (placed_on<=square_h7)
+          mate_place_unpromoted_white_pawn_on(placed_index,placed_on,
+                                              blmoves,whmoves,
+                                              blpc,whpc,
+                                              n);
+        mate_place_promoted_white_pawn_on(placed_index,placed_on,
+                                          blmoves,whmoves,
+                                          blpc,whpc,
+                                          n);
+      }
+      else
+        mate_place_white_officer_on(placed_index,placed_type,placed_on,
+                                    blmoves,whmoves,
+                                    blpc,whpc,
+                                    n);
+
+      white[placed_index].used = false;
     }
 
-    /* pawn promotions */
-    if (p == pb) {
-      /* A rough check whether it is worth thinking about
-         promotions.
-      */
-      time= white[actpwh].sq / onerow - 8;
-      if (time > 5) {
-        time= 5;
-      }
-      if (sq < 360) {
-        time++;
-      }
-      if (time <= whmoves) {
-        piece pp= getprompiece[vide];
-        while (pp != vide) {
-          unsigned int diffcol;
-          time= count_nr_of_moves_from_to_no_check(p,white[actpwh].sq,pp,sq);
-          if (pp == fb
-              && SquareCol(sq)
-              == SquareCol(white[actpwh].sq%onerow+192))
-          {
-            diffcol= 1;
-          }
-          else {
-            diffcol= 0;
-          }
-          if (diffcol <= whpc && time <= whmoves) {
-            Flags sp= white[actpwh].sp;
-            SetPiece(pp,sq,sp);
-            if (!IllegalCheck(Black)) {
-              mate_store_target_position(blmoves,whmoves-time,blpc,whpc-diffcol,n);
-            }
-          }
-          /* get next promotion piece */
-          pp= getprompiece[pp];
-        }
-      }
-    }
-    white[actpwh].used= false;
-  }
-  e[sq]= vide;
-  spec[sq]= EmptySpec;
-} /* WhitePieceTo */
+  e[placed_on]= vide;
+  spec[placed_on]= EmptySpec;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void mate_neutralise_guarding_pieces(unsigned int blmoves, unsigned int whmoves,
                                             unsigned int blpc, unsigned int whpc,
@@ -1964,8 +2164,8 @@ static void mate_neutralise_guarding_pieces(unsigned int blmoves, unsigned int w
     square sq;
     for (sq = trouble+dir; sq!=trto; sq+=dir)
     {
-      BlackPieceTo(sq,blmoves,whmoves,blpc,whpc,n);
-      WhitePieceTo(sq,blmoves,whmoves,blpc,whpc,n);
+      mate_place_any_black_piece_on(sq,blmoves,whmoves,blpc,whpc,n);
+      mate_place_any_white_piece_on(sq,blmoves,whmoves,blpc,whpc,n);
     }
   }
 
