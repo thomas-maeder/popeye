@@ -1092,28 +1092,34 @@ static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmov
   }
 } /* stalemate_immobilise_by_pin */
 
-static boolean BlIllegalCheck(square from, piece p)
+static boolean attacks_white_king(square from, piece p)
 {
-  int const dir = from-king_square[White];
-  switch(p)
+  if (king_square[White]==initsquare)
+    return false;
+  else
   {
-    case -Queen:
-      return CheckDirQueen[dir] == dir;
+    int const dir = from-king_square[White];
+    switch(p)
+    {
+      case dn:
+        return CheckDirQueen[dir]==dir;
 
-    case -Knight:
-      return CheckDirKnight[king_square[White]-from] != 0;
+      case cn:
+        return CheckDirKnight[king_square[White]-from]!=0;
 
-    case -Pawn:
-      return (dir ==+dir_up+dir_right) || (dir==+dir_up+dir_left);
+      case pn:
+        return dir==dir_up+dir_right || dir==dir_up+dir_left;
 
-    case -Bishop:
-      return CheckDirBishop[dir] == dir;
+      case fn:
+        return CheckDirBishop[dir]==dir;
 
-    case -Rook:
-      return CheckDirRook[dir] == dir;
+      case tn:
+        return CheckDirRook[dir]==dir;
 
-    default:
-      return false;
+      default:
+        assert(0);
+        return false;
+    }
   }
 }
 
@@ -1204,9 +1210,8 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
           {
             time= count_nr_of_moves_from_to_no_check(f_p,black[i].sq,-pp,toblock);
             if (time <= blmoves
-                && (king_square[White] == initsquare
-                    || !BlIllegalCheck(toblock,pp))
-                && whpcallowed>=1)
+                && whpcallowed>=1
+                && !attacks_white_king(toblock,pp))
             {
               SetPiece(pp,toblock,black[i].sp);
               if (morethanonecheck) {
@@ -1238,8 +1243,7 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
         if (time <= blmoves
             && pcreq <= blpcallowed
             && whpcallowed>=1
-            && (king_square[White] == initsquare
-                || !BlIllegalCheck(toblock,f_p)))
+            && !attacks_white_king(toblock,f_p))
         {
           SetPiece(f_p,toblock,black[i].sp);
           if (morethanonecheck)
@@ -1834,8 +1838,7 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
             diffcol = 1;
         }
 
-        if (diffcol<=blpc && time<=blmoves
-            && (king_square[White]==initsquare || !BlIllegalCheck(placed_on,pp)))
+        if (diffcol<=blpc && time<=blmoves && !attacks_white_king(placed_on,pp))
         {
           SetPiece(pp,placed_on,black[placed_index].sp);
           mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
@@ -1870,8 +1873,7 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
                                                                  placed_from,
                                                                  pn,
                                                                  placed_on);
-    if (time<=blmoves
-        && (king_square[White]==initsquare || !BlIllegalCheck(placed_on,pn)))
+    if (time<=blmoves && !attacks_white_king(placed_on,pn))
     {
       unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
       SetPiece(pn,placed_on,black[placed_index].sp);
@@ -1907,9 +1909,7 @@ static void mate_place_black_officer_on(unsigned int placed_index,
                                                                  placed_from,
                                                                  placed_type,
                                                                  placed_on);
-    if (time<=blmoves
-        && (king_square[White]==initsquare
-            || !BlIllegalCheck(placed_on,placed_type)))
+    if (time<=blmoves && !attacks_white_king(placed_on,placed_type))
     {
       SetPiece(placed_type,placed_on,black[placed_index].sp);
       mate_store_target_position(blmoves-time,whmoves,blpc,whpc,n);
@@ -2317,8 +2317,7 @@ static void block_one_flight_officer(square to_be_blocked,
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste
-          && (king_square[White]==initsquare || !BlIllegalCheck(to_be_blocked,blocker_type)))
+      if (wasted<=timetowaste && !attacks_white_king(to_be_blocked,blocker_type))
       {
         SetPiece(blocker_type,to_be_blocked,blocker_flags);
         block_flights(whmoves,
@@ -2363,8 +2362,7 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste
-          && (king_square[White]==initsquare || !BlIllegalCheck(to_be_blocked,pn)))
+      if (wasted<=timetowaste && !attacks_white_king(to_be_blocked,pn))
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
         SetPiece(pn,to_be_blocked,blocker_flags);
@@ -2420,21 +2418,25 @@ static void block_one_flight_with_prom(square to_be_blocked,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,blocks_from,-pp,to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                   blocks_from,
+                                                                   -pp,
+                                                                   to_be_blocked);
       TraceValue("%u\n",mintime[current_flight]);
       if (time>=mintime[current_flight])
       {
         unsigned int const wasted = time-mintime[current_flight];
-        unsigned int diffcol;
-        if (pp==fn
-            && SquareCol(to_be_blocked)!=SquareCol(blocks_from%onerow+192))
-          diffcol= 1;
-        else
-          diffcol= 0;
+        unsigned int diffcol = 0;
+        if (pp==fn)
+        {
+          unsigned int const placed_from_file = blocks_from%nr_files_on_board;
+          square const promotion_square_on_same_file = square_a1+placed_from_file;
+          if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
+            diffcol = 1;
+        }
         if (diffcol<=blpcallowed
-            && wasted <= timetowaste
-            && (king_square[White]==initsquare
-                || !BlIllegalCheck(to_be_blocked,pp)))
+            && wasted<=timetowaste
+            && !attacks_white_king(to_be_blocked,pp))
         {
           SetPiece(pp,to_be_blocked,blocker_flags);
           block_flights(whmoves,
