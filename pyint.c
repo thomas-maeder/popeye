@@ -1667,53 +1667,70 @@ static void stalemate_avoid_check_to_white_king(unsigned int blmoves, unsigned i
                                                 unsigned int blpcallowed, unsigned int whpcallowed,
                                                 stip_length_type n)
 {
-  int checkdirs[8], md= 0, i;
+  int checkdirs[8];
+  unsigned int md = 0;
+  unsigned int i;
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[White]+vec[i]] == vide) {
-      e[king_square[White]+vec[i]] = dummyb;
-    }
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[White]+vec_i]==vide)
+      e[king_square[White]+vec_i] = dummyb;
   }
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[White]+vec[i]] == dummyb) {
-      e[king_square[White]+vec[i]] = vide;
-      if (echecc(nbply,White)) {
-        checkdirs[md++]= vec[i];
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[White]+vec_i]==dummyb)
+    {
+      e[king_square[White]+vec_i] = vide;
+      if (echecc(nbply,White))
+      {
+        checkdirs[md] = vec_i;
+        ++md;
       }
-      e[king_square[White]+vec[i]]= dummyb;
+      e[king_square[White]+vec_i] = dummyb;
     }
   }
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[White]+vec[i]] == dummyb) {
-      e[king_square[White]+vec[i]] = vide;
-    }
+  assert(md>0);
+
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[White]+vec_i]==dummyb)
+      e[king_square[White]+vec_i] = vide;
   }
 
-#if defined(DEBUG)
-  if (md == 0) {
-    StdString("something's wrong\n");
-    WritePosition();
-  }
-  sprintf(GlobalStr,"md=%d\n",md); StdString(GlobalStr);
-#endif
-
-  for (i= 0; i < md; i++) {
-    square sq= king_square[Black];
-    while (e[sq+=checkdirs[i]] == vide) {
+  for (i = 0; i<md; i++)
+  {
+    square sq;
+    for (sq = king_square[White]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
+    {
       stalemate_block_square_black(blmoves,whmoves,blpcallowed,whpcallowed,sq,md-1,n);
       stalemate_block_square_white(blmoves,whmoves,blpcallowed,whpcallowed,sq,n);
     }
   }
-} /* stalemate_avoid_check_to_white_king */
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
                                   unsigned int blpcallowed, unsigned int whpcallowed,
                                   stip_length_type n)
 {
-  int checkdirs[8], md= 0, i;
+  int checkdirs[8];
+  unsigned int md = 0;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",blmoves);
@@ -1729,31 +1746,42 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
            || (*checkfunctions[Wesir])(king_square[Black],tb,eval_ortho)
            || (*checkfunctions[ErlKing])(king_square[Black],db,eval_ortho)));
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[Black]+vec[i]] == vide) {
-      e[king_square[Black]+vec[i]] = dummyb;
-    }
+  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[Black]+vec_i]==vide)
+      e[king_square[Black]+vec_i] = dummyb;
   }
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[Black]+vec[i]] == dummyb) {
-      e[king_square[Black]+vec[i]] = vide;
-      if (echecc(nbply,Black)) {
-        checkdirs[md++]= vec[i];
+  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[Black]+vec_i]==dummyb)
+    {
+      e[king_square[Black]+vec_i] = vide;
+      if (echecc(nbply,Black))
+      {
+        checkdirs[md] = vec_i;
+        ++md;
       }
-      e[king_square[Black]+vec[i]]= dummyb;
+      e[king_square[Black]+vec_i] = dummyb;
     }
   }
 
-  for (i= 8; i ; i--) {
-    if (e[king_square[Black]+vec[i]] == dummyb) {
-      e[king_square[Black]+vec[i]] = vide;
-    }
+  assert(md>0);
+
+  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[Black]+vec_i]==dummyb)
+      e[king_square[Black]+vec_i] = vide;
   }
 
-  for (i= 0; i < md; i++) {
-    square sq= king_square[Black];
-    while (e[sq+=checkdirs[i]] == vide) {
+  for (i = 0; i<md; ++i)
+  {
+    square sq;
+    for (sq = king_square[Black]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
+    {
       stalemate_block_square_black(blmoves,whmoves,blpcallowed,whpcallowed,sq,md-1,n);
       stalemate_block_square_white(blmoves,whmoves,blpcallowed,whpcallowed,sq,n);
     }
@@ -1761,7 +1789,7 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-} /* stalemate_avoid_check */
+}
 
 static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
                                               square placed_on,
