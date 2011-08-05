@@ -1273,106 +1273,296 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
 #endif
 } /* stalemate_block_square_black */
 
-static void stalemate_block_square_white(unsigned int blmoves, unsigned int whmoves,
-                                         unsigned int blpcallowed, unsigned int whpcallowed,
-                                         square toblock,
-                                         stip_length_type n)
+static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int blocker_index,
+                                                              unsigned int blmoves,
+                                                              unsigned int whmoves,
+                                                              unsigned int blpcallowed,
+                                                              unsigned int whpcallowed,
+                                                              square to_be_blocked,
+                                                              stip_length_type n)
 {
-  unsigned int pcreq;
-  unsigned int time;
-  unsigned int i;
-  piece f_p;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blocker_index);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,
-          "entering ImmobilizeByWhBlock(%d,%d,%d)\n",
-          blmoves,whmoves,toblock);
-  StdString(GlobalStr);
-#endif
-
-  for (i= 0; i < MaxPiece[White]; i++) {
-    /* take care of wKing in check/absence !!! */
-    if (white[i].used)
-      continue;
-
-    f_p= white[i].p;
-    white[i].used= true;
-    if (f_p == pb) {
-      /* A rough check whether it is worth thinking about
-         promotions.
-      */
-      if (whmoves
-          >= (toblock<=square_h7 ? moves_to_prom[i]+1 : moves_to_prom[i]))
-      {
-        piece pp= getprompiece[vide];
-        while (pp != vide)
-        {
-          time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,pp,toblock);
-          if (time <= whmoves && blpcallowed>=1)
-          {
-            SetPiece(pp,toblock,white[i].sp);
-            if (!is_black_king_attacked_by_non_king_too_often())
-            {
-              if (echecc(nbply,Black))
-                stalemate_avoid_check(blmoves,whmoves-time,
-                                      blpcallowed-1,whpcallowed,
-                                      n);
-              else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-                stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-              else
-                stalemate_immobilise(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-            }
-          }
-          pp= getprompiece[pp];
-        }
-      }
-      pcreq= abs(white[i].sq%onerow - toblock%onerow);
-    }
-    else
-      pcreq= 0;
-
-    time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,f_p,toblock);
-    if (time <= whmoves)
+  {
+    square const blocks_from = white[blocker_index].sq;
+    unsigned int const nr_captures_required = abs(blocks_from%onerow
+                                                  - to_be_blocked%onerow);
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
+                                                                 blocks_from,
+                                                                 pb,
+                                                                 to_be_blocked);
+    if (time<=whmoves)
     {
-      unsigned int decpc= i ? 1 : 0;
-      SetPiece(f_p,toblock,white[i].sp);
-      if (i==index_of_king)
-        king_square[White]= toblock;
+      SetPiece(pb,to_be_blocked,white[blocker_index].sp);
 
-      if (blpcallowed>=decpc
-          && whpcallowed>=pcreq
-          && !is_black_king_attacked_by_non_king_too_often()
-          && !(i==index_of_king
-               && (are_kings_too_close()
-                   || is_white_king_attacked_by_non_king())))
+      if (blpcallowed>=1
+          && whpcallowed>=nr_captures_required
+          && !is_black_king_attacked_by_non_king_too_often())
       {
         if (echecc(nbply,Black))
           stalemate_avoid_check(blmoves,whmoves-time,
-                                blpcallowed-decpc,whpcallowed-pcreq,
+                                blpcallowed-1,whpcallowed-nr_captures_required,
                                 n);
-        else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-          stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-decpc,whpcallowed-pcreq,n);
+        else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+                 ==has_solution)
+          stalemate_store_target_position(blmoves,whmoves-time,
+                                          blpcallowed-1,whpcallowed-nr_captures_required,
+                                          n);
         else
-          stalemate_immobilise(blmoves,whmoves-time,blpcallowed-decpc,whpcallowed-pcreq,n);
+          stalemate_immobilise(blmoves,whmoves-time,
+                               blpcallowed-1,whpcallowed-nr_captures_required,
+                               n);
       }
     }
-    white[i].used= false;
-    if (i==index_of_king)
-      king_square[White]= initsquare;
   }
-  e[toblock]= vide;
-  spec[toblock]= EmptySpec;
 
-#if defined(DEBUG)
-  write_indentation();StdString("leaving ImmobilizeByWhBlock\n");
-#endif
-} /* stalemate_block_square_white */
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_with_promoted_white_pawn(unsigned int blocker_index,
+                                                            unsigned int blmoves,
+                                                            unsigned int whmoves,
+                                                            unsigned int blpcallowed,
+                                                            unsigned int whpcallowed,
+                                                            square to_be_blocked,
+                                                            stip_length_type n)
+{
+  unsigned int const nr_moves_required = (to_be_blocked<=square_h7
+                                          ? moves_to_prom[blocker_index]+1
+                                          : moves_to_prom[blocker_index]);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blocker_index);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nr_moves_required);
+  if (whmoves>=nr_moves_required)
+  {
+    piece pp;
+    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+    {
+      unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
+                                                                   white[blocker_index].sq,
+                                                                   pp,
+                                                                   to_be_blocked);
+      if (time<=whmoves && blpcallowed>=1)
+      {
+        SetPiece(pp,to_be_blocked,white[blocker_index].sp);
+        if (!is_black_king_attacked_by_non_king_too_often())
+        {
+          if (echecc(nbply,Black))
+            stalemate_avoid_check(blmoves,whmoves-time,
+                                  blpcallowed-1,whpcallowed,
+                                  n);
+          else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+                   ==has_solution)
+            stalemate_store_target_position(blmoves,whmoves-time,
+                                            blpcallowed-1,whpcallowed,
+                                            n);
+          else
+            stalemate_immobilise(blmoves,whmoves-time,
+                                 blpcallowed-1,whpcallowed,
+                                 n);
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_with_white_king(unsigned int blmoves,
+                                                   unsigned int whmoves,
+                                                   unsigned int blpcallowed,
+                                                   unsigned int whpcallowed,
+                                                   square to_be_blocked,
+                                                   stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const time = count_nr_of_moves_from_to_no_check(white[index_of_king].p,
+                                                                 white[index_of_king].sq,
+                                                                 white[index_of_king].p,
+                                                                 to_be_blocked);
+    if (time<=whmoves)
+    {
+      SetPiece(white[index_of_king].p,to_be_blocked,white[index_of_king].sp);
+      king_square[White] = to_be_blocked;
+
+      if (!are_kings_too_close() && !is_white_king_attacked_by_non_king())
+      {
+        if (echecc(nbply,Black))
+          stalemate_avoid_check(blmoves,whmoves-time,
+                                blpcallowed,whpcallowed,
+                                n);
+        else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+                 ==has_solution)
+          stalemate_store_target_position(blmoves,whmoves-time,
+                                          blpcallowed,whpcallowed,
+                                          n);
+        else
+          stalemate_immobilise(blmoves,whmoves-time,
+                               blpcallowed,whpcallowed,
+                               n);
+      }
+
+      king_square[White] = initsquare;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_with_white_officer(piece blocker_type,
+                                                      unsigned int blocker_index,
+                                                      unsigned int blmoves,
+                                                      unsigned int whmoves,
+                                                      unsigned int blpcallowed,
+                                                      unsigned int whpcallowed,
+                                                      square to_be_blocked,
+                                                      stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TracePiece(blocker_type);
+  TraceFunctionParam("%u",blocker_index);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                 white[blocker_index].sq,
+                                                                 blocker_type,
+                                                                 to_be_blocked);
+    if (time<=whmoves)
+    {
+      SetPiece(blocker_type,to_be_blocked,white[blocker_index].sp);
+      if (blpcallowed>=1
+          && !is_black_king_attacked_by_non_king_too_often())
+      {
+        if (echecc(nbply,Black))
+          stalemate_avoid_check(blmoves,whmoves-time,
+                                blpcallowed-1,whpcallowed,
+                                n);
+        else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+                 ==has_solution)
+          stalemate_store_target_position(blmoves,whmoves-time,
+                                          blpcallowed-1,whpcallowed,
+                                          n);
+        else
+          stalemate_immobilise(blmoves,whmoves-time,
+                               blpcallowed-1,whpcallowed,
+                               n);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_white(unsigned int blmoves,
+                                         unsigned int whmoves,
+                                         unsigned int blpcallowed,
+                                         unsigned int whpcallowed,
+                                         square to_be_blocked,
+                                         stip_length_type n)
+{
+  unsigned int blocker_index;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (!white[index_of_king].used)
+  {
+    white[index_of_king].used = true;
+    stalemate_block_square_with_white_king(blmoves,whmoves,
+                                           blpcallowed,whpcallowed,
+                                           to_be_blocked,
+                                           n);
+    white[index_of_king].used = false;
+  }
+
+  for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
+    if (!white[blocker_index].used)
+    {
+      piece const blocker_type = white[blocker_index].p;
+
+      white[blocker_index].used = true;
+
+      if (blocker_type==pb)
+      {
+        stalemate_block_square_with_promoted_white_pawn(blocker_index,
+                                                        blmoves,whmoves,
+                                                        blpcallowed,whpcallowed,
+                                                        to_be_blocked,
+                                                        n);
+        stalemate_block_square_with_unpromoted_white_pawn(blocker_index,
+                                                          blmoves,whmoves,
+                                                          blpcallowed,whpcallowed,
+                                                          to_be_blocked,
+                                                          n);
+      }
+      else
+        stalemate_block_square_with_white_officer(blocker_type,blocker_index,
+                                                  blmoves,whmoves,
+                                                  blpcallowed,whpcallowed,
+                                                  to_be_blocked,
+                                                  n);
+
+      white[blocker_index].used = false;
+    }
+
+  e[to_be_blocked] = vide;
+  spec[to_be_blocked] = EmptySpec;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static boolean can_white_pin(unsigned int whmoves)
 {
   boolean result = false;
   unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[White]; i++)
     if (!(white[i].used
@@ -1383,31 +1573,42 @@ static boolean can_white_pin(unsigned int whmoves)
       break;
     }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
 static
 boolean can_we_block_all_necessary_squares(unsigned int const nr_blocks_needed[nr_sides])
 {
+  boolean result;
   unsigned int nr_unused_pieces[nr_sides] = { 0, 0 };
-
   unsigned int i;
-  for (i = 1; i<MaxPiece[Black]; ++i)
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+ for (i = 1; i<MaxPiece[Black]; ++i)
     if (!black[i].used)
       ++nr_unused_pieces[Black];
 
   if (nr_unused_pieces[Black]<nr_blocks_needed[Black])
-    return false;
+    result = false;
+  else
+  {
+    for (i = 0; i<MaxPiece[White]; ++i)
+      if (!white[i].used)
+        ++nr_unused_pieces[White];
 
-  for (i = 0; i<MaxPiece[White]; ++i)
-    if (!white[i].used)
-      ++nr_unused_pieces[White];
+    result = (nr_unused_pieces[White]+nr_unused_pieces[Black]
+                                                       >=nr_blocks_needed[Black]+nr_blocks_needed[White]);
+  }
 
-  if (nr_unused_pieces[White]+nr_unused_pieces[Black]
-      <nr_blocks_needed[Black]+nr_blocks_needed[White])
-    return false;
-
-  return true;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 typedef enum
