@@ -828,7 +828,7 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
     return;
 
   if (king_square[White]==initsquare
-      && white[index_of_king].sq!=initsquare
+      && !white[index_of_king].used
       && white[index_of_king].sq!=square_e1
       && whmoves==0)
     return;
