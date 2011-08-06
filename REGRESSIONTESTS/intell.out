@@ -456,10 +456,10 @@ Loesung beendet.
   1...Th4*d4   2.Db4-c4 Td4-h4   3.Kc5-b4 Lh2-f4   4.Dc4-c5 Lf4-d2 # 
   1...Lh2*e5   2.Kc5-c6 Le5-h2   3.Ld6-c5 Th4-f4   4.Kc6-d6 Tf4-f6 # 
 
-              empile:    10269181
-            jouecoup:     9957775
-        orig_rbechec:      375219
-        orig_rnechec:     1125197
+              empile:    10266027
+            jouecoup:     9954621
+        orig_rbechec:      375136
+        orig_rnechec:     1125182
 Loesung beendet. 
 
 
@@ -492,10 +492,10 @@ a)
 
   1.Sf6-d7 Te6-h6   2.Tf1-f2 Th6-h3   3.Tf2-c2 Lf3-d5 # 
 
-              empile:      951879
-            jouecoup:      967925
-        orig_rbechec:       40093
-        orig_rnechec:      152609
+              empile:      951817
+            jouecoup:      967860
+        orig_rbechec:       40091
+        orig_rnechec:      152608
 b) sBa4-->c2
 
   1.Sg4-f2 Lf3-h5   2.Lc8-d7 Lh5-f7   3.Ld7-a4 Te6-e3 # 
@@ -537,18 +537,18 @@ a)
 
   1.Ld7-e6 Lc8*e6   2.Lf8-g7 Le6-g8   3.Te2-e6 Te1*e6 # 
 
-              empile:      634730
-            jouecoup:      637759
-        orig_rbechec:       14212
-        orig_rnechec:      186966
+              empile:      633836
+            jouecoup:      636751
+        orig_rbechec:       14208
+        orig_rnechec:      186942
 b) sKf6-->f7
 
   1.Te2-e6 Te1*e6   2.Tg5-g7 Te6-h6   3.Ld7-e6 Lc8*e6 # 
 
-              empile:      457883
-            jouecoup:      447114
-        orig_rbechec:        8152
-        orig_rnechec:      148913
+              empile:      447261
+            jouecoup:      435622
+        orig_rbechec:        8070
+        orig_rnechec:      148545
 Loesung beendet. 
 
 
@@ -726,18 +726,18 @@ a)
 
   1.Le7-f6 + Ld8*f6   2.Tf8-a8 Tg8*a8   3.Da2-a1 Ta8*a1 # 
 
-              empile:      372051
-            jouecoup:      343930
-        orig_rbechec:        6788
-        orig_rnechec:       94999
+              empile:      367215
+            jouecoup:      338791
+        orig_rbechec:        6738
+        orig_rnechec:       94855
 b) sSg5-->b2
 
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Tc2-c1 Tc8*c1 # 
 
-              empile:      648101
-            jouecoup:      615699
-        orig_rbechec:       19694
-        orig_rnechec:      133050
+              empile:      622609
+            jouecoup:      589043
+        orig_rbechec:       18767
+        orig_rnechec:      132179
 Loesung beendet. 
 
 
@@ -817,18 +817,18 @@ a)
 
   1.Sf4-e2 Lb3-a4   2.Ta3-e3 La4*c6   3.Tb1-b3 Td5-f5 # 
 
-              empile:      825559
-            jouecoup:      794125
-        orig_rbechec:       13825
-        orig_rnechec:      136129
+              empile:      824073
+            jouecoup:      792641
+        orig_rbechec:       13807
+        orig_rnechec:      136058
 b) sBg3-->g2
 
   1.Sg4-f2 Td5-a5   2.Dc6-e4 Ta5*a3   3.d7-d5 Lb3-d1 # 
 
-              empile:      491645
-            jouecoup:      476801
-        orig_rbechec:        7031
-        orig_rnechec:      118637
+              empile:      490877
+            jouecoup:      475999
+        orig_rbechec:        7022
+        orig_rnechec:      118592
 Loesung beendet. 
 
 
@@ -1088,10 +1088,10 @@ Loesung beendet.
 
   1.Sc8-a7 Th1-g1   2.f2*g1=L Sh3-f4   3.Lg1-h2 Sf4-d5   4.Lh2-b8 Sd5-b6 # 
 
-              empile:      105863
-            jouecoup:       93570
-        orig_rbechec:        1636
-        orig_rnechec:       68548
+              empile:      105785
+            jouecoup:       93492
+        orig_rbechec:        1632
+        orig_rnechec:       68546
 Loesung beendet. 
 
 
@@ -1203,10 +1203,10 @@ Loesung beendet.
 
   1.Sa3-c4 Sb1-a3   2.Sc4*e5 Sa3-c4   3.Se5*g6 Sc4-e5 # 
 
-              empile:     7308327
-            jouecoup:     7404097
-        orig_rbechec:      167324
-        orig_rnechec:     3881240
+              empile:     7272168
+            jouecoup:     7363093
+        orig_rbechec:      167314
+        orig_rnechec:     3879140
 Loesung beendet. 
 
 
@@ -1238,10 +1238,10 @@ Loesung beendet.
   1.Tg2-g3 Tf5-g5 +   2.Kg4*f4 Tg5-f5 +   3.Kf4-g4 Tf5-f4 # 
   1.Tb4-b3 + Kc3*c4   2.Tb3-b4 + Kc4-c3   3.Tb4*f4 Tf5-g5 # 
 
-              empile:     3335226
-            jouecoup:     3229176
-        orig_rbechec:      165275
-        orig_rnechec:      615165
+              empile:     3333132
+            jouecoup:     3227082
+        orig_rbechec:      165253
+        orig_rnechec:      615151
 Loesung beendet. 
 
 
@@ -1793,18 +1793,18 @@ a)
 
   1.Sb5-d4 Ld3-c2   2.De4-d3 Tg4-e4   3.Kf5*e4 Lc2*d3 # 
 
-              empile:     2158046
-            jouecoup:     1892059
-        orig_rbechec:       47304
-        orig_rnechec:      855380
+              empile:     2155720
+            jouecoup:     1889733
+        orig_rbechec:       47286
+        orig_rnechec:      855344
 b) sKf5-->d4
 
   1.Sd6-f5 Tg4-h4   2.De4-g4 Ld3-e4   3.Kd4*e4 Th4*g4 # 
 
-              empile:     2672824
-            jouecoup:     2396617
-        orig_rbechec:       76765
-        orig_rnechec:      895220
+              empile:     2670265
+            jouecoup:     2394058
+        orig_rbechec:       76739
+        orig_rnechec:      895168
 Loesung beendet. 
 
 
@@ -2137,10 +2137,10 @@ b) sKe3-->h2
 
   1.Lb6-c7 Tb3-c3   2.Tg3-g1 Tc3*c7   3.Dg7-g2 Tc7-h7 # 
 
-              empile:     2945580
-            jouecoup:     2844389
-        orig_rbechec:       62936
-        orig_rnechec:      320282
+              empile:     2917635
+            jouecoup:     2816444
+        orig_rbechec:       62816
+        orig_rnechec:      319986
 Loesung beendet. 
 
 
@@ -2221,10 +2221,10 @@ b) sKd3-->d4
 
   1.Lc5-f8 Lf6-e7   2.Lf3-e4 Le7-b4   3.Lf8-c5 Lb4-c3 # 
 
-              empile:    10081417
-            jouecoup:     9749176
-        orig_rbechec:      398585
-        orig_rnechec:     1157074
+              empile:    10077087
+            jouecoup:     9744846
+        orig_rbechec:      398513
+        orig_rnechec:     1156998
 Loesung beendet. 
 
 
@@ -2300,10 +2300,10 @@ Loesung beendet.
   1.Lh4-g5 Lf6-e7   2.Lg5-f4 Le7-c5   3.Lf4-d6 Td4-f4 # 
   1.Td2-d3 Td4-d7   2.Td3-e3 Td7-f7   3.Te3-e7 Lf6-d4 # 
 
-              empile:      732600
-            jouecoup:      697359
-        orig_rbechec:       25206
-        orig_rnechec:      200549
+              empile:      728880
+            jouecoup:      693435
+        orig_rbechec:       25090
+        orig_rnechec:      200432
 Loesung beendet. 
 
 
@@ -2812,10 +2812,10 @@ b) sDg5-->a2
 
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Sc4-b2 Tc8-c1 # 
 
-              empile:      246634
-            jouecoup:      236954
-        orig_rbechec:        7099
-        orig_rnechec:       48932
+              empile:      245675
+            jouecoup:      235995
+        orig_rbechec:        7081
+        orig_rnechec:       48906
 Loesung beendet. 
 
 
@@ -3003,18 +3003,18 @@ a)
 
   1.Tf8-a8 Tg8*a8   2.Ta7-a3 Ta8*a3   3.Kg4-h3 Lb3-e6 # 
 
-              empile:      753536
-            jouecoup:      787578
-        orig_rbechec:       23040
-        orig_rnechec:      170470
+              empile:      752906
+            jouecoup:      786858
+        orig_rbechec:       23029
+        orig_rnechec:      170449
 b) wLb3-->d5
 
   1.Tf8-c8 Tg8*c8   2.c7-c5 Tc8*c5   3.Kg4-h5 Ld5-f3 # 
 
-              empile:      887074
-            jouecoup:      925343
-        orig_rbechec:       26820
-        orig_rnechec:      193892
+              empile:      886420
+            jouecoup:      924599
+        orig_rbechec:       26809
+        orig_rnechec:      193871
 Loesung beendet. 
 
 
@@ -3272,18 +3272,18 @@ a)
 
   1.Dh4-h8 Th3*h8   2.Tg8-a8 Th8*a8   3.a5-a4 Ta8*a4 # 
 
-              empile:     8921686
-            jouecoup:     8742644
-        orig_rbechec:      206089
-        orig_rnechec:     1170221
+              empile:     8921238
+            jouecoup:     8742023
+        orig_rbechec:      206083
+        orig_rnechec:     1170465
 b) wBe2-->e3
 
   1.Dh4-h6 Th3*h6   2.Tg6-d6 Th6*d6   3.d5-d4 Td6*d4 # 
 
-              empile:    11236715
-            jouecoup:    11049111
-        orig_rbechec:      277354
-        orig_rnechec:     1310729
+              empile:    11233508
+            jouecoup:    11045904
+        orig_rbechec:      277328
+        orig_rnechec:     1310686
 Loesung beendet. 
 
 
@@ -3453,10 +3453,10 @@ a)
 
   1.Db2-c1 Tc2-c8   2.Dc1-c7 Le1-c3 +   3.Kd4-c5 Tc8*c7 # 
 
-              empile:      644811
-            jouecoup:      624423
+              empile:      644711
+            jouecoup:      624323
         orig_rbechec:       20649
-        orig_rnechec:      143903
+        orig_rnechec:      143899
 b) wLc2 
 
   1.Db2-b1 Lc2-h7   2.Db1-g6 Le1-f2 +   3.Kd4-e4 Lh7*g6 # 
@@ -3772,10 +3772,10 @@ Loesung beendet.
 
   1.Tb1-a1   2.Ta1-a6   3.Kb6-a5   4.Ka5-a4   5.Ka4-a3   6.Ta6-a4 c5-c4 # 
 
-              empile:     3306236
-            jouecoup:     3212262
-        orig_rbechec:      407493
-        orig_rnechec:      808853
+              empile:     3302279
+            jouecoup:     3208305
+        orig_rbechec:      407271
+        orig_rnechec:      808253
 Loesung beendet. 
 
 
@@ -3842,10 +3842,10 @@ Loesung beendet.
   1.Kd5-c4 Td8*d6   2.Le6-d5 Td6*d5   3.De7-b4 e2*d3 # 
   1.Kd5-d4 Lg8*e6   2.Td6-d5 Le6*d5   3.De7-c5 e2-e3 # 
 
-              empile:    19025050
-            jouecoup:    17943981
-        orig_rbechec:      272305
-        orig_rnechec:     4109927
+              empile:    18984450
+            jouecoup:    17903270
+        orig_rbechec:      271762
+        orig_rnechec:     4108888
 Loesung beendet. 
 
 
@@ -4150,10 +4150,10 @@ Loesung beendet.
 
   1.Ld4-a7 Lh7-b1   2.Tb8-b6 Tf2-c2   3.Ke6-f5 h2-h4   4.Tb6-e6 + Tc2-f2 # 
 
-              empile:     4299228
-            jouecoup:     4108045
+              empile:     4298949
+            jouecoup:     4107766
         orig_rbechec:      197987
-        orig_rnechec:      954586
+        orig_rnechec:      954577
 Loesung beendet. 
 
 

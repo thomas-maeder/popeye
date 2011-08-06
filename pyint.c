@@ -518,9 +518,9 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
                                   unsigned int blpcallowed, unsigned int whpcallowed,
                                   stip_length_type n);
 static int MovesToBlock(square sq, unsigned int blmoves);
-static void stalemate_place_white_king(unsigned int blmoves, unsigned int whmoves,
-                                       unsigned int blpcallowed, unsigned int whpcallowed,
-                                       stip_length_type n);
+static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves, unsigned int whmoves,
+                                                       unsigned int blpcallowed, unsigned int whpcallowed,
+                                                       stip_length_type n);
 static void mate_neutralise_guarding_pieces(unsigned int blmoves, unsigned int whmoves,
                                             unsigned int blpc, unsigned int whpc,
                                             stip_length_type n);
@@ -548,12 +548,14 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
   if (hasMaxtimeElapsed())
     return;
 
-  if (king_square[White]==initsquare
-      && white[index_of_king].sq!=initsquare
+  if (!white[index_of_king].used
       && white[index_of_king].sq!=square_e1
       && whmoves==0)
   {
-    stalemate_place_white_king(blmoves,whmoves,blpcallowed,whpcallowed,n);
+    if (e[white[index_of_king].sq]==vide)
+      stalemate_fix_white_king_on_diagram_square(blmoves,whmoves,
+                                                 blpcallowed,whpcallowed,
+                                                 n);
     return;
   }
 
@@ -830,11 +832,7 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
       && white[index_of_king].sq!=initsquare
       && white[index_of_king].sq!=square_e1
       && whmoves==0)
-  {
-    if (e[white[index_of_king].sq]!=vide) {
-      return;
-    }
-  }
+    return;
 
   if (echecc(nbply,White))
     mate_prevent_check_against_white_king(blmoves,whmoves,blpc,whpc,n);
@@ -1126,28 +1124,25 @@ static boolean attacks_white_king(square from, piece p)
   }
 }
 
-static void stalemate_place_white_king(unsigned int blmoves, unsigned int whmoves,
-                                       unsigned int blpcallowed, unsigned int whpcallowed,
-                                       stip_length_type n)
+static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves,
+                                                       unsigned int whmoves,
+                                                       unsigned int blpcallowed,
+                                                       unsigned int whpcallowed,
+                                                       stip_length_type n)
 {
-  piece f_p;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,
-          "entering DeposeWhKing(%d,%d,%d,%d)\n",
-          blmoves,whmoves,blpcallowed,whpcallowed);
-  StdString(GlobalStr);
-#endif
-
-  king_square[White]= white[index_of_king].sq;
-  if (e[king_square[White]] != vide) {
-    king_square[White]= initsquare;
-    return;
-  }
-  f_p = white[index_of_king].p;
   white[index_of_king].used = true;
-  SetPiece(f_p,king_square[White],white[index_of_king].sp);
+
+  king_square[White] = white[index_of_king].sq;
+  SetPiece(roib,king_square[White],white[index_of_king].sp);
+
   if (!are_kings_too_close()
       && !is_black_king_attacked_by_non_king_too_often()
       && !is_white_king_attacked_by_non_king())
@@ -1159,14 +1154,15 @@ static void stalemate_place_white_king(unsigned int blmoves, unsigned int whmove
     else
       stalemate_immobilise(blmoves,whmoves,blpcallowed,whpcallowed,n);
   }
-  e[king_square[White]]= vide;
-  spec[king_square[White]]= EmptySpec;
-  white[index_of_king].used= false;
-  king_square[White]= initsquare;
 
-#if defined(DEBUG)
-  write_indentation();StdString("leaving DeposeWhKing\n");
-#endif
+  e[king_square[White]] = vide;
+  spec[king_square[White]] = EmptySpec;
+  king_square[White] = initsquare;
+
+  white[index_of_king].used= false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmoves,
@@ -1404,13 +1400,13 @@ static void stalemate_block_square_with_white_king(unsigned int blmoves,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(white[index_of_king].p,
+    unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
                                                                  white[index_of_king].sq,
-                                                                 white[index_of_king].p,
+                                                                 roib,
                                                                  to_be_blocked);
     if (time<=whmoves)
     {
-      SetPiece(white[index_of_king].p,to_be_blocked,white[index_of_king].sp);
+      SetPiece(roib,to_be_blocked,white[index_of_king].sp);
       king_square[White] = to_be_blocked;
 
       if (!are_kings_too_close() && !is_white_king_attacked_by_non_king())
@@ -2833,10 +2829,12 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int blmoves,
   return result;
 }
 
-static void PlaceWhiteKing(unsigned int whmoves, unsigned int blmoves,
-                           unsigned int min_nr_white_captures,
-                           stip_length_type n)
+static void fix_white_king_on_diagram_square(unsigned int whmoves, unsigned int blmoves,
+                                             unsigned int min_nr_white_captures,
+                                             stip_length_type n)
 {
+  square const king_diagram_square = white[index_of_king].sq;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",whmoves);
   TraceFunctionParam("%u",blmoves);
@@ -2844,8 +2842,8 @@ static void PlaceWhiteKing(unsigned int whmoves, unsigned int blmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (e[white[index_of_king].sq]==vide
-      && move_diff_code[abs(king_square[Black]-white[index_of_king].sq)]>=3)
+  if (e[king_diagram_square]==vide
+      && move_diff_code[abs(king_square[Black]-king_diagram_square)]>=3)
   {
     square toblock[8];
     unsigned int const nr_flights = count_black_flights(toblock,
@@ -2859,10 +2857,10 @@ static void PlaceWhiteKing(unsigned int whmoves, unsigned int blmoves,
                                                                     mintime);
       if (mtba<=blmoves)
       {
-        int const blpcallowed = count_max_nr_allowed_black_pawn_captures();
+        unsigned int const blpcallowed = count_max_nr_allowed_black_pawn_captures();
 
-        king_square[White] = white[index_of_king].sq;
-        SetPiece(white[index_of_king].p,king_square[White],white[index_of_king].sp);
+        king_square[White] = king_diagram_square;
+        SetPiece(roib,king_square[White],white[index_of_king].sp);
         white[index_of_king].used = true;
         block_flights(whmoves,
                       nr_flights,toblock,mintime,blpcallowed,
@@ -2890,11 +2888,10 @@ static void FinaliseGuarding(unsigned int whmoves, unsigned int blmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (king_square[White]==initsquare
-      && white[index_of_king].sq!=initsquare
+  if (!white[index_of_king].used
       && white[index_of_king].sq!=square_e1
       && whmoves==0)
-    PlaceWhiteKing(whmoves,blmoves,min_nr_white_captures,n);
+    fix_white_king_on_diagram_square(whmoves,blmoves,min_nr_white_captures,n);
   else
   {
     square toblock[8];
@@ -3140,10 +3137,6 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
                                unsigned int min_nr_white_captures,
                                stip_length_type n)
 {
-  Flags const sp = white[index_of_king].sp;
-  square const sq = white[index_of_king].sq;
-  square const *bnp;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",whmoves);
   TraceFunctionParam("%u",blmoves);
@@ -3155,6 +3148,9 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
       && min_nr_white_captures<=MaxPiece[Black]-1
       && !hasMaxtimeElapsed())
   {
+    square const guard_from = white[index_of_king].sq;
+    square const *bnp;
+
     white[index_of_king].used = true;
 
     /* try using white king for guarding from every square */
@@ -3162,13 +3158,15 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
       if (e[*bnp]==vide
           && move_diff_code[abs(king_square[Black]-*bnp)]>=3)
       {
-        unsigned int const time = count_nr_of_moves_from_to_no_check(roib,sq,roib,*bnp);
+        unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
+                                                                     guard_from,
+                                                                     roib,
+                                                                     *bnp);
         if (time<=whmoves && guards_black_flight(roib,*bnp))
         {
           king_square[White]= *bnp;
-          SetPiece(roib,*bnp,sp);
-          if (!are_kings_too_close()
-              && !is_black_king_attacked_by_non_king_too_often())
+          SetPiece(roib,*bnp,white[index_of_king].sp);
+          if (!are_kings_too_close())
             guard_flights_non_king(1,whmoves-time,blmoves,min_nr_white_captures,n);
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
@@ -3424,53 +3422,61 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   black[index_of_king].sq= king_square[Black];
   MaxPiece[Black]= 1;
 
-  SetIndex(spec[king_square[White]],1);
-  white[index_of_king].p= e[king_square[White]];
-  white[index_of_king].sp= spec[king_square[White]];
-  white[index_of_king].sq= king_square[White];
-  MaxPiece[White]= 1;
-  if (king_square[White] == initsquare)
-    white[index_of_king].used= true;
+  if (king_square[White]==initsquare)
+    white[index_of_king].used = true;
+  else
+  {
+    SetIndex(spec[king_square[White]],1);
+    white[index_of_king].used = false;
+    white[index_of_king].p = e[king_square[White]];
+    white[index_of_king].sp = spec[king_square[White]];
+    white[index_of_king].sq = king_square[White];
+    assert(white[index_of_king].p==roib);
+  }
 
-  MaxPieceAll= 2;
+  MaxPiece[White]= 1;
+  MaxPieceAll = 2;
 
   for (bnp= boardnum; *bnp; bnp++)
-    if ((king_square[White] != *bnp) && (e[*bnp] > obs)) {
+    if (king_square[White]!=*bnp && e[*bnp]>obs)
+    {
       SetIndex(spec[*bnp],MaxPieceAll);
       white[MaxPiece[White]].p= e[*bnp];
       white[MaxPiece[White]].sp= spec[*bnp];
       white[MaxPiece[White]].sq= *bnp;
       white[MaxPiece[White]].used= false;
-      if (e[*bnp] == pb) {
+      if (e[*bnp]==pb)
+      {
         unsigned int moves= 15 - *bnp / onerow;
-        square  sq= *bnp;
+        square  sq = *bnp;
         if (moves > 5)
           moves= 5;
 
         /* a white piece that cannot move away */
-        if (moves == 5
-            && moves == MovesLeft[White]
-            && (sq<=square_h2 && (e[sq+dir_up]>vide || e[sq+2*dir_up]>vide)))
-          moves= maxply+1;
+        if (moves==5
+            && moves==MovesLeft[White]
+            && sq<=square_h2
+            && (e[sq+dir_up]>vide || e[sq+2*dir_up]>vide))
+          moves = maxply+1;
 
         /* a black pawn that needs a white sacrifice to move away */
-        else if (MovesLeft[White] < 7
+        else if (MovesLeft[White]<7
                  && sq<=square_h2
-                 && e[sq+dir_left] <= roib && e[sq+dir_right] <= roib
-                 && (e[sq+dir_up] == pn
-                     || (e[sq+dir_up+dir_left] <= roib
-                         && e[sq+dir_up+dir_right] <= roib
-                         && (ep[1] != sq+dir_up+dir_left)
-                         && (ep[1] != sq+dir_up+dir_right)
-                         && e[sq+2*dir_up] == -Pawn)))
-        {
-          moves++;
-        }
-        moves_to_prom[MaxPiece[White]]= moves;
+                 && e[sq+dir_left]<=roib && e[sq+dir_right]<=roib
+                 && (e[sq+dir_up]==pn
+                     || (e[sq+dir_up+dir_left]<=roib
+                         && e[sq+dir_up+dir_right]<=roib
+                         && (ep[1]!=sq+dir_up+dir_left)
+                         && (ep[1]!=sq+dir_up+dir_right)
+                         && e[sq+2*dir_up]==pn)))
+          ++moves;
+
+        moves_to_prom[MaxPiece[White]] = moves;
       }
-      MaxPiece[White]++;
-      MaxPieceAll++;
+      ++MaxPiece[White];
+      ++MaxPieceAll;
     }
+
   for (bnp= boardnum; *bnp; bnp++) {
     if ((king_square[Black] != *bnp) && (e[*bnp] < vide)) {
       SetIndex(spec[*bnp],MaxPieceAll);
