@@ -149,10 +149,19 @@ static boolean guards(square to_be_guarded, piece guarding, square guarding_from
   return result;
 }
 
-static boolean are_kings_too_close(void)
+static boolean are_kings_too_close(square white_king_square)
 {
-  return (king_square[White]!=initsquare
-          && move_diff_code[abs(king_square[White]-king_square[Black])]<3);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = move_diff_code[abs(white_king_square-king_square[Black])]<3;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_black_king_attacked_by_non_king_too_often(void)
@@ -371,10 +380,10 @@ static unsigned int count_nr_of_moves_from_to_checking(piece from_piece,
 {
   if (from_square==to_square && from_piece==to_piece)
   {
-    if (from_piece == pb)
+    if (from_piece==pb)
       return maxply+1;
 
-    else if (from_piece == cb)
+    else if (from_piece==cb)
       return 2;
 
     /* it's a rider */
@@ -1138,28 +1147,30 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  white[index_of_king].used = true;
-
-  king_square[White] = white[index_of_king].sq;
-  SetPiece(roib,king_square[White],white[index_of_king].sp);
-
-  if (!are_kings_too_close()
-      && !is_black_king_attacked_by_non_king_too_often()
-      && !is_white_king_attacked_by_non_king())
+  if (!are_kings_too_close(white[index_of_king].sq))
   {
-    if (echecc(nbply,Black))
-      stalemate_avoid_check(blmoves,whmoves,blpcallowed,whpcallowed,n);
-    else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-      stalemate_store_target_position(blmoves,whmoves,blpcallowed,whpcallowed,n);
-    else
-      stalemate_immobilise(blmoves,whmoves,blpcallowed,whpcallowed,n);
+    white[index_of_king].used = true;
+
+    king_square[White] = white[index_of_king].sq;
+    SetPiece(roib,king_square[White],white[index_of_king].sp);
+
+    if (!is_black_king_attacked_by_non_king_too_often()
+        && !is_white_king_attacked_by_non_king())
+    {
+      if (echecc(nbply,Black))
+        stalemate_avoid_check(blmoves,whmoves,blpcallowed,whpcallowed,n);
+      else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
+        stalemate_store_target_position(blmoves,whmoves,blpcallowed,whpcallowed,n);
+      else
+        stalemate_immobilise(blmoves,whmoves,blpcallowed,whpcallowed,n);
+    }
+
+    e[king_square[White]] = vide;
+    spec[king_square[White]] = EmptySpec;
+    king_square[White] = initsquare;
+
+    white[index_of_king].used= false;
   }
-
-  e[king_square[White]] = vide;
-  spec[king_square[White]] = EmptySpec;
-  king_square[White] = initsquare;
-
-  white[index_of_king].used= false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1399,6 +1410,7 @@ static void stalemate_block_square_with_white_king(unsigned int blmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  if (!are_kings_too_close(to_be_blocked))
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
                                                                  white[index_of_king].sq,
@@ -1409,7 +1421,7 @@ static void stalemate_block_square_with_white_king(unsigned int blmoves,
       SetPiece(roib,to_be_blocked,white[index_of_king].sp);
       king_square[White] = to_be_blocked;
 
-      if (!are_kings_too_close() && !is_white_king_attacked_by_non_king())
+      if (!is_white_king_attacked_by_non_king())
       {
         if (echecc(nbply,Black))
           stalemate_avoid_check(blmoves,whmoves-time,
@@ -2456,10 +2468,10 @@ static void finalise_blocking(unsigned int whmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  assert(!white[index_of_king].used || !is_white_king_attacked_by_non_king());
+
   if (goal_to_be_reached==goal_stale)
   {
-    assert(!are_kings_too_close());
-    assert(king_square[White]==initsquare || !is_white_king_attacked_by_non_king());
     if (echecc(nbply,Black))
       stalemate_avoid_check(timetowaste,whmoves,blpcallowed,whpcallowed,n);
     else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
@@ -2468,11 +2480,7 @@ static void finalise_blocking(unsigned int whmoves,
       stalemate_immobilise(timetowaste,whmoves,blpcallowed,whpcallowed,n);
   }
   else if (echecc(nbply,Black))
-  {
-    assert(!are_kings_too_close());
-    assert(king_square[White]==initsquare || !is_white_king_attacked_by_non_king());
     mate_store_target_position(timetowaste,whmoves,blpcallowed,whpcallowed,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2842,8 +2850,7 @@ static void fix_white_king_on_diagram_square(unsigned int whmoves, unsigned int 
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (e[king_diagram_square]==vide
-      && move_diff_code[abs(king_square[Black]-king_diagram_square)]>=3)
+  if (e[king_diagram_square]==vide && !are_kings_too_close(king_diagram_square))
   {
     square toblock[8];
     unsigned int const nr_flights = count_black_flights(toblock,
@@ -3155,8 +3162,7 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
 
     /* try using white king for guarding from every square */
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-      if (e[*bnp]==vide
-          && move_diff_code[abs(king_square[Black]-*bnp)]>=3)
+      if (e[*bnp]==vide && !are_kings_too_close(*bnp))
       {
         unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
                                                                      guard_from,
@@ -3166,8 +3172,7 @@ static void guard_flights_king(unsigned int whmoves, unsigned int blmoves,
         {
           king_square[White]= *bnp;
           SetPiece(roib,*bnp,white[index_of_king].sp);
-          if (!are_kings_too_close())
-            guard_flights_non_king(1,whmoves-time,blmoves,min_nr_white_captures,n);
+          guard_flights_non_king(1,whmoves-time,blmoves,min_nr_white_captures,n);
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
         }
