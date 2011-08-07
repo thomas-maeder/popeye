@@ -1221,7 +1221,7 @@ static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmov
   TraceFunctionExit(__func__);
 }
 
-static boolean attacks_white_king(square from, piece p)
+static boolean uninterceptably_attacks_white_king(square from, piece p)
 {
   boolean result;
 
@@ -1234,27 +1234,27 @@ static boolean attacks_white_king(square from, piece p)
     result = false;
   else
   {
-    int const dir = from-king_square[White];
+    int const dir = king_square[White]-from;
     switch(p)
     {
       case dn:
         result = CheckDirQueen[dir]==dir;
         break;
 
-      case cn:
-        result = CheckDirKnight[king_square[White]-from]!=0;
-        break;
-
-      case pn:
-        result = dir==dir_up+dir_right || dir==dir_up+dir_left;
+      case tn:
+        result = CheckDirRook[dir]==dir;
         break;
 
       case fn:
         result = CheckDirBishop[dir]==dir;
         break;
 
-      case tn:
-        result = CheckDirRook[dir]==dir;
+      case cn:
+        result = CheckDirKnight[dir]!=0;
+        break;
+
+      case pn:
+        result = dir==dir_down+dir_right || dir==dir_down+dir_left;
         break;
 
       default:
@@ -1354,7 +1354,7 @@ static void stalemate_block_square_with_promoted_black_pawn(unsigned int blmoves
                                                                    to_be_blocked);
       if (time<=blmoves
           && whpcallowed>=1
-          && !attacks_white_king(to_be_blocked,pp))
+          && !uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
         SetPiece(pp,to_be_blocked,blocker_flags);
         if (morethanonecheck)
@@ -1408,7 +1408,7 @@ static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int blmov
     if (time<=blmoves
         && nr_required_captures<=blpcallowed
         && whpcallowed>=1
-        && !attacks_white_king(to_be_blocked,pn))
+        && !uninterceptably_attacks_white_king(to_be_blocked,pn))
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
       if (morethanonecheck)
@@ -1460,7 +1460,7 @@ static void stalemate_block_square_with_black_officer(unsigned int blmoves, unsi
                                                                  to_be_blocked);
     if (time<=blmoves
         && whpcallowed>=1
-        && !attacks_white_king(to_be_blocked,blocker_type))
+        && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
     {
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
       if (morethanonecheck)
@@ -2266,7 +2266,7 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
             diffcol = 1;
         }
 
-        if (diffcol<=blpc && time<=blmoves && !attacks_white_king(placed_on,pp))
+        if (diffcol<=blpc && time<=blmoves && !uninterceptably_attacks_white_king(placed_on,pp))
         {
           SetPiece(pp,placed_on,black[placed_index].sp);
           mate_store_target_position(blmoves-time,whmoves,blpc-diffcol,whpc,n);
@@ -2301,7 +2301,7 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
                                                                  placed_from,
                                                                  pn,
                                                                  placed_on);
-    if (time<=blmoves && !attacks_white_king(placed_on,pn))
+    if (time<=blmoves && !uninterceptably_attacks_white_king(placed_on,pn))
     {
       unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
       SetPiece(pn,placed_on,black[placed_index].sp);
@@ -2337,7 +2337,7 @@ static void mate_place_black_officer_on(unsigned int placed_index,
                                                                  placed_from,
                                                                  placed_type,
                                                                  placed_on);
-    if (time<=blmoves && !attacks_white_king(placed_on,placed_type))
+    if (time<=blmoves && !uninterceptably_attacks_white_king(placed_on,placed_type))
     {
       SetPiece(placed_type,placed_on,black[placed_index].sp);
       mate_store_target_position(blmoves-time,whmoves,blpc,whpc,n);
@@ -2801,7 +2801,7 @@ static void block_one_flight_officer(square to_be_blocked,
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste && !attacks_white_king(to_be_blocked,blocker_type))
+      if (wasted<=timetowaste && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
       {
         SetPiece(blocker_type,to_be_blocked,blocker_flags);
         block_flights(whmoves,
@@ -2846,7 +2846,7 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste && !attacks_white_king(to_be_blocked,pn))
+      if (wasted<=timetowaste && !uninterceptably_attacks_white_king(to_be_blocked,pn))
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
         SetPiece(pn,to_be_blocked,blocker_flags);
@@ -2922,7 +2922,7 @@ static void block_one_flight_with_prom(square to_be_blocked,
         }
         if (diffcol<=blpcallowed
             && wasted<=timetowaste
-            && !attacks_white_king(to_be_blocked,pp))
+            && !uninterceptably_attacks_white_king(to_be_blocked,pp))
         {
           SetPiece(pp,to_be_blocked,blocker_flags);
           block_flights(whmoves,
