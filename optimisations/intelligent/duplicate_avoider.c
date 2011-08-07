@@ -122,6 +122,9 @@ static boolean is_duplicate_solution(void)
   boolean found = false;
   simplified_move_type ** sol;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   repere[nbply+1] = nbcou;
 
   for (sol = stored_solutions;
@@ -142,6 +145,10 @@ static boolean is_duplicate_solution(void)
     }
   }
 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",found);
+  TraceFunctionResultEnd();
   return found;
 }
 
@@ -164,7 +171,7 @@ slice_index alloc_intelligent_duplicate_avoider_slice(void)
 }
 
 /* Determine whether a slice.has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
