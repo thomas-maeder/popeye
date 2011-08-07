@@ -524,7 +524,7 @@ static boolean isGoalReachableRegularGoals(void)
 /* declarations */
 static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmoves,
                                          unsigned int blpcallowed, unsigned int whpcallowed,
-                                         square toblock,
+                                         square to_be_blocked,
                                          boolean morethanonecheck,
                                          stip_length_type n);
 static void stalemate_place_an_unused_black_piece(unsigned int blmoves, unsigned int whmoves,
@@ -1190,112 +1190,241 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves,
   TraceFunctionResultEnd();
 }
 
+static void stalemate_block_square_with_promoted_black_pawn(unsigned int blmoves, unsigned int whmoves,
+                                                            unsigned int blpcallowed, unsigned int whpcallowed,
+                                                            square to_be_blocked,
+                                                            Flags blocker_flags,
+                                                            square blocker_comes_from,
+                                                            boolean morethanonecheck,
+                                                            stip_length_type n)
+{
+  /* A rough check whether it is worth thinking about promotions */
+  unsigned int time = (blocker_comes_from>=square_a7
+                       ? 5
+                       : blocker_comes_from/onerow - nr_of_slack_rows_below_board);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParamListEnd();
+
+  assert(time<=5);
+
+  if (to_be_blocked>=square_a2)
+    /* square is not on 1st rank -- 1 move necessary to get there */
+    ++time;
+
+  if (blmoves>=time)
+  {
+    piece pp;
+    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+    {
+      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                   blocker_comes_from,
+                                                                   -pp,
+                                                                   to_be_blocked);
+      if (time<=blmoves
+          && whpcallowed>=1
+          && !attacks_white_king(to_be_blocked,pp))
+      {
+        SetPiece(pp,to_be_blocked,blocker_flags);
+        if (morethanonecheck)
+          stalemate_avoid_check(Black,
+                                blmoves-time,whmoves,
+                                blpcallowed,whpcallowed-1,
+                                n);
+        else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+                 ==has_solution)
+          stalemate_store_target_position(blmoves-time,whmoves,
+                                          blpcallowed,whpcallowed-1,
+                                          n);
+        else
+          stalemate_immobilise(blmoves-time,whmoves,
+                               blpcallowed,whpcallowed-1,
+                               n);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int blmoves, unsigned int whmoves,
+                                                              unsigned int blpcallowed, unsigned int whpcallowed,
+                                                              square to_be_blocked,
+                                                              Flags blocker_flags,
+                                                              square blocker_comes_from,
+                                                              boolean morethanonecheck,
+                                                              stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
+                                                  - to_be_blocked%onerow);
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                 blocker_comes_from,
+                                                                 pn,
+                                                                 to_be_blocked);
+    if (time<=blmoves
+        && nr_required_captures<=blpcallowed
+        && whpcallowed>=1
+        && !attacks_white_king(to_be_blocked,pn))
+    {
+      SetPiece(pn,to_be_blocked,blocker_flags);
+      if (morethanonecheck)
+        stalemate_avoid_check(Black,
+                              blmoves-time,whmoves,
+                              blpcallowed-nr_required_captures,whpcallowed-1,
+                              n);
+      else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+               ==has_solution)
+        stalemate_store_target_position(blmoves-time,whmoves,
+                                        blpcallowed-nr_required_captures,whpcallowed-1,
+                                        n);
+      else
+        stalemate_immobilise(blmoves-time,whmoves,
+                             blpcallowed-nr_required_captures,whpcallowed-1,
+                             n);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stalemate_block_square_with_black_officer(unsigned int blmoves, unsigned int whmoves,
+                                                      unsigned int blpcallowed, unsigned int whpcallowed,
+                                                      square to_be_blocked,
+                                                      piece blocker_type,
+                                                      Flags blocker_flags,
+                                                      square blocker_comes_from,
+                                                      boolean morethanonecheck,
+                                                      stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TracePiece(blocker_type);
+  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                 blocker_comes_from,
+                                                                 blocker_type,
+                                                                 to_be_blocked);
+    if (time<=blmoves
+        && whpcallowed>=1
+        && !attacks_white_king(to_be_blocked,blocker_type))
+    {
+      SetPiece(blocker_type,to_be_blocked,blocker_flags);
+      if (morethanonecheck)
+        stalemate_avoid_check(Black,
+                              blmoves-time,whmoves,
+                              blpcallowed,whpcallowed-1,
+                              n);
+      else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+               ==has_solution)
+        stalemate_store_target_position(blmoves-time,whmoves,
+                                        blpcallowed,whpcallowed-1,
+                                        n);
+      else
+        stalemate_immobilise(blmoves-time,whmoves,
+                             blpcallowed,whpcallowed-1,
+                             n);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmoves,
                                          unsigned int blpcallowed, unsigned int whpcallowed,
-                                         square toblock,
+                                         square to_be_blocked,
                                          boolean morethanonecheck,
                                          stip_length_type n)
 {
-  unsigned int pcreq;
-  unsigned int time;
   unsigned int i;
-  piece f_p;
 
-#if defined(DEBUG)
-  write_indentation();
-  sprintf(GlobalStr,
-          "entering ImmobiliseByBlackBlock(%u,%u,%d)\n",
-          blmoves,whmoves,toblock);
-  StdString(GlobalStr);
-#endif
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParamListEnd();
 
-  for (i= 1; i < MaxPiece[Black]; i++) {
-    if (!black[i].used) {
-      f_p= black[i].p;
-      black[i].used= true;
+  for (i = 1; i<MaxPiece[Black]; ++i)
+    if (!black[i].used)
+    {
+      piece const blocker_type = black[i].p;
+      Flags const blocker_flags = black[i].sp;
+      square const blocker_comes_from = black[i].sq;
 
-      /* promotions */
-      if (f_p==pn)
+      black[i].used = true;
+
+      if (blocker_type==pn)
       {
-        /* A rough check whether it is worth thinking about
-           promotions.
-        */
-        unsigned int moves= black[i].sq / onerow - nr_of_slack_rows_below_board;
-        if (moves > 5) {
-          /* double step possible */
-          moves= 5;
-        }
-        if (toblock>=square_a2)
-          /* square is not on 1st rank -- 1 move
-             necessary to get there
-          */
-          moves++;
+        stalemate_block_square_with_promoted_black_pawn(blmoves,whmoves,
+                                                        blpcallowed,whpcallowed,
+                                                        to_be_blocked,
+                                                        blocker_flags,
+                                                        blocker_comes_from,
+                                                        morethanonecheck,
+                                                        n);
+        if (to_be_blocked>=square_a2)
+          stalemate_block_square_with_unpromoted_black_pawn(blmoves,whmoves,
+                                                            blpcallowed,whpcallowed,
+                                                            to_be_blocked,
+                                                            blocker_flags,
+                                                            blocker_comes_from,
+                                                            morethanonecheck,
+                                                            n);
+      }
+      else
+        stalemate_block_square_with_black_officer(blmoves,whmoves,
+                                                  blpcallowed,whpcallowed,
+                                                  to_be_blocked,
+                                                  blocker_type,
+                                                  blocker_flags,
+                                                  blocker_comes_from,
+                                                  morethanonecheck,
+                                                  n);
 
-        if (blmoves >= moves) {
-          piece pp= -getprompiece[vide];
-          while (pp != vide)
-          {
-            time= count_nr_of_moves_from_to_no_check(f_p,black[i].sq,-pp,toblock);
-            if (time <= blmoves
-                && whpcallowed>=1
-                && !attacks_white_king(toblock,pp))
-            {
-              SetPiece(pp,toblock,black[i].sp);
-              if (morethanonecheck) {
-                stalemate_avoid_check(Black,
-                                      blmoves-time,whmoves,
-                                      blpcallowed,whpcallowed-1,
-                                      n);
-              }
-              else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-                stalemate_store_target_position(blmoves-time,whmoves,
-                               blpcallowed,whpcallowed-1,
-                               n);
-              else
-                stalemate_immobilise(blmoves-time,whmoves,
-                           blpcallowed,whpcallowed-1,
-                           n);
-            }
-            pp= -getprompiece[-pp];
-          }
-        }
-        pcreq= abs(black[i].sq%onerow - toblock%onerow);
-      }
-      else {
-        pcreq= 0;
-      }
-
-      if (f_p!=pn || toblock>=square_a2)
-      {
-        time= count_nr_of_moves_from_to_no_check(f_p,black[i].sq,f_p,toblock);
-        if (time <= blmoves
-            && pcreq <= blpcallowed
-            && whpcallowed>=1
-            && !attacks_white_king(toblock,f_p))
-        {
-          SetPiece(f_p,toblock,black[i].sp);
-          if (morethanonecheck)
-            stalemate_avoid_check(Black,
-                                  blmoves-time,whmoves,
-                                  blpcallowed-pcreq,whpcallowed-1,n);
-          else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-            stalemate_store_target_position(blmoves-time,whmoves,
-                           blpcallowed-pcreq,whpcallowed-1,n);
-          else
-            stalemate_immobilise(blmoves-time,whmoves,
-                       blpcallowed-pcreq,whpcallowed-1,n);
-        }
-      }
       black[i].used= false;
     }
-  }
-  e[toblock]= vide;
-  spec[toblock]= EmptySpec;
 
-#if defined(DEBUG)
-  write_indentation();StdString("leaving ImmobilizeByblBlock\n");
-#endif
-} /* stalemate_block_square_black */
+  e[to_be_blocked] = vide;
+  spec[to_be_blocked] = EmptySpec;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int blocker_index,
                                                               unsigned int blmoves,
@@ -1993,6 +2122,7 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
     assert(time<=5);
 
     if (placed_on>=square_a2)
+      /* square is not on 1st rank -- 1 move necessary to get there */
       ++time;
 
     if (time<=blmoves)
@@ -2206,6 +2336,7 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
     /* A rough check whether it is worth thinking about promotions */
     unsigned int time = moves_to_prom[placed_index];
     if (placed_on<=square_h7)
+      /* square is not on 8th rank -- 1 move necessary to get there */
       ++time;
 
     if (time<=whmoves)
@@ -2398,6 +2529,7 @@ static unsigned int count_nr_black_moves_to_block_square_with_promoted_pawn(squa
     assert(moves<=5);
 
     if (to_be_blocked>=square_a2)
+      /* square is not on 8th rank -- 1 move necessary to get there */
       ++moves;
 
     if (blmoves>=moves)
@@ -2639,6 +2771,7 @@ static void block_one_flight_with_prom(square to_be_blocked,
     --nr_moves_guesstimate; /* double step! */
 
   if (to_be_blocked>=square_a2)
+    /* square is not on 8th rank -- 1 move necessary to get there */
     ++nr_moves_guesstimate;
 
   TraceValue("%u",nr_moves_guesstimate);
