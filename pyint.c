@@ -1011,140 +1011,263 @@ static void mate_pin_black_piece(square    topin,
   }
 }
 
+static void stalemate_immobilise_by_pin_by_officer(unsigned int blmoves, unsigned int whmoves,
+                                                   unsigned int blpcallowed, unsigned int whpcallowed,
+                                                   piece pinner_orig_type,
+                                                   piece pinner_type,
+                                                   Flags pinner_flags,
+                                                   square pinner_comes_from,
+                                                   square pin_from,
+                                                   stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TracePiece(pinner_orig_type);
+  TracePiece(pinner_type);
+  TraceSquare(pinner_comes_from);
+  TraceSquare(pin_from);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pinner_orig_type,
+                                                                 pinner_comes_from,
+                                                                 pinner_type,
+                                                                 pin_from);
+    if (time<=whmoves)
+    {
+      SetPiece(pinner_type,pin_from,pinner_flags);
+      if (slice_has_solution(slices[current_start_slice].u.fork.fork)
+          ==has_solution)
+        stalemate_store_target_position(blmoves,whmoves-time,
+                                        blpcallowed-1,whpcallowed,
+                                        n);
+      else
+        stalemate_immobilise(blmoves,whmoves-time,
+                             blpcallowed-1,whpcallowed,
+                             n);
+    }
+  }
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
+static void stalemate_immobilise_by_pin_by_promoted_pawn(unsigned int blmoves, unsigned int whmoves,
+                                                         unsigned int blpcallowed, unsigned int whpcallowed,
+                                                         Flags pinner_flags,
+                                                         square pinner_comes_from,
+                                                         square pin_from,
+                                                         boolean diagonal,
+                                                         stip_length_type n)
+{
+  piece const minor_pinner_type = diagonal ? fb : tb;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(pinner_comes_from);
+  TraceSquare(pin_from);
+  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                         blpcallowed,whpcallowed,
+                                         pb,minor_pinner_type,pinner_flags,
+                                         pinner_comes_from,
+                                         pin_from,
+                                         n);
+  stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                         blpcallowed,whpcallowed,
+                                         pb,db,pinner_flags,
+                                         pinner_comes_from,
+                                         pin_from,
+                                         n);
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
+static boolean is_line_empty(square start, square end, int dir)
+{
+  boolean result = true;
+  square sq;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(start);
+  TraceSquare(end);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParamListEnd();
+
+  for (sq = start+dir; e[sq]==vide; sq += dir)
+  {
+    /* nothing */
+  }
+
+  result = sq==end;
+
+  TraceFunctionResultEnd();
+  TraceFunctionResult("%u",result);
+  TraceFunctionExit(__func__);
+  return result;
+}
+
 static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmoves,
                                         unsigned int blpcallowed, unsigned int whpcallowed,
-                                        square topin,
+                                        square sq_to_be_pinned,
                                         stip_length_type n)
 {
-  int dir;
-  unsigned int time;
-  unsigned int i;
-  boolean   diagonal;
-  square    sq;
-  piece f_p;
+  int const dir = CheckDirQueen[sq_to_be_pinned-king_square[Black]];
+  piece const pinned_type = e[sq_to_be_pinned];
 
-  dir= CheckDirQueen[topin-king_square[Black]];
-  diagonal= SquareCol(king_square[Black]+dir) == SquareCol(king_square[Black]);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(sq_to_be_pinned);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  /* we can only pin in Q-lines */
-  /* black Queens cannot be pinned */
-  if (!dir || (e[topin] == -Queen)) {
-    return;
-  }
+  if (blpcallowed>0
+      && dir!=0          /* we can only pin on queen lines */
+      && pinned_type!=dn /* queens cannot be pinned */
+      /* bishops can only be pined on rook lines and vice versa */
+      && !(CheckDirBishop[dir]!=0 && pinned_type==fn)
+      && !(CheckDirRook[dir]!=0 && pinned_type==tn)
+      && is_line_empty(king_square[Black],sq_to_be_pinned,dir))
+  {
+    boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
 
-  /* black Bishops cannot be pinned on B-lines */
-  if (CheckDirBishop[dir] && (e[topin] == -Bishop)) {
-    return;
-  }
-
-  /* black Rook cannot be pinned on R-lines */
-  if (CheckDirRook[dir] && (e[topin] == -Rook)) {
-    return;
-  }
-
-  /* check if there are any pieces between black king and the
-   * the piece to be pinned
-   */
-  sq= king_square[Black];
-  while (e[(sq+=dir)]==vide)
-    ;
-  if (sq != topin)
-    return;
-
-  if (blpcallowed==0)
-    return;
-
-  sq= topin;
-  while (e[sq+=dir] == vide) {
-    for (i= 1; i < MaxPiece[White]; i++) {
-      if (!white[i].used && ((f_p= white[i].p) != cb)) {
-        if (f_p == (diagonal ? tb : fb))
-          continue;
-
-        white[i].used= true;
-        if (f_p == pb)
+    square pin_from;
+    for (pin_from = sq_to_be_pinned+dir; e[pin_from]==vide; pin_from += dir)
+    {
+      unsigned int pinner_index;
+      for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
+      {
+        if (!white[pinner_index].used)
         {
-          if (diagonal) {
-            time = count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Bishop,sq);
-            if (time<=whmoves)
-            {
-              SetPiece(Bishop,sq,white[i].sp);
-              if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-                stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-              else
-                stalemate_immobilise(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-            }
-          }
-          else {
-            time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Rook,sq);
-            if (time<=whmoves)
-            {
-              SetPiece(Rook,sq,white[i].sp);
-              if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-                stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-              else
-                stalemate_immobilise(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-            }
-          }
-          time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Queen,sq);
-          if (time<=whmoves)
+          piece const pinner_type = white[pinner_index].p;
+          Flags const pinner_flags = white[pinner_index].sp;
+          square const pinner_comes_from = white[pinner_index].sq;
+
+          white[pinner_index].used = true;
+
+          switch (pinner_type)
           {
-            SetPiece(Queen,sq,white[i].sp);
-            if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-              stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-            else
-              stalemate_immobilise(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
+            case cb:
+              break;
+
+            case tb:
+              if (!diagonal)
+                stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                                       blpcallowed,whpcallowed,
+                                                       tb,tb,pinner_flags,
+                                                       pinner_comes_from,
+                                                       pin_from,
+                                                       n);
+              break;
+
+            case fb:
+              if (diagonal)
+                stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                                       blpcallowed,whpcallowed,
+                                                       fb,fb,pinner_flags,
+                                                       pinner_comes_from,
+                                                       pin_from,
+                                                       n);
+              break;
+
+            case db:
+              stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                                     blpcallowed,whpcallowed,
+                                                     db,db,pinner_flags,
+                                                     pinner_comes_from,
+                                                     pin_from,
+                                                     n);
+              break;
+
+            case pb:
+              stalemate_immobilise_by_pin_by_promoted_pawn(blmoves,whmoves,
+                                                           blpcallowed,whpcallowed,
+                                                           pinner_flags,
+                                                           pinner_comes_from,
+                                                           pin_from,
+                                                           diagonal,
+                                                           n);
+              break;
+
+            default:
+              assert(0);
+              break;
           }
+
+          white[pinner_index].used= false;
         }
-        else
-        {
-          time = count_nr_of_moves_from_to_no_check(f_p,white[i].sq,f_p,sq);
-          if (time<=whmoves)
-          {
-            SetPiece(f_p,sq,white[i].sp);
-            if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-              stalemate_store_target_position(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-            else
-              stalemate_immobilise(blmoves,whmoves-time,blpcallowed-1,whpcallowed,n);
-          }
-        }
-        white[i].used= false;
       }
+
+      e[pin_from] = vide;
+      spec[pin_from] = EmptySpec;
     }
-    e[sq]= vide;
-    spec[sq]= EmptySpec;
   }
-} /* stalemate_immobilise_by_pin */
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
 
 static boolean attacks_white_king(square from, piece p)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   if (king_square[White]==initsquare)
-    return false;
+    result = false;
   else
   {
     int const dir = from-king_square[White];
     switch(p)
     {
       case dn:
-        return CheckDirQueen[dir]==dir;
+        result = CheckDirQueen[dir]==dir;
+        break;
 
       case cn:
-        return CheckDirKnight[king_square[White]-from]!=0;
+        result = CheckDirKnight[king_square[White]-from]!=0;
+        break;
 
       case pn:
-        return dir==dir_up+dir_right || dir==dir_up+dir_left;
+        result = dir==dir_up+dir_right || dir==dir_up+dir_left;
+        break;
 
       case fn:
-        return CheckDirBishop[dir]==dir;
+        result = CheckDirBishop[dir]==dir;
+        break;
 
       case tn:
-        return CheckDirRook[dir]==dir;
+        result = CheckDirRook[dir]==dir;
+        break;
 
       default:
         assert(0);
-        return false;
+        result = false;
+        break;
     }
   }
+
+  TraceFunctionResultEnd();
+  TraceFunctionResult("%u",result);
+  TraceFunctionExit(__func__);
+  return result;
 }
 
 static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves,
