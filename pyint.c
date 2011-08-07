@@ -168,6 +168,11 @@ static boolean is_black_king_attacked_by_non_king_too_often(void)
 {
   unsigned int nrChecks = 0;
   numvec k;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (k = vec_rook_start; k<=vec_rook_end; k++)
     if (e[king_square[Black]+vec[k]]==tb || e[king_square[Black]+vec[k]]==db)
       ++nrChecks;
@@ -184,7 +189,12 @@ static boolean is_black_king_attacked_by_non_king_too_often(void)
       || e[king_square[Black]+dir_down+dir_left]==pb)
     ++nrChecks;
 
-  return nrChecks>(goal_to_be_reached==goal_stale ? 0: 1);
+  result = nrChecks>(goal_to_be_reached==goal_stale ? 0: 1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_white_king_attacked_by_non_king(void)
@@ -795,6 +805,9 @@ static boolean mate_exists_redundant_white_piece(void)
   boolean result = false;
   square const *bnp;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   /* check for redundant white pieces */
   for (bnp = boardnum; !result && *bnp; bnp++)
   {
@@ -817,8 +830,11 @@ static boolean mate_exists_redundant_white_piece(void)
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
-} /* mate_exists_redundant_white_piece */
+}
 
 static void mate_store_target_position(unsigned int blmoves, unsigned int whmoves,
                                        unsigned int blpc, unsigned int whpc,
@@ -1201,7 +1217,8 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
       black[i].used= true;
 
       /* promotions */
-      if (f_p == -Pawn) {
+      if (f_p==pn)
+      {
         /* A rough check whether it is worth thinking about
            promotions.
         */
@@ -1249,7 +1266,7 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
         pcreq= 0;
       }
 
-      if (f_p!=-Pawn || toblock>=square_a2)
+      if (f_p!=pn || toblock>=square_a2)
       {
         time= count_nr_of_moves_from_to_no_check(f_p,black[i].sq,f_p,toblock);
         if (time <= blmoves
@@ -2026,8 +2043,10 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
   {
     /* A rough check whether it is worth thinking about promotions */
     unsigned int time = black[placed_index].sq/onerow - nr_of_slack_rows_below_board;
-    if (time>5)
-      time = 5;
+
+    if (time==6)
+      --time; /* double step! */
+
     if (placed_on>=square_a2)
       ++time;
 
@@ -2241,14 +2260,13 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
 
   {
     /* A rough check whether it is worth thinking about promotions */
-    square const placed_from = white[placed_index].sq;
-    unsigned int time = placed_from/onerow - nr_of_slack_rows_below_board;
-    if (time>5)
-      time= 5;
+    unsigned int time = moves_to_prom[placed_index];
     if (placed_on<=square_h7)
       ++time;
+
     if (time<=whmoves)
     {
+      square const placed_from = white[placed_index].sq;
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       {
@@ -2261,6 +2279,9 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
           diffcol= 1;
         else
           diffcol= 0;
+        TracePiece(pp);
+        TraceValue("%u",diffcol);
+        TraceValue("%u\n",time);
 
         if (diffcol<=whpc && time<=whmoves)
         {
@@ -2422,7 +2443,7 @@ static int MovesToBlock(square sq, unsigned int blmoves)
   {
     piece const p = black[i].p;
 
-    if (p!=-Pawn || sq>=square_a2)
+    if (p!=pn || sq>=square_a2)
     {
       int const time = count_nr_of_moves_from_to_no_check(p,black[i].sq,p,sq);
       if (time<mintime)
@@ -2430,7 +2451,7 @@ static int MovesToBlock(square sq, unsigned int blmoves)
     }
 
     /* pawn promotions */
-    if (p==-Pawn)
+    if (p==pn)
     {
       /* A rough check whether it is worth thinking about promotions */
       unsigned int moves = black[i].sq>=square_a7 ? 5 : black[i].sq/onerow - nr_of_slack_rows_below_board;
@@ -2616,8 +2637,9 @@ static void block_one_flight_with_prom(square to_be_blocked,
   TraceFunctionParamListEnd();
 
   /* A rough check whether it is worth thinking about promotions */
-  if (nr_moves_guesstimate>5)
-    nr_moves_guesstimate = 5;
+  if (nr_moves_guesstimate==6)
+    --nr_moves_guesstimate; /* double step! */
+
   if (to_be_blocked>=square_a2)
     ++nr_moves_guesstimate;
 
@@ -3411,15 +3433,66 @@ static void GenerateBlackKing(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
+static unsigned int count_moves_to_white_promotion(square from_square)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceFunctionParamListEnd();
+
+  if (MovesLeft[White]==5
+      && from_square<=square_h2
+      && (e[from_square+dir_up]>vide || e[from_square+2*dir_up]>vide))
+    /* pawn can't reach the promotion square */
+    result = maxply+1;
+  else
+  {
+    unsigned int const rank = from_square/onerow - nr_of_slack_rows_below_board;
+    result = 7-rank;
+
+    if (result==6)
+    {
+      --result; /* double step! */
+
+      if (MovesLeft[White]<=6)
+      {
+        /* immediate double step is required if this pawn is to promote */
+        if (e[from_square+dir_up]==pn
+            && (e[from_square+dir_left]<=roib
+                && e[from_square+dir_right]<=roib))
+          /* Black can't immediately get rid of block on 3th row
+           * -> no immediate double step possible */
+          ++result;
+
+        else if (e[from_square+2*dir_up]==pn
+                 && (e[from_square+dir_up+dir_left]<=roib
+                     && e[from_square+dir_up+dir_right]<=roib
+                     && ep[1]!=from_square+dir_up+dir_left
+                     && ep[1]!=from_square+dir_up+dir_right))
+          /* Black can't immediately get rid of block on 4th row
+           * -> no immediate double step possible */
+          ++result;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void IntelligentRegulargoal_types(stip_length_type n)
 {
   square const *bnp;
   piece p;
 
-  deposebnp= boardnum;
-  is_cast_supp= castling_supported;
-  is_ep= ep[1]; is_ep2= ep2[1];
-  castling_supported= false;
+  deposebnp = boardnum;
+  is_cast_supp = castling_supported;
+  is_ep = ep[1];
+  is_ep2 = ep2[1];
+  castling_supported = false;
 
   MaxPiece[Black] = 0;
   MaxPiece[White] = 0;
@@ -3447,72 +3520,45 @@ static void IntelligentRegulargoal_types(stip_length_type n)
 
   ++MaxPiece[White];
 
-  for (bnp= boardnum; *bnp; bnp++)
+  for (bnp = boardnum; *bnp; bnp++)
     if (king_square[White]!=*bnp && e[*bnp]>obs)
     {
       SetIndex(spec[*bnp],maximum_piece_index);
-      white[MaxPiece[White]].p= e[*bnp];
-      white[MaxPiece[White]].sp= spec[*bnp];
-      white[MaxPiece[White]].sq= *bnp;
-      white[MaxPiece[White]].used= false;
+      white[MaxPiece[White]].p = e[*bnp];
+      white[MaxPiece[White]].sp = spec[*bnp];
+      white[MaxPiece[White]].sq = *bnp;
+      white[MaxPiece[White]].used = false;
       if (e[*bnp]==pb)
-      {
-        unsigned int moves= 15 - *bnp / onerow;
-        square  sq = *bnp;
-        if (moves > 5)
-          moves= 5;
-
-        /* a white piece that cannot move away */
-        if (moves==5
-            && moves==MovesLeft[White]
-            && sq<=square_h2
-            && (e[sq+dir_up]>vide || e[sq+2*dir_up]>vide))
-          moves = maxply+1;
-
-        /* a black pawn that needs a white sacrifice to move away */
-        else if (MovesLeft[White]<7
-                 && sq<=square_h2
-                 && e[sq+dir_left]<=roib && e[sq+dir_right]<=roib
-                 && (e[sq+dir_up]==pn
-                     || (e[sq+dir_up+dir_left]<=roib
-                         && e[sq+dir_up+dir_right]<=roib
-                         && (ep[1]!=sq+dir_up+dir_left)
-                         && (ep[1]!=sq+dir_up+dir_right)
-                         && e[sq+2*dir_up]==pn)))
-          ++moves;
-
-        moves_to_prom[MaxPiece[White]] = moves;
-      }
+        moves_to_prom[MaxPiece[White]] = count_moves_to_white_promotion(*bnp);
       ++MaxPiece[White];
       ++maximum_piece_index;
     }
 
-  for (bnp= boardnum; *bnp; bnp++) {
-    if ((king_square[Black] != *bnp) && (e[*bnp] < vide)) {
+  for (bnp = boardnum; *bnp; ++bnp)
+    if (king_square[Black]!=*bnp && e[*bnp]<vide)
+    {
       SetIndex(spec[*bnp],maximum_piece_index);
-      black[MaxPiece[Black]].p= e[*bnp];
-      black[MaxPiece[Black]].sp= spec[*bnp];
-      black[MaxPiece[Black]].sq= *bnp;
-      black[MaxPiece[Black]].used= false;
-      MaxPiece[Black]++;
-      maximum_piece_index++;
+      black[MaxPiece[Black]].p = e[*bnp];
+      black[MaxPiece[Black]].sp = spec[*bnp];
+      black[MaxPiece[Black]].sq = *bnp;
+      black[MaxPiece[Black]].used = false;
+      ++MaxPiece[Black];
+      ++maximum_piece_index;
     }
-  }
 
   StorePosition();
   ep[1]= ep2[1]= initsquare;
 
   /* clear board */
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (e[*bnp] != obs) {
+  for (bnp= boardnum; *bnp; bnp++)
+    if (e[*bnp] != obs)
+    {
       e[*bnp]= vide;
       spec[*bnp]= EmptySpec;
     }
-  }
 
-  for (p= roib; p <= fb; p++) {
+  for (p= roib; p <= fb; p++)
     nbpiece[-p]= nbpiece[p]= 2;
-  }
 
   /* generate final positions */
   GenerateBlackKing(n);
