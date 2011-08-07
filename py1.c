@@ -52,6 +52,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "pystip.h"
 #include "pyhash.h"
 #include "pytable.h"
@@ -395,8 +396,8 @@ void InitAlways(void) {
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
 
-  maxsol_per_matingpos = ULONG_MAX;
-} /* InitAlways */
+  reset_max_nr_solutions_per_target_position();
+}
 
 void initneutre(Side c)
 {

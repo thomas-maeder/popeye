@@ -1,11 +1,120 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "pydata.h"
 #include "pypipe.h"
-#include "pyint.h"
 #include "trace.h"
 
-#include <assert.h>
 #include <stdlib.h>
+
+/* maximum number of solutions per target positions set by user
+ */
+static unsigned long max_nr_solutions_per_target_position = ULONG_MAX;
+
+/* number of solutions in the current target positions
+ */
+static unsigned long nr_solutions_in_current_target_position;
+
+/* remember whether solving was affected because of the maximum number
+ */
+static boolean was_solving_affected;
+
+/* Reset the maximum number of solutions per target position
+ */
+void reset_max_nr_solutions_per_target_position(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  max_nr_solutions_per_target_position = ULONG_MAX;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Reset the number of solutions per target position
+ */
+void reset_nr_solutions_per_target_position(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  nr_solutions_in_current_target_position = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Reset status whether solving the current problem was affected because the limit
+ * on the number of solutions per target position was reached.
+ */
+void reset_was_max_nr_solutions_per_target_position_reached(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  was_solving_affected = false;;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether solving the current problem was affected because the limit
+ * on the number of solutions per target position was reached.
+ * @return true iff solving was affected
+ */
+boolean was_max_nr_solutions_per_target_position_reached(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",was_solving_affected);
+  TraceFunctionResultEnd();
+  return was_solving_affected;
+}
+
+/* Determine whether the maximum number of solutions per target position is
+ * limited
+ * @return true iff the maximum number is limited
+ */
+boolean is_max_nr_solutions_per_target_position_limited(void)
+{
+  boolean const result = max_nr_solutions_per_target_position!=ULONG_MAX;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Attempt to read the maximum number of solutions per target position
+ * @param tok next input token
+ * @return true iff the maximum number could be read from tok
+ */
+boolean read_max_nr_solutions_per_target_position(char const *tok)
+{
+  boolean result;
+  char *end;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  max_nr_solutions_per_target_position = strtoul(tok,&end,10);
+  if (end==tok)
+  {
+    max_nr_solutions_per_target_position = ULONG_MAX;
+    result = false;
+  }
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Allocate a STIntelligentSolutionsPerTargetPosCounter slice.
  * @return index of allocated slice
@@ -62,14 +171,13 @@ intelligent_nr_solutions_per_target_position_counter_solve(slice_index si)
 
   result = slice_solve(slices[si].u.pipe.next);
   if (result==has_solution)
-    ++sol_per_matingpos;
+    ++nr_solutions_in_current_target_position;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
-
 
 /* Allocate a STIntelligentLimitNrSolutionsPerTargetPos slice.
  * @return index of allocated slice
@@ -137,9 +245,10 @@ intelligent_limit_nr_solutions_per_target_position_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sol_per_matingpos>=maxsol_per_matingpos)
+  if (nr_solutions_in_current_target_position
+      >=max_nr_solutions_per_target_position)
   {
-    FlagMaxSolsPerMatingPosReached = true;
+    was_solving_affected = true;
     result = n+2;
   }
   else

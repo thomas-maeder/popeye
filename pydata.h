@@ -210,11 +210,6 @@ EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 #define SETCASTLINGFLAGMASK(ply_id,side,mask) SETFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 #define CLRCASTLINGFLAGMASK(ply_id,side,mask) CLRFLAGMASK(castling_flag[(ply_id)],(mask)<<((side)*black_castling_offset))
 
-/* Stop solving when a given number of solutions is reached */
-
-EXTERN  unsigned long   sol_per_matingpos, maxsol_per_matingpos;
-EXTERN  boolean         FlagMaxSolsPerMatingPosReached;
-
 
 /* Optimierung direkte Aufgaben */
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];

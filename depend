@@ -49,8 +49,10 @@ py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  pyenum.h pylang.h pymsg.h py1.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h pystip.h stipulation/slice_type.h pyhash.h \
- DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
+ stipulation/goals/goals.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h pyslice.h \
+ stipulation/help_play/play.h pystip.h stipulation/slice_type.h pyhash.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
  stipulation/help_play/play.h pystip.h pytable.h pymovenb.h \
  stipulation/battle_play/defense_play.h pyflight.h pynontrv.h pythreat.h \
  trace.h platform/maxtime.h solving/battle_play/try.h pytable.h \
@@ -92,6 +94,12 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/goals/goals.h:
 
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+pyslice.h:
+
+stipulation/help_play/play.h:
+
 pystip.h:
 
 stipulation/slice_type.h:
@@ -101,8 +109,6 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 stipulation/battle_play/attack_play.h:
-
-pyslice.h:
 
 stipulation/help_play/play.h:
 
@@ -390,11 +396,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  stipulation/help_play/play.h pystip.h pyint.h pyproof.h pymovein.h \
  pyslice.h pystip.h stipulation/slice_type.h pykeepmt.h \
  stipulation/battle_play/defense_play.h pyselfcg.h pymovenb.h pyflight.h \
- pydegent.h pythreat.h pynontrv.h pypipe.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h stipulation/proxy.h pypipe.h trace.h measure.h \
- pyoutput.h conditions/exclusive.h pyposit.h conditions/republican.h \
- pyproc.h conditions/maff/immobility_tester.h \
+ pydegent.h pythreat.h pynontrv.h pypipe.h stipulation/proxy.h pypipe.h \
+ trace.h measure.h pyoutput.h conditions/exclusive.h pyposit.h \
+ conditions/republican.h pyproc.h conditions/maff/immobility_tester.h \
  conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
@@ -418,7 +422,10 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  optimisations/end_of_branch_goal_immobile.h options/maxtime.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
- optimisations/count_nr_opponent_moves/move_generator.h
+ optimisations/count_nr_opponent_moves/move_generator.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+ stipulation/goals/goals.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h
 
 py.h:
 
@@ -493,10 +500,6 @@ pythreat.h:
 pynontrv.h:
 
 pypipe.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-stipulation/goals/goals.h:
 
 stipulation/proxy.h:
 
@@ -589,6 +592,12 @@ options/maxsolutions/maxsolutions.h:
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 optimisations/count_nr_opponent_moves/move_generator.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
+
+stipulation/goals/goals.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h boolean.h \
  py.h pydata.h pymsg.h pyslice.h pystip.h stipulation/slice_type.h \
@@ -629,8 +638,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  solving/find_shortest.h solving/play_suppressor.h \
  solving/battle_play/continuation.h solving/battle_play/try.h pytable.h \
  conditions/republican.h pyproc.h options/maxsolutions/maxsolutions.h \
- options/stoponshortsolutions/stoponshortsolutions.h platform/beep.h \
- platform/maxtime.h platform/maxmem.h trace.h
+ options/stoponshortsolutions/stoponshortsolutions.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ platform/beep.h platform/maxtime.h platform/maxmem.h trace.h
 
 py.h:
 
@@ -801,6 +811,8 @@ pyproc.h:
 options/maxsolutions/maxsolutions.h:
 
 options/stoponshortsolutions/stoponshortsolutions.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 platform/beep.h:
 
@@ -1103,9 +1115,9 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  optimisations/intelligent/filter.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- options/maxsolutions/maxsolutions.h stipulation/branch.h \
- stipulation/temporary_hacks.h solving/legal_move_finder.h \
- platform/maxtime.h trace.h
+ stipulation/help_play/play.h options/maxsolutions/maxsolutions.h \
+ stipulation/branch.h stipulation/temporary_hacks.h \
+ solving/legal_move_finder.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -1174,6 +1186,8 @@ optimisations/intelligent/filter.h:
 optimisations/intelligent/duplicate_avoider.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+stipulation/help_play/play.h:
 
 options/maxsolutions/maxsolutions.h:
 

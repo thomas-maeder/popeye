@@ -742,7 +742,7 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
   }
 #endif
 
-  sol_per_matingpos = 0;
+  reset_nr_solutions_per_target_position();
 
   closehash();
   inithash(current_start_slice);
@@ -908,7 +908,6 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
                                        unsigned int blpc, unsigned int whpc,
                                        stip_length_type n)
 {
-  unsigned int i;
   square const *bnp;
   square _rb, _rn;
 
@@ -963,7 +962,7 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
   closehash();
   inithash(current_start_slice);
 
-  sol_per_matingpos = 0;
+  reset_nr_solutions_per_target_position();
 
 #if defined(DETAILS)
   for (bnp= boardnum; *bnp; bnp++) {
@@ -4319,7 +4318,7 @@ void goalreachable_guards_inserter_help_move(slice_index si,
     slice_index const prototype = alloc_goalreachable_guard_filter();
     help_branch_insert_slices(si,&prototype,1);
 
-    if (maxsol_per_matingpos<ULONG_MAX)
+    if (is_max_nr_solutions_per_target_position_limited())
     {
       slice_index const prototype = alloc_intelligent_limit_nr_solutions_per_target_position_slice();
       help_branch_insert_slices(si,&prototype,1);
@@ -4347,7 +4346,7 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
     slice_index const prototype = alloc_intelligent_duplicate_avoider_slice();
     leaf_branch_insert_slices(si,&prototype,1);
 
-    if (maxsol_per_matingpos<ULONG_MAX)
+    if (is_max_nr_solutions_per_target_position_limited())
     {
       slice_index const prototype = alloc_intelligent_nr_solutions_per_target_position_counter_slice();
       leaf_branch_insert_slices(si,&prototype,1);

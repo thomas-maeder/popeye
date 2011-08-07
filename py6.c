@@ -111,7 +111,6 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pypipe.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 #include "measure.h"
@@ -154,6 +153,8 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -2699,15 +2700,14 @@ void iterate_problems(void)
     InitOpt();
 
     reset_max_solutions();
-    FlagMaxSolsPerMatingPosReached = false;
+    reset_was_max_nr_solutions_per_target_position_reached();
     reset_short_solution_found_in_problem();
 
     prev_token = iterate_twins(prev_token);
 
     if (max_solutions_reached()
-        || FlagMaxSolsPerMatingPosReached
+        || was_max_nr_solutions_per_target_position_reached()
         || has_short_solution_been_found_in_problem()
-        || maxsol_per_matingpos!=ULONG_MAX
         || hasMaxtimeElapsed())
       StdString(GetMsgString(InterMessage));
     else

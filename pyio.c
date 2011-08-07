@@ -120,6 +120,7 @@
 #include "conditions/republican.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "platform/beep.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
@@ -5517,20 +5518,11 @@ static char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case intelligent:
-      {
-        char *end;
         tok = ReadNextTokStr();
-        maxsol_per_matingpos = strtoul(tok,&end,10);
-        if (end==tok)
-        {
-          maxsol_per_matingpos = ULONG_MAX;
-          /* we have NOT consumed tok */
-          continue;
-        }
-        else
-          /* we have consumed tok */
+        if (read_max_nr_solutions_per_target_position(tok))
           break;
-      }
+        else
+          continue;
 
       case restart:
         tok = ReadNextTokStr();
@@ -6982,9 +6974,8 @@ void LaTeXEndDiagram(void) {
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
         || OptFlag[nontrivial]
-        || maxsol_per_matingpos!=ULONG_MAX
         || max_solutions_reached()
-        || FlagMaxSolsPerMatingPosReached
+        || was_max_nr_solutions_per_target_position_reached()
         || has_short_solution_been_found_in_problem()
         || hasMaxtimeElapsed()))
   {
