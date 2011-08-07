@@ -30,3 +30,17 @@ pypipe.h:
 pyint.h:
 
 trace.h:
+optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
+ optimisations/intelligent/limit_nr_solutions_per_target.c \
+ optimisations/intelligent/limit_nr_solutions_per_target.h pydata.h \
+ pypipe.h pyint.h trace.h
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+pydata.h:
+
+pypipe.h:
+
+pyint.h:
+
+trace.h:

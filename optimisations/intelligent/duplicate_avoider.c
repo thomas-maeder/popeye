@@ -97,7 +97,7 @@ static void store_solution(void)
   {
     simplified_move_type ** const sol = stored_solutions+nr_stored_solutions;
     ply cp;
-    for (cp = 2; cp <= nbply; ++cp)
+    for (cp = 2; cp<=nbply; ++cp)
     {
       simplified_move_type * const elmt = *sol + cp;
       elmt->from = move_generation_stack[repere[cp+1]].departure;
@@ -107,8 +107,6 @@ static void store_solution(void)
   }
 
   ++nr_stored_solutions;
-
-  ++sol_per_matingpos;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

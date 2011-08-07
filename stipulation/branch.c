@@ -509,6 +509,7 @@ static slice_index const leaf_slice_rank_order[] =
   STOrthodoxMatingMoveGenerator,
   STGoalReachableGuardFilter,
   STGoalReachedTester,
+  STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,
   STLegalMoveCounter,
   STLegalMoveFinder,

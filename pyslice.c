@@ -55,6 +55,7 @@
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/initialiser.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
@@ -168,6 +169,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STIntelligentDuplicateAvoider:
       result = intelligent_duplicate_avoider_solve(si);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosCounter:
+      result = intelligent_nr_solutions_per_target_position_counter_solve(si);
       break;
 
     case STCheckDetector:
@@ -408,6 +413,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STIntelligentDuplicateAvoider:
       result = intelligent_duplicate_avoider_has_solution(si);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosCounter:
+      result = intelligent_nr_solutions_per_target_position_counter_has_solution(si);
       break;
 
     case STMaxSolutionsGuard:

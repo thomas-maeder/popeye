@@ -26,6 +26,7 @@
 #include "pymovenb.h"
 #include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
@@ -4351,6 +4352,12 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
   {
     slice_index const prototype = alloc_intelligent_duplicate_avoider_slice();
     leaf_branch_insert_slices(si,&prototype,1);
+
+    if (maxsol_per_matingpos<ULONG_MAX)
+    {
+      slice_index const prototype = alloc_intelligent_nr_solutions_per_target_position_counter_slice();
+      leaf_branch_insert_slices(si,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);

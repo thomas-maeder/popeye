@@ -5520,15 +5520,15 @@ static char *ParseOpt(slice_index root_slice_hook)
       {
         char *end;
         tok = ReadNextTokStr();
-        maxsol_per_matingpos= strtoul(tok,&end,10);
+        maxsol_per_matingpos = strtoul(tok,&end,10);
         if (end==tok)
         {
           maxsol_per_matingpos = ULONG_MAX;
-          /* we did NOT consume tok */
+          /* we have NOT consumed tok */
           continue;
         }
         else
-          /* we did use consume */
+          /* we have consumed tok */
           break;
       }
 
