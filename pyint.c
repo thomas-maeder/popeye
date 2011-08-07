@@ -533,7 +533,8 @@ static void stalemate_place_an_unused_black_piece(unsigned int blmoves, unsigned
 static void stalemate_immobilise(unsigned int blmoves, unsigned int whmoves,
                                  unsigned int blpcallowed, unsigned int whpcallowed,
                                  stip_length_type n);
-static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
+static void stalemate_avoid_check(Side side,
+                                  unsigned int blmoves, unsigned int whmoves,
                                   unsigned int blpcallowed, unsigned int whpcallowed,
                                   stip_length_type n);
 static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked, unsigned int blmoves);
@@ -551,9 +552,6 @@ static void mate_place_any_white_piece_on(square placed_on,
                                           unsigned int blmoves, unsigned int whmoves,
                                           unsigned int blpc, unsigned int whpc,
                                           stip_length_type n);
-static void stalemate_avoid_check_to_white_king(unsigned int blmoves, unsigned int whmoves,
-                                                unsigned int blpcallowed, unsigned int whpcallowed,
-                                                stip_length_type n);
 
 static void stalemate_store_target_position(unsigned int blmoves, unsigned int whmoves,
                                             unsigned int blpcallowed, unsigned int whpcallowed,
@@ -602,7 +600,7 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
 
   /* checks against the wKing should be coped with earlier !!! */
   if (echecc(nbply,White))
-    stalemate_avoid_check_to_white_king(blmoves,whmoves,blpcallowed,whpcallowed,n);
+    stalemate_avoid_check(White,blmoves,whmoves,blpcallowed,whpcallowed,n);
 
   CapturesLeft[1] = unused;
 
@@ -1174,7 +1172,7 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves,
         && !is_white_king_attacked_by_non_king())
     {
       if (echecc(nbply,Black))
-        stalemate_avoid_check(blmoves,whmoves,blpcallowed,whpcallowed,n);
+        stalemate_avoid_check(Black,blmoves,whmoves,blpcallowed,whpcallowed,n);
       else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
         stalemate_store_target_position(blmoves,whmoves,blpcallowed,whpcallowed,n);
       else
@@ -1244,7 +1242,8 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
             {
               SetPiece(pp,toblock,black[i].sp);
               if (morethanonecheck) {
-                stalemate_avoid_check(blmoves-time,whmoves,
+                stalemate_avoid_check(Black,
+                                      blmoves-time,whmoves,
                                       blpcallowed,whpcallowed-1,
                                       n);
               }
@@ -1276,7 +1275,8 @@ static void stalemate_block_square_black(unsigned int blmoves, unsigned int whmo
         {
           SetPiece(f_p,toblock,black[i].sp);
           if (morethanonecheck)
-            stalemate_avoid_check(blmoves-time,whmoves,
+            stalemate_avoid_check(Black,
+                                  blmoves-time,whmoves,
                                   blpcallowed-pcreq,whpcallowed-1,n);
           else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
             stalemate_store_target_position(blmoves-time,whmoves,
@@ -1332,7 +1332,8 @@ static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int block
           && !is_black_king_attacked_by_non_king_too_often())
       {
         if (echecc(nbply,Black))
-          stalemate_avoid_check(blmoves,whmoves-time,
+          stalemate_avoid_check(Black,
+                                blmoves,whmoves-time,
                                 blpcallowed-1,whpcallowed-nr_captures_required,
                                 n);
         else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
@@ -1390,7 +1391,8 @@ static void stalemate_block_square_with_promoted_white_pawn(unsigned int blocker
         if (!is_black_king_attacked_by_non_king_too_often())
         {
           if (echecc(nbply,Black))
-            stalemate_avoid_check(blmoves,whmoves-time,
+            stalemate_avoid_check(Black,
+                                  blmoves,whmoves-time,
                                   blpcallowed-1,whpcallowed,
                                   n);
           else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
@@ -1441,7 +1443,8 @@ static void stalemate_block_square_with_white_king(unsigned int blmoves,
       if (!is_white_king_attacked_by_non_king())
       {
         if (echecc(nbply,Black))
-          stalemate_avoid_check(blmoves,whmoves-time,
+          stalemate_avoid_check(Black,
+                                blmoves,whmoves-time,
                                 blpcallowed,whpcallowed,
                                 n);
         else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
@@ -1495,7 +1498,8 @@ static void stalemate_block_square_with_white_officer(piece blocker_type,
           && !is_black_king_attacked_by_non_king_too_often())
       {
         if (echecc(nbply,Black))
-          stalemate_avoid_check(blmoves,whmoves-time,
+          stalemate_avoid_check(Black,
+                                blmoves,whmoves-time,
                                 blpcallowed-1,whpcallowed,
                                 n);
         else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
@@ -1900,68 +1904,8 @@ static void stalemate_immobilise(unsigned int blmoves, unsigned int whmoves,
   TraceFunctionResultEnd();
 } /* stalemate_immobilise */
 
-static void stalemate_avoid_check_to_white_king(unsigned int blmoves, unsigned int whmoves,
-                                                unsigned int blpcallowed, unsigned int whpcallowed,
-                                                stip_length_type n)
-{
-  int checkdirs[8];
-  unsigned int md = 0;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",blmoves);
-  TraceFunctionParam("%u",whmoves);
-  TraceFunctionParam("%u",blpcallowed);
-  TraceFunctionParam("%u",whpcallowed);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[White]+vec_i]==vide)
-      e[king_square[White]+vec_i] = dummyb;
-  }
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[White]+vec_i]==dummyb)
-    {
-      e[king_square[White]+vec_i] = vide;
-      if (echecc(nbply,White))
-      {
-        checkdirs[md] = vec_i;
-        ++md;
-      }
-      e[king_square[White]+vec_i] = dummyb;
-    }
-  }
-
-  assert(md>0);
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[White]+vec_i]==dummyb)
-      e[king_square[White]+vec_i] = vide;
-  }
-
-  for (i = 0; i<md; i++)
-  {
-    square sq;
-    for (sq = king_square[White]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
-    {
-      stalemate_block_square_black(blmoves,whmoves,blpcallowed,whpcallowed,sq,md-1,n);
-      stalemate_block_square_white(blmoves,whmoves,blpcallowed,whpcallowed,sq,n);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
+static void stalemate_avoid_check(Side side,
+                                  unsigned int blmoves, unsigned int whmoves,
                                   unsigned int blpcallowed, unsigned int whpcallowed,
                                   stip_length_type n)
 {
@@ -1970,6 +1914,7 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
   unsigned int i;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",blmoves);
   TraceFunctionParam("%u",whmoves);
   TraceFunctionParam("%u",blpcallowed);
@@ -1977,43 +1922,41 @@ static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(!is_white_king_attacked_by_non_king());
-
-  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
   {
     numvec const vec_i = vec[i];
-    if (e[king_square[Black]+vec_i]==vide)
-      e[king_square[Black]+vec_i] = dummyb;
+    if (e[king_square[side]+vec_i]==vide)
+      e[king_square[side]+vec_i] = dummyb;
   }
 
-  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
   {
     numvec const vec_i = vec[i];
-    if (e[king_square[Black]+vec_i]==dummyb)
+    if (e[king_square[side]+vec_i]==dummyb)
     {
-      e[king_square[Black]+vec_i] = vide;
-      if (echecc(nbply,Black))
+      e[king_square[side]+vec_i] = vide;
+      if (echecc(nbply,side))
       {
         checkdirs[md] = vec_i;
         ++md;
       }
-      e[king_square[Black]+vec_i] = dummyb;
+      e[king_square[side]+vec_i] = dummyb;
     }
   }
 
   assert(md>0);
 
-  for (i = vec_queen_end; i>=vec_queen_start; --i)
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
   {
     numvec const vec_i = vec[i];
-    if (e[king_square[Black]+vec_i]==dummyb)
-      e[king_square[Black]+vec_i] = vide;
+    if (e[king_square[side]+vec_i]==dummyb)
+      e[king_square[side]+vec_i] = vide;
   }
 
-  for (i = 0; i<md; ++i)
+  for (i = 0; i<md; i++)
   {
     square sq;
-    for (sq = king_square[Black]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
+    for (sq = king_square[side]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
     {
       stalemate_block_square_black(blmoves,whmoves,blpcallowed,whpcallowed,sq,md-1,n);
       stalemate_block_square_white(blmoves,whmoves,blpcallowed,whpcallowed,sq,n);
@@ -2030,6 +1973,8 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
                                               unsigned int blpc, unsigned int whpc,
                                               stip_length_type n)
 {
+  square const placed_from = black[placed_index].sq;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -2042,17 +1987,16 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
 
   {
     /* A rough check whether it is worth thinking about promotions */
-    unsigned int time = black[placed_index].sq/onerow - nr_of_slack_rows_below_board;
-
-    if (time==6)
-      --time; /* double step! */
+    unsigned int time = (placed_from>=square_a7
+                         ? 5
+                         : placed_from/onerow - nr_of_slack_rows_below_board);
+    assert(time<=5);
 
     if (placed_on>=square_a2)
       ++time;
 
     if (time<=blmoves)
     {
-      square const placed_from = black[placed_index].sq;
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       {
@@ -2548,7 +2492,7 @@ static void finalise_blocking(unsigned int whmoves,
   if (goal_to_be_reached==goal_stale)
   {
     if (echecc(nbply,Black))
-      stalemate_avoid_check(timetowaste,whmoves,blpcallowed,whpcallowed,n);
+      stalemate_avoid_check(Black,timetowaste,whmoves,blpcallowed,whpcallowed,n);
     else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
       stalemate_store_target_position(timetowaste,whmoves,blpcallowed,whpcallowed,n);
     else
