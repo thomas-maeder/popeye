@@ -400,20 +400,14 @@ static unsigned int count_nr_of_moves_from_to_checking(piece from_piece,
 static unsigned int MovesRequired[nr_sides][maxply+1];
 static unsigned int CapturesLeft[maxply+1];
 
-static boolean mate_isGoalReachableRegularGoals(void)
+static boolean mate_isGoalReachable(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (sol_per_matingpos>=maxsol_per_matingpos)
-  {
-    FlagMaxSolsPerMatingPosReached = true;
-    result = false;
-  }
-
-  else if (pprise[nbply]
+  if (pprise[nbply]
            && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
@@ -520,21 +514,15 @@ static boolean mate_isGoalReachableRegularGoals(void)
   return result;
 }
 
-static boolean stalemate_isGoalReachableRegularGoals(void)
+static boolean stalemate_isGoalReachable(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (sol_per_matingpos>=maxsol_per_matingpos)
-  {
-    FlagMaxSolsPerMatingPosReached = true;
-    result = false;
-  }
-
-  else if (pprise[nbply]
-           && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
+  if (pprise[nbply]
+      && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -4330,6 +4318,12 @@ void goalreachable_guards_inserter_help_move(slice_index si,
   {
     slice_index const prototype = alloc_goalreachable_guard_filter();
     help_branch_insert_slices(si,&prototype,1);
+
+    if (maxsol_per_matingpos<ULONG_MAX)
+    {
+      slice_index const prototype = alloc_intelligent_limit_nr_solutions_per_target_position_slice();
+      help_branch_insert_slices(si,&prototype,1);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -4538,11 +4532,11 @@ boolean isGoalReachable(void)
       break;
 
     case goal_mate:
-      result = mate_isGoalReachableRegularGoals();
+      result = mate_isGoalReachable();
       break;
 
     case goal_stale:
-      result = (stalemate_isGoalReachableRegularGoals()
+      result = (stalemate_isGoalReachable()
                 && stalemate_are_there_sufficient_moves_left_for_required_captures());
       break;
 
