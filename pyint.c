@@ -953,62 +953,201 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
   castling_supported= false;
 } /* mate_store_target_position */
 
-static void mate_pin_black_piece(square    topin,
+static void mate_immobilise_by_pin_by_officer(unsigned int blmoves, unsigned int whmoves,
+                                              unsigned int blpc, unsigned int whpc,
+                                              piece pinner_orig_type,
+                                              piece pinner_type,
+                                              Flags pinner_flags,
+                                              square pinner_comes_from,
+                                              square pin_from,
+                                              stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TracePiece(pinner_orig_type);
+  TracePiece(pinner_type);
+  TraceSquare(pinner_comes_from);
+  TraceSquare(pin_from);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const time = count_nr_of_moves_from_to_no_check(pinner_orig_type,
+                                                                 pinner_comes_from,
+                                                                 pinner_type,
+                                                                 pin_from);
+    if (time<=whmoves)
+    {
+      SetPiece(pinner_type,pin_from,pinner_flags);
+      mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
+    }
+  }
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
+static void mate_immobilise_by_pin_by_promoted_pawn(unsigned int blmoves, unsigned int whmoves,
+                                                    unsigned int blpc, unsigned int whpc,
+                                                    Flags pinner_flags,
+                                                    square pinner_comes_from,
+                                                    square pin_from,
+                                                    boolean diagonal,
+                                                    stip_length_type n)
+{
+  piece const minor_pinner_type = diagonal ? fb : tb;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceSquare(pinner_comes_from);
+  TraceSquare(pin_from);
+  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  mate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                    blpc,whpc,
+                                    pb,minor_pinner_type,pinner_flags,
+                                    pinner_comes_from,
+                                    pin_from,
+                                    n);
+  mate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                    blpc,whpc,
+                                    pb,db,pinner_flags,
+                                    pinner_comes_from,
+                                    pin_from,
+                                    n);
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
+static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
+                                                      unsigned int blmoves, unsigned int whmoves,
+                                                      unsigned int blpc, unsigned int whpc,
+                                                      square pin_on,
+                                                      unsigned int pinner_index,
+                                                      boolean diagonal,
+                                                      stip_length_type n)
+{
+  piece const pinner_type = white[pinner_index].p;
+  Flags const pinner_flags = white[pinner_index].sp;
+  square const pinner_comes_from = white[pinner_index].sq;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_to_be_pinned);
+  TraceSquare(pin_on);
+  TraceFunctionParam("%u",pinner_index);
+  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  switch (pinner_type)
+  {
+    case db:
+      mate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                        blpc,whpc,
+                                        db,db,pinner_flags,
+                                        pinner_comes_from,
+                                        pin_on,
+                                        n);
+      break;
+
+    case tb:
+      if (!diagonal)
+        mate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                          blpc,whpc,
+                                          tb,tb,pinner_flags,
+                                          pinner_comes_from,
+                                          pin_on,
+                                          n);
+      break;
+
+    case fb:
+      if (diagonal)
+        mate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                          blpc,whpc,
+                                          fb,fb,pinner_flags,
+                                          pinner_comes_from,
+                                          pin_on,
+                                          n);
+      break;
+
+    case cb:
+      break;
+
+    case pb:
+      mate_immobilise_by_pin_by_promoted_pawn(blmoves,whmoves,
+                                              blpc,whpc,
+                                              pinner_flags,
+                                              pinner_comes_from,
+                                              pin_on,
+                                              diagonal,
+                                              n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
+static void mate_pin_black_piece(square sq_to_be_pinned,
                                  unsigned int blmoves, unsigned int whmoves,
                                  unsigned int blpc, unsigned int whpc,
                                  stip_length_type n)
 {
-  square    sq= topin;
-  int dir;
-  unsigned int time;
-  unsigned int i;
-  boolean   diagonal;
-  piece f_p;
+  int const dir = sq_to_be_pinned-king_square[Black];
+  boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
+  square pin_on;
 
-  dir= sq-king_square[Black];
-  diagonal= SquareCol(sq) == SquareCol(king_square[Black]);
-  while (e[sq+=dir] == vide) {
-    for (i= 1; i < MaxPiece[White]; i++) {
-      if (!white[i].used && (f_p= white[i].p) != cb) {
-        if (f_p == (diagonal ? tb : fb)) {
-          continue;
-        }
-        white[i].used= true;
-        if (f_p == pb) {
-          if (diagonal) {
-            time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Bishop,sq);
-            if (time <= whmoves) {
-              SetPiece(Bishop,sq,white[i].sp);
-              mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
-            }
-          }
-          else {
-            time=
-              count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Rook,sq);
-            if (time <= whmoves) {
-              SetPiece(Rook,sq,white[i].sp);
-              mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
-            }
-          }
-          time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,Queen,sq);
-          if (time <= whmoves) {
-            SetPiece(Queen,sq,white[i].sp);
-            mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
-          }
-        }
-        else {
-          time= count_nr_of_moves_from_to_no_check(f_p,white[i].sq,f_p,sq);
-          if (time <= whmoves) {
-            SetPiece(f_p,sq,white[i].sp);
-            mate_store_target_position(blmoves,whmoves-time,blpc,whpc,n);
-          }
-        }
-        white[i].used= false;
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_to_be_pinned);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpc);
+  TraceFunctionParam("%u",whpc);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  for (pin_on = sq_to_be_pinned+dir; e[pin_on]==vide; pin_on += dir)
+  {
+    unsigned int pinner_index;
+    for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
+      if (!white[pinner_index].used)
+      {
+        white[pinner_index].used = true;
+
+        mate_pin_black_piece_on_1square_by_1piece(sq_to_be_pinned,
+                                                  blmoves,whmoves,
+                                                  blpc,whpc,
+                                                  pin_on,
+                                                  pinner_index,
+                                                  diagonal,
+                                                  n);
+
+        white[pinner_index].used = false;
       }
-    }
-    e[sq]= vide;
-    spec[sq]= EmptySpec;
+
+    e[pin_on] = vide;
+    spec[pin_on] = EmptySpec;
   }
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
 }
 
 static void stalemate_immobilise_by_pin_by_officer(unsigned int blmoves, unsigned int whmoves,
@@ -1118,6 +1257,82 @@ static boolean is_line_empty(square start, square end, int dir)
   return result;
 }
 
+static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int blmoves, unsigned int whmoves,
+                                                             unsigned int blpcallowed, unsigned int whpcallowed,
+                                                             square sq_to_be_pinned,
+                                                             square pin_on,
+                                                             unsigned int pinner_index,
+                                                             boolean diagonal,
+                                                             stip_length_type n)
+{
+  piece const pinner_type = white[pinner_index].p;
+  Flags const pinner_flags = white[pinner_index].sp;
+  square const pinner_comes_from = white[pinner_index].sq;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParam("%u",whmoves);
+  TraceFunctionParam("%u",blpcallowed);
+  TraceFunctionParam("%u",whpcallowed);
+  TraceSquare(sq_to_be_pinned);
+  TraceSquare(pin_on);
+  TraceFunctionParam("%u",pinner_index);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParamListEnd();
+  switch (pinner_type)
+  {
+    case cb:
+      break;
+
+    case tb:
+      if (!diagonal)
+        stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                               blpcallowed,whpcallowed,
+                                               tb,tb,pinner_flags,
+                                               pinner_comes_from,
+                                               pin_on,
+                                               n);
+      break;
+
+    case fb:
+      if (diagonal)
+        stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                               blpcallowed,whpcallowed,
+                                               fb,fb,pinner_flags,
+                                               pinner_comes_from,
+                                               pin_on,
+                                               n);
+      break;
+
+    case db:
+      stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
+                                             blpcallowed,whpcallowed,
+                                             db,db,pinner_flags,
+                                             pinner_comes_from,
+                                             pin_on,
+                                             n);
+      break;
+
+    case pb:
+      stalemate_immobilise_by_pin_by_promoted_pawn(blmoves,whmoves,
+                                                   blpcallowed,whpcallowed,
+                                                   pinner_flags,
+                                                   pinner_comes_from,
+                                                   pin_on,
+                                                   diagonal,
+                                                   n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionResultEnd();
+  TraceFunctionExit(__func__);
+}
+
 static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmoves,
                                         unsigned int blpcallowed, unsigned int whpcallowed,
                                         square sq_to_be_pinned,
@@ -1145,75 +1360,30 @@ static void stalemate_immobilise_by_pin(unsigned int blmoves, unsigned int whmov
   {
     boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
 
-    square pin_from;
-    for (pin_from = sq_to_be_pinned+dir; e[pin_from]==vide; pin_from += dir)
+    square pin_on;
+    for (pin_on = sq_to_be_pinned+dir; e[pin_on]==vide; pin_on += dir)
     {
       unsigned int pinner_index;
       for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
       {
         if (!white[pinner_index].used)
         {
-          piece const pinner_type = white[pinner_index].p;
-          Flags const pinner_flags = white[pinner_index].sp;
-          square const pinner_comes_from = white[pinner_index].sq;
-
           white[pinner_index].used = true;
 
-          switch (pinner_type)
-          {
-            case cb:
-              break;
-
-            case tb:
-              if (!diagonal)
-                stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
-                                                       blpcallowed,whpcallowed,
-                                                       tb,tb,pinner_flags,
-                                                       pinner_comes_from,
-                                                       pin_from,
-                                                       n);
-              break;
-
-            case fb:
-              if (diagonal)
-                stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
-                                                       blpcallowed,whpcallowed,
-                                                       fb,fb,pinner_flags,
-                                                       pinner_comes_from,
-                                                       pin_from,
-                                                       n);
-              break;
-
-            case db:
-              stalemate_immobilise_by_pin_by_officer(blmoves,whmoves,
-                                                     blpcallowed,whpcallowed,
-                                                     db,db,pinner_flags,
-                                                     pinner_comes_from,
-                                                     pin_from,
-                                                     n);
-              break;
-
-            case pb:
-              stalemate_immobilise_by_pin_by_promoted_pawn(blmoves,whmoves,
+          stalemate_immobilise_by_pin_on_1square_by_1piece(blmoves,whmoves,
                                                            blpcallowed,whpcallowed,
-                                                           pinner_flags,
-                                                           pinner_comes_from,
-                                                           pin_from,
+                                                           sq_to_be_pinned,
+                                                           pin_on,
+                                                           pinner_index,
                                                            diagonal,
                                                            n);
-              break;
-
-            default:
-              assert(0);
-              break;
-          }
 
           white[pinner_index].used= false;
         }
       }
 
-      e[pin_from] = vide;
-      spec[pin_from] = EmptySpec;
+      e[pin_on] = vide;
+      spec[pin_on] = EmptySpec;
     }
   }
 
