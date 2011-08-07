@@ -35,12 +35,8 @@
 
 typedef unsigned int index_type;
 
-static index_type indices[MaxPieceId];
-
-#define SetIndex(s,i) indices[GetPieceId(s)] = (i)
-#define GetIndex(s)   indices[GetPieceId(s)]
-
-typedef struct {
+typedef struct
+{
     square  sq;
     Flags   sp;
     piece   p;
@@ -49,7 +45,6 @@ typedef struct {
 
 static goal_type goal_to_be_reached;
 
-static unsigned int maximum_piece_index;
 static unsigned int MaxPiece[nr_sides];
 unsigned int MovesLeft[nr_sides];
 
@@ -60,14 +55,11 @@ static PIECE black[nr_squares_on_board];
 static boolean is_cast_supp;
 static square is_ep, is_ep2;
 static unsigned int moves_to_prom[nr_squares_on_board];
-static square squarechecking;
 static square const *deposebnp;
-static piece piecechecking;
 static unsigned int index_of_piece_delivering_check;
 enum { index_of_king = 0 };
 
-static PIECE target_position[nr_squares_on_board];
-static unsigned int IndxChP;
+static PIECE target_position[MaxPieceId+1];
 
 static slice_index current_start_slice;
 
@@ -407,7 +399,7 @@ static unsigned int count_nr_of_moves_from_to_checking(piece from_piece,
 static unsigned int MovesRequired[nr_sides][maxply+1];
 static unsigned int CapturesLeft[maxply+1];
 
-static boolean isGoalReachableRegularGoals(void)
+static boolean mate_isGoalReachableRegularGoals(void)
 {
   boolean result;
 
@@ -420,7 +412,8 @@ static boolean isGoalReachableRegularGoals(void)
     result = false;
   }
 
-  else if (pprise[nbply] && target_position[GetIndex(pprispec[nbply])].sq!=initsquare)
+  else if (pprise[nbply]
+           && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -429,8 +422,8 @@ static boolean isGoalReachableRegularGoals(void)
     TraceValue("%u",MovesLeft[White]);
     TraceValue("%u\n",MovesLeft[Black]);
 
-    if (nbply == 2
-        || (testcastling && castling_flag[nbply] != castling_flag[nbply-1]))
+    if (nbply==2
+        || (testcastling && castling_flag[nbply]!=castling_flag[nbply-1]))
     {
       square const *bnp;
       MovesRequired[White][nbply] = 0;
@@ -441,70 +434,155 @@ static boolean isGoalReachableRegularGoals(void)
         piece const from_piece = e[from_square];
         if (from_piece!=vide && from_piece!=obs)
         {
-          unsigned const index = GetIndex(spec[from_square]);
-          if (target_position[index].sq!=initsquare)
+          PieceIdType const id = GetPieceId(spec[from_square]);
+          if (target_position[id].sq!=initsquare)
           {
             Side const from_side = from_piece>vide ? White : Black;
-            if (index==IndxChP && MovesLeft[White]>0)
+            if (id==GetPieceId(white[index_of_piece_delivering_check].sp)
+                && MovesLeft[White]>0)
             {
               square const save_king_square = king_square[Black];
-              king_square[Black] = target_position[GetIndex(spec[king_square[Black]])].sq;
+              PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
+              king_square[Black] = target_position[id_king].sq;
               MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_checking(from_piece,
                                                                                     from_square,
-                                                                                    target_position[index].p,
-                                                                                    target_position[index].sq);
+                                                                                    target_position[id].p,
+                                                                                    target_position[id].sq);
               king_square[Black] = save_king_square;
             }
             else
               MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_no_check(from_piece,
                                                                                     from_square,
-                                                                                    target_position[index].p,
-                                                                                    target_position[index].sq);
+                                                                                    target_position[id].p,
+                                                                                    target_position[id].sq);
           }
         }
       }
     }
     else
     {
-      unsigned int const index = GetIndex(jouespec[nbply]);
+      PieceIdType const id = GetPieceId(jouespec[nbply]);
       MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
       MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
 
-      if (target_position[index].sq!=initsquare)
+      if (target_position[id].sq!=initsquare)
       {
         unsigned int time_before;
         unsigned int time_now;
-        if (index==IndxChP)
+        if (id==GetPieceId(white[index_of_piece_delivering_check].sp))
         {
           square const save_king_square = king_square[Black];
-          king_square[Black] = target_position[GetIndex(spec[king_square[Black]])].sq;
+          PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
+          king_square[Black] = target_position[id_king].sq;
           time_before = count_nr_of_moves_from_to_checking(pjoue[nbply],
                                                            move_generation_stack[nbcou].departure,
-                                                           target_position[index].p,
-                                                           target_position[index].sq);
+                                                           target_position[id].p,
+                                                           target_position[id].sq);
           king_square[Black] = save_king_square;
         }
         else
           time_before = count_nr_of_moves_from_to_no_check(pjoue[nbply],
                                                            move_generation_stack[nbcou].departure,
-                                                           target_position[index].p,
-                                                           target_position[index].sq);
+                                                           target_position[id].p,
+                                                           target_position[id].sq);
 
-        if (index==IndxChP && MovesLeft[White]>0)
+        if (id==GetPieceId(white[index_of_piece_delivering_check].sp)
+            && MovesLeft[White]>0)
         {
           square const save_king_square = king_square[Black];
-          king_square[Black] = target_position[GetIndex(spec[king_square[Black]])].sq;
+          PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
+          king_square[Black] = target_position[id_king].sq;
           time_now = count_nr_of_moves_from_to_checking(e[move_generation_stack[nbcou].arrival],
                                                         move_generation_stack[nbcou].arrival,
-                                                        target_position[index].p,
-                                                        target_position[index].sq);
+                                                        target_position[id].p,
+                                                        target_position[id].sq);
           king_square[Black] = save_king_square;
         }
         else
           time_now = count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
                                                         move_generation_stack[nbcou].arrival,
-                                                        target_position[index].p,
-                                                        target_position[index].sq);
+                                                        target_position[id].p,
+                                                        target_position[id].sq);
+
+        assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
+        MovesRequired[trait[nbply]][nbply] += time_now-time_before;
+      }
+    }
+
+    result = (MovesRequired[White][nbply]<=MovesLeft[White]
+              && MovesRequired[Black][nbply]<=MovesLeft[Black]);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean stalemate_isGoalReachableRegularGoals(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (sol_per_matingpos>=maxsol_per_matingpos)
+  {
+    FlagMaxSolsPerMatingPosReached = true;
+    result = false;
+  }
+
+  else if (pprise[nbply]
+           && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
+    /* a piece has been captured that participates in the mate */
+    result = false;
+
+  else
+  {
+    TraceValue("%u",MovesLeft[White]);
+    TraceValue("%u\n",MovesLeft[Black]);
+
+    if (nbply==2
+        || (testcastling && castling_flag[nbply]!=castling_flag[nbply-1]))
+    {
+      square const *bnp;
+      MovesRequired[White][nbply] = 0;
+      MovesRequired[Black][nbply] = 0;
+      for (bnp = boardnum; *bnp!=initsquare; bnp++)
+      {
+        square const from_square = *bnp;
+        piece const from_piece = e[from_square];
+        if (from_piece!=vide && from_piece!=obs)
+        {
+          PieceIdType const id = GetPieceId(spec[from_square]);
+          if (target_position[id].sq!=initsquare)
+          {
+            Side const from_side = from_piece>vide ? White : Black;
+            MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_no_check(from_piece,
+                                                                                  from_square,
+                                                                                  target_position[id].p,
+                                                                                  target_position[id].sq);
+          }
+        }
+      }
+    }
+    else
+    {
+      PieceIdType const id = GetPieceId(jouespec[nbply]);
+      MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
+      MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
+
+      if (target_position[id].sq!=initsquare)
+      {
+        unsigned int const time_before = count_nr_of_moves_from_to_no_check(pjoue[nbply],
+                                                                            move_generation_stack[nbcou].departure,
+                                                                            target_position[id].p,
+                                                                            target_position[id].sq);
+
+        unsigned int const time_now = count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
+                                                                         move_generation_stack[nbcou].arrival,
+                                                                         target_position[id].p,
+                                                                         target_position[id].sq);
 
         assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
         MovesRequired[trait[nbply]][nbply] += time_now-time_before;
@@ -557,10 +635,9 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
                                             unsigned int blpcallowed, unsigned int whpcallowed,
                                             stip_length_type n)
 {
-  unsigned int i, index, unused = 0;
+  unsigned int i, unused = 0;
   square const *bnp;
   square _rb, _rn;
-  Flags sp;
 
   if (hasMaxtimeElapsed())
     return;
@@ -612,8 +689,11 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
   WritePosition();
 #endif
 
-  for (i= 0; i<maximum_piece_index; ++i)
-    target_position[i].sq= initsquare;
+  {
+    PieceIdType id;
+    for (id = 0; id<=MaxPieceId; ++id)
+      target_position[id].sq= initsquare;
+  }
 
 #if defined(DEBUG)
   StdString("target position:\n");
@@ -625,17 +705,14 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
     piece const p = e[*bnp];
     if (p!=vide && p!=obs)
     {
-      sp= spec[*bnp];
-      index= GetIndex(sp);
-      target_position[index].p= p;
-      target_position[index].sp= sp;
-      target_position[index].sq= *bnp;
+      Flags const sp = spec[*bnp];
+      PieceIdType const id = GetPieceId(sp);
+      target_position[id].p= p;
+      target_position[id].sp= sp;
+      target_position[id].sq= *bnp;
     }
   }
 
-  IndxChP= index_of_piece_delivering_check == 0
-    ? UINT_MAX
-    : GetIndex(white[index_of_piece_delivering_check].sp);
   _rb= king_square[White];
   _rn= king_square[Black];
 
@@ -648,19 +725,20 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
   {
     int blm= 0, whm= 0, m;
     for (bnp= boardnum; *bnp; bnp++)
-      if (e[*bnp] != vide) {
-        sp= spec[*bnp];
-        index= GetIndex(sp);
-        if (target_position[index].sq != vide
-            && (*bnp != target_position[index].sq || e[*bnp] != target_position[index].p))
+      if (e[*bnp] != vide)
+      {
+        Flags const sp spec[*bnp];
+        PieceIdType const id = GetPieceId(sp);
+        if (target_position[id].sq != vide
+            && (*bnp != target_position[id].sq || e[*bnp] != target_position[id].p))
         {
           WritePiece(e[*bnp]); WriteSquare(*bnp);
           StdString("-->");
-          if (e[*bnp] != target_position[index].p) {
-            WritePiece(target_position[index].p);
+          if (e[*bnp] != target_position[id].p) {
+            WritePiece(target_position[id].p);
           }
-          WriteSquare(target_position[index].sq);
-          m= count_nr_of_moves_from_to_no_check(e[*bnp],*bnp,target_position[index].p,target_position[index].sq,0);
+          WriteSquare(target_position[id].sq);
+          m= count_nr_of_moves_from_to_no_check(e[*bnp],*bnp,target_position[id].p,target_position[id].sq,0);
           if (e[*bnp] < vide)
             blm+= m;
           else
@@ -694,12 +772,15 @@ static void stalemate_store_target_position(unsigned int blmoves, unsigned int w
     spec[*bnp]= EmptySpec;
   }
 
-  for (i= 0; i<maximum_piece_index; ++i)
-    if (target_position[i].sq != initsquare)
-    {
-      e[target_position[i].sq]= target_position[i].p;
-      spec[target_position[i].sq]= target_position[i].sp;
-    }
+  {
+    PieceIdType id;
+    for (id = 0; id<=MaxPieceId; ++id)
+      if (target_position[id].sq != initsquare)
+      {
+        e[target_position[id].sq] = target_position[id].p;
+        spec[target_position[id].sq] = target_position[id].sp;
+      }
+  }
 
   {
     int p;
@@ -867,24 +948,22 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
   WritePosition();
 #endif
 
-  for (i = 0; i<maximum_piece_index; ++i)
-    target_position[i].sq = initsquare;
+  {
+    PieceIdType id;
+    for (id = 0; id<=MaxPieceId; ++id)
+      target_position[id].sq = initsquare;
+  }
 
   for (bnp = boardnum; *bnp; bnp++)
-  {
     if (e[*bnp]!=vide && e[*bnp]!=obs)
     {
       Flags const sp = spec[*bnp];
-      unsigned int const index = GetIndex(sp);
-      target_position[index].p = e[*bnp];
-      target_position[index].sp = sp;
-      target_position[index].sq = *bnp;
+      PieceIdType const id = GetPieceId(sp);
+      target_position[id].p = e[*bnp];
+      target_position[id].sp = sp;
+      target_position[id].sq = *bnp;
     }
-  }
 
-  IndxChP= index_of_piece_delivering_check == 0
-    ? UINT_MAX
-    : GetIndex(white[index_of_piece_delivering_check].sp);
   _rb= king_square[White];
   _rn= king_square[Black];
 
@@ -900,12 +979,13 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
 #if defined(DETAILS)
   for (bnp= boardnum; *bnp; bnp++) {
     if (e[*bnp] != vide) {
-      sp= spec[*bnp];
-      index= GetIndex(sp);
-      if (target_position[index].sq != vide) {
+      Flags const sp = spec[*bnp];
+      PieceIdType const id = GetPieceId(sp);
+      if (target_position[id].sq != vide)
+      {
         WritePiece(e[*bnp]); WriteSquare(*bnp);
         StdString("-->");
-        WriteSquare(target_position[index].sq);
+        WriteSquare(target_position[id].sq);
         StdString("  ");
       }
     }
@@ -929,12 +1009,15 @@ static void mate_store_target_position(unsigned int blmoves, unsigned int whmove
     }
   }
 
-  for (i= 0; i<maximum_piece_index; ++i)
-    if (target_position[i].sq != initsquare)
-    {
-      e[target_position[i].sq]= target_position[i].p;
-      spec[target_position[i].sq]= target_position[i].sp;
-    }
+  {
+    PieceIdType id;
+    for (id = 0; id<=MaxPieceId; ++id)
+      if (target_position[id].sq!=initsquare)
+      {
+        e[target_position[id].sq] = target_position[id].p;
+        spec[target_position[id].sq] = target_position[id].sp;
+      }
+  }
 
   {
     int p;
@@ -3672,8 +3755,6 @@ static void mate_generate_checking_move_by_one_promoted_pawn(unsigned int whmove
                                                                       check_from);
           if (time<=whmoves && guards(king_square[Black],pp,check_from))
           {
-            piecechecking = pp;
-            squarechecking = check_from;
             SetPiece(pp,check_from,checker_flags);
             guard_flights_king(whmoves-time,blmoves,0,n);
           }
@@ -3719,8 +3800,6 @@ static void mate_generate_checking_move_by_one_unpromoted_pawn(unsigned int whmo
       {
         int diffcol = pawn_origin%onerow - check_from%onerow;
         SetPiece(pb,check_from,checker_flags);
-        piecechecking = pb;
-        squarechecking = check_from;
         guard_flights_king(whmoves-time,blmoves,abs(diffcol),n);
       }
 
@@ -3764,8 +3843,6 @@ static void mate_generate_checking_move_by_one_officer(piece checker_type,
       if (time<=whmoves && guards(king_square[Black],checker_type,check_from))
       {
         SetPiece(checker_type,check_from,checker_flags);
-        piecechecking = checker_type;
-        squarechecking = check_from;
         guard_flights_king(whmoves-time,blmoves,0,n);
       }
 
@@ -3920,26 +3997,21 @@ static void IntelligentRegulargoal_types(stip_length_type n)
 
   MaxPiece[Black] = 0;
   MaxPiece[White] = 0;
-  maximum_piece_index = 0;
 
-  SetIndex(spec[king_square[Black]],maximum_piece_index);
   black[index_of_king].p= e[king_square[Black]];
   black[index_of_king].sp= spec[king_square[Black]];
   black[index_of_king].sq= king_square[Black];
   ++MaxPiece[Black];
-  ++maximum_piece_index;
 
   if (king_square[White]==initsquare)
     white[index_of_king].used = true;
   else
   {
-    SetIndex(spec[king_square[White]],maximum_piece_index);
     white[index_of_king].used = false;
     white[index_of_king].p = e[king_square[White]];
     white[index_of_king].sp = spec[king_square[White]];
     white[index_of_king].sq = king_square[White];
     assert(white[index_of_king].p==roib);
-    ++maximum_piece_index;
   }
 
   ++MaxPiece[White];
@@ -3947,7 +4019,6 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   for (bnp = boardnum; *bnp; bnp++)
     if (king_square[White]!=*bnp && e[*bnp]>obs)
     {
-      SetIndex(spec[*bnp],maximum_piece_index);
       white[MaxPiece[White]].p = e[*bnp];
       white[MaxPiece[White]].sp = spec[*bnp];
       white[MaxPiece[White]].sq = *bnp;
@@ -3955,19 +4026,16 @@ static void IntelligentRegulargoal_types(stip_length_type n)
       if (e[*bnp]==pb)
         moves_to_prom[MaxPiece[White]] = count_moves_to_white_promotion(*bnp);
       ++MaxPiece[White];
-      ++maximum_piece_index;
     }
 
   for (bnp = boardnum; *bnp; ++bnp)
     if (king_square[Black]!=*bnp && e[*bnp]<vide)
     {
-      SetIndex(spec[*bnp],maximum_piece_index);
       black[MaxPiece[Black]].p = e[*bnp];
       black[MaxPiece[Black]].sp = spec[*bnp];
       black[MaxPiece[Black]].sq = *bnp;
       black[MaxPiece[Black]].used = false;
       ++MaxPiece[Black];
-      ++maximum_piece_index;
     }
 
   StorePosition();
@@ -4440,7 +4508,7 @@ boolean Intelligent(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean areCapturesPossible(void)
+static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(void)
 {
   CapturesLeft[nbply] = CapturesLeft[nbply-1];
   if (pprise[nbply]<vide)
@@ -4463,11 +4531,12 @@ boolean isGoalReachable(void)
       break;
 
     case goal_mate:
-      result = isGoalReachableRegularGoals();
+      result = mate_isGoalReachableRegularGoals();
       break;
 
     case goal_stale:
-      result = isGoalReachableRegularGoals() && areCapturesPossible();
+      result = (stalemate_isGoalReachableRegularGoals()
+                && stalemate_are_there_sufficient_moves_left_for_required_captures());
       break;
 
     default:
