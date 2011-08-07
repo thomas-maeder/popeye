@@ -536,7 +536,7 @@ static void stalemate_immobilise(unsigned int blmoves, unsigned int whmoves,
 static void stalemate_avoid_check(unsigned int blmoves, unsigned int whmoves,
                                   unsigned int blpcallowed, unsigned int whpcallowed,
                                   stip_length_type n);
-static int MovesToBlock(square sq, unsigned int blmoves);
+static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked, unsigned int blmoves);
 static void stalemate_fix_white_king_on_diagram_square(unsigned int blmoves, unsigned int whmoves,
                                                        unsigned int blpcallowed, unsigned int whpcallowed,
                                                        stip_length_type n);
@@ -1662,7 +1662,7 @@ static square find_most_expensive_square_to_be_blocked_by_black(unsigned int blm
   for (bnp = boardnum; *bnp; ++bnp)
     if (block_requirement[*bnp]==black_block_needed_on_square)
     {
-      int const nr_black_blocking_moves = MovesToBlock(*bnp,blmoves);
+      int const nr_black_blocking_moves = count_nr_black_moves_to_block_square(*bnp,blmoves);
       total_number_black_moves_to_squares_to_be_blocked += nr_black_blocking_moves;
       if (total_number_black_moves_to_squares_to_be_blocked>blmoves)
       {
@@ -2434,47 +2434,101 @@ static void mate_neutralise_guarding_pieces(unsigned int blmoves, unsigned int w
   TraceFunctionResultEnd();
 }
 
-static int MovesToBlock(square sq, unsigned int blmoves)
+static unsigned int count_nr_black_moves_to_block_square_with_promoted_pawn(square pawn_comes_from,
+                                                                            square to_be_blocked,
+                                                                            unsigned int blmoves)
 {
-  int mintime = maxply+1;
+  unsigned int result = maxply+1;
 
-  unsigned int i;
-  for (i = 1; i<MaxPiece[Black]; ++i)
+  TraceFunctionEntry(__func__);
+  TraceSquare(pawn_comes_from);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParamListEnd();
+
   {
-    piece const p = black[i].p;
+    /* A rough check whether it is worth thinking about promotions */
+    unsigned int moves = (pawn_comes_from>=square_a7
+                          ? 5
+                          : pawn_comes_from/onerow - nr_of_slack_rows_below_board);
+    assert(moves<=5);
 
-    if (p!=pn || sq>=square_a2)
+    if (to_be_blocked>=square_a2)
+      ++moves;
+
+    if (blmoves>=moves)
     {
-      int const time = count_nr_of_moves_from_to_no_check(p,black[i].sq,p,sq);
-      if (time<mintime)
-        mintime = time;
-    }
-
-    /* pawn promotions */
-    if (p==pn)
-    {
-      /* A rough check whether it is worth thinking about promotions */
-      unsigned int moves = black[i].sq>=square_a7 ? 5 : black[i].sq/onerow - nr_of_slack_rows_below_board;
-      assert(moves<=5);
-
-      if (sq>=square_a2)
-        ++moves;
-
-      if (blmoves>=moves)
+      piece pp;
+      for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       {
-        piece pp;
-        for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-        {
-          int const time = count_nr_of_moves_from_to_no_check(p,black[i].sq,-pp,sq);
-          if (time<mintime)
-            mintime = time;
-        }
+        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                     pawn_comes_from,
+                                                                     -pp,
+                                                                     to_be_blocked);
+        if (time<result)
+          result = time;
       }
     }
   }
 
-  return mintime;
-} /* MovesToBlock */
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked,
+                                                         unsigned int blmoves)
+{
+  unsigned int result = maxply+1;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(to_be_blocked);
+  TraceFunctionParam("%u",blmoves);
+  TraceFunctionParamListEnd();
+
+  for (i = 1; i<MaxPiece[Black]; ++i)
+  {
+    piece const blocker_type = black[i].p;
+    square const blocker_comes_from = black[i].sq;
+
+    if (blocker_type==pn)
+    {
+      if (to_be_blocked>=square_a2)
+      {
+        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
+                                                                     blocker_comes_from,
+                                                                     pn,
+                                                                     to_be_blocked);
+        if (time<result)
+          result = time;
+      }
+
+      {
+        unsigned int const time_prom = count_nr_black_moves_to_block_square_with_promoted_pawn(blocker_comes_from,
+                                                                                               to_be_blocked,
+                                                                                               blmoves);
+        if (time_prom<result)
+          result = time_prom;
+      }
+    }
+    else
+    {
+      unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                   blocker_comes_from,
+                                                                   blocker_type,
+                                                                   to_be_blocked);
+      if (time<result)
+        result = time;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static void finalise_blocking(unsigned int whmoves,
                               unsigned int blpcallowed, unsigned int whpcallowed,
@@ -2849,7 +2903,7 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int blmoves,
 
   for (i = 0; i<nr_flights && result<=blmoves; ++i)
   {
-    mintime[i] = MovesToBlock(toblock[i],blmoves);
+    mintime[i] = count_nr_black_moves_to_block_square(toblock[i],blmoves);
     result += mintime[i];
   }
 
