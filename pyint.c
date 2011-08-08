@@ -603,7 +603,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                          unsigned int max_nr_allowed_captures_of_black_pieces,
                                          unsigned int max_nr_allowed_captures_of_white_pieces,
                                          square to_be_blocked,
-                                         boolean morethanonecheck,
+                                         unsigned int nr_of_checks,
                                          stip_length_type n);
 static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
@@ -861,6 +861,7 @@ static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_blac
 {
   square const *bnp;
   square const * const isbnp = deposebnp;
+  unsigned int const nr_of_checks = 0;
 
 #if defined(DEBUG)
   write_indentation();
@@ -884,7 +885,7 @@ static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_blac
                                    max_nr_allowed_captures_of_black_pieces,
                                    max_nr_allowed_captures_of_white_pieces,
                                    *bnp,
-                                   false,
+                                   nr_of_checks,
                                    n);
     }
 
@@ -1729,7 +1730,7 @@ static void stalemate_block_square_with_promoted_black_pawn(unsigned int nr_rema
                                                             square to_be_blocked,
                                                             Flags blocker_flags,
                                                             square blocker_comes_from,
-                                                            boolean morethanonecheck,
+                                                            unsigned int nr_of_checks,
                                                             stip_length_type n)
 {
   /* A rough check whether it is worth thinking about promotions */
@@ -1745,7 +1746,7 @@ static void stalemate_block_square_with_promoted_black_pawn(unsigned int nr_rema
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParam("%u",nr_of_checks);
   TraceFunctionParamListEnd();
 
   assert(time<=5);
@@ -1768,7 +1769,7 @@ static void stalemate_block_square_with_promoted_black_pawn(unsigned int nr_rema
           && !uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
         SetPiece(pp,to_be_blocked,blocker_flags);
-        if (morethanonecheck)
+        if (nr_of_checks>1)
           stalemate_avoid_check(Black,
                                 nr_remaining_black_moves-time,
                                 nr_remaining_white_moves,
@@ -1803,7 +1804,7 @@ static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int nr_re
                                                               square to_be_blocked,
                                                               Flags blocker_flags,
                                                               square blocker_comes_from,
-                                                              boolean morethanonecheck,
+                                                              unsigned int nr_of_checks,
                                                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -1814,7 +1815,7 @@ static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int nr_re
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParam("%u",nr_of_checks);
   TraceFunctionParamListEnd();
 
   {
@@ -1830,7 +1831,7 @@ static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int nr_re
         && !uninterceptably_attacks_white_king(to_be_blocked,pn))
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
-      if (morethanonecheck)
+      if (nr_of_checks>1)
         stalemate_avoid_check(Black,
                               nr_remaining_black_moves-time,
                               nr_remaining_white_moves,
@@ -1865,7 +1866,7 @@ static void stalemate_block_square_with_black_officer(unsigned int nr_remaining_
                                                       piece blocker_type,
                                                       Flags blocker_flags,
                                                       square blocker_comes_from,
-                                                      boolean morethanonecheck,
+                                                      unsigned int nr_of_checks,
                                                       stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -1877,7 +1878,7 @@ static void stalemate_block_square_with_black_officer(unsigned int nr_remaining_
   TracePiece(blocker_type);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParam("%u",nr_of_checks);
   TraceFunctionParamListEnd();
 
   {
@@ -1890,7 +1891,7 @@ static void stalemate_block_square_with_black_officer(unsigned int nr_remaining_
         && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
     {
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
-      if (morethanonecheck)
+      if (nr_of_checks>1)
         stalemate_avoid_check(Black,
                               nr_remaining_black_moves-time,
                               nr_remaining_white_moves,
@@ -1922,7 +1923,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                          unsigned int max_nr_allowed_captures_of_black_pieces,
                                          unsigned int max_nr_allowed_captures_of_white_pieces,
                                          square to_be_blocked,
-                                         boolean morethanonecheck,
+                                         unsigned int nr_of_checks,
                                          stip_length_type n)
 {
   unsigned int i;
@@ -1934,7 +1935,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
   TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",morethanonecheck);
+  TraceFunctionParam("%u",nr_of_checks);
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[Black]; ++i)
@@ -1955,7 +1956,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                                         to_be_blocked,
                                                         blocker_flags,
                                                         blocker_comes_from,
-                                                        morethanonecheck,
+                                                        nr_of_checks,
                                                         n);
         if (to_be_blocked>=square_a2)
           stalemate_block_square_with_unpromoted_black_pawn(nr_remaining_black_moves,
@@ -1965,7 +1966,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                                             to_be_blocked,
                                                             blocker_flags,
                                                             blocker_comes_from,
-                                                            morethanonecheck,
+                                                            nr_of_checks,
                                                             n);
       }
       else
@@ -1977,10 +1978,10 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                                   blocker_type,
                                                   blocker_flags,
                                                   blocker_comes_from,
-                                                  morethanonecheck,
+                                                  nr_of_checks,
                                                   n);
 
-      black[i].used= false;
+      black[i].used = false;
     }
 
   e[to_be_blocked] = vide;
@@ -2606,13 +2607,14 @@ static void stalemate_immobilise(unsigned int nr_remaining_black_moves,
            * there isn't much difference; so simply pick
            * immobilisation_state.last_found_trouble_square.
            */
-          boolean const morethanonecheck = false;
+          unsigned int const nr_of_checks = 0;
           stalemate_block_square_black(nr_remaining_black_moves,
                                        nr_remaining_white_moves,
                                        max_nr_allowed_captures_of_black_pieces,
                                        max_nr_allowed_captures_of_white_pieces,
                                        immobilisation_state.last_found_trouble_square,
-                                       morethanonecheck,n);
+                                       nr_of_checks,
+                                       n);
           stalemate_block_square_white(nr_remaining_black_moves,
                                        nr_remaining_white_moves,
                                        max_nr_allowed_captures_of_black_pieces,
@@ -2625,13 +2627,14 @@ static void stalemate_immobilise(unsigned int nr_remaining_black_moves,
         {
           /* most_expensive_square_to_be_blocked_by_black is the most expensive
            * square among those that Black must block */
-          boolean const morethanonecheck = false;
+          unsigned int const nr_of_checks = 0;
           stalemate_block_square_black(nr_remaining_black_moves,
                                        nr_remaining_white_moves,
                                        max_nr_allowed_captures_of_black_pieces,
                                        max_nr_allowed_captures_of_white_pieces,
                                        most_expensive_square_to_be_blocked_by_black,
-                                       morethanonecheck,n);
+                                       nr_of_checks,
+                                       n);
           break;
         }
       }
@@ -2650,7 +2653,7 @@ static void stalemate_avoid_check(Side side,
                                   stip_length_type n)
 {
   int checkdirs[8];
-  unsigned int md = 0;
+  unsigned int nr_of_checks = 0;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -2677,14 +2680,14 @@ static void stalemate_avoid_check(Side side,
       e[king_square[side]+vec_i] = vide;
       if (echecc(nbply,side))
       {
-        checkdirs[md] = vec_i;
-        ++md;
+        checkdirs[nr_of_checks] = vec_i;
+        ++nr_of_checks;
       }
       e[king_square[side]+vec_i] = dummyb;
     }
   }
 
-  assert(md>0);
+  assert(nr_of_checks>0);
 
   for (i = vec_queen_end; i>=vec_queen_start ; --i)
   {
@@ -2693,23 +2696,25 @@ static void stalemate_avoid_check(Side side,
       e[king_square[side]+vec_i] = vide;
   }
 
-  for (i = 0; i<md; i++)
+  for (i = 0; i<nr_of_checks; i++)
   {
-    square sq;
-    for (sq = king_square[side]+checkdirs[i]; e[sq]==vide; sq += checkdirs[i])
+    square to_be_blocked;
+    for (to_be_blocked = king_square[side]+checkdirs[i];
+         e[to_be_blocked]==vide;
+         to_be_blocked += checkdirs[i])
     {
       stalemate_block_square_black(nr_remaining_black_moves,
                                    nr_remaining_white_moves,
                                    max_nr_allowed_captures_of_black_pieces,
                                    max_nr_allowed_captures_of_white_pieces,
-                                   sq,
-                                   md-1,
+                                   to_be_blocked,
+                                   nr_of_checks,
                                    n);
       stalemate_block_square_white(nr_remaining_black_moves,
                                    nr_remaining_white_moves,
                                    max_nr_allowed_captures_of_black_pieces,
                                    max_nr_allowed_captures_of_white_pieces,
-                                   sq,
+                                   to_be_blocked,
                                    n);
     }
   }
