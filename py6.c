@@ -1713,12 +1713,6 @@ static boolean verify_position(slice_index si)
   castling_flag[2] = castling_flag[0];
   /* At which ply do we begin ??  NG */
 
-  testcastling=
-      TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-      || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
-      || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
-      || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
-
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 

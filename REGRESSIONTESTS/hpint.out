@@ -360,12 +360,12 @@ Es fehlt ein weisser oder schwarzer Koenig
 17 moegliche Stellungen in 3+0
   1.e7-e8=L   2.d7-d8=D   3.Dd8-d5   4.Le8-g6 = 
   1.e7-e8=S   2.d7-d8=T   3.Td8-d7   4.Td7*g7 = 
-195 moegliche Stellungen in 4+0
+202 moegliche Stellungen in 4+0
 
-              empile:       23156
-            jouecoup:       24920
-        orig_rbechec:         195
-        orig_rnechec:       17527
+              empile:       23680
+            jouecoup:       25475
+        orig_rbechec:           0
+        orig_rnechec:       17944
 Loesung beendet. 
 
 

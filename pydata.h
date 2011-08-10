@@ -203,7 +203,6 @@ typedef enum
 EXTERN  castling_flag_type castling_flag[maxply+2];
 enum { castlings_flags_no_castling = maxply+1 };
 EXTERN  boolean castling_supported;
-EXTERN  boolean testcastling;
 EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
 #define TSTCASTLINGFLAGMASK(ply_id,side,mask) TSTFLAGMASK(castling_flag[(ply_id)]>>(side)*black_castling_offset,(mask))
