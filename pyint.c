@@ -36,12 +36,34 @@
 
 typedef unsigned int index_type;
 
+#define piece_usageENUMERATORS \
+    ENUMERATOR(piece_is_unused), \
+    ENUMERATOR(piece_pins), \
+    ENUMERATOR(piece_is_fixed_to_diagram_square), \
+    ENUMERATOR(piece_intercepts), \
+    ENUMERATOR(piece_blocks), \
+    ENUMERATOR(piece_guards), \
+    ENUMERATOR(piece_gives_check), \
+    ENUMERATOR(piece_is_missing), \
+    ENUMERATOR(piece_is_king)
+
+#define ENUMERATORS piece_usageENUMERATORS
+#define ENUMERATION_TYPENAME piece_usage
+#define ENUMERATION_DECLARE
+#include "pyenum.h"
+
+#define ENUMERATORS piece_usageENUMERATORS
+#define ENUMERATION_TYPENAME piece_usage
+#define ENUMERATION_MAKESTRINGS
+#include "pyenum.h"
+
+
 typedef struct
 {
-    square  sq;
-    Flags   sp;
-    piece   p;
-    boolean used;
+    square square;
+    Flags flags;
+    piece type;
+    piece_usage usage;
 } PIECE;
 
 static goal_type goal_to_be_reached;
@@ -546,7 +568,7 @@ static boolean mate_isGoalReachable(void)
   TraceFunctionParamListEnd();
 
   if (pprise[nbply]
-           && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
+      && target_position[GetPieceId(pprispec[nbply])].square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -568,26 +590,26 @@ static boolean mate_isGoalReachable(void)
         if (from_piece!=vide && from_piece!=obs)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
-          if (target_position[id].sq!=initsquare)
+          if (target_position[id].square!=initsquare)
           {
             Side const from_side = from_piece>vide ? White : Black;
-            if (id==GetPieceId(white[index_of_piece_delivering_check].sp)
+            if (id==GetPieceId(white[index_of_piece_delivering_check].flags)
                 && MovesLeft[White]>0)
             {
               square const save_king_square = king_square[Black];
               PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-              king_square[Black] = target_position[id_king].sq;
+              king_square[Black] = target_position[id_king].square;
               MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_checking(from_piece,
                                                                                     from_square,
-                                                                                    target_position[id].p,
-                                                                                    target_position[id].sq);
+                                                                                    target_position[id].type,
+                                                                                    target_position[id].square);
               king_square[Black] = save_king_square;
             }
             else
               MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_no_check(from_piece,
                                                                                     from_square,
-                                                                                    target_position[id].p,
-                                                                                    target_position[id].sq);
+                                                                                    target_position[id].type,
+                                                                                    target_position[id].square);
           }
         }
       }
@@ -598,44 +620,44 @@ static boolean mate_isGoalReachable(void)
       MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
       MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
 
-      if (target_position[id].sq!=initsquare)
+      if (target_position[id].square!=initsquare)
       {
         unsigned int time_before;
         unsigned int time_now;
-        if (id==GetPieceId(white[index_of_piece_delivering_check].sp))
+        if (id==GetPieceId(white[index_of_piece_delivering_check].flags))
         {
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-          king_square[Black] = target_position[id_king].sq;
+          king_square[Black] = target_position[id_king].square;
           time_before = count_nr_of_moves_from_to_checking(pjoue[nbply],
                                                            move_generation_stack[nbcou].departure,
-                                                           target_position[id].p,
-                                                           target_position[id].sq);
+                                                           target_position[id].type,
+                                                           target_position[id].square);
           king_square[Black] = save_king_square;
         }
         else
           time_before = count_nr_of_moves_from_to_no_check(pjoue[nbply],
                                                            move_generation_stack[nbcou].departure,
-                                                           target_position[id].p,
-                                                           target_position[id].sq);
+                                                           target_position[id].type,
+                                                           target_position[id].square);
 
-        if (id==GetPieceId(white[index_of_piece_delivering_check].sp)
+        if (id==GetPieceId(white[index_of_piece_delivering_check].flags)
             && MovesLeft[White]>0)
         {
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-          king_square[Black] = target_position[id_king].sq;
+          king_square[Black] = target_position[id_king].square;
           time_now = count_nr_of_moves_from_to_checking(e[move_generation_stack[nbcou].arrival],
                                                         move_generation_stack[nbcou].arrival,
-                                                        target_position[id].p,
-                                                        target_position[id].sq);
+                                                        target_position[id].type,
+                                                        target_position[id].square);
           king_square[Black] = save_king_square;
         }
         else
           time_now = count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
                                                         move_generation_stack[nbcou].arrival,
-                                                        target_position[id].p,
-                                                        target_position[id].sq);
+                                                        target_position[id].type,
+                                                        target_position[id].square);
 
         assert(MovesRequired[trait[nbply]][nbply]+time_now>=time_before);
         MovesRequired[trait[nbply]][nbply] += time_now-time_before;
@@ -680,7 +702,7 @@ static boolean stalemate_isGoalReachable(void)
   TraceFunctionParamListEnd();
 
   if (pprise[nbply]
-      && target_position[GetPieceId(pprispec[nbply])].sq!=initsquare)
+      && target_position[GetPieceId(pprispec[nbply])].square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -702,13 +724,13 @@ static boolean stalemate_isGoalReachable(void)
         if (from_piece!=vide && from_piece!=obs)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
-          if (target_position[id].sq!=initsquare)
+          if (target_position[id].square!=initsquare)
           {
             Side const from_side = from_piece>vide ? White : Black;
             MovesRequired[from_side][nbply] += count_nr_of_moves_from_to_no_check(from_piece,
                                                                                   from_square,
-                                                                                  target_position[id].p,
-                                                                                  target_position[id].sq);
+                                                                                  target_position[id].type,
+                                                                                  target_position[id].square);
           }
         }
       }
@@ -719,24 +741,24 @@ static boolean stalemate_isGoalReachable(void)
       MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
       MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
 
-      if (target_position[id].sq!=initsquare)
+      if (target_position[id].square!=initsquare)
       {
         unsigned int const time_before = count_nr_of_moves_from_to_no_check(pjoue[nbply],
                                                                             move_generation_stack[nbcou].departure,
-                                                                            target_position[id].p,
-                                                                            target_position[id].sq);
+                                                                            target_position[id].type,
+                                                                            target_position[id].square);
 
         unsigned int const time_now = count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
                                                                          move_generation_stack[nbcou].arrival,
-                                                                         target_position[id].p,
-                                                                         target_position[id].sq);
+                                                                         target_position[id].type,
+                                                                         target_position[id].square);
 
         TracePiece(pjoue[nbply]);
         TraceSquare(move_generation_stack[nbcou].departure);
         TracePiece(e[move_generation_stack[nbcou].arrival]);
         TraceSquare(move_generation_stack[nbcou].arrival);
-        TracePiece(target_position[id].p);
-        TraceSquare(target_position[id].sq);
+        TracePiece(target_position[id].type);
+        TraceSquare(target_position[id].square);
         TraceValue("%u",time_before);
         TraceValue("%u\n",time_now);
 
@@ -815,31 +837,32 @@ static void mate_place_any_white_piece_on(square placed_on,
                                           unsigned int max_nr_allowed_captures_of_white_pieces,
                                           stip_length_type n);
 
-#define DETAILS
+/*#define DETAILS*/
 #if defined(DETAILS)
-static void trace_target_position(unsigned int nr_required_captures)
+static void trace_target_position(PIECE const position[MaxPieceId+1],
+                                  unsigned int nr_required_captures)
 {
   unsigned int moves_per_side[nr_sides] = { 0, 0 };
   square const *bnp;
-
-  TraceText("target position:\n");
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
     if (e[*bnp]!=vide)
     {
       Flags const sp = spec[*bnp];
       PieceIdType const id = GetPieceId(sp);
-      if (target_position[id].sq!=vide)
+      PIECE const * const target = &position[id];
+      if (target->square!=vide)
       {
         unsigned int const time = count_nr_of_moves_from_to_no_check(e[*bnp],
                                                                      *bnp,
-                                                                     target_position[id].p,
-                                                                     target_position[id].sq);
+                                                                     target->type,
+                                                                     target->square);
         moves_per_side[e[*bnp]<vide ? Black : White] += time;
         TracePiece(e[*bnp]);
         TraceSquare(*bnp);
-        TracePiece(target_position[id].p);
-        TraceSquare(target_position[id].sq);
+        TracePiece(target->type);
+        TraceSquare(target->square);
+        TraceEnumerator(piece_usage,target->usage,"");
         TraceValue("%u\n",time);
       }
     }
@@ -847,6 +870,29 @@ static void trace_target_position(unsigned int nr_required_captures)
   TraceValue("%u",nr_required_captures);
   TraceValue("%u",moves_per_side[Black]);
   TraceValue("%u\n",moves_per_side[White]);
+}
+
+static piece_usage find_piece_usage(PieceIdType id)
+{
+  piece_usage result = piece_is_unused;
+
+  unsigned int i;
+  for (i = 0; i<MaxPiece[White]; ++i)
+    if (id==GetPieceId(white[i].flags))
+    {
+      result = white[i].usage;
+      break;
+    }
+  for (i = 0; i<MaxPiece[Black]; ++i)
+    if (id==GetPieceId(black[i].flags))
+    {
+      result = black[i].usage;
+      break;
+    }
+
+  assert(result!=piece_is_unused);
+
+  return result;
 }
 #endif
 
@@ -861,21 +907,24 @@ static void stalemate_try_to_reach_target_position(stip_length_type n)
   {
     PieceIdType id;
     for (id = 0; id<=MaxPieceId; ++id)
-      target_position[id].sq = initsquare;
+      target_position[id].square = initsquare;
   }
 
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; bnp++)
     {
-      piece const p = e[*bnp];
-      if (p!=vide && p!=obs)
+      piece const type = e[*bnp];
+      if (type!=vide && type!=obs)
       {
-        Flags const sp = spec[*bnp];
-        PieceIdType const id = GetPieceId(sp);
-        target_position[id].p = p;
-        target_position[id].sp = sp;
-        target_position[id].sq = *bnp;
+        Flags const flags = spec[*bnp];
+        PieceIdType const id = GetPieceId(flags);
+        target_position[id].type = type;
+        target_position[id].flags = flags;
+        target_position[id].square = *bnp;
+#if defined(DETAILS)
+        target_position[id].usage = find_piece_usage(id);
+#endif
       }
     }
   }
@@ -889,7 +938,8 @@ static void stalemate_try_to_reach_target_position(stip_length_type n)
   ep2[1] = is_ep2;
 
 #if defined(DETAILS)
-  trace_target_position(CapturesLeft[1]);
+  TraceText("target position:\n");
+  trace_target_position(target_position,CapturesLeft[1]);
 #endif
 
   reset_nr_solutions_per_target_position();
@@ -918,10 +968,10 @@ static void stalemate_try_to_reach_target_position(stip_length_type n)
   {
     PieceIdType id;
     for (id = 0; id<=MaxPieceId; ++id)
-      if (target_position[id].sq != initsquare)
+      if (target_position[id].square != initsquare)
       {
-        e[target_position[id].sq] = target_position[id].p;
-        spec[target_position[id].sq] = target_position[id].sp;
+        e[target_position[id].square] = target_position[id].type;
+        spec[target_position[id].square] = target_position[id].flags;
       }
   }
 
@@ -959,12 +1009,11 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
 
   if (!hasMaxtimeElapsed())
   {
-    if (!white[index_of_king].used
-        /* TODO get this castling stuff right */
-        && white[index_of_king].sq!=square_e1
+    if (white[index_of_king].usage==piece_is_unused
+        && white[index_of_king].square!=square_e1
         && nr_remaining_white_moves==0)
     {
-      if (e[white[index_of_king].sq]==vide)
+      if (e[white[index_of_king].square]==vide)
         stalemate_fix_white_king_on_diagram_square(nr_remaining_black_moves,
                                                    nr_remaining_white_moves,
                                                    max_nr_allowed_captures_of_black_pieces,
@@ -978,11 +1027,11 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
       {
         unsigned int i;
         for (i = 1; i<MaxPiece[Black]; ++i)
-          if (!black[i].used)
+          if (black[i].usage==piece_is_unused)
             ++unused;
       }
 
-      TraceValue("%u\n",unused);
+      TraceValue("%u\n",piece_is_unused);
       TraceValue("%u\n",MovesLeft[White]);
       if (unused>0)
         stalemate_place_an_unused_black_piece(nr_remaining_black_moves,
@@ -1155,9 +1204,8 @@ static void mate_store_target_position(unsigned int nr_remaining_black_moves,
     return;
 
   if (king_square[White]==initsquare
-      && !white[index_of_king].used
-      /* TODO get this castling stuff right */
-      && white[index_of_king].sq!=square_e1
+      && white[index_of_king].usage==piece_is_unused
+      && white[index_of_king].square!=square_e1
       && nr_remaining_white_moves==0)
     return;
 
@@ -1182,7 +1230,7 @@ static void mate_store_target_position(unsigned int nr_remaining_black_moves,
   {
     PieceIdType id;
     for (id = 0; id<=MaxPieceId; ++id)
-      target_position[id].sq = initsquare;
+      target_position[id].square = initsquare;
   }
 
   {
@@ -1192,9 +1240,9 @@ static void mate_store_target_position(unsigned int nr_remaining_black_moves,
       {
         Flags const sp = spec[*bnp];
         PieceIdType const id = GetPieceId(sp);
-        target_position[id].p = e[*bnp];
-        target_position[id].sp = sp;
-        target_position[id].sq = *bnp;
+        target_position[id].type = e[*bnp];
+        target_position[id].flags = sp;
+        target_position[id].square = *bnp;
       }
   }
 
@@ -1209,7 +1257,8 @@ static void mate_store_target_position(unsigned int nr_remaining_black_moves,
   reset_nr_solutions_per_target_position();
 
 #if defined(DETAILS)
-  trace_target_position(0);
+  TraceText("target position:\n");
+  trace_target_position(target_position,0);
 #endif
 
   {
@@ -1234,10 +1283,10 @@ static void mate_store_target_position(unsigned int nr_remaining_black_moves,
   {
     PieceIdType id;
     for (id = 0; id<=MaxPieceId; ++id)
-      if (target_position[id].sq!=initsquare)
+      if (target_position[id].square!=initsquare)
       {
-        e[target_position[id].sq] = target_position[id].p;
-        spec[target_position[id].sq] = target_position[id].sp;
+        e[target_position[id].square] = target_position[id].type;
+        spec[target_position[id].square] = target_position[id].flags;
       }
   }
 
@@ -1359,9 +1408,9 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
                                                       boolean diagonal,
                                                       stip_length_type n)
 {
-  piece const pinner_type = white[pinner_index].p;
-  Flags const pinner_flags = white[pinner_index].sp;
-  square const pinner_comes_from = white[pinner_index].sq;
+  piece const pinner_type = white[pinner_index].type;
+  Flags const pinner_flags = white[pinner_index].flags;
+  square const pinner_comes_from = white[pinner_index].square;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_to_be_pinned);
@@ -1460,9 +1509,9 @@ static void mate_pin_black_piece(square sq_to_be_pinned,
   {
     unsigned int pinner_index;
     for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
-      if (!white[pinner_index].used)
+      if (white[pinner_index].usage==piece_is_unused)
       {
-        white[pinner_index].used = true;
+        white[pinner_index].usage = piece_pins;
 
         mate_pin_black_piece_on_1square_by_1piece(sq_to_be_pinned,
                                                   nr_remaining_black_moves,
@@ -1474,7 +1523,7 @@ static void mate_pin_black_piece(square sq_to_be_pinned,
                                                   diagonal,
                                                   n);
 
-        white[pinner_index].used = false;
+        white[pinner_index].usage = piece_is_unused;
       }
 
     e[pin_on] = vide;
@@ -1614,9 +1663,9 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
                                                              boolean diagonal,
                                                              stip_length_type n)
 {
-  piece const pinner_type = white[pinner_index].p;
-  Flags const pinner_flags = white[pinner_index].sp;
-  square const pinner_comes_from = white[pinner_index].sq;
+  piece const pinner_type = white[pinner_index].type;
+  Flags const pinner_flags = white[pinner_index].flags;
+  square const pinner_comes_from = white[pinner_index].square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
@@ -1725,9 +1774,9 @@ static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
       unsigned int pinner_index;
       for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
       {
-        if (!white[pinner_index].used)
+        if (white[pinner_index].usage==piece_is_unused)
         {
-          white[pinner_index].used = true;
+          white[pinner_index].usage = piece_pins;
 
           stalemate_immobilise_by_pin_on_1square_by_1piece(nr_remaining_black_moves,
                                                            nr_remaining_white_moves,
@@ -1739,7 +1788,7 @@ static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
                                                            diagonal,
                                                            n);
 
-          white[pinner_index].used= false;
+          white[pinner_index].usage = piece_is_unused;
         }
       }
 
@@ -1766,12 +1815,12 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!are_kings_too_close(white[index_of_king].sq))
+  if (!are_kings_too_close(white[index_of_king].square))
   {
-    white[index_of_king].used = true;
+    white[index_of_king].usage = piece_is_fixed_to_diagram_square;
 
-    king_square[White] = white[index_of_king].sq;
-    SetPiece(roib,king_square[White],white[index_of_king].sp);
+    king_square[White] = white[index_of_king].square;
+    SetPiece(roib,king_square[White],white[index_of_king].flags);
 
     if (!is_white_king_attacked_by_non_king())
     {
@@ -1800,7 +1849,7 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
     spec[king_square[White]] = EmptySpec;
     king_square[White] = initsquare;
 
-    white[index_of_king].used= false;
+    white[index_of_king].usage = piece_is_unused;
   }
 
   TraceFunctionExit(__func__);
@@ -1982,8 +2031,6 @@ static void stalemate_intercept_check_black(Side side,
                                             unsigned int nr_of_check_directions,
                                             stip_length_type n)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
@@ -1997,16 +2044,18 @@ static void stalemate_intercept_check_black(Side side,
 
   if (max_nr_allowed_captures_of_white_pieces>=1)
   {
+    unsigned int i;
+
     --max_nr_allowed_captures_of_white_pieces;
 
     for (i = 1; i<MaxPiece[Black]; ++i)
-      if (!black[i].used)
+      if (black[i].usage==piece_is_unused)
       {
-        piece const blocker_type = black[i].p;
-        Flags const blocker_flags = black[i].sp;
-        square const blocker_comes_from = black[i].sq;
+        piece const blocker_type = black[i].type;
+        Flags const blocker_flags = black[i].flags;
+        square const blocker_comes_from = black[i].square;
 
-        black[i].used = true;
+        black[i].usage = piece_intercepts;
 
         if (blocker_type==pn)
         {
@@ -2048,7 +2097,7 @@ static void stalemate_intercept_check_black(Side side,
                                                        nr_of_check_directions,
                                                        n);
 
-        black[i].used = false;
+        black[i].usage = piece_is_unused;
       }
 
     e[to_be_blocked] = vide;
@@ -2252,13 +2301,13 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
     --max_nr_allowed_captures_of_white_pieces;
 
     for (i = 1; i<MaxPiece[Black]; ++i)
-      if (!black[i].used)
+      if (black[i].usage==piece_is_unused)
       {
-        piece const blocker_type = black[i].p;
-        Flags const blocker_flags = black[i].sp;
-        square const blocker_comes_from = black[i].sq;
+        piece const blocker_type = black[i].type;
+        Flags const blocker_flags = black[i].flags;
+        square const blocker_comes_from = black[i].square;
 
-        black[i].used = true;
+        black[i].usage = piece_blocks;
 
         if (blocker_type==pn)
         {
@@ -2291,7 +2340,7 @@ static void stalemate_block_square_black(unsigned int nr_remaining_black_moves,
                                                     blocker_comes_from,
                                                     n);
 
-        black[i].used = false;
+        black[i].usage = piece_is_unused;
       }
 
     e[to_be_blocked] = vide;
@@ -2326,7 +2375,7 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
   TraceFunctionParamListEnd();
 
   {
-    square const blocks_from = white[blocker_index].sq;
+    square const blocks_from = white[blocker_index].square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
@@ -2335,7 +2384,7 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
     if (time<=nr_remaining_white_moves
         && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
     {
-      SetPiece(pb,to_be_blocked,white[blocker_index].sp);
+      SetPiece(pb,to_be_blocked,white[blocker_index].flags);
 
       if (max_nr_allowed_captures_of_white_pieces>=nr_captures_required)
         stalemate_continue_intercepting_checks(side,
@@ -2386,13 +2435,13 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].sq,
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].square,
                                                                          pp,
                                                                          to_be_blocked);
       if (time<=nr_remaining_white_moves
           && !(side==Black && guards(king_square[Black],pp,to_be_blocked)))
       {
-        SetPiece(pp,to_be_blocked,white[blocker_index].sp);
+        SetPiece(pp,to_be_blocked,white[blocker_index].flags);
         stalemate_continue_intercepting_checks(side,
                                                nr_remaining_black_moves,
                                                nr_remaining_white_moves-time,
@@ -2433,11 +2482,11 @@ static void stalemate_intercept_check_with_white_king(Side side,
   if (!are_kings_too_close(to_be_blocked))
   {
     unsigned int const time = count_nr_of_moves_from_to_king(roib,
-                                                             white[index_of_king].sq,
+                                                             white[index_of_king].square,
                                                              to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
-      SetPiece(roib,to_be_blocked,white[index_of_king].sp);
+      SetPiece(roib,to_be_blocked,white[index_of_king].flags);
       king_square[White] = to_be_blocked;
 
       if (!is_white_king_attacked_by_non_king())
@@ -2485,14 +2534,14 @@ static void stalemate_intercept_check_with_white_officer(Side side,
 
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 white[blocker_index].sq,
+                                                                 white[blocker_index].square,
                                                                  blocker_type,
                                                                  to_be_blocked);
     if (time<=nr_remaining_white_moves
         && !(side==Black
              && guards(king_square[Black],blocker_type,to_be_blocked)))
     {
-      SetPiece(blocker_type,to_be_blocked,white[blocker_index].sp);
+      SetPiece(blocker_type,to_be_blocked,white[blocker_index].flags);
       stalemate_continue_intercepting_checks(side,
                                              nr_remaining_black_moves,
                                              nr_remaining_white_moves-time,
@@ -2531,9 +2580,9 @@ static void stalemate_intercept_check_white(Side side,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!white[index_of_king].used)
+  if (white[index_of_king].usage==piece_is_unused)
   {
-    white[index_of_king].used = true;
+    white[index_of_king].usage = piece_intercepts;
     stalemate_intercept_check_with_white_king(side,
                                               nr_remaining_black_moves,
                                               nr_remaining_white_moves,
@@ -2543,7 +2592,7 @@ static void stalemate_intercept_check_white(Side side,
                                               check_directions,
                                               nr_of_check_directions,
                                               n);
-    white[index_of_king].used = false;
+    white[index_of_king].usage = piece_is_unused;
   }
 
   if (max_nr_allowed_captures_of_black_pieces>=1)
@@ -2551,11 +2600,11 @@ static void stalemate_intercept_check_white(Side side,
     --max_nr_allowed_captures_of_black_pieces;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
-      if (!white[blocker_index].used)
+      if (white[blocker_index].usage==piece_is_unused)
       {
-        piece const blocker_type = white[blocker_index].p;
+        piece const blocker_type = white[blocker_index].type;
 
-        white[blocker_index].used = true;
+        white[blocker_index].usage = piece_intercepts;
 
         if (blocker_type==pb)
         {
@@ -2592,7 +2641,7 @@ static void stalemate_intercept_check_white(Side side,
                                                        nr_of_check_directions,
                                                        n);
 
-        white[blocker_index].used = false;
+        white[blocker_index].usage = piece_is_unused;
       }
   }
 
@@ -2613,9 +2662,9 @@ static boolean can_white_pin(unsigned int nr_remaining_white_moves)
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[White]; i++)
-    if (!(white[i].used
-          || white[i].p==cb
-          || (white[i].p==pb && nr_remaining_white_moves<moves_to_prom[i])))
+    if (!(white[i].usage!=piece_is_unused
+          || white[i].type==cb
+          || (white[i].type==pb && nr_remaining_white_moves<moves_to_prom[i])))
     {
       result = true;
       break;
@@ -2638,7 +2687,7 @@ boolean can_we_block_all_necessary_squares(unsigned int const nr_blocks_needed[n
   TraceFunctionParamListEnd();
 
  for (i = 1; i<MaxPiece[Black]; ++i)
-    if (!black[i].used)
+    if (black[i].usage==piece_is_unused)
       ++nr_unused_pieces[Black];
 
   if (nr_unused_pieces[Black]<nr_blocks_needed[Black])
@@ -2646,7 +2695,7 @@ boolean can_we_block_all_necessary_squares(unsigned int const nr_blocks_needed[n
   else
   {
     for (i = 0; i<MaxPiece[White]; ++i)
-      if (!white[i].used)
+      if (white[i].usage==piece_is_unused)
         ++nr_unused_pieces[White];
 
     result = (nr_unused_pieces[White]+nr_unused_pieces[Black]
@@ -2900,7 +2949,7 @@ static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int block
 
   if (!uninterceptably_attacks_black_king(to_be_blocked,pb))
   {
-    square const blocks_from = white[blocker_index].sq;
+    square const blocks_from = white[blocker_index].square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
@@ -2909,7 +2958,7 @@ static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int block
     if (max_nr_allowed_captures_of_white_pieces>=nr_captures_required
         && time<=nr_remaining_white_moves)
     {
-      SetPiece(pb,to_be_blocked,white[blocker_index].sp);
+      SetPiece(pb,to_be_blocked,white[blocker_index].flags);
       stalemate_continue_after_blocking_square_white(nr_remaining_black_moves,
                                                      nr_remaining_white_moves-time,
                                                      max_nr_allowed_captures_of_black_pieces,
@@ -2951,12 +3000,12 @@ static void stalemate_block_square_with_promoted_white_pawn(unsigned int blocker
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!uninterceptably_attacks_black_king(to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].sq,
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].square,
                                                                            pp,
                                                                            to_be_blocked);
         if (time<=nr_remaining_white_moves)
         {
-          SetPiece(pp,to_be_blocked,white[blocker_index].sp);
+          SetPiece(pp,to_be_blocked,white[blocker_index].flags);
           stalemate_continue_after_blocking_square_white(nr_remaining_black_moves,
                                                          nr_remaining_white_moves-time,
                                                          max_nr_allowed_captures_of_black_pieces,
@@ -2989,11 +3038,11 @@ static void stalemate_block_square_with_white_king(unsigned int nr_remaining_bla
   if (!are_kings_too_close(to_be_blocked))
   {
     unsigned int const time = count_nr_of_moves_from_to_king(roib,
-                                                             white[index_of_king].sq,
+                                                             white[index_of_king].square,
                                                              to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
-      SetPiece(roib,to_be_blocked,white[index_of_king].sp);
+      SetPiece(roib,to_be_blocked,white[index_of_king].flags);
       king_square[White] = to_be_blocked;
 
       if (!is_white_king_attacked_by_non_king())
@@ -3034,12 +3083,12 @@ static void stalemate_block_square_with_white_officer(piece blocker_type,
   if (!uninterceptably_attacks_black_king(to_be_blocked,blocker_type))
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 white[blocker_index].sq,
+                                                                 white[blocker_index].square,
                                                                  blocker_type,
                                                                  to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
-      SetPiece(blocker_type,to_be_blocked,white[blocker_index].sp);
+      SetPiece(blocker_type,to_be_blocked,white[blocker_index].flags);
       stalemate_continue_after_blocking_square_white(nr_remaining_black_moves,
                                                      nr_remaining_white_moves-time,
                                                      max_nr_allowed_captures_of_black_pieces,
@@ -3070,16 +3119,16 @@ static void stalemate_block_square_white(unsigned int nr_remaining_black_moves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!white[index_of_king].used)
+  if (white[index_of_king].usage==piece_is_unused)
   {
-    white[index_of_king].used = true;
+    white[index_of_king].usage = piece_blocks;
     stalemate_block_square_with_white_king(nr_remaining_black_moves,
                                            nr_remaining_white_moves,
                                            max_nr_allowed_captures_of_black_pieces,
                                            max_nr_allowed_captures_of_white_pieces,
                                            to_be_blocked,
                                            n);
-    white[index_of_king].used = false;
+    white[index_of_king].usage = piece_is_unused;
   }
 
   if (max_nr_allowed_captures_of_black_pieces>=1)
@@ -3087,11 +3136,11 @@ static void stalemate_block_square_white(unsigned int nr_remaining_black_moves,
     --max_nr_allowed_captures_of_black_pieces;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
-      if (!white[blocker_index].used)
+      if (white[blocker_index].usage==piece_is_unused)
       {
-        piece const blocker_type = white[blocker_index].p;
+        piece const blocker_type = white[blocker_index].type;
 
-        white[blocker_index].used = true;
+        white[blocker_index].usage = piece_blocks;
 
         if (blocker_type==pb)
         {
@@ -3119,7 +3168,7 @@ static void stalemate_block_square_white(unsigned int nr_remaining_black_moves,
                                                     to_be_blocked,
                                                     n);
 
-        white[blocker_index].used = false;
+        white[blocker_index].usage = piece_is_unused;
       }
   }
 
@@ -3409,7 +3458,7 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
                                               unsigned int max_nr_allowed_captures_of_white_pieces,
                                               stip_length_type n)
 {
-  square const placed_from = black[placed_index].sq;
+  square const placed_from = black[placed_index].square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
@@ -3453,7 +3502,7 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
             && time<=nr_remaining_black_moves
             && !uninterceptably_attacks_white_king(placed_on,pp))
         {
-          SetPiece(pp,placed_on,black[placed_index].sp);
+          SetPiece(pp,placed_on,black[placed_index].flags);
           mate_store_target_position(nr_remaining_black_moves-time,
                                      nr_remaining_white_moves,
                                      max_nr_allowed_captures_of_black_pieces-diffcol,
@@ -3487,7 +3536,7 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
   TraceFunctionParamListEnd();
 
   {
-    square const placed_from = black[placed_index].sq;
+    square const placed_from = black[placed_index].square;
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                           placed_from,
                                                                           placed_on);
@@ -3495,7 +3544,7 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
         && !uninterceptably_attacks_white_king(placed_on,pn))
     {
       unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-      SetPiece(pn,placed_on,black[placed_index].sp);
+      SetPiece(pn,placed_on,black[placed_index].flags);
       if (diffcol<=max_nr_allowed_captures_of_black_pieces)
         mate_store_target_position(nr_remaining_black_moves-time,
                                    nr_remaining_white_moves,
@@ -3529,7 +3578,7 @@ static void mate_place_black_officer_on(unsigned int placed_index,
   TraceFunctionParamListEnd();
 
   {
-    square const placed_from = black[placed_index].sq;
+    square const placed_from = black[placed_index].square;
     unsigned int const time = count_nr_of_moves_from_to_no_check(placed_type,
                                                                  placed_from,
                                                                  placed_type,
@@ -3537,7 +3586,7 @@ static void mate_place_black_officer_on(unsigned int placed_index,
     if (time<=nr_remaining_black_moves
         && !uninterceptably_attacks_white_king(placed_on,placed_type))
     {
-      SetPiece(placed_type,placed_on,black[placed_index].sp);
+      SetPiece(placed_type,placed_on,black[placed_index].flags);
       mate_store_target_position(nr_remaining_black_moves-time,
                                  nr_remaining_white_moves,
                                  max_nr_allowed_captures_of_black_pieces,
@@ -3569,12 +3618,11 @@ static void mate_place_any_black_piece_on(square placed_on,
   TraceFunctionParamListEnd();
 
   for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
-  {
-    if (!black[placed_index].used)
+    if (black[placed_index].usage==piece_is_unused)
     {
-      piece const placed_type = black[placed_index].p;
+      piece const placed_type = black[placed_index].type;
 
-      black[placed_index].used= true;
+      black[placed_index].usage = piece_intercepts;
 
       if (placed_type==pn)
       {
@@ -3600,9 +3648,8 @@ static void mate_place_any_black_piece_on(square placed_on,
                                     max_nr_allowed_captures_of_white_pieces,
                                     n);
 
-      black[placed_index].used = false;
+      black[placed_index].usage = piece_is_unused;
     }
-  }
 
   e[placed_on] = vide;
   spec[placed_on] = EmptySpec;
@@ -3619,7 +3666,7 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
                                                 unsigned int max_nr_allowed_captures_of_white_pieces,
                                                 stip_length_type n)
 {
-  square const placed_from = white[placed_index].sq;
+  square const placed_from = white[placed_index].square;
   unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
 
   TraceFunctionEntry(__func__);
@@ -3641,7 +3688,7 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
                                                                           placed_on);
     if (time<=nr_remaining_white_moves)
     {
-      SetPiece(pb,placed_on,white[placed_index].sp);
+      SetPiece(pb,placed_on,white[placed_index].flags);
       mate_store_target_position(nr_remaining_black_moves,
                                  nr_remaining_white_moves-time,
                                  max_nr_allowed_captures_of_black_pieces,
@@ -3681,7 +3728,7 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
 
     if (time<=nr_remaining_white_moves)
     {
-      square const placed_from = white[placed_index].sq;
+      square const placed_from = white[placed_index].square;
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         if (!(is_initial_check_uninterceptable
@@ -3702,7 +3749,7 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
           if (diffcol<=max_nr_allowed_captures_of_white_pieces
               && time<=nr_remaining_white_moves)
           {
-            SetPiece(pp,placed_on,white[placed_index].sp);
+            SetPiece(pp,placed_on,white[placed_index].flags);
             mate_store_target_position(nr_remaining_black_moves,
                                        nr_remaining_white_moves-time,
                                        max_nr_allowed_captures_of_black_pieces,
@@ -3739,14 +3786,14 @@ static void mate_place_white_officer_on(unsigned int placed_index,
   if (!(is_initial_check_uninterceptable
         && uninterceptably_attacks_black_king(placed_on,placed_type)))
   {
-    square const placed_from = white[placed_index].sq;
+    square const placed_from = white[placed_index].square;
     unsigned int const time= count_nr_of_moves_from_to_no_check(placed_type,
                                                                 placed_from,
                                                                 placed_type,
                                                                 placed_on);
     if (time<=nr_remaining_white_moves)
     {
-      Flags const placed_flags = white[placed_index].sp;
+      Flags const placed_flags = white[placed_index].flags;
       SetPiece(placed_type,placed_on,placed_flags);
       mate_store_target_position(nr_remaining_black_moves,
                                  nr_remaining_white_moves-time,
@@ -3779,11 +3826,11 @@ static void mate_place_any_white_piece_on(square placed_on,
   TraceFunctionParamListEnd();
 
   for (placed_index = 1; placed_index<MaxPiece[White]; ++placed_index)
-    if (!white[placed_index].used)
+    if (white[placed_index].usage==piece_is_unused)
     {
-      piece const placed_type = white[placed_index].p;
+      piece const placed_type = white[placed_index].type;
 
-      white[placed_index].used = true;
+      white[placed_index].usage = piece_intercepts;
 
       if (placed_type==pb)
       {
@@ -3809,7 +3856,7 @@ static void mate_place_any_white_piece_on(square placed_on,
                                     max_nr_allowed_captures_of_white_pieces,
                                     n);
 
-      white[placed_index].used = false;
+      white[placed_index].usage = piece_is_unused;
     }
 
   e[placed_on]= vide;
@@ -3941,8 +3988,8 @@ static unsigned int count_nr_black_moves_to_square(square to_be_blocked,
 
   for (i = 1; i<MaxPiece[Black]; ++i)
   {
-    piece const blocker_type = black[i].p;
-    square const blocker_comes_from = black[i].sq;
+    piece const blocker_type = black[i].type;
+    square const blocker_comes_from = black[i].square;
 
     if (blocker_type==pn)
     {
@@ -3994,7 +4041,7 @@ static void finalise_blocking(unsigned int nr_remaining_white_moves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(!white[index_of_king].used || !is_white_king_attacked_by_non_king());
+  assert(white[index_of_king].usage==piece_is_unused || !is_white_king_attacked_by_non_king());
 
   if (goal_to_be_reached==goal_stale)
   {
@@ -4236,13 +4283,13 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
   for (index_of_current_blocker = 1;
        index_of_current_blocker<MaxPiece[Black];
        index_of_current_blocker++)
-    if (!black[index_of_current_blocker].used)
+    if (black[index_of_current_blocker].usage==piece_is_unused)
     {
-      piece const blocker_type = black[index_of_current_blocker].p;
-      square const blocks_from = black[index_of_current_blocker].sq;
-      Flags const blocker_flags = black[index_of_current_blocker].sp;
+      piece const blocker_type = black[index_of_current_blocker].type;
+      square const blocks_from = black[index_of_current_blocker].square;
+      Flags const blocker_flags = black[index_of_current_blocker].flags;
 
-      black[index_of_current_blocker].used = true;
+      black[index_of_current_blocker].usage = piece_blocks;
 
       if (blocker_type==pn)
       {
@@ -4270,7 +4317,7 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
                                  max_nr_allowed_captures_of_white_pieces,
                                  timetowaste,n);
 
-      black[index_of_current_blocker].used = false;
+      black[index_of_current_blocker].usage = piece_is_unused;
     }
 
   e[to_be_blocked] = vide;
@@ -4365,7 +4412,7 @@ static int count_max_nr_allowed_black_pawn_captures(void)
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[White]; ++i)
-    if (!white[i].used)
+    if (white[i].usage==piece_is_unused)
       ++result;
 
 
@@ -4403,7 +4450,7 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
                                              unsigned int min_nr_white_captures,
                                              stip_length_type n)
 {
-  square const king_diagram_square = white[index_of_king].sq;
+  square const king_diagram_square = white[index_of_king].square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_white_moves);
@@ -4429,15 +4476,15 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
         unsigned int const max_nr_allowed_captures_of_black_pieces = count_max_nr_allowed_black_pawn_captures();
 
         king_square[White] = king_diagram_square;
-        SetPiece(roib,king_square[White],white[index_of_king].sp);
-        white[index_of_king].used = true;
+        SetPiece(roib,king_square[White],white[index_of_king].flags);
+        white[index_of_king].usage = piece_is_fixed_to_diagram_square;
         block_flights(nr_remaining_white_moves,
                       nr_flights,toblock,mintime,
                       max_nr_allowed_captures_of_black_pieces,
                       MaxPiece[Black]-1-min_nr_white_captures,
                       nr_remaining_black_moves-mtba,
                       n);
-        white[index_of_king].used = false;
+        white[index_of_king].usage = piece_is_unused;
         e[king_square[White]] = vide;
         spec[king_square[White]] = EmptySpec;
         king_square[White] = initsquare;
@@ -4461,8 +4508,8 @@ static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!white[index_of_king].used
-      && white[index_of_king].sq!=square_e1
+  if (white[index_of_king].usage==piece_is_unused
+      && white[index_of_king].square!=square_e1
       && nr_remaining_white_moves==0)
     fix_white_king_on_diagram_square(nr_remaining_white_moves,
                                      nr_remaining_black_moves,
@@ -4509,8 +4556,8 @@ static void guard_flight_unpromoted_pawn(unsigned int index,
                                          unsigned int min_nr_white_captures,
                                          stip_length_type n)
 {
-  Flags const pawn_flags = white[index].sp;
-  square const guard_from = white[index].sq;
+  Flags const pawn_flags = white[index].flags;
+  square const guard_from = white[index].square;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4559,8 +4606,8 @@ static void guard_flight_promoted_pawn(unsigned int index,
                                        unsigned int min_nr_white_captures,
                                        stip_length_type n)
 {
-  Flags const pawn_flags = white[index].sp;
-  square const guard_from = white[index].sq;
+  Flags const pawn_flags = white[index].flags;
+  square const guard_from = white[index].square;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4620,8 +4667,8 @@ static void guard_flight_officer(unsigned int index,
                                  unsigned int min_nr_white_captures,
                                  stip_length_type n)
 {
-  Flags const guard_flags = white[index].sp;
-  square const guard_from = white[index].sq;
+  Flags const guard_flags = white[index].flags;
+  square const guard_from = white[index].square;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4691,8 +4738,8 @@ static void guard_flights_non_king(unsigned int index_of_first_guarding_piece,
          ++index_of_current_guarding_piece)
       if (index_of_current_guarding_piece!=index_of_piece_delivering_check)
       {
-        piece const guard_type = white[index_of_current_guarding_piece].p;
-        white[index_of_current_guarding_piece].used = true;
+        piece const guard_type = white[index_of_current_guarding_piece].type;
+        white[index_of_current_guarding_piece].usage = piece_guards;
 
         if (guard_type==pb)
         {
@@ -4712,7 +4759,7 @@ static void guard_flights_non_king(unsigned int index_of_first_guarding_piece,
                                nr_remaining_black_moves,
                                min_nr_white_captures,n);
 
-        white[index_of_current_guarding_piece].used = false;
+        white[index_of_current_guarding_piece].usage = piece_is_unused;
       }
 
     if (goal_to_be_reached==goal_stale || echecc(nbply,Black))
@@ -4742,12 +4789,12 @@ static void guard_flights_king(unsigned int nr_remaining_white_moves,
       && min_nr_white_captures<=MaxPiece[Black]-1
       && !hasMaxtimeElapsed())
   {
-    if (!white[index_of_king].used)
+    if (white[index_of_king].usage==piece_is_unused)
     {
-      square const guard_from = white[index_of_king].sq;
+      square const guard_from = white[index_of_king].square;
       square const *bnp;
 
-      white[index_of_king].used = true;
+      white[index_of_king].usage = piece_guards;
 
       /* try using white king for guarding from every square */
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
@@ -4760,7 +4807,7 @@ static void guard_flights_king(unsigned int nr_remaining_white_moves,
           if (time<=nr_remaining_white_moves && guards_black_flight(roib,*bnp))
           {
             king_square[White]= *bnp;
-            SetPiece(roib,*bnp,white[index_of_king].sp);
+            SetPiece(roib,*bnp,white[index_of_king].flags);
             guard_flights_non_king(1,
                                    nr_remaining_white_moves-time,
                                    nr_remaining_black_moves,
@@ -4772,7 +4819,7 @@ static void guard_flights_king(unsigned int nr_remaining_white_moves,
         }
 
       king_square[White] = initsquare;
-      white[index_of_king].used = false;
+      white[index_of_king].usage = piece_is_unused;
     }
 
     /* try not using white king for guarding */
@@ -4791,7 +4838,7 @@ static void mate_generate_checking_move_by_promoted_pawn(unsigned int nr_remaini
                                                          unsigned int nr_remaining_black_moves,
                                                          stip_length_type n)
 {
-  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  Flags const checker_flags = white[index_of_piece_delivering_check].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4814,7 +4861,7 @@ static void mate_generate_checking_move_by_promoted_pawn(unsigned int nr_remaini
       if (nr_remaining_white_moves>=min_nr_moves_by_p)
       {
         piece pp;
-        square const pawn_origin = white[index_of_piece_delivering_check].sq;
+        square const pawn_origin = white[index_of_piece_delivering_check].square;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         {
           unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
@@ -4847,7 +4894,7 @@ static void mate_generate_checking_move_by_unpromoted_pawn(unsigned int nr_remai
                                                            unsigned int nr_remaining_black_moves,
                                                            stip_length_type n)
 {
-  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  Flags const checker_flags = white[index_of_piece_delivering_check].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4863,7 +4910,7 @@ static void mate_generate_checking_move_by_unpromoted_pawn(unsigned int nr_remai
     TraceText("\n");
     if (e[*bnp]==vide)
     {
-      square const pawn_origin = white[index_of_piece_delivering_check].sq;
+      square const pawn_origin = white[index_of_piece_delivering_check].square;
       unsigned int const time = count_nr_of_moves_from_to_checking(pb,
                                                                    pawn_origin,
                                                                    pb,
@@ -4894,7 +4941,7 @@ static void mate_generate_checking_move_by_officer(piece checker_type,
                                                    unsigned int nr_remaining_black_moves,
                                                    stip_length_type n)
 {
-  Flags const checker_flags = white[index_of_piece_delivering_check].sp;
+  Flags const checker_flags = white[index_of_piece_delivering_check].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -4911,7 +4958,7 @@ static void mate_generate_checking_move_by_officer(piece checker_type,
     TraceText("\n");
     if (e[*bnp]==vide)
     {
-      square const checker_origin = white[index_of_piece_delivering_check].sq;
+      square const checker_origin = white[index_of_piece_delivering_check].square;
       unsigned int const time = count_nr_of_moves_from_to_checking(checker_type,
                                                                    checker_origin,
                                                                    checker_type,
@@ -4951,14 +4998,14 @@ static void mate_generate_checking_move(unsigned int nr_remaining_white_moves,
        index_of_piece_delivering_check<MaxPiece[White];
        ++index_of_piece_delivering_check)
   {
-    piece const checker_type = white[index_of_piece_delivering_check].p;
+    piece const checker_type = white[index_of_piece_delivering_check].type;
 
     TraceValue("%u",index_of_piece_delivering_check);
-    TraceSquare(white[index_of_piece_delivering_check].sq);
+    TraceSquare(white[index_of_piece_delivering_check].square);
     TracePiece(checker_type);
     TraceText("\n");
 
-    white[index_of_piece_delivering_check].used = true;
+    white[index_of_piece_delivering_check].usage = piece_gives_check;
 
     if (checker_type==pb)
     {
@@ -4975,7 +5022,7 @@ static void mate_generate_checking_move(unsigned int nr_remaining_white_moves,
                                              nr_remaining_black_moves,
                                              n);
 
-    white[index_of_piece_delivering_check].used = false;
+    white[index_of_piece_delivering_check].usage = piece_is_unused;
   }
 
   TraceFunctionExit(__func__);
@@ -4984,7 +5031,7 @@ static void mate_generate_checking_move(unsigned int nr_remaining_white_moves,
 
 static void GenerateBlackKing(stip_length_type n)
 {
-  Flags const king_flags = black[index_of_king].sp;
+  Flags const king_flags = black[index_of_king].flags;
   unsigned int const nr_remaining_white_moves = MovesLeft[White];
   unsigned int const nr_remaining_black_moves = MovesLeft[Black];
   square const *bnp;
@@ -4993,7 +5040,7 @@ static void GenerateBlackKing(stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(black[index_of_king].p==roin);
+  assert(black[index_of_king].type==roin);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {
@@ -5001,12 +5048,13 @@ static void GenerateBlackKing(stip_length_type n)
     if (e[*bnp]!=obs)
     {
       unsigned int const time = count_nr_of_moves_from_to_king(roin,
-                                                               black[index_of_king].sq,
+                                                               black[index_of_king].square,
                                                                *bnp);
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(roin,*bnp,king_flags);
         king_square[Black] = *bnp;
+        black[index_of_king].usage = piece_is_king;
         if (goal_to_be_reached==goal_mate)
           mate_generate_checking_move(nr_remaining_white_moves,
                                       nr_remaining_black_moves-time,
@@ -5103,20 +5151,20 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   MaxPiece[Black] = 0;
   MaxPiece[White] = 0;
 
-  black[index_of_king].p= e[king_square[Black]];
-  black[index_of_king].sp= spec[king_square[Black]];
-  black[index_of_king].sq= king_square[Black];
+  black[index_of_king].type= e[king_square[Black]];
+  black[index_of_king].flags= spec[king_square[Black]];
+  black[index_of_king].square= king_square[Black];
   ++MaxPiece[Black];
 
   if (king_square[White]==initsquare)
-    white[index_of_king].used = true;
+    white[index_of_king].usage = piece_is_missing;
   else
   {
-    white[index_of_king].used = false;
-    white[index_of_king].p = e[king_square[White]];
-    white[index_of_king].sp = spec[king_square[White]];
-    white[index_of_king].sq = king_square[White];
-    assert(white[index_of_king].p==roib);
+    white[index_of_king].usage = piece_is_unused;
+    white[index_of_king].type = e[king_square[White]];
+    white[index_of_king].flags = spec[king_square[White]];
+    white[index_of_king].square = king_square[White];
+    assert(white[index_of_king].type==roib);
   }
 
   ++MaxPiece[White];
@@ -5124,10 +5172,10 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
     if (king_square[White]!=*bnp && e[*bnp]>obs)
     {
-      white[MaxPiece[White]].p = e[*bnp];
-      white[MaxPiece[White]].sp = spec[*bnp];
-      white[MaxPiece[White]].sq = *bnp;
-      white[MaxPiece[White]].used = false;
+      white[MaxPiece[White]].type = e[*bnp];
+      white[MaxPiece[White]].flags = spec[*bnp];
+      white[MaxPiece[White]].square = *bnp;
+      white[MaxPiece[White]].usage = piece_is_unused;
       if (e[*bnp]==pb)
         moves_to_prom[MaxPiece[White]] = count_moves_to_white_promotion(*bnp);
       ++MaxPiece[White];
@@ -5136,10 +5184,10 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (king_square[Black]!=*bnp && e[*bnp]<vide)
     {
-      black[MaxPiece[Black]].p = e[*bnp];
-      black[MaxPiece[Black]].sp = spec[*bnp];
-      black[MaxPiece[Black]].sq = *bnp;
-      black[MaxPiece[Black]].used = false;
+      black[MaxPiece[Black]].type = e[*bnp];
+      black[MaxPiece[Black]].flags = spec[*bnp];
+      black[MaxPiece[Black]].square = *bnp;
+      black[MaxPiece[Black]].usage = piece_is_unused;
       ++MaxPiece[Black];
     }
 
