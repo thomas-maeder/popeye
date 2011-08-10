@@ -232,12 +232,155 @@ static boolean guards_black_flight(piece as_piece, square from)
   return result;
 }
 
-static unsigned int count_nr_of_moves_king(square from, square to)
+static unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
+                                                       square from_square,
+                                                       piece to_piece,
+                                                       square to_square);
+
+static unsigned int count_nr_of_moves_from_to_pawn_promotion(square from_square,
+                                                             piece to_piece,
+                                                             square to_square)
+{
+  unsigned int result = maxply+1;
+  square const start = to_piece<vide ? square_a1 : square_a8;
+  piece const pawn = to_piece<vide ? pn : pb;
+  square v_sq;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TracePiece(to_piece);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  for (v_sq = start; v_sq<start+nr_files_on_board; ++v_sq)
+  {
+    unsigned int const curmoves = (count_nr_of_moves_from_to_no_check(pawn,from_square,
+                                                                      pawn,v_sq)
+                                   + count_nr_of_moves_from_to_no_check(to_piece,v_sq,
+                                                                        to_piece,to_square));
+    if (curmoves<result)
+      result = curmoves;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int count_nr_of_moves_from_to_pawn_no_promotion(piece pawn,
+                                                                square from_square,
+                                                                square to_square)
+{
+  unsigned int result;
+  int const diffcol = abs(from_square%onerow - to_square%onerow);
+  int const diffrow = from_square/onerow - to_square/onerow;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  if (pawn<vide)
+  {
+    /* black pawn */
+    if (diffrow<diffcol)
+      /* if diffrow<=0 then this test is true, since diffcol is always
+       * non-negative
+       */
+      result = maxply+1;
+
+    else if (from_square>=square_a7 && diffrow-2 >= diffcol)
+      /* double step */
+      result = diffrow-1;
+
+    else
+      result = diffrow;
+  }
+  else
+  {
+    /* white pawn */
+    if (-diffrow<diffcol)
+      result = maxply+1;
+
+    else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
+      /* double step */
+      result = -diffrow-1;
+
+    else
+      result = -diffrow;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int count_nr_of_moves_from_to_king_no_castling(square from, square to)
 {
   unsigned int const diffcol = abs(from%onerow - to%onerow);
   unsigned int const diffrow = abs(from/onerow - to/onerow);
 
   return diffcol>diffrow ? diffcol : diffrow;
+}
+
+static unsigned int count_nr_of_moves_from_to_king(piece piece,
+                                                   square from_square,
+                                                   square to_square)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  result = count_nr_of_moves_from_to_king_no_castling(from_square,to_square);
+
+  if (testcastling)
+  {
+    if (piece==roib)
+    {
+      if (from_square==square_e1)
+      {
+        if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
+        {
+          unsigned int const withcast = count_nr_of_moves_from_to_king_no_castling(square_c1,to_square);
+          if (withcast<result)
+            result = withcast;
+        }
+        if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+        {
+          unsigned int const withcast = count_nr_of_moves_from_to_king_no_castling(square_g1,to_square);
+          if (withcast<result)
+            result = withcast;
+        }
+      }
+    }
+    else {
+      if (from_square==square_e8)
+      {
+        if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling]))
+        {
+          unsigned int const withcast = count_nr_of_moves_from_to_king_no_castling(square_c8,to_square);
+          if (withcast<result)
+            result = withcast;
+        }
+        if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+        {
+          unsigned int const withcast = count_nr_of_moves_from_to_king_no_castling(square_g8,to_square);
+          if (withcast<result)
+            result = withcast;
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
@@ -283,111 +426,19 @@ static unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
         break;
 
       case King:
-      {
-        unsigned int minmoves = count_nr_of_moves_king(from_square,to_square);
-        /* castling */
-        if (testcastling)
-        {
-          if (from_piece == roib)
-          {
-            /* white king */
-            if (from_square == square_e1)
-            {
-              if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
-              {
-                unsigned int const withcast = count_nr_of_moves_king(square_c1,to_square);
-                if (withcast<minmoves)
-                  minmoves = withcast;
-              }
-              if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
-              {
-                unsigned int const withcast = count_nr_of_moves_king(square_g1,to_square);
-                if (withcast<minmoves)
-                  minmoves = withcast;
-              }
-            }
-          }
-          else {
-            /* black king */
-            if (from_square == square_e8)
-            {
-              if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling]))
-              {
-                unsigned int const withcast = count_nr_of_moves_king(square_c8,to_square);
-                if (withcast<minmoves)
-                  minmoves = withcast;
-              }
-              if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling]))
-              {
-                unsigned int const withcast = count_nr_of_moves_king(square_g8,to_square);
-                if (withcast<minmoves)
-                  minmoves = withcast;
-              }
-            }
-          }
-        }
-
-        result = minmoves;
+        result = count_nr_of_moves_from_to_king(from_piece,from_square,
+                                                to_square);
         break;
-      }
 
       case Pawn:
-      {
         if (from_piece==to_piece)
-        {
-          int const diffcol = abs(from_square % onerow - to_square % onerow);
-          int const diffrow = from_square / onerow - to_square / onerow;
-          if (from_piece<vide)
-          {
-            /* black pawn */
-            if (diffrow<diffcol)
-              /* if diffrow<=0 then this test is true, since diffcol is always
-               * non-negative
-               */
-              result = maxply+1;
-
-            else if (from_square>=square_a7 && diffrow-2 >= diffcol)
-              /* double step */
-              result = diffrow-1;
-
-            else
-              result = diffrow;
-          }
-          else
-          {
-            /* white pawn */
-            if (-diffrow<diffcol)
-              result = maxply+1;
-
-            else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
-              /* double step */
-              result = -diffrow-1;
-
-            else
-              result = -diffrow;
-          }
-        }
+          result = count_nr_of_moves_from_to_pawn_no_promotion(from_piece,
+                                                               from_square,
+                                                               to_square);
         else
-        {
-          /* promotion */
-          unsigned int minmoves = maxply+1;
-          square const start = from_piece<vide ? square_a1 : square_a8;
-
-          square v_sq;
-          for (v_sq = start; v_sq<start+nr_files_on_board; ++v_sq)
-          {
-            unsigned int const curmoves = (count_nr_of_moves_from_to_no_check(from_piece,from_square,
-                                                                              from_piece,v_sq)
-                                           + count_nr_of_moves_from_to_no_check(to_piece,v_sq,
-                                                                                to_piece,to_square));
-            if (curmoves<minmoves)
-              minmoves = curmoves;
-          }
-
-          result = minmoves;
-        }
+          result = count_nr_of_moves_from_to_pawn_promotion(from_square,
+                                                            to_piece,to_square);
         break;
-      }
 
       default:
         assert(0);
@@ -677,7 +728,7 @@ static void stalemate_continue_intercepting_checks(Side side,
                                        int const check_directions[8],
                                        unsigned int nr_of_check_directions,
                                        stip_length_type n);
-static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked,
+static unsigned int count_nr_black_moves_to_square(square to_be_blocked,
                                                          unsigned int nr_remaining_black_moves);
 static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining_black_moves,
                                                        unsigned int nr_remaining_white_moves,
@@ -1785,10 +1836,9 @@ static void stalemate_intercept_check_with_promoted_black_pawn(Side side,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                   blocker_comes_from,
-                                                                   pp,
-                                                                   to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
+                                                                         pp,
+                                                                         to_be_blocked);
       if (time<=nr_remaining_black_moves
           && !(side==White && guards(king_square[White],pp,to_be_blocked)))
       {
@@ -1836,10 +1886,9 @@ static void stalemate_intercept_check_with_unpromoted_black_pawn(Side side,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                 blocker_comes_from,
-                                                                 pn,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                          blocker_comes_from,
+                                                                          to_be_blocked);
     if (time<=nr_remaining_black_moves
         && nr_required_captures<=max_nr_allowed_captures_of_black_pieces
         && !(side==White && guards(king_square[White],pn,to_be_blocked)))
@@ -2064,10 +2113,9 @@ static void stalemate_block_square_with_promoted_black_pawn(unsigned int nr_rema
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                   blocker_comes_from,
-                                                                   pp,
-                                                                   to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
+                                                                         pp,
+                                                                         to_be_blocked);
       if (time<=nr_remaining_black_moves
           && !uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
@@ -2107,10 +2155,9 @@ static void stalemate_block_square_with_unpromoted_black_pawn(unsigned int nr_re
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                 blocker_comes_from,
-                                                                 pn,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                          blocker_comes_from,
+                                                                          to_be_blocked);
     if (time<=nr_remaining_black_moves
         && nr_required_captures<=max_nr_allowed_captures_of_black_pieces
         && !uninterceptably_attacks_white_king(to_be_blocked,pn))
@@ -2270,10 +2317,9 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
     square const blocks_from = white[blocker_index].sq;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                 blocks_from,
-                                                                 pb,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                          blocks_from,
+                                                                          to_be_blocked);
     if (time<=nr_remaining_white_moves
         && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
     {
@@ -2328,10 +2374,9 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                   white[blocker_index].sq,
-                                                                   pp,
-                                                                   to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].sq,
+                                                                         pp,
+                                                                         to_be_blocked);
       if (time<=nr_remaining_white_moves
           && !(side==Black && guards(king_square[Black],pp,to_be_blocked)))
       {
@@ -2375,10 +2420,9 @@ static void stalemate_intercept_check_with_white_king(Side side,
 
   if (!are_kings_too_close(to_be_blocked))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
-                                                                 white[index_of_king].sq,
-                                                                 roib,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_king(roib,
+                                                             white[index_of_king].sq,
+                                                             to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(roib,to_be_blocked,white[index_of_king].sp);
@@ -2629,7 +2673,7 @@ static square find_most_expensive_square_to_be_blocked_by_black(unsigned int nr_
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (block_requirement[*bnp]==black_block_needed_on_square)
     {
-      int const nr_black_blocking_moves = count_nr_black_moves_to_block_square(*bnp,nr_remaining_black_moves);
+      int const nr_black_blocking_moves = count_nr_black_moves_to_square(*bnp,nr_remaining_black_moves);
       total_number_black_moves_to_squares_to_be_blocked += nr_black_blocking_moves;
       if (total_number_black_moves_to_squares_to_be_blocked>nr_remaining_black_moves)
       {
@@ -2846,10 +2890,9 @@ static void stalemate_block_square_with_unpromoted_white_pawn(unsigned int block
     square const blocks_from = white[blocker_index].sq;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                 blocks_from,
-                                                                 pb,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                          blocks_from,
+                                                                          to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pb,to_be_blocked,white[blocker_index].sp);
@@ -2896,10 +2939,9 @@ static void stalemate_block_square_with_promoted_white_pawn(unsigned int blocker
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                   white[blocker_index].sq,
-                                                                   pp,
-                                                                   to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].sq,
+                                                                         pp,
+                                                                         to_be_blocked);
       if (time<=nr_remaining_white_moves)
       {
         SetPiece(pp,to_be_blocked,white[blocker_index].sp);
@@ -2935,10 +2977,9 @@ static void stalemate_block_square_with_white_king(unsigned int nr_remaining_bla
 
   if (!are_kings_too_close(to_be_blocked))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
-                                                                 white[index_of_king].sq,
-                                                                 roib,
-                                                                 to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_king(roib,
+                                                             white[index_of_king].sq,
+                                                             to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(roib,to_be_blocked,white[index_of_king].sp);
@@ -3385,10 +3426,9 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       {
-        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                     placed_from,
-                                                                     pp,
-                                                                     placed_on);
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(placed_from,
+                                                                           pp,
+                                                                           placed_on);
         unsigned int diffcol = 0;
         if (pp==fn)
         {
@@ -3437,10 +3477,9 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
 
   {
     square const placed_from = black[placed_index].sq;
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                 placed_from,
-                                                                 pn,
-                                                                 placed_on);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                          placed_from,
+                                                                          placed_on);
     if (time<=nr_remaining_black_moves
         && !uninterceptably_attacks_white_king(placed_on,pn))
     {
@@ -3581,10 +3620,9 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
 
   {
     square const placed_from = white[placed_index].sq;
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                 placed_from,
-                                                                 pb,
-                                                                 placed_on);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                          placed_from,
+                                                                          placed_on);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pb,placed_on,white[placed_index].sp);
@@ -3636,10 +3674,9 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       {
-        unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                     placed_from,
-                                                                     pp,
-                                                                     placed_on);
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(placed_from,
+                                                                           pp,
+                                                                           placed_on);
         unsigned int diffcol;
         if (pp==fb && SquareCol(placed_on)==SquareCol(placed_from%onerow))
           diffcol= 1;
@@ -3835,9 +3872,9 @@ static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_move
   TraceFunctionResultEnd();
 }
 
-static unsigned int count_nr_black_moves_to_block_square_with_promoted_pawn(square pawn_comes_from,
-                                                                            square to_be_blocked,
-                                                                            unsigned int nr_remaining_black_moves)
+static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square pawn_comes_from,
+                                                                      square to_be_blocked,
+                                                                      unsigned int nr_remaining_black_moves)
 {
   unsigned int result = maxply+1;
 
@@ -3863,10 +3900,9 @@ static unsigned int count_nr_black_moves_to_block_square_with_promoted_pawn(squa
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       {
-        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                     pawn_comes_from,
-                                                                     pp,
-                                                                     to_be_blocked);
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(pawn_comes_from,
+                                                                           pp,
+                                                                           to_be_blocked);
         if (time<result)
           result = time;
       }
@@ -3879,8 +3915,8 @@ static unsigned int count_nr_black_moves_to_block_square_with_promoted_pawn(squa
   return result;
 }
 
-static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked,
-                                                         unsigned int nr_remaining_black_moves)
+static unsigned int count_nr_black_moves_to_square(square to_be_blocked,
+                                                   unsigned int nr_remaining_black_moves)
 {
   unsigned int result = maxply+1;
   unsigned int i;
@@ -3899,18 +3935,17 @@ static unsigned int count_nr_black_moves_to_block_square(square to_be_blocked,
     {
       if (to_be_blocked>=square_a2)
       {
-        unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                     blocker_comes_from,
-                                                                     pn,
-                                                                     to_be_blocked);
+        unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                              blocker_comes_from,
+                                                                              to_be_blocked);
         if (time<result)
           result = time;
       }
 
       {
-        unsigned int const time_prom = count_nr_black_moves_to_block_square_with_promoted_pawn(blocker_comes_from,
-                                                                                               to_be_blocked,
-                                                                                               nr_remaining_black_moves);
+        unsigned int const time_prom = count_nr_black_moves_to_square_with_promoted_pawn(blocker_comes_from,
+                                                                                         to_be_blocked,
+                                                                                         nr_remaining_black_moves);
         if (time_prom<result)
           result = time_prom;
       }
@@ -4064,7 +4099,9 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pn,blocks_from,pn,to_be_blocked);
+    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                          blocks_from,
+                                                                          to_be_blocked);
     TraceValue("%u\n",mintime[current_flight]);
     if (time>=mintime[current_flight])
     {
@@ -4129,10 +4166,9 @@ static void block_one_flight_with_prom(square to_be_blocked,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pn,
-                                                                   blocks_from,
-                                                                   pp,
-                                                                   to_be_blocked);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocks_from,
+                                                                         pp,
+                                                                         to_be_blocked);
       TraceValue("%u\n",mintime[current_flight]);
       if (time>=mintime[current_flight])
       {
@@ -4339,7 +4375,7 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_remainin
 
   for (i = 0; i<nr_flights && result<=nr_remaining_black_moves; ++i)
   {
-    mintime[i] = count_nr_black_moves_to_block_square(toblock[i],nr_remaining_black_moves);
+    mintime[i] = count_nr_black_moves_to_square(toblock[i],nr_remaining_black_moves);
     result += mintime[i];
   }
 
@@ -4477,10 +4513,9 @@ static void guard_flight_unpromoted_pawn(unsigned int index,
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide)
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                   guard_from,
-                                                                   pb,
-                                                                   *bnp);
+      unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                            guard_from,
+                                                                            *bnp);
       if (time<=nr_remaining_white_moves
           && guards_black_flight(pb,*bnp)
           && !(index<index_of_piece_delivering_check
@@ -4538,10 +4573,9 @@ static void guard_flight_promoted_pawn(unsigned int index,
         piece pp;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         {
-          unsigned int const time = count_nr_of_moves_from_to_no_check(pb,
-                                                                       guard_from,
-                                                                       pp,
-                                                                       *bnp);
+          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(guard_from,
+                                                                             pp,
+                                                                             *bnp);
           if (time<=nr_remaining_white_moves
               && guards_black_flight(pp,*bnp)
               && !(index<index_of_piece_delivering_check
@@ -4705,10 +4739,9 @@ static void guard_flights_king(unsigned int nr_remaining_white_moves,
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (e[*bnp]==vide && !are_kings_too_close(*bnp))
         {
-          unsigned int const time = count_nr_of_moves_from_to_no_check(roib,
-                                                                       guard_from,
-                                                                       roib,
-                                                                       *bnp);
+          unsigned int const time = count_nr_of_moves_from_to_king(roib,
+                                                                   guard_from,
+                                                                   *bnp);
           TraceSquare(*bnp);TraceText("\n");
           if (time<=nr_remaining_white_moves && guards_black_flight(roib,*bnp))
           {
@@ -4770,10 +4803,9 @@ static void mate_generate_checking_move_by_promoted_pawn(unsigned int nr_remaini
         square const pawn_origin = white[index_of_piece_delivering_check].sq;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         {
-          unsigned int const time= count_nr_of_moves_from_to_no_check(pb,
-                                                                      pawn_origin,
-                                                                      pp,
-                                                                      *bnp);
+          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
+                                                                             pp,
+                                                                             *bnp);
           if (time<=nr_remaining_white_moves
               && guards(king_square[Black],pp,*bnp))
           {
@@ -4951,10 +4983,9 @@ static void GenerateBlackKing(stip_length_type n)
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]!=obs)
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(roin,
-                                                                   black[index_of_king].sq,
-                                                                   roin,
-                                                                   *bnp);
+      unsigned int const time = count_nr_of_moves_from_to_king(roin,
+                                                               black[index_of_king].sq,
+                                                               *bnp);
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(roin,*bnp,king_flags);
