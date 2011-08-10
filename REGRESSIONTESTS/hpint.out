@@ -696,10 +696,10 @@ a)
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
 202 moegliche Stellungen in 1+14
 
-              empile:      977895
-            jouecoup:      952236
+              empile:      977719
+            jouecoup:      952192
         orig_rbechec:      303278
-        orig_rnechec:      455987
+        orig_rnechec:      455921
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1
@@ -879,10 +879,10 @@ a)
   1.f7-f8=L   2.Lf8-c5   3.Lc5-b6   4.f6-f7   5.f7*g8=L   6.Lg8-d5 # 
 12109 moegliche Stellungen in 6+0
 
-              empile:     1673986
-            jouecoup:     1735397
+              empile:     1676134
+            jouecoup:     1737413
         orig_rbechec:      221307
-        orig_rnechec:      994693
+        orig_rnechec:      997425
 b) ser-=6
 
 0 moegliche Stellungen in 1+0

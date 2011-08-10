@@ -2578,18 +2578,18 @@ a)
 
   1.0-0 Kd1-c1   2.Kg8-h8 Kc1-b2   3.Tf8-g8 Ta1-h1 # 
 
-              empile:       60256
-            jouecoup:       45897
+              empile:       58448
+            jouecoup:       44805
         orig_rbechec:         840
-        orig_rnechec:       40642
+        orig_rnechec:       39310
 b) Spiegelung a1<-->h1
 
   1.Ta8-c8 0-0   2.Tc8-c7 Tf1-a1   3.Kd8-c8 Ta1-a8 # 
 
-              empile:       55204
-            jouecoup:       40201
+              empile:       53260
+            jouecoup:       39033
         orig_rbechec:         639
-        orig_rnechec:       40564
+        orig_rnechec:       39153
 Loesung beendet. 
 
 
@@ -3672,10 +3672,10 @@ RochadenGegenseitigAusschliessend h1h8
   1.e7-e5 0-0   2.Ke8-e7 Tf1-d1   3.Ke7-d6 Ld2-b4 # 
   1.0-0 Th1-f1   2.Kg8-h7 Tf1-f4   3.Kh7-h6 Tf4*h4 # 
 
-              empile:    20169380
-            jouecoup:    20070686
+              empile:    20167368
+            jouecoup:    20068972
         orig_rbechec:     1483334
-        orig_rnechec:     2220119
+        orig_rnechec:     2218154
 Loesung beendet. 
 
 
