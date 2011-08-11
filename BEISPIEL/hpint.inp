@@ -1,336 +1,336 @@
 anfang
-protokoll	hpint.out
+protokoll       hpint.out
 
-autor		Boris Bursa\'c
-quelle		3601, Problemkiste 96, 10/1994
-forderung	h=3
-steine	weiss	ke4 bc4c7d5h2
-	schwarz	kg4 bb2c5d6g5
-option		zug intell
+autor           Boris Bursa\'c
+quelle          3601, Problemkiste 96, 10/1994
+forderung       h=3
+steine  weiss   ke4 bc4c7d5h2
+        schwarz kg4 bb2c5d6g5
+option          zug intell
 weiter
 
-autor		Theodor Steudel
-quelle		3457, Problemkiste 93, 6/1994
-forderung	ser-h=5
-steine	weiss	kd1 sf1
-	schwarz	kg1 tg2 lh1h2 bf2g3
-option		zug intell satz
+autor           Theodor Steudel
+quelle          3457, Problemkiste 93, 6/1994
+forderung       ser-h=5
+steine  weiss   kd1 sf1
+        schwarz kg1 tg2 lh1h2 bf2g3
+option          zug intell satz
 weiter
 
-autor		Theodor Steudel
-quelle		3456, Problemkiste 93, 6/1994
-forderung	ser-h=5
-steine	weiss	ke4 tc8 ba5b5b7c4d5
-	schwarz	ka7 ba6b2c5d6d7
-option		zug intell
+autor           Theodor Steudel
+quelle          3456, Problemkiste 93, 6/1994
+forderung       ser-h=5
+steine  weiss   ke4 tc8 ba5b5b7c4d5
+        schwarz ka7 ba6b2c5d6d7
+option          zug intell
 weiter
 
-autor		Sl. \v{S}aleti\'c
-quelle		3439, Problemkiste 93, 6/1994
-forderung	h=2
-steine	weiss	kb3 tg6
-	schwarz	ka1 lc6 bg2
-option		zug intell duplex
+autor           Sl. \v{S}aleti\'c
+quelle          3439, Problemkiste 93, 6/1994
+forderung       h=2
+steine  weiss   kb3 tg6
+        schwarz ka1 lc6 bg2
+option          zug intell duplex
 weiter
 
-autor		Norbert Geissler
-autor		Theodor Steudel
-quelle		3422, Problemkiste 93, 6/1994
-forderung	ser-=4
-steine	weiss	ka6 ba7f7
-	schwarz	kh8
-bedingung	weisseszwangsfeld h1
-option		zug intell 2
-zwilling	verse	a6 g2
+autor           Norbert Geissler
+autor           Theodor Steudel
+quelle          3422, Problemkiste 93, 6/1994
+forderung       ser-=4
+steine  weiss   ka6 ba7f7
+        schwarz kh8
+bedingung       weisseszwangsfeld h1
+option          zug intell 2
+zwilling        verse   a6 g2
 weiter
 
-autor		Andre Minost
-quelle		Problemkiste 93, 6/1994
-titel		Fassung Theodor Steudel
-forderung	ser-h=5
-steine	weiss	kc1 tb6 bc4c7d3
-	schwarz	ka7 ba2c5c6d4
-option		zug intell
+autor           Andre Minost
+quelle          Problemkiste 93, 6/1994
+titel           Fassung Theodor Steudel
+forderung       ser-h=5
+steine  weiss   kc1 tb6 bc4c7d3
+        schwarz ka7 ba2c5c6d4
+option          zug intell
 weiter
 
-autor		Erich Bartel
-quelle		1901, Problemkiste 8/1987
-forderung	ser-h=3
-steine	weiss	kd5 sc6 bc7
-	schwarz	ka8 bg2
-option		zug intell
+autor           Erich Bartel
+quelle          1901, Problemkiste 8/1987
+forderung       ser-h=3
+steine  weiss   kd5 sc6 bc7
+        schwarz ka8 bg2
+option          zug intell
 weiter
 
-autor		G"unter B"using
-quelle		3417, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	kd3 de4 td4 la2e3
-	schwarz	kf8 td7g3 lg6 bb5h7
-option		zug intell
+autor           G"unter B"using
+quelle          3417, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   kd3 de4 td4 la2e3
+        schwarz kf8 td7g3 lg6 bb5h7
+option          zug intell
 weiter
 
-autor		Theodor Steudel
-quelle		Problemkiste 2/1994
-titel		nach Erich Bartel
-forderung	ser-=4
-steine	weiss	bd7e7
-	schwarz	kh8 bg7
-option		zug intell
+autor           Theodor Steudel
+quelle          Problemkiste 2/1994
+titel           nach Erich Bartel
+forderung       ser-=4
+steine  weiss   bd7e7
+        schwarz kh8 bg7
+option          zug intell
 weiter
 
-autor		Boris Bursa\'c
-quelle		K109, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	kb1 ba7b7d6e7f7
-	schwarz	kd7 tb8 sc8 bg2
-option		zug intell
+autor           Boris Bursa\'c
+quelle          K109, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   kb1 ba7b7d6e7f7
+        schwarz kd7 tb8 sc8 bg2
+option          zug intell
 weiter
 
-autor		Boris Bursa\'c
-quelle		K110, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	kb3 dh8 ba7c7d7
-	schwarz	ke7 tb8 se8 bd2
-option		zug intell weiss
+autor           Boris Bursa\'c
+quelle          K110, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   kb3 dh8 ba7c7d7
+        schwarz ke7 tb8 se8 bd2
+option          zug intell weiss
 weiter
 
-autor		Boris Bursa\'c
-quelle		K111, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	kg3 sb1 ba7b7c7f6f7
-	schwarz	kd7 tc1 lb8 sd8 ba3b2
-option		zug intell
+autor           Boris Bursa\'c
+quelle          K111, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   kg3 sb1 ba7b7c7f6f7
+        schwarz kd7 tc1 lb8 sd8 ba3b2
+option          zug intell
 weiter
 
-autor		Boris Bursa\'c
-quelle		K112, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	kf1 sg7 ba7b7e7g2
-	schwarz	kd7 da5 tb6 sc8 bf2g3h2
-option		zug intell
+autor           Boris Bursa\'c
+quelle          K112, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   kf1 sg7 ba7b7e7g2
+        schwarz kd7 da5 tb6 sc8 bf2g3h2
+option          zug intell
 weiter
 
-autor		Boris Bursa\'c
-quelle		K113, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	ka4 dh8 bb7c7f7
-	schwarz	ke7 le8 bd2
-option		zug intell weiss
+autor           Boris Bursa\'c
+quelle          K113, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   ka4 dh8 bb7c7f7
+        schwarz ke7 le8 bd2
+option          zug intell weiss
 weiter
 
-autor		Boris Bursa\'c
-quelle		K114, Problemkiste 92, 4/1994
-forderung	h=3
-steine	weiss	ke2 sg5 bd7e7h7
-	schwarz	kg6 te8 sf8g8 ba2
-option		zug intell
+autor           Boris Bursa\'c
+quelle          K114, Problemkiste 92, 4/1994
+forderung       h=3
+steine  weiss   ke2 sg5 bd7e7h7
+        schwarz kg6 te8 sf8g8 ba2
+option          zug intell
 weiter
 
-autor		Gerd Rinder
-quelle		Die Schwalbe 6/1972
-forderung	ser-h#9
-steine	weiss	kb5 lc1f1 bd4
-	schwarz	ka2 bd2d5
-option		zug intell
-zwilling	forderung	ser-h=9
+autor           Gerd Rinder
+quelle          Die Schwalbe 6/1972
+forderung       ser-h#9
+steine  weiss   kb5 lc1f1 bd4
+        schwarz ka2 bd2d5
+option          zug intell
+zwilling        forderung       ser-h=9
 weiter
 
-autor		Gerd Rinder
-quelle		feenschach 6/1974
-forderung	ser-h#14
-steine	weiss	kb5 lc1f1 bc5d2d4
-	schwarz	ka2 bd5d7
-option		zug	intell
-zwilling	forderung	ser-h=14
+autor           Gerd Rinder
+quelle          feenschach 6/1974
+forderung       ser-h#14
+steine  weiss   kb5 lc1f1 bc5d2d4
+        schwarz ka2 bd5d7
+option          zug     intell
+zwilling        forderung       ser-h=14
 weiter
 
-autor		M. Toma\v{s}evi\'c
-quelle		3259, Problemkiste 87/88, 7/1993
-forderung	ser-h#9
-steine	weiss	ka2 td1 lh2 be2f4
-	schwarz	ke6 lg8 be7f5
-option		zug	intell
-zwilling	forderung	ser-h=9
+autor           M. Toma\v{s}evi\'c
+quelle          3259, Problemkiste 87/88, 7/1993
+forderung       ser-h#9
+steine  weiss   ka2 td1 lh2 be2f4
+        schwarz ke6 lg8 be7f5
+option          zug     intell
+zwilling        forderung       ser-h=9
 weiter
-autor		Iwan Paskalew
-quelle		58, Schachmatna misl
-forderung	ser-h=6
-steine	weiss	kd6 lc6
-	schwarz	kf8 ba2
-option		zug intell
-zwilling	verse	a2 b3
-weiter
-
-autor		Ludwig Zagler
-quelle		KT14, Problemkiste 96, 12/1994
-ausz		3. Reihe
-forderung	ser-#6
-steine	weiss	kh6 bf6f7h5a7
-	schwarz	ka8 dg8 ta6
-option		zug intell 
-zwilling	forderung ser-=6
+autor           Iwan Paskalew
+quelle          58, Schachmatna misl
+forderung       ser-h=6
+steine  weiss   kd6 lc6
+        schwarz kf8 ba2
+option          zug intell
+zwilling        verse   a2 b3
 weiter
 
-autor		Theodor Steudel
-autor		G"unter Gla"s
-quelle		KT11, Problemkiste 96, 12/1994
-ausz		3. Reihe
-forderung	ser-#4
-steine	weiss	ka6 bc7e6f7
-	schwarz	kh8 bc3e7
-option		zug intell 
-zwilling	forderung ser-=4
+autor           Ludwig Zagler
+quelle          KT14, Problemkiste 96, 12/1994
+ausz            3. Reihe
+forderung       ser-#6
+steine  weiss   kh6 bf6f7h5a7
+        schwarz ka8 dg8 ta6
+option          zug intell 
+zwilling        forderung ser-=6
 weiter
 
-autor		G"unter Gla"s
-quelle		KT6, Problemkiste 96, 12/1994
-ausz		2. Reihe
-forderung	ser-#2
-steine	weiss	kb8 th8 lh4 bb5c7f7
-	schwarz	kd7 dd8 le8
-option		zug intell 
-zwilling	forderung ser-=2
+autor           Theodor Steudel
+autor           G"unter Gla"s
+quelle          KT11, Problemkiste 96, 12/1994
+ausz            3. Reihe
+forderung       ser-#4
+steine  weiss   ka6 bc7e6f7
+        schwarz kh8 bc3e7
+option          zug intell 
+zwilling        forderung ser-=4
 weiter
 
-autor		Klaus Funk
-quelle		KT1, Problemkiste 96, 12/1994
-ausz		1. Platz
-forderung	ser-h=11
-steine	weiss	kb2 tc6h4 bd5
-	schwarz	ka4 bb5d6f4g4
-option		zug intell 
+autor           G"unter Gla"s
+quelle          KT6, Problemkiste 96, 12/1994
+ausz            2. Reihe
+forderung       ser-#2
+steine  weiss   kb8 th8 lh4 bb5c7f7
+        schwarz kd7 dd8 le8
+option          zug intell 
+zwilling        forderung ser-=2
 weiter
 
-autor		Tivadar Kardos
-quelle		220, Th\'emes~64 9/1957
-forderung	h=8
-steine	weiss	kc4 bg2
-	schwarz	kb8 bc2c5e2g3g4
-option		zug intell 
+autor           Klaus Funk
+quelle          KT1, Problemkiste 96, 12/1994
+ausz            1. Platz
+forderung       ser-h=11
+steine  weiss   kb2 tc6h4 bd5
+        schwarz ka4 bb5d6f4g4
+option          zug intell 
 weiter
 
-autor		Tivadar Kardos
-quelle		Magyar Sakk\'elet 9/1957
-forderung	h=8
-steine	weiss	kh8 ba2
-	schwarz	kh1 ba3b6c2g2g7
-option		zug intell 
+autor           Tivadar Kardos
+quelle          220, Th\'emes~64 9/1957
+forderung       h=8
+steine  weiss   kc4 bg2
+        schwarz kb8 bc2c5e2g3g4
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S16, Problemkiste 95, 10/1994
-forderung	h=3
-steine	weiss	kf1 te1 bg2g7
-	schwarz	kd2 la1 ba2b2b4c2f2g3h2
-option		zug intell 
+autor           Tivadar Kardos
+quelle          Magyar Sakk\'elet 9/1957
+forderung       h=8
+steine  weiss   kh8 ba2
+        schwarz kh1 ba3b6c2g2g7
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S15, Problemkiste 95, 10/1994
-forderung	h=3
-steine	weiss	ka6 tg1 sa1 bb7
-	schwarz	kb1 ba2b2f2f4g2h2
-option		zug intell 
+autor           Theodor Steudel
+quelle          S16, Problemkiste 95, 10/1994
+forderung       h=3
+steine  weiss   kf1 te1 bg2g7
+        schwarz kd2 la1 ba2b2b4c2f2g3h2
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		3502, Problemkiste 94, 8/1994
-forderung	h=3
-steine	weiss	kf1 dc1 sd1 be7g2
-	schwarz	kd3 la1 ba2a4b2c2d2f2g3h2
-option		zug intell 
+autor           Theodor Steudel
+quelle          S15, Problemkiste 95, 10/1994
+forderung       h=3
+steine  weiss   ka6 tg1 sa1 bb7
+        schwarz kb1 ba2b2f2f4g2h2
+option          zug intell 
 weiter
 
-autor		Boris Bursa\'c
-quelle		3503, Problemkiste 94, 8/1994
-forderung	h=3
-steine	weiss	kf1 tc1 ld1 bd7g2
-	schwarz	kb2 la1 ba2c2d2f2g3h2
-option		zug intell 
+autor           Theodor Steudel
+quelle          3502, Problemkiste 94, 8/1994
+forderung       h=3
+steine  weiss   kf1 dc1 sd1 be7g2
+        schwarz kd3 la1 ba2a4b2c2d2f2g3h2
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S9, Problemkiste 95, 10/1994
-forderung	h=3
-steine	weiss	kg2 tf1 sa1 bb7
-	schwarz	kb1 ba2b2e2f2f4g3h2
-option		zug intell 
+autor           Boris Bursa\'c
+quelle          3503, Problemkiste 94, 8/1994
+forderung       h=3
+steine  weiss   kf1 tc1 ld1 bd7g2
+        schwarz kb2 la1 ba2c2d2f2g3h2
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S5, Problemkiste 95, 10/1994
-forderung	h=5
-steine	weiss	ke4 la6 ba4
-	schwarz	kg1 th4 lh3 ba7b2e2g4h2h5
-option		zug intell 
+autor           Theodor Steudel
+quelle          S9, Problemkiste 95, 10/1994
+forderung       h=3
+steine  weiss   kg2 tf1 sa1 bb7
+        schwarz kb1 ba2b2e2f2f4g3h2
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-quelle		3454, Problemkiste 93, 6/1994
-forderung	h=3
-steine	weiss	kg4 tg1 sb1e1 ba3b4c7d3e4
-	schwarz	kc1 la1 bb2c2d2g2g3h2
-option		zug intell 
+autor           Theodor Steudel
+quelle          S5, Problemkiste 95, 10/1994
+forderung       h=5
+steine  weiss   ke4 la6 ba4
+        schwarz kg1 th4 lh3 ba7b2e2g4h2h5
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S2, Problemkiste 95, 10/1994
-forderung	h=4
-steine	weiss	kg6 te2 bh6
-	schwarz	ka1 bb2c2f2g2h2
-option		zug intell 
+autor           Erich Bartel
+quelle          3454, Problemkiste 93, 6/1994
+forderung       h=3
+steine  weiss   kg4 tg1 sb1e1 ba3b4c7d3e4
+        schwarz kc1 la1 bb2c2d2g2g3h2
+option          zug intell 
 weiter
 
-autor		Theodor Steudel
-quelle		S1, Problemkiste 95, 10/1994
-forderung	h=4
-steine	weiss	kh7 te2 bg6
-	schwarz	ka1 bb2c2f2g2h2
-option		zug intell 
+autor           Theodor Steudel
+quelle          S2, Problemkiste 95, 10/1994
+forderung       h=4
+steine  weiss   kg6 te2 bh6
+        schwarz ka1 bb2c2f2g2h2
+option          zug intell 
 weiter
 
-autor		Milo\v{s} Toma\v{s}evi\'c
-quelle		3525, Problemkiste 95, 10/1994
-forderung	ser-h=6
-steine	weiss	kf1 le5
-	schwarz	kh1 bc7
-option		zug intell 
-zwilling	verse	c7 d6
+autor           Theodor Steudel
+quelle          S1, Problemkiste 95, 10/1994
+forderung       h=4
+steine  weiss   kh7 te2 bg6
+        schwarz ka1 bb2c2f2g2h2
+option          zug intell 
 weiter
 
-autor		Heinz Zander
-quelle		3549, Problemkiste 95, 10/1994
-forderung	h#2
-steine	weiss	kc2 tb5 bc3
-	schwarz	kc4 sc6d5
-option		zug intell 
-zwilling	forderung	h=2
+autor           Milo\v{s} Toma\v{s}evi\'c
+quelle          3525, Problemkiste 95, 10/1994
+forderung       ser-h=6
+steine  weiss   kf1 le5
+        schwarz kh1 bc7
+option          zug intell 
+zwilling        verse   c7 d6
 weiter
 
-autor		Boris Bursa\'c
-quelle		3550, Problemkiste 95, 10/1994
-forderung	h#2
-steine	weiss	kf3 bb7
-	schwarz	kh3 bh2h4
-option		zug intell 
-zwilling	forderung	h=2	entfe h4
+autor           Heinz Zander
+quelle          3549, Problemkiste 95, 10/1994
+forderung       h#2
+steine  weiss   kc2 tb5 bc3
+        schwarz kc4 sc6d5
+option          zug intell 
+zwilling        forderung       h=2
 weiter
 
-autor		Erich Bartel
-quelle		3557, Problemkiste 95, 10/1994
-forderung	ser-h=3
-steine	weiss	kh5 se2f3
-	schwarz	kf1 bf2g2
-option		zug intell 
+autor           Boris Bursa\'c
+quelle          3550, Problemkiste 95, 10/1994
+forderung       h#2
+steine  weiss   kf3 bb7
+        schwarz kh3 bh2h4
+option          zug intell 
+zwilling        forderung       h=2     entfe h4
 weiter
 
-autor		Zdenek Oliva
-quelle		3558, Problemkiste 95, 10/1994
-titel		nach A. Minost
-forderung	ser-h=5
-steine	weiss	ka5 tb8 bc3d5e6e7
-	schwarz	kc7 ba2
-option		zug intell 
+autor           Erich Bartel
+quelle          3557, Problemkiste 95, 10/1994
+forderung       ser-h=3
+steine  weiss   kh5 se2f3
+        schwarz kf1 bf2g2
+option          zug intell 
+weiter
+
+autor           Zdenek Oliva
+quelle          3558, Problemkiste 95, 10/1994
+titel           nach A. Minost
+forderung       ser-h=5
+steine  weiss   ka5 tb8 bc3d5e6e7
+        schwarz kc7 ba2
+option          zug intell 
 weiter
 
 autor Steudel, Friedrich Theodor
@@ -438,536 +438,536 @@ option zug intell
 zwilling forderung  h=3
 weiter
 
-autor		Theodor Steudel
-quelle		Problemkiste 99, 6/1995
-ausz		2. ehrende Erw"ahnung, 13. PK-Kompositionsthema
-forderung	ser-h=8
-steine	weiss	kb4 dc1
-	schwarz	kf2 lf1h2 sg1 bb5e2f3g2g3h3
-option		zug intell  satz
+autor           Theodor Steudel
+quelle          Problemkiste 99, 6/1995
+ausz            2. ehrende Erw"ahnung, 13. PK-Kompositionsthema
+forderung       ser-h=8
+steine  weiss   kb4 dc1
+        schwarz kf2 lf1h2 sg1 bb5e2f3g2g3h3
+option          zug intell  satz
 weiter
 
-autor		Bernd Schwarzkopf
-quelle		B4, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kh3 lc1 sa1 be2
-	schwarz	kh5 lf6b1 ba2b7c2
-option		zug intell 
+autor           Bernd Schwarzkopf
+quelle          B4, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kh3 lc1 sa1 be2
+        schwarz kh5 lf6b1 ba2b7c2
+option          zug intell 
 weiter
 
-autor		Endre Szentai
-quelle		Schachbund Bacs-Kishun 1968
-ausz		Spezialpreis
-forderung	h=8
-steine	weiss	kb1 ba2
-	schwarz	kh1 ba3d2f2g2
-option		zug intell 
+autor           Endre Szentai
+quelle          Schachbund Bacs-Kishun 1968
+ausz            Spezialpreis
+forderung       h=8
+steine  weiss   kb1 ba2
+        schwarz kh1 ba3d2f2g2
+option          zug intell 
 weiter
 
-autor		Zdenek Oliva
-quelle		3655, Problemkiste 97, 2/1995
-bemerkung	bug
-forderung	h=3
-steine	weiss	kb3 ta1 be7
-	schwarz	kc1 sb1e1 ba2b2c2d2
-option		zug intell 
+autor           Zdenek Oliva
+quelle          3655, Problemkiste 97, 2/1995
+bemerkung       bug
+forderung       h=3
+steine  weiss   kb3 ta1 be7
+        schwarz kc1 sb1e1 ba2b2c2d2
+option          zug intell 
 weiter
 
-autor		Luigi Vitale
-quelle		4331, Problemkiste 110, 4/1997
-forderung	h=4
-steine	weiss	kh3 sg1g3
-	schwarz	kf7 lh4 sf6
-option		zug intell 
-zwilling	verse	f6 h1
+autor           Luigi Vitale
+quelle          4331, Problemkiste 110, 4/1997
+forderung       h=4
+steine  weiss   kh3 sg1g3
+        schwarz kf7 lh4 sf6
+option          zug intell 
+zwilling        verse   f6 h1
 weiter
 
-autor		Theodor Steudel
-quelle		4330, Problemkiste 110, 4/1997
-forderung	h=4
-steine	weiss	kf1 lf2
-	schwarz	kf4 be3f3g3e4g4e5f5g5
-option		zug intell  weiss
+autor           Theodor Steudel
+quelle          4330, Problemkiste 110, 4/1997
+forderung       h=4
+steine  weiss   kf1 lf2
+        schwarz kf4 be3f3g3e4g4e5f5g5
+option          zug intell  weiss
 weiter
 
-autor		Miomir Babi\'c
-quelle		4329, Problemkiste 110, 4/1997
-forderung	h=2
-steine	weiss	kh1 tg1 bh7
-	schwarz	kh5 bf7
-option		zug intell 
+autor           Miomir Babi\'c
+quelle          4329, Problemkiste 110, 4/1997
+forderung       h=2
+steine  weiss   kh1 tg1 bh7
+        schwarz kh5 bf7
+option          zug intell 
 weiter
 
-autor		Hilmar Ebert
-quelle		feenschach 7-9/1980
-forderung	h=3
-steine	weiss	kh6 bg4
-	schwarz	kf6 bh7
-option		zug intell 
+autor           Hilmar Ebert
+quelle          feenschach 7-9/1980
+forderung       h=3
+steine  weiss   kh6 bg4
+        schwarz kf6 bh7
+option          zug intell 
 weiter
 
-autor		Michael McDowell
-quelle		2378, Thema Danicum 7/1983
-forderung	h=7
-steine	weiss	kc2 ba3
-	schwarz	ka1 bd6e2g2h3
-option		zug intell 
+autor           Michael McDowell
+quelle          2378, Thema Danicum 7/1983
+forderung       h=7
+steine  weiss   kc2 ba3
+        schwarz ka1 bd6e2g2h3
+option          zug intell 
 weiter
 
-autor		Luigi Vitale
-quelle		4300, Problemkiste 107, 10/1996
-forderung	h=3
-steine	weiss	ke5 tf6 lf5 sf4
-	schwarz	kg5 lh8 sg3 be3
-option		zug intell 
+autor           Luigi Vitale
+quelle          4300, Problemkiste 107, 10/1996
+forderung       h=3
+steine  weiss   ke5 tf6 lf5 sf4
+        schwarz kg5 lh8 sg3 be3
+option          zug intell 
 weiter
 
-autor		J\'an Kube\v{c}ka
-quelle		feenschach 1973
-forderung	h=3
-steine	weiss	ke8 be7
-	schwarz	ke6 bd7
-option		zug intell 
+autor           J\'an Kube\v{c}ka
+quelle          feenschach 1973
+forderung       h=3
+steine  weiss   ke8 be7
+        schwarz ke6 bd7
+option          zug intell 
 weiter
 
-autor		Klaus Funk
-quelle		4142, Problemkiste 106, 8/1996
-forderung	ser-h=12
-steine	weiss	kd6 lh1 ba4c7
-	schwarz	kc8 da7 tb7 lb5b8 sa8 bb6c6d7
-option		zug intell 
+autor           Klaus Funk
+quelle          4142, Problemkiste 106, 8/1996
+forderung       ser-h=12
+steine  weiss   kd6 lh1 ba4c7
+        schwarz kc8 da7 tb7 lb5b8 sa8 bb6c6d7
+option          zug intell 
 weiter
 
-autor		Zdenek Oliva
-quelle		4141, Problemkiste 106, 8/1996
-forderung	h=6
-steine	weiss	kh1 bg3
-	schwarz	kh3 ba2c2f2h4
-option		zug intell 
+autor           Zdenek Oliva
+quelle          4141, Problemkiste 106, 8/1996
+forderung       h=6
+steine  weiss   kh1 bg3
+        schwarz kh3 ba2c2f2h4
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-autor		Albert H. Kniest
-quelle		2327, DuF 30.1.1968
-quelle		Korr.: Problemkiste 106, 8/1996
-forderung	h=6
-steine	weiss	kg4 bf2
-	schwarz	kh2 bd7
-option		zug intell 
-zwilling	verse	h2 h1
-zwilling	verse	g4 f1
-		verse	f2 a2
+autor           Erich Bartel
+autor           Albert H. Kniest
+quelle          2327, DuF 30.1.1968
+quelle          Korr.: Problemkiste 106, 8/1996
+forderung       h=6
+steine  weiss   kg4 bf2
+        schwarz kh2 bd7
+option          zug intell 
+zwilling        verse   h2 h1
+zwilling        verse   g4 f1
+                verse   f2 a2
 weiter
 
-autor		Heinz Winterberg
-quelle		BS18, Problemkiste 7/1993
-forderung	h=5
-steine	weiss	kc1 sf6 bb2e2
-	schwarz	kh8 sf8 ba7b3c2
-option		zug intell 
+autor           Heinz Winterberg
+quelle          BS18, Problemkiste 7/1993
+forderung       h=5
+steine  weiss   kc1 sf6 bb2e2
+        schwarz kh8 sf8 ba7b3c2
+option          zug intell 
 weiter
 
-autor		Heinz Winterberg
-quelle		BS16, Problemkiste 7/1993
-forderung	h=5
-steine	weiss	kc1 sh6 bb2f2g5
-	schwarz	kh7 ba7b3c2g7
-option		zug intell 
+autor           Heinz Winterberg
+quelle          BS16, Problemkiste 7/1993
+forderung       h=5
+steine  weiss   kc1 sh6 bb2f2g5
+        schwarz kh7 ba7b3c2g7
+option          zug intell 
 weiter
 
-autor		Heinz Winterberg
-quelle		BS14, Problemkiste 7/1993
-forderung	h=5
-steine	weiss	kc1 bb2f2h5
-	schwarz	kh7 ba7b3c2
-option		zug intell 
+autor           Heinz Winterberg
+quelle          BS14, Problemkiste 7/1993
+forderung       h=5
+steine  weiss   kc1 bb2f2h5
+        schwarz kh7 ba7b3c2
+option          zug intell 
 weiter
 
-autor		Hansj"org Schiegl
-quelle		389, FL 11/1970
-forderung	h=5
-steine	weiss	kc1 sf6 bb2e2
-	schwarz	kh8 ba7b3c2
-option		zug intell 
+autor           Hansj"org Schiegl
+quelle          389, FL 11/1970
+forderung       h=5
+steine  weiss   kc1 sf6 bb2e2
+        schwarz kh8 ba7b3c2
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-autor		Albert H. Kniest
-quelle		2326, DuF 30.1.1969
-forderung	h=5
-steine	weiss	kh4 lb1 bf2
-	schwarz	kh6 ba7b2e7
-option		zug intell 
+autor           Erich Bartel
+autor           Albert H. Kniest
+quelle          2326, DuF 30.1.1969
+forderung       h=5
+steine  weiss   kh4 lb1 bf2
+        schwarz kh6 ba7b2e7
+option          zug intell 
 weiter
 
-autor		Bernd Schwarzkopf
-quelle		B12, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kg4 sc1f8 bb2h2
-	schwarz	kh6 lh7 ba7b3c2g6
-option		zug intell 
+autor           Bernd Schwarzkopf
+quelle          B12, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kg4 sc1f8 bb2h2
+        schwarz kh6 lh7 ba7b3c2g6
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-quelle		543, FL 5/1971
-forderung	h=5
-steine	weiss	kg4 lb1 bh2
-	schwarz	kh6 lh7 ba7b2g6
-option		zug intell 
+autor           Erich Bartel
+quelle          543, FL 5/1971
+forderung       h=5
+steine  weiss   kg4 lb1 bh2
+        schwarz kh6 lh7 ba7b2g6
+option          zug intell 
 weiter
 
-autor		Heinz Winterberg
-quelle		BS15, Problemkiste 7/1993
-forderung	h=5
-steine	weiss	kh1 la1 sc1f6 be2
-	schwarz	kh8 lb1 sf7 ba2b7c2
-option		zug intell 
+autor           Heinz Winterberg
+quelle          BS15, Problemkiste 7/1993
+forderung       h=5
+steine  weiss   kh1 la1 sc1f6 be2
+        schwarz kh8 lb1 sf7 ba2b7c2
+option          zug intell 
 weiter
 
-autor		Hans-Peter Reich
-quelle		B7, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kf8 lc1 bb2e2
-	schwarz	kh7 lg8 ba7b3c2f6
-option		zug intell 
+autor           Hans-Peter Reich
+quelle          B7, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kf8 lc1 bb2e2
+        schwarz kh7 lg8 ba7b3c2f6
+option          zug intell 
 weiter
 
-autor		Heinz Winterberg
-quelle		BS17, Problemkiste 7/1993
-forderung	h=5
-steine	weiss	kf8 sb1 be2g5
-	schwarz	kh7 sg8 ba7b2f5
-option		zug intell 
+autor           Heinz Winterberg
+quelle          BS17, Problemkiste 7/1993
+forderung       h=5
+steine  weiss   kf8 sb1 be2g5
+        schwarz kh7 sg8 ba7b2f5
+option          zug intell 
 weiter
 
-autor		Bernd Schwarzkopf
-quelle		B7, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kd8 sb1 bf2g5
-	schwarz	kf7 ba7b2e7g6g7
-option		zug intell 
+autor           Bernd Schwarzkopf
+quelle          B7, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kd8 sb1 bf2g5
+        schwarz kf7 ba7b2e7g6g7
+option          zug intell 
 weiter
 
-autor		Bernd Schwarzkopf
-quelle		B10, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kg5 sc1 bb2g2
-	schwarz	kh7 ba7b3c2f5
-option		zug intell 
+autor           Bernd Schwarzkopf
+quelle          B10, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kg5 sc1 bb2g2
+        schwarz kh7 ba7b3c2f5
+option          zug intell 
 weiter
 
-autor		Paul L"oschl
-quelle		3254, Problemkiste 7/1993
-titel		Bernd Schwarzkopf gewidmet
-forderung	h=5
-steine	weiss	kg3 lb1 bc2f5
-	schwarz	ke5 ba7b2d5
-option		zug intell 
+autor           Paul L"oschl
+quelle          3254, Problemkiste 7/1993
+titel           Bernd Schwarzkopf gewidmet
+forderung       h=5
+steine  weiss   kg3 lb1 bc2f5
+        schwarz ke5 ba7b2d5
+option          zug intell 
 weiter
 
-autor		Hans-Peter Reich
-quelle		B5, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kg5 sb1 bf2
-	schwarz	kh7 ba7b2
-option		zug intell 
+autor           Hans-Peter Reich
+quelle          B5, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kg5 sb1 bf2
+        schwarz kh7 ba7b2
+option          zug intell 
 weiter
 
-autor		Hansj"org Schiegl
-autor		Tivadar Kardos
-quelle		267, FL 7/1970
-forderung	h=5
-steine	weiss	kh1 lb1 bf2
-	schwarz	kh8 lg8 ba7b2
-option		zug intell 
+autor           Hansj"org Schiegl
+autor           Tivadar Kardos
+quelle          267, FL 7/1970
+forderung       h=5
+steine  weiss   kh1 lb1 bf2
+        schwarz kh8 lg8 ba7b2
+option          zug intell 
 weiter
 
-autor		Bernd Schwarzkopf
-autor		Hans-Peter Reich
-quelle		B1, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kg5 sa1c1 bf2
-	schwarz	kh7 lb1 ba2b7c2
-option		zug intell 
+autor           Bernd Schwarzkopf
+autor           Hans-Peter Reich
+quelle          B1, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kg5 sa1c1 bf2
+        schwarz kh7 lb1 ba2b7c2
+option          zug intell 
 weiter
 
-autor		Luigi Vitale
-quelle		4032, Problemkiste 104, 4/1996
-forderung	h=3
-steine	weiss	kd3 tc4 sc2 bd5
-	schwarz	kb3 tc6 la5 sa4 bb6
-option		duplex zug intell 
+autor           Luigi Vitale
+quelle          4032, Problemkiste 104, 4/1996
+forderung       h=3
+steine  weiss   kd3 tc4 sc2 bd5
+        schwarz kb3 tc6 la5 sa4 bb6
+option          duplex zug intell 
 weiter
 
-autor		G. Hadzi-Vaskov
-quelle		3983, Problemkiste 103, 2/1996
-forderung	ser-h=5
-steine	weiss	ke2 bb4c2d2d3e4f4
-	schwarz	kd6 bd5d7
-option		zug intell 
+autor           G. Hadzi-Vaskov
+quelle          3983, Problemkiste 103, 2/1996
+forderung       ser-h=5
+steine  weiss   ke2 bb4c2d2d3e4f4
+        schwarz kd6 bd5d7
+option          zug intell 
 weiter
 
-autor		G. Hadzi-Vaskov
-quelle		3978, Problemkiste 103, 2/1996
-forderung	h=6
-steine	weiss	kh5 ba2
-	schwarz	kb2 bb3c4d5e6f7h7
-option		zug intell 
+autor           G. Hadzi-Vaskov
+quelle          3978, Problemkiste 103, 2/1996
+forderung       h=6
+steine  weiss   kh5 ba2
+        schwarz kb2 bb3c4d5e6f7h7
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-autor		Tivadar kardos
-quelle		1456, FL 7-8/1974
-quelle		Korr.: Problemkiste 103, 2/1996
-forderung	h=3
-steine	weiss	ke1 lg6 ba7d4e5e6f2h5
-	schwarz	kf4 bc2d5e7
-option		zug intell 
-zwilling	verse	c2 b2
+autor           Erich Bartel
+autor           Tivadar kardos
+quelle          1456, FL 7-8/1974
+quelle          Korr.: Problemkiste 103, 2/1996
+forderung       h=3
+steine  weiss   ke1 lg6 ba7d4e5e6f2h5
+        schwarz kf4 bc2d5e7
+option          zug intell 
+zwilling        verse   c2 b2
 weiter
 
-autor		Erich Bartel
-quelle		1205, FL 4/1973
-forderung	h=2
-steine	weiss	kh3 sb1
-	schwarz	kh1 td4 la8
-option		duplex zug intell 
+autor           Erich Bartel
+quelle          1205, FL 4/1973
+forderung       h=2
+steine  weiss   kh3 sb1
+        schwarz kh1 td4 la8
+option          duplex zug intell 
 weiter
 
-autor		Achim Sch"oneberg
-autor		Hans-Peter Reich
-quelle		Der Schachkiebitz 10, 9/1995
-forderung	h=3
-steine	weiss	kc1 le1
-	schwarz	kd4 bc3d3e3c4e4c5d5e5
-option		zug intell 
-zwilling	hinzu weiss Te1
+autor           Achim Sch"oneberg
+autor           Hans-Peter Reich
+quelle          Der Schachkiebitz 10, 9/1995
+forderung       h=3
+steine  weiss   kc1 le1
+        schwarz kd4 bc3d3e3c4e4c5d5e5
+option          zug intell 
+zwilling        hinzu weiss Te1
 weiter
 
-autor		Albert H. Kniest
-quelle		5029v, springaren 12/1964
-forderung	ser-h=5
-steine	weiss	ke5 dg7
-	schwarz	kf3 bc2
-option		zug intell 
-zwilling	verse	e5 b3
+autor           Albert H. Kniest
+quelle          5029v, springaren 12/1964
+forderung       ser-h=5
+steine  weiss   ke5 dg7
+        schwarz kf3 bc2
+option          zug intell 
+zwilling        verse   e5 b3
 weiter
 
-autor		Gerson Berlinger
-quelle		3843, Problemkiste 100, 8/1995
-forderung	h=3
-steine	weiss	kd5 le6 sh3 bc6f5
-	schwarz	kg2 th1 bc7e7g3h2h4
-option		zug intell 
+autor           Gerson Berlinger
+quelle          3843, Problemkiste 100, 8/1995
+forderung       h=3
+steine  weiss   kd5 le6 sh3 bc6f5
+        schwarz kg2 th1 bc7e7g3h2h4
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-autor		Albert H. Kniest
-quelle		L255a, KddB 15.10.1970
-forderung	ser-h=3
-steine	weiss	kf2 dc3
-	schwarz	kh5 bc2h6
-option		zug intell 
+autor           Erich Bartel
+autor           Albert H. Kniest
+quelle          L255a, KddB 15.10.1970
+forderung       ser-h=3
+steine  weiss   kf2 dc3
+        schwarz kh5 bc2h6
+option          zug intell 
 weiter
 
-autor		Wenelin Alaikow
-quelle		232, CfT 22.2.1971
-forderung	h=6
-steine	weiss	kg6 bb4
-	schwarz	kh1 bb2d2f4g2
-option		zug intell 
+autor           Wenelin Alaikow
+quelle          232, CfT 22.2.1971
+forderung       h=6
+steine  weiss   kg6 bb4
+        schwarz kh1 bb2d2f4g2
+option          zug intell 
 weiter
 
-autor		Unto Heinonen
-quelle		3660, Problemkiste 97, 2/1995
-forderung	h=7
-steine	weiss	kc6 be2
-	schwarz	ka4 ba2d2g3h2
-option		zug intell 
+autor           Unto Heinonen
+quelle          3660, Problemkiste 97, 2/1995
+forderung       h=7
+steine  weiss   kc6 be2
+        schwarz ka4 ba2d2g3h2
+option          zug intell 
 weiter
 
-autor		Ian Shanahan
-quelle		6046, IMR 7-9/1993
-forderung	h=8
-steine	weiss	kd7 bh2
-	schwarz	kb3 bc2f2g7h3
-option		zug intell 
+autor           Ian Shanahan
+quelle          6046, IMR 7-9/1993
+forderung       h=8
+steine  weiss   kd7 bh2
+        schwarz kb3 bc2f2g7h3
+option          zug intell 
 weiter
 
-autor		Norbert Geissler
-quelle		3737, Problemkiste 99, 6/1995
-forderung	ser-=6
-steine	weiss	kd7 bf7h7
-	schwarz	kf6
-option		int
+autor           Norbert Geissler
+quelle          3737, Problemkiste 99, 6/1995
+forderung       ser-=6
+steine  weiss   kd7 bf7h7
+        schwarz kf6
+option          int
 weiter
 
-autor		Ludwig Zagler
-quelle		3763, Problemkiste 99, 6/1995
-forderung	ser-h=3
-steine	weiss	kd3 ld2 ba3
-	schwarz	kd1 ba2
-option		zug intell 
+autor           Ludwig Zagler
+quelle          3763, Problemkiste 99, 6/1995
+forderung       ser-h=3
+steine  weiss   kd3 ld2 ba3
+        schwarz kd1 ba2
+option          zug intell 
 weiter
 
-autor		Zdenek Oliva
-quelle		3715, Problemkiste 98, 4/1995
-forderung	ser-h=3
-steine	weiss	kf2 dd3
-	schwarz	kh1 bc2g4
-option		zug intell 
+autor           Zdenek Oliva
+quelle          3715, Problemkiste 98, 4/1995
+forderung       ser-h=3
+steine  weiss   kf2 dd3
+        schwarz kh1 bc2g4
+option          zug intell 
 weiter
 
-autor		Robert Sharp
-quelle		3082, Problemkiste 12/1992
-forderung	h=3
-steine	weiss	kd8 bc7
-	schwarz	kb7 tf7
-option		zug intell  weiss
+autor           Robert Sharp
+quelle          3082, Problemkiste 12/1992
+forderung       h=3
+steine  weiss   kd8 bc7
+        schwarz kb7 tf7
+option          zug intell  weiss
 weiter
 
-autor		Unto Heinonen
-quelle		3654, Problemkiste 97, 2/1995
-forderung	h=3
-steine	weiss	kg4 th1 sb1 bc7
-	schwarz	kc1 ba2b2c2d2h3
-option		zug intell 
+autor           Unto Heinonen
+quelle          3654, Problemkiste 97, 2/1995
+forderung       h=3
+steine  weiss   kg4 th1 sb1 bc7
+        schwarz kc1 ba2b2c2d2h3
+option          zug intell 
 weiter
 
-autor		Peter Kahl
-quelle		6664, Feenschach 3-4/1964
-forderung	ser-h=3
-steine	weiss	kc2 df3 ld6
-	schwarz	kd4 bf2
-option		zug intell 
+autor           Peter Kahl
+quelle          6664, Feenschach 3-4/1964
+forderung       ser-h=3
+steine  weiss   kc2 df3 ld6
+        schwarz kd4 bf2
+option          zug intell 
 weiter
 
-autor		Elmar Bartel
-autor		Erich Bartel
-quelle		1290, Problemkiste 9/1985
-forderung	h=3
-steine	weiss	ka5 sb4
-	schwarz	ka1
-option		zug intell  satz
+autor           Elmar Bartel
+autor           Erich Bartel
+quelle          1290, Problemkiste 9/1985
+forderung       h=3
+steine  weiss   ka5 sb4
+        schwarz ka1
+option          zug intell  satz
 weiter
 
-autor		Ludwig Zagler
-quelle		K41, Problemkiste 97, 2/1995
-forderung	h=3
-steine	weiss	ke6 bd5
-	schwarz	kd8
-option		zug intell 
+autor           Ludwig Zagler
+quelle          K41, Problemkiste 97, 2/1995
+forderung       h=3
+steine  weiss   ke6 bd5
+        schwarz kd8
+option          zug intell 
 weiter
 
-autor		Erich Bartel
-quelle		31, FL 3/1970
-forderung	ser-h=18
-steine	weiss	kb6 tf7
-	schwarz	kg8 tf8
-option		zug intell 
+autor           Erich Bartel
+quelle          31, FL 3/1970
+forderung       ser-h=18
+steine  weiss   kb6 tf7
+        schwarz kg8 tf8
+option          zug intell 
 weiter
 
-autor		Albert H. Kniest
-autor		G"unter Gla"s
-quelle		feenschach 1977
-forderung	ser-=14
-steine	weiss	ka8 lb6
-	schwarz	kc8 lh1
-option		zug intell 
+autor           Albert H. Kniest
+autor           G"unter Gla"s
+quelle          feenschach 1977
+forderung       ser-=14
+steine  weiss   ka8 lb6
+        schwarz kc8 lh1
+option          zug intell 
 weiter
 
-autor		Albert H. Kniest
-quelle		DuF 1966
-forderung	ser-=7
-steine	weiss	kb6 be2
-	schwarz	ka8
-option		zug intell 
-zwilling	verse	a8 b8
+autor           Albert H. Kniest
+quelle          DuF 1966
+forderung       ser-=7
+steine  weiss   kb6 be2
+        schwarz ka8
+option          zug intell 
+zwilling        verse   a8 b8
 weiter
 
-autor		Torsten Lin"s
-quelle		3846, IMR 35, 1-3/1990
-forderung	h=3
-steine	weiss	ke7 bf4
-	schwarz	kg7 lg4 bf7
-option		duplex zug intell 
+autor           Torsten Lin"s
+quelle          3846, IMR 35, 1-3/1990
+forderung       h=3
+steine  weiss   ke7 bf4
+        schwarz kg7 lg4 bf7
+option          duplex zug intell 
 weiter
 
 anf
-autor		Hans-Peter Reich
-autor		Bernd Schwarzkopf
-quelle		B2, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kf8 lc1 sa1 be2
-	schwarz	kh7 lb1g8 ba2b7c2f7
-option		zug intell maxzeit 600
+autor           Hans-Peter Reich
+autor           Bernd Schwarzkopf
+quelle          B2, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kf8 lc1 sa1 be2
+        schwarz kh7 lb1g8 ba2b7c2f7
+option          zug intell maxzeit 600
 weiter
 
-autor		Bernd Schwarzkopf
-quelle		B3, Problemkiste 4/1993
-forderung	h=5
-steine	weiss	kb8 la1 sc1f6 be2
-	schwarz	kd8 lb1 ba2b7c2e6f5f7
-option		zug intell maxzeit 600
+autor           Bernd Schwarzkopf
+quelle          B3, Problemkiste 4/1993
+forderung       h=5
+steine  weiss   kb8 la1 sc1f6 be2
+        schwarz kd8 lb1 ba2b7c2e6f5f7
+option          zug intell maxzeit 600
 weiter
 
-autor		Erich Bartel
-quelle		4652, MAT 9-10/1985
-quelle		Korr.: Problemkiste 107, 10/1996
-forderung	h=3
-steine	weiss	kf1 tb7h1 sc4 bg2
-	schwarz	kb1 ta1g6 lb6 sc1 ba2c2c3e3g3
-option		zug intell maxzeit 600
+autor           Erich Bartel
+quelle          4652, MAT 9-10/1985
+quelle          Korr.: Problemkiste 107, 10/1996
+forderung       h=3
+steine  weiss   kf1 tb7h1 sc4 bg2
+        schwarz kb1 ta1g6 lb6 sc1 ba2c2c3e3g3
+option          zug intell maxzeit 600
 weiter
 
-autor		Ch. Wermelinger
-quelle		1272, Europe Echecs 4/1968
-forderung	h=6
-steine	weiss	ka7 be2
-	schwarz	kh1 sf8 ba2d2g2
-option		zug intell 
+autor           Ch. Wermelinger
+quelle          1272, Europe Echecs 4/1968
+forderung       h=6
+steine  weiss   ka7 be2
+        schwarz kh1 sf8 ba2d2g2
+option          zug intell 
 weiter
 
-autor		Zdenek Oliva
-quelle		5027, Problemkiste 126, 12/1999
-titel		Fassung: Theodor Steudel, Problemkiste 128, 4/2000
-forderung	ser-h=13
-steine	weiss	kf2 ta1 lh4
-	schwarz	kc8 bd2d3d4d5d6d7
-option		intell zug
+autor           Zdenek Oliva
+quelle          5027, Problemkiste 126, 12/1999
+titel           Fassung: Theodor Steudel, Problemkiste 128, 4/2000
+forderung       ser-h=13
+steine  weiss   kf2 ta1 lh4
+        schwarz kc8 bd2d3d4d5d6d7
+option          intell zug
 weiter
 
-autor		Erich Bartel
-quelle		542, Felad. Lapja 1971
-titel		Korr.: Problemkiste 128, 4/2000
-forderung	h=4
-steine	weiss	kc4 bc2
-	schwarz	ka8 tb8 la7 bc7
-option		intell zug
+autor           Erich Bartel
+quelle          542, Felad. Lapja 1971
+titel           Korr.: Problemkiste 128, 4/2000
+forderung       h=4
+steine  weiss   kc4 bc2
+        schwarz ka8 tb8 la7 bc7
+option          intell zug
 weiter
 
-autor		E. J. Weise
-quelle		5116, Problemkiste 128, 4/2000
-forderung	h=4
-steine	weiss	ke3 se8 bc4f5
-	schwarz	kb4 sf6
-option		intell zug
+autor           E. J. Weise
+quelle          5116, Problemkiste 128, 4/2000
+forderung       h=4
+steine  weiss   ke3 se8 bc4f5
+        schwarz kb4 sf6
+option          intell zug
 weiter
 
-autor		Kurt Ewald
-quelle		5121, Problemkiste 128, 4/2000
-forderung	ser-h=10
-steine	weiss	kc5 ta8 lb2 bb4c3e6
-	schwarz	ke8 dg7 ld8 be7
-option		intell zug
+autor           Kurt Ewald
+quelle          5121, Problemkiste 128, 4/2000
+forderung       ser-h=10
+steine  weiss   kc5 ta8 lb2 bb4c3e6
+        schwarz ke8 dg7 ld8 be7
+option          intell zug
 weiter
 
-autor		Luigi Vitale
-quelle		5118, Problemkiste 128, 4/2000
-forderung	h=6
-steine	weiss	kh1 sg1
-	schwarz	kf2 tf1 sf3 be3h3h4h5
-option		intell zug
+autor           Luigi Vitale
+quelle          5118, Problemkiste 128, 4/2000
+forderung       h=6
+steine  weiss   kh1 sg1
+        schwarz kf2 tf1 sf3 be3h3h4h5
+option          intell zug
 weiter
 
 auto Tivadar Kardos
