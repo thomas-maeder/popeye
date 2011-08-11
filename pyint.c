@@ -2089,21 +2089,21 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-    {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
-                                                                         pp,
-                                                                         to_be_blocked);
-      if (time<=nr_remaining_black_moves
-          && !uninterceptably_attacks_white_king(to_be_blocked,pp))
+      if (!uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
-        SetPiece(pp,to_be_blocked,blocker_flags);
-        stalemate_test_target_position(nr_remaining_black_moves-time,
-                                       nr_remaining_white_moves,
-                                       max_nr_allowed_captures_of_black_pieces,
-                                       max_nr_allowed_captures_of_white_pieces,
-                                       n);
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
+                                                                           pp,
+                                                                           to_be_blocked);
+        if (time<=nr_remaining_black_moves)
+        {
+          SetPiece(pp,to_be_blocked,blocker_flags);
+          stalemate_test_target_position(nr_remaining_black_moves-time,
+                                         nr_remaining_white_moves,
+                                         max_nr_allowed_captures_of_black_pieces,
+                                         max_nr_allowed_captures_of_white_pieces,
+                                         n);
+        }
       }
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -2129,6 +2129,7 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  if (!uninterceptably_attacks_white_king(to_be_blocked,pn))
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
@@ -2136,8 +2137,7 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
                                                                           blocker_comes_from,
                                                                           to_be_blocked);
     if (time<=nr_remaining_black_moves
-        && nr_required_captures<=max_nr_allowed_captures_of_black_pieces
-        && !uninterceptably_attacks_white_king(to_be_blocked,pn))
+        && nr_required_captures<=max_nr_allowed_captures_of_black_pieces)
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
       stalemate_test_target_position(nr_remaining_black_moves-time,
@@ -2173,13 +2173,13 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  if (!uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
                                                                  blocker_comes_from,
                                                                  blocker_type,
                                                                  to_be_blocked);
-    if (time<=nr_remaining_black_moves
-        && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
+    if (time<=nr_remaining_black_moves)
     {
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
       stalemate_test_target_position(nr_remaining_black_moves-time,
@@ -4009,13 +4009,14 @@ static void block_one_flight_officer(square to_be_blocked,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  if (!uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,blocks_from,blocker_type,to_be_blocked);
     TraceValue("%u\n",mintime[current_flight]);
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
+      if (wasted<=timetowaste)
       {
         SetPiece(blocker_type,to_be_blocked,blocker_flags);
         block_flights(nr_remaining_white_moves,
@@ -4054,6 +4055,7 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  if (!uninterceptably_attacks_white_king(to_be_blocked,pn))
   {
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                           blocks_from,
@@ -4062,8 +4064,7 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
     if (time>=mintime[current_flight])
     {
       unsigned int const wasted = time-mintime[current_flight];
-      if (wasted<=timetowaste
-          && !uninterceptably_attacks_white_king(to_be_blocked,pn))
+      if (wasted<=timetowaste)
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
         SetPiece(pn,to_be_blocked,blocker_flags);
@@ -4121,34 +4122,34 @@ static void block_one_flight_with_prom(square to_be_blocked,
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-    {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocks_from,
-                                                                         pp,
-                                                                         to_be_blocked);
-      TraceValue("%u\n",mintime[current_flight]);
-      if (time>=mintime[current_flight])
+      if (!uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
-        unsigned int const wasted = time-mintime[current_flight];
-        unsigned int diffcol = 0;
-        if (pp==fn)
+        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocks_from,
+                                                                           pp,
+                                                                           to_be_blocked);
+        TraceValue("%u\n",mintime[current_flight]);
+        if (time>=mintime[current_flight])
         {
-          unsigned int const placed_from_file = blocks_from%nr_files_on_board;
-          square const promotion_square_on_same_file = square_a1+placed_from_file;
-          if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
-            diffcol = 1;
-        }
-        if (diffcol<=max_nr_allowed_captures_of_black_pieces
-            && wasted<=timetowaste
-            && !uninterceptably_attacks_white_king(to_be_blocked,pp))
-        {
-          SetPiece(pp,to_be_blocked,blocker_flags);
-          block_flights(nr_remaining_white_moves,
-                        nr_flights-1,toblock,mintime,
-                        max_nr_allowed_captures_of_black_pieces-diffcol,max_nr_allowed_captures_of_white_pieces,
-                        timetowaste-wasted,n);
+          unsigned int const wasted = time-mintime[current_flight];
+          unsigned int diffcol = 0;
+          if (pp==fn)
+          {
+            unsigned int const placed_from_file = blocks_from%nr_files_on_board;
+            square const promotion_square_on_same_file = square_a1+placed_from_file;
+            if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
+              diffcol = 1;
+          }
+          if (diffcol<=max_nr_allowed_captures_of_black_pieces
+              && wasted<=timetowaste)
+          {
+            SetPiece(pp,to_be_blocked,blocker_flags);
+            block_flights(nr_remaining_white_moves,
+                          nr_flights-1,toblock,mintime,
+                          max_nr_allowed_captures_of_black_pieces-diffcol,max_nr_allowed_captures_of_white_pieces,
+                          timetowaste-wasted,n);
+          }
         }
       }
-    }
   }
 
   TraceFunctionExit(__func__);
