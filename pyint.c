@@ -836,6 +836,11 @@ static void mate_place_any_white_piece_on(square placed_on,
                                           unsigned int max_nr_allowed_captures_of_black_pieces,
                                           unsigned int max_nr_allowed_captures_of_white_pieces,
                                           stip_length_type n);
+static void stalemate_test_target_position(unsigned int nr_remaining_black_moves,
+                                           unsigned int nr_remaining_white_moves,
+                                           unsigned int max_nr_allowed_captures_of_black_pieces,
+                                           unsigned int max_nr_allowed_captures_of_white_pieces,
+                                           stip_length_type n);
 
 /*#define DETAILS*/
 #if defined(DETAILS)
@@ -896,7 +901,7 @@ static piece_usage find_piece_usage(PieceIdType id)
 }
 #endif
 
-static void try_to_reach_target_position(stip_length_type n)
+static void solve_target_position(stip_length_type n)
 {
   square const save_king_square[nr_sides] = { king_square[White],
                                               king_square[Black] };
@@ -1059,7 +1064,7 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
 
         CapturesLeft[1] = unused;
 
-        try_to_reach_target_position(n);
+        solve_target_position(n);
       }
     }
   }
@@ -1218,7 +1223,7 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
                                               max_nr_allowed_captures_of_white_pieces,
                                               n);
       else
-        try_to_reach_target_position(n);
+        solve_target_position(n);
     }
   }
   else
@@ -1486,19 +1491,11 @@ static void stalemate_immobilise_by_pin_by_officer(unsigned int nr_remaining_bla
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pinner_type,pin_from,pinner_flags);
-      if (slice_has_solution(slices[current_start_slice].u.fork.fork)
-          ==has_solution)
-        stalemate_deal_with_unused_pieces(nr_remaining_black_moves,
-                                          nr_remaining_white_moves-time,
-                                          max_nr_allowed_captures_of_black_pieces-1,
-                                          max_nr_allowed_captures_of_white_pieces,
-                                          n);
-      else
-        stalemate_immobilise_black(nr_remaining_black_moves,
-                                   nr_remaining_white_moves-time,
-                                   max_nr_allowed_captures_of_black_pieces-1,
-                                   max_nr_allowed_captures_of_white_pieces,
-                                   n);
+      stalemate_test_target_position(nr_remaining_black_moves,
+                                     nr_remaining_white_moves-time,
+                                     max_nr_allowed_captures_of_black_pieces-1,
+                                     max_nr_allowed_captures_of_white_pieces,
+                                     n);
     }
   }
 
@@ -1752,18 +1749,12 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
                                    max_nr_allowed_captures_of_black_pieces,
                                    max_nr_allowed_captures_of_white_pieces,
                                    n);
-      else if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
-        stalemate_deal_with_unused_pieces(nr_remaining_black_moves,
-                                          nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
-                                          n);
       else
-        stalemate_immobilise_black(nr_remaining_black_moves,
-                                   nr_remaining_white_moves,
-                                   max_nr_allowed_captures_of_black_pieces,
-                                   max_nr_allowed_captures_of_white_pieces,
-                                   n);
+        stalemate_test_target_position(nr_remaining_black_moves,
+                                       nr_remaining_white_moves,
+                                       max_nr_allowed_captures_of_black_pieces,
+                                       max_nr_allowed_captures_of_white_pieces,
+                                       n);
     }
 
     e[king_square[White]] = vide;
@@ -2029,7 +2020,7 @@ static void stalemate_intercept_check_black(Side side,
   TraceFunctionResultEnd();
 }
 
-static void stalemate_continue_after_block(unsigned int nr_remaining_black_moves,
+static void stalemate_test_target_position(unsigned int nr_remaining_black_moves,
                                            unsigned int nr_remaining_white_moves,
                                            unsigned int max_nr_allowed_captures_of_black_pieces,
                                            unsigned int max_nr_allowed_captures_of_white_pieces,
@@ -2102,7 +2093,7 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
           && !uninterceptably_attacks_white_king(to_be_blocked,pp))
       {
         SetPiece(pp,to_be_blocked,blocker_flags);
-        stalemate_continue_after_block(nr_remaining_black_moves-time,
+        stalemate_test_target_position(nr_remaining_black_moves-time,
                                        nr_remaining_white_moves,
                                        max_nr_allowed_captures_of_black_pieces,
                                        max_nr_allowed_captures_of_white_pieces,
@@ -2145,7 +2136,7 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
         && !uninterceptably_attacks_white_king(to_be_blocked,pn))
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
-      stalemate_continue_after_block(nr_remaining_black_moves-time,
+      stalemate_test_target_position(nr_remaining_black_moves-time,
                                      nr_remaining_white_moves,
                                      max_nr_allowed_captures_of_black_pieces-nr_required_captures,
                                      max_nr_allowed_captures_of_white_pieces,
@@ -2187,7 +2178,7 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
         && !uninterceptably_attacks_white_king(to_be_blocked,blocker_type))
     {
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
-      stalemate_continue_after_block(nr_remaining_black_moves-time,
+      stalemate_test_target_position(nr_remaining_black_moves-time,
                                      nr_remaining_white_moves,
                                      max_nr_allowed_captures_of_black_pieces,
                                      max_nr_allowed_captures_of_white_pieces,
@@ -2833,7 +2824,7 @@ static void stalemate_continue_after_white_block(unsigned int nr_remaining_black
                                max_nr_allowed_captures_of_white_pieces,
                                n);
   else
-    stalemate_continue_after_block(nr_remaining_black_moves,
+    stalemate_test_target_position(nr_remaining_black_moves,
                                    nr_remaining_white_moves,
                                    max_nr_allowed_captures_of_black_pieces,
                                    max_nr_allowed_captures_of_white_pieces,
@@ -3260,21 +3251,11 @@ static void stalemate_continue_intercepting_checks(Side side,
   TraceFunctionParamListEnd();
 
   if (nr_of_check_directions==0)
-  {
-    if (slice_has_solution(slices[current_start_slice].u.fork.fork)
-        ==has_solution)
-      stalemate_deal_with_unused_pieces(nr_remaining_black_moves,
-                                        nr_remaining_white_moves,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
-                                        n);
-    else
-      stalemate_immobilise_black(nr_remaining_black_moves,
-                                 nr_remaining_white_moves,
-                                 max_nr_allowed_captures_of_black_pieces,
-                                 max_nr_allowed_captures_of_white_pieces,
-                                 n);
-  }
+    stalemate_test_target_position(nr_remaining_black_moves,
+                                   nr_remaining_white_moves,
+                                   max_nr_allowed_captures_of_black_pieces,
+                                   max_nr_allowed_captures_of_white_pieces,
+                                   n);
   else
     stalemate_intercept_next_check(side,
                                    nr_remaining_black_moves,
@@ -3966,19 +3947,12 @@ static void finalise_blocking(unsigned int nr_remaining_white_moves,
                                  max_nr_allowed_captures_of_black_pieces,
                                  max_nr_allowed_captures_of_white_pieces,
                                  n);
-    else if (slice_has_solution(slices[current_start_slice].u.fork.fork)
-             ==has_solution)
-      stalemate_deal_with_unused_pieces(timetowaste,
-                                        nr_remaining_white_moves,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
-                                        n);
     else
-      stalemate_immobilise_black(timetowaste,
-                                 nr_remaining_white_moves,
-                                 max_nr_allowed_captures_of_black_pieces,
-                                 max_nr_allowed_captures_of_white_pieces,
-                                 n);
+      stalemate_test_target_position(timetowaste,
+                                     nr_remaining_white_moves,
+                                     max_nr_allowed_captures_of_black_pieces,
+                                     max_nr_allowed_captures_of_white_pieces,
+                                     n);
   }
   else if (echecc(nbply,Black))
     mate_deal_with_pieces_disturbing_mate(timetowaste,
