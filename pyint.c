@@ -499,6 +499,7 @@ static unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
 
       default:
         assert(0);
+        result = UINT_MAX;
         break;
     }
   }
@@ -2044,6 +2045,50 @@ static void stalemate_test_target_position(unsigned int nr_remaining_black_moves
   TraceFunctionResultEnd();
 }
 
+static void stalemate_continue_after_block(Side side,
+                                           unsigned int nr_remaining_black_moves,
+                                           unsigned int nr_remaining_white_moves,
+                                           unsigned int max_nr_allowed_captures_by_black_pieces,
+                                           unsigned int max_nr_allowed_captures_by_white_pieces,
+                                           square to_be_blocked,
+                                           piece blocker_type,
+                                           unsigned int nr_checks_to_opponent,
+                                           stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceSquare(to_be_blocked);
+  TracePiece(blocker_type);
+  TraceFunctionParam("%u",nr_checks_to_opponent);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (guards(king_square[side],blocker_type,to_be_blocked))
+  {
+    unsigned int const nr_checks_to_opponent = 0;
+    stalemate_intercept_checks(side,
+                               nr_remaining_black_moves,
+                               nr_remaining_white_moves,
+                               max_nr_allowed_captures_by_black_pieces,
+                               max_nr_allowed_captures_by_white_pieces,
+                               nr_checks_to_opponent,
+                               n);
+  }
+  else
+    stalemate_test_target_position(nr_remaining_black_moves,
+                                   nr_remaining_white_moves,
+                                   max_nr_allowed_captures_by_black_pieces,
+                                   max_nr_allowed_captures_by_white_pieces,
+                                   n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stalemate_block_black_promotion(unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
                                             unsigned int max_nr_allowed_captures_by_black_pieces,
@@ -2085,24 +2130,17 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
                                                                            to_be_blocked);
         if (time<=nr_remaining_black_moves)
         {
+          unsigned int const nr_checks_to_black = 0;
           SetPiece(pp,to_be_blocked,blocker_flags);
-          if (guards(king_square[White],pp,to_be_blocked))
-          {
-            unsigned int const nr_checks_to_black = 0;
-            stalemate_intercept_checks(White,
-                                       nr_remaining_white_moves,
-                                       nr_remaining_black_moves-time,
-                                       max_nr_allowed_captures_by_black_pieces,
-                                       max_nr_allowed_captures_by_white_pieces,
-                                       nr_checks_to_black,
-                                       n);
-          }
-          else
-            stalemate_test_target_position(nr_remaining_black_moves-time,
-                                           nr_remaining_white_moves,
-                                           max_nr_allowed_captures_by_black_pieces,
-                                           max_nr_allowed_captures_by_white_pieces,
-                                           n);
+          stalemate_continue_after_block(White,
+                                         nr_remaining_black_moves-time,
+                                         nr_remaining_white_moves,
+                                         max_nr_allowed_captures_by_black_pieces,
+                                         max_nr_allowed_captures_by_white_pieces,
+                                         to_be_blocked,
+                                         pp,
+                                         nr_checks_to_black,
+                                         n);
         }
       }
   }
@@ -2182,24 +2220,17 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
                                                                  to_be_blocked);
     if (time<=nr_remaining_black_moves)
     {
+      unsigned int const nr_checks_to_black = 0;
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
-      if (guards(king_square[White],blocker_type,to_be_blocked))
-      {
-        unsigned int const nr_checks_to_black = 0;
-        stalemate_intercept_checks(White,
-                                   nr_remaining_white_moves,
-                                   nr_remaining_black_moves-time,
-                                   max_nr_allowed_captures_by_black_pieces,
-                                   max_nr_allowed_captures_by_white_pieces,
-                                   nr_checks_to_black,
-                                   n);
-      }
-      else
-        stalemate_test_target_position(nr_remaining_black_moves-time,
-                                       nr_remaining_white_moves,
-                                       max_nr_allowed_captures_by_black_pieces,
-                                       max_nr_allowed_captures_by_white_pieces,
-                                       n);
+      stalemate_continue_after_block(White,
+                                     nr_remaining_black_moves-time,
+                                     nr_remaining_white_moves,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
+                                     to_be_blocked,
+                                     blocker_type,
+                                     nr_checks_to_black,
+                                     n);
     }
   }
 
@@ -2929,24 +2960,17 @@ static void stalemate_block_white_promotion(unsigned int blocker_index,
                                                                            to_be_blocked);
         if (time<=nr_remaining_white_moves)
         {
+          unsigned int const nr_checks_to_white = 0;
           SetPiece(pp,to_be_blocked,white[blocker_index].flags);
-          if (guards(king_square[Black],pp,to_be_blocked))
-          {
-            unsigned int const nr_checks_to_white = 0;
-            stalemate_intercept_checks(Black,
-                                       nr_remaining_black_moves,
-                                       nr_remaining_white_moves-time,
-                                       max_nr_allowed_captures_by_black_pieces,
-                                       max_nr_allowed_captures_by_white_pieces,
-                                       nr_checks_to_white,
-                                       n);
-          }
-          else
-            stalemate_test_target_position(nr_remaining_black_moves,
-                                           nr_remaining_white_moves-time,
-                                           max_nr_allowed_captures_by_black_pieces,
-                                           max_nr_allowed_captures_by_white_pieces,
-                                           n);
+          stalemate_continue_after_block(Black,
+                                         nr_remaining_black_moves,
+                                         nr_remaining_white_moves-time,
+                                         max_nr_allowed_captures_by_black_pieces,
+                                         max_nr_allowed_captures_by_white_pieces,
+                                         to_be_blocked,
+                                         pp,
+                                         nr_checks_to_white,
+                                         n);
         }
       }
   }
@@ -3036,24 +3060,17 @@ static void stalemate_block_white_officer(piece blocker_type,
                                                                  to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
+      unsigned int const nr_checks_to_white = 0;
       SetPiece(blocker_type,to_be_blocked,white[blocker_index].flags);
-      if (guards(king_square[Black],blocker_type,to_be_blocked))
-      {
-        unsigned int const nr_checks_to_white = 0;
-        stalemate_intercept_checks(Black,
-                                   nr_remaining_black_moves,
-                                   nr_remaining_white_moves-time,
-                                   max_nr_allowed_captures_by_black_pieces,
-                                   max_nr_allowed_captures_by_white_pieces,
-                                   nr_checks_to_white,
-                                   n);
-      }
-      else
-        stalemate_test_target_position(nr_remaining_black_moves,
-                                       nr_remaining_white_moves-time,
-                                       max_nr_allowed_captures_by_black_pieces,
-                                       max_nr_allowed_captures_by_white_pieces,
-                                       n);
+      stalemate_continue_after_block(Black,
+                                     nr_remaining_black_moves,
+                                     nr_remaining_white_moves-time,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
+                                     to_be_blocked,
+                                     blocker_type,
+                                     nr_checks_to_white,
+                                     n);
     }
   }
 
@@ -5698,6 +5715,7 @@ boolean isGoalReachable(void)
 
     default:
       assert(0);
+      result = false;
       break;
   }
 
