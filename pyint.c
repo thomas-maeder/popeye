@@ -747,31 +747,31 @@ static boolean stalemate_isGoalReachable(void)
 /* declarations */
 static void stalemate_black_block(unsigned int nr_remaining_black_moves,
                                   unsigned int nr_remaining_white_moves,
-                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                   square to_be_blocked,
                                   stip_length_type n);
 static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   stip_length_type n);
 static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                  stip_length_type n);
 static void stalemate_intercept_checks(Side side,
                                        unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                        stip_length_type n);
 static void stalemate_continue_intercepting_checks(Side side,
                                                    unsigned int nr_remaining_black_moves,
                                                    unsigned int nr_remaining_white_moves,
-                                                   unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                   unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
                                                    int const check_directions[8],
                                                    unsigned int nr_of_check_directions,
                                                    unsigned int const nr_checks_to_opponent,
@@ -780,30 +780,30 @@ static unsigned int count_nr_black_moves_to_square(square to_be_blocked,
                                                    unsigned int nr_remaining_black_moves);
 static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining_black_moves,
                                                        unsigned int nr_remaining_white_moves,
-                                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                                        stip_length_type n);
 static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             stip_length_type n);
 static void mate_place_any_black_piece_on(square placed_on,
                                           unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           stip_length_type n);
 static void mate_place_any_white_piece_on(square placed_on,
                                           unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           stip_length_type n);
 static void stalemate_test_target_position(unsigned int nr_remaining_black_moves,
                                            unsigned int nr_remaining_white_moves,
-                                           unsigned int max_nr_allowed_captures_of_black_pieces,
-                                           unsigned int max_nr_allowed_captures_of_white_pieces,
+                                           unsigned int max_nr_allowed_captures_by_black_pieces,
+                                           unsigned int max_nr_allowed_captures_by_white_pieces,
                                            stip_length_type n);
 
 /*#define DETAILS*/
@@ -971,15 +971,15 @@ static void solve_target_position(stip_length_type n)
 
 static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_moves,
                                               unsigned int nr_remaining_white_moves,
-                                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
                                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -992,8 +992,8 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
       if (e[white[index_of_king].square]==vide)
         stalemate_fix_white_king_on_diagram_square(nr_remaining_black_moves,
                                                    nr_remaining_white_moves,
-                                                   max_nr_allowed_captures_of_black_pieces,
-                                                   max_nr_allowed_captures_of_white_pieces,
+                                                   max_nr_allowed_captures_by_black_pieces,
+                                                   max_nr_allowed_captures_by_white_pieces,
                                                    n);
     }
     else
@@ -1012,8 +1012,8 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
       if (unused>0)
         stalemate_place_an_unused_black_piece(nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               n);
 
       if (unused<=MovesLeft[White])
@@ -1022,8 +1022,8 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
           stalemate_intercept_checks(White,
                                      nr_remaining_black_moves,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
 
         CapturesLeft[1] = unused;
@@ -1039,8 +1039,8 @@ static void stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_mo
 
 static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   stip_length_type n)
 {
   square const *bnp;
@@ -1049,8 +1049,8 @@ static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_blac
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1060,8 +1060,8 @@ static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_blac
       where_to_start_placing_unused_black_pieces = bnp;
       stalemate_black_block(nr_remaining_black_moves,
                             nr_remaining_white_moves,
-                            max_nr_allowed_captures_of_black_pieces,
-                            max_nr_allowed_captures_of_white_pieces,
+                            max_nr_allowed_captures_by_black_pieces,
+                            max_nr_allowed_captures_by_white_pieces,
                             *bnp,
                             n);
     }
@@ -1074,8 +1074,8 @@ static void stalemate_place_an_unused_black_piece(unsigned int nr_remaining_blac
 
 static void mate_prevent_check_against_white_king(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   stip_length_type n)
 {
   square trouble = initsquare;
@@ -1108,14 +1108,14 @@ static void mate_prevent_check_against_white_king(unsigned int nr_remaining_blac
       mate_place_any_black_piece_on(sq,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
       mate_place_any_white_piece_on(sq,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
     }
   }
@@ -1159,15 +1159,15 @@ static boolean mate_exists_redundant_white_piece(void)
 
 static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1183,8 +1183,8 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
       if (echecc(nbply,White))
         mate_prevent_check_against_white_king(nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               n);
       else
         solve_target_position(n);
@@ -1193,8 +1193,8 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
   else
     mate_neutralise_guarding_pieces(nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
 
   TraceFunctionExit(__func__);
@@ -1203,8 +1203,8 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
 
 static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_moves,
                                               unsigned int nr_remaining_white_moves,
-                                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
                                               piece pinner_orig_type,
                                               piece pinner_type,
                                               Flags pinner_flags,
@@ -1215,8 +1215,8 @@ static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_mo
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TracePiece(pinner_orig_type);
   TracePiece(pinner_type);
   TraceSquare(pinner_comes_from);
@@ -1234,8 +1234,8 @@ static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_mo
       SetPiece(pinner_type,pin_from,pinner_flags);
       mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
                                             nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_of_black_pieces,
-                                            max_nr_allowed_captures_of_white_pieces,
+                                            max_nr_allowed_captures_by_black_pieces,
+                                            max_nr_allowed_captures_by_white_pieces,
                                             n);
     }
   }
@@ -1246,8 +1246,8 @@ static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_mo
 
 static void mate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaining_black_moves,
                                                     unsigned int nr_remaining_white_moves,
-                                                    unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                    unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                    unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                    unsigned int max_nr_allowed_captures_by_white_pieces,
                                                     Flags pinner_flags,
                                                     square pinner_comes_from,
                                                     square pin_from,
@@ -1259,8 +1259,8 @@ static void mate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaining_bl
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParam("%u",diagonal);
@@ -1269,16 +1269,16 @@ static void mate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaining_bl
 
   mate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     pb,minor_pinner_type,pinner_flags,
                                     pinner_comes_from,
                                     pin_from,
                                     n);
   mate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     pb,db,pinner_flags,
                                     pinner_comes_from,
                                     pin_from,
@@ -1291,8 +1291,8 @@ static void mate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaining_bl
 static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
                                                       unsigned int nr_remaining_black_moves,
                                                       unsigned int nr_remaining_white_moves,
-                                                      unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                      unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                      unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                      unsigned int max_nr_allowed_captures_by_white_pieces,
                                                       square pin_on,
                                                       unsigned int pinner_index,
                                                       boolean diagonal,
@@ -1309,8 +1309,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
   TraceFunctionParam("%u",diagonal);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1319,8 +1319,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
     case db:
       mate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                         nr_remaining_white_moves,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
                                         db,db,pinner_flags,
                                         pinner_comes_from,
                                         pin_on,
@@ -1331,8 +1331,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
       if (!diagonal)
         mate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           tb,tb,pinner_flags,
                                           pinner_comes_from,
                                           pin_on,
@@ -1343,8 +1343,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
       if (diagonal)
         mate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           fb,fb,pinner_flags,
                                           pinner_comes_from,
                                           pin_on,
@@ -1357,8 +1357,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
     case pb:
       mate_immobilise_by_pin_by_promoted_pawn(nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               pinner_flags,
                                               pinner_comes_from,
                                               pin_on,
@@ -1378,8 +1378,8 @@ static void mate_pin_black_piece_on_1square_by_1piece(square sq_to_be_pinned,
 static void mate_pin_black_piece(square sq_to_be_pinned,
                                  unsigned int nr_remaining_black_moves,
                                  unsigned int nr_remaining_white_moves,
-                                 unsigned int max_nr_allowed_captures_of_black_pieces,
-                                 unsigned int max_nr_allowed_captures_of_white_pieces,
+                                 unsigned int max_nr_allowed_captures_by_black_pieces,
+                                 unsigned int max_nr_allowed_captures_by_white_pieces,
                                  stip_length_type n)
 {
   int const dir = sq_to_be_pinned-king_square[Black];
@@ -1390,8 +1390,8 @@ static void mate_pin_black_piece(square sq_to_be_pinned,
   TraceSquare(sq_to_be_pinned);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1406,8 +1406,8 @@ static void mate_pin_black_piece(square sq_to_be_pinned,
         mate_pin_black_piece_on_1square_by_1piece(sq_to_be_pinned,
                                                   nr_remaining_black_moves,
                                                   nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_of_black_pieces,
-                                                  max_nr_allowed_captures_of_white_pieces,
+                                                  max_nr_allowed_captures_by_black_pieces,
+                                                  max_nr_allowed_captures_by_white_pieces,
                                                   pin_on,
                                                   pinner_index,
                                                   diagonal,
@@ -1426,8 +1426,8 @@ static void mate_pin_black_piece(square sq_to_be_pinned,
 
 static void stalemate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_moves,
                                                    unsigned int nr_remaining_white_moves,
-                                                   unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                   unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
                                                    piece pinner_orig_type,
                                                    piece pinner_type,
                                                    Flags pinner_flags,
@@ -1438,8 +1438,8 @@ static void stalemate_immobilise_by_pin_by_officer(unsigned int nr_remaining_bla
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TracePiece(pinner_orig_type);
   TracePiece(pinner_type);
   TraceSquare(pinner_comes_from);
@@ -1457,8 +1457,8 @@ static void stalemate_immobilise_by_pin_by_officer(unsigned int nr_remaining_bla
       SetPiece(pinner_type,pin_from,pinner_flags);
       stalemate_test_target_position(nr_remaining_black_moves,
                                      nr_remaining_white_moves-time,
-                                     max_nr_allowed_captures_of_black_pieces-1,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces-1,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
     }
   }
@@ -1469,8 +1469,8 @@ static void stalemate_immobilise_by_pin_by_officer(unsigned int nr_remaining_bla
 
 static void stalemate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaining_black_moves,
                                                          unsigned int nr_remaining_white_moves,
-                                                         unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                         unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_white_pieces,
                                                          Flags pinner_flags,
                                                          square pinner_comes_from,
                                                          square pin_from,
@@ -1482,8 +1482,8 @@ static void stalemate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaini
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParam("%u",diagonal);
@@ -1492,16 +1492,16 @@ static void stalemate_immobilise_by_pin_by_promoted_pawn(unsigned int nr_remaini
 
   stalemate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                          nr_remaining_white_moves,
-                                         max_nr_allowed_captures_of_black_pieces,
-                                         max_nr_allowed_captures_of_white_pieces,
+                                         max_nr_allowed_captures_by_black_pieces,
+                                         max_nr_allowed_captures_by_white_pieces,
                                          pb,minor_pinner_type,pinner_flags,
                                          pinner_comes_from,
                                          pin_from,
                                          n);
   stalemate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                          nr_remaining_white_moves,
-                                         max_nr_allowed_captures_of_black_pieces,
-                                         max_nr_allowed_captures_of_white_pieces,
+                                         max_nr_allowed_captures_by_black_pieces,
+                                         max_nr_allowed_captures_by_white_pieces,
                                          pb,db,pinner_flags,
                                          pinner_comes_from,
                                          pin_from,
@@ -1537,8 +1537,8 @@ static boolean is_line_empty(square start, square end, int dir)
 
 static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_remaining_black_moves,
                                                              unsigned int nr_remaining_white_moves,
-                                                             unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                             unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                             unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                             unsigned int max_nr_allowed_captures_by_white_pieces,
                                                              square sq_to_be_pinned,
                                                              square pin_on,
                                                              unsigned int pinner_index,
@@ -1552,8 +1552,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(sq_to_be_pinned);
   TraceSquare(pin_on);
   TraceFunctionParam("%u",pinner_index);
@@ -1569,8 +1569,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
       if (!diagonal)
         stalemate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                                nr_remaining_white_moves,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces,
                                                tb,tb,pinner_flags,
                                                pinner_comes_from,
                                                pin_on,
@@ -1581,8 +1581,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
       if (diagonal)
         stalemate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                                nr_remaining_white_moves,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces,
                                                fb,fb,pinner_flags,
                                                pinner_comes_from,
                                                pin_on,
@@ -1592,8 +1592,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
     case db:
       stalemate_immobilise_by_pin_by_officer(nr_remaining_black_moves,
                                              nr_remaining_white_moves,
-                                             max_nr_allowed_captures_of_black_pieces,
-                                             max_nr_allowed_captures_of_white_pieces,
+                                             max_nr_allowed_captures_by_black_pieces,
+                                             max_nr_allowed_captures_by_white_pieces,
                                              db,db,pinner_flags,
                                              pinner_comes_from,
                                              pin_on,
@@ -1603,8 +1603,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
     case pb:
       stalemate_immobilise_by_pin_by_promoted_pawn(nr_remaining_black_moves,
                                                    nr_remaining_white_moves,
-                                                   max_nr_allowed_captures_of_black_pieces,
-                                                   max_nr_allowed_captures_of_white_pieces,
+                                                   max_nr_allowed_captures_by_black_pieces,
+                                                   max_nr_allowed_captures_by_white_pieces,
                                                    pinner_flags,
                                                    pinner_comes_from,
                                                    pin_on,
@@ -1623,8 +1623,8 @@ static void stalemate_immobilise_by_pin_on_1square_by_1piece(unsigned int nr_rem
 
 static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
                                         unsigned int nr_remaining_white_moves,
-                                        unsigned int max_nr_allowed_captures_of_black_pieces,
-                                        unsigned int max_nr_allowed_captures_of_white_pieces,
+                                        unsigned int max_nr_allowed_captures_by_black_pieces,
+                                        unsigned int max_nr_allowed_captures_by_white_pieces,
                                         square sq_to_be_pinned,
                                         stip_length_type n)
 {
@@ -1634,13 +1634,13 @@ static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(sq_to_be_pinned);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_nr_allowed_captures_of_black_pieces>0
+  if (max_nr_allowed_captures_by_black_pieces>0
       && dir!=0          /* we can only pin on queen lines */
       && pinned_type!=dn /* queens cannot be pinned */
       /* bishops can only be pined on rook lines and vice versa */
@@ -1662,8 +1662,8 @@ static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
 
           stalemate_immobilise_by_pin_on_1square_by_1piece(nr_remaining_black_moves,
                                                            nr_remaining_white_moves,
-                                                           max_nr_allowed_captures_of_black_pieces,
-                                                           max_nr_allowed_captures_of_white_pieces,
+                                                           max_nr_allowed_captures_by_black_pieces,
+                                                           max_nr_allowed_captures_by_white_pieces,
                                                            sq_to_be_pinned,
                                                            pin_on,
                                                            pinner_index,
@@ -1685,15 +1685,15 @@ static void stalemate_immobilise_by_pin(unsigned int nr_remaining_black_moves,
 
 static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining_black_moves,
                                                        unsigned int nr_remaining_white_moves,
-                                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                                        stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1707,8 +1707,8 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
     if (!is_white_king_attacked_by_non_king())
       stalemate_test_target_position(nr_remaining_black_moves,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
 
     e[king_square[White]] = vide;
@@ -1726,8 +1726,8 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
 static void stalemate_intercept_check_with_promoted_black_pawn(Side side,
                                                                unsigned int nr_remaining_black_moves,
                                                                unsigned int nr_remaining_white_moves,
-                                                               unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                               unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                               unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                               unsigned int max_nr_allowed_captures_by_white_pieces,
                                                                square to_be_blocked,
                                                                Flags blocker_flags,
                                                                square blocker_comes_from,
@@ -1745,8 +1745,8 @@ static void stalemate_intercept_check_with_promoted_black_pawn(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",nr_of_check_directions);
@@ -1780,8 +1780,8 @@ static void stalemate_intercept_check_with_promoted_black_pawn(Side side,
             stalemate_continue_intercepting_checks(side,
                                                    nr_remaining_black_moves-time,
                                                    nr_remaining_white_moves,
-                                                   max_nr_allowed_captures_of_black_pieces,
-                                                   max_nr_allowed_captures_of_white_pieces,
+                                                   max_nr_allowed_captures_by_black_pieces,
+                                                   max_nr_allowed_captures_by_white_pieces,
                                                    check_directions,
                                                    nr_of_check_directions,
                                                    nr_checks_to_opponent,
@@ -1798,8 +1798,8 @@ static void stalemate_intercept_check_with_promoted_black_pawn(Side side,
 static void stalemate_intercept_check_with_unpromoted_black_pawn(Side side,
                                                                  unsigned int nr_remaining_black_moves,
                                                                  unsigned int nr_remaining_white_moves,
-                                                                 unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                                 unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                                 unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                                 unsigned int max_nr_allowed_captures_by_white_pieces,
                                                                  square to_be_blocked,
                                                                  Flags blocker_flags,
                                                                  square blocker_comes_from,
@@ -1812,8 +1812,8 @@ static void stalemate_intercept_check_with_unpromoted_black_pawn(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",nr_of_check_directions);
@@ -1829,15 +1829,15 @@ static void stalemate_intercept_check_with_unpromoted_black_pawn(Side side,
                                                                           blocker_comes_from,
                                                                           to_be_blocked);
     if (time<=nr_remaining_black_moves
-        && nr_required_captures<=max_nr_allowed_captures_of_black_pieces
+        && nr_required_captures<=max_nr_allowed_captures_by_black_pieces
         && !(side==White && guards(king_square[White],pn,to_be_blocked)))
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
       stalemate_continue_intercepting_checks(side,
                                              nr_remaining_black_moves-time,
                                              nr_remaining_white_moves,
-                                             max_nr_allowed_captures_of_black_pieces-nr_required_captures,
-                                             max_nr_allowed_captures_of_white_pieces,
+                                             max_nr_allowed_captures_by_black_pieces-nr_required_captures,
+                                             max_nr_allowed_captures_by_white_pieces,
                                              check_directions,
                                              nr_of_check_directions,
                                              nr_checks_to_opponent,
@@ -1852,8 +1852,8 @@ static void stalemate_intercept_check_with_unpromoted_black_pawn(Side side,
 static void stalemate_intercept_check_with_black_officer(Side side,
                                                          unsigned int nr_remaining_black_moves,
                                                          unsigned int nr_remaining_white_moves,
-                                                         unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                         unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_white_pieces,
                                                          square to_be_blocked,
                                                          piece blocker_type,
                                                          Flags blocker_flags,
@@ -1867,8 +1867,8 @@ static void stalemate_intercept_check_with_black_officer(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TracePiece(blocker_type);
   TraceSquare(blocker_comes_from);
@@ -1894,8 +1894,8 @@ static void stalemate_intercept_check_with_black_officer(Side side,
         stalemate_continue_intercepting_checks(side,
                                                nr_remaining_black_moves-time,
                                                nr_remaining_white_moves,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces,
                                                check_directions,
                                                nr_of_check_directions,
                                                nr_checks_to_opponent,
@@ -1911,8 +1911,8 @@ static void stalemate_intercept_check_with_black_officer(Side side,
 static void stalemate_intercept_check_black(Side side,
                                             unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             square to_be_blocked,
                                             int const check_directions[8],
                                             unsigned int nr_of_check_directions,
@@ -1923,19 +1923,19 @@ static void stalemate_intercept_check_black(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_nr_allowed_captures_of_white_pieces>=1)
+  if (max_nr_allowed_captures_by_white_pieces>=1)
   {
     unsigned int i;
 
-    --max_nr_allowed_captures_of_white_pieces;
+    --max_nr_allowed_captures_by_white_pieces;
 
     for (i = 1; i<MaxPiece[Black]; ++i)
       if (black[i].usage==piece_is_unused)
@@ -1951,8 +1951,8 @@ static void stalemate_intercept_check_black(Side side,
           stalemate_intercept_check_with_promoted_black_pawn(side,
                                                              nr_remaining_black_moves,
                                                              nr_remaining_white_moves,
-                                                             max_nr_allowed_captures_of_black_pieces,
-                                                             max_nr_allowed_captures_of_white_pieces,
+                                                             max_nr_allowed_captures_by_black_pieces,
+                                                             max_nr_allowed_captures_by_white_pieces,
                                                              to_be_blocked,
                                                              blocker_flags,
                                                              blocker_comes_from,
@@ -1964,8 +1964,8 @@ static void stalemate_intercept_check_black(Side side,
             stalemate_intercept_check_with_unpromoted_black_pawn(side,
                                                                  nr_remaining_black_moves,
                                                                  nr_remaining_white_moves,
-                                                                 max_nr_allowed_captures_of_black_pieces,
-                                                                 max_nr_allowed_captures_of_white_pieces,
+                                                                 max_nr_allowed_captures_by_black_pieces,
+                                                                 max_nr_allowed_captures_by_white_pieces,
                                                                  to_be_blocked,
                                                                  blocker_flags,
                                                                  blocker_comes_from,
@@ -1978,8 +1978,8 @@ static void stalemate_intercept_check_black(Side side,
           stalemate_intercept_check_with_black_officer(side,
                                                        nr_remaining_black_moves,
                                                        nr_remaining_white_moves,
-                                                       max_nr_allowed_captures_of_black_pieces,
-                                                       max_nr_allowed_captures_of_white_pieces,
+                                                       max_nr_allowed_captures_by_black_pieces,
+                                                       max_nr_allowed_captures_by_white_pieces,
                                                        to_be_blocked,
                                                        blocker_type,
                                                        blocker_flags,
@@ -2002,15 +2002,15 @@ static void stalemate_intercept_check_black(Side side,
 
 static void stalemate_test_target_position(unsigned int nr_remaining_black_moves,
                                            unsigned int nr_remaining_white_moves,
-                                           unsigned int max_nr_allowed_captures_of_black_pieces,
-                                           unsigned int max_nr_allowed_captures_of_white_pieces,
+                                           unsigned int max_nr_allowed_captures_by_black_pieces,
+                                           unsigned int max_nr_allowed_captures_by_white_pieces,
                                            stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -2018,14 +2018,14 @@ static void stalemate_test_target_position(unsigned int nr_remaining_black_moves
   if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
     stalemate_deal_with_unused_pieces(nr_remaining_black_moves,
                                       nr_remaining_white_moves,
-                                      max_nr_allowed_captures_of_black_pieces,
-                                      max_nr_allowed_captures_of_white_pieces,
+                                      max_nr_allowed_captures_by_black_pieces,
+                                      max_nr_allowed_captures_by_white_pieces,
                                       n);
   else
     stalemate_immobilise_black(nr_remaining_black_moves,
                                nr_remaining_white_moves,
-                               max_nr_allowed_captures_of_black_pieces,
-                               max_nr_allowed_captures_of_white_pieces,
+                               max_nr_allowed_captures_by_black_pieces,
+                               max_nr_allowed_captures_by_white_pieces,
                                n);
 
   TraceFunctionExit(__func__);
@@ -2034,8 +2034,8 @@ static void stalemate_test_target_position(unsigned int nr_remaining_black_moves
 
 static void stalemate_block_black_promotion(unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             square to_be_blocked,
                                             Flags blocker_flags,
                                             square blocker_comes_from,
@@ -2049,8 +2049,8 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",n);
@@ -2076,8 +2076,8 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
           SetPiece(pp,to_be_blocked,blocker_flags);
           stalemate_test_target_position(nr_remaining_black_moves-time,
                                          nr_remaining_white_moves,
-                                         max_nr_allowed_captures_of_black_pieces,
-                                         max_nr_allowed_captures_of_white_pieces,
+                                         max_nr_allowed_captures_by_black_pieces,
+                                         max_nr_allowed_captures_by_white_pieces,
                                          n);
         }
       }
@@ -2089,8 +2089,8 @@ static void stalemate_block_black_promotion(unsigned int nr_remaining_black_move
 
 static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   square to_be_blocked,
                                                   Flags blocker_flags,
                                                   square blocker_comes_from,
@@ -2099,8 +2099,8 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceSquare(blocker_comes_from);
   TraceFunctionParam("%u",n);
@@ -2114,13 +2114,13 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
                                                                           blocker_comes_from,
                                                                           to_be_blocked);
     if (time<=nr_remaining_black_moves
-        && nr_required_captures<=max_nr_allowed_captures_of_black_pieces)
+        && nr_required_captures<=max_nr_allowed_captures_by_black_pieces)
     {
       SetPiece(pn,to_be_blocked,blocker_flags);
       stalemate_test_target_position(nr_remaining_black_moves-time,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces-nr_required_captures,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces-nr_required_captures,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
     }
   }
@@ -2131,8 +2131,8 @@ static void stalemate_block_unpromoted_black_pawn(unsigned int nr_remaining_blac
 
 static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           square to_be_blocked,
                                           piece blocker_type,
                                           Flags blocker_flags,
@@ -2142,8 +2142,8 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TracePiece(blocker_type);
   TraceSquare(blocker_comes_from);
@@ -2161,8 +2161,8 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
       stalemate_test_target_position(nr_remaining_black_moves-time,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
     }
   }
@@ -2173,8 +2173,8 @@ static void stalemate_block_black_officer(unsigned int nr_remaining_black_moves,
 
 static void stalemate_black_block(unsigned int nr_remaining_black_moves,
                                   unsigned int nr_remaining_white_moves,
-                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                   square to_be_blocked,
                                   stip_length_type n)
 {
@@ -2183,15 +2183,15 @@ static void stalemate_black_block(unsigned int nr_remaining_black_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_nr_allowed_captures_of_white_pieces>=1)
+  if (max_nr_allowed_captures_by_white_pieces>=1)
   {
-    --max_nr_allowed_captures_of_white_pieces;
+    --max_nr_allowed_captures_by_white_pieces;
 
     for (i = 1; i<MaxPiece[Black]; ++i)
       if (black[i].usage==piece_is_unused)
@@ -2206,8 +2206,8 @@ static void stalemate_black_block(unsigned int nr_remaining_black_moves,
         {
           stalemate_block_black_promotion(nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           to_be_blocked,
                                           blocker_flags,
                                           blocker_comes_from,
@@ -2215,8 +2215,8 @@ static void stalemate_black_block(unsigned int nr_remaining_black_moves,
           if (to_be_blocked>=square_a2)
             stalemate_block_unpromoted_black_pawn(nr_remaining_black_moves,
                                                   nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_of_black_pieces,
-                                                  max_nr_allowed_captures_of_white_pieces,
+                                                  max_nr_allowed_captures_by_black_pieces,
+                                                  max_nr_allowed_captures_by_white_pieces,
                                                   to_be_blocked,
                                                   blocker_flags,
                                                   blocker_comes_from,
@@ -2225,8 +2225,8 @@ static void stalemate_black_block(unsigned int nr_remaining_black_moves,
         else
           stalemate_block_black_officer(nr_remaining_black_moves,
                                         nr_remaining_white_moves,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
                                         to_be_blocked,
                                         blocker_type,
                                         blocker_flags,
@@ -2248,8 +2248,8 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
                                                                  unsigned int blocker_index,
                                                                  unsigned int nr_remaining_black_moves,
                                                                  unsigned int nr_remaining_white_moves,
-                                                                 unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                                 unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                                 unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                                 unsigned int max_nr_allowed_captures_by_white_pieces,
                                                                  square to_be_blocked,
                                                                  int const check_directions[8],
                                                                  unsigned int nr_of_check_directions,
@@ -2261,8 +2261,8 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
@@ -2274,7 +2274,7 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
     square const blocks_from = white[blocker_index].square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    if (max_nr_allowed_captures_of_white_pieces>=nr_captures_required)
+    if (max_nr_allowed_captures_by_white_pieces>=nr_captures_required)
     {
       unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                             blocks_from,
@@ -2286,8 +2286,8 @@ static void stalemate_intercept_check_with_unpromoted_white_pawn(Side side,
         stalemate_continue_intercepting_checks(side,
                                                nr_remaining_black_moves,
                                                nr_remaining_white_moves-time,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces-nr_captures_required,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces-nr_captures_required,
                                                check_directions,
                                                nr_of_check_directions,
                                                nr_checks_to_opponent,
@@ -2304,8 +2304,8 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
                                                                unsigned int blocker_index,
                                                                unsigned int nr_remaining_black_moves,
                                                                unsigned int nr_remaining_white_moves,
-                                                               unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                               unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                               unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                               unsigned int max_nr_allowed_captures_by_white_pieces,
                                                                square to_be_blocked,
                                                                int const check_directions[8],
                                                                unsigned int nr_of_check_directions,
@@ -2321,8 +2321,8 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
@@ -2350,8 +2350,8 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
             stalemate_continue_intercepting_checks(side,
                                                    nr_remaining_black_moves,
                                                    nr_remaining_white_moves-time,
-                                                   max_nr_allowed_captures_of_black_pieces,
-                                                   max_nr_allowed_captures_of_white_pieces,
+                                                   max_nr_allowed_captures_by_black_pieces,
+                                                   max_nr_allowed_captures_by_white_pieces,
                                                    check_directions,
                                                    nr_of_check_directions,
                                                    nr_checks_to_opponent,
@@ -2368,8 +2368,8 @@ static void stalemate_intercept_check_with_promoted_white_pawn(Side side,
 static void stalemate_intercept_check_with_white_king(Side side,
                                                       unsigned int nr_remaining_black_moves,
                                                       unsigned int nr_remaining_white_moves,
-                                                      unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                      unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                      unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                      unsigned int max_nr_allowed_captures_by_white_pieces,
                                                       square to_be_blocked,
                                                       int const check_directions[8],
                                                       unsigned int nr_of_check_directions,
@@ -2380,8 +2380,8 @@ static void stalemate_intercept_check_with_white_king(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
@@ -2402,8 +2402,8 @@ static void stalemate_intercept_check_with_white_king(Side side,
         stalemate_continue_intercepting_checks(side,
                                                nr_remaining_black_moves,
                                                nr_remaining_white_moves-time,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces,
                                                check_directions,
                                                nr_of_check_directions,
                                                nr_checks_to_opponent,
@@ -2422,8 +2422,8 @@ static void stalemate_intercept_check_with_white_officer(Side side,
                                                          unsigned int blocker_index,
                                                          unsigned int nr_remaining_black_moves,
                                                          unsigned int nr_remaining_white_moves,
-                                                         unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                         unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                         unsigned int max_nr_allowed_captures_by_white_pieces,
                                                          square to_be_blocked,
                                                          int const check_directions[8],
                                                          unsigned int nr_of_check_directions,
@@ -2436,8 +2436,8 @@ static void stalemate_intercept_check_with_white_officer(Side side,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
@@ -2461,8 +2461,8 @@ static void stalemate_intercept_check_with_white_officer(Side side,
         stalemate_continue_intercepting_checks(side,
                                                nr_remaining_black_moves,
                                                nr_remaining_white_moves-time,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
+                                               max_nr_allowed_captures_by_black_pieces,
+                                               max_nr_allowed_captures_by_white_pieces,
                                                check_directions,
                                                nr_of_check_directions,
                                                nr_checks_to_opponent,
@@ -2478,8 +2478,8 @@ static void stalemate_intercept_check_with_white_officer(Side side,
 static void stalemate_intercept_check_white(Side side,
                                             unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             square to_be_blocked,
                                             int const check_directions[8],
                                             unsigned int nr_of_check_directions,
@@ -2492,8 +2492,8 @@ static void stalemate_intercept_check_white(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
@@ -2506,8 +2506,8 @@ static void stalemate_intercept_check_white(Side side,
     stalemate_intercept_check_with_white_king(side,
                                               nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               to_be_blocked,
                                               check_directions,
                                               nr_of_check_directions,
@@ -2516,9 +2516,9 @@ static void stalemate_intercept_check_white(Side side,
     white[index_of_king].usage = piece_is_unused;
   }
 
-  if (max_nr_allowed_captures_of_black_pieces>=1)
+  if (max_nr_allowed_captures_by_black_pieces>=1)
   {
-    --max_nr_allowed_captures_of_black_pieces;
+    --max_nr_allowed_captures_by_black_pieces;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
@@ -2533,8 +2533,8 @@ static void stalemate_intercept_check_white(Side side,
                                                              blocker_index,
                                                              nr_remaining_black_moves,
                                                              nr_remaining_white_moves,
-                                                             max_nr_allowed_captures_of_black_pieces,
-                                                             max_nr_allowed_captures_of_white_pieces,
+                                                             max_nr_allowed_captures_by_black_pieces,
+                                                             max_nr_allowed_captures_by_white_pieces,
                                                              to_be_blocked,
                                                              check_directions,
                                                              nr_of_check_directions,
@@ -2544,8 +2544,8 @@ static void stalemate_intercept_check_white(Side side,
                                                                blocker_index,
                                                                nr_remaining_black_moves,
                                                                nr_remaining_white_moves,
-                                                               max_nr_allowed_captures_of_black_pieces,
-                                                               max_nr_allowed_captures_of_white_pieces,
+                                                               max_nr_allowed_captures_by_black_pieces,
+                                                               max_nr_allowed_captures_by_white_pieces,
                                                                to_be_blocked,
                                                                check_directions,
                                                                nr_of_check_directions,
@@ -2557,8 +2557,8 @@ static void stalemate_intercept_check_white(Side side,
                                                        blocker_type,blocker_index,
                                                        nr_remaining_black_moves,
                                                        nr_remaining_white_moves,
-                                                       max_nr_allowed_captures_of_black_pieces,
-                                                       max_nr_allowed_captures_of_white_pieces,
+                                                       max_nr_allowed_captures_by_black_pieces,
+                                                       max_nr_allowed_captures_by_white_pieces,
                                                        to_be_blocked,
                                                        check_directions,
                                                        nr_of_check_directions,
@@ -2814,43 +2814,11 @@ stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
   return result;
 }
 
-static void stalemate_continue_after_white_block(unsigned int nr_remaining_black_moves,
-                                                 unsigned int nr_remaining_white_moves,
-                                                 unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                 unsigned int max_nr_allowed_captures_of_white_pieces,
-                                                 stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,Black))
-    stalemate_intercept_checks(Black,
-                               nr_remaining_black_moves,
-                               nr_remaining_white_moves,
-                               max_nr_allowed_captures_of_black_pieces,
-                               max_nr_allowed_captures_of_white_pieces,
-                               n);
-  else
-    stalemate_test_target_position(nr_remaining_black_moves,
-                                   nr_remaining_white_moves,
-                                   max_nr_allowed_captures_of_black_pieces,
-                                   max_nr_allowed_captures_of_white_pieces,
-                                   n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void stalemate_block_unpromoted_white_pawn(unsigned int blocker_index,
                                                   unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                                   square to_be_blocked,
                                                   stip_length_type n)
 {
@@ -2858,8 +2826,8 @@ static void stalemate_block_unpromoted_white_pawn(unsigned int blocker_index,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -2872,15 +2840,15 @@ static void stalemate_block_unpromoted_white_pawn(unsigned int blocker_index,
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                           blocks_from,
                                                                           to_be_blocked);
-    if (max_nr_allowed_captures_of_white_pieces>=nr_captures_required
+    if (max_nr_allowed_captures_by_white_pieces>=nr_captures_required
         && time<=nr_remaining_white_moves)
     {
       SetPiece(pb,to_be_blocked,white[blocker_index].flags);
-      stalemate_continue_after_white_block(nr_remaining_black_moves,
-                                           nr_remaining_white_moves-time,
-                                           max_nr_allowed_captures_of_black_pieces,
-                                           max_nr_allowed_captures_of_white_pieces-nr_captures_required,
-                                           n);
+      stalemate_test_target_position(nr_remaining_black_moves,
+                                     nr_remaining_white_moves-time,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces-nr_captures_required,
+                                     n);
     }
   }
 
@@ -2891,8 +2859,8 @@ static void stalemate_block_unpromoted_white_pawn(unsigned int blocker_index,
 static void stalemate_block_white_promotion(unsigned int blocker_index,
                                             unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             square to_be_blocked,
                                             stip_length_type n)
 {
@@ -2904,8 +2872,8 @@ static void stalemate_block_white_promotion(unsigned int blocker_index,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -2923,11 +2891,19 @@ static void stalemate_block_white_promotion(unsigned int blocker_index,
         if (time<=nr_remaining_white_moves)
         {
           SetPiece(pp,to_be_blocked,white[blocker_index].flags);
-          stalemate_continue_after_white_block(nr_remaining_black_moves,
-                                               nr_remaining_white_moves-time,
-                                               max_nr_allowed_captures_of_black_pieces,
-                                               max_nr_allowed_captures_of_white_pieces,
-                                               n);
+          if (guards(king_square[Black],pp,to_be_blocked))
+            stalemate_intercept_checks(Black,
+                                       nr_remaining_black_moves,
+                                       nr_remaining_white_moves-time,
+                                       max_nr_allowed_captures_by_black_pieces,
+                                       max_nr_allowed_captures_by_white_pieces,
+                                       n);
+          else
+            stalemate_test_target_position(nr_remaining_black_moves,
+                                           nr_remaining_white_moves-time,
+                                           max_nr_allowed_captures_by_black_pieces,
+                                           max_nr_allowed_captures_by_white_pieces,
+                                           n);
         }
       }
   }
@@ -2938,16 +2914,16 @@ static void stalemate_block_white_promotion(unsigned int blocker_index,
 
 static void stalemate_block_white_king(unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                        square to_be_blocked,
                                        stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -2963,11 +2939,11 @@ static void stalemate_block_white_king(unsigned int nr_remaining_black_moves,
       king_square[White] = to_be_blocked;
 
       if (!is_white_king_attacked_by_non_king())
-        stalemate_continue_after_white_block(nr_remaining_black_moves,
-                                             nr_remaining_white_moves-time,
-                                             max_nr_allowed_captures_of_black_pieces,
-                                             max_nr_allowed_captures_of_white_pieces,
-                                             n);
+        stalemate_test_target_position(nr_remaining_black_moves,
+                                       nr_remaining_white_moves-time,
+                                       max_nr_allowed_captures_by_black_pieces,
+                                       max_nr_allowed_captures_by_white_pieces,
+                                       n);
 
       king_square[White] = initsquare;
     }
@@ -2981,8 +2957,8 @@ static void stalemate_block_white_officer(piece blocker_type,
                                           unsigned int blocker_index,
                                           unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           square to_be_blocked,
                                           stip_length_type n)
 {
@@ -2991,8 +2967,8 @@ static void stalemate_block_white_officer(piece blocker_type,
   TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -3006,11 +2982,19 @@ static void stalemate_block_white_officer(piece blocker_type,
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(blocker_type,to_be_blocked,white[blocker_index].flags);
-      stalemate_continue_after_white_block(nr_remaining_black_moves,
-                                           nr_remaining_white_moves-time,
-                                           max_nr_allowed_captures_of_black_pieces,
-                                           max_nr_allowed_captures_of_white_pieces,
-                                           n);
+      if (guards(king_square[Black],blocker_type,to_be_blocked))
+        stalemate_intercept_checks(Black,
+                                   nr_remaining_black_moves,
+                                   nr_remaining_white_moves-time,
+                                   max_nr_allowed_captures_by_black_pieces,
+                                   max_nr_allowed_captures_by_white_pieces,
+                                   n);
+      else
+        stalemate_test_target_position(nr_remaining_black_moves,
+                                       nr_remaining_white_moves-time,
+                                       max_nr_allowed_captures_by_black_pieces,
+                                       max_nr_allowed_captures_by_white_pieces,
+                                       n);
     }
   }
 
@@ -3020,8 +3004,8 @@ static void stalemate_block_white_officer(piece blocker_type,
 
 static void stalemate_white_block(unsigned int nr_remaining_black_moves,
                                   unsigned int nr_remaining_white_moves,
-                                  unsigned int max_nr_allowed_captures_of_black_pieces,
-                                  unsigned int max_nr_allowed_captures_of_white_pieces,
+                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                  unsigned int max_nr_allowed_captures_by_white_pieces,
                                   square to_be_blocked,
                                   stip_length_type n)
 {
@@ -3030,8 +3014,8 @@ static void stalemate_white_block(unsigned int nr_remaining_black_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceSquare(to_be_blocked);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -3041,16 +3025,16 @@ static void stalemate_white_block(unsigned int nr_remaining_black_moves,
     white[index_of_king].usage = piece_blocks;
     stalemate_block_white_king(nr_remaining_black_moves,
                                nr_remaining_white_moves,
-                               max_nr_allowed_captures_of_black_pieces,
-                               max_nr_allowed_captures_of_white_pieces,
+                               max_nr_allowed_captures_by_black_pieces,
+                               max_nr_allowed_captures_by_white_pieces,
                                to_be_blocked,
                                n);
     white[index_of_king].usage = piece_is_unused;
   }
 
-  if (max_nr_allowed_captures_of_black_pieces>=1)
+  if (max_nr_allowed_captures_by_black_pieces>=1)
   {
-    --max_nr_allowed_captures_of_black_pieces;
+    --max_nr_allowed_captures_by_black_pieces;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
@@ -3064,15 +3048,15 @@ static void stalemate_white_block(unsigned int nr_remaining_black_moves,
           stalemate_block_white_promotion(blocker_index,
                                           nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           to_be_blocked,
                                           n);
           stalemate_block_unpromoted_white_pawn(blocker_index,
                                                 nr_remaining_black_moves,
                                                 nr_remaining_white_moves,
-                                                max_nr_allowed_captures_of_black_pieces,
-                                                max_nr_allowed_captures_of_white_pieces,
+                                                max_nr_allowed_captures_by_black_pieces,
+                                                max_nr_allowed_captures_by_white_pieces,
                                                 to_be_blocked,
                                                 n);
         }
@@ -3080,8 +3064,8 @@ static void stalemate_white_block(unsigned int nr_remaining_black_moves,
           stalemate_block_white_officer(blocker_type,blocker_index,
                                         nr_remaining_black_moves,
                                         nr_remaining_white_moves,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
                                         to_be_blocked,
                                         n);
 
@@ -3098,8 +3082,8 @@ static void stalemate_white_block(unsigned int nr_remaining_black_moves,
 
 static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                        stip_length_type n)
 {
   immobilisation_state_type immobilisation_state = null_immobilisation_state;
@@ -3110,8 +3094,8 @@ static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3128,8 +3112,8 @@ static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
         && can_white_pin(nr_remaining_white_moves))
       stalemate_immobilise_by_pin(nr_remaining_black_moves,
                                   nr_remaining_white_moves,
-                                  max_nr_allowed_captures_of_black_pieces,
-                                  max_nr_allowed_captures_of_white_pieces,
+                                  max_nr_allowed_captures_by_black_pieces,
+                                  max_nr_allowed_captures_by_white_pieces,
                                   immobilisation_state.position_of_trouble_maker,
                                   n);
 
@@ -3157,14 +3141,14 @@ static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
            */
           stalemate_black_block(nr_remaining_black_moves,
                                 nr_remaining_white_moves,
-                                max_nr_allowed_captures_of_black_pieces,
-                                max_nr_allowed_captures_of_white_pieces,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
                                 immobilisation_state.last_found_trouble_square,
                                 n);
           stalemate_white_block(nr_remaining_black_moves,
                                 nr_remaining_white_moves,
-                                max_nr_allowed_captures_of_black_pieces,
-                                max_nr_allowed_captures_of_white_pieces,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
                                 immobilisation_state.last_found_trouble_square,n);
           break;
         }
@@ -3175,8 +3159,8 @@ static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
            * square among those that Black must block */
           stalemate_black_block(nr_remaining_black_moves,
                                 nr_remaining_white_moves,
-                                max_nr_allowed_captures_of_black_pieces,
-                                max_nr_allowed_captures_of_white_pieces,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
                                 most_expensive_square_to_be_blocked_by_black,
                                 n);
           break;
@@ -3192,8 +3176,8 @@ static void stalemate_immobilise_black(unsigned int nr_remaining_black_moves,
 static void stalemate_intercept_next_check(Side side,
                                            unsigned int nr_remaining_black_moves,
                                            unsigned int nr_remaining_white_moves,
-                                           unsigned int max_nr_allowed_captures_of_black_pieces,
-                                           unsigned int max_nr_allowed_captures_of_white_pieces,
+                                           unsigned int max_nr_allowed_captures_by_black_pieces,
+                                           unsigned int max_nr_allowed_captures_by_white_pieces,
                                            int const check_directions[8],
                                            unsigned int nr_of_check_directions,
                                            unsigned int nr_checks_to_opponent,
@@ -3206,8 +3190,8 @@ static void stalemate_intercept_next_check(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParam("%u",n);
@@ -3223,8 +3207,8 @@ static void stalemate_intercept_next_check(Side side,
     stalemate_intercept_check_black(side,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     to_be_blocked,
                                     check_directions,
                                     nr_of_check_directions-1,
@@ -3233,8 +3217,8 @@ static void stalemate_intercept_next_check(Side side,
     stalemate_intercept_check_white(side,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     to_be_blocked,
                                     check_directions,
                                     nr_of_check_directions-1,
@@ -3249,8 +3233,8 @@ static void stalemate_intercept_next_check(Side side,
 static void stalemate_continue_intercepting_checks(Side side,
                                                    unsigned int nr_remaining_black_moves,
                                                    unsigned int nr_remaining_white_moves,
-                                                   unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                   unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
                                                    int const check_directions[8],
                                                    unsigned int nr_of_check_directions,
                                                    unsigned int nr_checks_to_opponent,
@@ -3261,8 +3245,8 @@ static void stalemate_continue_intercepting_checks(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParam("%u",n);
@@ -3275,22 +3259,22 @@ static void stalemate_continue_intercepting_checks(Side side,
       stalemate_intercept_checks(opponent,
                                  nr_remaining_black_moves,
                                  nr_remaining_white_moves,
-                                 max_nr_allowed_captures_of_black_pieces,
-                                 max_nr_allowed_captures_of_white_pieces,
+                                 max_nr_allowed_captures_by_black_pieces,
+                                 max_nr_allowed_captures_by_white_pieces,
                                  n);
     else
       stalemate_test_target_position(nr_remaining_black_moves,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
   }
   else
     stalemate_intercept_next_check(side,
                                    nr_remaining_black_moves,
                                    nr_remaining_white_moves,
-                                   max_nr_allowed_captures_of_black_pieces,
-                                   max_nr_allowed_captures_of_white_pieces,
+                                   max_nr_allowed_captures_by_black_pieces,
+                                   max_nr_allowed_captures_by_white_pieces,
                                    check_directions,
                                    nr_of_check_directions,
                                    nr_checks_to_opponent,
@@ -3343,8 +3327,8 @@ static unsigned int find_check_directions(Side side, int check_directions[8])
 static void stalemate_intercept_checks(Side side,
                                        unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                        stip_length_type n)
 {
   unsigned int const nr_checks_to_opponent = 0;
@@ -3353,8 +3337,8 @@ static void stalemate_intercept_checks(Side side,
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3366,8 +3350,8 @@ static void stalemate_intercept_checks(Side side,
     stalemate_continue_intercepting_checks(side,
                                            nr_remaining_black_moves,
                                            nr_remaining_white_moves,
-                                           max_nr_allowed_captures_of_black_pieces,
-                                           max_nr_allowed_captures_of_white_pieces,
+                                           max_nr_allowed_captures_by_black_pieces,
+                                           max_nr_allowed_captures_by_white_pieces,
                                            check_directions,
                                            nr_of_check_directions,
                                            nr_checks_to_opponent,
@@ -3382,8 +3366,8 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
                                               square placed_on,
                                               unsigned int nr_remaining_black_moves,
                                               unsigned int nr_remaining_white_moves,
-                                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
                                               stip_length_type n)
 {
   square const placed_from = black[placed_index].square;
@@ -3393,8 +3377,8 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3426,15 +3410,15 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
             diffcol = 1;
         }
 
-        if (diffcol<=max_nr_allowed_captures_of_black_pieces
+        if (diffcol<=max_nr_allowed_captures_by_black_pieces
             && time<=nr_remaining_black_moves
             && !uninterceptably_attacks_king(White,placed_on,pp))
         {
           SetPiece(pp,placed_on,black[placed_index].flags);
           mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
                                                 nr_remaining_white_moves,
-                                                max_nr_allowed_captures_of_black_pieces-diffcol,
-                                                max_nr_allowed_captures_of_white_pieces,
+                                                max_nr_allowed_captures_by_black_pieces-diffcol,
+                                                max_nr_allowed_captures_by_white_pieces,
                                                 n);
         }
       }
@@ -3449,8 +3433,8 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
                                                 square placed_on,
                                                 unsigned int nr_remaining_black_moves,
                                                 unsigned int nr_remaining_white_moves,
-                                                unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                unsigned int max_nr_allowed_captures_by_white_pieces,
                                                 stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -3458,8 +3442,8 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3473,11 +3457,11 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
     {
       unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
       SetPiece(pn,placed_on,black[placed_index].flags);
-      if (diffcol<=max_nr_allowed_captures_of_black_pieces)
+      if (diffcol<=max_nr_allowed_captures_by_black_pieces)
         mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces-diffcol,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces-diffcol,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               n);
     }
   }
@@ -3490,8 +3474,8 @@ static void mate_place_black_officer_on(unsigned int placed_index,
                                         piece placed_type, square placed_on,
                                         unsigned int nr_remaining_black_moves,
                                         unsigned int nr_remaining_white_moves,
-                                        unsigned int max_nr_allowed_captures_of_black_pieces,
-                                        unsigned int max_nr_allowed_captures_of_white_pieces,
+                                        unsigned int max_nr_allowed_captures_by_black_pieces,
+                                        unsigned int max_nr_allowed_captures_by_white_pieces,
                                         stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -3500,8 +3484,8 @@ static void mate_place_black_officer_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3517,8 +3501,8 @@ static void mate_place_black_officer_on(unsigned int placed_index,
       SetPiece(placed_type,placed_on,black[placed_index].flags);
       mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
                                             nr_remaining_white_moves,
-                                            max_nr_allowed_captures_of_black_pieces,
-                                            max_nr_allowed_captures_of_white_pieces,
+                                            max_nr_allowed_captures_by_black_pieces,
+                                            max_nr_allowed_captures_by_white_pieces,
                                             n);
     }
   }
@@ -3530,8 +3514,8 @@ static void mate_place_black_officer_on(unsigned int placed_index,
 static void mate_place_any_black_piece_on(square placed_on,
                                           unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           stip_length_type n)
 {
   unsigned int placed_index;
@@ -3540,8 +3524,8 @@ static void mate_place_any_black_piece_on(square placed_on,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3558,22 +3542,22 @@ static void mate_place_any_black_piece_on(square placed_on,
           mate_place_unpromoted_black_pawn_on(placed_index,placed_on,
                                               nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               n);
         mate_place_promoted_black_pawn_on(placed_index,placed_on,
                                           nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           n);
       }
       else
         mate_place_black_officer_on(placed_index,placed_type,placed_on,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
 
       black[placed_index].usage = piece_is_unused;
@@ -3590,8 +3574,8 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
                                                 square placed_on,
                                                 unsigned int nr_remaining_black_moves,
                                                 unsigned int nr_remaining_white_moves,
-                                                unsigned int max_nr_allowed_captures_of_black_pieces,
-                                                unsigned int max_nr_allowed_captures_of_white_pieces,
+                                                unsigned int max_nr_allowed_captures_by_black_pieces,
+                                                unsigned int max_nr_allowed_captures_by_white_pieces,
                                                 stip_length_type n)
 {
   square const placed_from = white[placed_index].square;
@@ -3602,12 +3586,12 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=max_nr_allowed_captures_of_white_pieces
+  if (diffcol<=max_nr_allowed_captures_by_white_pieces
       && !(is_initial_check_uninterceptable
            && uninterceptably_attacks_king(Black,placed_on,pb)))
   {
@@ -3619,8 +3603,8 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
       SetPiece(pb,placed_on,white[placed_index].flags);
       mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
                                             nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_of_black_pieces,
-                                            max_nr_allowed_captures_of_white_pieces-diffcol,
+                                            max_nr_allowed_captures_by_black_pieces,
+                                            max_nr_allowed_captures_by_white_pieces-diffcol,
                                             n);
     }
   }
@@ -3633,8 +3617,8 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
                                               square placed_on,
                                               unsigned int nr_remaining_black_moves,
                                               unsigned int nr_remaining_white_moves,
-                                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
                                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -3642,8 +3626,8 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3674,14 +3658,14 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
           TraceValue("%u",diffcol);
           TraceValue("%u\n",time);
 
-          if (diffcol<=max_nr_allowed_captures_of_white_pieces
+          if (diffcol<=max_nr_allowed_captures_by_white_pieces
               && time<=nr_remaining_white_moves)
           {
             SetPiece(pp,placed_on,white[placed_index].flags);
             mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
                                                   nr_remaining_white_moves-time,
-                                                  max_nr_allowed_captures_of_black_pieces,
-                                                  max_nr_allowed_captures_of_white_pieces-diffcol,
+                                                  max_nr_allowed_captures_by_black_pieces,
+                                                  max_nr_allowed_captures_by_white_pieces-diffcol,
                                                   n);
           }
         }
@@ -3696,8 +3680,8 @@ static void mate_place_white_officer_on(unsigned int placed_index,
                                         piece placed_type, square placed_on,
                                         unsigned int nr_remaining_black_moves,
                                         unsigned int nr_remaining_white_moves,
-                                        unsigned int max_nr_allowed_captures_of_black_pieces,
-                                        unsigned int max_nr_allowed_captures_of_white_pieces,
+                                        unsigned int max_nr_allowed_captures_by_black_pieces,
+                                        unsigned int max_nr_allowed_captures_by_white_pieces,
                                         stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -3706,8 +3690,8 @@ static void mate_place_white_officer_on(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3725,8 +3709,8 @@ static void mate_place_white_officer_on(unsigned int placed_index,
       SetPiece(placed_type,placed_on,placed_flags);
       mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
                                             nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_of_black_pieces,
-                                            max_nr_allowed_captures_of_white_pieces,
+                                            max_nr_allowed_captures_by_black_pieces,
+                                            max_nr_allowed_captures_by_white_pieces,
                                             n);
     }
   }
@@ -3738,8 +3722,8 @@ static void mate_place_white_officer_on(unsigned int placed_index,
 static void mate_place_any_white_piece_on(square placed_on,
                                           unsigned int nr_remaining_black_moves,
                                           unsigned int nr_remaining_white_moves,
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           stip_length_type n)
 {
   unsigned int placed_index;
@@ -3748,8 +3732,8 @@ static void mate_place_any_white_piece_on(square placed_on,
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3766,22 +3750,22 @@ static void mate_place_any_white_piece_on(square placed_on,
           mate_place_unpromoted_white_pawn_on(placed_index,placed_on,
                                               nr_remaining_black_moves,
                                               nr_remaining_white_moves,
-                                              max_nr_allowed_captures_of_black_pieces,
-                                              max_nr_allowed_captures_of_white_pieces,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces,
                                               n);
         mate_place_promoted_white_pawn_on(placed_index,placed_on,
                                           nr_remaining_black_moves,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           n);
       }
       else
         mate_place_white_officer_on(placed_index,placed_type,placed_on,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
 
       white[placed_index].usage = piece_is_unused;
@@ -3796,8 +3780,8 @@ static void mate_place_any_white_piece_on(square placed_on,
 
 static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
                                             unsigned int nr_remaining_white_moves,
-                                            unsigned int max_nr_allowed_captures_of_black_pieces,
-                                            unsigned int max_nr_allowed_captures_of_white_pieces,
+                                            unsigned int max_nr_allowed_captures_by_black_pieces,
+                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                             stip_length_type n)
 {
   square trouble = initsquare;
@@ -3809,8 +3793,8 @@ static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_move
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -3830,8 +3814,8 @@ static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_move
 
   mate_pin_black_piece(trouble,nr_remaining_black_moves,
                        nr_remaining_white_moves,
-                       max_nr_allowed_captures_of_black_pieces,
-                       max_nr_allowed_captures_of_white_pieces,
+                       max_nr_allowed_captures_by_black_pieces,
+                       max_nr_allowed_captures_by_white_pieces,
                        n);
 
   if (is_rider(abs(e[trouble])))
@@ -3844,14 +3828,14 @@ static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_move
       mate_place_any_black_piece_on(sq,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
       mate_place_any_white_piece_on(sq,
                                     nr_remaining_black_moves,
                                     nr_remaining_white_moves,
-                                    max_nr_allowed_captures_of_black_pieces,
-                                    max_nr_allowed_captures_of_white_pieces,
+                                    max_nr_allowed_captures_by_black_pieces,
+                                    max_nr_allowed_captures_by_white_pieces,
                                     n);
     }
   }
@@ -3956,15 +3940,15 @@ static unsigned int count_nr_black_moves_to_square(square to_be_blocked,
 }
 
 static void finalise_blocking(unsigned int nr_remaining_white_moves,
-                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                              unsigned int max_nr_allowed_captures_by_white_pieces,
                               unsigned int timetowaste,
                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -3977,21 +3961,21 @@ static void finalise_blocking(unsigned int nr_remaining_white_moves,
       stalemate_intercept_checks(Black,
                                  timetowaste,
                                  nr_remaining_white_moves,
-                                 max_nr_allowed_captures_of_black_pieces,
-                                 max_nr_allowed_captures_of_white_pieces,
+                                 max_nr_allowed_captures_by_black_pieces,
+                                 max_nr_allowed_captures_by_white_pieces,
                                  n);
     else
       stalemate_test_target_position(timetowaste,
                                      nr_remaining_white_moves,
-                                     max_nr_allowed_captures_of_black_pieces,
-                                     max_nr_allowed_captures_of_white_pieces,
+                                     max_nr_allowed_captures_by_black_pieces,
+                                     max_nr_allowed_captures_by_white_pieces,
                                      n);
   }
   else if (echecc(nbply,Black))
     mate_deal_with_pieces_disturbing_mate(timetowaste,
                                           nr_remaining_white_moves,
-                                          max_nr_allowed_captures_of_black_pieces,
-                                          max_nr_allowed_captures_of_white_pieces,
+                                          max_nr_allowed_captures_by_black_pieces,
+                                          max_nr_allowed_captures_by_white_pieces,
                                           n);
 
   TraceFunctionExit(__func__);
@@ -4002,8 +3986,8 @@ static void block_flights(unsigned int nr_remaining_white_moves,
                           unsigned int nr_flights,
                           square toblock[8],
                           unsigned int mintime[8],
-                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                          unsigned int max_nr_allowed_captures_by_white_pieces,
                           unsigned int timetowaste,
                           stip_length_type n);
 
@@ -4015,8 +3999,8 @@ static void block_one_flight_officer(square to_be_blocked,
                                      unsigned int nr_flights,
                                      square toblock[8],
                                      unsigned int mintime[8],
-                                     unsigned int max_nr_allowed_captures_of_black_pieces,
-                                     unsigned int max_nr_allowed_captures_of_white_pieces,
+                                     unsigned int max_nr_allowed_captures_by_black_pieces,
+                                     unsigned int max_nr_allowed_captures_by_white_pieces,
                                      unsigned int timetowaste,
                                      stip_length_type n)
 {
@@ -4028,8 +4012,8 @@ static void block_one_flight_officer(square to_be_blocked,
   TraceSquare(blocks_from);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",nr_flights);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -4045,8 +4029,8 @@ static void block_one_flight_officer(square to_be_blocked,
       {
         SetPiece(blocker_type,to_be_blocked,blocker_flags);
         block_flights(nr_remaining_white_moves,
-                      nr_flights-1,toblock,mintime,max_nr_allowed_captures_of_black_pieces,
-                      max_nr_allowed_captures_of_white_pieces,timetowaste-wasted,n);
+                      nr_flights-1,toblock,mintime,max_nr_allowed_captures_by_black_pieces,
+                      max_nr_allowed_captures_by_white_pieces,timetowaste-wasted,n);
       }
     }
   }
@@ -4062,8 +4046,8 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
                                           unsigned int nr_flights,
                                           square toblock[8],
                                           unsigned int mintime[8],
-                                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                                          unsigned int max_nr_allowed_captures_by_white_pieces,
                                           unsigned int timetowaste,
                                           stip_length_type n)
 {
@@ -4074,8 +4058,8 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
   TraceSquare(blocks_from);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",nr_flights);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -4093,11 +4077,11 @@ static void block_one_flight_pawn_no_prom(square to_be_blocked,
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
         SetPiece(pn,to_be_blocked,blocker_flags);
-        if (diffcol<=max_nr_allowed_captures_of_black_pieces)
+        if (diffcol<=max_nr_allowed_captures_by_black_pieces)
           block_flights(nr_remaining_white_moves,nr_flights-1,
                         toblock,mintime,
-                        max_nr_allowed_captures_of_black_pieces-diffcol,
-                        max_nr_allowed_captures_of_white_pieces,
+                        max_nr_allowed_captures_by_black_pieces-diffcol,
+                        max_nr_allowed_captures_by_white_pieces,
                         timetowaste-wasted,n);
       }
     }
@@ -4114,8 +4098,8 @@ static void block_one_flight_with_prom(square to_be_blocked,
                                        unsigned int nr_flights,
                                        square toblock[8],
                                        unsigned int mintime[8],
-                                       unsigned int max_nr_allowed_captures_of_black_pieces,
-                                       unsigned int max_nr_allowed_captures_of_white_pieces,
+                                       unsigned int max_nr_allowed_captures_by_black_pieces,
+                                       unsigned int max_nr_allowed_captures_by_white_pieces,
                                        unsigned int timetowaste,
                                        stip_length_type n)
 {
@@ -4127,8 +4111,8 @@ static void block_one_flight_with_prom(square to_be_blocked,
   TraceSquare(blocks_from);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",nr_flights);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -4164,13 +4148,13 @@ static void block_one_flight_with_prom(square to_be_blocked,
             if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
               diffcol = 1;
           }
-          if (diffcol<=max_nr_allowed_captures_of_black_pieces
+          if (diffcol<=max_nr_allowed_captures_by_black_pieces
               && wasted<=timetowaste)
           {
             SetPiece(pp,to_be_blocked,blocker_flags);
             block_flights(nr_remaining_white_moves,
                           nr_flights-1,toblock,mintime,
-                          max_nr_allowed_captures_of_black_pieces-diffcol,max_nr_allowed_captures_of_white_pieces,
+                          max_nr_allowed_captures_by_black_pieces-diffcol,max_nr_allowed_captures_by_white_pieces,
                           timetowaste-wasted,n);
           }
         }
@@ -4184,8 +4168,8 @@ static void block_one_flight_with_prom(square to_be_blocked,
 static void block_last_flight(unsigned int nr_remaining_white_moves,
                               unsigned int nr_flights,
                               square toblock[8], unsigned int mintime[8],
-                              unsigned int max_nr_allowed_captures_of_black_pieces,
-                              unsigned int max_nr_allowed_captures_of_white_pieces,
+                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                              unsigned int max_nr_allowed_captures_by_white_pieces,
                               unsigned int timetowaste, stip_length_type n)
 {
   unsigned int index_of_current_blocker;
@@ -4195,8 +4179,8 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",nr_flights);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -4219,15 +4203,15 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
           block_one_flight_pawn_no_prom(to_be_blocked,blocker_flags,blocks_from,
                                         nr_remaining_white_moves,nr_flights,
                                         toblock,mintime,
-                                        max_nr_allowed_captures_of_black_pieces,
-                                        max_nr_allowed_captures_of_white_pieces,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
                                         timetowaste,n);
 
         block_one_flight_with_prom(to_be_blocked,blocks_from,blocker_flags,
                                    nr_remaining_white_moves,nr_flights,
                                    toblock,mintime,
-                                   max_nr_allowed_captures_of_black_pieces,
-                                   max_nr_allowed_captures_of_white_pieces,
+                                   max_nr_allowed_captures_by_black_pieces,
+                                   max_nr_allowed_captures_by_white_pieces,
                                    timetowaste,n);
       }
       else
@@ -4235,8 +4219,8 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
                                  blocker_type,blocker_flags,blocks_from,
                                  nr_remaining_white_moves,nr_flights,
                                  toblock,mintime,
-                                 max_nr_allowed_captures_of_black_pieces,
-                                 max_nr_allowed_captures_of_white_pieces,
+                                 max_nr_allowed_captures_by_black_pieces,
+                                 max_nr_allowed_captures_by_white_pieces,
                                  timetowaste,n);
 
       black[index_of_current_blocker].usage = piece_is_unused;
@@ -4252,15 +4236,15 @@ static void block_last_flight(unsigned int nr_remaining_white_moves,
 static void block_flights(unsigned int nr_remaining_white_moves,
                           unsigned int nr_flights,
                           square toblock[8], unsigned int mintime[8],
-                          unsigned int max_nr_allowed_captures_of_black_pieces,
-                          unsigned int max_nr_allowed_captures_of_white_pieces,
+                          unsigned int max_nr_allowed_captures_by_black_pieces,
+                          unsigned int max_nr_allowed_captures_by_white_pieces,
                           unsigned int timetowaste, stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",nr_flights);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_of_white_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
   TraceFunctionParam("%u",timetowaste);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -4271,15 +4255,15 @@ static void block_flights(unsigned int nr_remaining_white_moves,
   }
   else if (nr_flights==0)
     finalise_blocking(nr_remaining_white_moves,
-                      max_nr_allowed_captures_of_black_pieces,
-                      max_nr_allowed_captures_of_white_pieces,
+                      max_nr_allowed_captures_by_black_pieces,
+                      max_nr_allowed_captures_by_white_pieces,
                       timetowaste,
                       n);
   else
     block_last_flight(nr_remaining_white_moves,nr_flights,
                       toblock,mintime,
-                      max_nr_allowed_captures_of_black_pieces,
-                      max_nr_allowed_captures_of_white_pieces,
+                      max_nr_allowed_captures_by_black_pieces,
+                      max_nr_allowed_captures_by_white_pieces,
                       timetowaste,n);
 
   TraceFunctionExit(__func__);
@@ -4395,14 +4379,14 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
                                                                     mintime);
       if (mtba<=nr_remaining_black_moves)
       {
-        unsigned int const max_nr_allowed_captures_of_black_pieces = count_max_nr_allowed_black_pawn_captures();
+        unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
 
         king_square[White] = king_diagram_square;
         SetPiece(roib,king_square[White],white[index_of_king].flags);
         white[index_of_king].usage = piece_is_fixed_to_diagram_square;
         block_flights(nr_remaining_white_moves,
                       nr_flights,toblock,mintime,
-                      max_nr_allowed_captures_of_black_pieces,
+                      max_nr_allowed_captures_by_black_pieces,
                       MaxPiece[Black]-1-min_nr_white_captures,
                       nr_remaining_black_moves-mtba,
                       n);
@@ -4451,11 +4435,12 @@ static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
                                                                     mintime);
       if (mtba<=nr_remaining_black_moves)
       {
-        int const max_nr_allowed_captures_of_black_pieces = count_max_nr_allowed_black_pawn_captures();
+        unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
+        unsigned int const max_nr_allowed_captures_by_white_pieces = MaxPiece[Black]-1-min_nr_white_captures;
         block_flights(nr_remaining_white_moves,
                       nr_flights,toblock,mintime,
-                      max_nr_allowed_captures_of_black_pieces,
-                      MaxPiece[Black]-1-min_nr_white_captures,
+                      max_nr_allowed_captures_by_black_pieces,
+                      max_nr_allowed_captures_by_white_pieces,
                       nr_remaining_black_moves-mtba,
                       n);
       }
