@@ -814,7 +814,7 @@ static void stalemate_test_target_position(unsigned int nr_remaining_black_moves
                                            unsigned int max_nr_allowed_captures_by_black_pieces,
                                            unsigned int max_nr_allowed_captures_by_white_pieces,
                                            stip_length_type n);
-static void mate_prevent_check_against_white_king(unsigned int nr_remaining_black_moves,
+static void mate_intercept_checks(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
@@ -1113,7 +1113,7 @@ static boolean mate_exists_redundant_white_piece(void)
   return result;
 }
 
-static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_black_moves,
+static void mate_test_target_position(unsigned int nr_remaining_black_moves,
                                                   unsigned int nr_remaining_white_moves,
                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
@@ -1137,7 +1137,7 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
              && nr_remaining_white_moves==0))
     {
       if (echecc(nbply,White))
-        mate_prevent_check_against_white_king(nr_remaining_black_moves,
+        mate_intercept_checks(nr_remaining_black_moves,
                                               nr_remaining_white_moves,
                                               max_nr_allowed_captures_by_black_pieces,
                                               max_nr_allowed_captures_by_white_pieces,
@@ -1157,24 +1157,35 @@ static void mate_deal_with_pieces_disturbing_mate(unsigned int nr_remaining_blac
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_unpromoted_white_pawn(unsigned int placed_index,
-                                                            square placed_on,
-                                                            unsigned int nr_remaining_black_moves,
+static void mate_continue_intercepting_checks(unsigned int nr_remaining_black_moves,
+                                              unsigned int nr_remaining_white_moves,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
+                                              int const check_directions[8],
+                                              unsigned int nr_of_check_directions,
+                                              stip_length_type n);
+
+static void mate_intercept_check_with_unpromoted_white_pawn(unsigned int nr_remaining_black_moves,
                                                             unsigned int nr_remaining_white_moves,
                                                             unsigned int max_nr_allowed_captures_by_black_pieces,
                                                             unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                            unsigned int placed_index,
+                                                            square placed_on,
+                                                            int const check_directions[8],
+                                                            unsigned int nr_of_check_directions,
                                                             stip_length_type n)
 {
   square const placed_from = white[placed_index].square;
   unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1188,11 +1199,13 @@ static void mate_intercept_check_with_unpromoted_white_pawn(unsigned int placed_
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pb,placed_on,white[placed_index].flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                            nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces-diffcol,
-                                            n);
+      mate_continue_intercepting_checks(nr_remaining_black_moves,
+                                        nr_remaining_white_moves-time,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces-diffcol,
+                                        check_directions,
+                                        nr_of_check_directions,
+                                        n);
     }
   }
 
@@ -1200,21 +1213,24 @@ static void mate_intercept_check_with_unpromoted_white_pawn(unsigned int placed_
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_promoted_white_pawn(unsigned int placed_index,
-                                                          square placed_on,
-                                                          unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_with_promoted_white_pawn(unsigned int nr_remaining_black_moves,
                                                           unsigned int nr_remaining_white_moves,
                                                           unsigned int max_nr_allowed_captures_by_black_pieces,
                                                           unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                          unsigned int placed_index,
+                                                          square placed_on,
+                                                          int const check_directions[8],
+                                                          unsigned int nr_of_check_directions,
                                                           stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1249,11 +1265,13 @@ static void mate_intercept_check_with_promoted_white_pawn(unsigned int placed_in
               && time<=nr_remaining_white_moves)
           {
             SetPiece(pp,placed_on,white[placed_index].flags);
-            mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                                  nr_remaining_white_moves-time,
-                                                  max_nr_allowed_captures_by_black_pieces,
-                                                  max_nr_allowed_captures_by_white_pieces-diffcol,
-                                                  n);
+            mate_continue_intercepting_checks(nr_remaining_black_moves,
+                                              nr_remaining_white_moves-time,
+                                              max_nr_allowed_captures_by_black_pieces,
+                                              max_nr_allowed_captures_by_white_pieces-diffcol,
+                                              check_directions,
+                                              nr_of_check_directions,
+                                              n);
           }
         }
     }
@@ -1263,22 +1281,25 @@ static void mate_intercept_check_with_promoted_white_pawn(unsigned int placed_in
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_white_officer(unsigned int placed_index,
-                                                    piece placed_type, square placed_on,
-                                                    unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_with_white_officer(unsigned int nr_remaining_black_moves,
                                                     unsigned int nr_remaining_white_moves,
                                                     unsigned int max_nr_allowed_captures_by_black_pieces,
                                                     unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                    unsigned int placed_index,
+                                                    piece placed_type, square placed_on,
+                                                    int const check_directions[8],
+                                                    unsigned int nr_of_check_directions,
                                                     stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TracePiece(placed_type);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TracePiece(placed_type);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1294,11 +1315,13 @@ static void mate_intercept_check_with_white_officer(unsigned int placed_index,
     {
       Flags const placed_flags = white[placed_index].flags;
       SetPiece(placed_type,placed_on,placed_flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                            nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces,
-                                            n);
+      mate_continue_intercepting_checks(nr_remaining_black_moves,
+                                        nr_remaining_white_moves-time,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
+                                        check_directions,
+                                        nr_of_check_directions,
+                                        n);
     }
   }
 
@@ -1306,21 +1329,24 @@ static void mate_intercept_check_with_white_officer(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_white(square placed_on,
-                                       unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_white(unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
                                        unsigned int max_nr_allowed_captures_by_black_pieces,
                                        unsigned int max_nr_allowed_captures_by_white_pieces,
+                                       square placed_on,
+                                       int const check_directions[8],
+                                       unsigned int nr_of_check_directions,
                                        stip_length_type n)
 {
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1334,25 +1360,31 @@ static void mate_intercept_check_white(square placed_on,
       if (placed_type==pb)
       {
         if (placed_on<=square_h7)
-          mate_intercept_check_with_unpromoted_white_pawn(placed_index,placed_on,
-                                                          nr_remaining_black_moves,
+          mate_intercept_check_with_unpromoted_white_pawn(nr_remaining_black_moves,
                                                           nr_remaining_white_moves,
                                                           max_nr_allowed_captures_by_black_pieces,
                                                           max_nr_allowed_captures_by_white_pieces,
+                                                          placed_index,placed_on,
+                                                          check_directions,
+                                                          nr_of_check_directions,
                                                           n);
-        mate_intercept_check_with_promoted_white_pawn(placed_index,placed_on,
-                                                      nr_remaining_black_moves,
+        mate_intercept_check_with_promoted_white_pawn(nr_remaining_black_moves,
                                                       nr_remaining_white_moves,
                                                       max_nr_allowed_captures_by_black_pieces,
                                                       max_nr_allowed_captures_by_white_pieces,
+                                                      placed_index,placed_on,
+                                                      check_directions,
+                                                      nr_of_check_directions,
                                                       n);
       }
       else
-        mate_intercept_check_with_white_officer(placed_index,placed_type,placed_on,
-                                                nr_remaining_black_moves,
+        mate_intercept_check_with_white_officer(nr_remaining_black_moves,
                                                 nr_remaining_white_moves,
                                                 max_nr_allowed_captures_by_black_pieces,
                                                 max_nr_allowed_captures_by_white_pieces,
+                                                placed_index,placed_type,placed_on,
+                                                check_directions,
+                                                nr_of_check_directions,
                                                 n);
 
       white[placed_index].usage = piece_is_unused;
@@ -1365,23 +1397,26 @@ static void mate_intercept_check_white(square placed_on,
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_promoted_black_pawn(unsigned int placed_index,
-                                                          square placed_on,
-                                                          unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_with_promoted_black_pawn(unsigned int nr_remaining_black_moves,
                                                           unsigned int nr_remaining_white_moves,
                                                           unsigned int max_nr_allowed_captures_by_black_pieces,
                                                           unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                          unsigned int placed_index,
+                                                          square placed_on,
+                                                          int const check_directions[8],
+                                                          unsigned int nr_of_check_directions,
                                                           stip_length_type n)
 {
   square const placed_from = black[placed_index].square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1418,11 +1453,13 @@ static void mate_intercept_check_with_promoted_black_pawn(unsigned int placed_in
               && time<=nr_remaining_black_moves)
           {
             SetPiece(pp,placed_on,black[placed_index].flags);
-            mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                                  nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_by_black_pieces-diffcol,
-                                                  max_nr_allowed_captures_by_white_pieces,
-                                                  n);
+            mate_continue_intercepting_checks(nr_remaining_black_moves-time,
+                                              nr_remaining_white_moves,
+                                              max_nr_allowed_captures_by_black_pieces-diffcol,
+                                              max_nr_allowed_captures_by_white_pieces,
+                                              check_directions,
+                                              nr_of_check_directions,
+                                              n);
           }
         }
     }
@@ -1432,21 +1469,24 @@ static void mate_intercept_check_with_promoted_black_pawn(unsigned int placed_in
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_unpromoted_black_pawn(unsigned int placed_index,
-                                                            square placed_on,
-                                                            unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_with_unpromoted_black_pawn(unsigned int nr_remaining_black_moves,
                                                             unsigned int nr_remaining_white_moves,
                                                             unsigned int max_nr_allowed_captures_by_black_pieces,
                                                             unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                            unsigned int placed_index,
+                                                            square placed_on,
+                                                            int const check_directions[8],
+                                                            unsigned int nr_of_check_directions,
                                                             stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1462,11 +1502,13 @@ static void mate_intercept_check_with_unpromoted_black_pawn(unsigned int placed_
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(pn,placed_on,black[placed_index].flags);
-        mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                              nr_remaining_white_moves,
-                                              max_nr_allowed_captures_by_black_pieces-diffcol,
-                                              max_nr_allowed_captures_by_white_pieces,
-                                              n);
+        mate_continue_intercepting_checks(nr_remaining_black_moves-time,
+                                          nr_remaining_white_moves,
+                                          max_nr_allowed_captures_by_black_pieces-diffcol,
+                                          max_nr_allowed_captures_by_white_pieces,
+                                          check_directions,
+                                          nr_of_check_directions,
+                                          n);
       }
     }
   }
@@ -1475,22 +1517,25 @@ static void mate_intercept_check_with_unpromoted_black_pawn(unsigned int placed_
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_with_black_officer(unsigned int placed_index,
-                                                    piece placed_type, square placed_on,
-                                                    unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_with_black_officer(unsigned int nr_remaining_black_moves,
                                                     unsigned int nr_remaining_white_moves,
                                                     unsigned int max_nr_allowed_captures_by_black_pieces,
                                                     unsigned int max_nr_allowed_captures_by_white_pieces,
+                                                    unsigned int placed_index,
+                                                    piece placed_type, square placed_on,
+                                                    int const check_directions[8],
+                                                    unsigned int nr_of_check_directions,
                                                     stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",placed_index);
-  TracePiece(placed_type);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",placed_index);
+  TracePiece(placed_type);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1504,11 +1549,13 @@ static void mate_intercept_check_with_black_officer(unsigned int placed_index,
     if (time<=nr_remaining_black_moves)
     {
       SetPiece(placed_type,placed_on,black[placed_index].flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                            nr_remaining_white_moves,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces,
-                                            n);
+      mate_continue_intercepting_checks(nr_remaining_black_moves-time,
+                                        nr_remaining_white_moves,
+                                        max_nr_allowed_captures_by_black_pieces,
+                                        max_nr_allowed_captures_by_white_pieces,
+                                        check_directions,
+                                        nr_of_check_directions,
+                                        n);
     }
   }
 
@@ -1516,21 +1563,24 @@ static void mate_intercept_check_with_black_officer(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-static void mate_intercept_check_black(square placed_on,
-                                       unsigned int nr_remaining_black_moves,
+static void mate_intercept_check_black(unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
                                        unsigned int max_nr_allowed_captures_by_black_pieces,
                                        unsigned int max_nr_allowed_captures_by_white_pieces,
+                                       square placed_on,
+                                       int const check_directions[8],
+                                       unsigned int nr_of_check_directions,
                                        stip_length_type n)
 {
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
   TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceSquare(placed_on);
+  TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -1544,25 +1594,31 @@ static void mate_intercept_check_black(square placed_on,
       if (placed_type==pn)
       {
         if (placed_on>=square_a2)
-          mate_intercept_check_with_unpromoted_black_pawn(placed_index,placed_on,
-                                                          nr_remaining_black_moves,
+          mate_intercept_check_with_unpromoted_black_pawn(nr_remaining_black_moves,
                                                           nr_remaining_white_moves,
                                                           max_nr_allowed_captures_by_black_pieces,
                                                           max_nr_allowed_captures_by_white_pieces,
+                                                          placed_index,placed_on,
+                                                          check_directions,
+                                                          nr_of_check_directions,
                                                           n);
-        mate_intercept_check_with_promoted_black_pawn(placed_index,placed_on,
-                                                      nr_remaining_black_moves,
+        mate_intercept_check_with_promoted_black_pawn(nr_remaining_black_moves,
                                                       nr_remaining_white_moves,
                                                       max_nr_allowed_captures_by_black_pieces,
                                                       max_nr_allowed_captures_by_white_pieces,
+                                                      placed_index,placed_on,
+                                                      check_directions,
+                                                      nr_of_check_directions,
                                                       n);
       }
       else
-        mate_intercept_check_with_black_officer(placed_index,placed_type,placed_on,
-                                                nr_remaining_black_moves,
+        mate_intercept_check_with_black_officer(nr_remaining_black_moves,
                                                 nr_remaining_white_moves,
                                                 max_nr_allowed_captures_by_black_pieces,
                                                 max_nr_allowed_captures_by_white_pieces,
+                                                placed_index,placed_type,placed_on,
+                                                check_directions,
+                                                nr_of_check_directions,
                                                 n);
 
       black[placed_index].usage = piece_is_unused;
@@ -1575,53 +1631,162 @@ static void mate_intercept_check_black(square placed_on,
   TraceFunctionResultEnd();
 }
 
-static void mate_prevent_check_against_white_king(unsigned int nr_remaining_black_moves,
-                                                  unsigned int nr_remaining_white_moves,
-                                                  unsigned int max_nr_allowed_captures_by_black_pieces,
-                                                  unsigned int max_nr_allowed_captures_by_white_pieces,
-                                                  stip_length_type n)
+static void mate_intercept_next_check(unsigned int nr_remaining_black_moves,
+                                      unsigned int nr_remaining_white_moves,
+                                      unsigned int max_nr_allowed_captures_by_black_pieces,
+                                      unsigned int max_nr_allowed_captures_by_white_pieces,
+                                      int const check_directions[8],
+                                      unsigned int nr_of_check_directions,
+                                      stip_length_type n)
 {
-  square trouble = initsquare;
-  boolean fbm = flagmummer[Black];
+  square to_be_blocked;
+  int const current_dir = check_directions[nr_of_check_directions-1];
 
-  flagmummer[Black]= false;
-  genmove(Black);
-  flagmummer[Black]= fbm;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
 
-  while(encore())
-    if (move_generation_stack[nbcou].arrival==king_square[White])
-    {
-      trouble = move_generation_stack[nbcou].departure;
-      break;
-    }
-    else
-      --nbcou;
+  assert(nr_of_check_directions>0);
+  TraceValue("%d\n",current_dir);
 
-  finply();
-
-  assert(trouble!=initsquare);
-
-  if (is_rider(abs(e[trouble])))
+  for (to_be_blocked = king_square[White]+current_dir;
+       e[to_be_blocked]==vide;
+       to_be_blocked += current_dir)
   {
-    int const dir = CheckDirQueen[king_square[White]-trouble];
+    mate_intercept_check_black(nr_remaining_black_moves,
+                               nr_remaining_white_moves,
+                               max_nr_allowed_captures_by_black_pieces,
+                               max_nr_allowed_captures_by_white_pieces,
+                               to_be_blocked,
+                               check_directions,
+                               nr_of_check_directions-1,
+                               n);
+    mate_intercept_check_white(nr_remaining_black_moves,
+                               nr_remaining_white_moves,
+                               max_nr_allowed_captures_by_black_pieces,
+                               max_nr_allowed_captures_by_white_pieces,
+                               to_be_blocked,
+                               check_directions,
+                               nr_of_check_directions-1,
+                               n);
+  }
 
-    square sq;
-    for (sq = trouble+dir; sq!=king_square[White]; sq += dir)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void mate_continue_intercepting_checks(unsigned int nr_remaining_black_moves,
+                                              unsigned int nr_remaining_white_moves,
+                                              unsigned int max_nr_allowed_captures_by_black_pieces,
+                                              unsigned int max_nr_allowed_captures_by_white_pieces,
+                                              int const check_directions[8],
+                                              unsigned int nr_of_check_directions,
+                                              stip_length_type n)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (nr_of_check_directions==0)
+    mate_test_target_position(nr_remaining_black_moves,
+                              nr_remaining_white_moves,
+                              max_nr_allowed_captures_by_black_pieces,
+                              max_nr_allowed_captures_by_white_pieces,
+                              n);
+  else
+    mate_intercept_next_check(nr_remaining_black_moves,
+                              nr_remaining_white_moves,
+                              max_nr_allowed_captures_by_black_pieces,
+                              max_nr_allowed_captures_by_white_pieces,
+                              check_directions,
+                              nr_of_check_directions,
+                              n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static unsigned int find_check_directions(Side side, int check_directions[8])
+{
+  unsigned int result = 0;
+  unsigned int i;
+
+  /* don't use obs - intelligent mode supports boards with holes */
+  piece const temporary_block = dummyb;
+
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[side]+vec_i]==vide)
+      e[king_square[side]+vec_i] = temporary_block;
+  }
+
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[side]+vec_i]==temporary_block)
     {
-      mate_intercept_check_black(sq,
-                                 nr_remaining_black_moves,
-                                 nr_remaining_white_moves,
-                                 max_nr_allowed_captures_by_black_pieces,
-                                 max_nr_allowed_captures_by_white_pieces,
-                                 n);
-      mate_intercept_check_white(sq,
-                                 nr_remaining_black_moves,
-                                 nr_remaining_white_moves,
-                                 max_nr_allowed_captures_by_black_pieces,
-                                 max_nr_allowed_captures_by_white_pieces,
-                                 n);
+      e[king_square[side]+vec_i] = vide;
+      if (echecc(nbply,side))
+      {
+        check_directions[result] = vec_i;
+        ++result;
+      }
+      e[king_square[side]+vec_i] = temporary_block;
     }
   }
+
+  for (i = vec_queen_end; i>=vec_queen_start ; --i)
+  {
+    numvec const vec_i = vec[i];
+    if (e[king_square[side]+vec_i]==temporary_block)
+      e[king_square[side]+vec_i] = vide;
+  }
+
+  return result;
+}
+
+static void mate_intercept_checks(unsigned int nr_remaining_black_moves,
+                                  unsigned int nr_remaining_white_moves,
+                                  unsigned int max_nr_allowed_captures_by_black_pieces,
+                                  unsigned int max_nr_allowed_captures_by_white_pieces,
+                                  stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    int check_directions[8];
+    unsigned int const nr_of_check_directions = find_check_directions(White,
+                                                                      check_directions);
+
+    mate_continue_intercepting_checks(nr_remaining_black_moves,
+                                      nr_remaining_white_moves,
+                                      max_nr_allowed_captures_by_black_pieces,
+                                      max_nr_allowed_captures_by_white_pieces,
+                                      check_directions,
+                                      nr_of_check_directions,
+                                      n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_moves,
@@ -1655,11 +1820,11 @@ static void mate_immobilise_by_pin_by_officer(unsigned int nr_remaining_black_mo
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pinner_type,pin_from,pinner_flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                            nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces,
-                                            n);
+      mate_test_target_position(nr_remaining_black_moves,
+                                nr_remaining_white_moves-time,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
+                                n);
     }
   }
 
@@ -3787,46 +3952,6 @@ static void stalemate_continue_intercepting_checks(Side side,
   TraceFunctionResultEnd();
 }
 
-static unsigned int find_check_directions(Side side, int check_directions[8])
-{
-  unsigned int result = 0;
-  unsigned int i;
-
-  /* don't use obs - intelligent mode supports boards with holes */
-  piece const temporary_block = dummyb;
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==vide)
-      e[king_square[side]+vec_i] = temporary_block;
-  }
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==temporary_block)
-    {
-      e[king_square[side]+vec_i] = vide;
-      if (echecc(nbply,side))
-      {
-        check_directions[result] = vec_i;
-        ++result;
-      }
-      e[king_square[side]+vec_i] = temporary_block;
-    }
-  }
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==temporary_block)
-      e[king_square[side]+vec_i] = vide;
-  }
-
-  return result;
-}
-
 static void stalemate_intercept_checks(Side side,
                                        unsigned int nr_remaining_black_moves,
                                        unsigned int nr_remaining_white_moves,
@@ -3918,11 +4043,11 @@ static void mate_place_promoted_black_pawn_on(unsigned int placed_index,
               && time<=nr_remaining_black_moves)
           {
             SetPiece(pp,placed_on,black[placed_index].flags);
-            mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                                  nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_by_black_pieces-diffcol,
-                                                  max_nr_allowed_captures_by_white_pieces,
-                                                  n);
+            mate_test_target_position(nr_remaining_black_moves-time,
+                                      nr_remaining_white_moves,
+                                      max_nr_allowed_captures_by_black_pieces-diffcol,
+                                      max_nr_allowed_captures_by_white_pieces,
+                                      n);
           }
         }
     }
@@ -3962,11 +4087,11 @@ static void mate_place_unpromoted_black_pawn_on(unsigned int placed_index,
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(pn,placed_on,black[placed_index].flags);
-        mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                              nr_remaining_white_moves,
-                                              max_nr_allowed_captures_by_black_pieces-diffcol,
-                                              max_nr_allowed_captures_by_white_pieces,
-                                              n);
+        mate_test_target_position(nr_remaining_black_moves-time,
+                                  nr_remaining_white_moves,
+                                  max_nr_allowed_captures_by_black_pieces-diffcol,
+                                  max_nr_allowed_captures_by_white_pieces,
+                                  n);
       }
     }
   }
@@ -4004,11 +4129,11 @@ static void mate_place_black_officer_on(unsigned int placed_index,
     if (time<=nr_remaining_black_moves)
     {
       SetPiece(placed_type,placed_on,black[placed_index].flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves-time,
-                                            nr_remaining_white_moves,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces,
-                                            n);
+      mate_test_target_position(nr_remaining_black_moves-time,
+                                nr_remaining_white_moves,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
+                                n);
     }
   }
 
@@ -4106,11 +4231,11 @@ static void mate_place_unpromoted_white_pawn_on(unsigned int placed_index,
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pb,placed_on,white[placed_index].flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                            nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces-diffcol,
-                                            n);
+      mate_test_target_position(nr_remaining_black_moves,
+                                nr_remaining_white_moves-time,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces-diffcol,
+                                n);
     }
   }
 
@@ -4167,11 +4292,11 @@ static void mate_place_promoted_white_pawn_on(unsigned int placed_index,
               && time<=nr_remaining_white_moves)
           {
             SetPiece(pp,placed_on,white[placed_index].flags);
-            mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                                  nr_remaining_white_moves-time,
-                                                  max_nr_allowed_captures_by_black_pieces,
-                                                  max_nr_allowed_captures_by_white_pieces-diffcol,
-                                                  n);
+            mate_test_target_position(nr_remaining_black_moves,
+                                      nr_remaining_white_moves-time,
+                                      max_nr_allowed_captures_by_black_pieces,
+                                      max_nr_allowed_captures_by_white_pieces-diffcol,
+                                      n);
           }
         }
     }
@@ -4212,11 +4337,11 @@ static void mate_place_white_officer_on(unsigned int placed_index,
     {
       Flags const placed_flags = white[placed_index].flags;
       SetPiece(placed_type,placed_on,placed_flags);
-      mate_deal_with_pieces_disturbing_mate(nr_remaining_black_moves,
-                                            nr_remaining_white_moves-time,
-                                            max_nr_allowed_captures_by_black_pieces,
-                                            max_nr_allowed_captures_by_white_pieces,
-                                            n);
+      mate_test_target_position(nr_remaining_black_moves,
+                                nr_remaining_white_moves-time,
+                                max_nr_allowed_captures_by_black_pieces,
+                                max_nr_allowed_captures_by_white_pieces,
+                                n);
     }
   }
 
@@ -4488,7 +4613,7 @@ static void finalise_blocking(unsigned int nr_remaining_white_moves,
                                      n);
   }
   else if (echecc(nbply,Black))
-    mate_deal_with_pieces_disturbing_mate(timetowaste,
+    mate_test_target_position(timetowaste,
                                           nr_remaining_white_moves,
                                           max_nr_allowed_captures_by_black_pieces,
                                           max_nr_allowed_captures_by_white_pieces,
