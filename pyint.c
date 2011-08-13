@@ -1705,21 +1705,11 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
     SetPiece(roib,king_square[White],white[index_of_king].flags);
 
     if (!is_white_king_attacked_by_non_king())
-    {
-      if (echecc(nbply,Black))
-        stalemate_intercept_checks(Black,
-                                   nr_remaining_black_moves,
-                                   nr_remaining_white_moves,
-                                   max_nr_allowed_captures_of_black_pieces,
-                                   max_nr_allowed_captures_of_white_pieces,
-                                   n);
-      else
-        stalemate_test_target_position(nr_remaining_black_moves,
-                                       nr_remaining_white_moves,
-                                       max_nr_allowed_captures_of_black_pieces,
-                                       max_nr_allowed_captures_of_white_pieces,
-                                       n);
-    }
+      stalemate_test_target_position(nr_remaining_black_moves,
+                                     nr_remaining_white_moves,
+                                     max_nr_allowed_captures_of_black_pieces,
+                                     max_nr_allowed_captures_of_white_pieces,
+                                     n);
 
     e[king_square[White]] = vide;
     spec[king_square[White]] = EmptySpec;
