@@ -465,7 +465,7 @@ intelligent mode bug: did not find mates ...
 
               empile:         646
             jouecoup:         408
-        orig_rbechec:           7
+        orig_rbechec:          17
         orig_rnechec:         440
 solution finished. 
 
@@ -500,10 +500,10 @@ option start in intelligent mode
   1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 # 
 15 potential positions in 1+8
 
-              empile:       71993
-            jouecoup:       71410
-        orig_rbechec:        4223
-        orig_rnechec:        6124
+              empile:       71834
+            jouecoup:       71343
+        orig_rbechec:        4299
+        orig_rnechec:        6056
 solution finished. 
 
 

@@ -191,26 +191,26 @@ a)
 
   1.Te6-e3 Ld5-f7   2.Tg4-g7 Td4-h4 # 
 
-              empile:        6740
-            jouecoup:        5927
-        orig_rbechec:          37
-        orig_rnechec:        5138
+              empile:        6714
+            jouecoup:        5909
+        orig_rbechec:          85
+        orig_rnechec:        5120
 b) sKh7-->a6
 
   1.Te6-b6 Ld5-c6   2.Ld2-f4 Td4-a4 # 
 
               empile:       11004
             jouecoup:        9636
-        orig_rbechec:          82
+        orig_rbechec:          90
         orig_rnechec:        8157
 c) sKh7-->f1
 
   1.f3-f2 Ld5-f3   2.Ld2-e3 Td4-d1 # 
 
-              empile:       10241
-            jouecoup:        8861
-        orig_rbechec:          46
-        orig_rnechec:        7751
+              empile:       10145
+            jouecoup:        8781
+        orig_rbechec:          85
+        orig_rnechec:        7671
 Loesung beendet. 
 
 
@@ -244,17 +244,17 @@ a)
 
   1.Tc4-c5 Tb4-f4   2.Se3-d5 Lf2-d4 # 
 
-              empile:       23959
-            jouecoup:       19845
-        orig_rbechec:          33
-        orig_rnechec:       21474
+              empile:       23885
+            jouecoup:       19819
+        orig_rbechec:          85
+        orig_rnechec:       21448
 b) sSd6<-->sKe5
 
   1.Se3-g4 Lf2-b6   2.Tc4-c6 Tb4-d4 # 
 
               empile:       20945
             jouecoup:       17723
-        orig_rbechec:          26
+        orig_rbechec:          37
         orig_rnechec:       18961
 Loesung beendet. 
 
@@ -288,41 +288,41 @@ a)
 
   1.Kc7-d8 Tb4-d4   2.La2-e6 + Sg7*e6 # 
 
-              empile:       34500
-            jouecoup:       30354
-        orig_rbechec:         438
-        orig_rnechec:       15821
+              empile:       34298
+            jouecoup:       30240
+        orig_rbechec:         735
+        orig_rnechec:       15701
 b)  -sTc8
 
   1.La2-d5 Tb4-c4 +   2.Kc7-d6 Sg7*e8 # 
 
-              empile:       22211
-            jouecoup:       19925
-        orig_rbechec:         248
-        orig_rnechec:       13018
+              empile:       22135
+            jouecoup:       19865
+        orig_rbechec:         362
+        orig_rnechec:       12955
 +c)  -sLa2
 
   1.Kc7-d8 Tb4-d4   2.Dc3-c8 Sg7-e6 # 
 
-              empile:       19608
-            jouecoup:       17131
-        orig_rbechec:         205
-        orig_rnechec:       12649
+              empile:       19532
+            jouecoup:       17071
+        orig_rbechec:         308
+        orig_rnechec:       12586
 +d)  -sSe8
 
   1.Kc7-d8 Tb4-h4   2.Dc3-c7 Th4*h8 # 
 
-              empile:       17643
-            jouecoup:       14992
-        orig_rbechec:         171
-        orig_rnechec:       11751
+              empile:       17584
+            jouecoup:       14945
+        orig_rbechec:         227
+        orig_rnechec:       11701
 +e)  -sDc3
 
   1.Kc7-d6 Sg7-e6   2.Lh8-d4 Tb4*d4 # 
 
               empile:       11738
             jouecoup:        8688
-        orig_rbechec:          39
+        orig_rbechec:          56
         orig_rnechec:        9825
 +f)  -sLh8
 
@@ -330,7 +330,7 @@ b)  -sTc8
 
               empile:       11532
             jouecoup:        7149
-        orig_rbechec:          31
+        orig_rbechec:          48
         orig_rnechec:        8380
 +g)  -wBb5
 
@@ -338,7 +338,7 @@ b)  -sTc8
 
               empile:        6449
             jouecoup:        4208
-        orig_rbechec:          23
+        orig_rbechec:          34
         orig_rnechec:        4876
 +h)  -wSg7
 
@@ -346,7 +346,7 @@ b)  -sTc8
 
               empile:        3016
             jouecoup:        1953
-        orig_rbechec:          13
+        orig_rbechec:          16
         orig_rnechec:        2280
 +i)  -sBe7
 
@@ -354,7 +354,7 @@ b)  -sTc8
 
               empile:        2962
             jouecoup:        1436
-        orig_rbechec:          10
+        orig_rbechec:          12
         orig_rnechec:        1805
 +j)  -sBd7
 
@@ -362,7 +362,7 @@ b)  -sTc8
 
               empile:        2944
             jouecoup:         769
-        orig_rbechec:           9
+        orig_rbechec:          10
         orig_rnechec:        1147
 Loesung beendet. 
 
@@ -396,9 +396,9 @@ a)
 
   1.Kd4-d3   2.Kd3-c2   3.Kc2-b1   4.Kb1-a1 Da3-c1 # 
 
-              empile:       26862
+              empile:       26853
             jouecoup:       24136
-        orig_rbechec:         204
+        orig_rbechec:         247
         orig_rnechec:       24242
 b)  -sTa2
 
@@ -406,7 +406,7 @@ b)  -sTa2
 
               empile:       23534
             jouecoup:       20793
-        orig_rbechec:          67
+        orig_rbechec:          80
         orig_rnechec:       23163
 +c)  -sBa6
 
@@ -414,7 +414,7 @@ b)  -sTa2
 
               empile:       23450
             jouecoup:       19356
-        orig_rbechec:          64
+        orig_rbechec:          77
         orig_rnechec:       21804
 +d)  -wLg3
 
@@ -422,7 +422,7 @@ b)  -sTa2
 
               empile:       10770
             jouecoup:        8499
-        orig_rbechec:          13
+        orig_rbechec:          14
         orig_rnechec:        9877
 Loesung beendet. 
 
@@ -1573,25 +1573,25 @@ a)
 
   1.Da6-f6 Sd3-c5   2.Df6-b2 Tb4-a4 # 
 
-              empile:        6091
-            jouecoup:        3065
-        orig_rbechec:           9
-        orig_rnechec:        3718
+              empile:        6053
+            jouecoup:        3055
+        orig_rbechec:          39
+        orig_rnechec:        3708
 b) sTa6 
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 # 
 
-              empile:        6195
-            jouecoup:        3312
-        orig_rbechec:          32
-        orig_rnechec:        3642
+              empile:        6177
+            jouecoup:        3297
+        orig_rbechec:          47
+        orig_rnechec:        3625
 c) sLa6 
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 # 
 
               empile:        5676
             jouecoup:        2789
-        orig_rbechec:           7
+        orig_rbechec:          23
         orig_rnechec:        3597
 d) sSa6 
 
@@ -1599,7 +1599,7 @@ d) sSa6
 
               empile:        5644
             jouecoup:        2769
-        orig_rbechec:           9
+        orig_rbechec:          23
         orig_rnechec:        3566
 e) sBa6 
 
@@ -1607,7 +1607,7 @@ e) sBa6
 
               empile:        5491
             jouecoup:        2632
-        orig_rbechec:           7
+        orig_rbechec:          11
         orig_rnechec:        3449
 Loesung beendet. 
 
@@ -1886,10 +1886,10 @@ a)
   1.Kd5-e6 e7-e8=L   2.Ld4-e5 Dd1-d7 # 
   1.Kd5-e6 e7-e8=T +   2.Ke6-f7 Dd1-h5 # 
 
-              empile:      194696
-            jouecoup:      184628
-        orig_rbechec:        2332
-        orig_rnechec:       99945
+              empile:      194405
+            jouecoup:      184347
+        orig_rbechec:        3448
+        orig_rnechec:       99651
 b) Drehung 180
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 # 
@@ -1897,10 +1897,10 @@ b) Drehung 180
   1.Sc4-e3 d2*e3   2.Ke4-f5 De8-g6 # 
   1.Ke4-f5 d2-d4   2.Le5-f4 De8-g6 # 
 
-              empile:       39963
-            jouecoup:       36002
-        orig_rbechec:         387
-        orig_rnechec:       28771
+              empile:       39819
+            jouecoup:       35863
+        orig_rbechec:         573
+        orig_rnechec:       28628
 Loesung beendet. 
 
 
@@ -1936,7 +1936,7 @@ a)
 
               empile:       20180
             jouecoup:       17189
-        orig_rbechec:          42
+        orig_rbechec:          68
         orig_rnechec:       17788
 b)  -wBe7  +wSe8 
 
@@ -1944,7 +1944,7 @@ b)  -wBe7  +wSe8
 
               empile:       11281
             jouecoup:        9477
-        orig_rbechec:           7
+        orig_rbechec:          10
         orig_rnechec:       10806
 c)  -wBe7  +wLe8 
 
@@ -1952,7 +1952,7 @@ c)  -wBe7  +wLe8
 
               empile:       14940
             jouecoup:       12985
-        orig_rbechec:          24
+        orig_rbechec:          37
         orig_rnechec:       13927
 d)  -wBe7  +wTe8 
 
@@ -1960,7 +1960,7 @@ d)  -wBe7  +wTe8
 
               empile:       22500
             jouecoup:       19645
-        orig_rbechec:          32
+        orig_rbechec:          53
         orig_rnechec:       21015
 e)  -wBe7  +wDe8 
 
@@ -1968,7 +1968,7 @@ e)  -wBe7  +wDe8
 
               empile:       73825
             jouecoup:       70567
-        orig_rbechec:         597
+        orig_rbechec:         855
         orig_rnechec:       41377
 Loesung beendet. 
 
@@ -2004,7 +2004,7 @@ a)
 
               empile:       11643
             jouecoup:        8516
-        orig_rbechec:           9
+        orig_rbechec:          32
         orig_rnechec:        9975
 b) T ==> L
 
@@ -2012,7 +2012,7 @@ b) T ==> L
 
               empile:        6690
             jouecoup:        4234
-        orig_rbechec:           7
+        orig_rbechec:           8
         orig_rnechec:        5028
 c) T ==> S
 
@@ -2020,7 +2020,7 @@ c) T ==> S
 
               empile:        2369
             jouecoup:        1280
-        orig_rbechec:           7
+        orig_rbechec:           8
         orig_rnechec:        1511
 Loesung beendet. 
 
@@ -2054,25 +2054,25 @@ a)
 
   1.Da6-f6 Sd3-c5   2.Df6-b2 Tb4-a4 # 
 
-              empile:        6091
-            jouecoup:        3065
-        orig_rbechec:           9
-        orig_rnechec:        3718
+              empile:        6053
+            jouecoup:        3055
+        orig_rbechec:          39
+        orig_rnechec:        3708
 b) sTa6 
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 # 
 
-              empile:        6195
-            jouecoup:        3312
-        orig_rbechec:          32
-        orig_rnechec:        3642
+              empile:        6177
+            jouecoup:        3297
+        orig_rbechec:          47
+        orig_rnechec:        3625
 c) sLa6 
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 # 
 
               empile:        5676
             jouecoup:        2789
-        orig_rbechec:           7
+        orig_rbechec:          23
         orig_rnechec:        3597
 d) sSa6 
 
@@ -2080,7 +2080,7 @@ d) sSa6
 
               empile:        5644
             jouecoup:        2769
-        orig_rbechec:           9
+        orig_rbechec:          23
         orig_rnechec:        3566
 e) sBa6 
 
@@ -2088,7 +2088,7 @@ e) sBa6
 
               empile:        5491
             jouecoup:        2632
-        orig_rbechec:           7
+        orig_rbechec:          11
         orig_rnechec:        3449
 Loesung beendet. 
 
@@ -2122,49 +2122,49 @@ a)
 
   1.Sc7-d5 Ld7-e6   2.Sd5-e3 Sd1-f2 # 
 
-              empile:      254505
-            jouecoup:      227046
-        orig_rbechec:        1860
-        orig_rnechec:      155307
+              empile:      253126
+            jouecoup:      226067
+        orig_rbechec:        2717
+        orig_rnechec:      154250
 b)  -sSc7
 
   1.Da8-a6 g2-g4   2.Da6-d3 Ld7*c6 # 
 
-              empile:      221615
-            jouecoup:      194366
-        orig_rbechec:        1475
-        orig_rnechec:      150397
+              empile:      220477
+            jouecoup:      193548
+        orig_rbechec:        2179
+        orig_rnechec:      149511
 +c)  -sDa8
 
   1.Th8-e8 Sh3-f4   2.Te8-e5 d4-d5 # 
 
-              empile:      182116
-            jouecoup:      153437
-        orig_rbechec:         991
-        orig_rnechec:      139819
+              empile:      181807
+            jouecoup:      153228
+        orig_rbechec:        1427
+        orig_rnechec:      139582
 +d)  -sTh8
 
   1.f7-f5 Ld7-e6   2.f5-f4 Sh3-f2 # 
 
-              empile:      156803
-            jouecoup:      120137
-        orig_rbechec:         470
-        orig_rnechec:      129647
+              empile:      156494
+            jouecoup:      119928
+        orig_rbechec:         868
+        orig_rnechec:      129410
 +e)  -sBf7
 
   1.Lg6-f7 Ld7-e8   2.Lf7-d5 Le8-g6 # 
 
-              empile:      147905
-            jouecoup:       96326
-        orig_rbechec:         257
-        orig_rnechec:      109975
+              empile:      147596
+            jouecoup:       96117
+        orig_rbechec:         441
+        orig_rnechec:      109738
 +f)  -sLg6
 
   1.c6-c5 Ta4-a5   2.c5*d4 Ld7-f5 # 
 
               empile:      138740
             jouecoup:       67555
-        orig_rbechec:          63
+        orig_rbechec:         144
         orig_rnechec:       86508
 Loesung beendet. 
 
@@ -2200,7 +2200,7 @@ a)
 
               empile:        7690
             jouecoup:        5831
-        orig_rbechec:          10
+        orig_rbechec:          12
         orig_rnechec:        6714
 b) sKh4<-->wLc6
 
@@ -2208,7 +2208,7 @@ b) sKh4<-->wLc6
 
               empile:        9846
             jouecoup:        7771
-        orig_rbechec:          18
+        orig_rbechec:          32
         orig_rnechec:        9155
 +c) wLh4<-->wTf8
 
@@ -2216,7 +2216,7 @@ b) sKh4<-->wLc6
 
               empile:       13321
             jouecoup:       10339
-        orig_rbechec:          12
+        orig_rbechec:          16
         orig_rnechec:       12143
 +d) wTh4<-->sKc6
 
@@ -2224,7 +2224,7 @@ b) sKh4<-->wLc6
 
               empile:        5066
             jouecoup:        3921
-        orig_rbechec:          19
+        orig_rbechec:          30
         orig_rnechec:        4133
 +e) sKh4<-->wLf8
 
@@ -2232,7 +2232,7 @@ b) sKh4<-->wLc6
 
               empile:        8688
             jouecoup:        6758
-        orig_rbechec:           7
+        orig_rbechec:           8
         orig_rnechec:        7945
 +f) wLh4<-->wTc6
 
@@ -2240,7 +2240,7 @@ b) sKh4<-->wLc6
 
               empile:        6152
             jouecoup:        4873
-        orig_rbechec:           6
+        orig_rbechec:           7
         orig_rnechec:        5753
 Loesung beendet. 
 
@@ -2276,7 +2276,7 @@ a)
 
               empile:       52360
             jouecoup:       45806
-        orig_rbechec:         124
+        orig_rbechec:         199
         orig_rnechec:       47220
 b) sBa6-->b6
 
@@ -2284,7 +2284,7 @@ b) sBa6-->b6
 
               empile:       53029
             jouecoup:       46502
-        orig_rbechec:         133
+        orig_rbechec:         209
         orig_rnechec:       47284
 c) sBa6-->c6
 
@@ -2292,23 +2292,23 @@ c) sBa6-->c6
 
               empile:       53598
             jouecoup:       47092
-        orig_rbechec:         144
+        orig_rbechec:         222
         orig_rnechec:       47368
 d) sBa6-->d6
 
   1.Sg5-f7 Da2*f7   2.La1-d4 Th8-h5 # 
 
-              empile:       74449
-            jouecoup:       69763
-        orig_rbechec:         617
-        orig_rnechec:       50515
+              empile:       74517
+            jouecoup:       69789
+        orig_rbechec:         795
+        orig_rnechec:       50541
 e) sBa6-->e6
 
   1.Ke5-f5 Th8-h5   2.e6-e5 Da2-f7 # 
 
               empile:       52869
             jouecoup:       46171
-        orig_rbechec:          77
+        orig_rbechec:         198
         orig_rnechec:       47821
 f) sBa6-->f6
 
@@ -2316,7 +2316,7 @@ f) sBa6-->f6
 
               empile:       62183
             jouecoup:       55791
-        orig_rbechec:         271
+        orig_rbechec:         503
         orig_rnechec:       50132
 g) sBa6-->g6
 
@@ -2324,7 +2324,7 @@ g) sBa6-->g6
 
               empile:       58605
             jouecoup:       52421
-        orig_rbechec:         239
+        orig_rbechec:         347
         orig_rnechec:       48005
 h) sBa6-->h6
 
@@ -2332,7 +2332,7 @@ h) sBa6-->h6
 
               empile:       51613
             jouecoup:       45047
-        orig_rbechec:          69
+        orig_rbechec:         148
         orig_rnechec:       47153
 Loesung beendet. 
 
