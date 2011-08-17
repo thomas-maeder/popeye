@@ -121,8 +121,20 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = intelligent_limit_nr_solutions_per_target_position_help(si,n);
       break;
 
-    case STGoalReachableGuardFilter:
-      result = goalreachable_guard_help(si,n);
+    case STGoalReachableGuardFilterMate:
+      result = goalreachable_guard_mate_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterStalemate:
+      result = goalreachable_guard_stalemate_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterProof:
+      result = goalreachable_guard_proofgame_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterProofFairy:
+      result = goalreachable_guard_proofgame_fairy_help(si,n);
       break;
 
     case STSelfCheckGuard:
@@ -278,8 +290,20 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = intelligent_limit_nr_solutions_per_target_position_can_help(si,n);
       break;
 
-    case STGoalReachableGuardFilter:
-      result = goalreachable_guard_can_help(si,n);
+    case STGoalReachableGuardFilterMate:
+      result = goalreachable_guard_mate_can_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterStalemate:
+      result = goalreachable_guard_stalemate_can_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterProof:
+      result = goalreachable_guard_proofgame_can_help(si,n);
+      break;
+
+    case STGoalReachableGuardFilterProofFairy:
+      result = goalreachable_guard_proofgame_fairy_can_help(si,n);
       break;
 
     case STSelfCheckGuard:

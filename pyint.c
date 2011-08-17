@@ -5896,7 +5896,7 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++MovesLeft[advers(slices[si].starter)];
+  ++MovesLeft[slices[si].starter];
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -5945,9 +5945,7 @@ static void init_moves_left(slice_index si,
   stip_moves_traversal_init(&st,&n);
   st.context = stip_traversal_context_help;
   stip_moves_traversal_set_remaining(&st,n,full_length);
-  stip_moves_traversal_override_single(&st,
-                                       STGoalReachableGuardFilter,
-                                       &moves_left_move);
+  stip_moves_traversal_override_single(&st,STMove,&moves_left_move);
   stip_moves_traversal_override_single(&st,STCheckZigzagJump,moves_left_zigzag);
   stip_traverse_moves(si,&st);
 
@@ -6009,11 +6007,36 @@ static void init_goal_to_be_reached(slice_index si)
 static slice_index alloc_goalreachable_guard_filter(void)
 {
   slice_index result;
+  slice_type type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalReachableGuardFilter);
+  switch (goal_to_be_reached)
+  {
+    case goal_mate:
+      type = STGoalReachableGuardFilterMate;
+      break;
+
+    case goal_stale:
+      type = STGoalReachableGuardFilterStalemate;
+      break;
+
+    case goal_proofgame:
+    case goal_atob:
+      type = proof_make_goal_reachable_type();
+      break;
+
+    default:
+      assert(0);
+      type = no_slice_type;
+      break;
+  }
+
+  if (type!=no_slice_type)
+    result = alloc_pipe(type);
+  else
+    result = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -6030,7 +6053,8 @@ static slice_index alloc_goalreachable_guard_filter(void)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n)
+stip_length_type goalreachable_guard_mate_help(slice_index si,
+                                               stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -6048,7 +6072,50 @@ stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n)
   TraceValue("%u",MovesLeft[slices[si].starter]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
-  if (isGoalReachable())
+  if (mate_isGoalReachable())
+    result = help(slices[si].u.pipe.next,n);
+  else
+    result = n+2;
+
+  ++MovesLeft[just_moved];
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_stalemate_help(slice_index si,
+                                                    stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,just_moved,"");
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  if (stalemate_isGoalReachable())
     result = help(slices[si].u.pipe.next,n);
   else
     result = n+2;
@@ -6072,8 +6139,8 @@ stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_can_help(slice_index si,
-                                              stip_length_type n)
+stip_length_type goalreachable_guard_mate_can_help(slice_index si,
+                                                   stip_length_type n)
 {
   stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
@@ -6087,7 +6154,44 @@ stip_length_type goalreachable_guard_can_help(slice_index si,
 
   --MovesLeft[just_moved];
 
-  if (isGoalReachable())
+  if (mate_isGoalReachable())
+    result = can_help(slices[si].u.pipe.next,n);
+  else
+    result = n+2;
+
+  ++MovesLeft[just_moved];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_stalemate_can_help(slice_index si,
+                                                        stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+
+  if (mate_isGoalReachable())
     result = can_help(slices[si].u.pipe.next,n);
   else
     result = n+2;
@@ -6112,7 +6216,8 @@ void goalreachable_guards_inserter_help_move(slice_index si,
 
   {
     slice_index const prototype = alloc_goalreachable_guard_filter();
-    help_branch_insert_slices(si,&prototype,1);
+    if (prototype!=no_slice)
+      help_branch_insert_slices(si,&prototype,1);
 
     if (is_max_nr_solutions_per_target_position_limited())
     {
@@ -6179,6 +6284,8 @@ static void stip_insert_goalreachable_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+
+  assert(goal_to_be_reached!=no_goal);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
@@ -6297,39 +6404,6 @@ boolean Intelligent(slice_index si, stip_length_type n)
   }
   else
     result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-boolean isGoalReachable(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  switch (goal_to_be_reached)
-  {
-    case goal_atob:
-    case goal_proofgame:
-      result = !(*alternateImpossible)();
-      break;
-
-    case goal_mate:
-      result = mate_isGoalReachable();
-      break;
-
-    case goal_stale:
-      result = stalemate_isGoalReachable();
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -6510,17 +6584,17 @@ boolean init_intelligent_mode(slice_index si)
       result = true;
       if (OptFlag[intelligent])
       {
+        init_goal_to_be_reached(si);
         stip_insert_intelligent_filters(si);
         stip_insert_goalreachable_guards(si);
-        init_goal_to_be_reached(si);
       }
       break;
 
     case intelligent_active_by_default:
       result = true;
+      init_goal_to_be_reached(si);
       stip_insert_intelligent_filters(si);
       stip_insert_goalreachable_guards(si);
-      init_goal_to_be_reached(si);
       break;
 
     default:

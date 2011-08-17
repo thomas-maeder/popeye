@@ -50,9 +50,6 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   CapturedBishopc1, CapturedBishopf1, CapturedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
 
-ProofImpossible_fct_t alternateImpossible;
-static ProofImpossible_fct_t seriesImpossible;
-
 static goal_type goal_to_be_reached;
 
 stip_length_type current_length;
@@ -1465,15 +1462,6 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
   return Diff;
 }
 
-static boolean NeverImpossible(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionResult("%u",false);
-  return false;
-}
-
 static boolean ProofFairyImpossible(void)
 {
   square const *bnp;
@@ -1933,112 +1921,6 @@ static boolean ProofImpossible(void)
   return false;
 }
 
-static boolean ProofSeriesImpossible(void)
-{
-  square const *bnp;
-  square sq;
-  stip_length_type BlPieToBeCapt, BlCapturesRequired;
-  unsigned int       NbrBl;
-  stip_length_type white_moves_left= MovesLeft[Black]+MovesLeft[White];
-  stip_length_type white_king_moves_needed;
-
-  TraceValue("%d\n",MovesLeft[Black]+MovesLeft[White]);
-  /* too many pawns captured or promoted */
-  if (nr_piece(target)[pb]>nbpiece[pb]
-      || nr_piece(target)[pn]>nbpiece[pn])
-    return true;
-
-  NbrBl= nbpiece[pn]
-    + nbpiece[cn]
-    + nbpiece[tn]
-    + nbpiece[fn]
-    + nbpiece[dn]
-    + nbpiece[roin];
-
-  /* to many pieces captured    or */
-  /* not enough time to capture the remaining pieces */
-  if (NbrBl<ProofNbrBlackPieces)
-    return true;
-  else
-  {
-    BlPieToBeCapt= NbrBl - ProofNbrBlackPieces;
-    if (BlPieToBeCapt>white_moves_left)
-      return true;
-  }
-
-  /* has a white pawn on the second rank moved ? */
-  for (sq = square_a2; sq<=square_h2; sq += dir_right)
-    if (target.board[sq]==pb && e[sq]!=pb)
-      return true;
-
-  /* has a black pawn on the seventh rank been captured ? */
-  for (sq = square_a7; sq<=square_h7; sq += dir_right)
-    if (target.board[sq]==pn && e[sq]!=pn)
-      return true;
-
-  /* has a black piece on the eigth rank been captured ? */
-  for (sq = square_a8; sq<=square_h8; sq += dir_right)
-    if (target.board[sq]<roin && target.board[sq]!=e[sq])
-      return true;
-
-  white_king_moves_needed = ProofWhKingMovesNeeded();
-  if (white_moves_left<white_king_moves_needed)
-    return true;
-  else
-    white_moves_left -= white_king_moves_needed;
-
-  /* collect the pieces for further investigations */
-  ProofWhPawns.Nbr=
-    ProofWhPieces.Nbr=
-    CurrentWhPawns.Nbr=
-    CurrentWhPieces.Nbr= 0;
-
-  for (bnp= boardnum; *bnp; bnp++) {
-    piece const p1= target.board[*bnp];
-    piece const p2= e[*bnp];
-
-    if (p1 != p2) {
-      if (p1 > vide) {  /* it's a white piece */
-        switch (p1) {
-        case roib:
-          break;
-        case pb:
-          ProofWhPawns.sq[ProofWhPawns.Nbr++]= *bnp;
-          ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
-          break;
-        default:
-          ProofWhPieces.sq[ProofWhPieces.Nbr++]= *bnp;
-          break;
-        }
-      } /* p1 > vide */
-
-      if (p2 > vide) {  /* it's a white piece */
-        switch (p2) {
-        case roib:
-          break;
-        case pb:
-          CurrentWhPawns.sq[CurrentWhPawns.Nbr++]= *bnp;
-          CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
-          break;
-        default:
-          CurrentWhPieces.sq[CurrentWhPieces.Nbr++]= *bnp;
-          break;
-        }
-      } /* p2 > vide */
-    } /* p1 != p2 */
-  } /* for (bnp... */
-
-  if (ArrangePawns(BlPieToBeCapt,White,&BlCapturesRequired)
-      > white_moves_left)
-    return true;
-
-  if (ArrangePieces(BlPieToBeCapt,White,BlCapturesRequired)
-      > white_moves_left)
-    return true;
-
-  return false;
-}
-
 static void saveTargetPiecesAndSquares(void)
 {
   int i;
@@ -2103,33 +1985,194 @@ void ProofInitialise(slice_index si)
                   || CondFlag[mars]
                   || CondFlag[castlingchess]
                   || CondFlag[football]);
-
-    /* TODO Masand can't possibly be the only condition that doesn't
-     * allow any optimisation at all.
-     */
-    TraceValue("%u\n",flagfee);
-    if (flagfee
-        || PieSpExFlags&(~(BIT(White)+BIT(Black)))
-        || CondFlag[masand])
-    {
-      TraceText("no optimisation\n");
-      alternateImpossible = &NeverImpossible;
-      seriesImpossible = &NeverImpossible;
-    }
-    else if (ProofFairy)
-    {
-      TraceText("fairy optimisation\n");
-      alternateImpossible = &ProofFairyImpossible;
-      seriesImpossible = &ProofFairyImpossible;
-    }
-    else
-    {
-      TraceText("full optimisation\n");
-      alternateImpossible = &ProofImpossible;
-      seriesImpossible = &ProofSeriesImpossible;
-    }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+slice_type proof_make_goal_reachable_type(void)
+{
+  slice_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* TODO Masand can't possibly be the only condition that doesn't
+   * allow any optimisation at all.
+   */
+  TraceValue("%u\n",flagfee);
+  if (flagfee
+      || (PieSpExFlags&(~(BIT(White)+BIT(Black))))
+      || CondFlag[masand])
+    result  = no_slice;
+  else if (ProofFairy)
+    result = STGoalReachableGuardFilterProofFairy;
+  else
+    result = STGoalReachableGuardFilterProof;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(slice_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_proofgame_help(slice_index si,
+                                                    stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,just_moved,"");
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  if (ProofImpossible())
+    result = n+2;
+  else
+    result = help(slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_proofgame_can_help(slice_index si,
+                                                        stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+
+  if (ProofImpossible())
+    result = n+2;
+  else
+    result = can_help(slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_proofgame_fairy_help(slice_index si,
+                                                          stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,just_moved,"");
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  if (ProofFairyImpossible())
+    result = n+2;
+  else
+    result = help(slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
+  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u\n",MovesLeft[just_moved]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_proofgame_fairy_can_help(slice_index si,
+                                                              stip_length_type n)
+{
+  stip_length_type result;
+  Side const just_moved = advers(slices[si].starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_help);
+
+  --MovesLeft[just_moved];
+
+  if (ProofFairyImpossible())
+    result = n+2;
+  else
+    result = can_help(slices[si].u.pipe.next,n);
+
+  ++MovesLeft[just_moved];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

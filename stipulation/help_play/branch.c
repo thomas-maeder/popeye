@@ -58,7 +58,10 @@ static slice_index const slice_rank_order[] =
   STRestartGuard,
   STKeepMatingFilter,
   STIntelligentLimitNrSolutionsPerTargetPos,
-  STGoalReachableGuardFilter,
+  STGoalReachableGuardFilterMate,
+  STGoalReachableGuardFilterStalemate,
+  STGoalReachableGuardFilterProof,
+  STGoalReachableGuardFilterProofFairy,
   STEndOfRoot,
 
   STEndOfBranchGoal,

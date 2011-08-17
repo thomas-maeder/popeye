@@ -14,9 +14,6 @@
 
 extern unsigned int MovesLeft[nr_sides];
 
-
-boolean isGoalReachable(void);
-
 boolean Intelligent(slice_index si, stip_length_type n);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
@@ -41,7 +38,7 @@ boolean intelligent_mode_overrides_movenbr(void);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n);
+stip_length_type goalreachable_guard_mate_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -52,7 +49,7 @@ stip_length_type goalreachable_guard_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type goalreachable_guard_can_help(slice_index si,
+stip_length_type goalreachable_guard_mate_can_help(slice_index si,
                                               stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.

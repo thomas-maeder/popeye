@@ -191,7 +191,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
   slice_structure_fork,   /* STIntelligentFilter */
-  slice_structure_pipe,   /* STGoalReachableGuardFilter */
+  slice_structure_pipe,   /* STGoalReachableGuardFilterMate */
+  slice_structure_pipe,   /* STGoalReachableGuardFilterStalemate */
+  slice_structure_pipe,   /* STGoalReachableGuardFilterProof */
+  slice_structure_pipe,   /* STGoalReachableGuardFilterProofFairy */
   slice_structure_pipe,   /* STIntelligentSolutionsPerTargetPosCounter */
   slice_structure_pipe,   /* STIntelligentLimitNrSolutionsPerTargetPos */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
@@ -356,7 +359,10 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STAttackHashed */
   slice_function_unspecified,    /* STHelpHashed */
   slice_function_unspecified,    /* STIntelligentFilter */
-  slice_function_unspecified,    /* STGoalReachableGuardFilter */
+  slice_function_unspecified,    /* STGoalReachableGuardFilterMate */
+  slice_function_unspecified,    /* STGoalReachableGuardFilterStalemate */
+  slice_function_unspecified,    /* STGoalReachableGuardFilterProof */
+  slice_function_unspecified,    /* STGoalReachableGuardFilterProofFairy */
   slice_function_unspecified,    /* STIntelligentSolutionsPerTargetPosCounter */
   slice_function_unspecified,    /* STIntelligentLimitNrSolutionsPerTargetPos */
   slice_function_unspecified,    /* STIntelligentDuplicateAvoider */
@@ -1633,7 +1639,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STAttackHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashed */
   &stip_traverse_structure_end_of_branch,     /* STIntelligentFilter */
-  &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilter */
+  &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterMate */
+  &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterStalemate */
+  &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterProof */
+  &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterProofFairy */
   &stip_traverse_structure_pipe,              /* STIntelligentSolutionsPerTargetPosCounter */
   &stip_traverse_structure_pipe,              /* STIntelligentLimitNrSolutionsPerTargetPos */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
@@ -1899,7 +1908,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STAttackHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashed */
     &stip_traverse_moves_end_of_branch,     /* STIntelligentFilter */
-    &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilter */
+    &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterMate */
+    &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterStalemate */
+    &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterProof */
+    &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterProofFairy */
     &stip_traverse_moves_pipe,              /* STIntelligentSolutionsPerTargetPosCounter */
     &stip_traverse_moves_pipe,              /* STIntelligentLimitNrSolutionsPerTargetPos */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
