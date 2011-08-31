@@ -2701,6 +2701,33 @@ static char *ParsePlay(char *tok,
     }
   }
 
+  else if (strncmp("pser-hs",tok,7) == 0)
+  {
+    slice_index const proxy_to_goal = alloc_proxy_slice();
+    tok = ParseGoal(tok+7,proxy_to_goal); /* skip over "ser-hs" */
+    if (tok!=0)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseSeriesLength(tok,&length,&min_length,play_length);
+      if (result!=0)
+      {
+        slice_index const series = alloc_help_branch(length,min_length);
+        slice_index const help_proxy = alloc_proxy_slice();
+        slice_index const help = alloc_help_branch(slack_length_help+1,
+                                                   slack_length_help+1);
+        slice_index const defense_branch = MakeEndOfSelfPlay(proxy_to_goal);
+        link_to_branch(help_proxy,help);
+        help_branch_set_end_forced(help_proxy,defense_branch,1);
+        help_branch_set_end(series,help_proxy,1);
+        link_to_branch(proxy,series);
+        help_branch_insert_check_zigzag(proxy);
+        stip_impose_starter(proxy_to_goal,White);
+        select_output_mode(proxy,output_mode_line);
+      }
+    }
+  }
+
   else if (strncmp("pser-h",tok,6) == 0)
   {
     boolean const shorten = true;
