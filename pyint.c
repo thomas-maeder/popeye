@@ -4668,9 +4668,7 @@ static void block_flights(unsigned int nr_remaining_black_moves,
                           unsigned int max_nr_allowed_captures_by_black_pieces,
                           unsigned int max_nr_allowed_captures_by_white_pieces,
                           stip_length_type n,
-                          unsigned int nr_flights_to_block,
-                          square toblock[8],
-                          unsigned int mintime[8]);
+                          unsigned int nr_flights_to_block);
 
 static void block_one_flight_officer(unsigned int nr_remaining_black_moves,
                                      unsigned int nr_remaining_white_moves,
@@ -4681,12 +4679,9 @@ static void block_one_flight_officer(unsigned int nr_remaining_black_moves,
                                      piece blocker_type,
                                      Flags blocker_flags,
                                      square blocks_from,
-                                     unsigned int nr_flights_to_block,
-                                     square toblock[8],
-                                     unsigned int mintime[8])
+                                     unsigned int nr_moves_needed,
+                                     unsigned int nr_remaining_flights_to_block)
 {
-  unsigned int const current_flight = nr_flights_to_block-1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
@@ -4696,16 +4691,17 @@ static void block_one_flight_officer(unsigned int nr_remaining_black_moves,
   TraceSquare(to_be_blocked);
   TracePiece(blocker_type);
   TraceSquare(blocks_from);
-  TraceFunctionParam("%u",nr_flights_to_block);
+  TraceFunctionParam("%u",nr_moves_needed);
+  TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
   {
     unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,blocks_from,blocker_type,to_be_blocked);
-    TraceValue("%u\n",mintime[current_flight]);
-    if (time>=mintime[current_flight])
+    TraceValue("%u\n",nr_moves_needed);
+    if (time>=nr_moves_needed)
     {
-      unsigned int const wasted = time-mintime[current_flight];
+      unsigned int const wasted = time-nr_moves_needed;
       if (wasted<=nr_remaining_black_moves)
       {
         SetPiece(blocker_type,to_be_blocked,blocker_flags);
@@ -4713,7 +4709,7 @@ static void block_one_flight_officer(unsigned int nr_remaining_black_moves,
                       max_nr_allowed_captures_by_black_pieces,
                       max_nr_allowed_captures_by_white_pieces,
                       n,
-                      nr_flights_to_block-1,toblock,mintime);
+                      nr_remaining_flights_to_block);
       }
     }
   }
@@ -4730,12 +4726,9 @@ static void block_one_flight_pawn_no_prom(unsigned int nr_remaining_black_moves,
                                           square to_be_blocked,
                                           Flags blocker_flags,
                                           square blocks_from,
-                                          unsigned int nr_flights_to_block,
-                                          square toblock[8],
-                                          unsigned int mintime[8])
+                                          unsigned int nr_moves_needed,
+                                          unsigned int nr_remaining_flights_to_block)
 {
-  unsigned int const current_flight = nr_flights_to_block-1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
@@ -4744,7 +4737,8 @@ static void block_one_flight_pawn_no_prom(unsigned int nr_remaining_black_moves,
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked);
   TraceSquare(blocks_from);
-  TraceFunctionParam("%u",nr_flights_to_block);
+  TraceFunctionParam("%u",nr_moves_needed);
+  TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,pn))
@@ -4752,10 +4746,10 @@ static void block_one_flight_pawn_no_prom(unsigned int nr_remaining_black_moves,
     unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                           blocks_from,
                                                                           to_be_blocked);
-    TraceValue("%u\n",mintime[current_flight]);
-    if (time>=mintime[current_flight])
+    TraceValue("%u\n",nr_moves_needed);
+    if (time>=nr_moves_needed)
     {
-      unsigned int const wasted = time-mintime[current_flight];
+      unsigned int const wasted = time-nr_moves_needed;
       if (wasted<=nr_remaining_black_moves)
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
@@ -4766,8 +4760,7 @@ static void block_one_flight_pawn_no_prom(unsigned int nr_remaining_black_moves,
                         max_nr_allowed_captures_by_black_pieces-diffcol,
                         max_nr_allowed_captures_by_white_pieces,
                         n,
-                        nr_flights_to_block-1,
-                        toblock,mintime);
+                        nr_remaining_flights_to_block);
       }
     }
   }
@@ -4784,11 +4777,9 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
                                        square to_be_blocked,
                                        square blocks_from,
                                        Flags blocker_flags,
-                                       unsigned int nr_flights_to_block,
-                                       square toblock[8],
-                                       unsigned int mintime[8])
+                                       unsigned int nr_moves_needed,
+                                       unsigned int nr_remaining_flights_to_block)
 {
-  unsigned int const current_flight = nr_flights_to_block-1;
   unsigned int nr_moves_guesstimate = blocks_from/onerow - nr_of_slack_rows_below_board;
 
   TraceFunctionEntry(__func__);
@@ -4799,7 +4790,8 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked);
   TraceSquare(blocks_from);
-  TraceFunctionParam("%u",nr_flights_to_block);
+  TraceFunctionParam("%u",nr_moves_needed);
+  TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
   /* A rough check whether it is worth thinking about promotions */
@@ -4810,9 +4802,8 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
     /* square is not on 8th rank -- 1 move necessary to get there */
     ++nr_moves_guesstimate;
 
-  TraceValue("%u",nr_moves_guesstimate);
-  TraceValue("%u\n",mintime[current_flight]);
-  if (nr_remaining_black_moves+mintime[current_flight]>=nr_moves_guesstimate)
+  TraceValue("%u\n",nr_moves_guesstimate);
+  if (nr_remaining_black_moves+nr_moves_needed>=nr_moves_guesstimate)
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -4821,10 +4812,9 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
         unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocks_from,
                                                                            pp,
                                                                            to_be_blocked);
-        TraceValue("%u\n",mintime[current_flight]);
-        if (time>=mintime[current_flight])
+        if (time>=nr_moves_needed)
         {
-          unsigned int const wasted = time-mintime[current_flight];
+          unsigned int const wasted = time-nr_moves_needed;
           unsigned int diffcol = 0;
           if (pp==fn)
           {
@@ -4842,7 +4832,7 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
                           max_nr_allowed_captures_by_black_pieces-diffcol,
                           max_nr_allowed_captures_by_white_pieces,
                           n,
-                          nr_flights_to_block-1,toblock,mintime);
+                          nr_remaining_flights_to_block);
           }
         }
       }
@@ -4852,17 +4842,24 @@ static void block_one_flight_with_prom(unsigned int nr_remaining_black_moves,
   TraceFunctionResultEnd();
 }
 
+static unsigned int nr_king_flights_to_be_blocked;
+static struct
+{
+  square flight;
+  unsigned int nr_moves_needed;
+} king_flights_to_be_blocked[8];
+
 static void block_last_flight(unsigned int nr_remaining_black_moves,
                               unsigned int nr_remaining_white_moves,
                               unsigned int max_nr_allowed_captures_by_black_pieces,
                               unsigned int max_nr_allowed_captures_by_white_pieces,
                               stip_length_type n,
-                              unsigned int nr_flights_to_block,
-                              square toblock[8], unsigned int mintime[8])
+                              unsigned int nr_flights_to_block)
 {
   unsigned int index_of_current_blocker;
   unsigned int const current_flight = nr_flights_to_block-1;
-  square const to_be_blocked = toblock[current_flight];
+  square const to_be_blocked = king_flights_to_be_blocked[current_flight].flight;
+  unsigned int const nr_moves_needed = king_flights_to_be_blocked[current_flight].nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
@@ -4894,8 +4891,8 @@ static void block_last_flight(unsigned int nr_remaining_black_moves,
                                         max_nr_allowed_captures_by_white_pieces,
                                         n,
                                         to_be_blocked,blocker_flags,blocks_from,
-                                        nr_flights_to_block,
-                                        toblock,mintime);
+                                        nr_moves_needed,
+                                        nr_flights_to_block-1);
 
         block_one_flight_with_prom(nr_remaining_black_moves,
                                    nr_remaining_white_moves,
@@ -4903,8 +4900,8 @@ static void block_last_flight(unsigned int nr_remaining_black_moves,
                                    max_nr_allowed_captures_by_white_pieces,
                                    n,
                                    to_be_blocked,blocks_from,blocker_flags,
-                                   nr_flights_to_block,
-                                   toblock,mintime);
+                                   nr_moves_needed,
+                                   nr_flights_to_block-1);
       }
       else
         block_one_flight_officer(nr_remaining_black_moves,
@@ -4914,8 +4911,8 @@ static void block_last_flight(unsigned int nr_remaining_black_moves,
                                  n,
                                  to_be_blocked,
                                  blocker_type,blocker_flags,blocks_from,
-                                 nr_flights_to_block,
-                                 toblock,mintime);
+                                 nr_moves_needed,
+                                 nr_flights_to_block-1);
 
       black[index_of_current_blocker].usage = piece_is_unused;
     }
@@ -4932,8 +4929,7 @@ static void block_flights(unsigned int nr_remaining_black_moves,
                           unsigned int max_nr_allowed_captures_by_black_pieces,
                           unsigned int max_nr_allowed_captures_by_white_pieces,
                           stip_length_type n,
-                          unsigned int nr_flights_to_block,
-                          square toblock[8], unsigned int mintime[8])
+                          unsigned int nr_flights_to_block)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",nr_remaining_black_moves);
@@ -4960,53 +4956,268 @@ static void block_flights(unsigned int nr_remaining_black_moves,
                       max_nr_allowed_captures_by_black_pieces,
                       max_nr_allowed_captures_by_white_pieces,
                       n,
-                      nr_flights_to_block,
-                      toblock,mintime);
+                      nr_flights_to_block);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static unsigned int plan_blocks_of_flights(square toblock[8],
-                                           unsigned int min_nr_captures_by_white)
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+static stip_length_type capture_finder_can_help(slice_index si,
+                                                stip_length_type n)
 {
-  unsigned int result = 0;
+  stip_length_type result;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (pprise[nbply]==vide)
+    result = n+2;
+  else
+    result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+static stip_length_type selfcheck_guard_can_help2(slice_index si,
+                                                  stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = no_slice;
+//  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,Black))
+    result = n+4;
+  else
+    result = capture_finder_can_help(next,n);
+//    result = can_help(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+static stip_length_type stalemate_flight_optimiser_can_help(slice_index si,
+                                                            stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = no_slice;
+//  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (goal_to_be_reached==goal_stale)
+  {
+    /* we also need to block the flights that are currently guarded by a
+     * line piece through the king's square - that line is going to be
+     * intercepted in the play, so intercept it here as well */
+    e[move_generation_stack[nbcou].departure] = obs;
+    result = selfcheck_guard_can_help2(next,n);
+//    result = can_help(next,n);
+    e[move_generation_stack[nbcou].departure] = vide;
+  }
+  else
+    result = selfcheck_guard_can_help2(next,n);
+//    result = can_help(next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int nr_available_blockers;
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+static stip_length_type flights_to_be_blocked_finder_can_help(slice_index si,
+                                                              stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = no_slice;
+//  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = stalemate_flight_optimiser_can_help(next,n);
+//    result = can_help(next,n);
+  switch (result)
+  {
+    case slack_length_help+4:
+      /* this 'flight' is guarded */
+      break;
+
+    case slack_length_help+2:
+      if (nr_king_flights_to_be_blocked<nr_available_blockers)
+      {
+        king_flights_to_be_blocked[nr_king_flights_to_be_blocked].flight = move_generation_stack[nbcou].arrival;
+        ++nr_king_flights_to_be_blocked;
+      }
+      else
+        /* more blocks are required than there are blockers available */
+        result = slack_length_help;
+      break;
+
+    case slack_length_help:
+      /* this flight is occupied by White and therefore can't be blocked */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int nr_available_blockers;
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+static stip_length_type move_can_help2(slice_index si, stip_length_type n)
+{
+  stip_length_type result = n+2;
+  slice_index const next = no_slice;
+//  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  while(encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && flights_to_be_blocked_finder_can_help(next,n-1)==n-1)
+    {
+      result = n;
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+static stip_length_type move_generator_can_help2(slice_index si,
+                                                 stip_length_type n)
+{
+  stip_length_type result;
+//  Side const side_at_move = slices[si].starter;
+//  slice_index const next = slices[si].u.pipe.next;
+  Side const side_at_move = Black;
+  slice_index const next = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  move_generation_mode = move_generation_not_optimized;
+  genmove(side_at_move);
+//  result = can_help(next,n);
+  result = move_can_help2(next,n);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int plan_blocks_of_flights(unsigned int min_nr_captures_by_white)
+{
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
-  genmove(Black);
-  while(encore() && min_nr_captures_by_white+result<MaxPiece[Black])
+  nr_king_flights_to_be_blocked = 0;
+
+  if (min_nr_captures_by_white<MaxPiece[Black])
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      if (goal_to_be_reached==goal_stale)
-        /* we also need to block the flights that are currently guarded by a
-         * line piece through the king's square - that line is going to be
-         * intercepted soon */
-        e[move_generation_stack[nbcou].departure] = obs;
-
-      if (!echecc(nbply,Black))
-      {
-        if (pprise[nbply]==vide)
-        {
-          toblock[result] = move_generation_stack[nbcou].arrival;
-          ++result;
-        }
-        else
-          result = MaxPiece[Black];
-      }
-    }
-
-    repcoup();
+    nr_available_blockers = MaxPiece[Black]-1-min_nr_captures_by_white;
+    if (move_generator_can_help2(no_slice,slack_length_help+1)
+        ==slack_length_help+1)
+      /* at least 1 flight was found that can't be blocked */
+      nr_king_flights_to_be_blocked = MaxPiece[Black];
   }
-  finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
+  TraceFunctionResult("%d",nr_king_flights_to_be_blocked);
   TraceFunctionResultEnd();
-  return result;
+  return nr_king_flights_to_be_blocked;
 }
 
 static int count_max_nr_allowed_black_pawn_captures(void)
@@ -5029,9 +5240,7 @@ static int count_max_nr_allowed_black_pawn_captures(void)
 }
 
 static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_remaining_black_moves,
-                                                        unsigned int nr_flights_to_block,
-                                                        square const toblock[8],
-                                                        unsigned  int mintime[8])
+                                                        unsigned int nr_flights_to_block)
 {
   unsigned int result = 0;
   unsigned int i;
@@ -5041,8 +5250,10 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_remainin
 
   for (i = 0; i<nr_flights_to_block && result<=nr_remaining_black_moves; ++i)
   {
-    mintime[i] = count_nr_black_moves_to_square(toblock[i],nr_remaining_black_moves);
-    result += mintime[i];
+    unsigned int const time = count_nr_black_moves_to_square(king_flights_to_be_blocked[i].flight,
+                                                             nr_remaining_black_moves);
+    king_flights_to_be_blocked[i].nr_moves_needed = time;
+    result += time;
   }
 
   TraceFunctionExit(__func__);
@@ -5067,16 +5278,11 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
 
   if (e[king_diagram_square]==vide && !are_kings_too_close(king_diagram_square))
   {
-    square toblock[8];
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights(toblock,
-                                                                    min_nr_captures_by_white);
+    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
     if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
     {
-      unsigned int mintime[8];
       unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_remaining_black_moves,
-                                                                    nr_flights_to_block,
-                                                                    toblock,
-                                                                    mintime);
+                                                                    nr_flights_to_block);
       if (mtba<=nr_remaining_black_moves)
       {
         unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
@@ -5089,7 +5295,7 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
                       max_nr_allowed_captures_by_black_pieces,
                       MaxPiece[Black]-1-min_nr_captures_by_white,
                       n,
-                      nr_flights_to_block,toblock,mintime);
+                      nr_flights_to_block);
         white[index_of_king].usage = piece_is_unused;
         e[king_square[White]] = vide;
         spec[king_square[White]] = EmptySpec;
@@ -5123,17 +5329,12 @@ static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
                                      n);
   else
   {
-    square toblock[8];
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights(toblock,
-                                                                    min_nr_captures_by_white);
+    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
 
     if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
     {
-      unsigned int mintime[8];
       unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_remaining_black_moves,
-                                                                    nr_flights_to_block,
-                                                                    toblock,
-                                                                    mintime);
+                                                                    nr_flights_to_block);
       if (mtba<=nr_remaining_black_moves)
       {
         unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
@@ -5143,7 +5344,7 @@ static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
                       max_nr_allowed_captures_by_black_pieces,
                       max_nr_allowed_captures_by_white_pieces,
                       n,
-                      nr_flights_to_block,toblock,mintime);
+                      nr_flights_to_block);
       }
     }
   }
