@@ -562,7 +562,8 @@ EXTERN boolean			anyparrain;
     /*136*/ {'n','3'},  /*diagonalspiralspringer (3,3) */
     /*137*/ {'q','n'},  /*quintessence */
     /*138*/ {'d','t'},  /* double tour-sauterelle */
-    /*139*/ {'d','f'}   /* double fou-sauterelle */
+    /*139*/ {'d','f'},  /* double fou-sauterelle */
+    /*140*/ {'n','o'}   /* orix (non-stop) */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -703,7 +704,8 @@ EXTERN boolean			anyparrain;
     /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
     /*137*/ {'q','n'},   /* quintessence */
     /*138*/ {'d','t'},  /* Doppelturmhuepfer */
-    /*139*/ {'d','l'}   /* Doppellaeuferhuepfer */
+    /*139*/ {'d','l'},  /* Doppellaeuferhuepfer */
+    /*140*/ {'n','o'}    /* orix (non-stop) */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -844,7 +846,8 @@ EXTERN boolean			anyparrain;
     /*136*/ {'s','3'},  /* diagonalspiralspringer (3,3) */
     /*137*/ {'q','n'},  /* quintessence */
     /*138*/ {'d','k'},  /* double rookhopper */
-    /*139*/ {'d','b'}   /* double bishopper */
+    /*139*/ {'d','b'},  /* double bishopper */
+    /*140*/ {'n','o'}   /* orix (non-stop) */
   }
 	};
 #endif
@@ -2078,7 +2081,7 @@ enum {
 /*137 */  sp31check,
 /*138 */  doublerookhoppercheck,
 /*139 */  doublebishoppercheck,
-/*140 */  huntercheck,
+/*140 */  norixcheck,
 /*141 */  huntercheck,
 /*142 */  huntercheck,
 /*143 */  huntercheck,
@@ -2087,7 +2090,8 @@ enum {
 /*146 */  huntercheck,
 /*147 */  huntercheck,
 /*148 */  huntercheck,
-/*149 */  huntercheck
+/*149 */  huntercheck,
+/*150 */  huntercheck
     };
 #endif
 

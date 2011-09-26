@@ -229,6 +229,7 @@ boolean is_simplehopper(piece p)
     case g3b:
     case khb:
     case orixb:
+    case norixb:
 
     case mooseb:
     case rookmooseb:

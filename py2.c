@@ -630,6 +630,50 @@ boolean nequicheck(square   sq_king,
   return false;
 }
 
+boolean norixcheck(square   sq_king,
+                   piece    p,
+                   evalfunction_t *evaluate)
+{
+  /* check by non-stop orix? */
+  numvec delta_horiz, delta_vert, delta;
+  numvec vector;
+  square sq_hurdle;
+  square sq_departure;
+  boolean queenlike;
+
+  square const coin= coinequis(sq_king);
+
+  for (delta_horiz= 3*dir_right;
+       delta_horiz!=dir_left;
+       delta_horiz+= dir_left)
+
+    for (delta_vert= 3*dir_up;
+         delta_vert!=dir_down;
+         delta_vert+= dir_down) {
+      sq_hurdle= coin+delta_horiz+delta_vert;
+      vector= sq_king-sq_hurdle;
+      delta= abs(vector);
+      queenlike= (delta <= 3*dir_right) 
+      		|| (delta % onerow == 0) 
+		|| (delta % (onerow + dir_right) == 0)
+		|| (delta % (onerow + dir_left) == 0);
+      sq_departure= sq_hurdle-vector;
+
+      if (queenlike
+          && e[sq_hurdle]!=vide
+          && e[sq_departure]==p
+          && sq_king!=sq_departure
+          && evaluate(sq_departure,sq_king,sq_king)
+          && hopimcheck(sq_departure,
+                        sq_king,
+                        sq_hurdle,
+                        vector))
+        return true;
+    }
+
+  return false;
+}
+
 boolean equifracheck(square sq_king,
                      piece  p,
                      evalfunction_t *evaluate)

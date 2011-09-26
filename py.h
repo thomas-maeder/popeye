@@ -476,7 +476,8 @@ typedef enum
   Quintessence,          /* 137 */
   DoubleRookHopper,      /* 138 */
   DoubleBishopper,       /* 139 */
-  Hunter0,               /* 140 */
+  NonStopOrix,           /* 140 */
+  Hunter0,               /* 141 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

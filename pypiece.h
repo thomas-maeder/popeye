@@ -155,6 +155,7 @@ typedef enum
   cs31b,           /* 137 */
   doublerookhopperb, /* 138 */
   doublebishopperb,  /* 139 */
+  norixb,         /* 140 */
   hunter0b,
   derbla =        hunter0b+maxnrhuntertypes,
 
@@ -296,6 +297,7 @@ typedef enum
   cs31n          = -cs31b,
   doublerookhoppern = -doublerookhopperb,
   doublebishoppern = -doublebishopperb,
+  norixn         = -norixb,
   hunter0n       = -hunter0b,
   dernoi         = -derbla
 

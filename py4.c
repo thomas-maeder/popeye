@@ -1369,6 +1369,47 @@ static void gnequi(square sq_departure, Side camp) {
     }
 }
 
+static void gnorix(square sq_departure, Side camp) {
+  /* Non-Stop-Orix */
+  square sq_hurdle;
+  square sq_arrival;
+  numvec delta_horiz, delta_vert, delta;
+  numvec vector;
+  boolean queenlike;
+	
+  square const coin= coinequis(sq_departure);
+
+  for (delta_horiz= 3*dir_right;
+       delta_horiz!=dir_left;
+       delta_horiz+= dir_left)
+
+    for (delta_vert= 3*dir_up;
+         delta_vert!=dir_down;
+         delta_vert+= dir_down) {
+
+      sq_hurdle= coin+delta_horiz+delta_vert;
+      delta= abs(sq_hurdle - sq_departure);
+      queenlike= (delta <= 3*dir_right) 
+      		|| (delta % onerow == 0) 
+		|| (delta % (onerow + dir_right) == 0)
+		|| (delta % (onerow + dir_left) == 0);
+
+      if (queenlike && e[sq_hurdle]!=vide) {
+
+        vector= sq_hurdle-sq_departure;
+        sq_arrival= sq_hurdle+vector;
+
+        if ((e[sq_arrival]==vide
+             || rightcolor(e[sq_arrival],camp))
+            && hopimcheck(sq_departure,
+                       sq_arrival,
+                       sq_hurdle,
+                       vector))
+          empile(sq_departure,sq_arrival,sq_arrival);
+      }
+    }
+}
+
 static void gnequiapp(square sq_departure, Side camp) {
   /* Non-Stop-Equistopper */
   square sq_hurdle;
@@ -2316,6 +2357,10 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
 
   case orixb:
     gorix(sq_departure, camp);
+    return;
+
+   case norixb:
+    gnorix(sq_departure, camp);
     return;
 
   case gralb:

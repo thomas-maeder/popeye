@@ -152,6 +152,7 @@ checkfunction_t nevercheck;
 checkfunction_t nightlocustcheck;
 checkfunction_t nightriderlioncheck;
 checkfunction_t nightriderlioncheck;
+checkfunction_t norixcheck;
 checkfunction_t nsautcheck;
 checkfunction_t okapicheck;
 checkfunction_t orixcheck;
@@ -420,6 +421,7 @@ square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square
 
 void    gequi(square i, Side camp);
 void    gorix(square i, Side camp);
+void    gnorix(square i, Side camp);
 
 void LaTeXOpen(void);
 void LaTeXClose(void);
