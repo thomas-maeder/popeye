@@ -1,9 +1,11 @@
 #include "optimisations/intelligent/filter.h"
 #include "pyint.h"
+#include "pydata.h"
+#include "pymovenb.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/help_play/play.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -56,6 +58,65 @@ void impose_starter_intelligent_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static boolean too_short(stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[restart])
+  {
+    stip_length_type min_length = 2*get_restart_number();
+    if ((n-slack_length_help)%2==1)
+      --min_length;
+    result = n-slack_length_help<min_length;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean Intelligent(slice_index si, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  init_moves_left(si,n-slack_length_help,n-slack_length_help);
+
+  if (MovesLeft[White]+MovesLeft[Black]>0)
+  {
+    if (too_short(n))
+      result = false;
+    else
+    {
+      solutions_found = false;
+      current_start_slice = si;
+      intelligent_duplicate_avoider_init();
+      IntelligentRegulargoal_types(n);
+      intelligent_duplicate_avoider_cleanup();
+      current_start_slice = no_slice;
+      result = solutions_found;
+    }
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -75,29 +136,6 @@ stip_length_type intelligent_filter_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = Intelligent(si,n) ? n : n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
- */
-boolean intelligent_filter_has_solution_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_help(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

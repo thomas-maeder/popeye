@@ -1,19 +1,38 @@
 optimisations/intelligent/filter$(OBJ_SUFFIX): optimisations/intelligent/filter.c \
- optimisations/intelligent/filter.h pyint.h pybrafrk.h pypipe.h \
- stipulation/help_play/play.h stipulation/goals/immobile/reached_tester.h \
- trace.h
+ optimisations/intelligent/filter.h pyint.h pydata.h pymovenb.h \
+ pybrafrk.h pypipe.h stipulation/goals/immobile/reached_tester.h \
+ optimisations/intelligent/duplicate_avoider.h trace.h
 
 optimisations/intelligent/filter.h:
 
 pyint.h:
 
+pydata.h:
+
+pymovenb.h:
+
 pybrafrk.h:
 
 pypipe.h:
 
-stipulation/help_play/play.h:
-
 stipulation/goals/immobile/reached_tester.h:
+
+optimisations/intelligent/duplicate_avoider.h:
+
+trace.h:
+optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \
+ optimisations/intelligent/proof.h pydata.h pyint.h pyproof.h pypipe.h \
+ trace.h
+
+optimisations/intelligent/proof.h:
+
+pydata.h:
+
+pyint.h:
+
+pyproof.h:
+
+pypipe.h:
 
 trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \

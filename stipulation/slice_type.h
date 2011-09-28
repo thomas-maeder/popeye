@@ -120,6 +120,7 @@
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
     ENUMERATOR(STIntelligentFilter), /* initialises intelligent mode */ \
+    ENUMERATOR(STIntelligentProof), /* solve proof games and A=>B in intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilterMate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterProof), /* goal still reachable in intelligent mode? */ \

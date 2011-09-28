@@ -24,6 +24,7 @@ static slice_index const slice_rank_order[] =
   STFindShortest,
   STStopOnShortSolutionsFilter,
   STIntelligentFilter,
+  STIntelligentProof,
   STEndOfBranch,
   STEndOfBranchForced,
   STDeadEnd,

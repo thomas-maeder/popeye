@@ -45,10 +45,11 @@ stipulation/help_play/adapter.h:
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
- pyint.h pyflight.h stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move.h stipulation/dummy_move.h \
- stipulation/check_zigzag_jump.h stipulation/goals/countermate/filter.h \
+ pyint.h pyflight.h pyproof.h stipulation/constraint.h \
+ stipulation/dead_end.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_goal.h stipulation/move.h \
+ stipulation/dummy_move.h stipulation/check_zigzag_jump.h \
+ stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_by_increasing_length.h solving/find_shortest.h \
@@ -64,6 +65,8 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  options/stoponshortsolutions/filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ optimisations/intelligent/proof.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
  conditions/exclusive.h conditions/ohneschach/immobility_tester.h trace.h
 
 stipulation/help_play/play.h:
@@ -79,6 +82,8 @@ pymovenb.h:
 pyint.h:
 
 pyflight.h:
+
+pyproof.h:
 
 stipulation/constraint.h:
 
@@ -139,6 +144,10 @@ options/stoponshortsolutions/filter.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+optimisations/intelligent/proof.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 conditions/exclusive.h:
 

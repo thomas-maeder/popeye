@@ -2299,6 +2299,9 @@ static void init_duplex(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STIntelligentFilter,
                                            &intelligent_init_duplex);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentProof,
+                                           &intelligent_init_duplex);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -2340,6 +2343,9 @@ static void fini_duplex(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
                                            STIntelligentFilter,
+                                           &intelligent_fini_duplex);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentProof,
                                            &intelligent_fini_duplex);
   stip_traverse_structure(si,&st);
 

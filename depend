@@ -1110,14 +1110,14 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  py.h pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
  pyslice.h stipulation/help_play/play.h pystip.h pymsg.h pyint.h pydata.h \
  pyslice.h pystip.h stipulation/slice_type.h \
- stipulation/help_play/branch.h pybrafrk.h pyproof.h pypipe.h pymovenb.h \
- stipulation/battle_play/defense_play.h \
- optimisations/intelligent/filter.h \
+ stipulation/help_play/branch.h pybrafrk.h pyproof.h pypipe.h \
+ optimisations/intelligent/filter.h stipulation/help_play/play.h \
+ optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- stipulation/help_play/play.h options/maxsolutions/maxsolutions.h \
- stipulation/branch.h stipulation/temporary_hacks.h \
- solving/legal_move_finder.h platform/maxtime.h trace.h
+ options/maxsolutions/maxsolutions.h stipulation/branch.h \
+ stipulation/temporary_hacks.h solving/legal_move_finder.h \
+ platform/maxtime.h trace.h
 
 py.h:
 
@@ -1177,17 +1177,15 @@ pyproof.h:
 
 pypipe.h:
 
-pymovenb.h:
-
-stipulation/battle_play/defense_play.h:
-
 optimisations/intelligent/filter.h:
+
+stipulation/help_play/play.h:
+
+optimisations/intelligent/proof.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-stipulation/help_play/play.h:
 
 options/maxsolutions/maxsolutions.h:
 

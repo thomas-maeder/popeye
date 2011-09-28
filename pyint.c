@@ -23,8 +23,8 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
-#include "pymovenb.h"
 #include "optimisations/intelligent/filter.h"
+#include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -85,9 +85,9 @@ enum { index_of_king = 0 };
 
 static PIECE target_position[MaxPieceId+1];
 
-static slice_index current_start_slice = no_slice;
+slice_index current_start_slice = no_slice;
 
-static boolean solutions_found;
+boolean solutions_found;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
@@ -5946,7 +5946,7 @@ static unsigned int count_moves_to_white_promotion(square from_square)
   return result;
 }
 
-static void IntelligentRegulargoal_types(stip_length_type n)
+void IntelligentRegulargoal_types(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -6067,34 +6067,6 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-static boolean IntelligentProof(slice_index si, stip_length_type n)
-{
-  boolean result;
-  boolean const save_movenbr = OptFlag[movenbr];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  ProofInitialiseIntelligent(n);
-
-  /* Proof games and a=>b are special because there is only 1 end
-   * position to be reached. We therefore output move numbers as if
-   * we were not in intelligent mode, and only if we are solving
-   * full-length.
-   */
-  OptFlag[movenbr] = false;
-
-  result = help(slices[si].u.pipe.next,n)<=n;
-
-  OptFlag[movenbr] = save_movenbr;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
@@ -6134,9 +6106,9 @@ static void moves_left_zigzag(slice_index si, stip_moves_traversal *st)
  * @param n length of the solution(s) we are looking for (without slack)
  * @param full_length full length of the initial branch (without slack)
  */
-static void init_moves_left(slice_index si,
-                            stip_length_type n,
-                            stip_length_type full_length)
+void init_moves_left(slice_index si,
+                     stip_length_type n,
+                     stip_length_type full_length)
 {
   stip_moves_traversal st;
 
@@ -6513,6 +6485,12 @@ static void intelligent_guards_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (goal_to_be_reached==goal_proofgame || goal_to_be_reached==goal_atob)
+  {
+    slice_index const prototype = alloc_intelligent_proof();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+  else
   {
     slice_index const prototype = alloc_intelligent_filter();
     help_branch_insert_slices(si,&prototype,1);
@@ -6555,72 +6533,6 @@ static void stip_insert_intelligent_filters(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static boolean too_short(stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (OptFlag[restart])
-  {
-    stip_length_type min_length = 2*get_restart_number();
-    if ((n-slack_length_help)%2==1)
-      --min_length;
-    result = n-slack_length_help<min_length;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean Intelligent(slice_index si, stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  init_moves_left(si,n-slack_length_help,n-slack_length_help);
-
-  if (MovesLeft[White]+MovesLeft[Black]>0)
-  {
-    if (goal_to_be_reached==goal_atob
-        || goal_to_be_reached==goal_proofgame)
-      result = IntelligentProof(si,n);
-    else
-    {
-      if (too_short(n))
-        result = false;
-      else
-      {
-        solutions_found = false;
-        current_start_slice = si;
-        intelligent_duplicate_avoider_init();
-        IntelligentRegulargoal_types(n);
-        intelligent_duplicate_avoider_cleanup();
-        current_start_slice = no_slice;
-        result = solutions_found;
-      }
-    }
-
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* How well does the stipulation support intelligent mode?

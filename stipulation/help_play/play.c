@@ -5,6 +5,7 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "pyflight.h"
+#include "pyproof.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
@@ -35,6 +36,8 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "optimisations/intelligent/proof.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"
@@ -115,6 +118,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STIntelligentFilter:
       result = intelligent_filter_help(si,n);
+      break;
+
+    case STIntelligentProof:
+      result = intelligent_proof_help(si,n);
       break;
 
     case STIntelligentLimitNrSolutionsPerTargetPos:
