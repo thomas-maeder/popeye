@@ -12,22 +12,10 @@
 #include "pyposit.h"
 #include "stipulation/help_play/play.h"
 
-extern unsigned int MovesLeft[nr_sides];
-
 extern boolean solutions_found;
 extern slice_index current_start_slice;
 
 void IntelligentRegulargoal_types(stip_length_type n);
-
-/* Calculate the number of moves of each side, starting at the root
- * slice.
- * @param si identifies starting slice
- * @param n length of the solution(s) we are looking for (without slack)
- * @param full_length full length of the initial branch (without slack)
- */
-void init_moves_left(slice_index si,
-                     stip_length_type n,
-                     stip_length_type full_length);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it
@@ -64,6 +52,30 @@ stip_length_type goalreachable_guard_mate_help(slice_index si, stip_length_type 
  */
 stip_length_type goalreachable_guard_mate_can_help(slice_index si,
                                                    stip_length_type n);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_stalemate_help(slice_index si,
+                                                    stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type goalreachable_guard_stalemate_can_help(slice_index si,
+                                                        stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

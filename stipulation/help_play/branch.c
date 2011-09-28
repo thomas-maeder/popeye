@@ -23,6 +23,7 @@ static slice_index const slice_rank_order[] =
   STFindByIncreasingLength,
   STFindShortest,
   STStopOnShortSolutionsFilter,
+  STIntelligentMovesLeftInitialiser,
   STIntelligentFilter,
   STIntelligentProof,
   STEndOfBranch,

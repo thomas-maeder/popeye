@@ -91,25 +91,18 @@ static boolean Intelligent(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  init_moves_left(si,n-slack_length_help,n-slack_length_help);
-
-  if (MovesLeft[White]+MovesLeft[Black]>0)
-  {
-    if (too_short(n))
-      result = false;
-    else
-    {
-      solutions_found = false;
-      current_start_slice = si;
-      intelligent_duplicate_avoider_init();
-      IntelligentRegulargoal_types(n);
-      intelligent_duplicate_avoider_cleanup();
-      current_start_slice = no_slice;
-      result = solutions_found;
-    }
-  }
-  else
+  if (too_short(n))
     result = false;
+  else
+  {
+    solutions_found = false;
+    current_start_slice = si;
+    intelligent_duplicate_avoider_init();
+    IntelligentRegulargoal_types(n);
+    intelligent_duplicate_avoider_cleanup();
+    current_start_slice = no_slice;
+    result = solutions_found;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

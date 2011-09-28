@@ -23,6 +23,7 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
+#include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
@@ -69,7 +70,6 @@ typedef struct
 static goal_type goal_to_be_reached;
 
 static unsigned int MaxPiece[nr_sides];
-unsigned int MovesLeft[nr_sides];
 
 static unsigned long nr_potential_target_positions;
 
@@ -6067,76 +6067,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
- */
-static void moves_left_move(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++MovesLeft[slices[si].starter];
-
-  TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
-
-  stip_traverse_moves_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void moves_left_zigzag(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves(slices[si].u.binary.op1,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Calculate the number of moves of each side, starting at the root
- * slice.
- * @param si identifies starting slice
- * @param n length of the solution(s) we are looking for (without slack)
- * @param full_length full length of the initial branch (without slack)
- */
-void init_moves_left(slice_index si,
-                     stip_length_type n,
-                     stip_length_type full_length)
-{
-  stip_moves_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",full_length);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  MovesLeft[Black] = 0;
-  MovesLeft[White] = 0;
-
-  stip_moves_traversal_init(&st,&n);
-  st.context = stip_traversal_context_help;
-  stip_moves_traversal_set_remaining(&st,n,full_length);
-  stip_moves_traversal_override_single(&st,STMove,&moves_left_move);
-  stip_moves_traversal_override_single(&st,STCheckZigzagJump,moves_left_zigzag);
-  stip_traverse_moves(si,&st);
-
-  TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void goal_to_be_reached_goal(slice_index si,
                                     stip_structure_traversal *st)
 {
@@ -6493,6 +6423,11 @@ static void intelligent_guards_inserter(slice_index si,
   else
   {
     slice_index const prototype = alloc_intelligent_filter();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  {
+    slice_index const prototype = alloc_intelligent_moves_left_initialiser();
     help_branch_insert_slices(si,&prototype,1);
   }
 

@@ -190,6 +190,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCastlingFilter */
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
+  slice_structure_pipe,   /* STIntelligentMovesLeftInitialiser */
   slice_structure_fork,   /* STIntelligentFilter */
   slice_structure_pipe,   /* STIntelligentProof */
   slice_structure_pipe,   /* STGoalReachableGuardFilterMate */
@@ -359,6 +360,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STCastlingFilter */
   slice_function_unspecified,    /* STAttackHashed */
   slice_function_unspecified,    /* STHelpHashed */
+  slice_function_unspecified,    /* STIntelligentMovesLeftInitialiser */
   slice_function_unspecified,    /* STIntelligentFilter */
   slice_function_unspecified,    /* STIntelligentProof */
   slice_function_unspecified,    /* STGoalReachableGuardFilterMate */
@@ -1640,6 +1642,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STCastlingFilter */
   &stip_traverse_structure_pipe,              /* STAttackHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashed */
+  &stip_traverse_structure_pipe,              /* STIntelligentMovesLeftInitialiser */
   &stip_traverse_structure_end_of_branch,     /* STIntelligentFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentProof */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterMate */
@@ -1910,6 +1913,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STCastlingFilter */
     &stip_traverse_moves_pipe,              /* STAttackHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashed */
+    &stip_traverse_moves_pipe,              /* STIntelligentMovesLeftInitialiser */
     &stip_traverse_moves_end_of_branch,     /* STIntelligentFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentProof */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterMate */

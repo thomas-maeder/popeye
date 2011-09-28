@@ -29,7 +29,7 @@
 #include "pyproof.h"
 #include "pymsg.h"
 #include "pyslice.h"
-#include "pyint.h"
+#include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 #include "pyposit.h"

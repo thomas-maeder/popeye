@@ -1,6 +1,5 @@
 #include "optimisations/intelligent/proof.h"
 #include "pydata.h"
-#include "pyint.h"
 #include "pyproof.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -69,12 +68,7 @@ stip_length_type intelligent_proof_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  init_moves_left(si,n-slack_length_help,n-slack_length_help);
-
-  if (MovesLeft[White]+MovesLeft[Black]>0 && IntelligentProof(si,n))
-    result = n;
-  else
-    result = n+2;
+  result = IntelligentProof(si,n) ? n : n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

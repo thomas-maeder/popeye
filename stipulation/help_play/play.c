@@ -28,14 +28,15 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling_intermediate_move_generator.h"
 #include "solving/single_move_generator.h"
-#include "optimisations/goals/enpassant/filter.h"
-#include "optimisations/goals/castling/filter.h"
-#include "optimisations/intelligent/filter.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/filter.h"
+#include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/goals/castling/filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "optimisations/intelligent/moves_left.h"
+#include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "conditions/exclusive.h"
@@ -114,6 +115,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STKeepMatingFilter:
       result = keepmating_filter_help(si,n);
+      break;
+
+    case STIntelligentMovesLeftInitialiser:
+      result = intelligent_moves_left_initialiser_help(si,n);
       break;
 
     case STIntelligentFilter:
