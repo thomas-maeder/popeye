@@ -419,10 +419,6 @@ boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture);
 boolean isardam_pos_legal(void);
 square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 
-void    gequi(square i, Side camp);
-void    gorix(square i, Side camp);
-void    gnorix(square i, Side camp);
-
 void LaTeXOpen(void);
 void LaTeXClose(void);
 void LaTeXBeginDiagram(void);

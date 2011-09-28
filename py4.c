@@ -1369,6 +1369,32 @@ static void gnequi(square sq_departure, Side camp) {
     }
 }
 
+static void gorix(square sq_departure, Side camp) {
+  /* Orix */
+  numvec  k;
+  piece   hurdle, at_end_of_line;
+  square  sq_hurdle, end_of_line;
+
+  square sq_arrival;
+
+  for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
+    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
+    if (hurdle!=obs) {
+      finligne(sq_hurdle,vec[k],at_end_of_line,end_of_line);
+      sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
+      if (abs(end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
+          && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
+        empile(sq_departure,sq_arrival,sq_arrival);
+      else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
+               && rightcolor(at_end_of_line,camp)
+               && hopimcheck(sq_departure,end_of_line,sq_hurdle,vec[k])) {
+        sq_arrival= end_of_line;
+        empile(sq_departure,sq_arrival,sq_arrival);
+      }
+    }
+  }
+}
+
 static void gnorix(square sq_departure, Side camp) {
   /* Non-Stop-Orix */
   square sq_hurdle;
@@ -1376,7 +1402,7 @@ static void gnorix(square sq_departure, Side camp) {
   numvec delta_horiz, delta_vert, delta;
   numvec vector;
   boolean queenlike;
-	
+
   square const coin= coinequis(sq_departure);
 
   for (delta_horiz= 3*dir_right;
@@ -1389,8 +1415,8 @@ static void gnorix(square sq_departure, Side camp) {
 
       sq_hurdle= coin+delta_horiz+delta_vert;
       delta= abs(sq_hurdle - sq_departure);
-      queenlike= (delta <= 3*dir_right) 
-      		|| (delta % onerow == 0) 
+      queenlike= (delta <= 3*dir_right)
+      		|| (delta % onerow == 0)
 		|| (delta % (onerow + dir_right) == 0)
 		|| (delta % (onerow + dir_left) == 0);
 
@@ -1815,7 +1841,7 @@ static void grefn(square orig_departure,
   }
 } /* grefc */
 
-void gequi(square sq_departure, Side camp) {
+static void gequi(square sq_departure, Side camp) {
   /* Equihopper */
   numvec  k;
   piece   hurdle;
@@ -3708,32 +3734,6 @@ void genpbn(square sq_departure) {
   }
 }
 
-
-void gorix(square sq_departure, Side camp) {
-  /* Orix */
-  numvec  k;
-  piece   hurdle, at_end_of_line;
-  square  sq_hurdle, end_of_line;
-
-  square sq_arrival;
-
-  for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
-    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
-    if (hurdle!=obs) {
-      finligne(sq_hurdle,vec[k],at_end_of_line,end_of_line);
-      sq_arrival= sq_hurdle+sq_hurdle-sq_departure;
-      if (abs(end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure)
-          && hopimcheck(sq_departure,sq_arrival,sq_hurdle,vec[k]))
-        empile(sq_departure,sq_arrival,sq_arrival);
-      else if (abs(end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
-               && rightcolor(at_end_of_line,camp)
-               && hopimcheck(sq_departure,end_of_line,sq_hurdle,vec[k])) {
-        sq_arrival= end_of_line;
-        empile(sq_departure,sq_arrival,sq_arrival);
-      }
-    }
-  }
-}
 
 static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp)
 {
