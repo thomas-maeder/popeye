@@ -1,7 +1,5 @@
 #include "optimisations/intelligent/filter.h"
 #include "pyint.h"
-#include "pydata.h"
-#include "pymovenb.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/goals/immobile/reached_tester.h"
@@ -58,30 +56,6 @@ void impose_starter_intelligent_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean too_short(stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (OptFlag[restart])
-  {
-    stip_length_type min_length = 2*get_restart_number();
-    if ((n-slack_length_help)%2==1)
-      --min_length;
-    result = n-slack_length_help<min_length;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean Intelligent(slice_index si, stip_length_type n)
 {
   boolean result;
@@ -91,18 +65,13 @@ static boolean Intelligent(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (too_short(n))
-    result = false;
-  else
-  {
-    solutions_found = false;
-    current_start_slice = si;
-    intelligent_duplicate_avoider_init();
-    IntelligentRegulargoal_types(n);
-    intelligent_duplicate_avoider_cleanup();
-    current_start_slice = no_slice;
-    result = solutions_found;
-  }
+  solutions_found = false;
+  current_start_slice = si;
+  intelligent_duplicate_avoider_init();
+  IntelligentRegulargoal_types(n);
+  intelligent_duplicate_avoider_cleanup();
+  current_start_slice = no_slice;
+  result = solutions_found;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

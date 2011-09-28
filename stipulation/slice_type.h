@@ -104,6 +104,7 @@
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STRestartGuard),    /* write move numbers */             \
+    ENUMERATOR(STRestartGuardIntelligent), /* filter out too short solutions */ \
     ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */         \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \

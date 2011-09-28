@@ -30,6 +30,7 @@
 #include "solving/single_move_generator.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
+#include "options/movenumbers/restart_guard_intelligent.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"
@@ -119,6 +120,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STIntelligentMovesLeftInitialiser:
       result = intelligent_moves_left_initialiser_help(si,n);
+      break;
+
+    case STRestartGuardIntelligent:
+      result = restart_guard_intelligent_help(si,n);
       break;
 
     case STIntelligentFilter:

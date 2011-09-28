@@ -1118,7 +1118,8 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  optimisations/intelligent/filter.h optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- options/maxsolutions/maxsolutions.h stipulation/branch.h \
+ options/maxsolutions/maxsolutions.h \
+ options/movenumbers/restart_guard_intelligent.h stipulation/branch.h \
  stipulation/temporary_hacks.h solving/legal_move_finder.h \
  platform/maxtime.h trace.h
 
@@ -1193,6 +1194,8 @@ optimisations/intelligent/duplicate_avoider.h:
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 options/maxsolutions/maxsolutions.h:
+
+options/movenumbers/restart_guard_intelligent.h:
 
 stipulation/branch.h:
 

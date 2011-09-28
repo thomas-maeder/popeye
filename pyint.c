@@ -29,6 +29,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "options/movenumbers/restart_guard_intelligent.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/legal_move_finder.h"
@@ -6422,8 +6423,12 @@ static void intelligent_guards_inserter(slice_index si,
   }
   else
   {
-    slice_index const prototype = alloc_intelligent_filter();
-    help_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_restart_guard_intelligent(),
+        alloc_intelligent_filter(),
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    help_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   {

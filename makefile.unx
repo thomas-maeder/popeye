@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.155 2011/07/02 21:19:42 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.156 2011/09/28 18:38:45 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -224,6 +224,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 		options options/no_short_variations \
     options/maxsolutions \
     options/stoponshortsolutions \
+    options/movenumbers \
 		output/plaintext output/plaintext/tree output/plaintext/line
 
 NESTEDLIBDIRS = . DHT \
@@ -255,6 +256,7 @@ NESTEDLIBDIRS = . DHT \
 		options options/no_short_variations \
     options/maxsolutions \
     options/stoponshortsolutions \
+    options/movenumbers \
 		output/plaintext/tree output/plaintext/line output/plaintext \
 		platform platform/$(PLATFORM)
 
