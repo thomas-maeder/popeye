@@ -85,7 +85,7 @@ enum { index_of_king = 0 };
 
 static PIECE target_position[MaxPieceId+1];
 
-static slice_index current_start_slice;
+static slice_index current_start_slice = no_slice;
 
 static boolean solutions_found;
 
@@ -5952,6 +5952,8 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  nr_potential_target_positions = 0;
+
   testcastling =
       TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
       || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
@@ -6065,8 +6067,9 @@ static void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-static void IntelligentProof(stip_length_type n)
+static boolean IntelligentProof(slice_index si, stip_length_type n)
 {
+  boolean result;
   boolean const save_movenbr = OptFlag[movenbr];
 
   TraceFunctionEntry(__func__);
@@ -6082,13 +6085,14 @@ static void IntelligentProof(stip_length_type n)
    */
   OptFlag[movenbr] = false;
 
-  if (help(slices[current_start_slice].u.pipe.next,n)<=n)
-    solutions_found = true;
+  result = help(slices[si].u.pipe.next,n)<=n;
 
   OptFlag[movenbr] = save_movenbr;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Calculate the number of moves of each side
@@ -6590,22 +6594,25 @@ boolean Intelligent(slice_index si, stip_length_type n)
 
   if (MovesLeft[White]+MovesLeft[Black]>0)
   {
-    current_start_slice = si;
-    nr_potential_target_positions = 0;
-    solutions_found = false;
-
     if (goal_to_be_reached==goal_atob
         || goal_to_be_reached==goal_proofgame)
-      IntelligentProof(n);
+      result = IntelligentProof(si,n);
     else
     {
-      intelligent_duplicate_avoider_init();
-      if (!too_short(n))
+      if (too_short(n))
+        result = false;
+      else
+      {
+        solutions_found = false;
+        current_start_slice = si;
+        intelligent_duplicate_avoider_init();
         IntelligentRegulargoal_types(n);
-      intelligent_duplicate_avoider_cleanup();
+        intelligent_duplicate_avoider_cleanup();
+        current_start_slice = no_slice;
+        result = solutions_found;
+      }
     }
 
-    result = solutions_found;
   }
   else
     result = false;
