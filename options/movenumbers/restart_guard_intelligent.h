@@ -8,6 +8,8 @@
  * Slices of this type make solve help stipulations in intelligent mode
  */
 
+extern unsigned long nr_potential_target_positions;
+
 /* Allocate a STRestartGuardIntelligent slice.
  * @return allocated slice
  */

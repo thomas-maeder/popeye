@@ -15,7 +15,6 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pyhash.h"
-#include "pymsg.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "pyslice.h"
@@ -71,8 +70,6 @@ typedef struct
 static goal_type goal_to_be_reached;
 
 static unsigned int MaxPiece[nr_sides];
-
-static unsigned long nr_potential_target_positions;
 
 static PIECE white[nr_squares_on_board];
 static PIECE black[nr_squares_on_board];
@@ -4474,8 +4471,7 @@ static void mate_neutralise_guarding_pieces(unsigned int nr_remaining_black_move
 #endif
   slice_has_solution(slices[temporary_hack_legal_move_finder[Black]].u.fork.fork);
   assert(search_result==has_solution);
-  if (legal_move_finder_departure==initsquare)
-    FtlMsg(ErrUndef);
+  assert(legal_move_finder_departure!=initsquare);
   trouble = legal_move_finder_departure;
   trto = legal_move_finder_arrival;
 
@@ -5953,8 +5949,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  nr_potential_target_positions = 0;
-
   testcastling =
       TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
       || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
@@ -6043,22 +6037,6 @@ void IntelligentRegulargoal_types(stip_length_type n)
   GenerateBlackKing(n);
 
   ResetPosition();
-
-  if (OptFlag[movenbr]
-      && !hasMaxtimeElapsed())
-  {
-    StdString("\n");
-    sprintf(GlobalStr,"%lu %s %u+%u",
-            nr_potential_target_positions,GetMsgString(PotentialMates),
-            MovesLeft[White],MovesLeft[Black]);
-    StdString(GlobalStr);
-    if (!flag_regression)
-    {
-      StdString("  (");
-      PrintTime();
-      StdString(")");
-    }
-  }
 
   castling_supported = true;
   ep[1] = save_ep_1;

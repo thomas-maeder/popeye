@@ -2,9 +2,14 @@
 #include "pydata.h"
 #include "pymovenb.h"
 #include "pypipe.h"
+#include "pymsg.h"
 #include "trace.h"
+#include "optimisations/intelligent/moves_left.h"
+#include "platform/maxtime.h"
 
 #include <assert.h>
+
+unsigned long nr_potential_target_positions;
 
 /* Allocate a STRestartGuardIntelligent slice.
  * @return allocated slice
@@ -69,7 +74,26 @@ stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type
   if (too_short(n))
     result = n+2;
   else
+  {
+    nr_potential_target_positions = 0;
+
     result = help(slices[si].u.pipe.next,n);
+
+    if (OptFlag[movenbr] && !hasMaxtimeElapsed())
+    {
+      StdString("\n");
+      sprintf(GlobalStr,"%lu %s %u+%u",
+              nr_potential_target_positions,GetMsgString(PotentialMates),
+              MovesLeft[White],MovesLeft[Black]);
+      StdString(GlobalStr);
+      if (!flag_regression)
+      {
+        StdString("  (");
+        PrintTime();
+        StdString(")");
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
