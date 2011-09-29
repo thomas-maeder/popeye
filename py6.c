@@ -2628,8 +2628,7 @@ static Token iterate_twins(Token prev_token)
 
       stip_remove_irrelevant_constraints(root_slice);
 
-      if (OptFlag[movenbr]
-          && !(OptFlag[intelligent] && intelligent_mode_overrides_movenbr()))
+      if (OptFlag[movenbr])
         stip_insert_restart_guards(root_slice);
 
       stip_insert_solvers(root_slice);

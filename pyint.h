@@ -25,11 +25,6 @@ void IntelligentRegulargoal_types(stip_length_type n);
  */
 boolean init_intelligent_mode(slice_index si);
 
-/* Determine whether intelligent mode overrides option movenum
- * @return true iff intelligent mode overrides option movenum
- */
-boolean intelligent_mode_overrides_movenbr(void);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

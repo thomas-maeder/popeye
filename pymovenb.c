@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/plaintext/plaintext.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -188,16 +189,65 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+typedef enum
+{
+  insert_guard_mode_unknown,
+  insert_guard_mode_regular,
+  insert_guard_mode_intelligent
+} insert_guard_mode;
+
 static void insert_guard_help(slice_index si, stip_structure_traversal *st)
 {
+  insert_guard_mode const * const mode = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
+  assert(*mode!=insert_guard_mode_unknown);
+
+  if (*mode==insert_guard_mode_regular)
   {
     slice_index const prototype = alloc_restart_guard();
     help_branch_insert_slices(si,&prototype,1);
   }
+  else
+  {
+    slice_index const prototype = alloc_restart_guard_intelligent();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guard_intelligent(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  insert_guard_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *mode = insert_guard_mode_intelligent;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_guard_regular(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  insert_guard_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *mode = insert_guard_mode_regular;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -208,6 +258,9 @@ static structure_traversers_visitors restart_guard_inserters[] =
   { STAttackAdapter,     &insert_guard_attack          },
   { STDefenseAdapter,    &stip_structure_visitor_noop  },
   { STHelpAdapter,       &insert_guard_help            },
+  { STIntelligentFilter, &insert_guard_intelligent     },
+  { STIntelligentProof,  &insert_guard_regular         },
+  { STMove,              &insert_guard_regular         },
   { STConstraint,        &stip_traverse_structure_pipe },
   { STTemporaryHackFork, &stip_traverse_structure_pipe }
 };
@@ -223,13 +276,14 @@ enum
  */
 void stip_insert_restart_guards(slice_index si)
 {
+  insert_guard_mode mode = insert_guard_mode_unknown;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override(&st,
                                     restart_guard_inserters,
                                     nr_restart_guard_inserters);

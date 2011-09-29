@@ -6401,12 +6401,8 @@ static void intelligent_guards_inserter(slice_index si,
   }
   else
   {
-    slice_index const prototypes[] = {
-        alloc_restart_guard_intelligent(),
-        alloc_intelligent_filter(),
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    help_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_intelligent_filter();
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   {
@@ -6644,29 +6640,6 @@ boolean init_intelligent_mode(slice_index si)
       result = false;
       break;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether intelligent mode overrides option movenum
- * @return true iff intelligent mode overrides option movenum
- */
-boolean intelligent_mode_overrides_movenbr(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proofgame
-      || goal_to_be_reached==no_goal)
-    result = false;
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

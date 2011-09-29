@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/proof.h"
-#include "pydata.h"
 #include "pyproof.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -15,34 +14,6 @@ slice_index alloc_intelligent_proof(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STIntelligentProof);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean IntelligentProof(slice_index si, stip_length_type n)
-{
-  boolean result;
-  boolean const save_movenbr = OptFlag[movenbr];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  ProofInitialiseIntelligent(n);
-
-  /* Proof games and a=>b are special because there is only 1 end
-   * position to be reached. We therefore output move numbers as if
-   * we were not in intelligent mode, and only if we are solving
-   * full-length.
-   */
-  OptFlag[movenbr] = false;
-
-  result = help(slices[si].u.pipe.next,n)<=n;
-
-  OptFlag[movenbr] = save_movenbr;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -68,7 +39,8 @@ stip_length_type intelligent_proof_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = IntelligentProof(si,n) ? n : n+2;
+  ProofInitialiseIntelligent(n);
+  result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
