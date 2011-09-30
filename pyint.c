@@ -932,13 +932,8 @@ static void solve_target_position(stip_length_type n)
   closehash();
   inithash(current_start_slice);
 
-  {
-    boolean const save_movenbr = OptFlag[movenbr];
-    OptFlag[movenbr] = false;
-    if (help(slices[current_start_slice].u.pipe.next,n)<=n)
-      solutions_found = true;
-    OptFlag[movenbr] = save_movenbr;
-  }
+  if (help(slices[current_start_slice].u.pipe.next,n)<=n)
+    solutions_found = true;
 
   /* reset the old mating position */
   {
