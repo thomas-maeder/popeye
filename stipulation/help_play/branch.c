@@ -27,6 +27,7 @@ static slice_index const slice_rank_order[] =
   STRestartGuardIntelligent,
   STIntelligentFilter,
   STIntelligentProof,
+  STIntelligentTargetCounter,
   STEndOfBranch,
   STEndOfBranchForced,
   STDeadEnd,

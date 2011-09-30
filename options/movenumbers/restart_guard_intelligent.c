@@ -9,7 +9,7 @@
 
 #include <assert.h>
 
-unsigned long nr_potential_target_positions;
+static unsigned long nr_potential_target_positions;
 
 /* Allocate a STRestartGuardIntelligent slice.
  * @return allocated slice
@@ -95,6 +95,55 @@ stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type
     if (!hasMaxtimeElapsed())
       print_nr_potential_target_positions();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Allocate a STIntelligentTargetCounter slice.
+ * @return allocated slice
+ */
+slice_index alloc_intelligent_target_counter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STIntelligentTargetCounter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Determine and write the solution(s) in a help stipulation
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type intelligent_target_counter_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  ++nr_potential_target_positions;
+  TraceValue("%u\n",nr_potential_target_positions);
+
+  result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

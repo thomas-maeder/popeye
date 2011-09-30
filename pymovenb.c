@@ -215,8 +215,12 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
   }
   else
   {
-    slice_index const prototype = alloc_restart_guard_intelligent();
-    help_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_restart_guard_intelligent(),
+        alloc_intelligent_target_counter()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    help_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

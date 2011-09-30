@@ -28,7 +28,6 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "options/movenumbers/restart_guard_intelligent.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/legal_move_finder.h"
@@ -885,9 +884,6 @@ static void solve_target_position(stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  ++nr_potential_target_positions;
-  TraceValue("%u\n",nr_potential_target_positions);
 
   {
     PieceIdType id;

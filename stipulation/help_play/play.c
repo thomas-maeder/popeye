@@ -126,6 +126,10 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = restart_guard_intelligent_help(si,n);
       break;
 
+    case STIntelligentTargetCounter:
+      result = intelligent_target_counter_help(si,n);
+      break;
+
     case STIntelligentFilter:
       result = intelligent_filter_help(si,n);
       break;

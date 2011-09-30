@@ -177,6 +177,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
   slice_structure_pipe,   /* STRestartGuardIntelligent */
+  slice_structure_pipe,   /* STIntelligentTargetCounter */
   slice_structure_pipe,   /* STMaxTimeGuard */
   slice_structure_pipe,   /* STMaxSolutionsInitialiser */
   slice_structure_pipe,   /* STMaxSolutionsGuard */
@@ -348,6 +349,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STNoShortVariations */
   slice_function_unspecified,    /* STRestartGuard */
   slice_function_unspecified,    /* STRestartGuardIntelligent */
+  slice_function_unspecified,    /* STIntelligentTargetCounter */
   slice_function_unspecified,    /* STMaxTimeGuard */
   slice_function_unspecified,    /* STMaxSolutionsInitialiser */
   slice_function_unspecified,    /* STMaxSolutionsGuard */
@@ -1631,6 +1633,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STNoShortVariations */
   &stip_traverse_structure_pipe,              /* STRestartGuard */
   &stip_traverse_structure_pipe,              /* STRestartGuardIntelligent */
+  &stip_traverse_structure_pipe,              /* STIntelligentTargetCounter */
   &stip_traverse_structure_pipe,              /* STMaxTimeGuard */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsInitialiser */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsGuard */
@@ -1903,6 +1906,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STNoShortVariations */
     &stip_traverse_moves_pipe,              /* STRestartGuard */
     &stip_traverse_moves_pipe,              /* STRestartGuardIntelligent */
+    &stip_traverse_moves_pipe,              /* STIntelligentTargetCounter */
     &stip_traverse_moves_pipe,              /* STMaxTimeGuard */
     &stip_traverse_moves_pipe,              /* STMaxSolutionsInitialiser */
     &stip_traverse_moves_pipe,              /* STMaxSolutionsGuard */
