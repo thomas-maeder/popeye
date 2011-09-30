@@ -29,7 +29,7 @@ slice_index alloc_restart_guard_intelligent(void)
   return result;
 }
 
-static boolean too_short(stip_length_type n)
+static boolean is_length_ruled_out_by_option_restart(stip_length_type n)
 {
   boolean result;
 
@@ -53,6 +53,21 @@ static boolean too_short(stip_length_type n)
   return result;
 }
 
+static void print_nr_potential_target_positions(void)
+{
+  StdString("\n");
+  sprintf(GlobalStr,"%lu %s %u+%u",
+          nr_potential_target_positions,GetMsgString(PotentialMates),
+          MovesLeft[White],MovesLeft[Black]);
+  StdString(GlobalStr);
+  if (!flag_regression)
+  {
+    StdString("  (");
+    PrintTime();
+    StdString(")");
+  }
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -71,28 +86,14 @@ stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (too_short(n))
+  if (is_length_ruled_out_by_option_restart(n))
     result = n+2;
   else
   {
     nr_potential_target_positions = 0;
-
     result = help(slices[si].u.pipe.next,n);
-
-    if (OptFlag[movenbr] && !hasMaxtimeElapsed())
-    {
-      StdString("\n");
-      sprintf(GlobalStr,"%lu %s %u+%u",
-              nr_potential_target_positions,GetMsgString(PotentialMates),
-              MovesLeft[White],MovesLeft[Black]);
-      StdString(GlobalStr);
-      if (!flag_regression)
-      {
-        StdString("  (");
-        PrintTime();
-        StdString(")");
-      }
-    }
+    if (!hasMaxtimeElapsed())
+      print_nr_potential_target_positions();
   }
 
   TraceFunctionExit(__func__);
