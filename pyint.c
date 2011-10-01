@@ -167,7 +167,13 @@ static boolean guards(square to_be_guarded, piece guarding, square guarding_from
   return result;
 }
 
-static boolean are_kings_too_close(square white_king_square)
+/* Determine whether there would be king contact if the white king were placed
+ * on a particular square
+ * @param white_king_square square where white king would be placed
+ * @return true iff there would be king contact if the white king were placed
+ *              on white_king_square
+ */
+static boolean would_there_be_king_contact(square white_king_square)
 {
   boolean result;
 
@@ -175,6 +181,26 @@ static boolean are_kings_too_close(square white_king_square)
   TraceFunctionParamListEnd();
 
   result = move_diff_code[abs(white_king_square-king_square[Black])]<3;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the white king would guard if it were placed on a
+ * particular square
+ * @param white_king_square square where white king would be placed
+ * @return true iff the white king would guard from white_king_square
+ */
+static boolean would_white_king_guard_from(square white_king_square)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = move_diff_code[abs(white_king_square-king_square[Black])]<9;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2266,7 +2292,7 @@ static void stalemate_fix_white_king_on_diagram_square(unsigned int nr_remaining
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!are_kings_too_close(white[index_of_king].square)
+  if (!would_white_king_guard_from(white[index_of_king].square)
       && !is_white_king_uninterceptably_attacked_by_non_king(white[index_of_king].square))
   {
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
@@ -3024,7 +3050,7 @@ static void stalemate_intercept_check_with_white_king(unsigned int nr_remaining_
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!are_kings_too_close(to_be_blocked)
+  if (!would_white_king_guard_from(to_be_blocked)
       && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked))
   {
     unsigned int const time = count_nr_of_moves_from_to_king(roib,
@@ -3565,7 +3591,7 @@ static void stalemate_block_white_king(unsigned int nr_remaining_black_moves,
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (!are_kings_too_close(to_be_blocked)
+  if (!would_white_king_guard_from(to_be_blocked)
       && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked))
   {
     unsigned int const time = count_nr_of_moves_from_to_king(roib,
@@ -5264,7 +5290,8 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (e[king_diagram_square]==vide && !are_kings_too_close(king_diagram_square))
+  if (e[king_diagram_square]==vide
+      && !would_white_king_guard_from(king_diagram_square))
   {
     unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
     if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
@@ -5601,7 +5628,7 @@ static void guard_flights_king(unsigned int nr_remaining_white_moves,
 
       /* try using white king for guarding from every square */
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (e[*bnp]==vide && !are_kings_too_close(*bnp))
+        if (e[*bnp]==vide && !would_there_be_king_contact(*bnp))
         {
           unsigned int const time = count_nr_of_moves_from_to_king(roib,
                                                                    guard_from,
