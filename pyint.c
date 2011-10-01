@@ -6040,12 +6040,14 @@ void IntelligentRegulargoal_types(stip_length_type n)
 static void goal_to_be_reached_goal(slice_index si,
                                     stip_structure_traversal *st)
 {
+  goal_type * const goal = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_tester.goal.type;
+  assert(*goal==no_goal);
+  *goal = slices[si].u.goal_tester.goal.type;
 
   stip_traverse_structure_children(si,st);
 
@@ -6055,9 +6057,10 @@ static void goal_to_be_reached_goal(slice_index si,
 
 /* Initialise the variable holding the goal to be reached
  */
-static void init_goal_to_be_reached(slice_index si)
+static goal_type determine_goal_to_be_reached(slice_index si)
 {
   stip_structure_traversal st;
+  goal_type result = no_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -6065,9 +6068,7 @@ static void init_goal_to_be_reached(slice_index si)
 
   TraceStipulation(si);
 
-  goal_to_be_reached = no_goal;
-
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTester,
                                            &goal_to_be_reached_goal);
@@ -6079,21 +6080,24 @@ static void init_goal_to_be_reached(slice_index si)
   TraceValue("%u",goal_to_be_reached);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Initialise a STGoalReachableGuardFilter slice
  * @return identifier of allocated slice
  */
-static slice_index alloc_goalreachable_guard_filter(void)
+static slice_index alloc_goalreachable_guard_filter(goal_type goal)
 {
   slice_index result;
   slice_type type;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  switch (goal_to_be_reached)
+  switch (goal)
   {
     case goal_mate:
       type = STGoalReachableGuardFilterMate;
@@ -6289,6 +6293,8 @@ static
 void goalreachable_guards_inserter_help_move(slice_index si,
                                              stip_structure_traversal *st)
 {
+  goal_type const * const goal = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -6296,7 +6302,7 @@ void goalreachable_guards_inserter_help_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_goalreachable_guard_filter();
+    slice_index const prototype = alloc_goalreachable_guard_filter(*goal);
     if (prototype!=no_slice)
       help_branch_insert_slices(si,&prototype,1);
 
@@ -6356,19 +6362,20 @@ enum
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
-static void stip_insert_goalreachable_guards(slice_index si)
+static void stip_insert_goalreachable_guards(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  assert(goal_to_be_reached!=no_goal);
+  assert(goal!=no_goal);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&goal);
   stip_structure_traversal_override(&st,
                                     goalreachable_guards_inserters,
                                     nr_goalreachable_guards_inserters);
@@ -6381,11 +6388,13 @@ static void stip_insert_goalreachable_guards(slice_index si)
 static void intelligent_guards_inserter(slice_index si,
                                         stip_structure_traversal *st)
 {
+  goal_type const * const goal = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (goal_to_be_reached==goal_proofgame || goal_to_be_reached==goal_atob)
+  if (*goal==goal_proofgame || *goal==goal_atob)
   {
     slice_index const prototype = alloc_intelligent_proof();
     help_branch_insert_slices(si,&prototype,1);
@@ -6420,17 +6429,18 @@ enum
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
-static void stip_insert_intelligent_filters(slice_index si)
+static void stip_insert_intelligent_filters(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&goal);
   stip_structure_traversal_override(&st,
                                     intelligent_filters_inserters,
                                     nr_intelligent_filters_inserters);
@@ -6613,17 +6623,17 @@ boolean init_intelligent_mode(slice_index si)
       result = true;
       if (OptFlag[intelligent])
       {
-        init_goal_to_be_reached(si);
-        stip_insert_intelligent_filters(si);
-        stip_insert_goalreachable_guards(si);
+        goal_to_be_reached = determine_goal_to_be_reached(si);
+        stip_insert_intelligent_filters(si,goal_to_be_reached);
+        stip_insert_goalreachable_guards(si,goal_to_be_reached);
       }
       break;
 
     case intelligent_active_by_default:
       result = true;
-      init_goal_to_be_reached(si);
-      stip_insert_intelligent_filters(si);
-      stip_insert_goalreachable_guards(si);
+      goal_to_be_reached = determine_goal_to_be_reached(si);
+      stip_insert_intelligent_filters(si,goal_to_be_reached);
+      stip_insert_goalreachable_guards(si,goal_to_be_reached);
       break;
 
     default:
