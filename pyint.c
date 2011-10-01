@@ -5276,6 +5276,42 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_remainin
   return result;
 }
 
+static void start_blocking_king_flights(unsigned int nr_remaining_white_moves,
+                                        unsigned int nr_remaining_black_moves,
+                                        unsigned int min_nr_captures_by_white,
+                                        stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",min_nr_captures_by_white);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
+    if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
+    {
+      unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_remaining_black_moves,
+                                                                    nr_flights_to_block);
+      if (mtba<=nr_remaining_black_moves)
+      {
+        unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
+        unsigned int const max_nr_allowed_captures_by_white_pieces = MaxPiece[Black]-1-min_nr_captures_by_white;
+        block_flights(nr_remaining_black_moves-mtba,
+                      nr_remaining_white_moves,
+                      max_nr_allowed_captures_by_black_pieces,
+                      max_nr_allowed_captures_by_white_pieces,
+                      n,
+                      nr_flights_to_block);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_moves,
                                              unsigned int nr_remaining_black_moves,
                                              unsigned int min_nr_captures_by_white,
@@ -5293,30 +5329,19 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
   if (e[king_diagram_square]==vide
       && !would_white_king_guard_from(king_diagram_square))
   {
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
-    if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
-    {
-      unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_remaining_black_moves,
-                                                                    nr_flights_to_block);
-      if (mtba<=nr_remaining_black_moves)
-      {
-        unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
+    king_square[White] = king_diagram_square;
+    SetPiece(roib,king_square[White],white[index_of_king].flags);
+    white[index_of_king].usage = piece_is_fixed_to_diagram_square;
 
-        king_square[White] = king_diagram_square;
-        SetPiece(roib,king_square[White],white[index_of_king].flags);
-        white[index_of_king].usage = piece_is_fixed_to_diagram_square;
-        block_flights(nr_remaining_black_moves-mtba,
-                      nr_remaining_white_moves,
-                      max_nr_allowed_captures_by_black_pieces,
-                      MaxPiece[Black]-1-min_nr_captures_by_white,
-                      n,
-                      nr_flights_to_block);
-        white[index_of_king].usage = piece_is_unused;
-        e[king_square[White]] = vide;
-        spec[king_square[White]] = EmptySpec;
-        king_square[White] = initsquare;
-      }
-    }
+    start_blocking_king_flights(nr_remaining_white_moves,
+                                nr_remaining_black_moves,
+                                min_nr_captures_by_white,
+                                n);
+
+    white[index_of_king].usage = piece_is_unused;
+    e[king_square[White]] = vide;
+    spec[king_square[White]] = EmptySpec;
+    king_square[White] = initsquare;
   }
 
   TraceFunctionExit(__func__);
@@ -5343,26 +5368,10 @@ static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
                                      min_nr_captures_by_white,
                                      n);
   else
-  {
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
-
-    if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
-    {
-      unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_remaining_black_moves,
-                                                                    nr_flights_to_block);
-      if (mtba<=nr_remaining_black_moves)
-      {
-        unsigned int const max_nr_allowed_captures_by_black_pieces = count_max_nr_allowed_black_pawn_captures();
-        unsigned int const max_nr_allowed_captures_by_white_pieces = MaxPiece[Black]-1-min_nr_captures_by_white;
-        block_flights(nr_remaining_black_moves-mtba,
-                      nr_remaining_white_moves,
-                      max_nr_allowed_captures_by_black_pieces,
-                      max_nr_allowed_captures_by_white_pieces,
-                      n,
-                      nr_flights_to_block);
-      }
-    }
-  }
+    start_blocking_king_flights(nr_remaining_white_moves,
+                                nr_remaining_black_moves,
+                                min_nr_captures_by_white,
+                                n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
