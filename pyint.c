@@ -93,6 +93,8 @@ static boolean testcastling;
 static unsigned int MovesRequired[nr_sides][maxply+1];
 static unsigned int CapturesLeft[maxply+1];
 
+static unsigned int PieceId2index[MaxPieceId+1];
+
 
 static boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
 {
@@ -587,7 +589,8 @@ static boolean mate_isGoalReachable(void)
           if (target_position[id].square!=initsquare)
           {
             Side const from_side = from_piece>vide ? White : Black;
-            if (id==GetPieceId(white[index_of_designated_piece_delivering_check].flags)
+            if (from_side==White
+                && white[PieceId2index[id]].usage==piece_gives_check
                 && MovesLeft[White]>0)
             {
               square const save_king_square = king_square[Black];
@@ -618,7 +621,8 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
-        if (id==GetPieceId(white[index_of_designated_piece_delivering_check].flags))
+        if (trait[nbply]==White
+            && white[PieceId2index[id]].usage==piece_gives_check)
         {
           square const save_king_square = king_square[Black];
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
@@ -635,7 +639,8 @@ static boolean mate_isGoalReachable(void)
                                                            target_position[id].type,
                                                            target_position[id].square);
 
-        if (id==GetPieceId(white[index_of_designated_piece_delivering_check].flags)
+        if (trait[nbply]==White
+            && white[PieceId2index[id]].usage==piece_gives_check
             && MovesLeft[White]>0)
         {
           square const save_king_square = king_square[Black];
@@ -5572,7 +5577,7 @@ static void guard_flights_non_king(unsigned int nr_remaining_white_moves,
     for (index_of_current_guarding_piece = index_of_first_guarding_piece;
          index_of_current_guarding_piece<MaxPiece[White];
          ++index_of_current_guarding_piece)
-      if (index_of_current_guarding_piece!=index_of_designated_piece_delivering_check)
+      if (white[index_of_current_guarding_piece].usage==piece_is_unused)
       {
         piece const guard_type = white[index_of_current_guarding_piece].type;
         white[index_of_current_guarding_piece].usage = piece_guards;
@@ -5996,6 +6001,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
   black[index_of_king].type= e[king_square[Black]];
   black[index_of_king].flags= spec[king_square[Black]];
   black[index_of_king].square= king_square[Black];
+  PieceId2index[GetPieceId(spec[king_square[Black]])] = index_of_king;
   ++MaxPiece[Black];
 
   if (king_square[White]==initsquare)
@@ -6006,6 +6012,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     white[index_of_king].type = e[king_square[White]];
     white[index_of_king].flags = spec[king_square[White]];
     white[index_of_king].square = king_square[White];
+    PieceId2index[GetPieceId(spec[king_square[White]])] = index_of_king;
     assert(white[index_of_king].type==roib);
   }
 
@@ -6022,6 +6029,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
         white[MaxPiece[White]].usage = piece_is_unused;
         if (e[*bnp]==pb)
           moves_to_white_prom[MaxPiece[White]] = count_moves_to_white_promotion(*bnp);
+        PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[White];
         ++MaxPiece[White];
       }
 
@@ -6032,6 +6040,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
         black[MaxPiece[Black]].flags = spec[*bnp];
         black[MaxPiece[Black]].square = *bnp;
         black[MaxPiece[Black]].usage = piece_is_unused;
+        PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[Black];
         ++MaxPiece[Black];
       }
   }
