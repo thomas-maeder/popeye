@@ -266,7 +266,7 @@ Loesung beendet.
               empile:         646
             jouecoup:         408
         orig_rbechec:          17
-        orig_rnechec:         440
+        orig_rnechec:         373
 Loesung beendet. 
 
 
@@ -1380,10 +1380,10 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 # 
 
-              empile:      797117
-            jouecoup:      787909
-        orig_rbechec:       61566
-        orig_rnechec:       95243
+              empile:      796883
+            jouecoup:      787861
+        orig_rbechec:       61554
+        orig_rnechec:       92183
 Loesung beendet. 
 
 
@@ -1418,7 +1418,7 @@ h#8 1.0;1.1;...
               empile:     2817166
             jouecoup:     2813251
         orig_rbechec:      155296
-        orig_rnechec:      295145
+        orig_rnechec:      292674
 Loesung beendet. 
 
 
