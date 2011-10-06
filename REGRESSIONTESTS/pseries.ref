@@ -91,10 +91,10 @@ solution finished.
 
   1.Sc2-a1   2.Qb1-h7   3.Qh7-b7 + Ra4-e4   4.Kb3-a2   5.Qb7-b1   6.Rb8-b2   7.Sa1-b3 Re4-a4 # 
 
-              empile:    11489468
-            jouecoup:    10499819
-        orig_rbechec:     2012957
-        orig_rnechec:     3097342
+              empile:    11444517
+            jouecoup:    10490586
+        orig_rbechec:     2011398
+        orig_rnechec:     3069961
 solution finished. 
 
 
@@ -128,7 +128,7 @@ solution finished.
               empile:      647400
             jouecoup:      606384
         orig_rbechec:      114903
-        orig_rnechec:      333696
+        orig_rnechec:      329502
 solution finished. 
 
 
@@ -161,18 +161,18 @@ a)
 
   1.e2-e1=S   2.Se1-d3 + Kb2-c2   3.Sd3-e1 + Kc2-d2   4.Se1-f3 + Kd2-e2   5.Sf3-g1 + Ke2-f2   6.Sg1-h3 + Kf2-g3   7.Sh3-g1 Sd1-f2 # 
 
-              empile:      365872
-            jouecoup:      178581
-        orig_rbechec:       19981
-        orig_rnechec:      195821
+              empile:      377667
+            jouecoup:      182846
+        orig_rbechec:       20647
+        orig_rnechec:      155396
 b) wBd1 
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
-              empile:      665807
-            jouecoup:      393451
-        orig_rbechec:       59006
-        orig_rnechec:      357768
+              empile:      675088
+            jouecoup:      398483
+        orig_rbechec:       59874
+        orig_rnechec:      293372
 solution finished. 
 
 
@@ -203,10 +203,10 @@ solution finished.
 
   1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
 
-              empile:   246464881
-            jouecoup:   225677702
-        orig_rbechec:    63859627
-        orig_rnechec:   135849270
+              empile:   255187917
+            jouecoup:   232843818
+        orig_rbechec:    66748613
+        orig_rnechec:   137182822
 solution finished. 
 
 
