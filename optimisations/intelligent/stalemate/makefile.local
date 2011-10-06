@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = finish.c immobilise_black.c deal_with_unused_pieces.c white_block.c black_block.c pin_black_piece.c intercept_checks.c
+INCLUDES = finish.h immobilise_black.h deal_with_unused_pieces.h black_block.h white_block.h pin_black_piece.h intercept_checks.h
+
+include makefile.rules $(CURRPWD)depend

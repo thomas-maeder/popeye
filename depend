@@ -1118,9 +1118,16 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  optimisations/intelligent/filter.h optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/intelligent/mate/finish.h \
+ optimisations/intelligent/mate/generate_checking_moves.h \
+ optimisations/intelligent/stalemate/white_block.h \
+ optimisations/intelligent/stalemate/black_block.h \
+ optimisations/intelligent/stalemate/immobilise_black.h \
+ optimisations/intelligent/stalemate/intercept_checks.h \
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
+ optimisations/intelligent/stalemate/finish.h pyboard.h \
  options/maxsolutions/maxsolutions.h stipulation/branch.h \
- stipulation/temporary_hacks.h solving/legal_move_finder.h \
- platform/maxtime.h trace.h
+ stipulation/temporary_hacks.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -1190,13 +1197,29 @@ optimisations/intelligent/duplicate_avoider.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
+optimisations/intelligent/mate/finish.h:
+
+optimisations/intelligent/mate/generate_checking_moves.h:
+
+optimisations/intelligent/stalemate/white_block.h:
+
+optimisations/intelligent/stalemate/black_block.h:
+
+optimisations/intelligent/stalemate/immobilise_black.h:
+
+optimisations/intelligent/stalemate/intercept_checks.h:
+
+optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
+
+optimisations/intelligent/stalemate/finish.h:
+
+pyboard.h:
+
 options/maxsolutions/maxsolutions.h:
 
 stipulation/branch.h:
 
 stipulation/temporary_hacks.h:
-
-solving/legal_move_finder.h:
 
 platform/maxtime.h:
 

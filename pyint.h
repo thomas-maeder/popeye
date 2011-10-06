@@ -12,10 +12,88 @@
 #include "pyposit.h"
 #include "stipulation/help_play/play.h"
 
+#define piece_usageENUMERATORS \
+    ENUMERATOR(piece_is_unused), \
+    ENUMERATOR(piece_pins), \
+    ENUMERATOR(piece_is_fixed_to_diagram_square), \
+    ENUMERATOR(piece_intercepts), \
+    ENUMERATOR(piece_blocks), \
+    ENUMERATOR(piece_guards), \
+    ENUMERATOR(piece_gives_check), \
+    ENUMERATOR(piece_is_missing), \
+    ENUMERATOR(piece_is_king)
+
+#define ENUMERATORS piece_usageENUMERATORS
+#define ENUMERATION_TYPENAME piece_usage
+#define ENUMERATION_DECLARE
+#include "pyenum.h"
+
+typedef struct
+{
+    square diagram_square;
+    Flags flags;
+    piece type;
+    piece_usage usage;
+} PIECE;
+
+extern PIECE white[nr_squares_on_board];
+extern PIECE black[nr_squares_on_board];
+
+enum { index_of_king = 0 };
+
+extern unsigned int MaxPiece[nr_sides];
+extern unsigned int CapturesLeft[maxply+1];
+
 extern boolean solutions_found;
 extern slice_index current_start_slice;
 
+extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
+
+extern unsigned int moves_to_white_prom[nr_squares_on_board];
+
+#define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
+
 void IntelligentRegulargoal_types(stip_length_type n);
+
+void solve_target_position(stip_length_type n);
+
+boolean uninterceptably_attacks_king(Side side, square from, piece p);
+
+unsigned int count_nr_of_moves_from_to_pawn_promotion(square from_square,
+                                                      piece to_piece,
+                                                      square to_square);
+unsigned int count_nr_of_moves_from_to_pawn_no_promotion(piece pawn,
+                                                         square from_square,
+                                                         square to_square);
+unsigned int count_nr_of_moves_from_to_king(piece piece,
+                                            square from_square,
+                                            square to_square);
+unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
+                                                square from_square,
+                                                piece to_piece,
+                                                square to_square);
+unsigned int count_nr_of_moves_from_to_checking(piece from_piece,
+                                                square from_square,
+                                                piece to_piece,
+                                                square to_square);
+unsigned int count_nr_black_moves_to_square(square to_be_blocked,
+                                            unsigned int nr_remaining_black_moves);
+
+
+boolean guards(square to_be_guarded, piece guarding, square guarding_from);
+boolean would_white_king_guard_from(square white_king_square);
+boolean is_white_king_uninterceptably_attacked_by_non_king(square s);
+boolean is_white_king_interceptably_attacked(void);
+
+void guard_flights_king(unsigned int nr_remaining_white_moves,
+                        unsigned int nr_remaining_black_moves,
+                        stip_length_type n,
+                        unsigned int min_nr_captures_by_white);
+
+void remember_to_keep_rider_line_open(square from, square to,
+                                      int dir, int delta);
+
+unsigned int find_check_directions(Side side, int check_directions[8]);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it

@@ -1,0 +1,96 @@
+optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/finish.c \
+ optimisations/intelligent/mate/finish.h pyint.h pydata.h \
+ solving/legal_move_finder.h stipulation/temporary_hacks.h \
+ optimisations/intelligent/mate/place_white_piece.h \
+ optimisations/intelligent/mate/place_black_piece.h \
+ optimisations/intelligent/mate/pin_black_piece.h \
+ optimisations/intelligent/mate/intercept_checks.h trace.h
+
+optimisations/intelligent/mate/finish.h:
+
+pyint.h:
+
+pydata.h:
+
+solving/legal_move_finder.h:
+
+stipulation/temporary_hacks.h:
+
+optimisations/intelligent/mate/place_white_piece.h:
+
+optimisations/intelligent/mate/place_black_piece.h:
+
+optimisations/intelligent/mate/pin_black_piece.h:
+
+optimisations/intelligent/mate/intercept_checks.h:
+
+trace.h:
+optimisations/intelligent/mate/place_white_piece$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/place_white_piece.c \
+ optimisations/intelligent/mate/place_white_piece.h pyint.h pydata.h \
+ optimisations/intelligent/mate/finish.h trace.h
+
+optimisations/intelligent/mate/place_white_piece.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/mate/finish.h:
+
+trace.h:
+optimisations/intelligent/mate/place_black_piece$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/place_black_piece.c \
+ optimisations/intelligent/mate/place_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/mate/finish.h trace.h
+
+optimisations/intelligent/mate/place_black_piece.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/mate/finish.h:
+
+trace.h:
+optimisations/intelligent/mate/pin_black_piece$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/pin_black_piece.c \
+ optimisations/intelligent/mate/pin_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/mate/finish.h trace.h
+
+optimisations/intelligent/mate/pin_black_piece.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/mate/finish.h:
+
+trace.h:
+optimisations/intelligent/mate/intercept_checks$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/intercept_checks.c \
+ optimisations/intelligent/mate/intercept_checks.h pyint.h pydata.h \
+ optimisations/intelligent/mate/finish.h trace.h
+
+optimisations/intelligent/mate/intercept_checks.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/mate/finish.h:
+
+trace.h:
+optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/generate_checking_moves.c \
+ optimisations/intelligent/mate/generate_checking_moves.h pyint.h \
+ pydata.h trace.h
+
+optimisations/intelligent/mate/generate_checking_moves.h:
+
+pyint.h:
+
+pydata.h:
+
+trace.h:
