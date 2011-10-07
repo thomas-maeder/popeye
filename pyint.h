@@ -53,6 +53,8 @@ extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
 extern unsigned int moves_to_white_prom[nr_squares_on_board];
 
+extern boolean testcastling;
+
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
 void IntelligentRegulargoal_types(stip_length_type n);
@@ -60,27 +62,6 @@ void IntelligentRegulargoal_types(stip_length_type n);
 void solve_target_position(stip_length_type n);
 
 boolean uninterceptably_attacks_king(Side side, square from, piece p);
-
-unsigned int count_nr_of_moves_from_to_pawn_promotion(square from_square,
-                                                      piece to_piece,
-                                                      square to_square);
-unsigned int count_nr_of_moves_from_to_pawn_no_promotion(piece pawn,
-                                                         square from_square,
-                                                         square to_square);
-unsigned int count_nr_of_moves_from_to_king(piece piece,
-                                            square from_square,
-                                            square to_square);
-unsigned int count_nr_of_moves_from_to_no_check(piece from_piece,
-                                                square from_square,
-                                                piece to_piece,
-                                                square to_square);
-unsigned int count_nr_of_moves_from_to_checking(piece from_piece,
-                                                square from_square,
-                                                piece to_piece,
-                                                square to_square);
-unsigned int count_nr_black_moves_to_square(square to_be_blocked,
-                                            unsigned int nr_remaining_black_moves);
-
 
 boolean rider_guards(square to_be_guarded, square guarding_from, int dir);
 boolean guards(square to_be_guarded, piece guarding, square guarding_from);

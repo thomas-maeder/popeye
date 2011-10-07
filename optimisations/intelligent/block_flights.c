@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/block_flights.h"
 #include "pydata.h"
 #include "pyint.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/mate/finish.h"
 #include "optimisations/intelligent/stalemate/intercept_checks.h"
 #include "optimisations/intelligent/stalemate/finish.h"
@@ -99,7 +100,10 @@ static void officer(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,blocks_from,blocker_type,to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                             blocks_from,
+                                                                             blocker_type,
+                                                                             to_be_blocked);
     TraceValue("%u\n",nr_moves_needed);
     if (time>=nr_moves_needed)
     {
@@ -145,9 +149,9 @@ static void unpromoted_pawn(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,pn))
   {
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                          blocks_from,
-                                                                          to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                      blocks_from,
+                                                                                      to_be_blocked);
     TraceValue("%u\n",nr_moves_needed);
     if (time>=nr_moves_needed)
     {
@@ -211,9 +215,9 @@ static void promoted_pawn(unsigned int nr_remaining_black_moves,
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!uninterceptably_attacks_king(White,to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocks_from,
-                                                                           pp,
-                                                                           to_be_blocked);
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocks_from,
+                                                                                       pp,
+                                                                                       to_be_blocked);
         if (time>=nr_moves_needed)
         {
           unsigned int const wasted = time-nr_moves_needed;
@@ -656,8 +660,8 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_remainin
 
   for (i = 0; i<nr_flights_to_block && result<=nr_remaining_black_moves; ++i)
   {
-    unsigned int const time = count_nr_black_moves_to_square(king_flights_to_be_blocked[i].flight,
-                                                             nr_remaining_black_moves);
+    unsigned int const time = intelligent_count_nr_black_moves_to_square(king_flights_to_be_blocked[i].flight,
+                                                                         nr_remaining_black_moves);
     king_flights_to_be_blocked[i].nr_moves_needed = time;
     result += time;
   }

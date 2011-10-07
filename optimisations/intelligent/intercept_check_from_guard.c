@@ -2,6 +2,8 @@
 #include "pydata.h"
 #include "pyint.h"
 #include "optimisations/intelligent/guard_flights.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/guard_flights.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -60,10 +62,10 @@ static void intercept_check_on_guarded_square_officer(unsigned int nr_remaining_
 
   if (!uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(intercepter_type,
-                                                                 intercepter_diagram_square,
-                                                                 intercepter_type,
-                                                                 to_be_intercepted);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(intercepter_type,
+                                                                             intercepter_diagram_square,
+                                                                             intercepter_type,
+                                                                             to_be_intercepted);
     if (time<=nr_remaining_white_moves
         /* avoid duplicate: if intercepter has already been used as guarding
          * piece, it shouldn't guard now again */
@@ -116,9 +118,9 @@ static void intercept_check_on_guarded_square_promoted_pawn(unsigned int nr_rema
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         if (!uninterceptably_attacks_king(Black,to_be_intercepted,pp))
         {
-          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(intercepter_diagram_square,
-                                                                             pp,
-                                                                             to_be_intercepted);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(intercepter_diagram_square,
+                                                                                         pp,
+                                                                                         to_be_intercepted);
           if (time<=nr_remaining_white_moves
               && !(index_of_intercepting_piece<index_of_next_guarding_piece
                    && guards_black_flight(pp,to_be_intercepted)))
@@ -163,9 +165,9 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(unsigned int nr_re
 
   if (!uninterceptably_attacks_king(Black,to_be_intercepted,pb))
   {
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
-                                                                          intercepter_diagram_square,
-                                                                          to_be_intercepted);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                                      intercepter_diagram_square,
+                                                                                      to_be_intercepted);
     if (time<=nr_remaining_white_moves)
     {
       unsigned int const diffcol = abs(intercepter_diagram_square % onerow

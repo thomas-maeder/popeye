@@ -2,6 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "pyslice.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
@@ -94,7 +95,7 @@ static square find_most_expensive_square_to_be_blocked_by_black(unsigned int nr_
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (block_requirement[*bnp]==black_block_needed_on_square)
     {
-      int const nr_black_blocking_moves = count_nr_black_moves_to_square(*bnp,nr_remaining_black_moves);
+      int const nr_black_blocking_moves = intelligent_count_nr_black_moves_to_square(*bnp,nr_remaining_black_moves);
       total_number_black_moves_to_squares_to_be_blocked += nr_black_blocking_moves;
       if (total_number_black_moves_to_squares_to_be_blocked>nr_remaining_black_moves)
       {

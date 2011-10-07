@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/intercept_checks.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
@@ -31,9 +32,9 @@ static void unpromoted_pawn(unsigned int nr_remaining_black_moves,
     square const blocks_from = white[blocker_index].diagram_square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
-                                                                          blocks_from,
-                                                                          to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                                      blocks_from,
+                                                                                      to_be_blocked);
     if (max_nr_allowed_captures_by_white_pieces>=nr_captures_required
         && time<=nr_remaining_white_moves)
     {
@@ -79,9 +80,9 @@ static void promoted_pawn(unsigned int nr_remaining_black_moves,
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!uninterceptably_attacks_king(Black,to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
-                                                                           pp,
-                                                                           to_be_blocked);
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
+                                                                                       pp,
+                                                                                       to_be_blocked);
         if (time<=nr_remaining_white_moves)
         {
           unsigned int const nr_checks_to_white = 0;
@@ -122,9 +123,9 @@ static void white_king(unsigned int nr_remaining_black_moves,
   if (!would_white_king_guard_from(to_be_blocked)
       && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked))
   {
-    unsigned int const time = count_nr_of_moves_from_to_king(roib,
-                                                             white[index_of_king].diagram_square,
-                                                             to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roib,
+                                                                         white[index_of_king].diagram_square,
+                                                                         to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(roib,to_be_blocked,white[index_of_king].flags);
@@ -178,10 +179,10 @@ static void officer(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 white[blocker_index].diagram_square,
-                                                                 blocker_type,
-                                                                 to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                             white[blocker_index].diagram_square,
+                                                                             blocker_type,
+                                                                             to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       unsigned int const nr_checks_to_white = 0;

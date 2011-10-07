@@ -62,6 +62,7 @@ trace.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/block_flights.c \
  optimisations/intelligent/block_flights.h pydata.h pyint.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/stalemate/intercept_checks.h \
  optimisations/intelligent/stalemate/finish.h \
@@ -72,6 +73,8 @@ optimisations/intelligent/block_flights.h:
 pydata.h:
 
 pyint.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/mate/finish.h:
 
@@ -85,6 +88,7 @@ trace.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.c \
  optimisations/intelligent/guard_flights.h pydata.h pyint.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/block_flights.h \
  optimisations/intelligent/intercept_check_from_guard.h \
  options/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
@@ -94,6 +98,8 @@ optimisations/intelligent/guard_flights.h:
 pydata.h:
 
 pyint.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/block_flights.h:
 
@@ -107,7 +113,8 @@ trace.h:
 optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.c \
  optimisations/intelligent/intercept_check_from_guard.h pydata.h pyint.h \
- optimisations/intelligent/guard_flights.h trace.h
+ optimisations/intelligent/guard_flights.h \
+ optimisations/intelligent/count_nr_of_moves.h trace.h
 
 optimisations/intelligent/intercept_check_from_guard.h:
 
@@ -116,5 +123,23 @@ pydata.h:
 pyint.h:
 
 optimisations/intelligent/guard_flights.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+trace.h:
+optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
+ optimisations/intelligent/count_nr_of_moves.c \
+ optimisations/intelligent/count_nr_of_moves.h pydata.h pyint.h pyproof.h \
+ optimisations/intelligent/moves_left.h trace.h
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+pydata.h:
+
+pyint.h:
+
+pyproof.h:
+
+optimisations/intelligent/moves_left.h:
 
 trace.h:

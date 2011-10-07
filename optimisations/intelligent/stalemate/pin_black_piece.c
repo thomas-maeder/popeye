@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
 
@@ -58,10 +59,10 @@ static boolean pin_by_officer(unsigned int nr_remaining_black_moves,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(pinner_orig_type,
-                                                                 pinner_comes_from,
-                                                                 pinner_type,
-                                                                 pin_from);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(pinner_orig_type,
+                                                                             pinner_comes_from,
+                                                                             pinner_type,
+                                                                             pin_from);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pinner_type,pin_from,pinner_flags);

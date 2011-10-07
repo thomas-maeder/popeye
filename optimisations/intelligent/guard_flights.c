@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/guard_flights.h"
 #include "pydata.h"
 #include "pyint.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/block_flights.h"
 #include "optimisations/intelligent/intercept_check_from_guard.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -222,9 +223,9 @@ static void unpromoted_pawn(unsigned int nr_remaining_white_moves,
         && nr_reasons_for_staying_empty[*bnp]==0
         && !uninterceptably_attacks_king(Black,*bnp,pb))
     {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
-                                                                            starts_from,
-                                                                            *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                                        starts_from,
+                                                                                        *bnp);
       if (time<=nr_remaining_white_moves)
       {
         square const guarded = guards_black_flight(pb,*bnp);
@@ -366,9 +367,9 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
           if (!uninterceptably_attacks_king(Black,*bnp,pp))
           {
-            unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[index_of_pawn].diagram_square,
-                                                                               pp,
-                                                                               *bnp);
+            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[index_of_pawn].diagram_square,
+                                                                                           pp,
+                                                                                           *bnp);
             if (time<=nr_remaining_white_moves)
               switch (pp)
               {
@@ -434,10 +435,10 @@ static void rider(unsigned int nr_remaining_white_moves,
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
         && !uninterceptably_attacks_king(Black,*bnp,guard_type))
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(guard_type,
-                                                                   white[index_of_rider].diagram_square,
-                                                                   guard_type,
-                                                                   *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
+                                                                               white[index_of_rider].diagram_square,
+                                                                               guard_type,
+                                                                               *bnp);
       if (time<=nr_remaining_white_moves)
         rider_from(nr_remaining_white_moves-time,
                    nr_remaining_black_moves,
@@ -477,10 +478,10 @@ static void leaper(unsigned int nr_remaining_white_moves,
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
         && !uninterceptably_attacks_king(Black,*bnp,guard_type))
     {
-      unsigned int const time = count_nr_of_moves_from_to_no_check(guard_type,
-                                                                   white[index_of_leaper].diagram_square,
-                                                                   guard_type,
-                                                                   *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
+                                                                               white[index_of_leaper].diagram_square,
+                                                                               guard_type,
+                                                                               *bnp);
       if (time<=nr_remaining_white_moves)
         leaper_from(nr_remaining_white_moves-time,
                     nr_remaining_black_moves,
@@ -613,9 +614,9 @@ void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
             && nr_reasons_for_staying_empty[*bnp]==0
             && !would_there_be_king_contact(*bnp))
         {
-          unsigned int const time = count_nr_of_moves_from_to_king(roib,
-                                                                   guard_from,
-                                                                   *bnp);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roib,
+                                                                               guard_from,
+                                                                               *bnp);
           TraceSquare(*bnp);TraceText("\n");
           if (time<=nr_remaining_white_moves)
           {

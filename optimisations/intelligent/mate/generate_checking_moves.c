@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -117,9 +118,9 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
           if (!(nr_checking_moves==2
                 && uninterceptably_attacks_king(White,*bnp,pp)))
           {
-            unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                               pp,
-                                                                               *bnp);
+            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
+                                                                                           pp,
+                                                                                           *bnp);
             if (time<=nr_remaining_white_moves
                 && guards(king_square[Black],pp,*bnp))
             {
@@ -171,10 +172,10 @@ static void by_unpromoted_pawn(unsigned int nr_remaining_white_moves,
     if (e[*bnp]==vide)
     {
       square const pawn_origin = white[index_of_checker].diagram_square;
-      unsigned int const time = count_nr_of_moves_from_to_checking(pb,
-                                                                   pawn_origin,
-                                                                   pb,
-                                                                   *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_checking(pb,
+                                                                               pawn_origin,
+                                                                               pb,
+                                                                               *bnp);
       if (time<=nr_remaining_white_moves
           && guards(king_square[Black],pb,*bnp))
       {
@@ -226,10 +227,10 @@ static void by_officer(unsigned int nr_remaining_white_moves,
              && uninterceptably_attacks_king(White,*bnp,checker_type)))
     {
       square const checker_origin = white[index_of_checker].diagram_square;
-      unsigned int const time = count_nr_of_moves_from_to_checking(checker_type,
-                                                                   checker_origin,
-                                                                   checker_type,
-                                                                   *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_checking(checker_type,
+                                                                               checker_origin,
+                                                                               checker_type,
+                                                                               *bnp);
       if (time<=nr_remaining_white_moves
           && guards(king_square[Black],checker_type,*bnp))
       {

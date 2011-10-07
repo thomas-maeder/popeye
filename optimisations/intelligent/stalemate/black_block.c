@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
 
@@ -43,9 +44,9 @@ static void promoted_pawn(unsigned int nr_remaining_black_moves,
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!uninterceptably_attacks_king(White,to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
-                                                                           pp,
-                                                                           to_be_blocked);
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
+                                                                                       pp,
+                                                                                       to_be_blocked);
         if (time<=nr_remaining_black_moves)
         {
           unsigned int const nr_checks_to_black = 0;
@@ -90,9 +91,9 @@ static void unpromoted_pawn(unsigned int nr_remaining_black_moves,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                          blocker_comes_from,
-                                                                          to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                      blocker_comes_from,
+                                                                                      to_be_blocked);
     if (time<=nr_remaining_black_moves
         && nr_required_captures<=max_nr_allowed_captures_by_black_pieces)
     {
@@ -132,10 +133,10 @@ static void officer(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 blocker_comes_from,
-                                                                 blocker_type,
-                                                                 to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                             blocker_comes_from,
+                                                                             blocker_type,
+                                                                             to_be_blocked);
     if (time<=nr_remaining_black_moves)
     {
       unsigned int const nr_checks_to_black = 0;

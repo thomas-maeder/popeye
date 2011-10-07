@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/stalemate/intercept_checks.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
 
@@ -60,9 +61,9 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_black_moves,
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!uninterceptably_attacks_king(White,to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
-                                                                           pp,
-                                                                           to_be_blocked);
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
+                                                                                       pp,
+                                                                                       to_be_blocked);
         if (time<=nr_remaining_black_moves)
         {
           boolean const white_check = guards(king_square[White],pp,to_be_blocked);
@@ -119,9 +120,9 @@ static void with_unpromoted_black_pawn(unsigned int nr_remaining_black_moves,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                          blocker_comes_from,
-                                                                          to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                      blocker_comes_from,
+                                                                                      to_be_blocked);
     if (time<=nr_remaining_black_moves
         && nr_required_captures<=max_nr_allowed_captures_by_black_pieces
         && !(side==White && guards(king_square[White],pn,to_be_blocked)))
@@ -173,10 +174,10 @@ static void with_black_officer(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 blocker_comes_from,
-                                                                 blocker_type,
-                                                                 to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                             blocker_comes_from,
+                                                                             blocker_type,
+                                                                             to_be_blocked);
     if (time<=nr_remaining_black_moves)
     {
       boolean const white_check = guards(king_square[White],blocker_type,to_be_blocked);
@@ -326,9 +327,9 @@ static void with_unpromoted_white_pawn(unsigned int nr_remaining_black_moves,
                                                   - to_be_blocked%onerow);
     if (max_nr_allowed_captures_by_white_pieces>=nr_captures_required)
     {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
-                                                                            blocks_from,
-                                                                            to_be_blocked);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                                        blocks_from,
+                                                                                        to_be_blocked);
       if (time<=nr_remaining_white_moves
           && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
       {
@@ -386,9 +387,9 @@ static void with_promoted_white_pawn(unsigned int nr_remaining_black_moves,
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!uninterceptably_attacks_king(Black,to_be_blocked,pp))
       {
-        unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
-                                                                           pp,
-                                                                           to_be_blocked);
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
+                                                                                       pp,
+                                                                                       to_be_blocked);
         if (time<=nr_remaining_white_moves)
         {
           boolean const black_check = guards(king_square[Black],pp,to_be_blocked);
@@ -441,9 +442,9 @@ static void with_white_king(unsigned int nr_remaining_black_moves,
   if (!would_white_king_guard_from(to_be_blocked)
       && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked))
   {
-    unsigned int const time = count_nr_of_moves_from_to_king(roib,
-                                                             white[index_of_king].diagram_square,
-                                                             to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roib,
+                                                                         white[index_of_king].diagram_square,
+                                                                         to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(roib,to_be_blocked,white[index_of_king].flags);
@@ -499,10 +500,10 @@ static void with_white_officer(unsigned int nr_remaining_black_moves,
 
   if (!uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
   {
-    unsigned int const time = count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                 white[blocker_index].diagram_square,
-                                                                 blocker_type,
-                                                                 to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                             white[blocker_index].diagram_square,
+                                                                             blocker_type,
+                                                                             to_be_blocked);
     if (time<=nr_remaining_white_moves)
     {
       boolean const black_check = guards(king_square[Black],blocker_type,to_be_blocked);

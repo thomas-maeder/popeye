@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/mate/intercept_checks.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/mate/finish.h"
 #include "trace.h"
 
@@ -42,9 +43,9 @@ static void with_unpromoted_white_pawn(unsigned int nr_remaining_black_moves,
   if (diffcol<=max_nr_allowed_captures_by_white_pieces
       && !uninterceptably_attacks_king(Black,placed_on,pb))
   {
-    unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pb,
-                                                                          placed_from,
-                                                                          placed_on);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+                                                                                      placed_from,
+                                                                                      placed_on);
     if (time<=nr_remaining_white_moves)
     {
       SetPiece(pb,placed_on,white[placed_index].flags);
@@ -97,9 +98,9 @@ static void with_promoted_white_pawn(unsigned int nr_remaining_black_moves,
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         if (!uninterceptably_attacks_king(Black,placed_on,pp))
         {
-          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(placed_from,
-                                                                             pp,
-                                                                             placed_on);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
+                                                                                         pp,
+                                                                                         placed_on);
           unsigned int diffcol;
           if (pp==fb && SquareCol(placed_on)==SquareCol(placed_from%onerow))
             diffcol= 1;
@@ -154,10 +155,10 @@ static void with_white_officer(unsigned int nr_remaining_black_moves,
   if (!uninterceptably_attacks_king(Black,placed_on,placed_type))
   {
     square const placed_from = white[placed_index].diagram_square;
-    unsigned int const time= count_nr_of_moves_from_to_no_check(placed_type,
-                                                                placed_from,
-                                                                placed_type,
-                                                                placed_on);
+    unsigned int const time= intelligent_count_nr_of_moves_from_to_no_check(placed_type,
+                                                                            placed_from,
+                                                                            placed_type,
+                                                                            placed_on);
     if (time<=nr_remaining_white_moves)
     {
       Flags const placed_flags = white[placed_index].flags;
@@ -284,9 +285,9 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_black_moves,
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
         if (!guards(king_square[White],pp,placed_on))
         {
-          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(placed_from,
-                                                                             pp,
-                                                                             placed_on);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
+                                                                                         pp,
+                                                                                         placed_on);
           unsigned int diffcol = 0;
           if (pp==fn)
           {
@@ -343,9 +344,9 @@ static void with_unpromoted_black_pawn(unsigned int nr_remaining_black_moves,
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
     if (diffcol<=max_nr_allowed_captures_by_black_pieces)
     {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                            placed_from,
-                                                                            placed_on);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                        placed_from,
+                                                                                        placed_on);
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(pn,placed_on,black[placed_index].flags);
@@ -389,10 +390,10 @@ static void with_black_officer(unsigned int nr_remaining_black_moves,
   if (!guards(king_square[White],placed_type,placed_on))
   {
     square const placed_from = black[placed_index].diagram_square;
-    unsigned int const time = count_nr_of_moves_from_to_no_check(placed_type,
-                                                                 placed_from,
-                                                                 placed_type,
-                                                                 placed_on);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(placed_type,
+                                                                             placed_from,
+                                                                             placed_type,
+                                                                             placed_on);
     if (time<=nr_remaining_black_moves)
     {
       SetPiece(placed_type,placed_on,black[placed_index].flags);

@@ -1,6 +1,7 @@
 #include "optimisations/intelligent/mate/place_black_piece.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/mate/finish.h"
 #include "trace.h"
 
@@ -44,9 +45,9 @@ static void promoted_black_pawn(unsigned int nr_remaining_black_moves,
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
         if (!uninterceptably_attacks_king(White,placed_on,pp))
         {
-          unsigned int const time = count_nr_of_moves_from_to_pawn_promotion(placed_from,
-                                                                             pp,
-                                                                             placed_on);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
+                                                                                         pp,
+                                                                                         placed_on);
           if (time<=nr_remaining_black_moves)
           {
             unsigned int diffcol = 0;
@@ -104,9 +105,9 @@ static void unpromoted_black_pawn(unsigned int nr_remaining_black_moves,
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
     if (diffcol<=max_nr_allowed_captures_by_black_pieces)
     {
-      unsigned int const time = count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                            placed_from,
-                                                                            placed_on);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                        placed_from,
+                                                                                        placed_on);
       if (time<=nr_remaining_black_moves)
       {
         SetPiece(pn,placed_on,black[placed_index].flags);
@@ -145,10 +146,10 @@ static void black_officer(unsigned int nr_remaining_black_moves,
   if (!uninterceptably_attacks_king(White,placed_on,placed_type))
   {
     square const placed_from = black[placed_index].diagram_square;
-    unsigned int const time = count_nr_of_moves_from_to_no_check(placed_type,
-                                                                 placed_from,
-                                                                 placed_type,
-                                                                 placed_on);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(placed_type,
+                                                                             placed_from,
+                                                                             placed_type,
+                                                                             placed_on);
     if (time<=nr_remaining_black_moves)
     {
       unsigned int const nr_of_checks_to_white = guards(king_square[White],
