@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = moves_left.c filter.c proof.c duplicate_avoider.c limit_nr_solutions_per_target.c
-INCLUDES = moves_left.h filter.h proof.h duplicate_avoider.h limit_nr_solutions_per_target.h
+CFILES = moves_left.c filter.c proof.c duplicate_avoider.c limit_nr_solutions_per_target.c block_flights.c guard_flights.c intercept_check_from_guard.c
+INCLUDES = moves_left.h filter.h proof.h duplicate_avoider.h limit_nr_solutions_per_target.h block_flights.h guard_flights.h intercept_check_from_guard.h
 
 include makefile.rules $(CURRPWD)depend

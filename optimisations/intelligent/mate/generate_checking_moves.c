@@ -25,10 +25,10 @@ static void generated(unsigned int nr_remaining_white_moves,
   assert(nr_checking_moves>=1);
 
   if (nr_checking_moves==1)
-    guard_flights_king(nr_remaining_white_moves,
-                       nr_remaining_black_moves,
-                       n,
-                       min_nr_captures_by_white);
+    intelligent_guard_flights(nr_remaining_white_moves,
+                              nr_remaining_black_moves,
+                              n,
+                              min_nr_captures_by_white);
   else
     intelligent_mate_generate_checking_moves(nr_remaining_white_moves,
                                              nr_remaining_black_moves,

@@ -40,6 +40,7 @@
 #include "optimisations/intelligent/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "trace.h"

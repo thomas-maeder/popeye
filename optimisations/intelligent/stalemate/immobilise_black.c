@@ -207,3 +207,136 @@ void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_black_move
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static void update_block_requirements(immobilisation_state_type *state)
+{
+  switch (state->block_requirement[state->last_found_trouble_square])
+  {
+    case no_block_needed_on_square:
+      if (pjoue[nbply]==pn)
+      {
+        state->block_requirement[state->last_found_trouble_square] = white_block_sufficient_on_square;
+        ++state->nr_blocks_needed[White];
+      }
+      else
+      {
+        state->block_requirement[state->last_found_trouble_square] = black_block_needed_on_square;
+        ++state->nr_blocks_needed[Black];
+      }
+      break;
+
+    case white_block_sufficient_on_square:
+      if (pjoue[nbply]!=pn)
+      {
+        state->block_requirement[state->last_found_trouble_square] = black_block_needed_on_square;
+        --state->nr_blocks_needed[White];
+        ++state->nr_blocks_needed[Black];
+      }
+      break;
+
+    case black_block_needed_on_square:
+      /* nothing */
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ */
+stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
+                                                             stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (current_immobilisation_state->nr_of_trouble_makers==0
+      || move_generation_stack[nbcou].departure
+         !=current_immobilisation_state->positions_of_trouble_makers[current_immobilisation_state->nr_of_trouble_makers-1])
+  {
+    current_immobilisation_state->positions_of_trouble_makers[current_immobilisation_state->nr_of_trouble_makers] = move_generation_stack[nbcou].departure;
+    ++current_immobilisation_state->nr_of_trouble_makers;
+  }
+
+  switch (e[move_generation_stack[nbcou].arrival])
+  {
+    case roin: /* unpinnable leaper */
+      current_immobilisation_state->last_found_trouble_square = move_generation_stack[nbcou].arrival;
+      current_immobilisation_state->last_found_trouble_square_status = pprise[nbply]==vide ? king_block_required : immobilisation_impossible;
+      update_block_requirements(current_immobilisation_state);
+      break;
+
+    case cn: /* pinnable leaper */
+      current_immobilisation_state->last_found_trouble_square = move_generation_stack[nbcou].arrival;
+      current_immobilisation_state->last_found_trouble_square_status = pprise[nbply]==vide ? block_required : pin_required;
+      update_block_requirements(current_immobilisation_state);
+      break;
+
+    case dn: /* unpinnable rider */
+    {
+      int const diff = (move_generation_stack[nbcou].arrival
+                        -move_generation_stack[nbcou].departure);
+      current_immobilisation_state->last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                                                 +CheckDirQueen[diff]);
+      if (move_generation_stack[nbcou].arrival
+          ==current_immobilisation_state->last_found_trouble_square)
+      {
+        if (pprise[nbply]==vide)
+          current_immobilisation_state->last_found_trouble_square_status = block_required;
+        else
+          current_immobilisation_state->last_found_trouble_square_status = immobilisation_impossible;
+
+        update_block_requirements(current_immobilisation_state);
+      }
+      break;
+    }
+
+    case tn:
+    case fn:
+    case pn: /* pinnable riders */
+    {
+      int const diff = (move_generation_stack[nbcou].arrival
+                        -move_generation_stack[nbcou].departure);
+      current_immobilisation_state->last_found_trouble_square = (move_generation_stack[nbcou].departure
+                                                                 +CheckDirQueen[diff]);
+      if (move_generation_stack[nbcou].arrival
+          ==current_immobilisation_state->last_found_trouble_square)
+      {
+        if (pprise[nbply]==vide)
+          current_immobilisation_state->last_found_trouble_square_status = block_required;
+        else
+          current_immobilisation_state->last_found_trouble_square_status = pin_required;
+
+        update_block_requirements(current_immobilisation_state);
+      }
+      break;
+    }
+
+    default:  /* no support for fairy chess */
+      assert(0);
+      break;
+  }
+
+  if (current_immobilisation_state->last_found_trouble_square_status<king_block_required)
+    result = n+2;
+  else
+    result = n;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

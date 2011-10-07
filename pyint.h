@@ -45,7 +45,9 @@ extern unsigned int MaxPiece[nr_sides];
 extern unsigned int CapturesLeft[maxply+1];
 
 extern boolean solutions_found;
+
 extern slice_index current_start_slice;
+goal_type goal_to_be_reached;
 
 extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
@@ -80,12 +82,13 @@ unsigned int count_nr_black_moves_to_square(square to_be_blocked,
                                             unsigned int nr_remaining_black_moves);
 
 
+boolean rider_guards(square to_be_guarded, square guarding_from, int dir);
 boolean guards(square to_be_guarded, piece guarding, square guarding_from);
 boolean would_white_king_guard_from(square white_king_square);
 boolean is_white_king_uninterceptably_attacked_by_non_king(square s);
 boolean is_white_king_interceptably_attacked(void);
 
-void guard_flights_king(unsigned int nr_remaining_white_moves,
+void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
                         unsigned int nr_remaining_black_moves,
                         stip_length_type n,
                         unsigned int min_nr_captures_by_white);
@@ -173,17 +176,5 @@ stip_length_type goalreachable_guard_stalemate_help(slice_index si,
  */
 stip_length_type goalreachable_guard_stalemate_can_help(slice_index si,
                                                         stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
-                                                             stip_length_type n);
 
 #endif

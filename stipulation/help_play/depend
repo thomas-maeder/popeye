@@ -70,6 +70,7 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/filter.h optimisations/intelligent/proof.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/intelligent/stalemate/immobilise_black.h \
  conditions/exclusive.h conditions/ohneschach/immobility_tester.h trace.h
 
 stipulation/help_play/play.h:
@@ -155,6 +156,8 @@ optimisations/intelligent/filter.h:
 optimisations/intelligent/proof.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+optimisations/intelligent/stalemate/immobilise_black.h:
 
 conditions/exclusive.h:
 
