@@ -150,3 +150,22 @@ optimisations/intelligent/count_nr_of_moves.h:
 optimisations/intelligent/stalemate/finish.h:
 
 trace.h:
+optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
+ optimisations/intelligent/stalemate/goalreachable_guard.c \
+ optimisations/intelligent/stalemate/goalreachable_guard.h pydata.h \
+ pyint.h pystip.h optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/count_nr_of_moves.h trace.h
+
+optimisations/intelligent/stalemate/goalreachable_guard.h:
+
+pydata.h:
+
+pyint.h:
+
+pystip.h:
+
+optimisations/intelligent/moves_left.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+trace.h:

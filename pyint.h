@@ -38,6 +38,7 @@ typedef struct
 
 extern PIECE white[nr_squares_on_board];
 extern PIECE black[nr_squares_on_board];
+extern PIECE target_position[MaxPieceId+1];
 
 enum { index_of_king = 0 };
 
@@ -54,6 +55,10 @@ extern unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 extern unsigned int moves_to_white_prom[nr_squares_on_board];
 
 extern boolean testcastling;
+
+extern unsigned int MovesRequired[nr_sides][maxply+1];
+
+extern unsigned int PieceId2index[MaxPieceId+1];
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
@@ -86,76 +91,5 @@ unsigned int find_check_directions(Side side, int check_directions[8]);
  * stipulation doesn't support it
  */
 boolean init_intelligent_mode(slice_index si);
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_mate_help(slice_index si, stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_mate_can_help(slice_index si,
-                                                   stip_length_type n);
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_stalemate_help(slice_index si,
-                                                    stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_stalemate_can_help(slice_index si,
-                                                        stip_length_type n);
-
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_stalemate_help(slice_index si,
-                                                    stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_stalemate_can_help(slice_index si,
-                                                        stip_length_type n);
 
 #endif
