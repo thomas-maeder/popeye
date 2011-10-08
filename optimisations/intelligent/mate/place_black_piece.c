@@ -8,21 +8,13 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void promoted_black_pawn(unsigned int nr_remaining_white_moves,
-                                unsigned int nr_remaining_black_moves,
-                                unsigned int max_nr_allowed_captures_by_white,
-                                unsigned int max_nr_allowed_captures_by_black,
-                                stip_length_type n,
+static void promoted_black_pawn(stip_length_type n,
                                 unsigned int placed_index,
                                 square placed_on)
 {
   square const placed_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -39,7 +31,7 @@ static void promoted_black_pawn(unsigned int nr_remaining_white_moves,
       /* square is not on 1st rank -- 1 move necessary to get there */
       ++time;
 
-    if (time<=nr_remaining_black_moves)
+    if (time<=Nr_remaining_black_moves)
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -48,7 +40,7 @@ static void promoted_black_pawn(unsigned int nr_remaining_white_moves,
           unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
                                                                                          pp,
                                                                                          placed_on);
-          if (time<=nr_remaining_black_moves)
+          if (time<=Nr_remaining_black_moves)
           {
             unsigned int diffcol = 0;
             if (pp==fn)
@@ -59,18 +51,18 @@ static void promoted_black_pawn(unsigned int nr_remaining_white_moves,
                 diffcol = 1;
             }
 
-            if (diffcol<=max_nr_allowed_captures_by_black)
+            if (diffcol<=Max_nr_allowed_captures_by_black)
             {
               unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                                 pp,
                                                                 placed_on);
+              Max_nr_allowed_captures_by_black -= diffcol;
+              Nr_remaining_black_moves -= time;
+              TraceValue("%u\n",Nr_remaining_black_moves);
               SetPiece(pp,placed_on,black[placed_index].flags);
-              intelligent_mate_finish(nr_remaining_white_moves,
-                                      nr_remaining_black_moves-time,
-                                      max_nr_allowed_captures_by_white,
-                                      max_nr_allowed_captures_by_black-diffcol,
-                                      n,
-                                      nr_of_checks_to_white);
+              intelligent_mate_finish(n,nr_of_checks_to_white);
+              Nr_remaining_black_moves += time;
+              Max_nr_allowed_captures_by_black += diffcol;
             }
           }
         }
@@ -81,19 +73,11 @@ static void promoted_black_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
-                                  unsigned int nr_remaining_black_moves,
-                                  unsigned int max_nr_allowed_captures_by_white,
-                                  unsigned int max_nr_allowed_captures_by_black,
-                                  stip_length_type n,
+static void unpromoted_black_pawn(stip_length_type n,
                                   unsigned int placed_index,
                                   square placed_on)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -103,19 +87,20 @@ static void unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=max_nr_allowed_captures_by_black)
+    if (diffcol<=Max_nr_allowed_captures_by_black)
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                                         placed_from,
                                                                                         placed_on);
-      if (time<=nr_remaining_black_moves)
+      if (time<=Nr_remaining_black_moves)
       {
+        Max_nr_allowed_captures_by_black -= diffcol;
+        Nr_remaining_black_moves -= time;
+        TraceValue("%u\n",Nr_remaining_black_moves);
         SetPiece(pn,placed_on,black[placed_index].flags);
-        intelligent_mate_test_target_position(nr_remaining_white_moves,
-                                              nr_remaining_black_moves-time,
-                                              max_nr_allowed_captures_by_white,
-                                              max_nr_allowed_captures_by_black-diffcol,
-                                              n);
+        intelligent_mate_test_target_position(n);
+        Nr_remaining_black_moves += time;
+        Max_nr_allowed_captures_by_black += diffcol;
       }
     }
   }
@@ -124,19 +109,11 @@ static void unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void black_officer(unsigned int nr_remaining_white_moves,
-                          unsigned int nr_remaining_black_moves,
-                          unsigned int max_nr_allowed_captures_by_white,
-                          unsigned int max_nr_allowed_captures_by_black,
-                          stip_length_type n,
+static void black_officer(stip_length_type n,
                           unsigned int placed_index,
                           piece placed_type, square placed_on)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TracePiece(placed_type);
@@ -150,18 +127,16 @@ static void black_officer(unsigned int nr_remaining_white_moves,
                                                                              placed_from,
                                                                              placed_type,
                                                                              placed_on);
-    if (time<=nr_remaining_black_moves)
+    if (time<=Nr_remaining_black_moves)
     {
       unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                         placed_type,
                                                         placed_on);
+      Nr_remaining_black_moves -= time;
+      TraceValue("%u\n",Nr_remaining_black_moves);
       SetPiece(placed_type,placed_on,black[placed_index].flags);
-      intelligent_mate_finish(nr_remaining_white_moves,
-                              nr_remaining_black_moves-time,
-                              max_nr_allowed_captures_by_white,
-                              max_nr_allowed_captures_by_black,
-                              n,
-                              nr_of_checks_to_white);
+      intelligent_mate_finish(n,nr_of_checks_to_white);
+      Nr_remaining_black_moves += time;
     }
   }
 
@@ -169,20 +144,12 @@ static void black_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_place_any_black_piece_on(unsigned int nr_remaining_white_moves,
-                                               unsigned int nr_remaining_black_moves,
-                                               unsigned int max_nr_allowed_captures_by_white,
-                                               unsigned int max_nr_allowed_captures_by_black,
-                                               stip_length_type n,
+void intelligent_mate_place_any_black_piece_on(stip_length_type n,
                                                square placed_on)
 {
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
@@ -197,26 +164,11 @@ void intelligent_mate_place_any_black_piece_on(unsigned int nr_remaining_white_m
       if (placed_type==pn)
       {
         if (placed_on>=square_a2)
-          unpromoted_black_pawn(nr_remaining_white_moves,
-                                nr_remaining_black_moves,
-                                max_nr_allowed_captures_by_white,
-                                max_nr_allowed_captures_by_black,
-                                n,
-                                placed_index,placed_on);
-        promoted_black_pawn(nr_remaining_white_moves,
-                            nr_remaining_black_moves,
-                            max_nr_allowed_captures_by_white,
-                            max_nr_allowed_captures_by_black,
-                            n,
-                            placed_index,placed_on);
+          unpromoted_black_pawn(n,placed_index,placed_on);
+        promoted_black_pawn(n,placed_index,placed_on);
       }
       else
-        black_officer(nr_remaining_white_moves,
-                      nr_remaining_black_moves,
-                      max_nr_allowed_captures_by_white,
-                      max_nr_allowed_captures_by_black,
-                      n,
-                      placed_index,placed_type,placed_on);
+        black_officer(n,placed_index,placed_type,placed_on);
 
       black[placed_index].usage = piece_is_unused;
     }

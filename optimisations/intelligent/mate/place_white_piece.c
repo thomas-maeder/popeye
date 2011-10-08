@@ -8,11 +8,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
-                                  unsigned int nr_remaining_black_moves,
-                                  unsigned int max_nr_allowed_captures_by_white,
-                                  unsigned int max_nr_allowed_captures_by_black,
-                                  stip_length_type n,
+static void unpromoted_white_pawn(stip_length_type n,
                                   unsigned int placed_index,
                                   square placed_on)
 {
@@ -20,29 +16,27 @@ static void unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
   unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=max_nr_allowed_captures_by_white
+  if (diffcol<=Max_nr_allowed_captures_by_white
       && !uninterceptably_attacks_king(Black,placed_on,pb))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                       placed_from,
                                                                                       placed_on);
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
+      Max_nr_allowed_captures_by_white -= diffcol;
+      Nr_remaining_white_moves -= time;
+      TraceValue("%u",Max_nr_allowed_captures_by_white);
+      TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pb,placed_on,white[placed_index].flags);
-      intelligent_mate_test_target_position(nr_remaining_white_moves-time,
-                                            nr_remaining_black_moves,
-                                            max_nr_allowed_captures_by_white-diffcol,
-                                            max_nr_allowed_captures_by_black,
-                                            n);
+      intelligent_mate_test_target_position(n);
+      Nr_remaining_white_moves += time;
+      Max_nr_allowed_captures_by_white += diffcol;
     }
   }
 
@@ -50,19 +44,11 @@ static void unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void promoted_white_pawn(unsigned int nr_remaining_white_moves,
-                                unsigned int nr_remaining_black_moves,
-                                unsigned int max_nr_allowed_captures_by_white,
-                                unsigned int max_nr_allowed_captures_by_black,
-                                stip_length_type n,
+static void promoted_white_pawn(stip_length_type n,
                                 unsigned int placed_index,
                                 square placed_on)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -75,7 +61,7 @@ static void promoted_white_pawn(unsigned int nr_remaining_white_moves,
       /* square is not on 8th rank -- 1 move necessary to get there */
       ++time;
 
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
       square const placed_from = white[placed_index].diagram_square;
       piece pp;
@@ -94,15 +80,17 @@ static void promoted_white_pawn(unsigned int nr_remaining_white_moves,
           TraceValue("%u",diffcol);
           TraceValue("%u\n",time);
 
-          if (diffcol<=max_nr_allowed_captures_by_white
-              && time<=nr_remaining_white_moves)
+          if (diffcol<=Max_nr_allowed_captures_by_white
+              && time<=Nr_remaining_white_moves)
           {
+            Max_nr_allowed_captures_by_white -= diffcol;
+            Nr_remaining_white_moves -= time;
+            TraceValue("%u",Max_nr_allowed_captures_by_white);
+            TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(pp,placed_on,white[placed_index].flags);
-            intelligent_mate_test_target_position(nr_remaining_white_moves-time,
-                                                  nr_remaining_black_moves,
-                                                  max_nr_allowed_captures_by_white-diffcol,
-                                                  max_nr_allowed_captures_by_black,
-                                                  n);
+            intelligent_mate_test_target_position(n);
+            Nr_remaining_white_moves += time;
+            Max_nr_allowed_captures_by_white += diffcol;
           }
         }
     }
@@ -112,19 +100,11 @@ static void promoted_white_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void white_officer(unsigned int nr_remaining_white_moves,
-                          unsigned int nr_remaining_black_moves,
-                          unsigned int max_nr_allowed_captures_by_white,
-                          unsigned int max_nr_allowed_captures_by_black,
-                          stip_length_type n,
+static void white_officer(stip_length_type n,
                           unsigned int placed_index,
                           piece placed_type, square placed_on)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TracePiece(placed_type);
@@ -138,15 +118,14 @@ static void white_officer(unsigned int nr_remaining_white_moves,
                                                                             placed_from,
                                                                             placed_type,
                                                                             placed_on);
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
       Flags const placed_flags = white[placed_index].flags;
+      Nr_remaining_white_moves -= time;
+      TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(placed_type,placed_on,placed_flags);
-      intelligent_mate_test_target_position(nr_remaining_white_moves-time,
-                                            nr_remaining_black_moves,
-                                            max_nr_allowed_captures_by_white,
-                                            max_nr_allowed_captures_by_black,
-                                            n);
+      intelligent_mate_test_target_position(n);
+      Nr_remaining_white_moves += time;
     }
   }
 
@@ -154,20 +133,12 @@ static void white_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_place_any_white_piece_on(unsigned int nr_remaining_white_moves,
-                                               unsigned int nr_remaining_black_moves,
-                                               unsigned int max_nr_allowed_captures_by_white,
-                                               unsigned int max_nr_allowed_captures_by_black,
-                                               stip_length_type n,
+void intelligent_mate_place_any_white_piece_on(stip_length_type n,
                                                square placed_on)
 {
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
   TraceFunctionParam("%u",n);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
@@ -182,26 +153,11 @@ void intelligent_mate_place_any_white_piece_on(unsigned int nr_remaining_white_m
       if (placed_type==pb)
       {
         if (placed_on<=square_h7)
-          unpromoted_white_pawn(nr_remaining_white_moves,
-                                nr_remaining_black_moves,
-                                max_nr_allowed_captures_by_white,
-                                max_nr_allowed_captures_by_black,
-                                n,
-                                placed_index,placed_on);
-        promoted_white_pawn(nr_remaining_white_moves,
-                            nr_remaining_black_moves,
-                            max_nr_allowed_captures_by_white,
-                            max_nr_allowed_captures_by_black,
-                            n,
-                            placed_index,placed_on);
+          unpromoted_white_pawn(n,placed_index,placed_on);
+        promoted_white_pawn(n,placed_index,placed_on);
       }
       else
-        white_officer(nr_remaining_white_moves,
-                      nr_remaining_black_moves,
-                      max_nr_allowed_captures_by_white,
-                      max_nr_allowed_captures_by_black,
-                      n,
-                      placed_index,placed_type,placed_on);
+        white_officer(n,placed_index,placed_type,placed_on);
 
       white[placed_index].usage = piece_is_unused;
     }

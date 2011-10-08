@@ -166,15 +166,13 @@ unsigned int intelligent_count_nr_of_moves_from_to_pawn_no_promotion(piece pawn,
 }
 
 static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square pawn_comes_from,
-                                                                      square to_be_blocked,
-                                                                      unsigned int nr_remaining_black_moves)
+                                                                      square to_be_blocked)
 {
   unsigned int result = maxply+1;
 
   TraceFunctionEntry(__func__);
   TraceSquare(pawn_comes_from);
   TraceSquare(to_be_blocked);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParamListEnd();
 
   {
@@ -188,7 +186,7 @@ static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square paw
       /* square is not on 8th rank -- 1 move necessary to get there */
       ++moves;
 
-    if (nr_remaining_black_moves>=moves)
+    if (Nr_remaining_black_moves>=moves)
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -208,15 +206,13 @@ static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square paw
   return result;
 }
 
-unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked,
-                                                        unsigned int nr_remaining_black_moves)
+unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked)
 {
   unsigned int result = maxply+1;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_blocked);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[Black]; ++i)
@@ -237,8 +233,7 @@ unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked,
 
       {
         unsigned int const time_prom = count_nr_black_moves_to_square_with_promoted_pawn(blocker_comes_from,
-                                                                                         to_be_blocked,
-                                                                                         nr_remaining_black_moves);
+                                                                                         to_be_blocked);
         if (time_prom<result)
           result = time_prom;
       }

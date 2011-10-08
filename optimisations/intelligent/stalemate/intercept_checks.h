@@ -3,11 +3,7 @@
 
 #include "py.h"
 
-void intelligent_stalemate_intercept_checks(unsigned int nr_remaining_white_moves,
-                                            unsigned int nr_remaining_black_moves,
-                                            unsigned int max_nr_allowed_captures_by_white,
-                                            unsigned int max_nr_allowed_captures_by_black,
-                                            stip_length_type n,
+void intelligent_stalemate_intercept_checks(stip_length_type n,
                                             unsigned int nr_checks_to_opponent,
                                             Side side);
 

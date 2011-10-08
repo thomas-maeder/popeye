@@ -78,8 +78,13 @@ unsigned int CapturesLeft[maxply+1];
 
 unsigned int PieceId2index[MaxPieceId+1];
 
-
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
+
+unsigned int Nr_remaining_white_moves;
+unsigned int Nr_remaining_black_moves;
+unsigned int Max_nr_allowed_captures_by_white;
+unsigned int Max_nr_allowed_captures_by_black;
+
 
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta)
@@ -467,8 +472,6 @@ unsigned int find_check_directions(Side side, int check_directions[8])
 static void GenerateBlackKing(stip_length_type n)
 {
   Flags const king_flags = black[index_of_king].flags;
-  unsigned int const nr_remaining_white_moves = MovesLeft[White];
-  unsigned int const nr_remaining_black_moves = MovesLeft[Black];
   square const *bnp;
 
   TraceFunctionEntry(__func__);
@@ -476,6 +479,11 @@ static void GenerateBlackKing(stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(black[index_of_king].type==roin);
+
+  Nr_remaining_white_moves = MovesLeft[White];
+  Nr_remaining_black_moves = MovesLeft[Black];
+  TraceValue("%u",Nr_remaining_white_moves);
+  TraceValue("%u\n",Nr_remaining_black_moves);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {
@@ -485,8 +493,11 @@ static void GenerateBlackKing(stip_length_type n)
       unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roin,
                                                                            black[index_of_king].diagram_square,
                                                                            *bnp);
-      if (time<=nr_remaining_black_moves)
+      if (time<=Nr_remaining_black_moves)
       {
+        Nr_remaining_black_moves -= time;
+        TraceValue("%u\n",Nr_remaining_black_moves);
+
         {
           square s;
           for (s = 0; s!=maxsquare+4; ++s)
@@ -502,28 +513,19 @@ static void GenerateBlackKing(stip_length_type n)
         black[index_of_king].usage = piece_is_king;
         if (goal_to_be_reached==goal_mate)
         {
-          intelligent_mate_generate_checking_moves(nr_remaining_white_moves,
-                                                   nr_remaining_black_moves-time,
-                                                   1,
-                                                   0,
-                                                   n);
-          intelligent_mate_generate_checking_moves(nr_remaining_white_moves,
-                                                   nr_remaining_black_moves-time,
-                                                   2,
-                                                   0,
-                                                   n);
+          intelligent_mate_generate_checking_moves(1,0,n);
+          intelligent_mate_generate_checking_moves(2,0,n);
         }
         else
         {
           unsigned int const min_nr_captures_by_white = 0;
-          intelligent_guard_flights(nr_remaining_white_moves,
-                                    nr_remaining_black_moves-time,
-                                    n,
-                                    min_nr_captures_by_white);
+          intelligent_guard_flights(n,min_nr_captures_by_white);
         }
 
         e[*bnp] = vide;
         spec[*bnp] = EmptySpec;
+
+        Nr_remaining_black_moves += time;
       }
     }
   }

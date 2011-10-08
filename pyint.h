@@ -60,6 +60,12 @@ extern unsigned int MovesRequired[nr_sides][maxply+1];
 
 extern unsigned int PieceId2index[MaxPieceId+1];
 
+extern unsigned int Nr_remaining_white_moves;
+extern unsigned int Nr_remaining_black_moves;
+extern unsigned int Max_nr_allowed_captures_by_white;
+extern unsigned int Max_nr_allowed_captures_by_black;
+
+
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
 void IntelligentRegulargoal_types(stip_length_type n);
@@ -74,10 +80,8 @@ boolean would_white_king_guard_from(square white_king_square);
 boolean is_white_king_uninterceptably_attacked_by_non_king(square s);
 boolean is_white_king_interceptably_attacked(void);
 
-void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
-                        unsigned int nr_remaining_black_moves,
-                        stip_length_type n,
-                        unsigned int min_nr_captures_by_white);
+void intelligent_guard_flights(stip_length_type n,
+                               unsigned int min_nr_captures_by_white);
 
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta);

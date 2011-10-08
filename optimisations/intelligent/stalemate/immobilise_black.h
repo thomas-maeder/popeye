@@ -31,11 +31,7 @@ typedef struct
 
 extern immobilisation_state_type * current_immobilisation_state;
 
-void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_moves,
-                                            unsigned int nr_remaining_black_moves,
-                                            unsigned int max_nr_allowed_captures_by_white,
-                                            unsigned int max_nr_allowed_captures_by_black,
-                                            stip_length_type n);
+void intelligent_stalemate_immobilise_black(stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

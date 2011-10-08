@@ -7,16 +7,12 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void generated(unsigned int nr_remaining_white_moves,
-                      unsigned int nr_remaining_black_moves,
-                      unsigned int const min_nr_captures_by_white,
+static void generated(unsigned int const min_nr_captures_by_white,
                       unsigned int nr_checking_moves,
                       unsigned int prev_index,
                       stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",prev_index);
@@ -26,16 +22,9 @@ static void generated(unsigned int nr_remaining_white_moves,
   assert(nr_checking_moves>=1);
 
   if (nr_checking_moves==1)
-    intelligent_guard_flights(nr_remaining_white_moves,
-                              nr_remaining_black_moves,
-                              n,
-                              min_nr_captures_by_white);
+    intelligent_guard_flights(n,min_nr_captures_by_white);
   else
-    intelligent_mate_generate_checking_moves(nr_remaining_white_moves,
-                                             nr_remaining_black_moves,
-                                             nr_checking_moves-1,
-                                             prev_index,
-                                             n);
+    intelligent_mate_generate_checking_moves(nr_checking_moves-1,prev_index,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -82,9 +71,7 @@ static void remember_to_keep_checking_line_open(square from, square to,
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
-                             unsigned int nr_remaining_black_moves,
-                             unsigned int nr_checking_moves,
+static void by_promoted_pawn(unsigned int nr_checking_moves,
                              unsigned int index_of_checker,
                              stip_length_type n)
 {
@@ -92,8 +79,6 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
@@ -110,7 +95,7 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
       unsigned int const min_nr_moves_by_p = (*bnp<=square_h7
                                               ? moves_to_white_prom[index_of_checker]+1
                                               : moves_to_white_prom[index_of_checker]);
-      if (nr_remaining_white_moves>=min_nr_moves_by_p)
+      if (Nr_remaining_white_moves>=min_nr_moves_by_p)
       {
         piece pp;
         square const pawn_origin = white[index_of_checker].diagram_square;
@@ -121,19 +106,20 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
             unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
                                                                                            pp,
                                                                                            *bnp);
-            if (time<=nr_remaining_white_moves
+            if (time<=Nr_remaining_white_moves
                 && guards(king_square[Black],pp,*bnp))
             {
               unsigned int const min_nr_captures_by_white = 0;
+              Nr_remaining_white_moves -= time;
+              TraceValue("%u\n",Nr_remaining_white_moves);
               SetPiece(pp,*bnp,checker_flags);
               remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
-              generated(nr_remaining_white_moves-time,
-                        nr_remaining_black_moves,
-                        min_nr_captures_by_white,
+              generated(min_nr_captures_by_white,
                         nr_checking_moves,
                         index_of_checker,
                         n);
               remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,-1);
+              Nr_remaining_white_moves += time;
             }
           }
       }
@@ -147,9 +133,7 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void by_unpromoted_pawn(unsigned int nr_remaining_white_moves,
-                               unsigned int nr_remaining_black_moves,
-                               unsigned int nr_checking_moves,
+static void by_unpromoted_pawn(unsigned int nr_checking_moves,
                                unsigned int index_of_checker,
                                stip_length_type n)
 {
@@ -157,8 +141,6 @@ static void by_unpromoted_pawn(unsigned int nr_remaining_white_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
@@ -176,17 +158,18 @@ static void by_unpromoted_pawn(unsigned int nr_remaining_white_moves,
                                                                                pawn_origin,
                                                                                pb,
                                                                                *bnp);
-      if (time<=nr_remaining_white_moves
+      if (time<=Nr_remaining_white_moves
           && guards(king_square[Black],pb,*bnp))
       {
         unsigned int const min_nr_captures_by_white = abs(pawn_origin%onerow - *bnp%onerow);
+        Nr_remaining_white_moves -= time;
+        TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pb,*bnp,checker_flags);
-        generated(nr_remaining_white_moves-time,
-                  nr_remaining_black_moves,
-                  min_nr_captures_by_white,
+        generated(min_nr_captures_by_white,
                   nr_checking_moves,
                   index_of_checker,
                   n);
+        Nr_remaining_white_moves += time;
       }
 
       e[*bnp] = vide;
@@ -198,9 +181,7 @@ static void by_unpromoted_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void by_officer(unsigned int nr_remaining_white_moves,
-                       unsigned int nr_remaining_black_moves,
-                       unsigned int nr_checking_moves,
+static void by_officer(unsigned int nr_checking_moves,
                        unsigned int index_of_checker,
                        stip_length_type n,
                        piece checker_type)
@@ -209,8 +190,6 @@ static void by_officer(unsigned int nr_remaining_white_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
@@ -231,19 +210,20 @@ static void by_officer(unsigned int nr_remaining_white_moves,
                                                                                checker_origin,
                                                                                checker_type,
                                                                                *bnp);
-      if (time<=nr_remaining_white_moves
+      if (time<=Nr_remaining_white_moves
           && guards(king_square[Black],checker_type,*bnp))
       {
         unsigned int const min_nr_captures_by_white = 0;
+        Nr_remaining_white_moves -= time;
+        TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(checker_type,*bnp,checker_flags);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
-        generated(nr_remaining_white_moves-time,
-                  nr_remaining_black_moves,
-                  min_nr_captures_by_white,
+        generated(min_nr_captures_by_white,
                   nr_checking_moves,
                   index_of_checker,
-                                n);
+                  n);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
+        Nr_remaining_white_moves += time;
       }
 
       e[*bnp] = vide;
@@ -255,17 +235,13 @@ static void by_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_generate_checking_moves(unsigned int nr_remaining_white_moves,
-                                              unsigned int nr_remaining_black_moves,
-                                              unsigned int nr_checking_moves,
+void intelligent_mate_generate_checking_moves(unsigned int nr_checking_moves,
                                               unsigned int prev_index,
                                               stip_length_type n)
 {
   unsigned int index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",prev_index);
   TraceFunctionParam("%u",n);
@@ -284,24 +260,11 @@ void intelligent_mate_generate_checking_moves(unsigned int nr_remaining_white_mo
 
     if (checker_type==pb)
     {
-      by_unpromoted_pawn(nr_remaining_white_moves,
-                         nr_remaining_black_moves,
-                         nr_checking_moves,
-                         index,
-                         n);
-      by_promoted_pawn(nr_remaining_white_moves,
-                       nr_remaining_black_moves,
-                       nr_checking_moves,
-                       index,
-                       n);
+      by_unpromoted_pawn(nr_checking_moves,index,n);
+      by_promoted_pawn(nr_checking_moves,index,n);
     }
     else
-      by_officer(nr_remaining_white_moves,
-                 nr_remaining_black_moves,
-                 nr_checking_moves,
-                 index,
-                 n,
-                 checker_type);
+      by_officer(nr_checking_moves,index,n,checker_type);
 
     white[index].usage = piece_is_unused;
   }

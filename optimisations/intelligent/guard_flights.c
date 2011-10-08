@@ -132,16 +132,12 @@ static void remember_to_keep_guard_line_open(square from, square to,
   TraceFunctionResultEnd();
 }
 
-static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_moves,
-                                             unsigned int nr_remaining_black_moves,
-                                             unsigned int min_nr_captures_by_white,
+static void fix_white_king_on_diagram_square(unsigned int min_nr_captures_by_white,
                                              stip_length_type n)
 {
   square const king_diagram_square = white[index_of_king].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -154,10 +150,7 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
     SetPiece(roib,king_square[White],white[index_of_king].flags);
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
 
-    intelligent_block_flights(nr_remaining_white_moves,
-                              nr_remaining_black_moves,
-                              min_nr_captures_by_white,
-                              n);
+    intelligent_block_flights(min_nr_captures_by_white,n);
 
     white[index_of_king].usage = piece_is_unused;
     e[king_square[White]] = vide;
@@ -169,48 +162,34 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_mov
   TraceFunctionResultEnd();
 }
 
-static void FinaliseGuarding(unsigned int nr_remaining_white_moves,
-                             unsigned int nr_remaining_black_moves,
-                             unsigned int min_nr_captures_by_white,
+static void FinaliseGuarding(unsigned int min_nr_captures_by_white,
                              stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (white[index_of_king].usage==piece_is_unused
       && white[index_of_king].diagram_square!=square_e1
-      && nr_remaining_white_moves==0)
-    fix_white_king_on_diagram_square(nr_remaining_white_moves,
-                                     nr_remaining_black_moves,
-                                     min_nr_captures_by_white,
-                                     n);
+      && Nr_remaining_white_moves==0)
+    fix_white_king_on_diagram_square(min_nr_captures_by_white,n);
   else
-    intelligent_block_flights(nr_remaining_white_moves,
-                              nr_remaining_black_moves,
-                              min_nr_captures_by_white,
-                              n);
+    intelligent_block_flights(min_nr_captures_by_white,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void unpromoted_pawn(unsigned int nr_remaining_white_moves,
-                                         unsigned int nr_remaining_black_moves,
-                                         stip_length_type n,
-                                         unsigned int index,
-                                         unsigned int min_nr_captures_by_white)
+static void unpromoted_pawn(stip_length_type n,
+                            unsigned int index,
+                            unsigned int min_nr_captures_by_white)
 {
   Flags const pawn_flags = white[index].flags;
   square const starts_from = white[index].diagram_square;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index);
   TraceValue("%u",min_nr_captures_by_white);
@@ -226,21 +205,22 @@ static void unpromoted_pawn(unsigned int nr_remaining_white_moves,
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                         starts_from,
                                                                                         *bnp);
-      if (time<=nr_remaining_white_moves)
+      if (time<=Nr_remaining_white_moves)
       {
         square const guarded = guards_black_flight(pb,*bnp);
         if (guarded!=initsquare)
         {
           unsigned int const diffcol = abs(starts_from % onerow - *bnp % onerow);
+          Nr_remaining_white_moves -= time;
+          TraceValue("%u\n",Nr_remaining_white_moves);
           SetPiece(pb,*bnp,pawn_flags);
-          intelligent_continue_guarding_flights(nr_remaining_white_moves-time,
-                                                nr_remaining_black_moves,
-                                                n,
+          intelligent_continue_guarding_flights(n,
                                                 index+1,
                                                 min_nr_captures_by_white+diffcol);
 
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
+          Nr_remaining_white_moves += time;
         }
       }
     }
@@ -250,17 +230,13 @@ static void unpromoted_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void rider_from(unsigned int nr_remaining_white_moves,
-                       unsigned int nr_remaining_black_moves,
-                       stip_length_type n,
+static void rider_from(stip_length_type n,
                        unsigned int index_of_rider,
                        piece guard_type,
                        square guard_from,
                        unsigned int min_nr_captures_by_white)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index_of_rider);
   TracePiece(guard_type);
@@ -276,15 +252,11 @@ static void rider_from(unsigned int nr_remaining_white_moves,
       SetPiece(guard_type,guard_from,white[index_of_rider].flags);
       remember_to_keep_guard_line_open(guard_from,guarded,guard_type,+1);
       if (to_be_intercepted==initsquare)
-        intelligent_continue_guarding_flights(nr_remaining_white_moves,
-                                              nr_remaining_black_moves,
-                                              n,
+        intelligent_continue_guarding_flights(n,
                                               index_of_rider+1,
                                               min_nr_captures_by_white);
       else
-        intercept_check_on_guarded_square(nr_remaining_white_moves,
-                                          nr_remaining_black_moves,
-                                          n,
+        intercept_check_on_guarded_square(n,
                                           index_of_rider+1,
                                           to_be_intercepted,
                                           min_nr_captures_by_white);
@@ -298,17 +270,13 @@ static void rider_from(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void leaper_from(unsigned int nr_remaining_white_moves,
-                        unsigned int nr_remaining_black_moves,
-                        stip_length_type n,
+static void leaper_from(stip_length_type n,
                         unsigned int index_of_leaper,
                         piece guard_type,
                         square guard_from,
                         unsigned int min_nr_captures_by_white)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index_of_leaper);
   TracePiece(guard_type);
@@ -321,9 +289,7 @@ static void leaper_from(unsigned int nr_remaining_white_moves,
     if (guarded!=initsquare)
     {
       SetPiece(guard_type,guard_from,white[index_of_leaper].flags);
-      intelligent_continue_guarding_flights(nr_remaining_white_moves,
-                                            nr_remaining_black_moves,
-                                            n,
+      intelligent_continue_guarding_flights(n,
                                             index_of_leaper+1,
                                             min_nr_captures_by_white);
       e[guard_from] = vide;
@@ -335,17 +301,13 @@ static void leaper_from(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void promoted_pawn(unsigned int nr_remaining_white_moves,
-                          unsigned int nr_remaining_black_moves,
-                          stip_length_type n,
+static void promoted_pawn(stip_length_type n,
                           unsigned int index_of_pawn,
                           unsigned int min_nr_captures_by_white)
 {
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index_of_pawn);
   TraceValue("%u",min_nr_captures_by_white);
@@ -361,7 +323,7 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
       unsigned int const min_nr_moves_by_p = (*bnp<=square_h7
                                               ? moves_to_white_prom[index_of_pawn]+1
                                               : moves_to_white_prom[index_of_pawn]);
-      if (nr_remaining_white_moves>=min_nr_moves_by_p)
+      if (Nr_remaining_white_moves>=min_nr_moves_by_p)
       {
         piece pp;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
@@ -370,15 +332,16 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
             unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[index_of_pawn].diagram_square,
                                                                                            pp,
                                                                                            *bnp);
-            if (time<=nr_remaining_white_moves)
+            if (time<=Nr_remaining_white_moves)
+            {
+              Nr_remaining_white_moves -= time;
+              TraceValue("%u\n",Nr_remaining_white_moves);
               switch (pp)
               {
                 case db:
                 case tb:
                 case fb:
-                  rider_from(nr_remaining_white_moves-time,
-                             nr_remaining_black_moves,
-                             n,
+                  rider_from(n,
                              index_of_pawn,
                              pp,
                              *bnp,
@@ -386,9 +349,7 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
                   break;
 
                 case cb:
-                  leaper_from(nr_remaining_white_moves-time,
-                              nr_remaining_black_moves,
-                              n,
+                  leaper_from(n,
                               index_of_pawn,
                               pp,
                               *bnp,
@@ -399,6 +360,8 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
                   assert(0);
                   break;
               }
+              Nr_remaining_white_moves += time;
+            }
           }
 
         e[*bnp] = vide;
@@ -411,9 +374,7 @@ static void promoted_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void rider(unsigned int nr_remaining_white_moves,
-                  unsigned int nr_remaining_black_moves,
-                  stip_length_type n,
+static void rider(stip_length_type n,
                   unsigned int index_of_rider,
                   piece guard_type,
                   unsigned int min_nr_captures_by_white)
@@ -421,8 +382,6 @@ static void rider(unsigned int nr_remaining_white_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index_of_rider);
   TracePiece(guard_type);
@@ -439,14 +398,17 @@ static void rider(unsigned int nr_remaining_white_moves,
                                                                                white[index_of_rider].diagram_square,
                                                                                guard_type,
                                                                                *bnp);
-      if (time<=nr_remaining_white_moves)
-        rider_from(nr_remaining_white_moves-time,
-                   nr_remaining_black_moves,
-                   n,
+      if (time<=Nr_remaining_white_moves)
+      {
+        Nr_remaining_white_moves -= time;
+        TraceValue("%u\n",Nr_remaining_white_moves);
+        rider_from(n,
                    index_of_rider,
                    guard_type,
                    *bnp,
                    min_nr_captures_by_white);
+        Nr_remaining_white_moves += time;
+      }
     }
   }
 
@@ -454,9 +416,7 @@ static void rider(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void leaper(unsigned int nr_remaining_white_moves,
-                   unsigned int nr_remaining_black_moves,
-                   stip_length_type n,
+static void leaper(stip_length_type n,
                    unsigned int index_of_leaper,
                    piece guard_type,
                    unsigned int min_nr_captures_by_white)
@@ -464,8 +424,6 @@ static void leaper(unsigned int nr_remaining_white_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",nr_remaining_white_moves);
-  TraceValue("%u",nr_remaining_black_moves);
   TraceValue("%u",n);
   TraceValue("%u",index_of_leaper);
   TracePiece(guard_type);
@@ -482,14 +440,17 @@ static void leaper(unsigned int nr_remaining_white_moves,
                                                                                white[index_of_leaper].diagram_square,
                                                                                guard_type,
                                                                                *bnp);
-      if (time<=nr_remaining_white_moves)
-        leaper_from(nr_remaining_white_moves-time,
-                    nr_remaining_black_moves,
-                    n,
+      if (time<=Nr_remaining_white_moves)
+      {
+        Nr_remaining_white_moves -= time;
+        TraceValue("%u\n",Nr_remaining_white_moves);
+        leaper_from(n,
                     index_of_leaper,
                     guard_type,
                     *bnp,
                     min_nr_captures_by_white);
+        Nr_remaining_white_moves += time;
+      }
     }
   }
 
@@ -497,17 +458,13 @@ static void leaper(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_continue_guarding_flights(unsigned int nr_remaining_white_moves,
-                                           unsigned int nr_remaining_black_moves,
-                                           stip_length_type n,
+void intelligent_continue_guarding_flights(stip_length_type n,
                                            unsigned int index_of_next_guarding_piece,
                                            unsigned int min_nr_captures_by_white)
 {
   unsigned int index_of_current_guarding_piece;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",index_of_next_guarding_piece);
   TraceFunctionParam("%u",min_nr_captures_by_white);
@@ -534,14 +491,10 @@ void intelligent_continue_guarding_flights(unsigned int nr_remaining_white_moves
         switch (guard_type)
         {
           case pb:
-            unpromoted_pawn(nr_remaining_white_moves,
-                            nr_remaining_black_moves,
-                            n,
+            unpromoted_pawn(n,
                             index_of_current_guarding_piece,
                             min_nr_captures_by_white);
-            promoted_pawn(nr_remaining_white_moves,
-                          nr_remaining_black_moves,
-                          n,
+            promoted_pawn(n,
                           index_of_current_guarding_piece,
                           min_nr_captures_by_white);
             break;
@@ -549,18 +502,14 @@ void intelligent_continue_guarding_flights(unsigned int nr_remaining_white_moves
           case db:
           case tb:
           case fb:
-            rider(nr_remaining_white_moves,
-                  nr_remaining_black_moves,
-                  n,
+            rider(n,
                   index_of_current_guarding_piece,
                   guard_type,
                   min_nr_captures_by_white);
             break;
 
           case cb:
-            leaper(nr_remaining_white_moves,
-                   nr_remaining_black_moves,
-                   n,
+            leaper(n,
                    index_of_current_guarding_piece,
                    guard_type,
                    min_nr_captures_by_white);
@@ -575,24 +524,17 @@ void intelligent_continue_guarding_flights(unsigned int nr_remaining_white_moves
       }
     }
 
-    FinaliseGuarding(nr_remaining_white_moves,
-                     nr_remaining_black_moves,
-                     min_nr_captures_by_white,
-                     n);
+    FinaliseGuarding(min_nr_captures_by_white,n);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
-                               unsigned int nr_remaining_black_moves,
-                               stip_length_type n,
+void intelligent_guard_flights(stip_length_type n,
                                unsigned int min_nr_captures_by_white)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
@@ -618,20 +560,21 @@ void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
                                                                                guard_from,
                                                                                *bnp);
           TraceSquare(*bnp);TraceText("\n");
-          if (time<=nr_remaining_white_moves)
+          if (time<=Nr_remaining_white_moves)
           {
             square const guarded = guards_black_flight(roib,*bnp);
             if (guarded!=initsquare)
             {
+              Nr_remaining_white_moves -= time;
+              TraceValue("%u\n",Nr_remaining_white_moves);
               king_square[White]= *bnp;
               SetPiece(roib,*bnp,white[index_of_king].flags);
-              intelligent_continue_guarding_flights(nr_remaining_white_moves-time,
-                                                    nr_remaining_black_moves,
-                                                    n,
+              intelligent_continue_guarding_flights(n,
                                                     1,
                                                     min_nr_captures_by_white);
               e[*bnp] = vide;
               spec[*bnp] = EmptySpec;
+              Nr_remaining_white_moves += time;
             }
           }
         }
@@ -641,11 +584,7 @@ void intelligent_guard_flights(unsigned int nr_remaining_white_moves,
     }
 
     /* try not using white king for guarding */
-    intelligent_continue_guarding_flights(nr_remaining_white_moves,
-             nr_remaining_black_moves,
-             n,
-             1,
-             min_nr_captures_by_white);
+    intelligent_continue_guarding_flights(n,1,min_nr_captures_by_white);
   }
 
   TraceFunctionExit(__func__);

@@ -8,19 +8,11 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void continue_intercepting_checks(unsigned int nr_remaining_white_moves,
-                                         unsigned int nr_remaining_black_moves,
-                                         unsigned int max_nr_allowed_captures_by_white,
-                                         unsigned int max_nr_allowed_captures_by_black,
-                                         stip_length_type n,
+static void continue_intercepting_checks(stip_length_type n,
                                          int const check_directions[8],
                                          unsigned int nr_of_check_directions);
 
-static void with_unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
-                                       unsigned int nr_remaining_black_moves,
-                                       unsigned int max_nr_allowed_captures_by_white,
-                                       unsigned int max_nr_allowed_captures_by_black,
-                                       stip_length_type n,
+static void with_unpromoted_white_pawn(stip_length_type n,
                                        unsigned int placed_index,
                                        square placed_on,
                                        int const check_directions[8],
@@ -30,32 +22,28 @@ static void with_unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
   unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=max_nr_allowed_captures_by_white
+  if (diffcol<=Max_nr_allowed_captures_by_white
       && !uninterceptably_attacks_king(Black,placed_on,pb))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                       placed_from,
                                                                                       placed_on);
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
+      Max_nr_allowed_captures_by_white -= diffcol;
+      Nr_remaining_white_moves -= time;
+      TraceValue("%u",Max_nr_allowed_captures_by_white);
+      TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pb,placed_on,white[placed_index].flags);
-      continue_intercepting_checks(nr_remaining_white_moves-time,
-                                   nr_remaining_black_moves,
-                                   max_nr_allowed_captures_by_white-diffcol,
-                                   max_nr_allowed_captures_by_black,
-                                   n,
-                                   check_directions,
-                                   nr_of_check_directions);
+      continue_intercepting_checks(n,check_directions,nr_of_check_directions);
+      Nr_remaining_white_moves += time;
+      Max_nr_allowed_captures_by_white += diffcol;
     }
   }
 
@@ -63,21 +51,13 @@ static void with_unpromoted_white_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void with_promoted_white_pawn(unsigned int nr_remaining_white_moves,
-                                     unsigned int nr_remaining_black_moves,
-                                     unsigned int max_nr_allowed_captures_by_white,
-                                     unsigned int max_nr_allowed_captures_by_black,
-                                     stip_length_type n,
+static void with_promoted_white_pawn(stip_length_type n,
                                      unsigned int placed_index,
                                      square placed_on,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -91,7 +71,7 @@ static void with_promoted_white_pawn(unsigned int nr_remaining_white_moves,
       /* square is not on 8th rank -- 1 move necessary to get there */
       ++time;
 
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
       square const placed_from = white[placed_index].diagram_square;
       piece pp;
@@ -110,17 +90,19 @@ static void with_promoted_white_pawn(unsigned int nr_remaining_white_moves,
           TraceValue("%u",diffcol);
           TraceValue("%u\n",time);
 
-          if (diffcol<=max_nr_allowed_captures_by_white
-              && time<=nr_remaining_white_moves)
+          if (diffcol<=Max_nr_allowed_captures_by_white
+              && time<=Nr_remaining_white_moves)
           {
+            Max_nr_allowed_captures_by_white -= diffcol;
+            Nr_remaining_white_moves -= time;
+            TraceValue("%u",Max_nr_allowed_captures_by_white);
+            TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(pp,placed_on,white[placed_index].flags);
-            continue_intercepting_checks(nr_remaining_white_moves-time,
-                                         nr_remaining_black_moves,
-                                         max_nr_allowed_captures_by_white-diffcol,
-                                         max_nr_allowed_captures_by_black,
-                                         n,
+            continue_intercepting_checks(n,
                                          check_directions,
                                          nr_of_check_directions);
+            Nr_remaining_white_moves += time;
+            Max_nr_allowed_captures_by_white += diffcol;
           }
         }
     }
@@ -130,21 +112,13 @@ static void with_promoted_white_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void with_white_officer(unsigned int nr_remaining_white_moves,
-                               unsigned int nr_remaining_black_moves,
-                               unsigned int max_nr_allowed_captures_by_white,
-                               unsigned int max_nr_allowed_captures_by_black,
-                               stip_length_type n,
+static void with_white_officer(stip_length_type n,
                                unsigned int placed_index,
                                piece placed_type, square placed_on,
                                int const check_directions[8],
                                unsigned int nr_of_check_directions)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TracePiece(placed_type);
@@ -159,17 +133,14 @@ static void with_white_officer(unsigned int nr_remaining_white_moves,
                                                                             placed_from,
                                                                             placed_type,
                                                                             placed_on);
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
       Flags const placed_flags = white[placed_index].flags;
+      Nr_remaining_white_moves -= time;
+      TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(placed_type,placed_on,placed_flags);
-      continue_intercepting_checks(nr_remaining_white_moves-time,
-                                   nr_remaining_black_moves,
-                                   max_nr_allowed_captures_by_white,
-                                   max_nr_allowed_captures_by_black,
-                                   n,
-                                   check_directions,
-                                   nr_of_check_directions);
+      continue_intercepting_checks(n,check_directions,nr_of_check_directions);
+      Nr_remaining_white_moves += time;
     }
   }
 
@@ -177,11 +148,7 @@ static void with_white_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void intercept_check_white(unsigned int nr_remaining_white_moves,
-                                  unsigned int nr_remaining_black_moves,
-                                  unsigned int max_nr_allowed_captures_by_white,
-                                  unsigned int max_nr_allowed_captures_by_black,
-                                  stip_length_type n,
+static void intercept_check_white(stip_length_type n,
                                   square placed_on,
                                   int const check_directions[8],
                                   unsigned int nr_of_check_directions)
@@ -189,10 +156,6 @@ static void intercept_check_white(unsigned int nr_remaining_white_moves,
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
@@ -208,29 +171,17 @@ static void intercept_check_white(unsigned int nr_remaining_white_moves,
       if (placed_type==pb)
       {
         if (placed_on<=square_h7)
-          with_unpromoted_white_pawn(nr_remaining_white_moves,
-                                     nr_remaining_black_moves,
-                                     max_nr_allowed_captures_by_white,
-                                     max_nr_allowed_captures_by_black,
-                                     n,
+          with_unpromoted_white_pawn(n,
                                      placed_index,placed_on,
                                      check_directions,
                                      nr_of_check_directions);
-        with_promoted_white_pawn(nr_remaining_white_moves,
-                                 nr_remaining_black_moves,
-                                 max_nr_allowed_captures_by_white,
-                                 max_nr_allowed_captures_by_black,
-                                 n,
+        with_promoted_white_pawn(n,
                                  placed_index,placed_on,
                                  check_directions,
                                  nr_of_check_directions);
       }
       else
-        with_white_officer(nr_remaining_white_moves,
-                           nr_remaining_black_moves,
-                           max_nr_allowed_captures_by_white,
-                           max_nr_allowed_captures_by_black,
-                           n,
+        with_white_officer(n,
                            placed_index,placed_type,placed_on,
                            check_directions,
                            nr_of_check_directions);
@@ -245,11 +196,7 @@ static void intercept_check_white(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void with_promoted_black_pawn(unsigned int nr_remaining_white_moves,
-                                     unsigned int nr_remaining_black_moves,
-                                     unsigned int max_nr_allowed_captures_by_white,
-                                     unsigned int max_nr_allowed_captures_by_black,
-                                     stip_length_type n,
+static void with_promoted_black_pawn(stip_length_type n,
                                      unsigned int placed_index,
                                      square placed_on,
                                      int const check_directions[8],
@@ -258,10 +205,6 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_white_moves,
   square const placed_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -279,7 +222,7 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_white_moves,
       /* square is not on 1st rank -- 1 move necessary to get there */
       ++time;
 
-    if (time<=nr_remaining_black_moves)
+    if (time<=Nr_remaining_black_moves)
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -297,17 +240,18 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_white_moves,
               diffcol = 1;
           }
 
-          if (diffcol<=max_nr_allowed_captures_by_black
-              && time<=nr_remaining_black_moves)
+          if (diffcol<=Max_nr_allowed_captures_by_black
+              && time<=Nr_remaining_black_moves)
           {
+            Max_nr_allowed_captures_by_black -= diffcol;
+            Nr_remaining_black_moves -= time;
+            TraceValue("%u\n",Nr_remaining_black_moves);
             SetPiece(pp,placed_on,black[placed_index].flags);
-            continue_intercepting_checks(nr_remaining_white_moves,
-                                         nr_remaining_black_moves-time,
-                                         max_nr_allowed_captures_by_white,
-                                         max_nr_allowed_captures_by_black-diffcol,
-                                         n,
+            continue_intercepting_checks(n,
                                          check_directions,
                                          nr_of_check_directions);
+            Nr_remaining_black_moves += time;
+            Max_nr_allowed_captures_by_black += diffcol;
           }
         }
     }
@@ -317,21 +261,13 @@ static void with_promoted_black_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void with_unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
-                                       unsigned int nr_remaining_black_moves,
-                                       unsigned int max_nr_allowed_captures_by_white,
-                                       unsigned int max_nr_allowed_captures_by_black,
-                                       stip_length_type n,
+static void with_unpromoted_black_pawn(stip_length_type n,
                                        unsigned int placed_index,
                                        square placed_on,
                                        int const check_directions[8],
                                        unsigned int nr_of_check_directions)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
@@ -342,21 +278,22 @@ static void with_unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=max_nr_allowed_captures_by_black)
+    if (diffcol<=Max_nr_allowed_captures_by_black)
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                                         placed_from,
                                                                                         placed_on);
-      if (time<=nr_remaining_black_moves)
+      if (time<=Nr_remaining_black_moves)
       {
+        Max_nr_allowed_captures_by_black -= diffcol;
+        Nr_remaining_black_moves -= time;
+        TraceValue("%u\n",Nr_remaining_black_moves);
         SetPiece(pn,placed_on,black[placed_index].flags);
-        continue_intercepting_checks(nr_remaining_white_moves,
-                                     nr_remaining_black_moves-time,
-                                     max_nr_allowed_captures_by_white,
-                                     max_nr_allowed_captures_by_black-diffcol,
-                                     n,
+        continue_intercepting_checks(n,
                                      check_directions,
                                      nr_of_check_directions);
+        Nr_remaining_black_moves += time;
+        Max_nr_allowed_captures_by_black += diffcol;
       }
     }
   }
@@ -365,21 +302,13 @@ static void with_unpromoted_black_pawn(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void with_black_officer(unsigned int nr_remaining_white_moves,
-                               unsigned int nr_remaining_black_moves,
-                               unsigned int max_nr_allowed_captures_by_white,
-                               unsigned int max_nr_allowed_captures_by_black,
-                               stip_length_type n,
+static void with_black_officer(stip_length_type n,
                                unsigned int placed_index,
                                piece placed_type, square placed_on,
                                int const check_directions[8],
                                unsigned int nr_of_check_directions)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TracePiece(placed_type);
@@ -394,16 +323,15 @@ static void with_black_officer(unsigned int nr_remaining_white_moves,
                                                                              placed_from,
                                                                              placed_type,
                                                                              placed_on);
-    if (time<=nr_remaining_black_moves)
+    if (time<=Nr_remaining_black_moves)
     {
+      Nr_remaining_black_moves -= time;
+      TraceValue("%u\n",Nr_remaining_black_moves);
       SetPiece(placed_type,placed_on,black[placed_index].flags);
-      continue_intercepting_checks(nr_remaining_white_moves,
-                                   nr_remaining_black_moves-time,
-                                   max_nr_allowed_captures_by_white,
-                                   max_nr_allowed_captures_by_black,
-                                   n,
+      continue_intercepting_checks(n,
                                    check_directions,
                                    nr_of_check_directions);
+      Nr_remaining_black_moves += time;
     }
   }
 
@@ -411,11 +339,7 @@ static void with_black_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void intercept_check_black(unsigned int nr_remaining_white_moves,
-                                  unsigned int nr_remaining_black_moves,
-                                  unsigned int max_nr_allowed_captures_by_white,
-                                  unsigned int max_nr_allowed_captures_by_black,
-                                  stip_length_type n,
+static void intercept_check_black(stip_length_type n,
                                   square placed_on,
                                   int const check_directions[8],
                                   unsigned int nr_of_check_directions)
@@ -423,10 +347,6 @@ static void intercept_check_black(unsigned int nr_remaining_white_moves,
   unsigned int placed_index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
@@ -442,29 +362,17 @@ static void intercept_check_black(unsigned int nr_remaining_white_moves,
       if (placed_type==pn)
       {
         if (placed_on>=square_a2)
-          with_unpromoted_black_pawn(nr_remaining_white_moves,
-                                     nr_remaining_black_moves,
-                                     max_nr_allowed_captures_by_white,
-                                     max_nr_allowed_captures_by_black,
-                                     n,
+          with_unpromoted_black_pawn(n,
                                      placed_index,placed_on,
                                      check_directions,
                                      nr_of_check_directions);
-        with_promoted_black_pawn(nr_remaining_white_moves,
-                                 nr_remaining_black_moves,
-                                 max_nr_allowed_captures_by_white,
-                                 max_nr_allowed_captures_by_black,
-                                 n,
+        with_promoted_black_pawn(n,
                                  placed_index,placed_on,
                                  check_directions,
                                  nr_of_check_directions);
       }
       else
-        with_black_officer(nr_remaining_white_moves,
-                           nr_remaining_black_moves,
-                           max_nr_allowed_captures_by_white,
-                           max_nr_allowed_captures_by_black,
-                           n,
+        with_black_officer(n,
                            placed_index,placed_type,placed_on,
                            check_directions,
                            nr_of_check_directions);
@@ -479,11 +387,7 @@ static void intercept_check_black(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void intercept_next(unsigned int nr_remaining_white_moves,
-                           unsigned int nr_remaining_black_moves,
-                           unsigned int max_nr_allowed_captures_by_white,
-                           unsigned int max_nr_allowed_captures_by_black,
-                           stip_length_type n,
+static void intercept_next(stip_length_type n,
                            int const check_directions[8],
                            unsigned int nr_of_check_directions)
 {
@@ -491,10 +395,6 @@ static void intercept_next(unsigned int nr_remaining_white_moves,
   int const current_dir = check_directions[nr_of_check_directions-1];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
@@ -507,19 +407,11 @@ static void intercept_next(unsigned int nr_remaining_white_moves,
        to_be_blocked += current_dir)
     if (nr_reasons_for_staying_empty[to_be_blocked]==0)
     {
-      intercept_check_black(nr_remaining_white_moves,
-                            nr_remaining_black_moves,
-                            max_nr_allowed_captures_by_white,
-                            max_nr_allowed_captures_by_black,
-                            n,
+      intercept_check_black(n,
                             to_be_blocked,
                             check_directions,
                             nr_of_check_directions-1);
-      intercept_check_white(nr_remaining_white_moves,
-                            nr_remaining_black_moves,
-                            max_nr_allowed_captures_by_white,
-                            max_nr_allowed_captures_by_black,
-                            n,
+      intercept_check_white(n,
                             to_be_blocked,
                             check_directions,
                             nr_of_check_directions-1);
@@ -529,54 +421,28 @@ static void intercept_next(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void continue_intercepting_checks(unsigned int nr_remaining_white_moves,
-                                         unsigned int nr_remaining_black_moves,
-                                         unsigned int max_nr_allowed_captures_by_white,
-                                         unsigned int max_nr_allowed_captures_by_black,
-                                         stip_length_type n,
+static void continue_intercepting_checks(stip_length_type n,
                                          int const check_directions[8],
                                          unsigned int nr_of_check_directions)
 {
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
   if (nr_of_check_directions==0)
-    intelligent_mate_test_target_position(nr_remaining_white_moves,
-                                          nr_remaining_black_moves,
-                                          max_nr_allowed_captures_by_white,
-                                          max_nr_allowed_captures_by_black,
-                                          n);
+    intelligent_mate_test_target_position(n);
   else
-    intercept_next(nr_remaining_white_moves,
-                   nr_remaining_black_moves,
-                   max_nr_allowed_captures_by_white,
-                   max_nr_allowed_captures_by_black,
-                   n,
-                   check_directions,
-                   nr_of_check_directions);
+    intercept_next(n,check_directions,nr_of_check_directions);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_intercept_checks(unsigned int nr_remaining_white_moves,
-                                       unsigned int nr_remaining_black_moves,
-                                       unsigned int max_nr_allowed_captures_by_white,
-                                       unsigned int max_nr_allowed_captures_by_black,
-                                       stip_length_type n)
+void intelligent_mate_intercept_checks(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -585,13 +451,7 @@ void intelligent_mate_intercept_checks(unsigned int nr_remaining_white_moves,
     unsigned int const nr_of_check_directions = find_check_directions(White,
                                                                       check_directions);
 
-    continue_intercepting_checks(nr_remaining_white_moves,
-                                 nr_remaining_black_moves,
-                                 max_nr_allowed_captures_by_white,
-                                 max_nr_allowed_captures_by_black,
-                                 n,
-                                 check_directions,
-                                 nr_of_check_directions);
+    continue_intercepting_checks(n,check_directions,nr_of_check_directions);
   }
 
   TraceFunctionExit(__func__);

@@ -7,11 +7,7 @@
 
 #include <assert.h>
 
-static void by_officer(unsigned int nr_remaining_white_moves,
-                       unsigned int nr_remaining_black_moves,
-                       unsigned int max_nr_allowed_captures_by_white,
-                       unsigned int max_nr_allowed_captures_by_black,
-                       stip_length_type n,
+static void by_officer(stip_length_type n,
                        piece pinner_orig_type,
                        piece pinner_type,
                        Flags pinner_flags,
@@ -19,10 +15,6 @@ static void by_officer(unsigned int nr_remaining_white_moves,
                        square pin_from)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TracePiece(pinner_orig_type);
   TracePiece(pinner_type);
@@ -35,14 +27,13 @@ static void by_officer(unsigned int nr_remaining_white_moves,
                                                                              pinner_comes_from,
                                                                              pinner_type,
                                                                              pin_from);
-    if (time<=nr_remaining_white_moves)
+    if (time<=Nr_remaining_white_moves)
     {
+      Nr_remaining_white_moves -= time;
+      TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pinner_type,pin_from,pinner_flags);
-      intelligent_mate_test_target_position(nr_remaining_white_moves-time,
-                                            nr_remaining_black_moves,
-                                            max_nr_allowed_captures_by_white,
-                                            max_nr_allowed_captures_by_black,
-                                            n);
+      intelligent_mate_test_target_position(n);
+      Nr_remaining_white_moves += time;
     }
   }
 
@@ -50,11 +41,7 @@ static void by_officer(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
-                             unsigned int nr_remaining_black_moves,
-                             unsigned int max_nr_allowed_captures_by_white,
-                             unsigned int max_nr_allowed_captures_by_black,
-                             stip_length_type n,
+static void by_promoted_pawn(stip_length_type n,
                              Flags pinner_flags,
                              square pinner_comes_from,
                              square pin_from,
@@ -63,42 +50,20 @@ static void by_promoted_pawn(unsigned int nr_remaining_white_moves,
   piece const minor_pinner_type = diagonal ? fb : tb;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParam("%u",diagonal);
   TraceFunctionParamListEnd();
 
-  by_officer(nr_remaining_white_moves,
-             nr_remaining_black_moves,
-             max_nr_allowed_captures_by_white,
-             max_nr_allowed_captures_by_black,
-             n,
-             pb,minor_pinner_type,pinner_flags,
-             pinner_comes_from,
-             pin_from);
-  by_officer(nr_remaining_white_moves,
-             nr_remaining_black_moves,
-             max_nr_allowed_captures_by_white,
-             max_nr_allowed_captures_by_black,
-             n,
-             pb,db,pinner_flags,
-             pinner_comes_from,
-             pin_from);
+  by_officer(n,pb,minor_pinner_type,pinner_flags,pinner_comes_from,pin_from);
+  by_officer(n,pb,db,pinner_flags,pinner_comes_from,pin_from);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void one_pin(unsigned int nr_remaining_white_moves,
-                    unsigned int nr_remaining_black_moves,
-                    unsigned int max_nr_allowed_captures_by_white,
-                    unsigned int max_nr_allowed_captures_by_black,
-                    stip_length_type n,
+static void one_pin(stip_length_type n,
                     square sq_to_be_pinned,
                     square pin_on,
                     unsigned int pinner_index,
@@ -109,10 +74,6 @@ static void one_pin(unsigned int nr_remaining_white_moves,
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(sq_to_be_pinned);
   TraceSquare(pin_on);
@@ -123,53 +84,24 @@ static void one_pin(unsigned int nr_remaining_white_moves,
   switch (pinner_type)
   {
     case db:
-      by_officer(nr_remaining_white_moves,
-                 nr_remaining_black_moves,
-                 max_nr_allowed_captures_by_white,
-                 max_nr_allowed_captures_by_black,
-                 n,
-                 db,db,pinner_flags,
-                 pinner_comes_from,
-                 pin_on);
+      by_officer(n,db,db,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case tb:
       if (!diagonal)
-        by_officer(nr_remaining_white_moves,
-                   nr_remaining_black_moves,
-                   max_nr_allowed_captures_by_white,
-                   max_nr_allowed_captures_by_black,
-                   n,
-                   tb,tb,pinner_flags,
-                   pinner_comes_from,
-                   pin_on);
+        by_officer(n,tb,tb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case fb:
       if (diagonal)
-        by_officer(nr_remaining_white_moves,
-                   nr_remaining_black_moves,
-                   max_nr_allowed_captures_by_white,
-                   max_nr_allowed_captures_by_black,
-                   n,
-                   fb,fb,pinner_flags,
-                   pinner_comes_from,
-                   pin_on);
+        by_officer(n,fb,fb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case cb:
       break;
 
     case pb:
-      by_promoted_pawn(nr_remaining_white_moves,
-                       nr_remaining_black_moves,
-                       max_nr_allowed_captures_by_white,
-                       max_nr_allowed_captures_by_black,
-                       n,
-                       pinner_flags,
-                       pinner_comes_from,
-                       pin_on,
-                       diagonal);
+      by_promoted_pawn(n,pinner_flags,pinner_comes_from,pin_on,diagonal);
       break;
 
     default:
@@ -181,11 +113,7 @@ static void one_pin(unsigned int nr_remaining_white_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_pin_black_piece(unsigned int nr_remaining_white_moves,
-                                      unsigned int nr_remaining_black_moves,
-                                      unsigned int max_nr_allowed_captures_by_white,
-                                      unsigned int max_nr_allowed_captures_by_black,
-                                      stip_length_type n,
+void intelligent_mate_pin_black_piece(stip_length_type n,
                                       square sq_to_be_pinned)
 {
   int const dir = sq_to_be_pinned-king_square[Black];
@@ -193,10 +121,6 @@ void intelligent_mate_pin_black_piece(unsigned int nr_remaining_white_moves,
   square pin_on;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceSquare(sq_to_be_pinned);
   TraceFunctionParamListEnd();
@@ -211,15 +135,7 @@ void intelligent_mate_pin_black_piece(unsigned int nr_remaining_white_moves,
         {
           white[pinner_index].usage = piece_pins;
 
-          one_pin(nr_remaining_white_moves,
-                  nr_remaining_black_moves,
-                  max_nr_allowed_captures_by_white,
-                  max_nr_allowed_captures_by_black,
-                  n,
-                  sq_to_be_pinned,
-                  pin_on,
-                  pinner_index,
-                  diagonal);
+          one_pin(n,sq_to_be_pinned,pin_on,pinner_index,diagonal);
 
           white[pinner_index].usage = piece_is_unused;
         }

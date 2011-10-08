@@ -16,19 +16,18 @@ static immobilisation_state_type const null_immobilisation_state;
 
 immobilisation_state_type * current_immobilisation_state;
 
-static boolean can_white_pin(unsigned int nr_remaining_white_moves)
+static boolean can_white_pin(void)
 {
   boolean result = false;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[White]; i++)
     if (!(white[i].usage!=piece_is_unused
           || white[i].type==cb
-          || (white[i].type==pb && nr_remaining_white_moves<moves_to_white_prom[i])))
+          || (white[i].type==pb && Nr_remaining_white_moves<moves_to_white_prom[i])))
     {
       result = true;
       break;
@@ -84,8 +83,7 @@ boolean can_we_block_all_necessary_squares(unsigned int const nr_blocks_needed[n
  *         * initsquare no square is required to be blocked by Black
  *         * otherwise: most expensive square that must be blocked by Black
  */
-static square find_most_expensive_square_to_be_blocked_by_black(unsigned int nr_remaining_black_moves,
-                                                                block_requirement_type const block_requirement[maxsquare+4])
+static square find_most_expensive_square_to_be_blocked_by_black(block_requirement_type const block_requirement[maxsquare+4])
 {
   square result = initsquare;
   int max_number_black_moves_to_squares_to_be_blocked = -1;
@@ -95,9 +93,9 @@ static square find_most_expensive_square_to_be_blocked_by_black(unsigned int nr_
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
     if (block_requirement[*bnp]==black_block_needed_on_square)
     {
-      int const nr_black_blocking_moves = intelligent_count_nr_black_moves_to_square(*bnp,nr_remaining_black_moves);
+      int const nr_black_blocking_moves = intelligent_count_nr_black_moves_to_square(*bnp);
       total_number_black_moves_to_squares_to_be_blocked += nr_black_blocking_moves;
-      if (total_number_black_moves_to_squares_to_be_blocked>nr_remaining_black_moves)
+      if (total_number_black_moves_to_squares_to_be_blocked>Nr_remaining_black_moves)
       {
         result = nullsquare;
         break;
@@ -113,11 +111,7 @@ static square find_most_expensive_square_to_be_blocked_by_black(unsigned int nr_
   return result;
 }
 
-void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_moves,
-                                            unsigned int nr_remaining_black_moves,
-                                            unsigned int max_nr_allowed_captures_by_white,
-                                            unsigned int max_nr_allowed_captures_by_black,
-                                            stip_length_type n)
+void intelligent_stalemate_immobilise_black(stip_length_type n)
 {
   immobilisation_state_type immobilisation_state = null_immobilisation_state;
 
@@ -125,10 +119,6 @@ void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_move
     return;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -143,20 +133,15 @@ void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_move
   if (immobilisation_state.last_found_trouble_square_status<immobilisation_impossible)
   {
     if (immobilisation_state.last_found_trouble_square_status!=king_block_required
-        && can_white_pin(nr_remaining_white_moves))
-      intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(nr_remaining_white_moves,
-                                                                    nr_remaining_black_moves,
-                                                                    max_nr_allowed_captures_by_white,
-                                                                    max_nr_allowed_captures_by_black,
-                                                                    n,
+        && can_white_pin())
+      intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(n,
                                                                     &immobilisation_state);
 
     if (immobilisation_state.last_found_trouble_square_status<pin_required
         && can_we_block_all_necessary_squares(immobilisation_state.nr_blocks_needed))
     {
       square const most_expensive_square_to_be_blocked_by_black
-        = find_most_expensive_square_to_be_blocked_by_black(nr_remaining_black_moves,
-                                                            immobilisation_state.block_requirement);
+        = find_most_expensive_square_to_be_blocked_by_black(immobilisation_state.block_requirement);
       switch (most_expensive_square_to_be_blocked_by_black)
       {
         case nullsquare:
@@ -173,17 +158,9 @@ void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_move
            * there isn't much difference; so simply pick
            * immobilisation_state.last_found_trouble_square.
            */
-          intelligent_stalemate_black_block(nr_remaining_white_moves,
-                                            nr_remaining_black_moves,
-                                            max_nr_allowed_captures_by_white,
-                                            max_nr_allowed_captures_by_black,
-                                            n,
+          intelligent_stalemate_black_block(n,
                                             immobilisation_state.last_found_trouble_square);
-          intelligent_stalemate_white_block(nr_remaining_white_moves,
-                                            nr_remaining_black_moves,
-                                            max_nr_allowed_captures_by_white,
-                                            max_nr_allowed_captures_by_black,
-                                            n,
+          intelligent_stalemate_white_block(n,
                                             immobilisation_state.last_found_trouble_square);
           break;
         }
@@ -193,11 +170,7 @@ void intelligent_stalemate_immobilise_black(unsigned int nr_remaining_white_move
           {
             /* most_expensive_square_to_be_blocked_by_black is the most expensive
              * square among those that Black must block */
-            intelligent_stalemate_black_block(nr_remaining_white_moves,
-                                              nr_remaining_black_moves,
-                                              max_nr_allowed_captures_by_white,
-                                              max_nr_allowed_captures_by_black,
-                                              n,
+            intelligent_stalemate_black_block(n,
                                               most_expensive_square_to_be_blocked_by_black);
           }
           break;
