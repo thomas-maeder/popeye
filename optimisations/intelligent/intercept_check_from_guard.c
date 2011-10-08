@@ -152,18 +152,18 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
     {
       unsigned int const diffcol = abs(intercepter_diagram_square % onerow
                                        - to_be_intercepted % onerow);
-      if (diffcol<=Max_nr_allowed_captures_by_white)
+      if (diffcol<=Nr_unused_black_masses)
       {
-        Max_nr_allowed_captures_by_white -= diffcol;
+        Nr_unused_black_masses -= diffcol;
         Nr_remaining_white_moves -= time;
-        TraceValue("%u",Max_nr_allowed_captures_by_white);
+        TraceValue("%u",Nr_unused_black_masses);
         TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pb,to_be_intercepted,intercepter_flags);
         intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
         e[to_be_intercepted] = vide;
         spec[to_be_intercepted] = EmptySpec;
         Nr_remaining_white_moves += time;
-        Max_nr_allowed_captures_by_white += diffcol;
+        Nr_unused_black_masses += diffcol;
       }
     }
   }

@@ -27,17 +27,17 @@ static void unpromoted_pawn(stip_length_type n,
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                       blocks_from,
                                                                                       to_be_blocked);
-    if (Max_nr_allowed_captures_by_white>=nr_captures_required
+    if (Nr_unused_black_masses>=nr_captures_required
         && time<=Nr_remaining_white_moves)
     {
-      Max_nr_allowed_captures_by_white -= nr_captures_required;
+      Nr_unused_black_masses -= nr_captures_required;
       Nr_remaining_white_moves -= time;
-      TraceValue("%u",Max_nr_allowed_captures_by_white);
+      TraceValue("%u",Nr_unused_black_masses);
       TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pb,to_be_blocked,white[blocker_index].flags);
       intelligent_stalemate_test_target_position(n);
       Nr_remaining_white_moves += time;
-      Max_nr_allowed_captures_by_white += nr_captures_required;
+      Nr_unused_black_masses += nr_captures_required;
     }
   }
 
@@ -179,9 +179,9 @@ void intelligent_stalemate_white_block(stip_length_type n, square to_be_blocked)
     white[index_of_king].usage = piece_is_unused;
   }
 
-  if (Max_nr_allowed_captures_by_black>=1)
+  if (Nr_unused_white_masses>=1)
   {
-    --Max_nr_allowed_captures_by_black;
+    --Nr_unused_white_masses;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
@@ -201,7 +201,7 @@ void intelligent_stalemate_white_block(stip_length_type n, square to_be_blocked)
         white[blocker_index].usage = piece_is_unused;
       }
 
-    ++Max_nr_allowed_captures_by_black;
+    ++Nr_unused_white_masses;
   }
 
   e[to_be_blocked] = vide;

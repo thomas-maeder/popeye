@@ -62,8 +62,8 @@ extern unsigned int PieceId2index[MaxPieceId+1];
 
 extern unsigned int Nr_remaining_white_moves;
 extern unsigned int Nr_remaining_black_moves;
-extern unsigned int Max_nr_allowed_captures_by_white;
-extern unsigned int Max_nr_allowed_captures_by_black;
+extern unsigned int Nr_unused_black_masses;
+extern unsigned int Nr_unused_white_masses;
 
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}

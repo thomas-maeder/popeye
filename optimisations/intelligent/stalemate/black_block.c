@@ -78,15 +78,15 @@ static void unpromoted_pawn(stip_length_type n,
                                                                                       blocker_comes_from,
                                                                                       to_be_blocked);
     if (time<=Nr_remaining_black_moves
-        && nr_required_captures<=Max_nr_allowed_captures_by_black)
+        && nr_required_captures<=Nr_unused_white_masses)
     {
-      Max_nr_allowed_captures_by_black -= nr_required_captures;
+      Nr_unused_white_masses -= nr_required_captures;
       Nr_remaining_black_moves -= time;
       TraceValue("%u\n",Nr_remaining_black_moves);
       SetPiece(pn,to_be_blocked,blocker_flags);
       intelligent_stalemate_test_target_position(n);
       Nr_remaining_black_moves += time;
-      Max_nr_allowed_captures_by_black += nr_required_captures;
+      Nr_unused_white_masses += nr_required_captures;
     }
   }
 
@@ -142,10 +142,10 @@ void intelligent_stalemate_black_block(stip_length_type n,
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (Max_nr_allowed_captures_by_white>=1)
+  if (Nr_unused_black_masses>=1)
   {
-    --Max_nr_allowed_captures_by_white;
-    TraceValue("%u\n",Max_nr_allowed_captures_by_white);
+    --Nr_unused_black_masses;
+    TraceValue("%u\n",Nr_unused_black_masses);
 
     for (i = 1; i<MaxPiece[Black]; ++i)
       if (black[i].usage==piece_is_unused)
@@ -171,7 +171,7 @@ void intelligent_stalemate_black_block(stip_length_type n,
     e[to_be_blocked] = vide;
     spec[to_be_blocked] = EmptySpec;
 
-    ++Max_nr_allowed_captures_by_white;
+    ++Nr_unused_black_masses;
   }
 
   TraceFunctionExit(__func__);

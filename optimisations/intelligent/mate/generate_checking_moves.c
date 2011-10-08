@@ -158,16 +158,16 @@ static void by_unpromoted_pawn(unsigned int nr_checking_moves,
           && guards(king_square[Black],pb,*bnp))
       {
         unsigned int const diffcol = abs(pawn_origin%onerow - *bnp%onerow);
-        if (diffcol<=Max_nr_allowed_captures_by_white)
+        if (diffcol<=Nr_unused_black_masses)
         {
-          Max_nr_allowed_captures_by_white -= diffcol;
+          Nr_unused_black_masses -= diffcol;
           Nr_remaining_white_moves -= time;
-          TraceValue("%u",Max_nr_allowed_captures_by_white);
+          TraceValue("%u",Nr_unused_black_masses);
           TraceValue("%u\n",Nr_remaining_white_moves);
           SetPiece(pb,*bnp,checker_flags);
           generated(nr_checking_moves,index_of_checker,n);
           Nr_remaining_white_moves += time;
-          Max_nr_allowed_captures_by_white += diffcol;
+          Nr_unused_black_masses += diffcol;
         }
       }
 

@@ -103,10 +103,10 @@ static void with_unpromoted_black_pawn(stip_length_type n,
                                                                                       blocker_comes_from,
                                                                                       to_be_blocked);
     if (time<=Nr_remaining_black_moves
-        && nr_required_captures<=Max_nr_allowed_captures_by_black
+        && nr_required_captures<=Nr_unused_white_masses
         && !(side==White && guards(king_square[White],pn,to_be_blocked)))
     {
-      Max_nr_allowed_captures_by_black -= nr_required_captures;
+      Nr_unused_white_masses -= nr_required_captures;
       Nr_remaining_black_moves -= time;
       TraceValue("%u\n",Nr_remaining_black_moves);
       SetPiece(pn,to_be_blocked,blocker_flags);
@@ -116,7 +116,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
                                    nr_checks_to_opponent,
                                    side);
       Nr_remaining_black_moves += time;
-      Max_nr_allowed_captures_by_black += nr_required_captures;
+      Nr_unused_white_masses += nr_required_captures;
     }
   }
 
@@ -189,12 +189,12 @@ static void with_black_piece(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (Max_nr_allowed_captures_by_white>=1)
+  if (Nr_unused_black_masses>=1)
   {
     unsigned int i;
 
-    --Max_nr_allowed_captures_by_white;
-    TraceValue("%u\n",Max_nr_allowed_captures_by_white);
+    --Nr_unused_black_masses;
+    TraceValue("%u\n",Nr_unused_black_masses);
 
     for (i = 1; i<MaxPiece[Black]; ++i)
       if (black[i].usage==piece_is_unused)
@@ -242,7 +242,7 @@ static void with_black_piece(stip_length_type n,
     e[to_be_blocked] = vide;
     spec[to_be_blocked] = EmptySpec;
 
-    ++Max_nr_allowed_captures_by_white;
+    ++Nr_unused_black_masses;
   }
 
   TraceFunctionExit(__func__);
@@ -271,7 +271,7 @@ static void with_unpromoted_white_pawn(stip_length_type n,
     square const blocks_from = white[blocker_index].diagram_square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    if (Max_nr_allowed_captures_by_white>=nr_captures_required)
+    if (Nr_unused_black_masses>=nr_captures_required)
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                         blocks_from,
@@ -279,9 +279,9 @@ static void with_unpromoted_white_pawn(stip_length_type n,
       if (time<=Nr_remaining_white_moves
           && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
       {
-        Max_nr_allowed_captures_by_white -= nr_captures_required;
+        Nr_unused_black_masses -= nr_captures_required;
         Nr_remaining_white_moves -= time;
-        TraceValue("%u",Max_nr_allowed_captures_by_white);
+        TraceValue("%u",Nr_unused_black_masses);
         TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pb,to_be_blocked,white[blocker_index].flags);
         continue_intercepting_checks(n,
@@ -290,7 +290,7 @@ static void with_unpromoted_white_pawn(stip_length_type n,
                                      nr_checks_to_opponent,
                                      side);
         Nr_remaining_white_moves += time;
-        Max_nr_allowed_captures_by_white += nr_captures_required;
+        Nr_unused_black_masses += nr_captures_required;
       }
     }
   }
@@ -479,9 +479,9 @@ static void with_white_piece(stip_length_type n,
     white[index_of_king].usage = piece_is_unused;
   }
 
-  if (Max_nr_allowed_captures_by_black>=1)
+  if (Nr_unused_white_masses>=1)
   {
-    --Max_nr_allowed_captures_by_black;
+    --Nr_unused_white_masses;
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
@@ -520,7 +520,7 @@ static void with_white_piece(stip_length_type n,
         white[blocker_index].usage = piece_is_unused;
       }
 
-    ++Max_nr_allowed_captures_by_black;
+    ++Nr_unused_white_masses;
   }
 
   e[to_be_blocked] = vide;

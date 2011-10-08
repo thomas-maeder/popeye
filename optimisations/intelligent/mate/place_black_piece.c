@@ -51,18 +51,18 @@ static void promoted_black_pawn(stip_length_type n,
                 diffcol = 1;
             }
 
-            if (diffcol<=Max_nr_allowed_captures_by_black)
+            if (diffcol<=Nr_unused_white_masses)
             {
               unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                                 pp,
                                                                 placed_on);
-              Max_nr_allowed_captures_by_black -= diffcol;
+              Nr_unused_white_masses -= diffcol;
               Nr_remaining_black_moves -= time;
               TraceValue("%u\n",Nr_remaining_black_moves);
               SetPiece(pp,placed_on,black[placed_index].flags);
               intelligent_mate_finish(n,nr_of_checks_to_white);
               Nr_remaining_black_moves += time;
-              Max_nr_allowed_captures_by_black += diffcol;
+              Nr_unused_white_masses += diffcol;
             }
           }
         }
@@ -87,20 +87,20 @@ static void unpromoted_black_pawn(stip_length_type n,
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=Max_nr_allowed_captures_by_black)
+    if (diffcol<=Nr_unused_white_masses)
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                                         placed_from,
                                                                                         placed_on);
       if (time<=Nr_remaining_black_moves)
       {
-        Max_nr_allowed_captures_by_black -= diffcol;
+        Nr_unused_white_masses -= diffcol;
         Nr_remaining_black_moves -= time;
         TraceValue("%u\n",Nr_remaining_black_moves);
         SetPiece(pn,placed_on,black[placed_index].flags);
         intelligent_mate_test_target_position(n);
         Nr_remaining_black_moves += time;
-        Max_nr_allowed_captures_by_black += diffcol;
+        Nr_unused_white_masses += diffcol;
       }
     }
   }

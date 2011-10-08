@@ -110,14 +110,14 @@ static void unpromoted_pawn(stip_length_type n,
       {
         unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
         SetPiece(pn,to_be_blocked,blocker_flags);
-        if (diffcol<=Max_nr_allowed_captures_by_black)
+        if (diffcol<=Nr_unused_white_masses)
         {
-          Max_nr_allowed_captures_by_black -= diffcol;
+          Nr_unused_white_masses -= diffcol;
           Nr_remaining_black_moves -= wasted;
           TraceValue("%u\n",Nr_remaining_black_moves);
           block_planned_flights(n,nr_remaining_flights_to_block);
           Nr_remaining_black_moves += wasted;
-          Max_nr_allowed_captures_by_black += diffcol;
+          Nr_unused_white_masses += diffcol;
         }
       }
     }
@@ -173,16 +173,16 @@ static void promoted_pawn(stip_length_type n,
             if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
               diffcol = 1;
           }
-          if (diffcol<=Max_nr_allowed_captures_by_black
+          if (diffcol<=Nr_unused_white_masses
               && wasted<=Nr_remaining_black_moves)
           {
-            Max_nr_allowed_captures_by_black -= diffcol;
+            Nr_unused_white_masses -= diffcol;
             Nr_remaining_black_moves -= wasted;
             TraceValue("%u\n",Nr_remaining_black_moves);
             SetPiece(pp,to_be_blocked,blocker_flags);
             block_planned_flights(n,nr_remaining_flights_to_block);
             Nr_remaining_black_moves += wasted;
-            Max_nr_allowed_captures_by_black += diffcol;
+            Nr_unused_white_masses += diffcol;
           }
         }
       }
@@ -521,7 +521,7 @@ static unsigned int plan_blocks_of_flights(void)
 
   nr_king_flights_to_be_blocked = 0;
 
-  nr_available_blockers = Max_nr_allowed_captures_by_white;
+  nr_available_blockers = Nr_unused_black_masses;
   if (move_generator_can_help2(no_slice,slack_length_help+1)
       ==slack_length_help+1)
     /* at least 1 flight was found that can't be blocked */
@@ -533,7 +533,7 @@ static unsigned int plan_blocks_of_flights(void)
   return nr_king_flights_to_be_blocked;
 }
 
-static int count_max_nr_allowed_black_pawn_captures(void)
+static int count_nr_unused_white_masses(void)
 {
   int result = 0;
   unsigned int i;
@@ -581,12 +581,12 @@ void intelligent_block_flights(stip_length_type n)
 
   {
     unsigned int const nr_flights_to_block = plan_blocks_of_flights();
-    if (nr_flights_to_block<=Max_nr_allowed_captures_by_white)
+    if (nr_flights_to_block<=Nr_unused_black_masses)
     {
       unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_flights_to_block);
       if (mtba<=Nr_remaining_black_moves)
       {
-        Max_nr_allowed_captures_by_black = count_max_nr_allowed_black_pawn_captures();
+        Nr_unused_white_masses = count_nr_unused_white_masses();
         Nr_remaining_black_moves -= mtba;
         TraceValue("%u\n",Nr_remaining_black_moves);
         block_planned_flights(n,nr_flights_to_block);

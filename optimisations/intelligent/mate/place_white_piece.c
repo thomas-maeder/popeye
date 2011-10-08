@@ -21,7 +21,7 @@ static void unpromoted_white_pawn(stip_length_type n,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=Max_nr_allowed_captures_by_white
+  if (diffcol<=Nr_unused_black_masses
       && !uninterceptably_attacks_king(Black,placed_on,pb))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
@@ -29,14 +29,14 @@ static void unpromoted_white_pawn(stip_length_type n,
                                                                                       placed_on);
     if (time<=Nr_remaining_white_moves)
     {
-      Max_nr_allowed_captures_by_white -= diffcol;
+      Nr_unused_black_masses -= diffcol;
       Nr_remaining_white_moves -= time;
-      TraceValue("%u",Max_nr_allowed_captures_by_white);
+      TraceValue("%u",Nr_unused_black_masses);
       TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pb,placed_on,white[placed_index].flags);
       intelligent_mate_test_target_position(n);
       Nr_remaining_white_moves += time;
-      Max_nr_allowed_captures_by_white += diffcol;
+      Nr_unused_black_masses += diffcol;
     }
   }
 
@@ -80,17 +80,17 @@ static void promoted_white_pawn(stip_length_type n,
           TraceValue("%u",diffcol);
           TraceValue("%u\n",time);
 
-          if (diffcol<=Max_nr_allowed_captures_by_white
+          if (diffcol<=Nr_unused_black_masses
               && time<=Nr_remaining_white_moves)
           {
-            Max_nr_allowed_captures_by_white -= diffcol;
+            Nr_unused_black_masses -= diffcol;
             Nr_remaining_white_moves -= time;
-            TraceValue("%u",Max_nr_allowed_captures_by_white);
+            TraceValue("%u",Nr_unused_black_masses);
             TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(pp,placed_on,white[placed_index].flags);
             intelligent_mate_test_target_position(n);
             Nr_remaining_white_moves += time;
-            Max_nr_allowed_captures_by_white += diffcol;
+            Nr_unused_black_masses += diffcol;
           }
         }
     }

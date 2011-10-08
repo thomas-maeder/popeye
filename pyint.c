@@ -82,8 +82,8 @@ unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
 unsigned int Nr_remaining_white_moves;
 unsigned int Nr_remaining_black_moves;
-unsigned int Max_nr_allowed_captures_by_white;
-unsigned int Max_nr_allowed_captures_by_black;
+unsigned int Nr_unused_black_masses;
+unsigned int Nr_unused_white_masses;
 
 
 void remember_to_keep_rider_line_open(square from, square to,
@@ -485,8 +485,8 @@ static void GenerateBlackKing(stip_length_type n)
   TraceValue("%u",Nr_remaining_white_moves);
   TraceValue("%u\n",Nr_remaining_black_moves);
 
-  Max_nr_allowed_captures_by_white = MaxPiece[Black]-1;
-  TraceValue("%u\n",Max_nr_allowed_captures_by_white);
+  Nr_unused_black_masses = MaxPiece[Black]-1;
+  TraceValue("%u\n",Nr_unused_black_masses);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {

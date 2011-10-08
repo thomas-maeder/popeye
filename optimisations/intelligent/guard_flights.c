@@ -204,18 +204,18 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
         if (guarded!=initsquare)
         {
           unsigned int const diffcol = abs(starts_from % onerow - *bnp % onerow);
-          if (diffcol<=Max_nr_allowed_captures_by_white)
+          if (diffcol<=Nr_unused_black_masses)
           {
-            Max_nr_allowed_captures_by_white -= diffcol;
+            Nr_unused_black_masses -= diffcol;
             Nr_remaining_white_moves -= time;
-            TraceValue("%u",Max_nr_allowed_captures_by_white);
+            TraceValue("%u",Nr_unused_black_masses);
             TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(pb,*bnp,pawn_flags);
             intelligent_continue_guarding_flights(n,index+1);
             e[*bnp] = vide;
             spec[*bnp] = EmptySpec;
             Nr_remaining_white_moves += time;
-            Max_nr_allowed_captures_by_white += diffcol;
+            Nr_unused_black_masses += diffcol;
           }
         }
       }
