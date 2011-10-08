@@ -11,20 +11,20 @@
 
 #include <assert.h>
 
-static void place_piece(unsigned int nr_remaining_black_moves,
-                        unsigned int nr_remaining_white_moves,
-                        unsigned int max_nr_allowed_captures_by_black_pieces,
-                        unsigned int max_nr_allowed_captures_by_white_pieces,
+static void place_piece(unsigned int nr_remaining_white_moves,
+                        unsigned int nr_remaining_black_moves,
+                        unsigned int max_nr_allowed_captures_by_white,
+                        unsigned int max_nr_allowed_captures_by_black,
                         stip_length_type n)
 {
   square const *bnp;
   square const * const save_start = where_to_start_placing_unused_black_pieces;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -32,10 +32,10 @@ static void place_piece(unsigned int nr_remaining_black_moves,
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
     {
       where_to_start_placing_unused_black_pieces = bnp;
-      intelligent_stalemate_black_block(nr_remaining_black_moves,
-                                        nr_remaining_white_moves,
-                                        max_nr_allowed_captures_by_black_pieces,
-                                        max_nr_allowed_captures_by_white_pieces,
+      intelligent_stalemate_black_block(nr_remaining_white_moves,
+                                        nr_remaining_black_moves,
+                                        max_nr_allowed_captures_by_white,
+                                        max_nr_allowed_captures_by_black,
                                         n,
                                         *bnp);
     }
@@ -46,17 +46,17 @@ static void place_piece(unsigned int nr_remaining_black_moves,
   TraceFunctionResultEnd();
 }
 
-static void fix_white_king_on_diagram_square(unsigned int nr_remaining_black_moves,
-                                             unsigned int nr_remaining_white_moves,
-                                             unsigned int max_nr_allowed_captures_by_black_pieces,
-                                             unsigned int max_nr_allowed_captures_by_white_pieces,
+static void fix_white_king_on_diagram_square(unsigned int nr_remaining_white_moves,
+                                             unsigned int nr_remaining_black_moves,
+                                             unsigned int max_nr_allowed_captures_by_white,
+                                             unsigned int max_nr_allowed_captures_by_black,
                                              stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -72,19 +72,19 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_black_mov
     if (is_white_king_interceptably_attacked())
     {
       unsigned int const nr_of_checks_to_black = 0;
-      intelligent_stalemate_intercept_checks(nr_remaining_black_moves,
-                                             nr_remaining_white_moves,
-                                             max_nr_allowed_captures_by_black_pieces,
-                                             max_nr_allowed_captures_by_white_pieces,
+      intelligent_stalemate_intercept_checks(nr_remaining_white_moves,
+                                             nr_remaining_black_moves,
+                                             max_nr_allowed_captures_by_white,
+                                             max_nr_allowed_captures_by_black,
                                              n,
                                              nr_of_checks_to_black,
                                              White);
     }
     else
-      intelligent_stalemate_test_target_position(nr_remaining_black_moves,
-                                                 nr_remaining_white_moves,
-                                                 max_nr_allowed_captures_by_black_pieces,
-                                                 max_nr_allowed_captures_by_white_pieces,
+      intelligent_stalemate_test_target_position(nr_remaining_white_moves,
+                                                 nr_remaining_black_moves,
+                                                 max_nr_allowed_captures_by_white,
+                                                 max_nr_allowed_captures_by_black,
                                                  n);
 
     e[king_square[White]] = vide;
@@ -98,17 +98,17 @@ static void fix_white_king_on_diagram_square(unsigned int nr_remaining_black_mov
   TraceFunctionResultEnd();
 }
 
-void intelligent_stalemate_deal_with_unused_pieces(unsigned int nr_remaining_black_moves,
-                                                   unsigned int nr_remaining_white_moves,
-                                                   unsigned int max_nr_allowed_captures_by_black_pieces,
-                                                   unsigned int max_nr_allowed_captures_by_white_pieces,
+void intelligent_stalemate_deal_with_unused_pieces(unsigned int nr_remaining_white_moves,
+                                                   unsigned int nr_remaining_black_moves,
+                                                   unsigned int max_nr_allowed_captures_by_white,
+                                                   unsigned int max_nr_allowed_captures_by_black,
                                                    stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -120,10 +120,10 @@ void intelligent_stalemate_deal_with_unused_pieces(unsigned int nr_remaining_bla
     {
       if (e[white[index_of_king].diagram_square]==vide
           && nr_reasons_for_staying_empty[white[index_of_king].diagram_square]==0)
-        fix_white_king_on_diagram_square(nr_remaining_black_moves,
-                                         nr_remaining_white_moves,
-                                         max_nr_allowed_captures_by_black_pieces,
-                                         max_nr_allowed_captures_by_white_pieces,
+        fix_white_king_on_diagram_square(nr_remaining_white_moves,
+                                         nr_remaining_black_moves,
+                                         max_nr_allowed_captures_by_white,
+                                         max_nr_allowed_captures_by_black,
                                          n);
     }
     else
@@ -140,10 +140,10 @@ void intelligent_stalemate_deal_with_unused_pieces(unsigned int nr_remaining_bla
       TraceValue("%u\n",piece_is_unused);
       TraceValue("%u\n",MovesLeft[White]);
       if (unused>0)
-        place_piece(nr_remaining_black_moves,
-                    nr_remaining_white_moves,
-                    max_nr_allowed_captures_by_black_pieces,
-                    max_nr_allowed_captures_by_white_pieces,
+        place_piece(nr_remaining_white_moves,
+                    nr_remaining_black_moves,
+                    max_nr_allowed_captures_by_white,
+                    max_nr_allowed_captures_by_black,
                     n);
 
       if (unused<=MovesLeft[White])

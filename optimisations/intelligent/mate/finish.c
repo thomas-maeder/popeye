@@ -48,10 +48,10 @@ static boolean exists_redundant_white_piece(void)
   return result;
 }
 
-static void neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
-                                       unsigned int nr_remaining_white_moves,
-                                       unsigned int max_nr_allowed_captures_by_black_pieces,
-                                       unsigned int max_nr_allowed_captures_by_white_pieces,
+static void neutralise_guarding_pieces(unsigned int nr_remaining_white_moves,
+                                       unsigned int nr_remaining_black_moves,
+                                       unsigned int max_nr_allowed_captures_by_white,
+                                       unsigned int max_nr_allowed_captures_by_black,
                                        stip_length_type n)
 {
   square trouble = initsquare;
@@ -61,10 +61,10 @@ static void neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
 #endif
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -81,10 +81,10 @@ static void neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
 
   fini_legal_move_finder();
 
-  intelligent_mate_pin_black_piece(nr_remaining_black_moves,
-                                   nr_remaining_white_moves,
-                                   max_nr_allowed_captures_by_black_pieces,
-                                   max_nr_allowed_captures_by_white_pieces,
+  intelligent_mate_pin_black_piece(nr_remaining_white_moves,
+                                   nr_remaining_black_moves,
+                                   max_nr_allowed_captures_by_white,
+                                   max_nr_allowed_captures_by_black,
                                    n,
                                    trouble);
 
@@ -96,16 +96,16 @@ static void neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
     for (sq = trouble+dir; sq!=trto; sq+=dir)
       if (nr_reasons_for_staying_empty[sq]==0)
       {
-        intelligent_mate_place_any_black_piece_on(nr_remaining_black_moves,
-                                                  nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_by_black_pieces,
-                                                  max_nr_allowed_captures_by_white_pieces,
+        intelligent_mate_place_any_black_piece_on(nr_remaining_white_moves,
+                                                  nr_remaining_black_moves,
+                                                  max_nr_allowed_captures_by_white,
+                                                  max_nr_allowed_captures_by_black,
                                                   n,
                                                   sq);
-        intelligent_mate_place_any_white_piece_on(nr_remaining_black_moves,
-                                                  nr_remaining_white_moves,
-                                                  max_nr_allowed_captures_by_black_pieces,
-                                                  max_nr_allowed_captures_by_white_pieces,
+        intelligent_mate_place_any_white_piece_on(nr_remaining_white_moves,
+                                                  nr_remaining_black_moves,
+                                                  max_nr_allowed_captures_by_white,
+                                                  max_nr_allowed_captures_by_black,
                                                   n,
                                                   sq);
       }
@@ -115,17 +115,17 @@ static void neutralise_guarding_pieces(unsigned int nr_remaining_black_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_test_target_position(unsigned int nr_remaining_black_moves,
-                                           unsigned int nr_remaining_white_moves,
-                                           unsigned int max_nr_allowed_captures_by_black_pieces,
-                                           unsigned int max_nr_allowed_captures_by_white_pieces,
+void intelligent_mate_test_target_position(unsigned int nr_remaining_white_moves,
+                                           unsigned int nr_remaining_black_moves,
+                                           unsigned int max_nr_allowed_captures_by_white,
+                                           unsigned int max_nr_allowed_captures_by_black,
                                            stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
@@ -141,43 +141,43 @@ void intelligent_mate_test_target_position(unsigned int nr_remaining_black_moves
       solve_target_position(n);
   }
   else
-    neutralise_guarding_pieces(nr_remaining_black_moves,
-                               nr_remaining_white_moves,
-                               max_nr_allowed_captures_by_black_pieces,
-                               max_nr_allowed_captures_by_white_pieces,
+    neutralise_guarding_pieces(nr_remaining_white_moves,
+                               nr_remaining_black_moves,
+                               max_nr_allowed_captures_by_white,
+                               max_nr_allowed_captures_by_black,
                                n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_finish(unsigned int nr_remaining_black_moves,
-                             unsigned int nr_remaining_white_moves,
-                             unsigned int max_nr_allowed_captures_by_black_pieces,
-                             unsigned int max_nr_allowed_captures_by_white_pieces,
+void intelligent_mate_finish(unsigned int nr_remaining_white_moves,
+                             unsigned int nr_remaining_black_moves,
+                             unsigned int max_nr_allowed_captures_by_white,
+                             unsigned int max_nr_allowed_captures_by_black,
                              stip_length_type n,
                              unsigned int nr_of_checks_to_white)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_remaining_black_moves);
   TraceFunctionParam("%u",nr_remaining_white_moves);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_black_pieces);
-  TraceFunctionParam("%u",max_nr_allowed_captures_by_white_pieces);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_white);
+  TraceFunctionParam("%u",max_nr_allowed_captures_by_black);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",nr_of_checks_to_white);
   TraceFunctionParamListEnd();
 
   if (nr_of_checks_to_white>0)
-    intelligent_mate_intercept_checks(nr_remaining_black_moves,
-                                      nr_remaining_white_moves,
-                                      max_nr_allowed_captures_by_black_pieces,
-                                      max_nr_allowed_captures_by_white_pieces,
+    intelligent_mate_intercept_checks(nr_remaining_white_moves,
+                                      nr_remaining_black_moves,
+                                      max_nr_allowed_captures_by_white,
+                                      max_nr_allowed_captures_by_black,
                                       n);
   else
-    intelligent_mate_test_target_position(nr_remaining_black_moves,
-                                          nr_remaining_white_moves,
-                                          max_nr_allowed_captures_by_black_pieces,
-                                          max_nr_allowed_captures_by_white_pieces,
+    intelligent_mate_test_target_position(nr_remaining_white_moves,
+                                          nr_remaining_black_moves,
+                                          max_nr_allowed_captures_by_white,
+                                          max_nr_allowed_captures_by_black,
                                           n);
 
   TraceFunctionExit(__func__);
