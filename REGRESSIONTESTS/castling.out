@@ -2579,17 +2579,17 @@ a)
   1.0-0 Kd1-c1   2.Kg8-h8 Kc1-b2   3.Tf8-g8 Ta1-h1 # 
 
               empile:       56729
-            jouecoup:       43027
+            jouecoup:       43008
         orig_rbechec:         861
-        orig_rnechec:       31230
+        orig_rnechec:       31211
 b) Spiegelung a1<-->h1
 
   1.Ta8-c8 0-0   2.Tc8-c7 Tf1-a1   3.Kd8-c8 Ta1-a8 # 
 
               empile:       51572
-            jouecoup:       37251
+            jouecoup:       37230
         orig_rbechec:         639
-        orig_rnechec:       31005
+        orig_rnechec:       30984
 Loesung beendet. 
 
 

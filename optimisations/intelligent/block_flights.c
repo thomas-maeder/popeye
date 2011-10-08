@@ -514,22 +514,18 @@ static stip_length_type move_generator_can_help2(slice_index si,
   return result;
 }
 
-static unsigned int plan_blocks_of_flights(unsigned int min_nr_captures_by_white)
+static unsigned int plan_blocks_of_flights(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
   nr_king_flights_to_be_blocked = 0;
 
-  if (min_nr_captures_by_white<MaxPiece[Black])
-  {
-    nr_available_blockers = MaxPiece[Black]-1-min_nr_captures_by_white;
-    if (move_generator_can_help2(no_slice,slack_length_help+1)
-        ==slack_length_help+1)
-      /* at least 1 flight was found that can't be blocked */
-      nr_king_flights_to_be_blocked = MaxPiece[Black];
-  }
+  nr_available_blockers = Max_nr_allowed_captures_by_white;
+  if (move_generator_can_help2(no_slice,slack_length_help+1)
+      ==slack_length_help+1)
+    /* at least 1 flight was found that can't be blocked */
+    nr_king_flights_to_be_blocked = MaxPiece[Black];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",nr_king_flights_to_be_blocked);
@@ -577,23 +573,20 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_flights_
   return result;
 }
 
-void intelligent_block_flights(unsigned int min_nr_captures_by_white,
-                               stip_length_type n)
+void intelligent_block_flights(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",min_nr_captures_by_white);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights(min_nr_captures_by_white);
-    if (min_nr_captures_by_white+nr_flights_to_block<MaxPiece[Black])
+    unsigned int const nr_flights_to_block = plan_blocks_of_flights();
+    if (nr_flights_to_block<=Max_nr_allowed_captures_by_white)
     {
       unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_flights_to_block);
       if (mtba<=Nr_remaining_black_moves)
       {
         Max_nr_allowed_captures_by_black = count_max_nr_allowed_black_pawn_captures();
-        Max_nr_allowed_captures_by_white = MaxPiece[Black]-1-min_nr_captures_by_white;
         Nr_remaining_black_moves -= mtba;
         TraceValue("%u\n",Nr_remaining_black_moves);
         block_planned_flights(n,nr_flights_to_block);

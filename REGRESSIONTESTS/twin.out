@@ -2123,49 +2123,49 @@ a)
   1.Sc7-d5 Ld7-e6   2.Sd5-e3 Sd1-f2 # 
 
               empile:      245163
-            jouecoup:      219003
+            jouecoup:      218992
         orig_rbechec:        2707
-        orig_rnechec:      124914
+        orig_rnechec:      124903
 b)  -sSc7
 
   1.Da8-a6 g2-g4   2.Da6-d3 Ld7*c6 # 
 
               empile:      210887
-            jouecoup:      185018
+            jouecoup:      184968
         orig_rbechec:        2157
-        orig_rnechec:      119922
+        orig_rnechec:      119872
 +c)  -sDa8
 
   1.Th8-e8 Sh3-f4   2.Te8-e5 d4-d5 # 
 
               empile:      171183
-            jouecoup:      143893
+            jouecoup:      143783
         orig_rbechec:        1407
-        orig_rnechec:      110025
+        orig_rnechec:      109915
 +d)  -sTh8
 
   1.f7-f5 Ld7-e6   2.f5-f4 Sh3-f2 # 
 
               empile:      145354
-            jouecoup:      110833
+            jouecoup:      110591
         orig_rbechec:         844
-        orig_rnechec:      100497
+        orig_rnechec:      100255
 +e)  -sBf7
 
   1.Lg6-f7 Ld7-e8   2.Lf7-d5 Le8-g6 # 
 
-              empile:      136967
-            jouecoup:       88859
-        orig_rbechec:         449
-        orig_rnechec:       82768
+              empile:      136935
+            jouecoup:       88547
+        orig_rbechec:         447
+        orig_rnechec:       82453
 +f)  -sLg6
 
   1.c6-c5 Ta4-a5   2.c5*d4 Ld7-f5 # 
 
-              empile:      127960
-            jouecoup:       62315
+              empile:      127912
+            jouecoup:       61820
         orig_rbechec:         144
-        orig_rnechec:       61674
+        orig_rnechec:       61179
 Loesung beendet. 
 
 

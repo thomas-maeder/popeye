@@ -485,6 +485,9 @@ static void GenerateBlackKing(stip_length_type n)
   TraceValue("%u",Nr_remaining_white_moves);
   TraceValue("%u\n",Nr_remaining_black_moves);
 
+  Max_nr_allowed_captures_by_white = MaxPiece[Black]-1;
+  TraceValue("%u\n",Max_nr_allowed_captures_by_white);
+
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {
     TraceSquare(*bnp);TraceText("\n");
@@ -517,10 +520,7 @@ static void GenerateBlackKing(stip_length_type n)
           intelligent_mate_generate_checking_moves(2,0,n);
         }
         else
-        {
-          unsigned int const min_nr_captures_by_white = 0;
-          intelligent_guard_flights(n,min_nr_captures_by_white);
-        }
+          intelligent_guard_flights(n);
 
         e[*bnp] = vide;
         spec[*bnp] = EmptySpec;

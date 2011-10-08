@@ -987,9 +987,9 @@ a)
 46 moegliche Stellungen in 2+0
 
               empile:       28486
-            jouecoup:       24546
+            jouecoup:       24488
         orig_rbechec:         381
-        orig_rnechec:       23268
+        orig_rnechec:       23210
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
@@ -1559,9 +1559,9 @@ a)
 12 moegliche Stellungen in 2+2
 
               empile:        8975
-            jouecoup:        5314
+            jouecoup:        5291
         orig_rbechec:          36
-        orig_rnechec:        5017
+        orig_rnechec:        4994
 b) h=2
 
 0 moegliche Stellungen in 1+1

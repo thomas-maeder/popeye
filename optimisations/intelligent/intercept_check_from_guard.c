@@ -41,8 +41,7 @@ static square guards_black_flight(piece as_piece, square from)
 static void intercept_check_on_guarded_square_officer(stip_length_type n,
                                                       unsigned int index_of_next_guarding_piece,
                                                       square to_be_intercepted,
-                                                      unsigned int index_of_intercepting_piece,
-                                                      unsigned int min_nr_captures_by_white)
+                                                      unsigned int index_of_intercepting_piece)
 {
   piece const intercepter_type = white[index_of_intercepting_piece].type;
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
@@ -53,7 +52,6 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
   TraceValue("%u",index_of_next_guarding_piece);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
-  TraceValue("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
   if (!uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type))
@@ -71,9 +69,7 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
       Nr_remaining_white_moves -= time;
       TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(intercepter_type,to_be_intercepted,intercepter_flags);
-      intelligent_continue_guarding_flights(n,
-                                            index_of_next_guarding_piece,
-                                            min_nr_captures_by_white);
+      intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
       e[to_be_intercepted] = vide;
       spec[to_be_intercepted] = EmptySpec;
       Nr_remaining_white_moves += time;
@@ -87,15 +83,13 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
 static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
                                                             unsigned int index_of_next_guarding_piece,
                                                             square to_be_intercepted,
-                                                            unsigned int index_of_intercepting_piece,
-                                                            unsigned int min_nr_captures_by_white)
+                                                            unsigned int index_of_intercepting_piece)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",n);
   TraceValue("%u",index_of_next_guarding_piece);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
-  TraceValue("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
   {
@@ -121,9 +115,7 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
             Nr_remaining_white_moves -= time;
             TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(pp,to_be_intercepted,intercepter_flags);
-            intelligent_continue_guarding_flights(n,
-                                                  index_of_next_guarding_piece,
-                                                  min_nr_captures_by_white);
+            intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
             e[to_be_intercepted] = vide;
             spec[to_be_intercepted] = EmptySpec;
             Nr_remaining_white_moves += time;
@@ -139,8 +131,7 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
 static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n,
                                                               unsigned int index_of_next_guarding_piece,
                                                               square to_be_intercepted,
-                                                              unsigned int index_of_intercepting_piece,
-                                                              unsigned int min_nr_captures_by_white)
+                                                              unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
@@ -150,7 +141,6 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
   TraceValue("%u",index_of_next_guarding_piece);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
-  TraceValue("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
   if (!uninterceptably_attacks_king(Black,to_be_intercepted,pb))
@@ -162,15 +152,19 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
     {
       unsigned int const diffcol = abs(intercepter_diagram_square % onerow
                                        - to_be_intercepted % onerow);
-      Nr_remaining_white_moves -= time;
-      TraceValue("%u\n",Nr_remaining_white_moves);
-      SetPiece(pb,to_be_intercepted,intercepter_flags);
-      intelligent_continue_guarding_flights(n,
-                                            index_of_next_guarding_piece,
-                                            min_nr_captures_by_white+diffcol);
-      e[to_be_intercepted] = vide;
-      spec[to_be_intercepted] = EmptySpec;
-      Nr_remaining_white_moves += time;
+      if (diffcol<=Max_nr_allowed_captures_by_white)
+      {
+        Max_nr_allowed_captures_by_white -= diffcol;
+        Nr_remaining_white_moves -= time;
+        TraceValue("%u",Max_nr_allowed_captures_by_white);
+        TraceValue("%u\n",Nr_remaining_white_moves);
+        SetPiece(pb,to_be_intercepted,intercepter_flags);
+        intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+        e[to_be_intercepted] = vide;
+        spec[to_be_intercepted] = EmptySpec;
+        Nr_remaining_white_moves += time;
+        Max_nr_allowed_captures_by_white += diffcol;
+      }
     }
   }
 
@@ -180,8 +174,7 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
 
 void intercept_check_on_guarded_square(stip_length_type n,
                                        unsigned int index_of_next_guarding_piece,
-                                       square to_be_intercepted,
-                                       unsigned int min_nr_captures_by_white)
+                                       square to_be_intercepted)
 {
   unsigned int index_of_intercepting_piece;
 
@@ -189,7 +182,6 @@ void intercept_check_on_guarded_square(stip_length_type n,
   TraceValue("%u",n);
   TraceValue("%u",index_of_next_guarding_piece);
   TraceSquare(to_be_intercepted);
-  TraceValue("%u",min_nr_captures_by_white);
   TraceFunctionParamListEnd();
 
   for (index_of_intercepting_piece = 1;
@@ -214,21 +206,18 @@ void intercept_check_on_guarded_square(stip_length_type n,
           intercept_check_on_guarded_square_officer(n,
                                                     index_of_next_guarding_piece,
                                                     to_be_intercepted,
-                                                    index_of_intercepting_piece,
-                                                    min_nr_captures_by_white);
+                                                    index_of_intercepting_piece);
           break;
 
         case pb:
           intercept_check_on_guarded_square_unpromoted_pawn(n,
                                                             index_of_next_guarding_piece,
                                                             to_be_intercepted,
-                                                            index_of_intercepting_piece,
-                                                            min_nr_captures_by_white);
+                                                            index_of_intercepting_piece);
           intercept_check_on_guarded_square_promoted_pawn(n,
                                                           index_of_next_guarding_piece,
                                                           to_be_intercepted,
-                                                          index_of_intercepting_piece,
-                                                          min_nr_captures_by_white);
+                                                          index_of_intercepting_piece);
           break;
 
         default:
