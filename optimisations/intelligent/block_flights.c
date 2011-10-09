@@ -22,9 +22,9 @@ static void finalise_blocking(stip_length_type n)
 
   {
     unsigned int const is_white_in_check = echecc(nbply,White);
-    unsigned int const is_black_in_check = echecc(nbply,Black);
     if (goal_to_be_reached==goal_stale)
     {
+      unsigned int const is_black_in_check = echecc(nbply,Black);
       if (is_black_in_check)
         intelligent_stalemate_intercept_checks(n,is_white_in_check,Black);
       else if (is_white_in_check)
@@ -32,8 +32,11 @@ static void finalise_blocking(stip_length_type n)
       else
         intelligent_stalemate_test_target_position(n);
     }
-    else if (is_black_in_check)
+    else
+    {
+      assert(echecc(nbply,Black));
       intelligent_mate_finish(n,is_white_in_check);
+    }
   }
 
   TraceFunctionExit(__func__);
