@@ -525,7 +525,7 @@ void intelligent_guard_flights(stip_length_type n)
       white[index_of_king].usage = piece_is_unused;
     }
 
-    /* try not using white king for guarding */
+    TraceText("try not using white king for guarding\n");
     intelligent_continue_guarding_flights(n,1);
   }
 
