@@ -82,22 +82,29 @@ static void front_check_by_unpromoted_pawn_via(unsigned int index_of_checker,
     unsigned int const diffcol = abs(pawn_origin%onerow - via%onerow);
     if (diffcol+1<=Nr_unused_black_masses)
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(pb,
-                                                                               pawn_origin,
-                                                                               pb,
-                                                                               via);
-      if (time+1<=Nr_remaining_white_moves)
+      unsigned int const time_pawn = intelligent_count_nr_of_moves_from_to_no_check(pb,
+                                                                                    pawn_origin,
+                                                                                    pb,
+                                                                                    via);
+      if (time_pawn+1<=Nr_remaining_white_moves)
       {
-        Nr_unused_black_masses -= diffcol+1;
-        Nr_remaining_white_moves -= time+1;
-        TraceValue("%u",Nr_unused_black_masses);
-        TraceValue("%u\n",Nr_remaining_white_moves);
-        SetPiece(pb,check_square,pawn_flags);
-        intelligent_guard_flights(n);
-        e[check_square] = vide;
-        spec[check_square] = EmptySpec;
-        Nr_remaining_white_moves += time+1;
-        Nr_unused_black_masses += diffcol+1;
+        unsigned int const time_capturee = intelligent_count_nr_black_moves_to_square(check_square);
+        if (time_capturee<=Nr_remaining_black_moves)
+        {
+          Nr_unused_black_masses -= diffcol+1;
+          Nr_remaining_white_moves -= time_pawn+1;
+          Nr_remaining_black_moves -= time_capturee;
+          TraceValue("%u",Nr_unused_black_masses);
+          TraceValue("%u",Nr_remaining_black_moves);
+          TraceValue("%u\n",Nr_remaining_white_moves);
+          SetPiece(pb,check_square,pawn_flags);
+          intelligent_guard_flights(n);
+          e[check_square] = vide;
+          spec[check_square] = EmptySpec;
+          Nr_remaining_black_moves += time_capturee;
+          Nr_remaining_white_moves += time_pawn+1;
+          Nr_unused_black_masses += diffcol+1;
+        }
       }
     }
   }
