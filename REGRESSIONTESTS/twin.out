@@ -1886,10 +1886,10 @@ a)
   1.Kd5-e6 e7-e8=L   2.Ld4-e5 Dd1-d7 # 
   1.Kd5-e6 e7-e8=T +   2.Ke6-f7 Dd1-h5 # 
 
-              empile:      176043
-            jouecoup:      168021
+              empile:      175963
+            jouecoup:      167965
         orig_rbechec:        3326
-        orig_rnechec:       78358
+        orig_rnechec:       78302
 b) Drehung 180
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 # 
@@ -1934,10 +1934,10 @@ a)
 
   1.Kf5-e6 e7-e8=D +   2.Ke6-d6 d7-d8=D # 
 
-              empile:       20854
-            jouecoup:       17906
-        orig_rbechec:          86
-        orig_rnechec:       15518
+              empile:       20288
+            jouecoup:       17312
+        orig_rbechec:          74
+        orig_rnechec:       15348
 b)  -wBe7  +wSe8 
 
   1.Kf5-g5 d7-d8=D +   2.Kg5-h6 Dd8-h4 # 
@@ -1958,18 +1958,18 @@ d)  -wBe7  +wTe8
 
   1.Kf5-f6 d7-d8=D +   2.Kf6-f7 Dd8-e7 # 
 
-              empile:       20784
-            jouecoup:       18164
+              empile:       20768
+            jouecoup:       18148
         orig_rbechec:          53
-        orig_rnechec:       16810
+        orig_rnechec:       16794
 e)  -wBe7  +wDe8 
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D # 
 
-              empile:       69676
-            jouecoup:       66817
+              empile:       69644
+            jouecoup:       66785
         orig_rbechec:         801
-        orig_rnechec:       34762
+        orig_rnechec:       34730
 Loesung beendet. 
 
 
