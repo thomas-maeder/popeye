@@ -7,31 +7,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void generated(unsigned int nr_checking_moves,
-                      unsigned int prev_index,
-                      stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_checking_moves);
-  TraceFunctionParam("%u",prev_index);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(nr_checking_moves>=1);
-
-  if (nr_checking_moves==1)
-    intelligent_guard_flights(n);
-  else
-    intelligent_mate_generate_checking_moves(nr_checking_moves-1,
-                                             prev_index,
-                                             n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_to_keep_checking_line_open(square from, square to,
-                                                piece type, int delta)
+void remember_to_keep_checking_line_open(square from, square to,
+                                         piece type, int delta)
 {
   int const diff = to-from;
 
@@ -71,15 +48,12 @@ static void remember_to_keep_checking_line_open(square from, square to,
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_pawn(unsigned int nr_checking_moves,
-                             unsigned int index_of_checker,
-                             stip_length_type n)
+static void by_promoted_pawn(unsigned int index_of_checker, stip_length_type n)
 {
   Flags const checker_flags = white[index_of_checker].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -100,24 +74,22 @@ static void by_promoted_pawn(unsigned int nr_checking_moves,
         piece pp;
         square const pawn_origin = white[index_of_checker].diagram_square;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-          if (!(nr_checking_moves==2
-                && uninterceptably_attacks_king(White,*bnp,pp)))
+        {
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
+                                                                                         pp,
+                                                                                         *bnp);
+          if (time<=Nr_remaining_white_moves
+              && guards(king_square[Black],pp,*bnp))
           {
-            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                                           pp,
-                                                                                           *bnp);
-            if (time<=Nr_remaining_white_moves
-                && guards(king_square[Black],pp,*bnp))
-            {
-              Nr_remaining_white_moves -= time;
-              TraceValue("%u\n",Nr_remaining_white_moves);
-              SetPiece(pp,*bnp,checker_flags);
-              remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
-              generated(nr_checking_moves,index_of_checker,n);
-              remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,-1);
-              Nr_remaining_white_moves += time;
-            }
+            Nr_remaining_white_moves -= time;
+            TraceValue("%u\n",Nr_remaining_white_moves);
+            SetPiece(pp,*bnp,checker_flags);
+            remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
+            intelligent_guard_flights(n);
+            remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,-1);
+            Nr_remaining_white_moves += time;
           }
+        }
       }
 
       e[*bnp] = vide;
@@ -129,15 +101,12 @@ static void by_promoted_pawn(unsigned int nr_checking_moves,
   TraceFunctionResultEnd();
 }
 
-static void by_unpromoted_pawn(unsigned int nr_checking_moves,
-                               unsigned int index_of_checker,
-                               stip_length_type n)
+static void by_unpromoted_pawn(unsigned int index_of_checker, stip_length_type n)
 {
   Flags const checker_flags = white[index_of_checker].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
@@ -165,7 +134,7 @@ static void by_unpromoted_pawn(unsigned int nr_checking_moves,
           TraceValue("%u",Nr_unused_black_masses);
           TraceValue("%u\n",Nr_remaining_white_moves);
           SetPiece(pb,*bnp,checker_flags);
-          generated(nr_checking_moves,index_of_checker,n);
+          intelligent_guard_flights(n);
           Nr_remaining_white_moves += time;
           Nr_unused_black_masses += diffcol;
         }
@@ -180,8 +149,7 @@ static void by_unpromoted_pawn(unsigned int nr_checking_moves,
   TraceFunctionResultEnd();
 }
 
-static void by_officer(unsigned int nr_checking_moves,
-                       unsigned int index_of_checker,
+static void by_officer(unsigned int index_of_checker,
                        stip_length_type n,
                        piece checker_type)
 {
@@ -189,7 +157,6 @@ static void by_officer(unsigned int nr_checking_moves,
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_checking_moves);
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParam("%u",n);
   TracePiece(checker_type);
@@ -200,9 +167,7 @@ static void by_officer(unsigned int nr_checking_moves,
     TraceSquare(*bnp);
     TracePiece(e[*bnp]);
     TraceText("\n");
-    if (e[*bnp]==vide
-        && !(nr_checking_moves==2
-             && uninterceptably_attacks_king(White,*bnp,checker_type)))
+    if (e[*bnp]==vide)
     {
       square const checker_origin = white[index_of_checker].diagram_square;
       unsigned int const time = intelligent_count_nr_of_moves_from_to_checking(checker_type,
@@ -216,7 +181,7 @@ static void by_officer(unsigned int nr_checking_moves,
         TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(checker_type,*bnp,checker_flags);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
-        generated(nr_checking_moves,index_of_checker,n);
+        intelligent_guard_flights(n);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
         Nr_remaining_white_moves += time;
       }
@@ -230,19 +195,15 @@ static void by_officer(unsigned int nr_checking_moves,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_generate_checking_moves(unsigned int nr_checking_moves,
-                                              unsigned int prev_index,
-                                              stip_length_type n)
+void intelligent_mate_generate_checking_moves(stip_length_type n)
 {
   unsigned int index;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_checking_moves);
-  TraceFunctionParam("%u",prev_index);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (index = prev_index+1; index<MaxPiece[White]; ++index)
+  for (index = 1; index<MaxPiece[White]; ++index)
   {
     piece const checker_type = white[index].type;
 
@@ -255,11 +216,11 @@ void intelligent_mate_generate_checking_moves(unsigned int nr_checking_moves,
 
     if (checker_type==pb)
     {
-      by_unpromoted_pawn(nr_checking_moves,index,n);
-      by_promoted_pawn(nr_checking_moves,index,n);
+      by_unpromoted_pawn(index,n);
+      by_promoted_pawn(index,n);
     }
     else
-      by_officer(nr_checking_moves,index,n,checker_type);
+      by_officer(index,n,checker_type);
 
     white[index].usage = piece_is_unused;
   }

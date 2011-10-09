@@ -1,0 +1,27 @@
+begin
+
+prot intell.tst
+
+title double check with promotee
+pieces white kg1 rg4 pe7
+       black kd3 bh7 sd2 pb5
+stipulation h#2.5
+option intelligent
+
+next
+
+title double check by pawn capture
+pieces white kf6 rd2 pe3
+       black kd6 qc6 sf7 pc5c7d4
+stipulation h#1.5
+option intelligent
+
+next
+
+title double check by en passant capture
+pieces white kf3 rd8 bh6 pd5
+       black kd4 rc5 pc4e7
+stipulation h#1.5
+option intelligent
+
+end

@@ -29,6 +29,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
+#include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
@@ -516,8 +517,8 @@ static void GenerateBlackKing(stip_length_type n)
         black[index_of_king].usage = piece_is_king;
         if (goal_to_be_reached==goal_mate)
         {
-          intelligent_mate_generate_checking_moves(1,0,n);
-          intelligent_mate_generate_checking_moves(2,0,n);
+          intelligent_mate_generate_checking_moves(n);
+          intelligent_mate_generate_doublechecking_moves(n);
         }
         else
           intelligent_guard_flights(n);

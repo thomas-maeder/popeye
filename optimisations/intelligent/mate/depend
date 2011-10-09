@@ -108,6 +108,23 @@ pydata.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 trace.h:
+optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
+ optimisations/intelligent/mate/generate_doublechecking_moves.c \
+ optimisations/intelligent/mate/generate_doublechecking_moves.h pyint.h \
+ pydata.h optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/mate/generate_checking_moves.h trace.h
+
+optimisations/intelligent/mate/generate_doublechecking_moves.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+optimisations/intelligent/mate/generate_checking_moves.h:
+
+trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/goalreachable_guard.c \
  optimisations/intelligent/mate/goalreachable_guard.h pydata.h pyint.h \

@@ -92,6 +92,34 @@ static void neutralise_guarding_pieces(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
+static void fix_white_king_on_diagram_square(stip_length_type n)
+{
+  square const king_diagram_square = white[index_of_king].diagram_square;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (e[king_diagram_square]==vide
+      && nr_reasons_for_staying_empty[king_diagram_square]==0
+      && !would_white_king_guard_from(king_diagram_square))
+  {
+    king_square[White] = king_diagram_square;
+    SetPiece(roib,king_square[White],white[index_of_king].flags);
+    white[index_of_king].usage = piece_is_fixed_to_diagram_square;
+
+    intelligent_mate_finish(n,echecc(nbply,White));
+
+    white[index_of_king].usage = piece_is_unused;
+    e[king_square[White]] = vide;
+    spec[king_square[White]] = EmptySpec;
+    king_square[White] = initsquare;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void intelligent_mate_test_target_position(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -101,13 +129,20 @@ void intelligent_mate_test_target_position(stip_length_type n)
   assert(!echecc(nbply,White));
   if (slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution)
   {
-    /* avoid duplicate test of the same target position (modulo redundant pieces
-     * and unused white king) */
-    if (!exists_redundant_white_piece()
-        && !(white[index_of_king].usage==piece_is_unused
-             && white[index_of_king].diagram_square!=square_e1
-             && Nr_remaining_white_moves==0))
-      solve_target_position(n);
+    /* avoid duplicate test of the same target position (modulo redundant
+     * pieces) */
+    if (!exists_redundant_white_piece())
+    {
+      /* Nail white king to diagram square if no white move remains; we can't do
+       * this with the other white or black pieces because they might be
+       * captured in the solution */
+      if (white[index_of_king].usage==piece_is_unused
+          && white[index_of_king].diagram_square!=square_e1
+          && Nr_remaining_white_moves==0)
+        fix_white_king_on_diagram_square(n);
+      else
+        solve_target_position(n);
+    }
   }
   else
     neutralise_guarding_pieces(n);

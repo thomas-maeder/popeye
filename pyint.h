@@ -21,6 +21,7 @@
     ENUMERATOR(piece_guards), \
     ENUMERATOR(piece_gives_check), \
     ENUMERATOR(piece_is_missing), \
+    ENUMERATOR(piece_is_captured), \
     ENUMERATOR(piece_is_king)
 
 #define ENUMERATORS piece_usageENUMERATORS
