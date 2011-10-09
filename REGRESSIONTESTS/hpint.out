@@ -875,14 +875,14 @@ a)
 7 moegliche Stellungen in 2+0
 51 moegliche Stellungen in 3+0
 684 moegliche Stellungen in 4+0
-2910 moegliche Stellungen in 5+0
+2850 moegliche Stellungen in 5+0
   1.f7-f8=L   2.Lf8-c5   3.Lc5-b6   4.f6-f7   5.f7*g8=L   6.Lg8-d5 # 
-8161 moegliche Stellungen in 6+0
+7852 moegliche Stellungen in 6+0
 
-              empile:     1279841
-            jouecoup:     1337759
-        orig_rbechec:      225985
-        orig_rnechec:      539045
+              empile:     1257945
+            jouecoup:     1315587
+        orig_rbechec:      222397
+        orig_rnechec:      525561
 b) ser-=6
 
 0 moegliche Stellungen in 1+0
