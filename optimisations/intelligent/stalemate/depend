@@ -3,7 +3,8 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.h pyint.h pydata.h pyslice.h \
  optimisations/intelligent/stalemate/intercept_checks.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h trace.h
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
+ options/maxsolutions/maxsolutions.h trace.h
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -19,6 +20,8 @@ optimisations/intelligent/stalemate/immobilise_black.h:
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
+options/maxsolutions/maxsolutions.h:
+
 trace.h:
 optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
@@ -27,8 +30,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
  optimisations/intelligent/stalemate/pin_black_piece.h \
- options/maxsolutions/maxsolutions.h stipulation/temporary_hacks.h \
- trace.h
+ stipulation/temporary_hacks.h trace.h
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
@@ -45,8 +47,6 @@ optimisations/intelligent/stalemate/white_block.h:
 optimisations/intelligent/stalemate/black_block.h:
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
-
-options/maxsolutions/maxsolutions.h:
 
 stipulation/temporary_hacks.h:
 

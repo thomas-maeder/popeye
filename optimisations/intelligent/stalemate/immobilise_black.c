@@ -6,7 +6,6 @@
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
-#include "options/maxsolutions/maxsolutions.h"
 #include "stipulation/temporary_hacks.h"
 #include "trace.h"
 
@@ -111,75 +110,83 @@ static square find_most_expensive_square_to_be_blocked_by_black(block_requiremen
   return result;
 }
 
-void intelligent_stalemate_immobilise_black(stip_length_type n)
+/* @return true iff >=1 black pieces needed to be immobilised
+ */
+boolean intelligent_stalemate_immobilise_black(stip_length_type n)
 {
-  immobilisation_state_type immobilisation_state = null_immobilisation_state;
-
-  if (max_nr_solutions_found_in_phase())
-    return;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_immobilisation_state = &immobilisation_state;
-  slice_has_solution(slices[temporary_hack_intelligent_immobilisation_tester[Black]].u.fork.fork);
-  current_immobilisation_state = 0;
-
-  assert(immobilisation_state.last_found_trouble_square_status>no_requirement);
-  assert(immobilisation_state.nr_of_trouble_makers>0);
-  assert(immobilisation_state.positions_of_trouble_makers[immobilisation_state.nr_of_trouble_makers-1]!=initsquare);
-
-  if (immobilisation_state.last_found_trouble_square_status<immobilisation_impossible)
   {
-    if (immobilisation_state.last_found_trouble_square_status!=king_block_required
-        && can_white_pin())
-      intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(n,
-                                                                    &immobilisation_state);
+    immobilisation_state_type immobilisation_state = null_immobilisation_state;
+    current_immobilisation_state = &immobilisation_state;
+    slice_has_solution(slices[temporary_hack_intelligent_immobilisation_tester[Black]].u.fork.fork);
+    current_immobilisation_state = 0;
 
-    if (immobilisation_state.last_found_trouble_square_status<pin_required
-        && can_we_block_all_necessary_squares(immobilisation_state.nr_blocks_needed))
+    if (immobilisation_state.last_found_trouble_square_status>no_requirement)
     {
-      square const most_expensive_square_to_be_blocked_by_black
-        = find_most_expensive_square_to_be_blocked_by_black(immobilisation_state.block_requirement);
-      switch (most_expensive_square_to_be_blocked_by_black)
+      assert(immobilisation_state.nr_of_trouble_makers>0);
+      assert(immobilisation_state.positions_of_trouble_makers[immobilisation_state.nr_of_trouble_makers-1]!=initsquare);
+
+      if (immobilisation_state.last_found_trouble_square_status<immobilisation_impossible)
       {
-        case nullsquare:
-          /* Black doesn't have time to provide all required blocks */
-          break;
+        if (immobilisation_state.last_found_trouble_square_status!=king_block_required
+            && can_white_pin())
+          intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(n,
+                                                                        &immobilisation_state);
 
-        case initsquare:
-          assert(immobilisation_state.block_requirement[immobilisation_state.last_found_trouble_square]
-                 ==white_block_sufficient_on_square);
+        if (immobilisation_state.last_found_trouble_square_status<pin_required
+            && can_we_block_all_necessary_squares(immobilisation_state.nr_blocks_needed))
         {
-          /* All required blocks can equally well be provided by White or Black,
-           * i.e. they all concern black pawns!
-           * We could now try to find the most expensive one, but we assume that
-           * there isn't much difference; so simply pick
-           * immobilisation_state.last_found_trouble_square.
-           */
-          intelligent_stalemate_black_block(n,
-                                            immobilisation_state.last_found_trouble_square);
-          intelligent_stalemate_white_block(n,
-                                            immobilisation_state.last_found_trouble_square);
-          break;
-        }
-
-        default:
-          if (nr_reasons_for_staying_empty[most_expensive_square_to_be_blocked_by_black]==0)
+          square const most_expensive_square_to_be_blocked_by_black
+            = find_most_expensive_square_to_be_blocked_by_black(immobilisation_state.block_requirement);
+          switch (most_expensive_square_to_be_blocked_by_black)
           {
-            /* most_expensive_square_to_be_blocked_by_black is the most expensive
-             * square among those that Black must block */
-            intelligent_stalemate_black_block(n,
-                                              most_expensive_square_to_be_blocked_by_black);
+            case nullsquare:
+              /* Black doesn't have time to provide all required blocks */
+              break;
+
+            case initsquare:
+              assert(immobilisation_state.block_requirement[immobilisation_state.last_found_trouble_square]
+                     ==white_block_sufficient_on_square);
+            {
+              /* All required blocks can equally well be provided by White or Black,
+               * i.e. they all concern black pawns!
+               * We could now try to find the most expensive one, but we assume that
+               * there isn't much difference; so simply pick
+               * immobilisation_state.last_found_trouble_square.
+               */
+              intelligent_stalemate_black_block(n,
+                                                immobilisation_state.last_found_trouble_square);
+              intelligent_stalemate_white_block(n,
+                                                immobilisation_state.last_found_trouble_square);
+              break;
+            }
+
+            default:
+              if (nr_reasons_for_staying_empty[most_expensive_square_to_be_blocked_by_black]==0)
+              {
+                /* most_expensive_square_to_be_blocked_by_black is the most expensive
+                 * square among those that Black must block */
+                intelligent_stalemate_black_block(n,
+                                                  most_expensive_square_to_be_blocked_by_black);
+              }
+              break;
           }
-          break;
+        }
       }
+
+      result = true;
     }
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static void update_block_requirements(immobilisation_state_type *state)

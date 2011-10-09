@@ -28,10 +28,10 @@
   1.b2-b1=T c7-c8=T   2.Tb1-b7 Tc8-h8   3.Tb7-h7 Th8*h7 = 
 680 moegliche Stellungen in 3+3
 
-              empile:      702898
-            jouecoup:      580433
+              empile:      522647
+            jouecoup:      504509
         orig_rbechec:       28805
-        orig_rnechec:      431894
+        orig_rnechec:      355970
 Loesung beendet. 
 
 
@@ -70,10 +70,10 @@ Loesung beendet.
   1.Kg1*f1   2.Tg2-g1   3.g3-g2   4.Lh2-f4   5.Lf4-d2 Kd1*d2 = 
 4 moegliche Stellungen in 1+5
 
-              empile:       84476
-            jouecoup:       63139
+              empile:       60713
+            jouecoup:       55340
         orig_rbechec:        7820
-        orig_rnechec:       68064
+        orig_rnechec:       60265
 Loesung beendet. 
 
 
@@ -110,10 +110,10 @@ Loesung beendet.
   1.b2-b1=T   2.Tb1*b5   3.Tb5-b6   4.Tb6-c6   5.Tc6*c8 b7*c8=D = 
 52 moegliche Stellungen in 1+5
 
-              empile:     2545784
-            jouecoup:     1726987
+              empile:     1399333
+            jouecoup:     1234450
         orig_rbechec:      200805
-        orig_rnechec:     1720201
+        orig_rnechec:     1227664
 Loesung beendet. 
 
 
@@ -151,10 +151,10 @@ Loesung beendet.
   1.Tg6-g5 g2-g1=D   2.Tg5-c5 Dg1*c5 = 
 12 moegliche Stellungen in 2+2
 
-              empile:       41437
-            jouecoup:       27734
+              empile:       34845
+            jouecoup:       25708
         orig_rbechec:         994
-        orig_rnechec:       18051
+        orig_rnechec:       16025
 Loesung beendet. 
 
 
@@ -246,10 +246,10 @@ Loesung beendet.
   1.a2-a1=L   2.La1-c3   3.Lc3-e1   4.Le1-h4   5.Lh4-d8 c7*d8=D = 
 53 moegliche Stellungen in 1+5
 
-              empile:      688299
-            jouecoup:      447101
+              empile:      378895
+            jouecoup:      330125
         orig_rbechec:       35382
-        orig_rnechec:      455817
+        orig_rnechec:      338841
 Loesung beendet. 
 
 
@@ -284,10 +284,10 @@ Loesung beendet.
   1.g2-g1=T   2.Tg1-g8   3.Tg8-d8 + c7*d8=S = 
 7 moegliche Stellungen in 1+3
 
-              empile:       31017
-            jouecoup:       23599
+              empile:       22443
+            jouecoup:       21276
         orig_rbechec:        1604
-        orig_rnechec:       14723
+        orig_rnechec:       12400
 Loesung beendet. 
 
 
@@ -321,10 +321,10 @@ Loesung beendet.
   1.Td7-e7 Td4-d8 +   2.Lg6-e8 De4-b4   3.Tg3-g7 Le3-h6 = 
 1596 moegliche Stellungen in 3+3
 
-              empile:    12134545
-            jouecoup:     9105886
+              empile:     7606864
+            jouecoup:     7051391
         orig_rbechec:      741179
-        orig_rnechec:     8148890
+        orig_rnechec:     6094395
 Loesung beendet. 
 
 
@@ -362,10 +362,10 @@ Es fehlt ein weisser oder schwarzer Koenig
   1.e7-e8=S   2.d7-d8=T   3.Td8-d7   4.Td7*g7 = 
 186 moegliche Stellungen in 4+0
 
-              empile:       15587
-            jouecoup:       17425
+              empile:       14749
+            jouecoup:       16842
         orig_rbechec:           0
-        orig_rnechec:        8028
+        orig_rnechec:        7445
 Loesung beendet. 
 
 
@@ -399,10 +399,10 @@ Loesung beendet.
   1.g2-g1=L a7*b8=D   2.Lg1-b6 b7*c8=T   3.Lb6-d8 e7*d8=S = 
 5786 moegliche Stellungen in 3+3
 
-              empile:    24304838
-            jouecoup:    18235627
+              empile:    14888545
+            jouecoup:    14419321
         orig_rbechec:     1192759
-        orig_rnechec:    15293936
+        orig_rnechec:    11477630
 Loesung beendet. 
 
 
@@ -436,10 +436,10 @@ Loesung beendet.
   1...a7*b8=D   2.d2-d1=T d7*e8=L   3.Td1-d8 c7*d8=S = 
 3972 moegliche Stellungen in 3+2
 
-              empile:     5198445
-            jouecoup:     4546810
+              empile:     3956667
+            jouecoup:     3950712
         orig_rbechec:      235487
-        orig_rnechec:     3179194
+        orig_rnechec:     2583096
 Loesung beendet. 
 
 
@@ -473,10 +473,10 @@ Loesung beendet.
   1.a3-a2 a7*b8=D   2.a2-a1=L c7*d8=S   3.Tc1-c8 b7*c8=T = 
 7672 moegliche Stellungen in 3+3
 
-              empile:    32639182
-            jouecoup:    23977261
+              empile:    19099968
+            jouecoup:    17657388
         orig_rbechec:     2053494
-        orig_rnechec:    22609331
+        orig_rnechec:    16289458
 Loesung beendet. 
 
 
@@ -510,10 +510,10 @@ Loesung beendet.
   1.h2-h1=S b7*c8=T   2.Tb6-b8 a7*b8=D   3.Da5-d8 e7*d8=L = 
 887 moegliche Stellungen in 3+3
 
-              empile:    28794541
-            jouecoup:    19901012
+              empile:    16502505
+            jouecoup:    14966174
         orig_rbechec:     1101676
-        orig_rnechec:    18519137
+        orig_rnechec:    13584299
 Loesung beendet. 
 
 
@@ -547,10 +547,10 @@ Loesung beendet.
   1...f7*e8=L   2.d2-d1=T b7-b8=D   3.Td1-d8 c7*d8=S = 
 4606 moegliche Stellungen in 3+2
 
-              empile:     5690677
-            jouecoup:     4559170
+              empile:     4193826
+            jouecoup:     3858729
         orig_rbechec:      241933
-        orig_rnechec:     3728559
+        orig_rnechec:     3028118
 Loesung beendet. 
 
 
@@ -584,10 +584,10 @@ Loesung beendet.
   1.a2-a1=L h7*g8=S   2.La1-h8 d7*e8=D +   3.Kg6-g7 e7*f8=T = 
 1968 moegliche Stellungen in 3+3
 
-              empile:     8597998
-            jouecoup:     6948007
+              empile:     5737727
+            jouecoup:     5715708
         orig_rbechec:      425270
-        orig_rnechec:     5362645
+        orig_rnechec:     4130346
 Loesung beendet. 
 
 
@@ -646,10 +646,10 @@ b) ser-h=9
   1.d2-d1=T   2.Td1*d4   3.Td4-c4   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=S   8.Sd1-b2   9.Ka2-a3 Lf1*c4 = 
 5 moegliche Stellungen in 1+9
 
-              empile:      231561
-            jouecoup:      196748
+              empile:      208123
+            jouecoup:      186924
         orig_rbechec:       51711
-        orig_rnechec:      120096
+        orig_rnechec:      110272
 Loesung beendet. 
 
 
@@ -718,10 +718,10 @@ b) ser-h=14
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=T   7.Td1*d4   8.Td4-c4   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=S  13.Sd1-b2  14.Ka2-a3 Lf1*c4 = 
 14 moegliche Stellungen in 1+14
 
-              empile:      573138
-            jouecoup:      443813
+              empile:      473856
+            jouecoup:      402216
         orig_rbechec:      100924
-        orig_rnechec:      332860
+        orig_rnechec:      291263
 Loesung beendet. 
 
 
@@ -780,10 +780,10 @@ b) ser-h=9
   1.Lg8-f7   2.Lf7-e8   3.Le8-b5   4.Lb5-d3   5.Ke6-d5   6.e7-e5   7.e5-e4   8.e4-e3   9.Kd5-e4 Td1*d3 = 
 44 moegliche Stellungen in 1+9
 
-              empile:      257155
-            jouecoup:      198851
+              empile:      204451
+            jouecoup:      170712
         orig_rbechec:       25410
-        orig_rnechec:      161471
+        orig_rnechec:      133332
 Loesung beendet. 
 
 
@@ -822,10 +822,10 @@ a)
   1.a2-a1=S   2.Sa1-b3   3.Sb3-c5   4.Sc5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
 1 moegliche Stellungen in 1+6
 
-              empile:       43369
-            jouecoup:       31519
+              empile:       36046
+            jouecoup:       28973
         orig_rbechec:        5478
-        orig_rnechec:       20730
+        orig_rnechec:       18184
 b) sBa2-->b3
 
 0 moegliche Stellungen in 1+1
@@ -836,10 +836,10 @@ b) sBa2-->b3
   1.b3-b2   2.b2-b1=L   3.Lb1-f5   4.Lf5-d7   5.Kf8-e8   6.Ke8-d8 Lc6*d7 = 
 1 moegliche Stellungen in 1+6
 
-              empile:       27857
-            jouecoup:       17433
+              empile:       22697
+            jouecoup:       15614
         orig_rbechec:        1725
-        orig_rnechec:       13398
+        orig_rnechec:       11579
 Loesung beendet. 
 
 
@@ -893,10 +893,10 @@ b) ser-=6
   1.f7*g8=L   2.Lg8-c4   3.Lc4*a6   4.f6-f7   5.f7-f8=L   6.Lf8-c5 = 
 8125 moegliche Stellungen in 6+0
 
-              empile:     1723540
-            jouecoup:     1526366
+              empile:     1424093
+            jouecoup:     1460858
         orig_rbechec:      255848
-        orig_rnechec:      629805
+        orig_rnechec:      564297
 Loesung beendet. 
 
 
@@ -947,10 +947,10 @@ b) ser-=4
   1.f7-f8=S   2.c7-c8=T   3.Tc8*c3   4.Tc3-g3 = 
 654 moegliche Stellungen in 4+0
 
-              empile:       43104
-            jouecoup:       50854
+              empile:       39731
+            jouecoup:       47768
         orig_rbechec:        5623
-        orig_rnechec:       23427
+        orig_rnechec:       20341
 Loesung beendet. 
 
 
@@ -996,10 +996,10 @@ b) ser-=2
   1.c7*d8=S   2.f7*e8=S = 
 140 moegliche Stellungen in 2+0
 
-              empile:       50757
-            jouecoup:       46165
+              empile:       48319
+            jouecoup:       44305
         orig_rbechec:        1357
-        orig_rnechec:       41021
+        orig_rnechec:       39161
 Loesung beendet. 
 
 
@@ -1043,10 +1043,10 @@ Loesung beendet.
   1.f4-f3   2.f3-f2   3.f2-f1=S   4.Sf1-e3   5.Se3-c2   6.Sc2-b4   7.g4-g3   8.g3-g2   9.g2-g1=L  10.Lg1-b6  11.Lb6-a5 Tc6-a6 = 
 38 moegliche Stellungen in 1+11
 
-              empile:     1945964
-            jouecoup:     1468629
+              empile:     1266607
+            jouecoup:     1183485
         orig_rbechec:      170089
-        orig_rnechec:     1316381
+        orig_rnechec:     1031237
 Loesung beendet. 
 
 
@@ -1085,10 +1085,10 @@ Loesung beendet.
   1.e2-e1=S Kc4*c5   2.Se1-f3 g2*f3   3.c2-c1=L f3*g4   4.Lc1-h6 g4-g5   5.g3-g2 g5*h6   6.g2-g1=T h6-h7   7.Tg1-g8 h7*g8=D +   8.Kb8-a7 Dg8-c8 = 
 570 moegliche Stellungen in 8+8
 
-              empile:    54815369
-            jouecoup:    49654078
+              empile:    45594390
+            jouecoup:    46304808
         orig_rbechec:     3048169
-        orig_rnechec:    25583730
+        orig_rnechec:    22234460
 Loesung beendet. 
 
 
@@ -1127,10 +1127,10 @@ Loesung beendet.
   1.c2-c1=S Kh8*g7   2.Sc1-b3 a2*b3   3.g2-g1=L b3-b4   4.Lg1-c5 b4*c5   5.a3-a2 c5*b6   6.a2-a1=T b6-b7   7.Ta1-a3 b7-b8=D   8.Ta3-g3 + Db8*g3 = 
 225 moegliche Stellungen in 8+8
 
-              empile:     7829366
-            jouecoup:     7190573
+              empile:     6718043
+            jouecoup:     6830623
         orig_rbechec:      545751
-        orig_rnechec:     2994423
+        orig_rnechec:     2634473
 Loesung beendet. 
 
 
@@ -1164,10 +1164,10 @@ Loesung beendet.
   1.h2-h1=S Te1-b1   2.c2-c1=L g7-g8=D   3.a2*b1=T Dg8-b3 = 
 6368 moegliche Stellungen in 3+3
 
-              empile:     7561266
-            jouecoup:     5729521
+              empile:     4261954
+            jouecoup:     4257199
         orig_rbechec:      368843
-        orig_rnechec:     5424697
+        orig_rnechec:     3952375
 Loesung beendet. 
 
 
@@ -1201,10 +1201,10 @@ Loesung beendet.
   1.f2-f1=S b7-b8=D   2.h2-h1=L Db8*f4   3.b2*a1=T Df4-d2 = 
 7790 moegliche Stellungen in 3+3
 
-              empile:    10472540
-            jouecoup:     7549598
+              empile:     5785282
+            jouecoup:     5717242
         orig_rbechec:      451376
-        orig_rnechec:     7076787
+        orig_rnechec:     5244431
 Loesung beendet. 
 
 
@@ -1238,10 +1238,10 @@ Loesung beendet.
   1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 = 
 23466 moegliche Stellungen in 3+3
 
-              empile:   113596551
-            jouecoup:    80805300
+              empile:    60514806
+            jouecoup:    54714136
         orig_rbechec:     4405133
-        orig_rnechec:    83250975
+        orig_rnechec:    57159811
 Loesung beendet. 
 
 
@@ -1275,10 +1275,10 @@ Loesung beendet.
   1.h2-h1=S Tc1-b1 +   2.a2*b1=T d7-d8=D   3.c2-c1=L Dd8-a5 = 
 9225 moegliche Stellungen in 3+3
 
-              empile:    18096587
-            jouecoup:    12279691
+              empile:     9734575
+            jouecoup:     9230164
         orig_rbechec:      822904
-        orig_rnechec:    12421250
+        orig_rnechec:     9371723
 Loesung beendet. 
 
 
@@ -1312,10 +1312,10 @@ Loesung beendet.
   1.e2-e1=L b7-b8=D   2.h2-h1=S Db8*f4   3.b2*a1=T Df4-d2 = 
 18207 moegliche Stellungen in 3+3
 
-              empile:    18083295
-            jouecoup:    12749781
+              empile:     9826894
+            jouecoup:     9675617
         orig_rbechec:      799073
-        orig_rnechec:    12170950
+        orig_rnechec:     9096786
 Loesung beendet. 
 
 
@@ -1351,10 +1351,10 @@ Loesung beendet.
   1.b2-b1=T a4-a5   2.Tb1-b6 a5*b6   3.e2-e1=S b6-b7   4.Se1-g2 b7-b8=D   5.h2-h1=L Db8-g3 = 
 5932 moegliche Stellungen in 5+5
 
-              empile:    25202929
-            jouecoup:    21961173
+              empile:    19110675
+            jouecoup:    20047761
         orig_rbechec:     1562942
-        orig_rnechec:    10075661
+        orig_rnechec:     8162249
 Loesung beendet. 
 
 
@@ -1388,10 +1388,10 @@ Loesung beendet.
   1.c2*b1=T Se1-c2 +   2.d2-d1=S c7-c8=D   3.h2-h1=L Dc8-c3 = 
 34928 moegliche Stellungen in 3+3
 
-              empile:    69070282
-            jouecoup:    58240191
+              empile:    45400342
+            jouecoup:    48470603
         orig_rbechec:     3850631
-        orig_rnechec:    37321979
+        orig_rnechec:    27552391
 Loesung beendet. 
 
 
@@ -1426,10 +1426,10 @@ Loesung beendet.
   1.c2-c1=T h6-h7   2.Tc1-h1 h7-h8=D   3.g2-g1=L Dh8-h3   4.b2-b1=S Dh3-f1 = 
 846 moegliche Stellungen in 4+4
 
-              empile:    17941853
-            jouecoup:    14222771
+              empile:    12190224
+            jouecoup:    12231387
         orig_rbechec:      904857
-        orig_rnechec:     9698230
+        orig_rnechec:     7706846
 Loesung beendet. 
 
 
@@ -1464,10 +1464,10 @@ Loesung beendet.
   1.c2-c1=T g6-g7   2.Tc1-h1 g7-g8=D   3.g2-g1=L Dg8-g2   4.b2-b1=S Dg2-f1 = 
 935 moegliche Stellungen in 4+4
 
-              empile:    21195036
-            jouecoup:    16300494
+              empile:    13933120
+            jouecoup:    13844749
         orig_rbechec:      788555
-        orig_rnechec:    11868630
+        orig_rnechec:     9412885
 Loesung beendet. 
 
 
@@ -1506,10 +1506,10 @@ a)
   1.c7-c5   2.c5-c4   3.c4-c3   4.c3-c2   5.c2-c1=L   6.Lc1-f4 Le5*f4 = 
 7 moegliche Stellungen in 1+6
 
-              empile:       46985
-            jouecoup:       28838
+              empile:       30117
+            jouecoup:       23960
         orig_rbechec:        2820
-        orig_rnechec:       27157
+        orig_rnechec:       22279
 b) sBc7-->d6
 
 7 moegliche Stellungen in 1+1
@@ -1520,10 +1520,10 @@ b) sBc7-->d6
   1.d6-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=S   6.Sd1-f2 Kf1*f2 = 
 7 moegliche Stellungen in 1+6
 
-              empile:       48020
-            jouecoup:       29096
+              empile:       30274
+            jouecoup:       24109
         orig_rbechec:        2781
-        orig_rnechec:       27906
+        orig_rnechec:       22919
 Loesung beendet. 
 
 
@@ -1568,10 +1568,10 @@ b) h=2
   1.Sc6-e7 Tb5*d5   2.Se7-f5 Td5*f5 = 
 13 moegliche Stellungen in 2+2
 
-              empile:       28024
-            jouecoup:       19987
+              empile:       23749
+            jouecoup:       17183
         orig_rbechec:         414
-        orig_rnechec:       16207
+        orig_rnechec:       13403
 Loesung beendet. 
 
 
@@ -1616,10 +1616,10 @@ b) h=2   -sBh4
   1.h2-h1=S b7-b8=L   2.Sh1-g3 Lb8*g3 = 
 20 moegliche Stellungen in 2+2
 
-              empile:       11387
-            jouecoup:        7322
+              empile:        8507
+            jouecoup:        6364
         orig_rbechec:         572
-        orig_rnechec:        6282
+        orig_rnechec:        5324
 Loesung beendet. 
 
 
@@ -1656,10 +1656,10 @@ Loesung beendet.
   1.g2-g1=L   2.Lg1-h2   3.Lh2-f4 Se2*f4 = 
 2 moegliche Stellungen in 1+3
 
-              empile:       18326
-            jouecoup:       12282
+              empile:       13410
+            jouecoup:       10611
         orig_rbechec:         709
-        orig_rnechec:       10479
+        orig_rnechec:        8808
 Loesung beendet. 
 
 
@@ -1697,10 +1697,10 @@ Loesung beendet.
   1.a2-a1=S   2.Sa1-c2   3.Sc2-d4   4.Sd4*e6   5.Se6-d8 e7*d8=T = 
 12 moegliche Stellungen in 1+5
 
-              empile:      214716
-            jouecoup:      136267
+              empile:      139471
+            jouecoup:      105851
         orig_rbechec:        8935
-        orig_rnechec:      128976
+        orig_rnechec:       98560
 Loesung beendet. 
 
 
@@ -1749,10 +1749,10 @@ b) h=4
   1.Lf4-d6 f5-f6   2.Ld6-e7 f6*e7   3.Kh5-h6 e7-e8=D   4.Kh6-h7 De8-f8 = 
 29 moegliche Stellungen in 4+4
 
-              empile:       72006
-            jouecoup:       47575
+              empile:       66469
+            jouecoup:       45330
         orig_rbechec:        2451
-        orig_rnechec:       27610
+        orig_rnechec:       25365
 Loesung beendet. 
 
 
@@ -1801,10 +1801,10 @@ b) h=4  sBg6-->e6
   1.Ke4-e5 f5*e6   2.Ke5-f6 e6-e7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 Kd6-e6 = 
 18 moegliche Stellungen in 4+4
 
-              empile:       56099
-            jouecoup:       24589
+              empile:       55995
+            jouecoup:       24485
         orig_rbechec:         202
-        orig_rnechec:       22706
+        orig_rnechec:       22602
 Loesung beendet. 
 
 
@@ -1849,10 +1849,10 @@ b) h=2
   1.g7-g5 g2-g4   2.h5*g4 Sf1-g3 = 
 11 moegliche Stellungen in 2+2
 
-              empile:        5195
-            jouecoup:        3032
+              empile:        5084
+            jouecoup:        2926
         orig_rbechec:          78
-        orig_rnechec:        2839
+        orig_rnechec:        2733
 Loesung beendet. 
 
 
@@ -1888,10 +1888,10 @@ Loesung beendet.
   1.Kd5-c6 Kg5*f4   2.Lc3-e5 + Kf4*e5   3.Kc6-b7 Ke5-d6   4.Kb7-a8 Kd6-c7 = 
 12 moegliche Stellungen in 4+4
 
-              empile:       75954
-            jouecoup:       46258
+              empile:       75481
+            jouecoup:       46074
         orig_rbechec:         440
-        orig_rnechec:       39387
+        orig_rnechec:       39203
 Loesung beendet. 
 
 
@@ -1927,10 +1927,10 @@ Loesung beendet.
   1.Se8-c7 Dd6-a6 +   2.Tb2-b7 Lc2-f5 +   3.Th7-d7 Th3-c3 = 
 756 moegliche Stellungen in 3+3
 
-              empile:    19575673
-            jouecoup:    13563876
+              empile:    11404278
+            jouecoup:    10080408
         orig_rbechec:      909130
-        orig_rnechec:    13367086
+        orig_rnechec:     9883618
 Loesung beendet. 
 
 
@@ -1983,10 +1983,10 @@ b) h=6  sKa1-->h1
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 Df8*f2 = 
 2 moegliche Stellungen in 6+6
 
-              empile:       73026
-            jouecoup:       32200
+              empile:       67158
+            jouecoup:       30718
         orig_rbechec:        1038
-        orig_rnechec:       28302
+        orig_rnechec:       26820
 Loesung beendet. 
 
 
@@ -2199,10 +2199,10 @@ Loesung beendet.
   1.Df3-a8   2.Kc8-b7   3.Kb7-c6   4.Kc6-d5   5.Kd5-e4   6.Ke4-f3   7.Kf3-g2   8.Kg2-g1   9.Da8-h1  10.g3-g2  11.Lc7-h2  12.g4-g3  13.Ld7-h3  14.g5-g4 Ke1-e2 = 
 24 moegliche Stellungen in 1+14
 
-              empile:     4008114
-            jouecoup:     4068820
+              empile:     3866264
+            jouecoup:     4041270
         orig_rbechec:      404086
-        orig_rnechec:      892809
+        orig_rnechec:      865259
 Loesung beendet. 
 
 
@@ -2257,10 +2257,10 @@ b) h=7
   1.Db1-e4 d2-d3   2.Lb7-c8 d3*e4   3.Lc8-f5 e4*f5   4.d4-d3 f5-f6   5.d3-d2 f6-f7   6.d2-d1=S f7-f8=D   7.Sd1-f2 Df8*f2 = 
 110 moegliche Stellungen in 7+7
 
-              empile:      531877
-            jouecoup:      429170
+              empile:      450255
+            jouecoup:      405413
         orig_rbechec:       10561
-        orig_rnechec:      352074
+        orig_rnechec:      328317
 Loesung beendet. 
 
 
@@ -2307,10 +2307,10 @@ b) h=3
   1.Se8-g7 f6*g7   2.f2-f1=S g7*h8=T   3.Sf1-h2 Th8*h2 = 
 23 moegliche Stellungen in 3+3
 
-              empile:      123235
-            jouecoup:       84708
+              empile:       78621
+            jouecoup:       71199
         orig_rbechec:        7440
-        orig_rnechec:       80473
+        orig_rnechec:       66964
 Loesung beendet. 
 
 
@@ -2353,10 +2353,10 @@ Loesung beendet.
   1.e2-e1=S   2.Sg1-e2   3.g2-g1=T   4.Se1-g2   5.Sg2-f4   6.Tg1-g2   7.Se2-g1   8.Sf4-e2 Dc1-d2 = 
 888 moegliche Stellungen in 1+8
 
-              empile:    71814641
-            jouecoup:    54679403
+              empile:    50179256
+            jouecoup:    46030170
         orig_rbechec:     6121531
-        orig_rnechec:    57752905
+        orig_rnechec:    49103672
 Loesung beendet. 
 
 
@@ -2392,10 +2392,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5*f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=S = 
 835 moegliche Stellungen in 5+5
 
-              empile:    14964263
-            jouecoup:    13396793
+              empile:    12649301
+            jouecoup:    12464393
         orig_rbechec:      545882
-        orig_rnechec:     5440057
+        orig_rnechec:     4507657
 Loesung beendet. 
 
 
@@ -2435,10 +2435,10 @@ Loesung beendet.
   1.d2-d1=L Kb1-a1   2.Ld1-b3 a2*b3   3.f2-f1=L b3-b4   4.Lf1-a6 b4-b5   5.g2-g1=L b5*a6   6.Lg1-h2 a6-a7   7.Lh2-b8 a7*b8=D   8.a3-a2 Db8-g3 = 
 1164 moegliche Stellungen in 8+8
 
-              empile:    16054363
-            jouecoup:    12653904
+              empile:    11213044
+            jouecoup:    10853400
         orig_rbechec:      889843
-        orig_rnechec:    11746853
+        orig_rnechec:     9946349
 Loesung beendet. 
 
 
@@ -2473,10 +2473,10 @@ bug
   1.d2-d1=S Ta1*b1 +   2.c2*b1=T e7-e8=D   3.a2-a1=L De8*e1 = 
 6894 moegliche Stellungen in 3+3
 
-              empile:    12193103
-            jouecoup:     8791280
+              empile:     6826533
+            jouecoup:     6534769
         orig_rbechec:      837581
-        orig_rnechec:     8875028
+        orig_rnechec:     6618517
 Loesung beendet. 
 
 
@@ -2513,10 +2513,10 @@ a)
   1.Kf7-g6 Sg3-e4   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Se4*f6 = 
 7 moegliche Stellungen in 4+4
 
-              empile:      164005
-            jouecoup:      108964
+              empile:      161719
+            jouecoup:      107762
         orig_rbechec:        2398
-        orig_rnechec:       82475
+        orig_rnechec:       81273
 b) sSf6-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2525,10 +2525,10 @@ b) sSf6-->h1
   1.Kf7-g6 Sg3*h1   2.Lh4-g3 Kh3*g3   3.Kg6-h5 Kg3-f4   4.Kh5-h4 Sh1-g3 = 
 7 moegliche Stellungen in 4+4
 
-              empile:      153485
-            jouecoup:       98999
+              empile:      152236
+            jouecoup:       98367
         orig_rbechec:        1697
-        orig_rnechec:       80378
+        orig_rnechec:       79746
 Loesung beendet. 
 
 
@@ -2563,10 +2563,10 @@ Loesung beendet.
   1...Lf2-e1   2.f3-f2 Kf1-g2   3.f2-f1=T Le1-d2   4.Tf1-c1 Ld2*c1 = 
 14 moegliche Stellungen in 4+3
 
-              empile:      138471
-            jouecoup:      120156
+              empile:      102612
+            jouecoup:       97784
         orig_rbechec:       14034
-        orig_rnechec:      129711
+        orig_rnechec:      107339
 Loesung beendet. 
 
 
@@ -2600,10 +2600,10 @@ Loesung beendet.
   1.Kh5-h6 h7-h8=S   2.Kh6-h7 Sh8*f7 = 
 24 moegliche Stellungen in 2+2
 
-              empile:       14745
-            jouecoup:        8161
+              empile:       14611
+            jouecoup:        8042
         orig_rbechec:         121
-        orig_rnechec:        6713
+        orig_rnechec:        6594
 Loesung beendet. 
 
 
@@ -2638,10 +2638,10 @@ Loesung beendet.
   1.Kf6-f7 g4-g5   2.Kf7-g8 g5-g6   3.Kg8-h8 g6*h7 = 
 3 moegliche Stellungen in 3+3
 
-              empile:        6986
-            jouecoup:        2483
+              empile:        6970
+            jouecoup:        2471
         orig_rbechec:          38
-        orig_rnechec:        2364
+        orig_rnechec:        2352
 Loesung beendet. 
 
 
@@ -2679,10 +2679,10 @@ Loesung beendet.
   1.e2-e1=L Kc2-c1   2.Le1-b4 a3*b4   3.g2-g1=L b4-b5   4.Lg1-a7 b5-b6   5.h3-h2 b6*a7   6.h2-h1=L a7-a8=L   7.Lh1-d5 La8*d5 = 
 381 moegliche Stellungen in 7+7
 
-              empile:    61589512
-            jouecoup:    63210896
+              empile:    57505566
+            jouecoup:    61731500
         orig_rbechec:     2355936
-        orig_rnechec:    19317586
+        orig_rnechec:    17838190
 Loesung beendet. 
 
 
@@ -2717,10 +2717,10 @@ Loesung beendet.
   1.Sg3-e2 Lf5-g6   2.Kg5-h6 Sf4*e2   3.Lh8*f6 + Ke5*f6 = 
 625 moegliche Stellungen in 3+3
 
-              empile:     1560771
-            jouecoup:     1208249
+              empile:     1100325
+            jouecoup:      967903
         orig_rbechec:       67340
-        orig_rnechec:     1082083
+        orig_rnechec:      841737
 Loesung beendet. 
 
 
@@ -2754,10 +2754,10 @@ Loesung beendet.
   1.Ke6-f6 Ke8*d7   2.Kf6-f7 Kd7-d6   3.Kf7-e8 Kd6-e6 = 
 40 moegliche Stellungen in 3+3
 
-              empile:       76745
-            jouecoup:       35078
+              empile:       76308
+            jouecoup:       34686
         orig_rbechec:         287
-        orig_rnechec:       33636
+        orig_rnechec:       33244
 Loesung beendet. 
 
 
@@ -2800,10 +2800,10 @@ Loesung beendet.
   1.Sa8*c7   2.Da7-a8   3.Lb8-a7   4.Tb7-b8   5.Kc8-b7   6.Kb7-a6   7.Ka6-a5   8.Lb5-a6   9.La6-c8  10.Ka5-a6  11.Ka6-b7  12.Sc7-b5 + a4*b5 = 
 31 moegliche Stellungen in 1+12
 
-              empile:    49292383
-            jouecoup:    38572360
+              empile:    35407581
+            jouecoup:    32524147
         orig_rbechec:     4319953
-        orig_rnechec:    36814228
+        orig_rnechec:    30766015
 Loesung beendet. 
 
 
@@ -2840,10 +2840,10 @@ Loesung beendet.
   1.c2-c1=L g3-g4   2.Lc1-h6 g4-g5   3.a2-a1=L g5*h6   4.La1-g7 h6*g7   5.f2-f1=L g7-g8=T   6.Lf1-g2 + Tg8*g2 = 
 68 moegliche Stellungen in 6+6
 
-              empile:     3573705
-            jouecoup:     3133228
+              empile:     2713713
+            jouecoup:     2844270
         orig_rbechec:      139830
-        orig_rnechec:     1954919
+        orig_rnechec:     1665961
 Loesung beendet. 
 
 
@@ -2884,10 +2884,10 @@ a)
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-f1 Df8*f1 = 
 19 moegliche Stellungen in 6+6
 
-              empile:      110911
-            jouecoup:       52887
+              empile:      105615
+            jouecoup:       50888
         orig_rbechec:        2517
-        orig_rnechec:       41803
+        orig_rnechec:       39804
 b) sKh2-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2898,10 +2898,10 @@ b) sKh2-->h1
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=S f7-f8=D   6.Sd1-f2 + Df8*f2 = 
 11 moegliche Stellungen in 6+6
 
-              empile:      113184
-            jouecoup:       56434
+              empile:      102156
+            jouecoup:       53389
         orig_rbechec:        3096
-        orig_rnechec:       45015
+        orig_rnechec:       41970
 c) wKg4-->f1  wBf2-->a2
 
 0 moegliche Stellungen in 1+1
@@ -2912,10 +2912,10 @@ c) wKg4-->f1  wBf2-->a2
   1.d7-d5 a2-a4   2.d5-d4 a4-a5   3.d4-d3 a5-a6   4.d3-d2 a6-a7   5.d2-d1=L a7-a8=D   6.Ld1-f3 Da8*f3 = 
 34 moegliche Stellungen in 6+6
 
-              empile:      101848
-            jouecoup:       69074
+              empile:       95072
+            jouecoup:       66020
         orig_rbechec:        5047
-        orig_rnechec:       38861
+        orig_rnechec:       35807
 Loesung beendet. 
 
 
@@ -2951,10 +2951,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7*f8=L = 
 55 moegliche Stellungen in 5+5
 
-              empile:      800129
-            jouecoup:      604024
+              empile:      678466
+            jouecoup:      564724
         orig_rbechec:       18131
-        orig_rnechec:      413829
+        orig_rnechec:      374529
 Loesung beendet. 
 
 
@@ -2990,10 +2990,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*g7   5.a2-a1=S g7-g8=T = 
 3052 moegliche Stellungen in 5+5
 
-              empile:     8144589
-            jouecoup:     6125108
+              empile:     5668214
+            jouecoup:     5267105
         orig_rbechec:      400386
-        orig_rnechec:     4242644
+        orig_rnechec:     3384641
 Loesung beendet. 
 
 
@@ -3029,10 +3029,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
 167 moegliche Stellungen in 5+5
 
-              empile:      726198
-            jouecoup:      522759
+              empile:      542640
+            jouecoup:      462475
         orig_rbechec:       26661
-        orig_rnechec:      422185
+        orig_rnechec:      361901
 Loesung beendet. 
 
 
@@ -3068,10 +3068,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5-e6   4.a3-a2 e6-e7   5.a2-a1=S e7-e8=S = 
 41 moegliche Stellungen in 5+5
 
-              empile:      601087
-            jouecoup:      396953
+              empile:      513344
+            jouecoup:      370101
         orig_rbechec:       12365
-        orig_rnechec:      315609
+        orig_rnechec:      288757
 Loesung beendet. 
 
 
@@ -3108,10 +3108,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=S = 
 167 moegliche Stellungen in 5+5
 
-              empile:     9307948
-            jouecoup:     9041221
+              empile:     8911063
+            jouecoup:     8903493
         orig_rbechec:      322307
-        orig_rnechec:     1519992
+        orig_rnechec:     1382264
 Loesung beendet. 
 
 
@@ -3147,10 +3147,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=S h7-h8=L = 
 2201 moegliche Stellungen in 5+5
 
-              empile:    28092438
-            jouecoup:    25651094
+              empile:    24453679
+            jouecoup:    24271261
         orig_rbechec:     1177497
-        orig_rnechec:     7715314
+        orig_rnechec:     6335481
 Loesung beendet. 
 
 
@@ -3186,10 +3186,10 @@ Loesung beendet.
   1.a7-a5 h2-h4   2.a5-a4 h4-h5   3.a4-a3 h5*g6   4.a3-a2 g6*h7   5.a2-a1=L h7-h8=L = 
 209 moegliche Stellungen in 5+5
 
-              empile:     6093857
-            jouecoup:     5730528
+              empile:     5545980
+            jouecoup:     5532649
         orig_rbechec:      216808
-        orig_rnechec:     1421912
+        orig_rnechec:     1224033
 Loesung beendet. 
 
 
@@ -3225,10 +3225,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
 1582 moegliche Stellungen in 5+5
 
-              empile:    14860014
-            jouecoup:    12847561
+              empile:    12694287
+            jouecoup:    12035493
         orig_rbechec:      424818
-        orig_rnechec:     6132989
+        orig_rnechec:     5320921
 Loesung beendet. 
 
 
@@ -3264,10 +3264,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4-e5   3.a4-a3 e5*f6   4.a3-a2 f6-f7   5.a2-a1=S f7*g8=T = 
 425 moegliche Stellungen in 5+5
 
-              empile:     6611428
-            jouecoup:     6105546
+              empile:     5859954
+            jouecoup:     5813294
         orig_rbechec:      250886
-        orig_rnechec:     1883331
+        orig_rnechec:     1591079
 Loesung beendet. 
 
 
@@ -3303,10 +3303,10 @@ Loesung beendet.
   1.a7-a5 e2-e4   2.a5-a4 e4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7*g8=T = 
 923 moegliche Stellungen in 5+5
 
-              empile:    12122824
-            jouecoup:    11261993
+              empile:    10827993
+            jouecoup:    10818265
         orig_rbechec:      513446
-        orig_rnechec:     3350064
+        orig_rnechec:     2906336
 Loesung beendet. 
 
 
@@ -3342,10 +3342,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6*e7   5.a2-a1=L e7-e8=T = 
 1351 moegliche Stellungen in 5+5
 
-              empile:     4735468
-            jouecoup:     4286413
+              empile:     4046190
+            jouecoup:     3990305
         orig_rbechec:      269889
-        orig_rnechec:     1711680
+        orig_rnechec:     1415572
 Loesung beendet. 
 
 
@@ -3381,10 +3381,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4*f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=S f7-f8=D = 
 151 moegliche Stellungen in 5+5
 
-              empile:     2298030
-            jouecoup:     2059060
+              empile:     2019928
+            jouecoup:     1968142
         orig_rbechec:      108758
-        orig_rnechec:      741986
+        orig_rnechec:      651068
 Loesung beendet. 
 
 
@@ -3421,10 +3421,10 @@ Loesung beendet.
   1.a7-a5 c2-c4   2.a5-a4 c4*d5   3.a4-a3 d5-d6   4.a3-a2 d6-d7   5.a2-a1=L d7-d8=D = 
 1986 moegliche Stellungen in 5+5
 
-              empile:     8118221
-            jouecoup:     7037955
+              empile:     6673504
+            jouecoup:     6427048
         orig_rbechec:      421926
-        orig_rnechec:     3285303
+        orig_rnechec:     2674396
 Loesung beendet. 
 
 
@@ -3460,10 +3460,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
 24 moegliche Stellungen in 5+5
 
-              empile:     1880789
-            jouecoup:     1754292
+              empile:     1820312
+            jouecoup:     1735738
         orig_rbechec:       57677
-        orig_rnechec:      449264
+        orig_rnechec:      430710
 Loesung beendet. 
 
 
@@ -3500,10 +3500,10 @@ Loesung beendet.
   1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=L f7-f8=D = 
 16 moegliche Stellungen in 5+5
 
-              empile:      370855
-            jouecoup:      319931
+              empile:      353604
+            jouecoup:      315063
         orig_rbechec:        9649
-        orig_rnechec:      122737
+        orig_rnechec:      117869
 Loesung beendet. 
 
 
@@ -3540,10 +3540,10 @@ Loesung beendet.
   1.b7-b5 f2-f4   2.b5-b4 f4-f5   3.b4-b3 f5-f6   4.b3-b2 f6-f7   5.b2*a1=T f7-f8=D = 
 188 moegliche Stellungen in 5+5
 
-              empile:     2441399
-            jouecoup:     2009746
+              empile:     1988577
+            jouecoup:     1854065
         orig_rbechec:       92269
-        orig_rnechec:     1223893
+        orig_rnechec:     1068212
 Loesung beendet. 
 
 
@@ -3583,10 +3583,10 @@ Loesung beendet.
   1.Tc4-c3 + Sa4*c3   2.Kd3-d2 Sc3*d5 +   3.Kd2-d1 Tc6*c2 = 
 973 moegliche Stellungen in 3+3
 
-              empile:     1883573
-            jouecoup:     1518781
+              empile:     1475189
+            jouecoup:     1318715
         orig_rbechec:       55014
-        orig_rnechec:     1164169
+        orig_rnechec:      964103
 Loesung beendet. 
 
 
@@ -3622,10 +3622,10 @@ Loesung beendet.
   1.d5*e4   2.Kd6-d5   3.Kd5-d4   4.d7-d5   5.e4*d3 + c2*d3 = 
 75 moegliche Stellungen in 1+5
 
-              empile:       70235
-            jouecoup:       44003
+              empile:       64570
+            jouecoup:       38586
         orig_rbechec:        2621
-        orig_rnechec:       37321
+        orig_rnechec:       31904
 Loesung beendet. 
 
 
@@ -3662,10 +3662,10 @@ Loesung beendet.
   1.Kb2-c3 a2*b3   2.Kc3-d4 b3*c4   3.Kd4-e5 c4*d5   4.Ke5-f6 d5*e6   5.Kf6-g7 e6*f7   6.Kg7-h8 Kh5-h6 = 
 23 moegliche Stellungen in 6+6
 
-              empile:      260354
-            jouecoup:      222589
+              empile:      215060
+            jouecoup:      209400
         orig_rbechec:       12622
-        orig_rnechec:      137218
+        orig_rnechec:      124029
 Loesung beendet. 
 
 
@@ -3703,10 +3703,10 @@ a)
   1.c2-c1=S a7-a8=T   2.Sc1-e2 Ta8-a3   3.Se2-g3 Ta3*g3 = 
 4244 moegliche Stellungen in 3+3
 
-              empile:     2517733
-            jouecoup:     2064445
+              empile:     2134573
+            jouecoup:     1865258
         orig_rbechec:       39454
-        orig_rnechec:     1403797
+        orig_rnechec:     1204610
 b) sBc2-->b2
 
 0 moegliche Stellungen in 1+1
@@ -3714,10 +3714,10 @@ b) sBc2-->b2
   1.b2-b1=L a7-a8=D   2.Lb1-e4 Da8*d5   3.Le4-g2 Dd5*g2 = 
 3791 moegliche Stellungen in 3+3
 
-              empile:     2579689
-            jouecoup:     2132144
+              empile:     2193876
+            jouecoup:     1930534
         orig_rbechec:       39615
-        orig_rnechec:     1412520
+        orig_rnechec:     1210910
 Loesung beendet. 
 
 
@@ -3755,10 +3755,10 @@ Loesung beendet.
   1.Sb1-d2 Td4-g4   2.Sd2-f3 La8*f3 = 
 2 moegliche Stellungen in 2+2
 
-              empile:       16172
-            jouecoup:        9739
+              empile:       13719
+            jouecoup:        9007
         orig_rbechec:         346
-        orig_rnechec:        8465
+        orig_rnechec:        7733
 Loesung beendet. 
 
 
@@ -3795,10 +3795,10 @@ a)
   1.d3-d2 + Kc1-c2   2.d2-d1=T Le1-f2   3.Td1-g1 Lf2*g1 = 
 6 moegliche Stellungen in 3+3
 
-              empile:       80064
-            jouecoup:       69374
+              empile:       59992
+            jouecoup:       57283
         orig_rbechec:        7547
-        orig_rnechec:       74815
+        orig_rnechec:       62724
 b) wTe1 
 
 0 moegliche Stellungen in 1+1
@@ -3806,10 +3806,10 @@ b) wTe1
   1.d3-d2 + Kc1-b1   2.d2-d1=L Te1-e2   3.Ld1-c2 + Kb1*c2 = 
 4 moegliche Stellungen in 3+3
 
-              empile:      160239
-            jouecoup:      126575
+              empile:      106525
+            jouecoup:       99370
         orig_rbechec:       12113
-        orig_rnechec:      133621
+        orig_rnechec:      106416
 Loesung beendet. 
 
 
@@ -3848,10 +3848,10 @@ a)
   1.c2-c1=T   2.Tc1-g1   3.Tg1-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
 4 moegliche Stellungen in 1+5
 
-              empile:       34673
-            jouecoup:       20608
+              empile:       29472
+            jouecoup:       19133
         orig_rbechec:        1935
-        orig_rnechec:       16309
+        orig_rnechec:       14834
 b) wKe5-->b3
 
 0 moegliche Stellungen in 1+1
@@ -3862,10 +3862,10 @@ b) wKe5-->b3
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3   4.Kf3-g2   5.Kg2-h1 Dg7*g3 = 
 8 moegliche Stellungen in 1+5
 
-              empile:       40672
-            jouecoup:       24700
+              empile:       35156
+            jouecoup:       23188
         orig_rbechec:        1985
-        orig_rnechec:       17967
+        orig_rnechec:       16455
 Loesung beendet. 
 
 
@@ -3899,10 +3899,10 @@ Loesung beendet.
   1.Th1-g1 Kd5-e5   2.Kg2-h1 Le6-d5 +   3.Tg1-g2 Ke5-e6 = 
 1658 moegliche Stellungen in 3+3
 
-              empile:      739101
-            jouecoup:      584851
+              empile:      504606
+            jouecoup:      494548
         orig_rbechec:       48074
-        orig_rnechec:      475810
+        orig_rnechec:      385507
 Loesung beendet. 
 
 
@@ -3940,10 +3940,10 @@ Loesung beendet.
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dc3*g3 = 
 1 moegliche Stellungen in 1+3
 
-              empile:       20993
-            jouecoup:       15636
+              empile:       16617
+            jouecoup:       14292
         orig_rbechec:         705
-        orig_rnechec:       10027
+        orig_rnechec:        8683
 Loesung beendet. 
 
 
@@ -3980,10 +3980,10 @@ Loesung beendet.
   1.g2-g1=L b4-b5   2.Lg1-a7 b5-b6   3.b2-b1=T b6*a7   4.Tb1-b8 a7*b8=D   5.d2-d1=S Db8*f4   6.Sd1-f2 Df4*f2 = 
 43 moegliche Stellungen in 6+6
 
-              empile:     4085442
-            jouecoup:     3954320
+              empile:     3523451
+            jouecoup:     3773750
         orig_rbechec:      184772
-        orig_rnechec:     1441350
+        orig_rnechec:     1260780
 Loesung beendet. 
 
 
@@ -4021,10 +4021,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.h2-h1=T e5*f6   4.Th1-h8 f6-f7   5.Th8-g8 f7*g8=D   6.d2-d1=S Dg8*g3   7.Sd1-c3 Dg3*c3 = 
 210 moegliche Stellungen in 7+7
 
-              empile:   143102608
-            jouecoup:   154418461
+              empile:   139803795
+            jouecoup:   153255845
         orig_rbechec:     9606952
-        orig_rnechec:    33897672
+        orig_rnechec:    32735056
 Loesung beendet. 
 
 
@@ -4063,10 +4063,10 @@ Loesung beendet.
   1.f2-f1=S Kd7-c6   2.Sf1-g3 h2*g3   3.c2-c1=L g3-g4   4.Lc1-h6 g4-g5   5.h3-h2 g5*h6   6.h2-h1=T h6*g7   7.Th1-h8 g7*h8=D   8.Kb3-a4 Dh8-c3 = 
 321 moegliche Stellungen in 8+8
 
-              empile:    17091799
-            jouecoup:    15343625
+              empile:    13900468
+            jouecoup:    14239041
         orig_rbechec:     1272101
-        orig_rnechec:     7357377
+        orig_rnechec:     6252793
 Loesung beendet. 
 
 
@@ -4137,10 +4137,10 @@ Loesung beendet.
   1.a2-a1=L   2.La1-c3   3.Lc3-b4 a3*b4 = 
 2 moegliche Stellungen in 1+3
 
-              empile:       15507
-            jouecoup:       10327
+              empile:       11079
+            jouecoup:        8825
         orig_rbechec:         703
-        orig_rnechec:        8056
+        orig_rnechec:        6554
 Loesung beendet. 
 
 
@@ -4177,10 +4177,10 @@ Loesung beendet.
   1.c2-c1=L   2.Lc1-f4   3.Lf4-g3 + Dd3*g3 = 
 7 moegliche Stellungen in 1+3
 
-              empile:       39670
-            jouecoup:       28295
+              empile:       24951
+            jouecoup:       24136
         orig_rbechec:        2182
-        orig_rnechec:       21929
+        orig_rnechec:       17770
 Loesung beendet. 
 
 
@@ -4217,10 +4217,10 @@ Loesung beendet.
   1...c7-c8=T   2.Tf7-c7 Tc8*c7 +   3.Kb7-a8 Kd8-c8 = 
 39 moegliche Stellungen in 3+2
 
-              empile:       66271
-            jouecoup:       45069
+              empile:       58011
+            jouecoup:       42820
         orig_rbechec:        2640
-        orig_rnechec:       27718
+        orig_rnechec:       25469
 Loesung beendet. 
 
 
@@ -4254,10 +4254,10 @@ Loesung beendet.
   1.d2-d1=S c7-c8=D   2.a2-a1=L Dc8-b8   3.c2*b1=T Db8-h2 = 
 11081 moegliche Stellungen in 3+3
 
-              empile:     7061937
-            jouecoup:     5466194
+              empile:     4329118
+            jouecoup:     4297531
         orig_rbechec:      456961
-        orig_rnechec:     4812033
+        orig_rnechec:     3643370
 Loesung beendet. 
 
 
@@ -4294,10 +4294,10 @@ Loesung beendet.
   1.f2-f1=L   2.Lf1-c4   3.Lc4-b3 + Kc2*b3 = 
 30 moegliche Stellungen in 1+3
 
-              empile:       44216
-            jouecoup:       27846
+              empile:       37984
+            jouecoup:       24905
         orig_rbechec:         938
-        orig_rnechec:       19959
+        orig_rnechec:       17018
 Loesung beendet. 
 
 
@@ -4426,10 +4426,10 @@ Loesung beendet.
   1.Kg8-h8   2.Tf8-g8   3.Tg8-g7   4.Kh8-h7   5.Kh7-h6   6.Tg7-g5   7.Tg5-f5   8.Kh6-g5   9.Kg5-f4  10.Kf4-e5  11.Ke5-d6  12.Tf5-e5  13.Te5-e7  14.Kd6-d7  15.Kd7-c8  16.Kc8-b8  17.Kb8-a8  18.Te7-b7 + Tf7*b7 = 
 1 moegliche Stellungen in 1+18
 
-              empile:      283685
-            jouecoup:      244857
+              empile:      270649
+            jouecoup:      241647
         orig_rbechec:      116794
-        orig_rnechec:      172724
+        orig_rnechec:      169514
 Loesung beendet. 
 
 
@@ -4576,10 +4576,10 @@ Loesung beendet.
   1.Ke7-d6 Lg4-f3   2.Kd6-e5 f7-f6 +   3.Ke5-f5 Kg7-f7 = 
 38 moegliche Stellungen in 3+3
 
-              empile:       59254
-            jouecoup:       27440
+              empile:       58407
+            jouecoup:       27031
         orig_rbechec:         393
-        orig_rnechec:       24530
+        orig_rnechec:       24121
 Loesung beendet. 
 
 
@@ -4616,10 +4616,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4-e5   3.b4-b3 e5-e6   4.b3-b2 e6*f7   5.b2*a1=T f7*g8=T = 
 980 moegliche Stellungen in 5+5
 
-              empile:    12419881
-            jouecoup:    10883468
+              empile:    10266343
+            jouecoup:    10024289
         orig_rbechec:      562901
-        orig_rnechec:     4346366
+        orig_rnechec:     3487187
 Loesung beendet. 
 
 
@@ -4655,10 +4655,10 @@ Loesung beendet.
   1.b7-b5 e2-e4   2.b5-b4 e4*f5   3.b4-b3 f5*e6   4.b3-b2 e6*f7   5.b2*a1=T f7-f8=L = 
 20114 moegliche Stellungen in 5+5
 
-              empile:    74998800
-            jouecoup:    60350607
+              empile:    53791114
+            jouecoup:    51120479
         orig_rbechec:     3170563
-        orig_rnechec:    36335006
+        orig_rnechec:    27104878
 Loesung beendet. 
 
 
@@ -4694,10 +4694,10 @@ Loesung beendet.
   1.Tg6-h6 Sc4*e3   2.Th6-h2 Se3-c4   3.Th2*g2 Kf1*g2 = 
 10565 moegliche Stellungen in 3+3
 
-              empile:    74224536
-            jouecoup:    51570446
+              empile:    40359577
+            jouecoup:    38697512
         orig_rbechec:     2495992
-        orig_rnechec:    49500187
+        orig_rnechec:    36627253
 Loesung beendet. 
 
 
@@ -4734,10 +4734,10 @@ Loesung beendet.
   1.a2-a1=L e2-e4   2.La1-f6 e4-e5   3.g2-g1=T e5*f6   4.Tg1-g7 + f6*g7   5.d2-d1=S g7*f8=D   6.Sd1-f2 Df8*f2 = 
 3 moegliche Stellungen in 6+6
 
-              empile:      699289
-            jouecoup:      555951
+              empile:      524544
+            jouecoup:      504584
         orig_rbechec:       33703
-        orig_rnechec:      446216
+        orig_rnechec:      394849
 Loesung beendet. 
 
 
@@ -4782,10 +4782,10 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
   1.d2-d1=L   2.d3-d2   3.d4-d3   4.d5-d4   5.d6-d5   6.d7-d6   7.Kc8-d7   8.Kd7-e6   9.Ke6-f5  10.Kf5-g4  11.Kg4-h3  12.Kh3-h2  13.Kh2-h1 Lh4-g3 = 
 1792 moegliche Stellungen in 1+13
 
-              empile:     7356057
-            jouecoup:     5862568
+              empile:     5078481
+            jouecoup:     4871242
         orig_rbechec:      719352
-        orig_rnechec:     5890531
+        orig_rnechec:     4899205
 Loesung beendet. 
 
 
@@ -4821,10 +4821,10 @@ Loesung beendet.
   1.Ka8-b7 Kc4-b5   2.Tb8-a8 c2-c4   3.La7-b8 c4-c5   4.Kb7-a7 c5-c6 = 
 2 moegliche Stellungen in 4+4
 
-              empile:       18483
-            jouecoup:       11224
+              empile:       17980
+            jouecoup:       11071
         orig_rbechec:         273
-        orig_rnechec:        9642
+        orig_rnechec:        9489
 Loesung beendet. 
 
 
@@ -4860,10 +4860,10 @@ Loesung beendet.
   1.Sf6-g8 f5-f6   2.Kb4*c4 f6-f7   3.Kc4-d5 f7*g8=D +   4.Kd5-e5 Dg8-f7 = 
 36 moegliche Stellungen in 4+4
 
-              empile:      243096
-            jouecoup:      108887
+              empile:      239567
+            jouecoup:      106721
         orig_rbechec:        1173
-        orig_rnechec:       89694
+        orig_rnechec:       87528
 Loesung beendet. 
 
 
@@ -4904,10 +4904,10 @@ Loesung beendet.
   1.Dg7-g3   2.Dg3-b8   3.Ld8-c7   4.Lc7-e5   5.Le5*c3   6.Lc3-e5   7.Le5-c7   8.Lc7-d8   9.Db8-g3  10.Dg3-g7 Lb2*g7 = 
 15 moegliche Stellungen in 1+10
 
-              empile:      827821
-            jouecoup:      678356
+              empile:      664283
+            jouecoup:      617464
         orig_rbechec:      170825
-        orig_rnechec:      488401
+        orig_rnechec:      427509
 Loesung beendet. 
 
 
@@ -4944,10 +4944,10 @@ Loesung beendet.
   1.Sf3-h2 Kh1*h2   2.Tf1-e1 Kh2*h3   3.Te1-e2 Kh3*h4   4.Kf2-g2 Sg1*e2   5.Kg2-h1 Kh4-g3   6.h5-h4 + Kg3-h3 = 
 976 moegliche Stellungen in 6+6
 
-              empile:     7889961
-            jouecoup:     7134080
+              empile:     6906572
+            jouecoup:     6827228
         orig_rbechec:      673416
-        orig_rnechec:     2434998
+        orig_rnechec:     2128146
 Loesung beendet. 
 
 
@@ -4983,10 +4983,10 @@ a)
   1.0-0-0 Th1*h3   2.Kc8-b8 Th3*h8   3.Le6-c8 Th8*d8 = 
 419 moegliche Stellungen in 3+3
 
-              empile:     3174253
-            jouecoup:     2242751
+              empile:     1884103
+            jouecoup:     1725111
         orig_rbechec:       11418
-        orig_rnechec:     2195831
+        orig_rnechec:     1678191
 b) wBd6-->g6
 
 0 moegliche Stellungen in 1+1
@@ -4994,10 +4994,10 @@ b) wBd6-->g6
   1.0-0 Ta1*a8   2.Kg8-h8 Ta8*f8 +   3.Le6-g8 Sc5-e6 = 
 433 moegliche Stellungen in 3+3
 
-              empile:     3195127
-            jouecoup:     2235930
+              empile:     1876536
+            jouecoup:     1726302
         orig_rbechec:       13198
-        orig_rnechec:     2162099
+        orig_rnechec:     1652471
 Loesung beendet. 
 
 
@@ -5033,46 +5033,46 @@ a)
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        4433
-            jouecoup:        4131
+              empile:        3471
+            jouecoup:        3439
         orig_rbechec:         404
-        orig_rnechec:        3826
+        orig_rnechec:        3134
 b) sSa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        3917
-            jouecoup:        3525
+              empile:        3150
+            jouecoup:        2937
         orig_rbechec:         357
-        orig_rnechec:        3600
+        orig_rnechec:        3012
 c) sLa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        4540
-            jouecoup:        4040
+              empile:        3561
+            jouecoup:        3393
         orig_rbechec:         369
-        orig_rnechec:        3967
+        orig_rnechec:        3320
 d) sTa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        4430
-            jouecoup:        4037
+              empile:        3489
+            jouecoup:        3370
         orig_rbechec:         405
-        orig_rnechec:        3724
+        orig_rnechec:        3057
 e) sDa2 
 
   1.c4-c3 Ke2-d1 = 
   1.c4-c3 Dh1-d1 = 
 
-              empile:        4812
-            jouecoup:        4212
+              empile:        3683
+            jouecoup:        3540
         orig_rbechec:         388
-        orig_rnechec:        4142
+        orig_rnechec:        3470
 Loesung beendet. 
 
 
@@ -5106,10 +5106,10 @@ dies ist ein Testfall fuer intelligent und loch
   1.La4-c2   2.Sb2-a4   3.Sa4-c3   4.Sc3-b1   5.Sb1-a3   6.Kb4-a4   7.Sc6-b4   8.Tc4-c3   9.Tc3-b3  10.Lc2-e4  11.Le4-b7 Sa5*b7 = 
   1.Kb4-c5   2.Tb5-b3   3.Sc6-b4   4.La4-c6   5.Kc5-b5   6.Tc4-c5   7.Sb2-c4   8.Sc4-a3   9.Kb5-a4  10.Tc5-b5  11.Lc6-b7 Sa5*b7 = 
 
-              empile:    56345431
-            jouecoup:    41675906
+              empile:    34710700
+            jouecoup:    29247382
         orig_rbechec:     1186387
-        orig_rnechec:    43465599
+        orig_rnechec:    31037075
 Loesung beendet. 
 
 
