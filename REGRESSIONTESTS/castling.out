@@ -304,18 +304,18 @@ a)
 
   1.Kc5-d4 0-0-0 +   2.Kd4-c3 Td1-e1   3.Sb5-d4 Te1-e3 # 
 
-              empile:       30347
-            jouecoup:       22902
+              empile:       29514
+            jouecoup:       22380
         orig_rbechec:         708
-        orig_rnechec:       16459
+        orig_rnechec:       15937
 b) sLb5 
 
   1.Kc5-b6 0-0-0   2.Kb6-a5 Kc1-c2   3.Ka5-a4 Td1-a1 # 
 
-              empile:       31927
-            jouecoup:       24419
+              empile:       30960
+            jouecoup:       23756
         orig_rbechec:         855
-        orig_rnechec:       16857
+        orig_rnechec:       16194
 Loesung beendet. 
 
 
@@ -2578,18 +2578,18 @@ a)
 
   1.0-0 Kd1-c1   2.Kg8-h8 Kc1-b2   3.Tf8-g8 Ta1-h1 # 
 
-              empile:       52361
-            jouecoup:       40092
+              empile:       52345
+            jouecoup:       40077
         orig_rbechec:         861
-        orig_rnechec:       28295
+        orig_rnechec:       28280
 b) Spiegelung a1<-->h1
 
   1.Ta8-c8 0-0   2.Tc8-c7 Tf1-a1   3.Kd8-c8 Ta1-a8 # 
 
-              empile:       46972
-            jouecoup:       34220
+              empile:       46962
+            jouecoup:       34212
         orig_rbechec:         639
-        orig_rnechec:       27974
+        orig_rnechec:       27966
 Loesung beendet. 
 
 
@@ -2622,18 +2622,18 @@ a)
 
   1...Kf4-g4   2.0-0 Kg4-h5   3.Da8-h1 + Kh5-g6   4.Dh1-h8 Sf5-e7 # 
 
-              empile:       10080
-            jouecoup:        6795
+              empile:        9594
+            jouecoup:        6503
         orig_rbechec:         170
-        orig_rnechec:        5862
+        orig_rnechec:        5570
 b) sDa8<-->sTh8
 
   1...Kf4-e4   2.Dh8-h2 Ke4-d5   3.0-0-0 + Kd5-c6   4.Dh2-b8 Sf5-e7 # 
 
-              empile:        9790
-            jouecoup:        6637
+              empile:        9425
+            jouecoup:        6400
         orig_rbechec:         130
-        orig_rnechec:        5776
+        orig_rnechec:        5539
 Loesung beendet. 
 
 
@@ -3672,10 +3672,10 @@ RochadenGegenseitigAusschliessend h1h8
   1.e7-e5 0-0   2.Ke8-e7 Tf1-d1   3.Ke7-d6 Ld2-b4 # 
   1.0-0 Th1-f1   2.Kg8-h7 Tf1-f4   3.Kh7-h6 Tf4*h4 # 
 
-              empile:    16332139
-            jouecoup:    16250389
+              empile:    16303065
+            jouecoup:    16225044
         orig_rbechec:     1226785
-        orig_rnechec:     1780838
+        orig_rnechec:     1755493
 Loesung beendet. 
 
 

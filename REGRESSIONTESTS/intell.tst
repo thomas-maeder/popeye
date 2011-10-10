@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:      150289
-            jouecoup:      127179
+              empile:      149070
+            jouecoup:      126178
         orig_rbechec:        1738
-        orig_rnechec:       93895
+        orig_rnechec:       92894
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
-              empile:        4285
-            jouecoup:        3266
+              empile:        3840
+            jouecoup:        2953
         orig_rbechec:          74
-        orig_rnechec:        3229
+        orig_rnechec:        2916
 solution finished. 
 
 
@@ -90,10 +90,10 @@ solution finished.
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
-              empile:        8505
-            jouecoup:        6474
+              empile:        8407
+            jouecoup:        6382
         orig_rbechec:          35
-        orig_rnechec:        6263
+        orig_rnechec:        6171
 solution finished. 
 
 
