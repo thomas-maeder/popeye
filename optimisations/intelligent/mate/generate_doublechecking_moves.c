@@ -808,9 +808,11 @@ static void en_passant_select_capturee(stip_length_type n, square via_capturee)
         && black[index_capturee].type==pn
         && black[index_capturee].usage==piece_is_unused)
     {
+      ++nr_reasons_for_staying_empty[via_capturee];
       black[index_capturee].usage = piece_is_captured;
       en_passant_diagonal_check(n,via_capturee);
       black[index_capturee].usage = piece_is_unused;
+      --nr_reasons_for_staying_empty[via_capturee];
     }
   }
 
@@ -833,6 +835,7 @@ static void en_passant(stip_length_type n)
     {
       unsigned int capturer_index;
 
+      ++nr_reasons_for_staying_empty[via_capturer];
       Nr_remaining_black_moves -= 1;
 
       for (capturer_index = 1; capturer_index<MaxPiece[White]; ++capturer_index)
@@ -865,6 +868,7 @@ static void en_passant(stip_length_type n)
         }
 
       Nr_remaining_black_moves += 1;
+      --nr_reasons_for_staying_empty[via_capturer];
     }
   }
 
