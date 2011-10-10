@@ -123,7 +123,7 @@ boolean intelligent_stalemate_immobilise_black(stip_length_type n)
   {
     immobilisation_state_type immobilisation_state = null_immobilisation_state;
     current_immobilisation_state = &immobilisation_state;
-    slice_has_solution(slices[temporary_hack_intelligent_immobilisation_tester[Black]].u.fork.fork);
+    slice_has_solution(slices[current_start_slice].u.fork.fork);
     current_immobilisation_state = 0;
 
     if (immobilisation_state.last_found_trouble_square_status>no_requirement)

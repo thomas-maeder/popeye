@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = finish.c place_white_piece.c place_black_piece.c pin_black_piece.c intercept_checks.c generate_checking_moves.c generate_doublechecking_moves.c goalreachable_guard.c
-INCLUDES = finish.h place_white_piece.h place_black_piece.h pin_black_piece.h intercept_checks.h generate_checking_moves.h generate_doublechecking_moves.h goalreachable_guard.h
+CFILES = finish.c filter.c place_white_piece.c place_black_piece.c pin_black_piece.c intercept_checks.c generate_checking_moves.c generate_doublechecking_moves.c goalreachable_guard.c
+INCLUDES = finish.h filter.h place_white_piece.h place_black_piece.h pin_black_piece.h intercept_checks.h generate_checking_moves.h generate_doublechecking_moves.h goalreachable_guard.h
 
 include makefile.rules $(CURRPWD)depend

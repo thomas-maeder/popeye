@@ -1,24 +1,24 @@
-#if !defined(OPTIMISATIONS_INTELLIGENT_HELP_FILTER_H)
-#define OPTIMISATIONS_INTELLIGENT_HELP_FILTER_H
+#if !defined(OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H)
+#define OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H
 
 #include "stipulation/help_play/play.h"
 
-/* This module provides functionality dealing with STIntelligentFilter
+/* This module provides functionality dealing with STIntelligentMateFilter
  * stipulation slice type.
  * Slices of this type make solve help stipulations in intelligent mode
  */
 
-/* Allocate a STIntelligentFilter slice.
+/* Allocate a STIntelligentMateFilter slice.
  * @return allocated slice
  */
-slice_index alloc_intelligent_filter(void);
+slice_index alloc_intelligent_mate_filter(void);
 
 /* Impose the starting side on a stipulation.
  * @param si identifies slice
  * @param st address of structure that holds the state of the traversal
  */
-void impose_starter_intelligent_filter(slice_index si,
-                                       stip_structure_traversal *st);
+void impose_starter_intelligent_mate_filter(slice_index si,
+                                            stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -29,6 +29,7 @@ void impose_starter_intelligent_filter(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_filter_help(slice_index si, stip_length_type n);
+stip_length_type intelligent_mate_filter_help(slice_index si,
+                                              stip_length_type n);
 
 #endif

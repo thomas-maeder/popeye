@@ -67,7 +67,9 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/intelligent/moves_left.h \
- optimisations/intelligent/filter.h optimisations/intelligent/proof.h \
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/stalemate/filter.h \
+ optimisations/intelligent/proof.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/goalreachable_guard.h \
@@ -150,7 +152,9 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 optimisations/intelligent/moves_left.h:
 
-optimisations/intelligent/filter.h:
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/stalemate/filter.h:
 
 optimisations/intelligent/proof.h:
 

@@ -5,7 +5,7 @@
 
 extern unsigned int MovesLeft[nr_sides];
 
-/* This module provides functionality dealing with STIntelligentFilter
+/* This module provides functionality dealing with STIntelligentMovesLeftInitialiser
  * stipulation slice type.
  * Slices of this type make solve help stipulations in intelligent mode
  */

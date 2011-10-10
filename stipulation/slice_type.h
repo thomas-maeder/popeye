@@ -122,7 +122,7 @@
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
     ENUMERATOR(STIntelligentMovesLeftInitialiser), /* count the moves left for both sides */ \
-    ENUMERATOR(STIntelligentFilter), /* initialises intelligent mode */ \
+    ENUMERATOR(STIntelligentMateFilter), /* solve mate problems in intelligent mode */ \
     ENUMERATOR(STIntelligentProof), /* solve proof games and A=>B in intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardFilterMate), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardFilterStalemate), /* goal still reachable in intelligent mode? */ \
@@ -131,7 +131,7 @@
     ENUMERATOR(STIntelligentSolutionsPerTargetPosCounter), /* count solutions per target position */ \
     ENUMERATOR(STIntelligentLimitNrSolutionsPerTargetPos), /* limit number of solutions per target position */ \
     ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
-    ENUMERATOR(STIntelligentImmobilisationTester), /* determine how immobile the side to be stalemated is already */ \
+    ENUMERATOR(STIntelligentStalemateFilter), /* determine how immobile the side to be stalemated is already */ \
     ENUMERATOR(STIntelligentImmobilisationCounter), /* determine how immobile the side to be stalemated is already */ \
     ENUMERATOR(STKeepMatingFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \

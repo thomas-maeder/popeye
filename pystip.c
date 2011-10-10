@@ -36,7 +36,8 @@
 #include "solving/battle_play/threat.h"
 #include "solving/find_by_increasing_length.h"
 #include "optimisations/goals/enpassant/filter.h"
-#include "optimisations/intelligent/filter.h"
+#include "optimisations/intelligent/mate/filter.h"
+#include "optimisations/intelligent/stalemate/filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -193,7 +194,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackHashed */
   slice_structure_branch, /* STHelpHashed */
   slice_structure_pipe,   /* STIntelligentMovesLeftInitialiser */
-  slice_structure_fork,   /* STIntelligentFilter */
+  slice_structure_fork,   /* STIntelligentMateFilter */
   slice_structure_pipe,   /* STIntelligentProof */
   slice_structure_pipe,   /* STGoalReachableGuardFilterMate */
   slice_structure_pipe,   /* STGoalReachableGuardFilterStalemate */
@@ -202,7 +203,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STIntelligentSolutionsPerTargetPosCounter */
   slice_structure_pipe,   /* STIntelligentLimitNrSolutionsPerTargetPos */
   slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
-  slice_structure_fork,   /* STIntelligentImmobilisationTester */
+  slice_structure_fork,   /* STIntelligentStalemateFilter */
   slice_structure_pipe,   /* STIntelligentImmobilisationCounter */
   slice_structure_pipe,   /* STKeepMatingFilter */
   slice_structure_fork,   /* STMaxFlightsquares */
@@ -365,7 +366,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STAttackHashed */
   slice_function_unspecified,    /* STHelpHashed */
   slice_function_unspecified,    /* STIntelligentMovesLeftInitialiser */
-  slice_function_unspecified,    /* STIntelligentFilter */
+  slice_function_unspecified,    /* STIntelligentMateFilter */
   slice_function_unspecified,    /* STIntelligentProof */
   slice_function_unspecified,    /* STGoalReachableGuardFilterMate */
   slice_function_unspecified,    /* STGoalReachableGuardFilterStalemate */
@@ -374,7 +375,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STIntelligentSolutionsPerTargetPosCounter */
   slice_function_unspecified,    /* STIntelligentLimitNrSolutionsPerTargetPos */
   slice_function_unspecified,    /* STIntelligentDuplicateAvoider */
-  slice_function_unspecified,    /* STIntelligentImmobilisationTester */
+  slice_function_unspecified,    /* STIntelligentStalemateFilter */
   slice_function_unspecified,    /* STIntelligentImmobilisationCounter */
   slice_function_unspecified,    /* STKeepMatingFilter */
   slice_function_unspecified,    /* STMaxFlightsquares */
@@ -1447,11 +1448,14 @@ void stip_impose_starter(slice_index si, Side starter)
                                              starter_inverters[i],
                                              &impose_inverted_starter);
   stip_structure_traversal_override_single(&st,
-                                           STIntelligentFilter,
-                                           &impose_starter_intelligent_filter);
- stip_structure_traversal_override_single(&st,
-                                          STGoalImmobileReachedTester,
-                                          &impose_starter_immobility_tester);
+                                           STIntelligentMateFilter,
+                                           &impose_starter_intelligent_mate_filter);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentStalemateFilter,
+                                           &impose_starter_intelligent_stalemate_filter);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalImmobileReachedTester,
+                                           &impose_starter_immobility_tester);
 
   stip_traverse_structure(si,&st);
 
@@ -1649,7 +1653,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STAttackHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashed */
   &stip_traverse_structure_pipe,              /* STIntelligentMovesLeftInitialiser */
-  &stip_traverse_structure_end_of_branch,     /* STIntelligentFilter */
+  &stip_traverse_structure_end_of_branch,     /* STIntelligentMateFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentProof */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterMate */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterStalemate */
@@ -1658,7 +1662,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STIntelligentSolutionsPerTargetPosCounter */
   &stip_traverse_structure_pipe,              /* STIntelligentLimitNrSolutionsPerTargetPos */
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
-  &stip_traverse_structure_goal_reached_tester, /* STIntelligentImmobilisationTester */
+  &stip_traverse_structure_end_of_branch,     /* STIntelligentStalemateFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentImmobilisationCounter */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
   &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
@@ -1922,7 +1926,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STAttackHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashed */
     &stip_traverse_moves_pipe,              /* STIntelligentMovesLeftInitialiser */
-    &stip_traverse_moves_end_of_branch,     /* STIntelligentFilter */
+    &stip_traverse_moves_end_of_branch,     /* STIntelligentMateFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentProof */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterMate */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterStalemate */
@@ -1931,7 +1935,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STIntelligentSolutionsPerTargetPosCounter */
     &stip_traverse_moves_pipe,              /* STIntelligentLimitNrSolutionsPerTargetPos */
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
-    &stip_traverse_moves_setplay_fork,      /* STIntelligentImmobilisationTester */
+    &stip_traverse_moves_end_of_branch,     /* STIntelligentStalemateFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentImmobilisationCounter */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
     &stip_traverse_moves_end_of_branch,     /* STMaxFlightsquares */

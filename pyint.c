@@ -24,7 +24,8 @@
 #include "pypipe.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
-#include "optimisations/intelligent/filter.h"
+#include "optimisations/intelligent/mate/filter.h"
+#include "optimisations/intelligent/stalemate/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -53,6 +54,7 @@ typedef unsigned int index_type;
 #define ENUMERATION_TYPENAME piece_usage
 #define ENUMERATION_MAKESTRINGS
 #include "pyenum.h"
+#undef piece_usageENUMERATORS
 
 
 goal_type goal_to_be_reached;
@@ -792,10 +794,11 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
 
 static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
-  { STReadyForHelpMove,          &goalreachable_guards_inserter_help_move         },
-  { STGoalReachedTester,         &goalreachable_guards_duplicate_avoider_inserter },
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe                    },
-  { STTemporaryHackFork,         &stip_traverse_structure_pipe                    }
+  { STReadyForHelpMove,           &goalreachable_guards_inserter_help_move         },
+  { STGoalReachedTester,          &goalreachable_guards_duplicate_avoider_inserter },
+  { STGoalImmobileReachedTester,  &stip_traverse_structure_pipe                    },
+  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe                    },
+  { STTemporaryHackFork,          &stip_traverse_structure_pipe                    }
 };
 
 enum
@@ -839,15 +842,33 @@ static void intelligent_guards_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*goal==goal_proofgame || *goal==goal_atob)
+  switch (*goal)
   {
-    slice_index const prototype = alloc_intelligent_proof();
-    help_branch_insert_slices(si,&prototype,1);
-  }
-  else
-  {
-    slice_index const prototype = alloc_intelligent_filter();
-    help_branch_insert_slices(si,&prototype,1);
+    case goal_proofgame:
+    case goal_atob:
+    {
+      slice_index const prototype = alloc_intelligent_proof();
+      help_branch_insert_slices(si,&prototype,1);
+      break;
+    }
+
+    case goal_mate:
+    {
+      slice_index const prototype = alloc_intelligent_mate_filter();
+      help_branch_insert_slices(si,&prototype,1);
+      break;
+    }
+
+    case goal_stale:
+    {
+      slice_index const prototype = alloc_intelligent_stalemate_filter();
+      help_branch_insert_slices(si,&prototype,1);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
   }
 
   {

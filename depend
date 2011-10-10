@@ -1116,7 +1116,9 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
  stipulation/help_play/branch.h pybrafrk.h pyproof.h pypipe.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h stipulation/help_play/play.h \
- optimisations/intelligent/filter.h optimisations/intelligent/proof.h \
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/stalemate/filter.h \
+ optimisations/intelligent/proof.h \
  optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
@@ -1187,7 +1189,9 @@ optimisations/intelligent/moves_left.h:
 
 stipulation/help_play/play.h:
 
-optimisations/intelligent/filter.h:
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/stalemate/filter.h:
 
 optimisations/intelligent/proof.h:
 
@@ -1233,7 +1237,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  solving/battle_play/continuation.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
  optimisations/goals/enpassant/filter.h \
- optimisations/intelligent/filter.h trace.h
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/stalemate/filter.h trace.h
 
 pystip.h:
 
@@ -1361,7 +1366,9 @@ solving/find_by_increasing_length.h:
 
 optimisations/goals/enpassant/filter.h:
 
-optimisations/intelligent/filter.h:
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/stalemate/filter.h:
 
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \

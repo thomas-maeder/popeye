@@ -28,6 +28,7 @@
 #define ENUMERATION_TYPENAME piece_usage
 #define ENUMERATION_DECLARE
 #include "pyenum.h"
+#undef piece_usageENUMERATORS
 
 typedef struct
 {

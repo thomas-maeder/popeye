@@ -259,14 +259,15 @@ static void insert_guard_regular(slice_index si,
 
 static structure_traversers_visitors restart_guard_inserters[] =
 {
-  { STAttackAdapter,     &insert_guard_attack          },
-  { STDefenseAdapter,    &stip_structure_visitor_noop  },
-  { STHelpAdapter,       &insert_guard_help            },
-  { STIntelligentFilter, &insert_guard_intelligent     },
-  { STIntelligentProof,  &insert_guard_regular         },
-  { STMove,              &insert_guard_regular         },
-  { STConstraint,        &stip_traverse_structure_pipe },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe }
+  { STAttackAdapter,              &insert_guard_attack          },
+  { STDefenseAdapter,             &stip_structure_visitor_noop  },
+  { STHelpAdapter,                &insert_guard_help            },
+  { STIntelligentMateFilter,      &insert_guard_intelligent     },
+  { STIntelligentStalemateFilter, &insert_guard_intelligent     },
+  { STIntelligentProof,           &insert_guard_regular         },
+  { STMove,                       &insert_guard_regular         },
+  { STConstraint,                 &stip_traverse_structure_pipe },
+  { STTemporaryHackFork,          &stip_traverse_structure_pipe }
 };
 
 enum

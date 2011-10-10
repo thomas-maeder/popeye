@@ -1,25 +1,36 @@
-#include "optimisations/intelligent/filter.h"
+#include "optimisations/intelligent/stalemate/filter.h"
 #include "pyint.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STIntelligentFilter slice.
+/* Allocate a STIntelligentStalemateFilter slice.
  * @return allocated slice
  */
-slice_index alloc_intelligent_filter(void)
+slice_index alloc_intelligent_stalemate_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STIntelligentFilter,
-                             alloc_goal_immobile_reached_tester_system());
+  {
+    slice_index const proxy_branch = alloc_proxy_slice();
+    slice_index const help = alloc_help_branch(slack_length_help+1,
+                                               slack_length_help+1);
+    slice_index const proto = alloc_pipe(STIntelligentImmobilisationCounter);
+    help_branch_insert_slices(help,&proto,1);
+    link_to_branch(proxy_branch,help);
+
+    result = alloc_branch_fork(STIntelligentStalemateFilter,proxy_branch);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,8 +42,8 @@ slice_index alloc_intelligent_filter(void)
  * @param si identifies slice
  * @param st address of structure that holds the state of the traversal
  */
-void impose_starter_intelligent_filter(slice_index si,
-                                       stip_structure_traversal *st)
+void impose_starter_intelligent_stalemate_filter(slice_index si,
+                                                 stip_structure_traversal *st)
 {
   Side * const starter = st->param;
 
@@ -88,7 +99,8 @@ static boolean Intelligent(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_filter_help(slice_index si, stip_length_type n)
+stip_length_type intelligent_stalemate_filter_help(slice_index si,
+                                                   stip_length_type n)
 {
   stip_length_type result;
 

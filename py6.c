@@ -2032,7 +2032,7 @@ static void swapcolors(void)
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!TSTFLAG(spec[*bnp], Neutral) && e[*bnp] != vide)
+    if (!TSTFLAG(spec[*bnp],Neutral) && e[*bnp]!=vide)
     {
       e[*bnp] = -e[*bnp];
       spec[*bnp]^= BIT(White)+BIT(Black);
@@ -2297,7 +2297,10 @@ static void init_duplex(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STIntelligentFilter,
+                                           STIntelligentMateFilter,
+                                           &intelligent_init_duplex);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentStalemateFilter,
                                            &intelligent_init_duplex);
   stip_structure_traversal_override_single(&st,
                                            STIntelligentProof,
@@ -2342,7 +2345,10 @@ static void fini_duplex(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STIntelligentFilter,
+                                           STIntelligentMateFilter,
+                                           &intelligent_fini_duplex);
+  stip_structure_traversal_override_single(&st,
+                                           STIntelligentStalemateFilter,
                                            &intelligent_fini_duplex);
   stip_structure_traversal_override_single(&st,
                                            STIntelligentProof,

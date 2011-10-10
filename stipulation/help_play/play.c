@@ -36,7 +36,8 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/intelligent/moves_left.h"
-#include "optimisations/intelligent/filter.h"
+#include "optimisations/intelligent/mate/filter.h"
+#include "optimisations/intelligent/stalemate/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
@@ -132,8 +133,12 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = intelligent_target_counter_help(si,n);
       break;
 
-    case STIntelligentFilter:
-      result = intelligent_filter_help(si,n);
+    case STIntelligentMateFilter:
+      result = intelligent_mate_filter_help(si,n);
+      break;
+
+    case STIntelligentStalemateFilter:
+      result = intelligent_stalemate_filter_help(si,n);
       break;
 
     case STIntelligentProof:
