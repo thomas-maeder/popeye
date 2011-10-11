@@ -196,8 +196,8 @@ Loesung beendet.
 
               empile:    55587893
             jouecoup:    37849181
-        orig_rbechec:    38171691
-        orig_rnechec:    57764024
+        orig_rbechec:    27353548
+        orig_rnechec:    58090435
 Loesung beendet. 
 
 
@@ -1670,8 +1670,8 @@ Loesung beendet.
 
               empile:  1051029823
             jouecoup:   128020479
-        orig_rbechec:   161572300
-        orig_rnechec:   163635381
+        orig_rbechec:   154260207
+        orig_rnechec:   162470025
 Loesung beendet. 
 
 
@@ -1718,8 +1718,8 @@ Loesung beendet.
 
               empile:  1222651305
             jouecoup:   209475141
-        orig_rbechec:   247103010
-        orig_rnechec:   236784834
+        orig_rbechec:   152678631
+        orig_rnechec:   249239228
 Loesung beendet. 
 
 
@@ -1767,8 +1767,8 @@ Loesung beendet.
 
               empile:   874964656
             jouecoup:   106180337
-        orig_rbechec:   135679278
-        orig_rnechec:   144086543
+        orig_rbechec:   134486587
+        orig_rnechec:   140894981
 Loesung beendet. 
 
 
@@ -1841,8 +1841,8 @@ Loesung beendet.
 
               empile:  2262522021
             jouecoup:   257015421
-        orig_rbechec:   324057644
-        orig_rnechec:   329207501
+        orig_rbechec:   289920800
+        orig_rnechec:   330296938
 Loesung beendet. 
 
 
@@ -1888,8 +1888,8 @@ Loesung beendet.
 
               empile:  3828790658
             jouecoup:   475880652
-        orig_rbechec:   600099967
-        orig_rnechec:   639293443
+        orig_rbechec:   588990083
+        orig_rnechec:   635628103
 Loesung beendet. 
 
 
@@ -2084,10 +2084,10 @@ a)
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
 
-              empile:   151561975
-            jouecoup:    61008988
-        orig_rbechec:    60642271
-        orig_rnechec:    29694805
+              empile:   148954050
+            jouecoup:    60288308
+        orig_rbechec:    59937251
+        orig_rnechec:    29320359
 b) sBc4-->c3
 
  19  (g7-g8=D[Ig7] )
@@ -2123,10 +2123,10 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-              empile:   175228859
-            jouecoup:    70443494
-        orig_rbechec:    70032179
-        orig_rnechec:    34342561
+              empile:   172077407
+            jouecoup:    69534434
+        orig_rbechec:    69143996
+        orig_rnechec:    33898172
 c) sBb3-->c3
 
  38  (g7-g8=D[Ig7] )
@@ -2161,10 +2161,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-              empile:   161497438
-            jouecoup:    64902840
-        orig_rbechec:    64564634
-        orig_rnechec:    32164817
+              empile:   159304683
+            jouecoup:    64132270
+        orig_rbechec:    63808425
+        orig_rnechec:    31745222
 Loesung beendet. 
 
 
@@ -2332,8 +2332,8 @@ dauert 13 min mit Athlon 2400 / 200MB
 
 
               empile:    89448571
-            jouecoup:    58305580
-        orig_rbechec:    58645117
+            jouecoup:    58246350
+        orig_rbechec:    58585887
         orig_rnechec:    10800225
 Loesung beendet. 
 
@@ -2733,10 +2733,10 @@ Initial (Weiss ->):
                                           6.Kc2-b1 a=>b
 
 
-              empile:  9043232326
-            jouecoup:  7553531026
-        orig_rbechec:  4040852979
-        orig_rnechec:   392373013
+              empile:  8570193524
+            jouecoup:  7209580869
+        orig_rbechec:  3963016491
+        orig_rnechec:   372807650
 Loesung beendet. 
 
 

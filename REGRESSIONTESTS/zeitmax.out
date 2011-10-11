@@ -26,11 +26,11 @@
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
   1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
-              empile:   154165116
-            jouecoup:    11847456
-        orig_rbechec:    16023138
-        orig_rnechec:    11568335
-Loesung beendet. 
+              empile:    32432747
+            jouecoup:     6681611
+        orig_rbechec:     2861642
+        orig_rnechec:     6607886
+Bearbeitung abgebrochen. 
 
 
 
@@ -62,10 +62,10 @@ Loesung beendet.
            Beamtet h8 a3 a1
 
 
-              empile:    26163306
-            jouecoup:    10229734
-        orig_rbechec:    16969103
-        orig_rnechec:    15192375
+              empile:    27710764
+            jouecoup:    11133761
+        orig_rbechec:    17672672
+        orig_rnechec:    16365243
 Bearbeitung abgebrochen. 
 
 
@@ -98,17 +98,17 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
 
-              empile:    13398266
-            jouecoup:    13398266
-        orig_rbechec:     3058773
-        orig_rnechec:    13360540
+              empile:    17832313
+            jouecoup:    17832313
+        orig_rbechec:     4094921
+        orig_rnechec:    17785187
 b) wKc1-->b3
 
 
-              empile:         132
-            jouecoup:         132
-        orig_rbechec:           0
-        orig_rnechec:           1
+              empile:    17421906
+            jouecoup:    17421906
+        orig_rbechec:     4078410
+        orig_rnechec:    17385000
 Bearbeitung abgebrochen. 
 
 
@@ -149,7 +149,7 @@ eigentlich:  ser-h=8/3
               empile:      791286
             jouecoup:      160343
         orig_rbechec:       99878
-        orig_rnechec:      139757
+        orig_rnechec:      139756
 Loesung beendet. 
 
 
@@ -191,14 +191,11 @@ Motto: Viele Koeche verderben den Brei
   6  (Ke2-d2 )
   7  (Ke2-d3 )
   8  (Ke2-f3 )
-  9  (Ke2-d1 )
- 10  (d7-d5 )
- 11  (d7-d6 )
 
-              empile:    17671721
-            jouecoup:     9446746
-        orig_rbechec:      503074
-        orig_rnechec:     9077939
+              empile:    20697899
+            jouecoup:    11038504
+        orig_rbechec:      624869
+        orig_rnechec:    10567724
 Bearbeitung abgebrochen. 
 
 
@@ -231,25 +228,11 @@ Bearbeitung abgebrochen.
   1  (Sh1-g3 )
   2  (Sh1-f2 )
   3  (c3-c2 )
-  4  (Kd5-e5 )
-  5  (Kd5-d6 )
-  6  (Kd5-c5 )
-  7  (Kd5-d4 )
-  8  (Kd5-c6 )
-  9  (Kd5-e6 )
- 10  (Kd5-c4 )
- 11  (Sf6-e4 )
- 12  (Sf6-g4 )
- 13  (Sf6-h5 )
- 14  (Sf6*h7 )
- 15  (Sf6-g8 )
- 16  (Sf6-e8 )
- 17  (Sf6-d7 )
 
-              empile:    33407338
-            jouecoup:    22132889
-        orig_rbechec:    23118228
-        orig_rnechec:    33410000
+              empile:    36021919
+            jouecoup:    23799630
+        orig_rbechec:    16568142
+        orig_rnechec:    36062892
 Bearbeitung abgebrochen. 
 
 
@@ -279,10 +262,11 @@ Bearbeitung abgebrochen.
   #7                          5 + 2
               MarsCirce
 
-              empile:    28719504
-            jouecoup:    11015644
-        orig_rbechec:      520841
-        orig_rnechec:    10561543
+
+              empile:    30212882
+            jouecoup:    11569411
+        orig_rbechec:      548632
+        orig_rnechec:    11090260
 Bearbeitung abgebrochen. 
 
 
@@ -313,10 +297,11 @@ Bearbeitung abgebrochen.
   =8                          3 + 1
               MarsCirce
 
-              empile:    51786359
-            jouecoup:     8775941
+
+              empile:    75764050
+            jouecoup:    12706474
         orig_rbechec:           0
-        orig_rnechec:     8383174
+        orig_rnechec:    12060847
 Bearbeitung abgebrochen. 
 
 
@@ -345,7 +330,8 @@ Bearbeitung abgebrochen.
 +---a---b---c---d---e---f---g---h---+
   #4/1                        4 + 7
              Gitterschach
- Drohung:
+
+   1.Tf3-f6 ! Drohung:
           2.Tf6-b6 #
       1...d7-d6
           2.Tf6-f1 Drohung:
@@ -359,10 +345,12 @@ Bearbeitung abgebrochen.
                           4.Tf5-f3 #
       1...c3-c2
           2.Tf6-f3 #
-              empile:       35548
-            jouecoup:       19489
+
+
+              empile:       35542
+            jouecoup:       19498
         orig_rbechec:        9722
-        orig_rnechec:       12552
+        orig_rnechec:       12585
 Loesung beendet. 
 
 
@@ -391,7 +379,8 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #8/1                        7 + 9
                 Circe
- Drohung:
+
+   1.Sb1-a3 ! Drohung:
           2.Sa3-c2 #
           2.Sa3-b5 #
       1...Lf8*a3 [+wSg1]
@@ -440,10 +429,12 @@ Loesung beendet.
           2.Sa3-c2 #
       1...Tg6-b6
           2.Sa3-c2 #
-              empile:       80068
-            jouecoup:       65912
-        orig_rbechec:       42424
-        orig_rnechec:       28836
+
+
+              empile:       79871
+            jouecoup:       66309
+        orig_rbechec:       42393
+        orig_rnechec:       29255
 Loesung beendet. 
 
 
@@ -472,6 +463,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #5/1                   5 + 7 + 1n
 
+   1.nTe4*e5 + !
       1...nTe5-e4
           2.nTe4*f4 +
               2...nTf4-f3
@@ -484,10 +476,12 @@ Loesung beendet.
                                   5.Sd3-b4 #
                       3...nTe3-f3
                           4.Lh1*f3 #
-              empile:      139174
-            jouecoup:       61191
-        orig_rbechec:       18986
-        orig_rnechec:       60220
+
+
+              empile:      139051
+            jouecoup:       61127
+        orig_rbechec:       18983
+        orig_rnechec:       60183
 Loesung beendet. 
 
 
@@ -517,7 +511,8 @@ nebenloesig - eigentlich #6
 +---a---b---c---d---e---f---g---h---+
   #5/1                       5 + 13
           PlatzwechselCirce
- Drohung:
+
+   1.ROd1-f6 ! Drohung:
           2.ROf6*b2 [+sSf6] #
       1...g5-g4
           2.ROf6*c3 [+sBf6] +
@@ -538,10 +533,12 @@ nebenloesig - eigentlich #6
                           4.ROg7*c3 [+sBg7] #
                       3...Se6*g7 [+wROe6]
                           4.ROe6*c5 [+sBe6] #
-              empile:      139418
-            jouecoup:      121165
-        orig_rbechec:       51536
-        orig_rnechec:       74152
+
+
+              empile:      139345
+            jouecoup:      121331
+        orig_rbechec:       51535
+        orig_rnechec:       74344
 Loesung beendet. 
 
 
@@ -572,10 +569,10 @@ Loesung beendet.
               OhneSchach
 
 
-              empile:    85715093
-            jouecoup:     9601643
-        orig_rbechec:    15295946
-        orig_rnechec:    12996333
+              empile:   129944454
+            jouecoup:    14324471
+        orig_rbechec:    18385733
+        orig_rnechec:    18911306
 Bearbeitung abgebrochen. 
 
 
@@ -606,23 +603,11 @@ Bearbeitung abgebrochen.
               OhneSchach
 
   1  (b2-b1=D )
-  2  (b2-b1=S )
-  3  (b2-b1=T )
-  4  (b2-b1=L )
-  5  (c2-c1=D )
-  6  (c2-c1=S )
-  7  (c2-c1=T )
-  8  (c2-c1=L )
-  9  (Kh5-h6 )
- 10  (Kh5-g5 )
- 11  (Kh5-h4 )
- 12  (Kh5-g6 )
- 13  (Kh5-g4 )
 
-              empile:   104368106
-            jouecoup:    16576949
-        orig_rbechec:    22669019
-        orig_rnechec:    18161413
+              empile:   153723081
+            jouecoup:    24396926
+        orig_rbechec:    16556813
+        orig_rnechec:    28072207
 Bearbeitung abgebrochen. 
 
 
@@ -654,23 +639,11 @@ Bearbeitung abgebrochen.
               OhneSchach
 
   1  (Ka1-b1 )
-  2  (Ka1-a2 )
-  3  (Ka1-b2 )
-  4  (c2-c1=D )
-  5  (c2-c1=S )
-  6  (c2-c1=T )
-  7  (c2-c1=L )
-  8  (e2-e1=D )
-  9  (e2-e1=S )
- 10  (e2-e1=T )
- 11  (e2-e1=L )
- 12  (h2-h1=S )
- 13  (h2-h1=T )
 
-              empile:    94823997
-            jouecoup:    10970356
-        orig_rbechec:    18066979
-        orig_rnechec:    15535944
+              empile:   124597870
+            jouecoup:    14109244
+        orig_rbechec:    18810610
+        orig_rnechec:    19445748
 Bearbeitung abgebrochen. 
 
 
@@ -702,24 +675,11 @@ Bearbeitung abgebrochen.
               OhneSchach
 
   1  (Kb1-c1 )
-  2  (Kb1-b2 )
-  3  (Kb1-a1 )
-  4  (Kb1-c2 )
-  5  (a2-a1=D )
-  6  (a2-a1=S )
-  7  (a2-a1=T )
-  8  (a2-a1=L )
-  9  (d2-d1=D )
- 10  (d2-d1=S )
- 11  (d2-d1=T )
- 12  (d2-d1=L )
- 13  (g2-g1=S )
- 14  (g2-g1=L )
 
-              empile:   114583705
-            jouecoup:    13105494
-        orig_rbechec:    21233783
-        orig_rnechec:    17861166
+              empile:   120043741
+            jouecoup:    13704082
+        orig_rbechec:    17396289
+        orig_rnechec:    18646877
 Bearbeitung abgebrochen. 
 
 
@@ -750,19 +710,11 @@ Bearbeitung abgebrochen.
               Ohneschlag
               OhneSchach
 
-  1  (Kd1-e1 )
-  2  (Kd1-c1 )
-  3  (a2-a1=S )
-  4  (a2-a1=T )
-  5  (c2-c1=D )
-  6  (c2-c1=S )
-  7  (c2-c1=T )
-  8  (c2-c1=L )
 
-              empile:   101812769
-            jouecoup:    11984485
-        orig_rbechec:    19459612
-        orig_rnechec:    16707366
+              empile:   107390866
+            jouecoup:    12641023
+        orig_rbechec:    16710516
+        orig_rnechec:    17517750
 Bearbeitung abgebrochen. 
 
 
@@ -808,90 +760,33 @@ a)
  11  (Tc5-c8 )
  12  (Tc5-c7 )
  13  (Tc5-c6 )
- 14  (Tc5-h5 )
- 15  (Tc5-g5 )
- 16  (Tc5-f5 )
- 17  (Tc5-e5 + )
- 18  (Tc5-d5 )
- 19  (Ka7-a8 )
- 20  (Ka7-a6 )
- 21  (Ka7-b8 )
- 22  (Ka7-b6 )
- 23  (Tb7-b1 )
- 24  (Tb7-b2 )
- 25  (Tb7-b3 )
- 26  (Tb7-b4 + )
- 27  (Tb7-b5 )
- 28  (Tb7-b6 )
- 29  (Tb7-b8 )
- 30  (Tb7-h7 )
- 31  (Tb7-g7 )
- 32  (Tb7-f7 )
- 33  (Tb7-e7 + )
- 34  (Tb7-d7 )
- 35  (Tb7-c7 )
- 36  (Le8-a4 )
- 37  (Le8-b5 )
- 38  (Le8-c6 + )
- 39  (Le8-d7 )
- 40  (Le8-h5 )
- 41  (Le8-g6 + )
- 42  (Le8-f7 )
 
-              empile:     5716430
-            jouecoup:     5634533
-        orig_rbechec:       71003
-        orig_rnechec:     5599423
+              empile:     5777154
+            jouecoup:     5694496
+        orig_rbechec:       71778
+        orig_rnechec:     5659313
 b) sKa7-->b1
 
- 43  (Kb1*c1 [+Sg1] )
- 44  (Kb1-b2 )
- 45  (Kb1-a1 )
- 46  (Kb1-a2 )
- 47  (Kb1-c2 )
- 48  (La3*c1 [+Sg1] )
- 49  (La3-b2 )
- 50  (La3-b4 )
- 51  (f3-f2 )
- 52  (Tc5*c1 [+Sg1] )
- 53  (Tc5-c2 )
- 54  (Tc5-c3 )
- 55  (Tc5-c4 + )
- 56  (Tc5-a5 )
- 57  (Tc5-b5 )
- 58  (Tc5-c8 )
- 59  (Tc5-c7 )
- 60  (Tc5-c6 )
- 61  (Tc5-h5 )
- 62  (Tc5-g5 )
- 63  (Tc5-f5 )
- 64  (Tc5-e5 + )
- 65  (Tc5-d5 )
- 66  (Tb7-b2 )
- 67  (Tb7-b3 )
- 68  (Tb7-b4 + )
- 69  (Tb7-b5 )
- 70  (Tb7-b6 )
- 71  (Tb7-a7 )
- 72  (Tb7-b8 )
- 73  (Tb7-h7 )
- 74  (Tb7-g7 )
- 75  (Tb7-f7 )
- 76  (Tb7-e7 + )
- 77  (Tb7-d7 )
- 78  (Tb7-c7 )
- 79  (Le8-a4 )
- 80  (Le8-b5 )
- 81  (Le8-c6 + )
- 82  (Le8-d7 )
- 83  (Le8-h5 )
- 84  (Le8-g6 + )
- 85  (Le8-f7 )
+ 14  (Kb1*c1 [+Sg1] )
+ 15  (Kb1-b2 )
+ 16  (Kb1-a1 )
+ 17  (Kb1-a2 )
+ 18  (Kb1-c2 )
+ 19  (La3*c1 [+Sg1] )
+  1.La3*c1 [+Sg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6 [+Ta8] # 
+ 20  (La3-b2 )
+ 21  (La3-b4 )
+ 22  (f3-f2 )
+ 23  (Tc5*c1 [+Sg1] )
+ 24  (Tc5-c2 )
+ 25  (Tc5-c3 )
+ 26  (Tc5-c4 + )
+ 27  (Tc5-a5 )
 
-              empile:         630
-            jouecoup:         630
-        orig_rbechec:          44
-        orig_rnechec:          43
+              empile:     6255207
+            jouecoup:     5758676
+        orig_rbechec:      284823
+        orig_rnechec:     5723930
 Bearbeitung abgebrochen. 
 
 
