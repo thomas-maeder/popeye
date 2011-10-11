@@ -65,7 +65,7 @@ solution finished.
 
 
 
-  double check by en passant capture
+double check by en passant capture from above
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -94,6 +94,39 @@ solution finished.
             jouecoup:        6382
         orig_rbechec:          35
         orig_rnechec:        6171
+solution finished. 
+
+
+
+double check by en passant capture from below
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   K  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -K  -P   .   .   .   6
+|                                   |
+5   .   .   .   P  -P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   B   .   R   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       4 + 4
+
+  1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
+
+              empile:       12620
+            jouecoup:        9164
+        orig_rbechec:          60
+        orig_rnechec:        8677
 solution finished. 
 
 

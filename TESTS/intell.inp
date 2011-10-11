@@ -18,10 +18,18 @@ option intelligent
 
 next
 
-title double check by en passant capture
+title double check by en passant capture from above
 pieces white kf3 rd8 bh6 pd5
        black kd4 rc5 pc4e7
 stipulation h#1.5
+option intelligent
+
+next
+
+title double check by en passant capture from below
+pieces white kb7 rd2 bb2 pd5
+       black kd6 pc7e5e6
+stip h#1.5
 option intelligent
 
 end

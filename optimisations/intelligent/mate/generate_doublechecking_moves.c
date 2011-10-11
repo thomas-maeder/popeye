@@ -596,17 +596,18 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
   TraceFunctionResultEnd();
 }
 
-static void en_passant_orthogonal_check(stip_length_type n)
+static void en_passant_orthogonal_check(stip_length_type n, int dir_vertical)
 {
-  square const via_capturer = king_square[Black]+dir_up;
+  square const via_capturer = king_square[Black]+dir_vertical;
   square check_from;
   unsigned int checker_index;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  for (check_from = via_capturer+dir_up; e[check_from]==vide; check_from += dir_up)
+  for (check_from = via_capturer+dir_vertical; e[check_from]==vide; check_from += dir_vertical)
   {
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
@@ -641,7 +642,7 @@ static void en_passant_orthogonal_check(stip_length_type n)
     ++nr_reasons_for_staying_empty[check_from];
   }
 
-  for (check_from -= dir_up; check_from!=via_capturer; check_from -= dir_up)
+  for (check_from -= dir_vertical; check_from!=via_capturer; check_from -= dir_vertical)
     --nr_reasons_for_staying_empty[check_from];
 
   TraceFunctionExit(__func__);
@@ -651,13 +652,15 @@ static void en_passant_orthogonal_check(stip_length_type n)
 static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                square check_from,
                                                stip_length_type n,
-                                               piece rider_type)
+                                               piece rider_type,
+                                               int dir_vertical)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
   TraceSquare(check_from);
   TraceFunctionParam("%u",n);
   TracePiece(rider_type);
+  TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
   {
@@ -673,7 +676,7 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
       TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(rider_type,check_from,rider_spec);
       TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
-      en_passant_orthogonal_check(n);
+      en_passant_orthogonal_check(n,dir_vertical);
       e[check_from] = vide;
       spec[check_from] = EmptySpec;
       Nr_remaining_white_moves += time;
@@ -686,7 +689,8 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
 
 static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_index,
                                                        square check_from,
-                                                       stip_length_type n)
+                                                       stip_length_type n,
+                                                       int dir_vertical)
 {
   square const pawn_origin = white[checker_index].diagram_square;
   Flags const pawn_spec = white[checker_index].flags;
@@ -696,6 +700,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   TraceFunctionParam("%u",checker_index);
   TraceSquare(check_from);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
   for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
@@ -710,7 +715,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
         TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pp,check_from,pawn_spec);
         TraceSquare(check_from);TracePiece(pp);TraceText("\n");
-        en_passant_orthogonal_check(n);
+        en_passant_orthogonal_check(n,dir_vertical);
         e[check_from] = vide;
         spec[check_from] = EmptySpec;
         Nr_remaining_white_moves += time;
@@ -721,18 +726,21 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   TraceFunctionResultEnd();
 }
 
-static void en_passant_diagonal_check(stip_length_type n, square via_capturee)
+static void en_passant_diagonal_check(stip_length_type n,
+                                      square via_capturee,
+                                      int dir_vertical)
 {
-  int const dir = via_capturee-king_square[Black];
+  int const dir_diagonal = via_capturee-king_square[Black];
   square check_from;
   unsigned int checker_index;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(via_capturee);
+  TraceFunctionParam("%d",dir_diagonal);
   TraceFunctionParamListEnd();
 
-  for (check_from = via_capturee+dir; e[check_from]==vide; check_from += dir)
+  for (check_from = via_capturee+dir_diagonal; e[check_from]==vide; check_from += dir_diagonal)
   {
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
@@ -750,11 +758,11 @@ static void en_passant_diagonal_check(stip_length_type n, square via_capturee)
         {
           case db:
           case fb:
-            en_passant_diagonal_check_by_rider(checker_index,check_from,n,checker_type);
+            en_passant_diagonal_check_by_rider(checker_index,check_from,n,checker_type,dir_vertical);
             break;
 
           case pb:
-            en_passant_diagonal_check_by_promoted_pawn(checker_index,check_from,n);
+            en_passant_diagonal_check_by_promoted_pawn(checker_index,check_from,n,dir_vertical);
             break;
 
           default:
@@ -767,7 +775,7 @@ static void en_passant_diagonal_check(stip_length_type n, square via_capturee)
     ++nr_reasons_for_staying_empty[check_from];
   }
 
-  for (check_from -= dir; check_from!=via_capturee; check_from -= dir)
+  for (check_from -= dir_diagonal; check_from!=via_capturee; check_from -= dir_diagonal)
     --nr_reasons_for_staying_empty[check_from];
 
   TraceFunctionExit(__func__);
@@ -792,11 +800,14 @@ static unsigned int enpassant_find_capturee(square capturee_origin)
   return result;
 }
 
-static void en_passant_select_capturee(stip_length_type n, square via_capturee)
+static void en_passant_select_capturee(stip_length_type n,
+                                       square via_capturee,
+                                       int dir_vertical)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(via_capturee);
+  TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
   TracePiece(e[via_capturee]);TraceText("\n");
@@ -810,7 +821,7 @@ static void en_passant_select_capturee(stip_length_type n, square via_capturee)
     {
       ++nr_reasons_for_staying_empty[via_capturee];
       black[index_capturee].usage = piece_is_captured;
-      en_passant_diagonal_check(n,via_capturee);
+      en_passant_diagonal_check(n,via_capturee,dir_vertical);
       black[index_capturee].usage = piece_is_unused;
       --nr_reasons_for_staying_empty[via_capturee];
     }
@@ -820,17 +831,21 @@ static void en_passant_select_capturee(stip_length_type n, square via_capturee)
   TraceFunctionResultEnd();
 }
 
-static void en_passant(stip_length_type n)
+static void en_passant(stip_length_type n,
+                       square king_row_start, square king_row_end,
+                       int dir_vertical)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
+  TraceSquare(king_row_start);
+  TraceSquare(king_row_end);
+  TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  if (square_a4<=king_square[Black]
-      && king_square[Black]<=square_h4
+  if (king_row_start<=king_square[Black] && king_square[Black]<=king_row_end
       && Nr_remaining_black_moves>=1)
   {
-    square const via_capturer = king_square[Black]+dir_up;
+    square const via_capturer = king_square[Black]+dir_vertical;
     if (e[via_capturer]==vide)
     {
       unsigned int capturer_index;
@@ -858,8 +873,8 @@ static void en_passant(stip_length_type n)
               TraceValue("%u",Nr_remaining_white_moves);
               TraceValue("%u\n",Nr_remaining_black_moves);
               white[capturer_index].usage = piece_gives_check;
-              en_passant_select_capturee(n,via_capturer+dir_left);
-              en_passant_select_capturee(n,via_capturer+dir_right);
+              en_passant_select_capturee(n,via_capturer+dir_left,dir_vertical);
+              en_passant_select_capturee(n,via_capturer+dir_right,dir_vertical);
               white[capturer_index].usage = piece_is_unused;
               Nr_remaining_white_moves += time+1;
               Nr_unused_black_masses += diffcol+1;
@@ -883,7 +898,8 @@ void intelligent_mate_generate_doublechecking_moves(stip_length_type n)
   TraceFunctionParamListEnd();
 
   battery(n);
-  en_passant(n);
+  en_passant(n,square_a4,square_h4,dir_up);
+  en_passant(n,square_a6,square_h6,dir_down);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
