@@ -117,6 +117,7 @@ static void unpromoted_pawn(stip_length_type n,
         {
           Nr_unused_white_masses -= diffcol;
           Nr_remaining_black_moves -= wasted;
+          TraceValue("%u",Nr_unused_white_masses);
           TraceValue("%u\n",Nr_remaining_black_moves);
           block_planned_flights(n,nr_remaining_flights_to_block);
           Nr_remaining_black_moves += wasted;
@@ -181,6 +182,7 @@ static void promoted_pawn(stip_length_type n,
           {
             Nr_unused_white_masses -= diffcol;
             Nr_remaining_black_moves -= wasted;
+            TraceValue("%u",Nr_unused_white_masses);
             TraceValue("%u\n",Nr_remaining_black_moves);
             SetPiece(pp,to_be_blocked,blocker_flags);
             block_planned_flights(n,nr_remaining_flights_to_block);
@@ -565,7 +567,7 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_flights_
 
   for (i = 0; i<nr_flights_to_block && result<=Nr_remaining_black_moves; ++i)
   {
-    unsigned int const time = intelligent_count_nr_black_moves_to_square(king_flights_to_be_blocked[i].flight);
+    unsigned int const time = intelligent_estimate_min_nr_black_moves_to_square(king_flights_to_be_blocked[i].flight);
     king_flights_to_be_blocked[i].nr_moves_needed = time;
     result += time;
   }
@@ -576,7 +578,7 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_flights_
   return result;
 }
 
-void intelligent_block_flights(stip_length_type n)
+void intelligent_find_and_block_flights(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);

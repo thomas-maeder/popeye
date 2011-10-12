@@ -3,34 +3,6 @@
 
 #include "py.h"
 
-typedef enum
-{
-  no_requirement,
-  block_required,
-  king_block_required,
-  pin_required,
-  immobilisation_impossible
-} last_found_trouble_square_status_type;
-
-typedef enum
-{
-  no_block_needed_on_square,
-  white_block_sufficient_on_square,
-  black_block_needed_on_square
-} block_requirement_type;
-
-typedef struct
-{
-  square positions_of_trouble_makers[MaxPieceId];
-  unsigned int nr_of_trouble_makers;
-  square last_found_trouble_square;
-  unsigned int nr_blocks_needed[nr_sides];
-  block_requirement_type block_requirement[maxsquare+4];
-  last_found_trouble_square_status_type last_found_trouble_square_status;
-} immobilisation_state_type;
-
-extern immobilisation_state_type * current_immobilisation_state;
-
 /* @return true iff >=1 black pieces needed to be immobilised
  */
 boolean intelligent_stalemate_immobilise_black(stip_length_type n);

@@ -88,7 +88,7 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
                                                                                     via);
       if (time_pawn+1<=Nr_remaining_white_moves)
       {
-        unsigned int const time_capturee = intelligent_count_nr_black_moves_to_square(check_square);
+        unsigned int const time_capturee = intelligent_estimate_min_nr_black_moves_to_square(check_square);
         if (time_capturee<=Nr_remaining_black_moves)
         {
           Nr_unused_black_masses -= diffcol+1;
@@ -194,7 +194,7 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
                                                                                   via);
     if (time_pawn+1<=Nr_remaining_white_moves)
     {
-      unsigned int const time_capturee = intelligent_count_nr_black_moves_to_square(check_from);
+      unsigned int const time_capturee = intelligent_estimate_min_nr_black_moves_to_square(check_from);
 
       if (time_capturee<=Nr_remaining_black_moves)
       {

@@ -23,6 +23,6 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
                                                             square from_square,
                                                             piece to_piece,
                                                             square to_square);
-unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked);
+unsigned int intelligent_estimate_min_nr_black_moves_to_square(square to_be_blocked);
 
 #endif

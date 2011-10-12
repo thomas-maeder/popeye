@@ -33,15 +33,13 @@ static boolean is_line_empty(square start, square end, int dir)
 
 /* @return true iff a pin was actually placed
  */
-static boolean pin_by_officer(stip_length_type n,
-                              piece pinner_orig_type,
-                              piece pinner_type,
-                              Flags pinner_flags,
-                              square pinner_comes_from,
-                              square pin_from)
+static void pin_by_officer(stip_length_type n,
+                           piece pinner_orig_type,
+                           piece pinner_type,
+                           Flags pinner_flags,
+                           square pinner_comes_from,
+                           square pin_from)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TracePiece(pinner_orig_type);
@@ -59,32 +57,27 @@ static boolean pin_by_officer(stip_length_type n,
     {
       --Nr_unused_white_masses;
       Nr_remaining_white_moves -= time;
+      TraceValue("%u",Nr_unused_white_masses);
       TraceValue("%u\n",Nr_remaining_white_moves);
       SetPiece(pinner_type,pin_from,pinner_flags);
       intelligent_stalemate_test_target_position(n);
       Nr_remaining_white_moves += time;
       ++Nr_unused_white_masses;
-      result = true;
     }
-    else
-      result = false;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* @return true iff a pin was actually placed
  */
-static boolean pin_by_promoted_pawn(stip_length_type n,
-                                    Flags pinner_flags,
-                                    square pinner_comes_from,
-                                    square pin_from,
-                                    boolean diagonal)
+static void pin_by_promoted_pawn(stip_length_type n,
+                                 Flags pinner_flags,
+                                 square pinner_comes_from,
+                                 square pin_from,
+                                 boolean diagonal)
 {
-  boolean result = false;
   piece const minor_pinner_type = diagonal ? fb : tb;
 
   TraceFunctionEntry(__func__);
@@ -94,32 +87,27 @@ static boolean pin_by_promoted_pawn(stip_length_type n,
   TraceFunctionParam("%u",diagonal);
   TraceFunctionParamListEnd();
 
-  if (pin_by_officer(n,
-                     pb,minor_pinner_type,pinner_flags,
-                     pinner_comes_from,
-                     pin_from))
-    result = true;
-  if (pin_by_officer(n,
-                     pb,db,pinner_flags,
-                     pinner_comes_from,
-                     pin_from))
-    result = true;
+  pin_by_officer(n,
+                 pb,minor_pinner_type,pinner_flags,
+                 pinner_comes_from,
+                 pin_from);
+  pin_by_officer(n,
+                 pb,db,pinner_flags,
+                 pinner_comes_from,
+                 pin_from);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* @return true iff >=1 pin was actually placed
  */
-static boolean pin_specific_piece_on(stip_length_type n,
-                                     square sq_to_be_pinned,
-                                     square pin_on,
-                                     unsigned int pinner_index,
-                                     boolean diagonal)
+static void pin_specific_piece_on(stip_length_type n,
+                                  square sq_to_be_pinned,
+                                  square pin_on,
+                                  unsigned int pinner_index,
+                                  boolean diagonal)
 {
-  boolean result = false;
   piece const pinner_type = white[pinner_index].type;
   Flags const pinner_flags = white[pinner_index].flags;
   square const pinner_comes_from = white[pinner_index].diagram_square;
@@ -137,25 +125,21 @@ static boolean pin_specific_piece_on(stip_length_type n,
       break;
 
     case tb:
-      if (!diagonal
-          && pin_by_officer(n,tb,tb,pinner_flags,pinner_comes_from,pin_on))
-        result = true;
+      if (!diagonal)
+        pin_by_officer(n,tb,tb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case fb:
-      if (diagonal
-          && pin_by_officer(n,fb,fb,pinner_flags,pinner_comes_from,pin_on))
-        result = true;
+      if (diagonal)
+        pin_by_officer(n,fb,fb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case db:
-      if (pin_by_officer(n,db,db,pinner_flags,pinner_comes_from,pin_on))
-        result = true;
+      pin_by_officer(n,db,db,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case pb:
-      if (pin_by_promoted_pawn(n,pinner_flags,pinner_comes_from,pin_on,diagonal))
-        result = true;
+      pin_by_promoted_pawn(n,pinner_flags,pinner_comes_from,pin_on,diagonal);
       break;
 
     default:
@@ -164,17 +148,12 @@ static boolean pin_specific_piece_on(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* @return true iff >=1 pin was actually placed
- */
-static boolean pin_specific_piece(stip_length_type n,
-                                  square position_of_trouble_maker)
+void intelligent_stalemate_pin_black_piece(stip_length_type n,
+                                           square position_of_trouble_maker)
 {
-  boolean result = false;
   int const dir = CheckDirQueen[position_of_trouble_maker-king_square[Black]];
   piece const pinned_type = e[position_of_trouble_maker];
 
@@ -205,12 +184,11 @@ static boolean pin_specific_piece(stip_length_type n,
           {
             white[pinner_index].usage = piece_pins;
 
-            if (pin_specific_piece_on(n,
-                                      position_of_trouble_maker,
-                                      pin_on,
-                                      pinner_index,
-                                      diagonal))
-              result = true;
+            pin_specific_piece_on(n,
+                                  position_of_trouble_maker,
+                                  pin_on,
+                                  pinner_index,
+                                  diagonal);
 
             white[pinner_index].usage = piece_is_unused;
           }
@@ -228,34 +206,5 @@ static boolean pin_specific_piece(stip_length_type n,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
-}
-
-boolean intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(stip_length_type n,
-                                                                      immobilisation_state_type const *state)
-{
-  boolean result = false;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",state->nr_of_trouble_makers);
-  for (i = 0; i!=state->nr_of_trouble_makers; ++i)
-  {
-    TraceSquare(state->positions_of_trouble_makers[i]);TraceText("\n");
-    if (pin_specific_piece(n,state->positions_of_trouble_makers[i]))
-    {
-      result = true;
-      break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }

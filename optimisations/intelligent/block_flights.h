@@ -3,6 +3,6 @@
 
 #include "py.h"
 
-void intelligent_block_flights(stip_length_type n);
+void intelligent_find_and_block_flights(stip_length_type n);
 
 #endif

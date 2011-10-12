@@ -108,6 +108,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
     {
       Nr_unused_white_masses -= nr_required_captures;
       Nr_remaining_black_moves -= time;
+      TraceValue("%u",Nr_unused_white_masses);
       TraceValue("%u\n",Nr_remaining_black_moves);
       SetPiece(pn,to_be_blocked,blocker_flags);
       continue_intercepting_checks(n,
@@ -482,6 +483,7 @@ static void with_white_piece(stip_length_type n,
   if (Nr_unused_white_masses>=1)
   {
     --Nr_unused_white_masses;
+    TraceValue("%u\n",Nr_unused_white_masses);
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)

@@ -148,7 +148,7 @@ static void fix_white_king_on_diagram_square(stip_length_type n)
     SetPiece(roib,king_square[White],white[index_of_king].flags);
     white[index_of_king].usage = piece_is_fixed_to_diagram_square;
 
-    intelligent_block_flights(n);
+    intelligent_find_and_block_flights(n);
 
     white[index_of_king].usage = piece_is_unused;
     e[king_square[White]] = vide;
@@ -171,7 +171,7 @@ static void FinaliseGuarding(stip_length_type n)
       && Nr_remaining_white_moves==0)
     fix_white_king_on_diagram_square(n);
   else
-    intelligent_block_flights(n);
+    intelligent_find_and_block_flights(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

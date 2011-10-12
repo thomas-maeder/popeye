@@ -4,7 +4,7 @@
 #include "py.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 
-boolean intelligent_stalemate_immobilise_by_pinning_any_trouble_maker(stip_length_type n,
-                                                                      immobilisation_state_type const *state);
+void intelligent_stalemate_pin_black_piece(stip_length_type n,
+                                                                 square position_of_trouble_maker);
 
 #endif

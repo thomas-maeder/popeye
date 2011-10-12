@@ -206,7 +206,7 @@ static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square paw
   return result;
 }
 
-unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked)
+unsigned int intelligent_estimate_min_nr_black_moves_to_square(square to_be_blocked)
 {
   unsigned int result = maxply+1;
   unsigned int i;
@@ -216,38 +216,39 @@ unsigned int intelligent_count_nr_black_moves_to_square(square to_be_blocked)
   TraceFunctionParamListEnd();
 
   for (i = 1; i<MaxPiece[Black]; ++i)
-  {
-    piece const blocker_type = black[i].type;
-    square const blocker_comes_from = black[i].diagram_square;
-
-    if (blocker_type==pn)
+    if (black[i].usage==piece_is_unused)
     {
-      if (to_be_blocked>=square_a2)
+      piece const blocker_type = black[i].type;
+      square const blocker_comes_from = black[i].diagram_square;
+
+      if (blocker_type==pn)
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
-                                                                                          blocker_comes_from,
-                                                                                          to_be_blocked);
+        if (to_be_blocked>=square_a2)
+        {
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+                                                                                            blocker_comes_from,
+                                                                                            to_be_blocked);
+          if (time<result)
+            result = time;
+        }
+
+        {
+          unsigned int const time_prom = count_nr_black_moves_to_square_with_promoted_pawn(blocker_comes_from,
+                                                                                           to_be_blocked);
+          if (time_prom<result)
+            result = time_prom;
+        }
+      }
+      else
+      {
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
+                                                                                 blocker_comes_from,
+                                                                                 blocker_type,
+                                                                                 to_be_blocked);
         if (time<result)
           result = time;
       }
-
-      {
-        unsigned int const time_prom = count_nr_black_moves_to_square_with_promoted_pawn(blocker_comes_from,
-                                                                                         to_be_blocked);
-        if (time_prom<result)
-          result = time_prom;
-      }
     }
-    else
-    {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                               blocker_comes_from,
-                                                                               blocker_type,
-                                                                               to_be_blocked);
-      if (time<result)
-        result = time;
-    }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

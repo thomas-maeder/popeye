@@ -82,6 +82,7 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h pyint.h \
  pydata.h pyslice.h platform/maxtime.h \
  optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/stalemate/intercept_checks.h \
  optimisations/intelligent/stalemate/black_block.h \
  optimisations/intelligent/stalemate/finish.h trace.h
@@ -97,6 +98,8 @@ pyslice.h:
 platform/maxtime.h:
 
 optimisations/intelligent/moves_left.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/stalemate/intercept_checks.h:
 
@@ -129,7 +132,8 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/black_block.c \
  optimisations/intelligent/stalemate/black_block.h pyint.h pydata.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/finish.h trace.h
+ optimisations/intelligent/stalemate/finish.h \
+ optimisations/intelligent/stalemate/intercept_checks.h trace.h
 
 optimisations/intelligent/stalemate/black_block.h:
 
@@ -140,6 +144,8 @@ pydata.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/stalemate/finish.h:
+
+optimisations/intelligent/stalemate/intercept_checks.h:
 
 trace.h:
 optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \

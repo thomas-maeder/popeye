@@ -245,6 +245,7 @@ static void with_promoted_black_pawn(stip_length_type n,
           {
             Nr_unused_white_masses -= diffcol;
             Nr_remaining_black_moves -= time;
+            TraceValue("%u",Nr_unused_white_masses);
             TraceValue("%u\n",Nr_remaining_black_moves);
             SetPiece(pp,placed_on,black[placed_index].flags);
             continue_intercepting_checks(n,
@@ -287,6 +288,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
       {
         Nr_unused_white_masses -= diffcol;
         Nr_remaining_black_moves -= time;
+        TraceValue("%u",Nr_unused_white_masses);
         TraceValue("%u\n",Nr_remaining_black_moves);
         SetPiece(pn,placed_on,black[placed_index].flags);
         continue_intercepting_checks(n,

@@ -58,6 +58,7 @@ static void promoted_black_pawn(stip_length_type n,
                                                                 placed_on);
               Nr_unused_white_masses -= diffcol;
               Nr_remaining_black_moves -= time;
+              TraceValue("%u",Nr_unused_white_masses);
               TraceValue("%u\n",Nr_remaining_black_moves);
               SetPiece(pp,placed_on,black[placed_index].flags);
               intelligent_mate_finish(n,nr_of_checks_to_white);
@@ -96,6 +97,7 @@ static void unpromoted_black_pawn(stip_length_type n,
       {
         Nr_unused_white_masses -= diffcol;
         Nr_remaining_black_moves -= time;
+        TraceValue("%u",Nr_unused_white_masses);
         TraceValue("%u\n",Nr_remaining_black_moves);
         SetPiece(pn,placed_on,black[placed_index].flags);
         intelligent_mate_test_target_position(n);

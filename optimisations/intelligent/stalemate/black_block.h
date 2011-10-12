@@ -4,6 +4,7 @@
 #include "py.h"
 
 void intelligent_stalemate_black_block(stip_length_type n,
-                                       square to_be_blocked);
+                                       square const to_be_blocked[8],
+                                       unsigned int nr_to_be_blocked);
 
 #endif

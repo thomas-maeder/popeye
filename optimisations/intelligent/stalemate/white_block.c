@@ -182,6 +182,7 @@ void intelligent_stalemate_white_block(stip_length_type n, square to_be_blocked)
   if (Nr_unused_white_masses>=1)
   {
     --Nr_unused_white_masses;
+    TraceValue("%u\n",Nr_unused_white_masses);
 
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
