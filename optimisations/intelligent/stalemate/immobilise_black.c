@@ -146,9 +146,10 @@ boolean intelligent_stalemate_immobilise_black(stip_length_type n)
   return result;
 }
 
-static void update_leaper_requirement(immobilisation_requirement_type if_white)
+static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
-  immobilisation_requirement_type const new_req = pprise[nbply]==vide ? block_required : if_white;
+  boolean const is_block_possible = pprise[nbply]==vide && nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0;
+  immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
   if (current_state->current.requirement<new_req)
     current_state->current.requirement = new_req;
   assert(current_state->current.nr_flight_directions<8);
@@ -156,7 +157,7 @@ static void update_leaper_requirement(immobilisation_requirement_type if_white)
   ++current_state->current.nr_flight_directions;
 }
 
-static void update_rider_requirement(immobilisation_requirement_type if_white)
+static void update_rider_requirement(immobilisation_requirement_type if_unblockable)
 {
   int const diff = (move_generation_stack[nbcou].arrival
                     -move_generation_stack[nbcou].departure);
@@ -164,7 +165,8 @@ static void update_rider_requirement(immobilisation_requirement_type if_white)
   if (diff==dir)
   {
     square const closest_flight = move_generation_stack[nbcou].departure+dir;
-    immobilisation_requirement_type const new_req = pprise[nbply]==vide ? block_required : if_white;
+    boolean const is_block_possible = pprise[nbply]==vide && nr_reasons_for_staying_empty[closest_flight]==0;
+    immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
     if (current_state->current.requirement<new_req)
       current_state->current.requirement = new_req;
     assert(current_state->current.nr_flight_directions<8);
@@ -177,17 +179,37 @@ static void update_pawn_requirement(void)
 {
   int const diff = (move_generation_stack[nbcou].arrival
                     -move_generation_stack[nbcou].departure);
-  int const dir = CheckDirQueen[diff];
-  square const closest_flight = move_generation_stack[nbcou].departure+dir;
-  if (diff==dir /* single step */
-      && current_state->current.nr_flight_directions==0) /* first promotion */
+  switch (diff)
   {
-    immobilisation_requirement_type const new_req = pprise[nbply]==vide ? white_block_required : pin_required;
-    if (current_state->current.requirement<new_req)
-      current_state->current.requirement = new_req;
-    assert(current_state->current.nr_flight_directions<8);
-    current_state->current.closest_flights[current_state->current.nr_flight_directions] = closest_flight;
-    ++current_state->current.nr_flight_directions;
+    case dir_down:
+      /* the following test prevents promotions into different pices from adding
+       * the same square to closest_flights more than once */
+      if (current_state->current.requirement==no_requirement)
+      {
+        if (nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0)
+        {
+          current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[nbcou].arrival;
+          ++current_state->current.nr_flight_directions;
+          current_state->current.requirement = white_block_required;
+        }
+        else
+          current_state->current.requirement = pin_required;
+      }
+      break;
+
+    case 2*dir_down:
+      /* dealt with by single step case */
+      break;
+
+    case dir_down+dir_left:
+    case dir_down+dir_right:
+      /* this works for both regular and en passant captures: */
+      current_state->current.requirement = pin_required;
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 }
 
