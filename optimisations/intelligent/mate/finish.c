@@ -34,6 +34,7 @@ static boolean exists_redundant_white_piece(void)
       spec[sq] = EmptySpec;
 
       result = (echecc(nbply,Black)
+                && !echecc(nbply,White)
                 && slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution);
 
       /* restore piece */
@@ -127,18 +128,15 @@ void intelligent_mate_test_target_position(stip_length_type n)
   assert(!echecc(nbply,White));
   if (!neutralise_guarding_pieces(n))
   {
-    /* avoid duplicate test of the same target position (modulo redundant
-     * pieces) */
-    if (!exists_redundant_white_piece())
+    if (white[index_of_king].usage==piece_is_unused
+        && white[index_of_king].diagram_square!=square_e1
+        && Nr_remaining_white_moves==0)
+      fix_white_king_on_diagram_square(n);
+    else if (!exists_redundant_white_piece())
     {
       /* Nail white king to diagram square if no white move remains; we can't do
        * this with the other white or black pieces because they might be
        * captured in the solution */
-      if (white[index_of_king].usage==piece_is_unused
-          && white[index_of_king].diagram_square!=square_e1
-          && Nr_remaining_white_moves==0)
-        fix_white_king_on_diagram_square(n);
-      else
         solve_target_position(n);
     }
   }

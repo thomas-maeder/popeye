@@ -26,7 +26,7 @@
 
               empile:      149070
             jouecoup:      126178
-        orig_rbechec:        1738
+        orig_rbechec:        1897
         orig_rnechec:       92894
 solution finished. 
 
@@ -59,7 +59,7 @@ solution finished.
 
               empile:        3840
             jouecoup:        2953
-        orig_rbechec:          74
+        orig_rbechec:          76
         orig_rnechec:        2916
 solution finished. 
 
@@ -92,7 +92,7 @@ double check by en passant capture from above
 
               empile:        8407
             jouecoup:        6382
-        orig_rbechec:          35
+        orig_rbechec:          40
         orig_rnechec:        6171
 solution finished. 
 
@@ -125,7 +125,7 @@ double check by en passant capture from below
 
               empile:       12620
             jouecoup:        9164
-        orig_rbechec:          60
+        orig_rbechec:          85
         orig_rnechec:        8677
 solution finished. 
 

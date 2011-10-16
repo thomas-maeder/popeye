@@ -631,7 +631,7 @@ a)
 
               empile:      653201
             jouecoup:      653282
-        orig_rbechec:      226899
+        orig_rbechec:      226984
         orig_rnechec:      273442
 b) ser-h=9
 
@@ -689,17 +689,17 @@ a)
 11 moegliche Stellungen in 1+7
 15 moegliche Stellungen in 1+8
 41 moegliche Stellungen in 1+9
-63 moegliche Stellungen in 1+10
-63 moegliche Stellungen in 1+11
-83 moegliche Stellungen in 1+12
-85 moegliche Stellungen in 1+13
+67 moegliche Stellungen in 1+10
+67 moegliche Stellungen in 1+11
+87 moegliche Stellungen in 1+12
+89 moegliche Stellungen in 1+13
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
-119 moegliche Stellungen in 1+14
+135 moegliche Stellungen in 1+14
 
-              empile:      889292
-            jouecoup:      876099
-        orig_rbechec:      292461
-        orig_rnechec:      401742
+              empile:      890852
+            jouecoup:      877659
+        orig_rbechec:      293963
+        orig_rnechec:      402238
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1
@@ -765,7 +765,7 @@ a)
 
               empile:       70716
             jouecoup:       58299
-        orig_rbechec:        7498
+        orig_rbechec:        7571
         orig_rnechec:       38412
 b) ser-h=9
 
@@ -881,7 +881,7 @@ a)
 
               empile:     1257945
             jouecoup:     1315587
-        orig_rbechec:      222397
+        orig_rbechec:      246359
         orig_rnechec:      525561
 b) ser-=6
 
@@ -937,7 +937,7 @@ a)
 
               empile:       64851
             jouecoup:       78898
-        orig_rbechec:       11221
+        orig_rbechec:       12485
         orig_rnechec:       34550
 b) ser-=4
 
@@ -986,10 +986,10 @@ a)
   1.c7-c8=S   2.f7-f8=S # 
 38 moegliche Stellungen in 2+0
 
-              empile:       25884
-            jouecoup:       22226
-        orig_rbechec:         300
-        orig_rnechec:       21162
+              empile:       25878
+            jouecoup:       22225
+        orig_rbechec:         531
+        orig_rnechec:       21161
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
@@ -1560,7 +1560,7 @@ a)
 
               empile:        8553
             jouecoup:        5065
-        orig_rbechec:          36
+        orig_rbechec:          42
         orig_rnechec:        4768
 b) h=2
 
@@ -1841,7 +1841,7 @@ a)
 
               empile:         943
             jouecoup:         436
-        orig_rbechec:          12
+        orig_rbechec:          13
         orig_rnechec:         407
 b) h=2
 
@@ -2298,7 +2298,7 @@ a)
 
               empile:       16073
             jouecoup:       13918
-        orig_rbechec:         311
+        orig_rbechec:         324
         orig_rnechec:        7960
 b) h=3
 
