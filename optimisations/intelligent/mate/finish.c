@@ -68,17 +68,18 @@ static boolean neutralise_guarding_pieces(stip_length_type n)
 
     intelligent_mate_pin_black_piece(n,trouble);
 
-    if (is_rider(abs(e[trouble])))
     {
       int const dir = CheckDirQueen[trto-trouble];
-
-      square sq;
-      for (sq = trouble+dir; sq!=trto; sq+=dir)
-        if (nr_reasons_for_staying_empty[sq]==0)
-        {
-          intelligent_mate_place_any_black_piece_on(n,sq);
-          intelligent_mate_place_any_white_piece_on(n,sq);
-        }
+      if (dir!=0)
+      {
+        square sq;
+        for (sq = trouble+dir; sq!=trto; sq += dir)
+          if (nr_reasons_for_staying_empty[sq]==0)
+          {
+            intelligent_mate_place_any_black_piece_on(n,sq);
+            intelligent_mate_place_any_white_piece_on(n,sq);
+          }
+      }
     }
   }
 

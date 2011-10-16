@@ -32,4 +32,12 @@ pieces white kb7 rd2 bb2 pd5
 stip h#1.5
 option intelligent
 
+next
+
+title interception of a defending pawn by a piece that doesn't guard
+pieces white sc8 pc5 bh3
+       black ka6 pa5a7b7
+stipulation ser-#2
+option nowk intelligent
+
 end

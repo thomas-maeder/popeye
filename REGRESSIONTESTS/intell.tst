@@ -130,3 +130,36 @@ double check by en passant capture from below
 solution finished. 
 
 
+
+interception of a defending pawn by a piece that doesn't guard
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .   .   .   .   8
+|                                   |
+7  -P  -P   .   .   .   .   .   .   7
+|                                   |
+6  -K   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#2                      3 + 4
+
+  1.Sc8-b6   2.Bh3-f1 # 
+
+              empile:         470
+            jouecoup:         407
+        orig_rbechec:           0
+        orig_rnechec:         386
+solution finished. 
+
+
