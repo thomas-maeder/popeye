@@ -9,9 +9,10 @@
  */
 
 /* Allocate a STIntelligentMateFilter slice.
+ * @param goal_tester_fork fork into the goal tester branch
  * @return allocated slice
  */
-slice_index alloc_intelligent_mate_filter(void);
+slice_index alloc_intelligent_mate_filter(slice_index goal_tester_fork);
 
 /* Impose the starting side on a stipulation.
  * @param si identifies slice

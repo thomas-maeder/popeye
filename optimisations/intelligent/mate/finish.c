@@ -2,7 +2,6 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "solving/legal_move_finder.h"
-#include "stipulation/temporary_hacks.h"
 #include "optimisations/intelligent/mate/place_white_piece.h"
 #include "optimisations/intelligent/mate/place_black_piece.h"
 #include "optimisations/intelligent/mate/pin_black_piece.h"
@@ -33,9 +32,7 @@ static boolean exists_redundant_white_piece(void)
       e[sq] = vide;
       spec[sq] = EmptySpec;
 
-      result = (echecc(nbply,Black)
-                && !echecc(nbply,White)
-                && slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution);
+      result = slice_has_solution(slices[current_start_slice].u.intelligent_mate_filter.goal_tester_fork)==has_solution;
 
       /* restore piece */
       e[sq] = p;
@@ -60,7 +57,7 @@ static boolean neutralise_guarding_pieces(stip_length_type n)
   TraceFunctionParamListEnd();
 
   init_legal_move_finder();
-  result = slice_has_solution(slices[temporary_hack_legal_move_finder[Black]].u.fork.fork)==has_solution;
+  result = slice_has_solution(slices[current_start_slice].u.intelligent_mate_filter.fork)==has_solution;
   trouble = legal_move_finder_departure;
   trto = legal_move_finder_arrival;
   fini_legal_move_finder();

@@ -1,7 +1,7 @@
 optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.c \
  optimisations/intelligent/mate/finish.h pyint.h pydata.h \
- solving/legal_move_finder.h stipulation/temporary_hacks.h \
+ solving/legal_move_finder.h \
  optimisations/intelligent/mate/place_white_piece.h \
  optimisations/intelligent/mate/place_black_piece.h \
  optimisations/intelligent/mate/pin_black_piece.h \
@@ -15,8 +15,6 @@ pydata.h:
 
 solving/legal_move_finder.h:
 
-stipulation/temporary_hacks.h:
-
 optimisations/intelligent/mate/place_white_piece.h:
 
 optimisations/intelligent/mate/place_black_piece.h:
@@ -29,7 +27,8 @@ trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
  optimisations/intelligent/mate/filter.h pyint.h pybrafrk.h pypipe.h \
- stipulation/goals/immobile/reached_tester.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/help_play/branch.h \
+ stipulation/goals/any/reached_tester.h solving/legal_move_finder.h \
  optimisations/intelligent/duplicate_avoider.h trace.h
 
 optimisations/intelligent/mate/filter.h:
@@ -40,7 +39,15 @@ pybrafrk.h:
 
 pypipe.h:
 
-stipulation/goals/immobile/reached_tester.h:
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/goals/any/reached_tester.h:
+
+solving/legal_move_finder.h:
 
 optimisations/intelligent/duplicate_avoider.h:
 

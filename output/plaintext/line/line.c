@@ -177,12 +177,14 @@ static void instrument_end_of_branch(slice_index si,
 
 static structure_traversers_visitors regular_inserters[] =
 {
-  { STEndOfBranch,       &instrument_end_of_branch       },
-  { STConstraint,        &stip_traverse_structure_pipe   },
-  { STPlaySuppressor,    &instrument_suppressor          },
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STAttackAdapter,     &instrument_root                },
-  { STHelpAdapter,       &instrument_root                }
+  { STEndOfBranch,                &instrument_end_of_branch       },
+  { STConstraint,                 &stip_traverse_structure_pipe   },
+  { STPlaySuppressor,             &instrument_suppressor          },
+  { STGoalReachedTester,          &instrument_goal_reached_tester },
+  { STAttackAdapter,              &instrument_root                },
+  { STHelpAdapter,                &instrument_root                },
+  { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
+  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   }
 };
 
 enum
@@ -246,16 +248,18 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors root_inserters[] =
+static structure_traversers_visitors constraint_inserters[] =
 {
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STConstraint,        &instrument_constraint          },
-  { STMove,              &remember_move                  }
+  { STGoalReachedTester,          &instrument_goal_reached_tester },
+  { STConstraint,                 &instrument_constraint          },
+  { STMove,                       &remember_move                  },
+  { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
+  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   }
 };
 
 enum
 {
-  nr_root_inserters = sizeof root_inserters / sizeof root_inserters[0]
+  nr_constraint_inserters = sizeof constraint_inserters / sizeof constraint_inserters[0]
 };
 
 static void instrument_constraints(slice_index si)
@@ -267,7 +271,7 @@ static void instrument_constraints(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&move_slice);
-  stip_structure_traversal_override(&st,root_inserters,nr_root_inserters);
+  stip_structure_traversal_override(&st,constraint_inserters,nr_constraint_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

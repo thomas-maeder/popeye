@@ -797,6 +797,7 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
   { STReadyForHelpMove,           &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester,          &goalreachable_guards_duplicate_avoider_inserter },
   { STGoalImmobileReachedTester,  &stip_traverse_structure_pipe                    },
+  { STIntelligentMateFilter,      &stip_traverse_structure_pipe                    },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe                    },
   { STTemporaryHackFork,          &stip_traverse_structure_pipe                    }
 };
@@ -833,7 +834,33 @@ static void stip_insert_goalreachable_guards(slice_index si, goal_type goal)
   TraceFunctionResultEnd();
 }
 
-static void intelligent_guards_inserter(slice_index si,
+static slice_index find_goal_tester_fork(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const branch_goal_fork = branch_find_slice(STEndOfBranchGoalImmobile,si);
+    if (branch_goal_fork==no_slice)
+    {
+      slice_index const branch_goal = branch_find_slice(STEndOfBranch,si);
+      assert(branch_goal!=no_slice);
+      result = find_goal_tester_fork(slices[branch_goal].u.fork.fork);
+    }
+    else
+      result = branch_find_slice(STGoalReachedTester,slices[branch_goal_fork].u.fork.fork);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void intelligent_filter_inserter(slice_index si,
                                         stip_structure_traversal *st)
 {
   goal_type const * const goal = st->param;
@@ -854,7 +881,7 @@ static void intelligent_guards_inserter(slice_index si,
 
     case goal_mate:
     {
-      slice_index const prototype = alloc_intelligent_mate_filter();
+      slice_index const prototype = alloc_intelligent_mate_filter(find_goal_tester_fork(si));
       help_branch_insert_slices(si,&prototype,1);
       break;
     }
@@ -882,7 +909,7 @@ static void intelligent_guards_inserter(slice_index si,
 
 static structure_traversers_visitors intelligent_filters_inserters[] =
 {
-  { STHelpAdapter,       &intelligent_guards_inserter  },
+  { STHelpAdapter,       &intelligent_filter_inserter  },
   { STTemporaryHackFork, &stip_traverse_structure_pipe }
 };
 

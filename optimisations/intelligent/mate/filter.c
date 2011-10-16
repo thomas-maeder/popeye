@@ -2,24 +2,42 @@
 #include "pyint.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/branch.h"
+#include "stipulation/proxy.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/goals/any/reached_tester.h"
+#include "solving/legal_move_finder.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STIntelligentMateFilter slice.
+ * @param goal_tester_fork fork into the goal goal_tester_fork branch
  * @return allocated slice
  */
-slice_index alloc_intelligent_mate_filter(void)
+slice_index alloc_intelligent_mate_filter(slice_index goal_tester_fork)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal_tester_fork);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STIntelligentMateFilter,
-                             alloc_goal_immobile_reached_tester_system());
+  {
+    slice_index const proxy_branch = alloc_proxy_slice();
+    slice_index const help = alloc_help_branch(slack_length_help+1,
+                                               slack_length_help+1);
+    slice_index const proto = alloc_legal_move_finder_slice();
+    slice_index const proxy_goal = alloc_proxy_slice();
+    slice_index const system = alloc_goal_any_reached_tester_system();
+    link_to_branch(proxy_goal,system);
+    help_branch_set_end_goal(help,proxy_goal,1);
+    branch_insert_slices(proxy_goal,&proto,1);
+    link_to_branch(proxy_branch,help);
+    result = alloc_branch_fork(STIntelligentMateFilter,proxy_branch);
+    slices[result].u.intelligent_mate_filter.goal_tester_fork = goal_tester_fork;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,8 +63,8 @@ void impose_starter_intelligent_mate_filter(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   /* in duplexes, the colors swapped when looking for the "black solutions".
-   * we thus have to make sure that our immobility tester always tests for
-   * Black's immobility.
+   * we thus have to make sure that the legal move finder always tests for
+   * Black.
    */
   *starter = Black;
   stip_traverse_structure(slices[si].u.fork.fork,st);
