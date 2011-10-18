@@ -47,7 +47,7 @@ static void with_promoted_black_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!uninterceptably_attacks_king(White,to_be_blocked,pp))
+      if (!guards(king_square[White],pp,to_be_blocked))
       {
         unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
                                                                                        pp,
@@ -95,7 +95,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,to_be_blocked,pn))
+  if (!guards(king_square[White],pn,to_be_blocked))
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
@@ -145,7 +145,7 @@ static void with_black_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
+  if (!guards(king_square[White],blocker_type,to_be_blocked))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
                                                                              blocker_comes_from,

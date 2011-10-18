@@ -275,7 +275,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,placed_on,pn))
+  if (!guards(king_square[White],pn,placed_on))
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);

@@ -143,31 +143,41 @@ boolean guards(square to_be_guarded, piece guarding, square guarding_from)
   TraceSquare(guarding_from);
   TraceFunctionParamListEnd();
 
-  switch (abs(guarding))
+  switch (guarding)
   {
-    case Pawn:
+    case pb:
       result = (guarding_from>=square_a2
-                && (diff==+dir_up+dir_left || diff==+dir_up+dir_right));
+                && (diff==dir_up+dir_left || diff==dir_up+dir_right));
       break;
 
-    case Knight:
+    case pn:
+      result = (guarding_from<=square_h7
+                && (diff==dir_down+dir_left || diff==dir_down+dir_right));
+      break;
+
+    case cb:
+    case cn:
       result = CheckDirKnight[diff]!=0;
       break;
 
-    case Bishop:
+    case fb:
+    case fn:
       result = rider_guards(to_be_guarded,guarding_from,CheckDirBishop[diff]);
       break;
 
-    case Rook:
+    case tb:
+    case tn:
       result = rider_guards(to_be_guarded,guarding_from,CheckDirRook[diff]);
       break;
 
-    case Queen:
+    case db:
+    case dn:
       result = (rider_guards(to_be_guarded,guarding_from,CheckDirBishop[diff])
                 || rider_guards(to_be_guarded,guarding_from,CheckDirRook[diff]));
       break;
 
-    case King:
+    case roib:
+    case roin:
       result = move_diff_code[abs(diff)]<3;
       break;
 
