@@ -75,6 +75,44 @@ static unsigned int intelligent_count_nr_of_moves_from_to_king(Side side,
   return result;
 }
 
+unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
+                                                                  piece to_piece,
+                                                                  square to_square)
+{
+  unsigned int result = maxply+1;
+  square const start = to_piece<vide ? square_a1 : square_a8;
+  piece const pawn = to_piece<vide ? pn : pb;
+  square prom_square;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TracePiece(to_piece);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  assert(from_square>=square_a2);
+  assert(from_square<=square_h7);
+
+  for (prom_square = start; prom_square<start+nr_files_on_board; ++prom_square)
+  {
+    unsigned int const to_prom = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pawn>obs ? White : Black,
+                                                                                         from_square,
+                                                                                         prom_square);
+    unsigned int const from_prom = intelligent_count_nr_of_moves_from_to_no_check(to_piece,
+                                                                                  prom_square,
+                                                                                  to_piece,
+                                                                                  to_square);
+    unsigned int const total = to_prom+from_prom;
+    if (total<result)
+      result = total;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static unsigned int count_nr_of_moves_from_to_from_to_different(piece from_piece,
                                                                 square from_square,
                                                                 piece to_piece,
@@ -161,44 +199,6 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   else
     result = count_nr_of_moves_from_to_from_to_different(from_piece,from_square,
                                                          to_piece,to_square);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
-                                                                  piece to_piece,
-                                                                  square to_square)
-{
-  unsigned int result = maxply+1;
-  square const start = to_piece<vide ? square_a1 : square_a8;
-  piece const pawn = to_piece<vide ? pn : pb;
-  square prom_square;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TracePiece(to_piece);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  assert(from_square>=square_a2);
-  assert(from_square<=square_h7);
-
-  for (prom_square = start; prom_square<start+nr_files_on_board; ++prom_square)
-  {
-    unsigned int const to_prom = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pawn>obs ? White : Black,
-                                                                                         from_square,
-                                                                                         prom_square);
-    unsigned int const from_prom = intelligent_count_nr_of_moves_from_to_no_check(to_piece,
-                                                                                  prom_square,
-                                                                                  to_piece,
-                                                                                  to_square);
-    unsigned int const total = to_prom+from_prom;
-    if (total<result)
-      result = total;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

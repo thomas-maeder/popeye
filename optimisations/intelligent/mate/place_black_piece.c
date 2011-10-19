@@ -37,34 +37,20 @@ static void promoted_black_pawn(stip_length_type n,
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
         if (!officer_uninterceptably_attacks_king(White,placed_on,pp))
         {
-          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
-                                                                                         pp,
-                                                                                         placed_on);
-          if (time<=Nr_remaining_moves[Black])
+          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+          unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+          if (intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
+                                                               pp,
+                                                               placed_on))
           {
-            unsigned int diffcol = 0;
-            if (pp==fn)
-            {
-              unsigned int const placed_from_file = placed_from%nr_files_on_board;
-              square const promotion_square_on_same_file = square_a1+placed_from_file;
-              if (SquareCol(placed_on)!=SquareCol(promotion_square_on_same_file))
-                diffcol = 1;
-            }
+            unsigned int const nr_of_checks_to_white = guards(king_square[White],
+                                                              pp,
+                                                              placed_on);
+            SetPiece(pp,placed_on,black[placed_index].flags);
+            intelligent_mate_finish(n,nr_of_checks_to_white);
 
-            if (diffcol<=Nr_unused_masses[White])
-            {
-              unsigned int const nr_of_checks_to_white = guards(king_square[White],
-                                                                pp,
-                                                                placed_on);
-              Nr_unused_masses[White] -= diffcol;
-              Nr_remaining_moves[Black] -= time;
-              TraceValue("%u",Nr_unused_masses[White]);
-              TraceValue("%u\n",Nr_remaining_moves[Black]);
-              SetPiece(pp,placed_on,black[placed_index].flags);
-              intelligent_mate_finish(n,nr_of_checks_to_white);
-              Nr_remaining_moves[Black] += time;
-              Nr_unused_masses[White] += diffcol;
-            }
+            Nr_unused_masses[White] = save_nr_unused_masses;
+            Nr_remaining_moves[Black] = save_nr_remaining_moves;
           }
         }
     }

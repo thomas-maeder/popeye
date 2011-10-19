@@ -6,9 +6,6 @@
 
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 
-unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
-                                                                  piece to_piece,
-                                                                  square to_square);
 unsigned int intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Side side,
                                                                      square from_square,
                                                                      square to_square);

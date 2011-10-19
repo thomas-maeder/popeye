@@ -49,26 +49,27 @@ static void with_promoted_black_pawn(stip_length_type n,
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!guards(king_square[White],pp,to_be_blocked))
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
-                                                                                       pp,
-                                                                                       to_be_blocked);
-        if (time<=Nr_remaining_moves[Black])
+        unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+        unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+        if (intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
+                                                             pp,
+                                                             to_be_blocked))
         {
           boolean const white_check = guards(king_square[White],pp,to_be_blocked);
           if (!(side==White && white_check))
           {
             if (side==Black && white_check)
               ++nr_checks_to_opponent;
-            Nr_remaining_moves[Black] -= time;
-            TraceValue("%u\n",Nr_remaining_moves[Black]);
             SetPiece(pp,to_be_blocked,blocker_flags);
             continue_intercepting_checks(n,
                                          check_directions,
                                          nr_of_check_directions,
                                          nr_checks_to_opponent,
                                          side);
-            Nr_remaining_moves[Black] += time;
           }
+
+          Nr_unused_masses[White] = save_nr_unused_masses;
+          Nr_remaining_moves[Black] = save_nr_remaining_moves;
         }
       }
   }
