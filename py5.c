@@ -2903,6 +2903,40 @@ boolean jouecoup(ply ply_id, joue_type jt)
 
   if (jouegenre)
   {
+    if (pi_captured != vide)
+    {
+      if (kobulking[Black] && trait_ply == White)
+      {
+        PieSpec sp;
+        piece kobul = is_pawn(pi_captured) ? roin : pi_captured;
+        nbpiece[e[king_square[Black]]]--;
+        e[king_square[Black]] = kobul;
+        if (TSTFLAG(spec[king_square[Black]], Neutral))
+          setneutre(king_square[Black]);
+        for (sp = Kamikaze; sp < PieSpCount; sp++)
+          if (sp != Royal)
+            TSTFLAG(spec_pi_captured, sp) ?
+              SETFLAG(spec[king_square[Black]], sp) :
+              CLRFLAG(spec[king_square[Black]], sp);
+        nbpiece[kobul]++;
+      }
+      if (kobulking[White] && trait_ply == Black)
+      {
+        PieSpec sp;
+        piece kobul = is_pawn(pi_captured) ? roib : pi_captured;
+        nbpiece[e[king_square[White]]]--;
+        e[king_square[White]] = kobul;
+        if (TSTFLAG(spec[king_square[Black]], Neutral))
+          setneutre(king_square[Black]);
+        for (sp = Kamikaze; sp < PieSpCount; sp++)
+          if (sp != Royal)
+            TSTFLAG(spec_pi_captured, sp) ?
+              SETFLAG(spec[king_square[White]], sp) :
+              CLRFLAG(spec[king_square[White]], sp);
+        nbpiece[kobul]++;
+      }
+    }
+
     if (CondFlag[ghostchess] || CondFlag[hauntedchess])
       summon_ghost(sq_departure);
 
@@ -3830,6 +3864,21 @@ void repcoup(void)
   /* first delete all changes */
   if (repgenre)
   {
+    if (trait[nbply] == White &&  kobulking[Black])
+    {
+      nbpiece[e[king_square[Black]]]--;
+      e[king_square[Black]] = blkobul[nbply];
+      spec[king_square[Black]] = blkobulspec[nbply];
+      nbpiece[blkobul[nbply]]++;
+    }
+    if (trait[nbply] == Black && kobulking[White])
+    {
+      nbpiece[e[king_square[White]]]--;
+      e[king_square[White]] = whkobul[nbply];
+      spec[king_square[White]] = whkobulspec[nbply];
+      nbpiece[whkobul[nbply]]++;
+    }
+
     if ((CondFlag[ghostchess] || CondFlag[hauntedchess])
         && e[sq_departure]!=vide)
       ban_ghost(sq_departure);

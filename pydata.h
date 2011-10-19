@@ -247,6 +247,8 @@ EXTERN  pilecase super;   /* rebirth square for supercirce */
 EXTERN  Flags    jouespec[maxply + 1];
 EXTERN  numecoup repere[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];
+EXTERN  piece whkobul[maxply+1], blkobul[maxply+1];
+EXTERN  Flags whkobulspec[maxply+1], blkobulspec[maxply+1];
 
 
 
@@ -417,6 +419,7 @@ EXTERN piece            rochade_pc[toppile + 1];
 EXTERN Flags            rochade_sp[toppile + 1];
 EXTERN boolean          flag_libre_on_generate;
 EXTERN boolean			anyparrain;
+EXTERN boolean          kobulking[nr_sides];
 
 #if defined(WE_ARE_EXTERN)
 	extern PieTable PieNamString[LanguageCount];
@@ -1182,7 +1185,8 @@ EXTERN boolean			anyparrain;
     /*177*/ "CirceCage",
     /*178*/ "ImmunCage",
     /*179*/ "Football",
-    /*179*/ "ContraParrain"
+    /*179*/ "ContraParrain",
+    /*180*/ "KobulKings"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1365,7 +1369,8 @@ EXTERN boolean			anyparrain;
     /*177*/ "KaefigCirce",
     /*178*/ "KaefigImmunSchach",
     /*179*/ "Fussball",
-    /*179*/ "KontraParrain"
+    /*179*/ "KontraParrain",
+    /*180*/ "KobulKings"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1548,7 +1553,8 @@ EXTERN boolean			anyparrain;
     /*177*/ "CageCirce",
     /*178*/ "CageImmunChess",
     /*179*/ "Football",
-    /*179*/ "ContraParrain"
+    /*179*/ "ContraParrain",
+    /*180*/ "KobulKings"
     }
     };
 #endif
@@ -1654,7 +1660,9 @@ EXTERN boolean			anyparrain;
 	/*19*/  "Orthogonale",
 	/*20*/  "Irreguliere",
 	/*21*/  "LigneGrille",
-    /*22*/  "Transmute"
+  /*22*/  "Transmute",
+  /*23*/  "Blancs",
+  /*24*/ "Noirs"
 	},{
 	/* German */
 	/* 0*/  "TypB",
@@ -1679,7 +1687,9 @@ EXTERN boolean			anyparrain;
 	/*19*/  "Orthogonal",
 	/*20*/  "Unregelmaessig",
 	/*21*/  "GitterLinie",
-    /*22*/  "Transmutierende"
+  /*22*/  "Transmutierende",
+  /*23*/  "Weiss",
+  /*24*/ "Schwarz"
 	},{
 	/* English */
 	/* 0*/  "TypeB",
@@ -1704,7 +1714,9 @@ EXTERN boolean			anyparrain;
 	/*19*/  "Orthogonal",
 	/*20*/  "Irregular",
 	/*21*/  "GridLine",
-    /*21*/  "Transmuting"
+  /*22*/  "Transmuting",
+  /*23*/  "White",
+  /*24*/ "Black"
 	}
 	};
 #endif

@@ -63,7 +63,6 @@
  **
  ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
- ** 2009/04/25 SE   New condition: Provacateurs
  **                 New piece type: Patrol pieces
  **
  ***************************** End of List ******************************/
@@ -504,7 +503,7 @@ static void initialise_piece_flags(void)
       }
 
       /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp])==King && (CondFlag[protean] || flag_magic))
+      if (abs(e[*bnp])==King && (CondFlag[protean] || CondFlag[kobulkings] || flag_magic))
         SETFLAG(spec[*bnp],Royal);
     }
   }
@@ -1385,7 +1384,8 @@ static boolean verify_position(slice_index si)
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
       || anyanticirce
       || CondFlag[ghostchess]
-      || CondFlag[hauntedchess];
+      || CondFlag[hauntedchess]
+      || CondFlag[kobulkings];
 
   empilegenre=
       flaglegalsquare
@@ -1771,6 +1771,12 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
+  if (CondFlag[kobulkings]) {
+    jouegenre = true;
+    optim_neutralretractable = false;
+    add_ortho_mating_moves_generation_obstacle();
+  }
+
   if (InitChamCirce)
   {
     if (CondFlag[leofamily]) {
@@ -1829,6 +1835,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[strictSAT]
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
+      || CondFlag[kobulkings]
       || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
@@ -1850,6 +1857,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[strictSAT]
       || CondFlag[schwarzschacher]
       || CondFlag[republican]
+      || CondFlag[kobulkings]
       || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
@@ -2306,7 +2314,6 @@ static void init_duplex(slice_index si)
                                            STIntelligentProof,
                                            &intelligent_init_duplex);
   stip_traverse_structure(si,&st);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

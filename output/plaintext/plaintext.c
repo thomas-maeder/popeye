@@ -112,6 +112,7 @@ static void editcoup(ply ply_id, coup *mov)
       WriteSquare((mov->cdzz + mov->cazz) / 2);
     }
 
+
     if (mov->sqren != initsquare) {
       piece   p= CondFlag[antieinstein]
           ? inc_einstein(mov->ppri)
@@ -193,6 +194,29 @@ static void editcoup(ply ply_id, coup *mov)
       StdString("=");
       StdChar(hc == White ? WhiteChar : BlackChar);
       StdString("]");
+    }
+    if (CondFlag[kobulkings])
+    {
+      if (mov->tr == Black && e[king_square[White]] != whkobul[ply_id])
+      {
+          StdString(" [");
+          WriteSpec(spec[king_square[White]], true);
+          WritePiece(whkobul[ply_id]);
+          StdString("=");
+          WriteSpec(spec[king_square[White]], false);
+          WritePiece(e[king_square[White]]);
+          StdString("]");
+      }
+      if (mov->tr == White && e[king_square[Black]] != blkobul[ply_id])
+      {
+          StdString(" [");
+          WriteSpec(spec[king_square[Black]], true);
+          WritePiece(blkobul[ply_id]);
+          StdString("=");
+          WriteSpec(spec[king_square[Black]], false);
+          WritePiece(e[king_square[Black]]);
+          StdString("]");
+      }
     }
     if (flag_outputmultiplecolourchanges)
     {

@@ -511,8 +511,10 @@ typedef enum
   Irregular,              /* 20 */
   ExtraGridLines,         /* 21 */
   Transmuting,            /* 22 */
+  WhiteOnly,            /* 23 */
+  BlackOnly,            /* 24 */
 
-  VariantTypeCount        /* 23 */
+  VariantTypeCount        /* 25 */
 } VariantType;
 
 /* for intelligent specification of one-sided conditions */
@@ -799,7 +801,8 @@ typedef enum
   immuncage,              /* 178 */
   football,               /* 179 */
   contraparrain,          /* 180 */
-  CondCount               /* 181 */
+  kobulkings,             /* 181 */
+  CondCount               /* 182 */
 } Cond;
 
 /* Some remarks to the conditions:

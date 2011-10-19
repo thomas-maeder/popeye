@@ -1,0 +1,95 @@
+begin
+
+auth Diyan Kostadinov
+orig WCCT Crete 2010
+stip h#2
+opt try def 8
+fors 8/pK6/1p6/8/1p6/1p6/R7/8/
+pie blac roy sc3
+cond kobul
+twin move a7 b2
+
+next
+
+auth Mario Parrinello
+orig 1-3Pr Bulgarian Wine Ty 2010
+fors 8/1p1sKs2/1SpPPP2/2p5/1p1kpp2/3q1P1b/1P3P2/2R5
+cond kobul
+stip h#2
+twin add wh bc1
+twin add wh sc1
+
+next
+
+auth Kostas Prentos
+orig 1-3Pr Bulgarian Wine Ty 2010
+fors 4B3/1k2B1Sp/3q4/3R2K1/6S1/3P1p2/16
+cond kobul
+stip h#2
+
+next
+
+auth Vlaicu Crisan & Kostas Prentos
+orig 1-3Pr Bulgarian Wine Ty 2010
+fors 8/1p3p2/pp2BRp1/1R1bK1p1/pr3r1b/3k2B1/3P2p1/6s1
+cond kobul
+stip h#2
+
+next
+
+auth Ricardo Vieira
+orig 4Pr Bulgarian Wine Ty 2010
+fors 1B6/4pp2/p1r4S/2bp4/K1bkqP2/8/1r1PP3/8
+cond kobul
+stip h#2
+
+next
+
+auth Diyan Kostadinov
+orig Idee & Form 2011
+fors 8/2p5/2Kp4/2p3q1/pp5p/6pQ/2b5/2r5
+pie blac roy qb1
+cond kobul
+stip h#2
+twin move g3 e3
+twin move h4 f3
+twin move g3 e5
+
+next
+
+auth Emmanuel Manolas
+orig Sp Pr Bulgarian Wine Ty 2010
+fors 8/6b1/7B/1KP3p1/2p2p2/1SkS1r1R/1p4RQ/8
+stip #2
+opt try var
+cond kobul
+
+next
+
+auth Diyan Kostadinov
+orig The Problemist 2011
+fors 8/1R6/3k3p/8/3B4/8/1Kp5/8/
+stip h#2
+cond kobul anticirce
+twin add blac bg8
+
+next
+
+auth Diyan Kostadinov
+orig Problem Paradise 2010
+pie wh lh7
+neut gb3
+neut roy sd5
+cond kobul 
+stip h#2
+
+next
+
+auth Diyan Kostadinov
+orig Original
+fors 8/4pKP1/8/4p2k/4p3/6p1/8/8
+cond kobul antiand
+stip h#3
+twin move g3 f6
+
+end

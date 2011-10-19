@@ -114,6 +114,11 @@ static void initply(ply parent)
 
   magicstate[nbply] = magicstate[parent];
 
+  whkobul[nbply] = e[king_square[White]];
+  blkobul[nbply] = e[king_square[Black]];
+  whkobulspec[nbply] = spec[king_square[White]];
+  blkobulspec[nbply] = spec[king_square[Black]];
+
   invalidateHashBuffer();
 }
 
@@ -243,6 +248,8 @@ void InitCond(void) {
   normaltranspieces[Black] = true;
 
   obsgenre = false;
+
+  kobulking[White]= kobulking[Black]= false;
 } /* InitCond */
 
 void InitOpt(void)

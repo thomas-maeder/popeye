@@ -451,6 +451,18 @@ static void WriteConditions(int alignment)
       }
     }
 
+    if ( cond == kobulkings )
+    {
+      if (!kobulking[White])
+      {
+        strcat(CondLine, " Black");
+      } 
+      if (!kobulking[Black])
+      {
+        strcat(CondLine, " White");
+      } 
+    }
+
     if ( cond == whvault_king || cond == vault_king)
     {
         if (transmpieces[White][0] != equib || transmpieces[White][1] != vide)
@@ -4326,7 +4338,8 @@ typedef enum
   gpOsc,
   gpAnnan,
   gpGrid,
-  gpRepublican
+  gpRepublican,
+  gpColour
 } VariantGroup;
 
 static char *ParseMaximumPawn(unsigned int *result,
@@ -4348,7 +4361,7 @@ static char *ParseMaximumPawn(unsigned int *result,
 static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   char    *tok=ReadNextTokStr();
 
-  if (is_variant_set!=NULL)
+  if (is_variant_set!=NULL && group != gpColour)
     *is_variant_set= false;
 
   do
@@ -4585,11 +4598,18 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
       }
       continue;
     }
+    else if (group == gpColour)
+    {
+      if (type == WhiteOnly) 
+        is_variant_set[Black] = false;
+      if (type == BlackOnly)
+        is_variant_set[White] = false;
+    }
     else {
       return tok;
     }
     tok = ReadNextTokStr();
-  } while (group==gpSentinelles || group==gpGrid);
+  } while (group==gpSentinelles || group==gpGrid || group ==gpColour);
 
   return tok;
 }
@@ -5266,6 +5286,12 @@ static char *ParseCond(void) {
         break;
       case patience:
         tok = ParseVariant(&PatienceB, gpType);
+        break;
+      case kobulkings:
+        kobulking[White] = kobulking[Black] = true;
+        tok = ParseVariant(kobulking, gpColour);
+        if (!kobulking[White] && !kobulking[Black])
+          kobulking[White] = kobulking[Black] = true;
         break;
       case sentinelles:
         SentPionNeutral=false;
