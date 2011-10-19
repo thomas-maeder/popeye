@@ -93,22 +93,16 @@ static void unpromoted_pawn(stip_length_type n,
 
   if (!black_pawn_attacks_king(to_be_blocked))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocks_from,
-                                                                                            to_be_blocked);
-    if (time<=Nr_remaining_moves[Black])
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocks_from,
+                                                                  to_be_blocked))
     {
-      unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
       SetPiece(pn,to_be_blocked,blocker_flags);
-      if (diffcol<=Nr_unused_masses[White])
-      {
-        Nr_unused_masses[White] -= diffcol;
-        Nr_remaining_moves[Black] -= time;
-        TraceValue("%u",Nr_unused_masses[White]);
-        TraceValue("%u\n",Nr_remaining_moves[Black]);
-        block_planned_flights(n,nr_remaining_flights_to_block);
-        Nr_remaining_moves[Black] += time;
-        Nr_unused_masses[White] += diffcol;
-      }
+      block_planned_flights(n,nr_remaining_flights_to_block);
+
+      Nr_unused_masses[White] = save_nr_unused_masses;
+      Nr_remaining_moves[Black] = save_nr_remaining_moves;
     }
   }
 

@@ -75,6 +75,58 @@ static unsigned int intelligent_count_nr_of_moves_from_to_king(Side side,
   return result;
 }
 
+static unsigned int intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(square from_square,
+                                                                                  square to_square)
+{
+  unsigned int result;
+  int const diffcol = abs(from_square%onerow - to_square%onerow);
+  int const diffrow = from_square/onerow - to_square/onerow;
+
+  if (diffrow<diffcol)
+    /* if diffrow<=0 then this test is true, since diffcol is always
+     * non-negative
+     */
+    result = maxply+1;
+
+  else if (from_square>=square_a7 && diffrow-2 >= diffcol)
+    /* double step */
+    result = diffrow-1;
+
+  else
+    result = diffrow;
+
+  return result;
+}
+
+static unsigned int intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(square from_square,
+                                                                                  square to_square)
+{
+  unsigned int result;
+  int const diffcol = abs(from_square%onerow - to_square%onerow);
+  int const diffrow = from_square/onerow - to_square/onerow;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  /* white pawn */
+  if (-diffrow<diffcol)
+    result = maxply+1;
+
+  else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
+    /* double step */
+    result = -diffrow-1;
+
+  else
+    result = -diffrow;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
                                                                          piece to_piece,
                                                                          square to_square)
@@ -206,30 +258,32 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(square from_square,
-                                                                           square to_square)
+boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square)
 {
-  unsigned int result;
-  int const diffcol = abs(from_square%onerow - to_square%onerow);
-  int const diffrow = from_square/onerow - to_square/onerow;
+  boolean result;
+  unsigned int nr_of_moves;
+  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (diffrow<diffcol)
-    /* if diffrow<=0 then this test is true, since diffcol is always
-     * non-negative
-     */
-    result = maxply+1;
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(from_square,
+                                                                              to_square);
 
-  else if (from_square>=square_a7 && diffrow-2 >= diffcol)
-    /* double step */
-    result = diffrow-1;
-
+  if (nr_of_moves<=Nr_remaining_moves[Black]
+      && diffcol<=Nr_unused_masses[White])
+  {
+    Nr_remaining_moves[Black] -= nr_of_moves;
+    Nr_unused_masses[White] -= diffcol;
+    TraceValue("%u",Nr_remaining_moves[Black]);
+    TraceValue("%u\n",Nr_unused_masses[White]);
+    result = true;
+  }
   else
-    result = diffrow;
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -237,28 +291,32 @@ unsigned int intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(squar
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(square from_square,
-                                                                           square to_square)
+boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square)
 {
-  unsigned int result;
-  int const diffcol = abs(from_square%onerow - to_square%onerow);
-  int const diffrow = from_square/onerow - to_square/onerow;
+  boolean result;
+  unsigned int nr_of_moves;
+  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  /* white pawn */
-  if (-diffrow<diffcol)
-    result = maxply+1;
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
+                                                                              to_square);
 
-  else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
-    /* double step */
-    result = -diffrow-1;
-
+  if (nr_of_moves<=Nr_remaining_moves[White]
+      && diffcol<=Nr_unused_masses[Black])
+  {
+    Nr_remaining_moves[White] -= nr_of_moves;
+    Nr_unused_masses[Black] -= diffcol;
+    TraceValue("%u",Nr_remaining_moves[White]);
+    TraceValue("%u\n",Nr_unused_masses[Black]);
+    result = true;
+  }
   else
-    result = -diffrow;
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

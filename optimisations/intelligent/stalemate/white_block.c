@@ -22,21 +22,16 @@ static void unpromoted_pawn(stip_length_type n,
   if (!white_pawn_attacks_king(to_be_blocked))
   {
     square const blocks_from = white[blocker_index].diagram_square;
-    unsigned int const nr_captures_required = abs(blocks_from%onerow
-                                                  - to_be_blocked%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(blocks_from,
-                                                                                            to_be_blocked);
-    if (Nr_unused_masses[Black]>=nr_captures_required
-        && time<=Nr_remaining_moves[White])
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(blocks_from,
+                                                                  to_be_blocked))
     {
-      Nr_unused_masses[Black] -= nr_captures_required;
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u",Nr_unused_masses[Black]);
-      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(pb,to_be_blocked,white[blocker_index].flags);
       intelligent_stalemate_test_target_position(n);
-      Nr_remaining_moves[White] += time;
-      Nr_unused_masses[Black] += nr_captures_required;
+
+      Nr_unused_masses[Black] = save_nr_unused_masses;
+      Nr_remaining_moves[White] = save_nr_remaining_moves;
     }
   }
 

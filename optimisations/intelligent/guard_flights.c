@@ -195,28 +195,22 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
         && nr_reasons_for_staying_empty[*bnp]==0
         && !white_pawn_attacks_king(*bnp))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(starts_from,
-                                                                                              *bnp);
-      if (time<=Nr_remaining_moves[White])
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+      unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+      if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
+                                                                    *bnp))
       {
         square const guarded = guards_black_flight(pb,*bnp);
         if (guarded!=initsquare)
         {
-          unsigned int const diffcol = abs(starts_from % onerow - *bnp % onerow);
-          if (diffcol<=Nr_unused_masses[Black])
-          {
-            Nr_unused_masses[Black] -= diffcol;
-            Nr_remaining_moves[White] -= time;
-            TraceValue("%u",Nr_unused_masses[Black]);
-            TraceValue("%u\n",Nr_remaining_moves[White]);
-            SetPiece(pb,*bnp,pawn_flags);
-            intelligent_continue_guarding_flights(n,index+1);
-            e[*bnp] = vide;
-            spec[*bnp] = EmptySpec;
-            Nr_remaining_moves[White] += time;
-            Nr_unused_masses[Black] += diffcol;
-          }
+          SetPiece(pb,*bnp,pawn_flags);
+          intelligent_continue_guarding_flights(n,index+1);
+          e[*bnp] = vide;
+          spec[*bnp] = EmptySpec;
         }
+
+        Nr_unused_masses[Black] = save_nr_unused_masses;
+        Nr_remaining_moves[White] = save_nr_remaining_moves;
       }
     }
   }

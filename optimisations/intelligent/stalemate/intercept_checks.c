@@ -98,26 +98,23 @@ static void with_unpromoted_black_pawn(stip_length_type n,
 
   if (!guards(king_square[White],pn,to_be_blocked))
   {
-    unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
-                                                  - to_be_blocked%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocker_comes_from,
-                                                                                            to_be_blocked);
-    if (time<=Nr_remaining_moves[Black]
-        && nr_required_captures<=Nr_unused_masses[White]
-        && !(side==White && guards(king_square[White],pn,to_be_blocked)))
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
+                                                                  to_be_blocked))
     {
-      Nr_unused_masses[White] -= nr_required_captures;
-      Nr_remaining_moves[Black] -= time;
-      TraceValue("%u",Nr_unused_masses[White]);
-      TraceValue("%u\n",Nr_remaining_moves[Black]);
-      SetPiece(pn,to_be_blocked,blocker_flags);
-      continue_intercepting_checks(n,
-                                   check_directions,
-                                   nr_of_check_directions,
-                                   nr_checks_to_opponent,
-                                   side);
-      Nr_remaining_moves[Black] += time;
-      Nr_unused_masses[White] += nr_required_captures;
+      if (!(side==White && guards(king_square[White],pn,to_be_blocked)))
+      {
+        SetPiece(pn,to_be_blocked,blocker_flags);
+        continue_intercepting_checks(n,
+                                     check_directions,
+                                     nr_of_check_directions,
+                                     nr_checks_to_opponent,
+                                     side);
+      }
+
+      Nr_unused_masses[White] = save_nr_unused_masses;
+      Nr_remaining_moves[Black] = save_nr_remaining_moves;
     }
   }
 
@@ -270,28 +267,23 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   if (!white_pawn_attacks_king(to_be_blocked))
   {
     square const blocks_from = white[blocker_index].diagram_square;
-    unsigned int const nr_captures_required = abs(blocks_from%onerow
-                                                  - to_be_blocked%onerow);
-    if (Nr_unused_masses[Black]>=nr_captures_required)
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(blocks_from,
+                                                                  to_be_blocked))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(blocks_from,
-                                                                                              to_be_blocked);
-      if (time<=Nr_remaining_moves[White]
-          && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
+      if (!(side==Black && guards(king_square[Black],pb,to_be_blocked)))
       {
-        Nr_unused_masses[Black] -= nr_captures_required;
-        Nr_remaining_moves[White] -= time;
-        TraceValue("%u",Nr_unused_masses[Black]);
-        TraceValue("%u\n",Nr_remaining_moves[White]);
         SetPiece(pb,to_be_blocked,white[blocker_index].flags);
         continue_intercepting_checks(n,
                                      check_directions,
                                      nr_of_check_directions,
                                      nr_checks_to_opponent,
                                      side);
-        Nr_remaining_moves[White] += time;
-        Nr_unused_masses[Black] += nr_captures_required;
       }
+
+      Nr_unused_masses[Black] = save_nr_unused_masses;
+      Nr_remaining_moves[White] = save_nr_remaining_moves;
     }
   }
 

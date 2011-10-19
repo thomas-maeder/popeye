@@ -12,30 +12,24 @@ static void unpromoted_white_pawn(stip_length_type n,
                                   unsigned int placed_index,
                                   square placed_on)
 {
-  square const placed_from = white[placed_index].diagram_square;
-  unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=Nr_unused_masses[Black]
-      && !white_pawn_attacks_king(placed_on))
+  if (!white_pawn_attacks_king(placed_on))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(placed_from,
-                                                                                            placed_on);
-    if (time<=Nr_remaining_moves[White])
+    square const placed_from = white[placed_index].diagram_square;
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_from,
+                                                                  placed_on))
     {
-      Nr_unused_masses[Black] -= diffcol;
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u",Nr_unused_masses[Black]);
-      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(pb,placed_on,white[placed_index].flags);
       intelligent_mate_test_target_position(n);
-      Nr_remaining_moves[White] += time;
-      Nr_unused_masses[Black] += diffcol;
+      Nr_unused_masses[Black] = save_nr_unused_masses;
+      Nr_remaining_moves[White] = save_nr_remaining_moves;
     }
   }
 

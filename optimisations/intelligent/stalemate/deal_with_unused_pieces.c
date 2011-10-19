@@ -78,21 +78,15 @@ static void unpromoted_pawn(stip_length_type n,
 
   if (!black_pawn_attacks_king(where_to_place))
   {
-    unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
-                                                  - where_to_place%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocker_comes_from,
-                                                                                            where_to_place);
-    if (time<=Nr_remaining_moves[Black]
-        && nr_required_captures<=Nr_unused_masses[White])
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
+                                                                  where_to_place))
     {
-      Nr_unused_masses[White] -= nr_required_captures;
-      Nr_remaining_moves[Black] -= time;
-      TraceValue("%u",Nr_unused_masses[White]);
-      TraceValue("%u\n",Nr_remaining_moves[Black]);
       SetPiece(pn,where_to_place,blocker_flags);
       intelligent_stalemate_test_target_position(n);
-      Nr_remaining_moves[Black] += time;
-      Nr_unused_masses[White] += nr_required_captures;
+      Nr_unused_masses[White] = save_nr_unused_masses;
+      Nr_remaining_moves[Black] = save_nr_remaining_moves;
     }
   }
 

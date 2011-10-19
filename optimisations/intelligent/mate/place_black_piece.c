@@ -73,22 +73,15 @@ static void unpromoted_black_pawn(stip_length_type n,
   if (!black_pawn_attacks_king(placed_on))
   {
     square const placed_from = black[placed_index].diagram_square;
-    unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=Nr_unused_masses[White])
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_from,
+                                                                  placed_on))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(placed_from,
-                                                                                              placed_on);
-      if (time<=Nr_remaining_moves[Black])
-      {
-        Nr_unused_masses[White] -= diffcol;
-        Nr_remaining_moves[Black] -= time;
-        TraceValue("%u",Nr_unused_masses[White]);
-        TraceValue("%u\n",Nr_remaining_moves[Black]);
-        SetPiece(pn,placed_on,black[placed_index].flags);
-        intelligent_mate_test_target_position(n);
-        Nr_remaining_moves[Black] += time;
-        Nr_unused_masses[White] += diffcol;
-      }
+      SetPiece(pn,placed_on,black[placed_index].flags);
+      intelligent_mate_test_target_position(n);
+      Nr_unused_masses[White] = save_nr_unused_masses;
+      Nr_remaining_moves[Black] = save_nr_remaining_moves;
     }
   }
 

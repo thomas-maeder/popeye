@@ -6,10 +6,10 @@
 
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 
-unsigned int intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(square from_square,
-                                                                           square to_square);
-unsigned int intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(square from_square,
-                                                                           square to_square);
+boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square);
+boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square);
 unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
                                                             square from_square,
                                                             piece to_piece,

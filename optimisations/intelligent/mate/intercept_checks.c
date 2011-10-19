@@ -18,9 +18,6 @@ static void with_unpromoted_white_pawn(stip_length_type n,
                                        int const check_directions[8],
                                        unsigned int nr_of_check_directions)
 {
-  square const placed_from = white[placed_index].diagram_square;
-  unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
@@ -28,21 +25,18 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (diffcol<=Nr_unused_masses[Black]
-      && !white_pawn_attacks_king(placed_on))
+  if (!white_pawn_attacks_king(placed_on))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(placed_from,
-                                                                                            placed_on);
-    if (time<=Nr_remaining_moves[White])
+    square const placed_from = white[placed_index].diagram_square;
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_from,
+                                                                  placed_on))
     {
-      Nr_unused_masses[Black] -= diffcol;
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u",Nr_unused_masses[Black]);
-      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(pb,placed_on,white[placed_index].flags);
       continue_intercepting_checks(n,check_directions,nr_of_check_directions);
-      Nr_remaining_moves[White] += time;
-      Nr_unused_masses[Black] += diffcol;
+      Nr_unused_masses[Black] = save_nr_unused_masses;
+      Nr_remaining_moves[White] = save_nr_remaining_moves;
     }
   }
 
@@ -252,24 +246,17 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   if (!guards(king_square[White],pn,placed_on))
   {
     square const placed_from = black[placed_index].diagram_square;
-    unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=Nr_unused_masses[White])
+    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
+    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_from,
+                                                                  placed_on))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(placed_from,
-                                                                                              placed_on);
-      if (time<=Nr_remaining_moves[Black])
-      {
-        Nr_unused_masses[White] -= diffcol;
-        Nr_remaining_moves[Black] -= time;
-        TraceValue("%u",Nr_unused_masses[White]);
-        TraceValue("%u\n",Nr_remaining_moves[Black]);
-        SetPiece(pn,placed_on,black[placed_index].flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions);
-        Nr_remaining_moves[Black] += time;
-        Nr_unused_masses[White] += diffcol;
-      }
+      SetPiece(pn,placed_on,black[placed_index].flags);
+      continue_intercepting_checks(n,
+                                   check_directions,
+                                   nr_of_check_directions);
+      Nr_unused_masses[White] = save_nr_unused_masses;
+      Nr_remaining_moves[Black] = save_nr_remaining_moves;
     }
   }
 
