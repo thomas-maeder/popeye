@@ -258,6 +258,14 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   return result;
 }
 
+/* Tests if a specific checking white sequence of moves by the same black pawn
+ * without promotion is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ * @note modifies Nr_remaining_moves[Black] and Nr_unused_masses[White] if the
+ *       move sequence is possible
+ */
 boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
                                                                   square to_square)
 {
@@ -291,6 +299,14 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
   return result;
 }
 
+/* Tests if a specific checking white sequence of moves by the same white pawn
+ * without promotion is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ * @note modifies Nr_remaining_moves[White] and Nr_unused_masses[Black] if the
+ *       move sequence is possible
+ */
 boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
                                                                   square to_square)
 {
