@@ -107,9 +107,8 @@ static void unpromoted_pawn(stip_length_type n,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked[0]%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
-                                                                                      blocker_comes_from,
-                                                                                      to_be_blocked[0]);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocker_comes_from,
+                                                                                            to_be_blocked[0]);
     if (time<=Nr_remaining_moves[Black]
         && nr_required_captures<=Nr_unused_masses[White])
     {

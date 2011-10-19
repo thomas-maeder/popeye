@@ -93,9 +93,8 @@ static void unpromoted_pawn(stip_length_type n,
 
   if (!black_pawn_attacks_king(to_be_blocked))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
-                                                                                      blocks_from,
-                                                                                      to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocks_from,
+                                                                                            to_be_blocked);
     if (time<=Nr_remaining_moves[Black])
     {
       unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);

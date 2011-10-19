@@ -95,9 +95,9 @@ static unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square 
 
   for (prom_square = start; prom_square<start+nr_files_on_board; ++prom_square)
   {
-    unsigned int const to_prom = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pawn>obs ? White : Black,
-                                                                                         from_square,
-                                                                                         prom_square);
+    unsigned int const to_prom = (pawn>obs
+                                  ? intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,prom_square)
+                                  : intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(from_square,prom_square));
     unsigned int const from_prom = intelligent_count_nr_of_moves_from_to_no_check(to_piece,
                                                                                   prom_square,
                                                                                   to_piece,
@@ -159,9 +159,9 @@ static unsigned int count_nr_of_moves_from_to_from_to_different(piece from_piece
 
     case Pawn:
       if (from_piece==to_piece)
-        result = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(from_piece>obs ? White : Black,
-                                                                         from_square,
-                                                                         to_square);
+        result = (from_piece>obs
+                  ? intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,to_square)
+                  : intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(from_square,to_square));
       else
         result = intelligent_count_nr_of_moves_from_to_pawn_promotion(from_square,
                                                                       to_piece,
@@ -206,49 +206,59 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Side side,
-                                                                     square from_square,
-                                                                     square to_square)
+unsigned int intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(square from_square,
+                                                                           square to_square)
 {
   unsigned int result;
   int const diffcol = abs(from_square%onerow - to_square%onerow);
   int const diffrow = from_square/onerow - to_square/onerow;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  if (side==Black)
-  {
-    /* black pawn */
-    if (diffrow<diffcol)
-      /* if diffrow<=0 then this test is true, since diffcol is always
-       * non-negative
-       */
-      result = maxply+1;
+  if (diffrow<diffcol)
+    /* if diffrow<=0 then this test is true, since diffcol is always
+     * non-negative
+     */
+    result = maxply+1;
 
-    else if (from_square>=square_a7 && diffrow-2 >= diffcol)
-      /* double step */
-      result = diffrow-1;
+  else if (from_square>=square_a7 && diffrow-2 >= diffcol)
+    /* double step */
+    result = diffrow-1;
 
-    else
-      result = diffrow;
-  }
   else
-  {
-    /* white pawn */
-    if (-diffrow<diffcol)
-      result = maxply+1;
+    result = diffrow;
 
-    else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
-      /* double step */
-      result = -diffrow-1;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
-    else
-      result = -diffrow;
-  }
+unsigned int intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(square from_square,
+                                                                           square to_square)
+{
+  unsigned int result;
+  int const diffcol = abs(from_square%onerow - to_square%onerow);
+  int const diffrow = from_square/onerow - to_square/onerow;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  /* white pawn */
+  if (-diffrow<diffcol)
+    result = maxply+1;
+
+  else  if (from_square<=square_h2 && -diffrow-2 >= diffcol)
+    /* double step */
+    result = -diffrow-1;
+
+  else
+    result = -diffrow;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -316,9 +326,8 @@ unsigned int intelligent_estimate_min_nr_black_moves_to_square(square to_be_bloc
       {
         if (to_be_blocked>=square_a2)
         {
-          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
-                                                                                            blocker_comes_from,
-                                                                                            to_be_blocked);
+          unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocker_comes_from,
+                                                                                                  to_be_blocked);
           if (time<result)
             result = time;
         }
@@ -446,9 +455,8 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
     unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
     if (diffcol<=Nr_unused_masses[Black])
     {
-      unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
-                                                                                               from_square,
-                                                                                               to_square);
+      unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
+                                                                                                     to_square);
       if (nr_of_moves<=Nr_remaining_moves[White])
       {
         Nr_unused_masses[Black] -= diffcol;

@@ -195,9 +195,8 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
         && nr_reasons_for_staying_empty[*bnp]==0
         && !white_pawn_attacks_king(*bnp))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
-                                                                                        starts_from,
-                                                                                        *bnp);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(starts_from,
+                                                                                              *bnp);
       if (time<=Nr_remaining_moves[White])
       {
         square const guarded = guards_black_flight(pb,*bnp);

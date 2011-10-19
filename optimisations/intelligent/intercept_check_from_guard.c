@@ -148,9 +148,8 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
 
   if (!white_pawn_attacks_king(to_be_intercepted))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
-                                                                                      intercepter_diagram_square,
-                                                                                      to_be_intercepted);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(intercepter_diagram_square,
+                                                                                            to_be_intercepted);
     if (time<=Nr_remaining_moves[White])
     {
       unsigned int const diffcol = abs(intercepter_diagram_square % onerow

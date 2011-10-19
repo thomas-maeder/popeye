@@ -24,9 +24,8 @@ static void unpromoted_pawn(stip_length_type n,
     square const blocks_from = white[blocker_index].diagram_square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
-                                                                                      blocks_from,
-                                                                                      to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(blocks_from,
+                                                                                            to_be_blocked);
     if (Nr_unused_masses[Black]>=nr_captures_required
         && time<=Nr_remaining_moves[White])
     {

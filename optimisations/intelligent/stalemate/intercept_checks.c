@@ -100,9 +100,8 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
-                                                                                      blocker_comes_from,
-                                                                                      to_be_blocked);
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(blocker_comes_from,
+                                                                                            to_be_blocked);
     if (time<=Nr_remaining_moves[Black]
         && nr_required_captures<=Nr_unused_masses[White]
         && !(side==White && guards(king_square[White],pn,to_be_blocked)))
@@ -275,9 +274,8 @@ static void with_unpromoted_white_pawn(stip_length_type n,
                                                   - to_be_blocked%onerow);
     if (Nr_unused_masses[Black]>=nr_captures_required)
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
-                                                                                        blocks_from,
-                                                                                        to_be_blocked);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(blocks_from,
+                                                                                              to_be_blocked);
       if (time<=Nr_remaining_moves[White]
           && !(side==Black && guards(king_square[Black],pb,to_be_blocked)))
       {

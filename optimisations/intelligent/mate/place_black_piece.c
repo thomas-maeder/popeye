@@ -76,9 +76,8 @@ static void unpromoted_black_pawn(stip_length_type n,
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
     if (diffcol<=Nr_unused_masses[White])
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
-                                                                                        placed_from,
-                                                                                        placed_on);
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(placed_from,
+                                                                                              placed_on);
       if (time<=Nr_remaining_moves[Black])
       {
         Nr_unused_masses[White] -= diffcol;
