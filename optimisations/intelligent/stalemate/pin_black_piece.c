@@ -53,16 +53,16 @@ static void pin_by_officer(stip_length_type n,
                                                                              pinner_comes_from,
                                                                              pinner_type,
                                                                              pin_from);
-    if (time<=Nr_remaining_white_moves)
+    if (time<=Nr_remaining_moves[White])
     {
-      --Nr_unused_white_masses;
-      Nr_remaining_white_moves -= time;
-      TraceValue("%u",Nr_unused_white_masses);
-      TraceValue("%u\n",Nr_remaining_white_moves);
+      --Nr_unused_masses[White];
+      Nr_remaining_moves[White] -= time;
+      TraceValue("%u",Nr_unused_masses[White]);
+      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(pinner_type,pin_from,pinner_flags);
       intelligent_stalemate_test_target_position(n);
-      Nr_remaining_white_moves += time;
-      ++Nr_unused_white_masses;
+      Nr_remaining_moves[White] += time;
+      ++Nr_unused_masses[White];
     }
   }
 
@@ -162,7 +162,7 @@ void intelligent_stalemate_pin_black_piece(stip_length_type n,
   TraceSquare(position_of_trouble_maker);
   TraceFunctionParamListEnd();
 
-  if (Nr_unused_white_masses>0
+  if (Nr_unused_masses[White]>0
       && dir!=0          /* we can only pin on queen lines */
       && pinned_type!=dn /* queens cannot be pinned */
       /* bishops can only be pined on rook lines and vice versa */

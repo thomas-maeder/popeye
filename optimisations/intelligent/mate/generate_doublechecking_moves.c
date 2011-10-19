@@ -40,10 +40,10 @@ static void front_check_by_officer_via(unsigned int index_of_checker,
                                                                                  checker_origin,
                                                                                  checker_type,
                                                                                  via);
-        if (time+1<=Nr_remaining_white_moves)
+        if (time+1<=Nr_remaining_moves[White])
         {
-          Nr_remaining_white_moves -= time+1;
-          TraceValue("%u\n",Nr_remaining_white_moves);
+          Nr_remaining_moves[White] -= time+1;
+          TraceValue("%u\n",Nr_remaining_moves[White]);
           SetPiece(checker_type,*bnp,checker_flags);
           remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
           remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
@@ -52,7 +52,7 @@ static void front_check_by_officer_via(unsigned int index_of_checker,
           remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
           e[*bnp] = vide;
           spec[*bnp] = EmptySpec;
-          Nr_remaining_white_moves += time+1;
+          Nr_remaining_moves[White] += time+1;
         }
       }
     }
@@ -80,30 +80,30 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
     Flags const pawn_flags = white[index_of_checker].flags;
     square const pawn_origin = white[index_of_checker].diagram_square;
     unsigned int const diffcol = abs(pawn_origin%onerow - via%onerow);
-    if (diffcol+1<=Nr_unused_black_masses)
+    if (diffcol+1<=Nr_unused_masses[Black])
     {
       unsigned int const time_pawn = intelligent_count_nr_of_moves_from_to_no_check(pb,
                                                                                     pawn_origin,
                                                                                     pb,
                                                                                     via);
-      if (time_pawn+1<=Nr_remaining_white_moves)
+      if (time_pawn+1<=Nr_remaining_moves[White])
       {
         unsigned int const time_capturee = intelligent_estimate_min_nr_black_moves_to_square(check_square);
-        if (time_capturee<=Nr_remaining_black_moves)
+        if (time_capturee<=Nr_remaining_moves[Black])
         {
-          Nr_unused_black_masses -= diffcol+1;
-          Nr_remaining_white_moves -= time_pawn+1;
-          Nr_remaining_black_moves -= time_capturee;
-          TraceValue("%u",Nr_unused_black_masses);
-          TraceValue("%u",Nr_remaining_black_moves);
-          TraceValue("%u\n",Nr_remaining_white_moves);
+          Nr_unused_masses[Black] -= diffcol+1;
+          Nr_remaining_moves[White] -= time_pawn+1;
+          Nr_remaining_moves[Black] -= time_capturee;
+          TraceValue("%u",Nr_unused_masses[Black]);
+          TraceValue("%u",Nr_remaining_moves[Black]);
+          TraceValue("%u\n",Nr_remaining_moves[White]);
           SetPiece(pb,check_square,pawn_flags);
           intelligent_guard_flights(n);
           e[check_square] = vide;
           spec[check_square] = EmptySpec;
-          Nr_remaining_black_moves += time_capturee;
-          Nr_remaining_white_moves += time_pawn+1;
-          Nr_unused_black_masses += diffcol+1;
+          Nr_remaining_moves[Black] += time_capturee;
+          Nr_remaining_moves[White] += time_pawn+1;
+          Nr_unused_masses[Black] += diffcol+1;
         }
       }
     }
@@ -135,19 +135,19 @@ static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_c
                                                                              pawn_origin,
                                                                              pb,
                                                                              via);
-    if (time+1<=Nr_remaining_white_moves)
+    if (time+1<=Nr_remaining_moves[White])
     {
       unsigned int const diffcol = abs(pawn_origin%onerow - via%onerow);
 
-      Nr_remaining_white_moves -= time+1;
+      Nr_remaining_moves[White] -= time+1;
 
-      if (diffcol<=Nr_unused_black_masses)
+      if (diffcol<=Nr_unused_masses[Black])
       {
         piece pp;
 
-        Nr_unused_black_masses -= diffcol;
-        TraceValue("%u",Nr_unused_black_masses);
-        TraceValue("%u\n",Nr_remaining_white_moves);
+        Nr_unused_masses[Black] -= diffcol;
+        TraceValue("%u",Nr_unused_masses[Black]);
+        TraceValue("%u\n",Nr_remaining_moves[White]);
 
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
           if (guards(king_square[Black],pp,check_from))
@@ -159,10 +159,10 @@ static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_c
         e[check_from] = vide;
         spec[check_from] = EmptySpec;
 
-        Nr_unused_black_masses += diffcol;
+        Nr_unused_masses[Black] += diffcol;
       }
 
-      Nr_remaining_white_moves += time+1;
+      Nr_remaining_moves[White] += time+1;
     }
   }
 
@@ -192,24 +192,24 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
                                                                                   pawn_origin,
                                                                                   pb,
                                                                                   via);
-    if (time_pawn+1<=Nr_remaining_white_moves)
+    if (time_pawn+1<=Nr_remaining_moves[White])
     {
       unsigned int const time_capturee = intelligent_estimate_min_nr_black_moves_to_square(check_from);
 
-      if (time_capturee<=Nr_remaining_black_moves)
+      if (time_capturee<=Nr_remaining_moves[Black])
       {
         unsigned int const diffcol = abs(pawn_origin%onerow - via%onerow) + 1;
 
-        if (diffcol<=Nr_unused_black_masses)
+        if (diffcol<=Nr_unused_masses[Black])
         {
           piece pp;
 
-          Nr_remaining_white_moves -= time_pawn+1;
-          Nr_remaining_black_moves -= time_capturee;
-          Nr_unused_black_masses -= diffcol;
-          TraceValue("%u",Nr_remaining_white_moves);
-          TraceValue("%u",Nr_remaining_black_moves);
-          TraceValue("%u\n",Nr_unused_black_masses);
+          Nr_remaining_moves[White] -= time_pawn+1;
+          Nr_remaining_moves[Black] -= time_capturee;
+          Nr_unused_masses[Black] -= diffcol;
+          TraceValue("%u",Nr_remaining_moves[White]);
+          TraceValue("%u",Nr_remaining_moves[Black]);
+          TraceValue("%u\n",Nr_unused_masses[Black]);
 
           for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
             if (guards(king_square[Black],pp,check_from))
@@ -221,9 +221,9 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
           e[check_from] = vide;
           spec[check_from] = EmptySpec;
 
-          Nr_unused_black_masses += diffcol;
-          Nr_remaining_black_moves += time_capturee;
-          Nr_remaining_white_moves += time_pawn+1;
+          Nr_unused_masses[Black] += diffcol;
+          Nr_remaining_moves[Black] += time_capturee;
+          Nr_remaining_moves[White] += time_pawn+1;
         }
       }
     }
@@ -363,22 +363,22 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
         unsigned int const min_nr_moves_by_p = (rear_pos<=square_h7
                                                 ? moves_to_white_prom[index_of_checker]+1
                                                 : moves_to_white_prom[index_of_checker]);
-        if (Nr_remaining_white_moves>=min_nr_moves_by_p)
+        if (Nr_remaining_moves[White]>=min_nr_moves_by_p)
         {
           square const pawn_origin = white[index_of_checker].diagram_square;
-          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                                         checker_type,
-                                                                                         rear_pos);
-          TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceText("\n");
-          if (time<=Nr_remaining_white_moves)
+          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+          unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+          if (intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
+                                                               checker_type,
+                                                               rear_pos))
           {
-            Nr_remaining_white_moves -= time;
-            TraceValue("%u\n",Nr_remaining_white_moves);
             SetPiece(checker_type,rear_pos,checker_flags);
+            TraceSquare(rear_pos);TracePiece(checker_type);TraceText("\n");
             remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
             generate_front_check(n,rear_pos);
             remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,-1);
-            Nr_remaining_white_moves += time;
+            Nr_unused_masses[Black] = save_nr_unused_masses;
+            Nr_remaining_moves[White] = save_nr_remaining_moves;
           }
 
           e[rear_pos] = vide;
@@ -453,16 +453,16 @@ static void rear_check_by_rider(unsigned int index_of_checker,
                                                                                  checker_origin,
                                                                                  checker_type,
                                                                                  rear_pos);
-        TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceText("\n");
-        if (time<=Nr_remaining_white_moves)
+        if (time<=Nr_remaining_moves[White])
         {
-          Nr_remaining_white_moves -= time;
-          TraceValue("%u\n",Nr_remaining_white_moves);
+          Nr_remaining_moves[White] -= time;
+          TraceValue("%u\n",Nr_remaining_moves[White]);
+          TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceText("\n");
           SetPiece(checker_type,rear_pos,checker_flags);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
           generate_front_check(n,rear_pos);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,-1);
-          Nr_remaining_white_moves += time;
+          Nr_remaining_moves[White] += time;
         }
 
         e[rear_pos] = vide;
@@ -542,16 +542,16 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
                                                                              rider_origin,
                                                                              rider_type,
                                                                              check_from);
-    if (time<=Nr_remaining_white_moves)
+    if (time<=Nr_remaining_moves[White])
     {
-      Nr_remaining_white_moves -= time;
-      TraceValue("%u\n",Nr_remaining_white_moves);
+      Nr_remaining_moves[White] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(rider_type,check_from,rider_spec);
       TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
       intelligent_guard_flights(n);
       e[check_from] = vide;
       spec[check_from] = EmptySpec;
-      Nr_remaining_white_moves += time;
+      Nr_remaining_moves[White] += time;
     }
   }
 
@@ -576,19 +576,19 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
     {
       square const pawn_origin = white[checker_index].diagram_square;
       Flags const pawn_spec = white[checker_index].flags;
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                                     pp,
-                                                                                     check_from);
-      if (time<=Nr_remaining_white_moves)
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+      unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+      if (intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
+                                                           pp,
+                                                           check_from))
       {
-        Nr_remaining_white_moves -= time;
-        TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pp,check_from,pawn_spec);
         TraceSquare(check_from);TracePiece(pp);TraceText("\n");
         intelligent_guard_flights(n);
         e[check_from] = vide;
         spec[check_from] = EmptySpec;
-        Nr_remaining_white_moves += time;
+        Nr_unused_masses[Black] = save_nr_unused_masses;
+        Nr_remaining_moves[White] = save_nr_remaining_moves;
       }
     }
 
@@ -670,16 +670,16 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                                              rider_origin,
                                                                              rider_type,
                                                                              check_from);
-    if (time<=Nr_remaining_white_moves)
+    if (time<=Nr_remaining_moves[White])
     {
-      Nr_remaining_white_moves -= time;
-      TraceValue("%u\n",Nr_remaining_white_moves);
+      Nr_remaining_moves[White] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(rider_type,check_from,rider_spec);
       TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
       en_passant_orthogonal_check(n,dir_vertical);
       e[check_from] = vide;
       spec[check_from] = EmptySpec;
-      Nr_remaining_white_moves += time;
+      Nr_remaining_moves[White] += time;
     }
   }
 
@@ -706,19 +706,19 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     if (pp==db || pp==fb)
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                                     pp,
-                                                                                     check_from);
-      if (time<=Nr_remaining_white_moves)
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+      unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+      if (intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
+                                                           pp,
+                                                           check_from))
       {
-        Nr_remaining_white_moves -= time;
-        TraceValue("%u\n",Nr_remaining_white_moves);
         SetPiece(pp,check_from,pawn_spec);
         TraceSquare(check_from);TracePiece(pp);TraceText("\n");
         en_passant_orthogonal_check(n,dir_vertical);
         e[check_from] = vide;
         spec[check_from] = EmptySpec;
-        Nr_remaining_white_moves += time;
+        Nr_unused_masses[Black] = save_nr_unused_masses;
+        Nr_remaining_moves[White] = save_nr_remaining_moves;
       }
     }
 
@@ -843,7 +843,7 @@ static void en_passant(stip_length_type n,
   TraceFunctionParamListEnd();
 
   if (king_row_start<=king_square[Black] && king_square[Black]<=king_row_end
-      && Nr_remaining_black_moves>=1)
+      && Nr_remaining_moves[Black]>=1)
   {
     square const via_capturer = king_square[Black]+dir_vertical;
     if (e[via_capturer]==vide)
@@ -851,7 +851,7 @@ static void en_passant(stip_length_type n,
       unsigned int capturer_index;
 
       ++nr_reasons_for_staying_empty[via_capturer];
-      Nr_remaining_black_moves -= 1;
+      Nr_remaining_moves[Black] -= 1;
 
       for (capturer_index = 1; capturer_index<MaxPiece[White]; ++capturer_index)
         if (white[capturer_index].type==pb
@@ -862,27 +862,27 @@ static void en_passant(stip_length_type n,
                                                                                    capturer_origin,
                                                                                    pb,
                                                                                    via_capturer);
-          if (time+1<=Nr_remaining_white_moves)
+          if (time+1<=Nr_remaining_moves[White])
           {
             unsigned int const diffcol = abs(capturer_origin%onerow - via_capturer%onerow);
-            if (diffcol+1<=Nr_unused_black_masses)
+            if (diffcol+1<=Nr_unused_masses[Black])
             {
-              Nr_unused_black_masses -= diffcol+1;
-              Nr_remaining_white_moves -= time+1;
-              TraceValue("%u",Nr_unused_black_masses);
-              TraceValue("%u",Nr_remaining_white_moves);
-              TraceValue("%u\n",Nr_remaining_black_moves);
+              Nr_unused_masses[Black] -= diffcol+1;
+              Nr_remaining_moves[White] -= time+1;
+              TraceValue("%u",Nr_unused_masses[Black]);
+              TraceValue("%u",Nr_remaining_moves[White]);
+              TraceValue("%u\n",Nr_remaining_moves[Black]);
               white[capturer_index].usage = piece_gives_check;
               en_passant_select_capturee(n,via_capturer+dir_left,dir_vertical);
               en_passant_select_capturee(n,via_capturer+dir_right,dir_vertical);
               white[capturer_index].usage = piece_is_unused;
-              Nr_remaining_white_moves += time+1;
-              Nr_unused_black_masses += diffcol+1;
+              Nr_remaining_moves[White] += time+1;
+              Nr_unused_masses[Black] += diffcol+1;
             }
           }
         }
 
-      Nr_remaining_black_moves += 1;
+      Nr_remaining_moves[Black] += 1;
       --nr_reasons_for_staying_empty[via_capturer];
     }
   }

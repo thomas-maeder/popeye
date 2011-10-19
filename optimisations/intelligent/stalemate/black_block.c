@@ -65,7 +65,7 @@ static void promoted_pawn(stip_length_type n,
     /* square is not on 1st rank -- 1 move necessary to get there */
     ++time;
 
-  if (Nr_remaining_black_moves>=time)
+  if (Nr_remaining_moves[Black]>=time)
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -74,7 +74,7 @@ static void promoted_pawn(stip_length_type n,
         unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
                                                                                        pp,
                                                                                        to_be_blocked[0]);
-        if (time<=Nr_remaining_black_moves)
+        if (time<=Nr_remaining_moves[Black])
         {
           unsigned int diffcol = 0;
           if (pp==fn)
@@ -84,16 +84,16 @@ static void promoted_pawn(stip_length_type n,
             if (SquareCol(to_be_blocked[0])!=SquareCol(promotion_square_on_same_file))
               diffcol = 1;
           }
-          if (diffcol<=Nr_unused_white_masses)
+          if (diffcol<=Nr_unused_masses[White])
           {
-            Nr_remaining_black_moves -= time;
-            Nr_unused_white_masses -= diffcol;
-            TraceValue("%u",Nr_remaining_black_moves);
-            TraceValue("%u\n",Nr_unused_white_masses);
+            Nr_remaining_moves[Black] -= time;
+            Nr_unused_masses[White] -= diffcol;
+            TraceValue("%u",Nr_remaining_moves[Black]);
+            TraceValue("%u\n",Nr_unused_masses[White]);
             SetPiece(pp,to_be_blocked[0],blocker_flags);
             finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-            Nr_unused_white_masses += diffcol;
-            Nr_remaining_black_moves += time;
+            Nr_unused_masses[White] += diffcol;
+            Nr_remaining_moves[Black] += time;
           }
         }
       }
@@ -120,20 +120,20 @@ static void unpromoted_pawn(stip_length_type n,
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - to_be_blocked[0]%onerow);
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
                                                                                       blocker_comes_from,
                                                                                       to_be_blocked[0]);
-    if (time<=Nr_remaining_black_moves
-        && nr_required_captures<=Nr_unused_white_masses)
+    if (time<=Nr_remaining_moves[Black]
+        && nr_required_captures<=Nr_unused_masses[White])
     {
-      Nr_unused_white_masses -= nr_required_captures;
-      Nr_remaining_black_moves -= time;
-      TraceValue("%u",Nr_unused_white_masses);
-      TraceValue("%u\n",Nr_remaining_black_moves);
+      Nr_unused_masses[White] -= nr_required_captures;
+      Nr_remaining_moves[Black] -= time;
+      TraceValue("%u",Nr_unused_masses[White]);
+      TraceValue("%u\n",Nr_remaining_moves[Black]);
       SetPiece(pn,to_be_blocked[0],blocker_flags);
       finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-      Nr_remaining_black_moves += time;
-      Nr_unused_white_masses += nr_required_captures;
+      Nr_remaining_moves[Black] += time;
+      Nr_unused_masses[White] += nr_required_captures;
     }
   }
 
@@ -162,13 +162,13 @@ static void officer(stip_length_type n,
                                                                              blocker_comes_from,
                                                                              blocker_type,
                                                                              to_be_blocked[0]);
-    if (time<=Nr_remaining_black_moves)
+    if (time<=Nr_remaining_moves[Black])
     {
-      Nr_remaining_black_moves -= time;
-      TraceValue("%u\n",Nr_remaining_black_moves);
+      Nr_remaining_moves[Black] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[Black]);
       SetPiece(blocker_type,to_be_blocked[0],blocker_flags);
       finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-      Nr_remaining_black_moves += time;
+      Nr_remaining_moves[Black] += time;
     }
   }
 
@@ -227,14 +227,14 @@ void intelligent_stalemate_black_block(stip_length_type n,
   TraceFunctionParam("%u",nr_to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (Nr_unused_black_masses>=nr_to_be_blocked)
+  if (Nr_unused_masses[Black]>=nr_to_be_blocked)
   {
-    Nr_unused_black_masses -= nr_to_be_blocked;
-    TraceValue("%u\n",Nr_unused_black_masses);
+    Nr_unused_masses[Black] -= nr_to_be_blocked;
+    TraceValue("%u\n",Nr_unused_masses[Black]);
 
     block_first(n,to_be_blocked,nr_to_be_blocked);
 
-    Nr_unused_black_masses += nr_to_be_blocked;
+    Nr_unused_masses[Black] += nr_to_be_blocked;
   }
 
   TraceFunctionExit(__func__);

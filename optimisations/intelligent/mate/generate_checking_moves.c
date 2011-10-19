@@ -69,25 +69,28 @@ static void by_promoted_pawn(unsigned int index_of_checker, stip_length_type n)
       unsigned int const min_nr_moves_by_p = (*bnp<=square_h7
                                               ? moves_to_white_prom[index_of_checker]+1
                                               : moves_to_white_prom[index_of_checker]);
-      if (Nr_remaining_white_moves>=min_nr_moves_by_p)
+      if (Nr_remaining_moves[White]>=min_nr_moves_by_p)
       {
-        piece pp;
         square const pawn_origin = white[index_of_checker].diagram_square;
+        piece pp;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         {
-          unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(pawn_origin,
-                                                                                         pp,
-                                                                                         *bnp);
-          if (time<=Nr_remaining_white_moves
-              && guards(king_square[Black],pp,*bnp))
+          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+          unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+          if (intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
+                                                               pp,
+                                                               *bnp))
           {
-            Nr_remaining_white_moves -= time;
-            TraceValue("%u\n",Nr_remaining_white_moves);
-            SetPiece(pp,*bnp,checker_flags);
-            remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
-            intelligent_guard_flights(n);
-            remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,-1);
-            Nr_remaining_white_moves += time;
+            if (guards(king_square[Black],pp,*bnp))
+            {
+              SetPiece(pp,*bnp,checker_flags);
+              remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
+              intelligent_guard_flights(n);
+              remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,-1);
+            }
+
+            Nr_unused_masses[Black] = save_nr_unused_masses;
+            Nr_remaining_moves[White] = save_nr_remaining_moves;
           }
         }
       }
@@ -103,6 +106,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, stip_length_type n)
 
 static void by_unpromoted_pawn(unsigned int index_of_checker, stip_length_type n)
 {
+  square const checker_from = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
   square const *bnp;
 
@@ -113,31 +117,21 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, stip_length_type n
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
   {
-    TraceSquare(*bnp);
-    TracePiece(e[*bnp]);
-    TraceText("\n");
+    TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
     if (e[*bnp]==vide)
     {
-      square const pawn_origin = white[index_of_checker].diagram_square;
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_checking(pb,
-                                                                               pawn_origin,
-                                                                               pb,
-                                                                               *bnp);
-      if (time<=Nr_remaining_white_moves
-          && guards(king_square[Black],pb,*bnp))
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+      unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+      if (intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,*bnp))
       {
-        unsigned int const diffcol = abs(pawn_origin%onerow - *bnp%onerow);
-        if (diffcol<=Nr_unused_black_masses)
+        if (guards(king_square[Black],pb,*bnp))
         {
-          Nr_unused_black_masses -= diffcol;
-          Nr_remaining_white_moves -= time;
-          TraceValue("%u",Nr_unused_black_masses);
-          TraceValue("%u\n",Nr_remaining_white_moves);
           SetPiece(pb,*bnp,checker_flags);
           intelligent_guard_flights(n);
-          Nr_remaining_white_moves += time;
-          Nr_unused_black_masses += diffcol;
         }
+
+        Nr_unused_masses[Black] = save_nr_unused_masses;
+        Nr_remaining_moves[White] = save_nr_remaining_moves;
       }
 
       e[*bnp] = vide;
@@ -164,26 +158,24 @@ static void by_officer(unsigned int index_of_checker,
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
   {
-    TraceSquare(*bnp);
-    TracePiece(e[*bnp]);
-    TraceText("\n");
+    TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
     if (e[*bnp]==vide)
     {
       square const checker_origin = white[index_of_checker].diagram_square;
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_checking(checker_type,
-                                                                               checker_origin,
-                                                                               checker_type,
-                                                                               *bnp);
-      if (time<=Nr_remaining_white_moves
-          && guards(king_square[Black],checker_type,*bnp))
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+      if (intelligent_reserve_white_officer_moves_from_to_checking(checker_type,
+                                                                   checker_origin,
+                                                                   *bnp))
       {
-        Nr_remaining_white_moves -= time;
-        TraceValue("%u\n",Nr_remaining_white_moves);
-        SetPiece(checker_type,*bnp,checker_flags);
-        remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
-        intelligent_guard_flights(n);
-        remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
-        Nr_remaining_white_moves += time;
+        if (guards(king_square[Black],checker_type,*bnp))
+        {
+          SetPiece(checker_type,*bnp,checker_flags);
+          remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
+          intelligent_guard_flights(n);
+          remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
+        }
+
+        Nr_remaining_moves[White] = save_nr_remaining_moves;
       }
 
       e[*bnp] = vide;

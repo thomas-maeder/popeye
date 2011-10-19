@@ -168,7 +168,7 @@ static void FinaliseGuarding(stip_length_type n)
 
   if (white[index_of_king].usage==piece_is_unused
       && white[index_of_king].diagram_square!=square_e1
-      && Nr_remaining_white_moves==0)
+      && Nr_remaining_moves[White]==0)
     fix_white_king_on_diagram_square(n);
   else
     intelligent_find_and_block_flights(n);
@@ -195,27 +195,27 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
         && nr_reasons_for_staying_empty[*bnp]==0
         && !white_pawn_attacks_king(*bnp))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(White,
                                                                                         starts_from,
                                                                                         *bnp);
-      if (time<=Nr_remaining_white_moves)
+      if (time<=Nr_remaining_moves[White])
       {
         square const guarded = guards_black_flight(pb,*bnp);
         if (guarded!=initsquare)
         {
           unsigned int const diffcol = abs(starts_from % onerow - *bnp % onerow);
-          if (diffcol<=Nr_unused_black_masses)
+          if (diffcol<=Nr_unused_masses[Black])
           {
-            Nr_unused_black_masses -= diffcol;
-            Nr_remaining_white_moves -= time;
-            TraceValue("%u",Nr_unused_black_masses);
-            TraceValue("%u\n",Nr_remaining_white_moves);
+            Nr_unused_masses[Black] -= diffcol;
+            Nr_remaining_moves[White] -= time;
+            TraceValue("%u",Nr_unused_masses[Black]);
+            TraceValue("%u\n",Nr_remaining_moves[White]);
             SetPiece(pb,*bnp,pawn_flags);
             intelligent_continue_guarding_flights(n,index+1);
             e[*bnp] = vide;
             spec[*bnp] = EmptySpec;
-            Nr_remaining_white_moves += time;
-            Nr_unused_black_masses += diffcol;
+            Nr_remaining_moves[White] += time;
+            Nr_unused_masses[Black] += diffcol;
           }
         }
       }
@@ -305,51 +305,38 @@ static void promoted_pawn(stip_length_type n, unsigned int index_of_pawn)
       unsigned int const min_nr_moves_by_p = (*bnp<=square_h7
                                               ? moves_to_white_prom[index_of_pawn]+1
                                               : moves_to_white_prom[index_of_pawn]);
-      if (Nr_remaining_white_moves>=min_nr_moves_by_p)
+      if (Nr_remaining_moves[White]>=min_nr_moves_by_p)
       {
         piece pp;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
           if (!officer_uninterceptably_attacks_king(Black,*bnp,pp))
           {
             square const comes_from = white[index_of_pawn].diagram_square;
-            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(comes_from,
-                                                                                           pp,
-                                                                                           *bnp);
-            if (time<=Nr_remaining_white_moves)
+            unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
+            unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
+            if (intelligent_reserve_promoting_pawn_moves_from_to(comes_from,
+                                                                 pp,
+                                                                 *bnp))
             {
-              unsigned int diffcol = 0;
-              if (pp==fb)
+              switch (pp)
               {
-                unsigned int const comes_from_file = comes_from%nr_files_on_board;
-                square const promotion_square_on_same_file = square_a8+comes_from_file;
-                if (SquareCol(*bnp)!=SquareCol(promotion_square_on_same_file))
-                  diffcol = 1;
-              }
-              if (diffcol<=Nr_unused_black_masses)
-              {
-                Nr_remaining_white_moves -= time;
-                Nr_unused_black_masses -= diffcol;
-                TraceValue("%u",Nr_remaining_white_moves);
-                TraceValue("%u\n",Nr_unused_black_masses);
-                switch (pp)
-                {
-                  case db:
-                  case tb:
-                  case fb:
-                    rider_from(n,index_of_pawn,pp,*bnp);
-                    break;
+                case db:
+                case tb:
+                case fb:
+                  rider_from(n,index_of_pawn,pp,*bnp);
+                  break;
 
-                  case cb:
-                    leaper_from(n,index_of_pawn,pp,*bnp);
-                    break;
+                case cb:
+                  leaper_from(n,index_of_pawn,pp,*bnp);
+                  break;
 
-                  default:
-                    assert(0);
-                    break;
-                }
-                Nr_unused_black_masses += diffcol;
-                Nr_remaining_white_moves += time;
+                default:
+                  assert(0);
+                  break;
               }
+
+              Nr_unused_masses[Black] = save_nr_unused_masses;
+              Nr_remaining_moves[White] = save_nr_remaining_moves;
             }
           }
 
@@ -385,12 +372,12 @@ static void rider(stip_length_type n,
                                                                                white[index_of_rider].diagram_square,
                                                                                guard_type,
                                                                                *bnp);
-      if (time<=Nr_remaining_white_moves)
+      if (time<=Nr_remaining_moves[White])
       {
-        Nr_remaining_white_moves -= time;
-        TraceValue("%u\n",Nr_remaining_white_moves);
+        Nr_remaining_moves[White] -= time;
+        TraceValue("%u\n",Nr_remaining_moves[White]);
         rider_from(n,index_of_rider,guard_type,*bnp);
-        Nr_remaining_white_moves += time;
+        Nr_remaining_moves[White] += time;
       }
     }
   }
@@ -421,12 +408,12 @@ static void leaper(stip_length_type n,
                                                                                white[index_of_leaper].diagram_square,
                                                                                guard_type,
                                                                                *bnp);
-      if (time<=Nr_remaining_white_moves)
+      if (time<=Nr_remaining_moves[White])
       {
-        Nr_remaining_white_moves -= time;
-        TraceValue("%u\n",Nr_remaining_white_moves);
+        Nr_remaining_moves[White] -= time;
+        TraceValue("%u\n",Nr_remaining_moves[White]);
         leaper_from(n,index_of_leaper,guard_type,*bnp);
-        Nr_remaining_white_moves += time;
+        Nr_remaining_moves[White] += time;
       }
     }
   }
@@ -515,24 +502,21 @@ void intelligent_guard_flights(stip_length_type n)
             && nr_reasons_for_staying_empty[*bnp]==0
             && !would_there_be_king_contact(*bnp))
         {
-          unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roib,
-                                                                               guard_from,
-                                                                               *bnp);
+          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
           TraceSquare(*bnp);TraceText("\n");
-          if (time<=Nr_remaining_white_moves)
+          if (intelligent_reserve_king_moves_from_to(White,guard_from,*bnp))
           {
             square const guarded = guards_black_flight(roib,*bnp);
             if (guarded!=initsquare)
             {
-              Nr_remaining_white_moves -= time;
-              TraceValue("%u\n",Nr_remaining_white_moves);
               king_square[White]= *bnp;
               SetPiece(roib,*bnp,white[index_of_king].flags);
               intelligent_continue_guarding_flights(n,1);
               e[*bnp] = vide;
               spec[*bnp] = EmptySpec;
-              Nr_remaining_white_moves += time;
             }
+
+            Nr_remaining_moves[White] = save_nr_remaining_moves;
           }
         }
 

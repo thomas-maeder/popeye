@@ -31,7 +31,7 @@ static void promoted_black_pawn(stip_length_type n,
       /* square is not on 1st rank -- 1 move necessary to get there */
       ++time;
 
-    if (time<=Nr_remaining_black_moves)
+    if (time<=Nr_remaining_moves[Black])
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -40,7 +40,7 @@ static void promoted_black_pawn(stip_length_type n,
           unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
                                                                                          pp,
                                                                                          placed_on);
-          if (time<=Nr_remaining_black_moves)
+          if (time<=Nr_remaining_moves[Black])
           {
             unsigned int diffcol = 0;
             if (pp==fn)
@@ -51,19 +51,19 @@ static void promoted_black_pawn(stip_length_type n,
                 diffcol = 1;
             }
 
-            if (diffcol<=Nr_unused_white_masses)
+            if (diffcol<=Nr_unused_masses[White])
             {
               unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                                 pp,
                                                                 placed_on);
-              Nr_unused_white_masses -= diffcol;
-              Nr_remaining_black_moves -= time;
-              TraceValue("%u",Nr_unused_white_masses);
-              TraceValue("%u\n",Nr_remaining_black_moves);
+              Nr_unused_masses[White] -= diffcol;
+              Nr_remaining_moves[Black] -= time;
+              TraceValue("%u",Nr_unused_masses[White]);
+              TraceValue("%u\n",Nr_remaining_moves[Black]);
               SetPiece(pp,placed_on,black[placed_index].flags);
               intelligent_mate_finish(n,nr_of_checks_to_white);
-              Nr_remaining_black_moves += time;
-              Nr_unused_white_masses += diffcol;
+              Nr_remaining_moves[Black] += time;
+              Nr_unused_masses[White] += diffcol;
             }
           }
         }
@@ -88,21 +88,21 @@ static void unpromoted_black_pawn(stip_length_type n,
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
-    if (diffcol<=Nr_unused_white_masses)
+    if (diffcol<=Nr_unused_masses[White])
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+      unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
                                                                                         placed_from,
                                                                                         placed_on);
-      if (time<=Nr_remaining_black_moves)
+      if (time<=Nr_remaining_moves[Black])
       {
-        Nr_unused_white_masses -= diffcol;
-        Nr_remaining_black_moves -= time;
-        TraceValue("%u",Nr_unused_white_masses);
-        TraceValue("%u\n",Nr_remaining_black_moves);
+        Nr_unused_masses[White] -= diffcol;
+        Nr_remaining_moves[Black] -= time;
+        TraceValue("%u",Nr_unused_masses[White]);
+        TraceValue("%u\n",Nr_remaining_moves[Black]);
         SetPiece(pn,placed_on,black[placed_index].flags);
         intelligent_mate_test_target_position(n);
-        Nr_remaining_black_moves += time;
-        Nr_unused_white_masses += diffcol;
+        Nr_remaining_moves[Black] += time;
+        Nr_unused_masses[White] += diffcol;
       }
     }
   }
@@ -129,16 +129,16 @@ static void black_officer(stip_length_type n,
                                                                              placed_from,
                                                                              placed_type,
                                                                              placed_on);
-    if (time<=Nr_remaining_black_moves)
+    if (time<=Nr_remaining_moves[Black])
     {
       unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                         placed_type,
                                                         placed_on);
-      Nr_remaining_black_moves -= time;
-      TraceValue("%u\n",Nr_remaining_black_moves);
+      Nr_remaining_moves[Black] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[Black]);
       SetPiece(placed_type,placed_on,black[placed_index].flags);
       intelligent_mate_finish(n,nr_of_checks_to_white);
-      Nr_remaining_black_moves += time;
+      Nr_remaining_moves[Black] += time;
     }
   }
 

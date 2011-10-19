@@ -1935,41 +1935,41 @@ a)
   1.Kf5-e6 e7-e8=D +   2.Ke6-d6 d7-d8=D # 
 
               empile:       20239
-            jouecoup:       17258
+            jouecoup:       17074
         orig_rbechec:          98
-        orig_rnechec:       15294
+        orig_rnechec:       15110
 b)  -wBe7  +wSe8 
 
   1.Kf5-g5 d7-d8=D +   2.Kg5-h6 Dd8-h4 # 
 
               empile:       10707
-            jouecoup:        8895
+            jouecoup:        8800
         orig_rbechec:          11
-        orig_rnechec:        8759
+        orig_rnechec:        8664
 c)  -wBe7  +wLe8 
 
   1.Tb6-f6 d7-d8=D   2.Kf5-e6 Dd8-d7 # 
 
               empile:       14064
-            jouecoup:       12209
+            jouecoup:       12087
         orig_rbechec:          46
-        orig_rnechec:       11314
+        orig_rnechec:       11192
 d)  -wBe7  +wTe8 
 
   1.Kf5-f6 d7-d8=D +   2.Kf6-f7 Dd8-e7 # 
 
               empile:       20738
-            jouecoup:       18122
+            jouecoup:       18021
         orig_rbechec:          70
-        orig_rnechec:       16768
+        orig_rnechec:       16667
 e)  -wBe7  +wDe8 
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D # 
 
               empile:       69066
-            jouecoup:       66251
+            jouecoup:       66134
         orig_rbechec:        1020
-        orig_rnechec:       34196
+        orig_rnechec:       34079
 Loesung beendet. 
 
 

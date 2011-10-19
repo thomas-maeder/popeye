@@ -56,11 +56,11 @@ boolean can_we_block_all_necessary_squares(trouble_maker_type const *state)
       break;
 
     case white_block_required:
-      result = Nr_unused_white_masses+Nr_unused_black_masses>=state->nr_flight_directions;
+      result = Nr_unused_masses[White]+Nr_unused_masses[Black]>=state->nr_flight_directions;
       break;
 
     case block_required:
-      result = Nr_unused_black_masses>=state->nr_flight_directions;
+      result = Nr_unused_masses[Black]>=state->nr_flight_directions;
       break;
 
     case pin_required:

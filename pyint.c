@@ -83,10 +83,8 @@ unsigned int PieceId2index[MaxPieceId+1];
 
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
-unsigned int Nr_remaining_white_moves;
-unsigned int Nr_remaining_black_moves;
-unsigned int Nr_unused_black_masses;
-unsigned int Nr_unused_white_masses;
+unsigned int Nr_remaining_moves[nr_sides];
+unsigned int Nr_unused_masses[nr_sides];
 
 
 void remember_to_keep_rider_line_open(square from, square to,
@@ -522,26 +520,24 @@ static void GenerateBlackKing(stip_length_type n)
 
   assert(black[index_of_king].type==roin);
 
-  Nr_remaining_white_moves = MovesLeft[White];
-  Nr_remaining_black_moves = MovesLeft[Black];
-  TraceValue("%u",Nr_remaining_white_moves);
-  TraceValue("%u\n",Nr_remaining_black_moves);
+  Nr_remaining_moves[White] = MovesLeft[White];
+  Nr_remaining_moves[Black] = MovesLeft[Black];
+  TraceValue("%u",Nr_remaining_moves[White]);
+  TraceValue("%u\n",Nr_remaining_moves[Black]);
 
-  Nr_unused_black_masses = MaxPiece[Black]-1;
-  TraceValue("%u\n",Nr_unused_black_masses);
+  Nr_unused_masses[Black] = MaxPiece[Black]-1;
+  TraceValue("%u\n",Nr_unused_masses[Black]);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]!=obs)
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_king(roin,
-                                                                           black[index_of_king].diagram_square,
-                                                                           *bnp);
-      if (time<=Nr_remaining_black_moves)
+      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
+      if (intelligent_reserve_king_moves_from_to(Black,
+                                                 black[index_of_king].diagram_square,
+                                                 *bnp))
       {
-        Nr_remaining_black_moves -= time;
-        TraceValue("%u\n",Nr_remaining_black_moves);
 
         {
           square s;
@@ -567,7 +563,7 @@ static void GenerateBlackKing(stip_length_type n)
         e[*bnp] = vide;
         spec[*bnp] = EmptySpec;
 
-        Nr_remaining_black_moves += time;
+        Nr_remaining_moves[Black] = save_nr_remaining_moves;
       }
     }
   }

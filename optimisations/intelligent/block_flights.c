@@ -64,13 +64,13 @@ static void officer(stip_length_type n,
                                                                              blocks_from,
                                                                              blocker_type,
                                                                              to_be_blocked);
-    if (time<=Nr_remaining_black_moves)
+    if (time<=Nr_remaining_moves[Black])
     {
-      Nr_remaining_black_moves -= time;
-      TraceValue("%u\n",Nr_remaining_black_moves);
+      Nr_remaining_moves[Black] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[Black]);
       SetPiece(blocker_type,to_be_blocked,blocker_flags);
       block_planned_flights(n,nr_remaining_flights_to_block);
-      Nr_remaining_black_moves += time;
+      Nr_remaining_moves[Black] += time;
     }
   }
 
@@ -93,22 +93,22 @@ static void unpromoted_pawn(stip_length_type n,
 
   if (!black_pawn_attacks_king(to_be_blocked))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(Black,
                                                                                       blocks_from,
                                                                                       to_be_blocked);
-    if (time<=Nr_remaining_black_moves)
+    if (time<=Nr_remaining_moves[Black])
     {
       unsigned int const diffcol = abs(blocks_from%onerow - to_be_blocked%onerow);
       SetPiece(pn,to_be_blocked,blocker_flags);
-      if (diffcol<=Nr_unused_white_masses)
+      if (diffcol<=Nr_unused_masses[White])
       {
-        Nr_unused_white_masses -= diffcol;
-        Nr_remaining_black_moves -= time;
-        TraceValue("%u",Nr_unused_white_masses);
-        TraceValue("%u\n",Nr_remaining_black_moves);
+        Nr_unused_masses[White] -= diffcol;
+        Nr_remaining_moves[Black] -= time;
+        TraceValue("%u",Nr_unused_masses[White]);
+        TraceValue("%u\n",Nr_remaining_moves[Black]);
         block_planned_flights(n,nr_remaining_flights_to_block);
-        Nr_remaining_black_moves += time;
-        Nr_unused_white_masses += diffcol;
+        Nr_remaining_moves[Black] += time;
+        Nr_unused_masses[White] += diffcol;
       }
     }
   }
@@ -141,7 +141,7 @@ static void promoted_pawn(stip_length_type n,
     ++nr_moves_guesstimate;
 
   TraceValue("%u\n",nr_moves_guesstimate);
-  if (Nr_remaining_black_moves>=nr_moves_guesstimate)
+  if (Nr_remaining_moves[Black]>=nr_moves_guesstimate)
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -158,17 +158,17 @@ static void promoted_pawn(stip_length_type n,
           if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
             diffcol = 1;
         }
-        if (diffcol<=Nr_unused_white_masses
-            && time<=Nr_remaining_black_moves)
+        if (diffcol<=Nr_unused_masses[White]
+            && time<=Nr_remaining_moves[Black])
         {
-          Nr_unused_white_masses -= diffcol;
-          Nr_remaining_black_moves -= time;
-          TraceValue("%u",Nr_unused_white_masses);
-          TraceValue("%u\n",Nr_remaining_black_moves);
+          Nr_unused_masses[White] -= diffcol;
+          Nr_remaining_moves[Black] -= time;
+          TraceValue("%u",Nr_unused_masses[White]);
+          TraceValue("%u\n",Nr_remaining_moves[Black]);
           SetPiece(pp,to_be_blocked,blocker_flags);
           block_planned_flights(n,nr_remaining_flights_to_block);
-          Nr_remaining_black_moves += time;
-          Nr_unused_white_masses += diffcol;
+          Nr_remaining_moves[Black] += time;
+          Nr_unused_masses[White] += diffcol;
         }
       }
   }
@@ -498,7 +498,7 @@ static unsigned int plan_blocks_of_flights(void)
 
   nr_king_flights_to_be_blocked = 0;
 
-  nr_available_blockers = Nr_unused_black_masses;
+  nr_available_blockers = Nr_unused_masses[Black];
   if (move_generator_can_help2(no_slice,slack_length_help+1)
       ==slack_length_help+1)
     /* at least 1 flight was found that can't be blocked */
@@ -537,7 +537,7 @@ static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_flights_
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i<nr_flights_to_block && result<=Nr_remaining_black_moves; ++i)
+  for (i = 0; i<nr_flights_to_block && result<=Nr_remaining_moves[Black]; ++i)
     result += intelligent_estimate_min_nr_black_moves_to_square(king_flights_to_be_blocked[i]);
 
   TraceFunctionExit(__func__);
@@ -554,12 +554,12 @@ void intelligent_find_and_block_flights(stip_length_type n)
 
   {
     unsigned int const nr_flights_to_block = plan_blocks_of_flights();
-    if (nr_flights_to_block<=Nr_unused_black_masses)
+    if (nr_flights_to_block<=Nr_unused_masses[Black])
     {
       unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_flights_to_block);
-      if (mtba<=Nr_remaining_black_moves)
+      if (mtba<=Nr_remaining_moves[Black])
       {
-        Nr_unused_white_masses = count_nr_unused_white_masses();
+        Nr_unused_masses[White] = count_nr_unused_white_masses();
         block_planned_flights(n,nr_flights_to_block);
       }
     }

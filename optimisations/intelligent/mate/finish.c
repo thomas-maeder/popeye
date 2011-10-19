@@ -128,7 +128,7 @@ void intelligent_mate_test_target_position(stip_length_type n)
   {
     if (white[index_of_king].usage==piece_is_unused
         && white[index_of_king].diagram_square!=square_e1
-        && Nr_remaining_white_moves==0)
+        && Nr_remaining_moves[White]==0)
       fix_white_king_on_diagram_square(n);
     else if (!exists_redundant_white_piece())
     {

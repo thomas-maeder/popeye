@@ -63,9 +63,9 @@ static boolean stalemate_isGoalReachable(void)
           {
             Side const from_side = from_piece>vide ? White : Black;
             MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_piece,
-                                                                                  from_square,
-                                                                                  target_position[id].type,
-                                                                                  target_position[id].diagram_square);
+                                                                                              from_square,
+                                                                                              target_position[id].type,
+                                                                                              target_position[id].diagram_square);
           }
         }
       }
@@ -79,14 +79,14 @@ static boolean stalemate_isGoalReachable(void)
       if (target_position[id].diagram_square!=initsquare)
       {
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(pjoue[nbply],
-                                                                            move_generation_stack[nbcou].departure,
-                                                                            target_position[id].type,
-                                                                            target_position[id].diagram_square);
+                                                                                        move_generation_stack[nbcou].departure,
+                                                                                        target_position[id].type,
+                                                                                        target_position[id].diagram_square);
 
         unsigned int const time_now = intelligent_count_nr_of_moves_from_to_no_check(e[move_generation_stack[nbcou].arrival],
-                                                                         move_generation_stack[nbcou].arrival,
-                                                                         target_position[id].type,
-                                                                         target_position[id].diagram_square);
+                                                                                     move_generation_stack[nbcou].arrival,
+                                                                                     target_position[id].type,
+                                                                                     target_position[id].diagram_square);
 
         TracePiece(pjoue[nbply]);
         TraceSquare(move_generation_stack[nbcou].departure);

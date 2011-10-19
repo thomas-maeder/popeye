@@ -27,13 +27,13 @@ static void by_officer(stip_length_type n,
                                                                              pinner_comes_from,
                                                                              pinner_type,
                                                                              pin_from);
-    if (time<=Nr_remaining_white_moves)
+    if (time<=Nr_remaining_moves[White])
     {
-      Nr_remaining_white_moves -= time;
-      TraceValue("%u\n",Nr_remaining_white_moves);
+      Nr_remaining_moves[White] -= time;
+      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(pinner_type,pin_from,pinner_flags);
       intelligent_mate_test_target_position(n);
-      Nr_remaining_white_moves += time;
+      Nr_remaining_moves[White] += time;
     }
   }
 

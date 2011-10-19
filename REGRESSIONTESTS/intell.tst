@@ -25,9 +25,9 @@
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
               empile:      149070
-            jouecoup:      125527
+            jouecoup:      124628
         orig_rbechec:        1897
-        orig_rnechec:       92243
+        orig_rnechec:       91344
 solution finished. 
 
 

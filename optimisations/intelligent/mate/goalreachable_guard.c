@@ -81,16 +81,16 @@ static boolean mate_isGoalReachable(void)
           PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
           king_square[Black] = target_position[id_king].diagram_square;
           time_before = intelligent_count_nr_of_moves_from_to_checking(pjoue[nbply],
-                                                           move_generation_stack[nbcou].departure,
-                                                           target_position[id].type,
-                                                           target_position[id].diagram_square);
+                                                                       move_generation_stack[nbcou].departure,
+                                                                       target_position[id].type,
+                                                                       target_position[id].diagram_square);
           king_square[Black] = save_king_square;
         }
         else
           time_before = intelligent_count_nr_of_moves_from_to_no_check(pjoue[nbply],
-                                                           move_generation_stack[nbcou].departure,
-                                                           target_position[id].type,
-                                                           target_position[id].diagram_square);
+                                                                       move_generation_stack[nbcou].departure,
+                                                                       target_position[id].type,
+                                                                       target_position[id].diagram_square);
 
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check
