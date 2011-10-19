@@ -75,9 +75,9 @@ static unsigned int intelligent_count_nr_of_moves_from_to_king(Side side,
   return result;
 }
 
-unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
-                                                                  piece to_piece,
-                                                                  square to_square)
+static unsigned int intelligent_count_nr_of_moves_from_to_pawn_promotion(square from_square,
+                                                                         piece to_piece,
+                                                                         square to_square)
 {
   unsigned int result = maxply+1;
   square const start = to_piece<vide ? square_a1 : square_a8;
