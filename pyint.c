@@ -214,7 +214,44 @@ boolean would_white_king_guard_from(square white_king_square)
   return result;
 }
 
-boolean uninterceptably_attacks_king(Side side, square from, piece p)
+boolean white_pawn_attacks_king(square from)
+{
+  int const dir = king_square[Black]-from;
+  boolean const result = dir==dir_up+dir_right || dir==dir_up+dir_left;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  assert(king_square[Black]!=initsquare);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean black_pawn_attacks_king(square from)
+{
+  int const dir = king_square[White]-from;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  if (king_square[White]==initsquare)
+    result = false;
+  else
+    result = dir==dir_down+dir_right || dir==dir_down+dir_left;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
 {
   boolean result;
 
@@ -248,14 +285,6 @@ boolean uninterceptably_attacks_king(Side side, square from, piece p)
       case cb:
       case cn:
         result = CheckDirKnight[dir]!=0;
-        break;
-
-      case pb:
-        result = dir==dir_up+dir_right || dir==dir_up+dir_left;
-        break;
-
-      case pn:
-        result = dir==dir_down+dir_right || dir==dir_down+dir_left;
         break;
 
       default:

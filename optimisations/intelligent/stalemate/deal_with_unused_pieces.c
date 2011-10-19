@@ -39,23 +39,37 @@ static void promoted_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!uninterceptably_attacks_king(White,where_to_place,pp))
+      if (!officer_uninterceptably_attacks_king(White,where_to_place,pp))
       {
         unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocker_comes_from,
                                                                                        pp,
                                                                                        where_to_place);
         if (time<=Nr_remaining_black_moves)
         {
-          unsigned int const nr_checks_to_black = 0;
-          Nr_remaining_black_moves -= time;
-          TraceValue("%u\n",Nr_remaining_black_moves);
-          SetPiece(pp,where_to_place,blocker_flags);
-          intelligent_stalemate_continue_after_block(n,
-                                                     White,
-                                                     where_to_place,
-                                                     pp,
-                                                     nr_checks_to_black);
-          Nr_remaining_black_moves += time;
+          unsigned int diffcol = 0;
+          if (pp==fn)
+          {
+            unsigned int const blocker_comes_from_file = blocker_comes_from%nr_files_on_board;
+            square const promotion_square_on_same_file = square_a1+blocker_comes_from_file;
+            if (SquareCol(where_to_place)!=SquareCol(promotion_square_on_same_file))
+              diffcol = 1;
+          }
+          if (diffcol<=Nr_unused_white_masses)
+          {
+            unsigned int const nr_checks_to_black = 0;
+            Nr_remaining_black_moves -= time;
+            Nr_unused_white_masses -= diffcol;
+            TraceValue("%u",Nr_remaining_black_moves);
+            TraceValue("%u\n",Nr_unused_white_masses);
+            SetPiece(pp,where_to_place,blocker_flags);
+            intelligent_stalemate_continue_after_block(n,
+                                                       White,
+                                                       where_to_place,
+                                                       pp,
+                                                       nr_checks_to_black);
+            Nr_unused_white_masses += diffcol;
+            Nr_remaining_black_moves += time;
+          }
         }
       }
   }
@@ -75,7 +89,7 @@ static void unpromoted_pawn(stip_length_type n,
   TraceSquare(blocker_comes_from);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,where_to_place,pn))
+  if (!black_pawn_attacks_king(where_to_place))
   {
     unsigned int const nr_required_captures = abs(blocker_comes_from%onerow
                                                   - where_to_place%onerow);
@@ -113,7 +127,7 @@ static void officer(stip_length_type n,
   TraceSquare(blocker_comes_from);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,where_to_place,blocker_type))
+  if (!officer_uninterceptably_attacks_king(White,where_to_place,blocker_type))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
                                                                              blocker_comes_from,

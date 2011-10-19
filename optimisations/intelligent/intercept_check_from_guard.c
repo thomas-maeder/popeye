@@ -54,7 +54,7 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type))
+  if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(intercepter_type,
                                                                              intercepter_diagram_square,
@@ -103,22 +103,36 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
       Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-        if (!uninterceptably_attacks_king(Black,to_be_intercepted,pp))
+        if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,pp))
         {
           unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(intercepter_diagram_square,
                                                                                          pp,
                                                                                          to_be_intercepted);
           if (time<=Nr_remaining_white_moves
-              && !(index_of_intercepting_piece<index_of_next_guarding_piece
-                   && guards_black_flight(pp,to_be_intercepted)))
+              && !(index_of_intercepting_piece<index_of_next_guarding_piece))
           {
-            Nr_remaining_white_moves -= time;
-            TraceValue("%u\n",Nr_remaining_white_moves);
-            SetPiece(pp,to_be_intercepted,intercepter_flags);
-            intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-            e[to_be_intercepted] = vide;
-            spec[to_be_intercepted] = EmptySpec;
-            Nr_remaining_white_moves += time;
+            unsigned int diffcol = 0;
+            if (pp==fb)
+            {
+              unsigned int const intercepter_diagram_file = intercepter_diagram_square%nr_files_on_board;
+              square const promotion_square_on_same_file = square_a8+intercepter_diagram_file;
+              if (SquareCol(to_be_intercepted)!=SquareCol(promotion_square_on_same_file))
+                diffcol = 1;
+            }
+            if (diffcol<=Nr_unused_black_masses
+                && guards_black_flight(pp,to_be_intercepted))
+            {
+              Nr_remaining_white_moves -= time;
+              Nr_unused_black_masses -= diffcol;
+              TraceValue("%u",Nr_remaining_white_moves);
+              TraceValue("%u\n",Nr_unused_black_masses);
+              SetPiece(pp,to_be_intercepted,intercepter_flags);
+              intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+              e[to_be_intercepted] = vide;
+              spec[to_be_intercepted] = EmptySpec;
+              Nr_unused_black_masses += diffcol;
+              Nr_remaining_white_moves += time;
+            }
           }
         }
     }
@@ -143,7 +157,7 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_intercepted,pb))
+  if (!white_pawn_attacks_king(to_be_intercepted))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                       intercepter_diagram_square,

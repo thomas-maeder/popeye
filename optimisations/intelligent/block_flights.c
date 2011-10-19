@@ -60,7 +60,7 @@ static void officer(stip_length_type n,
   TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
+  if (!officer_uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
                                                                              blocks_from,
@@ -100,7 +100,7 @@ static void unpromoted_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,to_be_blocked,pn))
+  if (!black_pawn_attacks_king(to_be_blocked))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pn,
                                                                                       blocks_from,
@@ -161,7 +161,7 @@ static void promoted_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!uninterceptably_attacks_king(White,to_be_blocked,pp))
+      if (!officer_uninterceptably_attacks_king(White,to_be_blocked,pp))
       {
         unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(blocks_from,
                                                                                        pp,

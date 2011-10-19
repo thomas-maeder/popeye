@@ -22,7 +22,7 @@ static void unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParamListEnd();
 
   if (diffcol<=Nr_unused_black_masses
-      && !uninterceptably_attacks_king(Black,placed_on,pb))
+      && !white_pawn_attacks_king(placed_on))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                       placed_from,
@@ -66,16 +66,19 @@ static void promoted_white_pawn(stip_length_type n,
       square const placed_from = white[placed_index].diagram_square;
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-        if (!uninterceptably_attacks_king(Black,placed_on,pp))
+        if (!officer_uninterceptably_attacks_king(Black,placed_on,pp))
         {
           unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
                                                                                          pp,
                                                                                          placed_on);
-          unsigned int diffcol;
-          if (pp==fb && SquareCol(placed_on)==SquareCol(placed_from%onerow))
-            diffcol= 1;
-          else
-            diffcol= 0;
+          unsigned int diffcol = 0;
+          if (pp==fb)
+          {
+            unsigned int const placed_from_file = placed_from%nr_files_on_board;
+            square const promotion_square_on_same_file = square_a8+placed_from_file;
+            if (SquareCol(placed_on)!=SquareCol(promotion_square_on_same_file))
+              diffcol = 1;
+          }
           TracePiece(pp);
           TraceValue("%u",diffcol);
           TraceValue("%u\n",time);
@@ -111,7 +114,7 @@ static void white_officer(stip_length_type n,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,placed_on,placed_type))
+  if (!officer_uninterceptably_attacks_king(Black,placed_on,placed_type))
   {
     square const placed_from = white[placed_index].diagram_square;
     unsigned int const time= intelligent_count_nr_of_moves_from_to_no_check(placed_type,

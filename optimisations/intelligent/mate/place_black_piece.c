@@ -35,7 +35,7 @@ static void promoted_black_pawn(stip_length_type n,
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-        if (!uninterceptably_attacks_king(White,placed_on,pp))
+        if (!officer_uninterceptably_attacks_king(White,placed_on,pp))
         {
           unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(placed_from,
                                                                                          pp,
@@ -84,7 +84,7 @@ static void unpromoted_black_pawn(stip_length_type n,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,placed_on,pn))
+  if (!black_pawn_attacks_king(placed_on))
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const diffcol = abs(placed_from%onerow - placed_on%onerow);
@@ -122,7 +122,7 @@ static void black_officer(stip_length_type n,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(White,placed_on,placed_type))
+  if (!officer_uninterceptably_attacks_king(White,placed_on,placed_type))
   {
     square const placed_from = black[placed_index].diagram_square;
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(placed_type,

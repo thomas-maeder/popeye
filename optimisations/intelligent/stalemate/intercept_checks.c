@@ -267,7 +267,7 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_blocked,pb))
+  if (!white_pawn_attacks_king(to_be_blocked))
   {
     square const blocks_from = white[blocker_index].diagram_square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
@@ -326,27 +326,42 @@ static void with_promoted_white_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (!uninterceptably_attacks_king(Black,to_be_blocked,pp))
+      if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,pp))
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
+        square const comes_from = white[blocker_index].diagram_square;
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(comes_from,
                                                                                        pp,
                                                                                        to_be_blocked);
         if (time<=Nr_remaining_white_moves)
         {
-          boolean const black_check = guards(king_square[Black],pp,to_be_blocked);
-          if (!(side==Black && black_check))
+          unsigned int diffcol = 0;
+          if (pp==fb)
           {
-            if (side==White && black_check)
-              ++nr_checks_to_opponent;
-            Nr_remaining_white_moves -= time;
-            TraceValue("%u\n",Nr_remaining_white_moves);
-            SetPiece(pp,to_be_blocked,white[blocker_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_opponent,
-                                         side);
-            Nr_remaining_white_moves += time;
+            unsigned int const comes_from_file = comes_from%nr_files_on_board;
+            square const promotion_square_on_same_file = square_a8+comes_from_file;
+            if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
+              diffcol = 1;
+          }
+          if (diffcol<=Nr_unused_black_masses)
+          {
+            boolean const black_check = guards(king_square[Black],pp,to_be_blocked);
+            if (!(side==Black && black_check))
+            {
+              if (side==White && black_check)
+                ++nr_checks_to_opponent;
+              Nr_remaining_white_moves -= time;
+              Nr_unused_black_masses -= diffcol;
+              TraceValue("%u",Nr_remaining_white_moves);
+              TraceValue("%u\n",Nr_unused_black_masses);
+              SetPiece(pp,to_be_blocked,white[blocker_index].flags);
+              continue_intercepting_checks(n,
+                                           check_directions,
+                                           nr_of_check_directions,
+                                           nr_checks_to_opponent,
+                                           side);
+              Nr_unused_black_masses += diffcol;
+              Nr_remaining_white_moves += time;
+            }
           }
         }
       }
@@ -421,7 +436,7 @@ static void with_white_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
+  if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
                                                                              white[blocker_index].diagram_square,

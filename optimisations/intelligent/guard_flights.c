@@ -193,7 +193,7 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide
         && nr_reasons_for_staying_empty[*bnp]==0
-        && !uninterceptably_attacks_king(Black,*bnp,pb))
+        && !white_pawn_attacks_king(*bnp))
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_no_promotion(pb,
                                                                                         starts_from,
@@ -309,32 +309,47 @@ static void promoted_pawn(stip_length_type n, unsigned int index_of_pawn)
       {
         piece pp;
         for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-          if (!uninterceptably_attacks_king(Black,*bnp,pp))
+          if (!officer_uninterceptably_attacks_king(Black,*bnp,pp))
           {
-            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[index_of_pawn].diagram_square,
+            square const comes_from = white[index_of_pawn].diagram_square;
+            unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(comes_from,
                                                                                            pp,
                                                                                            *bnp);
             if (time<=Nr_remaining_white_moves)
             {
-              Nr_remaining_white_moves -= time;
-              TraceValue("%u\n",Nr_remaining_white_moves);
-              switch (pp)
+              unsigned int diffcol = 0;
+              if (pp==fb)
               {
-                case db:
-                case tb:
-                case fb:
-                  rider_from(n,index_of_pawn,pp,*bnp);
-                  break;
-
-                case cb:
-                  leaper_from(n,index_of_pawn,pp,*bnp);
-                  break;
-
-                default:
-                  assert(0);
-                  break;
+                unsigned int const comes_from_file = comes_from%nr_files_on_board;
+                square const promotion_square_on_same_file = square_a8+comes_from_file;
+                if (SquareCol(*bnp)!=SquareCol(promotion_square_on_same_file))
+                  diffcol = 1;
               }
-              Nr_remaining_white_moves += time;
+              if (diffcol<=Nr_unused_black_masses)
+              {
+                Nr_remaining_white_moves -= time;
+                Nr_unused_black_masses -= diffcol;
+                TraceValue("%u",Nr_remaining_white_moves);
+                TraceValue("%u\n",Nr_unused_black_masses);
+                switch (pp)
+                {
+                  case db:
+                  case tb:
+                  case fb:
+                    rider_from(n,index_of_pawn,pp,*bnp);
+                    break;
+
+                  case cb:
+                    leaper_from(n,index_of_pawn,pp,*bnp);
+                    break;
+
+                  default:
+                    assert(0);
+                    break;
+                }
+                Nr_unused_black_masses += diffcol;
+                Nr_remaining_white_moves += time;
+              }
             }
           }
 
@@ -364,7 +379,7 @@ static void rider(stip_length_type n,
   {
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
-        && !uninterceptably_attacks_king(Black,*bnp,guard_type))
+        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type))
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
                                                                                white[index_of_rider].diagram_square,
@@ -400,7 +415,7 @@ static void leaper(stip_length_type n,
   {
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
-        && !uninterceptably_attacks_king(Black,*bnp,guard_type))
+        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type))
     {
       unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
                                                                                white[index_of_leaper].diagram_square,

@@ -19,7 +19,7 @@ static void unpromoted_pawn(stip_length_type n,
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_blocked,pb))
+  if (!white_pawn_attacks_king(to_be_blocked))
   {
     square const blocks_from = white[blocker_index].diagram_square;
     unsigned int const nr_captures_required = abs(blocks_from%onerow
@@ -64,23 +64,38 @@ static void promoted_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (!uninterceptably_attacks_king(Black,to_be_blocked,pp))
+      if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,pp))
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(white[blocker_index].diagram_square,
+        square const comes_from = white[blocker_index].diagram_square;
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_pawn_promotion(comes_from,
                                                                                        pp,
                                                                                        to_be_blocked);
         if (time<=Nr_remaining_white_moves)
         {
-          unsigned int const nr_checks_to_white = 0;
-          Nr_remaining_white_moves -= time;
-          TraceValue("%u\n",Nr_remaining_white_moves);
-          SetPiece(pp,to_be_blocked,white[blocker_index].flags);
-          intelligent_stalemate_continue_after_block(n,
-                                                     Black,
-                                                     to_be_blocked,
-                                                     pp,
-                                                     nr_checks_to_white);
-          Nr_remaining_white_moves += time;
+          unsigned int diffcol = 0;
+          if (pp==fb)
+          {
+            unsigned int const comes_from_file = comes_from%nr_files_on_board;
+            square const promotion_square_on_same_file = square_a8+comes_from_file;
+            if (SquareCol(to_be_blocked)!=SquareCol(promotion_square_on_same_file))
+              diffcol = 1;
+          }
+          if (diffcol<=Nr_unused_black_masses)
+          {
+            unsigned int const nr_checks_to_white = 0;
+            Nr_remaining_white_moves -= time;
+            Nr_unused_black_masses -= diffcol;
+            TraceValue("%u",Nr_remaining_white_moves);
+            TraceValue("%u\n",Nr_unused_black_masses);
+            SetPiece(pp,to_be_blocked,white[blocker_index].flags);
+            intelligent_stalemate_continue_after_block(n,
+                                                       Black,
+                                                       to_be_blocked,
+                                                       pp,
+                                                       nr_checks_to_white);
+            Nr_unused_black_masses += diffcol;
+            Nr_remaining_white_moves += time;
+          }
         }
       }
   }
@@ -138,7 +153,7 @@ static void officer(stip_length_type n,
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (!uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
+  if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
   {
     unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
                                                                              white[blocker_index].diagram_square,
