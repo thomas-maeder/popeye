@@ -2905,7 +2905,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   {
     if (pi_captured != vide)
     {
-      if (kobulking[Black] && trait_ply == White)
+      if (kobulking[Black] && trait_ply == White && king_square[Black] != initsquare)
       {
         PieSpec sp;
         piece kobul = is_pawn(pi_captured) ? roin : pi_captured;
@@ -2920,7 +2920,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               CLRFLAG(spec[king_square[Black]], sp);
         nbpiece[kobul]++;
       }
-      if (kobulking[White] && trait_ply == Black)
+      if (kobulking[White] && trait_ply == Black && king_square[White] != initsquare)
       {
         PieSpec sp;
         piece kobul = is_pawn(pi_captured) ? roib : pi_captured;
@@ -3864,14 +3864,14 @@ void repcoup(void)
   /* first delete all changes */
   if (repgenre)
   {
-    if (trait[nbply] == White &&  kobulking[Black])
+    if (trait[nbply] == White && kobulking[Black] && king_square[Black] != initsquare)
     {
       nbpiece[e[king_square[Black]]]--;
       e[king_square[Black]] = blkobul[nbply];
       spec[king_square[Black]] = blkobulspec[nbply];
       nbpiece[blkobul[nbply]]++;
     }
-    if (trait[nbply] == Black && kobulking[White])
+    if (trait[nbply] == Black && kobulking[White] && king_square[White] != initsquare)
     {
       nbpiece[e[king_square[White]]]--;
       e[king_square[White]] = whkobul[nbply];
