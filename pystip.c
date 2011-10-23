@@ -35,6 +35,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/threat.h"
 #include "solving/find_by_increasing_length.h"
+#include "options/maxsolutions/initialiser.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/stalemate/filter.h"
@@ -1166,12 +1167,13 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STMoveInverter,   &move_inverter_apply_setplay  },
-  { STConstraint,     &stip_traverse_structure_pipe },
-  { STAttackAdapter,  &attack_adapter_apply_setplay },
-  { STDefenseAdapter, &stip_structure_visitor_noop  },
-  { STHelpAdapter,    &help_adapter_apply_setplay   },
-  { STTemporaryHackFork,    &hack_fork_apply_setplay }
+  { STMoveInverter,            &move_inverter_apply_setplay             },
+  { STMaxSolutionsInitialiser, &maxsolutions_initialiser_apply_setplay  },
+  { STConstraint,              &stip_traverse_structure_pipe            },
+  { STAttackAdapter,           &attack_adapter_apply_setplay            },
+  { STDefenseAdapter,          &stip_structure_visitor_noop             },
+  { STHelpAdapter,             &help_adapter_apply_setplay              },
+  { STTemporaryHackFork,       &hack_fork_apply_setplay                 }
 };
 
 enum
