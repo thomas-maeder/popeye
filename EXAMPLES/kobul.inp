@@ -1,7 +1,9 @@
 begin
 
+protocol kobul.ref
+
 auth Diyan Kostadinov
-orig WCCT Crete 2010
+orig WCCC Crete 2010
 stip h#2
 opt try def 8
 fors 8/pK6/1p6/8/1p6/1p6/R7/8/

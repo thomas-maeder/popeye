@@ -1,0 +1,461 @@
+
+           Diyan Kostadinov
+           WCCC Crete 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   K   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -P   .   .   .   .   .   .   4
+|                                   |
+3   .  -P  -S   .   .   .   .   .   3
+|                                   |
+2   R   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 5
+               Royal c3
+              KobulKings
+
+a) 
+
+  1.b6-b5 Ra2-a4   2.rSc3*a4 [wrK=rR] rRb7*a7 [brS=rK] # 
+
+              empile:       30800
+            jouecoup:       23264
+        orig_rbechec:        1998
+        orig_rnechec:       23063
+b) bPa7-->b2
+
+  1.rSc3*a2 [wrK=rR] rRb7*b6 [brS=rK]   2.rKa2-a3 rRb6-a6 # 
+
+              empile:       47633
+            jouecoup:       37173
+        orig_rbechec:        2606
+        orig_rnechec:       36952
+solution finished. 
+
+
+
+           Mario Parrinello
+     1-3Pr Bulgarian Wine Ty 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .  -S   K  -S   .   .   7
+|                                   |
+6   .   S  -P   P   P   P   .   .   6
+|                                   |
+5   .   .  -P   .   .   .   .   .   5
+|                                   |
+4   .  -P   .  -K  -P  -P   .   .   4
+|                                   |
+3   .   .   .  -Q   .   P   .  -B   3
+|                                   |
+2   .   P   .   .   .   P   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        9 + 11
+              KobulKings
+
+a) 
+
+  1.Sf7*d6 rKe7*d6 [brK=rS]   2.c5-c4 Rc1*c4 [brS=rK] # 
+
+              empile:      537054
+            jouecoup:      448327
+        orig_rbechec:       24176
+        orig_rnechec:      447434
+b) wBc1 
+
+  1.Sd7*f6 rKe7*f6 [brK=rS]   2.e4-e3 Bc1*e3 [brS=rK] # 
+
+              empile:      289779
+            jouecoup:      236412
+        orig_rbechec:       15148
+        orig_rnechec:      235787
+c) wSc1 
+
+  1.Bh3*e6 rKe7*e6 [brK=rB]   2.b4-b3 Sc1*b3 [brB=rK] # 
+
+              empile:      316373
+            jouecoup:      236411
+        orig_rbechec:       19935
+        orig_rnechec:      235747
+solution finished. 
+
+
+
+            Kostas Prentos
+     1-3Pr Bulgarian Wine Ty 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   B   .   .   .   8
+|                                   |
+7   .  -K   .   .   B   .   S  -P   7
+|                                   |
+6   .   .   .  -Q   .   .   .   .   6
+|                                   |
+5   .   .   .   R   .   .   K   .   5
+|                                   |
+4   .   .   .   .   .   .   S   .   4
+|                                   |
+3   .   .   .   P   .  -P   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         7 + 4
+              KobulKings
+
+  1.Qd6-e5 + Sg4*e5 [brK=rQ]   2.rQb7*d5 [wrK=rR] Se5*f3 [brQ=rK] # 
+  1.Qd6-f6 + Sg4*f6 [brK=rQ]   2.rQb7*e7 [wrK=rB] Sf6*h7 [brQ=rK] # 
+
+              empile:      557433
+            jouecoup:      435423
+        orig_rbechec:       29516
+        orig_rnechec:      434297
+solution finished. 
+
+
+
+    Vlaicu Crisan & Kostas Prentos
+     1-3Pr Bulgarian Wine Ty 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .  -P   .   .   7
+|                                   |
+6  -P  -P   .   .   B   R  -P   .   6
+|                                   |
+5   .   R   .  -B   K   .  -P   .   5
+|                                   |
+4  -P  -R   .   .   .  -R   .  -B   4
+|                                   |
+3   .   .   .  -K   .   .   B   .   3
+|                                   |
+2   .   .   .   P   .   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   .  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        6 + 14
+              KobulKings
+
+  1.Rb4*b5 [wrK=rR] Rf6*f4 [brK=rR]   2.rRd3*g3 [wrR=rB] Rf4*f7 [brR=rK] # 
+  1.Bh4*g3 [wrK=rB] Be6*d5 [brK=rB]   2.rBd3*b5 [wrB=rR] Bd5*f7 [brB=rK] # 
+
+              empile:      759934
+            jouecoup:      582501
+        orig_rbechec:       61685
+        orig_rnechec:      581496
+solution finished. 
+
+
+
+            Ricardo Vieira
+      4Pr Bulgarian Wine Ty 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   B   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P  -P   .   .   7
+|                                   |
+6  -P   .  -R   .   .   .   .   S   6
+|                                   |
+5   .   .  -B  -P   .   .   .   .   5
+|                                   |
+4   K   .  -B  -K  -Q   P   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -R   .   P   P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        6 + 10
+              KobulKings
+
+  1.Rb2*b8 [wrK=rB] rBa4*c6 [brK=rR]   2.f7-f5 Sh6*f5 [brR=rK] # 
+  1.Rc6*h6 [wrK=rS] rSa4*b2 [brK=rR]   2.e7-e5 Bb8*e5 [brR=rK] # 
+
+              empile:      401508
+            jouecoup:      310434
+        orig_rbechec:       29557
+        orig_rnechec:      309679
+solution finished. 
+
+
+
+           Diyan Kostadinov
+           Idee & Form 2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   K  -P   .   .   .   .   6
+|                                   |
+5   .   .  -P   .   .   .  -Q   .   5
+|                                   |
+4  -P  -P   .   .   .   .   .  -P   4
+|                                   |
+3   .   .   .   .   .   .  -P   Q   3
+|                                   |
+2   .   .  -B   .   .   .   .   .   2
+|                                   |
+1   .  -Q  -R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                        2 + 11
+               Royal b1
+              KobulKings
+
+a) 
+
+  1.Rc1-h1 rKc6-b7   2.rQb1-g1 Qh3*h1 [brQ=rR] # 
+
+              empile:      364190
+            jouecoup:      277974
+        orig_rbechec:       17418
+        orig_rnechec:      277292
+b) bPg3-->e3
+
+  1.Rc1-f1 rKc6-b5   2.rQb1-e1 Qh3*f1 [brQ=rR] # 
+
+              empile:      428891
+            jouecoup:      332718
+        orig_rbechec:       20172
+        orig_rnechec:      331947
+c) bPh4-->f3
+
+  1.Bc2-h7 rKc6-d7   2.rQb1-g6 Qh3*h7 [brQ=rB] # 
+
+              empile:      477871
+            jouecoup:      371036
+        orig_rbechec:       20031
+        orig_rnechec:      370179
+d) bPg3-->e5
+
+  1.Bc2-d3 rKc6-d5   2.rQb1-c2 Qh3*d3 [brQ=rB] # 
+
+              empile:      562578
+            jouecoup:      403949
+        orig_rbechec:       33656
+        orig_rnechec:      403072
+solution finished. 
+
+
+
+           Emmanuel Manolas
+     Sp Pr Bulgarian Wine Ty 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   .   B   6
+|                                   |
+5   .   K   P   .   .   .  -P   .   5
+|                                   |
+4   .   .  -P   .   .  -P   .   .   4
+|                                   |
+3   .   S  -K   S   .  -R   .   R   3
+|                                   |
+2   .  -P   .   .   .   .   R   Q   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          8 + 7
+              KobulKings
+
+   1.Bh6*g7 [brK=rB] + ?
+    but
+      1...rBc3*g7 [wrK=rB] !
+
+   1.Qh2*f4 ! threat:
+          2.Qf4*c4 #
+      1...rKc3*d3 [wrK=rS]
+          2.Rg2-d2 #
+      1...Rf3*f4 [wrK=rQ]
+          2.Sd3*f4 [brK=rR] #
+      1...g5*f4 [wrK=rQ]
+          2.Bh6*g7 [brK=rB] #
+      1...Bg7-d4
+          2.Qf4*d4 [brK=rB] #
+
+   1.Rg2*b2 ? threat:
+          2.Qh2-c2 #
+          2.Qh2-d2 #
+      1...rKc3*d3 [wrK=rS]
+          2.Qh2-e2 #
+    but
+      1...Rf3-f2 !
+
+   1.Rg2-c2 + ?
+      1...rKc3*d3 [wrK=rS]
+          2.Qh2-e2 #
+    but
+      1...rKc3*b3 [wrK=rS] !
+
+
+              empile:       12964
+            jouecoup:        8106
+        orig_rbechec:         669
+        orig_rnechec:        8043
+solution finished. 
+
+
+
+           Diyan Kostadinov
+         The Problemist 2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   R   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   K  -P   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+              AntiCirce
+              KobulKings
+
+a) 
+
+  1.c2-c1=S rKb2*c1[wrKc1->e1] [brK=rS]   2.rSd6*b7[brSb7->g8] [wrK=rR] rRe1-e8 # 
+
+              empile:       72975
+            jouecoup:       51835
+        orig_rbechec:        4278
+        orig_rnechec:       51584
+b) +bBg8 
+
+  1.c2-c1=R rKb2*c1[wrKc1->e1] [brK=rR]   2.rRd6*d4[brRd4->h8] [wrK=rB] rBe1-c3 # 
+
+              empile:      180984
+            jouecoup:      127004
+        orig_rbechec:       10200
+        orig_rnechec:      126538
+solution finished. 
+
+
+
+           Diyan Kostadinov
+        Problem Paradise 2010
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   L   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  =S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  =G   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    1 + 0 + 2n
+               Royal d5
+              KobulKings
+
+  1.nGb3-e6 nrSd5-f6   2.nGe6-g6 Lh7*g6-f5 [nrS=nrG] # 
+  1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2 [nrS=nrG] # 
+
+              empile:        1418
+            jouecoup:         914
+        orig_rbechec:         168
+        orig_rnechec:         852
+solution finished. 
+
+
+
+           Diyan Kostadinov
+               Original
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   K   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .  -K   5
+|                                   |
+4   .   .   .   .  -P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -P   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#3                         2 + 5
+          AntiAndernachChess
+              KobulKings
+
+a) 
+
+  1.e7-e6=wP g7-g8=bS   2.Sg8-e7=wS Se7-g6=bS   3.e4-e3=wP rKf7*g6 [brK=rS] # 
+
+              empile:      116686
+            jouecoup:      118987
+        orig_rbechec:        9255
+        orig_rnechec:      115441
+b) bPg3-->f6
+
+  1.rKh5-h6 rKf7-f8   2.rKh6-h7 g7-g8=bB   3.rKh7-h8 rKf8*g8 [brK=rB] # 
+
+              empile:      117154
+            jouecoup:      119557
+        orig_rbechec:        8752
+        orig_rnechec:      115872
+solution finished. 
+
+
