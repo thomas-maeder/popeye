@@ -89,15 +89,32 @@ boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses);
 boolean intelligent_reserve_black_masses_for_blocks(square const flights[],
                                                     unsigned int nr_flights);
 
-/* Tests if a specific king move sequence is still possible.
- * @param side whose king to move
+/* Tests if a specific white king move sequence is still possible.
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_king_moves_from_to(Side side,
-                                               square from_square,
-                                               square to_square);
+boolean intelligent_reserve_white_king_moves_from_to(square from_square,
+                                                     square to_square);
+
+/* Tests if a specific king move sequence is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_black_king_moves_from_to(square from_square,
+                                                     square to_square);
+
+/* Tests if a specific checking sequence of moves by the same white pawn
+ * including its promotion is still possible.
+ * @param from_square from
+ * @param promotee_type type of piece that the pawn promotes to
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_square,
+                                                               piece promotee_type,
+                                                               square to_square);
 
 /* Tests if a specific checking sequence of moves by the same pawn including its
  * promotion is still possible.
@@ -106,9 +123,9 @@ boolean intelligent_reserve_king_moves_from_to(Side side,
  * @param to_square to
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
-                                                                        piece promotee_type,
-                                                                        square to_square);
+boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_square,
+                                                               piece promotee_type,
+                                                               square to_square);
 
 /* Tests if a specific checking white sequence of moves by the same pawn is
  * still possible.

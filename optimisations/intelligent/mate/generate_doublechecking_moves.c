@@ -274,9 +274,9 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
       for (rear_pos = king_square[Black]+2*dir; e[rear_pos]==vide; rear_pos += dir)
         if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_checker,
                                                                       rear_pos)
-            && intelligent_reserve_promoting_pawn_moves_from_to(white[index_of_checker].diagram_square,
-                                                                checker_type,
-                                                                rear_pos))
+            && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_checker].diagram_square,
+                                                                      checker_type,
+                                                                      rear_pos))
         {
           SetPiece(checker_type,rear_pos,checker_flags);
           TraceSquare(rear_pos);TracePiece(checker_type);TraceText("\n");
@@ -460,9 +460,9 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
 
   for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     if ((pp==db || pp==tb)
-        && intelligent_reserve_promoting_pawn_moves_from_to(white[checker_index].diagram_square,
-                                                            pp,
-                                                            check_from))
+        && intelligent_reserve_promoting_white_pawn_moves_from_to(white[checker_index].diagram_square,
+                                                                  pp,
+                                                                  check_from))
     {
       SetPiece(pp,check_from,white[checker_index].flags);
       TraceSquare(check_from);TracePiece(pp);TraceText("\n");
@@ -577,9 +577,9 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
 
   for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
     if ((pp==db || pp==fb)
-        && intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
-                                                            pp,
-                                                            check_from))
+        && intelligent_reserve_promoting_white_pawn_moves_from_to(pawn_origin,
+                                                                  pp,
+                                                                  check_from))
     {
       SetPiece(pp,check_from,pawn_spec);
       TraceSquare(check_from);TracePiece(pp);TraceText("\n");

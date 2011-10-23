@@ -26,9 +26,9 @@ static void promoted_black_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!officer_uninterceptably_attacks_king(White,placed_on,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                              pp,
-                                                              placed_on))
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
+                                                                    pp,
+                                                                    placed_on))
       {
         unsigned int const nr_of_checks_to_white = guards(king_square[White],
                                                           pp,

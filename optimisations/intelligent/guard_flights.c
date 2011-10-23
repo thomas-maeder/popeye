@@ -294,9 +294,9 @@ static void promoted_pawn(stip_length_type n, unsigned int index_of_pawn)
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
         if (!officer_uninterceptably_attacks_king(Black,*bnp,pp)
-            && intelligent_reserve_promoting_pawn_moves_from_to(white[index_of_pawn].diagram_square,
-                                                                pp,
-                                                                *bnp))
+            && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_pawn].diagram_square,
+                                                                      pp,
+                                                                      *bnp))
         {
           switch (pp)
           {
@@ -465,7 +465,7 @@ void intelligent_guard_flights(stip_length_type n)
         if (e[*bnp]==vide
             && nr_reasons_for_staying_empty[*bnp]==0
             && !would_there_be_king_contact(*bnp)
-            && intelligent_reserve_king_moves_from_to(White,guard_from,*bnp))
+            && intelligent_reserve_white_king_moves_from_to(guard_from,*bnp))
         {
           square const guarded = guards_black_flight(roib,*bnp);
           if (guarded!=initsquare)

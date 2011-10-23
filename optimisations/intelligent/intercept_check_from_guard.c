@@ -97,9 +97,9 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(intercepter_diagram_square,
-                                                              pp,
-                                                              to_be_intercepted))
+          && intelligent_reserve_promoting_white_pawn_moves_from_to(intercepter_diagram_square,
+                                                                    pp,
+                                                                    to_be_intercepted))
       {
         if (index_of_intercepting_piece>=index_of_next_guarding_piece
             && guards_black_flight(pp,to_be_intercepted))

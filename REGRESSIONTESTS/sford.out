@@ -1380,10 +1380,10 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 # 
 
-              empile:      795982
-            jouecoup:      787221
-        orig_rbechec:       61554
-        orig_rnechec:       91543
+              empile:      432516
+            jouecoup:      427177
+        orig_rbechec:       30001
+        orig_rnechec:       52718
 Loesung beendet. 
 
 
@@ -1415,10 +1415,10 @@ h#8 1.0;1.1;...
 
   1.Df3-f8   1.Tg2-g7 Ld7-a4   2.Kh6-g6 Kh1-g2   3.Kg6-f7 + Kg2-f3   4.b6-b5 Kf3-e4   5.Kf7-e8 Ke4-d5   6.Tg7-f7 Kd5-c6   7.b5-b4 Kc6-c7 # 
 
-              empile:     2814184
-            jouecoup:     2810564
-        orig_rbechec:      155296
-        orig_rnechec:      289987
+              empile:     2813990
+            jouecoup:     2810460
+        orig_rbechec:      155208
+        orig_rnechec:      289867
 Loesung beendet. 
 
 

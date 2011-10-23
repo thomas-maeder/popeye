@@ -32,9 +32,9 @@ static void promoted_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!officer_uninterceptably_attacks_king(White,where_to_place,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
-                                                              pp,
-                                                              where_to_place))
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocker_comes_from,
+                                                                    pp,
+                                                                    where_to_place))
       {
         unsigned int const nr_checks_to_black = 0;
         SetPiece(pp,where_to_place,blocker_flags);

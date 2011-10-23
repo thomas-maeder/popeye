@@ -58,9 +58,9 @@ static void with_promoted_white_pawn(stip_length_type n,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!officer_uninterceptably_attacks_king(Black,placed_on,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                              pp,
-                                                              placed_on))
+          && intelligent_reserve_promoting_white_pawn_moves_from_to(placed_from,
+                                                                    pp,
+                                                                    placed_on))
       {
         SetPiece(pp,placed_on,white[placed_index].flags);
         continue_intercepting_checks(n,
@@ -175,9 +175,9 @@ static void with_promoted_black_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!guards(king_square[White],pp,placed_on)
-          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                              pp,
-                                                              placed_on))
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
+                                                                    pp,
+                                                                    placed_on))
       {
         SetPiece(pp,placed_on,black[placed_index].flags);
         continue_intercepting_checks(n,

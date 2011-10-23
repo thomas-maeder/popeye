@@ -523,9 +523,8 @@ static void GenerateBlackKing(stip_length_type n)
   {
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]!=obs
-        && intelligent_reserve_king_moves_from_to(Black,
-                                                  black[index_of_king].diagram_square,
-                                                  *bnp))
+        && intelligent_reserve_black_king_moves_from_to(black[index_of_king].diagram_square,
+                                                        *bnp))
     {
 
       {

@@ -48,9 +48,9 @@ static void promoted_pawn(stip_length_type n,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                              pp,
-                                                              to_be_blocked))
+          && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                                    pp,
+                                                                    to_be_blocked))
       {
         unsigned int const nr_checks_to_white = 0;
         SetPiece(pp,to_be_blocked,white[blocker_index].flags);
@@ -77,9 +77,8 @@ static void white_king(stip_length_type n, square to_be_blocked)
 
   if (!would_white_king_guard_from(to_be_blocked)
       && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked)
-      && intelligent_reserve_king_moves_from_to(White,
-                                                white[index_of_king].diagram_square,
-                                                to_be_blocked))
+      && intelligent_reserve_white_king_moves_from_to(white[index_of_king].diagram_square,
+                                                      to_be_blocked))
   {
     SetPiece(roib,to_be_blocked,white[index_of_king].flags);
     king_square[White] = to_be_blocked;

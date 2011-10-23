@@ -70,9 +70,9 @@ static void by_promoted_pawn(unsigned int index_of_checker, stip_length_type n)
       square const pawn_origin = white[index_of_checker].diagram_square;
       piece pp;
       for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-        if (intelligent_reserve_promoting_pawn_moves_from_to(pawn_origin,
-                                                             pp,
-                                                             *bnp))
+        if (intelligent_reserve_promoting_white_pawn_moves_from_to(pawn_origin,
+                                                                   pp,
+                                                                   *bnp))
         {
           if (guards(king_square[Black],pp,*bnp))
           {

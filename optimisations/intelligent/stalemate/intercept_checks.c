@@ -40,9 +40,9 @@ static void with_promoted_black_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!guards(king_square[White],pp,where_to_intercept)
-          && intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
-                                                              pp,
-                                                              where_to_intercept))
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocker_comes_from,
+                                                                    pp,
+                                                                    where_to_intercept))
       {
         boolean const white_check = guards(king_square[White],pp,where_to_intercept);
         if (!(side==White && white_check))
@@ -276,9 +276,9 @@ static void with_promoted_white_pawn(stip_length_type n,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!officer_uninterceptably_attacks_king(Black,where_to_intercept,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                              pp,
-                                                              where_to_intercept))
+          && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                                    pp,
+                                                                    where_to_intercept))
       {
         boolean const black_check = guards(king_square[Black],pp,where_to_intercept);
         if (!(side==Black && black_check))
@@ -318,9 +318,8 @@ static void with_white_king(stip_length_type n,
 
   if (!would_white_king_guard_from(where_to_intercept)
       && !is_white_king_uninterceptably_attacked_by_non_king(where_to_intercept)
-      && intelligent_reserve_king_moves_from_to(White,
-                                                white[index_of_king].diagram_square,
-                                                where_to_intercept))
+      && intelligent_reserve_white_king_moves_from_to(white[index_of_king].diagram_square,
+                                                      where_to_intercept))
   {
     SetPiece(roib,where_to_intercept,white[index_of_king].flags);
     king_square[White] = where_to_intercept;

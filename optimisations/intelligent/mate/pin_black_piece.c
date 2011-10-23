@@ -48,18 +48,18 @@ static void by_promoted_pawn(stip_length_type n,
   TraceFunctionParam("%u",diagonal);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_promoting_pawn_moves_from_to(pinner_comes_from,
-                                                       minor_pinner_type,
-                                                       pin_from))
+  if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
+                                                             minor_pinner_type,
+                                                             pin_from))
   {
     SetPiece(minor_pinner_type,pin_from,pinner_flags);
     intelligent_mate_test_target_position(n);
     intelligent_unreserve();
   }
 
-  if (intelligent_reserve_promoting_pawn_moves_from_to(pinner_comes_from,
-                                                       db,
-                                                       pin_from))
+  if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
+                                                             db,
+                                                             pin_from))
   {
     SetPiece(db,pin_from,pinner_flags);
     intelligent_mate_test_target_position(n);

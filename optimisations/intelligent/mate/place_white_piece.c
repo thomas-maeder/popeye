@@ -48,9 +48,9 @@ static void promoted_white_pawn(stip_length_type n,
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
       if (!officer_uninterceptably_attacks_king(Black,placed_on,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                              pp,
-                                                              placed_on))
+          && intelligent_reserve_promoting_white_pawn_moves_from_to(placed_from,
+                                                                    pp,
+                                                                    placed_on))
       {
         SetPiece(pp,placed_on,white[placed_index].flags);
         intelligent_mate_test_target_position(n);

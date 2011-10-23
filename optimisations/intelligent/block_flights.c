@@ -122,9 +122,9 @@ static void promoted_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!officer_uninterceptably_attacks_king(White,to_be_blocked,pp)
-          && intelligent_reserve_promoting_pawn_moves_from_to(blocks_from,
-                                                              pp,
-                                                              to_be_blocked))
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocks_from,
+                                                                    pp,
+                                                                    to_be_blocked))
       {
         SetPiece(pp,to_be_blocked,blocker_flags);
         block_planned_flights(n,nr_remaining_flights_to_block);

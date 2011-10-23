@@ -26,54 +26,63 @@ static unsigned int king_no_castling(square from, square to)
   return diffcol>diffrow ? diffcol : diffrow;
 }
 
-static unsigned int king(Side side, square from_square, square to_square)
+static unsigned int white_king(square from_square, square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
   result = king_no_castling(from_square,to_square);
 
-  if (testcastling)
+  if (testcastling && from_square==square_e1)
   {
-    if (side==White)
+    if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
     {
-      if (from_square==square_e1)
-      {
-        if (TSTCASTLINGFLAGMASK(nbply,White,ra_cancastle&castling_flag[castlings_flags_no_castling]))
-        {
-          unsigned int const withcast = king_no_castling(square_c1,to_square);
-          if (withcast<result)
-            result = withcast;
-        }
-        if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
-        {
-          unsigned int const withcast = king_no_castling(square_g1,to_square);
-          if (withcast<result)
-            result = withcast;
-        }
-      }
+      unsigned int const withcast = king_no_castling(square_c1,to_square);
+      if (withcast<result)
+        result = withcast;
     }
-    else {
-      if (from_square==square_e8)
-      {
-        if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling]))
-        {
-          unsigned int const withcast = king_no_castling(square_c8,to_square);
-          if (withcast<result)
-            result = withcast;
-        }
-        if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling]))
-        {
-          unsigned int const withcast = king_no_castling(square_g8,to_square);
-          if (withcast<result)
-            result = withcast;
-        }
-      }
+    if (TSTCASTLINGFLAGMASK(nbply,White,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+    {
+      unsigned int const withcast = king_no_castling(square_g1,to_square);
+      if (withcast<result)
+        result = withcast;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int black_king(square from_square, square to_square)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  result = king_no_castling(from_square,to_square);
+
+  if (testcastling && from_square==square_e8)
+  {
+    if (TSTCASTLINGFLAGMASK(nbply,Black,ra_cancastle&castling_flag[castlings_flags_no_castling]))
+    {
+      unsigned int const withcast = king_no_castling(square_c8,to_square);
+      if (withcast<result)
+        result = withcast;
+    }
+    if (TSTCASTLINGFLAGMASK(nbply,Black,rh_cancastle&castling_flag[castlings_flags_no_castling]))
+    {
+      unsigned int const withcast = king_no_castling(square_g8,to_square);
+      if (withcast<result)
+        result = withcast;
     }
   }
 
@@ -246,13 +255,11 @@ static unsigned int officer(piece piece, square from_square, square to_square)
   return result;
 }
 
-static unsigned int pawn_promotion(square from_square,
-                                   piece to_piece,
-                                   square to_square)
+static unsigned int white_pawn_promotion(square from_square,
+                                         piece to_piece,
+                                         square to_square)
 {
   unsigned int result = maxply+1;
-  square const start = to_piece<vide ? square_a1 : square_a8;
-  piece const pawn = to_piece<vide ? pn : pb;
   square prom_square;
 
   TraceFunctionEntry(__func__);
@@ -261,16 +268,41 @@ static unsigned int pawn_promotion(square from_square,
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  assert(from_square>=square_a2);
-  assert(from_square<=square_h7);
-
-  for (prom_square = start; prom_square<start+nr_files_on_board; ++prom_square)
+  for (prom_square = square_a8; prom_square<=square_h8; prom_square += dir_right)
   {
-    unsigned int const to_prom = (pawn>obs
-                                  ? white_pawn_no_promotion(from_square,
-                                                            prom_square)
-                                  : black_pawn_no_promotion(from_square,
-                                                            prom_square));
+    unsigned int const to_prom = white_pawn_no_promotion(from_square,
+                                                         prom_square);
+    unsigned int const from_prom = (prom_square==to_square
+                                    ? 0
+                                    : officer(to_piece,prom_square,to_square));
+    unsigned int const total = to_prom+from_prom;
+    if (total<result)
+      result = total;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static unsigned int black_pawn_promotion(square from_square,
+                                         piece to_piece,
+                                         square to_square)
+{
+  unsigned int result = maxply+1;
+  square prom_square;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TracePiece(to_piece);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  for (prom_square = square_a1; prom_square<=square_h1; prom_square += dir_right)
+  {
+    unsigned int const to_prom = black_pawn_no_promotion(from_square,
+                                                         prom_square);
     unsigned int const from_prom = (prom_square==to_square
                                     ? 0
                                     : officer(to_piece,prom_square,to_square));
@@ -299,35 +331,48 @@ static unsigned int from_to_different(piece from_piece,
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  switch (abs(from_piece))
+  switch (from_piece)
   {
-    case King:
-      result = king(from_piece>obs ? White : Black, from_square, to_square);
+    case roib:
+      result = white_king(from_square,to_square);
       break;
 
-    case Queen:
+    case roin:
+      result = black_king(from_square,to_square);
+      break;
+
+    case db:
+    case dn:
       result = queen(from_square,to_square);
       break;
 
-    case Rook:
+    case tb:
+    case tn:
       result = rook(from_square,to_square);
       break;
 
-    case Bishop:
+    case fb:
+    case fn:
       result = bishop(from_square,to_square);
       break;
 
-    case Knight:
+    case cb:
+    case cn:
       result = knight(from_square,to_square);
       break;
 
-    case Pawn:
+    case pb:
       if (from_piece==to_piece)
-        result = (from_piece>obs
-                  ? white_pawn_no_promotion(from_square,to_square)
-                  : black_pawn_no_promotion(from_square,to_square));
+        result = white_pawn_no_promotion(from_square,to_square);
       else
-        result = pawn_promotion(from_square,to_piece,to_square);
+        result = white_pawn_promotion(from_square,to_piece,to_square);
+      break;
+
+    case pn:
+      if (from_piece==to_piece)
+        result = black_pawn_no_promotion(from_square,to_square);
+      else
+        result = black_pawn_promotion(from_square,to_piece,to_square);
       break;
 
     default:
@@ -393,9 +438,9 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       {
-        unsigned int const time = pawn_promotion(pawn_comes_from,
-                                                 pp,
-                                                 to_be_blocked);
+        unsigned int const time = black_pawn_promotion(pawn_comes_from,
+                                                       pp,
+                                                       to_be_blocked);
         if (time<result)
           result = time;
       }
@@ -461,28 +506,65 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
   return result;
 }
 
+static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece piece,
+                                                                      square to_square)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(piece);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  switch (piece)
+   {
+     case pb:
+       result = maxply+1;
+       break;
+
+     case cb:
+       result = 2;
+       break;
+
+     default:
+       /* it's a rider */
+       if (move_diff_code[abs(king_square[Black]-to_square)]<3)
+         result = 2;
+       else
+         result = 0;
+       break;
+   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
                                                             square from_square,
                                                             piece to_piece,
                                                             square to_square)
 {
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(from_piece);
+  TraceSquare(from_square);
+  TracePiece(to_piece);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
   if (from_square==to_square && from_piece==to_piece)
-  {
-    if (from_piece==pb)
-      return maxply+1;
-
-    else if (from_piece==cb)
-      return 2;
-
-    /* it's a rider */
-    else if (move_diff_code[abs(king_square[Black]-to_square)]<3)
-      return 2;
-
-    else
-      return 0;
-  }
+    result = count_nr_of_moves_same_piece_same_square_checking(from_piece,
+                                                               to_square);
   else
-    return from_to_different(from_piece,from_square,to_piece,to_square);
+    result = from_to_different(from_piece,from_square,to_piece,to_square);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 unsigned int intelligent_count_moves_to_white_promotion(square from_square)
@@ -856,17 +938,8 @@ boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
   TraceFunctionParamListEnd();
 
   if (from_square==to_square)
-  {
-    if (piece==cb)
-      nr_of_moves = 2;
-
-    /* it's a rider */
-    else if (move_diff_code[abs(king_square[Black]-to_square)]<3)
-      nr_of_moves = 2;
-
-    else
-      nr_of_moves = 0;
-  }
+    nr_of_moves = count_nr_of_moves_same_piece_same_square_checking(piece,
+                                                                    to_square);
   else
     nr_of_moves = officer(piece,from_square,to_square);
 
@@ -927,44 +1000,25 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
   return result;
 }
 
-/* Tests if a specific checking sequence of moves by the same pawn including its
- * promotion is still possible.
- * @param from_square from
- * @param promotee_type type of piece that the pawn promotes to
- * @param to_square to
- * @return true iff the move sequence is still possible
- */
-boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
-                                                         piece promotee_type,
-                                                         square to_square)
+static boolean reserve_promoting_pawn_moves_from_to(Side side,
+                                                    unsigned int min_nr_of_moves,
+                                                    unsigned int min_diffcol)
 {
   boolean result;
-  Side const side = promotee_type>obs ? White : Black;
   Side const opponent = advers(side);
-  unsigned int nr_of_moves;
-  unsigned int diffcol = 0;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParam("%u",min_nr_of_moves);
+  TraceFunctionParam("%u",min_diffcol);
   TraceFunctionParamListEnd();
 
-  if (abs(promotee_type)==Bishop)
-  {
-    square const start_prom_row = side==White ? square_a8 : square_a1;
-    unsigned int const from_file = from_square%nr_files_on_board;
-    square const promotion_square_on_same_file = start_prom_row+from_file;
-    if (SquareCol(to_square)!=SquareCol(promotion_square_on_same_file))
-      diffcol = 1;
-  }
-
-  nr_of_moves = pawn_promotion(from_square,promotee_type,to_square);
-  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side]
-      && diffcol<=reserve[curr_reserve].nr_unused_masses[opponent])
+  if (min_nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side]
+      && min_diffcol<=reserve[curr_reserve].nr_unused_masses[opponent])
   {
     push_reserve();
-    reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
-    reserve[curr_reserve].nr_unused_masses[opponent] -= diffcol;
+    reserve[curr_reserve].nr_remaining_moves[side] -= min_nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[opponent] -= min_diffcol;
     TraceEnumerator(Side,side,"");
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[opponent]);
@@ -979,26 +1033,106 @@ boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
   return result;
 }
 
-/* Tests if a specific king move sequence is still possible.
- * @param side whose king to move
+/* Tests if a specific checking sequence of moves by the same white pawn
+ * including its promotion is still possible.
  * @param from_square from
+ * @param promotee_type type of piece that the pawn promotes to
  * @param to_square to
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_king_moves_from_to(Side side,
-                                               square from_square,
-                                               square to_square)
+boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_square,
+                                                               piece promotee_type,
+                                                               square to_square)
 {
   boolean result;
-  unsigned int nr_of_moves;
+  unsigned int min_nr_of_moves = maxply+1;
+  unsigned int min_diffcol = nr_files_on_board;
+  square prom_square;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  nr_of_moves = king(side,from_square,to_square);
+  for (prom_square = square_a8; prom_square<=square_h8; prom_square += dir_right)
+  {
+    unsigned int nr_of_moves = white_pawn_no_promotion(from_square,prom_square);
+    if (prom_square!=to_square)
+      nr_of_moves += officer(promotee_type,prom_square,to_square);
+
+    if (nr_of_moves<min_nr_of_moves)
+      min_nr_of_moves = nr_of_moves;
+
+    if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      if (diffcol<min_diffcol)
+        min_diffcol = diffcol;
+    }
+  }
+
+  result = reserve_promoting_pawn_moves_from_to(White,min_nr_of_moves,min_diffcol);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking sequence of moves by the same black pawn
+ * including its promotion is still possible.
+ * @param from_square from
+ * @param promotee_type type of piece that the pawn promotes to
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_square,
+                                                               piece promotee_type,
+                                                               square to_square)
+{
+  boolean result;
+  unsigned int min_nr_of_moves = maxply+1;
+  unsigned int min_diffcol = nr_files_on_board;
+  square prom_square;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  for (prom_square = square_a1; prom_square<=square_h1; prom_square += dir_right)
+  {
+    unsigned int nr_of_moves = black_pawn_no_promotion(from_square,prom_square);
+    if (prom_square!=to_square)
+      nr_of_moves += officer(promotee_type,prom_square,to_square);
+
+    if (nr_of_moves<min_nr_of_moves)
+      min_nr_of_moves = nr_of_moves;
+
+    if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black])
+    {
+      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      if (diffcol<min_diffcol)
+        min_diffcol = diffcol;
+    }
+  }
+
+  result = reserve_promoting_pawn_moves_from_to(Black,min_nr_of_moves,min_diffcol);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean reserve_king_moves_from_to(Side side, unsigned int nr_of_moves)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParam("%u",nr_of_moves);
+  TraceFunctionParamListEnd();
 
   if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side])
   {
@@ -1010,6 +1144,53 @@ boolean intelligent_reserve_king_moves_from_to(Side side,
   }
   else
     result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific white king move sequence is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_white_king_moves_from_to(square from_square,
+                                                     square to_square)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  result = reserve_king_moves_from_to(White,white_king(from_square,to_square));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific black king move sequence is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_black_king_moves_from_to(square from_square,
+                                                     square to_square)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  result = reserve_king_moves_from_to(Black,black_king(from_square,to_square));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
