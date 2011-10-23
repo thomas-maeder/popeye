@@ -62,9 +62,6 @@ extern unsigned int MovesRequired[nr_sides][maxply+1];
 
 extern unsigned int PieceId2index[MaxPieceId+1];
 
-extern unsigned int Nr_remaining_moves[nr_sides];
-extern unsigned int Nr_unused_masses[nr_sides];
-
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
 void IntelligentRegulargoal_types(stip_length_type n);

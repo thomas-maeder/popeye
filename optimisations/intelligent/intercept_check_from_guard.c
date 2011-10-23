@@ -54,26 +54,23 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type))
+  if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type)
+      && intelligent_reserve_officer_moves_from_to(intercepter_diagram_square,
+                                                   to_be_intercepted,
+                                                   intercepter_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(intercepter_type,
-                                                                             intercepter_diagram_square,
-                                                                             intercepter_type,
-                                                                             to_be_intercepted);
-    if (time<=Nr_remaining_moves[White]
-        /* avoid duplicate: if intercepter has already been used as guarding
+    if (/* avoid duplicate: if intercepter has already been used as guarding
          * piece, it shouldn't guard now again */
-        && !(index_of_intercepting_piece<index_of_next_guarding_piece
-             && guards_black_flight(intercepter_type,to_be_intercepted)))
+        !(index_of_intercepting_piece<index_of_next_guarding_piece
+          && guards_black_flight(intercepter_type,to_be_intercepted)))
     {
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u\n",Nr_remaining_moves[White]);
       SetPiece(intercepter_type,to_be_intercepted,intercepter_flags);
       intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
       e[to_be_intercepted] = vide;
       spec[to_be_intercepted] = EmptySpec;
-      Nr_remaining_moves[White] += time;
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -92,39 +89,29 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
+  if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_intercepting_piece,
+                                                                to_be_intercepted))
   {
-    /* A rough check whether it is worth thinking about promotions */
-    unsigned int const min_nr_moves_by_p = (to_be_intercepted<=square_h7
-                                            ? moves_to_white_prom[index_of_intercepting_piece]+1
-                                            : moves_to_white_prom[index_of_intercepting_piece]);
-    if (Nr_remaining_moves[White]>=min_nr_moves_by_p)
-    {
-      square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
-      Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
-      piece pp;
-      for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-        if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,pp))
+    square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
+    Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
+    piece pp;
+    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+      if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,pp)
+          && intelligent_reserve_promoting_pawn_moves_from_to(intercepter_diagram_square,
+                                                              pp,
+                                                              to_be_intercepted))
+      {
+        if (index_of_intercepting_piece>=index_of_next_guarding_piece
+            && guards_black_flight(pp,to_be_intercepted))
         {
-          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-          unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-          if (intelligent_reserve_promoting_pawn_moves_from_to(intercepter_diagram_square,
-                                                               pp,
-                                                               to_be_intercepted))
-          {
-            if (index_of_intercepting_piece>=index_of_next_guarding_piece
-                && guards_black_flight(pp,to_be_intercepted))
-            {
-              SetPiece(pp,to_be_intercepted,intercepter_flags);
-              intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-              e[to_be_intercepted] = vide;
-              spec[to_be_intercepted] = EmptySpec;
-            }
-
-            Nr_unused_masses[Black] = save_nr_unused_masses;
-            Nr_remaining_moves[White] = save_nr_remaining_moves;
-          }
+          SetPiece(pp,to_be_intercepted,intercepter_flags);
+          intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+          e[to_be_intercepted] = vide;
+          spec[to_be_intercepted] = EmptySpec;
         }
-    }
+
+        intelligent_unreserve();
+      }
   }
 
   TraceFunctionExit(__func__);
@@ -146,21 +133,15 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(to_be_intercepted))
+  if (!white_pawn_attacks_king(to_be_intercepted)
+      && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
+                                                                   to_be_intercepted))
   {
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
-                                                                  to_be_intercepted))
-    {
-      SetPiece(pb,to_be_intercepted,intercepter_flags);
-      intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-      e[to_be_intercepted] = vide;
-      spec[to_be_intercepted] = EmptySpec;
-
-      Nr_unused_masses[Black] = save_nr_unused_masses;
-      Nr_remaining_moves[White] = save_nr_remaining_moves;
-    }
+    SetPiece(pb,to_be_intercepted,intercepter_flags);
+    intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+    e[to_be_intercepted] = vide;
+    spec[to_be_intercepted] = EmptySpec;
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -179,49 +160,54 @@ void intercept_check_on_guarded_square(stip_length_type n,
   TraceSquare(to_be_intercepted);
   TraceFunctionParamListEnd();
 
-  for (index_of_intercepting_piece = 1;
-       index_of_intercepting_piece<MaxPiece[White];
-       ++index_of_intercepting_piece)
+  if (intelligent_reserve_masses(White,1))
   {
-    TraceValue("%u",index_of_intercepting_piece);
-    TraceEnumerator(piece_usage,white[index_of_intercepting_piece].usage,"\n");
-    if (white[index_of_intercepting_piece].usage==piece_is_unused)
+    for (index_of_intercepting_piece = 1;
+         index_of_intercepting_piece<MaxPiece[White];
+         ++index_of_intercepting_piece)
     {
-      piece const guard_type = white[index_of_intercepting_piece].type;
-      white[index_of_intercepting_piece].usage = piece_intercepts;
-
-      switch (guard_type)
+      TraceValue("%u",index_of_intercepting_piece);
+      TraceEnumerator(piece_usage,white[index_of_intercepting_piece].usage,"\n");
+      if (white[index_of_intercepting_piece].usage==piece_is_unused)
       {
-        case db:
-          break;
+        piece const guard_type = white[index_of_intercepting_piece].type;
+        white[index_of_intercepting_piece].usage = piece_intercepts;
 
-        case tb:
-        case fb:
-        case cb:
-          intercept_check_on_guarded_square_officer(n,
-                                                    index_of_next_guarding_piece,
-                                                    to_be_intercepted,
-                                                    index_of_intercepting_piece);
-          break;
+        switch (guard_type)
+        {
+          case db:
+            break;
 
-        case pb:
-          intercept_check_on_guarded_square_unpromoted_pawn(n,
+          case tb:
+          case fb:
+          case cb:
+            intercept_check_on_guarded_square_officer(n,
+                                                      index_of_next_guarding_piece,
+                                                      to_be_intercepted,
+                                                      index_of_intercepting_piece);
+            break;
+
+          case pb:
+            intercept_check_on_guarded_square_unpromoted_pawn(n,
+                                                              index_of_next_guarding_piece,
+                                                              to_be_intercepted,
+                                                              index_of_intercepting_piece);
+            intercept_check_on_guarded_square_promoted_pawn(n,
                                                             index_of_next_guarding_piece,
                                                             to_be_intercepted,
                                                             index_of_intercepting_piece);
-          intercept_check_on_guarded_square_promoted_pawn(n,
-                                                          index_of_next_guarding_piece,
-                                                          to_be_intercepted,
-                                                          index_of_intercepting_piece);
-          break;
+            break;
 
-        default:
-          assert(0);
-          break;
+          default:
+            assert(0);
+            break;
+        }
+
+        white[index_of_intercepting_piece].usage = piece_is_unused;
       }
-
-      white[index_of_intercepting_piece].usage = piece_is_unused;
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);

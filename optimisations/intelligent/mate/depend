@@ -2,6 +2,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.c \
  optimisations/intelligent/mate/finish.h pyint.h pydata.h \
  solving/legal_move_finder.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/mate/place_white_piece.h \
  optimisations/intelligent/mate/place_black_piece.h \
  optimisations/intelligent/mate/pin_black_piece.h \
@@ -14,6 +15,8 @@ pyint.h:
 pydata.h:
 
 solving/legal_move_finder.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/mate/place_white_piece.h:
 

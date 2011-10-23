@@ -168,7 +168,7 @@ static void FinaliseGuarding(stip_length_type n)
 
   if (white[index_of_king].usage==piece_is_unused
       && white[index_of_king].diagram_square!=square_e1
-      && Nr_remaining_moves[White]==0)
+      && intelligent_get_nr_remaining_moves(White)==0)
     fix_white_king_on_diagram_square(n);
   else
     intelligent_find_and_block_flights(n);
@@ -193,25 +193,20 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide
         && nr_reasons_for_staying_empty[*bnp]==0
-        && !white_pawn_attacks_king(*bnp))
+        && !white_pawn_attacks_king(*bnp)
+        && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
+                                                                     *bnp))
     {
-      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-      unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-      if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
-                                                                    *bnp))
+      square const guarded = guards_black_flight(pb,*bnp);
+      if (guarded!=initsquare)
       {
-        square const guarded = guards_black_flight(pb,*bnp);
-        if (guarded!=initsquare)
-        {
-          SetPiece(pb,*bnp,pawn_flags);
-          intelligent_continue_guarding_flights(n,index+1);
-          e[*bnp] = vide;
-          spec[*bnp] = EmptySpec;
-        }
-
-        Nr_unused_masses[Black] = save_nr_unused_masses;
-        Nr_remaining_moves[White] = save_nr_remaining_moves;
+        SetPiece(pb,*bnp,pawn_flags);
+        intelligent_continue_guarding_flights(n,index+1);
+        e[*bnp] = vide;
+        spec[*bnp] = EmptySpec;
       }
+
+      intelligent_unreserve();
     }
   }
 
@@ -292,50 +287,39 @@ static void promoted_pawn(stip_length_type n, unsigned int index_of_pawn)
   {
     TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide
-        && nr_reasons_for_staying_empty[*bnp]==0)
+        && nr_reasons_for_staying_empty[*bnp]==0
+        && intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_pawn,
+                                                                     *bnp))
     {
-      /* A rough check whether it is worth thinking about promotions */
-      unsigned int const min_nr_moves_by_p = (*bnp<=square_h7
-                                              ? moves_to_white_prom[index_of_pawn]+1
-                                              : moves_to_white_prom[index_of_pawn]);
-      if (Nr_remaining_moves[White]>=min_nr_moves_by_p)
-      {
-        piece pp;
-        for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-          if (!officer_uninterceptably_attacks_king(Black,*bnp,pp))
+      piece pp;
+      for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+        if (!officer_uninterceptably_attacks_king(Black,*bnp,pp)
+            && intelligent_reserve_promoting_pawn_moves_from_to(white[index_of_pawn].diagram_square,
+                                                                pp,
+                                                                *bnp))
+        {
+          switch (pp)
           {
-            square const comes_from = white[index_of_pawn].diagram_square;
-            unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-            unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-            if (intelligent_reserve_promoting_pawn_moves_from_to(comes_from,
-                                                                 pp,
-                                                                 *bnp))
-            {
-              switch (pp)
-              {
-                case db:
-                case tb:
-                case fb:
-                  rider_from(n,index_of_pawn,pp,*bnp);
-                  break;
+            case db:
+            case tb:
+            case fb:
+              rider_from(n,index_of_pawn,pp,*bnp);
+              break;
 
-                case cb:
-                  leaper_from(n,index_of_pawn,pp,*bnp);
-                  break;
+            case cb:
+              leaper_from(n,index_of_pawn,pp,*bnp);
+              break;
 
-                default:
-                  assert(0);
-                  break;
-              }
-
-              Nr_unused_masses[Black] = save_nr_unused_masses;
-              Nr_remaining_moves[White] = save_nr_remaining_moves;
-            }
+            default:
+              assert(0);
+              break;
           }
 
-        e[*bnp] = vide;
-        spec[*bnp] = EmptySpec;
-      }
+          intelligent_unreserve();
+        }
+
+      e[*bnp] = vide;
+      spec[*bnp] = EmptySpec;
     }
   }
 
@@ -356,24 +340,15 @@ static void rider(stip_length_type n,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
-  {
-    TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
-        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type))
+        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type)
+        && intelligent_reserve_officer_moves_from_to(white[index_of_rider].diagram_square,
+                                                     *bnp,
+                                                     guard_type))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
-                                                                               white[index_of_rider].diagram_square,
-                                                                               guard_type,
-                                                                               *bnp);
-      if (time<=Nr_remaining_moves[White])
-      {
-        Nr_remaining_moves[White] -= time;
-        TraceValue("%u\n",Nr_remaining_moves[White]);
-        rider_from(n,index_of_rider,guard_type,*bnp);
-        Nr_remaining_moves[White] += time;
-      }
+      rider_from(n,index_of_rider,guard_type,*bnp);
+      intelligent_unreserve();
     }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -392,24 +367,15 @@ static void leaper(stip_length_type n,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
-  {
-    TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0
-        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type))
+        && !officer_uninterceptably_attacks_king(Black,*bnp,guard_type)
+        && intelligent_reserve_officer_moves_from_to(white[index_of_leaper].diagram_square,
+                                                     *bnp,
+                                                     guard_type))
     {
-      unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(guard_type,
-                                                                               white[index_of_leaper].diagram_square,
-                                                                               guard_type,
-                                                                               *bnp);
-      if (time<=Nr_remaining_moves[White])
-      {
-        Nr_remaining_moves[White] -= time;
-        TraceValue("%u\n",Nr_remaining_moves[White]);
-        leaper_from(n,index_of_leaper,guard_type,*bnp);
-        Nr_remaining_moves[White] += time;
-      }
+      leaper_from(n,index_of_leaper,guard_type,*bnp);
+      intelligent_unreserve();
     }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -429,42 +395,47 @@ void intelligent_continue_guarding_flights(stip_length_type n,
 
   if (!max_nr_solutions_found_in_phase() && !hasMaxtimeElapsed())
   {
-    TraceValue("%u\n",MaxPiece[White]);
-    for (index_of_current_guarding_piece = index_of_next_guarding_piece;
-         index_of_current_guarding_piece<MaxPiece[White];
-         ++index_of_current_guarding_piece)
+    if (intelligent_reserve_masses(White,1))
     {
-      TraceValue("%u",index_of_current_guarding_piece);
-      TraceEnumerator(piece_usage,white[index_of_current_guarding_piece].usage,"\n");
-      if (white[index_of_current_guarding_piece].usage==piece_is_unused)
+      TraceValue("%u\n",MaxPiece[White]);
+      for (index_of_current_guarding_piece = index_of_next_guarding_piece;
+           index_of_current_guarding_piece<MaxPiece[White];
+           ++index_of_current_guarding_piece)
       {
-        piece const guard_type = white[index_of_current_guarding_piece].type;
-        white[index_of_current_guarding_piece].usage = piece_guards;
-
-        switch (guard_type)
+        TraceValue("%u",index_of_current_guarding_piece);
+        TraceEnumerator(piece_usage,white[index_of_current_guarding_piece].usage,"\n");
+        if (white[index_of_current_guarding_piece].usage==piece_is_unused)
         {
-          case pb:
-            unpromoted_pawn(n,index_of_current_guarding_piece);
-            promoted_pawn(n,index_of_current_guarding_piece);
-            break;
+          piece const guard_type = white[index_of_current_guarding_piece].type;
+          white[index_of_current_guarding_piece].usage = piece_guards;
 
-          case db:
-          case tb:
-          case fb:
-            rider(n,index_of_current_guarding_piece,guard_type);
-            break;
+          switch (guard_type)
+          {
+            case pb:
+              unpromoted_pawn(n,index_of_current_guarding_piece);
+              promoted_pawn(n,index_of_current_guarding_piece);
+              break;
 
-          case cb:
-            leaper(n,index_of_current_guarding_piece,guard_type);
-            break;
+            case db:
+            case tb:
+            case fb:
+              rider(n,index_of_current_guarding_piece,guard_type);
+              break;
 
-          default:
-            assert(0);
-            break;
+            case cb:
+              leaper(n,index_of_current_guarding_piece,guard_type);
+              break;
+
+            default:
+              assert(0);
+              break;
+          }
+
+          white[index_of_current_guarding_piece].usage = piece_is_unused;
         }
-
-        white[index_of_current_guarding_piece].usage = piece_is_unused;
       }
+
+      intelligent_unreserve();
     }
 
     FinaliseGuarding(n);
@@ -493,24 +464,20 @@ void intelligent_guard_flights(stip_length_type n)
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (e[*bnp]==vide
             && nr_reasons_for_staying_empty[*bnp]==0
-            && !would_there_be_king_contact(*bnp))
+            && !would_there_be_king_contact(*bnp)
+            && intelligent_reserve_king_moves_from_to(White,guard_from,*bnp))
         {
-          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-          TraceSquare(*bnp);TraceText("\n");
-          if (intelligent_reserve_king_moves_from_to(White,guard_from,*bnp))
+          square const guarded = guards_black_flight(roib,*bnp);
+          if (guarded!=initsquare)
           {
-            square const guarded = guards_black_flight(roib,*bnp);
-            if (guarded!=initsquare)
-            {
-              king_square[White]= *bnp;
-              SetPiece(roib,*bnp,white[index_of_king].flags);
-              intelligent_continue_guarding_flights(n,1);
-              e[*bnp] = vide;
-              spec[*bnp] = EmptySpec;
-            }
-
-            Nr_remaining_moves[White] = save_nr_remaining_moves;
+            king_square[White]= *bnp;
+            SetPiece(roib,*bnp,white[index_of_king].flags);
+            intelligent_continue_guarding_flights(n,1);
+            e[*bnp] = vide;
+            spec[*bnp] = EmptySpec;
           }
+
+          intelligent_unreserve();
         }
 
       king_square[White] = initsquare;

@@ -45,33 +45,28 @@ static void finalise_blocking(stip_length_type n)
 
 static void officer(stip_length_type n,
                     square to_be_blocked,
-                    piece blocker_type,
-                    Flags blocker_flags,
-                    square blocks_from,
+                    unsigned int blocker_index,
                     unsigned int nr_remaining_flights_to_block)
 {
+  piece const blocker_type = black[blocker_index].type;
+  square const blocks_from = black[blocker_index].diagram_square;
+  Flags const blocker_flags = black[blocker_index].flags;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked);
-  TracePiece(blocker_type);
-  TraceSquare(blocks_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(White,to_be_blocked,blocker_type))
+  if (!officer_uninterceptably_attacks_king(White,to_be_blocked,blocker_type)
+      && intelligent_reserve_officer_moves_from_to(blocks_from,
+                                                   to_be_blocked,
+                                                   blocker_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                             blocks_from,
-                                                                             blocker_type,
-                                                                             to_be_blocked);
-    if (time<=Nr_remaining_moves[Black])
-    {
-      Nr_remaining_moves[Black] -= time;
-      TraceValue("%u\n",Nr_remaining_moves[Black]);
-      SetPiece(blocker_type,to_be_blocked,blocker_flags);
-      block_planned_flights(n,nr_remaining_flights_to_block);
-      Nr_remaining_moves[Black] += time;
-    }
+    SetPiece(blocker_type,to_be_blocked,blocker_flags);
+    block_planned_flights(n,nr_remaining_flights_to_block);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -80,30 +75,26 @@ static void officer(stip_length_type n,
 
 static void unpromoted_pawn(stip_length_type n,
                             square to_be_blocked,
-                            Flags blocker_flags,
-                            square blocks_from,
+                            unsigned int blocker_index,
                             unsigned int nr_remaining_flights_to_block)
 {
+  square const blocks_from = black[blocker_index].diagram_square;
+  Flags const blocker_flags = black[blocker_index].flags;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked);
-  TraceSquare(blocks_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
-  if (!black_pawn_attacks_king(to_be_blocked))
+  if (!black_pawn_attacks_king(to_be_blocked)
+      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocks_from,
+                                                                   to_be_blocked))
   {
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocks_from,
-                                                                  to_be_blocked))
-    {
-      SetPiece(pn,to_be_blocked,blocker_flags);
-      block_planned_flights(n,nr_remaining_flights_to_block);
-
-      Nr_unused_masses[White] = save_nr_unused_masses;
-      Nr_remaining_moves[Black] = save_nr_remaining_moves;
-    }
+    SetPiece(pn,to_be_blocked,blocker_flags);
+    block_planned_flights(n,nr_remaining_flights_to_block);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -112,46 +103,32 @@ static void unpromoted_pawn(stip_length_type n,
 
 static void promoted_pawn(stip_length_type n,
                           square to_be_blocked,
-                          square blocks_from,
-                          Flags blocker_flags,
+                          unsigned int blocker_index,
                           unsigned int nr_remaining_flights_to_block)
 {
-  unsigned int nr_moves_guesstimate = blocks_from/onerow - nr_of_slack_rows_below_board;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked);
-  TraceSquare(blocks_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParam("%u",nr_remaining_flights_to_block);
   TraceFunctionParamListEnd();
 
-  /* A rough check whether it is worth thinking about promotions */
-  if (nr_moves_guesstimate==6)
-    --nr_moves_guesstimate; /* double step! */
-
-  if (to_be_blocked>=square_a2)
-    /* square is not on 8th rank -- 1 move necessary to get there */
-    ++nr_moves_guesstimate;
-
-  TraceValue("%u\n",nr_moves_guesstimate);
-  if (Nr_remaining_moves[Black]>=nr_moves_guesstimate)
+  if (intelligent_can_promoted_black_pawn_theoretically_move_to(blocker_index,
+                                                                to_be_blocked))
   {
+    square const blocks_from = black[blocker_index].diagram_square;
+    Flags const blocker_flags = black[blocker_index].flags;
+
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!officer_uninterceptably_attacks_king(White,to_be_blocked,pp))
+      if (!officer_uninterceptably_attacks_king(White,to_be_blocked,pp)
+          && intelligent_reserve_promoting_pawn_moves_from_to(blocks_from,
+                                                              pp,
+                                                              to_be_blocked))
       {
-        unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-        unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-        if (intelligent_reserve_promoting_pawn_moves_from_to(blocks_from,
-                                                             pp,
-                                                             to_be_blocked))
-        {
-          SetPiece(pp,to_be_blocked,blocker_flags);
-          block_planned_flights(n,nr_remaining_flights_to_block);
-
-          Nr_unused_masses[White] = save_nr_unused_masses;
-          Nr_remaining_moves[Black] = save_nr_remaining_moves;
-        }
+        SetPiece(pp,to_be_blocked,blocker_flags);
+        block_planned_flights(n,nr_remaining_flights_to_block);
+        intelligent_unreserve();
       }
   }
 
@@ -166,7 +143,7 @@ static square king_flights_to_be_blocked[8];
 static void block_next_flight(stip_length_type n,
                               unsigned int nr_flights_to_block)
 {
-  unsigned int index_of_current_blocker;
+  unsigned int blocker_index;
   unsigned int const current_flight = nr_flights_to_block-1;
   square const to_be_blocked = king_flights_to_be_blocked[current_flight];
 
@@ -178,35 +155,24 @@ static void block_next_flight(stip_length_type n,
   TraceSquare(to_be_blocked);TraceText("\n");
   if (nr_reasons_for_staying_empty[to_be_blocked]==0)
   {
-    for (index_of_current_blocker = 1;
-         index_of_current_blocker<MaxPiece[Black];
-         index_of_current_blocker++)
-      if (black[index_of_current_blocker].usage==piece_is_unused)
+    for (blocker_index = 1;
+         blocker_index<MaxPiece[Black];
+         blocker_index++)
+      if (black[blocker_index].usage==piece_is_unused)
       {
-        piece const blocker_type = black[index_of_current_blocker].type;
-        square const blocks_from = black[index_of_current_blocker].diagram_square;
-        Flags const blocker_flags = black[index_of_current_blocker].flags;
+        black[blocker_index].usage = piece_blocks;
 
-        black[index_of_current_blocker].usage = piece_blocks;
-
-        if (blocker_type==pn)
+        if (black[blocker_index].type==pn)
         {
           if (to_be_blocked>=square_a2)
-            unpromoted_pawn(n,
-                            to_be_blocked,blocker_flags,blocks_from,
-                            nr_flights_to_block-1);
+            unpromoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
 
-          promoted_pawn(n,
-                        to_be_blocked,blocks_from,blocker_flags,
-                        nr_flights_to_block-1);
+          promoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
         }
         else
-          officer(n,
-                  to_be_blocked,
-                  blocker_type,blocker_flags,blocks_from,
-                  nr_flights_to_block-1);
+          officer(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
 
-        black[index_of_current_blocker].usage = piece_is_unused;
+        black[blocker_index].usage = piece_is_unused;
       }
 
     e[to_be_blocked] = vide;
@@ -480,7 +446,7 @@ static unsigned int plan_blocks_of_flights(void)
 
   nr_king_flights_to_be_blocked = 0;
 
-  nr_available_blockers = Nr_unused_masses[Black];
+  nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
   if (move_generator_can_help2(no_slice,slack_length_help+1)
       ==slack_length_help+1)
     /* at least 1 flight was found that can't be blocked */
@@ -492,42 +458,6 @@ static unsigned int plan_blocks_of_flights(void)
   return nr_king_flights_to_be_blocked;
 }
 
-static int count_nr_unused_white_masses(void)
-{
-  int result = 0;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 1; i<MaxPiece[White]; ++i)
-    if (white[i].usage==piece_is_unused)
-      ++result;
-
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static unsigned int count_min_nr_black_moves_for_blocks(unsigned int nr_flights_to_block)
-{
-  unsigned int result = 0;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i<nr_flights_to_block && result<=Nr_remaining_moves[Black]; ++i)
-    result += intelligent_estimate_min_nr_black_moves_to_square(king_flights_to_be_blocked[i]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 void intelligent_find_and_block_flights(stip_length_type n)
 {
   TraceFunctionEntry(__func__);
@@ -536,14 +466,11 @@ void intelligent_find_and_block_flights(stip_length_type n)
 
   {
     unsigned int const nr_flights_to_block = plan_blocks_of_flights();
-    if (nr_flights_to_block<=Nr_unused_masses[Black])
+    if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
+                                                    nr_flights_to_block))
     {
-      unsigned int const mtba = count_min_nr_black_moves_for_blocks(nr_flights_to_block);
-      if (mtba<=Nr_remaining_moves[Black])
-      {
-        Nr_unused_masses[White] = count_nr_unused_white_masses();
-        block_planned_flights(n,nr_flights_to_block);
-      }
+      block_planned_flights(n,nr_flights_to_block);
+      intelligent_unreserve();
     }
   }
 

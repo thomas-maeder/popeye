@@ -8,6 +8,16 @@
 #include <assert.h>
 #include <stdlib.h>
 
+typedef struct
+{
+    unsigned int nr_remaining_moves[nr_sides];
+    unsigned int nr_unused_masses[nr_sides];
+} reserve_elmt_type;
+
+static reserve_elmt_type reserve[nr_squares_on_board];
+
+static unsigned int curr_reserve;
+
 static unsigned int count_nr_of_moves_from_to_king_no_castling(square from, square to)
 {
   unsigned int const diffcol = abs(from%onerow - to%onerow);
@@ -258,88 +268,6 @@ unsigned int intelligent_count_nr_of_moves_from_to_no_check(piece from_piece,
   return result;
 }
 
-/* Tests if a specific checking white sequence of moves by the same black pawn
- * without promotion is still possible.
- * @param from_square from
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[Black] and Nr_unused_masses[White] if the
- *       move sequence is possible
- */
-boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
-                                                                  square to_square)
-{
-  boolean result;
-  unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  nr_of_moves = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(from_square,
-                                                                              to_square);
-
-  if (nr_of_moves<=Nr_remaining_moves[Black]
-      && diffcol<=Nr_unused_masses[White])
-  {
-    Nr_remaining_moves[Black] -= nr_of_moves;
-    Nr_unused_masses[White] -= diffcol;
-    TraceValue("%u",Nr_remaining_moves[Black]);
-    TraceValue("%u\n",Nr_unused_masses[White]);
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Tests if a specific checking white sequence of moves by the same white pawn
- * without promotion is still possible.
- * @param from_square from
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[White] and Nr_unused_masses[Black] if the
- *       move sequence is possible
- */
-boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
-                                                                  square to_square)
-{
-  boolean result;
-  unsigned int nr_of_moves;
-  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
-                                                                              to_square);
-
-  if (nr_of_moves<=Nr_remaining_moves[White]
-      && diffcol<=Nr_unused_masses[Black])
-  {
-    Nr_remaining_moves[White] -= nr_of_moves;
-    Nr_unused_masses[Black] -= diffcol;
-    TraceValue("%u",Nr_remaining_moves[White]);
-    TraceValue("%u\n",Nr_unused_masses[Black]);
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square pawn_comes_from,
                                                                       square to_be_blocked)
 {
@@ -361,7 +289,7 @@ static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square paw
       /* square is not on 8th rank -- 1 move necessary to get there */
       ++moves;
 
-    if (Nr_remaining_moves[Black]>=moves)
+    if (reserve[curr_reserve].nr_remaining_moves[Black]>=moves)
     {
       piece pp;
       for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
@@ -381,7 +309,7 @@ static unsigned int count_nr_black_moves_to_square_with_promoted_pawn(square paw
   return result;
 }
 
-unsigned int intelligent_estimate_min_nr_black_moves_to_square(square to_be_blocked)
+static unsigned int estimate_min_nr_black_moves_to_square(square to_be_blocked)
 {
   unsigned int result = maxply+1;
   unsigned int i;
@@ -455,192 +383,6 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
                                                        to_piece,to_square);
 }
 
-/* Tests if a specific checking white sequence of moves by the same officer is
- * still possible.
- * @param from_square from
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] if the move sequence is possible
- */
-boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
-                                                                 square from_square,
-                                                                 square to_square)
-{
-  boolean result;
-  unsigned int nr_of_moves;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(piece);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  if (from_square==to_square)
-  {
-    if (piece==cb)
-      nr_of_moves = 2;
-
-    /* it's a rider */
-    else if (move_diff_code[abs(king_square[Black]-to_square)]<3)
-      nr_of_moves = 2;
-
-    else
-      nr_of_moves = 0;
-  }
-  else
-    nr_of_moves = count_nr_of_moves_from_to_from_to_different(piece,from_square,
-                                                              piece,to_square);
-
-  if (nr_of_moves<=Nr_remaining_moves[White])
-  {
-    Nr_remaining_moves[White] -= nr_of_moves;
-    TraceValue("%u\n",Nr_remaining_moves[White]);
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Tests if a specific checking white sequence of moves by the same pawn is
- * still possible.
- * @param from_square from
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] and Nr_unused_masses[Black] if the
- *       move sequence is possible
- */
-boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square,
-                                                              square to_square)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  if (from_square!=to_square)
-  {
-    unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
-    if (diffcol<=Nr_unused_masses[Black])
-    {
-      unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
-                                                                                                     to_square);
-      if (nr_of_moves<=Nr_remaining_moves[White])
-      {
-        Nr_unused_masses[Black] -= diffcol;
-        Nr_remaining_moves[White] -= nr_of_moves;
-        TraceValue("%u",Nr_unused_masses[Black]);
-        TraceValue("%u\n",Nr_remaining_moves[White]);
-        result = true;
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Tests if a specific checking sequence of moves by the same pawn including its
- * promotion is still possible.
- * @param from_square from
- * @param promotee_type type of piece that the pawn promotes to
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] and Nr_unused_masses[opponent] if
- * the move sequence is possible
- */
-boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
-                                                         piece promotee_type,
-                                                         square to_square)
-{
-  boolean result;
-  Side const side = promotee_type>obs ? White : Black;
-  Side const opponent = advers(side);
-  unsigned int nr_of_moves;
-  unsigned int diffcol = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  if (abs(promotee_type)==Bishop)
-  {
-    square const start_prom_row = side==White ? square_a8 : square_a1;
-    unsigned int const from_file = from_square%nr_files_on_board;
-    square const promotion_square_on_same_file = start_prom_row+from_file;
-    if (SquareCol(to_square)!=SquareCol(promotion_square_on_same_file))
-      diffcol = 1;
-  }
-
-  nr_of_moves = intelligent_count_nr_of_moves_from_to_pawn_promotion(from_square,
-                                                                     promotee_type,
-                                                                     to_square);
-  if (nr_of_moves<=Nr_remaining_moves[side]
-      && diffcol<=Nr_unused_masses[opponent])
-  {
-    Nr_remaining_moves[side] -= nr_of_moves;
-    Nr_unused_masses[opponent] -= diffcol;
-    TraceEnumerator(Side,side,"");
-    TraceValue("%u",Nr_remaining_moves[side]);
-    TraceValue("%u\n",Nr_unused_masses[opponent]);
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Tests if a specific king move sequence is still possible.
- * @param side whose king to move
- * @param from_square from
- * @param to_square to
- * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] if the move sequence is possible
- */
-boolean intelligent_reserve_king_moves_from_to(Side side,
-                                               square from_square,
-                                               square to_square)
-{
-  boolean result;
-  unsigned int nr_of_moves;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceSquare(from_square);
-  TraceSquare(to_square);
-  TraceFunctionParamListEnd();
-
-  nr_of_moves = intelligent_count_nr_of_moves_from_to_king(side,from_square,to_square);
-
-  if (nr_of_moves<=Nr_remaining_moves[side])
-  {
-    Nr_remaining_moves[side] -= nr_of_moves;
-    TraceEnumerator(Side,side,"");
-    TraceValue("%u\n",Nr_remaining_moves[side]);
-    result = true;
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 unsigned int intelligent_count_moves_to_white_promotion(square from_square)
 {
   unsigned int result;
@@ -681,6 +423,716 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
           /* Black can't immediately get rid of block on 4th row
            * -> no immediate double step possible */
           ++result;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* A rough check whether it is worth thinking about promotions
+ * @param index index of white pawn
+ * @param to_square to be reached by the promotee
+ * @return true iff to_square is theoretically reachable
+ */
+boolean intelligent_can_promoted_white_pawn_theoretically_move_to(unsigned int index,
+                                                                  square to_square)
+{
+  unsigned int const min_nr_moves_by_p = (to_square<=square_h7
+                                          ? moves_to_white_prom[index]+1
+                                          : moves_to_white_prom[index]);
+  boolean const result = reserve[curr_reserve].nr_remaining_moves[White]>=min_nr_moves_by_p;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* A rough check whether it is worth thinking about promotions
+ * @param index index of white pawn
+ * @param to_square to be reached by the promotee
+ * @return true iff to_square is theoretically reachable
+ */
+boolean intelligent_can_promoted_black_pawn_theoretically_move_to(unsigned int index,
+                                                                  square to_square)
+{
+  boolean result;
+  square const placed_from = black[index].diagram_square;
+  unsigned int min_nr_moves_by_p = (placed_from>=square_a7
+                                    ? 5
+                                   : placed_from/onerow - nr_of_slack_rows_below_board);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  assert(min_nr_moves_by_p<=5);
+
+  if (to_square>=square_a2)
+    /* square is not on 1st rank -- 1 move necessary to get there */
+    ++min_nr_moves_by_p;
+
+  result = min_nr_moves_by_p<=reserve[curr_reserve].nr_remaining_moves[Black];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the moves and masses reservation system
+ * @param nr_remaining_white_moves
+ * @param nr_remaining_black_moves
+ * @param nr_unused_white_masses
+ * @param nr_unused_black_masses
+ */
+void intelligent_init_reservations(unsigned int nr_remaining_white_moves,
+                                   unsigned int nr_remaining_black_moves,
+                                   unsigned int nr_unused_white_masses,
+                                   unsigned int nr_unused_black_masses)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_remaining_white_moves);
+  TraceFunctionParam("%u",nr_remaining_black_moves);
+  TraceFunctionParam("%u",nr_unused_white_masses);
+  TraceFunctionParam("%u",nr_unused_black_masses);
+  TraceFunctionParamListEnd();
+
+  assert(curr_reserve==0);
+  reserve[0].nr_remaining_moves[White] = nr_remaining_white_moves;
+  reserve[0].nr_remaining_moves[Black] = nr_remaining_black_moves;
+  reserve[0].nr_unused_masses[White] = nr_unused_white_masses;
+  reserve[0].nr_unused_masses[Black] = nr_unused_black_masses;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo a reservation
+ */
+static void push_reserve(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  ++curr_reserve;
+  assert(curr_reserve<nr_squares_on_board);
+  reserve[curr_reserve] = reserve[curr_reserve-1];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Undo a reservation
+ */
+void intelligent_unreserve(void)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(curr_reserve>0);
+  --curr_reserve;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Roughly test whether Black can possibly block all flights; if yes, reserve
+ * the necessary black masses
+ * @param flights flights to be blocked
+ * @param nr_flights length of flights
+ * @return true if masses have been reserved
+ */
+boolean intelligent_reserve_black_masses_for_blocks(square const flights[],
+                                                    unsigned int nr_flights)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_flights);
+  TraceFunctionParamListEnd();
+
+  if (nr_flights<=reserve[curr_reserve].nr_unused_masses[Black])
+  {
+    unsigned int nr_of_moves = 0;
+    unsigned int i;
+    for (i = 0; i<nr_flights && nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black]; ++i)
+      nr_of_moves += estimate_min_nr_black_moves_to_square(flights[i]);
+
+    if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black])
+    {
+      push_reserve();
+      reserve[curr_reserve].nr_unused_masses[Black] -= nr_flights;
+      TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
+      result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Retrieve the number of reservable masses for one or both sides
+ * @param side Whose masses? Pass no_side to get both sides' masses.
+ * @return number of reservable masses
+ */
+unsigned int intelligent_get_nr_reservable_masses(Side side)
+{
+  unsigned int result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  if (side!=White)
+    result += reserve[curr_reserve].nr_unused_masses[Black];
+  if (side!=Black)
+    result += reserve[curr_reserve].nr_unused_masses[White];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Retrieve the number of remaining moves for a side
+ * @param side Whose moves
+ * @return number of remaining moves
+ */
+unsigned int intelligent_get_nr_remaining_moves(Side side)
+{
+  unsigned int const result = reserve[curr_reserve].nr_remaining_moves[side];
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Test whether there are available masses for a side
+ * @param side whose masses to reserve
+ * @param nr_of_masses number of masses
+ * @return true iff nr_of_masses are available
+ */
+boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParam("%u",nr_of_masses);
+  TraceFunctionParamListEnd();
+
+  if (reserve[curr_reserve].nr_unused_masses[side]>=nr_of_masses)
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_unused_masses[side] -= nr_of_masses;
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[side]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking white sequence of moves by the same black pawn
+ * without promotion is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square)
+{
+  boolean result;
+  unsigned int nr_of_moves;
+  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_black_pawn_no_promotion(from_square,
+                                                                              to_square);
+
+  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[Black]
+      && diffcol<=reserve[curr_reserve].nr_unused_masses[White])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[Black] -= nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[White] -= diffcol;
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking white sequence of moves by the same white pawn
+ * without promotion is still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
+                                                                  square to_square)
+{
+  boolean result;
+  unsigned int nr_of_moves;
+  unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
+                                                                              to_square);
+
+  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White]
+      && diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking white sequence of moves by the same officer is
+ * still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
+                                                                 square from_square,
+                                                                 square to_square)
+{
+  boolean result;
+  unsigned int nr_of_moves;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(piece);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  if (from_square==to_square)
+  {
+    if (piece==cb)
+      nr_of_moves = 2;
+
+    /* it's a rider */
+    else if (move_diff_code[abs(king_square[Black]-to_square)]<3)
+      nr_of_moves = 2;
+
+    else
+      nr_of_moves = 0;
+  }
+  else
+    nr_of_moves = count_nr_of_moves_from_to_from_to_different(piece,from_square,
+                                                              piece,to_square);
+
+  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
+    TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking white sequence of moves by the same pawn is
+ * still possible.
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square,
+                                                              square to_square)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  if (from_square!=to_square)
+  {
+    unsigned int const diffcol = abs(from_square%onerow - to_square%onerow);
+    if (diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
+    {
+      unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_white_pawn_no_promotion(from_square,
+                                                                                                     to_square);
+      if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
+      {
+        push_reserve();
+        reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
+        reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
+        TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+        result = true;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific checking sequence of moves by the same pawn including its
+ * promotion is still possible.
+ * @param from_square from
+ * @param promotee_type type of piece that the pawn promotes to
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
+                                                         piece promotee_type,
+                                                         square to_square)
+{
+  boolean result;
+  Side const side = promotee_type>obs ? White : Black;
+  Side const opponent = advers(side);
+  unsigned int nr_of_moves;
+  unsigned int diffcol = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  if (abs(promotee_type)==Bishop)
+  {
+    square const start_prom_row = side==White ? square_a8 : square_a1;
+    unsigned int const from_file = from_square%nr_files_on_board;
+    square const promotion_square_on_same_file = start_prom_row+from_file;
+    if (SquareCol(to_square)!=SquareCol(promotion_square_on_same_file))
+      diffcol = 1;
+  }
+
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_pawn_promotion(from_square,
+                                                                     promotee_type,
+                                                                     to_square);
+  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side]
+      && diffcol<=reserve[curr_reserve].nr_unused_masses[opponent])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
+    reserve[curr_reserve].nr_unused_masses[opponent] -= diffcol;
+    TraceEnumerator(Side,side,"");
+    TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[side]);
+    TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[opponent]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a specific king move sequence is still possible.
+ * @param side whose king to move
+ * @param from_square from
+ * @param to_square to
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_king_moves_from_to(Side side,
+                                               square from_square,
+                                               square to_square)
+{
+  boolean result;
+  unsigned int nr_of_moves;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  nr_of_moves = intelligent_count_nr_of_moves_from_to_king(side,from_square,to_square);
+
+  if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side])
+  {
+    push_reserve();
+    reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
+    TraceEnumerator(Side,side,"");
+    TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
+    result = true;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a white officer can be the front piece of a battery double check
+ * using a specific route
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @param checker_type type of officer
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_officer(square from_square,
+                                                   square via,
+                                                   square to_square,
+                                                   piece checker_type)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(via);
+  TraceSquare(to_square);
+  TracePiece(checker_type);
+  TraceFunctionParamListEnd();
+
+  if (intelligent_count_nr_of_moves_from_to_no_check(checker_type,
+                                                     via,
+                                                     checker_type,
+                                                     to_square)
+      ==1)
+  {
+    unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_no_check(checker_type,
+                                                                                    from_square,
+                                                                                    checker_type,
+                                                                                    via);
+    if (nr_of_moves+1<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      push_reserve();
+      reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves+1;
+      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+      result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if an officer can reach some square in a sequence of moves
+ * @param from_square from
+ * @param to_square destination square of the double checking move
+ * @param officer_type type of officer
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_officer_moves_from_to(square from_square,
+                                                  square to_square,
+                                                  piece officer_type)
+{
+  Side const side = officer_type>obs ? White : Black;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(to_square);
+  TracePiece(officer_type);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const nr_of_moves = intelligent_count_nr_of_moves_from_to_no_check(officer_type,
+                                                                                    from_square,
+                                                                                    officer_type,
+                                                                                    to_square);
+    if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[side])
+    {
+      push_reserve();
+      reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
+      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
+      result = true;
+    }
+    else
+      result = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
+                                                             square via,
+                                                             square to_square)
+{
+  boolean result = false;
+  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(via);
+  TraceSquare(to_square);
+  TraceFunctionParamListEnd();
+
+  if (diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
+  {
+    unsigned int const nr_of_pawn_moves = intelligent_count_nr_of_moves_from_to_no_check(pb,
+                                                                                         from_square,
+                                                                                         pb,
+                                                                                         via);
+    if (nr_of_pawn_moves+1<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      unsigned int const time_capturee = estimate_min_nr_black_moves_to_square(to_square);
+      if (time_capturee<=reserve[curr_reserve].nr_remaining_moves[Black])
+      {
+        push_reserve();
+        reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_pawn_moves+1;
+        reserve[curr_reserve].nr_unused_masses[Black] -= diffcol+1;
+        reserve[curr_reserve].nr_remaining_moves[Black] -= time_capturee;
+        TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+        TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
+        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+        result = true;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is not a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_square,
+                                                                square via)
+{
+  boolean result = false;
+  unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  if (diffcol<=reserve[curr_reserve].nr_unused_masses[Black])
+  {
+    unsigned int const nr_of_pawn_moves = intelligent_count_nr_of_moves_from_to_no_check(pb,
+                                                                                         from_square,
+                                                                                         pb,
+                                                                                         via);
+    if (nr_of_pawn_moves+1<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      push_reserve();
+      reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_pawn_moves+1;
+      reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
+      TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+      TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
+      result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square,
+                                                              square via)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  if (reserve[curr_reserve].nr_remaining_moves[Black]>=1)
+  {
+    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(pb,
+                                                                             from_square,
+                                                                             pb,
+                                                                             via);
+    if (time+1<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      unsigned int const diffcol = abs(from_square%onerow - via%onerow);
+      if (diffcol+1<=reserve[curr_reserve].nr_unused_masses[Black])
+      {
+        push_reserve();
+        reserve[curr_reserve].nr_remaining_moves[Black] -= 1;
+        reserve[curr_reserve].nr_unused_masses[Black] -= diffcol+1;
+        reserve[curr_reserve].nr_remaining_moves[White] -= time+1;
+        TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
+        TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
+        TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[Black]);
+        result = true;
       }
     }
   }

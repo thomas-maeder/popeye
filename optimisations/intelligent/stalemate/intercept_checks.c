@@ -16,61 +16,48 @@ static void continue_intercepting_checks(stip_length_type n,
 
 static void with_promoted_black_pawn(stip_length_type n,
                                      Side side,
-                                     square to_be_blocked,
-                                     Flags blocker_flags,
-                                     square blocker_comes_from,
+                                     square where_to_intercept,
+                                     unsigned int intercepter_index,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions,
                                      unsigned int nr_checks_to_opponent)
 {
-  /* A rough check whether it is worth thinking about promotions */
-  unsigned int time = (blocker_comes_from>=square_a7
-                       ? 5
-                       : blocker_comes_from/onerow - nr_of_slack_rows_below_board);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
-  TraceSquare(blocker_comes_from);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",intercepter_index);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  assert(time<=5);
-
-  if (to_be_blocked>=square_a2)
-    /* square is not on 1st rank -- 1 move necessary to get there */
-    ++time;
-
-  if (Nr_remaining_moves[Black]>=time)
+  if (intelligent_can_promoted_black_pawn_theoretically_move_to(intercepter_index,
+                                                                where_to_intercept))
   {
+    Flags const blocker_flags = black[intercepter_index].flags;
+    square const blocker_comes_from = black[intercepter_index].diagram_square;
+
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!guards(king_square[White],pp,to_be_blocked))
+      if (!guards(king_square[White],pp,where_to_intercept)
+          && intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
+                                                              pp,
+                                                              where_to_intercept))
       {
-        unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-        unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-        if (intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
-                                                             pp,
-                                                             to_be_blocked))
+        boolean const white_check = guards(king_square[White],pp,where_to_intercept);
+        if (!(side==White && white_check))
         {
-          boolean const white_check = guards(king_square[White],pp,to_be_blocked);
-          if (!(side==White && white_check))
-          {
-            if (side==Black && white_check)
-              ++nr_checks_to_opponent;
-            SetPiece(pp,to_be_blocked,blocker_flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_opponent,
-                                         side);
-          }
-
-          Nr_unused_masses[White] = save_nr_unused_masses;
-          Nr_remaining_moves[Black] = save_nr_remaining_moves;
+          if (side==Black && white_check)
+            ++nr_checks_to_opponent;
+          SetPiece(pp,where_to_intercept,blocker_flags);
+          continue_intercepting_checks(n,
+                                       check_directions,
+                                       nr_of_check_directions,
+                                       nr_checks_to_opponent,
+                                       side);
         }
+
+        intelligent_unreserve();
       }
   }
 
@@ -80,42 +67,39 @@ static void with_promoted_black_pawn(stip_length_type n,
 
 static void with_unpromoted_black_pawn(stip_length_type n,
                                        Side side,
-                                       square to_be_blocked,
-                                       Flags blocker_flags,
-                                       square blocker_comes_from,
+                                       square where_to_intercept,
+                                       unsigned int intercepter_index,
                                        int const check_directions[8],
                                        unsigned int nr_of_check_directions,
                                        unsigned int nr_checks_to_opponent)
 {
+  Flags const blocker_flags = black[intercepter_index].flags;
+  square const blocker_comes_from = black[intercepter_index].diagram_square;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
-  TraceSquare(blocker_comes_from);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",intercepter_index);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],pn,to_be_blocked))
+  if (!guards(king_square[White],pn,where_to_intercept)
+      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
+                                                                   where_to_intercept))
   {
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
-                                                                  to_be_blocked))
+    if (!(side==White && guards(king_square[White],pn,where_to_intercept)))
     {
-      if (!(side==White && guards(king_square[White],pn,to_be_blocked)))
-      {
-        SetPiece(pn,to_be_blocked,blocker_flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_opponent,
-                                     side);
-      }
-
-      Nr_unused_masses[White] = save_nr_unused_masses;
-      Nr_remaining_moves[Black] = save_nr_remaining_moves;
+      SetPiece(pn,where_to_intercept,blocker_flags);
+      continue_intercepting_checks(n,
+                                   check_directions,
+                                   nr_of_check_directions,
+                                   nr_checks_to_opponent,
+                                   side);
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -124,48 +108,44 @@ static void with_unpromoted_black_pawn(stip_length_type n,
 
 static void with_black_officer(stip_length_type n,
                                Side side,
-                               square to_be_blocked,
-                               piece blocker_type,
-                               Flags blocker_flags,
-                               square blocker_comes_from,
+                               square where_to_intercept,
+                               unsigned int intercepter_index,
                                int const check_directions[8],
                                unsigned int nr_of_check_directions,
                                unsigned int nr_checks_to_opponent)
 {
+  piece const blocker_type = black[intercepter_index].type;
+  Flags const blocker_flags = black[intercepter_index].flags;
+  square const blocker_comes_from = black[intercepter_index].diagram_square;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
-  TracePiece(blocker_type);
-  TraceSquare(blocker_comes_from);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",intercepter_index);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],blocker_type,to_be_blocked))
+  if (!guards(king_square[White],blocker_type,where_to_intercept)
+      && intelligent_reserve_officer_moves_from_to(blocker_comes_from,
+                                                   where_to_intercept,
+                                                   blocker_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                             blocker_comes_from,
-                                                                             blocker_type,
-                                                                             to_be_blocked);
-    if (time<=Nr_remaining_moves[Black])
+    boolean const white_check = guards(king_square[White],blocker_type,where_to_intercept);
+    if (!(side==White && white_check))
     {
-      boolean const white_check = guards(king_square[White],blocker_type,to_be_blocked);
-      if (!(side==White && white_check))
-      {
-        if (side==Black && white_check)
-          ++nr_checks_to_opponent;
-        Nr_remaining_moves[Black] -= time;
-        TraceValue("%u\n",Nr_remaining_moves[Black]);
-        SetPiece(blocker_type,to_be_blocked,blocker_flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_opponent,
-                                     side);
-        Nr_remaining_moves[Black] += time;
-      }
+      if (side==Black && white_check)
+        ++nr_checks_to_opponent;
+      SetPiece(blocker_type,where_to_intercept,blocker_flags);
+      continue_intercepting_checks(n,
+                                   check_directions,
+                                   nr_of_check_directions,
+                                   nr_checks_to_opponent,
+                                   side);
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -174,7 +154,7 @@ static void with_black_officer(stip_length_type n,
 
 static void with_black_piece(stip_length_type n,
                              Side side,
-                             square to_be_blocked,
+                             square where_to_intercept,
                              int const check_directions[8],
                              unsigned int nr_of_check_directions,
                              unsigned int nr_checks_to_opponent)
@@ -182,43 +162,33 @@ static void with_black_piece(stip_length_type n,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (Nr_unused_masses[Black]>=1)
+  if (intelligent_reserve_masses(Black,1))
   {
     unsigned int i;
-
-    --Nr_unused_masses[Black];
-    TraceValue("%u\n",Nr_unused_masses[Black]);
-
     for (i = 1; i<MaxPiece[Black]; ++i)
       if (black[i].usage==piece_is_unused)
       {
-        piece const blocker_type = black[i].type;
-        Flags const blocker_flags = black[i].flags;
-        square const blocker_comes_from = black[i].diagram_square;
-
         black[i].usage = piece_intercepts;
 
-        if (blocker_type==pn)
+        if (black[i].type==pn)
         {
           with_promoted_black_pawn(n,
                                    side,
-                                   to_be_blocked,
-                                   blocker_flags,
-                                   blocker_comes_from,
+                                   where_to_intercept,
+                                   i,
                                    check_directions,
                                    nr_of_check_directions,
                                    nr_checks_to_opponent);
-          if (to_be_blocked>=square_a2)
+          if (where_to_intercept>=square_a2)
             with_unpromoted_black_pawn(n,
                                        side,
-                                       to_be_blocked,
-                                       blocker_flags,
-                                       blocker_comes_from,
+                                       where_to_intercept,
+                                       i,
                                        check_directions,
                                        nr_of_check_directions,
                                        nr_checks_to_opponent);
@@ -226,10 +196,8 @@ static void with_black_piece(stip_length_type n,
         else
           with_black_officer(n,
                              side,
-                             to_be_blocked,
-                             blocker_type,
-                             blocker_flags,
-                             blocker_comes_from,
+                             where_to_intercept,
+                             i,
                              check_directions,
                              nr_of_check_directions,
                              nr_checks_to_opponent);
@@ -237,10 +205,10 @@ static void with_black_piece(stip_length_type n,
         black[i].usage = piece_is_unused;
       }
 
-    e[to_be_blocked] = vide;
-    spec[to_be_blocked] = EmptySpec;
+    e[where_to_intercept] = vide;
+    spec[where_to_intercept] = EmptySpec;
 
-    ++Nr_unused_masses[Black];
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -250,7 +218,7 @@ static void with_black_piece(stip_length_type n,
 static void with_unpromoted_white_pawn(stip_length_type n,
                                        Side side,
                                        unsigned int blocker_index,
-                                       square to_be_blocked,
+                                       square where_to_intercept,
                                        int const check_directions[8],
                                        unsigned int nr_of_check_directions,
                                        unsigned int nr_checks_to_opponent)
@@ -259,32 +227,26 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",blocker_index);
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(to_be_blocked))
+  if (!white_pawn_attacks_king(where_to_intercept)
+      && intelligent_reserve_white_pawn_moves_from_to_no_promotion(white[blocker_index].diagram_square,
+                                                                   where_to_intercept))
   {
-    square const blocks_from = white[blocker_index].diagram_square;
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(blocks_from,
-                                                                  to_be_blocked))
+    if (!(side==Black && guards(king_square[Black],pb,where_to_intercept)))
     {
-      if (!(side==Black && guards(king_square[Black],pb,to_be_blocked)))
-      {
-        SetPiece(pb,to_be_blocked,white[blocker_index].flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_opponent,
-                                     side);
-      }
-
-      Nr_unused_masses[Black] = save_nr_unused_masses;
-      Nr_remaining_moves[White] = save_nr_remaining_moves;
+      SetPiece(pb,where_to_intercept,white[blocker_index].flags);
+      continue_intercepting_checks(n,
+                                   check_directions,
+                                   nr_of_check_directions,
+                                   nr_checks_to_opponent,
+                                   side);
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -294,54 +256,44 @@ static void with_unpromoted_white_pawn(stip_length_type n,
 static void with_promoted_white_pawn(stip_length_type n,
                                      Side side,
                                      unsigned int blocker_index,
-                                     square to_be_blocked,
+                                     square where_to_intercept,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions,
                                      unsigned int nr_checks_to_opponent)
 {
-  unsigned int const nr_moves_required = (to_be_blocked<=square_h7
-                                          ? moves_to_white_prom[blocker_index]+1
-                                          : moves_to_white_prom[blocker_index]);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",blocker_index);
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nr_moves_required);
-  if (Nr_remaining_moves[White]>=nr_moves_required)
+  if (intelligent_can_promoted_white_pawn_theoretically_move_to(blocker_index,
+                                                                where_to_intercept))
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,pp))
+      if (!officer_uninterceptably_attacks_king(Black,where_to_intercept,pp)
+          && intelligent_reserve_promoting_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                              pp,
+                                                              where_to_intercept))
       {
-        square const comes_from = white[blocker_index].diagram_square;
-        unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-        unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-        if (intelligent_reserve_promoting_pawn_moves_from_to(comes_from,
-                                                             pp,
-                                                             to_be_blocked))
+        boolean const black_check = guards(king_square[Black],pp,where_to_intercept);
+        if (!(side==Black && black_check))
         {
-          boolean const black_check = guards(king_square[Black],pp,to_be_blocked);
-          if (!(side==Black && black_check))
-          {
-            if (side==White && black_check)
-              ++nr_checks_to_opponent;
-            SetPiece(pp,to_be_blocked,white[blocker_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_opponent,
-                                         side);
-          }
-
-          Nr_unused_masses[Black] = save_nr_unused_masses;
-          Nr_remaining_moves[White] = save_nr_remaining_moves;
+          if (side==White && black_check)
+            ++nr_checks_to_opponent;
+          SetPiece(pp,where_to_intercept,white[blocker_index].flags);
+          continue_intercepting_checks(n,
+                                       check_directions,
+                                       nr_of_check_directions,
+                                       nr_checks_to_opponent,
+                                       side);
         }
+
+        intelligent_unreserve();
       }
   }
 
@@ -351,7 +303,7 @@ static void with_promoted_white_pawn(stip_length_type n,
 
 static void with_white_king(stip_length_type n,
                             Side side,
-                            square to_be_blocked,
+                            square where_to_intercept,
                             int const check_directions[8],
                             unsigned int nr_of_check_directions,
                             unsigned int nr_checks_to_opponent)
@@ -359,34 +311,31 @@ static void with_white_king(stip_length_type n,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!would_white_king_guard_from(to_be_blocked)
-      && !is_white_king_uninterceptably_attacked_by_non_king(to_be_blocked))
+  if (!would_white_king_guard_from(where_to_intercept)
+      && !is_white_king_uninterceptably_attacked_by_non_king(where_to_intercept)
+      && intelligent_reserve_king_moves_from_to(White,
+                                                white[index_of_king].diagram_square,
+                                                where_to_intercept))
   {
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-    if (intelligent_reserve_king_moves_from_to(White,
-                                               white[index_of_king].diagram_square,
-                                               to_be_blocked))
-    {
-      SetPiece(roib,to_be_blocked,white[index_of_king].flags);
-      king_square[White] = to_be_blocked;
+    SetPiece(roib,where_to_intercept,white[index_of_king].flags);
+    king_square[White] = where_to_intercept;
 
-      if (is_white_king_interceptably_attacked())
-        ++nr_checks_to_opponent;
+    if (is_white_king_interceptably_attacked())
+      ++nr_checks_to_opponent;
 
-      continue_intercepting_checks(n,
-                                   check_directions,
-                                   nr_of_check_directions,
-                                   nr_checks_to_opponent,
-                                   side);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions,
+                                 nr_checks_to_opponent,
+                                 side);
 
-      king_square[White] = initsquare;
-      Nr_remaining_moves[White] = save_nr_remaining_moves;
-    }
+    king_square[White] = initsquare;
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -395,47 +344,42 @@ static void with_white_king(stip_length_type n,
 
 static void with_white_officer(stip_length_type n,
                                Side side,
-                               piece blocker_type,
                                unsigned int blocker_index,
-                               square to_be_blocked,
+                               square where_to_intercept,
                                int const check_directions[8],
                                unsigned int nr_of_check_directions,
                                unsigned int nr_checks_to_opponent)
 {
+  piece const blocker_type = white[blocker_index].type;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TracePiece(blocker_type);
   TraceFunctionParam("%u",blocker_index);
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,to_be_blocked,blocker_type))
+  if (!officer_uninterceptably_attacks_king(Black,where_to_intercept,blocker_type)
+      && intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
+                                                   where_to_intercept,
+                                                   blocker_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                             white[blocker_index].diagram_square,
-                                                                             blocker_type,
-                                                                             to_be_blocked);
-    if (time<=Nr_remaining_moves[White])
+    boolean const black_check = guards(king_square[Black],blocker_type,where_to_intercept);
+    if (!(side==Black && black_check))
     {
-      boolean const black_check = guards(king_square[Black],blocker_type,to_be_blocked);
-      if (!(side==Black && black_check))
-      {
-        if (side==White && black_check)
-          ++nr_checks_to_opponent;
-        Nr_remaining_moves[White] -= time;
-        TraceValue("%u\n",Nr_remaining_moves[White]);
-        SetPiece(blocker_type,to_be_blocked,white[blocker_index].flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_opponent,
-                                     side);
-        Nr_remaining_moves[White] += time;
-      }
+      if (side==White && black_check)
+        ++nr_checks_to_opponent;
+      SetPiece(blocker_type,where_to_intercept,white[blocker_index].flags);
+      continue_intercepting_checks(n,
+                                   check_directions,
+                                   nr_of_check_directions,
+                                   nr_checks_to_opponent,
+                                   side);
     }
+
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -444,17 +388,15 @@ static void with_white_officer(stip_length_type n,
 
 static void with_white_piece(stip_length_type n,
                              Side side,
-                             square to_be_blocked,
+                             square where_to_intercept,
                              int const check_directions[8],
                              unsigned int nr_of_check_directions,
                              unsigned int nr_checks_to_opponent)
 {
-  unsigned int blocker_index;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceEnumerator(Side,side,"");
-  TraceSquare(to_be_blocked);
+  TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_opponent);
   TraceFunctionParamListEnd();
@@ -464,38 +406,34 @@ static void with_white_piece(stip_length_type n,
     white[index_of_king].usage = piece_intercepts;
     with_white_king(n,
                     side,
-                    to_be_blocked,
+                    where_to_intercept,
                     check_directions,
                     nr_of_check_directions,
                     nr_checks_to_opponent);
     white[index_of_king].usage = piece_is_unused;
   }
 
-  if (Nr_unused_masses[White]>=1)
+  if (intelligent_reserve_masses(White,1))
   {
-    --Nr_unused_masses[White];
-    TraceValue("%u\n",Nr_unused_masses[White]);
-
+    unsigned int blocker_index;
     for (blocker_index = 1; blocker_index<MaxPiece[White]; ++blocker_index)
       if (white[blocker_index].usage==piece_is_unused)
       {
-        piece const blocker_type = white[blocker_index].type;
-
         white[blocker_index].usage = piece_intercepts;
 
-        if (blocker_type==pb)
+        if (white[blocker_index].type==pb)
         {
           with_promoted_white_pawn(n,
                                    side,
                                    blocker_index,
-                                   to_be_blocked,
+                                   where_to_intercept,
                                    check_directions,
                                    nr_of_check_directions,
                                    nr_checks_to_opponent);
           with_unpromoted_white_pawn(n,
                                      side,
                                      blocker_index,
-                                     to_be_blocked,
+                                     where_to_intercept,
                                      check_directions,
                                      nr_of_check_directions,
                                      nr_checks_to_opponent);
@@ -503,9 +441,8 @@ static void with_white_piece(stip_length_type n,
         else
           with_white_officer(n,
                              side,
-                             blocker_type,
                              blocker_index,
-                             to_be_blocked,
+                             where_to_intercept,
                              check_directions,
                              nr_of_check_directions,
                              nr_checks_to_opponent);
@@ -513,11 +450,11 @@ static void with_white_piece(stip_length_type n,
         white[blocker_index].usage = piece_is_unused;
       }
 
-    ++Nr_unused_masses[White];
+    intelligent_unreserve();
   }
 
-  e[to_be_blocked] = vide;
-  spec[to_be_blocked] = EmptySpec;
+  e[where_to_intercept] = vide;
+  spec[where_to_intercept] = EmptySpec;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -529,7 +466,7 @@ static void next_check(stip_length_type n,
                        unsigned int nr_of_check_directions,
                        unsigned int nr_checks_to_opponent)
 {
-  square to_be_blocked;
+  square where_to_intercept;
   int const current_dir = check_directions[nr_of_check_directions-1];
 
   TraceFunctionEntry(__func__);
@@ -542,20 +479,20 @@ static void next_check(stip_length_type n,
   assert(nr_of_check_directions>0);
   TraceValue("%d\n",current_dir);
 
-  for (to_be_blocked = king_square[side]+current_dir;
-       e[to_be_blocked]==vide;
-       to_be_blocked += current_dir)
-    if (nr_reasons_for_staying_empty[to_be_blocked]==0)
+  for (where_to_intercept = king_square[side]+current_dir;
+       e[where_to_intercept]==vide;
+       where_to_intercept += current_dir)
+    if (nr_reasons_for_staying_empty[where_to_intercept]==0)
     {
       with_black_piece(n,
                        side,
-                       to_be_blocked,
+                       where_to_intercept,
                        check_directions,
                        nr_of_check_directions-1,
                        nr_checks_to_opponent);
       with_white_piece(n,
                        side,
-                       to_be_blocked,
+                       where_to_intercept,
                        check_directions,
                        nr_of_check_directions-1,
                        nr_checks_to_opponent);

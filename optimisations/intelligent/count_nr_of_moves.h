@@ -11,8 +11,6 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square);
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[Black] and Nr_unused_masses[White] if the
- *       move sequence is possible
  */
 boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_square,
                                                                   square to_square);
@@ -22,8 +20,7 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[White] and Nr_unused_masses[Black] if the
- *       move sequence is possible
+ * @note modifies reserve[curr_reserve].nr_remaining_moves[White] and reserve[curr_reserve].nr_unused_masses[Black] if the
  */
 boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_square,
                                                                   square to_square);
@@ -36,14 +33,67 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(piece from_piece,
                                                             square from_square,
                                                             piece to_piece,
                                                             square to_square);
-unsigned int intelligent_estimate_min_nr_black_moves_to_square(square to_be_blocked);
+
+/* A rough check whether it is worth thinking about promotions
+ * @param index index of white pawn
+ * @param to_square to be reached by the promotee
+ * @return true iff to_square is theoretically reachable
+ */
+boolean intelligent_can_promoted_white_pawn_theoretically_move_to(unsigned int index,
+                                                                  square to_square);
+
+/* A rough check whether it is worth thinking about promotions
+ * @param index index of white pawn
+ * @param to_square to be reached by the promotee
+ * @return true iff to_square is theoretically reachable
+ */
+boolean intelligent_can_promoted_black_pawn_theoretically_move_to(unsigned int index,
+                                                                  square to_square);
+
+/* Initialise the moves and masses reservation system
+ * @param nr_remaining_white_moves
+ * @param nr_remaining_black_moves
+ * @param nr_unused_white_masses
+ * @param nr_unused_black_masses
+ */
+void intelligent_init_reservations(unsigned int nr_remaining_white_moves,
+                                   unsigned int nr_remaining_black_moves,
+                                   unsigned int nr_unused_white_masses,
+                                   unsigned int nr_unused_black_masses);
+
+/* Retrieve the number of reservable masses for one or both sides
+ * @param side Whose masses? Pass no_side to get both sides' masses.
+ * @return number of reservable masses
+ */
+unsigned int intelligent_get_nr_reservable_masses(Side side);
+
+/* Retrieve the number of remaining moves for a side
+ * @param side Whose moves
+ * @return number of remaining moves
+ */
+unsigned int intelligent_get_nr_remaining_moves(Side side);
+
+/* Test whether there are available masses for a side
+ * @param side whose masses to reserve
+ * @param nr_of_masses number of masses
+ * @return true iff nr_of_masses are available
+ */
+boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses);
+
+/* Roughly test whether Black can possibly block all flights; if yes, reserve
+ * the necessary black masses
+ * @param flights flights to be blocked
+ * @param nr_flights length of flights
+ * @return true if masses have been reserved
+ */
+boolean intelligent_reserve_black_masses_for_blocks(square const flights[],
+                                                    unsigned int nr_flights);
 
 /* Tests if a specific king move sequence is still possible.
  * @param side whose king to move
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] if the move sequence is possible
  */
 boolean intelligent_reserve_king_moves_from_to(Side side,
                                                square from_square,
@@ -55,7 +105,6 @@ boolean intelligent_reserve_king_moves_from_to(Side side,
  * @param promotee_type type of piece that the pawn promotes to
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] if the move sequence is possible
  */
 boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
                                                                         piece promotee_type,
@@ -66,7 +115,6 @@ boolean intelligent_reserve_promoting_pawn_moves_from_to(square from_square,
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] if the move sequence is possible
  */
 boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square,
                                                               square to_square);
@@ -76,11 +124,66 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
  * @param from_square from
  * @param to_square to
  * @return true iff the move sequence is still possible
- * @note modifies Nr_remaining_moves[side] and Nr_unused_masses[Black] if the
- *       move sequence is possible
  */
 boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
                                                                  square from_square,
                                                                  square to_square);
+
+/* Tests if a white officer can be the front piece of a battery double check
+ * using a specific route
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @param checker_type type of officer
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_officer(square from_square,
+                                                   square via,
+                                                   square to_square,
+                                                   piece checker_type);
+
+/* Tests if an officer can be the rear piece of a battery double check
+ * @param from_square from
+ * @param to_square destination square of the double checking move
+ * @param checker_type type of officer
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_officer_moves_from_to(square from_square,
+                                                  square to_square,
+                                                  piece checker_type);
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
+                                                             square via,
+                                                             square to_square);
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is not a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_square,
+                                                                square via);
+
+/* Tests if a white pawn can be the front piece of a battery double check
+ * using a specific route, where the last move is a capture
+ * @param from_square from
+ * @param via departure square of the double checking move
+ * @param to_square destination square of the double checking move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square,
+                                                              square via);
+
+/* Undo a reservation
+ */
+void intelligent_unreserve(void);
 
 #endif

@@ -44,45 +44,31 @@ static void finalise_blocking(stip_length_type n,
 static void promoted_pawn(stip_length_type n,
                           square const to_be_blocked[8],
                           unsigned int nr_to_be_blocked,
-                          Flags blocker_flags,
-                          square blocker_comes_from)
+                          unsigned blocker_index)
 {
-  /* A rough check whether it is worth thinking about promotions */
-  unsigned int time = (blocker_comes_from>=square_a7
-                       ? 5
-                       : blocker_comes_from/onerow - nr_of_slack_rows_below_board);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked[0]);
   TraceFunctionParam("%u",nr_to_be_blocked);
-  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParamListEnd();
 
-  assert(time<=5);
-
-  if (to_be_blocked[0]>=square_a2)
-    /* square is not on 1st rank -- 1 move necessary to get there */
-    ++time;
-
-  if (Nr_remaining_moves[Black]>=time)
+  if (intelligent_can_promoted_black_pawn_theoretically_move_to(blocker_index,
+                                                                to_be_blocked[0]))
   {
+    Flags const blocker_flags = black[blocker_index].flags;
+    square const blocker_comes_from = black[blocker_index].diagram_square;
+
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],pp))
+      if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],pp)
+          && intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
+                                                              pp,
+                                                              to_be_blocked[0]))
       {
-        unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-        unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-        if (intelligent_reserve_promoting_pawn_moves_from_to(blocker_comes_from,
-                                                             pp,
-                                                             to_be_blocked[0]))
-        {
-          SetPiece(pp,to_be_blocked[0],blocker_flags);
-          finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-
-          Nr_unused_masses[White] = save_nr_unused_masses;
-          Nr_remaining_moves[Black] = save_nr_remaining_moves;
-        }
+        SetPiece(pp,to_be_blocked[0],blocker_flags);
+        finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
+        intelligent_unreserve();
       }
   }
 
@@ -93,28 +79,25 @@ static void promoted_pawn(stip_length_type n,
 static void unpromoted_pawn(stip_length_type n,
                             square const to_be_blocked[8],
                             unsigned int nr_to_be_blocked,
-                            Flags blocker_flags,
-                            square blocker_comes_from)
+                            unsigned blocker_index)
 {
+  Flags const blocker_flags = black[blocker_index].flags;
+  square const blocker_comes_from = black[blocker_index].diagram_square;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked[0]);
   TraceFunctionParam("%u",nr_to_be_blocked);
-  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParamListEnd();
 
-  if (!black_pawn_attacks_king(to_be_blocked[0]))
+  if (!black_pawn_attacks_king(to_be_blocked[0])
+      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
+                                                                   to_be_blocked[0]))
   {
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
-                                                                  to_be_blocked[0]))
-    {
-      SetPiece(pn,to_be_blocked[0],blocker_flags);
-      finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-      Nr_unused_masses[White] = save_nr_unused_masses;
-      Nr_remaining_moves[Black] = save_nr_remaining_moves;
-    }
+    SetPiece(pn,to_be_blocked[0],blocker_flags);
+    finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -124,32 +107,27 @@ static void unpromoted_pawn(stip_length_type n,
 static void officer(stip_length_type n,
                     square const to_be_blocked[8],
                     unsigned int nr_to_be_blocked,
-                    piece blocker_type,
-                    Flags blocker_flags,
-                    square blocker_comes_from)
+                    unsigned blocker_index)
 {
+  piece const blocker_type = black[blocker_index].type;
+  Flags const blocker_flags = black[blocker_index].flags;
+  square const blocker_comes_from = black[blocker_index].diagram_square;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(to_be_blocked[0]);
   TraceFunctionParam("%u",nr_to_be_blocked);
-  TracePiece(blocker_type);
-  TraceSquare(blocker_comes_from);
+  TraceFunctionParam("%u",blocker_index);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],blocker_type))
+  if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],blocker_type)
+      && intelligent_reserve_officer_moves_from_to(blocker_comes_from,
+                                                   to_be_blocked[0],
+                                                   blocker_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(blocker_type,
-                                                                             blocker_comes_from,
-                                                                             blocker_type,
-                                                                             to_be_blocked[0]);
-    if (time<=Nr_remaining_moves[Black])
-    {
-      Nr_remaining_moves[Black] -= time;
-      TraceValue("%u\n",Nr_remaining_moves[Black]);
-      SetPiece(blocker_type,to_be_blocked[0],blocker_flags);
-      finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-      Nr_remaining_moves[Black] += time;
-    }
+    SetPiece(blocker_type,to_be_blocked[0],blocker_flags);
+    finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -173,20 +151,16 @@ static void block_first(stip_length_type n,
   for (i = 1; i<MaxPiece[Black]; ++i)
     if (black[i].usage==piece_is_unused)
     {
-      piece const blocker_type = black[i].type;
-      Flags const blocker_flags = black[i].flags;
-      square const blocker_comes_from = black[i].diagram_square;
-
       black[i].usage = piece_blocks;
 
-      if (blocker_type==pn)
+      if (black[i].type==pn)
       {
-        promoted_pawn(n,to_be_blocked,nr_to_be_blocked,blocker_flags,blocker_comes_from);
+        promoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
         if (to_be_blocked[0]>=square_a2)
-          unpromoted_pawn(n,to_be_blocked,nr_to_be_blocked,blocker_flags,blocker_comes_from);
+          unpromoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
       }
       else
-        officer(n,to_be_blocked,nr_to_be_blocked,blocker_type,blocker_flags,blocker_comes_from);
+        officer(n,to_be_blocked,nr_to_be_blocked,i);
 
       black[i].usage = piece_is_unused;
     }
@@ -207,14 +181,10 @@ void intelligent_stalemate_black_block(stip_length_type n,
   TraceFunctionParam("%u",nr_to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (Nr_unused_masses[Black]>=nr_to_be_blocked)
+  if (intelligent_reserve_masses(Black,nr_to_be_blocked))
   {
-    Nr_unused_masses[Black] -= nr_to_be_blocked;
-    TraceValue("%u\n",Nr_unused_masses[Black]);
-
     block_first(n,to_be_blocked,nr_to_be_blocked);
-
-    Nr_unused_masses[Black] += nr_to_be_blocked;
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);

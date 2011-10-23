@@ -2,6 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "solving/legal_move_finder.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/mate/place_white_piece.h"
 #include "optimisations/intelligent/mate/place_black_piece.h"
 #include "optimisations/intelligent/mate/pin_black_piece.h"
@@ -128,7 +129,7 @@ void intelligent_mate_test_target_position(stip_length_type n)
   {
     if (white[index_of_king].usage==piece_is_unused
         && white[index_of_king].diagram_square!=square_e1
-        && Nr_remaining_moves[White]==0)
+        && intelligent_get_nr_remaining_moves(White)==0)
       fix_white_king_on_diagram_square(n);
     else if (!exists_redundant_white_piece())
     {

@@ -25,19 +25,13 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(placed_on))
+  if (!white_pawn_attacks_king(placed_on)
+      && intelligent_reserve_white_pawn_moves_from_to_no_promotion(white[placed_index].diagram_square,
+                                                                   placed_on))
   {
-    square const placed_from = white[placed_index].diagram_square;
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-    if (intelligent_reserve_white_pawn_moves_from_to_no_promotion(placed_from,
-                                                                  placed_on))
-    {
-      SetPiece(pb,placed_on,white[placed_index].flags);
-      continue_intercepting_checks(n,check_directions,nr_of_check_directions);
-      Nr_unused_masses[Black] = save_nr_unused_masses;
-      Nr_remaining_moves[White] = save_nr_remaining_moves;
-    }
+    SetPiece(pb,placed_on,white[placed_index].flags);
+    continue_intercepting_checks(n,check_directions,nr_of_check_directions);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -57,35 +51,23 @@ static void with_promoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
+  if (intelligent_can_promoted_white_pawn_theoretically_move_to(placed_index,
+                                                                placed_on))
   {
-    /* A rough check whether it is worth thinking about promotions */
-    unsigned int time = moves_to_white_prom[placed_index];
-    if (placed_on<=square_h7)
-      /* square is not on 8th rank -- 1 move necessary to get there */
-      ++time;
-
-    if (time<=Nr_remaining_moves[White])
-    {
-      square const placed_from = white[placed_index].diagram_square;
-      piece pp;
-      for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-        if (!officer_uninterceptably_attacks_king(Black,placed_on,pp))
-        {
-          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[White];
-          unsigned int const save_nr_unused_masses = Nr_unused_masses[Black];
-          if (intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                               pp,
-                                                               placed_on))
-          {
-            SetPiece(pp,placed_on,white[placed_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions);
-            Nr_unused_masses[Black] = save_nr_unused_masses;
-            Nr_remaining_moves[White] = save_nr_remaining_moves;
-          }
-        }
-    }
+    square const placed_from = white[placed_index].diagram_square;
+    piece pp;
+    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+      if (!officer_uninterceptably_attacks_king(Black,placed_on,pp)
+          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
+                                                              pp,
+                                                              placed_on))
+      {
+        SetPiece(pp,placed_on,white[placed_index].flags);
+        continue_intercepting_checks(n,
+                                     check_directions,
+                                     nr_of_check_directions);
+        intelligent_unreserve();
+      }
   }
 
   TraceFunctionExit(__func__);
@@ -106,22 +88,14 @@ static void with_white_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,placed_on,placed_type))
+  if (!officer_uninterceptably_attacks_king(Black,placed_on,placed_type)
+      && intelligent_reserve_officer_moves_from_to(white[placed_index].diagram_square,
+                                                   placed_on,
+                                                   placed_type))
   {
-    square const placed_from = white[placed_index].diagram_square;
-    unsigned int const time= intelligent_count_nr_of_moves_from_to_no_check(placed_type,
-                                                                            placed_from,
-                                                                            placed_type,
-                                                                            placed_on);
-    if (time<=Nr_remaining_moves[White])
-    {
-      Flags const placed_flags = white[placed_index].flags;
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u\n",Nr_remaining_moves[White]);
-      SetPiece(placed_type,placed_on,placed_flags);
-      continue_intercepting_checks(n,check_directions,nr_of_check_directions);
-      Nr_remaining_moves[White] += time;
-    }
+    SetPiece(placed_type,placed_on,white[placed_index].flags);
+    continue_intercepting_checks(n,check_directions,nr_of_check_directions);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -141,36 +115,40 @@ static void intercept_check_white(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  for (placed_index = 1; placed_index<MaxPiece[White]; ++placed_index)
-    if (white[placed_index].usage==piece_is_unused)
-    {
-      piece const placed_type = white[placed_index].type;
-
-      white[placed_index].usage = piece_intercepts;
-
-      if (placed_type==pb)
+  if (intelligent_reserve_masses(White,1))
+  {
+    for (placed_index = 1; placed_index<MaxPiece[White]; ++placed_index)
+      if (white[placed_index].usage==piece_is_unused)
       {
-        if (placed_on<=square_h7)
-          with_unpromoted_white_pawn(n,
-                                     placed_index,placed_on,
-                                     check_directions,
-                                     nr_of_check_directions);
-        with_promoted_white_pawn(n,
-                                 placed_index,placed_on,
-                                 check_directions,
-                                 nr_of_check_directions);
+        piece const placed_type = white[placed_index].type;
+
+        white[placed_index].usage = piece_intercepts;
+
+        if (placed_type==pb)
+        {
+          if (placed_on<=square_h7)
+            with_unpromoted_white_pawn(n,
+                                       placed_index,placed_on,
+                                       check_directions,
+                                       nr_of_check_directions);
+          with_promoted_white_pawn(n,
+                                   placed_index,placed_on,
+                                   check_directions,
+                                   nr_of_check_directions);
+        }
+        else
+          with_white_officer(n,
+                             placed_index,placed_type,placed_on,
+                             check_directions,
+                             nr_of_check_directions);
+
+        white[placed_index].usage = piece_is_unused;
       }
-      else
-        with_white_officer(n,
-                           placed_index,placed_type,placed_on,
-                           check_directions,
-                           nr_of_check_directions);
 
-      white[placed_index].usage = piece_is_unused;
-    }
-
-  e[placed_on]= vide;
-  spec[placed_on]= EmptySpec;
+    e[placed_on]= vide;
+    spec[placed_on]= EmptySpec;
+    intelligent_unreserve();
+}
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -182,8 +160,6 @@ static void with_promoted_black_pawn(stip_length_type n,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions)
 {
-  square const placed_from = black[placed_index].diagram_square;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
@@ -191,39 +167,24 @@ static void with_promoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
+  if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
+                                                                placed_on))
   {
-    /* A rough check whether it is worth thinking about promotions */
-    unsigned int time = (placed_from>=square_a7
-                         ? 5
-                         : placed_from/onerow - nr_of_slack_rows_below_board);
-    assert(time<=5);
+    square const placed_from = black[placed_index].diagram_square;
 
-    if (placed_on>=square_a2)
-      /* square is not on 1st rank -- 1 move necessary to get there */
-      ++time;
-
-    if (time<=Nr_remaining_moves[Black])
-    {
-      piece pp;
-      for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-        if (!guards(king_square[White],pp,placed_on))
-        {
-          unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-          unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-          if (intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
-                                                               pp,
-                                                               placed_on))
-          {
-            SetPiece(pp,placed_on,black[placed_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions);
-
-            Nr_unused_masses[White] = save_nr_unused_masses;
-            Nr_remaining_moves[Black] = save_nr_remaining_moves;
-          }
-        }
-    }
+    piece pp;
+    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
+      if (!guards(king_square[White],pp,placed_on)
+          && intelligent_reserve_promoting_pawn_moves_from_to(placed_from,
+                                                              pp,
+                                                              placed_on))
+      {
+        SetPiece(pp,placed_on,black[placed_index].flags);
+        continue_intercepting_checks(n,
+                                     check_directions,
+                                     nr_of_check_directions);
+        intelligent_unreserve();
+      }
   }
 
   TraceFunctionExit(__func__);
@@ -243,21 +204,15 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],pn,placed_on))
+  if (!guards(king_square[White],pn,placed_on)
+      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(black[placed_index].diagram_square,
+                                                                   placed_on))
   {
-    square const placed_from = black[placed_index].diagram_square;
-    unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-    unsigned int const save_nr_unused_masses = Nr_unused_masses[White];
-    if (intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_from,
-                                                                  placed_on))
-    {
-      SetPiece(pn,placed_on,black[placed_index].flags);
-      continue_intercepting_checks(n,
-                                   check_directions,
-                                   nr_of_check_directions);
-      Nr_unused_masses[White] = save_nr_unused_masses;
-      Nr_remaining_moves[Black] = save_nr_remaining_moves;
-    }
+    SetPiece(pn,placed_on,black[placed_index].flags);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -266,35 +221,29 @@ static void with_unpromoted_black_pawn(stip_length_type n,
 
 static void with_black_officer(stip_length_type n,
                                unsigned int placed_index,
-                               piece placed_type, square placed_on,
+                               square placed_on,
                                int const check_directions[8],
                                unsigned int nr_of_check_directions)
 {
+  piece const placed_type = black[placed_index].type;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
-  TracePiece(placed_type);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],placed_type,placed_on))
+  if (!guards(king_square[White],placed_type,placed_on)
+      && intelligent_reserve_officer_moves_from_to(black[placed_index].diagram_square,
+                                                   placed_on,
+                                                   placed_type))
   {
-    square const placed_from = black[placed_index].diagram_square;
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(placed_type,
-                                                                             placed_from,
-                                                                             placed_type,
-                                                                             placed_on);
-    if (time<=Nr_remaining_moves[Black])
-    {
-      Nr_remaining_moves[Black] -= time;
-      TraceValue("%u\n",Nr_remaining_moves[Black]);
-      SetPiece(placed_type,placed_on,black[placed_index].flags);
-      continue_intercepting_checks(n,
-                                   check_directions,
-                                   nr_of_check_directions);
-      Nr_remaining_moves[Black] += time;
-    }
+    SetPiece(placed_type,placed_on,black[placed_index].flags);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -314,36 +263,38 @@ static void intercept_check_black(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
-    if (black[placed_index].usage==piece_is_unused)
-    {
-      piece const placed_type = black[placed_index].type;
-
-      black[placed_index].usage = piece_intercepts;
-
-      if (placed_type==pn)
+  if (intelligent_reserve_masses(Black,1))
+  {
+    for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
+      if (black[placed_index].usage==piece_is_unused)
       {
-        if (placed_on>=square_a2)
-          with_unpromoted_black_pawn(n,
-                                     placed_index,placed_on,
-                                     check_directions,
-                                     nr_of_check_directions);
-        with_promoted_black_pawn(n,
-                                 placed_index,placed_on,
-                                 check_directions,
-                                 nr_of_check_directions);
+        black[placed_index].usage = piece_intercepts;
+
+        if (black[placed_index].type==pn)
+        {
+          if (placed_on>=square_a2)
+            with_unpromoted_black_pawn(n,
+                                       placed_index,placed_on,
+                                       check_directions,
+                                       nr_of_check_directions);
+          with_promoted_black_pawn(n,
+                                   placed_index,placed_on,
+                                   check_directions,
+                                   nr_of_check_directions);
+        }
+        else
+          with_black_officer(n,
+                             placed_index,placed_on,
+                             check_directions,
+                             nr_of_check_directions);
+
+        black[placed_index].usage = piece_is_unused;
       }
-      else
-        with_black_officer(n,
-                           placed_index,placed_type,placed_on,
-                           check_directions,
-                           nr_of_check_directions);
 
-      black[placed_index].usage = piece_is_unused;
-    }
-
-  e[placed_on] = vide;
-  spec[placed_on] = EmptySpec;
+    e[placed_on] = vide;
+    spec[placed_on] = EmptySpec;
+    intelligent_unreserve();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

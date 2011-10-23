@@ -83,10 +83,6 @@ unsigned int PieceId2index[MaxPieceId+1];
 
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
-unsigned int Nr_remaining_moves[nr_sides];
-unsigned int Nr_unused_masses[nr_sides];
-
-
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta)
 {
@@ -520,51 +516,43 @@ static void GenerateBlackKing(stip_length_type n)
 
   assert(black[index_of_king].type==roin);
 
-  Nr_remaining_moves[White] = MovesLeft[White];
-  Nr_remaining_moves[Black] = MovesLeft[Black];
-  TraceValue("%u",Nr_remaining_moves[White]);
-  TraceValue("%u\n",Nr_remaining_moves[Black]);
-
-  Nr_unused_masses[Black] = MaxPiece[Black]-1;
-  TraceValue("%u\n",Nr_unused_masses[Black]);
+  intelligent_init_reservations(MovesLeft[White],MovesLeft[Black],
+                                MaxPiece[White]-1,MaxPiece[Black]-1);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
   {
     TraceSquare(*bnp);TraceText("\n");
-    if (e[*bnp]!=obs)
+    if (e[*bnp]!=obs
+        && intelligent_reserve_king_moves_from_to(Black,
+                                                  black[index_of_king].diagram_square,
+                                                  *bnp))
     {
-      unsigned int const save_nr_remaining_moves = Nr_remaining_moves[Black];
-      if (intelligent_reserve_king_moves_from_to(Black,
-                                                 black[index_of_king].diagram_square,
-                                                 *bnp))
+
       {
-
+        square s;
+        for (s = 0; s!=maxsquare+4; ++s)
         {
-          square s;
-          for (s = 0; s!=maxsquare+4; ++s)
-          {
-            if (nr_reasons_for_staying_empty[s]>0)
-              WriteSquare(s);
-            assert(nr_reasons_for_staying_empty[s]==0);
-          }
+          if (nr_reasons_for_staying_empty[s]>0)
+            WriteSquare(s);
+          assert(nr_reasons_for_staying_empty[s]==0);
         }
-
-        SetPiece(roin,*bnp,king_flags);
-        king_square[Black] = *bnp;
-        black[index_of_king].usage = piece_is_king;
-        if (goal_to_be_reached==goal_mate)
-        {
-          intelligent_mate_generate_checking_moves(n);
-          intelligent_mate_generate_doublechecking_moves(n);
-        }
-        else
-          intelligent_guard_flights(n);
-
-        e[*bnp] = vide;
-        spec[*bnp] = EmptySpec;
-
-        Nr_remaining_moves[Black] = save_nr_remaining_moves;
       }
+
+      SetPiece(roin,*bnp,king_flags);
+      king_square[Black] = *bnp;
+      black[index_of_king].usage = piece_is_king;
+      if (goal_to_be_reached==goal_mate)
+      {
+        intelligent_mate_generate_checking_moves(n);
+        intelligent_mate_generate_doublechecking_moves(n);
+      }
+      else
+        intelligent_guard_flights(n);
+
+      e[*bnp] = vide;
+      spec[*bnp] = EmptySpec;
+
+      intelligent_unreserve();
     }
   }
 

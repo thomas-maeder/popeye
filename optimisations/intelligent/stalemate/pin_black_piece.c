@@ -34,7 +34,6 @@ static boolean is_line_empty(square start, square end, int dir)
 /* @return true iff a pin was actually placed
  */
 static void pin_by_officer(stip_length_type n,
-                           piece pinner_orig_type,
                            piece pinner_type,
                            Flags pinner_flags,
                            square pinner_comes_from,
@@ -42,28 +41,18 @@ static void pin_by_officer(stip_length_type n,
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
-  TracePiece(pinner_orig_type);
   TracePiece(pinner_type);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParamListEnd();
 
+  if (intelligent_reserve_officer_moves_from_to(pinner_comes_from,
+                                                pin_from,
+                                                pinner_type))
   {
-    unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(pinner_orig_type,
-                                                                             pinner_comes_from,
-                                                                             pinner_type,
-                                                                             pin_from);
-    if (time<=Nr_remaining_moves[White])
-    {
-      --Nr_unused_masses[White];
-      Nr_remaining_moves[White] -= time;
-      TraceValue("%u",Nr_unused_masses[White]);
-      TraceValue("%u\n",Nr_remaining_moves[White]);
-      SetPiece(pinner_type,pin_from,pinner_flags);
-      intelligent_stalemate_test_target_position(n);
-      Nr_remaining_moves[White] += time;
-      ++Nr_unused_masses[White];
-    }
+    SetPiece(pinner_type,pin_from,pinner_flags);
+    intelligent_stalemate_test_target_position(n);
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -87,14 +76,23 @@ static void pin_by_promoted_pawn(stip_length_type n,
   TraceFunctionParam("%u",diagonal);
   TraceFunctionParamListEnd();
 
-  pin_by_officer(n,
-                 pb,minor_pinner_type,pinner_flags,
-                 pinner_comes_from,
-                 pin_from);
-  pin_by_officer(n,
-                 pb,db,pinner_flags,
-                 pinner_comes_from,
-                 pin_from);
+  if (intelligent_reserve_promoting_pawn_moves_from_to(pinner_comes_from,
+                                                       minor_pinner_type,
+                                                       pin_from))
+  {
+    SetPiece(minor_pinner_type,pin_from,pinner_flags);
+    intelligent_stalemate_test_target_position(n);
+    intelligent_unreserve();
+  }
+
+  if (intelligent_reserve_promoting_pawn_moves_from_to(pinner_comes_from,
+                                                       db,
+                                                       pin_from))
+  {
+    SetPiece(db,pin_from,pinner_flags);
+    intelligent_stalemate_test_target_position(n);
+    intelligent_unreserve();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -126,16 +124,16 @@ static void pin_specific_piece_on(stip_length_type n,
 
     case tb:
       if (!diagonal)
-        pin_by_officer(n,tb,tb,pinner_flags,pinner_comes_from,pin_on);
+        pin_by_officer(n,tb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case fb:
       if (diagonal)
-        pin_by_officer(n,fb,fb,pinner_flags,pinner_comes_from,pin_on);
+        pin_by_officer(n,fb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case db:
-      pin_by_officer(n,db,db,pinner_flags,pinner_comes_from,pin_on);
+      pin_by_officer(n,db,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case pb:
@@ -154,55 +152,59 @@ static void pin_specific_piece_on(stip_length_type n,
 void intelligent_stalemate_pin_black_piece(stip_length_type n,
                                            square position_of_trouble_maker)
 {
-  int const dir = CheckDirQueen[position_of_trouble_maker-king_square[Black]];
-  piece const pinned_type = e[position_of_trouble_maker];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(position_of_trouble_maker);
   TraceFunctionParamListEnd();
 
-  if (Nr_unused_masses[White]>0
-      && dir!=0          /* we can only pin on queen lines */
-      && pinned_type!=dn /* queens cannot be pinned */
-      /* bishops can only be pined on rook lines and vice versa */
-      && !(CheckDirBishop[dir]!=0 && pinned_type==fn)
-      && !(CheckDirRook[dir]!=0 && pinned_type==tn)
-      && is_line_empty(king_square[Black],position_of_trouble_maker,dir))
+  if (intelligent_reserve_masses(White,1))
   {
-    boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
+    int const dir = CheckDirQueen[position_of_trouble_maker-king_square[Black]];
+    piece const pinned_type = e[position_of_trouble_maker];
 
-    square pin_on;
-    for (pin_on = position_of_trouble_maker+dir; e[pin_on]==vide; pin_on += dir)
+    if (dir!=0          /* we can only pin on queen lines */
+        && pinned_type!=dn /* queens cannot be pinned */
+        /* bishops can only be pined on rook lines and vice versa */
+        && !(CheckDirBishop[dir]!=0 && pinned_type==fn)
+        && !(CheckDirRook[dir]!=0 && pinned_type==tn)
+        && is_line_empty(king_square[Black],position_of_trouble_maker,dir))
     {
-      if (nr_reasons_for_staying_empty[pin_on]==0)
+      boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
+
+      square pin_on;
+      for (pin_on = position_of_trouble_maker+dir; e[pin_on]==vide; pin_on += dir)
       {
-        unsigned int pinner_index;
-        for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
+        if (nr_reasons_for_staying_empty[pin_on]==0)
         {
-          if (white[pinner_index].usage==piece_is_unused)
+          unsigned int pinner_index;
+          for (pinner_index = 1; pinner_index<MaxPiece[White]; ++pinner_index)
           {
-            white[pinner_index].usage = piece_pins;
+            if (white[pinner_index].usage==piece_is_unused)
+            {
+              white[pinner_index].usage = piece_pins;
 
-            pin_specific_piece_on(n,
-                                  position_of_trouble_maker,
-                                  pin_on,
-                                  pinner_index,
-                                  diagonal);
+              pin_specific_piece_on(n,
+                                    position_of_trouble_maker,
+                                    pin_on,
+                                    pinner_index,
+                                    diagonal);
 
-            white[pinner_index].usage = piece_is_unused;
+              white[pinner_index].usage = piece_is_unused;
+            }
           }
+
+          e[pin_on] = vide;
+          spec[pin_on] = EmptySpec;
         }
 
-        e[pin_on] = vide;
-        spec[pin_on] = EmptySpec;
+        ++nr_reasons_for_staying_empty[pin_on];
       }
 
-      ++nr_reasons_for_staying_empty[pin_on];
+      for (pin_on -= dir; pin_on!=position_of_trouble_maker; pin_on -= dir)
+        --nr_reasons_for_staying_empty[pin_on];
     }
 
-    for (pin_on -= dir; pin_on!=position_of_trouble_maker; pin_on -= dir)
-      --nr_reasons_for_staying_empty[pin_on];
+    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
