@@ -1185,7 +1185,6 @@ boolean intelligent_reserve_black_king_moves_from_to(square from_square,
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
