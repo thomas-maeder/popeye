@@ -466,8 +466,10 @@ void intelligent_find_and_block_flights(stip_length_type n)
 
   {
     unsigned int const nr_flights_to_block = plan_blocks_of_flights();
-    if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
-                                                    nr_flights_to_block))
+    if (nr_flights_to_block==0)
+      finalise_blocking(n);
+    else if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
+                                                         nr_flights_to_block))
     {
       block_planned_flights(n,nr_flights_to_block);
       intelligent_unreserve();
