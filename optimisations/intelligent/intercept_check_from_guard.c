@@ -101,8 +101,10 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
                                                                     pp,
                                                                     to_be_intercepted))
       {
-        if (index_of_intercepting_piece>=index_of_next_guarding_piece
-            && guards_black_flight(pp,to_be_intercepted))
+        if (/* avoid duplicate: if intercepter has already been used as guarding
+             * piece, it shouldn't guard now again */
+            !(index_of_intercepting_piece<index_of_next_guarding_piece
+              && guards_black_flight(pp,to_be_intercepted)))
         {
           SetPiece(pp,to_be_intercepted,intercepter_flags);
           intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
@@ -137,10 +139,17 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {
-    SetPiece(pb,to_be_intercepted,intercepter_flags);
-    intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-    e[to_be_intercepted] = vide;
-    spec[to_be_intercepted] = EmptySpec;
+    if (/* avoid duplicate: if intercepter has already been used as guarding
+         * piece, it shouldn't guard now again */
+        !(index_of_intercepting_piece<index_of_next_guarding_piece
+          && guards_black_flight(pb,to_be_intercepted)))
+    {
+      SetPiece(pb,to_be_intercepted,intercepter_flags);
+      intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+      e[to_be_intercepted] = vide;
+      spec[to_be_intercepted] = EmptySpec;
+    }
+
     intelligent_unreserve();
   }
 
