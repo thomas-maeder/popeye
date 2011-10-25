@@ -169,6 +169,7 @@ optimisations/intelligent/stalemate/intercept_checks$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/intercept_checks.c \
  optimisations/intelligent/stalemate/intercept_checks.h pyint.h pydata.h \
  optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
  optimisations/intelligent/stalemate/finish.h trace.h
 
 optimisations/intelligent/stalemate/intercept_checks.h:
@@ -178,6 +179,8 @@ pyint.h:
 pydata.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
+
+optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
 optimisations/intelligent/stalemate/finish.h:
 

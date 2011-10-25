@@ -2,6 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
 
@@ -483,12 +484,14 @@ static void next_check(stip_length_type n,
        where_to_intercept += current_dir)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
     {
-      with_black_piece(n,
-                       side,
-                       where_to_intercept,
-                       check_directions,
-                       nr_of_check_directions-1,
-                       nr_checks_to_opponent);
+      /* avoid testing the same position twice */
+      if (*where_to_start_placing_unused_black_pieces<where_to_intercept)
+        with_black_piece(n,
+                         side,
+                         where_to_intercept,
+                         check_directions,
+                         nr_of_check_directions-1,
+                         nr_checks_to_opponent);
       with_white_piece(n,
                        side,
                        where_to_intercept,
