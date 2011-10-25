@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
@@ -148,7 +149,9 @@ boolean intelligent_stalemate_immobilise_black(stip_length_type n)
 
 static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
-  boolean const is_block_possible = pprise[nbply]==vide && nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0;
+  boolean const is_block_possible = (pprise[nbply]==vide
+                                     && nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0
+                                     && *where_to_start_placing_unused_black_pieces<=move_generation_stack[nbcou].arrival);
   immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
   if (current_state->current.requirement<new_req)
     current_state->current.requirement = new_req;
@@ -165,7 +168,9 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   if (diff==dir)
   {
     square const closest_flight = move_generation_stack[nbcou].departure+dir;
-    boolean const is_block_possible = pprise[nbply]==vide && nr_reasons_for_staying_empty[closest_flight]==0;
+    boolean const is_block_possible = (pprise[nbply]==vide
+                                       && nr_reasons_for_staying_empty[closest_flight]==0
+                                       && *where_to_start_placing_unused_black_pieces<=closest_flight);
     immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
     if (current_state->current.requirement<new_req)
       current_state->current.requirement = new_req;

@@ -53,6 +53,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
  optimisations/intelligent/stalemate/immobilise_black.h pyint.h pydata.h \
  pyslice.h optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
  optimisations/intelligent/stalemate/pin_black_piece.h \
@@ -67,6 +68,8 @@ pydata.h:
 pyslice.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
+
+optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
 optimisations/intelligent/stalemate/white_block.h:
 
