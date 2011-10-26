@@ -296,12 +296,12 @@ static void with_white_king(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void with_white_officer(stip_length_type n,
-                               unsigned int blocker_index,
-                               square where_to_intercept,
-                               int const check_directions[8],
-                               unsigned int nr_of_check_directions,
-                               unsigned int nr_checks_to_white)
+static void with_white_rider(stip_length_type n,
+                             unsigned int blocker_index,
+                             square where_to_intercept,
+                             int const check_directions[8],
+                             unsigned int nr_of_check_directions,
+                             unsigned int nr_checks_to_white)
 {
   piece const intercepter_type = white[blocker_index].type;
 
@@ -313,12 +313,45 @@ static void with_white_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_white);
   TraceFunctionParamListEnd();
 
-  if (!officer_guards(king_square[Black],intercepter_type,where_to_intercept)
-      && intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
-                                                   where_to_intercept,
-                                                   intercepter_type))
+  assert(!officer_guards(king_square[Black],intercepter_type,where_to_intercept));
+
+  if (intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
+                                                where_to_intercept,
+                                                intercepter_type))
   {
     SetPiece(intercepter_type,where_to_intercept,white[blocker_index].flags);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions,
+                                 nr_checks_to_white);
+    intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void with_white_knight(stip_length_type n,
+                              unsigned int blocker_index,
+                              square where_to_intercept,
+                              int const check_directions[8],
+                              unsigned int nr_of_check_directions,
+                              unsigned int nr_checks_to_white)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",blocker_index);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",nr_checks_to_white);
+  TraceFunctionParamListEnd();
+
+  if (!knight_guards(king_square[Black],where_to_intercept)
+      && intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
+                                                   where_to_intercept,
+                                                   cb))
+  {
+    SetPiece(cb,where_to_intercept,white[blocker_index].flags);
     continue_intercepting_checks(n,
                                  check_directions,
                                  nr_of_check_directions,
@@ -334,13 +367,15 @@ static void with_white_piece(stip_length_type n,
                              square where_to_intercept,
                              int const check_directions[8],
                              unsigned int nr_of_check_directions,
-                             unsigned int nr_checks_to_white)
+                             unsigned int nr_checks_to_white,
+                             boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_white);
+  TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (white[index_of_king].usage==piece_is_unused)
@@ -362,29 +397,60 @@ static void with_white_piece(stip_length_type n,
       {
         white[blocker_index].usage = piece_intercepts;
 
-        if (white[blocker_index].type==pb)
+        switch (white[blocker_index].type)
         {
-          with_promoted_white_pawn(n,
-                                   blocker_index,
-                                   where_to_intercept,
-                                   check_directions,
-                                   nr_of_check_directions,
-                                   nr_checks_to_white);
-          if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
-            with_unpromoted_white_pawn(n,
-                                       blocker_index,
-                                       where_to_intercept,
-                                       check_directions,
-                                       nr_of_check_directions,
-                                       nr_checks_to_white);
+          case pb:
+            with_promoted_white_pawn(n,
+                                     blocker_index,
+                                     where_to_intercept,
+                                     check_directions,
+                                     nr_of_check_directions,
+                                     nr_checks_to_white);
+            if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
+              with_unpromoted_white_pawn(n,
+                                         blocker_index,
+                                         where_to_intercept,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_white);
+            break;
+
+          case db:
+            break;
+
+          case tb:
+            if (is_diagonal)
+              with_white_rider(n,
+                               blocker_index,
+                               where_to_intercept,
+                               check_directions,
+                               nr_of_check_directions,
+                               nr_checks_to_white);
+            break;
+
+          case fb:
+            if (!is_diagonal)
+              with_white_rider(n,
+                               blocker_index,
+                               where_to_intercept,
+                               check_directions,
+                               nr_of_check_directions,
+                               nr_checks_to_white);
+            break;
+
+          case cb:
+            with_white_knight(n,
+                               blocker_index,
+                               where_to_intercept,
+                               check_directions,
+                               nr_of_check_directions,
+                               nr_checks_to_white);
+            break;
+
+          default:
+            assert(0);
+            break;
         }
-        else
-          with_white_officer(n,
-                             blocker_index,
-                             where_to_intercept,
-                             check_directions,
-                             nr_of_check_directions,
-                             nr_checks_to_white);
 
         white[blocker_index].usage = piece_is_unused;
       }
@@ -406,6 +472,8 @@ static void next_check(stip_length_type n,
 {
   square where_to_intercept;
   int const current_dir = check_directions[nr_of_check_directions-1];
+  square const start = king_square[Black]+current_dir;
+  boolean const is_diagonal = SquareCol(start)==SquareCol(king_square[Black]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -416,7 +484,7 @@ static void next_check(stip_length_type n,
   assert(nr_of_check_directions>0);
   TraceValue("%d\n",current_dir);
 
-  for (where_to_intercept = king_square[Black]+current_dir;
+  for (where_to_intercept = start;
        e[where_to_intercept]==vide;
        where_to_intercept += current_dir)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
@@ -432,7 +500,8 @@ static void next_check(stip_length_type n,
                        where_to_intercept,
                        check_directions,
                        nr_of_check_directions-1,
-                       nr_checks_to_white);
+                       nr_checks_to_white,
+                       is_diagonal);
     }
 
   TraceFunctionExit(__func__);

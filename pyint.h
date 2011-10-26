@@ -73,6 +73,7 @@ boolean white_pawn_attacks_king_region(square from, int dir);
 boolean black_pawn_attacks_king(square from);
 
 boolean rider_guards(square to_be_guarded, square guarding_from, int dir);
+boolean knight_guards(square to_be_guarded, square guarding_from);
 boolean officer_guards(square to_be_guarded, piece guarding, square guarding_from);
 boolean would_white_king_guard_from(square white_king_square);
 boolean is_white_king_uninterceptably_attacked_by_non_king(square s);

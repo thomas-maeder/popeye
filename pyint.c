@@ -126,6 +126,24 @@ boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
   return result;
 }
 
+boolean knight_guards(square to_be_guarded, square guarding_from)
+{
+  boolean result;
+  int const diff = to_be_guarded-guarding_from;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(to_be_guarded);
+  TraceSquare(guarding_from);
+  TraceFunctionParamListEnd();
+
+  result = CheckDirKnight[diff]!=0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean officer_guards(square to_be_guarded, piece officer_type, square guarding_from)
 {
   boolean result;
@@ -143,7 +161,7 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
   {
     case cb:
     case cn:
-      result = CheckDirKnight[diff]!=0;
+      result = knight_guards(to_be_guarded,guarding_from);
       break;
 
     case fb:
@@ -166,7 +184,6 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
       result = false;
       break;
   }
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
