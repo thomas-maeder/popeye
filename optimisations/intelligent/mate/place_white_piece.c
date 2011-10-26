@@ -18,7 +18,7 @@ static void unpromoted_white_pawn(stip_length_type n,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(placed_on)
+  if (!white_pawn_attacks_king_region(placed_on,0)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(white[placed_index].diagram_square,
                                                                    placed_on))
   {
@@ -107,7 +107,7 @@ void intelligent_mate_place_any_white_piece_on(stip_length_type n,
 
         if (placed_type==pb)
         {
-          if (placed_on<=square_h7)
+          if (placed_on>=square_a2 && placed_on<=square_h7)
             unpromoted_white_pawn(n,placed_index,placed_on);
           promoted_white_pawn(n,placed_index,placed_on);
         }

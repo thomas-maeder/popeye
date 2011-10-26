@@ -126,29 +126,21 @@ boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
   return result;
 }
 
-boolean guards(square to_be_guarded, piece guarding, square guarding_from)
+boolean officer_guards(square to_be_guarded, piece officer_type, square guarding_from)
 {
   boolean result;
   int const diff = to_be_guarded-guarding_from;
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_guarded);
-  TracePiece(guarding);
+  TracePiece(officer_type);
   TraceSquare(guarding_from);
   TraceFunctionParamListEnd();
 
-  switch (guarding)
+  assert(to_be_guarded!=initsquare);
+
+  switch (officer_type)
   {
-    case pb:
-      result = (guarding_from>=square_a2
-                && (diff==dir_up+dir_left || diff==dir_up+dir_right));
-      break;
-
-    case pn:
-      result = (guarding_from<=square_h7
-                && (diff==dir_down+dir_left || diff==dir_down+dir_right));
-      break;
-
     case cb:
     case cn:
       result = CheckDirKnight[diff]!=0;
@@ -166,13 +158,7 @@ boolean guards(square to_be_guarded, piece guarding, square guarding_from)
 
     case db:
     case dn:
-      result = (rider_guards(to_be_guarded,guarding_from,CheckDirBishop[diff])
-                || rider_guards(to_be_guarded,guarding_from,CheckDirRook[diff]));
-      break;
-
-    case roib:
-    case roin:
-      result = move_diff_code[abs(diff)]<3;
+      result = rider_guards(to_be_guarded,guarding_from,CheckDirQueen[diff]);
       break;
 
     default:
@@ -208,16 +194,18 @@ boolean would_white_king_guard_from(square white_king_square)
   return result;
 }
 
-boolean white_pawn_attacks_king(square from)
+boolean white_pawn_attacks_king_region(square from, int dir)
 {
-  int const dir = king_square[Black]-from;
-  boolean const result = dir==dir_up+dir_right || dir==dir_up+dir_left;
+  int const diff = king_square[Black]+dir-from;
+  boolean const result = diff==dir_up+dir_right || diff==dir_up+dir_left;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
   assert(king_square[Black]!=initsquare);
+  assert(from>=square_a2);
+  assert(from<=square_h7);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -227,17 +215,22 @@ boolean white_pawn_attacks_king(square from)
 
 boolean black_pawn_attacks_king(square from)
 {
-  int const dir = king_square[White]-from;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
+  assert(from>=square_a2);
+  assert(from<=square_h7);
+
   if (king_square[White]==initsquare)
     result = false;
   else
-    result = dir==dir_down+dir_right || dir==dir_down+dir_left;
+  {
+    int const diff = king_square[White]-from;
+    result = diff==dir_down+dir_right || diff==dir_down+dir_left;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

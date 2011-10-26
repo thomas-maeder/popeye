@@ -3,7 +3,7 @@
 #include "pydata.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/stalemate/finish.h"
-#include "optimisations/intelligent/stalemate/intercept_checks.h"
+#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -29,7 +29,7 @@ static void finalise_blocking(stip_length_type n,
     if (echecc(nbply,White))
     {
       boolean const is_black_in_check = false;
-      intelligent_stalemate_intercept_checks(n,is_black_in_check,White);
+      intelligent_stalemate_intercept_checks_to_white(n,is_black_in_check);
     }
     else
       intelligent_stalemate_test_target_position(n);
@@ -156,7 +156,7 @@ static void block_first(stip_length_type n,
       if (black[i].type==pn)
       {
         promoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
-        if (to_be_blocked[0]>=square_a2)
+        if (to_be_blocked[0]>=square_a2 && to_be_blocked[0]<=square_h7)
           unpromoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
       }
       else

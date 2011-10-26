@@ -5,7 +5,7 @@
 #include "platform/maxtime.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "optimisations/intelligent/stalemate/intercept_checks.h"
+#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "trace.h"
@@ -13,12 +13,37 @@
 #include <assert.h>
 #include <stdlib.h>
 
+static void continue_after_placement(stip_length_type n,
+                                     square to_be_blocked,
+                                     piece placed_type,
+                                     unsigned int nr_checks_to_opponent)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceSquare(to_be_blocked);
+  TracePiece(placed_type);
+  TraceFunctionParam("%u",nr_checks_to_opponent);
+  TraceFunctionParamListEnd();
+
+  if (king_square[White]!=initsquare
+      && officer_guards(king_square[White],placed_type,to_be_blocked))
+  {
+    unsigned int const nr_checks_to_black = 0;
+    intelligent_stalemate_intercept_checks_to_white(n,nr_checks_to_black);
+  }
+  else
+    intelligent_stalemate_test_target_position(n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void promoted_pawn(stip_length_type n,
                           square where_to_place,
                           unsigned int placed_index)
 {
-  Flags const blocker_flags = black[placed_index].flags;
-  square const blocker_comes_from = black[placed_index].diagram_square;
+  Flags const placed_flags = black[placed_index].flags;
+  square const placed_comes_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -32,17 +57,13 @@ static void promoted_pawn(stip_length_type n,
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       if (!officer_uninterceptably_attacks_king(White,where_to_place,pp)
-          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocker_comes_from,
+          && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_comes_from,
                                                                     pp,
                                                                     where_to_place))
       {
         unsigned int const nr_checks_to_black = 0;
-        SetPiece(pp,where_to_place,blocker_flags);
-        intelligent_stalemate_continue_after_block(n,
-                                                   White,
-                                                   where_to_place,
-                                                   pp,
-                                                   nr_checks_to_black);
+        SetPiece(pp,where_to_place,placed_flags);
+        continue_after_placement(n,where_to_place,pp,nr_checks_to_black);
         intelligent_unreserve();
       }
   }
@@ -55,8 +76,8 @@ static void unpromoted_pawn(stip_length_type n,
                             square where_to_place,
                             unsigned int placed_index)
 {
-  Flags const blocker_flags = black[placed_index].flags;
-  square const blocker_comes_from = black[placed_index].diagram_square;
+  Flags const placed_flags = black[placed_index].flags;
+  square const placed_comes_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -65,10 +86,10 @@ static void unpromoted_pawn(stip_length_type n,
   TraceFunctionParamListEnd();
 
   if (!black_pawn_attacks_king(where_to_place)
-      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
+      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(placed_comes_from,
                                                                    where_to_place))
   {
-    SetPiece(pn,where_to_place,blocker_flags);
+    SetPiece(pn,where_to_place,placed_flags);
     intelligent_stalemate_test_target_position(n);
     intelligent_unreserve();
   }
@@ -81,9 +102,9 @@ static void officer(stip_length_type n,
                     square where_to_place,
                     unsigned int placed_index)
 {
-  piece const blocker_type = black[placed_index].type;
-  Flags const blocker_flags = black[placed_index].flags;
-  square const blocker_comes_from = black[placed_index].diagram_square;
+  piece const placed_type = black[placed_index].type;
+  Flags const placed_flags = black[placed_index].flags;
+  square const placed_comes_from = black[placed_index].diagram_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -91,18 +112,14 @@ static void officer(stip_length_type n,
   TraceFunctionParam("%u",placed_index);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(White,where_to_place,blocker_type)
-      && intelligent_reserve_officer_moves_from_to(blocker_comes_from,
+  if (!officer_uninterceptably_attacks_king(White,where_to_place,placed_type)
+      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
                                                    where_to_place,
-                                                   blocker_type))
+                                                   placed_type))
   {
     unsigned int const nr_checks_to_black = 0;
-    SetPiece(blocker_type,where_to_place,blocker_flags);
-    intelligent_stalemate_continue_after_block(n,
-                                               White,
-                                               where_to_place,
-                                               blocker_type,
-                                               nr_checks_to_black);
+    SetPiece(placed_type,where_to_place,placed_flags);
+    continue_after_placement(n,where_to_place,placed_type,nr_checks_to_black);
     intelligent_unreserve();
   }
 
@@ -128,7 +145,7 @@ static void place_some_piece_on(stip_length_type n, square where_to_place)
         if (black[i].type==pn)
         {
           promoted_pawn(n,where_to_place,i);
-          if (where_to_place>=square_a2)
+          if (where_to_place>=square_a2 && where_to_place<=square_h7)
             unpromoted_pawn(n,where_to_place,i);
         }
         else
@@ -187,7 +204,7 @@ static void fix_white_king_on_diagram_square(stip_length_type n)
     if (is_white_king_interceptably_attacked())
     {
       unsigned int const nr_of_checks_to_black = 0;
-      intelligent_stalemate_intercept_checks(n,nr_of_checks_to_black,White);
+      intelligent_stalemate_intercept_checks_to_white(n,nr_of_checks_to_black);
     }
     else
       intelligent_stalemate_test_target_position(n);

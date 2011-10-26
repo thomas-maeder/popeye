@@ -25,7 +25,7 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(placed_on)
+  if (!white_pawn_attacks_king_region(placed_on,0)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(white[placed_index].diagram_square,
                                                                    placed_on))
   {
@@ -126,7 +126,7 @@ static void intercept_check_white(stip_length_type n,
 
         if (placed_type==pb)
         {
-          if (placed_on<=square_h7)
+          if (placed_on>=square_a2 && placed_on<=square_h7)
             with_unpromoted_white_pawn(n,
                                        placed_index,placed_on,
                                        check_directions,
@@ -174,7 +174,7 @@ static void with_promoted_black_pawn(stip_length_type n,
 
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!guards(king_square[White],pp,placed_on)
+      if (!officer_guards(king_square[White],pp,placed_on)
           && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
                                                                     pp,
                                                                     placed_on))
@@ -204,7 +204,7 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],pn,placed_on)
+  if (!black_pawn_attacks_king(placed_on)
       && intelligent_reserve_black_pawn_moves_from_to_no_promotion(black[placed_index].diagram_square,
                                                                    placed_on))
   {
@@ -234,7 +234,7 @@ static void with_black_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!guards(king_square[White],placed_type,placed_on)
+  if (!officer_guards(king_square[White],placed_type,placed_on)
       && intelligent_reserve_officer_moves_from_to(black[placed_index].diagram_square,
                                                    placed_on,
                                                    placed_type))
@@ -272,7 +272,7 @@ static void intercept_check_black(stip_length_type n,
 
         if (black[placed_index].type==pn)
         {
-          if (placed_on>=square_a2)
+          if (placed_on>=square_a2 && placed_on<=square_h7)
             with_unpromoted_black_pawn(n,
                                        placed_index,placed_on,
                                        check_directions,

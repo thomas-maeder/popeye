@@ -3,7 +3,8 @@
 #include "pyint.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/mate/finish.h"
-#include "optimisations/intelligent/stalemate/intercept_checks.h"
+#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
+#include "optimisations/intelligent/stalemate/intercept_checks_to_black.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "trace.h"
@@ -26,9 +27,9 @@ static void finalise_blocking(stip_length_type n)
     {
       unsigned int const is_black_in_check = echecc(nbply,Black);
       if (is_black_in_check)
-        intelligent_stalemate_intercept_checks(n,is_white_in_check,Black);
+        intelligent_stalemate_intercept_checks_to_black(n,is_white_in_check);
       else if (is_white_in_check)
-        intelligent_stalemate_intercept_checks(n,is_black_in_check,White);
+        intelligent_stalemate_intercept_checks_to_white(n,is_black_in_check);
       else
         intelligent_stalemate_test_target_position(n);
     }
@@ -164,7 +165,7 @@ static void block_next_flight(stip_length_type n,
 
         if (black[blocker_index].type==pn)
         {
-          if (to_be_blocked>=square_a2)
+          if (to_be_blocked>=square_a2 && to_be_blocked<=square_h7)
             unpromoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
 
           promoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);

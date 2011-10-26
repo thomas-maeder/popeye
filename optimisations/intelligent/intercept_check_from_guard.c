@@ -9,22 +9,48 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static square guards_black_flight(piece as_piece, square from)
+static square white_pawn_guards_flight(square from)
 {
   int i;
   square result = initsquare;
 
   TraceFunctionEntry(__func__);
-  TracePiece(as_piece);
   TraceSquare(from);
-  TraceSquare(king_square[Black]);
   TraceFunctionParamListEnd();
 
   e[king_square[Black]]= vide;
 
   for (i = 8; i!=0; --i)
     if (e[king_square[Black]+vec[i]]!=obs
-        && guards(king_square[Black]+vec[i],as_piece,from))
+        && white_pawn_attacks_king_region(from,vec[i]))
+    {
+      result = king_square[Black]+vec[i];
+      break;
+    }
+
+  e[king_square[Black]]= roin;
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square white_officer_guards_flight(piece officer_type, square from)
+{
+  int i;
+  square result = initsquare;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(officer_type);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  e[king_square[Black]]= vide;
+
+  for (i = 8; i!=0; --i)
+    if (e[king_square[Black]+vec[i]]!=obs
+        && officer_guards(king_square[Black]+vec[i],officer_type,from))
     {
       result = king_square[Black]+vec[i];
       break;
@@ -62,7 +88,7 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
     if (/* avoid duplicate: if intercepter has already been used as guarding
          * piece, it shouldn't guard now again */
         !(index_of_intercepting_piece<index_of_next_guarding_piece
-          && guards_black_flight(intercepter_type,to_be_intercepted)))
+          && white_officer_guards_flight(intercepter_type,to_be_intercepted)))
     {
       SetPiece(intercepter_type,to_be_intercepted,intercepter_flags);
       intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
@@ -104,7 +130,7 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
         if (/* avoid duplicate: if intercepter has already been used as guarding
              * piece, it shouldn't guard now again */
             !(index_of_intercepting_piece<index_of_next_guarding_piece
-              && guards_black_flight(pp,to_be_intercepted)))
+              && white_officer_guards_flight(pp,to_be_intercepted)))
         {
           SetPiece(pp,to_be_intercepted,intercepter_flags);
           intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
@@ -135,14 +161,14 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king(to_be_intercepted)
+  if (!white_pawn_attacks_king_region(to_be_intercepted,0)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {
     if (/* avoid duplicate: if intercepter has already been used as guarding
          * piece, it shouldn't guard now again */
         !(index_of_intercepting_piece<index_of_next_guarding_piece
-          && guards_black_flight(pb,to_be_intercepted)))
+          && white_pawn_guards_flight(to_be_intercepted)))
     {
       SetPiece(pb,to_be_intercepted,intercepter_flags);
       intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
@@ -197,10 +223,11 @@ void intercept_check_on_guarded_square(stip_length_type n,
             break;
 
           case pb:
-            intercept_check_on_guarded_square_unpromoted_pawn(n,
-                                                              index_of_next_guarding_piece,
-                                                              to_be_intercepted,
-                                                              index_of_intercepting_piece);
+            if (to_be_intercepted>=square_a2 && to_be_intercepted<=square_h7)
+              intercept_check_on_guarded_square_unpromoted_pawn(n,
+                                                                index_of_next_guarding_piece,
+                                                                to_be_intercepted,
+                                                                index_of_intercepting_piece);
             intercept_check_on_guarded_square_promoted_pawn(n,
                                                             index_of_next_guarding_piece,
                                                             to_be_intercepted,

@@ -11,43 +11,63 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Determine whether there would be king contact if the white king were placed
- * on a particular square
- * @param white_king_square square where white king would be placed
- * @return true iff there would be king contact if the white king were placed
- *              on white_king_square
- */
-static boolean would_there_be_king_contact(square white_king_square)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = move_diff_code[abs(white_king_square-king_square[Black])]<3;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static square guards_black_flight(piece as_piece, square from)
+static square white_pawn_guards_flight(square from)
 {
   int i;
   square result = initsquare;
 
   TraceFunctionEntry(__func__);
-  TracePiece(as_piece);
   TraceSquare(from);
-  TraceSquare(king_square[Black]);
   TraceFunctionParamListEnd();
 
   e[king_square[Black]]= vide;
 
   for (i = 8; i!=0; --i)
     if (e[king_square[Black]+vec[i]]!=obs
-        && guards(king_square[Black]+vec[i],as_piece,from))
+        && white_pawn_attacks_king_region(from,vec[i]))
+    {
+      result = king_square[Black]+vec[i];
+      break;
+    }
+
+  e[king_square[Black]]= roin;
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean white_king_guards_flight(square from)
+{
+  int const diff = move_diff_code[abs(king_square[Black]-from)];
+  boolean const result = diff>3 && diff<=8;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static square white_officer_guards_flight(piece officer_type, square from)
+{
+  int i;
+  square result = initsquare;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(officer_type);
+  TraceSquare(from);
+  TraceFunctionParamListEnd();
+
+  e[king_square[Black]]= vide;
+
+  for (i = 8; i!=0; --i)
+    if (e[king_square[Black]+vec[i]]!=obs
+        && officer_guards(king_square[Black]+vec[i],officer_type,from))
     {
       result = king_square[Black]+vec[i];
       break;
@@ -191,13 +211,13 @@ static void unpromoted_pawn(stip_length_type n, unsigned int index)
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
   {
     TraceSquare(*bnp);TraceText("\n");
-    if (e[*bnp]==vide
+    if (*bnp>=square_a2 && *bnp<=square_h7 && e[*bnp]==vide
         && nr_reasons_for_staying_empty[*bnp]==0
-        && !white_pawn_attacks_king(*bnp)
+        && !white_pawn_attacks_king_region(*bnp,0)
         && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                      *bnp))
     {
-      square const guarded = guards_black_flight(pb,*bnp);
+      square const guarded = white_pawn_guards_flight(*bnp);
       if (guarded!=initsquare)
       {
         SetPiece(pb,*bnp,pawn_flags);
@@ -227,7 +247,7 @@ static void rider_from(stip_length_type n,
   TraceFunctionParamListEnd();
 
   {
-    square const guarded = guards_black_flight(guard_type,guard_from);
+    square const guarded = white_officer_guards_flight(guard_type,guard_from);
     if (guarded!=initsquare)
     {
       square const to_be_intercepted = where_to_intercept_check_from_guard(guard_type,guard_from);
@@ -260,7 +280,7 @@ static void leaper_from(stip_length_type n,
   TraceFunctionParamListEnd();
 
   {
-    square const guarded = guards_black_flight(guard_type,guard_from);
+    square const guarded = white_officer_guards_flight(guard_type,guard_from);
     if (guarded!=initsquare)
     {
       SetPiece(guard_type,guard_from,white[index_of_leaper].flags);
@@ -464,19 +484,14 @@ void intelligent_guard_flights(stip_length_type n)
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
         if (e[*bnp]==vide
             && nr_reasons_for_staying_empty[*bnp]==0
-            && !would_there_be_king_contact(*bnp)
+            && white_king_guards_flight(*bnp)
             && intelligent_reserve_white_king_moves_from_to(guard_from,*bnp))
         {
-          square const guarded = guards_black_flight(roib,*bnp);
-          if (guarded!=initsquare)
-          {
-            king_square[White]= *bnp;
-            SetPiece(roib,*bnp,white[index_of_king].flags);
-            intelligent_continue_guarding_flights(n,1);
-            e[*bnp] = vide;
-            spec[*bnp] = EmptySpec;
-          }
-
+          king_square[White]= *bnp;
+          SetPiece(roib,*bnp,white[index_of_king].flags);
+          intelligent_continue_guarding_flights(n,1);
+          e[*bnp] = vide;
+          spec[*bnp] = EmptySpec;
           intelligent_unreserve();
         }
 

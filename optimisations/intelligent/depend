@@ -46,7 +46,8 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/block_flights.h pydata.h pyint.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/mate/finish.h \
- optimisations/intelligent/stalemate/intercept_checks.h \
+ optimisations/intelligent/stalemate/intercept_checks_to_white.h \
+ optimisations/intelligent/stalemate/intercept_checks_to_black.h \
  optimisations/intelligent/stalemate/finish.h \
  options/maxsolutions/maxsolutions.h trace.h
 
@@ -60,7 +61,9 @@ optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/mate/finish.h:
 
-optimisations/intelligent/stalemate/intercept_checks.h:
+optimisations/intelligent/stalemate/intercept_checks_to_white.h:
+
+optimisations/intelligent/stalemate/intercept_checks_to_black.h:
 
 optimisations/intelligent/stalemate/finish.h:
 

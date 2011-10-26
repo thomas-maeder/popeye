@@ -30,9 +30,10 @@ static void promoted_black_pawn(stip_length_type n,
                                                                     pp,
                                                                     placed_on))
       {
-        unsigned int const nr_of_checks_to_white = guards(king_square[White],
-                                                          pp,
-                                                          placed_on);
+        unsigned int nr_of_checks_to_white = 0;
+        if (king_square[White]!=initsquare
+            && officer_guards(king_square[White],pp,placed_on))
+          nr_of_checks_to_white = 1;
         SetPiece(pp,placed_on,black[placed_index].flags);
         intelligent_mate_finish(n,nr_of_checks_to_white);
         intelligent_unreserve();
@@ -83,9 +84,10 @@ static void black_officer(stip_length_type n,
                                                    placed_on,
                                                    placed_type))
   {
-    unsigned int const nr_of_checks_to_white = guards(king_square[White],
-                                                      placed_type,
-                                                      placed_on);
+    unsigned int nr_of_checks_to_white = 0;
+    if (king_square[White]!=initsquare
+        && officer_guards(king_square[White],placed_type,placed_on))
+      nr_of_checks_to_white = 1;
     SetPiece(placed_type,placed_on,black[placed_index].flags);
     intelligent_mate_finish(n,nr_of_checks_to_white);
     intelligent_unreserve();
@@ -114,7 +116,7 @@ void intelligent_mate_place_any_black_piece_on(stip_length_type n,
 
         if (black[placed_index].type==pn)
         {
-          if (placed_on>=square_a2)
+          if (placed_on>=square_a2 && placed_on<=square_h7)
             unpromoted_black_pawn(n,placed_index,placed_on);
           promoted_black_pawn(n,placed_index,placed_on);
         }

@@ -74,7 +74,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, stip_length_type n)
                                                                    pp,
                                                                    *bnp))
         {
-          if (guards(king_square[Black],pp,*bnp))
+          if (officer_guards(king_square[Black],pp,*bnp))
           {
             SetPiece(pp,*bnp,checker_flags);
             remember_to_keep_checking_line_open(*bnp,king_square[Black],pp,+1);
@@ -108,11 +108,11 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, stip_length_type n
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
   {
     TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
-    if (e[*bnp]==vide)
+    if (*bnp>=square_a2 && *bnp<=square_h7 && e[*bnp]==vide)
     {
       if (intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,*bnp))
       {
-        if (guards(king_square[Black],pb,*bnp))
+        if (white_pawn_attacks_king_region(*bnp,0))
         {
           SetPiece(pb,*bnp,checker_flags);
           intelligent_guard_flights(n);
@@ -152,7 +152,7 @@ static void by_officer(unsigned int index_of_checker,
                                                                    white[index_of_checker].diagram_square,
                                                                    *bnp))
       {
-        if (guards(king_square[Black],checker_type,*bnp))
+        if (officer_guards(king_square[Black],checker_type,*bnp))
         {
           SetPiece(checker_type,*bnp,checker_flags);
           remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);

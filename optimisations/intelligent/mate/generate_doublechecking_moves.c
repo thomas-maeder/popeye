@@ -24,7 +24,7 @@ static void front_check_by_officer_via(unsigned int index_of_checker,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-    if (e[*bnp]==vide && guards(king_square[Black],checker_type,*bnp)
+    if (e[*bnp]==vide && officer_guards(king_square[Black],checker_type,*bnp)
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
                                                       *bnp,
@@ -96,7 +96,7 @@ static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_c
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (guards(king_square[Black],pp,check_from))
+      if (officer_guards(king_square[Black],pp,check_from))
       {
         SetPiece(pp,check_from,white[index_of_checker].flags);
         intelligent_guard_flights(n);
@@ -132,7 +132,7 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (guards(king_square[Black],pp,check_from))
+      if (officer_guards(king_square[Black],pp,check_from))
       {
         SetPiece(pp,check_from,white[index_of_checker].flags);
         intelligent_guard_flights(n);
