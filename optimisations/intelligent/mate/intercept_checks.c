@@ -158,13 +158,15 @@ static void with_promoted_black_pawn(stip_length_type n,
                                      unsigned int placed_index,
                                      square placed_on,
                                      int const check_directions[8],
-                                     unsigned int nr_of_check_directions)
+                                     unsigned int nr_of_check_directions,
+                                     boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
@@ -174,16 +176,55 @@ static void with_promoted_black_pawn(stip_length_type n,
 
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!officer_guards(king_square[White],pp,placed_on)
-          && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
-                                                                    pp,
-                                                                    placed_on))
+      switch (pp)
       {
-        SetPiece(pp,placed_on,black[placed_index].flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions);
-        intelligent_unreserve();
+        case dn:
+          break;
+
+        case tn:
+          if (is_diagonal
+              && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
+                                                                        tn,
+                                                                        placed_on))
+          {
+            SetPiece(tn,placed_on,black[placed_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions);
+            intelligent_unreserve();
+          }
+          break;
+
+        case fn:
+          if (!is_diagonal
+              && intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
+                                                                        fn,
+                                                                        placed_on))
+          {
+            SetPiece(fn,placed_on,black[placed_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions);
+            intelligent_unreserve();
+          }
+          break;
+
+        case cn:
+          if (intelligent_reserve_promoting_black_pawn_moves_from_to(placed_from,
+                                                                     cn,
+                                                                     placed_on))
+          {
+            SetPiece(cn,placed_on,black[placed_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions);
+            intelligent_unreserve();
+          }
+          break;
+
+        default:
+          assert(0);
+          break;
       }
   }
 
@@ -234,10 +275,10 @@ static void with_black_officer(stip_length_type n,
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParamListEnd();
 
-  if (!officer_guards(king_square[White],placed_type,placed_on)
-      && intelligent_reserve_officer_moves_from_to(black[placed_index].diagram_square,
-                                                   placed_on,
-                                                   placed_type))
+  assert(!officer_guards(king_square[White],placed_type,placed_on));
+  if (intelligent_reserve_officer_moves_from_to(black[placed_index].diagram_square,
+                                                placed_on,
+                                                placed_type))
   {
     SetPiece(placed_type,placed_on,black[placed_index].flags);
     continue_intercepting_checks(n,
@@ -253,7 +294,8 @@ static void with_black_officer(stip_length_type n,
 static void intercept_check_black(stip_length_type n,
                                   square placed_on,
                                   int const check_directions[8],
-                                  unsigned int nr_of_check_directions)
+                                  unsigned int nr_of_check_directions,
+                                  boolean is_diagonal)
 {
   unsigned int placed_index;
 
@@ -261,6 +303,7 @@ static void intercept_check_black(stip_length_type n,
   TraceFunctionParam("%u",n);
   TraceSquare(placed_on);
   TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_masses(Black,1))
@@ -270,23 +313,51 @@ static void intercept_check_black(stip_length_type n,
       {
         black[placed_index].usage = piece_intercepts;
 
-        if (black[placed_index].type==pn)
+        switch (black[placed_index].type)
         {
-          if (placed_on>=square_a2 && placed_on<=square_h7)
-            with_unpromoted_black_pawn(n,
-                                       placed_index,placed_on,
-                                       check_directions,
-                                       nr_of_check_directions);
-          with_promoted_black_pawn(n,
-                                   placed_index,placed_on,
-                                   check_directions,
-                                   nr_of_check_directions);
+          case pn:
+            if (placed_on>=square_a2 && placed_on<=square_h7)
+              with_unpromoted_black_pawn(n,
+                                         placed_index,placed_on,
+                                         check_directions,
+                                         nr_of_check_directions);
+            with_promoted_black_pawn(n,
+                                     placed_index,placed_on,
+                                     check_directions,
+                                     nr_of_check_directions,
+                                     is_diagonal);
+            break;
+
+          case dn:
+            break;
+
+          case tn:
+            if (is_diagonal)
+              with_black_officer(n,
+                                 placed_index,placed_on,
+                                 check_directions,
+                                 nr_of_check_directions);
+            break;
+
+          case fn:
+            if (!is_diagonal)
+              with_black_officer(n,
+                                 placed_index,placed_on,
+                                 check_directions,
+                                 nr_of_check_directions);
+            break;
+
+          case cn:
+            with_black_officer(n,
+                               placed_index,placed_on,
+                               check_directions,
+                               nr_of_check_directions);
+            break;
+
+          default:
+            assert(0);
+            break;
         }
-        else
-          with_black_officer(n,
-                             placed_index,placed_on,
-                             check_directions,
-                             nr_of_check_directions);
 
         black[placed_index].usage = piece_is_unused;
       }
@@ -306,6 +377,8 @@ static void intercept_next(stip_length_type n,
 {
   square to_be_blocked;
   int const current_dir = check_directions[nr_of_check_directions-1];
+  square const start = king_square[White]+current_dir;
+  boolean const is_diagonal = SquareCol(king_square[White])==SquareCol(start);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -315,7 +388,7 @@ static void intercept_next(stip_length_type n,
   assert(nr_of_check_directions>0);
   TraceValue("%d\n",current_dir);
 
-  for (to_be_blocked = king_square[White]+current_dir;
+  for (to_be_blocked = start;
        e[to_be_blocked]==vide;
        to_be_blocked += current_dir)
     if (nr_reasons_for_staying_empty[to_be_blocked]==0)
@@ -323,7 +396,8 @@ static void intercept_next(stip_length_type n,
       intercept_check_black(n,
                             to_be_blocked,
                             check_directions,
-                            nr_of_check_directions-1);
+                            nr_of_check_directions-1,
+                            is_diagonal);
       intercept_check_white(n,
                             to_be_blocked,
                             check_directions,

@@ -226,7 +226,8 @@ static void with_promoted_white_pawn(stip_length_type n,
                                      square where_to_intercept,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions,
-                                     unsigned int nr_checks_to_white)
+                                     unsigned int nr_checks_to_white,
+                                     boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -234,6 +235,7 @@ static void with_promoted_white_pawn(stip_length_type n,
   TraceSquare(where_to_intercept);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_white);
+  TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(blocker_index,
@@ -241,17 +243,58 @@ static void with_promoted_white_pawn(stip_length_type n,
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (!officer_guards(king_square[Black],pp,where_to_intercept)
-          && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                                    pp,
-                                                                    where_to_intercept))
+      switch (pp)
       {
-        SetPiece(pp,where_to_intercept,white[blocker_index].flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_white);
-        intelligent_unreserve();
+        case db:
+          break;
+
+        case tb:
+          if (is_diagonal
+              && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                                        tb,
+                                                                        where_to_intercept))
+          {
+            SetPiece(tb,where_to_intercept,white[blocker_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_white);
+            intelligent_unreserve();
+          }
+          break;
+
+        case fb:
+          if (!is_diagonal
+              && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                                        fb,
+                                                                        where_to_intercept))
+          {
+            SetPiece(fb,where_to_intercept,white[blocker_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_white);
+            intelligent_unreserve();
+          }
+          break;
+
+        case cb:
+          if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                                     cb,
+                                                                     where_to_intercept))
+          {
+            SetPiece(cb,where_to_intercept,white[blocker_index].flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_white);
+            intelligent_unreserve();
+          }
+          break;
+
+        default:
+          assert(0);
+          break;
       }
   }
 
@@ -405,7 +448,8 @@ static void with_white_piece(stip_length_type n,
                                      where_to_intercept,
                                      check_directions,
                                      nr_of_check_directions,
-                                     nr_checks_to_white);
+                                     nr_checks_to_white,
+                                     is_diagonal);
             if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
               with_unpromoted_white_pawn(n,
                                          blocker_index,

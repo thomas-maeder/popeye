@@ -288,7 +288,7 @@ boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
 
       case cb:
       case cn:
-        result = CheckDirKnight[dir]!=0;
+        result = knight_guards(king_square[side],from);
         break;
 
       default:

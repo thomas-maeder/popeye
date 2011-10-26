@@ -20,7 +20,8 @@ static void with_promoted_black_pawn(stip_length_type n,
                                      unsigned int intercepter_index,
                                      int const check_directions[8],
                                      unsigned int nr_of_check_directions,
-                                     unsigned int nr_checks_to_black)
+                                     unsigned int nr_checks_to_black,
+                                     boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -28,6 +29,7 @@ static void with_promoted_black_pawn(stip_length_type n,
   TraceFunctionParam("%u",intercepter_index);
   TraceFunctionParam("%u",nr_of_check_directions);
   TraceFunctionParam("%u",nr_checks_to_black);
+  TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(intercepter_index,
@@ -38,18 +40,58 @@ static void with_promoted_black_pawn(stip_length_type n,
 
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!(king_square[White]!=initsquare
-            && officer_guards(king_square[White],pp,where_to_intercept))
-          && intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
-                                                                    pp,
-                                                                    where_to_intercept))
+      switch (pp)
       {
-        SetPiece(pp,where_to_intercept,intercepter_flags);
-        continue_intercepting_checks(n,
-                                     check_directions,
-                                     nr_of_check_directions,
-                                     nr_checks_to_black);
-        intelligent_unreserve();
+        case dn:
+          break;
+
+        case tn:
+          if (is_diagonal
+              && intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
+                                                                        tn,
+                                                                        where_to_intercept))
+          {
+            SetPiece(tn,where_to_intercept,intercepter_flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_black);
+            intelligent_unreserve();
+          }
+          break;
+
+        case fn:
+          if (!is_diagonal
+              && intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
+                                                                        fn,
+                                                                        where_to_intercept))
+          {
+            SetPiece(fn,where_to_intercept,intercepter_flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_black);
+            intelligent_unreserve();
+          }
+          break;
+
+        case cn:
+          if (intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
+                                                                     cn,
+                                                                     where_to_intercept))
+          {
+            SetPiece(cn,where_to_intercept,intercepter_flags);
+            continue_intercepting_checks(n,
+                                         check_directions,
+                                         nr_of_check_directions,
+                                         nr_checks_to_black);
+            intelligent_unreserve();
+          }
+          break;
+
+        default:
+          assert(0);
+          break;
       }
   }
 
@@ -193,7 +235,8 @@ static void with_black_piece(stip_length_type n,
                                      i,
                                      check_directions,
                                      nr_of_check_directions,
-                                     nr_checks_to_black);
+                                     nr_checks_to_black,
+                                     is_diagonal);
             if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
               with_unpromoted_black_pawn(n,
                                          where_to_intercept,
