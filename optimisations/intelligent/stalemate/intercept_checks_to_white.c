@@ -15,6 +15,42 @@ static void continue_intercepting_checks(stip_length_type n,
                                                    unsigned int nr_of_check_directions,
                                                    unsigned int nr_checks_to_black);
 
+static void place_promoteee(piece promotee_type,
+                            stip_length_type n,
+                            square where_to_intercept,
+                            unsigned int intercepter_index,
+                            int const check_directions[8],
+                            unsigned int nr_of_check_directions,
+                            unsigned int nr_checks_to_black)
+{
+  square const intercepter_comes_from = black[intercepter_index].diagram_square;
+  Flags const intercepter_flags = black[intercepter_index].flags;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(promotee_type);
+  TraceFunctionParam("%u",n);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",intercepter_index);
+  TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",nr_checks_to_black);
+  TraceFunctionParamListEnd();
+
+  if (intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
+                                                             promotee_type,
+                                                             where_to_intercept))
+  {
+    SetPiece(promotee_type,where_to_intercept,intercepter_flags);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions,
+                                 nr_checks_to_black);
+    intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void with_promoted_black_pawn(stip_length_type n,
                                      square where_to_intercept,
                                      unsigned int intercepter_index,
@@ -35,9 +71,6 @@ static void with_promoted_black_pawn(stip_length_type n,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(intercepter_index,
                                                                 where_to_intercept))
   {
-    Flags const intercepter_flags = black[intercepter_index].flags;
-    square const intercepter_comes_from = black[intercepter_index].diagram_square;
-
     piece pp;
     for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
       switch (pp)
@@ -46,47 +79,35 @@ static void with_promoted_black_pawn(stip_length_type n,
           break;
 
         case tn:
-          if (is_diagonal
-              && intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
-                                                                        tn,
-                                                                        where_to_intercept))
-          {
-            SetPiece(tn,where_to_intercept,intercepter_flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_black);
-            intelligent_unreserve();
-          }
+          if (is_diagonal)
+            place_promoteee(tn,
+                            n,
+                            where_to_intercept,
+                            intercepter_index,
+                            check_directions,
+                            nr_of_check_directions,
+                            nr_checks_to_black);
           break;
 
         case fn:
-          if (!is_diagonal
-              && intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
-                                                                        fn,
-                                                                        where_to_intercept))
-          {
-            SetPiece(fn,where_to_intercept,intercepter_flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_black);
-            intelligent_unreserve();
-          }
+          if (!is_diagonal)
+            place_promoteee(fn,
+                            n,
+                            where_to_intercept,
+                            intercepter_index,
+                            check_directions,
+                            nr_of_check_directions,
+                            nr_checks_to_black);
           break;
 
         case cn:
-          if (intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
-                                                                     cn,
-                                                                     where_to_intercept))
-          {
-            SetPiece(cn,where_to_intercept,intercepter_flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_black);
-            intelligent_unreserve();
-          }
+          place_promoteee(cn,
+                          n,
+                          where_to_intercept,
+                          intercepter_index,
+                          check_directions,
+                          nr_of_check_directions,
+                          nr_checks_to_black);
           break;
 
         default:
@@ -133,12 +154,12 @@ static void with_unpromoted_black_pawn(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void with_black_rider(stip_length_type n,
-                             square where_to_intercept,
-                             unsigned int intercepter_index,
-                             int const check_directions[8],
-                             unsigned int nr_of_check_directions,
-                             unsigned int nr_checks_to_black)
+static void with_black_officer(stip_length_type n,
+                               square where_to_intercept,
+                               unsigned int intercepter_index,
+                               int const check_directions[8],
+                               unsigned int nr_of_check_directions,
+                               unsigned int nr_checks_to_black)
 {
   piece const intercepter_type = black[intercepter_index].type;
   Flags const intercepter_flags = black[intercepter_index].flags;
@@ -152,47 +173,11 @@ static void with_black_rider(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_black);
   TraceFunctionParamListEnd();
 
-  assert(!officer_guards(king_square[White],intercepter_type,where_to_intercept));
   if (intelligent_reserve_officer_moves_from_to(intercepter_comes_from,
                                                 where_to_intercept,
                                                 intercepter_type))
   {
     SetPiece(intercepter_type,where_to_intercept,intercepter_flags);
-    continue_intercepting_checks(n,
-                                 check_directions,
-                                 nr_of_check_directions,
-                                 nr_checks_to_black);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void with_black_knight(stip_length_type n,
-                              square where_to_intercept,
-                              unsigned int intercepter_index,
-                              int const check_directions[8],
-                              unsigned int nr_of_check_directions,
-                              unsigned int nr_checks_to_black)
-{
-  Flags const intercepter_flags = black[intercepter_index].flags;
-  square const intercepter_comes_from = black[intercepter_index].diagram_square;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(where_to_intercept);
-  TraceFunctionParam("%u",intercepter_index);
-  TraceFunctionParam("%u",nr_of_check_directions);
-  TraceFunctionParam("%u",nr_checks_to_black);
-  TraceFunctionParamListEnd();
-
-  if (!knight_guards(king_square[White],where_to_intercept)
-      && intelligent_reserve_officer_moves_from_to(intercepter_comes_from,
-                                                   where_to_intercept,
-                                                   cn))
-  {
-    SetPiece(cn,where_to_intercept,intercepter_flags);
     continue_intercepting_checks(n,
                                  check_directions,
                                  nr_of_check_directions,
@@ -251,7 +236,7 @@ static void with_black_piece(stip_length_type n,
 
           case tn:
             if (is_diagonal)
-              with_black_rider(n,
+              with_black_officer(n,
                                where_to_intercept,
                                i,
                                check_directions,
@@ -261,7 +246,7 @@ static void with_black_piece(stip_length_type n,
 
           case fn:
             if (!is_diagonal)
-              with_black_rider(n,
+              with_black_officer(n,
                                where_to_intercept,
                                i,
                                check_directions,
@@ -270,12 +255,12 @@ static void with_black_piece(stip_length_type n,
             break;
 
           case cn:
-            with_black_knight(n,
-                              where_to_intercept,
-                              i,
-                              check_directions,
-                              nr_of_check_directions,
-                              nr_checks_to_black);
+            with_black_officer(n,
+                               where_to_intercept,
+                               i,
+                               check_directions,
+                               nr_of_check_directions,
+                               nr_checks_to_black);
             break;
 
           default:

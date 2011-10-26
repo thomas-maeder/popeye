@@ -126,24 +126,6 @@ boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
   return result;
 }
 
-boolean knight_guards(square to_be_guarded, square guarding_from)
-{
-  boolean result;
-  int const diff = to_be_guarded-guarding_from;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(to_be_guarded);
-  TraceSquare(guarding_from);
-  TraceFunctionParamListEnd();
-
-  result = CheckDirKnight[diff]!=0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean officer_guards(square to_be_guarded, piece officer_type, square guarding_from)
 {
   boolean result;
@@ -161,7 +143,7 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
   {
     case cb:
     case cn:
-      result = knight_guards(to_be_guarded,guarding_from);
+      result = CheckDirKnight[diff]!=0;
       break;
 
     case fb:
@@ -288,7 +270,7 @@ boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
 
       case cb:
       case cn:
-        result = knight_guards(king_square[side],from);
+        result = CheckDirKnight[dir]!=0;
         break;
 
       default:

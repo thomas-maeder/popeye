@@ -221,6 +221,40 @@ static void with_unpromoted_white_pawn(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
+static void place_promotee(stip_length_type n,
+                           unsigned int blocker_index,
+                           piece promotee_type,
+                           square where_to_intercept,
+                           int const check_directions[8],
+                           unsigned int nr_of_check_directions,
+                           unsigned int nr_checks_to_white)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",blocker_index);
+  TracePiece(promotee_type);
+  TraceSquare(where_to_intercept);
+  TraceFunctionParam("%u",nr_of_check_directions);
+  TraceFunctionParam("%u",nr_checks_to_white);
+  TraceFunctionParam("%u",is_diagonal);
+  TraceFunctionParamListEnd();
+
+  if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
+                                                             promotee_type,
+                                                             where_to_intercept))
+  {
+    SetPiece(promotee_type,where_to_intercept,white[blocker_index].flags);
+    continue_intercepting_checks(n,
+                                 check_directions,
+                                 nr_of_check_directions,
+                                 nr_checks_to_white);
+    intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void with_promoted_white_pawn(stip_length_type n,
                                      unsigned int blocker_index,
                                      square where_to_intercept,
@@ -249,47 +283,35 @@ static void with_promoted_white_pawn(stip_length_type n,
           break;
 
         case tb:
-          if (is_diagonal
-              && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                                        tb,
-                                                                        where_to_intercept))
-          {
-            SetPiece(tb,where_to_intercept,white[blocker_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_white);
-            intelligent_unreserve();
-          }
+          if (is_diagonal)
+            place_promotee(n,
+                           blocker_index,
+                           tb,
+                           where_to_intercept,
+                           check_directions,
+                           nr_of_check_directions,
+                           nr_checks_to_white);
           break;
 
         case fb:
-          if (!is_diagonal
-              && intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                                        fb,
-                                                                        where_to_intercept))
-          {
-            SetPiece(fb,where_to_intercept,white[blocker_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_white);
-            intelligent_unreserve();
-          }
+          if (!is_diagonal)
+            place_promotee(n,
+                           blocker_index,
+                           fb,
+                           where_to_intercept,
+                           check_directions,
+                           nr_of_check_directions,
+                           nr_checks_to_white);
           break;
 
         case cb:
-          if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[blocker_index].diagram_square,
-                                                                     cb,
-                                                                     where_to_intercept))
-          {
-            SetPiece(cb,where_to_intercept,white[blocker_index].flags);
-            continue_intercepting_checks(n,
-                                         check_directions,
-                                         nr_of_check_directions,
-                                         nr_checks_to_white);
-            intelligent_unreserve();
-          }
+          place_promotee(n,
+                         blocker_index,
+                         cb,
+                         where_to_intercept,
+                         check_directions,
+                         nr_of_check_directions,
+                         nr_checks_to_white);
           break;
 
         default:
@@ -339,12 +361,12 @@ static void with_white_king(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void with_white_rider(stip_length_type n,
-                             unsigned int blocker_index,
-                             square where_to_intercept,
-                             int const check_directions[8],
-                             unsigned int nr_of_check_directions,
-                             unsigned int nr_checks_to_white)
+static void with_white_officer(stip_length_type n,
+                               unsigned int blocker_index,
+                               square where_to_intercept,
+                               int const check_directions[8],
+                               unsigned int nr_of_check_directions,
+                               unsigned int nr_checks_to_white)
 {
   piece const intercepter_type = white[blocker_index].type;
 
@@ -356,45 +378,11 @@ static void with_white_rider(stip_length_type n,
   TraceFunctionParam("%u",nr_checks_to_white);
   TraceFunctionParamListEnd();
 
-  assert(!officer_guards(king_square[Black],intercepter_type,where_to_intercept));
-
   if (intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
                                                 where_to_intercept,
                                                 intercepter_type))
   {
     SetPiece(intercepter_type,where_to_intercept,white[blocker_index].flags);
-    continue_intercepting_checks(n,
-                                 check_directions,
-                                 nr_of_check_directions,
-                                 nr_checks_to_white);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void with_white_knight(stip_length_type n,
-                              unsigned int blocker_index,
-                              square where_to_intercept,
-                              int const check_directions[8],
-                              unsigned int nr_of_check_directions,
-                              unsigned int nr_checks_to_white)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",blocker_index);
-  TraceSquare(where_to_intercept);
-  TraceFunctionParam("%u",nr_of_check_directions);
-  TraceFunctionParam("%u",nr_checks_to_white);
-  TraceFunctionParamListEnd();
-
-  if (!knight_guards(king_square[Black],where_to_intercept)
-      && intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
-                                                   where_to_intercept,
-                                                   cb))
-  {
-    SetPiece(cb,where_to_intercept,white[blocker_index].flags);
     continue_intercepting_checks(n,
                                  check_directions,
                                  nr_of_check_directions,
@@ -464,7 +452,7 @@ static void with_white_piece(stip_length_type n,
 
           case tb:
             if (is_diagonal)
-              with_white_rider(n,
+              with_white_officer(n,
                                blocker_index,
                                where_to_intercept,
                                check_directions,
@@ -474,7 +462,7 @@ static void with_white_piece(stip_length_type n,
 
           case fb:
             if (!is_diagonal)
-              with_white_rider(n,
+              with_white_officer(n,
                                blocker_index,
                                where_to_intercept,
                                check_directions,
@@ -483,7 +471,7 @@ static void with_white_piece(stip_length_type n,
             break;
 
           case cb:
-            with_white_knight(n,
+            with_white_officer(n,
                                blocker_index,
                                where_to_intercept,
                                check_directions,

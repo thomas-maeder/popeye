@@ -64,37 +64,62 @@ static square white_officer_guards_flight(piece officer_type, square from)
   return result;
 }
 
-static void intercept_check_on_guarded_square_officer(stip_length_type n,
-                                                      unsigned int index_of_next_guarding_piece,
-                                                      square to_be_intercepted,
-                                                      unsigned int index_of_intercepting_piece)
+static void place_officer(stip_length_type n,
+                          unsigned int index_of_next_guarding_piece,
+                          piece officer_type,
+                          square to_be_intercepted,
+                          unsigned int index_of_intercepting_piece)
 {
-  piece const intercepter_type = white[index_of_intercepting_piece].type;
-  square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",n);
   TraceValue("%u",index_of_next_guarding_piece);
+  TracePiece(officer_type);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,intercepter_type)
-      && intelligent_reserve_officer_moves_from_to(intercepter_diagram_square,
-                                                   to_be_intercepted,
-                                                   intercepter_type))
+  if (/* avoid duplicate: if intercepter has already been used as guarding
+       * piece, it shouldn't guard now again */
+      !(index_of_intercepting_piece<index_of_next_guarding_piece
+        && white_officer_guards_flight(officer_type,to_be_intercepted)))
   {
-    if (/* avoid duplicate: if intercepter has already been used as guarding
-         * piece, it shouldn't guard now again */
-        !(index_of_intercepting_piece<index_of_next_guarding_piece
-          && white_officer_guards_flight(intercepter_type,to_be_intercepted)))
-    {
-      SetPiece(intercepter_type,to_be_intercepted,intercepter_flags);
-      intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-      e[to_be_intercepted] = vide;
-      spec[to_be_intercepted] = EmptySpec;
-    }
+    SetPiece(officer_type,to_be_intercepted,intercepter_flags);
+    intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
+    e[to_be_intercepted] = vide;
+    spec[to_be_intercepted] = EmptySpec;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void place_promotee(stip_length_type n,
+                           unsigned int index_of_next_guarding_piece,
+                           piece promotee_type,
+                           square to_be_intercepted,
+                           unsigned int index_of_intercepting_piece)
+{
+  square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",n);
+  TraceValue("%u",index_of_next_guarding_piece);
+  TracePiece(promotee_type);
+  TraceSquare(to_be_intercepted);
+  TraceValue("%u",index_of_intercepting_piece);
+  TraceFunctionParamListEnd();
+
+  if (intelligent_reserve_promoting_white_pawn_moves_from_to(intercepter_diagram_square,
+                                                             promotee_type,
+                                                             to_be_intercepted))
+  {
+    place_officer(n,
+                  index_of_next_guarding_piece,
+                  promotee_type,
+                  to_be_intercepted,
+                  index_of_intercepting_piece);
 
     intelligent_unreserve();
   }
@@ -103,42 +128,59 @@ static void intercept_check_on_guarded_square_officer(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
-                                                            unsigned int index_of_next_guarding_piece,
-                                                            square to_be_intercepted,
-                                                            unsigned int index_of_intercepting_piece)
+static void promoted_pawn(stip_length_type n,
+                          unsigned int index_of_next_guarding_piece,
+                          square to_be_intercepted,
+                          unsigned int index_of_intercepting_piece,
+                          boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",n);
   TraceValue("%u",index_of_next_guarding_piece);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
+  TraceValue("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_intercepting_piece,
                                                                 to_be_intercepted))
   {
-    square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
-    Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (!officer_uninterceptably_attacks_king(Black,to_be_intercepted,pp)
-          && intelligent_reserve_promoting_white_pawn_moves_from_to(intercepter_diagram_square,
-                                                                    pp,
-                                                                    to_be_intercepted))
+      switch (pp)
       {
-        if (/* avoid duplicate: if intercepter has already been used as guarding
-             * piece, it shouldn't guard now again */
-            !(index_of_intercepting_piece<index_of_next_guarding_piece
-              && white_officer_guards_flight(pp,to_be_intercepted)))
-        {
-          SetPiece(pp,to_be_intercepted,intercepter_flags);
-          intelligent_continue_guarding_flights(n,index_of_next_guarding_piece);
-          e[to_be_intercepted] = vide;
-          spec[to_be_intercepted] = EmptySpec;
-        }
+        case db:
+          break;
 
-        intelligent_unreserve();
+        case tb:
+          if (is_diagonal)
+            place_promotee(n,
+                           index_of_next_guarding_piece,
+                           tb,
+                           to_be_intercepted,
+                           index_of_intercepting_piece);
+          break;
+
+        case fb:
+          if (!is_diagonal)
+            place_promotee(n,
+                           index_of_next_guarding_piece,
+                           fb,
+                           to_be_intercepted,
+                           index_of_intercepting_piece);
+          break;
+
+        case cb:
+          place_promotee(n,
+                         index_of_next_guarding_piece,
+                         cb,
+                         to_be_intercepted,
+                         index_of_intercepting_piece);
+          break;
+
+        default:
+          assert(0);
+          break;
       }
   }
 
@@ -146,10 +188,10 @@ static void intercept_check_on_guarded_square_promoted_pawn(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n,
-                                                              unsigned int index_of_next_guarding_piece,
-                                                              square to_be_intercepted,
-                                                              unsigned int index_of_intercepting_piece)
+static void unpromoted_pawn(stip_length_type n,
+                            unsigned int index_of_next_guarding_piece,
+                            square to_be_intercepted,
+                            unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
@@ -183,11 +225,43 @@ static void intercept_check_on_guarded_square_unpromoted_pawn(stip_length_type n
   TraceFunctionResultEnd();
 }
 
+static void officer(stip_length_type n,
+                    unsigned int index_of_next_guarding_piece,
+                    square to_be_intercepted,
+                    unsigned int index_of_intercepting_piece)
+{
+  square const officer_diagram_square = white[index_of_intercepting_piece].diagram_square;
+  piece const officer_type = white[index_of_intercepting_piece].type;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",n);
+  TraceValue("%u",index_of_next_guarding_piece);
+  TraceSquare(to_be_intercepted);
+  TraceValue("%u",index_of_intercepting_piece);
+  TraceFunctionParamListEnd();
+
+  if (intelligent_reserve_officer_moves_from_to(officer_diagram_square,
+                                                to_be_intercepted,
+                                                officer_type))
+  {
+    place_officer(n,
+                  index_of_next_guarding_piece,
+                  officer_type,
+                  to_be_intercepted,
+                  index_of_intercepting_piece);
+    intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void intercept_check_on_guarded_square(stip_length_type n,
                                        unsigned int index_of_next_guarding_piece,
                                        square to_be_intercepted)
 {
-  unsigned int index_of_intercepting_piece;
+  unsigned int intercepter_index;
+  boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(king_square[Black]);
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",n);
@@ -197,41 +271,56 @@ void intercept_check_on_guarded_square(stip_length_type n,
 
   if (intelligent_reserve_masses(White,1))
   {
-    for (index_of_intercepting_piece = 1;
-         index_of_intercepting_piece<MaxPiece[White];
-         ++index_of_intercepting_piece)
+    for (intercepter_index = 1;
+         intercepter_index<MaxPiece[White];
+         ++intercepter_index)
     {
-      TraceValue("%u",index_of_intercepting_piece);
-      TraceEnumerator(piece_usage,white[index_of_intercepting_piece].usage,"\n");
-      if (white[index_of_intercepting_piece].usage==piece_is_unused)
+      TraceValue("%u",intercepter_index);
+      TraceEnumerator(piece_usage,white[intercepter_index].usage,"\n");
+      if (white[intercepter_index].usage==piece_is_unused)
       {
-        piece const guard_type = white[index_of_intercepting_piece].type;
-        white[index_of_intercepting_piece].usage = piece_intercepts;
+        piece const intercepter_type = white[intercepter_index].type;
+        white[intercepter_index].usage = piece_intercepts;
 
-        switch (guard_type)
+        switch (intercepter_type)
         {
           case db:
             break;
 
           case tb:
+            if (is_diagonal)
+              officer(n,
+                      index_of_next_guarding_piece,
+                      to_be_intercepted,
+                      intercepter_index);
+              break;
+
           case fb:
+            if (!is_diagonal)
+              officer(n,
+                      index_of_next_guarding_piece,
+                      to_be_intercepted,
+                      intercepter_index);
+            break;
+
           case cb:
-            intercept_check_on_guarded_square_officer(n,
-                                                      index_of_next_guarding_piece,
-                                                      to_be_intercepted,
-                                                      index_of_intercepting_piece);
+            officer(n,
+                    index_of_next_guarding_piece,
+                    to_be_intercepted,
+                    intercepter_index);
             break;
 
           case pb:
             if (to_be_intercepted>=square_a2 && to_be_intercepted<=square_h7)
-              intercept_check_on_guarded_square_unpromoted_pawn(n,
-                                                                index_of_next_guarding_piece,
-                                                                to_be_intercepted,
-                                                                index_of_intercepting_piece);
-            intercept_check_on_guarded_square_promoted_pawn(n,
-                                                            index_of_next_guarding_piece,
-                                                            to_be_intercepted,
-                                                            index_of_intercepting_piece);
+              unpromoted_pawn(n,
+                              index_of_next_guarding_piece,
+                              to_be_intercepted,
+                              intercepter_index);
+            promoted_pawn(n,
+                          index_of_next_guarding_piece,
+                          to_be_intercepted,
+                          intercepter_index,
+                          is_diagonal);
             break;
 
           default:
@@ -239,7 +328,7 @@ void intercept_check_on_guarded_square(stip_length_type n,
             break;
         }
 
-        white[index_of_intercepting_piece].usage = piece_is_unused;
+        white[intercepter_index].usage = piece_is_unused;
       }
     }
 
