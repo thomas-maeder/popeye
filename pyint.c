@@ -130,6 +130,7 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
 {
   boolean result;
   int const diff = to_be_guarded-guarding_from;
+  PieNam const Piece = abs(officer_type);
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_guarded);
@@ -139,26 +140,16 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
 
   assert(to_be_guarded!=initsquare);
 
-  switch (officer_type)
+  switch (Piece)
   {
-    case cb:
-    case cn:
-      result = CheckDirKnight[diff]!=0;
+    case Knight:
+      result = CheckDir[Knight][diff]!=0;
       break;
 
-    case fb:
-    case fn:
-      result = rider_guards(to_be_guarded,guarding_from,CheckDirBishop[diff]);
-      break;
-
-    case tb:
-    case tn:
-      result = rider_guards(to_be_guarded,guarding_from,CheckDirRook[diff]);
-      break;
-
-    case db:
-    case dn:
-      result = rider_guards(to_be_guarded,guarding_from,CheckDirQueen[diff]);
+    case Queen:
+    case Rook:
+    case Bishop:
+      result = rider_guards(to_be_guarded,guarding_from,CheckDir[Piece][diff]);
       break;
 
     default:
@@ -251,26 +242,14 @@ boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
   else
   {
     int const dir = king_square[side]-from;
-    switch(p)
+    PieNam const pnam = abs(p);
+    switch (pnam)
     {
-      case db:
-      case dn:
-        result = CheckDirQueen[dir]==dir;
-        break;
-
-      case tb:
-      case tn:
-        result = CheckDirRook[dir]==dir;
-        break;
-
-      case fb:
-      case fn:
-        result = CheckDirBishop[dir]==dir;
-        break;
-
-      case cb:
-      case cn:
-        result = CheckDirKnight[dir]!=0;
+      case Queen:
+      case Rook:
+      case Bishop:
+      case Knight:
+        result = CheckDir[pnam][dir]==dir;
         break;
 
       default:

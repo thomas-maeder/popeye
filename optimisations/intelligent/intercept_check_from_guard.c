@@ -343,34 +343,27 @@ square where_to_intercept_check_from_guard(piece guard_type, square guard_from)
 {
   int const diff = king_square[Black]-guard_from;
   square result = initsquare;
+  PieNam const guard_type_Nam = abs(guard_type);;
+	int const dir = CheckDir[guard_type_Nam][diff];
 
   TraceFunctionEntry(__func__);
   TracePiece(guard_type);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (guard_type)
+  switch (guard_type_Nam)
   {
-    case db:
+    case Queen:
     {
-      int const dir = CheckDirQueen[diff];
       /* don't intercept wQc8 guarding the flight b7 (but not b8!) of bKa8 */
       if (diff!=2*dir && rider_guards(king_square[Black],guard_from,dir))
         result = king_square[Black]-dir;
       break;
     }
 
-    case tb:
+    case Rook:
+    case Bishop:
     {
-      int const dir = CheckDirRook[diff];
-      if (rider_guards(king_square[Black],guard_from,dir))
-        result = king_square[Black]-dir;
-      break;
-    }
-
-    case fb:
-    {
-      int const dir = CheckDirBishop[diff];
       if (rider_guards(king_square[Black],guard_from,dir))
         result = king_square[Black]-dir;
       break;

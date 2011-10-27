@@ -231,7 +231,7 @@ static void generate_front_check_via(stip_length_type n,
 
 static void generate_front_check(stip_length_type n, square rear_pos)
 {
-  int const dir = CheckDirQueen[king_square[Black]-rear_pos];
+  int const dir = CheckDir[Queen][king_square[Black]-rear_pos];
   square const start = rear_pos+dir;
   boolean const diagonal = SquareCol(rear_pos)==SquareCol(start);
   square s;

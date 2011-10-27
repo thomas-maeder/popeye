@@ -215,14 +215,7 @@ EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
 
-EXTERN  numvec          ortho_opt_queen[2*(square_h8-square_a1)+1],
-			ortho_opt_rook[2*(square_h8-square_a1)+1],
-			ortho_opt_bishop[2*(square_h8-square_a1)+1],
-			ortho_opt_knight[2*(square_h8-square_a1)+1];
-#define CheckDirQueen  (ortho_opt_queen+(square_h8-square_a1))
-#define CheckDirRook   (ortho_opt_rook+(square_h8-square_a1))
-#define CheckDirBishop (ortho_opt_bishop+(square_h8-square_a1))
-#define CheckDirKnight (ortho_opt_knight+(square_h8-square_a1))
+extern numvec const * const * const CheckDir;
 
 /* should a mating move be considered refuted if it is executed by a
  * neutral piece and the side to be mated can simply undo it?*/

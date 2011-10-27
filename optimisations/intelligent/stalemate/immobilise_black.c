@@ -164,7 +164,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
 {
   int const diff = (move_generation_stack[nbcou].arrival
                     -move_generation_stack[nbcou].departure);
-  int const dir = CheckDirQueen[diff];
+  int const dir = CheckDir[Queen][diff];
   if (diff==dir)
   {
     square const closest_flight = move_generation_stack[nbcou].departure+dir;

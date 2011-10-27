@@ -84,7 +84,7 @@ static square white_officer_guards_flight(piece officer_type, square from)
 static void remember_to_keep_rider_guard_line_open(square from, square to,
                                                    piece type, int delta)
 {
-  int const dir = CheckDirQueen[to-from];
+  int const dir = CheckDir[Queen][to-from];
   square s;
 
   TraceFunctionEntry(__func__);

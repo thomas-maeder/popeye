@@ -152,7 +152,7 @@ static unsigned int queen(square from_square, square to_square)
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  result = CheckDirQueen[from_square-to_square]==0 ? 2 : 1;
+  result = CheckDir[Queen][from_square-to_square]==0 ? 2 : 1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -169,7 +169,7 @@ static unsigned int rook(square from_square, square to_square)
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  result = CheckDirRook[from_square-to_square]==0 ? 2 : 1;
+  result = CheckDir[Rook][from_square-to_square]==0 ? 2 : 1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -187,7 +187,7 @@ static unsigned int bishop(square from_square, square to_square)
   TraceFunctionParamListEnd();
 
   if (SquareCol(from_square)==SquareCol(to_square))
-    result = CheckDirBishop[from_square-to_square]==0 ? 2 : 1;
+    result = CheckDir[Bishop][from_square-to_square]==0 ? 2 : 1;
   else
     result = maxply+1;
 

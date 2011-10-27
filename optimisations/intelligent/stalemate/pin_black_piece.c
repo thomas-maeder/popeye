@@ -159,14 +159,14 @@ void intelligent_stalemate_pin_black_piece(stip_length_type n,
 
   if (intelligent_reserve_masses(White,1))
   {
-    int const dir = CheckDirQueen[position_of_trouble_maker-king_square[Black]];
+    int const dir = CheckDir[Queen][position_of_trouble_maker-king_square[Black]];
     piece const pinned_type = e[position_of_trouble_maker];
 
     if (dir!=0          /* we can only pin on queen lines */
         && pinned_type!=dn /* queens cannot be pinned */
         /* bishops can only be pined on rook lines and vice versa */
-        && !(CheckDirBishop[dir]!=0 && pinned_type==fn)
-        && !(CheckDirRook[dir]!=0 && pinned_type==tn)
+        && !(CheckDir[Bishop][dir]!=0 && pinned_type==fn)
+        && !(CheckDir[Rook][dir]!=0 && pinned_type==tn)
         && is_line_empty(king_square[Black],position_of_trouble_maker,dir))
     {
       boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);

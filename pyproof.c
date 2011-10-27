@@ -1078,7 +1078,7 @@ static void PieceMovesFromTo(piece p,
       *moves= current_length;
     else
     {
-      dir= CheckDirBishop[sqdiff];
+      dir= CheckDir[Bishop][sqdiff];
       if (dir)
       {
         do {
@@ -1092,7 +1092,7 @@ static void PieceMovesFromTo(piece p,
     break;
 
   case Rook:
-    dir= CheckDirRook[sqdiff];
+    dir= CheckDir[Rook][sqdiff];
     if (dir)
     {
       do {
@@ -1105,7 +1105,7 @@ static void PieceMovesFromTo(piece p,
     break;
 
   case Queen:
-    dir= CheckDirQueen[sqdiff];
+    dir= CheckDir[Queen][sqdiff];
     if (dir)
     {
       do {

@@ -46,12 +46,12 @@ static void GenMatingPawn(square sq_departure,
   numvec k;
   square sq_arrival;
 
-  k= CheckDirBishop[sq_king-sq_departure];
+  k= CheckDir[Bishop][sq_king-sq_departure];
   if (k!=0)
     Battery=
       IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
   else {
-    k= CheckDirRook[sq_king-sq_departure];
+    k= CheckDir[Rook][sq_king-sq_departure];
     if (k!=0)
       Battery=
         IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
@@ -87,7 +87,7 @@ static void GenMatingPawn(square sq_departure,
       }
 
       /* single step */
-      if (k!=24) {
+      if (k!=dir_up) {
         /* suppress moves along a battery line */
         sq_arrival= sq_departure+dir_up;
         if (e[sq_arrival]==vide) {
@@ -95,8 +95,8 @@ static void GenMatingPawn(square sq_departure,
               || sq_arrival+dir_up+dir_left == sq_king
               || sq_arrival+dir_up+dir_right == sq_king
               || (PromSq(White,sq_arrival)
-                  && (CheckDirQueen[sq_king-sq_arrival]
-                      || CheckDirKnight[sq_king-sq_arrival])))
+                  && (CheckDir[Queen][sq_king-sq_arrival]
+                      || CheckDir[Knight][sq_king-sq_arrival])))
             empile(sq_departure,sq_arrival,sq_arrival);
 
           /* double step */
@@ -118,8 +118,8 @@ static void GenMatingPawn(square sq_departure,
             || sq_arrival+dir_up+dir_left == sq_king
             || sq_arrival+dir_up+dir_right == sq_king
             || (PromSq(White,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
+                && (CheckDir[Queen][sq_king-sq_arrival]
+                    || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
 
       /* capture+dir_up+dir_right */
@@ -129,8 +129,8 @@ static void GenMatingPawn(square sq_departure,
             || sq_arrival+dir_up+dir_left==sq_king
             || sq_arrival+dir_up+dir_right==sq_king
             || (PromSq(White,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
+                && (CheckDir[Queen][sq_king-sq_arrival]
+                    || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -153,15 +153,15 @@ static void GenMatingPawn(square sq_departure,
     }
 
     /* single step */
-    if (k!=24) {    /* suppress moves along a battery line */
+    if (k!=dir_up) {    /* suppress moves along a battery line */
       sq_arrival= sq_departure+dir_down;
       if (e[sq_arrival]==vide) {
         if (Battery
             || sq_arrival+dir_down+dir_right==sq_king
             || sq_arrival+dir_down+dir_left==sq_king
             || (PromSq(Black,sq_arrival)
-                && (CheckDirQueen[sq_king-sq_arrival]
-                    || CheckDirKnight[sq_king-sq_arrival])))
+                && (CheckDir[Queen][sq_king-sq_arrival]
+                    || CheckDir[Knight][sq_king-sq_arrival])))
           empile(sq_departure,sq_arrival,sq_arrival);
 
         /* double step */
@@ -183,8 +183,8 @@ static void GenMatingPawn(square sq_departure,
           || sq_arrival+dir_down+dir_right==sq_king
           || sq_arrival+dir_down+dir_left==sq_king
           || (PromSq(Black,sq_arrival)
-              && (CheckDirQueen[sq_king-sq_arrival]
-                  || CheckDirKnight[sq_king-sq_arrival])))
+              && (CheckDir[Queen][sq_king-sq_arrival]
+                  || CheckDir[Knight][sq_king-sq_arrival])))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
 
@@ -195,8 +195,8 @@ static void GenMatingPawn(square sq_departure,
           || sq_arrival+dir_down+dir_right==sq_king
           || sq_arrival+dir_down+dir_left==sq_king
           || (PromSq(Black,sq_arrival)
-              && (CheckDirQueen[sq_king-sq_arrival]
-                  || CheckDirKnight[sq_king-sq_arrival])))
+              && (CheckDir[Queen][sq_king-sq_arrival]
+                  || CheckDir[Knight][sq_king-sq_arrival])))
         empile(sq_departure,sq_arrival,sq_arrival);
     }
   }
@@ -226,12 +226,12 @@ static void GenMatingKing(goal_type goal,
   else {
     /* check if the king is the front piece of a battery
        that can fire */
-    k= CheckDirBishop[sq_king-sq_departure];
+    k= CheckDir[Bishop][sq_king-sq_departure];
     if (k!=0)
       Generate=
         IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
     else {
-      k= CheckDirRook[sq_king-sq_departure];
+      k= CheckDir[Rook][sq_king-sq_departure];
       if (k!=0)
         Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,
                              Rook,Queen);
@@ -278,10 +278,10 @@ static void GenMatingKnight(square sq_departure,
   /* check if the knight is the front piece of a battery that can
      fire
   */
-  if ((k = CheckDirBishop[sq_king-sq_departure])!=0)
+  if ((k = CheckDir[Bishop][sq_king-sq_departure])!=0)
     Generate=
       IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Bishop,Queen);
-  else if ((k = CheckDirRook[sq_king-sq_departure])!=0)
+  else if ((k = CheckDir[Rook][sq_king-sq_departure])!=0)
     Generate= IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen);
 
   k= abs(sq_king-sq_departure);
@@ -293,7 +293,7 @@ static void GenMatingKnight(square sq_departure,
       sq_arrival= sq_departure+vec[k];
       if (e[sq_arrival]==vide
           || TSTFLAG(spec[sq_arrival],ColourCapturedPiece))
-        if (Generate || CheckDirKnight[sq_arrival-sq_king]!=0)
+        if (Generate || CheckDir[Knight][sq_arrival-sq_king]!=0)
           empile(sq_departure,sq_arrival,sq_arrival);
     }
 }
@@ -310,7 +310,7 @@ static void GenMatingRook(square sq_departure,
 
   /* check if the rook is the front piece of a battery that can fire
    */
-  k= CheckDirBishop[sq_king-sq_departure];
+  k= CheckDir[Bishop][sq_king-sq_departure];
   if (k != 0
       && IsABattery(sq_king, sq_departure, k, ColourMovingPiece, Bishop, Queen))
   {
@@ -327,7 +327,7 @@ static void GenMatingRook(square sq_departure,
   else {
     int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
 
-    k2= CheckDirRook[sq_king-sq_departure];
+    k2= CheckDir[Rook][sq_king-sq_departure];
     if (k2!=0) {
       /* the rook is already on a line with the king */
       EndOfLine(sq_departure,k2,sq_arrival);
@@ -345,10 +345,10 @@ static void GenMatingRook(square sq_departure,
           continue;
         if (move_diff_code[abs(sq_arrival-sq_king)]<OriginalDistance) {
           /* The rook must move closer to the king! */
-          k2= CheckDirRook[sq_king-sq_arrival];
+          k2= CheckDir[Rook][sq_king-sq_arrival];
           while (k2==0 && e[sq_arrival]==vide) {
             sq_arrival+= vec[k];
-            k2= CheckDirRook[sq_king-sq_arrival];
+            k2= CheckDir[Rook][sq_king-sq_arrival];
           }
 
           /* We are at the end of the line or in checking
@@ -382,7 +382,7 @@ static void GenMatingQueen(square sq_departure,
   for (k= vec_queen_start; k<=vec_queen_end; k++) {
     sq_arrival= sq_departure+vec[k];
     while (e[sq_arrival]==vide) {
-      k2= CheckDirQueen[sq_king-sq_arrival];
+      k2= CheckDir[Queen][sq_king-sq_arrival];
       if (k2) {
         EndOfLine(sq_arrival,k2,sq2);
         if (sq2==sq_king)
@@ -391,7 +391,7 @@ static void GenMatingQueen(square sq_departure,
       sq_arrival+= vec[k];
     }
     if (TSTFLAG(spec[sq_arrival],ColourCapturedPiece)) {
-      k2= CheckDirQueen[sq_king-sq_arrival];
+      k2= CheckDir[Queen][sq_king-sq_arrival];
       if (k2) {
         EndOfLine(sq_arrival,k2,sq2);
         if (sq2==sq_king)
@@ -414,7 +414,7 @@ static void GenMatingBishop(square sq_departure,
   /* check if the bishop is the front piece of a battery that can
      fire
   */
-  k = CheckDirRook[sq_king-sq_departure];
+  k = CheckDir[Rook][sq_king-sq_departure];
   if (k!=0
       && IsABattery(sq_king,sq_departure,k,ColourMovingPiece,Rook,Queen))
   {
@@ -431,7 +431,7 @@ static void GenMatingBishop(square sq_departure,
   else if (SquareCol(sq_departure)==SquareCol(sq_king)) {
     int OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
 
-    k2= CheckDirBishop[sq_king-sq_departure];
+    k2= CheckDir[Bishop][sq_king-sq_departure];
     if (k2) {
       /* the bishop is already on a line with the king */
       EndOfLine(sq_departure,k2,sq_arrival);
@@ -450,10 +450,10 @@ static void GenMatingBishop(square sq_departure,
         if (move_diff_code[abs(sq_arrival-sq_king)]
             <OriginalDistance) {
           /* The bishop must move closer to the king! */
-          k2= CheckDirBishop[sq_king-sq_arrival];
+          k2= CheckDir[Bishop][sq_king-sq_arrival];
           while (k2==0 && e[sq_arrival]==vide) {
             sq_arrival+= vec[k];
-            k2= CheckDirBishop[sq_king-sq_arrival];
+            k2= CheckDir[Bishop][sq_king-sq_arrival];
           }
 
           /* We are at the end of the line or in checking

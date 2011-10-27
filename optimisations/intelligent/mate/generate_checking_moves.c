@@ -23,15 +23,9 @@ void remember_to_keep_checking_line_open(square from, square to,
   switch (type)
   {
     case Bishop:
-      remember_to_keep_rider_line_open(from,to,CheckDirBishop[diff],delta);
-      break;
-
     case Rook:
-      remember_to_keep_rider_line_open(from,to,CheckDirRook[diff],delta);
-      break;
-
     case Queen:
-      remember_to_keep_rider_line_open(from,to,CheckDirQueen[diff],delta);
+      remember_to_keep_rider_line_open(from,to,CheckDir[type][diff],delta);
       break;
 
     case King:

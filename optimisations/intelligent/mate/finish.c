@@ -70,7 +70,7 @@ static boolean neutralise_guarding_pieces(stip_length_type n)
     intelligent_mate_pin_black_piece(n,trouble);
 
     {
-      int const dir = CheckDirQueen[trto-trouble];
+      int const dir = CheckDir[Queen][trto-trouble];
       if (dir!=0)
       {
         square sq;
