@@ -241,22 +241,8 @@ boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
     result = false;
   else
   {
-    int const dir = king_square[side]-from;
-    PieNam const pnam = abs(p);
-    switch (pnam)
-    {
-      case Queen:
-      case Rook:
-      case Bishop:
-      case Knight:
-        result = CheckDir[pnam][dir]==dir;
-        break;
-
-      default:
-        assert(0);
-        result = false;
-        break;
-    }
+    int const diff = king_square[side]-from;
+    result = CheckDir[abs(p)][diff]==diff;
   }
 
   TraceFunctionExit(__func__);
