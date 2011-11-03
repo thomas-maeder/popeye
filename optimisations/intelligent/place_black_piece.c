@@ -19,8 +19,7 @@ enum
 static int find_interceptable_check_dir(piece rider_type, square placed_on)
 {
   int result;
-  Side const opponent = rider_type>obs ? Black : White;
-  square const king_pos = king_square[opponent];
+  square const king_pos = king_square[White];
 
   TraceFunctionEntry(__func__);
   TracePiece(rider_type);
