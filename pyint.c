@@ -22,16 +22,17 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
-#include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/stalemate/filter.h"
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/intelligent/place_black_piece.h"
+#include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
-#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "platform/maxtime.h"
@@ -66,7 +67,6 @@ PIECE black[nr_squares_on_board];
 static square save_ep_1;
 static square save_ep2_1;
 unsigned int moves_to_white_prom[nr_squares_on_board];
-square const *where_to_start_placing_unused_black_pieces;
 
 PIECE target_position[MaxPieceId+1];
 
@@ -82,6 +82,8 @@ unsigned int CapturesLeft[maxply+1];
 unsigned int PieceId2index[MaxPieceId+1];
 
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
+
+static stip_length_type nr_of_moves;
 
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta)
@@ -251,13 +253,6 @@ boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
   return result;
 }
 
-boolean is_white_king_interceptably_attacked(void)
-{
-  return ((*checkfunctions[Bishop])(king_square[White],fn,eval_ortho)
-          || (*checkfunctions[Rook])(king_square[White],tn,eval_ortho)
-          || (*checkfunctions[Queen])(king_square[White],dn,eval_ortho));
-}
-
 boolean is_white_king_uninterceptably_attacked_by_non_king(square s)
 {
   return ((*checkfunctions[Pawn])(s,pn,eval_ortho)
@@ -326,13 +321,12 @@ static piece_usage find_piece_usage(PieceIdType id)
 }
 #endif
 
-void solve_target_position(stip_length_type n)
+void solve_target_position(void)
 {
   square const save_king_square[nr_sides] = { king_square[White],
                                               king_square[Black] };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -378,7 +372,7 @@ void solve_target_position(stip_length_type n)
   closehash();
   inithash(current_start_slice);
 
-  if (help(slices[current_start_slice].u.pipe.next,n)<=n)
+  if (help(slices[current_start_slice].u.pipe.next,nr_of_moves)<=nr_of_moves)
     solutions_found = true;
 
   /* reset the old mating position */
@@ -422,53 +416,12 @@ void solve_target_position(stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-unsigned int find_check_directions(Side side, int check_directions[8])
-{
-  unsigned int result = 0;
-  unsigned int i;
-
-  /* don't use obs - intelligent mode supports boards with holes */
-  piece const temporary_block = dummyb;
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==vide)
-      e[king_square[side]+vec_i] = temporary_block;
-  }
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==temporary_block)
-    {
-      e[king_square[side]+vec_i] = vide;
-      if (echecc(nbply,side))
-      {
-        check_directions[result] = vec_i;
-        ++result;
-      }
-      e[king_square[side]+vec_i] = temporary_block;
-    }
-  }
-
-  for (i = vec_queen_end; i>=vec_queen_start ; --i)
-  {
-    numvec const vec_i = vec[i];
-    if (e[king_square[side]+vec_i]==temporary_block)
-      e[king_square[side]+vec_i] = vide;
-  }
-
-  return result;
-}
-
-static void GenerateBlackKing(stip_length_type n)
+static void GenerateBlackKing(void)
 {
   Flags const king_flags = black[index_of_king].flags;
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(black[index_of_king].type==roin);
@@ -499,11 +452,11 @@ static void GenerateBlackKing(stip_length_type n)
       black[index_of_king].usage = piece_is_king;
       if (goal_to_be_reached==goal_mate)
       {
-        intelligent_mate_generate_checking_moves(n);
-        intelligent_mate_generate_doublechecking_moves(n);
+        intelligent_mate_generate_checking_moves();
+        intelligent_mate_generate_doublechecking_moves();
       }
       else
-        intelligent_guard_flights(n);
+        intelligent_guard_flights();
 
       e[*bnp] = vide;
       spec[*bnp] = EmptySpec;
@@ -522,13 +475,15 @@ void IntelligentRegulargoal_types(stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  nr_of_moves = n;
+
   testcastling =
       TSTCASTLINGFLAGMASK(0,White,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
       || TSTCASTLINGFLAGMASK(0,White,k_castling&castling_flag[castlings_flags_no_castling])==k_castling
       || TSTCASTLINGFLAGMASK(0,Black,q_castling&castling_flag[castlings_flags_no_castling])==q_castling
       || TSTCASTLINGFLAGMASK(0,Black,k_castling&castling_flag[castlings_flags_no_castling])==k_castling;
 
-  where_to_start_placing_unused_black_pieces = boardnum;
+  assert(where_to_start_placing_black_pieces==boardnum);
 
   assert(castling_supported);
   castling_supported = false;
@@ -611,7 +566,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
   }
 
   /* generate final positions */
-  GenerateBlackKing(n);
+  GenerateBlackKing();
 
   ResetPosition();
 

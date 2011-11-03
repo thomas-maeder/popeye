@@ -6,6 +6,6 @@
 void remember_to_keep_checking_line_open(square from, square to,
                                          piece type, int delta);
 
-void intelligent_mate_generate_checking_moves(stip_length_type n);
+void intelligent_mate_generate_checking_moves(void);
 
 #endif

@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:      149070
-            jouecoup:      122513
-        orig_rbechec:        1897
-        orig_rnechec:       89229
+              empile:      146062
+            jouecoup:      119940
+        orig_rbechec:        1838
+        orig_rnechec:       87684
 solution finished. 
 
 
@@ -59,8 +59,8 @@ solution finished.
 
               empile:        3840
             jouecoup:        2953
-        orig_rbechec:          76
-        orig_rnechec:        2916
+        orig_rbechec:          67
+        orig_rnechec:        2915
 solution finished. 
 
 

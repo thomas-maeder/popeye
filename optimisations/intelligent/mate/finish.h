@@ -1,11 +1,9 @@
 #if !defined(OPTIMISATION_INTELLIGENT_MATE_FINISH_H)
 #define OPTIMISATION_INTELLIGENT_MATE_FINISH_H
 
-#include "py.h"
-
-void intelligent_mate_test_target_position(stip_length_type n);
-
-void intelligent_mate_finish(stip_length_type n,
-                             unsigned int nr_of_checks_to_white);
+/* Test the position created by the taken operations; if the position is a
+ * solvable target position: solve it; otherwise: improve it
+ */
+void intelligent_mate_test_target_position(void);
 
 #endif

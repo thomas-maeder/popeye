@@ -6,7 +6,14 @@
 #include "trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
+/* Detrmine whether some line is empty
+ * @param start start of line
+ * @param end end of line
+ * @param dir direction from start to end
+ * @return true iff the line is empty
+ */
 static boolean is_line_empty(square start, square end, int dir)
 {
   boolean result = true;
@@ -31,16 +38,18 @@ static boolean is_line_empty(square start, square end, int dir)
   return result;
 }
 
-/* @return true iff a pin was actually placed
+/* Pin the piece on a specific square with an original rider
+ * @param sq_to_be_pinned position of piece to be pinned
+ * @param pin_on where to put pinner
+ * @param pinner_index identifiespinnter
+ * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
  */
-static void pin_by_officer(stip_length_type n,
-                           piece pinner_type,
-                           Flags pinner_flags,
-                           square pinner_comes_from,
-                           square pin_from)
+static void pin_by_rider(piece pinner_type,
+                         Flags pinner_flags,
+                         square pinner_comes_from,
+                         square pin_from)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TracePiece(pinner_type);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
@@ -51,7 +60,7 @@ static void pin_by_officer(stip_length_type n,
                                                 pinner_type))
   {
     SetPiece(pinner_type,pin_from,pinner_flags);
-    intelligent_stalemate_test_target_position(n);
+    intelligent_stalemate_test_target_position();
     intelligent_unreserve();
   }
 
@@ -59,38 +68,40 @@ static void pin_by_officer(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-/* @return true iff a pin was actually placed
+/* Pin the piece on a specific square with a promoted rider
+ * @param sq_to_be_pinned position of piece to be pinned
+ * @param pin_on where to put pinner
+ * @param pinner_index identifiespinnter
+ * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
  */
-static void pin_by_promoted_pawn(stip_length_type n,
-                                 Flags pinner_flags,
+static void pin_by_promoted_pawn(Flags pinner_flags,
                                  square pinner_comes_from,
                                  square pin_from,
-                                 boolean diagonal)
+                                 boolean is_pin_on_diagonal)
 {
-  piece const minor_pinner_type = diagonal ? fb : tb;
+  piece const minor_pinner_type = is_pin_on_diagonal ? fb : tb;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
-  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParam("%u",is_pin_on_diagonal);
   TraceFunctionParamListEnd();
-
-  if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
-                                                             minor_pinner_type,
-                                                             pin_from))
-  {
-    SetPiece(minor_pinner_type,pin_from,pinner_flags);
-    intelligent_stalemate_test_target_position(n);
-    intelligent_unreserve();
-  }
 
   if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
                                                              db,
                                                              pin_from))
   {
     SetPiece(db,pin_from,pinner_flags);
-    intelligent_stalemate_test_target_position(n);
+    intelligent_stalemate_test_target_position();
+    intelligent_unreserve();
+  }
+
+  if (intelligent_reserve_promoting_white_pawn_moves_from_to(pinner_comes_from,
+                                                             minor_pinner_type,
+                                                             pin_from))
+  {
+    SetPiece(minor_pinner_type,pin_from,pinner_flags);
+    intelligent_stalemate_test_target_position();
     intelligent_unreserve();
   }
 
@@ -98,46 +109,48 @@ static void pin_by_promoted_pawn(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-/* @return true iff >=1 pin was actually placed
+/* Pin the piece on a specific square with an original rider
+ * @param sq_to_be_pinned position of piece to be pinned
+ * @param pin_on where to put pinner
+ * @param pinner_index identifiespinnter
+ * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
  */
-static void pin_specific_piece_on(stip_length_type n,
-                                  square sq_to_be_pinned,
+static void pin_specific_piece_on(square sq_to_be_pinned,
                                   square pin_on,
                                   unsigned int pinner_index,
-                                  boolean diagonal)
+                                  boolean is_pin_on_diagonal)
 {
   piece const pinner_type = white[pinner_index].type;
   Flags const pinner_flags = white[pinner_index].flags;
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(sq_to_be_pinned);
   TraceSquare(pin_on);
   TraceFunctionParam("%u",pinner_index);
-  TraceFunctionParam("%u",diagonal);
+  TraceFunctionParam("%u",is_pin_on_diagonal);
   TraceFunctionParamListEnd();
   switch (pinner_type)
   {
-    case cb:
+    case db:
+      pin_by_rider(db,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case tb:
-      if (!diagonal)
-        pin_by_officer(n,tb,pinner_flags,pinner_comes_from,pin_on);
+      if (!is_pin_on_diagonal)
+        pin_by_rider(tb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case fb:
-      if (diagonal)
-        pin_by_officer(n,fb,pinner_flags,pinner_comes_from,pin_on);
+      if (is_pin_on_diagonal)
+        pin_by_rider(fb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
-    case db:
-      pin_by_officer(n,db,pinner_flags,pinner_comes_from,pin_on);
+    case cb:
       break;
 
     case pb:
-      pin_by_promoted_pawn(n,pinner_flags,pinner_comes_from,pin_on,diagonal);
+      pin_by_promoted_pawn(pinner_flags,pinner_comes_from,pin_on,is_pin_on_diagonal);
       break;
 
     default:
@@ -149,11 +162,12 @@ static void pin_specific_piece_on(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-void intelligent_stalemate_pin_black_piece(stip_length_type n,
-                                           square position_of_trouble_maker)
+/* Pin a mobile black piece
+ * @param position_of_trouble_maker position of piece to be pinned
+ */
+void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(position_of_trouble_maker);
   TraceFunctionParamListEnd();
 
@@ -169,7 +183,7 @@ void intelligent_stalemate_pin_black_piece(stip_length_type n,
         && !(CheckDir[Rook][dir]!=0 && pinned_type==tn)
         && is_line_empty(king_square[Black],position_of_trouble_maker,dir))
     {
-      boolean const diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
+      boolean const is_pin_on_diagonal = SquareCol(king_square[Black]+dir)==SquareCol(king_square[Black]);
 
       square pin_on;
       for (pin_on = position_of_trouble_maker+dir; e[pin_on]==vide; pin_on += dir)
@@ -183,11 +197,10 @@ void intelligent_stalemate_pin_black_piece(stip_length_type n,
             {
               white[pinner_index].usage = piece_pins;
 
-              pin_specific_piece_on(n,
-                                    position_of_trouble_maker,
+              pin_specific_piece_on(position_of_trouble_maker,
                                     pin_on,
                                     pinner_index,
-                                    diagonal);
+                                    is_pin_on_diagonal);
 
               white[pinner_index].usage = piece_is_unused;
             }

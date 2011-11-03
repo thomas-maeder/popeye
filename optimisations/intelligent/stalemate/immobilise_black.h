@@ -5,7 +5,7 @@
 
 /* @return true iff >=1 black pieces needed to be immobilised
  */
-boolean intelligent_stalemate_immobilise_black(stip_length_type n);
+boolean intelligent_stalemate_immobilise_black(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

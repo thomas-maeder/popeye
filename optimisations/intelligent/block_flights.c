@@ -1,10 +1,11 @@
 #include "optimisations/intelligent/block_flights.h"
 #include "pydata.h"
 #include "pyint.h"
+#include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/mate/finish.h"
-#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
-#include "optimisations/intelligent/stalemate/intercept_checks_to_black.h"
+#include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "trace.h"
@@ -12,194 +13,80 @@
 #include <assert.h>
 #include <stdlib.h>
 
-static void block_planned_flights(stip_length_type n,
-                                  unsigned int nr_flights_to_block);
-
-static void finalise_blocking(stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  {
-    unsigned int const is_white_in_check = echecc(nbply,White);
-    if (goal_to_be_reached==goal_stale)
-    {
-      unsigned int const is_black_in_check = echecc(nbply,Black);
-      if (is_black_in_check)
-        intelligent_stalemate_intercept_checks_to_black(n,is_white_in_check);
-      else if (is_white_in_check)
-        intelligent_stalemate_intercept_checks_to_white(n,is_black_in_check);
-      else
-        intelligent_stalemate_test_target_position(n);
-    }
-    else
-    {
-      assert(echecc(nbply,Black));
-      intelligent_mate_finish(n,is_white_in_check);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void officer(stip_length_type n,
-                    square to_be_blocked,
-                    unsigned int blocker_index,
-                    unsigned int nr_remaining_flights_to_block)
-{
-  piece const blocker_type = black[blocker_index].type;
-  square const blocks_from = black[blocker_index].diagram_square;
-  Flags const blocker_flags = black[blocker_index].flags;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParam("%u",nr_remaining_flights_to_block);
-  TraceFunctionParamListEnd();
-
-  if (!officer_uninterceptably_attacks_king(White,to_be_blocked,blocker_type)
-      && intelligent_reserve_officer_moves_from_to(blocks_from,
-                                                   to_be_blocked,
-                                                   blocker_type))
-  {
-    SetPiece(blocker_type,to_be_blocked,blocker_flags);
-    block_planned_flights(n,nr_remaining_flights_to_block);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void unpromoted_pawn(stip_length_type n,
-                            square to_be_blocked,
-                            unsigned int blocker_index,
-                            unsigned int nr_remaining_flights_to_block)
-{
-  square const blocks_from = black[blocker_index].diagram_square;
-  Flags const blocker_flags = black[blocker_index].flags;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParam("%u",nr_remaining_flights_to_block);
-  TraceFunctionParamListEnd();
-
-  if (!black_pawn_attacks_king(to_be_blocked)
-      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocks_from,
-                                                                   to_be_blocked))
-  {
-    SetPiece(pn,to_be_blocked,blocker_flags);
-    block_planned_flights(n,nr_remaining_flights_to_block);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void promoted_pawn(stip_length_type n,
-                          square to_be_blocked,
-                          unsigned int blocker_index,
-                          unsigned int nr_remaining_flights_to_block)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParam("%u",nr_remaining_flights_to_block);
-  TraceFunctionParamListEnd();
-
-  if (intelligent_can_promoted_black_pawn_theoretically_move_to(blocker_index,
-                                                                to_be_blocked))
-  {
-    square const blocks_from = black[blocker_index].diagram_square;
-    Flags const blocker_flags = black[blocker_index].flags;
-
-    piece pp;
-    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!officer_uninterceptably_attacks_king(White,to_be_blocked,pp)
-          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocks_from,
-                                                                    pp,
-                                                                    to_be_blocked))
-      {
-        SetPiece(pp,to_be_blocked,blocker_flags);
-        block_planned_flights(n,nr_remaining_flights_to_block);
-        intelligent_unreserve();
-      }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static unsigned int nr_king_flights_to_be_blocked;
-
 static square king_flights_to_be_blocked[8];
 
-static void block_next_flight(stip_length_type n,
-                              unsigned int nr_flights_to_block)
+static void block_planned_flights(void);
+
+/* go on once all king flights have been blocked */
+static void finalise_blocking(void)
 {
-  unsigned int blocker_index;
-  unsigned int const current_flight = nr_flights_to_block-1;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(!echecc(nbply,White));
+  if (goal_to_be_reached==goal_stale)
+  {
+    assert(!echecc(nbply,Black));
+    intelligent_stalemate_test_target_position();
+  }
+  else
+  {
+    assert(echecc(nbply,Black));
+    intelligent_mate_test_target_position();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* block the next king flight */
+static void block_next_flight(void)
+{
+  unsigned int i;
+  unsigned int const current_flight = nr_king_flights_to_be_blocked-1;
   square const to_be_blocked = king_flights_to_be_blocked[current_flight];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",nr_flights_to_block);
   TraceFunctionParamListEnd();
+
+  --nr_king_flights_to_be_blocked;
 
   TraceSquare(to_be_blocked);TraceText("\n");
   if (nr_reasons_for_staying_empty[to_be_blocked]==0)
   {
-    for (blocker_index = 1;
-         blocker_index<MaxPiece[Black];
-         blocker_index++)
-      if (black[blocker_index].usage==piece_is_unused)
+    for (i = 1; i<MaxPiece[Black]; i++)
+      if (black[i].usage==piece_is_unused)
       {
-        black[blocker_index].usage = piece_blocks;
-
-        if (black[blocker_index].type==pn)
-        {
-          if (to_be_blocked>=square_a2 && to_be_blocked<=square_h7)
-            unpromoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
-
-          promoted_pawn(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
-        }
-        else
-          officer(n,to_be_blocked,blocker_index,nr_flights_to_block-1);
-
-        black[blocker_index].usage = piece_is_unused;
+        black[i].usage = piece_blocks;
+        intelligent_place_black_piece(i,to_be_blocked,&block_planned_flights);
+        black[i].usage = piece_is_unused;
       }
 
-    e[to_be_blocked] = vide;
+    e[to_be_blocked] = dummyn;
     spec[to_be_blocked] = EmptySpec;
   }
+
+  ++nr_king_flights_to_be_blocked;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void block_planned_flights(stip_length_type n,
-                                  unsigned int nr_flights_to_block)
+/* block the king flights */
+static void block_planned_flights(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",nr_flights_to_block);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (max_nr_solutions_found_in_phase())
   {
     /* nothing */
   }
-  else if (nr_flights_to_block==0)
-    finalise_blocking(n);
+  else if (nr_king_flights_to_be_blocked==0)
+    finalise_blocking();
   else
-    block_next_flight(n,nr_flights_to_block);
+    block_next_flight();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -289,7 +176,8 @@ static stip_length_type stalemate_flight_optimiser_can_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (goal_to_be_reached==goal_stale)
+  if (goal_to_be_reached==goal_stale
+      && move_generation_stack[nbcou].departure==king_square[Black])
   {
     /* we also need to block the flights that are currently guarded by a
      * line piece through the king's square - that line is going to be
@@ -440,12 +328,10 @@ static stip_length_type move_generator_can_help2(slice_index si,
   return result;
 }
 
-static unsigned int plan_blocks_of_flights(void)
+static void plan_blocks_of_flights(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  nr_king_flights_to_be_blocked = 0;
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
   if (move_generator_can_help2(no_slice,slack_length_help+1)
@@ -454,27 +340,42 @@ static unsigned int plan_blocks_of_flights(void)
     nr_king_flights_to_be_blocked = MaxPiece[Black];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",nr_king_flights_to_be_blocked);
   TraceFunctionResultEnd();
-  return nr_king_flights_to_be_blocked;
 }
 
-void intelligent_find_and_block_flights(stip_length_type n)
+/* Find black king flights and block them */
+void intelligent_find_and_block_flights(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  assert(nr_king_flights_to_be_blocked==0);
+
+  plan_blocks_of_flights();
+  if (nr_king_flights_to_be_blocked==0)
+    finalise_blocking();
+  else
   {
-    unsigned int const nr_flights_to_block = plan_blocks_of_flights();
-    if (nr_flights_to_block==0)
-      finalise_blocking(n);
-    else if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
-                                                         nr_flights_to_block))
+    if (intelligent_reserve_black_masses_for_blocks(king_flights_to_be_blocked,
+                                                    nr_king_flights_to_be_blocked))
     {
-      block_planned_flights(n,nr_flights_to_block);
+      unsigned int i;
+      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+      {
+        TraceSquare(king_flights_to_be_blocked[i]);
+        TraceText("\n");
+        e[king_flights_to_be_blocked[i]] = dummyn;
+      }
+
+      block_planned_flights();
+
+      for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
+        e[king_flights_to_be_blocked[i]] = vide;
+
       intelligent_unreserve();
     }
+
+    nr_king_flights_to_be_blocked = 0;
   }
 
   TraceFunctionExit(__func__);

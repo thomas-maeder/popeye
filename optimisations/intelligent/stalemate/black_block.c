@@ -2,189 +2,103 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/stalemate/finish.h"
-#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
+#include "optimisations/intelligent/intercept_check_by_black.h"
 #include "trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-static void block_first(stip_length_type n,
-                        square const to_be_blocked[8],
-                        unsigned int nr_to_be_blocked);
+static square const *being_blocked;
+static unsigned int nr_being_blocked;
 
-static void finalise_blocking(stip_length_type n,
-                              square const to_be_blocked[8],
-                              unsigned int nr_to_be_blocked)
+static void block_first(void);
+
+/* Go on once all squares to be blocked have been blocked
+ */
+static void finalise_blocking(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",nr_to_be_blocked);
   TraceFunctionParamListEnd();
 
-  assert(nr_to_be_blocked>=1);
+  assert(nr_being_blocked>=1);
 
-  if (nr_to_be_blocked==1)
-  {
-    if (echecc(nbply,White))
-    {
-      boolean const is_black_in_check = false;
-      intelligent_stalemate_intercept_checks_to_white(n,is_black_in_check);
-    }
-    else
-      intelligent_stalemate_test_target_position(n);
-  }
+  if (nr_being_blocked==1)
+    intelligent_stalemate_test_target_position();
   else
-    block_first(n,to_be_blocked+1,nr_to_be_blocked-1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void promoted_pawn(stip_length_type n,
-                          square const to_be_blocked[8],
-                          unsigned int nr_to_be_blocked,
-                          unsigned blocker_index)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked[0]);
-  TraceFunctionParam("%u",nr_to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParamListEnd();
-
-  if (intelligent_can_promoted_black_pawn_theoretically_move_to(blocker_index,
-                                                                to_be_blocked[0]))
   {
-    Flags const blocker_flags = black[blocker_index].flags;
-    square const blocker_comes_from = black[blocker_index].diagram_square;
-
-    piece pp;
-    for (pp = -getprompiece[vide]; pp!=vide; pp = -getprompiece[-pp])
-      if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],pp)
-          && intelligent_reserve_promoting_black_pawn_moves_from_to(blocker_comes_from,
-                                                                    pp,
-                                                                    to_be_blocked[0]))
-      {
-        SetPiece(pp,to_be_blocked[0],blocker_flags);
-        finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-        intelligent_unreserve();
-      }
+    --nr_being_blocked;
+    ++being_blocked;
+    block_first();
+    --being_blocked;
+    ++nr_being_blocked;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void unpromoted_pawn(stip_length_type n,
-                            square const to_be_blocked[8],
-                            unsigned int nr_to_be_blocked,
-                            unsigned blocker_index)
-{
-  Flags const blocker_flags = black[blocker_index].flags;
-  square const blocker_comes_from = black[blocker_index].diagram_square;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked[0]);
-  TraceFunctionParam("%u",nr_to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParamListEnd();
-
-  if (!black_pawn_attacks_king(to_be_blocked[0])
-      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(blocker_comes_from,
-                                                                   to_be_blocked[0]))
-  {
-    SetPiece(pn,to_be_blocked[0],blocker_flags);
-    finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void officer(stip_length_type n,
-                    square const to_be_blocked[8],
-                    unsigned int nr_to_be_blocked,
-                    unsigned blocker_index)
-{
-  piece const blocker_type = black[blocker_index].type;
-  Flags const blocker_flags = black[blocker_index].flags;
-  square const blocker_comes_from = black[blocker_index].diagram_square;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked[0]);
-  TraceFunctionParam("%u",nr_to_be_blocked);
-  TraceFunctionParam("%u",blocker_index);
-  TraceFunctionParamListEnd();
-
-  if (!officer_uninterceptably_attacks_king(White,to_be_blocked[0],blocker_type)
-      && intelligent_reserve_officer_moves_from_to(blocker_comes_from,
-                                                   to_be_blocked[0],
-                                                   blocker_type))
-  {
-    SetPiece(blocker_type,to_be_blocked[0],blocker_flags);
-    finalise_blocking(n,to_be_blocked,nr_to_be_blocked);
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void block_first(stip_length_type n,
-                        square const to_be_blocked[8],
-                        unsigned int nr_to_be_blocked)
+/* Continue by blocking the first remaining square
+ */
+static void block_first(void)
 {
   unsigned int i;
+  square const to_be_blocked = being_blocked[0];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceSquare(to_be_blocked[0]);
-  TraceFunctionParam("%u",nr_to_be_blocked);
   TraceFunctionParamListEnd();
 
-  assert(nr_to_be_blocked>0);
+  assert(*where_to_start_placing_black_pieces<=to_be_blocked);
 
   for (i = 1; i<MaxPiece[Black]; ++i)
     if (black[i].usage==piece_is_unused)
     {
       black[i].usage = piece_blocks;
-
-      if (black[i].type==pn)
-      {
-        promoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
-        if (to_be_blocked[0]>=square_a2 && to_be_blocked[0]<=square_h7)
-          unpromoted_pawn(n,to_be_blocked,nr_to_be_blocked,i);
-      }
-      else
-        officer(n,to_be_blocked,nr_to_be_blocked,i);
-
+      intelligent_place_black_piece(i,to_be_blocked,&finalise_blocking);
       black[i].usage = piece_is_unused;
     }
 
-  e[to_be_blocked[0]] = vide;
-  spec[to_be_blocked[0]] = EmptySpec;
+  e[to_be_blocked] = dummyn;
+  spec[to_be_blocked] = EmptySpec;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void intelligent_stalemate_black_block(stip_length_type n,
-                                       square const to_be_blocked[8],
+/* Place black blocks for mobile pieces (not the king)
+ * @param to_be_blocked one ore more squares to be blocked
+ * @param nr_to_be_blocked number of elements of to_be_blocked
+ */
+void intelligent_stalemate_black_block(square const to_be_blocked[8],
                                        unsigned int nr_to_be_blocked)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",nr_to_be_blocked);
   TraceFunctionParamListEnd();
 
+  assert(nr_to_be_blocked>0);
+
   if (intelligent_reserve_masses(Black,nr_to_be_blocked))
   {
-    block_first(n,to_be_blocked,nr_to_be_blocked);
+    square const *save_being_blocked = being_blocked;
+    unsigned int const save_nr_being_blocked = nr_being_blocked;
+    unsigned int i;
+
+    being_blocked = to_be_blocked;
+    nr_being_blocked = nr_to_be_blocked;
+
+    for (i = 0; i!=nr_to_be_blocked; ++i)
+      e[to_be_blocked[i]] = dummyn;
+
+    block_first();
     intelligent_unreserve();
+
+    for (i = 0; i!=nr_to_be_blocked; ++i)
+      e[to_be_blocked[i]] = vide;
+
+    being_blocked = save_being_blocked;
+    nr_being_blocked = save_nr_being_blocked;
   }
 
   TraceFunctionExit(__func__);

@@ -3,8 +3,11 @@
 
 #include "py.h"
 
-void intelligent_stalemate_black_block(stip_length_type n,
-                                       square const to_be_blocked[8],
+/* Place black blocks for mobile pieces (not the king)
+ * @param to_be_blocked one ore more squares to be blocked
+ * @param nr_to_be_blocked number of elements of to_be_blocked
+ */
+void intelligent_stalemate_black_block(square const to_be_blocked[8],
                                        unsigned int nr_to_be_blocked);
 
 #endif

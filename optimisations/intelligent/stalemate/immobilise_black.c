@@ -3,7 +3,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
+#include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
@@ -15,8 +15,8 @@
 typedef enum
 {
   no_requirement,
-  white_block_required,
-  block_required,
+  block_of_pawn_required,
+  block_of_officer_required,
   pin_required,
   immobilisation_impossible
 } immobilisation_requirement_type;
@@ -56,11 +56,11 @@ boolean can_we_block_all_necessary_squares(trouble_maker_type const *state)
       result = true;
       break;
 
-    case white_block_required:
+    case block_of_pawn_required:
       result = intelligent_get_nr_reservable_masses(no_side)>=state->nr_flight_directions;
       break;
 
-    case block_required:
+    case block_of_officer_required:
       result = intelligent_get_nr_reservable_masses(Black)>=state->nr_flight_directions;
       break;
 
@@ -91,29 +91,30 @@ static void next_trouble_maker(void)
     current_state->worst = current_state->current;
 }
 
-static void block_squares(stip_length_type n,
-                          trouble_maker_type const *trouble_maker)
+static void block_squares(trouble_maker_type const *trouble_maker)
 {
-  if (trouble_maker->requirement==white_block_required)
+  if (trouble_maker->requirement==block_of_pawn_required)
   {
     assert(trouble_maker->nr_flight_directions==1);
-    intelligent_stalemate_white_block(n,trouble_maker->closest_flights[0]);
-  }
+    intelligent_stalemate_white_block(trouble_maker->closest_flights[0]);
 
-  intelligent_stalemate_black_block(n,
-                                    trouble_maker->closest_flights,
-                                    trouble_maker->nr_flight_directions);
+    if (*where_to_start_placing_black_pieces<=trouble_maker->closest_flights[0])
+      intelligent_stalemate_black_block(trouble_maker->closest_flights,
+                                        trouble_maker->nr_flight_directions);
+  }
+  else
+    intelligent_stalemate_black_block(trouble_maker->closest_flights,
+                                      trouble_maker->nr_flight_directions);
 }
 
 /* @return true iff >=1 black pieces needed to be immobilised
  */
-boolean intelligent_stalemate_immobilise_black(stip_length_type n)
+boolean intelligent_stalemate_immobilise_black(void)
 {
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
@@ -131,11 +132,11 @@ boolean intelligent_stalemate_immobilise_black(stip_length_type n)
 
     if (immobilisation_state.worst.requirement<immobilisation_impossible)
     {
-      intelligent_stalemate_pin_black_piece(n,immobilisation_state.worst.target_square);
+      intelligent_stalemate_pin_black_piece(immobilisation_state.worst.target_square);
 
       if (immobilisation_state.worst.requirement<pin_required
           && can_we_block_all_necessary_squares(&immobilisation_state.worst))
-        block_squares(n,&immobilisation_state.worst);
+        block_squares(&immobilisation_state.worst);
     }
 
     result = true;
@@ -151,8 +152,8 @@ static void update_leaper_requirement(immobilisation_requirement_type if_unblock
 {
   boolean const is_block_possible = (pprise[nbply]==vide
                                      && nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]==0
-                                     && *where_to_start_placing_unused_black_pieces<=move_generation_stack[nbcou].arrival);
-  immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
+                                     && *where_to_start_placing_black_pieces<=move_generation_stack[nbcou].arrival);
+  immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
   if (current_state->current.requirement<new_req)
     current_state->current.requirement = new_req;
   assert(current_state->current.nr_flight_directions<8);
@@ -170,8 +171,8 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
     square const closest_flight = move_generation_stack[nbcou].departure+dir;
     boolean const is_block_possible = (pprise[nbply]==vide
                                        && nr_reasons_for_staying_empty[closest_flight]==0
-                                       && *where_to_start_placing_unused_black_pieces<=closest_flight);
-    immobilisation_requirement_type const new_req = is_block_possible ? block_required : if_unblockable;
+                                       && *where_to_start_placing_black_pieces<=closest_flight);
+    immobilisation_requirement_type const new_req = is_block_possible ? block_of_officer_required : if_unblockable;
     if (current_state->current.requirement<new_req)
       current_state->current.requirement = new_req;
     assert(current_state->current.nr_flight_directions<8);
@@ -195,7 +196,7 @@ static void update_pawn_requirement(void)
         {
           current_state->current.closest_flights[current_state->current.nr_flight_directions] = move_generation_stack[nbcou].arrival;
           ++current_state->current.nr_flight_directions;
-          current_state->current.requirement = white_block_required;
+          current_state->current.requirement = block_of_pawn_required;
         }
         else
           current_state->current.requirement = pin_required;
@@ -250,17 +251,17 @@ stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
       update_leaper_requirement(immobilisation_impossible);
       break;
 
-    case cn: /* pinnable leaper */
-      update_leaper_requirement(pin_required);
-      break;
-
     case dn: /* unpinnable rider */
       update_rider_requirement(immobilisation_impossible);
       break;
 
     case tn:
-    case fn:
+    case fn: /* pinnable rider */
       update_rider_requirement(pin_required);
+      break;
+
+    case cn: /* pinnable leaper */
+      update_leaper_requirement(pin_required);
       break;
 
     case pn: /* pinnable rider, blockable by White */

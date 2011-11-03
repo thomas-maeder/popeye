@@ -2,7 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "pyslice.h"
-#include "optimisations/intelligent/stalemate/intercept_checks_to_white.h"
+#include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -10,7 +10,10 @@
 
 #include <assert.h>
 
-void intelligent_stalemate_test_target_position(stip_length_type n)
+/* Test the position created by the taken operations; if the position is a
+ * solvable target position: solve it; otherwise: improve it
+ */
+void intelligent_stalemate_test_target_position(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -20,8 +23,8 @@ void intelligent_stalemate_test_target_position(stip_length_type n)
   assert(!echecc(nbply,White));
   if (!max_nr_solutions_found_in_phase())
   {
-    if (!intelligent_stalemate_immobilise_black(n))
-      intelligent_stalemate_deal_with_unused_pieces(n);
+    if (!intelligent_stalemate_immobilise_black())
+      intelligent_stalemate_deal_with_unused_pieces();
   }
 
   TraceFunctionExit(__func__);

@@ -1,7 +1,7 @@
 optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.c \
  optimisations/intelligent/stalemate/finish.h pyint.h pydata.h pyslice.h \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h \
+ optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
  options/maxsolutions/maxsolutions.h trace.h
@@ -14,7 +14,7 @@ pydata.h:
 
 pyslice.h:
 
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
+optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
@@ -53,7 +53,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
  optimisations/intelligent/stalemate/immobilise_black.h pyint.h pydata.h \
  pyslice.h optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
+ optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
  optimisations/intelligent/stalemate/pin_black_piece.h \
@@ -69,7 +69,7 @@ pyslice.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
-optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
+optimisations/intelligent/place_black_piece.h:
 
 optimisations/intelligent/stalemate/white_block.h:
 
@@ -86,8 +86,8 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  pydata.h pyslice.h platform/maxtime.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h \
- optimisations/intelligent/stalemate/black_block.h \
+ optimisations/intelligent/place_black_piece.h \
+ optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/finish.h trace.h
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
@@ -104,9 +104,9 @@ optimisations/intelligent/moves_left.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
+optimisations/intelligent/place_black_piece.h:
 
-optimisations/intelligent/stalemate/black_block.h:
+optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -114,9 +114,9 @@ trace.h:
 optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.c \
  optimisations/intelligent/stalemate/white_block.h pyint.h pydata.h \
+ optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h \
- optimisations/intelligent/stalemate/intercept_checks_to_black.h \
+ optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/finish.h trace.h
 
 optimisations/intelligent/stalemate/white_block.h:
@@ -125,11 +125,11 @@ pyint.h:
 
 pydata.h:
 
+optimisations/intelligent/place_white_piece.h:
+
 optimisations/intelligent/count_nr_of_moves.h:
 
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
-
-optimisations/intelligent/stalemate/intercept_checks_to_black.h:
+optimisations/intelligent/place_white_king.h:
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -138,8 +138,9 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/black_block.c \
  optimisations/intelligent/stalemate/black_block.h pyint.h pydata.h \
  optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/finish.h \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h trace.h
+ optimisations/intelligent/intercept_check_by_black.h trace.h
 
 optimisations/intelligent/stalemate/black_block.h:
 
@@ -149,9 +150,11 @@ pydata.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
+optimisations/intelligent/place_black_piece.h:
+
 optimisations/intelligent/stalemate/finish.h:
 
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
+optimisations/intelligent/intercept_check_by_black.h:
 
 trace.h:
 optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
@@ -167,52 +170,6 @@ pyint.h:
 pydata.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
-
-optimisations/intelligent/stalemate/finish.h:
-
-trace.h:
-optimisations/intelligent/stalemate/intercept_checks_to_white$(OBJ_SUFFIX): \
- optimisations/intelligent/stalemate/intercept_checks_to_white.c \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h pyint.h \
- pydata.h optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/intercept_checks_to_black.h \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
- optimisations/intelligent/stalemate/finish.h trace.h
-
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
-
-pyint.h:
-
-pydata.h:
-
-optimisations/intelligent/count_nr_of_moves.h:
-
-optimisations/intelligent/stalemate/intercept_checks_to_black.h:
-
-optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
-
-optimisations/intelligent/stalemate/finish.h:
-
-trace.h:
-optimisations/intelligent/stalemate/intercept_checks_to_black$(OBJ_SUFFIX): \
- optimisations/intelligent/stalemate/intercept_checks_to_black.c \
- optimisations/intelligent/stalemate/intercept_checks_to_black.h pyint.h \
- pydata.h optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/intercept_checks_to_white.h \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
- optimisations/intelligent/stalemate/finish.h trace.h
-
-optimisations/intelligent/stalemate/intercept_checks_to_black.h:
-
-pyint.h:
-
-pydata.h:
-
-optimisations/intelligent/count_nr_of_moves.h:
-
-optimisations/intelligent/stalemate/intercept_checks_to_white.h:
-
-optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
 optimisations/intelligent/stalemate/finish.h:
 

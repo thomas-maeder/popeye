@@ -4,7 +4,9 @@
 #include "py.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 
-void intelligent_stalemate_pin_black_piece(stip_length_type n,
-                                                                 square position_of_trouble_maker);
+/* Pin a mobile black piece
+ * @param position_of_trouble_maker position of piece to be pinned
+ */
+void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker);
 
 #endif

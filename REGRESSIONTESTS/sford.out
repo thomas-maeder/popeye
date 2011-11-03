@@ -1382,8 +1382,8 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
               empile:      432516
             jouecoup:      427177
-        orig_rbechec:       30001
-        orig_rnechec:       52718
+        orig_rbechec:       29611
+        orig_rnechec:       52670
 Loesung beendet. 
 
 
@@ -1417,8 +1417,8 @@ h#8 1.0;1.1;...
 
               empile:     2813990
             jouecoup:     2810460
-        orig_rbechec:      155208
-        orig_rnechec:      289867
+        orig_rbechec:      154372
+        orig_rnechec:      289765
 Loesung beendet. 
 
 

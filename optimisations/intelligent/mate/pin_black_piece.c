@@ -7,14 +7,12 @@
 
 #include <assert.h>
 
-static void by_officer(stip_length_type n,
-                       piece pinner_type,
+static void by_officer(piece pinner_type,
                        Flags pinner_flags,
                        square pinner_comes_from,
                        square pin_from)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TracePiece(pinner_type);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
@@ -25,7 +23,7 @@ static void by_officer(stip_length_type n,
                                                 pinner_type))
   {
     SetPiece(pinner_type,pin_from,pinner_flags);
-    intelligent_mate_test_target_position(n);
+    intelligent_mate_test_target_position();
     intelligent_unreserve();
   }
 
@@ -33,8 +31,7 @@ static void by_officer(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void by_promoted_pawn(stip_length_type n,
-                             Flags pinner_flags,
+static void by_promoted_pawn(Flags pinner_flags,
                              square pinner_comes_from,
                              square pin_from,
                              boolean diagonal)
@@ -42,7 +39,6 @@ static void by_promoted_pawn(stip_length_type n,
   piece const minor_pinner_type = diagonal ? fb : tb;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParam("%u",diagonal);
@@ -53,7 +49,7 @@ static void by_promoted_pawn(stip_length_type n,
                                                              pin_from))
   {
     SetPiece(minor_pinner_type,pin_from,pinner_flags);
-    intelligent_mate_test_target_position(n);
+    intelligent_mate_test_target_position();
     intelligent_unreserve();
   }
 
@@ -62,7 +58,7 @@ static void by_promoted_pawn(stip_length_type n,
                                                              pin_from))
   {
     SetPiece(db,pin_from,pinner_flags);
-    intelligent_mate_test_target_position(n);
+    intelligent_mate_test_target_position();
     intelligent_unreserve();
   }
 
@@ -70,8 +66,7 @@ static void by_promoted_pawn(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-static void one_pin(stip_length_type n,
-                    square sq_to_be_pinned,
+static void one_pin(square sq_to_be_pinned,
                     square pin_on,
                     unsigned int pinner_index,
                     boolean diagonal)
@@ -81,7 +76,6 @@ static void one_pin(stip_length_type n,
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(sq_to_be_pinned);
   TraceSquare(pin_on);
   TraceFunctionParam("%u",pinner_index);
@@ -91,24 +85,24 @@ static void one_pin(stip_length_type n,
   switch (pinner_type)
   {
     case db:
-      by_officer(n,db,pinner_flags,pinner_comes_from,pin_on);
+      by_officer(db,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case tb:
       if (!diagonal)
-        by_officer(n,tb,pinner_flags,pinner_comes_from,pin_on);
+        by_officer(tb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case fb:
       if (diagonal)
-        by_officer(n,fb,pinner_flags,pinner_comes_from,pin_on);
+        by_officer(fb,pinner_flags,pinner_comes_from,pin_on);
       break;
 
     case cb:
       break;
 
     case pb:
-      by_promoted_pawn(n,pinner_flags,pinner_comes_from,pin_on,diagonal);
+      by_promoted_pawn(pinner_flags,pinner_comes_from,pin_on,diagonal);
       break;
 
     default:
@@ -120,11 +114,9 @@ static void one_pin(stip_length_type n,
   TraceFunctionResultEnd();
 }
 
-void intelligent_mate_pin_black_piece(stip_length_type n,
-                                      square sq_to_be_pinned)
+void intelligent_mate_pin_black_piece(square sq_to_be_pinned)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceSquare(sq_to_be_pinned);
   TraceFunctionParamListEnd();
 
@@ -143,9 +135,7 @@ void intelligent_mate_pin_black_piece(stip_length_type n,
           if (white[pinner_index].usage==piece_is_unused)
           {
             white[pinner_index].usage = piece_pins;
-
-            one_pin(n,sq_to_be_pinned,pin_on,pinner_index,diagonal);
-
+            one_pin(sq_to_be_pinned,pin_on,pinner_index,diagonal);
             white[pinner_index].usage = piece_is_unused;
           }
 

@@ -3,6 +3,6 @@
 
 #include "py.h"
 
-void intelligent_mate_generate_doublechecking_moves(stip_length_type n);
+void intelligent_mate_generate_doublechecking_moves(void);
 
 #endif
