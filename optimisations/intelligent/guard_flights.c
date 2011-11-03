@@ -97,14 +97,14 @@ static square white_officer_guards_flight(piece officer_type, square from)
   return result;
 }
 
-/* update nr_reasons_for_staying_empty for a guarding line
+/* find out whether to remember to keep a guard line open, and do it
  * @param from start of line
  * @param to end of line
  * @param type type of rider
  * @param delta [+-1] remember resp. forget to keep the line open
  */
-static void remember_to_keep_rider_guard_line_open(square from, square to,
-                                                   piece type, int delta)
+static void remember_to_keep_guard_line_open(square from, square to,
+                                             piece type, int delta)
 {
   int const dir = CheckDir[Queen][to-from];
   square s;
@@ -124,57 +124,6 @@ static void remember_to_keep_rider_guard_line_open(square from, square to,
     to = s;
 
   remember_to_keep_rider_line_open(from,to,dir,delta);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* find out whether to remember to keep a guard line open, and do it
- * @param from start of line
- * @param to end of line
- * @param type type of rider
- * @param delta [+-1] remember resp. forget to keep the line open
- */
-static void remember_to_keep_guard_line_open(square from, square to,
-                                             piece type, int delta)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceSquare(to);
-  TracePiece(type);
-  TraceFunctionParamListEnd();
-
-  switch (type)
-  {
-    case Queen:
-      if (move_diff_code[abs(king_square[Black]-from)]>10)
-        remember_to_keep_rider_guard_line_open(from,to,type,delta);
-      else
-      {
-        /* queen may be guarding on two lines*/
-      }
-      break;
-
-    case Rook:
-      if (move_diff_code[abs(king_square[Black]-from)]>2)
-        remember_to_keep_rider_guard_line_open(from,to,type,delta);
-      else
-      {
-        /* rook may be guarding on two lines*/
-      }
-      break;
-
-    case Bishop:
-      remember_to_keep_rider_guard_line_open(from,to,type,delta);
-      break;
-
-    case Knight:
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -358,12 +307,12 @@ static void promoted_queen(unsigned int index_of_queen, square guard_from)
 
   switch (move_diff_code[abs(king_square[Black]-guard_from)])
   {
-    case 0+1: /* e.g. Ka2 Qb2 */
+    case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
       /* uninterceptable check */
       break;
 
-    case 4: /* e.g. Ka2 Qc2 */
+    case 4+0: /* e.g. Ka2 Qc2 */
       if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_queen].diagram_square,
                                                                  db,
                                                                  guard_from))
@@ -400,26 +349,66 @@ static void promoted_queen(unsigned int index_of_queen, square guard_from)
   TraceFunctionResultEnd();
 }
 
-/* guard king flights with a promoted rook or bishop
- * @param index_of_rider identifies the rider
- * @param guard_from from what square should the rider guard
+/* guard king flights with a rook
+ * @param index_of_rook identifies the rook
+ * @param guard_from from what square should the rook guard
  */
-static void promoted_minor_rider(unsigned int index_of_pawn,
-                                 piece promotee_type,
-                                 square guard_from)
+static void promoted_rook(unsigned int index_of_rook, square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_pawn);
-  TracePiece(promotee_type);
+  TraceValue("%u",index_of_rook);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,promotee_type)
-      && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_pawn].diagram_square,
-                                                                promotee_type,
+  switch (move_diff_code[abs(king_square[Black]-guard_from)])
+  {
+    case 1+0: /* e.g. Ka2 Rb2 */
+      /* uninterceptable check */
+      break;
+
+    case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_rook].diagram_square,
+                                                                 tb,
+                                                                 guard_from))
+      {
+        SetPiece(tb,guard_from,white[index_of_rook].flags);
+        intelligent_continue_guarding_flights();
+        intelligent_unreserve();
+      }
+      break;
+
+    default:
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_rook].diagram_square,
+                                                                 tb,
+                                                                 guard_from))
+      {
+        place_rider(index_of_rook,tb,guard_from);
+        intelligent_unreserve();
+      }
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* guard king flights with a promoted bishop
+ * @param index_of_bishop identifies the bishop
+ * @param guard_from from what square should the bishop guard
+ */
+static void promoted_bishop(unsigned int index_of_bishop, square guard_from)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",index_of_bishop);
+  TraceSquare(guard_from);
+  TraceFunctionParamListEnd();
+
+  if (!officer_uninterceptably_attacks_king(Black,guard_from,fb)
+      && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_bishop].diagram_square,
+                                                                fb,
                                                                 guard_from))
   {
-    place_rider(index_of_pawn,promotee_type,guard_from);
+    place_rider(index_of_bishop,fb,guard_from);
     intelligent_unreserve();
   }
 
@@ -474,8 +463,11 @@ static void promoted_pawn(unsigned int index_of_pawn, square guard_from)
           break;
 
         case tb:
+          promoted_rook(index_of_pawn,guard_from);
+          break;
+
         case fb:
-          promoted_minor_rider(index_of_pawn,pp,guard_from);
+          promoted_bishop(index_of_pawn,guard_from);
           break;
 
         case cb:
@@ -505,7 +497,7 @@ static void queen(unsigned int index_of_queen, square guard_from)
 
   switch (move_diff_code[abs(king_square[Black]-guard_from)])
   {
-    case 0+1: /* e.g. Ka2 Qb2 */
+    case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
       /* uninterceptable check */
       break;
@@ -547,25 +539,66 @@ static void queen(unsigned int index_of_queen, square guard_from)
   TraceFunctionResultEnd();
 }
 
-/* guard king flights with a rook or bishop
- * @param index_of_rider identifies the rider
- * @param guard_from from what square should the rider guard
+/* guard king flights with a rook
+ * @param index_of_rook identifies the rook
+ * @param guard_from from what square should the rook guard
  */
-static void minor_rider(unsigned int index_of_rider, square guard_from)
+static void rook(unsigned int index_of_rook, square guard_from)
 {
-  piece const guard_type = white[index_of_rider].type;
-
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_rider);
+  TraceValue("%u",index_of_rook);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,guard_type)
-      && intelligent_reserve_officer_moves_from_to(white[index_of_rider].diagram_square,
-                                                   guard_from,
-                                                   guard_type))
+  switch (move_diff_code[abs(king_square[Black]-guard_from)])
   {
-    place_rider(index_of_rider,guard_type,guard_from);
+    case 1+0: /* e.g. Ka2 Rb2 */
+      /* uninterceptable check */
+      break;
+
+    case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_rook].diagram_square,
+                                                    guard_from,
+                                                    tb))
+      {
+        SetPiece(tb,guard_from,white[index_of_rook].flags);
+        intelligent_continue_guarding_flights();
+        intelligent_unreserve();
+      }
+      break;
+
+    default:
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_rook].diagram_square,
+                                                    guard_from,
+                                                    tb))
+      {
+        place_rider(index_of_rook,tb,guard_from);
+        intelligent_unreserve();
+      }
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* guard king flights with a bishop
+ * @param index_of_rider identifies the bishop
+ * @param guard_from from what square should the bishop guard
+ */
+static void bishop(unsigned int index_of_bishop, square guard_from)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",index_of_bishop);
+  TraceSquare(guard_from);
+  TraceFunctionParamListEnd();
+
+  if (!officer_uninterceptably_attacks_king(Black,guard_from,fb)
+      && intelligent_reserve_officer_moves_from_to(white[index_of_bishop].diagram_square,
+                                                   guard_from,
+                                                   fb))
+  {
+    place_rider(index_of_bishop,fb,guard_from);
     intelligent_unreserve();
   }
 
@@ -635,8 +668,11 @@ void intelligent_continue_guarding_flights(void)
                   break;
 
                 case tb:
+                  rook(index_of_current_guarding_piece,*bnp);
+                  break;
+
                 case fb:
-                  minor_rider(index_of_current_guarding_piece,*bnp);
+                  bishop(index_of_current_guarding_piece,*bnp);
                   break;
 
                 case cb:
