@@ -186,6 +186,12 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
     boolean const is_pin_on_diagonal = SquareCol(king_square[Black]+dir_to_touble_maker)==SquareCol(king_square[Black]);
 
     square pin_on;
+
+    remember_to_keep_rider_line_open(king_square[Black],
+                                     position_of_trouble_maker,
+                                     dir_to_touble_maker,
+                                     +1);
+
     for (pin_on = position_of_trouble_maker+dir_to_touble_maker; e[pin_on]==vide; pin_on += dir_to_touble_maker)
     {
       if (nr_reasons_for_staying_empty[pin_on]==0)
@@ -215,6 +221,11 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
 
     for (pin_on -= dir_to_touble_maker; pin_on!=position_of_trouble_maker; pin_on -= dir_to_touble_maker)
       --nr_reasons_for_staying_empty[pin_on];
+
+    remember_to_keep_rider_line_open(king_square[Black],
+                                     position_of_trouble_maker,
+                                     dir_to_touble_maker,
+                                     -1);
 
     intelligent_unreserve();
   }
