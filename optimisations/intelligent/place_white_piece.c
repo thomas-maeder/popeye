@@ -198,8 +198,8 @@ void intelligent_place_white_rider(unsigned int placed_index,
     if (check_dir==0)
     {
       if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                    placed_on,
-                                                    placed_type))
+                                                    placed_type,
+                                                    placed_on))
       {
         SetPiece(placed_type,placed_on,placed_flags);
         (*go_on)();
@@ -208,8 +208,8 @@ void intelligent_place_white_rider(unsigned int placed_index,
     }
     else if (check_dir!=checkdir_uninterceptable
              && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                          placed_on,
-                                                          placed_type))
+                                                          placed_type,
+                                                          placed_on))
     {
       SetPiece(placed_type,placed_on,placed_flags);
       intelligent_intercept_check_by_white(check_dir,go_on);
@@ -235,8 +235,8 @@ void intelligent_place_white_knight(unsigned int placed_index,
 
   if (!officer_uninterceptably_attacks_king(Black,placed_on,cb)
       && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                   placed_on,
-                                                   cb))
+                                                   cb,
+                                                   placed_on))
   {
     SetPiece(cb,placed_on,placed_flags);
     (*go_on)();

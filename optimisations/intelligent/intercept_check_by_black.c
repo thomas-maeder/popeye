@@ -187,8 +187,8 @@ static void black_officer(unsigned int intercepter_index,
 
   assert(!officer_guards(king_square[White],intercepter_type,where_to_intercept));
   if (intelligent_reserve_officer_moves_from_to(black[intercepter_index].diagram_square,
-                                                where_to_intercept,
-                                                intercepter_type))
+                                                intercepter_type,
+                                                where_to_intercept))
   {
     SetPiece(intercepter_type,where_to_intercept,black[intercepter_index].flags);
     (*go_on)();

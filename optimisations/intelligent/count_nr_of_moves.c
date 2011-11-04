@@ -921,27 +921,28 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
 /* Tests if a specific checking white sequence of moves by the same officer is
  * still possible.
  * @param from_square from
+ * @param checker_type type of officer
  * @param to_square to
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
-                                                                 square from_square,
+boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_square,
+                                                                 piece checker_type,
                                                                  square to_square)
 {
   boolean result;
   unsigned int nr_of_moves;
 
   TraceFunctionEntry(__func__);
-  TracePiece(piece);
   TraceSquare(from_square);
+  TracePiece(checker_type);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
   if (from_square==to_square)
-    nr_of_moves = count_nr_of_moves_same_piece_same_square_checking(piece,
+    nr_of_moves = count_nr_of_moves_same_piece_same_square_checking(checker_type,
                                                                     to_square);
   else
-    nr_of_moves = officer(piece,from_square,to_square);
+    nr_of_moves = officer(checker_type,from_square,to_square);
 
   if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
   {
@@ -1201,22 +1202,22 @@ boolean intelligent_reserve_black_king_moves_from_to(square from_square,
  * using a specific route
  * @param from_square from
  * @param via departure square of the double checking move
- * @param to_square destination square of the double checking move
  * @param checker_type type of officer
+ * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_front_check_by_officer(square from_square,
                                                    square via,
-                                                   square to_square,
-                                                   piece checker_type)
+                                                   piece checker_type,
+                                                   square to_square)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
   TraceSquare(via);
-  TraceSquare(to_square);
   TracePiece(checker_type);
+  TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
   assert(via!=to_square);
@@ -1242,21 +1243,21 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
 
 /* Tests if an officer can reach some square in a sequence of moves
  * @param from_square from
- * @param to_square destination square of the double checking move
  * @param officer_type type of officer
+ * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_officer_moves_from_to(square from_square,
-                                                  square to_square,
-                                                  piece officer_type)
+                                                  piece officer_type,
+                                                  square to_square)
 {
   Side const side = officer_type>obs ? White : Black;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TraceSquare(to_square);
   TracePiece(officer_type);
+  TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
   {

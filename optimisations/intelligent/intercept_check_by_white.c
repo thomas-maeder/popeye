@@ -182,8 +182,8 @@ static void white_officer(unsigned int blocker_index,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(white[blocker_index].diagram_square,
-                                                where_to_intercept,
-                                                intercepter_type))
+                                                intercepter_type,
+                                                where_to_intercept))
   {
     SetPiece(intercepter_type,where_to_intercept,white[blocker_index].flags);
     (*go_on)();

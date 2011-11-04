@@ -139,35 +139,36 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
 /* Tests if a specific checking white sequence of moves by the same officer is
  * still possible.
  * @param from_square from
+ * @param checker_type type of officer
  * @param to_square to
  * @return true iff the move sequence is still possible
  */
-boolean intelligent_reserve_white_officer_moves_from_to_checking(piece piece,
-                                                                 square from_square,
+boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_square,
+                                                                 piece checker_type,
                                                                  square to_square);
 
 /* Tests if a white officer can be the front piece of a battery double check
  * using a specific route
  * @param from_square from
  * @param via departure square of the double checking move
- * @param to_square destination square of the double checking move
  * @param checker_type type of officer
+ * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_front_check_by_officer(square from_square,
                                                    square via,
-                                                   square to_square,
-                                                   piece checker_type);
+                                                   piece checker_type,
+                                                   square to_square);
 
 /* Tests if an officer can be the rear piece of a battery double check
  * @param from_square from
- * @param to_square destination square of the double checking move
  * @param checker_type type of officer
+ * @param to_square destination square of the double checking move
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_officer_moves_from_to(square from_square,
-                                                  square to_square,
-                                                  piece checker_type);
+                                                  piece checker_type,
+                                                  square to_square);
 
 /* Tests if a white pawn can be the front piece of a battery double check
  * using a specific route, where the last move is a capture

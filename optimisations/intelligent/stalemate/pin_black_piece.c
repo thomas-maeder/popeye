@@ -56,8 +56,8 @@ static void pin_by_rider(piece pinner_type,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(pinner_comes_from,
-                                                pin_from,
-                                                pinner_type))
+                                                pinner_type,
+                                                pin_from))
   {
     SetPiece(pinner_type,pin_from,pinner_flags);
     intelligent_stalemate_test_target_position();

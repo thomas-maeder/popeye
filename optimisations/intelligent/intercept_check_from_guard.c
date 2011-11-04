@@ -265,8 +265,8 @@ static void officer(unsigned int index_of_guarding_rider,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(officer_diagram_square,
-                                                to_be_intercepted,
-                                                officer_type))
+                                                officer_type,
+                                                to_be_intercepted))
   {
     place_officer(index_of_guarding_rider,
                   officer_type,

@@ -137,8 +137,8 @@ static void by_officer(unsigned int index_of_checker, piece checker_type)
     TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
     if (e[*bnp]==vide)
     {
-      if (intelligent_reserve_white_officer_moves_from_to_checking(checker_type,
-                                                                   white[index_of_checker].diagram_square,
+      if (intelligent_reserve_white_officer_moves_from_to_checking(white[index_of_checker].diagram_square,
+                                                                   checker_type,
                                                                    *bnp))
       {
         if (officer_guards(king_square[Black],checker_type,*bnp))

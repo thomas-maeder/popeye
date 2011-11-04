@@ -25,8 +25,8 @@ static void front_check_by_officer_via(unsigned int index_of_checker,
     if (e[*bnp]==vide && officer_guards(king_square[Black],checker_type,*bnp)
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
-                                                      *bnp,
-                                                      checker_type))
+                                                      checker_type,
+                                                      *bnp))
     {
       TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
       SetPiece(checker_type,*bnp,checker_flags);
@@ -330,8 +330,8 @@ static void rear_check_by_rider(unsigned int index_of_checker,
       square rear_pos;
       for (rear_pos = king_square[Black]+2*dir; e[rear_pos]==vide; rear_pos += dir)
         if (intelligent_reserve_officer_moves_from_to(checker_origin,
-                                                      rear_pos,
-                                                      checker_type))
+                                                      checker_type,
+                                                      rear_pos))
         {
           TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceText("\n");
           SetPiece(checker_type,rear_pos,checker_flags);
@@ -407,8 +407,8 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(white[checker_index].diagram_square,
-                                                check_from,
-                                                rider_type))
+                                                rider_type,
+                                                check_from))
   {
     SetPiece(rider_type,check_from,white[checker_index].flags);
     TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
@@ -515,8 +515,8 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(white[checker_index].diagram_square,
-                                                check_from,
-                                                rider_type))
+                                                rider_type,
+                                                check_from))
   {
     SetPiece(rider_type,check_from,white[checker_index].flags);
     TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
