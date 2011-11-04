@@ -160,7 +160,7 @@ trace.h:
 optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/pin_black_piece.c \
  optimisations/intelligent/stalemate/pin_black_piece.h pyint.h pydata.h \
- optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/pin_black_piece.h \
  optimisations/intelligent/stalemate/finish.h trace.h
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
@@ -169,7 +169,7 @@ pyint.h:
 
 pydata.h:
 
-optimisations/intelligent/count_nr_of_moves.h:
+optimisations/intelligent/pin_black_piece.h:
 
 optimisations/intelligent/stalemate/finish.h:
 

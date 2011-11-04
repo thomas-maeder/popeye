@@ -221,6 +221,20 @@ optimisations/intelligent/count_nr_of_moves.h:
 optimisations/intelligent/place_white_king.h:
 
 trace.h:
+optimisations/intelligent/pin_black_piece$(OBJ_SUFFIX): \
+ optimisations/intelligent/pin_black_piece.c \
+ optimisations/intelligent/pin_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/count_nr_of_moves.h trace.h
+
+optimisations/intelligent/pin_black_piece.h:
+
+pyint.h:
+
+pydata.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+trace.h:
 optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.c \
  optimisations/intelligent/count_nr_of_moves.h pydata.h pyint.h pyproof.h \

@@ -6,7 +6,7 @@
 #include "optimisations/intelligent/place_white_piece.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/place_white_king.h"
-#include "optimisations/intelligent/mate/pin_black_piece.h"
+#include "optimisations/intelligent/pin_black_piece.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -135,7 +135,7 @@ static boolean neutralise_guarding_pieces(void)
   {
     assert(trouble!=initsquare);
 
-    intelligent_mate_pin_black_piece(trouble);
+    intelligent_pin_black_piece(trouble,&intelligent_mate_test_target_position);
 
     {
       int const dir = CheckDir[Queen][trto-trouble];
