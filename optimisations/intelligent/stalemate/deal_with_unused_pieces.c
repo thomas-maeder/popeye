@@ -91,7 +91,6 @@ static void fix_white_king_on_diagram_square(void)
 void intelligent_stalemate_deal_with_unused_pieces(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (!hasMaxtimeElapsed())

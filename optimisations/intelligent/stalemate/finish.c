@@ -16,7 +16,6 @@
 void intelligent_stalemate_test_target_position(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(!echecc(nbply,Black));

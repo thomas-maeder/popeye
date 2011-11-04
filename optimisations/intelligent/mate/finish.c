@@ -188,7 +188,6 @@ static void fix_white_king_on_diagram_square(void)
 void intelligent_mate_test_target_position(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(!echecc(nbply,White));

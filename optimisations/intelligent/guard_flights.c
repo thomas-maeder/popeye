@@ -104,7 +104,7 @@ static square white_officer_guards_flight(piece officer_type, square from)
  * @param delta [+-1] remember resp. forget to keep the line open
  */
 static void remember_to_keep_guard_line_open(square from, square to,
-                                             piece type, int delta)
+                                             int delta)
 {
   int const dir = CheckDir[Queen][to-from];
   square s;
@@ -112,7 +112,7 @@ static void remember_to_keep_guard_line_open(square from, square to,
   TraceFunctionEntry(__func__);
   TraceSquare(from);
   TraceSquare(to);
-  TracePiece(type);
+  TraceFunctionParam("%d",type);
   TraceFunctionParamListEnd();
 
   TraceValue("%d\n",dir);
@@ -222,7 +222,7 @@ static void place_rider(unsigned int index_of_rider,
       square const to_be_intercepted = where_to_intercept_check_from_guard(rider_type,
                                                                            guard_from);
       SetPiece(rider_type,guard_from,white[index_of_rider].flags);
-      remember_to_keep_guard_line_open(guard_from,guarded,rider_type,+1);
+      remember_to_keep_guard_line_open(guard_from,guarded,+1);
       if (to_be_intercepted==initsquare)
         intelligent_continue_guarding_flights();
       else
@@ -230,7 +230,7 @@ static void place_rider(unsigned int index_of_rider,
         assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
         intercept_check_on_guarded_square(index_of_rider,to_be_intercepted);
       }
-      remember_to_keep_guard_line_open(guard_from,guarded,rider_type,-1);
+      remember_to_keep_guard_line_open(guard_from,guarded,-1);
     }
   }
 
@@ -613,7 +613,7 @@ static void bishop(unsigned int index_of_bishop, square guard_from)
 static void knight(unsigned int index_of_knight, square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_leaper);
+  TraceValue("%u",index_of_knight);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
