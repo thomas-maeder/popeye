@@ -398,17 +398,29 @@ static void promoted_rook(unsigned int index_of_rook, square guard_from)
  */
 static void promoted_bishop(unsigned int index_of_bishop, square guard_from)
 {
+  int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+
   TraceFunctionEntry(__func__);
   TraceValue("%u",index_of_bishop);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,fb)
-      && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_bishop].diagram_square,
-                                                                fb,
-                                                                guard_from))
+  if (diff==1+1) /* e.g. Ka2 Bb3 */
   {
-    place_rider(index_of_bishop,fb,guard_from);
+    /* uninterceptable check */
+  }
+  else if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_bishop].diagram_square,
+                                                                  fb,
+                                                                  guard_from))
+  {
+    if (diff<=2+2)
+    {
+      SetPiece(fb,guard_from,white[index_of_bishop].flags);
+      intelligent_continue_guarding_flights();
+    }
+    else
+      place_rider(index_of_bishop,fb,guard_from);
+
     intelligent_unreserve();
   }
 
@@ -427,7 +439,7 @@ static void promoted_knight(unsigned int index_of_knight, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,cb)
+  if (CheckDir[Knight][king_square[Black]-guard_from]==0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_knight].diagram_square,
                                                                 cb,
                                                                 guard_from))
@@ -588,17 +600,29 @@ static void rook(unsigned int index_of_rook, square guard_from)
  */
 static void bishop(unsigned int index_of_bishop, square guard_from)
 {
+  int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+
   TraceFunctionEntry(__func__);
   TraceValue("%u",index_of_bishop);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,fb)
-      && intelligent_reserve_officer_moves_from_to(white[index_of_bishop].diagram_square,
-                                                   fb,
-                                                   guard_from))
+  if (diff==1+1) /* e.g. Ka2 Bb3 */
   {
-    place_rider(index_of_bishop,fb,guard_from);
+    /* uninterceptable check */
+  }
+  else if (intelligent_reserve_officer_moves_from_to(white[index_of_bishop].diagram_square,
+                                                     fb,
+                                                     guard_from))
+  {
+    if (diff<=2+2)
+    {
+      SetPiece(fb,guard_from,white[index_of_bishop].flags);
+      intelligent_continue_guarding_flights();
+    }
+    else
+      place_rider(index_of_bishop,fb,guard_from);
+
     intelligent_unreserve();
   }
 
@@ -617,7 +641,7 @@ static void knight(unsigned int index_of_knight, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,guard_from,cb)
+  if (CheckDir[Knight][king_square[Black]-guard_from]==0
       && intelligent_reserve_officer_moves_from_to(white[index_of_knight].diagram_square,
                                                    cb,
                                                    guard_from))

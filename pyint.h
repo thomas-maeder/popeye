@@ -68,7 +68,6 @@ void IntelligentRegulargoal_types(stip_length_type n);
 
 void solve_target_position(void);
 
-boolean officer_uninterceptably_attacks_king(Side side, square from, piece p);
 boolean white_pawn_attacks_king_region(square from, int dir);
 boolean black_pawn_attacks_king(square from);
 

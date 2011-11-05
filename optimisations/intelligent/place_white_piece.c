@@ -124,7 +124,7 @@ void intelligent_place_promoted_white_knight(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,placed_on,cb)
+  if (CheckDir[Knight][king_square[Black]-placed_on]==0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(placed_comes_from,
                                                                 cb,
                                                                 placed_on))
@@ -233,7 +233,7 @@ void intelligent_place_white_knight(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (!officer_uninterceptably_attacks_king(Black,placed_on,cb)
+  if (CheckDir[Knight][king_square[Black]-placed_on]==0
       && intelligent_reserve_officer_moves_from_to(placed_comes_from,
                                                    cb,
                                                    placed_on))

@@ -230,29 +230,6 @@ boolean black_pawn_attacks_king(square from)
   return result;
 }
 
-boolean officer_uninterceptably_attacks_king(Side side, square from, piece p)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  if (king_square[side]==initsquare)
-    result = false;
-  else
-  {
-    int const diff = king_square[side]-from;
-    result = CheckDir[abs(p)][diff]==diff;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean is_white_king_uninterceptably_attacked_by_non_king(square s)
 {
   return ((*checkfunctions[Pawn])(s,pn,eval_ortho)
