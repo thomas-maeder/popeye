@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-unsigned int index_of_next_guarding_piece = 1;
+static unsigned int index_guarder;
 
 /* Does a white pawn guard a flight
  * @param from where might the pawn guard?
@@ -654,74 +654,74 @@ static void knight(unsigned int index_of_knight, square guard_from)
   TraceFunctionResultEnd();
 }
 
+static void guard_next_flight_with(unsigned int index_guarder)
+{
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index_guarder);
+  TraceFunctionParamListEnd();
+
+  for (bnp = boardnum; *bnp!=initsquare; bnp++)
+    if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
+    {
+      switch (white[index_guarder].type)
+      {
+        case db:
+          queen(index_guarder,*bnp);
+          break;
+
+        case tb:
+          rook(index_guarder,*bnp);
+          break;
+
+        case fb:
+          bishop(index_guarder,*bnp);
+          break;
+
+        case cb:
+          knight(index_guarder,*bnp);
+          break;
+
+        case pb:
+          unpromoted_pawn(index_guarder,*bnp);
+          promoted_pawn(index_guarder,*bnp);
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
+
+      e[*bnp] = vide;
+      spec[*bnp] = EmptySpec;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* guard more king flights */
 void intelligent_continue_guarding_flights(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",index_of_next_guarding_piece);
-
   if (!max_nr_solutions_found_in_phase() && !hasMaxtimeElapsed())
   {
     if (intelligent_reserve_masses(White,1))
     {
-      unsigned int save_next = index_of_next_guarding_piece;
-      unsigned int index_of_current_guarding_piece;
-      TraceValue("%u\n",MaxPiece[White]);
-      for (index_of_current_guarding_piece = index_of_next_guarding_piece;
-           index_of_current_guarding_piece<MaxPiece[White];
-           ++index_of_current_guarding_piece)
-      {
-        TraceValue("%u",index_of_current_guarding_piece);
-        TraceEnumerator(piece_usage,white[index_of_current_guarding_piece].usage,"\n");
-        if (white[index_of_current_guarding_piece].usage==piece_is_unused)
+      unsigned int const save_index_guarder = index_guarder;
+
+      for (++index_guarder; index_guarder<MaxPiece[White]; ++index_guarder)
+        if (white[index_guarder].usage==piece_is_unused)
         {
-          square const *bnp;
-          white[index_of_current_guarding_piece].usage = piece_guards;
-
-          index_of_next_guarding_piece = index_of_current_guarding_piece+1;
-
-          for (bnp = boardnum; *bnp!=initsquare; bnp++)
-            if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
-            {
-              switch (white[index_of_current_guarding_piece].type)
-              {
-                case db:
-                  queen(index_of_current_guarding_piece,*bnp);
-                  break;
-
-                case tb:
-                  rook(index_of_current_guarding_piece,*bnp);
-                  break;
-
-                case fb:
-                  bishop(index_of_current_guarding_piece,*bnp);
-                  break;
-
-                case cb:
-                  knight(index_of_current_guarding_piece,*bnp);
-                  break;
-
-                case pb:
-                  unpromoted_pawn(index_of_current_guarding_piece,*bnp);
-                  promoted_pawn(index_of_current_guarding_piece,*bnp);
-                  break;
-
-                default:
-                  assert(0);
-                  break;
-              }
-
-              e[*bnp] = vide;
-              spec[*bnp] = EmptySpec;
-            }
-
-          white[index_of_current_guarding_piece].usage = piece_is_unused;
+          white[index_guarder].usage = piece_guards;
+          guard_next_flight_with(index_guarder);
+          white[index_guarder].usage = piece_is_unused;
         }
-      }
 
-      index_of_next_guarding_piece = save_next;
+      index_guarder = save_index_guarder;
 
       intelligent_unreserve();
     }
