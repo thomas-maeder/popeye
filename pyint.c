@@ -166,26 +166,6 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
   return result;
 }
 
-/* Determine whether the white king would guard if it were placed on a
- * particular square
- * @param white_king_square square where white king would be placed
- * @return true iff the white king would guard from white_king_square
- */
-boolean would_white_king_guard_from(square white_king_square)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = move_diff_code[abs(white_king_square-king_square[Black])]<9;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean white_pawn_attacks_king_region(square from, int dir)
 {
   int const diff = king_square[Black]+dir-from;
@@ -228,15 +208,6 @@ boolean black_pawn_attacks_king(square from)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-boolean is_white_king_uninterceptably_attacked_by_non_king(square s)
-{
-  return ((*checkfunctions[Pawn])(s,pn,eval_ortho)
-          || (*checkfunctions[Knight])(s,cn,eval_ortho)
-          || (*checkfunctions[Fers])(s,fn,eval_ortho)
-          || (*checkfunctions[Wesir])(s,tn,eval_ortho)
-          || (*checkfunctions[ErlKing])(s,dn,eval_ortho));
 }
 
 /*#define DETAILS*/

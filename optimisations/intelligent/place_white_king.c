@@ -62,6 +62,30 @@ static void continue_intercepting_checks(void)
   TraceFunctionResultEnd();
 }
 
+static boolean guards_from(square white_king_square)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = move_diff_code[abs(white_king_square-king_square[Black])]<9;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean uninterceptably_attacked(square s)
+{
+  return ((*checkfunctions[Pawn])(s,pn,eval_ortho)
+          || (*checkfunctions[Knight])(s,cn,eval_ortho)
+          || (*checkfunctions[Fers])(s,fn,eval_ortho)
+          || (*checkfunctions[Wesir])(s,tn,eval_ortho)
+          || (*checkfunctions[ErlKing])(s,dn,eval_ortho));
+}
+
 /* Place the white king; intercept checks if necessary
  * @param place_on where to place the king
  * @param go_on what to do after having placed the king?
@@ -72,8 +96,8 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
   TraceSquare(place_on);
   TraceFunctionParamListEnd();
 
-  if (!would_white_king_guard_from(place_on)
-      && !is_white_king_uninterceptably_attacked_by_non_king(place_on)
+  if (!guards_from(place_on)
+      && !uninterceptably_attacked(place_on)
       && intelligent_reserve_white_king_moves_from_to(white[index_of_king].diagram_square,
                                                       place_on))
   {
