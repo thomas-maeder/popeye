@@ -112,7 +112,7 @@ static void remember_to_keep_guard_line_open(square from, square to,
   TraceFunctionEntry(__func__);
   TraceSquare(from);
   TraceSquare(to);
-  TraceFunctionParam("%d",type);
+  TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
   TraceValue("%d\n",dir);
