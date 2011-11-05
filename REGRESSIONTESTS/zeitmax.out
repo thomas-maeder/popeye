@@ -24,12 +24,11 @@
   ser-h005                    3 + 9
 
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
-  1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
-              empile:    32104498
-            jouecoup:     6607308
-        orig_rbechec:     2838956
-        orig_rnechec:     6533627
+              empile:    30007366
+            jouecoup:     6230574
+        orig_rbechec:     2638653
+        orig_rnechec:     6187752
 Bearbeitung abgebrochen. 
 
 
@@ -62,10 +61,10 @@ Bearbeitung abgebrochen.
            Beamtet h8 a3 a1
 
 
-              empile:    27455219
-            jouecoup:    10986394
-        orig_rbechec:    17549531
-        orig_rnechec:    16175946
+              empile:    26972665
+            jouecoup:    10701006
+        orig_rbechec:    17325621
+        orig_rnechec:    15814536
 Bearbeitung abgebrochen. 
 
 
@@ -98,17 +97,17 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
 
-              empile:    16604657
-            jouecoup:    16604657
-        orig_rbechec:     3803893
-        orig_rnechec:    16560164
+              empile:    16905086
+            jouecoup:    16905086
+        orig_rbechec:     3874843
+        orig_rnechec:    16859969
 b) wKc1-->b3
 
 
-              empile:    16275264
-            jouecoup:    16275264
-        orig_rbechec:     3814432
-        orig_rnechec:    16239977
+              empile:    16384347
+            jouecoup:    16384347
+        orig_rbechec:     3839131
+        orig_rnechec:    16348922
 Bearbeitung abgebrochen. 
 
 
@@ -192,10 +191,10 @@ Motto: Viele Koeche verderben den Brei
   7  (Ke2-d3 )
   8  (Ke2-f3 )
 
-              empile:    18535545
-            jouecoup:     9908529
-        orig_rbechec:      546619
-        orig_rnechec:     9502498
+              empile:    18775668
+            jouecoup:    10041287
+        orig_rbechec:      554272
+        orig_rnechec:     9627697
 Bearbeitung abgebrochen. 
 
 
@@ -229,10 +228,10 @@ Bearbeitung abgebrochen.
   2  (Sh1-f2 )
   3  (c3-c2 )
 
-              empile:    33526654
-            jouecoup:    22228518
-        orig_rbechec:    15602076
-        orig_rnechec:    33767884
+              empile:    33552944
+            jouecoup:    22247628
+        orig_rbechec:    15619652
+        orig_rnechec:    33801370
 Bearbeitung abgebrochen. 
 
 
@@ -263,10 +262,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    25851278
-            jouecoup:     9947754
-        orig_rbechec:      465255
-        orig_rnechec:     9543794
+              empile:    25948947
+            jouecoup:     9983231
+        orig_rbechec:      467320
+        orig_rnechec:     9577282
 Bearbeitung abgebrochen. 
 
 
@@ -298,10 +297,10 @@ Bearbeitung abgebrochen.
               MarsCirce
 
 
-              empile:    65363777
-            jouecoup:    11013239
+              empile:    64215360
+            jouecoup:    10832136
         orig_rbechec:           0
-        orig_rnechec:    10475360
+        orig_rnechec:    10306501
 Bearbeitung abgebrochen. 
 
 
@@ -569,10 +568,10 @@ Loesung beendet.
               OhneSchach
 
 
-              empile:   122857948
-            jouecoup:    13602278
-        orig_rbechec:    17485717
-        orig_rnechec:    18063722
+              empile:   122684686
+            jouecoup:    13578822
+        orig_rbechec:    17457531
+        orig_rnechec:    18034812
 Bearbeitung abgebrochen. 
 
 
@@ -604,10 +603,10 @@ Bearbeitung abgebrochen.
 
   1  (b2-b1=D )
 
-              empile:   148277124
-            jouecoup:    23434367
-        orig_rbechec:    15946724
-        orig_rnechec:    26986994
+              empile:   146230412
+            jouecoup:    23124863
+        orig_rbechec:    15726142
+        orig_rnechec:    26637049
 Bearbeitung abgebrochen. 
 
 
@@ -640,10 +639,10 @@ Bearbeitung abgebrochen.
 
   1  (Ka1-b1 )
 
-              empile:   116862584
-            jouecoup:    13363864
-        orig_rbechec:    17867986
-        orig_rnechec:    18502208
+              empile:   116042017
+            jouecoup:    13283694
+        orig_rbechec:    17765571
+        orig_rnechec:    18403714
 Bearbeitung abgebrochen. 
 
 
@@ -676,10 +675,10 @@ Bearbeitung abgebrochen.
 
   1  (Kb1-c1 )
 
-              empile:   117046199
-            jouecoup:    13373537
-        orig_rbechec:    16982553
-        orig_rnechec:    18204780
+              empile:   115624877
+            jouecoup:    13220285
+        orig_rbechec:    16780648
+        orig_rnechec:    17992646
 Bearbeitung abgebrochen. 
 
 
@@ -711,10 +710,10 @@ Bearbeitung abgebrochen.
               OhneSchach
 
 
-              empile:   102780721
-            jouecoup:    12097936
-        orig_rbechec:    15998682
-        orig_rnechec:    16747060
+              empile:   102488301
+            jouecoup:    12068112
+        orig_rbechec:    15958834
+        orig_rnechec:    16703044
 Bearbeitung abgebrochen. 
 
 
@@ -761,10 +760,10 @@ a)
  12  (Tc5-c7 )
  13  (Tc5-c6 )
 
-              empile:     5666306
-            jouecoup:     5585061
-        orig_rbechec:       70288
-        orig_rnechec:     5550620
+              empile:     5690617
+            jouecoup:     5608932
+        orig_rbechec:       70639
+        orig_rnechec:     5574358
 b) sKa7-->b1
 
  14  (Kb1*c1 [+Sg1] )
@@ -783,10 +782,10 @@ b) sKa7-->b1
  26  (Tc5-c4 + )
  27  (Tc5-a5 )
 
-              empile:     6081326
-            jouecoup:     5598726
-        orig_rbechec:      276872
-        orig_rnechec:     5565237
+              empile:     6144550
+            jouecoup:     5657962
+        orig_rbechec:      279003
+        orig_rnechec:     5624089
 Bearbeitung abgebrochen. 
 
 
