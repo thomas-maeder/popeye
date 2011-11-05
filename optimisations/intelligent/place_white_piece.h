@@ -3,6 +3,12 @@
 
 #include "py.h"
 
+/* Initialise the internal structures for fast detection of guards by newly
+ * placed white pieces
+ * @param black_king_pos position of black king
+ */
+void init_guard_dirs(square black_king_pos);
+
 /* Place a white piece (other than the king) on an square deal with a possible
  * check to the black king
  * @note none of these functions clean up square placed_on on returning!

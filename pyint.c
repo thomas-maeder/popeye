@@ -29,6 +29,7 @@
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "optimisations/intelligent/place_white_piece.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
@@ -398,6 +399,9 @@ static void GenerateBlackKing(void)
       SetPiece(roin,*bnp,king_flags);
       king_square[Black] = *bnp;
       black[index_of_king].usage = piece_is_king;
+
+      init_guard_dirs(*bnp);
+
       if (goal_to_be_reached==goal_mate)
       {
         intelligent_mate_generate_checking_moves();

@@ -4,7 +4,7 @@
 #include "optimisations/intelligent/place_white_piece.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "optimisations/intelligent/intercept_check_by_white.h"
+#include "optimisations/intelligent/intercept_guard_by_white.h"
 #include "trace.h"
 
 #include <assert.h>
