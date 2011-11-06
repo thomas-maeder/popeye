@@ -29,7 +29,6 @@
 #include "optimisations/intelligent/proof.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "optimisations/intelligent/place_white_piece.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
@@ -160,25 +159,6 @@ boolean officer_guards(square to_be_guarded, piece officer_type, square guarding
       result = false;
       break;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-boolean white_pawn_attacks_king_region(square from, int dir)
-{
-  int const diff = king_square[Black]+dir-from;
-  boolean const result = diff==dir_up+dir_right || diff==dir_up+dir_left;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  assert(king_square[Black]!=initsquare);
-  assert(from>=square_a2);
-  assert(from<=square_h7);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

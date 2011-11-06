@@ -1,6 +1,39 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_GUARDS_FLIGHTS_H)
 #define OPTIMISATIONS_INTELLIGENT_GUARDS_FLIGHTS_H
 
+#include "py.h"
+#include "pyboard.h"
+
+#include <limits.h>
+
+/* fast detection of guards by newly placed white pieces
+ * */
+
+enum
+{
+  guard_dir_check_uninterceptable = INT_MAX,
+  guard_dir_guard_uninterceptable = INT_MAX-1
+};
+
+typedef struct
+{
+    /* direction from square to guarded flight; special values:
+     * guard_dir_check_uninterceptable: uninterceptable check from square
+     * guard_dir_guard_uninterceptable: uninterceptable guard from square
+     */
+    numvec dir;
+
+    /* what square is guarded in direction dir? */
+    square target;
+} guard_dir_struct;
+
+/* lookup doing something like GuardDir[Queen-Pawn][some_square] */
+extern guard_dir_struct GuardDir[5][maxsquare+4];
+
+/* Initialise GuardDir
+ * @param black_king_pos position of black king
+ */
+void init_guard_dirs(square black_king_pos);
 
 /* continue guarding king flights */
 void intelligent_continue_guarding_flights(void);

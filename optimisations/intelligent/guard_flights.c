@@ -11,38 +11,183 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
 static unsigned int index_guarder;
 
-/* Does a white pawn guard a flight
- * @param from where might the pawn guard?
- * @return a flight guarded by the pawn; initsquare if it doesn't guard
- */
-static square white_pawn_guards_flight(square from)
+guard_dir_struct GuardDir[5][maxsquare+4];
+
+static void init_guard_dirs_leaper(PieNam guarder,
+                                   square target,
+                                   unsigned int start, unsigned int end,
+                                   numvec value)
 {
-  int i;
-  square result = initsquare;
+  unsigned int i;
+  for (i = start; i <= end; ++i)
+    GuardDir[guarder-Pawn][target+vec[i]].dir = value;
+}
 
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
+static void init_guard_dirs_rider(PieNam guarder,
+                                  square target,
+                                  numvec dir)
+{
+  square s;
+  for (s = target; e[s]==vide; s += dir)
+  {
+    GuardDir[guarder-Pawn][s].dir = -dir;
+    GuardDir[guarder-Pawn][s].target = target;
+  }
+}
 
-  e[king_square[Black]]= vide;
+static void init_guard_dirs_queen(square black_king_pos)
+{
+  unsigned int i;
 
-  for (i = 8; i!=0; --i)
-    if (e[king_square[Black]+vec[i]]!=obs
-        && white_pawn_attacks_king_region(from,vec[i]))
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
     {
-      result = king_square[Black]+vec[i];
-      break;
+      unsigned int j;
+      for (j = vec_queen_start; j<=vec_queen_end; ++j)
+        if (vec[i]!=-vec[j])
+          init_guard_dirs_rider(Queen,flight,vec[j]);
     }
+  }
 
-  e[king_square[Black]]= roin;
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+      init_guard_dirs_leaper(Queen,
+                             flight,
+                             vec_queen_start,vec_queen_end,
+                             guard_dir_guard_uninterceptable);
+  }
 
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
+  init_guard_dirs_leaper(Queen,
+                         black_king_pos,
+                         vec_queen_start,vec_queen_end,
+                         guard_dir_check_uninterceptable);
+}
+
+static void init_guard_dirs_rook(square black_king_pos)
+{
+  unsigned int i;
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+    {
+      unsigned int j;
+      for (j = vec_rook_start; j<=vec_rook_end; ++j)
+        if (vec[i]!=-vec[j])
+          init_guard_dirs_rider(Rook,flight,vec[j]);
+    }
+  }
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+      init_guard_dirs_leaper(Rook,
+                             flight,
+                             vec_rook_start,vec_rook_end,
+                             guard_dir_guard_uninterceptable);
+  }
+
+  init_guard_dirs_leaper(Rook,
+                         black_king_pos,
+                         vec_rook_start,vec_rook_end,
+                         guard_dir_check_uninterceptable);
+}
+
+static void init_guard_dirs_bishop(square black_king_pos)
+{
+  unsigned int i;
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+    {
+      unsigned int j;
+      for (j = vec_bishop_start; j<=vec_bishop_end; ++j)
+        if (vec[i]!=-vec[j])
+          init_guard_dirs_rider(Bishop,flight,vec[j]);
+    }
+  }
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+      init_guard_dirs_leaper(Bishop,
+                             flight,
+                             vec_bishop_start,vec_bishop_end,
+                             guard_dir_guard_uninterceptable);
+  }
+
+  init_guard_dirs_leaper(Bishop,
+                         black_king_pos,
+                         vec_bishop_start,vec_bishop_end,
+                         guard_dir_check_uninterceptable);
+}
+
+static void init_guard_dirs_knight(square black_king_pos)
+{
+  unsigned int i;
+
+  init_guard_dirs_leaper(Knight,
+                         black_king_pos,
+                         vec_knight_start,vec_knight_end,
+                         guard_dir_check_uninterceptable);
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+      init_guard_dirs_leaper(Knight,
+                             flight,
+                             vec_knight_start,vec_knight_end,
+                             guard_dir_guard_uninterceptable);
+  }
+}
+
+static void init_guard_dir_pawn(square flight, numvec dir)
+{
+  GuardDir[Pawn-Pawn][flight+dir_down+dir_left].dir = dir;
+  GuardDir[Pawn-Pawn][flight+dir_down+dir_left].target = flight;
+  GuardDir[Pawn-Pawn][flight+dir_down+dir_right].dir = dir;
+  GuardDir[Pawn-Pawn][flight+dir_down+dir_right].target = flight;
+}
+
+static void init_guard_dirs_pawn(square black_king_pos)
+{
+  unsigned int i;
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    square const flight = black_king_pos+vec[i];
+    if (e[flight]==vide)
+      init_guard_dir_pawn(flight,guard_dir_guard_uninterceptable);
+  }
+
+  init_guard_dir_pawn(black_king_pos,guard_dir_check_uninterceptable);
+}
+
+/* Initialise the internal structures for fast detection of guards by newly
+ * placed white pieces
+ * @param black_king_pos position of black king
+ */
+void init_guard_dirs(square black_king_pos)
+{
+  memset(GuardDir, 0, sizeof GuardDir);
+  init_guard_dirs_queen(black_king_pos);
+  init_guard_dirs_rook(black_king_pos);
+  init_guard_dirs_bishop(black_king_pos);
+  init_guard_dirs_knight(black_king_pos);
+  init_guard_dirs_pawn(black_king_pos);
 }
 
 /* Does the white king guard a flight
@@ -274,19 +419,14 @@ static void unpromoted_pawn(unsigned int index_of_pawn, square guard_from)
   TraceFunctionParamListEnd();
 
   if (square_a2<=guard_from && guard_from<=square_h7
-      && !white_pawn_attacks_king_region(guard_from,0)
+      && GuardDir[Pawn-Pawn][guard_from].dir==guard_dir_guard_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(starts_from,
                                                                    guard_from))
   {
-    square const guarded = white_pawn_guards_flight(guard_from);
-    if (guarded!=initsquare)
-    {
-      SetPiece(pb,guard_from,pawn_flags);
-      intelligent_continue_guarding_flights();
-      e[guard_from] = vide;
-      spec[guard_from] = EmptySpec;
-    }
-
+    SetPiece(pb,guard_from,pawn_flags);
+    intelligent_continue_guarding_flights();
+    e[guard_from] = vide;
+    spec[guard_from] = EmptySpec;
     intelligent_unreserve();
   }
 

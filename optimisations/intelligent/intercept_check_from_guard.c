@@ -10,37 +10,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Does a white pawn guard any flight?
- * @param from where might the officer guard from?
- * @return a flight square guarded by the pawn; initsquare if it doesn't guard
- */
-static square white_pawn_guards_flight(square from)
-{
-  int i;
-  square result = initsquare;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  e[king_square[Black]]= vide;
-
-  for (i = 8; i!=0; --i)
-    if (e[king_square[Black]+vec[i]]!=obs
-        && white_pawn_attacks_king_region(from,vec[i]))
-    {
-      result = king_square[Black]+vec[i];
-      break;
-    }
-
-  e[king_square[Black]]= roin;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Does a white officer guard any flight?
  * @param officer_type type of officer
  * @param from where might the officer guard from?
@@ -217,6 +186,7 @@ static void unpromoted_pawn(unsigned int index_of_guarding_rider,
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
+  numvec const guard_dir = GuardDir[Pawn-Pawn][to_be_intercepted].dir;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",index_of_guarding_rider);
@@ -224,21 +194,18 @@ static void unpromoted_pawn(unsigned int index_of_guarding_rider,
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
 
-  if (!white_pawn_attacks_king_region(to_be_intercepted,0)
+  if (guard_dir!=guard_dir_check_uninterceptable
+      /* avoid duplicate: if intercepter has already been used as guarding
+       * piece, it shouldn't guard now again */
+      && !(index_of_intercepting_piece<index_of_guarding_rider
+           && guard_dir==guard_dir_guard_uninterceptable)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
   {
-    if (/* avoid duplicate: if intercepter has already been used as guarding
-         * piece, it shouldn't guard now again */
-        !(index_of_intercepting_piece<index_of_guarding_rider
-          && white_pawn_guards_flight(to_be_intercepted)))
-    {
-      SetPiece(pb,to_be_intercepted,intercepter_flags);
-      intelligent_continue_guarding_flights();
-      e[to_be_intercepted] = vide;
-      spec[to_be_intercepted] = EmptySpec;
-    }
-
+    SetPiece(pb,to_be_intercepted,intercepter_flags);
+    intelligent_continue_guarding_flights();
+    e[to_be_intercepted] = vide;
+    spec[to_be_intercepted] = EmptySpec;
     intelligent_unreserve();
   }
 

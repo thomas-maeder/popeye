@@ -45,6 +45,7 @@ optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.c \
  optimisations/intelligent/place_white_piece.h pyint.h pydata.h \
  optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/intercept_guard_by_white.h trace.h
 
 optimisations/intelligent/place_white_piece.h:
@@ -54,6 +55,8 @@ pyint.h:
 pydata.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
+
+optimisations/intelligent/guard_flights.h:
 
 optimisations/intelligent/intercept_guard_by_white.h:
 

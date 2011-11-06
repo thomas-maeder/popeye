@@ -2,6 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/guard_flights.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -100,21 +101,15 @@ static void by_unpromoted_pawn(unsigned int index_of_checker)
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
   {
     TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
-    if (*bnp>=square_a2 && *bnp<=square_h7 && e[*bnp]==vide)
+    if (*bnp>=square_a2 && *bnp<=square_h7 && e[*bnp]==vide
+        && GuardDir[Pawn-Pawn][*bnp].dir==guard_dir_check_uninterceptable
+        && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,*bnp))
     {
-      if (intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,*bnp))
-      {
-        if (white_pawn_attacks_king_region(*bnp,0))
-        {
-          SetPiece(pb,*bnp,checker_flags);
-          intelligent_guard_flights();
-        }
-
-        intelligent_unreserve();
-      }
-
+      SetPiece(pb,*bnp,checker_flags);
+      intelligent_guard_flights();
       e[*bnp] = vide;
       spec[*bnp] = EmptySpec;
+      intelligent_unreserve();
     }
   }
 
