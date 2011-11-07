@@ -1236,12 +1236,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 4 moegliche Stellungen in 2+2
   1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 = 
-7766 moegliche Stellungen in 3+3
+7764 moegliche Stellungen in 3+3
 
-              empile:    37941099
-            jouecoup:    28811177
-        orig_rbechec:     2057222
-        orig_rnechec:    30593010
+              empile:    37941059
+            jouecoup:    28811107
+        orig_rbechec:     2057220
+        orig_rnechec:    30592991
 Loesung beendet. 
 
 

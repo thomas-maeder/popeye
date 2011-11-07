@@ -39,6 +39,10 @@ void intelligent_stalemate_white_block(square to_be_blocked)
         switch (white[blocker_index].type)
         {
           case db:
+            intelligent_place_white_queen(blocker_index,
+                                          to_be_blocked,
+                                          &intelligent_stalemate_test_target_position);
+            break;
           case tb:
           case fb:
             intelligent_place_white_rider(blocker_index,

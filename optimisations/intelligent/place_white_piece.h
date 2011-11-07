@@ -26,6 +26,10 @@ void intelligent_place_promoted_white_pawn(unsigned int placed_index,
                                            square placed_on,
                                            void (*go_on)(void));
 
+void intelligent_place_white_queen(unsigned int placed_index,
+                                   square placed_on,
+                                   void (*go_on)(void));
+
 void intelligent_place_white_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void));

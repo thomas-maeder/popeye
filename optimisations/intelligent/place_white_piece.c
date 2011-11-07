@@ -164,6 +164,77 @@ void intelligent_place_promoted_white_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
+typedef struct stack_elmt_type
+{
+    unsigned int const index_queen;
+    square const placed_on;
+    void (*const go_on)(void);
+    struct stack_elmt_type const * const next;
+} stack_elmt_type;
+
+static stack_elmt_type const *stack_top = 0;
+
+static void intercept_queen_diag(void)
+{
+  square const placed_on = stack_top->placed_on;
+  int const dir_diag = GuardDir[Bishop-Pawn][placed_on].dir;
+  square const target_diag = GuardDir[Bishop-Pawn][placed_on].target;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (dir_diag==0 || e[target_diag]<vide || !is_line_empty(placed_on,target_diag,dir_diag))
+    (*stack_top->go_on)();
+  else
+    intelligent_intercept_guard_by_white(target_diag,dir_diag,stack_top->go_on);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void intelligent_place_white_queen(unsigned int placed_index,
+                                   square placed_on,
+                                   void (*go_on)(void))
+{
+  piece const placed_type = white[placed_index].type;
+  Flags const placed_flags = white[placed_index].flags;
+  square const placed_comes_from = white[placed_index].diagram_square;
+  int const dir_ortho = GuardDir[Rook-Pawn][placed_on].dir;
+  int const dir_diag = GuardDir[Bishop-Pawn][placed_on].dir;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",placed_index);
+  TraceSquare(placed_on);
+  TraceFunctionParamListEnd();
+
+  if (dir_ortho<guard_dir_guard_uninterceptable
+      && dir_diag<guard_dir_guard_uninterceptable
+      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+                                                   placed_type,
+                                                   placed_on))
+  {
+    square const target_ortho = GuardDir[Rook-Pawn][placed_on].target;
+
+    stack_elmt_type const new_top = { placed_index, placed_on, go_on, stack_top };
+    stack_top = &new_top;
+
+    SetPiece(placed_type,placed_on,placed_flags);
+
+    if (dir_ortho==0 || e[target_ortho]<vide || !is_line_empty(placed_on,target_ortho,dir_ortho))
+      intercept_queen_diag();
+    else
+      intelligent_intercept_guard_by_white(target_ortho,dir_ortho,&intercept_queen_diag);
+
+    assert(stack_top==&new_top);
+    stack_top = stack_top->next;
+
+    intelligent_unreserve();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void intelligent_place_white_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
@@ -239,6 +310,9 @@ void intelligent_place_white_piece(unsigned int placed_index,
   switch (white[placed_index].type)
   {
     case db:
+      intelligent_place_white_queen(placed_index,placed_on,go_on);
+      break;
+
     case tb:
     case fb:
       intelligent_place_white_rider(placed_index,placed_on,go_on);
