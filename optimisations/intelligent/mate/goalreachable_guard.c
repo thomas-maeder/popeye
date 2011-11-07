@@ -8,6 +8,7 @@
 
 #include <assert.h>
 
+static unsigned int OpeningsRequired[maxply+1];
 
 static boolean mate_isGoalReachable(void)
 {
@@ -32,6 +33,7 @@ static boolean mate_isGoalReachable(void)
       square const *bnp;
       MovesRequired[White][nbply] = 0;
       MovesRequired[Black][nbply] = 0;
+      OpeningsRequired[nbply] = 0;
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
@@ -61,6 +63,9 @@ static boolean mate_isGoalReachable(void)
                                                                                                 target_position[id].type,
                                                                                                 target_position[id].diagram_square);
           }
+
+          if (nr_reasons_for_staying_empty[from_square]>0)
+            ++OpeningsRequired[nbply];
         }
       }
     }
@@ -69,6 +74,21 @@ static boolean mate_isGoalReachable(void)
       PieceIdType const id = GetPieceId(jouespec[nbply]);
       MovesRequired[White][nbply] = MovesRequired[White][nbply-1];
       MovesRequired[Black][nbply] = MovesRequired[Black][nbply-1];
+      OpeningsRequired[nbply] = OpeningsRequired[nbply-1];
+
+      if (nr_reasons_for_staying_empty[move_generation_stack[nbcou].departure]>0)
+      {
+        assert(OpeningsRequired[nbply]>0);
+        --OpeningsRequired[nbply];
+      }
+      if (pprise[nbply]!=vide
+          && nr_reasons_for_staying_empty[move_generation_stack[nbcou].capture]>0)
+      {
+        assert(OpeningsRequired[nbply]>0);
+        --OpeningsRequired[nbply];
+      }
+      if (nr_reasons_for_staying_empty[move_generation_stack[nbcou].arrival]>0)
+        ++OpeningsRequired[nbply];
 
       if (target_position[id].diagram_square!=initsquare)
       {
@@ -117,7 +137,8 @@ static boolean mate_isGoalReachable(void)
     }
 
     result = (MovesRequired[White][nbply]<=MovesLeft[White]
-              && MovesRequired[Black][nbply]<=MovesLeft[Black]);
+              && MovesRequired[Black][nbply]<=MovesLeft[Black]
+              && OpeningsRequired[nbply]<=MovesLeft[White]+MovesLeft[Black]+(ep[nbply]!=initsquare));
   }
 
   TraceFunctionExit(__func__);
