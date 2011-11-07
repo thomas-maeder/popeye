@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:      146062
-            jouecoup:      119940
+              empile:      146026
+            jouecoup:      119904
         orig_rbechec:        1838
-        orig_rnechec:       87684
+        orig_rnechec:       87648
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
-              empile:        3840
-            jouecoup:        2953
+              empile:        3821
+            jouecoup:        2934
         orig_rbechec:          67
-        orig_rnechec:        2915
+        orig_rnechec:        2896
 solution finished. 
 
 
@@ -90,10 +90,10 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
-              empile:        8407
-            jouecoup:        6382
+              empile:        8390
+            jouecoup:        6365
         orig_rbechec:          40
-        orig_rnechec:        6171
+        orig_rnechec:        6154
 solution finished. 
 
 
@@ -123,10 +123,10 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
-              empile:       12620
-            jouecoup:        9164
+              empile:       12613
+            jouecoup:        9157
         orig_rbechec:          85
-        orig_rnechec:        8677
+        orig_rnechec:        8670
 solution finished. 
 
 

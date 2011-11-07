@@ -191,7 +191,7 @@ void intelligent_mate_test_target_position(void)
   TraceFunctionParamListEnd();
 
   assert(!echecc(nbply,White));
-  if (!neutralise_guarding_pieces())
+  if (intelligent_mate_is_double_check || !neutralise_guarding_pieces())
   {
     if (white[index_of_king].usage==piece_is_unused
         && white[index_of_king].diagram_square!=square_e1
