@@ -2,6 +2,7 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "trace.h"
 
