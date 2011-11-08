@@ -173,7 +173,6 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
 
   TraceFunctionEntry(__func__);
   TraceSquare(position_of_trouble_maker);
-  TraceFunctionResult("%d",dir_to_touble_maker);
   TraceFunctionParamListEnd();
 
   go_on_after = go_on;
