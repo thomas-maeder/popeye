@@ -204,7 +204,7 @@ static boolean white_king_guards_flight(square from)
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceSquare(result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
