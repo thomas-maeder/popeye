@@ -40,4 +40,33 @@ void intelligent_place_black_piece(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void));
 
+void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
+                                                   piece promotee_type,
+                                                   square placed_on,
+                                                   void (*go_on)(void));
+
+void intelligent_place_pinned_promoted_black_knight(unsigned int placed_index,
+                                                    square placed_on,
+                                                    void (*go_on)(void));
+
+void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
+                                                  square placed_on,
+                                                  void (*go_on)(void));
+
+void intelligent_place_pinned_unpromoted_black_pawn(unsigned int placed_index,
+                                                    square placed_on,
+                                                    void (*go_on)(void));
+
+void intelligent_place_pinned_black_rider(unsigned int placed_index,
+                                          square placed_on,
+                                          void (*go_on)(void));
+
+void intelligent_place_pinned_black_knight(unsigned int placed_index,
+                                           square placed_on,
+                                           void (*go_on)(void));
+
+void intelligent_place_pinned_black_piece(unsigned int placed_index,
+                                          square placed_on,
+                                          void (*go_on)(void));
+
 #endif

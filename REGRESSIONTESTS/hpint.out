@@ -629,10 +629,10 @@ a)
   1.d2-d1=D   2.Dd1*d4   3.Dd4-a1   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=L   8.Ld1-c2   9.Lc2-b1 Lf1-c4 # 
 29 moegliche Stellungen in 1+9
 
-              empile:      650386
-            jouecoup:      650475
-        orig_rbechec:      225723
-        orig_rnechec:      272872
+              empile:      647810
+            jouecoup:      649143
+        orig_rbechec:      225433
+        orig_rnechec:      271395
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -696,10 +696,10 @@ a)
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
 131 moegliche Stellungen in 1+14
 
-              empile:      890366
-            jouecoup:      877231
-        orig_rbechec:      291079
-        orig_rnechec:      401608
+              empile:      883652
+            jouecoup:      873503
+        orig_rbechec:      290291
+        orig_rnechec:      397498
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1
@@ -763,10 +763,10 @@ a)
   1.Ke6-f7   2.e7-e5   3.e5*f4   4.f4-f3   5.f3*e2   6.e2-e1=T   7.Te1-e7   8.Kf7-e6   9.Lg8-f7 Td1-d6 # 
 34 moegliche Stellungen in 1+9
 
-              empile:       70553
-            jouecoup:       58156
-        orig_rbechec:        7368
-        orig_rnechec:       38269
+              empile:       67237
+            jouecoup:       56032
+        orig_rbechec:        6964
+        orig_rnechec:       35939
 b) ser-h=9
 
 0 moegliche Stellungen in 1+1
@@ -986,10 +986,10 @@ a)
   1.c7-c8=S   2.f7-f8=S # 
 38 moegliche Stellungen in 2+0
 
-              empile:       25878
-            jouecoup:       21320
-        orig_rbechec:         531
-        orig_rnechec:       20256
+              empile:       25861
+            jouecoup:       21306
+        orig_rbechec:         529
+        orig_rnechec:       20241
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
@@ -1558,10 +1558,10 @@ a)
   1.Sc6-a7 Tb5-b6   2.Sa7-b5 Tb6-c6 # 
 12 moegliche Stellungen in 2+2
 
-              empile:        8553
-            jouecoup:        5065
-        orig_rbechec:          42
-        orig_rnechec:        4768
+              empile:        8513
+            jouecoup:        5043
+        orig_rbechec:          38
+        orig_rnechec:        4744
 b) h=2
 
 0 moegliche Stellungen in 1+1
@@ -1606,10 +1606,10 @@ a)
   1.h2-h1=T b7-b8=D   2.Th1-h2 Db8-c8 # 
 41 moegliche Stellungen in 2+2
 
-              empile:        2730
-            jouecoup:        2505
-        orig_rbechec:         140
-        orig_rnechec:        1562
+              empile:        2724
+            jouecoup:        2504
+        orig_rbechec:         138
+        orig_rnechec:        1560
 b) h=2   -sBh4
 
 0 moegliche Stellungen in 1+1
@@ -1839,10 +1839,10 @@ a)
   1.g7-g6 Sf1-e3   2.g6-g5 g2-g3 # 
 1 moegliche Stellungen in 2+2
 
-              empile:         943
-            jouecoup:         436
-        orig_rbechec:          13
-        orig_rnechec:         407
+              empile:         933
+            jouecoup:         432
+        orig_rbechec:           9
+        orig_rnechec:         401
 b) h=2
 
 0 moegliche Stellungen in 1+1
@@ -1969,10 +1969,10 @@ a)
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-b1 Df8-a3 # 
 1 moegliche Stellungen in 6+6
 
-              empile:       12180
-            jouecoup:        3393
-        orig_rbechec:          24
-        orig_rnechec:        3231
+              empile:       12158
+            jouecoup:        3384
+        orig_rbechec:          22
+        orig_rnechec:        3221
 b) h=6  sKa1-->h1
 
 0 moegliche Stellungen in 1+1
@@ -2242,10 +2242,10 @@ a)
   1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
 243 moegliche Stellungen in 7+7
 
-              empile:      218654
-            jouecoup:      188146
-        orig_rbechec:        3736
-        orig_rnechec:       89707
+              empile:      201995
+            jouecoup:      183653
+        orig_rbechec:        3594
+        orig_rnechec:       84603
 b) h=7
 
 0 moegliche Stellungen in 1+1
@@ -2296,10 +2296,10 @@ a)
   1.f2-f1=L f6-f7   2.Lf1-c4 f7*e8=D   3.Lc4-a2 De8*h8 # 
 15 moegliche Stellungen in 3+3
 
-              empile:       16036
-            jouecoup:       12937
-        orig_rbechec:         304
-        orig_rnechec:        6977
+              empile:       15531
+            jouecoup:       12518
+        orig_rbechec:         242
+        orig_rnechec:        6523
 b) h=3
 
 0 moegliche Stellungen in 1+1

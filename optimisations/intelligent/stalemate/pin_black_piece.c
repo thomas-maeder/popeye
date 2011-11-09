@@ -20,8 +20,7 @@ void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker)
   TraceSquare(position_of_trouble_maker);
   TraceFunctionParamListEnd();
 
-  if (dir!=0          /* we can only pin on queen lines */
-      && pinned_type!=dn /* queens cannot be pinned */
+  if (pinned_type!=dn /* queens cannot be pinned */
       /* bishops can only be pined on rook lines and vice versa */
       && !(CheckDir[Bishop][dir]!=0 && pinned_type==fn)
       && !(CheckDir[Rook][dir]!=0 && pinned_type==tn))

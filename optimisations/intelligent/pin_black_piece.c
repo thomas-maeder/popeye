@@ -170,21 +170,23 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
                                  void (*go_on)(void))
 {
   int const dir_to_touble_maker = CheckDir[Queen][position_of_trouble_maker-king_square[Black]];
+  void (* const save_go_on)(void) = go_on_after;
 
   TraceFunctionEntry(__func__);
   TraceSquare(position_of_trouble_maker);
   TraceFunctionParamListEnd();
 
-  go_on_after = go_on;
-
-  if (is_line_empty(king_square[Black],
-                    position_of_trouble_maker,
-                    dir_to_touble_maker)
+  if (dir_to_touble_maker!=0 /* we can only pin on queen lines */
+      && is_line_empty(king_square[Black],
+                       position_of_trouble_maker,
+                       dir_to_touble_maker)
       && intelligent_reserve_masses(White,1))
   {
     boolean const is_pin_on_diagonal = SquareCol(king_square[Black]+dir_to_touble_maker)==SquareCol(king_square[Black]);
 
     square pin_on;
+
+    go_on_after = go_on;
 
     remember_to_keep_rider_line_open(king_square[Black],
                                      position_of_trouble_maker,
@@ -225,6 +227,8 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
                                      position_of_trouble_maker,
                                      dir_to_touble_maker,
                                      -1);
+
+    go_on_after = save_go_on;
 
     intelligent_unreserve();
   }

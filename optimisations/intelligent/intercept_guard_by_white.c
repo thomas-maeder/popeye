@@ -13,11 +13,12 @@
  * @param where_to_intercept where to intercept
  * @param go_on what to do after each successful interception?
  */
-static void black_piece_on(square where_to_intercept, void (*go_on)(void))
+static void black_piece_on(boolean is_check, square where_to_intercept, void (*go_on)(void))
 {
   unsigned int i;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",is_check);
   TraceSquare(where_to_intercept);
   TraceFunctionParamListEnd();
 
@@ -25,7 +26,10 @@ static void black_piece_on(square where_to_intercept, void (*go_on)(void))
     if (black[i].usage==piece_is_unused)
     {
       black[i].usage = piece_intercepts;
-      intelligent_place_black_piece(i,where_to_intercept,go_on);
+      if (is_check)
+        intelligent_place_pinned_black_piece(i,where_to_intercept,go_on);
+      else
+        intelligent_place_black_piece(i,where_to_intercept,go_on);
       black[i].usage = piece_is_unused;
     }
 
@@ -43,6 +47,7 @@ static void black_piece_on(square where_to_intercept, void (*go_on)(void))
  */
 static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
 {
+  boolean const is_check = target+dir_from_rider==king_square[Black];
   square where_to_intercept;
 
   TraceFunctionEntry(__func__);
@@ -56,7 +61,7 @@ static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
     if (nr_reasons_for_staying_empty[where_to_intercept]==0
       /* avoid testing the same position twice */
         && *where_to_start_placing_black_pieces<=where_to_intercept)
-      black_piece_on(where_to_intercept,go_on);
+      black_piece_on(is_check,where_to_intercept,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

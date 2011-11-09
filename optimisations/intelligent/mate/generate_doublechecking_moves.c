@@ -9,6 +9,39 @@
 #include <assert.h>
 #include <stdlib.h>
 
+static void remember_to_keep_checking_line_open(square from, square to,
+                                                piece type, int delta)
+{
+  int const diff = to-from;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from);
+  TraceSquare(to);
+  TracePiece(type);
+  TraceFunctionParamListEnd();
+
+  assert(type>vide);
+
+  switch (type)
+  {
+    case Bishop:
+    case Rook:
+    case Queen:
+      remember_to_keep_rider_line_open(from,to,CheckDir[type][diff],delta);
+      break;
+
+    case Knight:
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void front_check_by_officer_via(unsigned int index_of_checker,
                                        square via)
 {

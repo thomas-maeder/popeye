@@ -83,7 +83,9 @@ optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_black_piece.h pyint.h pydata.h \
  optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h trace.h
+ optimisations/intelligent/pin_black_piece.h \
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
+ optimisations/intelligent/mate/generate_checking_moves.h trace.h
 
 optimisations/intelligent/place_black_piece.h:
 
@@ -95,7 +97,11 @@ optimisations/intelligent/intercept_check_by_black.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
+optimisations/intelligent/pin_black_piece.h:
+
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
+
+optimisations/intelligent/mate/generate_checking_moves.h:
 
 trace.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \

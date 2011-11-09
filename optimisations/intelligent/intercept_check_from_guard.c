@@ -349,16 +349,16 @@ static void place_promoted_black_pawn(square placed_on,
           break;
 
         case fn:
-          intelligent_place_promoted_black_rider(placed_index,
-                                                 fn,
-                                                 placed_on,
-                                                 &intelligent_continue_guarding_flights);
+          intelligent_place_pinned_promoted_black_rider(placed_index,
+                                                        fn,
+                                                        placed_on,
+                                                        &intelligent_continue_guarding_flights);
           break;
 
         case cn:
-          intelligent_place_promoted_black_knight(placed_index,
-                                                  placed_on,
-                                                  &intelligent_continue_guarding_flights);
+          intelligent_place_pinned_promoted_black_knight(placed_index,
+                                                         placed_on,
+                                                         &intelligent_continue_guarding_flights);
           break;
 
         default:
@@ -395,21 +395,21 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
             break;
 
           case fn:
-            intelligent_place_black_rider(placed_index,
-                                          placed_on,
-                                          &intelligent_continue_guarding_flights);
+            intelligent_place_pinned_black_rider(placed_index,
+                                                 placed_on,
+                                                 &intelligent_continue_guarding_flights);
             break;
 
           case cn:
-            intelligent_place_black_knight(placed_index,
-                                           placed_on,
-                                           &intelligent_continue_guarding_flights);
+            intelligent_place_pinned_black_knight(placed_index,
+                                                  placed_on,
+                                                  &intelligent_continue_guarding_flights);
             break;
 
           case pn:
-            intelligent_place_unpromoted_black_pawn(placed_index,
-                                                    placed_on,
-                                                    &intelligent_continue_guarding_flights);
+            intelligent_place_pinned_unpromoted_black_pawn(placed_index,
+                                                           placed_on,
+                                                           &intelligent_continue_guarding_flights);
             place_promoted_black_pawn(placed_on,placed_index);
             break;
 
