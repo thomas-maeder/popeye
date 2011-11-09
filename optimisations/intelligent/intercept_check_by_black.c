@@ -59,38 +59,6 @@ void white_piece(int dir_from_rider, void (*go_on)(void))
   TraceFunctionResultEnd();
 }
 
-/* Place a promoted black piece on the check line
- * @param intercepter_index identifies intercepting pawn
- * @param where_to_intercept what square
- * @param go_on what to do after each successful interception?
- */
-static void place_black_promoteee(piece promotee_type,
-                                  unsigned int intercepter_index,
-                                  square where_to_intercept,
-                                  void (*go_on)(void))
-{
-  square const intercepter_comes_from = black[intercepter_index].diagram_square;
-  Flags const intercepter_flags = black[intercepter_index].flags;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(promotee_type);
-  TraceFunctionParam("%u",intercepter_index);
-  TraceSquare(where_to_intercept);
-  TraceFunctionParamListEnd();
-
-  if (intelligent_reserve_promoting_black_pawn_moves_from_to(intercepter_comes_from,
-                                                             promotee_type,
-                                                             where_to_intercept))
-  {
-    SetPiece(promotee_type,where_to_intercept,intercepter_flags);
-    (*go_on)();
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Intercept a check to the white king with a promoted black pawn
  * @param intercepter_index identifies intercepting pawn
  * @param where_to_intercept what square
@@ -120,79 +88,30 @@ static void promoted_black_pawn(unsigned int intercepter_index,
 
         case tn:
           if (is_diagonal)
-            place_black_promoteee(tn,intercepter_index,where_to_intercept,go_on);
+            intelligent_place_promoted_black_rider(intercepter_index,
+                                                   tn,
+                                                   where_to_intercept,
+                                                   go_on);
           break;
 
         case fn:
           if (!is_diagonal)
-            place_black_promoteee(fn,intercepter_index,where_to_intercept,go_on);
+            intelligent_place_promoted_black_rider(intercepter_index,
+                                                   fn,
+                                                   where_to_intercept,
+                                                   go_on);
           break;
 
         case cn:
-          place_black_promoteee(cn,intercepter_index,where_to_intercept,go_on);
+          intelligent_place_promoted_black_knight(intercepter_index,
+                                                  where_to_intercept,
+                                                  go_on);
           break;
 
         default:
           assert(0);
           break;
       }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Intercept a check to the white king with an unpromoted black pawn
- * @param intercepter_index identifies intercepting pawn
- * @param where_to_intercept what square
- * @param go_on what to do after each successful interception?
- */
-static void unpromoted_black_pawn(unsigned int intercepter_index,
-                                       square where_to_intercept,
-                                       void (*go_on)(void))
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",intercepter_index);
-  TraceSquare(where_to_intercept);
-  TraceFunctionParamListEnd();
-
-  if (!black_pawn_attacks_king(where_to_intercept)
-      && intelligent_reserve_black_pawn_moves_from_to_no_promotion(black[intercepter_index].diagram_square,
-                                                                   where_to_intercept))
-  {
-    SetPiece(pn,where_to_intercept,black[intercepter_index].flags);
-    (*go_on)();
-    intelligent_unreserve();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Intercept a check to the white king with a black officer on a square
- * @param intercepter_index identifies intercepting officer
- * @param where_to_intercept what square
- * @param go_on what to do after each successful interception?
- */
-static void black_officer(unsigned int intercepter_index,
-                          square where_to_intercept,
-                          void (*go_on)(void))
-{
-  piece const intercepter_type = black[intercepter_index].type;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",intercepter_index);
-  TraceSquare(where_to_intercept);
-  TraceFunctionParamListEnd();
-
-  assert(!officer_guards(king_square[White],intercepter_type,where_to_intercept));
-  if (intelligent_reserve_officer_moves_from_to(black[intercepter_index].diagram_square,
-                                                intercepter_type,
-                                                where_to_intercept))
-  {
-    SetPiece(intercepter_type,where_to_intercept,black[intercepter_index].flags);
-    (*go_on)();
-    intelligent_unreserve();
   }
 
   TraceFunctionExit(__func__);
@@ -227,7 +146,9 @@ static void black_piece_on(square where_to_intercept,
                               is_diagonal,
                               go_on);
           if (where_to_intercept>=square_a2 && where_to_intercept<=square_h7)
-            unpromoted_black_pawn(intercepter_index,where_to_intercept,go_on);
+            intelligent_place_unpromoted_black_pawn(intercepter_index,
+                                                    where_to_intercept,
+                                                    go_on);
           break;
 
         case dn:
@@ -235,16 +156,16 @@ static void black_piece_on(square where_to_intercept,
 
         case tn:
           if (is_diagonal)
-            black_officer(intercepter_index,where_to_intercept,go_on);
+            intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
           break;
 
         case fn:
           if (!is_diagonal)
-            black_officer(intercepter_index,where_to_intercept,go_on);
+            intelligent_place_black_rider(intercepter_index,where_to_intercept,go_on);
           break;
 
         case cn:
-          black_officer(intercepter_index,where_to_intercept,go_on);
+          intelligent_place_black_knight(intercepter_index,where_to_intercept,go_on);
           break;
 
         default:

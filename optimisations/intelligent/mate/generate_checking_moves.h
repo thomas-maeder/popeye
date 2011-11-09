@@ -3,11 +3,18 @@
 
 #include "py.h"
 
+#include <limits.h>
+
 typedef struct
 {
     int dir;       /* direction over which a rider captures or intercepts */
     square target; /* target square of the disturbance */
 } disturbance_by_rider_elmt_type;
+
+enum
+{
+  disturbance_by_rider_uninterceptable = INT_MAX
+};
 
 typedef disturbance_by_rider_elmt_type disturbance_by_rider_type[maxsquare+4];
 

@@ -159,34 +159,56 @@ static void pin_using_specific_piece_on(unsigned int pinner_index,
   TraceFunctionResultEnd();
 }
 
-/* Pin a mobile black piece
- * @param dir_to_touble_maker direction from king to piece to be pinned
+/* Find out whether a black piece can be pinned
+ * @param piece_pos position of piece to be pinned
+ * @return direction of pin line from black king square to piece_pos
+ *         0         otherwise
  */
-void intelligent_pin_black_piece(square position_of_trouble_maker,
-                                 void (*go_on)(void))
+int intelligent_is_black_piece_pinnable(square piece_pos)
 {
-  int const dir_to_touble_maker = CheckDir[Queen][position_of_trouble_maker-king_square[Black]];
+  int const diff = piece_pos-king_square[Black];
+  int result = CheckDir[Queen][diff];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(position_of_trouble_maker);
+  TraceSquare(piece_pos);
   TraceFunctionParamListEnd();
 
-  if (dir_to_touble_maker!=0 /* we can only pin on queen lines */
-      && is_line_empty(king_square[Black],
-                       position_of_trouble_maker,
-                       dir_to_touble_maker)
-      && intelligent_reserve_masses(White,1))
+  if (result!=0 && !is_line_empty(king_square[Black],piece_pos,result))
+    result = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Pin a pinnable black piece
+ * @param piece_pos position of piece to be pinned
+ * @param pin_dir direction of pin line from black king square via piece_pos
+ * @param go_on how to go on
+ * @pre pin_dir!=0
+ * @pre the piece at piece_pos is pinnable along pin_dir
+ */
+void intelligent_pin_pinnable_black_piece(square piece_pos,
+                                          int pin_dir,
+                                          void (*go_on)(void))
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(piece_pos);
+  TraceFunctionParamListEnd();
+
+  assert(pin_dir!=0);
+
+  if (intelligent_reserve_masses(White,1))
   {
-    boolean const is_pin_on_diagonal = SquareCol(king_square[Black]+dir_to_touble_maker)==SquareCol(king_square[Black]);
+    boolean const is_pin_on_diagonal = SquareCol(piece_pos+pin_dir)==SquareCol(piece_pos);
 
     square pin_on;
 
-    remember_to_keep_rider_line_open(king_square[Black],
-                                     position_of_trouble_maker,
-                                     dir_to_touble_maker,
-                                     +1);
+    remember_to_keep_rider_line_open(king_square[Black],piece_pos,pin_dir,+1);
 
-    for (pin_on = position_of_trouble_maker+dir_to_touble_maker; e[pin_on]==vide; pin_on += dir_to_touble_maker)
+    for (pin_on = piece_pos+pin_dir; e[pin_on]==vide; pin_on += pin_dir)
     {
       if (nr_reasons_for_staying_empty[pin_on]==0)
       {
@@ -208,16 +230,32 @@ void intelligent_pin_black_piece(square position_of_trouble_maker,
       ++nr_reasons_for_staying_empty[pin_on];
     }
 
-    for (pin_on -= dir_to_touble_maker; pin_on!=position_of_trouble_maker; pin_on -= dir_to_touble_maker)
+    for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
       --nr_reasons_for_staying_empty[pin_on];
 
-    remember_to_keep_rider_line_open(king_square[Black],
-                                     position_of_trouble_maker,
-                                     dir_to_touble_maker,
-                                     -1);
+    remember_to_keep_rider_line_open(king_square[Black],piece_pos,pin_dir,-1);
 
     intelligent_unreserve();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Pin a black piece
+ * @param piece_pos position of piece to be pinned
+ * @param go_on how to go on
+ */
+void intelligent_pin_black_piece(square piece_pos, void (*go_on)(void))
+{
+  int const pin_dir = intelligent_is_black_piece_pinnable(piece_pos);
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(piece_pos);
+  TraceFunctionParamListEnd();
+
+  if (pin_dir!=0) /* we can only pin on queen lines */
+    intelligent_pin_pinnable_black_piece(piece_pos,pin_dir,go_on);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -696,10 +696,10 @@ a)
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
 131 moegliche Stellungen in 1+14
 
-              empile:      883652
-            jouecoup:      873503
-        orig_rbechec:      290291
-        orig_rnechec:      397498
+              empile:      882551
+            jouecoup:      872948
+        orig_rbechec:      290219
+        orig_rnechec:      396925
 b) ser-h=14
 
 0 moegliche Stellungen in 1+1

@@ -4,6 +4,7 @@ CFILES = moves_left.c proof.c duplicate_avoider.c limit_nr_solutions_per_target.
          place_white_piece.c place_white_king.c place_black_piece.c \
          block_flights.c guard_flights.c intercept_check_from_guard.c \
          intercept_check_by_black.c intercept_guard_by_white.c \
+         intercept_black_move.c \
          pin_black_piece.c \
          count_nr_of_moves.c
 
@@ -11,6 +12,7 @@ INCLUDES = moves_left.h proof.h duplicate_avoider.h limit_nr_solutions_per_targe
            place_white_piece.h place_white_king.h place_black_piece.h \
            block_flights.h guard_flights.h intercept_check_from_guard.h \
            intercept_check_by_black.h intercept_guard_by_white.h \
+           intercept_black_move.h \
            pin_black_piece.h \
            count_nr_of_moves.h
 

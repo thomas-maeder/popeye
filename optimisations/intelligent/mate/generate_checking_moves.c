@@ -17,24 +17,34 @@ disturbance_by_rider_index_range_type disturbance_by_rider_index_ranges[Bishop-Q
 
 static void init_disturb_mate_rider_onedir(square target, int dir, unsigned int index)
 {
+  square s;
+  enum
+  {
+    nr_DisturbMateDirRider = sizeof DisturbMateDirRider / sizeof DisturbMateDirRider[0]
+  };
+
   TraceFunctionEntry(__func__);
   TraceSquare(target);
   TraceFunctionParam("%d",dir);
   TraceFunctionParam("%u",index);
   TraceFunctionParamListEnd();
 
-  enum
-  {
-    nr_DisturbMateDirRider = sizeof DisturbMateDirRider / sizeof DisturbMateDirRider[0]
-  };
-
   assert(index<nr_DisturbMateDirRider);
 
-  DisturbMateDirRider[index][target+dir].dir = dir;
-  DisturbMateDirRider[index][target+dir].target = target;
+  for (s = target+2*dir; e[s]==vide; s += dir)
+  {
+    DisturbMateDirRider[index][s].dir = -dir;
+    DisturbMateDirRider[index][s].target = target;
+  }
 
-  DisturbMateDirRider[index][target-dir].dir = -dir;
-  DisturbMateDirRider[index][target-dir].target = target;
+  for (s = target-2*dir; e[s]==vide; s -= dir)
+  {
+    DisturbMateDirRider[index][s].dir = dir;
+    DisturbMateDirRider[index][s].target = target;
+  }
+
+  DisturbMateDirRider[index][target+dir].dir = disturbance_by_rider_uninterceptable;
+  DisturbMateDirRider[index][target-dir].dir = disturbance_by_rider_uninterceptable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -140,6 +150,7 @@ static void remember_mating_line(piece checker_type, square const check_from, in
 
   TraceFunctionEntry(__func__);
   TracePiece(checker_type);
+  TraceSquare(check_from);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
@@ -167,6 +178,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
   TracePiece(promotee_type);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (dir!=0
@@ -192,6 +204,7 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (dir!=0
@@ -214,6 +227,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_checker,
@@ -250,6 +264,7 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (check_from>=square_a2 && check_from<=square_h7 && e[check_from]==vide
@@ -278,6 +293,7 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (dir!=0
@@ -303,6 +319,7 @@ static void by_knight(unsigned int index_of_checker, square const check_from)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
   if (dir!=0

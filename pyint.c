@@ -359,8 +359,6 @@ static void GenerateBlackKing(void)
                                 MaxPiece[White]-1,MaxPiece[Black]-1);
 
   for (bnp = boardnum; *bnp!=initsquare && !hasMaxtimeElapsed(); ++bnp)
-  {
-    TraceSquare(*bnp);TraceText("\n");
     if (e[*bnp]!=obs
         && intelligent_reserve_black_king_moves_from_to(black[index_of_king].diagram_square,
                                                         *bnp))
@@ -397,7 +395,6 @@ static void GenerateBlackKing(void)
 
       intelligent_unreserve();
     }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

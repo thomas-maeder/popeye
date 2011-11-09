@@ -156,10 +156,10 @@ interception of a defending pawn by a piece that doesn't guard
 
   1.Sc8-b6   2.Bh3-f1 # 
 
-              empile:         446
-            jouecoup:         386
+              empile:         361
+            jouecoup:         316
         orig_rbechec:           0
-        orig_rnechec:         372
+        orig_rnechec:         288
 solution finished. 
 
 
