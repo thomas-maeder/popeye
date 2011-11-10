@@ -3,10 +3,8 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.h pyint.h pydata.h \
  solving/legal_move_finder.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/place_black_piece.h \
- optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/pin_black_piece.h trace.h
+ optimisations/intelligent/place_white_king.h trace.h
 
 optimisations/intelligent/mate/finish.h:
 
@@ -18,13 +16,9 @@ solving/legal_move_finder.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
-optimisations/intelligent/place_white_piece.h:
-
 optimisations/intelligent/place_black_piece.h:
 
 optimisations/intelligent/place_white_king.h:
-
-optimisations/intelligent/pin_black_piece.h:
 
 trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
