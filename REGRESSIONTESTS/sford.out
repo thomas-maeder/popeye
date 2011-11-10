@@ -263,10 +263,10 @@ Loesung beendet.
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
-              empile:         566
-            jouecoup:         358
-        orig_rbechec:          21
-        orig_rnechec:         323
+              empile:         486
+            jouecoup:         308
+        orig_rbechec:          13
+        orig_rnechec:         268
 Loesung beendet. 
 
 
@@ -1380,10 +1380,10 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
   1.Le5-g3   1.Tc3-c6 Lc7-f4   2.Kb4-c5 Kb2-c3   3.Kc5-b6 + Kc3-d4   4.Tc6-c8 Kd4-e5   5.Kb6-c7 Ke5-f6 +   6.Kc7-d8 Lf4-g5   7.Lg3-c7 Kf6-f7 # 
 
-              empile:      432516
-            jouecoup:      427177
-        orig_rbechec:       29611
-        orig_rnechec:       52670
+              empile:      431663
+            jouecoup:      426690
+        orig_rbechec:       29503
+        orig_rnechec:       52129
 Loesung beendet. 
 
 
@@ -1415,10 +1415,10 @@ h#8 1.0;1.1;...
 
   1.Df3-f8   1.Tg2-g7 Ld7-a4   2.Kh6-g6 Kh1-g2   3.Kg6-f7 + Kg2-f3   4.b6-b5 Kf3-e4   5.Kf7-e8 Ke4-d5   6.Tg7-f7 Kd5-c6   7.b5-b4 Kc6-c7 # 
 
-              empile:     2813990
-            jouecoup:     2810460
-        orig_rbechec:      154372
-        orig_rnechec:      289765
+              empile:     2810032
+            jouecoup:     2808166
+        orig_rbechec:      154088
+        orig_rnechec:      287314
 Loesung beendet. 
 
 
