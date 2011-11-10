@@ -2242,10 +2242,10 @@ a)
   1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
 243 moegliche Stellungen in 7+7
 
-              empile:      201995
-            jouecoup:      183653
-        orig_rbechec:        3594
-        orig_rnechec:       84603
+              empile:      201966
+            jouecoup:      183642
+        orig_rbechec:        3592
+        orig_rnechec:       84591
 b) h=7
 
 0 moegliche Stellungen in 1+1
@@ -2296,10 +2296,10 @@ a)
   1.f2-f1=L f6-f7   2.Lf1-c4 f7*e8=D   3.Lc4-a2 De8*h8 # 
 15 moegliche Stellungen in 3+3
 
-              empile:       15531
-            jouecoup:       12518
-        orig_rbechec:         242
-        orig_rnechec:        6523
+              empile:       15516
+            jouecoup:       12503
+        orig_rbechec:         240
+        orig_rnechec:        6507
 b) h=3
 
 0 moegliche Stellungen in 1+1

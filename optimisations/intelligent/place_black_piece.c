@@ -199,7 +199,6 @@ typedef struct rider_interception_stack_elmt_type
     unsigned int next;
     unsigned int const end;
     square const placed_on;
-    void (*const go_on)(void);
     struct rider_interception_stack_elmt_type * const succ;
 } rider_interception_stack_elmt_type;
 
@@ -235,7 +234,7 @@ static void next_rider_interception(void)
   {
     rider_interception_stack_elmt_type * const save_top = rider_interception_top;
     rider_interception_top = rider_interception_top->succ;
-    (*save_top->go_on)();
+    rider_placed();
     rider_interception_top = save_top;
   }
 
@@ -272,7 +271,6 @@ static void place_rider(unsigned int placed_index,
           disturbance_by_rider_index_ranges[abs(placed_type)-Queen].start,
           disturbance_by_rider_index_ranges[abs(placed_type)-Queen].end,
           placed_on,
-          &rider_placed,
           rider_interception_top
       };
       rider_interception_top = &elmt;
