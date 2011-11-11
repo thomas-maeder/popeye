@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:      144421
-            jouecoup:      119401
+              empile:      144197
+            jouecoup:      119177
         orig_rbechec:        1656
-        orig_rnechec:       87062
+        orig_rnechec:       86838
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
-              empile:        3306
-            jouecoup:        2768
+              empile:        3292
+            jouecoup:        2754
         orig_rbechec:           8
-        orig_rnechec:        2698
+        orig_rnechec:        2684
 solution finished. 
 
 
@@ -90,10 +90,10 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
-              empile:        8286
-            jouecoup:        6283
+              empile:        8258
+            jouecoup:        6255
         orig_rbechec:          23
-        orig_rnechec:        6062
+        orig_rnechec:        6034
 solution finished. 
 
 
@@ -123,10 +123,10 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
-              empile:       12598
-            jouecoup:        9153
+              empile:       12571
+            jouecoup:        9126
         orig_rbechec:          80
-        orig_rnechec:        8663
+        orig_rnechec:        8636
 solution finished. 
 
 
@@ -156,10 +156,10 @@ interception of a defending pawn by a piece that doesn't guard
 
   1.Sc8-b6   2.Bh3-f1 # 
 
-              empile:         361
-            jouecoup:         316
+              empile:         355
+            jouecoup:         310
         orig_rbechec:           0
-        orig_rnechec:         288
+        orig_rnechec:         282
 solution finished. 
 
 

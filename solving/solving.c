@@ -23,6 +23,7 @@
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/castling_intermediate_move_generator.h"
 #include "solving/single_move_generator.h"
+#include "solving/king_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -401,6 +402,26 @@ static void insert_single_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_king_move_generator(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const generator = branch_find_slice(STMoveGenerator,
+                                                    slices[si].u.fork.fork);
+    assert(generator!=no_slice);
+    pipe_substitute(generator,alloc_king_move_generator_slice());
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const strategy_inserters[] =
 {
   { STOutputModeSelector,                     &remember_output_mode                           },
@@ -414,7 +435,8 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
   { STMaximummerCandidateMoveTester,          &insert_single_move_generator                   },
-  { STOpponentMovesCounterFork,               &insert_single_move_generator                   }
+  { STOpponentMovesCounterFork,               &insert_single_move_generator                   },
+  { STIntelligentMateFilter,                  &insert_king_move_generator                     }
 };
 
 enum
