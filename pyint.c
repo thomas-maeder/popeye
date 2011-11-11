@@ -383,9 +383,7 @@ static void GenerateBlackKing(void)
       if (goal_to_be_reached==goal_mate)
       {
         intelligent_mate_generate_checking_moves();
-        intelligent_mate_is_double_check = true;
         intelligent_mate_generate_doublechecking_moves();
-        intelligent_mate_is_double_check = false;
       }
       else
         intelligent_guard_flights();

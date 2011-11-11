@@ -64,8 +64,6 @@ extern unsigned int PieceId2index[MaxPieceId+1];
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
-boolean intelligent_mate_is_double_check;
-
 void IntelligentRegulargoal_types(stip_length_type n);
 
 void solve_target_position(void);
