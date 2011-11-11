@@ -33,6 +33,9 @@ static void place_any_black_piece_on(square placed_on)
         black[placed_index].usage = piece_is_unused;
       }
 
+    e[placed_on]= vide;
+    spec[placed_on]= EmptySpec;
+
     intelligent_unreserve();
   }
 
@@ -131,7 +134,7 @@ void intelligent_mate_test_target_position(void)
     if (flight==initsquare)
     {
       /* Nail white king to diagram square if no white move remains; we can't do
-       * this with the other white or black pieces because they might be
+       * this with the other unused white or black pieces because they might be
        * captured in the solution */
       if (white[index_of_king].usage==piece_is_unused
           && white[index_of_king].diagram_square!=square_e1
@@ -141,11 +144,7 @@ void intelligent_mate_test_target_position(void)
         solve_target_position();
     }
     else if (e[flight]==vide)
-    {
       place_any_black_piece_on(flight);
-      e[flight]= vide;
-      spec[flight]= EmptySpec;
-    }
   }
 
   TraceFunctionExit(__func__);
