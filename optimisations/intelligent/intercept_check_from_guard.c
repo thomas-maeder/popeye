@@ -10,39 +10,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Does a white officer guard any flight?
- * @param officer_type type of officer
- * @param from where might the officer guard from?
- * @return a flight square guarded by the officer; initsquare if it doesn't guard
- */
-static square white_officer_guards_flight(piece officer_type, square from)
-{
-  int i;
-  square result = initsquare;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(officer_type);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  e[king_square[Black]]= vide;
-
-  for (i = 8; i!=0; --i)
-    if (e[king_square[Black]+vec[i]]!=obs
-        && officer_guards(king_square[Black]+vec[i],officer_type,from))
-    {
-      result = king_square[Black]+vec[i];
-      break;
-    }
-
-  e[king_square[Black]]= roin;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Place a white officer to intercept a check to the black king
  * @param index_of_guarding_rider identifies the checking rider
  * @param officer_type type of officer
@@ -66,7 +33,7 @@ static void place_officer(unsigned int index_of_guarding_rider,
   if (/* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
       !(index_of_intercepting_piece<index_of_guarding_rider
-        && white_officer_guards_flight(officer_type,to_be_intercepted)))
+        && GuardDir[officer_type-Pawn][to_be_intercepted].dir!=0))
   {
     SetPiece(officer_type,to_be_intercepted,intercepter_flags);
     intelligent_continue_guarding_flights();
