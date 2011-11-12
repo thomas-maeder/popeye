@@ -106,25 +106,33 @@ void remember_to_keep_rider_line_open(square from, square to,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
+/* Detrmine whether some line is empty
+ * @param start start of line
+ * @param end end of line
+ * @param dir direction from start to end
+ * @return true iff the line is empty
+ */
+boolean is_line_empty(square start, square end, int dir)
 {
-  boolean result = false;
+  boolean result = true;
+  square s;
 
-  if (dir!=0)
-  {
-    square tmp = guarding_from;
-    do
+  TraceFunctionEntry(__func__);
+  TraceSquare(start);
+  TraceSquare(end);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParamListEnd();
+
+  for (s = start+dir; s!=end; s += dir)
+    if (e[s]!=vide)
     {
-      tmp += dir;
-      if (tmp==to_be_guarded)
-      {
-        result = true;
-        break;
-      }
-    } while (e[tmp]==vide);
-  }
+      result = false;
+      break;
+    }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

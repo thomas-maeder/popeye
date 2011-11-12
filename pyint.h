@@ -70,10 +70,16 @@ void solve_target_position(void);
 
 boolean black_pawn_attacks_king(square from);
 
-boolean rider_guards(square to_be_guarded, square guarding_from, int dir);
-
 void remember_to_keep_rider_line_open(square from, square to,
                                       int dir, int delta);
+
+/* Detrmine whether some line is empty
+ * @param start start of line
+ * @param end end of line
+ * @param dir direction from start to end
+ * @return true iff the line is empty
+ */
+boolean is_line_empty(square start, square end, int dir);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it

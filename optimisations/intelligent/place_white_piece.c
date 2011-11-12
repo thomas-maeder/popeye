@@ -8,31 +8,6 @@
 
 #include <assert.h>
 
-
-static boolean is_line_empty(square from, square to, int dir)
-{
-  boolean result = true;
-  square s;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParam("%d",dir);
-  TraceFunctionParamListEnd();
-
-  for (s = from+dir; s!=to; s += dir)
-    if (e[s]!=vide)
-    {
-      result = false;
-      break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
                                              square placed_on,
                                              void (*go_on)(void))

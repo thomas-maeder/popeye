@@ -366,7 +366,7 @@ static void place_rider(unsigned int index_of_rider,
       default:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
-        if (e[guarded]>=vide && rider_guards(guarded,guard_from,dir))
+        if (e[guarded]>=vide && is_line_empty(guard_from,guarded,dir))
         {
           SetPiece(rider_type,guard_from,white[index_of_rider].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);

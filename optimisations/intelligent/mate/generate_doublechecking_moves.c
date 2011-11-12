@@ -59,7 +59,8 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
     if (e[*bnp]==vide)
     {
       int const dir = CheckDir[checker_type][king_square[Black]-*bnp];
-      if (rider_guards(king_square[Black],*bnp,dir)
+      if (dir!=0
+          && is_line_empty(*bnp,king_square[Black],dir)
           && intelligent_reserve_front_check_by_officer(checker_origin,
                                                         via,
                                                         checker_type,
@@ -203,7 +204,7 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
         {
           case db:
           case tb:
-            if (rider_guards(king_square[Black],check_from,dir))
+            if (is_line_empty(check_from,king_square[Black],dir))
             {
               SetPiece(pp,check_from,white[index_of_checker].flags);
               remember_to_keep_checking_line_open(check_from,king_square[Black],pp,+1);

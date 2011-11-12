@@ -7,36 +7,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Detrmine whether some line is empty
- * @param start start of line
- * @param end end of line
- * @param dir direction from start to end
- * @return true iff the line is empty
- */
-static boolean is_line_empty(square start, square end, int dir)
-{
-  boolean result = true;
-  square sq;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(start);
-  TraceSquare(end);
-  TraceFunctionParam("%d",dir);
-  TraceFunctionParamListEnd();
-
-  for (sq = start+dir; e[sq]==vide; sq += dir)
-  {
-    /* nothing */
-  }
-
-  result = sq==end;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Pin the piece on a specific square with an original rider
  * @param sq_to_be_pinned position of piece to be pinned
  * @param pin_on where to put pinner
