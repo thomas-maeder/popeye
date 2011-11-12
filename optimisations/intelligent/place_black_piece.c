@@ -481,23 +481,33 @@ void intelligent_place_unpromoted_black_pawn(unsigned int placed_index,
                                                                    placed_on))
   {
     SetPiece(pn,placed_on,placed_flags);
-    if (DisturbMateDirPawn[placed_on]==disturbance_by_pawn_capture
-        || DisturbMateDirPawn[placed_on]==disturbance_by_pawn_interception_single)
-      intelligent_pin_black_piece(placed_on,go_on);
-    else if (DisturbMateDirPawn[placed_on]==disturbance_by_pawn_interception_double)
+
+    switch (DisturbMateDirPawn[placed_on])
     {
-      square const target = placed_on+2*dir_down;
-      assert(e[target]==vide);
-      if (e[placed_on+dir_down]==vide)
-      {
-        intelligent_intercept_black_move(placed_on,target,go_on);
+      case disturbance_by_pawn_capture:
+      case disturbance_by_pawn_interception_single:
         intelligent_pin_black_piece(placed_on,go_on);
+        break;
+
+      case disturbance_by_pawn_interception_double:
+      {
+        square const target = placed_on+2*dir_down;
+        assert(e[target]==vide);
+        if (e[placed_on+dir_down]==vide)
+        {
+          intelligent_intercept_black_move(placed_on,target,go_on);
+          intelligent_pin_black_piece(placed_on,go_on);
+        }
+        else
+          (*go_on)();
+        break;
       }
-      else
+
+      default:
         (*go_on)();
+        break;
     }
-    else
-      (*go_on)();
+
     intelligent_unreserve();
   }
 
