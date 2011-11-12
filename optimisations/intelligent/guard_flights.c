@@ -28,14 +28,23 @@ static void init_guard_dirs_leaper(PieNam guarder,
 }
 
 static void init_guard_dirs_rider(PieNam guarder,
-                                  square target,
+                                  square flight,
                                   numvec dir)
 {
-  square s;
-  for (s = target; e[s]==vide; s += dir)
+  square const start = flight+dir;
+  if (move_diff_code[abs(king_square[Black]-start)]<=2)
   {
-    GuardDir[guarder-Pawn][s].dir = -dir;
-    GuardDir[guarder-Pawn][s].target = target;
+    /* start is a flight, too.
+     * GuardDir will be initialised from start in this dir */
+  }
+  else
+  {
+    square s;
+    for (s = start; e[s]==vide; s += dir)
+    {
+      GuardDir[guarder-Pawn][s].dir = -dir;
+      GuardDir[guarder-Pawn][s].target = flight;
+    }
   }
 }
 
@@ -139,11 +148,6 @@ static void init_guard_dirs_knight(square black_king_pos)
 {
   unsigned int i;
 
-  init_guard_dirs_leaper(Knight,
-                         black_king_pos,
-                         vec_knight_start,vec_knight_end,
-                         guard_dir_check_uninterceptable);
-
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
     square const flight = black_king_pos+vec[i];
@@ -153,6 +157,12 @@ static void init_guard_dirs_knight(square black_king_pos)
                              vec_knight_start,vec_knight_end,
                              guard_dir_guard_uninterceptable);
   }
+
+  /* only now - check trumps guard */
+  init_guard_dirs_leaper(Knight,
+                         black_king_pos,
+                         vec_knight_start,vec_knight_end,
+                         guard_dir_check_uninterceptable);
 }
 
 static void init_guard_dir_pawn(square flight, numvec dir)
@@ -205,39 +215,6 @@ static boolean white_king_guards_flight(square from)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Does a a white officer guard any flight?
- * @param officer_type type of officer
- * @param from from where might the officer guard
- * @return a flight guarded by the officer; initsquare if it doesn't guard
- */
-static square white_officer_guards_flight(piece officer_type, square from)
-{
-  int i;
-  square result = initsquare;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(officer_type);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  e[king_square[Black]]= vide;
-
-  for (i = 8; i!=0; --i)
-    if (e[king_square[Black]+vec[i]]!=obs
-        && officer_guards(king_square[Black]+vec[i],officer_type,from))
-    {
-      result = king_square[Black]+vec[i];
-      break;
-    }
-
-  e[king_square[Black]]= roin;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -361,21 +338,50 @@ static void place_rider(unsigned int index_of_rider,
   TraceFunctionParamListEnd();
 
   {
-    square const guarded = white_officer_guards_flight(rider_type,guard_from);
-    if (guarded!=initsquare)
+    int const dir = GuardDir[rider_type-Pawn][guard_from].dir;
+    switch (dir)
     {
-      square const to_be_intercepted = where_to_intercept_check_from_guard(rider_type,
-                                                                           guard_from);
-      SetPiece(rider_type,guard_from,white[index_of_rider].flags);
-      remember_to_keep_guard_line_open(guard_from,guarded,+1);
-      if (to_be_intercepted==initsquare)
-        intelligent_continue_guarding_flights();
-      else
+      case guard_dir_check_uninterceptable:
+      case 0:
+        break;
+
+      case guard_dir_guard_uninterceptable:
       {
-        assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
-        intercept_check_on_guarded_square(index_of_rider,to_be_intercepted);
+        square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        if (e[guarded]>=vide)
+        {
+          SetPiece(rider_type,guard_from,white[index_of_rider].flags);
+          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
+              && e[guarded]==vide)
+          {
+            assert(nr_reasons_for_staying_empty[guarded]==0);
+            intercept_check_on_guarded_square(index_of_rider,guarded);
+          }
+          else
+            intelligent_continue_guarding_flights();
+        }
+        break;
       }
-      remember_to_keep_guard_line_open(guard_from,guarded,-1);
+
+      default:
+      {
+        square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        if (e[guarded]>=vide && rider_guards(guarded,guard_from,dir))
+        {
+          SetPiece(rider_type,guard_from,white[index_of_rider].flags);
+          remember_to_keep_guard_line_open(guard_from,guarded,+1);
+          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
+              && e[guarded]==vide)
+          {
+            assert(nr_reasons_for_staying_empty[guarded]==0);
+            intercept_check_on_guarded_square(index_of_rider,guarded);
+          }
+          else
+            intelligent_continue_guarding_flights();
+          remember_to_keep_guard_line_open(guard_from,guarded,-1);
+        }
+        break;
+      }
     }
   }
 
@@ -394,7 +400,7 @@ static void place_knight(unsigned int index_of_knight, square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (white_officer_guards_flight(cb,guard_from)!=initsquare)
+  if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
   {
     SetPiece(cb,guard_from,white[index_of_knight].flags);
     intelligent_continue_guarding_flights();

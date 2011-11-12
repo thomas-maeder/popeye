@@ -128,44 +128,6 @@ boolean rider_guards(square to_be_guarded, square guarding_from, int dir)
   return result;
 }
 
-boolean officer_guards(square to_be_guarded, piece officer_type, square guarding_from)
-{
-  boolean result;
-  int const diff = to_be_guarded-guarding_from;
-  PieNam const Piece = abs(officer_type);
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(to_be_guarded);
-  TracePiece(officer_type);
-  TraceSquare(guarding_from);
-  TraceFunctionParamListEnd();
-
-  assert(to_be_guarded!=initsquare);
-
-  switch (Piece)
-  {
-    case Knight:
-      result = CheckDir[Knight][diff]!=0;
-      break;
-
-    case Queen:
-    case Rook:
-    case Bishop:
-      result = rider_guards(to_be_guarded,guarding_from,CheckDir[Piece][diff]);
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean black_pawn_attacks_king(square from)
 {
   boolean result;

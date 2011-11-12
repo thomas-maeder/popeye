@@ -42,8 +42,8 @@ static void remember_to_keep_checking_line_open(square from, square to,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_officer_via(unsigned int index_of_checker,
-                                       square via)
+static void front_check_by_rider_via(unsigned int index_of_checker,
+                                     square via)
 {
   piece const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
@@ -56,19 +56,55 @@ static void front_check_by_officer_via(unsigned int index_of_checker,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-    if (e[*bnp]==vide && officer_guards(king_square[Black],checker_type,*bnp)
+    if (e[*bnp]==vide)
+    {
+      int const dir = CheckDir[checker_type][king_square[Black]-*bnp];
+      if (rider_guards(king_square[Black],*bnp,dir)
+          && intelligent_reserve_front_check_by_officer(checker_origin,
+                                                        via,
+                                                        checker_type,
+                                                        *bnp))
+      {
+        TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
+        SetPiece(checker_type,*bnp,checker_flags);
+        remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
+        remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
+        intelligent_guard_flights();
+        remember_to_keep_checking_line_open(via,*bnp,checker_type,-1);
+        remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
+        e[*bnp] = vide;
+        spec[*bnp] = EmptySpec;
+        intelligent_unreserve();
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void front_check_by_knight_via(unsigned int index_of_checker,
+                                      square via)
+{
+  Flags const checker_flags = white[index_of_checker].flags;
+  square const checker_origin = white[index_of_checker].diagram_square;
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  for (bnp = boardnum; *bnp!=initsquare; ++bnp)
+    if (e[*bnp]==vide
+        && CheckDir[Knight][king_square[Black]-*bnp]!=0
         && intelligent_reserve_front_check_by_officer(checker_origin,
                                                       via,
-                                                      checker_type,
+                                                      cb,
                                                       *bnp))
     {
       TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
-      SetPiece(checker_type,*bnp,checker_flags);
-      remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
-      remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
+      SetPiece(cb,*bnp,checker_flags);
       intelligent_guard_flights();
-      remember_to_keep_checking_line_open(via,*bnp,checker_type,-1);
-      remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,-1);
       e[*bnp] = vide;
       spec[*bnp] = EmptySpec;
       intelligent_unreserve();
@@ -124,7 +160,9 @@ static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_c
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (officer_guards(king_square[Black],pp,check_from))
+      /* geometry doesn't allow for an interceptable check by a pawn that
+       * doesn't capture */
+      if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
       {
         SetPiece(pp,check_from,white[index_of_checker].flags);
         intelligent_guard_flights();
@@ -158,11 +196,33 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
   {
     piece pp;
     for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
-      if (officer_guards(king_square[Black],pp,check_from))
-      {
-        SetPiece(pp,check_from,white[index_of_checker].flags);
-        intelligent_guard_flights();
-      }
+    {
+      int const dir = CheckDir[pp][king_square[Black]-check_from];
+      if (dir!=0)
+        switch (pp)
+        {
+          case db:
+          case tb:
+            if (rider_guards(king_square[Black],check_from,dir))
+            {
+              SetPiece(pp,check_from,white[index_of_checker].flags);
+              remember_to_keep_checking_line_open(check_from,king_square[Black],pp,+1);
+              intelligent_guard_flights();
+              remember_to_keep_checking_line_open(check_from,king_square[Black],pp,-1);
+            }
+            break;
+
+          case fb:
+          case cb:
+              SetPiece(pp,check_from,white[index_of_checker].flags);
+              intelligent_guard_flights();
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+    }
 
     e[check_from] = vide;
     spec[check_from] = EmptySpec;
@@ -222,16 +282,16 @@ static void generate_front_check_via(square via, boolean diagonal)
       {
         case tb:
           if (diagonal)
-            front_check_by_officer_via(index,via);
+            front_check_by_rider_via(index,via);
           break;
 
         case fb:
           if (!diagonal)
-            front_check_by_officer_via(index,via);
+            front_check_by_rider_via(index,via);
           break;
 
         case cb:
-          front_check_by_officer_via(index,via);
+          front_check_by_knight_via(index,via);
           break;
 
         case pb:

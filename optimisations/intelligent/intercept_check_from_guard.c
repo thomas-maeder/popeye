@@ -394,31 +394,3 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Where to intercept a check using a white piece
- * @param guard_type type of guarding white piece
- * @param guard_from where does the piece guard from?
- * @return square where to intercept
- */
-square where_to_intercept_check_from_guard(piece guard_type, square guard_from)
-{
-  int const diff = king_square[Black]-guard_from;
-  PieNam const guard_type_Nam = abs(guard_type);
-	int const dir = CheckDir[guard_type_Nam][diff];
-  square result;
-
-  TraceFunctionEntry(__func__);
-  TracePiece(guard_type);
-  TraceSquare(guard_from);
-  TraceFunctionParamListEnd();
-
-  if (rider_guards(king_square[Black],guard_from,dir))
-    result = king_square[Black]-dir;
-  else
-    result = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
