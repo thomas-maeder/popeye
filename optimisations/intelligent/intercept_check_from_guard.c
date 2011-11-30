@@ -11,20 +11,17 @@
 #include <stdlib.h>
 
 /* Place a white officer to intercept a check to the black king
- * @param index_of_guarding_rider identifies the checking rider
  * @param officer_type type of officer
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_officer(unsigned int index_of_guarding_rider,
-                          piece officer_type,
+static void place_officer(piece officer_type,
                           square to_be_intercepted,
                           unsigned int index_of_intercepting_piece)
 {
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TracePiece(officer_type);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
@@ -32,7 +29,7 @@ static void place_officer(unsigned int index_of_guarding_rider,
 
   if (/* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
-      !(index_of_intercepting_piece<index_of_guarding_rider
+      !(index_of_intercepting_piece<index_of_guarding_piece
         && GuardDir[officer_type-Pawn][to_be_intercepted].dir!=0))
   {
     SetPiece(officer_type,to_be_intercepted,intercepter_flags);
@@ -46,20 +43,17 @@ static void place_officer(unsigned int index_of_guarding_rider,
 }
 
 /* Place a white promotee to intercept a check to the black king
- * @param index_of_guarding_rider identifies the checking rider
  * @param promotee_type type of promotee
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_promotee(unsigned int index_of_guarding_rider,
-                           piece promotee_type,
+static void place_promotee(piece promotee_type,
                            square to_be_intercepted,
                            unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TracePiece(promotee_type);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
@@ -69,11 +63,7 @@ static void place_promotee(unsigned int index_of_guarding_rider,
                                                              promotee_type,
                                                              to_be_intercepted))
   {
-    place_officer(index_of_guarding_rider,
-                  promotee_type,
-                  to_be_intercepted,
-                  index_of_intercepting_piece);
-
+    place_officer(promotee_type,to_be_intercepted,index_of_intercepting_piece);
     intelligent_unreserve();
   }
 
@@ -82,18 +72,15 @@ static void place_promotee(unsigned int index_of_guarding_rider,
 }
 
 /* Intercept a check by a white rider white an promoted pawn
- * @param index_of_guarding_rider identifies the rider
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  * @param is_diagonal true iff the check is on a diagonal
  */
-static void promoted_pawn(unsigned int index_of_guarding_rider,
-                          square to_be_intercepted,
+static void promoted_pawn(square to_be_intercepted,
                           unsigned int index_of_intercepting_piece,
                           boolean is_diagonal)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceValue("%u",is_diagonal);
@@ -111,25 +98,16 @@ static void promoted_pawn(unsigned int index_of_guarding_rider,
 
         case tb:
           if (is_diagonal)
-            place_promotee(index_of_guarding_rider,
-                           tb,
-                           to_be_intercepted,
-                           index_of_intercepting_piece);
+            place_promotee(tb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case fb:
           if (!is_diagonal)
-            place_promotee(index_of_guarding_rider,
-                           fb,
-                           to_be_intercepted,
-                           index_of_intercepting_piece);
+            place_promotee(fb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         case cb:
-          place_promotee(index_of_guarding_rider,
-                         cb,
-                         to_be_intercepted,
-                         index_of_intercepting_piece);
+          place_promotee(cb,to_be_intercepted,index_of_intercepting_piece);
           break;
 
         default:
@@ -143,12 +121,10 @@ static void promoted_pawn(unsigned int index_of_guarding_rider,
 }
 
 /* Intercept a check by a white rider white an unpromoted pawn
- * @param index_of_guarding_rider identifies the rider
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void unpromoted_pawn(unsigned int index_of_guarding_rider,
-                            square to_be_intercepted,
+static void unpromoted_pawn(square to_be_intercepted,
                             unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
@@ -156,7 +132,6 @@ static void unpromoted_pawn(unsigned int index_of_guarding_rider,
   numvec const guard_dir = GuardDir[Pawn-Pawn][to_be_intercepted].dir;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
@@ -164,7 +139,7 @@ static void unpromoted_pawn(unsigned int index_of_guarding_rider,
   if (guard_dir!=guard_dir_check_uninterceptable
       /* avoid duplicate: if intercepter has already been used as guarding
        * piece, it shouldn't guard now again */
-      && !(index_of_intercepting_piece<index_of_guarding_rider
+      && !(index_of_intercepting_piece<index_of_guarding_piece
            && guard_dir==guard_dir_guard_uninterceptable)
       && intelligent_reserve_white_pawn_moves_from_to_no_promotion(intercepter_diagram_square,
                                                                    to_be_intercepted))
@@ -181,19 +156,16 @@ static void unpromoted_pawn(unsigned int index_of_guarding_rider,
 }
 
 /* Intercept a check by a white rider white a white officer
- * @param index_of_guarding_rider identifies the rider
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the intercepting officer
  */
-static void officer(unsigned int index_of_guarding_rider,
-                    square to_be_intercepted,
+static void officer(square to_be_intercepted,
                     unsigned int index_of_intercepting_piece)
 {
   square const officer_diagram_square = white[index_of_intercepting_piece].diagram_square;
   piece const officer_type = white[index_of_intercepting_piece].type;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
@@ -202,10 +174,7 @@ static void officer(unsigned int index_of_guarding_rider,
                                                 officer_type,
                                                 to_be_intercepted))
   {
-    place_officer(index_of_guarding_rider,
-                  officer_type,
-                  to_be_intercepted,
-                  index_of_intercepting_piece);
+    place_officer(officer_type,to_be_intercepted,index_of_intercepting_piece);
     intelligent_unreserve();
   }
 
@@ -214,17 +183,14 @@ static void officer(unsigned int index_of_guarding_rider,
 }
 
 /* Intercept a check by a white rider on the flight guarded by the rider
- * @param index_of_guarding_rider identifies the rider
  * @param to_be_intercepted where to intercept
  */
-void intercept_check_on_guarded_square(unsigned int index_of_guarding_rider,
-                                       square to_be_intercepted)
+void intercept_check_on_guarded_square(square to_be_intercepted)
 {
   unsigned int intercepter_index;
   boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(king_square[Black]);
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_guarding_rider);
   TraceSquare(to_be_intercepted);
   TraceFunctionParamListEnd();
 
@@ -248,33 +214,22 @@ void intercept_check_on_guarded_square(unsigned int index_of_guarding_rider,
 
           case tb:
             if (is_diagonal)
-              officer(index_of_guarding_rider,
-                      to_be_intercepted,
-                      intercepter_index);
+              officer(to_be_intercepted,intercepter_index);
               break;
 
           case fb:
             if (!is_diagonal)
-              officer(index_of_guarding_rider,
-                      to_be_intercepted,
-                      intercepter_index);
+              officer(to_be_intercepted,intercepter_index);
             break;
 
           case cb:
-            officer(index_of_guarding_rider,
-                    to_be_intercepted,
-                    intercepter_index);
+            officer(to_be_intercepted,intercepter_index);
             break;
 
           case pb:
             if (to_be_intercepted>=square_a2 && to_be_intercepted<=square_h7)
-              unpromoted_pawn(index_of_guarding_rider,
-                              to_be_intercepted,
-                              intercepter_index);
-            promoted_pawn(index_of_guarding_rider,
-                          to_be_intercepted,
-                          intercepter_index,
-                          is_diagonal);
+              unpromoted_pawn(to_be_intercepted,intercepter_index);
+            promoted_pawn(to_be_intercepted,intercepter_index,is_diagonal);
             break;
 
           default:

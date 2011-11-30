@@ -5,11 +5,9 @@
 #include "pyboard.h"
 
 /* Intercept a check by a white rider on the flight guarded by the rider
- * @param index_of_guarding_rider identifies the rider
  * @param to_be_intercepted where to intercept
  */
-void intercept_check_on_guarded_square(unsigned int index_of_guarding_rider,
-                                       square to_be_intercepted);
+void intercept_check_on_guarded_square(square to_be_intercepted);
 
 /* Intercept an orthogonal check with a pinned black piece
  * @param placed_on where to place the pinned black piece

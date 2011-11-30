@@ -40,4 +40,20 @@ pieces white sc8 pc5 bh3
 stipulation ser-#2
 option nowk intelligent
 
+next
+
+title guard with check -> selfpin with check -> selfpin with guard by s
+pieces white kf5 qc3 se4 rh1
+       black ke3 bd3 pe2
+stipulation h#0.5
+option intelligent
+
+next
+
+title guard with check -> selfpin with check -> selfpin with guard by b
+pieces white kf5 qc3 be4 sh6
+       black ke3 bd3 pe2
+stipulation h#0.5
+option intelligent
+
 end

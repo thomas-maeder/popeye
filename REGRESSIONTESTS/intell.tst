@@ -163,3 +163,69 @@ interception of a defending pawn by a piece that doesn't guard
 solution finished. 
 
 
+
+guard with check -> selfpin with check -> selfpin with guard by s
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   S   .   .   .   4
+|                                   |
+3   .   .   Q  -B  -K   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                       4 + 3
+
+  1...Rh1-h3 # 
+
+              empile:         635
+            jouecoup:         547
+        orig_rbechec:          31
+        orig_rnechec:         546
+solution finished. 
+
+
+
+guard with check -> selfpin with check -> selfpin with guard by b
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   S   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   B   .   .   .   4
+|                                   |
+3   .   .   Q  -B  -K   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                       4 + 3
+
+  1...Sh6-g4 # 
+
+              empile:         398
+            jouecoup:         336
+        orig_rbechec:           5
+        orig_rnechec:         335
+solution finished. 
+
+

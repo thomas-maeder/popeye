@@ -27,6 +27,9 @@ typedef struct
     square target;
 } guard_dir_struct;
 
+/* index of guarding piece currently being placed */
+extern unsigned int index_of_guarding_piece;
+
 /* lookup doing something like GuardDir[Queen-Pawn][some_square] */
 extern guard_dir_struct GuardDir[5][maxsquare+4];
 

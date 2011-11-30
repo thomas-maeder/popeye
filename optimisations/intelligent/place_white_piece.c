@@ -225,22 +225,41 @@ void intelligent_place_white_rider(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (dir>=guard_dir_guard_uninterceptable)
+  switch (dir)
   {
-    /* nothing */
-  }
-  else if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                     placed_type,
-                                                     placed_on))
-  {
-    SetPiece(placed_type,placed_on,placed_flags);
+    case guard_dir_check_uninterceptable:
+      break;
 
-    if (dir==0 || e[target]<vide || !is_line_empty(placed_on,target,dir))
-      (*go_on)();
-    else
-      intelligent_intercept_guard_by_white(target,dir,go_on);
+    case guard_dir_guard_uninterceptable:
+      if (placed_index>index_of_guarding_piece
+          && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+                                                       placed_type,
+                                                       placed_on))
+      {
+        SetPiece(placed_type,placed_on,placed_flags);
+        (*go_on)();
+        intelligent_unreserve();
+      }
+      break;
 
-    intelligent_unreserve();
+    default:
+      if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
+                                                    placed_type,
+                                                    placed_on))
+      {
+        SetPiece(placed_type,placed_on,placed_flags);
+
+        if (placed_index>index_of_guarding_piece
+            || dir==0
+            || e[target]<vide
+            || !is_line_empty(placed_on,target,dir))
+          (*go_on)();
+        else
+          intelligent_intercept_guard_by_white(target,dir,go_on);
+
+        intelligent_unreserve();
+      }
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -259,14 +278,33 @@ void intelligent_place_white_knight(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (GuardDir[Knight-Pawn][placed_on].dir<guard_dir_guard_uninterceptable
-      && intelligent_reserve_officer_moves_from_to(placed_comes_from,
-                                                   cb,
-                                                   placed_on))
+  switch (GuardDir[Knight-Pawn][placed_on].dir)
   {
-    SetPiece(cb,placed_on,placed_flags);
-    (*go_on)();
-    intelligent_unreserve();
+    case guard_dir_check_uninterceptable:
+      break;
+
+    case guard_dir_guard_uninterceptable:
+      if (placed_index>index_of_guarding_piece
+          && intelligent_reserve_officer_moves_from_to(placed_comes_from,
+                                                       cb,
+                                                       placed_on))
+      {
+        SetPiece(cb,placed_on,placed_flags);
+        (*go_on)();
+        intelligent_unreserve();
+      }
+      break;
+
+    default:
+      if (intelligent_reserve_officer_moves_from_to(placed_comes_from,
+                                                    cb,
+                                                    placed_on))
+      {
+        SetPiece(cb,placed_on,placed_flags);
+        (*go_on)();
+        intelligent_unreserve();
+      }
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -274,8 +312,8 @@ void intelligent_place_white_knight(unsigned int placed_index,
 }
 
 void intelligent_place_white_piece(unsigned int placed_index,
-                                          square placed_on,
-                                          void (*go_on)(void))
+                                   square placed_on,
+                                   void (*go_on)(void))
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);

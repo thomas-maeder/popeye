@@ -13,7 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-static unsigned int index_guarder;
+/* index of guarding piece currently being placed */
+unsigned int index_of_guarding_piece;
 
 guard_dir_struct GuardDir[5][maxsquare+4];
 
@@ -277,8 +278,12 @@ static void fix_white_king_on_diagram_square(void)
  */
 static void guarding_done(void)
 {
+  unsigned int const save_index_of_guarding_piece = index_of_guarding_piece;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  index_of_guarding_piece = UINT_MAX;
 
   if (white[index_of_king].usage==piece_is_unused
       && white[index_of_king].diagram_square!=square_e1
@@ -287,29 +292,28 @@ static void guarding_done(void)
   else
     intelligent_find_and_block_flights();
 
+  index_of_guarding_piece = save_index_of_guarding_piece;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* place a (promoted or original) queen in opposition to the black king
- * @param index_of_queen identifies the queen
  * @param guard_from from what square should the queen guard
  */
-static void place_queen_opposition(unsigned int index_of_queen,
-                                   square guard_from)
+static void place_queen_opposition(square guard_from)
 {
   square const to_be_intercepted = (king_square[Black]+guard_from)/2;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_queen);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  SetPiece(db,guard_from,white[index_of_queen].flags);
+  SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
   if (e[to_be_intercepted]==vide)
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
-    intercept_check_on_guarded_square(index_of_queen,to_be_intercepted);
+    intercept_check_on_guarded_square(to_be_intercepted);
     intelligent_intercept_orthogonal_check_by_pin(to_be_intercepted);
     e[to_be_intercepted]= vide;
     spec[to_be_intercepted]= EmptySpec;
@@ -323,16 +327,12 @@ static void place_queen_opposition(unsigned int index_of_queen,
 }
 
 /* place a (promoted or original) rider
- * @param index_of_rider identifies the rider
  * @param rider_type type of rider
  * @param guard_from from what square should the rider guard
  */
-static void place_rider(unsigned int index_of_rider,
-                        piece rider_type,
-                        square guard_from)
+static void place_rider(piece rider_type, square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_rider);
   TracePiece(rider_type);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
@@ -350,12 +350,12 @@ static void place_rider(unsigned int index_of_rider,
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
         if (e[guarded]>=vide)
         {
-          SetPiece(rider_type,guard_from,white[index_of_rider].flags);
+          SetPiece(rider_type,guard_from,white[index_of_guarding_piece].flags);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
               && e[guarded]==vide)
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
-            intercept_check_on_guarded_square(index_of_rider,guarded);
+            intercept_check_on_guarded_square(guarded);
           }
           else
             intelligent_continue_guarding_flights();
@@ -368,13 +368,13 @@ static void place_rider(unsigned int index_of_rider,
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
         if (e[guarded]>=vide && is_line_empty(guard_from,guarded,dir))
         {
-          SetPiece(rider_type,guard_from,white[index_of_rider].flags);
+          SetPiece(rider_type,guard_from,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
           if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
               && e[guarded]==vide)
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
-            intercept_check_on_guarded_square(index_of_rider,guarded);
+            intercept_check_on_guarded_square(guarded);
           }
           else
             intelligent_continue_guarding_flights();
@@ -390,19 +390,17 @@ static void place_rider(unsigned int index_of_rider,
 }
 
 /* place a (promoted or original) knight
- * @param index_of_knight identifies the knight
  * @param guard_from from what square should the knight guard
  */
-static void place_knight(unsigned int index_of_knight, square guard_from)
+static void place_knight(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_knight);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
   if (GuardDir[Knight-Pawn][guard_from].dir==guard_dir_guard_uninterceptable)
   {
-    SetPiece(cb,guard_from,white[index_of_knight].flags);
+    SetPiece(cb,guard_from,white[index_of_guarding_piece].flags);
     intelligent_continue_guarding_flights();
   }
 
@@ -411,16 +409,14 @@ static void place_knight(unsigned int index_of_knight, square guard_from)
 }
 
 /* guard king flights with an unpromoted pawn
- * @param index_of_pawn identifies the pawn
  * @param guard_from from what square should the pawn guard
  */
-static void unpromoted_pawn(unsigned int index_of_pawn, square guard_from)
+static void unpromoted_pawn(square guard_from)
 {
-  Flags const pawn_flags = white[index_of_pawn].flags;
-  square const starts_from = white[index_of_pawn].diagram_square;
+  Flags const pawn_flags = white[index_of_guarding_piece].flags;
+  square const starts_from = white[index_of_guarding_piece].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_pawn);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -441,13 +437,11 @@ static void unpromoted_pawn(unsigned int index_of_pawn, square guard_from)
 }
 
 /* guard king flights with a promoted queen
- * @param index_of_queen identifies the queen
  * @param guard_from from what square should the queen guard
  */
-static void promoted_queen(unsigned int index_of_queen, square guard_from)
+static void promoted_queen(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_queen);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -459,33 +453,33 @@ static void promoted_queen(unsigned int index_of_queen, square guard_from)
       break;
 
     case 4+0: /* e.g. Ka2 Qc2 */
-      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                  db,
                                                                  guard_from))
       {
-        place_queen_opposition(index_of_queen,guard_from);
+        place_queen_opposition(guard_from);
         intelligent_unreserve();
       }
       break;
 
     case 4+1: /* e.g. Ka2 Qc3 - no lines to be kept open */
     case 9+1: /* e.g. Ka2 Qd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                  db,
                                                                  guard_from))
       {
-        SetPiece(db,guard_from,white[index_of_queen].flags);
+        SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                  db,
                                                                  guard_from))
       {
-        place_rider(index_of_queen,db,guard_from);
+        place_rider(db,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -496,13 +490,11 @@ static void promoted_queen(unsigned int index_of_queen, square guard_from)
 }
 
 /* guard king flights with a rook
- * @param index_of_rook identifies the rook
  * @param guard_from from what square should the rook guard
  */
-static void promoted_rook(unsigned int index_of_rook, square guard_from)
+static void promoted_rook(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_rook);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -513,22 +505,22 @@ static void promoted_rook(unsigned int index_of_rook, square guard_from)
       break;
 
     case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_rook].diagram_square,
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                  tb,
                                                                  guard_from))
       {
-        SetPiece(tb,guard_from,white[index_of_rook].flags);
+        SetPiece(tb,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_rook].diagram_square,
+      if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                  tb,
                                                                  guard_from))
       {
-        place_rider(index_of_rook,tb,guard_from);
+        place_rider(tb,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -539,15 +531,13 @@ static void promoted_rook(unsigned int index_of_rook, square guard_from)
 }
 
 /* guard king flights with a promoted bishop
- * @param index_of_bishop identifies the bishop
  * @param guard_from from what square should the bishop guard
  */
-static void promoted_bishop(unsigned int index_of_bishop, square guard_from)
+static void promoted_bishop(square guard_from)
 {
   int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_bishop);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -555,17 +545,17 @@ static void promoted_bishop(unsigned int index_of_bishop, square guard_from)
   {
     /* uninterceptable check */
   }
-  else if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_bishop].diagram_square,
+  else if (intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                   fb,
                                                                   guard_from))
   {
     if (diff<=2+2)
     {
-      SetPiece(fb,guard_from,white[index_of_bishop].flags);
+      SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
-      place_rider(index_of_bishop,fb,guard_from);
+      place_rider(fb,guard_from);
 
     intelligent_unreserve();
   }
@@ -575,22 +565,20 @@ static void promoted_bishop(unsigned int index_of_bishop, square guard_from)
 }
 
 /* guard king flights with a promoted knight
- * @param index_of_knight identifies the knight
  * @param guard_from from what square should the knight guard
  */
-static void promoted_knight(unsigned int index_of_knight, square guard_from)
+static void promoted_knight(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_knight);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
   if (CheckDir[Knight][king_square[Black]-guard_from]==0
-      && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_knight].diagram_square,
+      && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                 cb,
                                                                 guard_from))
   {
-    place_knight(index_of_knight,guard_from);
+    place_knight(guard_from);
     intelligent_unreserve();
   }
 
@@ -599,17 +587,15 @@ static void promoted_knight(unsigned int index_of_knight, square guard_from)
 }
 
 /* guard king flights with a promoted pawn
- * @param index_of_pawn identifies the pawn
  * @param guard_from from what square should the promotee guard
  */
-static void promoted_pawn(unsigned int index_of_pawn, square guard_from)
+static void promoted_pawn(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_pawn);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_pawn,
+  if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_guarding_piece,
                                                                 guard_from))
   {
     piece pp;
@@ -617,19 +603,19 @@ static void promoted_pawn(unsigned int index_of_pawn, square guard_from)
       switch (pp)
       {
         case db:
-          promoted_queen(index_of_pawn,guard_from);
+          promoted_queen(guard_from);
           break;
 
         case tb:
-          promoted_rook(index_of_pawn,guard_from);
+          promoted_rook(guard_from);
           break;
 
         case fb:
-          promoted_bishop(index_of_pawn,guard_from);
+          promoted_bishop(guard_from);
           break;
 
         case cb:
-          promoted_knight(index_of_pawn,guard_from);
+          promoted_knight(guard_from);
           break;
 
         default:
@@ -643,13 +629,11 @@ static void promoted_pawn(unsigned int index_of_pawn, square guard_from)
 }
 
 /* guard king flights with a queen
- * @param index_of_queen identifies the queen
  * @param guard_from from what square should the queen guard
  */
-static void queen(unsigned int index_of_queen, square guard_from)
+static void queen(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_queen);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -661,33 +645,33 @@ static void queen(unsigned int index_of_queen, square guard_from)
       break;
 
     case 4+0: /* e.g. Ka2 Qc2 */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                     db,
                                                     guard_from))
       {
-        place_queen_opposition(index_of_queen,guard_from);
+        place_queen_opposition(guard_from);
         intelligent_unreserve();
       }
       break;
 
     case 4+1: /* e.g. Ka2 Qc3 - no lines to be kept open */
     case 9+1: /* e.g. Ka2 Qd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                     db,
                                                     guard_from))
       {
-        SetPiece(db,guard_from,white[index_of_queen].flags);
+        SetPiece(db,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_queen].diagram_square,
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                     db,
                                                     guard_from))
       {
-        place_rider(index_of_queen,db,guard_from);
+        place_rider(db,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -698,13 +682,11 @@ static void queen(unsigned int index_of_queen, square guard_from)
 }
 
 /* guard king flights with a rook
- * @param index_of_rook identifies the rook
  * @param guard_from from what square should the rook guard
  */
-static void rook(unsigned int index_of_rook, square guard_from)
+static void rook(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_rook);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -715,22 +697,22 @@ static void rook(unsigned int index_of_rook, square guard_from)
       break;
 
     case 1+1: /* e.g. Kc2 Rd3 - 2 guard lines, only 1 needs to remain open */
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_rook].diagram_square,
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                     tb,
                                                     guard_from))
       {
-        SetPiece(tb,guard_from,white[index_of_rook].flags);
+        SetPiece(tb,guard_from,white[index_of_guarding_piece].flags);
         intelligent_continue_guarding_flights();
         intelligent_unreserve();
       }
       break;
 
     default:
-      if (intelligent_reserve_officer_moves_from_to(white[index_of_rook].diagram_square,
+      if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                     tb,
                                                     guard_from))
       {
-        place_rider(index_of_rook,tb,guard_from);
+        place_rider(tb,guard_from);
         intelligent_unreserve();
       }
       break;
@@ -741,15 +723,13 @@ static void rook(unsigned int index_of_rook, square guard_from)
 }
 
 /* guard king flights with a bishop
- * @param index_of_rider identifies the bishop
  * @param guard_from from what square should the bishop guard
  */
-static void bishop(unsigned int index_of_bishop, square guard_from)
+static void bishop(square guard_from)
 {
   int const diff = move_diff_code[abs(king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_bishop);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -757,17 +737,17 @@ static void bishop(unsigned int index_of_bishop, square guard_from)
   {
     /* uninterceptable check */
   }
-  else if (intelligent_reserve_officer_moves_from_to(white[index_of_bishop].diagram_square,
+  else if (intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                      fb,
                                                      guard_from))
   {
     if (diff<=2+2)
     {
-      SetPiece(fb,guard_from,white[index_of_bishop].flags);
+      SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
     }
     else
-      place_rider(index_of_bishop,fb,guard_from);
+      place_rider(fb,guard_from);
 
     intelligent_unreserve();
   }
@@ -777,22 +757,20 @@ static void bishop(unsigned int index_of_bishop, square guard_from)
 }
 
 /* guard king flights with a white knight
- * @param index_of_knight identifies the knight
  * @param guard_from from what square should the knight guard
  */
-static void knight(unsigned int index_of_knight, square guard_from)
+static void knight(square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",index_of_knight);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
   if (CheckDir[Knight][king_square[Black]-guard_from]==0
-      && intelligent_reserve_officer_moves_from_to(white[index_of_knight].diagram_square,
+      && intelligent_reserve_officer_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                    cb,
                                                    guard_from))
   {
-    place_knight(index_of_knight,guard_from);
+    place_knight(guard_from);
     intelligent_unreserve();
   }
 
@@ -800,38 +778,37 @@ static void knight(unsigned int index_of_knight, square guard_from)
   TraceFunctionResultEnd();
 }
 
-static void guard_next_flight_with(unsigned int index_guarder)
+static void guard_next_flight(void)
 {
   square const *bnp;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",index_guarder);
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
     if (e[*bnp]==vide && nr_reasons_for_staying_empty[*bnp]==0)
     {
-      switch (white[index_guarder].type)
+      switch (white[index_of_guarding_piece].type)
       {
         case db:
-          queen(index_guarder,*bnp);
+          queen(*bnp);
           break;
 
         case tb:
-          rook(index_guarder,*bnp);
+          rook(*bnp);
           break;
 
         case fb:
-          bishop(index_guarder,*bnp);
+          bishop(*bnp);
           break;
 
         case cb:
-          knight(index_guarder,*bnp);
+          knight(*bnp);
           break;
 
         case pb:
-          unpromoted_pawn(index_guarder,*bnp);
-          promoted_pawn(index_guarder,*bnp);
+          unpromoted_pawn(*bnp);
+          promoted_pawn(*bnp);
           break;
 
         default:
@@ -857,17 +834,17 @@ void intelligent_continue_guarding_flights(void)
   {
     if (intelligent_reserve_masses(White,1))
     {
-      unsigned int const save_index_guarder = index_guarder;
+      unsigned int const save_index_guarder = index_of_guarding_piece;
 
-      for (++index_guarder; index_guarder<MaxPiece[White]; ++index_guarder)
-        if (white[index_guarder].usage==piece_is_unused)
+      for (++index_of_guarding_piece; index_of_guarding_piece<MaxPiece[White]; ++index_of_guarding_piece)
+        if (white[index_of_guarding_piece].usage==piece_is_unused)
         {
-          white[index_guarder].usage = piece_guards;
-          guard_next_flight_with(index_guarder);
-          white[index_guarder].usage = piece_is_unused;
+          white[index_of_guarding_piece].usage = piece_guards;
+          guard_next_flight();
+          white[index_of_guarding_piece].usage = piece_is_unused;
         }
 
-      index_guarder = save_index_guarder;
+      index_of_guarding_piece = save_index_guarder;
 
       intelligent_unreserve();
     }
