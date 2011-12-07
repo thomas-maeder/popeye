@@ -396,10 +396,10 @@ a)
 
   1.Kd4-d3   2.Kd3-c2   3.Kc2-b1   4.Kb1-a1 Da3-c1 # 
 
-              empile:       23854
-            jouecoup:       21619
+              empile:       24090
+            jouecoup:       21855
         orig_rbechec:         209
-        orig_rnechec:       18869
+        orig_rnechec:       19105
 b)  -sTa2
 
   1.Kd4-d5   2.Kd5-c6   3.Kc6-b7   4.Kb7-a8 Da3*a6 # 
@@ -1886,10 +1886,10 @@ a)
   1.Kd5-e6 e7-e8=L   2.Ld4-e5 Dd1-d7 # 
   1.Kd5-e6 e7-e8=T +   2.Ke6-f7 Dd1-h5 # 
 
-              empile:      151680
-            jouecoup:      147313
+              empile:      152095
+            jouecoup:      147707
         orig_rbechec:        2991
-        orig_rnechec:       62919
+        orig_rnechec:       63313
 b) Drehung 180
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 # 
@@ -1897,10 +1897,10 @@ b) Drehung 180
   1.Sc4-e3 d2*e3   2.Ke4-f5 De8-g6 # 
   1.Ke4-f5 d2-d4   2.Le5-f4 De8-g6 # 
 
-              empile:       33036
-            jouecoup:       30325
+              empile:       33165
+            jouecoup:       30430
         orig_rbechec:         522
-        orig_rnechec:       19826
+        orig_rnechec:       19931
 Loesung beendet. 
 
 
@@ -1950,26 +1950,26 @@ c)  -wBe7  +wLe8
 
   1.Tb6-f6 d7-d8=D   2.Kf5-e6 Dd8-d7 # 
 
-              empile:       13854
-            jouecoup:       11631
+              empile:       13884
+            jouecoup:       11657
         orig_rbechec:          42
-        orig_rnechec:       10734
+        orig_rnechec:       10760
 d)  -wBe7  +wTe8 
 
   1.Kf5-f6 d7-d8=D +   2.Kf6-f7 Dd8-e7 # 
 
-              empile:       20314
-            jouecoup:       17416
+              empile:       20389
+            jouecoup:       17489
         orig_rbechec:          66
-        orig_rnechec:       16060
+        orig_rnechec:       16133
 e)  -wBe7  +wDe8 
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D # 
 
-              empile:       61298
-            jouecoup:       58343
+              empile:       61868
+            jouecoup:       58847
         orig_rbechec:         832
-        orig_rnechec:       29856
+        orig_rnechec:       30360
 Loesung beendet. 
 
 

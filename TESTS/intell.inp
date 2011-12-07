@@ -56,4 +56,13 @@ pieces white kf5 qc3 be4 sh6
 stipulation h#0.5
 option intelligent
 
+next
+
+title in mate stipulations, it makes sense to pin a queen or rook by a
+title guarding queen
+pieces white qc1 sc5
+       black ke1 qd1 bf1 pe2
+stipulation h#0.5
+option intelligent nowk
+
 end

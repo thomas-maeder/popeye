@@ -1203,10 +1203,10 @@ Loesung beendet.
 
   1.Sa3-c4 Sb1-a3   2.Sc4*e5 Sa3-c4   3.Se5*g6 Sc4-e5 # 
 
-              empile:     3722684
-            jouecoup:     3996540
-        orig_rbechec:      203889
-        orig_rnechec:      943149
+              empile:     3738420
+            jouecoup:     4012194
+        orig_rbechec:      204771
+        orig_rnechec:      952520
 Loesung beendet. 
 
 
@@ -1468,10 +1468,10 @@ Loesung beendet.
 
   1...Ld6-b8   2.Kc3-d4 Kb7-c7   3.Kd4-e5 Kc7-d8 +   4.Ke5-e6 Lb8-g3   5.h4-h3 f2-f4   6.Ke6-d6 f4-f5 # 
 
-              empile:     7298870
-            jouecoup:     6947293
+              empile:     7302724
+            jouecoup:     6949461
         orig_rbechec:      605175
-        orig_rnechec:     1604255
+        orig_rnechec:     1606423
 Loesung beendet. 
 
 
@@ -1793,10 +1793,10 @@ a)
 
   1.Sb5-d4 Ld3-c2   2.De4-d3 Tg4-e4   3.Kf5*e4 Lc2*d3 # 
 
-              empile:      789687
-            jouecoup:      691600
+              empile:      789735
+            jouecoup:      691648
         orig_rbechec:       18366
-        orig_rnechec:      364425
+        orig_rnechec:      364473
 b) sKf5-->d4
 
   1.Sd6-f5 Tg4-h4   2.De4-g4 Ld3-e4   3.Kd4*e4 Th4*g4 # 
@@ -3842,10 +3842,10 @@ Loesung beendet.
   1.Kd5-c4 Td8*d6   2.Le6-d5 Td6*d5   3.De7-b4 e2*d3 # 
   1.Kd5-d4 Lg8*e6   2.Td6-d5 Le6*d5   3.De7-c5 e2-e3 # 
 
-              empile:     4419738
-            jouecoup:     4341688
-        orig_rbechec:      102481
-        orig_rnechec:      705615
+              empile:     4439233
+            jouecoup:     4360800
+        orig_rbechec:      102732
+        orig_rnechec:      713870
 Loesung beendet. 
 
 
@@ -3979,10 +3979,10 @@ Loesung beendet.
 
   1.Kb5-c6 h7-h8=S   2.Kc6-d7 f7-f8=S +   3.Kd7-e7 g7-g8=S # 
 
-              empile:     1598911
-            jouecoup:     1727931
+              empile:     1601840
+            jouecoup:     1730086
         orig_rbechec:       30349
-        orig_rnechec:      577181
+        orig_rnechec:      579336
 Loesung beendet. 
 
 

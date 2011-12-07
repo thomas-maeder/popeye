@@ -229,3 +229,37 @@ guard with check -> selfpin with check -> selfpin with guard by b
 solution finished. 
 
 
+
+in mate stipulations, it makes sense to pin a queen or rook by a
+            guarding queen
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   S   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   Q  -Q  -K  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                       2 + 4
+
+  1...Sc5-d3 # 
+
+              empile:         109
+            jouecoup:         101
+        orig_rbechec:           0
+        orig_rnechec:         100
+solution finished. 
+
+

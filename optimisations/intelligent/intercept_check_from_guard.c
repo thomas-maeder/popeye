@@ -268,8 +268,6 @@ static void place_promoted_black_pawn(square placed_on,
       {
         case dn:
         case tn:
-          break;
-
         case fn:
           intelligent_place_pinned_promoted_black_rider(placed_index,
                                                         fn,
@@ -314,8 +312,6 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
         {
           case dn:
           case tn:
-            break;
-
           case fn:
             intelligent_place_pinned_black_rider(placed_index,
                                                  placed_on,
