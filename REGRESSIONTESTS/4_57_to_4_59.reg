@@ -1,0 +1,36 @@
+
+option maxsolutions didn't work in "battle play" in 4.57
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .  -K   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          2 + 1
+
+   1.f7-f8=R ! zugzwang.
+      1...Kh7-h6
+          2.Rf8-h8 #
+
+
+              empile:         130
+            jouecoup:          94
+        orig_rbechec:          31
+        orig_rnechec:          96
+solution finished. 
+
+

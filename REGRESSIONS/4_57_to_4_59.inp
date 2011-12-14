@@ -1,0 +1,10 @@
+begin
+
+protocol 4_57_to_4_59.reg
+
+title option maxsolutions didn't work in "battle play" in 4.57
+pieces white Kf6 pf7 black Kh7
+stipulation #2
+option variations maxsolutions 5
+
+end

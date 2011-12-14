@@ -2586,9 +2586,6 @@ static Token iterate_twins(Token prev_token)
       if (dealWithMaxtime())
         stip_insert_maxtime_guards(root_slice);
 
-      if (OptFlag[maxsols])
-        stip_insert_maxsolutions_filters(root_slice);
-
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
 
@@ -2618,6 +2615,9 @@ static Token iterate_twins(Token prev_token)
       stip_insert_intro_slices(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      if (OptFlag[maxsols])
+        stip_insert_maxsolutions_filters(root_slice);
 
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !stip_apply_setplay(root_slice))
