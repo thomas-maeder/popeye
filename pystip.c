@@ -696,12 +696,11 @@ static void move_to_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_slice_inserters[] =
 {
-  { STAttackAdapter,     &attack_adapter_make_root  },
-  { STDefenseAdapter,    &defense_adapter_make_root },
-  { STHelpAdapter,       &help_adapter_make_root    },
-  { STAnd,               &binary_make_root          },
-  { STOr,                &binary_make_root          },
-  { STTemporaryHackFork, &move_to_root              }
+  { STAttackAdapter,  &attack_adapter_make_root  },
+  { STDefenseAdapter, &defense_adapter_make_root },
+  { STHelpAdapter,    &help_adapter_make_root    },
+  { STAnd,            &binary_make_root          },
+  { STOr,             &binary_make_root          }
 };
 
 enum
