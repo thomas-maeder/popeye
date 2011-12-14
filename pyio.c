@@ -296,6 +296,7 @@ static void LaTeXStr(char *line)
     default:
       fprintf(LaTeXFile, "%c", *line);
       fflush(LaTeXFile);         /* non-buffered output  FCO */
+      break;
     }
     line++;
   }
@@ -456,11 +457,11 @@ static void WriteConditions(int alignment)
       if (!kobulking[White])
       {
         strcat(CondLine, " Black");
-      } 
+      }
       if (!kobulking[Black])
       {
         strcat(CondLine, " White");
-      } 
+      }
     }
 
     if ( cond == whvault_king || cond == vault_king)
@@ -831,6 +832,7 @@ static void WriteConditions(int alignment)
         else
           strcat(CondLine, CondTab[exact]);
       }
+      break;
     default:
       break;
     }
@@ -1045,6 +1047,7 @@ static char InputLine[LINESIZE];    /* This array contains the input as is */
 static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char SpaceChar[] = " \t\n\r;.,";
+static char LineSpaceChar[] = " \t;.,";
 static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}";
 /* Steingewinn ! */
 /* introductory move */
@@ -1146,96 +1149,129 @@ static int PopInput() {
     return -1;
 }
 
-static char NextChar(void)
+/* advance LastChar to the next input character */
+static void NextChar(void)
 {
-  int ch;
-  static boolean eof= false;
-
-  if ((ch= getc(InputStack[NestLevel])) != -1)
-    return LastChar=ch;
-  else
+  static boolean eof = false;
+  int const ch = getc(InputStack[NestLevel]);
+  if (ch==-1)
   {
     if (eof)
     {
-      if (PopInput() < 0)
+      if (PopInput()<0)
         FtlMsg(EoFbeforeEoP);
-      return NextChar();
+      NextChar();
     }
-    eof= true;
-    return LastChar= ' ';
+    eof = true;
+    LastChar= ' ';
   }
+  else
+    LastChar = ch;
 }
 
-static char *ReadToEndOfLine(void) {
-  char   ch,*p;
+/* read into InputLine until the next end of line */
+static void ReadToEndOfLine(void)
+{
+  char *p = InputLine;
 
-  while (strchr(SpaceChar,ch= NextChar()));
-  *(p= InputLine)= ch;
-  while ((*++p= NextChar()) != '\n');
+  do
+  {
+    NextChar();
+  } while (strchr(LineSpaceChar,LastChar));
+
+  while (LastChar!='\n')
+  {
+    *p++ = LastChar;
+    NextChar();
+  }
+
   if (p >= (InputLine + sizeof(InputLine)))
     FtlMsg(InpLineOverflow);
-  *p= '\0';
-  return InputLine;
+
+  *p = '\0';
 }
 
-static char *ReadNextTokStr(void) {
-  char ch,*p,*t;
+static char *ReadNextTokStr(void)
+{
+  while (strchr(SpaceChar,LastChar))
+    NextChar();
 
-  ch= LastChar;
-  while (strchr(SpaceChar,ch))
-    ch= NextChar();
-  if (strchr(TokenChar,ch)) {
-    p= InputLine;
-    t= TokenLine;
+  if (strchr(TokenChar,LastChar))
+  {
+    char *p = InputLine;
+    char *t = TokenLine;
     do {
-      *p++= ch;
-      /*           *t++= (isupper(ch)?tolower(ch):ch);  */
-      *t++= (isupper((int)ch)?tolower((int)ch):ch);
+      *p++ = LastChar;
+      *t++ = (isupper((int)LastChar) ? tolower((int)LastChar) : LastChar);
+      /* *t++= (isupper(ch)?tolower(ch):ch);  */
       /* EBCDIC support ! HD */
-    } while (strchr(TokenChar,ch= NextChar()));
-    if (p > (InputLine+sizeof(InputLine)))
+      NextChar();
+    } while (strchr(TokenChar,LastChar));
+
+    if (p >= (InputLine+sizeof(InputLine)))
       FtlMsg(InpLineOverflow);
-    *t= *p= '\0';
+
+    *t = '\0';
+    *p = '\0';
+
     return TokenLine;
   }
-  if (strchr(SepraChar,ch)) {
-    while (strchr(SepraChar,NextChar()));
+  else if (strchr(SepraChar,LastChar))
+  {
+    do
+    {
+      NextChar();
+    } while (strchr(SepraChar,LastChar));
     return Sep;
   }
-  IoErrorMsg(WrongChar, ch);
-  LastChar= TokenLine[0]= ' ';
-  TokenLine[1]= '\0';
-  return TokenLine;
+  else
+  {
+    IoErrorMsg(WrongChar,LastChar);
+    LastChar = TokenLine[0]= ' ';
+    TokenLine[1] = '\0';
+    return TokenLine;
+  }
 }
 
 static char *ReadNextCaseSensitiveTokStr(void) {
-  char ch,*p,*t;
+  while (strchr(" \t\n\r;,:",LastChar))  /* SpaceChar minus '.' which can be first char of extended Forsyth */
+    NextChar();
 
-  ch= LastChar;
-  while (strchr(" \t\n\r;,:",ch))  /* SpaceChar minus '.' which can be first char of extended Forsyth */
-    ch= NextChar();
-  if (strchr(TokenChar,ch)) {
-    p= InputLine;
-    t= TokenLine;
+  if (strchr(TokenChar,LastChar))
+  {
+    char *p = InputLine;
+    char *t = TokenLine;
+
     do {
-      *p++= ch;
-      /*           *t++= (isupper(ch)?tolower(ch):ch);  */
-      *t++= ch;
+      *p++ = LastChar;
+      *t++ = LastChar;
+      /* *t++= (isupper(ch)?tolower(ch):ch);  */
       /* EBCDIC support ! HD */
-    } while (strchr(TokenChar,ch= NextChar()));
-    if (p > (InputLine+sizeof(InputLine)))
+      NextChar();
+    } while (strchr(TokenChar,LastChar));
+
+    if (p >= (InputLine+sizeof(InputLine)))
       FtlMsg(InpLineOverflow);
-    *t= *p= '\0';
+
+    *t = '\0';
+    *p = '\0';
     return TokenLine;
   }
-  if (strchr(SepraChar,ch)) {
-    while (strchr(SepraChar,NextChar()));
+  else if (strchr(SepraChar,LastChar))
+  {
+    do
+    {
+      NextChar();
+    } while (strchr(SepraChar,LastChar));
     return Sep;
   }
-  IoErrorMsg(WrongChar, ch);
-  LastChar= TokenLine[0]= ' ';
-  TokenLine[1]= '\0';
-  return TokenLine;
+  else
+  {
+    IoErrorMsg(WrongChar,LastChar);
+    LastChar = TokenLine[0]= ' ';
+    TokenLine[1] = '\0';
+    return TokenLine;
+  }
 }
 
 static boolean sncmp(char *a, char *b)
@@ -1446,7 +1482,8 @@ static char *ParseLaTeXPieces(char *tok) {
       }
       LaTeXPiecesAbbr[Name][i]= tok[i];
 
-      tok = ReadToEndOfLine();
+      ReadToEndOfLine();
+      tok = InputLine;
       LaTeXPiecesFull[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       strcpy(LaTeXPiecesFull[Name], tok);
 
@@ -1536,15 +1573,17 @@ static char *ParseSquareList(char *tok,
       SquareCnt++;
       continue;
     }
-    if (SquareCnt) {
-      if (*tok || (echo == 1 && SquareCnt != 1)) {
+    if (SquareCnt)
+    {
+      if (*tok || (echo == 1 && SquareCnt != 1))
         ErrorMsg(WrongSquareList);
-      }
-      return ReadNextTokStr();
+      break;
     }
     ErrorMsg(MissngSquareList);
     tok = ReadNextTokStr();
   }
+
+  return ReadNextTokStr();
 }
 
 static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam) {
@@ -1608,7 +1647,7 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
     }
     if (Name >= King) {
       if (l >= 3 && !strchr("12345678",tok[1]))
-        return btok;
+        break;
       /* We return here not the next tokenstring
       ** since this string is not a Men/Squarelist
       ** and therefore deserves processing by
@@ -1623,13 +1662,16 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
     else if (hunterseppos!=0)
       tok = ReadNextTokStr();
     else
-      if (NameCnt > 0)
+      if (NameCnt>0)
         return btok;
-      else {
+      else
+      {
         IoErrorMsg(WrongPieceName,0);
         tok = ReadNextTokStr();
       }
   }
+
+  return btok;
 }
 
 static square NextSquare(square sq)
@@ -1785,11 +1827,13 @@ static char *ParsePieSpec(char echo)
     else
     {
       if (SpecCnt)
-        return tok;
+        break;
       IoErrorMsg(NoColorSpec,0);
       tok = ReadNextTokStr();
     }
   }
+
+  return tok;
 }
 /* map input strings to goals */
 typedef struct
@@ -4600,7 +4644,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     }
     else if (group == gpColour)
     {
-      if (type == WhiteOnly) 
+      if (type == WhiteOnly)
         is_variant_set[Black] = false;
       if (type == BlackOnly)
         is_variant_set[White] = false;
@@ -6586,25 +6630,29 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case Author:
-            strcat(ActAuthor,ReadToEndOfLine());
+            ReadToEndOfLine();
+            strcat(ActAuthor,InputLine);
             strcat(ActAuthor,"\n");
             tok = ReadNextTokStr();
             break;
 
           case Award:
-            strcpy(ActAward,ReadToEndOfLine());
+            ReadToEndOfLine();
+            strcpy(ActAward,InputLine);
             strcat(ActAward, "\n");
             tok = ReadNextTokStr();
             break;
 
           case Origin:
-            strcat(ActOrigin,ReadToEndOfLine());
+            ReadToEndOfLine();
+            strcat(ActOrigin,InputLine);
             strcat(ActOrigin,"\n");
             tok = ReadNextTokStr();
             break;
 
           case TitleToken:
-            strcat(ActTitle,ReadToEndOfLine());
+            ReadToEndOfLine();
+            strcat(ActTitle,InputLine);
             strcat(ActTitle,"\n");
             tok = ReadNextTokStr();
             break;
@@ -6622,6 +6670,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case RemToken:
+            fprintf(stdout,"%u\n",(unsigned int)LastChar);
             if (LastChar != '\n')
             {
               ReadToEndOfLine();
@@ -6636,7 +6685,8 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case InputToken:
-            PushInput(ReadToEndOfLine());
+            ReadToEndOfLine();
+            PushInput(InputLine);
             tok = ReadNextTokStr();
             break;
 
@@ -6644,7 +6694,8 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             if (TraceFile!=NULL)
               fclose(TraceFile);
 
-            TraceFile = fopen(ReadToEndOfLine(),open_mode);
+            ReadToEndOfLine();
+            TraceFile = fopen(InputLine,open_mode);
             if (TraceFile==NULL)
               IoErrorMsg(WrOpenError,0);
             else if (!flag_regression)
@@ -6668,7 +6719,8 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
               fclose(LaTeXFile);
             }
 
-            LaTeXFile= fopen(ReadToEndOfLine(),open_mode);
+            ReadToEndOfLine();
+            LaTeXFile= fopen(InputLine,open_mode);
             if (LaTeXFile==NULL)
             {
               IoErrorMsg(WrOpenError,0);
