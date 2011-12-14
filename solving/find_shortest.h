@@ -9,12 +9,9 @@
  */
 
 /* Allocate a STFindShortest slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_find_shortest_slice(stip_length_type length,
-                                      stip_length_type min_length);
+slice_index alloc_find_shortest_slice(void);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -41,9 +38,9 @@ stip_length_type find_shortest_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type find_shortest_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable);
+stip_length_type find_shortest_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index

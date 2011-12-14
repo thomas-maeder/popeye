@@ -65,11 +65,11 @@ solving/king_move_generator.h:
 
 trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
- stipulation/branch.h trace.h
+ pypipe.h trace.h
 
 solving/find_shortest.h:
 
-stipulation/branch.h:
+pypipe.h:
 
 trace.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \

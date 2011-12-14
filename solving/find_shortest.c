@@ -1,25 +1,20 @@
 #include "solving/find_shortest.h"
-#include "stipulation/branch.h"
+#include "pypipe.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STFindShortest slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_find_shortest_slice(stip_length_type length,
-                                      stip_length_type min_length)
+slice_index alloc_find_shortest_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STFindShortest,length,min_length);
+  result = alloc_pipe(STFindShortest);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -80,9 +75,9 @@ stip_length_type find_shortest_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type find_shortest_solve_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type find_shortest_attack(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
@@ -123,7 +118,7 @@ stip_length_type find_shortest_solve_in_n(slice_index si,
  */
 stip_length_type find_shortest_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = slices[si].u.branch.min_length;
+  stip_length_type result = slack_length_help+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -155,7 +150,7 @@ stip_length_type find_shortest_help(slice_index si, stip_length_type n)
  */
 stip_length_type find_shortest_can_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = slices[si].u.branch.min_length;
+  stip_length_type result = slack_length_help+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

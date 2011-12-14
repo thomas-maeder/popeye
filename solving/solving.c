@@ -62,7 +62,7 @@ static void battle_insert_find_shortest(slice_index si)
   {
     slice_index const defense = branch_find_slice(STReadyForDefense,si);
     slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-    slice_index const proto = alloc_find_shortest_slice(length,min_length);
+    slice_index const proto = alloc_find_shortest_slice();
     assert(defense!=no_slice);
     assert(attack!=no_slice);
     battle_branch_insert_slices(attack,&proto,1);
@@ -260,8 +260,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
     {
       if (st->context==stip_traversal_context_global)
       {
-        slice_index const prototype =
-            alloc_find_shortest_slice(length,min_length);
+        slice_index const prototype = alloc_find_shortest_slice();
         help_branch_insert_slices(si,&prototype,1);
       }
     }

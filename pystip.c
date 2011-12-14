@@ -151,7 +151,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_branch, /* STMinLengthGuard */
   slice_structure_binary, /* STForkOnRemaining */
-  slice_structure_branch, /* STFindShortest */
+  slice_structure_pipe,   /* STFindShortest */
   slice_structure_branch, /* STFindByIncreasingLength */
   slice_structure_pipe,   /* STGeneratingMoves */
   slice_structure_pipe,   /* STMoveGenerator */

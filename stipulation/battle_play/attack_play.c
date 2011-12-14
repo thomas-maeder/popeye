@@ -302,7 +302,7 @@ stip_length_type attack(slice_index si,
 
     case STFindShortest:
     case STDegenerateTree:
-      result = find_shortest_solve_in_n(si,n,n_max_unsolvable);
+      result = find_shortest_attack(si,n,n_max_unsolvable);
       break;
 
     case STMoveGenerator:
