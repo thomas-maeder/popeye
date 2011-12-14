@@ -258,7 +258,7 @@ Kommandos:
 	SpiegelCouscousCirce
 	SchwarzesKoeniglichesFeld
 	WeissesKoeniglichesFeld
-	CirceAssassin
+	AssassinCirce
 	PlusSchach
 	BrunnerSchach
 	ZentralSchach
