@@ -267,7 +267,7 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
-  if (check_from>=square_a2 && check_from<=square_h7 && e[check_from]==vide
+  if (check_from>=square_a2 && check_from<=square_h7
       && GuardDir[Pawn-Pawn][check_from].dir==guard_dir_check_uninterceptable
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
