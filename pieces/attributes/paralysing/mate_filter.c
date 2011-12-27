@@ -48,10 +48,6 @@ has_solution_type paralysing_mate_filter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-//  if (!suffocated_by_paralysis(mated))
-//    result = slice_has_solution(next);
-//  else
-//    result = has_no_solution;
   result = slice_has_solution(next);
   if (result==has_solution && suffocated_by_paralysis(mated))
     result = has_no_solution;

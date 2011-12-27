@@ -138,7 +138,7 @@ enum
   file_e = square_e1-square_a1,
   file_f = square_f1-square_a1,
   file_g = square_g1-square_a1,
-  file_h = square_h1-square_a1,
+  file_h = square_h1-square_a1
 };
 
 typedef enum
