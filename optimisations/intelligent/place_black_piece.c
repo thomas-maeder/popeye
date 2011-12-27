@@ -109,8 +109,6 @@ static rider_placement_stack_elmt_type const *stack_top = 0;
 static void rider_placed(void)
 {
   rider_placement_stack_elmt_type const * const save_top = stack_top;
-  int const check_diff = king_square[White]-save_top->placed_on;
-  int const check_dir = CheckDir[-e[save_top->placed_on]][check_diff];
 
   TraceFunctionEntry(__func__);
   TraceSquare(stack_top->placed_on);
@@ -118,12 +116,19 @@ static void rider_placed(void)
 
   stack_top = stack_top->next;
 
-  assert(check_dir!=check_diff);
-  if (check_dir!=0
-      && is_line_empty(save_top->placed_on,king_square[White],check_dir))
-    intelligent_intercept_check_by_black(check_dir,save_top->go_on);
-  else
+  if (king_square[White]==initsquare)
     (*save_top->go_on)();
+  else
+  {
+    int const check_diff = king_square[White]-save_top->placed_on;
+    int const check_dir = CheckDir[-e[save_top->placed_on]][check_diff];
+    assert(check_dir!=check_diff);
+    if (check_dir!=0
+        && is_line_empty(save_top->placed_on,king_square[White],check_dir))
+      intelligent_intercept_check_by_black(check_dir,save_top->go_on);
+    else
+      (*save_top->go_on)();
+  }
 
   assert(stack_top==save_top->next);
   stack_top = save_top;
