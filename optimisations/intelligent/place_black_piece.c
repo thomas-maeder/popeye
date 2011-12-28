@@ -188,7 +188,7 @@ static rider_interception_stack_elmt_type *rider_interception_top = 0;
 static void next_rider_interception(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("0x%p",rider_interception_top);
+  TraceFunctionParam("%p",rider_interception_top);
   TraceFunctionParam("%u",rider_interception_top->next);
   TraceFunctionParam("%u",rider_interception_top->end);
   TraceSquare(rider_interception_top->placed_on);
