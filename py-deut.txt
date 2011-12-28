@@ -622,7 +622,7 @@ Kommandos:
 	Beispiel: sforderung weiss 5s[#]
 
 	In dieser Forderung ist Weiss am Zug. Das Spiel besteht aus
-	einem Aesten, welcher in ein Blatt muendet. Der Ast besteht
+	einem Ast, welcher in ein Blatt muendet. Der Ast besteht
 	aus 5 *S*erienzuegen; im Blatt wird lediglich geprueft, ob
 	eine Mattstellung erreicht worden ist.
 
@@ -655,14 +655,14 @@ Kommandos:
 	Hilfsspiel     hh         5h[=]h          h=2.5
 
 	Die Buchstaben s (Serienzug), a (Angriffszug), d
-	(Verteidigungszug - defense) und h Hilfszug stehen jeweils
+	(Verteidigungszug - defense) und h (Hilfszug) stehen jeweils
 	fuer einen Halbzug.
 
 	Eine a, h or s nachgestelle Gabelung legt fest, was mit dem
 	betreffenden Zug zu erreichen ist, eine d nachgstellte
 	Gabelung, wogegen der Zug verteidigt.
 
-	Beachte: Ein da-Ast ist loesbar, falls die Seite am Zug keine
+	Beachte: Ein da-Ast ist loesbar, falls die Seite am Zug KEINE
 	Widerlegung hat.
 
 
@@ -715,7 +715,7 @@ Kommandos:
 
 	Ein Ausdruck gehoert der selben Gruppe an wie sein(e)
 	Operand(en) und kann somit seinerseits Operand eines Ausdrucks
-	sein, z.B. (als Alternatie zur Drillingsbildung):
+	sein, z.B. (als Alternative zu einer Drillingsbildung):
 
 	3a[#]d | 4hh[#] | 4ad[#]
 
@@ -741,7 +741,7 @@ Kommandos:
         3a[1a[#]d]d{!1a[#]d}   r#2
 
 	Beachte: auch wenn die Einschraenkung auf das d folgt, wird
-	sie vor jedem Angriffszug ueberprueft, auch vor dem ersten! 
+	sie VOR jedem Angriffszug ueberprueft, auch vor dem ersten! 
 	Wenn Weiss also in der Beispielforderung in der
 	Diagrammstellung direkt matt setzen kann, hat die Aufgabe
 	keine Loesung.

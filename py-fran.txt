@@ -604,7 +604,7 @@ simples:
 
 	Dans cette stipulation, les Blancs ont le trait. Le jeu
 	consiste d'une branche de 5 coups de serie. La branche mene a
-	une feuille,dont la seule tache est de verifier si une
+	une feuille, dont la seule tache est de verifier si une
 	position de mate vient d'etre atteinte.
 
 	La definition d'une branche consiste normalement:
@@ -635,14 +635,14 @@ simples:
 	Aide           hh          5h[=]h          h=2.5
 
 	Les lettres s (coup de serie), a (attaque), d (defense) et h
-	(aide - help) representent chacun un demi-coup.
+	(aide - help) representent chacune un demi-coup.
 
 	Une bifurcation qui suit a, h ou s definit le but du coup
 	d'attaque; et une bifurcation qui suit d definit contre quoi
 	on se defend.
 
 	Note: une branche da est soluble quand le camp qui a le trait
-	n'a pas de refutation.
+	n'a PAS de refutation.
 
 
 	Bifurcation menant a une branche
@@ -692,8 +692,8 @@ simples:
 	- attaque  ad hh s
 	- defense  da
 
-	Une expression appartient au meme groupe que son/ses
-	operande(s). Elle peut donc elle-meme etre l'operande d'une
+	Une expression appartient au meme groupe que ses
+	operandes. Elle peut donc elle-meme etre l'operande d'une
 	expression, p.ex. (comme alternative a des jumeaux):
 
 	3a[#]d | 4hh[#] | 4ad[#]
@@ -702,7 +702,7 @@ simples:
 	appartiennent au groupe attaque.
 
 
-	Les operators sont normalement evalues de gauche a droite. Si
+	Les operateurs sont normalement evalues de gauche a droite. Si
 	necessaire, des () peuvent etre utilisees pour definir la
 	precedence correcte, p.ex.
 
@@ -718,13 +718,13 @@ simples:
         3a[1a[#]d]d{!1a[#]d}   r#2
 
 	A noter: meme si la restriction est indiquee apres le d, elle
-	est verifiee avant chaque coup, y inclus le premier! Le
-	probleme n'a donc pas de solution, si la restriction est
+	est verifiee AVANT chaque coup a, y inclus le premier! Le
+	probleme n'a donc pas de solution si la restriction est
 	violee dans la position du diagramme.
 
 	Les deux differences principales entre des branches/feuilles
 	imbriquees et des restrictions sont:
-	- l'exigence defini par une branche ou feuille imbriquee doit
+	- l'exigence definie par une branche ou feuille imbriquee doit
 	  seulement etre remplie a la fin du jeu; une restriction doit
 	  cependant etre remplie chaque fois que le coup respectif est
 	  joue
@@ -747,10 +747,10 @@ simples:
 	3:5s[#]     pas supporte (series de 3 a 5 moves)
 
 
-	Operateur speciaux au debut d'une branche
-	-----------------------------------------
+	Operateurs speciaux au debut d'une branche
+	------------------------------------------
 
-	Les operateurs >, / et - peuvent apparaitre dans cet order au
+	Les operateurs >, / et - peuvent apparaitre dans cet ordre au
 	debut de la defintion de branches.
 
 	> au debut d'une branche de la definition termine le jeu de la
@@ -782,7 +782,7 @@ simples:
 	senonce noir - 5h[/1d[x]a{!+}]h
 
 
-	Le trait peut etre passe a l'autre camp au debug d'une branch
+	Le trait peut etre passe a l'autre camp au debut d'une branche
 	avec l'operateur -.
 
 	Exemples        Synonyms as stipulation

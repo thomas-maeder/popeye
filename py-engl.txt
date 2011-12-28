@@ -613,7 +613,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	consists of the goal (in the example: #) to be reached.
 
 	When changing from a branch to another or to a leaf, the right
-	to move is change. In the example, it is Black to move in the
+	to move is changed. In the example, it is Black to move in the
 	leaf, i.e. the leaf tests whether Black is mate.
 
 	The example is thus a synonym for
@@ -631,13 +631,13 @@ commands expect further parameters. Lets start with the simpler commands:
 	Help play      hh          5h[=]h          h=2.5
 
 	The letters s (series move), a (attacking move), d (defending
-	move) and h (help move) represent a half-move each.
+	move) and h (help move) each represent a half-move.
 
 	A fork following a, h or s defines what the respective move is
 	supposed to reach, and a fork following d what the move
 	defends against.
 
-	Note: a da branch is solvable if the side to move doesn't have
+	Note: a da branch is solvable if the side to move DOES NOT have
 	a refutation.
 
 
@@ -713,7 +713,7 @@ commands expect further parameters. Lets start with the simpler commands:
         3a[1a[#]d]d{!1a[#]d}   r#2
 
 	Note: even if the constraint follows the d, it is enforced
-	before each attacking move (including the first one!). The
+	BEFORE each attacking move (including the first one!). The
 	problem has thus no solution if the constraint is violated in
 	the diagram.
 
