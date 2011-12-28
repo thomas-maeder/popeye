@@ -110,6 +110,11 @@ LIB_SUFFIX=lib.a
 EXE_PLATFORM_MARK=macos
 
 
+# Meta information
+# ----------------
+OSTYPE="MacOS X"
+
+
 # Selector for platform-specific files
 # ====================================
 
