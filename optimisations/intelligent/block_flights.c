@@ -8,6 +8,7 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "solving/king_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -317,7 +318,9 @@ static stip_length_type move_generator_can_help2(slice_index si,
   TraceFunctionParamListEnd();
 
   move_generation_mode = move_generation_not_optimized;
-  genmove(side_at_move);
+  nextply(nbply);
+  trait[nbply] = side_at_move;
+  generate_king_moves(side_at_move);
 //  result = can_help(next,n);
   result = move_can_help2(next,n);
   finply();

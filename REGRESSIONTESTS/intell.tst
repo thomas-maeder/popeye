@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:      144197
-            jouecoup:      119177
+              empile:      143906
+            jouecoup:      119001
         orig_rbechec:        1656
-        orig_rnechec:       86838
+        orig_rnechec:       86662
 solution finished. 
 
 
@@ -189,10 +189,10 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
   1...Rh1-h3 # 
 
-              empile:         635
-            jouecoup:         547
+              empile:         619
+            jouecoup:         531
         orig_rbechec:          31
-        orig_rnechec:         546
+        orig_rnechec:         530
 solution finished. 
 
 
@@ -222,10 +222,10 @@ guard with check -> selfpin with check -> selfpin with guard by b
 
   1...Sh6-g4 # 
 
-              empile:         398
-            jouecoup:         336
+              empile:         390
+            jouecoup:         328
         orig_rbechec:           5
-        orig_rnechec:         335
+        orig_rnechec:         327
 solution finished. 
 
 
@@ -256,10 +256,10 @@ in mate stipulations, it makes sense to pin a queen or rook by a
 
   1...Sc5-d3 # 
 
-              empile:         109
-            jouecoup:         101
+              empile:          99
+            jouecoup:          91
         orig_rbechec:           0
-        orig_rnechec:         100
+        orig_rnechec:          90
 solution finished. 
 
 
