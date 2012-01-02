@@ -220,7 +220,7 @@ intelligent_limit_nr_solutions_per_target_position_can_help(slice_index si,
   result = can_help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -255,7 +255,7 @@ intelligent_limit_nr_solutions_per_target_position_help(slice_index si,
     result = help(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
