@@ -156,48 +156,6 @@ static stip_length_type selfcheck_guard_can_help2(slice_index si,
   return result;
 }
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type stalemate_flight_optimiser_can_help(slice_index si,
-                                                            stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = no_slice;
-//  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (goal_to_be_reached==goal_stale
-      && move_generation_stack[nbcou].departure==king_square[Black])
-  {
-    /* we also need to block the flights that are currently guarded by a
-     * line piece through the king's square - that line is going to be
-     * intercepted in the play, so intercept it here as well */
-    e[move_generation_stack[nbcou].departure] = obs;
-    result = selfcheck_guard_can_help2(next,n);
-//    result = can_help(next,n);
-    e[move_generation_stack[nbcou].departure] = vide;
-  }
-  else
-    result = selfcheck_guard_can_help2(next,n);
-//    result = can_help(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static unsigned int nr_available_blockers;
 
 /* Determine whether the slice has a solution in n half moves.
@@ -221,7 +179,7 @@ static stip_length_type flights_to_be_blocked_finder_can_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = stalemate_flight_optimiser_can_help(next,n);
+  result = selfcheck_guard_can_help2(next,n);
 //    result = can_help(next,n);
   switch (result)
   {
