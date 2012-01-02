@@ -24,6 +24,7 @@ typedef unsigned long trace_level;
 #if defined(DOTRACE)
 
 #include <stddef.h>
+#include <stdio.h>
 
 #include "py.h"
 
@@ -128,6 +129,11 @@ void TraceFunctionResultEnd(void);
  */
 void TraceStipulation(slice_index start_slice);
 
+/* Write the call stack
+ * @param file where to write the call stack
+ */
+void TraceCallStack(FILE *file);
+
 /* Helper functions
  */
 void TraceValueImpl(char const *format, size_t value);
@@ -157,6 +163,7 @@ void TraceEnumeratorImpl(char const *format,
 #define TraceCurrentHashBuffer()
 #define TraceEnumerator(type_name,value,suffix)
 #define TraceStipulation(start_slice)
+#define TraceCallStack(file)
 
 #endif
 

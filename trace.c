@@ -6,8 +6,8 @@
 #include "output/plaintext/plaintext.h"
 
 #include <assert.h>
+#include <ctype.h>
 #include <limits.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,6 +20,26 @@ static unsigned long move_counter;
 trace_level max_level = ULONG_MAX;
 
 static char const *entryNames[1000];
+
+enum
+{
+  entry_length = 1000
+};
+
+static char entries[1000][entry_length];
+static unsigned int entry_cursor[1000];
+
+/* Write the call stack
+ * @param file where to write the call stack
+ */
+void TraceCallStack(FILE *file)
+{
+  unsigned int i;
+  for (i = 0; i<level; ++i)
+    fprintf(file,"%s",entries[i]);
+  fflush(file);
+}
+
 
 void TraceSetMaxLevel(trace_level tl)
 {
@@ -36,6 +56,12 @@ void TraceFunctionEntry(char const *name)
     fflush(stdout);
   }
 
+  entry_cursor[level-1] = snprintf(entries[level-1],
+                                   entry_length,
+                                   "> #%lu %s ",
+                                   level,
+                                   name);
+
   entryNames[level] = name;
 }
 
@@ -43,6 +69,10 @@ void TraceFunctionParamListEnd(void)
 {
   if (level<=max_level)
     fprintf(stdout,"\n");
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "\n");
 }
 
 void TraceFunctionExit(char const *name)
@@ -59,6 +89,12 @@ void TraceFunctionExit(char const *name)
     fflush(stdout);
   }
 
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "< #%lu %s",
+                                    level,
+                                    name);
+
   --level;
 }
 
@@ -69,12 +105,21 @@ void TraceFunctionResultImpl(char const *format, size_t value)
     fprintf(stdout,format,value);
     fflush(stdout);
   }
+
+  entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
+                                  entry_length-entry_cursor[level],
+                                  format,
+                                  value);
 }
 
 void TraceFunctionResultEnd(void)
 {
   if (level<=max_level)
     fprintf(stdout,"\n");
+
+  entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
+                                  entry_length-entry_cursor[level],
+                                  "\n");
 }
 
 void TraceValueImpl(char const *format, size_t value)
@@ -84,6 +129,11 @@ void TraceValueImpl(char const *format, size_t value)
     fprintf(stdout,format,value);
     fflush(stdout);
   }
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    format,
+                                    value);
 }
 
 void TracePointerValueImpl(char const *format, void const *value)
@@ -93,12 +143,23 @@ void TracePointerValueImpl(char const *format, void const *value)
     fprintf(stdout,format,value);
     fflush(stdout);
   }
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    format,
+                                    value);
 }
 
 void TraceText(char const *text)
 {
   if (level<=max_level)
     fprintf(stdout,"  #%lu %s",level,text);
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "  #%lu %s",
+                                    level,
+                                    text);
 }
 
 void TraceEnumeratorImpl(char const *format,
@@ -107,6 +168,12 @@ void TraceEnumeratorImpl(char const *format,
 {
   if (level<=max_level)
     fprintf(stdout,format,enumerator_name,value);
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    format,
+                                    enumerator_name,
+                                    value);
 }
 
 void TraceSquareImpl(char const *prefix, square s)
@@ -121,14 +188,84 @@ void TraceSquareImpl(char const *prefix, square s)
       WriteSquare(s);
     fflush(stdout);
   }
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "%s",
+                                    prefix);
+  if (s==initsquare)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "initsquare");
+  else
+  {
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "%c",
+                                      'a' - nr_files_on_board + s%onerow);
+    if (isBoardReflected)
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "%c",
+                                        '8' + nr_rows_on_board - s/onerow);
+    else
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "%c",
+                                        '1' - nr_rows_on_board + s/onerow);
+  }
+}
+
+static void remember_regular_piece(PieNam pnam)
+{
+  char const p1 = PieceTab[pnam][1];
+
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "%c",
+                                    toupper(PieceTab[pnam][0]));
+  if (p1!=' ')
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "%c",
+                                      toupper(p1));
 }
 
 void TracePieceImpl(char const *prefix, piece p)
 {
+  entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                    entry_length-entry_cursor[level-1],
+                                    "%s",
+                                    prefix);
+  if (p==vide)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "vide");
+  else if (p==obs)
+    entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                      entry_length-entry_cursor[level-1],
+                                      "obs");
+  else
+  {
+    PieNam const pnam = abs(p);
+
+    if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes))
+      remember_regular_piece(pnam);
+    else
+    {
+      unsigned int const i = pnam-Hunter0;
+      assert(i<maxnrhuntertypes);
+      remember_regular_piece(abs(huntertypes[i].away));
+      entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
+                                        entry_length-entry_cursor[level-1],
+                                        "/");
+      remember_regular_piece(abs(huntertypes[i].home));
+    }
+  }
+
   if (level<=max_level)
   {
     fprintf(stdout,"%s",prefix);
-
     if (p==vide)
       printf("vide");
     else if (p==obs)
