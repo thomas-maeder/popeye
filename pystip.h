@@ -118,13 +118,6 @@ typedef struct
             slice_index next;
             output_mode mode;
         } output_mode_selector;
-
-        struct /* intelligent mate solving */
-        {
-            slice_index next;
-            slice_index fork;
-            slice_index goal_tester_fork;
-        } intelligent_mate_filter;
     } u;
 } Slice;
 

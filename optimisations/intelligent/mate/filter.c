@@ -2,11 +2,6 @@
 #include "pyint.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/proxy.h"
-#include "stipulation/help_play/branch.h"
-#include "stipulation/goals/any/reached_tester.h"
-#include "solving/legal_move_finder.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 
@@ -24,20 +19,7 @@ slice_index alloc_intelligent_mate_filter(slice_index goal_tester_fork)
   TraceFunctionParam("%u",goal_tester_fork);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const proxy_branch = alloc_proxy_slice();
-    slice_index const help = alloc_help_branch(slack_length_help+1,
-                                               slack_length_help+1);
-    slice_index const proto = alloc_legal_move_finder_slice();
-    slice_index const proxy_goal = alloc_proxy_slice();
-    slice_index const system = alloc_goal_any_reached_tester_system();
-    link_to_branch(proxy_goal,system);
-    help_branch_set_end_goal(help,proxy_goal,1);
-    branch_insert_slices(proxy_goal,&proto,1);
-    link_to_branch(proxy_branch,help);
-    result = alloc_branch_fork(STIntelligentMateFilter,proxy_branch);
-    slices[result].u.intelligent_mate_filter.goal_tester_fork = goal_tester_fork;
-  }
+  result = alloc_branch_fork(STIntelligentMateFilter,goal_tester_fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

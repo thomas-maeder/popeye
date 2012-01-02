@@ -30,7 +30,6 @@
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/legal_move_counter.h"
-#include "solving/legal_move_finder.h"
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyselfgd.h"
@@ -509,10 +508,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STLegalMoveCounter:
       result = legal_move_counter_has_solution(si);
-      break;
-
-    case STLegalMoveFinder:
-      result = legal_move_finder_has_solution(si);
       break;
 
     default:

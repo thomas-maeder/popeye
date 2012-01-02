@@ -434,8 +434,7 @@ static structure_traversers_visitors const strategy_inserters[] =
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator             },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator    },
   { STMaximummerCandidateMoveTester,          &insert_single_move_generator                   },
-  { STOpponentMovesCounterFork,               &insert_single_move_generator                   },
-  { STIntelligentMateFilter,                  &insert_king_move_generator                     }
+  { STOpponentMovesCounterFork,               &insert_single_move_generator                   }
 };
 
 enum

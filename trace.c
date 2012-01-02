@@ -424,15 +424,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
         break;
 
-      case STIntelligentMateFilter:
-        Trace_pipe(si);
-        Trace_link("fork:",slices[si].u.intelligent_mate_filter.fork,"");
-        Trace_link("tester:",slices[si].u.intelligent_mate_filter.goal_tester_fork,"");
-        fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.intelligent_mate_filter.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.intelligent_mate_filter.fork,done_slices);
-        break;
-
       default:
         switch (slice_get_structural_type(si))
         {

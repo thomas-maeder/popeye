@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/mate/finish.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "solving/legal_move_finder.h"
+#include "pyslice.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/place_white_king.h"
@@ -67,7 +67,7 @@ static boolean exists_redundant_white_piece(void)
       e[sq] = vide;
       spec[sq] = EmptySpec;
 
-      result = slice_has_solution(slices[current_start_slice].u.intelligent_mate_filter.goal_tester_fork)==has_solution;
+      result = slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution;
 
       /* restore piece */
       e[sq] = p;
@@ -87,13 +87,40 @@ static boolean exists_redundant_white_piece(void)
  */
 static square find_king_flight(void)
 {
-  slice_index const finder = slices[current_start_slice].u.intelligent_mate_filter.fork;
-  square result;
+  square result = initsquare;
+  unsigned int i;
 
-  init_legal_move_finder();
-  result = slice_has_solution(finder)==has_solution ? legal_move_finder_arrival : initsquare;
-  fini_legal_move_finder();
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
+  e[king_square[Black]] = vide;
+
+  for (i = vec_queen_start; i<=vec_queen_end && result==initsquare; ++i)
+  {
+    king_square[Black] += vec[i];
+
+    {
+      piece const p = e[king_square[Black]];
+
+      if (p==obs || p<=roin)
+        ; /* 'flight' is off board or blocked - don't bother */
+      else
+      {
+        e[king_square[Black]] = roin;
+        if (!echecc(nbply,Black))
+          result = king_square[Black];
+        e[king_square[Black]] = p;
+      }
+    }
+
+    king_square[Black] -= vec[i];
+  }
+
+  e[king_square[Black]] = roin;
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
   return result;
 }
 
