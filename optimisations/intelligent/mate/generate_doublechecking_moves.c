@@ -215,8 +215,8 @@ static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_chec
 
           case fb:
           case cb:
-              SetPiece(pp,check_from,white[index_of_checker].flags);
-              intelligent_guard_flights();
+            SetPiece(pp,check_from,white[index_of_checker].flags);
+            intelligent_guard_flights();
             break;
 
           default:
