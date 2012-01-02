@@ -549,7 +549,7 @@ static void promoted_bishop(square guard_from)
                                                                   fb,
                                                                   guard_from))
   {
-    if (diff<=2+2)
+    if (diff<=4+0)
     {
       SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
@@ -741,7 +741,7 @@ static void bishop(square guard_from)
                                                      fb,
                                                      guard_from))
   {
-    if (diff<=2+2)
+    if (diff<=4+0)
     {
       SetPiece(fb,guard_from,white[index_of_guarding_piece].flags);
       intelligent_continue_guarding_flights();
