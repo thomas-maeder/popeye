@@ -113,8 +113,7 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/finish.h \
- options/maxsolutions/maxsolutions.h solving/king_move_generator.h \
- trace.h
+ options/maxsolutions/maxsolutions.h trace.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -135,8 +134,6 @@ optimisations/intelligent/place_white_king.h:
 optimisations/intelligent/stalemate/finish.h:
 
 options/maxsolutions/maxsolutions.h:
-
-solving/king_move_generator.h:
 
 trace.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \

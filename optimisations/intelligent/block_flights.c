@@ -8,7 +8,6 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "solving/king_move_generator.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -93,212 +92,56 @@ static void block_planned_flights(void)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type capture_finder_can_help(slice_index si,
-                                                stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (pprise[nbply]==vide)
-    result = n+2;
-  else
-    result = n;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type selfcheck_guard_can_help2(slice_index si,
-                                                  stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = no_slice;
-//  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,Black))
-    result = n+4;
-  else
-    result = capture_finder_can_help(next,n);
-//    result = can_help(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static unsigned int nr_available_blockers;
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type flights_to_be_blocked_finder_can_help(slice_index si,
-                                                              stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = no_slice;
-//  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = selfcheck_guard_can_help2(next,n);
-//    result = can_help(next,n);
-  switch (result)
-  {
-    case slack_length_help+4:
-      /* this 'flight' is guarded */
-      break;
-
-    case slack_length_help+2:
-      if (nr_king_flights_to_be_blocked<nr_available_blockers)
-      {
-        king_flights_to_be_blocked[nr_king_flights_to_be_blocked] = move_generation_stack[nbcou].arrival;
-        ++nr_king_flights_to_be_blocked;
-      }
-      else
-        /* more blocks are required than there are blockers available */
-        result = slack_length_help;
-      break;
-
-    case slack_length_help:
-      /* this flight is occupied by White and therefore can't be blocked */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static unsigned int nr_available_blockers;
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-static stip_length_type move_can_help2(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-  slice_index const next = no_slice;
-//  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  while(encore())
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && flights_to_be_blocked_finder_can_help(next,n-1)==n-1)
-    {
-      result = n;
-      repcoup();
-      break;
-    }
-    else
-      repcoup();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-static stip_length_type move_generator_can_help2(slice_index si,
-                                                 stip_length_type n)
-{
-  stip_length_type result;
-//  Side const side_at_move = slices[si].starter;
-//  slice_index const next = slices[si].u.pipe.next;
-  Side const side_at_move = Black;
-  slice_index const next = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = side_at_move;
-  generate_king_moves(side_at_move);
-//  result = can_help(next,n);
-  result = move_can_help2(next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void plan_blocks_of_flights(void)
 {
+  unsigned int i;
+  unsigned int nr_available_blockers;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
-  if (move_generator_can_help2(no_slice,slack_length_help+1)
-      ==slack_length_help+1)
-    /* at least 1 flight was found that can't be blocked */
-    nr_king_flights_to_be_blocked = MaxPiece[Black];
+
+  e[king_square[Black]] = vide;
+
+  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  {
+    king_square[Black] += vec[i];
+
+    {
+      piece const p = e[king_square[Black]];
+
+      if (p==obs || p<=roin)
+        ; /* 'flight' is off board or blocked - don't bother */
+      else
+      {
+        e[king_square[Black]] = roin;
+
+        if (!echecc(nbply,Black))
+        {
+          if (p>=roib || nr_king_flights_to_be_blocked==nr_available_blockers)
+          {
+            /* flight can't be blocked! */
+            nr_king_flights_to_be_blocked = nr_available_blockers+1;
+            e[king_square[Black]] = p;
+            king_square[Black] -= vec[i];
+            break;
+          }
+          else
+          {
+            king_flights_to_be_blocked[nr_king_flights_to_be_blocked] = king_square[Black];
+            ++nr_king_flights_to_be_blocked;
+          }
+        }
+
+        e[king_square[Black]] = p;
+      }
+    }
+
+    king_square[Black] -= vec[i];
+  }
+
+  e[king_square[Black]] = roin;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
