@@ -24,8 +24,8 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:       35160
-            jouecoup:       36138
+              empile:       34254
+            jouecoup:       35232
         orig_rbechec:        1656
         orig_rnechec:       86662
 solution finished. 
@@ -57,8 +57,8 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
-              empile:         132
-            jouecoup:         126
+              empile:         127
+            jouecoup:         121
         orig_rbechec:           8
         orig_rnechec:        2684
 solution finished. 
@@ -90,8 +90,8 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
-              empile:         314
-            jouecoup:         302
+              empile:         290
+            jouecoup:         278
         orig_rbechec:          23
         orig_rnechec:        6034
 solution finished. 
@@ -123,8 +123,8 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
-              empile:         859
-            jouecoup:         794
+              empile:         746
+            jouecoup:         681
         orig_rbechec:          80
         orig_rnechec:        8636
 solution finished. 
@@ -156,8 +156,8 @@ interception of a defending pawn by a piece that doesn't guard
 
   1.Sc8-b6   2.Bh3-f1 # 
 
-              empile:         125
-            jouecoup:         110
+              empile:         110
+            jouecoup:          95
         orig_rbechec:           0
         orig_rnechec:         282
 solution finished. 
@@ -189,8 +189,8 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
   1...Rh1-h3 # 
 
-              empile:         189
-            jouecoup:         187
+              empile:         125
+            jouecoup:         123
         orig_rbechec:          31
         orig_rnechec:         530
 solution finished. 
@@ -222,8 +222,8 @@ guard with check -> selfpin with check -> selfpin with guard by b
 
   1...Sh6-g4 # 
 
-              empile:          31
-            jouecoup:          32
+              empile:          25
+            jouecoup:          26
         orig_rbechec:           5
         orig_rnechec:         327
 solution finished. 
@@ -256,8 +256,8 @@ in mate stipulations, it makes sense to pin a queen or rook by a
 
   1...Sc5-d3 # 
 
-              empile:          30
-            jouecoup:          30
+              empile:          24
+            jouecoup:          24
         orig_rbechec:           0
         orig_rnechec:          90
 solution finished. 

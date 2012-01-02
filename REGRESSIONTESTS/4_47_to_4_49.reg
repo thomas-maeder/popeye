@@ -429,8 +429,8 @@ solution finished.
 
   1.Bh2-g1   2.h3-h2 Ke2-f1 = 
 
-              empile:         858
-            jouecoup:         819
+              empile:         510
+            jouecoup:         546
         orig_rbechec:          63
         orig_rnechec:         692
 solution finished. 
@@ -463,8 +463,8 @@ intelligent mode bug: did not find mates ...
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
-              empile:         460
-            jouecoup:         282
+              empile:         108
+            jouecoup:         100
         orig_rbechec:          13
         orig_rnechec:         242
 solution finished. 
@@ -500,8 +500,8 @@ option start in intelligent mode
   1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 # 
 15 potential positions in 1+8
 
-              empile:       70389
-            jouecoup:       70390
+              empile:       70092
+            jouecoup:       70101
         orig_rbechec:        4231
         orig_rnechec:        5029
 solution finished. 

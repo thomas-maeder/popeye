@@ -629,8 +629,8 @@ a)
   1.d2-d1=D   2.Dd1*d4   3.Dd4-a1   4.d5-d4   5.d4-d3   6.d3-d2   7.d2-d1=L   8.Ld1-c2   9.Lc2-b1 Lf1-c4 # 
 29 moegliche Stellungen in 1+9
 
-              empile:      637397
-            jouecoup:      643193
+              empile:      637022
+            jouecoup:      642818
         orig_rbechec:      225433
         orig_rnechec:      270557
 b) ser-h=9
@@ -696,8 +696,8 @@ a)
   1.d7-d6   2.d6*c5   3.c5-c4   4.c4-c3   5.c3*d2   6.d2-d1=D   7.Dd1*d4   8.Dd4-a1   9.d5-d4  10.d4-d3  11.d3-d2  12.d2-d1=L  13.Ld1-c2  14.Lc2-b1 Lf1-c4 # 
 131 moegliche Stellungen in 1+14
 
-              empile:      848750
-            jouecoup:      852631
+              empile:      845709
+            jouecoup:      849590
         orig_rbechec:      290219
         orig_rnechec:      391416
 b) ser-h=14
@@ -763,8 +763,8 @@ a)
   1.Ke6-f7   2.e7-e5   3.e5*f4   4.f4-f3   5.f3*e2   6.e2-e1=T   7.Te1-e7   8.Kf7-e6   9.Lg8-f7 Td1-d6 # 
 34 moegliche Stellungen in 1+9
 
-              empile:       29985
-            jouecoup:       29812
+              empile:       29663
+            jouecoup:       29490
         orig_rbechec:        6964
         orig_rnechec:       35413
 b) ser-h=9
@@ -879,8 +879,8 @@ a)
   1.f7-f8=L   2.Lf8-c5   3.Lc5-b6   4.f6-f7   5.f7*g8=L   6.Lg8-d5 # 
 7211 moegliche Stellungen in 6+0
 
-              empile:      992963
-            jouecoup:     1056826
+              empile:      931091
+            jouecoup:      994954
         orig_rbechec:      231651
         orig_rnechec:      482120
 b) ser-=6
@@ -935,8 +935,8 @@ a)
   1.c7-c8=L   2.Lc8-b7   3.Lb7-e4   4.f7-f8=D # 
 857 moegliche Stellungen in 4+0
 
-              empile:       43562
-            jouecoup:       57409
+              empile:       40301
+            jouecoup:       54148
         orig_rbechec:       11116
         orig_rnechec:       31087
 b) ser-=4
@@ -986,8 +986,8 @@ a)
   1.c7-c8=S   2.f7-f8=S # 
 38 moegliche Stellungen in 2+0
 
-              empile:        3722
-            jouecoup:        3703
+              empile:        2852
+            jouecoup:        2833
         orig_rbechec:         529
         orig_rnechec:       20182
 b) ser-=2
@@ -1558,8 +1558,8 @@ a)
   1.Sc6-a7 Tb5-b6   2.Sa7-b5 Tb6-c6 # 
 12 moegliche Stellungen in 2+2
 
-              empile:         460
-            jouecoup:         454
+              empile:         399
+            jouecoup:         393
         orig_rbechec:          38
         orig_rnechec:        4730
 b) h=2
@@ -1606,8 +1606,8 @@ a)
   1.h2-h1=T b7-b8=D   2.Th1-h2 Db8-c8 # 
 41 moegliche Stellungen in 2+2
 
-              empile:        1235
-            jouecoup:        1504
+              empile:        1078
+            jouecoup:        1347
         orig_rbechec:         138
         orig_rnechec:        1438
 b) h=2   -sBh4
@@ -1737,8 +1737,8 @@ a)
   1.Lf4-h6 f5-f6   2.Lh6-g7 f6*g7   3.Kh5-g5 g7-g8=D +   4.Kg5-h6 Dg8-g6 # 
 42 moegliche Stellungen in 4+4
 
-              empile:       21852
-            jouecoup:       21896
+              empile:       21668
+            jouecoup:       21712
         orig_rbechec:        1175
         orig_rnechec:        7198
 b) h=4
@@ -1789,8 +1789,8 @@ a)
   1.Ke4-e5 f5*g6   2.Ke5-f6 g6-g7   3.Kf6-f7 Kd7-d6   4.Kf7-e8 g7-g8=D # 
 23 moegliche Stellungen in 4+4
 
-              empile:        2037
-            jouecoup:        2069
+              empile:        1922
+            jouecoup:        1954
         orig_rbechec:         222
         orig_rnechec:        5689
 b) h=4  sBg6-->e6
@@ -1839,8 +1839,8 @@ a)
   1.g7-g6 Sf1-e3   2.g6-g5 g2-g3 # 
 1 moegliche Stellungen in 2+2
 
-              empile:          45
-            jouecoup:          47
+              empile:          42
+            jouecoup:          44
         orig_rbechec:           9
         orig_rnechec:         400
 b) h=2
@@ -1969,8 +1969,8 @@ a)
   1.d7-d5 f2-f4   2.d5-d4 f4-f5   3.d4-d3 f5-f6   4.d3-d2 f6-f7   5.d2-d1=T f7-f8=D   6.Td1-b1 Df8-a3 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         179
-            jouecoup:         200
+              empile:         177
+            jouecoup:         198
         orig_rbechec:          22
         orig_rnechec:        3208
 b) h=6  sKa1-->h1
@@ -2025,8 +2025,8 @@ a)
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         173
-            jouecoup:         188
+              empile:         168
+            jouecoup:         183
         orig_rbechec:          20
         orig_rnechec:        1198
 b) h=6
@@ -2081,8 +2081,8 @@ a)
   1.Kh6-g5 a2-a4   2.Kg5-f4 a4-a5   3.Kf4-e3 a5-a6   4.Ke3-d2 a6-a7   5.Kd2-c1 a7-a8=D   6.Kc1-b1 Da8-h1 # 
 1 moegliche Stellungen in 6+6
 
-              empile:         173
-            jouecoup:         188
+              empile:         168
+            jouecoup:         183
         orig_rbechec:          20
         orig_rnechec:        1198
 b) h=6
@@ -2137,8 +2137,8 @@ a)
   1.Kh7-g6 h2-h4   2.Kg6-f5 h4-h5   3.Kf5-e4 h5-h6   4.Ke4-d3 h6-h7   5.Kd3-c2 h7-h8=D   6.Kc2-b1 Dh8-b2 # 
 1 moegliche Stellungen in 6+6
 
-              empile:          99
-            jouecoup:         114
+              empile:          94
+            jouecoup:         109
         orig_rbechec:          16
         orig_rnechec:        1300
 b) h=6
@@ -2242,8 +2242,8 @@ a)
   1.Lb7-a6 d2-d3   2.La6-c4 d3*c4   3.Db1-b5 + c4*b5   4.d4-d3 b5*c6   5.d3-d2 c6-c7   6.d2-d1=T c7-c8=D   7.Td1-g1 Dc8-h3 # 
 243 moegliche Stellungen in 7+7
 
-              empile:      114025
-            jouecoup:      114183
+              empile:      112813
+            jouecoup:      112971
         orig_rbechec:        3592
         orig_rnechec:       82628
 b) h=7
@@ -2296,8 +2296,8 @@ a)
   1.f2-f1=L f6-f7   2.Lf1-c4 f7*e8=D   3.Lc4-a2 De8*h8 # 
 15 moegliche Stellungen in 3+3
 
-              empile:        6045
-            jouecoup:        6370
+              empile:        6015
+            jouecoup:        6340
         orig_rbechec:         240
         orig_rnechec:        6387
 b) h=3
