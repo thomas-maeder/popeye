@@ -56,6 +56,8 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
   if (slices[si].u.output_mode_selector.mode==output_mode_line)
     stip_insert_output_plaintext_line_slices(si);
   else
@@ -106,6 +108,15 @@ void stip_insert_output_slices(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackAdapter,
+                                           &stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,
+                                           STDefenseAdapter,
+                                           &stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,
+                                           STHelpAdapter,
+                                           &stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
   {

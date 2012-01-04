@@ -74,6 +74,10 @@ stip_length_type defend(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STDefenseAdapter:
+      result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
+      break;
+
     case STRefutationsAllocator:
       result = refutations_allocator_defend(si,n,n_max_unsolvable);
       break;
@@ -242,25 +246,7 @@ stip_length_type defend(slice_index si,
       break;
 
     default:
-      switch (slice_solve(si))
-      {
-        case opponent_self_check:
-          result = n+4;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+4;
-          break;
-
-        default:
-          assert(0);
-          result = n+4;
-          break;
-      }
+      assert(0);
       break;
   }
 
@@ -296,6 +282,10 @@ stip_length_type can_defend(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STDefenseAdapter:
+      result = can_defend(slices[si].u.pipe.next,n,n_max_unsolvable);
+      break;
+
     case STRefutationsAllocator:
       result = refutations_allocator_can_defend(si,n,n_max_unsolvable);
       break;
@@ -461,25 +451,7 @@ stip_length_type can_defend(slice_index si,
       break;
 
     default:
-      switch (slice_has_solution(si))
-      {
-        case opponent_self_check:
-          result = n+4;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+4;
-          break;
-
-        default:
-          assert(0);
-          result = n+4;
-          break;
-      }
+      assert(0);
       break;
   }
 

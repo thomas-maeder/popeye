@@ -15,7 +15,6 @@
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
-#include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/continuation.h"
@@ -49,71 +48,12 @@ static void remember_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void battle_insert_find_shortest(slice_index si)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>=min_length+2)
-  {
-    slice_index const defense = branch_find_slice(STReadyForDefense,si);
-    slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-    slice_index const proto = alloc_find_shortest_slice();
-    assert(defense!=no_slice);
-    assert(attack!=no_slice);
-    battle_branch_insert_slices(attack,&proto,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void battle_insert_min_length_handlers(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const defense = branch_find_slice(STReadyForDefense,si);
-    if (defense!=no_slice)
-    {
-      stip_length_type const length = slices[defense].u.branch.length;
-      stip_length_type const min_length = slices[defense].u.branch.min_length;
-
-      if (min_length>slack_length_battle+1)
-      {
-        slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
-        battle_branch_insert_slices(defense,&prototype,1);
-
-        if (min_length>slack_length_battle+2)
-        {
-          slice_index const prototypes[] =
-          {
-            alloc_min_length_optimiser_slice(length-1,min_length-1),
-            alloc_min_length_guard(length-2,min_length-2)
-          };
-          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-          slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-          assert(attack!=no_slice);
-          battle_branch_insert_slices(attack,prototypes,nr_prototypes);
-        }
-      }
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_solvers_attack_adapter(slice_index si,
                                           stip_structure_traversal *st)
 {
   output_mode const * const mode = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -125,30 +65,36 @@ static void insert_solvers_attack_adapter(slice_index si,
   {
     if (*mode==output_mode_tree)
     {
-      if (OptFlag[solvariantes])
+      if (length>slack_length_battle+1)
       {
-        if (!OptFlag[nothreat])
-          stip_insert_threat_handlers(si);
-      }
-      else
-      {
-        slice_index const prototype = alloc_play_suppressor_slice();
-        battle_branch_insert_slices(si,&prototype,1);
+        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+        {
+          branch_insert_try_solvers(si,get_max_nr_refutations());
+          {
+            slice_index const prototype = alloc_refutations_solver();
+            battle_branch_insert_slices(si,&prototype,1);
+          }
+        }
       }
 
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+      if (length>slack_length_battle)
       {
-        branch_insert_try_solvers(si,get_max_nr_refutations());
+        if (!OptFlag[solvariantes])
         {
-          slice_index const prototype = alloc_refutations_solver();
+          slice_index const prototype = alloc_play_suppressor_slice();
           battle_branch_insert_slices(si,&prototype,1);
         }
       }
     }
   }
-
-  battle_insert_find_shortest(si);
-  battle_insert_min_length_handlers(si);
+  else
+  {
+    if (length>=min_length+2)
+    {
+      slice_index const proto = alloc_find_shortest_slice();
+      battle_branch_insert_slices(si,&proto,1);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -159,6 +105,7 @@ static void insert_solvers_defense_adapter(slice_index si,
 {
   output_mode const * const mode = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -166,64 +113,60 @@ static void insert_solvers_defense_adapter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (st->level==structure_traversal_level_root)
+  if (st->level==structure_traversal_level_setplay)
   {
     if (*mode==output_mode_tree)
     {
-      if (!OptFlag[nothreat])
-        stip_insert_threat_handlers(si);
-
-      if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-        Message(TryPlayNotApplicable);
-    }
-  }
-  else
-  {
-    if (length>slack_length_battle)
-    {
-      {
-        slice_index const prototype = alloc_continuation_solver_slice();
-        battle_branch_insert_slices(si,&prototype,1);
-      }
-      if (st->level==structure_traversal_level_setplay)
+      if (length>slack_length_battle)
       {
         unsigned int const max_nr_refutations = UINT_MAX;
         branch_insert_try_solvers(si,max_nr_refutations);
       }
     }
+
+    if (length>slack_length_battle)
+    {
+      slice_index const prototype = alloc_continuation_solver_slice();
+      battle_branch_insert_slices(si,&prototype,1);
+    }
   }
-
-  battle_insert_find_shortest(si);
-  battle_insert_min_length_handlers(si);
-
+  else
   {
-    slice_index const prototype = alloc_check_detector_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_solvers_attack(slice_index si,
-                                  stip_structure_traversal *st)
-{
-  output_mode const * const mode = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (slices[si].u.branch.length>slack_length_battle)
-  {
-    slice_index const prototype = alloc_continuation_solver_slice();
-    battle_branch_insert_slices(si,&prototype,1);
-
     if (*mode==output_mode_tree)
     {
-      slice_index const prototype = alloc_check_detector_slice();
+      if (length>slack_length_battle+1)
+      {
+        if (OptFlag[solvariantes] && !OptFlag[nothreat])
+          stip_insert_threat_handlers(si);
+      }
+    }
+
+    if (st->level==structure_traversal_level_root)
+    {
+      if (*mode==output_mode_tree)
+      {
+        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+          Message(TryPlayNotApplicable);
+      }
+    }
+    else
+    {
+      if (length>=slack_length_battle)
+      {
+        slice_index const prototype = alloc_continuation_solver_slice();
+        battle_branch_insert_slices(si,&prototype,1);
+      }
+    }
+  }
+
+  if (min_length>slack_length_battle+1)
+  {
+    slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+    battle_branch_insert_slices(si,&prototype,1);
+
+    if (min_length>slack_length_battle+2)
+    {
+      slice_index const prototype = alloc_min_length_optimiser_slice(length-1,min_length-1);
       battle_branch_insert_slices(si,&prototype,1);
     }
   }
@@ -401,33 +344,12 @@ static void insert_single_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_king_move_generator(slice_index si,
-                                       stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].u.fork.fork);
-    assert(generator!=no_slice);
-    pipe_substitute(generator,alloc_king_move_generator_slice());
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors const strategy_inserters[] =
 {
   { STOutputModeSelector,                     &remember_output_mode                           },
   { STAttackAdapter,                          &insert_solvers_attack_adapter                  },
   { STDefenseAdapter,                         &insert_solvers_defense_adapter                 },
   { STHelpAdapter,                            &insert_solvers_help_adapter                    },
-  { STReadyForAttack,                         &insert_solvers_attack                          },
   { STGeneratingMoves,                        &insert_move_generator                          },
   { STBrunnerDefenderFinder,                  &insert_single_move_generator_with_king_capture },
   { STIsardamDefenderFinder,                  &insert_single_move_generator_with_king_capture },

@@ -5,7 +5,6 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  solving/find_shortest.h solving/find_by_increasing_length.h \
  solving/fork_on_remaining.h solving/battle_play/threat.h \
  solving/battle_play/continuation.h solving/battle_play/try.h \
- solving/battle_play/check_detector.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/single_piece_move_generator.h \
@@ -46,8 +45,6 @@ solving/battle_play/threat.h:
 solving/battle_play/continuation.h:
 
 solving/battle_play/try.h:
-
-solving/battle_play/check_detector.h:
 
 solving/battle_play/min_length_guard.h:
 

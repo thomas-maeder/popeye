@@ -5,6 +5,7 @@
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/battle_play/check_detector.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -70,6 +71,7 @@ static void instrument_defense_adapter_regular(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_move_writer_slice(),
+      alloc_check_detector_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
@@ -427,15 +429,21 @@ static void instrument_defense_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    /* we are solving post key play */
     slice_index const prototypes[] =
     {
       /* indicate check in the diagram position */
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_refuting_variation_writer_slice()
+      alloc_check_detector_slice(),
+      alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  if (st->level==structure_traversal_level_root)
+  {
+    /* we are solving post key play */
+    slice_index const prototype = alloc_refuting_variation_writer_slice();
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -119,7 +119,8 @@ void defense_adapter_make_intro(slice_index adapter,
 
   stip_traverse_structure_children(adapter,st);
 
-  if (st->level==structure_traversal_level_nested
+  if (st->context==stip_traversal_context_global
+      && st->level==structure_traversal_level_nested
       && slices[adapter].u.branch.length>slack_length_battle)
   {
     spin_off_state_type * const state = st->param;

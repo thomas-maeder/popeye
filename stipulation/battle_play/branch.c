@@ -74,7 +74,6 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
   STPlaySuppressor,
-  STMinLengthGuard,
   STReadyForDefense,
   STConstraint,
   STEndOfBranchForced,
@@ -160,11 +159,36 @@ typedef struct
 static void start_insertion_traversal(slice_index si,
                                       insertion_state_type *state);
 
+static void next_insertion(slice_index si,
+                           unsigned int prototype_rank,
+                           insertion_state_type *state)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->nr_prototypes>1)
+  {
+    insertion_state_type nested_state =
+    {
+        state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, si
+    };
+    start_insertion_traversal(si,&nested_state);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean insert_common(slice_index si,
                              unsigned int rank,
                              insertion_state_type *state)
 {
   boolean result = false;
+  slice_index const prototype = state->prototypes[0];
+  slice_type const prototype_type = slices[prototype].type;
+  unsigned int const prototype_rank = get_slice_rank(prototype_type,
+                                                     state->base);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -174,28 +198,16 @@ static boolean insert_common(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].type==slices[state->prototypes[0]].type)
-    result = true; /* we are done */
-  else
   {
-    slice_index const prototype = state->prototypes[0];
-    slice_type const prototype_type = slices[prototype].type;
-    unsigned int const prototype_rank = get_slice_rank(prototype_type,
-                                                       state->base);
-    if (rank>prototype_rank)
-    {
-      slice_index const copy = copy_slice(prototype);
-      pipe_append(state->prev,copy);
-      if (state->nr_prototypes>1)
-      {
-        insertion_state_type nested_state =
-        {
-            state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, copy
-        };
-        start_insertion_traversal(copy,&nested_state);
-      }
-
-      result = true;
-    }
+    next_insertion(si,prototype_rank,state);
+    result = true;
+  }
+  else if (rank>prototype_rank)
+  {
+    slice_index const copy = copy_slice(prototype);
+    pipe_append(state->prev,copy);
+    next_insertion(copy,prototype_rank,state);
+    result = true;
   }
 
   TraceFunctionExit(__func__);
@@ -538,12 +550,13 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(min_length>=slack_length_battle);
 
   {
-    slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
+    slice_index const aadapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_move_slice();
+    slice_index const dadapter = alloc_defense_adapter_slice(length-1,min_length-1);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
@@ -551,19 +564,20 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
-    pipe_link(adapter,aready);
+    pipe_link(aadapter,aready);
     pipe_link(aready,atestpre);
     pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
-    pipe_link(attack,dready);
+    pipe_link(attack,dadapter);
+    pipe_link(dadapter,dready);
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
-    pipe_link(defense,adapter);
+    pipe_link(defense,aadapter);
 
-    result = adapter;
+    result = aadapter;
   }
 
   TraceFunctionExit(__func__);
@@ -674,7 +688,6 @@ slice_index battle_branch_make_postkeyplay(slice_index adapter)
     assert(result!=no_slice);
 
     branch_shorten_slices(adapter,STDefenseAdapter);
-    pipe_remove(adapter);
   }
 
   TraceFunctionExit(__func__);
@@ -831,9 +844,7 @@ void battle_make_root(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 
   battle_branch_make_root_slices(adapter,state);
-
   branch_shorten_slices(adapter,STEndOfRoot);
-  pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
