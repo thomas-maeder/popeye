@@ -24,6 +24,7 @@ static slice_index const slice_rank_order[] =
   STAttackAdapter,
   STTrivialEndFilter,
   STEndOfIntro,
+  STKeepMatingFilter,
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
@@ -103,7 +104,6 @@ static slice_index const slice_rank_order[] =
   STSelfCheckGuard,
   STCheckZigzagLanding,
   STNoShortVariations,
-  STKeepMatingFilter,
   STThreatEnforcer,
   STMoveWriter,
   STRefutingVariationWriter,

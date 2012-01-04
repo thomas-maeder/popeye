@@ -430,9 +430,8 @@ static void keepmating_filter_inserter_help_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STReadyForAttack,    &keepmating_filter_inserter_battle_move   },
+  { STAttackAdapter,     &keepmating_filter_inserter_battle_move   },
   { STDefenseAdapter ,   &keepmating_filter_inserter_battle_move   },
-  { STReadyForDefense,   &keepmating_filter_inserter_battle_move   },
   { STReadyForHelpMove,  &keepmating_filter_inserter_help_move     },
   { STAnd,               &keepmating_filter_inserter_reciprocal    },
   { STOr,                &keepmating_filter_inserter_quodlibet     },
