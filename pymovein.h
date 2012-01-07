@@ -13,12 +13,6 @@
  */
 slice_index alloc_move_inverter_slice(void);
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

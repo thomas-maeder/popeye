@@ -24,33 +24,6 @@ slice_index alloc_move_inverter_slice(void)
   return result;
 }
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st)
-{
-  spin_off_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
-
-  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
-  {
-    state->spun_off[si] = copy_slice(si);
-    pipe_link(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-  }
-
-  TraceValue("%u\n",state->spun_off[si]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

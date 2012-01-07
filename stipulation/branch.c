@@ -26,12 +26,9 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
-  STMoveInverter,
-  STOutputPlaintextMoveInversionCounter,
-  STConstraint,
   STEndOfPhaseWriter,
-  STDefenseAdapter,
   STAttackAdapter,
+  STDefenseAdapter,
   STHelpAdapter
 };
 
@@ -515,7 +512,6 @@ static slice_index const leaf_slice_rank_order[] =
   STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,
   STLegalMoveCounter,
-  STLegalMoveFinder,
   STAttackAdapter,
   STDefenseAdapter,
   STReadyForDefense,

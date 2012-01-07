@@ -231,8 +231,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STImmobilityTester */
   slice_structure_fork,   /* STOpponentMovesCounterFork */
   slice_structure_pipe,   /* STOpponentMovesCounter */
-  slice_structure_fork,   /* STLegalMoveFinderFork */
-  slice_structure_pipe,   /* STLegalMoveFinder */
   slice_structure_pipe,   /* STOhneschachSuspender */
   slice_structure_fork,   /* STExclusiveChessMatingMoveCounter */
   slice_structure_pipe,   /* STExclusiveChessUnsuspender */
@@ -403,8 +401,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STImmobilityTester */
   slice_function_unspecified,    /* STOpponentMovesCounterFork */
   slice_function_unspecified,    /* STOpponentMovesCounter */
-  slice_function_unspecified,    /* STLegalMoveFinderFork */
-  slice_function_unspecified,    /* STLegalMoveFinder */
   slice_function_unspecified,    /* STOhneschachSuspender */
   slice_function_unspecified,    /* STExclusiveChessMatingMoveCounter */
   slice_function_unspecified,    /* STExclusiveChessUnsuspender */
@@ -1166,13 +1162,12 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors setplay_appliers[] =
 {
-  { STMoveInverter,            &move_inverter_apply_setplay             },
-  { STMaxSolutionsInitialiser, &maxsolutions_initialiser_apply_setplay  },
-  { STConstraint,              &stip_traverse_structure_pipe            },
-  { STAttackAdapter,           &attack_adapter_apply_setplay            },
-  { STDefenseAdapter,          &stip_structure_visitor_noop             },
-  { STHelpAdapter,             &help_adapter_apply_setplay              },
-  { STTemporaryHackFork,       &hack_fork_apply_setplay                 }
+  { STMoveInverter,      &pipe_spin_off_copy           },
+  { STConstraint,        &stip_traverse_structure_pipe },
+  { STAttackAdapter,     &attack_adapter_apply_setplay },
+  { STDefenseAdapter,    &stip_structure_visitor_noop  },
+  { STHelpAdapter,       &help_adapter_apply_setplay   },
+  { STTemporaryHackFork, &hack_fork_apply_setplay      }
 };
 
 enum
@@ -1240,7 +1235,7 @@ boolean stip_apply_setplay(slice_index si)
     slice_structural_type i;
     for (i = 0; i!=nr_slice_structure_types; ++i)
       if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_apply_setplay);
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_skip);
   }
 
   stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
@@ -1690,8 +1685,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
   &stip_traverse_structure_goal_reached_tester, /* STOpponentMovesCounterFork */
   &stip_traverse_structure_pipe,              /* STOpponentMovesCounter */
-  &stip_traverse_structure_goal_reached_tester, /* STLegalMoveFinderFork */
-  &stip_traverse_structure_pipe,              /* STLegalMoveFinder */
   &stip_traverse_structure_pipe,              /* STOhneschachSuspender */
   &stip_traverse_structure_goal_reached_tester, /* STExclusiveChessMatingMoveCounter */
   &stip_traverse_structure_pipe,              /* STExclusiveChessUnsuspender */
@@ -1963,8 +1956,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
     &stip_traverse_moves_setplay_fork,      /* STOpponentMovesCounterFork */
     &stip_traverse_moves_pipe,              /* STOpponentMovesCounter */
-    &stip_traverse_moves_setplay_fork,      /* STLegalMoveFinderFork */
-    &stip_traverse_moves_pipe,              /* STLegalMoveFinder */
     &stip_traverse_moves_pipe,              /* STOhneschachSuspender */
     &stip_traverse_moves_setplay_fork,      /* STExclusiveChessMatingMoveCounter */
     &stip_traverse_moves_pipe,              /* STExclusiveChessUnsuspender */

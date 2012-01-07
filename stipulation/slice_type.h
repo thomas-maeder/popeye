@@ -158,8 +158,6 @@
     ENUMERATOR(STImmobilityTester), \
     ENUMERATOR(STOpponentMovesCounterFork), \
     ENUMERATOR(STOpponentMovesCounter), \
-    ENUMERATOR(STLegalMoveFinderFork), \
-    ENUMERATOR(STLegalMoveFinder), \
     /* other slices related to fairy chess */ \
     ENUMERATOR(STOhneschachSuspender), \
     ENUMERATOR(STExclusiveChessMatingMoveCounter), \

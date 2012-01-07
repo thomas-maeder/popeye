@@ -711,7 +711,7 @@ void help_branch_make_root_slices(slice_index adapter,
       if (slice_structure_is_subclass(i,slice_structure_fork))
         stip_structure_traversal_override_by_structure(&st,i,&fork_make_root);
       else if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
     stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
@@ -776,7 +776,7 @@ void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
     stip_structure_traversal_init(&st,state);
     for (i = 0; i!=nr_slice_structure_types; ++i)
       if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_make_root);
+        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);

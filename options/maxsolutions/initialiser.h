@@ -15,13 +15,6 @@
  */
 slice_index alloc_maxsolutions_initialiser_slice(void);
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void maxsolutions_initialiser_apply_setplay(slice_index si,
-                                            stip_structure_traversal *st);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

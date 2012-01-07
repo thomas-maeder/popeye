@@ -15,17 +15,17 @@
  */
 slice_index alloc_pipe(slice_type type);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
+/* Spin a copy off a pipe to add it to the root or set play branch
+ * @param si slice index
  * @param st address of structure representing traversal
  */
-void pipe_make_root(slice_index si, stip_structure_traversal *st);
+void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st);
 
-/* Spin off set play
+/* Skip over a pipe while spinning of slices for the root or set play branch
  * @param si slice index
  * @param st state of traversal
  */
-void pipe_apply_setplay(slice_index si, stip_structure_traversal *st);
+void pipe_spin_off_skip(slice_index si, stip_structure_traversal *st);
 
 /* Make a slice the successor of a pipe
  * @param pipe identifies the pipe

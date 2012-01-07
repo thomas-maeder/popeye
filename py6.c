@@ -2589,9 +2589,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[keepmating])
         stip_insert_keepmating_filters(root_slice);
 
-      if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters(root_slice);
-
       if (CondFlag[amu])
         stip_insert_amu_mate_filters(root_slice);
 
@@ -2615,6 +2612,9 @@ static Token iterate_twins(Token prev_token)
       stip_insert_intro_slices(root_slice);
 
       /* operations depend on existance of root slices from here on */
+
+      if (OptFlag[noshort])
+        stip_insert_no_short_variations_filters(root_slice);
 
       if (OptFlag[maxsols])
         stip_insert_maxsolutions_filters(root_slice);

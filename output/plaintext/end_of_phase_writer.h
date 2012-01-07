@@ -1,7 +1,6 @@
 #if !defined(OUTPUT_PLAINTEXT_END_OF_PHASE_WRITER_H)
 #define OUTPUT_PLAINTEXT_END_OF_PHASE_WRITER_H
 
-#include "boolean.h"
 #include "pystip.h"
 #include "pyslice.h"
 
