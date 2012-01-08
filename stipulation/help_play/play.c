@@ -99,6 +99,12 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = move_played_help(si,n);
       break;
 
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_help(si,n);
+      break;
+#endif
+
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
       result = end_of_branch_help(si,n);
@@ -275,6 +281,12 @@ stip_length_type can_help(slice_index si, stip_length_type n)
     case STMovePlayed:
       result = move_played_can_help(si,n);
       break;
+
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_can_help(si,n);
+      break;
+#endif
 
     case STForkOnRemaining:
       result = fork_on_remaining_can_help(si,n);

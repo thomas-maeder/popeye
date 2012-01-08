@@ -130,6 +130,12 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = move_played_defend(si,n);
       break;
 
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_defend(si,n);
+      break;
+#endif
+
     case STForkOnRemaining:
       result = fork_on_remaining_defend(si,n);
       break;
@@ -334,6 +340,12 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
     case STMovePlayed:
       result = move_played_can_defend(si,n);
       break;
+
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_can_defend(si,n);
+      break;
+#endif
 
     case STKillerMoveFinalDefenseMove:
       result = killer_move_final_defense_move_can_defend(si,n);

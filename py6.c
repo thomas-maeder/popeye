@@ -2671,6 +2671,10 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_output_slices(root_slice);
 
+#if defined(DOTRACE)
+      stip_insert_move_tracers(root_slice);
+#endif
+
       resolve_proxies(&root_slice);
 
       /* if root_slice had type STProxy, its value has just changed,

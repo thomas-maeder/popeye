@@ -130,6 +130,12 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = move_played_can_attack(si,n);
       break;
 
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_can_attack(si,n);
+      break;
+#endif
+
     case STOrthodoxMatingMoveGenerator:
       result = orthodox_mating_move_generator_can_attack(si,n);
       break;
@@ -320,6 +326,12 @@ stip_length_type attack(slice_index si, stip_length_type n)
     case STMovePlayed:
       result = move_played_attack(si,n);
       break;
+
+#if defined(DOTRACE)
+    case STMoveTracer:
+      result = move_tracer_attack(si,n);
+      break;
+#endif
 
     case STOrthodoxMatingMoveGenerator:
       result = orthodox_mating_move_generator_attack(si,n);

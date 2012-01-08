@@ -261,7 +261,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextLineLineWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextMoveInversionCounter */
-  slice_structure_pipe    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_structure_pipe,   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_structure_pipe    /* STMoveTracer */
 };
 
 static slice_functional_type functional_type[nr_slice_types] =
@@ -432,7 +433,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STOutputPlaintextLineLineWriter */
   slice_function_unspecified,    /* STOutputPlaintextTreeGoalWriter */
   slice_function_unspecified,    /* STOutputPlaintextMoveInversionCounter */
-  slice_function_unspecified     /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_function_unspecified,    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_function_unspecified     /* STMoveTracer */
 };
 
 /* Provide a subclass relationship between the values of slice_structural_type
@@ -1717,7 +1719,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextMoveInversionCounter */
-  &stip_traverse_structure_pipe               /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  &stip_traverse_structure_pipe,              /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  &stip_traverse_structure_pipe               /* STMoveTracer */
 };
 
 /* Initialise a structure traversal structure with default visitors
@@ -1989,7 +1992,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STOutputPlaintextLineLineWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextMoveInversionCounter */
-    &stip_traverse_moves_pipe               /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+    &stip_traverse_moves_pipe,              /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+    &stip_traverse_moves_pipe               /* STMoveTracer */
   }
 };
 

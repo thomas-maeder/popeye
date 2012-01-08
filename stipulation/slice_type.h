@@ -190,5 +190,7 @@
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
+    /* debugging slices */                                              \
+    ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)

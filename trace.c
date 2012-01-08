@@ -276,18 +276,16 @@ void TracePieceImpl(char const *prefix, piece p)
   }
 }
 
-boolean TraceCurrentMove(ply current_ply)
+static void TraceCurrentMove(void)
 {
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    output_plaintext_write_move(current_ply);
+    output_plaintext_write_move(nbply);
     fprintf(stdout," nbcou:%d",nbcou);
-    fprintf(stdout," current_ply:%d\n",current_ply);
+    fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
   }
-
-  return true;
 }
 
 void TraceCurrentHashBuffer(void)
@@ -478,6 +476,168 @@ void TraceStipulation(slice_index si)
     fprintf(stdout,"stipulation structure:\n");
     TraceStipulationRecursive(si,done_slices);
   }
+}
+
+#include "stipulation/move.h"
+#include "pydata.h"
+#include "pyproc.h"
+#include "pypipe.h"
+#include "trace.h"
+
+#include <assert.h>
+
+/* Allocate a STMoveTracer slice.
+ * @return index of allocated slice
+ */
+static slice_index alloc_move_tracer_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMoveTracer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type move_tracer_can_attack(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return can_attack(slices[si].u.pipe.next,n);
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type move_tracer_attack(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return attack(slices[si].u.pipe.next,n);
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type move_tracer_defend(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return defend(slices[si].u.pipe.next,n);
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type move_tracer_can_defend(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return can_defend(slices[si].u.pipe.next,n);
+}
+
+/* Determine and write the solution(s) in a help stipulation
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type move_tracer_help(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return help(slices[si].u.pipe.next,n);
+}
+
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type move_tracer_can_help(slice_index si, stip_length_type n)
+{
+  TraceCurrentMove();
+  return can_help(slices[si].u.pipe.next,n);
+}
+
+static void insert_move_tracer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_move_tracer_slice();
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+      case stip_traversal_context_defense:
+        battle_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument slices with move tracers
+ */
+void stip_insert_move_tracers(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMove,&insert_move_tracer);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 #endif

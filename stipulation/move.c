@@ -44,7 +44,7 @@ stip_length_type move_can_attack(slice_index si, stip_length_type n)
 
   while (encore() && result>n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    if (jouecoup(nbply,first_play))
     {
       stip_length_type const length_sol = can_attack(next,n);
       if (length_sol<result)
@@ -80,7 +80,7 @@ stip_length_type move_attack(slice_index si, stip_length_type n)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    if (jouecoup(nbply,first_play))
     {
       stip_length_type const length_sol = attack(next,n);
       if (length_sol<result)
@@ -119,7 +119,7 @@ stip_length_type move_defend(slice_index si, stip_length_type n)
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    if (jouecoup(nbply,first_play))
     {
       stip_length_type const length_sol = defend(next,n);
       if (result<length_sol)
@@ -156,7 +156,7 @@ stip_length_type move_can_defend(slice_index si, stip_length_type n)
 
   while (result<=n && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    if (jouecoup(nbply,first_play))
     {
       stip_length_type const length_sol = can_defend(next,n);
       if (result<length_sol)
@@ -193,8 +193,7 @@ stip_length_type move_help(slice_index si, stip_length_type n)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help(next,n)==n)
+    if (jouecoup(nbply,first_play) && help(next,n)==n)
       result = n;
 
     repcoup();
@@ -226,8 +225,7 @@ stip_length_type move_can_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   while (encore())
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && can_help(next,n)==n)
+    if (jouecoup(nbply,first_play) && can_help(next,n)==n)
     {
       result = n;
       repcoup();
