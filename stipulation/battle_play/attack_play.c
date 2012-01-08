@@ -47,9 +47,9 @@
 #include <assert.h>
 
 /* maximum number of half-moves that we know have no solution
- * (n==max_unsolvable[nbply] means that we are solving refutations)
+ * (n==max_unsolvable in (can_)defend means that we are solving refutations)
  */
-stip_length_type max_unsolvable[maxply+1];
+stip_length_type max_unsolvable;
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -62,6 +62,9 @@ stip_length_type max_unsolvable[maxply+1];
 stip_length_type can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
+#if !defined(NDEBUG)
+  stip_length_type const save_max_unsolvable = max_unsolvable;
+#endif
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -236,6 +239,8 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       break;
   }
 
+  assert(save_max_unsolvable==max_unsolvable);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -253,11 +258,15 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
 stip_length_type attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+#if !defined(NDEBUG)
+  stip_length_type const save_max_unsolvable = max_unsolvable;
+#endif
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
@@ -424,6 +433,8 @@ stip_length_type attack(slice_index si, stip_length_type n)
       }
       break;
   }
+
+  assert(save_max_unsolvable==max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

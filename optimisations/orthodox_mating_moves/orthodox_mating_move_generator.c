@@ -351,8 +351,6 @@ orthodox_mating_move_generator_can_attack(slice_index si, stip_length_type n)
 
   assert(n==slack_length_battle+1);
 
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
-
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   empile_for_goal = slices[si].u.goal_handler.goal;
@@ -387,8 +385,6 @@ orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_battle+1);
-
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
 
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);

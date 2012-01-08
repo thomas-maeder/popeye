@@ -68,7 +68,7 @@ stip_length_type refutation_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable[nbply])
+  if (n==max_unsolvable)
   {
     output_plaintext_tree_remember_move_decoration(attack_key);
     result = attack(next,n);

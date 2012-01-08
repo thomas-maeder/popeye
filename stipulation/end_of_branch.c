@@ -91,7 +91,7 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle
+  if (max_unsolvable<slack_length_battle
       && slice_solve(fork)==has_solution)
     result = slack_length_battle;
   else
@@ -125,7 +125,7 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle
+  if (max_unsolvable<slack_length_battle
       && slice_has_solution(fork)==has_solution)
     result = slack_length_battle;
   else

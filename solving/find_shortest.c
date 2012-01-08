@@ -34,11 +34,11 @@ stip_length_type find_shortest_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (max_unsolvable[nbply]<slack_length_battle
+  stip_length_type const n_min = (max_unsolvable<slack_length_battle
                                   ? slack_length_battle+1
-                                  : max_unsolvable[nbply]+1);
+                                  : max_unsolvable+1);
   stip_length_type n_current;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -51,10 +51,10 @@ stip_length_type find_shortest_can_attack(slice_index si, stip_length_type n)
     if (result<=n_current)
       break;
     else
-      max_unsolvable[nbply] = n_current;
+      max_unsolvable = n_current;
   }
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -74,11 +74,11 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (max_unsolvable[nbply]<slack_length_battle
+  stip_length_type const n_min = (max_unsolvable<slack_length_battle
                                   ? slack_length_battle+1
-                                  : max_unsolvable[nbply]+1);
+                                  : max_unsolvable+1);
   stip_length_type n_current;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -91,10 +91,10 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
     if (result<=n_current)
       break;
     else
-      max_unsolvable[nbply] = n_current;
+      max_unsolvable = n_current;
   }
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

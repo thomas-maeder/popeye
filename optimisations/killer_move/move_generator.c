@@ -44,8 +44,6 @@ killer_move_move_generator_can_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
-
   move_generation_mode = move_generation_optimized_by_killer_move;
   genmove(attacker);
   result = can_attack(next,n);
@@ -80,8 +78,6 @@ killer_move_move_generator_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
-
   move_generation_mode = move_generation_optimized_by_killer_move;
   genmove(defender);
   result = defend(next,n);
@@ -113,8 +109,6 @@ killer_move_move_generator_can_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   genmove(defender);

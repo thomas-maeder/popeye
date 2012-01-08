@@ -1985,7 +1985,7 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
                                                 ? slack_length_battle-(min_length-slack_length_battle)%2
                                                 : min_length-played);
   stip_length_type const validity_value = min_length_adjusted/2+1;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2019,14 +2019,14 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
         result = n_success;
       else
       {
-        if (max_unsolvable[nbply]<n_nosuccess)
-          max_unsolvable[nbply] = n_nosuccess;
+        if (max_unsolvable<n_nosuccess)
+          max_unsolvable = n_nosuccess;
         result = delegate_has_solution_in_n(si,n,min_length_adjusted);
       }
     }
   }
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

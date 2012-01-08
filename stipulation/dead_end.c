@@ -199,7 +199,7 @@ void stip_optimise_dead_end_slices(slice_index si)
 stip_length_type dead_end_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -208,15 +208,15 @@ stip_length_type dead_end_can_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle)
-    max_unsolvable[nbply] = slack_length_battle;
+  if (max_unsolvable<slack_length_battle)
+    max_unsolvable = slack_length_battle;
 
-  if (n<=max_unsolvable[nbply])
+  if (n<=max_unsolvable)
     result = n+2;
   else
     result = can_attack(slices[si].u.pipe.next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -235,7 +235,7 @@ stip_length_type dead_end_can_attack(slice_index si, stip_length_type n)
 stip_length_type dead_end_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -244,15 +244,15 @@ stip_length_type dead_end_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle)
-    max_unsolvable[nbply] = slack_length_battle;
+  if (max_unsolvable<slack_length_battle)
+    max_unsolvable = slack_length_battle;
 
-  if (n<=max_unsolvable[nbply])
+  if (n<=max_unsolvable)
     result = n+2;
   else
     result = attack(slices[si].u.pipe.next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -275,23 +275,23 @@ stip_length_type dead_end_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle)
-    max_unsolvable[nbply] = slack_length_battle;
+  if (max_unsolvable<slack_length_battle)
+    max_unsolvable = slack_length_battle;
 
   if (n==slack_length_battle
-      /*|| n<=max_unsolvable[nbply]*/) /* no dead end, we are solving refutations! */
+      /*|| n<=max_unsolvable*/) /* no dead end, we are solving refutations! */
     result = n+4;
   else
     result = defend(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -312,22 +312,22 @@ stip_length_type dead_end_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle)
-    max_unsolvable[nbply] = slack_length_battle;
+  if (max_unsolvable<slack_length_battle)
+    max_unsolvable = slack_length_battle;
 
-  if (n<=max_unsolvable[nbply])
+  if (n<=max_unsolvable)
     result = n+4;
   else
     result = can_defend(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

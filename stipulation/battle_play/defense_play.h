@@ -9,9 +9,9 @@
 #include "pydata.h"
 
 /* maximum number of half-moves that we know have no solution
- * (n==max_unsolvable[nbply] means that we are solving refutations)
+ * (n==max_unsolvable means that we are solving refutations)
  */
-extern stip_length_type max_unsolvable[maxply+1];
+extern stip_length_type max_unsolvable;
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

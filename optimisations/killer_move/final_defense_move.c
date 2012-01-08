@@ -208,6 +208,7 @@ killer_move_final_defense_move_can_defend(slice_index si, stip_length_type n)
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -221,9 +222,11 @@ killer_move_final_defense_move_can_defend(slice_index si, stip_length_type n)
   TracePiece(killer);
   TraceText("\n");
 
-  max_unsolvable[nbply+1] = slack_length_battle;
+  max_unsolvable = slack_length_battle;
 
   result = iterate_killer_first(si,killer_pos,killer);
+
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

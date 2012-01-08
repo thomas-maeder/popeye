@@ -42,7 +42,7 @@ stip_length_type play_suppressor_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable[nbply]) /* we are solving refutations */
+  if (n==max_unsolvable) /* we are solving refutations */
     result = defend(next,n);
   else
     result = n;

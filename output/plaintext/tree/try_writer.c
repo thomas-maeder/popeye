@@ -74,7 +74,7 @@ stip_length_type try_writer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable[nbply])
+  if (n==max_unsolvable)
   {
     /* refutations are never trivial */
     do_write_trivial_ends[nbply] = true;

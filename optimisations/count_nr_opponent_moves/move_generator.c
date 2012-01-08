@@ -82,8 +82,6 @@ countnropponentmoves_move_generator_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
-
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);
   result = defend(next,n);
@@ -115,8 +113,6 @@ countnropponentmoves_move_generator_can_defend(slice_index si, stip_length_type 
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  max_unsolvable[nbply+1] = max_unsolvable[nbply];
 
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);

@@ -298,17 +298,21 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
   slice_index const enforcer = slices[si].u.fork.fork;
   stip_length_type result;
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  max_unsolvable = slack_length_battle;
+
   /* insert an empty ply for the virtual defense played before the threat */
   nextply(nbply);
-  max_unsolvable[nbply] = slack_length_battle;
   result = attack(enforcer,n);
   finply();
+
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -338,7 +342,7 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable[nbply])
+  if (n==max_unsolvable)
     result = defend(next,n);
   else
   {

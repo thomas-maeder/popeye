@@ -280,7 +280,7 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -292,9 +292,9 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
     defend(next,n);
 
     are_we_solving_refutations = true;
-    max_unsolvable[nbply] = n;
+    max_unsolvable = n;
     defend(next,n);
-    max_unsolvable[nbply] = save_max_unsolvable;
+    max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 
     result = n+2;
@@ -406,7 +406,7 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
 {
   stip_length_type result;
   slice_index const next = slices[si].u.refutation_collector.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -417,9 +417,9 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
   {
     if (is_current_move_in_table(refutations))
     {
-      max_unsolvable[nbply] = n;
+      max_unsolvable = n;
       attack(next,n);
-      max_unsolvable[nbply] = save_max_unsolvable;
+      max_unsolvable = save_max_unsolvable;
       result = n+2;
     }
     else

@@ -41,14 +41,14 @@ stip_length_type move_played_can_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  --max_unsolvable[nbply];
+  --max_unsolvable;
 
   assert(n>slack_length_battle);
   result = can_defend(slices[si].u.pipe.next,n-1)+1;
   if (result<=slack_length_battle) /* oops - unintentional stalemate! */
     result = n+4;
 
-  ++max_unsolvable[nbply];
+  ++max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,14 +73,14 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  --max_unsolvable[nbply];
+  --max_unsolvable;
 
   assert(n>slack_length_battle);
   result = defend(slices[si].u.pipe.next,n-1)+1;
   if (result<=slack_length_battle) /* oops - unintentional stalemate! */
     result = n+4;
 
-  ++max_unsolvable[nbply];
+  ++max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -102,7 +102,7 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
 stip_length_type move_played_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -111,9 +111,9 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length_battle);
 
-  max_unsolvable[nbply] = slack_length_battle-1;
+  max_unsolvable = slack_length_battle-1;
   result = attack(slices[si].u.pipe.next,n-1)+1;
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -133,7 +133,7 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 stip_length_type move_played_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -142,9 +142,9 @@ stip_length_type move_played_can_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length_battle);
 
-  max_unsolvable[nbply] = slack_length_battle-1;
+  max_unsolvable = slack_length_battle-1;
   result = can_attack(slices[si].u.pipe.next,n-1)+1;
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   if (result>n) /* refuted */
     result = n+4;

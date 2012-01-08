@@ -10,7 +10,7 @@
 
 /* maximum number of half-moves that we know have no solution
  */
-extern stip_length_type max_unsolvable[maxply+1];
+extern stip_length_type max_unsolvable;
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

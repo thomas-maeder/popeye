@@ -116,20 +116,20 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable[nbply] = slack_length_battle-2+parity;
+  max_unsolvable = slack_length_battle-2+parity;
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
   can_defend(next,n_next);
   are_we_counting_nontrival[nbply+1] = false;
   result = non_trivial_count[nbply+1];
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

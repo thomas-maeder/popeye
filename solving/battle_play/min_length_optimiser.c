@@ -41,19 +41,19 @@ min_length_optimiser_can_attack(slice_index si, stip_length_type n)
   slice_index const next = slices[si].u.pipe.next;
   slice_index const length = slices[si].u.branch.length;
   slice_index const min_length = slices[si].u.branch.min_length;
-  slice_index const save_max_unsolvable = max_unsolvable[nbply];
+  slice_index const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]+length-min_length<n-1)
-    max_unsolvable[nbply] = n-(length-min_length)-1;
+  if (max_unsolvable+length-min_length<n-1)
+    max_unsolvable = n-(length-min_length)-1;
 
   result = can_attack(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,19 +76,19 @@ min_length_optimiser_attack(slice_index si, stip_length_type n)
   slice_index const next = slices[si].u.pipe.next;
   slice_index const length = slices[si].u.branch.length;
   slice_index const min_length = slices[si].u.branch.min_length;
-  slice_index const save_max_unsolvable = max_unsolvable[nbply];
+  slice_index const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]+length-min_length<n-1)
-    max_unsolvable[nbply] = n-(length-min_length)-1;
+  if (max_unsolvable+length-min_length<n-1)
+    max_unsolvable = n-(length-min_length)-1;
 
   result = attack(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

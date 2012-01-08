@@ -38,20 +38,20 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<=slack_length_battle
+  if (max_unsolvable<=slack_length_battle
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable[nbply] = slack_length_battle+1;
+    max_unsolvable = slack_length_battle+1;
 
   result = attack(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -72,20 +72,20 @@ goal_prerequisite_optimiser_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<=slack_length_battle
+  if (max_unsolvable<=slack_length_battle
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable[nbply] = slack_length_battle+1;
+    max_unsolvable = slack_length_battle+1;
 
   result = can_attack(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,20 +109,20 @@ goal_prerequisite_optimiser_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<=slack_length_battle
+  if (max_unsolvable<=slack_length_battle
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable[nbply] = slack_length_battle+1;
+    max_unsolvable = slack_length_battle+1;
 
   result = defend(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -144,20 +144,20 @@ goal_prerequisite_optimiser_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<=slack_length_battle
+  if (max_unsolvable<=slack_length_battle
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable[nbply] = slack_length_battle+1;
+    max_unsolvable = slack_length_battle+1;
 
   result = can_defend(next,n);
 
-  max_unsolvable[nbply] = save_max_unsolvable;
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

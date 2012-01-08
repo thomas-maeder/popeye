@@ -77,8 +77,8 @@ end_of_branch_goal_can_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle
-      || n<=max_unsolvable[nbply]) /* exact refutation */
+  if (max_unsolvable<slack_length_battle
+      || n<=max_unsolvable) /* exact refutation */
   {
     switch (slice_has_solution(fork))
     {
@@ -131,8 +131,8 @@ end_of_branch_goal_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_battle);
 
-  if (max_unsolvable[nbply]<slack_length_battle
-      || n<=max_unsolvable[nbply]) /* exact refutation */
+  if (max_unsolvable<slack_length_battle
+      || n<=max_unsolvable) /* exact refutation */
   {
     switch (slice_solve(fork))
     {

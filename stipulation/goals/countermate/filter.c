@@ -44,7 +44,7 @@ stip_length_type countermate_filter_can_attack(slice_index si, stip_length_type 
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle+1
+  if (max_unsolvable<slack_length_battle+1
       && slice_has_solution(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = can_attack(next,n);
@@ -74,7 +74,7 @@ stip_length_type countermate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle+1
+  if (max_unsolvable<slack_length_battle+1
       && slice_has_solution(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = attack(next,n);
@@ -105,7 +105,7 @@ stip_length_type countermate_filter_can_defend(slice_index si, stip_length_type 
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle+1
+  if (max_unsolvable<slack_length_battle+1
       && slice_has_solution(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = can_defend(next,n);
@@ -136,7 +136,7 @@ stip_length_type countermate_filter_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable[nbply]<slack_length_battle+1
+  if (max_unsolvable<slack_length_battle+1
       && slice_has_solution(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = defend(next,n);
