@@ -30,18 +30,13 @@ static slice_index alloc_maxtime_guard(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type maxtime_guard_defend(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type maxtime_guard_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -49,13 +44,12 @@ stip_length_type maxtime_guard_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (hasMaxtimeElapsed())
     result = n+4;
   else
-    result = defend(next,n,n_max_unsolvable);
+    result = defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,17 +60,13 @@ stip_length_type maxtime_guard_defend(slice_index si,
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type maxtime_guard_can_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type maxtime_guard_can_defend(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -89,7 +79,7 @@ stip_length_type maxtime_guard_can_defend(slice_index si,
   if (hasMaxtimeElapsed())
     result = n+4;
   else
-    result = can_defend(next,n,n_max_unsolvable);
+    result = can_defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

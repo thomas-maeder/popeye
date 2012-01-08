@@ -58,17 +58,13 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return length of solution found, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-end_of_branch_goal_can_attack(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+end_of_branch_goal_can_attack(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.fork.next;
   slice_index const fork = slices[si].u.fork.fork;
@@ -77,13 +73,12 @@ end_of_branch_goal_can_attack(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle
-      || n<=n_max_unsolvable) /* exact refutation */
+  if (max_unsolvable[nbply]<slack_length_battle
+      || n<=max_unsolvable[nbply]) /* exact refutation */
   {
     switch (slice_has_solution(fork))
     {
@@ -92,7 +87,7 @@ end_of_branch_goal_can_attack(slice_index si,
         break;
 
       case has_no_solution:
-        result = can_attack(next,n,n_max_unsolvable);
+        result = can_attack(next,n);
         break;
 
       case opponent_self_check:
@@ -106,7 +101,7 @@ end_of_branch_goal_can_attack(slice_index si,
     }
   }
   else
-    result = can_attack(next,n,n_max_unsolvable);
+    result = can_attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,18 +112,13 @@ end_of_branch_goal_can_attack(slice_index si,
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
-end_of_branch_goal_attack(slice_index si,
-                          stip_length_type n,
-                          stip_length_type n_max_unsolvable)
+end_of_branch_goal_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.fork.next;
@@ -137,13 +127,12 @@ end_of_branch_goal_attack(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle
-      || n<=n_max_unsolvable) /* exact refutation */
+  if (max_unsolvable[nbply]<slack_length_battle
+      || n<=max_unsolvable[nbply]) /* exact refutation */
   {
     switch (slice_solve(fork))
     {
@@ -152,7 +141,7 @@ end_of_branch_goal_attack(slice_index si,
         break;
 
       case has_no_solution:
-        result = attack(next,n,n_max_unsolvable);
+        result = attack(next,n);
         break;
 
       case opponent_self_check:
@@ -166,7 +155,7 @@ end_of_branch_goal_attack(slice_index si,
     }
   }
   else
-    result = attack(next,n,n_max_unsolvable);
+    result = attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

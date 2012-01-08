@@ -1823,29 +1823,23 @@ void stip_insert_hash_slices(slice_index si)
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_attack(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type attack_hashed_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert((slices[si].u.branch.length-n)%2==0);
 
-  result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1949,7 +1943,6 @@ static void addtohash_battle_success(slice_index si,
 static
 stip_length_type delegate_has_solution_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_max_unsolvable,
                                             stip_length_type min_length_adjusted)
 {
   stip_length_type result;
@@ -1958,11 +1951,10 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  result = can_attack(next,n,n_max_unsolvable);
+  result = can_attack(next,n);
 
   if (result<=n)
     addtohash_battle_success(si,result,min_length_adjusted);
@@ -1978,16 +1970,12 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return length of solution found, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_can_attack(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   dhtElement const *he;
@@ -1997,11 +1985,11 @@ stip_length_type attack_hashed_can_attack(slice_index si,
                                                 ? slack_length_battle-(min_length-slack_length_battle)%2
                                                 : min_length-played);
   stip_length_type const validity_value = min_length_adjusted/2+1;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert((n-slices[si].u.branch.length)%2==0);
@@ -2011,7 +1999,7 @@ stip_length_type attack_hashed_can_attack(slice_index si,
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
-    result = delegate_has_solution_in_n(si,n,n_max_unsolvable,min_length_adjusted);
+    result = delegate_has_solution_in_n(si,n,min_length_adjusted);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
@@ -2031,12 +2019,14 @@ stip_length_type attack_hashed_can_attack(slice_index si,
         result = n_success;
       else
       {
-        if (n_max_unsolvable<n_nosuccess)
-          n_max_unsolvable = n_nosuccess;
-        result = delegate_has_solution_in_n(si,n,n_max_unsolvable,min_length_adjusted);
+        if (max_unsolvable[nbply]<n_nosuccess)
+          max_unsolvable[nbply] = n_nosuccess;
+        result = delegate_has_solution_in_n(si,n,min_length_adjusted);
       }
     }
   }
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

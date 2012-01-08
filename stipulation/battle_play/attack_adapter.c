@@ -195,18 +195,23 @@ has_solution_type attack_adapter_has_solution(slice_index si)
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type nr_moves_needed;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = can_attack(next,length,min_length-1);
+  max_unsolvable[nbply] = min_length-1;
+
+  nr_moves_needed = can_attack(next,length);
   if (nr_moves_needed<slack_length_battle)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
     result = has_solution;
   else
     result = has_no_solution;
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -225,18 +230,23 @@ has_solution_type attack_adapter_solve(slice_index si)
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type nr_moves_needed;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = attack(next,length,min_length-1);
+  max_unsolvable[nbply] = min_length-1;
+
+  nr_moves_needed = attack(next,length);
   if (nr_moves_needed==slack_length_battle-2)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
     result = has_solution;
   else
     result = has_no_solution;
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

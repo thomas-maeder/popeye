@@ -25,38 +25,36 @@ slice_index alloc_find_shortest_slice(void)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return length of solution found, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type find_shortest_can_attack(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type find_shortest_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
+  stip_length_type const n_min = (max_unsolvable[nbply]<slack_length_battle
                                   ? slack_length_battle+1
-                                  : n_max_unsolvable+1);
+                                  : max_unsolvable[nbply]+1);
   stip_length_type n_current;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = can_attack(next,n_current,n_max_unsolvable);
+    result = can_attack(next,n_current);
     if (result<=n_current)
       break;
     else
-      n_max_unsolvable = n_current;
+      max_unsolvable[nbply] = n_current;
   }
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -67,39 +65,36 @@ stip_length_type find_shortest_can_attack(slice_index si,
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type find_shortest_attack(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (n_max_unsolvable<slack_length_battle
+  stip_length_type const n_min = (max_unsolvable[nbply]<slack_length_battle
                                   ? slack_length_battle+1
-                                  : n_max_unsolvable+1);
+                                  : max_unsolvable[nbply]+1);
   stip_length_type n_current;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = attack(next,n_current,n_max_unsolvable);
+    result = attack(next,n_current);
     if (result<=n_current)
       break;
     else
-      n_max_unsolvable = n_current;
+      max_unsolvable[nbply] = n_current;
   }
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

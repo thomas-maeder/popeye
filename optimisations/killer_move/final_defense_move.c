@@ -66,7 +66,7 @@ static stip_length_type try_last_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = can_defend(next,slack_length_battle+1,slack_length_battle);
+  result = can_defend(next,slack_length_battle+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -197,8 +197,6 @@ static stip_length_type iterate_killer_first(slice_index si,
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -206,9 +204,7 @@ static stip_length_type iterate_killer_first(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-killer_move_final_defense_move_can_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+killer_move_final_defense_move_can_defend(slice_index si, stip_length_type n)
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];
@@ -217,7 +213,6 @@ killer_move_final_defense_move_can_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_battle+1);
@@ -225,6 +220,8 @@ killer_move_final_defense_move_can_defend(slice_index si,
   TraceSquare(killer_pos);
   TracePiece(killer);
   TraceText("\n");
+
+  max_unsolvable[nbply+1] = slack_length_battle;
 
   result = iterate_killer_first(si,killer_pos,killer);
 

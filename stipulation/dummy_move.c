@@ -26,35 +26,30 @@ slice_index alloc_dummy_move_slice(void)
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type dummy_move_can_defend(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable)
+stip_length_type dummy_move_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type max_len_continuation = slack_length_battle-1;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
 
-  n_max_unsolvable = slack_length_battle;
+  max_unsolvable[nbply] = slack_length_battle-1;
 
   {
-    stip_length_type const
-        length_sol = can_attack(next,n-1,n_max_unsolvable-1)+1;
+    stip_length_type const length_sol = can_attack(next,n-1)+1;
     if (max_len_continuation<length_sol)
       max_len_continuation = length_sol;
   }
@@ -63,6 +58,8 @@ stip_length_type dummy_move_can_defend(slice_index si,
     result = n+4;
   else
     result = max_len_continuation;
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -75,35 +72,30 @@ stip_length_type dummy_move_can_defend(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type dummy_move_defend(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type max_len_continuation = slack_length_battle-1;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
 
-  n_max_unsolvable = slack_length_battle;
+  max_unsolvable[nbply] = slack_length_battle-1;
 
   {
-    stip_length_type const length_sol = attack(next,n-1,n_max_unsolvable-1)+1;
+    stip_length_type const length_sol = attack(next,n-1)+1;
     if (max_len_continuation<length_sol)
       max_len_continuation = length_sol;
   }
@@ -112,6 +104,8 @@ stip_length_type dummy_move_defend(slice_index si,
     result = n+4;
   else
     result = max_len_continuation;
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -62,37 +62,31 @@ static slice_index alloc_degenerate_tree_guard_slice(void)
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves to try
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return length of solution found, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-static stip_length_type
-delegate_has_solution_in_n(slice_index si,
-                           stip_length_type n,
-                           stip_length_type n_min,
-                           stip_length_type n_max_unsolvable)
+static stip_length_type delegate_has_solution_in_n(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_min)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
   stip_length_type n_current;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = can_attack(next,n_current,n_max_unsolvable);
+    result = can_attack(slices[si].u.pipe.next,n_current);
     if (result<=n_current)
       break;
     else
-      n_max_unsolvable = n_current;
+      max_unsolvable[nbply] = n_current;
   }
 
   TraceFunctionExit(__func__);
@@ -104,25 +98,21 @@ delegate_has_solution_in_n(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return length of solution found, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type degenerate_tree_can_attack(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable)
+stip_length_type degenerate_tree_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   stip_length_type const parity = (n-slack_length_battle)%2;
-  stip_length_type const n_min = n_max_unsolvable+1;
+  stip_length_type const n_min = max_unsolvable[nbply]+1;
+  stip_length_type const save_max_unsolvable = max_unsolvable[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (n>max_length_short_solutions)
@@ -130,15 +120,20 @@ stip_length_type degenerate_tree_can_attack(slice_index si,
     if (max_length_short_solutions>=slack_length_battle+2)
     {
       stip_length_type const n_interm = max_length_short_solutions-parity;
-      result = delegate_has_solution_in_n(si,n_interm,n_min,n_max_unsolvable);
+      result = delegate_has_solution_in_n(si,n_interm,n_min);
       if (result>n_interm)
-        result = delegate_has_solution_in_n(si,n,n,n_interm);
+      {
+        max_unsolvable[nbply] = n_interm;
+        result = delegate_has_solution_in_n(si,n,n);
+      }
     }
     else
-      result = delegate_has_solution_in_n(si,n,n,n_max_unsolvable);
+      result = delegate_has_solution_in_n(si,n,n);
   }
   else
-    result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+    result = delegate_has_solution_in_n(si,n,n_min);
+
+  max_unsolvable[nbply] = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

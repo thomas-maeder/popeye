@@ -64,9 +64,6 @@ static slice_index alloc_countnropponentmoves_move_generator_slice(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -74,9 +71,7 @@ static slice_index alloc_countnropponentmoves_move_generator_slice(void)
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-countnropponentmoves_move_generator_defend(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+countnropponentmoves_move_generator_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
@@ -85,12 +80,13 @@ countnropponentmoves_move_generator_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
+
+  max_unsolvable[nbply+1] = max_unsolvable[nbply];
 
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);
-  result = defend(next,n,n_max_unsolvable);
+  result = defend(next,n);
   finply();
 
   TraceFunctionExit(__func__);
@@ -102,8 +98,6 @@ countnropponentmoves_move_generator_defend(slice_index si,
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -111,9 +105,7 @@ countnropponentmoves_move_generator_defend(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-countnropponentmoves_move_generator_can_defend(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_max_unsolvable)
+countnropponentmoves_move_generator_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
@@ -122,12 +114,13 @@ countnropponentmoves_move_generator_can_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
+
+  max_unsolvable[nbply+1] = max_unsolvable[nbply];
 
   move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
   genmove(defender);
-  result = can_defend(next,n,n_max_unsolvable);
+  result = can_defend(next,n);
   finply();
 
   TraceFunctionExit(__func__);

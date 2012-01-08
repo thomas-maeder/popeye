@@ -73,31 +73,25 @@ has_solution_type check_detector_has_solution(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type check_detector_defend(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_max_unsolvable)
+stip_length_type check_detector_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   /* no need to detect check if we are solving refutations */
-  attack_gives_check[nbply] = (n>n_max_unsolvable
+  attack_gives_check[nbply] = (n>max_unsolvable[nbply]
                                && echecc(nbply,slices[si].starter));
-  result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,27 +102,22 @@ stip_length_type check_detector_defend(slice_index si,
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type check_detector_can_defend(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable)
+stip_length_type check_detector_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = can_defend(slices[si].u.pipe.next,n,n_max_unsolvable);
+  result = can_defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

@@ -34,17 +34,12 @@ has_solution_type maxsolutions_guard_solve(slice_index si);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - more refutations found than acceptable
  */
-stip_length_type maxsolutions_guard_defend(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_max_unsolvable);
+stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n);
 
 
 /* Determine and write the solution(s) in a help stipulation

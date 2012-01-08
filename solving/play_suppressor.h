@@ -14,30 +14,21 @@ slice_index alloc_play_suppressor_slice(void);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 no solution found
  */
-stip_length_type play_suppressor_defend(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_max_unsolvable);
+stip_length_type play_suppressor_defend(slice_index si, stip_length_type n);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type play_suppressor_can_defend(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable);
+stip_length_type play_suppressor_can_defend(slice_index si, stip_length_type n);
 
 /* Solve a slice
  * @param si slice index

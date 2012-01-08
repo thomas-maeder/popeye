@@ -13,33 +13,24 @@
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type check_zigzag_jump_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable);
+stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type check_zigzag_jump_can_defend(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_max_unsolvable);
+stip_length_type check_zigzag_jump_can_defend(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

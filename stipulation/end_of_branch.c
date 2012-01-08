@@ -72,18 +72,13 @@ void stip_traverse_moves_end_of_branch(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @note n==n_max_unsolvable means that we are solving refutations
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_defend(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
+stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.fork.next;
@@ -92,16 +87,15 @@ stip_length_type end_of_branch_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle
+  if (max_unsolvable[nbply]<slack_length_battle
       && slice_solve(fork)==has_solution)
     result = slack_length_battle;
   else
-    result = defend(next,n,n_max_unsolvable);
+    result = defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -112,17 +106,13 @@ stip_length_type end_of_branch_defend(slice_index si,
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
  * @return <slack_length_battle - no legal defense found
  *         <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_branch_can_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable)
+stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -131,16 +121,15 @@ stip_length_type end_of_branch_can_defend(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle
+  if (max_unsolvable[nbply]<slack_length_battle
       && slice_has_solution(fork)==has_solution)
     result = slack_length_battle;
   else
-    result = can_defend(next,n,n_max_unsolvable);
+    result = can_defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
