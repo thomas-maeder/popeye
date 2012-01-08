@@ -950,7 +950,6 @@ extern square PiecePositionsInDiagram[MaxPieceId+1];
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
   (numgridlines && CrossesGridLines((sq1), (sq2))))
 
-#define BGL_infinity 10000000 	/* this will do I expect; e.g. max len = 980 maxply < 1000 */
 #define PushMagic(sq, id1, id2, v) \
 {if (nbmagic < magicviews_size) \
   {magicviews[nbmagic].piecesquare=(sq); \

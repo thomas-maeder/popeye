@@ -64,6 +64,7 @@
 #include "trace.h"
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
+#include "conditions/bgl.h"
 
 static numvec ortho_opt[4][2*(square_h8-square_a1)+1];
 
@@ -158,8 +159,8 @@ static void initply(ply parent)
   */
   BlackStrictSAT[nbply] = BlackStrictSAT[parent];
   WhiteStrictSAT[nbply] = WhiteStrictSAT[parent];
-  BGL_white_store[nbply] = BGL_white_store[parent];
-  BGL_black_store[nbply] = BGL_black_store[parent];
+  BGL_values[White][nbply] = BGL_values[White][parent];
+  BGL_values[Black][nbply] = BGL_values[Black][parent];
 
   magicstate[nbply] = magicstate[parent];
 
@@ -283,8 +284,8 @@ void InitCond(void) {
   black_length = NULL;
   white_length = NULL;
 
-  BGL_white= BGL_black= BGL_infinity;
-  BGL_whiteinfinity= BGL_blackinfinity= true;
+  BGL_values[White][1] = BGL_infinity;
+  BGL_values[Black][1] = BGL_infinity;
   BGL_global= false;
 
   calc_trans_king[White] = false;
@@ -898,7 +899,6 @@ static piece       sic_e[nr_squares_on_board];
 static int sic_inum1;
 static imarr       sic_isquare;
 static square      sic_im0, rn_sic, rb_sic;
-static long int sic_BGL_W, sic_BGL_b;
 static ghosts_type sic_ghosts;
 static ghost_index_type sic_nr_ghosts;
 
@@ -926,8 +926,6 @@ void StorePosition(void)
   }
 
   sic_im0 = im0;
-  sic_BGL_W = BGL_white;
-  sic_BGL_b = BGL_black;
 
   sic_nr_ghosts = nr_ghosts;
   memcpy(sic_ghosts, ghosts, nr_ghosts * sizeof ghosts[0]);
@@ -970,9 +968,6 @@ void ResetPosition(void)
   im0 = sic_im0;
 
   neutcoul= White;
-
-  BGL_white= sic_BGL_W;
-  BGL_black= sic_BGL_b;
 
   nr_ghosts = sic_nr_ghosts;
   memcpy(ghosts, sic_ghosts, nr_ghosts * sizeof ghosts[0]);

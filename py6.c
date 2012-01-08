@@ -115,6 +115,7 @@
 #include "measure.h"
 #include "pyslice.h"
 #include "pyoutput.h"
+#include "conditions/bgl.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "conditions/maff/immobility_tester.h"
@@ -1088,8 +1089,6 @@ static boolean verify_position(slice_index si)
   if (CondFlag[BGL])
   {
     eval_white = eval_BGL;
-    BGL_whiteinfinity = BGL_white == BGL_infinity;
-    BGL_blackinfinity = BGL_black == BGL_infinity;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
   }
@@ -1807,12 +1806,6 @@ static boolean verify_position(slice_index si)
     satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
-  if (CondFlag[BGL])
-  {
-    BGL_white_store[1] = BGL_white;
-    BGL_black_store[1] = BGL_black;
-  }
-
   if (CondFlag[schwarzschacher])
   {
     optim_neutralretractable = false;
@@ -1994,8 +1987,8 @@ void current(ply ply_id, coup *mov)
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];
   if (CondFlag[BGL]) {
-    mov->bgl_wh = BGL_white_store[ply_id];
-    mov->bgl_bl = BGL_black_store[ply_id];
+    mov->bgl_wh = BGL_values[White][ply_id];
+    mov->bgl_bl = BGL_values[Black][ply_id];
   }
 }
 
@@ -2601,6 +2594,9 @@ static Token iterate_twins(Token prev_token)
 
       if (anyanticirce)
         stip_insert_anticirce_goal_filters(root_slice);
+
+      if (CondFlag[BGL])
+        stip_insert_bgl_filters(root_slice);
 
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);

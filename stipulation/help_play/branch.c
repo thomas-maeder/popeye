@@ -55,6 +55,7 @@ static slice_index const slice_rank_order[] =
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
   STMove,
+  STBGLFilter,
   STMovePlayed,
   STDummyMove,
   STMoveTracer,

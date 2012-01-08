@@ -47,3 +47,15 @@ pymsg.h:
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/temporary_hacks.h:
+conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h pypipe.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+
+conditions/bgl.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+trace.h:

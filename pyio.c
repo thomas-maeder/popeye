@@ -118,6 +118,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
 #include "conditions/republican.h"
+#include "conditions/bgl.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -444,11 +445,11 @@ static void WriteConditions(int alignment)
       char buf1[12], buf2[12];
       if (BGL_global)
       {
-        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_white));
+        sprintf(CondLine, "%s %s", CondTab[cond], WriteBGLNumber(buf1, BGL_values[White][1]));
       }
       else
       {
-        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_white), WriteBGLNumber(buf2, BGL_black));
+        sprintf(CondLine, "%s %s/%s", CondTab[cond], WriteBGLNumber(buf1, BGL_values[White][1]), WriteBGLNumber(buf2, BGL_values[Black][1]));
       }
     }
 
@@ -5471,19 +5472,20 @@ static char *ParseCond(void) {
       case BGL:
         BGL_global= false;
         tok = ReadNextTokStr();
-        BGL_white= ReadBGLNumber(tok,&ptr);
+        BGL_values[White][1] = ReadBGLNumber(tok,&ptr);
         if (tok == ptr)
         {
-          BGL_white= BGL_black= BGL_infinity;
+          BGL_values[White][1] = BGL_infinity;
+          BGL_values[Black][1] = BGL_infinity;
           return tok;
         }
         else
         {
           tok = ReadNextTokStr();
-          BGL_black= ReadBGLNumber(tok,&ptr);
+          BGL_values[Black][1]= ReadBGLNumber(tok,&ptr);
           if (tok == ptr)
           {
-            BGL_black= BGL_white;
+            BGL_values[Black][1] = BGL_values[White][1];
             BGL_global= true;
             return tok;
           }

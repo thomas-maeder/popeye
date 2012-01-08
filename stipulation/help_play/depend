@@ -60,7 +60,7 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h \
  solving/castling_intermediate_move_generator.h \
- solving/single_move_generator.h options/maxtime.h \
+ solving/single_move_generator.h conditions/bgl.h options/maxtime.h \
  options/maxsolutions/guard.h \
  options/movenumbers/restart_guard_intelligent.h \
  options/stoponshortsolutions/filter.h \
@@ -137,6 +137,8 @@ solving/single_piece_move_generator.h:
 solving/castling_intermediate_move_generator.h:
 
 solving/single_move_generator.h:
+
+conditions/bgl.h:
 
 options/maxtime.h:
 

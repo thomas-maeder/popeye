@@ -1,6 +1,6 @@
 output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h trace.h \
- conditions/republican.h
+ conditions/republican.h conditions/bgl.h
 
 output/plaintext/plaintext.h:
 
@@ -13,6 +13,8 @@ pymsg.h:
 trace.h:
 
 conditions/republican.h:
+
+conditions/bgl.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h pymsg.h pypipe.h trace.h

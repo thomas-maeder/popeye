@@ -4,6 +4,7 @@
 #include "pymsg.h"
 #include "trace.h"
 #include "conditions/republican.h"
+#include "conditions/bgl.h"
 
 #include <assert.h>
 #include <stdlib.h>

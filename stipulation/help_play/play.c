@@ -28,6 +28,7 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling_intermediate_move_generator.h"
 #include "solving/single_move_generator.h"
+#include "conditions/bgl.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/guard.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
@@ -222,6 +223,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STDummyMove:
       result = dummy_move_help(si,n);
+      break;
+
+    case STBGLFilter:
+      result = bgl_filter_help(si,n);
       break;
 
     default:
@@ -450,6 +455,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STIntelligentImmobilisationCounter:
       result = intelligent_immobilisation_counter_can_help(si,n);
+      break;
+
+    case STBGLFilter:
+      result = bgl_filter_can_help(si,n);
       break;
 
     default:

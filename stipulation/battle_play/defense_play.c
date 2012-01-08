@@ -27,6 +27,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/battle_play/min_length_guard.h"
+#include "conditions/bgl.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -243,6 +244,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = line_writer_defend(si,n);
       break;
 
+    case STBGLFilter:
+      result = bgl_filter_defend(si,n);
+      break;
+
     case STTrue:
       result = n;
       break;
@@ -448,6 +453,10 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
 
     case STOutputPlaintextLineLineWriter:
       result = line_writer_can_defend(si,n);
+      break;
+
+    case STBGLFilter:
+      result = bgl_filter_can_defend(si,n);
       break;
 
     case STTrue:

@@ -103,6 +103,7 @@
 #include "pystip.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "conditions/bgl.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -1156,7 +1157,7 @@ static unsigned int TellLargeEncodePosLeng(void)
     }
 
   if (CondFlag[BGL])
-    len+= sizeof BGL_white + sizeof BGL_black;
+    len+= sizeof BGL_values[White][1] + sizeof BGL_values[Black][1];
 
   len += nr_ghosts*bytes_per_piece;
 
@@ -1249,10 +1250,10 @@ static byte *CommonEncode(byte *bp, stip_length_type validity_value)
   *bp++ = castling_flag[nbply];     /* Castling_Flag */
 
   if (CondFlag[BGL]) {
-    memcpy(bp, &BGL_white, sizeof BGL_white);
-    bp += sizeof BGL_white;
-    memcpy(bp, &BGL_black, sizeof BGL_black);
-    bp += sizeof BGL_black;
+    memcpy(bp, &BGL_values[White][nbply], sizeof BGL_values[White][nbply]);
+    bp += sizeof BGL_values[White][nbply];
+    memcpy(bp, &BGL_values[Black][nbply], sizeof BGL_values[Black][nbply]);
+    bp += sizeof BGL_values[Black][nbply];
   }
 
   if (CondFlag[disparate]) {

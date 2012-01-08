@@ -28,6 +28,7 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/continuation.h"
+#include "conditions/bgl.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
@@ -216,6 +217,10 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
 
     case STKillerMoveCollector:
       result = killer_move_collector_can_attack(si,n);
+      break;
+
+    case STBGLFilter:
+      result = bgl_filter_can_attack(si,n);
       break;
 
     case STTrue:
@@ -417,6 +422,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STKillerMoveCollector:
       result = killer_move_collector_attack(si,n);
+      break;
+
+    case STBGLFilter:
+      result = bgl_filter_attack(si,n);
       break;
 
     case STTrue:

@@ -458,7 +458,6 @@ void gen_wh_piece_aux(square z, piece p);
 void gen_bl_piece_aux(square z, piece p);
 void change_observed(ply ply, square z, boolean push);
 boolean observed(square a, square b);
-boolean eval_BGL(square departure, square arrival, square capture);
 char *WriteBGLNumber(char* a, long int b);
 boolean whannan(square rear, square front);
 boolean blannan(square rear, square front);

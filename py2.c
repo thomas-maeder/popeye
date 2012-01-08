@@ -653,8 +653,8 @@ boolean norixcheck(square   sq_king,
       sq_hurdle= coin+delta_horiz+delta_vert;
       vector= sq_king-sq_hurdle;
       delta= abs(vector);
-      queenlike= (delta <= 3*dir_right) 
-      		|| (delta % onerow == 0) 
+      queenlike= (delta <= 3*dir_right)
+                  || (delta % onerow == 0)
 		|| (delta % (onerow + dir_right) == 0)
 		|| (delta % (onerow + dir_left) == 0);
       sq_departure= sq_hurdle-vector;
@@ -3129,12 +3129,6 @@ void change_observed(ply ply, square z, boolean push)
                           *bnp,
                           e[*bnp]);
     }
-}
-
-boolean eval_BGL(square sq_departure, square sq_arrival, square sq_capture) {
-  return
-      BGL_move_diff_code[abs(sq_departure-sq_arrival)]
-      <= (e[sq_capture]<vide ? BGL_white : BGL_black);
 }
 
 boolean radialknightcheck(square    sq_king,

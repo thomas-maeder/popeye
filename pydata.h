@@ -395,8 +395,6 @@ EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
 EXTERN boolean          flag_synchron;
-EXTERN long int         BGL_black, BGL_white,BGL_black_store[maxply+1], BGL_white_store[maxply+1];
-EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN int         annanvar;
 EXTERN ply      	      tempply;
@@ -1876,35 +1874,6 @@ enum {
 	/* 7 left  up   */            98,  85,  74,  65,  58,  53,  50,
 	/* 7 right up   */       49,  50,  53,  58,  65,  74,  85,  98
 			       };
-#endif
-
-#if defined(WE_ARE_EXTERN)
- extern  long int BGL_move_diff_code[square_h8 - square_a1 + 1];
-#else
- long int BGL_move_diff_code[square_h8 - square_a1 + 1]= {
- /* left/right   */        0,   100,   200,   300,  400,  500,  600,  700,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 1 left  up   */            707,  608,  510,  412,  316,   224,   141,
- /* 1 right up   */        100,   141,   224,  316,  412,  510,  608,  707,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 2 left  up   */            728,  632,  539,  447,  361,   283,   224,
- /* 2 right up   */        200,   224,   283,  361,  447,  539,  632,  728,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 3 left  up   */            762,  671,  583,  500,  424,  361,  316,
- /* 3 right up   */        300,  316,  361,  424,  500,  583,  671,  762,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 4 left  up   */            806,  721,  640,  566,  500,  447,  412,
- /* 4 right up   */       400,  412,  447,  500,  566,  640,  721,  806,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 5 left  up   */            860,  781,  707,  640,  583,  539,  510,
- /* 5 right up   */       500,  510,  539,  583,  640,  707,  781,  860,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 6 left  up   */            922,  849,  781,  721,  671,  632,  608,
- /* 6 right up   */       600,  608,  632,  671,  721,  781,  849,  922,
- /* dummies      */       -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1, -1,
- /* 7 left  up   */            990,  922,  860,  806,  762,  728,  707,
- /* 7 right up   */       700,  707,  728,  762,  806,  860,  922,  990
-          };
 #endif
 
 #if defined(WE_ARE_EXTERN)

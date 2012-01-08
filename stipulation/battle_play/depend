@@ -67,7 +67,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  solving/play_suppressor.h solving/battle_play/threat.h \
  solving/battle_play/try.h solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
- solving/battle_play/continuation.h \
+ solving/battle_play/continuation.h conditions/bgl.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
@@ -141,6 +141,8 @@ solving/battle_play/min_length_optimiser.h:
 
 solving/battle_play/continuation.h:
 
+conditions/bgl.h:
+
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
@@ -200,7 +202,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/check_detector.h solving/battle_play/try.h \
  solving/battle_play/threat.h solving/find_by_increasing_length.h \
- solving/battle_play/min_length_guard.h \
+ solving/battle_play/min_length_guard.h conditions/bgl.h \
  optimisations/killer_move/move_generator.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
@@ -268,6 +270,8 @@ solving/battle_play/threat.h:
 solving/find_by_increasing_length.h:
 
 solving/battle_play/min_length_guard.h:
+
+conditions/bgl.h:
 
 optimisations/killer_move/move_generator.h:
 

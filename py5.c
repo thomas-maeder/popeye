@@ -1646,8 +1646,6 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
     result = false;
   else if (CondFlag[patience] && !PatienceB && !patience_legal()) /* don't call patience_legal if TypeB as obs > vide ! */
     result = false;
-  else
-    result = trait[nbply]==White ? BGL_white>=0 : BGL_black>=0;
 
   return result;
 }
@@ -3525,20 +3523,6 @@ boolean jouecoup(ply ply_id, joue_type jt)
       change_observed(ply_id,
                       move_gen_top->arrival,
                       flag_outputmultiplecolourchanges);
-
-    if (!BGL_whiteinfinity
-        && (BGL_global || trait_ply == White))
-    {
-      BGL_white -= BGL_move_diff_code[abs(move_gen_top->departure
-                                          -move_gen_top->arrival)];
-      BGL_white_store[ply_id] = BGL_white;
-    }
-    if (!BGL_blackinfinity && (BGL_global || trait_ply == Black))
-    {
-      BGL_black -= BGL_move_diff_code[abs(move_gen_top->departure
-                                          -move_gen_top->arrival)];
-      BGL_black_store[ply_id] = BGL_black;
-    }
   } /* if (jouegenre) */
 
   return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
@@ -3566,15 +3550,6 @@ void repcoup(void)
     {
        sq_capture= sq_arrival;
        rochade= true;
-    }
-
-    if (!BGL_whiteinfinity && (BGL_global || trait[nbply] == White))
-    {
-      BGL_white += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
-    }
-    if (!BGL_blackinfinity && (BGL_global || trait[nbply] == Black))
-    {
-      BGL_black += BGL_move_diff_code[abs(sq_departure-sq_arrival)];
     }
 
     if (flag_magic)
