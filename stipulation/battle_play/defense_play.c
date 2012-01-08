@@ -10,6 +10,7 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
@@ -126,6 +127,10 @@ stip_length_type defend(slice_index si,
 
     case STMove:
       result = move_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STMovePlayed:
+      result = move_played_defend(si,n,n_max_unsolvable);
       break;
 
     case STForkOnRemaining:
@@ -329,6 +334,10 @@ stip_length_type can_defend(slice_index si,
 
     case STMove:
       result = move_can_defend(si,n,n_max_unsolvable);
+      break;
+
+    case STMovePlayed:
+      result = move_played_can_defend(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveFinalDefenseMove:

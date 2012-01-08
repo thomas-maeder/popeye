@@ -1,4 +1,4 @@
-#include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
@@ -6,17 +6,17 @@
 
 #include <assert.h>
 
-/* Allocate a STMove slice.
+/* Allocate a STMovePlayed slice.
  * @return index of allocated slice
  */
-slice_index alloc_move_slice(void)
+slice_index alloc_move_played_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMove);
+  result = alloc_pipe(STMovePlayed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -34,12 +34,11 @@ slice_index alloc_move_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type move_can_attack(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_max_unsolvable)
+stip_length_type move_played_can_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -47,17 +46,10 @@ stip_length_type move_can_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  while (encore() && result>n)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = can_attack(next,n,n_max_unsolvable);
-      if (length_sol<result)
-        result = length_sol;
-    }
-
-    repcoup();
-  }
+  assert(n>slack_length_battle);
+  result = can_defend(slices[si].u.pipe.next,n-1,n_max_unsolvable-1)+1;
+  if (result<=slack_length_battle) /* oops - unintentional stalemate! */
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,12 +68,11 @@ stip_length_type move_can_attack(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type move_attack(slice_index si,
-                             stip_length_type n,
-                             stip_length_type n_max_unsolvable)
+stip_length_type move_played_attack(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -89,17 +80,10 @@ stip_length_type move_attack(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = attack(next,n,n_max_unsolvable);
-      if (length_sol<result)
-        result = length_sol;
-    }
-
-    repcoup();
-  }
+  assert(n>slack_length_battle);
+  result = defend(slices[si].u.pipe.next,n-1,n_max_unsolvable-1)+1;
+  if (result<=slack_length_battle) /* oops - unintentional stalemate! */
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -121,12 +105,11 @@ stip_length_type move_attack(slice_index si,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type move_defend(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable)
+stip_length_type move_played_defend(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_max_unsolvable)
 {
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = slack_length_battle-1;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -134,17 +117,10 @@ stip_length_type move_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = defend(next,n,n_max_unsolvable);
-      if (result<length_sol)
-        result = length_sol;
-    }
+  assert(n>slack_length_battle);
 
-    repcoup();
-  }
+  n_max_unsolvable = slack_length_battle;
+  result = attack(slices[si].u.pipe.next,n-1,n_max_unsolvable-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -163,12 +139,11 @@ stip_length_type move_defend(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type move_can_defend(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type move_played_can_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = slack_length_battle-1;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -176,17 +151,12 @@ stip_length_type move_can_defend(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  while (result<=n && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = can_defend(next,n,n_max_unsolvable);
-      if (result<length_sol)
-        result = length_sol;
-    }
+  assert(n>slack_length_battle);
 
-    repcoup();
-  }
+  n_max_unsolvable = slack_length_battle;
+  result = can_attack(slices[si].u.pipe.next,n-1,n_max_unsolvable-1)+1;
+  if (result>n) /* refuted */
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -203,24 +173,18 @@ stip_length_type move_can_defend(slice_index si,
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type move_help(slice_index si, stip_length_type n)
+stip_length_type move_played_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help(next,n)==n)
-      result = n;
+  assert(n>slack_length_help);
 
-    repcoup();
-  }
+  result = help(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -237,29 +201,65 @@ stip_length_type move_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type move_can_help(slice_index si, stip_length_type n)
+stip_length_type move_played_can_help(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = n+2;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  while (encore())
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && can_help(next,n)==n)
-    {
-      result = n;
-      repcoup();
-      break;
-    }
-    else
-      repcoup();
+  assert(n>slack_length_help);
+
+  result = can_help(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ */
+void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].starter==no_side)
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    stip_traverse_structure_pipe(si,st);
+    slices[si].starter = (slices[next].starter==no_side
+                          ? no_side
+                          : advers(slices[next].starter));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves of some branch slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_move_played(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->remaining>0);
+
+  --st->remaining;
+  TraceValue("->%u\n",st->remaining);
+  stip_traverse_moves_pipe(si,st);
+  ++st->remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

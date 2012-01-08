@@ -24,6 +24,7 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/help_play/branch.h"
@@ -112,6 +113,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STEndOfIntro */
   slice_structure_pipe,   /* STDeadEnd */
   slice_structure_pipe,   /* STMove */
+  slice_structure_pipe,   /* STMovePlayed */
   slice_structure_pipe,   /* STDummyMove */
   slice_structure_branch, /* STReadyForDummyMove */
   slice_structure_pipe,   /* STShortSolutionsStart*/
@@ -282,6 +284,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfIntro */
   slice_function_unspecified,    /* STDeadEnd */
   slice_function_unspecified,    /* STMove */
+  slice_function_unspecified,    /* STMovePlayed */
   slice_function_unspecified,    /* STDummyMove */
   slice_function_unspecified,    /* STReadyForDummyMove */
   slice_function_unspecified,    /* STShortSolutionsStart*/
@@ -1305,8 +1308,8 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STMove,              &move_detect_starter          },
-  { STDummyMove,         &move_detect_starter          },
+  { STMovePlayed,        &move_played_detect_starter   },
+  { STDummyMove,         &move_played_detect_starter   },
   { STMoveInverter,      &move_inverter_detect_starter },
   { STThreatSolver,      &pipe_detect_starter          },
   { STMaxThreatLength,   &pipe_detect_starter          },
@@ -1406,7 +1409,7 @@ static void impose_inverted_starter(slice_index si,
  */
 static slice_type starter_inverters[] =
 {
-  STMove,
+  STMovePlayed,
   STDummyMove,
   STMoveInverter
 };
@@ -1566,6 +1569,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STEndOfIntro */
   &stip_traverse_structure_pipe,              /* STDeadEnd */
   &stip_traverse_structure_pipe,              /* STMove */
+  &stip_traverse_structure_pipe,              /* STMovePlayed */
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForDummyMove */
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
@@ -1836,8 +1840,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STEndOfRoot */
     &stip_traverse_moves_pipe,              /* STEndOfIntro */
     &stip_traverse_moves_dead_end,          /* STDeadEnd */
-    &stip_traverse_moves_move,              /* STMove */
-    &stip_traverse_moves_move,              /* STDummyMove */
+    &stip_traverse_moves_pipe,              /* STMove */
+    &stip_traverse_moves_move_played,       /* STMovePlayed */
+    &stip_traverse_moves_move_played,       /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForDummyMove */
     &stip_traverse_moves_pipe,              /* STShortSolutionsStart*/
     &stip_traverse_moves_binary,            /* STCheckZigzagJump */

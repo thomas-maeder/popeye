@@ -8,6 +8,7 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
@@ -51,6 +52,7 @@ static slice_index const slice_rank_order[] =
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
+  STMovePlayed,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
   STRestartGuard,
@@ -97,6 +99,7 @@ static slice_index const slice_rank_order[] =
   STCountNrOpponentMovesMoveGenerator,
   STKillerMoveFinalDefenseMove,
   STMove,
+  STMovePlayed,
   STDummyMove,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
@@ -514,13 +517,15 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
+    slice_index const played = alloc_move_played_slice();
 
     pipe_link(adapter,ready);
     pipe_link(ready,testpre);
     pipe_link(testpre,deadend);
     pipe_link(deadend,generating);
     pipe_link(generating,defense);
-    pipe_link(defense,next);
+    pipe_link(defense,played);
+    pipe_link(played,next);
 
     result = adapter;
   }
@@ -556,24 +561,28 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_move_slice();
+    slice_index const aplayed = alloc_move_played_slice();
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
+    slice_index const dplayed = alloc_move_played_slice();
 
     pipe_link(adapter,aready);
     pipe_link(aready,atestpre);
     pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
-    pipe_link(attack,dready);
+    pipe_link(attack,aplayed);
+    pipe_link(aplayed,dready);
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
-    pipe_link(defense,adapter);
+    pipe_link(defense,dplayed);
+    pipe_link(dplayed,adapter);
 
     result = adapter;
   }

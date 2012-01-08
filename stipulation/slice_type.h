@@ -33,6 +33,7 @@
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                                \
+    ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
     ENUMERATOR(STReadyForDummyMove),                                   \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \

@@ -17,8 +17,8 @@ stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h pypipe.h stipulation/constraint.h \
  stipulation/branch.h stipulation/end_of_branch.h stipulation/dead_end.h \
  stipulation/end_of_branch_goal.h stipulation/dummy_move.h \
- stipulation/move.h stipulation/boolean/binary.h \
- stipulation/help_play/adapter.h trace.h
+ stipulation/move.h stipulation/move_played.h \
+ stipulation/boolean/binary.h stipulation/help_play/adapter.h trace.h
 
 stipulation/help_play/branch.h:
 
@@ -38,6 +38,8 @@ stipulation/dummy_move.h:
 
 stipulation/move.h:
 
+stipulation/move_played.h:
+
 stipulation/boolean/binary.h:
 
 stipulation/help_play/adapter.h:
@@ -47,7 +49,7 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
  stipulation/help_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
  pyflight.h pyproof.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move.h stipulation/dummy_move.h \
+ stipulation/move.h stipulation/move_played.h stipulation/dummy_move.h \
  stipulation/check_zigzag_jump.h stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
@@ -99,6 +101,8 @@ stipulation/end_of_branch.h:
 stipulation/end_of_branch_goal.h:
 
 stipulation/move.h:
+
+stipulation/move_played.h:
 
 stipulation/dummy_move.h:
 

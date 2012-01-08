@@ -1235,7 +1235,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move.h \
- stipulation/goals/immobile/reached_tester.h \
+ stipulation/move_played.h stipulation/goals/immobile/reached_tester.h \
  stipulation/help_play/adapter.h stipulation/help_play/branch.h \
  stipulation/proxy.h solving/fork_on_remaining.h solving/find_shortest.h \
  solving/move_generator.h solving/battle_play/try.h pytable.h \
@@ -1344,6 +1344,8 @@ stipulation/battle_play/attack_adapter.h:
 stipulation/battle_play/defense_adapter.h:
 
 stipulation/move.h:
+
+stipulation/move_played.h:
 
 stipulation/goals/immobile/reached_tester.h:
 

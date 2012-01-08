@@ -7,6 +7,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "trace.h"
@@ -54,6 +55,7 @@ static slice_index const slice_rank_order[] =
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
   STMove,
+  STMovePlayed,
   STDummyMove,
   STCaptureCounter,
   STAnyMoveCounter,
@@ -620,11 +622,13 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const testpre1 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating1 = alloc_pipe(STGeneratingMoves);
     slice_index const move1 = alloc_move_slice();
+    slice_index const played1 = alloc_move_played_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const testpre2 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating2 = alloc_pipe(STGeneratingMoves);
     slice_index const move2 = alloc_move_slice();
+    slice_index const played2 = alloc_move_played_slice();
 
     slice_index const deadend = alloc_dead_end_slice();
 
@@ -632,16 +636,18 @@ slice_index alloc_help_branch(stip_length_type length,
     pipe_link(ready1,testpre1);
     pipe_link(testpre1,generating1);
     pipe_link(generating1,move1);
-    pipe_link(move1,ready2);
+    pipe_link(move1,played1);
+    pipe_link(played1,ready2);
     pipe_link(ready2,testpre2);
     pipe_link(testpre2,generating2);
     pipe_link(generating2,move2);
-    pipe_link(move2,adapter);
+    pipe_link(move2,played2);
+    pipe_link(played2,adapter);
 
     if ((length-slack_length_help)%2==0)
-      pipe_append(adapter,deadend);
+      help_branch_insert_slices(adapter,&deadend,1);
     else
-      pipe_append(move1,deadend);
+      help_branch_insert_slices(move1,&deadend,1);
 
     result = adapter;
   }
@@ -863,6 +869,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const move = alloc_move_slice();
+    slice_index const played = alloc_move_played_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForDummyMove);
     slice_index const dummy = alloc_dummy_move_slice();
@@ -873,7 +880,8 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(ready,testpre);
     pipe_link(testpre,generating);
     pipe_link(generating,move);
-    pipe_link(move,deadend);
+    pipe_link(move,played);
+    pipe_link(played,deadend);
     pipe_link(deadend,ready2);
     pipe_link(ready2,dummy);
     pipe_link(dummy,adapter);

@@ -10,6 +10,7 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -92,6 +93,10 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STMove:
       result = move_help(si,n);
+      break;
+
+    case STMovePlayed:
+      result = move_played_help(si,n);
       break;
 
     case STEndOfBranch:
@@ -265,6 +270,10 @@ stip_length_type can_help(slice_index si, stip_length_type n)
   {
     case STMove:
       result = move_can_help(si,n);
+      break;
+
+    case STMovePlayed:
+      result = move_played_can_help(si,n);
       break;
 
     case STForkOnRemaining:
