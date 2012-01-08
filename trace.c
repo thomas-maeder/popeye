@@ -12,6 +12,8 @@
 #include <string.h>
 
 #if defined(DOTRACE)
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 
 static trace_level level;
 
@@ -599,6 +601,8 @@ static void insert_move_tracer(slice_index si, stip_structure_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
 
   {
     slice_index const prototype = alloc_move_tracer_slice();
