@@ -452,7 +452,6 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
       slice_index const start = branch_find_slice(STThreatStart,si);
       slice_index const prototypes[] =
       {
-        alloc_check_detector_slice(),
         alloc_threat_solver_slice(start),
         alloc_threat_enforcer_slice(start),
         alloc_threat_collector_slice()
@@ -487,7 +486,7 @@ void stip_insert_threat_handlers(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STDefenseAdapter,
+                                           STReadyForDefense,
                                            &append_threat_solver);
   stip_traverse_structure(si,&st);
 

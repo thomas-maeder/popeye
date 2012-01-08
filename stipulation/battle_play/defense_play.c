@@ -74,10 +74,6 @@ stip_length_type defend(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDefenseAdapter:
-      result = defend(slices[si].u.pipe.next,n,n_max_unsolvable);
-      break;
-
     case STRefutationsAllocator:
       result = refutations_allocator_defend(si,n,n_max_unsolvable);
       break;
@@ -282,10 +278,6 @@ stip_length_type can_defend(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDefenseAdapter:
-      result = can_defend(slices[si].u.pipe.next,n,n_max_unsolvable);
-      break;
-
     case STRefutationsAllocator:
       result = refutations_allocator_can_defend(si,n,n_max_unsolvable);
       break;

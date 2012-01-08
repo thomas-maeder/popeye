@@ -550,13 +550,12 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(min_length>=slack_length_battle);
 
   {
-    slice_index const aadapter = alloc_attack_adapter_slice(length,min_length);
+    slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_move_slice();
-    slice_index const dadapter = alloc_defense_adapter_slice(length-1,min_length-1);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
@@ -564,20 +563,19 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_move_slice();
 
-    pipe_link(aadapter,aready);
+    pipe_link(adapter,aready);
     pipe_link(aready,atestpre);
     pipe_link(atestpre,adeadend);
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
-    pipe_link(attack,dadapter);
-    pipe_link(dadapter,dready);
+    pipe_link(attack,dready);
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
-    pipe_link(defense,aadapter);
+    pipe_link(defense,adapter);
 
-    result = aadapter;
+    result = adapter;
   }
 
   TraceFunctionExit(__func__);
@@ -688,6 +686,7 @@ slice_index battle_branch_make_postkeyplay(slice_index adapter)
     assert(result!=no_slice);
 
     branch_shorten_slices(adapter,STDefenseAdapter);
+    pipe_remove(adapter);
   }
 
   TraceFunctionExit(__func__);
@@ -844,7 +843,9 @@ void battle_make_root(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 
   battle_branch_make_root_slices(adapter,state);
+
   branch_shorten_slices(adapter,STEndOfRoot);
+  pipe_remove(adapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();

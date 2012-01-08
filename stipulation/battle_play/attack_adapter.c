@@ -63,8 +63,7 @@ void attack_adapter_make_intro(slice_index adapter,
 
   stip_traverse_structure_children(adapter,st);
 
-  if (st->context==stip_traversal_context_global
-      && st->level==structure_traversal_level_nested
+  if (st->level==structure_traversal_level_nested
       && slices[adapter].u.branch.length>slack_length_battle)
   {
     spin_off_state_type * const state = st->param;
@@ -163,13 +162,19 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
     else
     {
       /* set play of some pser stipulation */
-      slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
-                                                            adapter);
-      assert(defense_adapter!=no_slice);
-      battle_branch_make_root_slices(defense_adapter,state);
-      assert(state->spun_off[defense_adapter]!=no_slice);
-      state->spun_off[adapter] = state->spun_off[defense_adapter];
-      slices[state->spun_off[adapter]].u.branch.length = slack_length_battle;
+      slice_index const proto = alloc_defense_adapter_slice(slack_length_battle,
+                                                            slack_length_battle);
+      battle_branch_insert_slices(adapter,&proto,1);
+
+      {
+        slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
+                                                              adapter);
+        assert(defense_adapter!=no_slice);
+        battle_branch_make_root_slices(defense_adapter,state);
+        assert(state->spun_off[defense_adapter]!=no_slice);
+        state->spun_off[adapter] = state->spun_off[defense_adapter];
+        pipe_remove(defense_adapter);
+      }
     }
   }
 

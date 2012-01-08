@@ -488,11 +488,13 @@ zweimal eine Anzuginversion (-)
           2.La4-c2
               2...e5-e4 #
 
+
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
+
               empile:       12424
             jouecoup:        9006
-        orig_rbechec:        5814
-        orig_rnechec:        5858
+        orig_rbechec:        5815
+        orig_rnechec:        5859
 Loesung beendet. 
 
 

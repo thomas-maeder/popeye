@@ -15,7 +15,6 @@ static slice_index const root_slice_rank_order[] =
 {
   STProxy,
   STTemporaryHackFork,
-  STOutputModeSelector,
   STSetplayFork,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
@@ -26,6 +25,7 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
   STStopOnShortSolutionsInitialiser,
+  STOutputModeSelector,
   STEndOfPhaseWriter,
   STAttackAdapter,
   STDefenseAdapter,

@@ -70,10 +70,6 @@ stip_length_type can_attack(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STAttackAdapter:
-      result = can_attack(slices[si].u.pipe.next,n,n_max_unsolvable);
-      break;
-
     case STThreatEnforcer:
       result = threat_enforcer_can_attack(si,n,n_max_unsolvable);
       break;
@@ -272,10 +268,6 @@ stip_length_type attack(slice_index si,
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STAttackAdapter:
-      result = attack(slices[si].u.pipe.next,n,n_max_unsolvable);
-      break;
-
     case STThreatEnforcer:
       result = threat_enforcer_attack(si,n,n_max_unsolvable);
       break;
