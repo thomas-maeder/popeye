@@ -6670,7 +6670,6 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case RemToken:
-            fprintf(stdout,"%u\n",(unsigned int)LastChar);
             if (LastChar != '\n')
             {
               ReadToEndOfLine();
