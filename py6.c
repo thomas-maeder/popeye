@@ -1140,7 +1140,7 @@ static boolean verify_position(slice_index si)
     obsfriendgenre=true;
   }
 
-  if (flagAssassin) {
+  if (CondFlag[circeassassin]) {
     if (TSTFLAG(PieSpExFlags,Neutral) /* Neutrals not implemented */
         || CondFlag[bicolores])             /* others? */
     {
@@ -1734,7 +1734,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || flagAssassin
+      || CondFlag[circeassassin]
       || stip_ends_in(si,goal_doublemate)
       || stip_ends_in(si,goal_countermate)
       || CondFlag[patience]
@@ -1752,7 +1752,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[antisuper]
       || CondFlag[april];
 
-  if (CondFlag[extinction] || flagAssassin)
+  if (CondFlag[extinction] || CondFlag[circeassassin])
   {
     optim_neutralretractable = false; /* TODO why for extinction */
     add_ortho_mating_moves_generation_obstacle();

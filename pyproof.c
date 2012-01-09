@@ -1980,7 +1980,7 @@ void ProofInitialise(slice_index si)
                   || CondFlag[annan]
                   || CondFlag[glasgow]
                   || CondFlag[takemake]
-                  || flagAssassin
+                  || CondFlag[circeassassin]
                   || CondFlag[messigny]
                   || CondFlag[mars]
                   || CondFlag[castlingchess]

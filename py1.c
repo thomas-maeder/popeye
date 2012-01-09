@@ -208,7 +208,7 @@ void InitCond(void) {
 
   bl_royal_sq= wh_royal_sq= initsquare;
 
-  flagAssassin= false;
+  CondFlag[circeassassin]= false;
   flagmummer[White] = false;
   flagmummer[Black] = false;
   flagmaxi= flagultraschachzwang= false;
@@ -388,7 +388,7 @@ void InitAlways(void) {
 
   nbmagic = 0;
 
-  flagAssassin = false;
+  CondFlag[circeassassin] = false;
   k_cap = false;
   flagfee = false;
   flagriders = false;

@@ -5133,9 +5133,8 @@ static char *ParseCond(void) {
             anyclone= true;
         break;
       case circeassassin:
-        anycirce= true;
-        flagAssassin= true;
-        circerenai= rennormal;
+        anycirce = true;
+        circerenai = rennormal;
         break;
 
         /* different types of anticirce */

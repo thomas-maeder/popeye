@@ -1612,8 +1612,7 @@ static boolean singlebox_illegal(void)
   return result;
 }
 
-static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
-                                      square sq_rebirth)
+static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla])
 {
   boolean result = true;
 
@@ -1640,9 +1639,9 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
     result = false;
   else if (CondFlag[isardam] && !isardam_pos_legal())
     result = false;
-  else if (flagAssassin && (sq_rebirth==king_square[White] || sq_rebirth==king_square[Black]))
+  else if (CondFlag[circeassassin] && (sqrenais[nbply]==king_square[White] || sqrenais[nbply]==king_square[Black]))
     result = false;
-  else if (are_we_testing_immobility_with_opposite_king_en_prise && (king_square[White]==initsquare || king_square[Black]==initsquare))
+  else if (are_we_testing_immobility_with_opposite_king_en_prise && king_square[advers(trait[nbply])]==initsquare)
     result = false;
   else if (CondFlag[patience] && !PatienceB && !patience_legal()) /* don't call patience_legal if TypeB as obs > vide ! */
     result = false;
@@ -2313,7 +2312,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       else if (king_square[Black]==sq_arrival)
         king_square[Black]= sq_departure;
 
-      return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
+      return jouecoup_legality_test(prev_nbpiece);
 
     case kingside_castling:
       if (CondFlag[einstein])
@@ -3291,7 +3290,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             sq_rebirth= initsquare;
           }
 
-          if ( (e[sq_rebirth] == vide || flagAssassin)
+          if ( (e[sq_rebirth] == vide || CondFlag[circeassassin])
                && !( CondFlag[contactgrid]
                      && nogridcontact(sq_rebirth)))
           {
@@ -3364,7 +3363,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                 CLRFLAG(spec_pi_captured, Volage);
               }
             }
-            if (flagAssassin) {
+            if (CondFlag[circeassassin]) {
               nbpiece[pdisp[ply_id]=e[sq_rebirth]]--;
               pdispspec[ply_id]=spec[sq_rebirth];
             }
@@ -3525,7 +3524,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
                       flag_outputmultiplecolourchanges);
   } /* if (jouegenre) */
 
-  return jouecoup_legality_test(prev_nbpiece,sq_rebirth);
+  return jouecoup_legality_test(prev_nbpiece);
 } /* end of jouecoup */
 
 void repcoup(void)
@@ -3894,7 +3893,7 @@ void repcoup(void)
         e[sq_rebirth]= vide;
         spec[sq_rebirth]= 0;
       }
-      if (flagAssassin && pdisp[nbply]) {
+      if (CondFlag[circeassassin] && pdisp[nbply]) {
         if (e[sq_rebirth])
           nbpiece[e[sq_rebirth]]--;
         nbpiece[e[sq_rebirth]= pdisp[nbply]]++;

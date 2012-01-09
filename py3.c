@@ -977,9 +977,9 @@ static boolean echecc_wh_assassin(ply ply_id)
       boolean flag;
       square const rb_sic = king_square[White];
       king_square[White] = *bnp;
-      flagAssassin = false;
+      CondFlag[circeassassin] = false;
       flag = rbechec(ply_id,eval_white);
-      flagAssassin = true;
+      CondFlag[circeassassin] = true;
       king_square[White] = rb_sic;
       if (flag)
         return true;
@@ -1013,9 +1013,9 @@ static boolean echecc_bl_assassin(ply ply_id)
       boolean flag;
       square rn_sic = king_square[Black];
       king_square[Black] = *bnp;
-      flagAssassin = false;
+      CondFlag[circeassassin] = false;
       flag = rnechec(ply_id,eval_black);
-      flagAssassin = true;
+      CondFlag[circeassassin] = true;
       king_square[Black] = rn_sic;
       if (flag)
         return true;
@@ -1080,7 +1080,7 @@ boolean echecc(ply ply_id, Side camp)
     {
       if (TSTFLAG(PieSpExFlags,Neutral))
         initneutre(Black);
-      if (flagAssassin && echecc_wh_assassin(nbply))
+      if (CondFlag[circeassassin] && echecc_wh_assassin(nbply))
         result = true;
       else if (CondFlag[bicolores])
         result = echecc_wh_bicolores(nbply);
@@ -1103,7 +1103,7 @@ boolean echecc(ply ply_id, Side camp)
     {
       if (TSTFLAG(PieSpExFlags,Neutral))
         initneutre(White);
-      if (flagAssassin && echecc_bl_assassin(nbply))
+      if (CondFlag[circeassassin] && echecc_bl_assassin(nbply))
         result = true;
       else if (CondFlag[bicolores])
         result = echecc_bl_bicolores(nbply);
