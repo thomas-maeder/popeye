@@ -121,6 +121,7 @@ checkfunction_t gscoutcheck;
 checkfunction_t huntercheck;
 checkfunction_t impcheck;
 checkfunction_t kangoucheck;
+checkfunction_t kanglioncheck;
 checkfunction_t kinghopcheck;
 checkfunction_t leap15check;
 checkfunction_t leap16check;
@@ -202,6 +203,10 @@ checkfunction_t sp40check;
 checkfunction_t sp11check;
 checkfunction_t sp33check;
 checkfunction_t sp31check;
+checkfunction_t treehoppercheck;
+checkfunction_t leafhoppercheck;
+checkfunction_t greatertreehoppercheck;
+checkfunction_t greaterleafhoppercheck;
 
 square  coinequis(square a);
 
@@ -226,8 +231,6 @@ void    genrb(square a);
 void    genrn(square a);
 void    gfeerblanc(square a,piece b);
 void    gfeernoir(square a,piece b);
-void    gkangb(square sq);
-void    gkangn(square sq);
 void    glocb(square a);
 void    glocn(square a);
 void    gmaob(square a);
@@ -467,6 +470,7 @@ boolean leapleapcheck(square	 sq_king,
                       numvec	 kanf,
                       numvec	 kend,
                       int hurdletype,
+                      boolean leaf,
                       piece	 p,
                       evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;

@@ -472,6 +472,7 @@ boolean leapleapcheck(square     sq_king,
                       numvec     kanf,
                       numvec     kend,
                       int hurdletype,
+                      boolean leaf,
                       piece  p,
                       evalfunction_t *evaluate)
 {
@@ -481,7 +482,8 @@ boolean leapleapcheck(square     sq_king,
 
   for (k= kanf; k<= kend; k++) {
     sq_hurdle= sq_king + vec[k];
-    if (hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0)
+    if (hurdletype==0 && abs(e[sq_hurdle])>obs && e[sq_hurdle]*p<0 ||
+       hurdletype ==1 && abs(e[sq_hurdle])>obs)
     {
       for (k1= kanf; k1<= kend; k1++) {
         sq_departure = sq_hurdle + vec[k1];

@@ -557,7 +557,12 @@ EXTERN boolean          kobulking[nr_sides];
     /*137*/ {'q','n'},  /*quintessence */
     /*138*/ {'d','t'},  /* double tour-sauterelle */
     /*139*/ {'d','f'},  /* double fou-sauterelle */
-    /*140*/ {'n','o'}   /* orix (non-stop) */
+    /*140*/ {'n','o'},   /* orix (non-stop) */
+    /*141*/ {'t','h'},   /* treehopper */
+    /*142*/ {'l','h'},   /* leafhopper */
+    /*143*/ {'g','e'},   /* greater treehopper */
+    /*144*/ {'g','f'},   /* greater leafhopper */
+    /*145*/ {'k','l'}   /* kangarou lion */
 	},{ /* German PieNamString */
 	/*  0*/ {'.',' '},  /* leer */
 	/*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -699,7 +704,12 @@ EXTERN boolean          kobulking[nr_sides];
     /*137*/ {'q','n'},   /* quintessence */
     /*138*/ {'d','t'},  /* Doppelturmhuepfer */
     /*139*/ {'d','l'},  /* Doppellaeuferhuepfer */
-    /*140*/ {'n','o'}    /* orix (non-stop) */
+    /*140*/ {'n','o'},   /* orix (non-stop) */
+    /*141*/ {'t','h'},   /* treehopper */
+    /*142*/ {'l','h'},   /* leafhopper */
+    /*143*/ {'g','t'},   /* greater treehopper */
+    /*144*/ {'g','l'},  /* greater leafhopper */
+    /*145*/ {'l','k'}   /* kangarou lion */
 	},{/* English PieNamString */
 	/*  0*/ {'.',' '},  /* empty */
 	/*  1*/ {' ',' '},  /* outside board */
@@ -841,7 +851,12 @@ EXTERN boolean          kobulking[nr_sides];
     /*137*/ {'q','n'},  /* quintessence */
     /*138*/ {'d','k'},  /* double rookhopper */
     /*139*/ {'d','b'},  /* double bishopper */
-    /*140*/ {'n','o'}   /* orix (non-stop) */
+    /*140*/ {'n','o'},   /* orix (non-stop) */
+    /*141*/ {'t','h'},   /* treehopper */
+    /*142*/ {'l','h'},   /* leafhopper */
+    /*143*/ {'g','e'},   /* greater treehopper */
+    /*144*/ {'g','f'},   /* greater leafhopper */
+    /*145*/ {'k','l'}   /* kangarou lion */
   }
 	};
 #endif
@@ -1811,10 +1826,13 @@ enum {
   vec_equi_nonintercept_start=17, vec_equi_nonintercept_end=40,
   vec_girafe_start=41,            vec_girafe_end=  48,
   vec_antilope_start=49,          vec_antilope_end=  56,
+  vec_leap05_start=57,            vec_leap05_end=  60,
   vec_bucephale_start=49,         vec_bucephale_end=  60,
   vec_dabbaba_start=61,           vec_dabbaba_end=  64,
   vec_alfil_start= 65,            vec_alfil_end=   68,
   vec_ecureuil_start= 61,         vec_ecureuil_end= 68, /* +knight vecs */
+  vec_leap17_start= 69,           vec_leap17_end=   76,
+  vec_leap55_start= 77,           vec_leap55_end=   80,
   vec_rccinq_start= 69,           vec_rccinq_end=   80,
   vec_leap37_start=81,            vec_leap37_end=  88,
   vec_leap16_start=89,            vec_leap16_end=  96,
@@ -2056,16 +2074,21 @@ enum {
 /*138 */  doublerookhoppercheck,
 /*139 */  doublebishoppercheck,
 /*140 */  norixcheck,
-/*141 */  huntercheck,
-/*142 */  huntercheck,
-/*143 */  huntercheck,
-/*144 */  huntercheck,
-/*145 */  huntercheck,
+/*141 */  treehoppercheck,
+/*142 */  leafhoppercheck,
+/*143 */  greatertreehoppercheck,
+/*144 */  greaterleafhoppercheck,
+/*145 */  kanglioncheck,
 /*146 */  huntercheck,
 /*147 */  huntercheck,
 /*148 */  huntercheck,
 /*149 */  huntercheck,
-/*150 */  huntercheck
+/*150 */  huntercheck,
+/*151 */  huntercheck,
+/*152 */  huntercheck,
+/*153 */  huntercheck,
+/*154 */  huntercheck,
+/*155 */  huntercheck
     };
 #endif
 

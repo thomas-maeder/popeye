@@ -477,7 +477,12 @@ typedef enum
   DoubleRookHopper,      /* 138 */
   DoubleBishopper,       /* 139 */
   NonStopOrix,           /* 140 */
-  Hunter0,               /* 141 */
+  Treehopper,            /* 141 */
+  Leafhopper,            /* 142 */
+  GreaterTreehopper,     /* 143 */
+  GreaterLeafhopper,     /* 144 */
+  KangarooLion,          /* 145 */
+  Hunter0,               /* 146 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

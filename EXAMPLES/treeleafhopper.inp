@@ -1,0 +1,66 @@
+
+
+
+
+beg
+
+auth Peter Wong
+orig feenschach 1993
+stip h=3
+pie wh gfd6
+pie bl mod4
+opt nowk nobk
+twin move d4 d5
+
+next
+
+auth Peter Wong
+orig feenschach 1993
+stip h=3
+pie wh gfd2
+pie bl oaf4
+opt nowk nobk
+twin move f4 b6
+
+next
+
+auth Peter Wong
+orig feenschach 1993
+stip h==3.5
+opt set
+pie wh oad7
+pie bl thd3
+opt nowk nobk
+twin move d3 d4
+
+next
+
+auth Peter Wong
+orig feenschach 1993
+stip h==2.5
+pie wh oad2
+pie bl roy geg7
+opt nowk 
+twin move g7 a4
+
+next
+
+auth Stephen Emmerson
+orig Original
+stip h==5 
+opt set 
+opt nowk nobk
+pie wh lha1 blac tha2
+
+next
+
+auth Stephen Emmerson
+orig Original
+stip h==2.5 
+opt set 
+opt nowk nobk
+pie wh lha1 blac lha2
+
+end
+
+

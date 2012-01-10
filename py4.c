@@ -1485,6 +1485,27 @@ static void gkang(square sq_departure, Side camp) {
   }
 }
 
+static void gkanglion(square sq_departure, Side camp) {
+  piece hurdle;
+  square sq_hurdle;
+  numvec k;
+
+  square sq_arrival;
+
+  for (k= vec_queen_end; k>=vec_queen_start; k--) {
+    finligne(sq_departure,vec[k],hurdle,sq_hurdle);
+    if (hurdle!=obs) {
+      finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
+      if (hurdle!=obs) {
+        while (e[sq_arrival+= vec[k]] == vide) 
+          empile(sq_departure,sq_arrival,sq_arrival);
+        if (rightcolor(e[sq_arrival],camp))
+          empile(sq_departure,sq_arrival,sq_arrival);
+      }
+    }
+  }
+}
+
 static void grabbit(square sq_departure, Side camp) {
   piece hurdle;
   square sq_hurdle;
@@ -2156,6 +2177,10 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
     gkang(sq_departure, camp);
     return;
 
+  case kanglionb:
+    gkanglion(sq_departure, camp);
+    return;
+
   case csb:
     for (k= vec_knight_start; k<=vec_knight_end; k++)
       gcs(sq_departure, vec[k], vec[25 - k], camp);
@@ -2517,6 +2542,22 @@ static void gfeerrest(square sq_departure, piece p, Side camp)
 
   case radialknightb :
     genradialknight(sq_departure, camp);
+    break;
+
+  case treehopperb :
+    gentreehopper(sq_departure, camp);
+    break;
+
+  case leafhopperb :
+    genleafhopper(sq_departure, camp);
+    break;
+
+  case greatertreehopperb :
+    gengreatertreehopper(sq_departure, camp);
+    break;
+
+  case greaterleafhopperb :
+    gengreaterleafhopper(sq_departure, camp);
     break;
 
   case cs40b:
@@ -3735,57 +3776,101 @@ void genpbn(square sq_departure) {
 }
 
 
-static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp)
+static void genleapleap(square sq_departure, numvec kanf, numvec kend, int hurdletype, Side camp, boolean leaf)
 {
   square  sq_arrival, sq_hurdle;
   numvec  k, k1;
 
   for (k= kanf; k <= kend; k++) {
     sq_hurdle= sq_departure + vec[k];
-    if (hurdletype == 0 && rightcolor(e[sq_hurdle], camp))
+    if (hurdletype == 0 && rightcolor(e[sq_hurdle], camp) ||
+        hurdletype == 1 && abs(e[sq_hurdle]) >= roib)
     {
       for (k1= kanf; k1 <= kend; k1++) {
-        sq_arrival = sq_hurdle + vec[k1];
-        if (e[sq_arrival] == vide || rightcolor(e[sq_arrival], camp))
+        sq_arrival = (leaf ? sq_departure : sq_hurdle) + vec[k1];
+        if ((sq_arrival != sq_hurdle) && (e[sq_arrival] == vide || rightcolor(e[sq_arrival], camp)))
           testempile(sq_departure, sq_arrival, sq_arrival);
       }
     }
   }
 }
 
+void genqlinesradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
+{
+  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap05_start, vec_leap05_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap55_start, vec_leap55_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+}
+
+void genradial(square sq_departure, Side camp, int hurdletype, boolean leaf)
+{
+  genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_bucephale_start, vec_bucephale_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_knight_start, vec_knight_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_chameau_start, vec_chameau_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_girafe_start, vec_girafe_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap15_start, vec_leap15_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap16_start, vec_leap16_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_rccinq_start, vec_rccinq_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_zebre_start, vec_zebre_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap24_start, vec_leap24_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap25_start, vec_leap25_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap26_start, vec_leap26_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap27_start, vec_leap27_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap35_start, vec_leap35_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap36_start, vec_leap36_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap37_start, vec_rccinq_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap45_start, vec_leap45_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap46_start, vec_leap46_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap47_start, vec_leap47_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap56_start, vec_leap56_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap57_start, vec_leap57_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap67_start, vec_leap67_end, hurdletype, camp, leaf);
+  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, hurdletype, camp, leaf);
+}
+
 void genradialknight(square sq_departure, Side camp)
 {
-  genleapleap(sq_departure, vec_rook_start, vec_rook_end, 0, camp);
-  genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, 0, camp);
-  genleapleap(sq_departure, vec_leap03_start, vec_leap03_end, 0, camp);
-  genleapleap(sq_departure, vec_leap04_start, vec_leap04_end, 0, camp);
-  genleapleap(sq_departure, vec_bucephale_start, vec_bucephale_end, 0, camp);
-  genleapleap(sq_departure, vec_leap06_start, vec_leap06_end, 0, camp);
-  genleapleap(sq_departure, vec_leap07_start, vec_leap07_end, 0, camp);
-  genleapleap(sq_departure, vec_bishop_start, vec_bishop_end, 0, camp);
-  genleapleap(sq_departure, vec_knight_start, vec_knight_end, 0, camp);
-  genleapleap(sq_departure, vec_chameau_start, vec_chameau_end, 0, camp);
-  genleapleap(sq_departure, vec_girafe_start, vec_girafe_end, 0, camp);
-  genleapleap(sq_departure, vec_leap15_start, vec_leap15_end, 0, camp);
-  genleapleap(sq_departure, vec_leap16_start, vec_leap16_end, 0, camp);
-  genleapleap(sq_departure, vec_rccinq_start, vec_rccinq_end, 0, camp);
-  genleapleap(sq_departure, vec_alfil_start, vec_alfil_end, 0, camp);
-  genleapleap(sq_departure, vec_zebre_start, vec_zebre_end, 0, camp);
-  genleapleap(sq_departure, vec_leap24_start, vec_leap24_end, 0, camp);
-  genleapleap(sq_departure, vec_leap25_start, vec_leap25_end, 0, camp);
-  genleapleap(sq_departure, vec_leap26_start, vec_leap26_end, 0, camp);
-  genleapleap(sq_departure, vec_leap27_start, vec_leap27_end, 0, camp);
-  genleapleap(sq_departure, vec_leap33_start, vec_leap33_end, 0, camp);
-  genleapleap(sq_departure, vec_leap35_start, vec_leap35_end, 0, camp);
-  genleapleap(sq_departure, vec_leap36_start, vec_leap36_end, 0, camp);
-  genleapleap(sq_departure, vec_leap37_start, vec_rccinq_end, 0, camp);
-  genleapleap(sq_departure, vec_leap44_start, vec_leap44_end, 0, camp);
-  genleapleap(sq_departure, vec_leap45_start, vec_leap45_end, 0, camp);
-  genleapleap(sq_departure, vec_leap46_start, vec_leap46_end, 0, camp);
-  genleapleap(sq_departure, vec_leap47_start, vec_leap47_end, 0, camp);
-  genleapleap(sq_departure, vec_leap56_start, vec_leap56_end, 0, camp);
-  genleapleap(sq_departure, vec_leap57_start, vec_leap57_end, 0, camp);
-  genleapleap(sq_departure, vec_leap66_start, vec_leap66_end, 0, camp);
-  genleapleap(sq_departure, vec_leap67_start, vec_leap67_end, 0, camp);
-  genleapleap(sq_departure, vec_leap77_start, vec_leap77_end, 0, camp);
+  genradial(sq_departure, camp, 0, false);
+}
+
+void gentreehopper(square sq_departure, Side camp)
+{
+  genqlinesradial(sq_departure, camp, 1, false);
+}
+
+void gengreatertreehopper(square sq_departure, Side camp)
+{
+  genradial(sq_departure, camp, 1, false);
+}
+
+void genleafhopper(square sq_departure, Side camp)
+{
+  genqlinesradial(sq_departure, camp, 1, true);
+}
+
+void gengreaterleafhopper(square sq_departure, Side camp)
+{
+  genradial(sq_departure, camp, 1, true);
 }

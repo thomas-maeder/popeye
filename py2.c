@@ -1566,6 +1566,31 @@ boolean kangoucheck(square  sq_king,
   return false;
 }
 
+boolean kanglioncheck(square  sq_king,
+                      piece   p,
+                      evalfunction_t *evaluate)
+{
+  numvec  k;
+  piece   p1;
+  square sq_hurdle;
+
+  square sq_departure;
+
+  for (k= vec_queen_end; k>=vec_queen_start; k--) {
+    finligne(sq_king,vec[k],p1,sq_hurdle);
+    if (abs(e[sq_hurdle])>=roib) {
+      finligne(sq_hurdle,vec[k],p1,sq_hurdle);
+      if (p1!=obs) {
+        finligne(sq_hurdle,vec[k],p1,sq_departure);
+        if (p1==p && evaluate(sq_departure,sq_king,sq_king))
+          return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 boolean rabbitcheck(square  sq_king,
                     piece   p,
                     evalfunction_t *evaluate)
@@ -3131,41 +3156,102 @@ void change_observed(ply ply, square z, boolean push)
     }
 }
 
+boolean qlinesradialcheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate,
+                          int hurdletype,
+                          boolean leaf)
+
+{
+  return leapleapcheck(sq_king, vec_rook_start, vec_rook_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap03_start,vec_leap03_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap04_start,vec_leap04_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap05_start,vec_leap05_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap06_start,vec_leap06_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap07_start,vec_leap07_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_bishop_start,vec_bishop_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_alfil_start,vec_alfil_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap33_start,vec_leap33_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap44_start,vec_leap44_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap55_start,vec_leap55_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap66_start,vec_leap66_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap77_start,vec_leap77_end, hurdletype, leaf, p, evaluate);
+}
+
+boolean radialcheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate,
+                          int hurdletype,
+                          boolean leaf)
+
+{
+  return leapleapcheck(sq_king, vec_rook_start,vec_rook_end,hurdletype, leaf,p,evaluate)
+      || leapleapcheck(sq_king, vec_dabbaba_start,vec_dabbaba_end,hurdletype, leaf,p,evaluate)
+      || leapleapcheck(sq_king, vec_leap03_start,vec_leap03_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap04_start,vec_leap04_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_bucephale_start,vec_bucephale_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap06_start,vec_leap06_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap07_start,vec_leap07_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_bishop_start,vec_bishop_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_knight_start,vec_knight_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_chameau_start,vec_chameau_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_girafe_start,vec_girafe_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap15_start,vec_leap15_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap16_start,vec_leap16_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_rccinq_start,vec_rccinq_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_alfil_start,vec_alfil_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_zebre_start,vec_zebre_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap24_start,vec_leap24_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap25_start,vec_leap25_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap26_start,vec_leap26_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap27_start,vec_leap27_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap33_start,vec_leap33_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap35_start,vec_leap35_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap36_start,vec_leap36_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap37_start,vec_leap37_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap44_start,vec_leap44_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap45_start,vec_leap45_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap46_start,vec_leap46_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap47_start,vec_leap47_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap56_start,vec_leap56_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap57_start,vec_leap57_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap66_start,vec_leap66_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap67_start,vec_leap67_end, hurdletype, leaf, p, evaluate)
+      || leapleapcheck(sq_king, vec_leap77_start,vec_leap77_end, hurdletype, leaf, p, evaluate);
+}
+
 boolean radialknightcheck(square    sq_king,
                           piece p,
                           evalfunction_t *evaluate)
 {
-  return leapleapcheck(sq_king, vec_rook_start,vec_rook_end,0,p,evaluate)
-      || leapleapcheck(sq_king, vec_dabbaba_start,vec_dabbaba_end,0,p,evaluate)
-      || leapleapcheck(sq_king, vec_leap03_start,vec_leap03_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap04_start,vec_leap04_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_bucephale_start,vec_bucephale_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap06_start,vec_leap06_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap07_start,vec_leap07_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_bishop_start,vec_bishop_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_knight_start,vec_knight_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_chameau_start,vec_chameau_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_girafe_start,vec_girafe_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap15_start,vec_leap15_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap16_start,vec_leap16_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_rccinq_start,vec_rccinq_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_alfil_start,vec_alfil_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_zebre_start,vec_zebre_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap24_start,vec_leap24_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap25_start,vec_leap25_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap26_start,vec_leap26_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap27_start,vec_leap27_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap33_start,vec_leap33_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap35_start,vec_leap35_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap36_start,vec_leap36_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap37_start,vec_leap37_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap44_start,vec_leap44_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap45_start,vec_leap45_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap46_start,vec_leap46_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap47_start,vec_leap47_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap56_start,vec_leap56_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap57_start,vec_leap57_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap66_start,vec_leap66_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap67_start,vec_leap67_end, 0, p, evaluate)
-      || leapleapcheck(sq_king, vec_leap77_start,vec_leap77_end, 0, p, evaluate);
+  return radialcheck(sq_king, p, evaluate, 0, false);
+}
+                          
+boolean treehoppercheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  return qlinesradialcheck(sq_king, p, evaluate, 1, false);
+}
+                          
+boolean leafhoppercheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  return qlinesradialcheck(sq_king, p, evaluate, 1, true);
+}
+                          
+boolean greatertreehoppercheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  return radialcheck(sq_king, p, evaluate, 1, false);
+}
+                          
+boolean greaterleafhoppercheck(square    sq_king,
+                          piece p,
+                          evalfunction_t *evaluate)
+{
+  return radialcheck(sq_king, p, evaluate, 1, true);
 }
