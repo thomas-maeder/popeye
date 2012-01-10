@@ -1495,7 +1495,7 @@ static boolean ProofFairyImpossible(void)
 
 
     if (CondFlag[andernach]
-        && !anycirce) {
+        && !anycirce && !CondFlag[sentinelles]) {
       unsigned int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
