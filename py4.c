@@ -102,9 +102,12 @@ int len_max(square sq_departure, square sq_arrival, square sq_capture)
       return 6;
 
     default:
-      if (CondFlag[castlingchess] && sq_capture > maxsquare + square_a1) {
+      if (CondFlag[castlingchess] && sq_capture > platzwechsel_rochade) {
         return (move_diff_code[abs(sq_arrival-sq_departure)]) +
           (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
+      }
+      if (CondFlag[castlingchess] && sq_capture == platzwechsel_rochade) {
+        return 2 * (move_diff_code[abs(sq_arrival-sq_departure)]);
       }
       else
        return (move_diff_code[abs(sq_arrival-sq_departure)]);
@@ -3145,6 +3148,22 @@ void genrb(square sq_departure)
       if (sq_castler!=sq_passed && sq_castler!=sq_arrival && abs(p)>=roib
           && castling_is_intermediate_king_move_legal(side,sq_departure,sq_passed))
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
+    }
+  }
+  
+  if (CondFlag[platzwechselrochade] && whpwr[nbply])
+  {
+    int i,j;
+    piece p;
+    square z= square_a1;
+    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
+    for (j= nr_files_on_board; j > 0; j--, z++) {
+      if ((p = e[z]) != vide) {
+      if (TSTFLAG(spec[z], Neutral))
+        p = -p;
+      if (p > obs && !is_pawn(p)) /* not sure if "castling" with Ps forbidden */
+        empile(sq_departure,z,platzwechsel_rochade);
+      }
     }
   }
 }

@@ -876,6 +876,22 @@ void genrn(square sq_departure)
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
+  
+  if (CondFlag[platzwechselrochade] && blpwr[nbply])
+  {
+    int i,j;
+    piece p;
+    square z= square_a1;
+    for (i= nr_rows_on_board; i > 0; i--, z+= onerow-nr_files_on_board)
+    for (j= nr_files_on_board; j > 0; j--, z++) {
+      if ((p = e[z]) != vide) {
+      if (TSTFLAG(spec[z], Neutral))
+        p = -p;
+      if (p < vide && !is_pawn(p))  /* not sure if "castling" with Ps forbidden */
+        empile(sq_departure,z,platzwechsel_rochade);
+      }
+    }
+  }
 }
 
 void gen_bl_ply(void)
@@ -2169,6 +2185,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   Flags spec_pi_captured;
 
   boolean rochade = false;
+  boolean platzwechsel = false;
 
   unsigned int prev_nbpiece[derbla];
 
@@ -2209,13 +2226,26 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (jouegenre)
   {
     rochade_sq[coup_id] = initsquare;
-    if (sq_capture>=maxsquare+square_a1)
+    if (sq_capture > platzwechsel_rochade)
     {
       rochade_sq[coup_id] = sq_capture-maxsquare;
       rochade_pc[coup_id] = e[rochade_sq[coup_id]];
       rochade_sp[coup_id] = spec[rochade_sq[coup_id]];
       sq_capture = sq_arrival;
       rochade = true;
+    }
+    else if (sq_capture == platzwechsel_rochade)
+    {
+      rochade_sq[coup_id] = sq_arrival;
+      rochade_pc[coup_id] = e[rochade_sq[coup_id]];
+      rochade_sp[coup_id] = spec[rochade_sq[coup_id]];
+      rochade_sq[coup_id] = -sq_arrival; /* hack for output */
+      sq_capture = sq_arrival;
+      platzwechsel = true;
+      if (trait_ply == White)
+        whpwr[nbply]= false;
+      else
+        blpwr[nbply]=false;
     }
 
     if (CondFlag[amu])
@@ -2238,7 +2268,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   if (sq_arrival==nullsquare)
     return true;
 
-  if (anyantimars && sq_departure==sq_capture)
+  if (anyantimars && sq_departure==sq_capture || move_gen_top->capture >= platzwechsel_rochade)
   {
     spec_pi_captured = 0;
     pprispec[ply_id]= 0;
@@ -2401,21 +2431,38 @@ boolean jouecoup(ply ply_id, joue_type jt)
       break;
   } /* switch (sq_capture) */
 
-  if (rochade)
+  if (platzwechsel)
   {
-     square sq_castle= (sq_departure + sq_arrival) / 2;
-     e[sq_castle] = e[rochade_sq[coup_id]];
-     spec[sq_castle] = spec[rochade_sq[coup_id]];
-     e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
-     CLEARFL(spec[rochade_sq[coup_id]]);
-     if (king_square[Black] == rochade_sq[coup_id])
-       king_square[Black]= sq_castle;
-     if (king_square[White] == rochade_sq[coup_id])
-       king_square[White]= sq_castle;
+    piece p=e[sq_arrival];
+    Flags sp=spec[sq_arrival];
+    e[sq_arrival]=e[sq_departure];
+    spec[sq_arrival]=spec[sq_departure];
+    if (king_square[Black] == sq_departure)
+      king_square[Black]= sq_arrival;
+    if (king_square[White] == sq_departure)
+      king_square[White]= sq_arrival;
+    e[sq_departure]=p;
+    spec[sq_departure]=sp;
   }
-
-  e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
-  spec[sq_departure]= 0;
+  else if (rochade)
+  {
+    square sq_castle= (sq_departure + sq_arrival) / 2;
+    e[sq_castle] = e[rochade_sq[coup_id]];
+    spec[sq_castle] = spec[rochade_sq[coup_id]];
+    e[rochade_sq[coup_id]] = CondFlag[haanerchess] ? obs : vide;
+    CLEARFL(spec[rochade_sq[coup_id]]);
+    if (king_square[Black] == rochade_sq[coup_id])
+      king_square[Black]= sq_castle;
+    if (king_square[White] == rochade_sq[coup_id])
+      king_square[White]= sq_castle;
+    e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
+    spec[sq_departure]= 0;
+  }
+  else
+  {
+    e[sq_departure]= CondFlag[haanerchess] ? obs : vide;
+    spec[sq_departure]= 0;
+  }
 
   if (PatienceB) {
     ply nply;
@@ -2888,14 +2935,17 @@ boolean jouecoup(ply ply_id, joue_type jt)
     }
   }
 
+  if (!platzwechsel)
+  {
   e[sq_arrival] = pi_arriving;
   spec[sq_arrival] = spec_pi_moving;
   jouearr[ply_id] = pi_arriving;
-
+	
   if (pi_departing!=pi_arriving)
   {
     nbpiece[pi_departing]--;
     nbpiece[pi_arriving]++;
+  }
   }
 
   if (jouegenre)
@@ -3536,6 +3586,7 @@ void repcoup(void)
   square nextsuper= superbas;
   square sq_hurdle;
   boolean rochade=false;
+  boolean platzwechsel = false;
 
   move_generation_elmt* move_gen_top = move_generation_stack+nbcou;
 
@@ -3545,11 +3596,17 @@ void repcoup(void)
 
   if (jouegenre)
   {
-    if (sq_capture >= maxsquare + square_a1)
+    if (sq_capture > platzwechsel_rochade)
     {
        sq_capture= sq_arrival;
        rochade= true;
     }
+    else if (sq_capture == platzwechsel_rochade)
+    {
+      sq_capture= sq_arrival;
+      platzwechsel= true;
+    }
+
 
     if (flag_magic)
       ChangeMagic(nbply, false);
@@ -3693,6 +3750,8 @@ void repcoup(void)
   }
 
   castling_flag[nbply]= castling_flag[nbply-1];
+  whpwr[nbply]= whpwr[nbply-1];
+  blpwr[nbply]= blpwr[nbply-1];
 
   switch (sq_capture) {
   case messigny_exchange:
@@ -3921,6 +3980,12 @@ void repcoup(void)
     e[sq_arrival]= vide;
     spec[sq_arrival] = 0;
   }
+  if (platzwechsel)
+  {
+    e[sq_arrival]=e[sq_departure];
+    spec[sq_arrival]=spec[sq_departure];
+  }
+  
   e[sq_departure]= pi_departing;
   spec[sq_departure] = spec_pi_moving;
   nbpiece[pi_departing]++;
@@ -3947,7 +4012,7 @@ void repcoup(void)
     }
   }
 
-  if (!anyantimars || sq_capture != sq_departure)
+  if (!platzwechsel && (!anyantimars || sq_capture != sq_departure))
   {
     e[sq_capture]= pi_captured;
     spec[sq_capture]= pprispec[nbply];

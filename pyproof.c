@@ -1984,6 +1984,7 @@ void ProofInitialise(slice_index si)
                   || CondFlag[messigny]
                   || CondFlag[mars]
                   || CondFlag[castlingchess]
+                  || CondFlag[platzwechselrochade]
                   || CondFlag[football]);
   }
 

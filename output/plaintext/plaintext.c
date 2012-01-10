@@ -96,7 +96,8 @@ static void editcoup(ply ply_id, coup *mov)
           StdString ("=I");
         }
       }
-      else if (!((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
+      else if (mov->roch_sq >= initsquare &&
+              !((CondFlag[white_oscillatingKs] && mov->tr == White && mov->pjzz == roib) ||
                  (CondFlag[black_oscillatingKs] && mov->tr == Black && mov->pjzz == roin))) {
         StdChar('=');
         WriteSpec(mov->new_spec, mov->speci != mov->new_spec);
@@ -104,7 +105,7 @@ static void editcoup(ply ply_id, coup *mov)
       }
     }
 
-    if (mov->roch_sq != initsquare) {
+    if (mov->roch_sq > initsquare) {
       StdChar('/');
       WriteSpec(mov->roch_sp, true);
       WritePiece(mov->roch_pc);
@@ -113,6 +114,14 @@ static void editcoup(ply ply_id, coup *mov)
       WriteSquare((mov->cdzz + mov->cazz) / 2);
     }
 
+    if (mov->roch_sq < initsquare) {
+      StdChar('/');
+      WriteSpec(mov->roch_sp, true);
+      WritePiece(mov->roch_pc);
+      WriteSquare(-(mov->roch_sq));
+      StdChar('-');
+      WriteSquare(mov->cdzz);
+    }
 
     if (mov->sqren != initsquare) {
       piece   p= CondFlag[antieinstein]

@@ -242,6 +242,7 @@ EXTERN  numecoup repere[maxply + 1];
 EXTERN  ply      parent_ply[maxply + 1];
 EXTERN  piece whkobul[maxply+1], blkobul[maxply+1];
 EXTERN  Flags whkobulspec[maxply+1], blkobulspec[maxply+1];
+EXTERN  boolean whpwr[maxply+1], blpwr[maxply+1];
 
 
 
@@ -1191,8 +1192,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*177*/ "CirceCage",
     /*178*/ "ImmunCage",
     /*179*/ "Football",
-    /*179*/ "ContraParrain",
-    /*180*/ "KobulKings"
+    /*180*/ "ContraParrain",
+    /*181*/ "KobulKings",
+    /*182*/ "EchangeRoque"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1375,8 +1377,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*177*/ "KaefigCirce",
     /*178*/ "KaefigImmunSchach",
     /*179*/ "Fussball",
-    /*179*/ "KontraParrain",
-    /*180*/ "KobulKings"
+    /*180*/ "KontraParrain",
+    /*181*/ "KobulKings",
+    /*182*/ "PlatzwechselRochade"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1559,8 +1562,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*177*/ "CageCirce",
     /*178*/ "CageImmunChess",
     /*179*/ "Football",
-    /*179*/ "ContraParrain",
-    /*180*/ "KobulKings"
+    /*180*/ "ContraParrain",
+    /*181*/ "KobulKings",
+    /*182*/ "ExchangeCastling"
     }
     };
 #endif

@@ -168,6 +168,8 @@ static void initply(ply parent)
   blkobul[nbply] = e[king_square[Black]];
   whkobulspec[nbply] = spec[king_square[White]];
   blkobulspec[nbply] = spec[king_square[Black]];
+  whpwr[nbply] = whpwr[parent];
+  blpwr[nbply] = blpwr[parent];
 
   invalidateHashBuffer();
 }
@@ -855,10 +857,15 @@ boolean nocontact(square sq_departure, square sq_arrival, square sq_capture, noc
             sq_castle_to = sq_arrival+dir_right;
               }
         }
-        else if (CondFlag[castlingchess] && sq_capture > maxsquare + square_a1)
+        else if (CondFlag[castlingchess] && sq_capture > platzwechsel_rochade)
         {
           sq_castle_to = (sq_arrival + sq_departure) / 2;
           sq_castle_from = sq_capture - maxsquare;
+        }
+        else if (CondFlag[platzwechselrochade] && sq_capture == platzwechsel_rochade)
+        {
+          sq_castle_to = sq_arrival;
+          sq_castle_from = sq_departure;
         }
         if (sq_castle_from != initsquare)
         {

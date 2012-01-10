@@ -166,7 +166,8 @@ enum
   min_castling = maxsquare+2,
   kingside_castling = min_castling,
   queenside_castling = maxsquare+3,
-  max_castling = queenside_castling
+  max_castling = queenside_castling,
+  platzwechsel_rochade = maxsquare+4,
 };
 
 enum
@@ -807,7 +808,8 @@ typedef enum
   football,               /* 179 */
   contraparrain,          /* 180 */
   kobulkings,             /* 181 */
-  CondCount               /* 182 */
+  platzwechselrochade,    /* 182 */
+  CondCount               /* 183 */
 } Cond;
 
 /* Some remarks to the conditions:

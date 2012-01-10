@@ -1716,6 +1716,9 @@ static boolean verify_position(slice_index si)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
+  whpwr[2]=whpwr[1]=true;
+  blpwr[2]=blpwr[1]=true;
+
   if (CondFlag[exclusive] && !exclusive_verifie_position(si))
     return false;
 
@@ -1869,7 +1872,7 @@ static boolean verify_position(slice_index si)
     add_ortho_mating_moves_generation_obstacle();
   }
 
-  if (CondFlag[castlingchess])
+  if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
   {
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();
