@@ -17,6 +17,7 @@
     ENUMERATOR(piece_pins), \
     ENUMERATOR(piece_is_fixed_to_diagram_square), \
     ENUMERATOR(piece_intercepts), \
+    ENUMERATOR(piece_intercepts_check_from_guard), \
     ENUMERATOR(piece_blocks), \
     ENUMERATOR(piece_guards), \
     ENUMERATOR(piece_gives_check), \

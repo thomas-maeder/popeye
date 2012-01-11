@@ -1,0 +1,12 @@
+begin
+
+protocol 4_59_to_4_61.reg
+
+title a white piece that prevents a guarding piece from giving check
+title (like pd6) is never redundant in the mating position
+Pieces White Ra6 Pd6 Pg6 Ph6 Sd5 Ka4 Pb4 Pg4 Qb3
+       Black Ra8 Ra7 Ke6 Pe5 Pg5 Pd4 Bc2 Pe2 Qd1
+Stipulation H#2
+Option Intelligent
+
+end

@@ -123,10 +123,10 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
-              empile:         746
-            jouecoup:         681
-        orig_rbechec:          80
-        orig_rnechec:        8636
+              empile:         732
+            jouecoup:         679
+        orig_rbechec:          78
+        orig_rnechec:        8632
 solution finished. 
 
 

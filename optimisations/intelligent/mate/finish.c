@@ -60,18 +60,24 @@ static boolean exists_redundant_white_piece(void)
     square const sq = *bnp;
     if (sq!=king_square[White] && e[sq]>obs)
     {
-      piece const p = e[sq];
-      Flags const sp = spec[sq];
+      PieceIdType const id = GetPieceId(spec[sq]);
+      TraceValue("%u",PieceId2index[id]);
+      TraceEnumerator(piece_usage,white[PieceId2index[id]].usage,"\n");
+      if (white[PieceId2index[id]].usage!=piece_intercepts_check_from_guard)
+      {
+        piece const p = e[sq];
+        Flags const sp = spec[sq];
 
-      /* remove piece */
-      e[sq] = vide;
-      spec[sq] = EmptySpec;
+        /* remove piece */
+        e[sq] = vide;
+        spec[sq] = EmptySpec;
 
-      result = slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution;
+        result = slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution;
 
-      /* restore piece */
-      e[sq] = p;
-      spec[sq] = sp;
+        /* restore piece */
+        e[sq] = p;
+        spec[sq] = sp;
+      }
     }
   }
 

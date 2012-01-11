@@ -205,7 +205,7 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
       if (white[intercepter_index].usage==piece_is_unused)
       {
         piece const intercepter_type = white[intercepter_index].type;
-        white[intercepter_index].usage = piece_intercepts;
+        white[intercepter_index].usage = piece_intercepts_check_from_guard;
 
         switch (intercepter_type)
         {
@@ -306,7 +306,7 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
     for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
       if (black[placed_index].usage==piece_is_unused)
       {
-        black[placed_index].usage = piece_intercepts;
+        black[placed_index].usage = piece_intercepts_check_from_guard;
 
         switch (black[placed_index].type)
         {

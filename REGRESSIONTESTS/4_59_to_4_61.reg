@@ -1,0 +1,39 @@
+
+a white piece that prevents a guarding piece from giving check
+(like pd6) is never redundant in the mating position
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .   .   .   .   .   8
+|                                   |
+7  -R   .   .   .   .   .   .   .   7
+|                                   |
+6   R   .   .   P  -K   .   P   P   6
+|                                   |
+5   .   .   .   S  -P   .  -P   .   5
+|                                   |
+4   K   P   .  -P   .   .   P   .   4
+|                                   |
+3   .   Q   .   .   .   .   .   .   3
+|                                   |
+2   .   .  -B   .  -P   .   .   .   2
+|                                   |
+1   .   .   .  -Q   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         9 + 9
+
+  1.Bc2-e4 Qb3*d1   2.Ke6*d5 Qd1-b3 # 
+  1.Ra7-d7 Ra6*a8   2.Ke6*d6 Ra8-a6 # 
+  1.Qd1-h1 Qb3*c2   2.Qh1*d5 Qc2-f5 # 
+  1.Ra8-d8 Ra6*a7   2.Rd8*d6 Ra7-e7 # 
+  1.Ra7-f7 g6*f7   2.Ra8-e8 f7*e8=Q # 
+  1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S # 
+
+              empile:     1375418
+            jouecoup:     1407907
+        orig_rbechec:       46894
+        orig_rnechec:      421321
+solution finished. 
+
+
