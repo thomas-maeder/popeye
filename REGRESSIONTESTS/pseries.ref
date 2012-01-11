@@ -169,10 +169,10 @@ b) wBd1
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
-              empile:      160433
-            jouecoup:      166075
-        orig_rbechec:       45688
-        orig_rnechec:      201386
+              empile:      160384
+            jouecoup:      166063
+        orig_rbechec:       45679
+        orig_rnechec:      201362
 solution finished. 
 
 

@@ -1886,10 +1886,10 @@ a)
   1.Kd5-e6 e7-e8=L   2.Ld4-e5 Dd1-d7 # 
   1.Kd5-e6 e7-e8=T +   2.Ke6-f7 Dd1-h5 # 
 
-              empile:       90641
-            jouecoup:       92748
-        orig_rbechec:        2991
-        orig_rnechec:       62858
+              empile:       90553
+            jouecoup:       92734
+        orig_rbechec:        2977
+        orig_rnechec:       62830
 b) Drehung 180
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 # 
@@ -1966,10 +1966,10 @@ e)  -wBe7  +wDe8
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D # 
 
-              empile:       29751
-            jouecoup:       30667
-        orig_rbechec:         832
-        orig_rnechec:       29788
+              empile:       29975
+            jouecoup:       30911
+        orig_rbechec:         834
+        orig_rnechec:       29784
 Loesung beendet. 
 
 

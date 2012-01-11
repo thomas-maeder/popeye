@@ -61,9 +61,10 @@ static boolean exists_redundant_white_piece(void)
     if (sq!=king_square[White] && e[sq]>obs)
     {
       PieceIdType const id = GetPieceId(spec[sq]);
+      piece_usage const usage = white[PieceId2index[id]].usage;
       TraceValue("%u",PieceId2index[id]);
-      TraceEnumerator(piece_usage,white[PieceId2index[id]].usage,"\n");
-      if (white[PieceId2index[id]].usage!=piece_intercepts_check_from_guard)
+      TraceEnumerator(piece_usage,usage,"\n");
+      if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
         piece const p = e[sq];
         Flags const sp = spec[sq];

@@ -370,11 +370,25 @@ static void place_rider(piece rider_type, square guard_from)
         {
           SetPiece(rider_type,guard_from,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
-          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
-              && e[guarded]==vide)
+          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0)
           {
-            assert(nr_reasons_for_staying_empty[guarded]==0);
-            intercept_check_on_guarded_square(guarded);
+            if (e[guarded]==vide)
+            {
+              assert(nr_reasons_for_staying_empty[guarded]==0);
+              intercept_check_on_guarded_square(guarded);
+            }
+            else
+            {
+              PieceIdType const id = GetPieceId(spec[guarded]);
+              if (white[PieceId2index[id]].usage==piece_guards)
+              {
+                white[PieceId2index[id]].usage = piece_intercepts_check_from_guard;
+                intelligent_continue_guarding_flights();
+                white[PieceId2index[id]].usage = piece_guards;
+              }
+              else
+                intelligent_continue_guarding_flights();
+            }
           }
           else
             intelligent_continue_guarding_flights();

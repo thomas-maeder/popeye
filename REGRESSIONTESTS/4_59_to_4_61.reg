@@ -30,10 +30,49 @@ a white piece that prevents a guarding piece from giving check
   1.Ra7-f7 g6*f7   2.Ra8-e8 f7*e8=Q # 
   1.Ra7-g7 h6*g7   2.Ra8-f8 g7*f8=S # 
 
-              empile:     1375418
-            jouecoup:     1407907
-        orig_rbechec:       46894
-        orig_rnechec:      421321
+              empile:     1375005
+            jouecoup:     1407712
+        orig_rbechec:       46835
+        orig_rnechec:      421063
+solution finished. 
+
+
+
+not even if the piece preventing the check is placed before
+the one that would give check without it
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -R   8
+|                                   |
+7   .   .   .   .   .   .   .  -R   7
+|                                   |
+6   P   P   .  -K   P   .   .   R   6
+|                                   |
+5   .  -P   .  -P   S   .   .   .   5
+|                                   |
+4   .   P   .   .  -P   .   P   K   4
+|                                   |
+3   .   .   .   .   .   .   Q   .   3
+|                                   |
+2   .   .   .  -P   .  -B   .   .   2
+|                                   |
+1   .   .   .   .  -Q   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         9 + 9
+
+  1.Bf2-d4 Qg3*e1   2.Kd6*e5 Qe1-g3 # 
+  1.Qe1-a1 Qg3*f2   2.Qa1*e5 Qf2-c5 # 
+  1.Rh7-b7 a6*b7   2.Rh8-c8 b7*c8=S # 
+  1.Rh7-c7 b6*c7   2.Rh8-d8 c7*d8=Q # 
+  1.Rh8-e8 Rh6*h7   2.Re8*e6 Rh7-d7 # 
+  1.Rh7-e7 Rh6*h8   2.Kd6*e6 Rh8-h6 # 
+
+              empile:     1372571
+            jouecoup:     1405547
+        orig_rbechec:       46642
+        orig_rnechec:      420871
 solution finished. 
 
 

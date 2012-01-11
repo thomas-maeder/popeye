@@ -9,4 +9,14 @@ Pieces White Ra6 Pd6 Pg6 Ph6 Sd5 Ka4 Pb4 Pg4 Qb3
 Stipulation H#2
 Option Intelligent
 
+next
+
+title ... not even if the piece preventing the check is placed before
+title the one that would give check without it
+Pieces
+White Rh6 Pe6 Pb6 Pa6 Se5 Kh4 Pg4 Pb4 Qg3
+Black Rh8 Rh7 Kd6 Pd5 Pb5 Pe4 Bf2 Pd2 Qe1
+Stipulation H#2
+Option Intelligent
+
 end
