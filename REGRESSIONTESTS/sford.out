@@ -263,10 +263,10 @@ Loesung beendet.
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
-              empile:         108
-            jouecoup:         100
-        orig_rbechec:          13
-        orig_rnechec:         242
+              empile:          74
+            jouecoup:          78
+        orig_rbechec:           9
+        orig_rnechec:         216
 Loesung beendet. 
 
 
@@ -1383,7 +1383,7 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
               empile:      414343
             jouecoup:      413878
         orig_rbechec:       29503
-        orig_rnechec:       52030
+        orig_rnechec:       52022
 Loesung beendet. 
 
 
@@ -1418,7 +1418,7 @@ h#8 1.0;1.1;...
               empile:     2792746
             jouecoup:     2792761
         orig_rbechec:      154088
-        orig_rnechec:      287212
+        orig_rnechec:      287206
 Loesung beendet. 
 
 

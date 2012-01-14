@@ -94,7 +94,7 @@ solution finished.
               empile:     9362848
             jouecoup:     9364153
         orig_rbechec:     1843530
-        orig_rnechec:     2070811
+        orig_rnechec:     2066597
 solution finished. 
 
 
@@ -128,7 +128,7 @@ solution finished.
               empile:      279702
             jouecoup:      325201
         orig_rbechec:       59749
-        orig_rnechec:       94578
+        orig_rnechec:       91106
 solution finished. 
 
 
@@ -164,15 +164,15 @@ a)
               empile:       46395
             jouecoup:       49840
         orig_rbechec:       14825
-        orig_rnechec:      114662
+        orig_rnechec:      114074
 b) wBd1 
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 # 
 
-              empile:      160384
-            jouecoup:      166063
-        orig_rbechec:       45679
-        orig_rnechec:      201362
+              empile:      160272
+            jouecoup:      165995
+        orig_rbechec:       45631
+        orig_rnechec:      200332
 solution finished. 
 
 
@@ -203,10 +203,10 @@ solution finished.
 
   1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
 
-              empile:   185730526
-            jouecoup:   185447205
-        orig_rbechec:    58732387
-        orig_rnechec:   114151405
+              empile:   186740297
+            jouecoup:   186483232
+        orig_rbechec:    59138771
+        orig_rnechec:   114567450
 solution finished. 
 
 

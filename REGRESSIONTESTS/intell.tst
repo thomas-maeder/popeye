@@ -24,10 +24,10 @@
 
   1...e7-e8=B   2.Kd3-e2 Be8-h5   3.Bh7-d3 Rg4-e4 # 
 
-              empile:       34244
-            jouecoup:       35228
-        orig_rbechec:        1654
-        orig_rnechec:       86656
+              empile:       34220
+            jouecoup:       35216
+        orig_rbechec:        1650
+        orig_rnechec:       86495
 solution finished. 
 
 
@@ -57,10 +57,10 @@ solution finished.
 
   1...e3*d4   2.Sf7-e5 d4*e5 # 
 
-              empile:         127
-            jouecoup:         121
-        orig_rbechec:           8
-        orig_rnechec:        2684
+              empile:         103
+            jouecoup:         106
+        orig_rbechec:           6
+        orig_rnechec:        2667
 solution finished. 
 
 
@@ -90,10 +90,10 @@ double check by en passant capture from above
 
   1...Bh6-g7 +   2.e7-e5 d5*e6 ep. # 
 
-              empile:         290
-            jouecoup:         278
-        orig_rbechec:          23
-        orig_rnechec:        6034
+              empile:         278
+            jouecoup:         272
+        orig_rbechec:          21
+        orig_rnechec:        6023
 solution finished. 
 
 
@@ -123,10 +123,10 @@ double check by en passant capture from below
 
   1...Bb2-a3 +   2.c7-c5 d5*c6 ep. # 
 
-              empile:         732
-            jouecoup:         679
-        orig_rbechec:          78
-        orig_rnechec:        8632
+              empile:         720
+            jouecoup:         673
+        orig_rbechec:          76
+        orig_rnechec:        8607
 solution finished. 
 
 
@@ -159,7 +159,7 @@ interception of a defending pawn by a piece that doesn't guard
               empile:         110
             jouecoup:          95
         orig_rbechec:           0
-        orig_rnechec:         282
+        orig_rnechec:         277
 solution finished. 
 
 
@@ -192,7 +192,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
               empile:         125
             jouecoup:         123
         orig_rbechec:          31
-        orig_rnechec:         530
+        orig_rnechec:         523
 solution finished. 
 
 
@@ -225,7 +225,7 @@ guard with check -> selfpin with check -> selfpin with guard by b
               empile:          25
             jouecoup:          26
         orig_rbechec:           5
-        orig_rnechec:         327
+        orig_rnechec:         326
 solution finished. 
 
 
@@ -259,7 +259,7 @@ in mate stipulations, it makes sense to pin a queen or rook by a
               empile:          24
             jouecoup:          24
         orig_rbechec:           0
-        orig_rnechec:          90
+        orig_rnechec:          88
 solution finished. 
 
 

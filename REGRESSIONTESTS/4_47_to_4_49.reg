@@ -463,10 +463,10 @@ intelligent mode bug: did not find mates ...
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
-              empile:         108
-            jouecoup:         100
-        orig_rbechec:          13
-        orig_rnechec:         242
+              empile:          74
+            jouecoup:          78
+        orig_rbechec:           9
+        orig_rnechec:         216
 solution finished. 
 
 
@@ -503,7 +503,7 @@ option start in intelligent mode
               empile:       70092
             jouecoup:       70101
         orig_rbechec:        4231
-        orig_rnechec:        5029
+        orig_rnechec:        5013
 solution finished. 
 
 
