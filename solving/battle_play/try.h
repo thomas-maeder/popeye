@@ -133,4 +133,9 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
 void branch_insert_try_solvers(slice_index adapter,
                                unsigned int max_nr_refutations);
 
+/* Instrument the stipulation structure with slices solving tries
+ * @param root_slice root slice of the stipulation
+ */
+void stip_insert_try_solvers(slice_index si);
+
 #endif

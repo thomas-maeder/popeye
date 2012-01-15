@@ -1,6 +1,7 @@
 #include "pynontrv.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -113,7 +114,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[slices[si].u.fork.fork].u.pipe.next;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const save_max_unsolvable = max_unsolvable;
@@ -141,22 +142,16 @@ static unsigned int count_nontrivial_defenses(slice_index si,
  */
 
 /* Allocate a STMaxNrNonTrivial slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * variations
  * @return identifier of allocated slice
  */
-static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
-                                                 stip_length_type min_length)
+static slice_index alloc_max_nr_nontrivial_guard(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxNrNonTrivial,length,min_length);
+  result = alloc_branch_fork(STMaxNrNonTrivial,no_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -178,7 +173,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
 stip_length_type
 max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -221,7 +216,7 @@ max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
 stip_length_type
 max_nr_nontrivial_guard_can_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   unsigned int result;
 
   TraceFunctionEntry(__func__);
@@ -337,20 +332,17 @@ max_nr_nontrivial_counter_attack(slice_index si, stip_length_type n)
 static void nontrivial_guard_inserter(slice_index si,
                                       stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  if (length>slack_length_battle+1)
+  if (slices[si].u.branch.length>slack_length_battle+1)
   {
     slice_index const prototypes[] =
     {
-      alloc_max_nr_nontrivial_guard(length-1,min_length-1),
+      alloc_max_nr_nontrivial_guard(),
       alloc_max_nr_nontrivial_counter()
     };
     enum

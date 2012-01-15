@@ -1,6 +1,8 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/branch.h"
+#include "solving/battle_play/min_length_optimiser.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -153,4 +155,78 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void insert_min_length_solvers_adapter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const defense = branch_find_slice(STReadyForDefense,si);
+    if (defense!=no_slice)
+    {
+      stip_length_type const length = slices[defense].u.branch.length;
+      stip_length_type const min_length = slices[defense].u.branch.min_length;
+
+      if (min_length>slack_length_battle+1)
+      {
+        slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+        battle_branch_insert_slices(defense,&prototype,1);
+
+        if (min_length>slack_length_battle+2)
+        {
+          slice_index const prototypes[] =
+          {
+            alloc_min_length_optimiser_slice(length-1,min_length-1),
+            alloc_min_length_guard(length-2,min_length-2)
+          };
+          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+          slice_index const attack = branch_find_slice(STReadyForAttack,defense);
+          assert(attack!=no_slice);
+          battle_branch_insert_slices(attack,prototypes,nr_prototypes);
+        }
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const min_length_solver_inserters[] =
+{
+  { STAttackAdapter,  &insert_min_length_solvers_adapter },
+  { STDefenseAdapter, &insert_min_length_solvers_adapter }
+};
+
+enum
+{
+  nr_min_length_solver_inserters = sizeof min_length_solver_inserters / sizeof min_length_solver_inserters[0]
+};
+
+/* Instrument the stipulation to be able to cope with minimum lengths
+ * @param si identifies the root slice of the stipulation
+ */
+void stip_insert_min_length_solvers(slice_index si)
+{
+  stip_structure_traversal st;
+  output_mode mode = output_mode_none;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override(&st,
+                                    min_length_solver_inserters,
+                                    nr_min_length_solver_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

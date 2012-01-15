@@ -5,6 +5,7 @@
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/battle_play/check_detector.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -118,6 +119,7 @@ static void insert_continuation_writers(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_move_writer_slice(),
+      alloc_check_detector_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_output_plaintext_tree_decoration_writer_slice()
     };
@@ -170,17 +172,21 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors regular_writer_inserters[] =
 {
-  { STMoveInverter,      &instrument_move_inverter           },
-  { STThreatSolver,      &instrument_threat_solver           },
-  { STPlaySuppressor,    &stip_structure_visitor_noop        },
-  { STReadyForAttack,    &insert_continuation_writers        },
-  { STReadyForDefense,   &instrument_ready_for_defense       },
-  { STGoalReachedTester, &instrument_goal_tester             },
-  { STConstraint,        &instrument_constraint              },
-  { STDefenseAdapter,    &instrument_defense_adapter_regular },
-  { STHelpAdapter,       &stip_structure_visitor_noop        },
-  { STMaxFlightsquares,  &stip_traverse_structure_pipe       },
-  { STCounterMateFilter, &stip_traverse_structure_pipe       }
+  { STMoveInverter,       &instrument_move_inverter           },
+  { STThreatSolver,       &instrument_threat_solver           },
+  { STPlaySuppressor,     &stip_structure_visitor_noop        },
+  { STReadyForAttack,     &insert_continuation_writers        },
+  { STReadyForDefense,    &instrument_ready_for_defense       },
+  { STGoalReachedTester,  &instrument_goal_tester             },
+  { STConstraint,         &instrument_constraint              },
+  { STDefenseAdapter,     &instrument_defense_adapter_regular },
+  { STHelpAdapter,        &stip_structure_visitor_noop        },
+  { STContinuationSolver, &stip_traverse_structure_pipe       },
+  { STMaxFlightsquares,   &stip_traverse_structure_pipe       },
+  { STCounterMateFilter,  &stip_traverse_structure_pipe       },
+  { STMaxThreatLength,    &stip_traverse_structure_pipe       },
+  { STMaxNrNonTrivial,    &stip_traverse_structure_pipe       },
+  { STNoShortVariations,  &stip_traverse_structure_pipe       }
 };
 
 enum
@@ -431,6 +437,7 @@ static void instrument_defense_adapter(slice_index si,
     slice_index const prototypes[] =
     {
       /* indicate check in the diagram position */
+      alloc_check_detector_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
       alloc_refuting_variation_writer_slice()
     };

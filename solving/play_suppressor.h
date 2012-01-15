@@ -42,4 +42,9 @@ has_solution_type play_suppressor_solve(slice_index si);
  */
 has_solution_type play_suppressor_has_solution(slice_index si);
 
+/* Instrument the stipulation representation so that postkey play is suppressed
+ * @param si identifies slice where to start
+ */
+void stip_insert_play_suppressors(slice_index si);
+
 #endif

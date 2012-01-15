@@ -326,6 +326,10 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = threat_collector_can_defend(si,n);
       break;
 
+    case STThreatDefeatedTester:
+      result = threat_defeated_tester_can_defend(si,n);
+      break;
+
     case STMoveGenerator:
       result = move_generator_can_defend(si,n);
       break;

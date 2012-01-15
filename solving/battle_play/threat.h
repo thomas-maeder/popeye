@@ -63,6 +63,18 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n);
  */
 stip_length_type threat_collector_can_defend(slice_index si, stip_length_type n);
 
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
+           n+2 refuted - <=acceptable number of refutations found
+           n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type threat_defeated_tester_can_defend(slice_index si,
+                                                   stip_length_type n);
+
 /* Traverse a subtree
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -95,6 +107,6 @@ stip_length_type threat_solver_can_defend(slice_index si, stip_length_type n);
  * threats
  * @param si identifies slice where to start
  */
-void stip_insert_threat_handlers(slice_index si);
+void stip_insert_threat_solvers(slice_index si);
 
 #endif

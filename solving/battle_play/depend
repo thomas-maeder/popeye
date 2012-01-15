@@ -1,9 +1,14 @@
 solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.c \
- solving/battle_play/continuation.h pypipe.h trace.h
+ solving/battle_play/continuation.h pybrafrk.h pypipe.h \
+ stipulation/battle_play/branch.h trace.h
 
 solving/battle_play/continuation.h:
 
+pybrafrk.h:
+
 pypipe.h:
+
+stipulation/battle_play/branch.h:
 
 trace.h:
 solving/battle_play/check_detector$(OBJ_SUFFIX): \
@@ -54,7 +59,7 @@ solving/battle_play/check_detector.h:
 
 trace.h:
 solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
- solving/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
+ solving/battle_play/try.h pydata.h pypipe.h pymsg.h stipulation/branch.h \
  stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_play.h trace.h
 
@@ -64,6 +69,8 @@ pydata.h:
 
 pypipe.h:
 
+pymsg.h:
+
 stipulation/branch.h:
 
 stipulation/battle_play/defense_play.h:
@@ -71,6 +78,14 @@ stipulation/battle_play/defense_play.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+trace.h:
+solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
+ solving/battle_play/setplay.h solving/battle_play/try.h trace.h
+
+solving/battle_play/setplay.h:
+
+solving/battle_play/try.h:
 
 trace.h:
 solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
@@ -88,12 +103,17 @@ trace.h:
 solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  solving/battle_play/min_length_guard.c \
  solving/battle_play/min_length_guard.h stipulation/branch.h \
- stipulation/battle_play/attack_play.h trace.h
+ stipulation/battle_play/attack_play.h stipulation/battle_play/branch.h \
+ solving/battle_play/min_length_optimiser.h trace.h
 
 solving/battle_play/min_length_guard.h:
 
 stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/branch.h:
+
+solving/battle_play/min_length_optimiser.h:
 
 trace.h:

@@ -572,11 +572,36 @@ typedef struct
 static void start_leaf_insertion_traversal(slice_index si,
                                            leaf_insertion_state_type *state);
 
+
+static void next_insertion(slice_index si,
+                           unsigned int prototype_rank,
+                           leaf_insertion_state_type *state)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->nr_prototypes>1)
+  {
+    leaf_insertion_state_type nested_state =
+    {
+        state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, si
+    };
+    start_leaf_insertion_traversal(si,&nested_state);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean leaf_insert_common(slice_index si,
                                   unsigned int rank,
                                   leaf_insertion_state_type *state)
 {
   boolean result = false;
+  slice_index const prototype = state->prototypes[0];
+  slice_type const prototype_type = slices[prototype].type;
+  unsigned int const prototype_rank = get_leaf_slice_rank(prototype_type);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -586,27 +611,16 @@ static boolean leaf_insert_common(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].type==slices[state->prototypes[0]].type)
-    result = true; /* we are done */
-  else
   {
-    slice_index const prototype = state->prototypes[0];
-    slice_type const prototype_type = slices[prototype].type;
-    unsigned int const prototype_rank = get_leaf_slice_rank(prototype_type);
-    if (rank>prototype_rank)
-    {
-      slice_index const copy = copy_slice(prototype);
-      pipe_append(state->prev,copy);
-      if (state->nr_prototypes>1)
-      {
-        leaf_insertion_state_type nested_state =
-        {
-            state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, copy
-        };
-        start_leaf_insertion_traversal(copy,&nested_state);
-      }
-
-      result = true;
-    }
+    next_insertion(si,prototype_rank,state);
+    result = true;
+  }
+  else if (rank>prototype_rank)
+  {
+    slice_index const copy = copy_slice(prototype);
+    pipe_append(state->prev,copy);
+    next_insertion(copy,prototype_rank,state);
+    result = true;
   }
 
   TraceFunctionExit(__func__);

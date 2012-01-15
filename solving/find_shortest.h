@@ -55,4 +55,10 @@ stip_length_type find_shortest_help(slice_index si, stip_length_type n);
  */
 stip_length_type find_shortest_can_help(slice_index si, stip_length_type n);
 
+/* Instrument the stipulation with slices that attempt the shortest
+ * solutions/variations
+ * @param si root slice of stipulation
+ */
+void stip_insert_find_shortest_solvers(slice_index si);
+
 #endif

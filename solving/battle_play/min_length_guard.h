@@ -58,4 +58,9 @@ stip_length_type min_length_guard_can_defend(slice_index si, stip_length_type n)
  */
 stip_length_type min_length_guard_defend(slice_index si, stip_length_type n);
 
+/* Instrument the stipulation to be able to cope with minimum lengths
+ * @param si identifies the root slice of the stipulation
+ */
+void stip_insert_min_length_solvers(slice_index si);
+
 #endif

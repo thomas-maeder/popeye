@@ -165,11 +165,12 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STTrySolver */
   slice_structure_pipe,   /* STRefutationsSolver */
   slice_structure_pipe,   /* STPlaySuppressor */
-  slice_structure_pipe,   /* STContinuationSolver */
+  slice_structure_fork,   /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_fork,   /* STThreatEnforcer */
   slice_structure_pipe,   /* STThreatStart */
   slice_structure_pipe,   /* STThreatCollector */
+  slice_structure_pipe,   /* STThreatDefeatedTester */
   slice_structure_pipe,   /* STRefutationsCollector */
   slice_structure_pipe,   /* STLegalMoveCounter */
   slice_structure_pipe,   /* STAnyMoveCounter */
@@ -178,7 +179,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STDoubleMateFilter */
   slice_structure_fork,   /* STCounterMateFilter */
   slice_structure_pipe,   /* STPrerequisiteOptimiser */
-  slice_structure_pipe,   /* STNoShortVariations */
+  slice_structure_fork,   /* STNoShortVariations */
   slice_structure_pipe,   /* STRestartGuard */
   slice_structure_pipe,   /* STRestartGuardIntelligent */
   slice_structure_pipe,   /* STIntelligentTargetCounter */
@@ -212,7 +213,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STFlightsquaresCounter */
   slice_structure_pipe,   /* STDegenerateTree */
-  slice_structure_pipe,   /* STMaxNrNonTrivial */
+  slice_structure_fork,   /* STMaxNrNonTrivial */
   slice_structure_pipe,   /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxThreatLengthStart */
@@ -343,6 +344,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STThreatEnforcer */
   slice_function_unspecified,    /* STThreatStart */
   slice_function_unspecified,    /* STThreatCollector */
+  slice_function_unspecified,    /* STThreatDefeatedTester */
   slice_function_unspecified,    /* STRefutationsCollector */
   slice_function_unspecified,    /* STLegalMoveCounter */
   slice_function_unspecified,    /* STAnyMoveCounter */
@@ -1439,6 +1441,8 @@ void stip_impose_starter(slice_index si, Side starter)
   TraceEnumerator(Side,starter,"");
   TraceFunctionParamListEnd();
 
+  TraceStipulation(si);
+
   stip_structure_traversal_init(&st,&starter);
 
   for (type = 0; type!=nr_slice_types; ++type)
@@ -1625,11 +1629,12 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STTrySolver */
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
-  &stip_traverse_structure_pipe,              /* STContinuationSolver */
+  &stip_traverse_structure_check_threat_solver, /* STContinuationSolver */
   &stip_traverse_structure_check_threat_solver, /* STThreatSolver */
   &stip_traverse_structure_pipe,              /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
   &stip_traverse_structure_pipe,              /* STThreatCollector */
+  &stip_traverse_structure_pipe,              /* STThreatDefeatedTester */
   &stip_traverse_structure_pipe,              /* STRefutationsCollector */
   &stip_traverse_structure_pipe,              /* STLegalMoveCounter */
   &stip_traverse_structure_pipe,              /* STAnyMoveCounter */
@@ -1638,7 +1643,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
   &stip_traverse_structure_end_of_branch,     /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
-  &stip_traverse_structure_pipe,              /* STNoShortVariations */
+  &stip_traverse_structure_check_threat_solver, /* STNoShortVariations */
   &stip_traverse_structure_pipe,              /* STRestartGuard */
   &stip_traverse_structure_pipe,              /* STRestartGuardIntelligent */
   &stip_traverse_structure_pipe,              /* STIntelligentTargetCounter */
@@ -1672,7 +1677,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
-  &stip_traverse_structure_pipe,              /* STMaxNrNonTrivial */
+  &stip_traverse_structure_check_threat_solver, /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,              /* STMaxThreatLength */
   &stip_traverse_structure_pipe,              /* STMaxThreatLengthStart */
@@ -1899,11 +1904,12 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STTrySolver */
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */
     &stip_traverse_moves_pipe,              /* STPlaySuppressor */
-    &stip_traverse_moves_pipe,              /* STContinuationSolver */
+    &stip_traverse_moves_continuation_solver, /* STContinuationSolver */
     &stip_traverse_moves_pipe,              /* STThreatSolver */
     &stip_traverse_moves_pipe,              /* STThreatEnforcer */
     &stip_traverse_moves_pipe,              /* STThreatStart */
     &stip_traverse_moves_pipe,              /* STThreatCollector */
+    &stip_traverse_moves_pipe,              /* STThreatDefeatedTester */
     &stip_traverse_moves_pipe,              /* STRefutationsCollector */
     &stip_traverse_moves_pipe,              /* STLegalMoveCounter */
     &stip_traverse_moves_pipe,              /* STAnyMoveCounter */

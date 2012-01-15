@@ -135,7 +135,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 1400,
+  max_nr_slices = 3000,
   no_slice = max_nr_slices
 };
 

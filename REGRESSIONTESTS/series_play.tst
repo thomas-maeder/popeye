@@ -256,7 +256,7 @@ stop solving when the goal is reached
               empile:          11
             jouecoup:          13
         orig_rbechec:           0
-        orig_rnechec:          12
+        orig_rnechec:          11
 solution finished. 
 
 

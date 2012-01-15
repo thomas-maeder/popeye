@@ -119,3 +119,63 @@ has_solution_type play_suppressor_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
+static void filter_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_play_suppressors_attack_adapter(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->level==structure_traversal_level_root)
+  {
+    slice_index const prototype = alloc_play_suppressor_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const play_suppressors_inserters[] =
+{
+  { STOutputModeSelector, &filter_output_mode                     },
+  { STAttackAdapter,      &insert_play_suppressors_attack_adapter }
+};
+
+enum
+{
+  nr_play_suppressors_inserters = sizeof play_suppressors_inserters / sizeof play_suppressors_inserters[0]
+};
+
+/* Instrument the stipulation representation so that postkey play is suppressed
+ * @param si identifies slice where to start
+ */
+void stip_insert_play_suppressors(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,play_suppressors_inserters,nr_play_suppressors_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

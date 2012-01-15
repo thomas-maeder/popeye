@@ -93,6 +93,7 @@
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
+    ENUMERATOR(STThreatDefeatedTester), /* detect whether threats have been defeated  */ \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
     ENUMERATOR(STLegalMoveCounter), /* counts legal moves */            \
     ENUMERATOR(STAnyMoveCounter), /* counts moves whether legal or not */            \

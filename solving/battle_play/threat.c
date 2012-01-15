@@ -217,6 +217,34 @@ stip_length_type threat_collector_can_defend(slice_index si, stip_length_type n)
 
   result = can_defend(next,n);
 
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
+           n+2 refuted - <=acceptable number of refutations found
+           n+4 refuted - >acceptable number of refutations found
+ */
+stip_length_type threat_defeated_tester_can_defend(slice_index si,
+                                                   stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = can_defend(next,n);
+
   if (threat_activities[nbply]==threat_enforcing
       && n>=threat_lengths[nbply]-2)
   {
@@ -437,11 +465,25 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the stipulation representation so that it can deal with
- * threats
- * @param si identifies slice where to start
- */
-void stip_insert_threat_handlers(slice_index si)
+static void append_check_detector(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].u.branch.length>slack_length_battle+2)
+  {
+    slice_index const prototype = alloc_check_detector_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_adapter(slice_index si)
 {
   stip_structure_traversal st;
   unsigned int i;
@@ -456,6 +498,9 @@ void stip_insert_threat_handlers(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STReadyForDefense,
                                            &append_threat_solver);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &append_check_detector);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)
@@ -464,6 +509,67 @@ void stip_insert_threat_handlers(slice_index si)
     threats[i] = table_nil;
     threat_activities[i] = threat_idle;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void filter_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_threat_solvers_adapter(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->level==structure_traversal_level_root)
+    instrument_adapter(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const threat_solver_inserters[] =
+{
+  { STOutputModeSelector, &filter_output_mode            },
+  { STAttackAdapter,      &insert_threat_solvers_adapter },
+  { STDefenseAdapter,     &insert_threat_solvers_adapter }
+};
+
+enum
+{
+  nr_threat_solver_inserters = sizeof threat_solver_inserters / sizeof threat_solver_inserters[0]
+};
+
+/* Instrument the stipulation representation so that it can deal with
+ * threats
+ * @param si identifies slice where to start
+ */
+void stip_insert_threat_solvers(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    threat_solver_inserters,
+                                    nr_threat_solver_inserters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

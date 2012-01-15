@@ -206,7 +206,7 @@ void stip_traverse_structure_ready_for_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->context!=stip_traversal_context_global);
+//  assert(st->context!=stip_traversal_context_global);
 
   st->context = stip_traversal_context_defense;
   stip_traverse_structure_pipe(si,st);

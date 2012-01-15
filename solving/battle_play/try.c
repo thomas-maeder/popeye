@@ -1,6 +1,7 @@
 #include "solving/battle_play/try.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pymsg.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
@@ -465,6 +466,83 @@ void branch_insert_try_solvers(slice_index adapter,
     };
     battle_branch_insert_slices(adapter,prototypes,nr_prototypes);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void filter_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_try_solvers_attack_adapter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  branch_insert_try_solvers(si,get_max_nr_refutations());
+
+  {
+    slice_index const prototype = alloc_refutations_solver();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_try_solvers_defense_adapter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->level==structure_traversal_level_root) /* i.e. not set play */
+    Message(TryPlayNotApplicable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const try_solver_inserters[] =
+{
+  { STOutputModeSelector, &filter_output_mode                 },
+  { STAttackAdapter,      &insert_try_solvers_attack_adapter  },
+  { STDefenseAdapter,     &insert_try_solvers_defense_adapter }
+};
+
+enum
+{
+  nr_try_solver_inserters = sizeof try_solver_inserters / sizeof try_solver_inserters[0]
+};
+
+/* Instrument the stipulation structure with slices solving tries
+ * @param root_slice root slice of the stipulation
+ */
+void stip_insert_try_solvers(slice_index si)
+{
+  stip_structure_traversal st;
+  output_mode mode = output_mode_none;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override(&st,try_solver_inserters,nr_try_solver_inserters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

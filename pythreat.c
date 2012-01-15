@@ -92,22 +92,17 @@ static boolean is_threat_too_long(slice_index si,
  */
 
 /* Allocate a STMaxThreatLength slice
- * @param length maximum number of half moves until goal
  * @param to_attacker identifies slice leading to attacker
  */
-static slice_index alloc_maxthreatlength_guard(stip_length_type length,
-                                               slice_index to_attacker)
+static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
 {
   slice_index result;
-  stip_length_type const parity = (length-slack_length_battle)%2;
-  stip_length_type const min_length = slack_length_battle+parity;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",to_attacker);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxThreatLength,length,min_length);
+  result = alloc_pipe(STMaxThreatLength);
   slices[result].u.fork.fork = to_attacker;
 
   TraceFunctionExit(__func__);
@@ -252,7 +247,7 @@ static void maxthreatlength_guard_inserter(slice_index si,
       slice_index const prototypes[] =
       {
           alloc_check_detector_slice(),
-          alloc_maxthreatlength_guard(length,to_attacker)
+          alloc_maxthreatlength_guard(to_attacker)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
       assert(to_attacker!=no_slice);

@@ -2044,9 +2044,9 @@ pynontrv$(OBJ_SUFFIX): pynontrv.c pynontrv.h stipulation/battle_play/defense_pla
  pyslice.h pydata.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h \
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
  stipulation/goals/goals.h boolean.h py.h pypipe.h pystip.h \
- stipulation/slice_type.h pyslice.h stipulation/branch.h pystip.h \
- stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- trace.h
+ stipulation/slice_type.h pyslice.h pybrafrk.h stipulation/branch.h \
+ pystip.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h trace.h
 
 pynontrv.h:
 
@@ -2091,6 +2091,8 @@ pystip.h:
 stipulation/slice_type.h:
 
 pyslice.h:
+
+pybrafrk.h:
 
 stipulation/branch.h:
 

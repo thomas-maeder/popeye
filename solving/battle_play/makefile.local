@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 #
-CFILES =  continuation.c check_detector.c threat.c try.c \
+CFILES =  continuation.c check_detector.c threat.c try.c setplay.c \
           min_length_optimiser.c min_length_guard.c
-INCLUDES =  continuation.h check_detector.h threat.h try.h\
+INCLUDES =  continuation.h check_detector.h threat.h try.h setplay.h \
             min_length_optimiser.h min_length_guard.h
 
 include makefile.rules $(CURRPWD)depend

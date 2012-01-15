@@ -60,6 +60,7 @@ static slice_index const slice_rank_order[] =
   STRestartGuard,
   STEndOfSolutionWriter,
   STThreatCollector,
+  STThreatDefeatedTester,
   STKillerMoveCollector,
   STGoalReachedTester,
   STEndOfBranchGoal,

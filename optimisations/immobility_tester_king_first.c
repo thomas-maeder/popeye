@@ -14,6 +14,10 @@
 
 static void substitute_king_first(slice_index si, stip_structure_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   stip_traverse_structure_children(si,st);
 
   {
@@ -46,6 +50,9 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
 
     pipe_remove(si);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Replace immobility tester slices' type
@@ -57,6 +64,8 @@ void immobility_testers_substitute_king_first(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
