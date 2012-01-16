@@ -301,10 +301,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = refutations_solver_can_defend(si,n);
       break;
 
-    case STPlaySuppressor:
-      result = play_suppressor_can_defend(si,n);
-      break;
-
     case STContinuationSolver:
       result = continuation_solver_can_defend(si,n);
       break;

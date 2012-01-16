@@ -308,6 +308,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&state.nested,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&state.nested,STMaxThreatLength,&spin_off_testers_max_threat_length);
   stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STThreatEnforcer,&spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&state.nested,STThreatCollector,&spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&state.nested,STTemporaryHackFork,&stip_traverse_structure_pipe);

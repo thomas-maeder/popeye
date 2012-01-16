@@ -27,7 +27,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
-#include "solving/play_suppressor.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/legal_move_counter.h"
 #include "pymovein.h"
@@ -244,10 +243,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STAnticirceExchangeFilter:
       result = anticirce_exchange_filter_solve(si);
-      break;
-
-    case STPlaySuppressor:
-      result = play_suppressor_solve(si);
       break;
 
     case STTemporaryHackFork:
@@ -500,10 +495,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAnticirceExchangeFilter:
       result = anticirce_exchange_filter_has_solution(si);
-      break;
-
-    case STPlaySuppressor:
-      result = play_suppressor_has_solution(si);
       break;
 
     case STLegalMoveCounter:
