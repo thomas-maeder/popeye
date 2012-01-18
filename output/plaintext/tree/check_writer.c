@@ -47,53 +47,6 @@ has_solution_type output_plaintext_tree_check_writer_solve(slice_index si)
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type output_plaintext_tree_check_writer_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-output_plaintext_tree_check_writer_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -116,34 +69,6 @@ output_plaintext_tree_check_writer_attack(slice_index si, stip_length_type n)
   if (echecc(nbply,slices[si].starter))
     StdString(" +");
   result = attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-output_plaintext_tree_check_writer_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+4;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

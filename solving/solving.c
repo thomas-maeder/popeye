@@ -294,6 +294,7 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,STContinuationSolver,&start_spinning_off);
+  stip_structure_traversal_override_single(&st,STTrivialEndFilter,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STMaxThreatLength,&connect_root_max_threat_length_to_spin_off);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&connect_root_non_trivial_to_spin_off);
 
@@ -305,10 +306,12 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_by_structure(&state.nested,slice_structure_leaf,&spin_off_testers_leaf);
   stip_structure_traversal_override_by_structure(&state.nested,slice_structure_binary,&spin_off_testers_binary);
   stip_structure_traversal_override_single(&state.nested,STContinuationSolver,&spin_off_testers_continuation_solver);
+  stip_structure_traversal_override_single(&state.nested,STTrivialEndFilter,&spin_off_testers_continuation_solver);
   stip_structure_traversal_override_single(&state.nested,STNoShortVariations,&spin_off_testers_continuation_solver);
   stip_structure_traversal_override_single(&state.nested,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&state.nested,STMaxThreatLength,&spin_off_testers_max_threat_length);
   stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STRefutationsSolver,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STThreatEnforcer,&spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&state.nested,STThreatCollector,&spin_off_testers_threat_collector);

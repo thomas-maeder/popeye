@@ -34,28 +34,6 @@ slice_index alloc_goal_writer_slice(Goal goal)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_writer_has_solution(slice_index si)
-{
-  has_solution_type result;
-  slice_index const next = slices[si].u.goal_handler.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -111,34 +89,6 @@ output_plaintext_tree_goal_writer_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-output_plaintext_tree_goal_writer_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.goal_handler.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n_min minimum number of half-moves of interesting variations
@@ -161,33 +111,6 @@ output_plaintext_tree_goal_writer_attack(slice_index si, stip_length_type n)
 
   StdString(goal_end_marker[goal.type]);
   result = attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-output_plaintext_tree_goal_writer_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.goal_handler.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -255,7 +255,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STKeyWriter */
   slice_structure_pipe,   /* STTryWriter */
   slice_structure_pipe,   /* STZugzwangWriter */
-  slice_structure_pipe,   /* STTrivialEndFilter */
+  slice_structure_fork,   /* STTrivialEndFilter */
   slice_structure_pipe,   /* STRefutingVariationWriter */
   slice_structure_pipe,   /* STRefutationWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeCheckWriter */

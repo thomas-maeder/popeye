@@ -297,10 +297,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = try_solver_can_defend(si,n);
       break;
 
-    case STRefutationsSolver:
-      result = refutations_solver_can_defend(si,n);
-      break;
-
     case STContinuationSolver:
       result = continuation_solver_can_defend(si,n);
       break;
@@ -386,34 +382,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
 
     case STMaxTimeGuard:
       result = maxtime_guard_can_defend(si,n);
-      break;
-
-    case STKeyWriter:
-      result = key_writer_can_defend(si,n);
-      break;
-
-    case STTryWriter:
-      result = try_writer_can_defend(si,n);
-      break;
-
-    case STMoveWriter:
-      result = move_writer_can_defend(si,n);
-      break;
-
-    case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_can_defend(si,n);
-      break;
-
-    case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_can_defend(si,n);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_can_defend(si,n);
-      break;
-
-    case STEndOfSolutionWriter:
-      result = end_of_solution_writer_can_defend(si,n);
       break;
 
     case STEnPassantFilter:

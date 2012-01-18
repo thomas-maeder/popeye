@@ -141,7 +141,6 @@ static void insert_continuation_solvers_attack(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length_battle)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
     battle_branch_insert_slices(si,&prototype,1);

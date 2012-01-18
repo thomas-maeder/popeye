@@ -421,26 +421,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = check_detector_has_solution(si);
       break;
 
-    case STMoveWriter:
-      result = move_writer_has_solution(si);
-      break;
-
-    case STOutputPlaintextTreeGoalWriter:
-      result = goal_writer_has_solution(si);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = decoration_writer_has_solution(si);
-      break;
-
-    case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_has_solution(si);
-      break;
-
-    case STOutputPlaintextMoveInversionCounter:
-      result = output_plaintext_move_inversion_counter_has_solution(si);
-      break;
-
     case STIllegalSelfcheckWriter:
       result = illegal_selfcheck_writer_has_solution(si);
       break;

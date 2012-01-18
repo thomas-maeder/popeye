@@ -83,18 +83,6 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = refutations_collector_can_attack(si,n);
       break;
 
-    case STMoveWriter:
-      result = move_writer_can_attack(si,n);
-      break;
-
-    case STTrivialEndFilter:
-      result = trivial_end_filter_can_attack(si,n);
-      break;
-
-    case STRefutingVariationWriter:
-      result = refuting_variation_writer_can_attack(si,n);
-      break;
-
     case STNoShortVariations:
       result = no_short_variations_can_attack(si,n);
       break;
@@ -175,18 +163,6 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = max_nr_nontrivial_counter_can_attack(si,n);
       break;
 
-    case STOutputPlaintextTreeCheckWriter:
-      result = output_plaintext_tree_check_writer_can_attack(si,n);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_can_attack(si,n);
-      break;
-
-    case STRefutationWriter:
-      result = refutation_writer_can_attack(si,n);
-      break;
-
     case STDoubleMateFilter:
       result = doublemate_filter_can_attack(si,n);
       break;
@@ -205,10 +181,6 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
 
     case STPrerequisiteOptimiser:
       result = goal_prerequisite_optimiser_can_attack(si,n);
-      break;
-
-    case STOutputPlaintextTreeGoalWriter:
-      result = output_plaintext_tree_goal_writer_can_attack(si,n);
       break;
 
     case STKillerMoveMoveGenerator:

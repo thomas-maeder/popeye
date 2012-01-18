@@ -24,32 +24,6 @@ slice_index alloc_refutation_writer_slice(void)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type refutation_writer_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
