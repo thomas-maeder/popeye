@@ -91,6 +91,8 @@ static void spin_off_testers_binary(slice_index si, stip_structure_traversal *st
     assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
     slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
     slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
+    slices[si].u.binary.tester = state->spun_off[si];
+    slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
   }
 
   TraceFunctionExit(__func__);
@@ -293,6 +295,7 @@ void stip_spin_off_testers(slice_index si)
     state.spun_off[i] = no_slice;
 
   stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_single(&st,STAnd,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STContinuationSolver,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STTrivialEndFilter,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STMaxThreatLength,&connect_root_max_threat_length_to_spin_off);

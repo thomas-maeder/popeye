@@ -73,8 +73,37 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   else
     stip_insert_output_plaintext_tree_slices(si,*is_setplay);
 
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_illegal_selfcheck_writer_slice(),
+      alloc_end_of_phase_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void insert_output_slices_binary(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].u.binary.op2,st);
+
+  /* don't traverse tester */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
 }
 
 /* Instrument the stipulation structure with slices that implement
@@ -102,20 +131,10 @@ void stip_insert_output_slices(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &insert_output_slices_binary);
   stip_traverse_structure(si,&st);
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_illegal_selfcheck_writer_slice(),
-      alloc_end_of_phase_writer_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

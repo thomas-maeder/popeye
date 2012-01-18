@@ -331,6 +331,7 @@ static void init_slice_properties_binary(slice_index fork,
 
   slice_index const op1 = slices[fork].u.binary.op1;
   slice_index const op2 = slices[fork].u.binary.op2;
+  slice_index const tester = slices[fork].u.binary.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
@@ -341,6 +342,14 @@ static void init_slice_properties_binary(slice_index fork,
   stip_traverse_structure(op1,st);
   sis->valueOffset = save_valueOffset;
   stip_traverse_structure(op2,st);
+
+  if (tester!=no_slice)
+  {
+    sis->valueOffset = save_valueOffset;
+    stip_traverse_structure(slices[tester].u.binary.op1,st);
+    sis->valueOffset = save_valueOffset;
+    stip_traverse_structure(slices[tester].u.binary.op2,st);
+  }
 
   TraceValue("%u",op1);
   TraceValue("%u",slice_properties[op1].valueOffset);
@@ -354,12 +363,16 @@ static void init_slice_properties_binary(slice_index fork,
     unsigned int const delta = (slice_properties[op1].valueOffset
                                 -slice_properties[op2].valueOffset);
     shift_offsets(op1,delta);
+    if (tester!=no_slice)
+      shift_offsets(slices[tester].u.binary.op1,delta);
   }
   else if (slice_properties[op2].valueOffset>slice_properties[op1].valueOffset)
   {
     unsigned int const delta = (slice_properties[op2].valueOffset
                                 -slice_properties[op1].valueOffset);
     shift_offsets(op2,delta);
+    if (tester!=no_slice)
+      shift_offsets(slices[tester].u.binary.op2,delta);
   }
 
   TraceFunctionExit(__func__);

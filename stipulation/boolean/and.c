@@ -64,10 +64,7 @@ has_solution_type and_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  switch (slice_has_solution(op2))
+  switch (slice_has_solution(slices[slices[si].u.binary.tester].u.binary.op2))
   {
     case has_solution:
       result = slice_solve(op1);

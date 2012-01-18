@@ -421,14 +421,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = check_detector_has_solution(si);
       break;
 
-    case STIllegalSelfcheckWriter:
-      result = illegal_selfcheck_writer_has_solution(si);
-      break;
-
-    case STEndOfPhaseWriter:
-      result = end_of_phase_writer_has_solution(si);
-      break;
-
     case STOutputPlaintextLineEndOfIntroSeriesMarker:
       result = output_plaintext_line_end_of_intro_series_marker_has_solution(si);
       break;

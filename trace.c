@@ -391,9 +391,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         fprintf(stdout,"threshold:%u ",slices[si].u.fork_on_remaining.threshold);
         Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
         Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
+        Trace_link("tester:",slices[si].u.fork_on_remaining.tester,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
         TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
+        TraceStipulationRecursive(slices[si].u.binary.tester,done_slices);
         break;
 
       case STKeepMatingFilter:
@@ -481,9 +483,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             Trace_slice(si);
             Trace_link("op1:",slices[si].u.binary.op1,"");
             Trace_link("op2:",slices[si].u.binary.op2,"");
+            Trace_link("tester:",slices[si].u.binary.tester,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
             TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
+            TraceStipulationRecursive(slices[si].u.binary.tester,done_slices);
             break;
 
           default:
