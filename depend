@@ -1084,7 +1084,6 @@ pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h pystip.h stipulation/goals/goals.h 
  boolean.h py.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h stipulation/slice_type.h pypipe.h pyslice.h \
  stipulation/branch.h pystip.h pyslice.h \
- output/plaintext/move_inversion_counter.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
  pydata.h output/plaintext/line/line.h trace.h
@@ -1126,8 +1125,6 @@ stipulation/branch.h:
 pystip.h:
 
 pyslice.h:
-
-output/plaintext/move_inversion_counter.h:
 
 output/plaintext/end_of_phase_writer.h:
 

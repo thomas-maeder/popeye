@@ -4,7 +4,7 @@
 #include "pypipe.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "solving/battle_play/try.h"
-#include "output/plaintext/trivial_end_filter.h"
+#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 

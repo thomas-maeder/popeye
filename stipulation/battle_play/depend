@@ -73,8 +73,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/killer_move/move_generator.h \
- optimisations/killer_move/collector.h \
- output/plaintext/trivial_end_filter.h \
+ optimisations/killer_move/collector.h solving/trivial_end_filter.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
@@ -155,7 +154,7 @@ optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
 
-output/plaintext/trivial_end_filter.h:
+solving/trivial_end_filter.h:
 
 output/plaintext/tree/check_writer.h:
 

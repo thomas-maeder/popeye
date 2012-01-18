@@ -1,7 +1,7 @@
 output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  output/plaintext/line/line.h pypipe.h pyoutput.h stipulation/branch.h \
- output/plaintext/end_of_phase_writer.h \
- output/plaintext/trivial_end_filter.h \
+ output/plaintext/end_of_phase_writer.h solving/trivial_end_filter.h \
+ output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/line_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h trace.h
@@ -16,7 +16,9 @@ stipulation/branch.h:
 
 output/plaintext/end_of_phase_writer.h:
 
-output/plaintext/trivial_end_filter.h:
+solving/trivial_end_filter.h:
+
+output/plaintext/move_inversion_counter.h:
 
 output/plaintext/illegal_selfcheck_writer.h:
 

@@ -35,7 +35,7 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
-#include "output/plaintext/trivial_end_filter.h"
+#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"

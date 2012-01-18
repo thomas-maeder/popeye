@@ -22,6 +22,7 @@
 #include "solving/castling_intermediate_move_generator.h"
 #include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
+#include "solving/trivial_end_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -562,6 +563,8 @@ void stip_insert_solvers(slice_index root_slice)
   TraceStipulation(root_slice);
 
   insert_other_solvers(root_slice);
+
+  stip_insert_trivial_varation_filters(root_slice);
 
   TraceStipulation(root_slice);
 

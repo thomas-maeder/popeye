@@ -9,11 +9,6 @@
  */
 extern boolean do_write_trivial_ends[maxply+1];
 
-/* Allocate a STTrivialEndFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_trivial_end_filter_slice(void);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -34,5 +29,10 @@ stip_length_type trivial_end_filter_can_attack(slice_index si, stip_length_type 
  */
 stip_length_type
 trivial_end_filter_attack(slice_index si, stip_length_type n);
+
+/* Instrument a stipulation with trivial variation filters
+ * @param si identifies the entry slice of the stipulation to be instrumented
+ */
+void stip_insert_trivial_varation_filters(slice_index si);
 
 #endif

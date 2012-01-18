@@ -3,7 +3,8 @@
 #include "pyoutput.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
-#include "output/plaintext/trivial_end_filter.h"
+#include "solving/trivial_end_filter.h"
+#include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -175,8 +176,30 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_move_inversion_counter(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  slice_index * const root_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*root_slice==no_slice)
+    *root_slice = si;
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->level!=structure_traversal_level_nested)
+    pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors regular_inserters[] =
 {
+  { STMoveInverter,               &insert_move_inversion_counter  },
   { STEndOfBranch,                &instrument_end_of_branch       },
   { STConstraint,                 &stip_traverse_structure_pipe   },
   { STPlaySuppressor,             &instrument_suppressor          },
@@ -198,6 +221,8 @@ static void insert_regular_slices(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  output_plaintext_slice_determining_starter = no_slice;
 
   stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
@@ -235,14 +260,7 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
   if (*move_slice==no_slice)
     stip_traverse_structure_children(si,st);
   else
-  {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,
-                                                  slices[si].u.fork.fork);
-    if (adapter!=no_slice)
-      pipe_append(adapter,alloc_trivial_end_filter_slice());
     stip_traverse_structure_pipe(si,st);
-  }
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

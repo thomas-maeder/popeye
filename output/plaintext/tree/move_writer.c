@@ -4,7 +4,7 @@
 #include "pytable.h"
 #include "pymsg.h"
 #include "solving/battle_play/threat.h"
-#include "output/plaintext/trivial_end_filter.h"
+#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 

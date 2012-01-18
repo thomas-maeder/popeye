@@ -10,7 +10,7 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
-#include "output/plaintext/trivial_end_filter.h"
+#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/decoration_writer.h"
@@ -25,19 +25,6 @@
 #include "trace.h"
 
 #include <assert.h>
-
-static void instrument_move_inverter(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 static void instrument_threat_solver(slice_index si,
                                      stip_structure_traversal *st)
@@ -170,9 +157,23 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_move_inversion_counter(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors regular_writer_inserters[] =
 {
-  { STMoveInverter,       &instrument_move_inverter           },
+  { STMoveInverter,       &insert_move_inversion_counter      },
   { STThreatSolver,       &instrument_threat_solver           },
   { STPlaySuppressor,     &stip_structure_visitor_noop        },
   { STReadyForAttack,     &insert_continuation_writers        },
@@ -210,82 +211,6 @@ static void insert_regular_writer_slices(slice_index si)
   stip_structure_traversal_override(&st,
                                     regular_writer_inserters,
                                     nr_regular_writer_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void trivial_varation_filter_insert_constraint(slice_index si,
-                                                      stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,
-                                                  slices[si].u.fork.fork);
-    if (adapter!=no_slice)
-    {
-      slice_index const prototype = alloc_trivial_end_filter_slice();
-      battle_branch_insert_slices(adapter,&prototype,1);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void trivial_varation_filter_insert_self(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  if (st->context==stip_traversal_context_defense)
-  {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,
-                                                  slices[si].u.fork.fork);
-    assert(adapter!=no_slice);
-    pipe_append(adapter,alloc_trivial_end_filter_slice());
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors trivial_varation_filter_inserters[] =
-{
-  { STConstraint,              &trivial_varation_filter_insert_constraint },
-  { STEndOfBranchGoal,         &trivial_varation_filter_insert_self       },
-  { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert_self       }
-};
-
-enum
-{
-  nr_trivial_varation_filter_inserters
-  = (sizeof trivial_varation_filter_inserters
-     / sizeof trivial_varation_filter_inserters[0])
-};
-
-static void insert_trivial_varation_filters(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    trivial_varation_filter_inserters,
-                                    nr_trivial_varation_filter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -646,8 +571,9 @@ static void optimise_leaf_slices(slice_index si)
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.
  * @param si identifies slice where to start
+ * @param is_setplay is si part of set play?
  */
-void stip_insert_output_plaintext_tree_slices(slice_index si)
+void stip_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -656,8 +582,8 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   TraceStipulation(si);
 
   insert_regular_writer_slices(si);
-  insert_try_writers(si);
-  insert_trivial_varation_filters(si);
+  if (!is_setplay)
+    insert_try_writers(si);
   insert_root_writer_slices(si);
   optimise_leaf_slices(si);
 

@@ -20,6 +20,12 @@
  * Slices of this type write lines in line mode.
  */
 
+/* identifies a slice whose starter is the nominal starter of the stipulation
+ * before any move inversions are applied
+ * (e.g. in a h#N.5, this slice's starter is Black)
+ */
+slice_index output_plaintext_slice_determining_starter = no_slice;
+
 static void write_line(Side starting_side, goal_type goal)
 {
   int next_movenumber = 1;
