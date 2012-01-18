@@ -28,6 +28,7 @@ enum
   entry_length = 1000
 };
 
+#if defined(DOTRACECALLSTACK)
 static char entries[1000][entry_length];
 static unsigned int entry_cursor[1000];
 
@@ -41,7 +42,7 @@ void TraceCallStack(FILE *file)
     fprintf(file,"%s",entries[i]);
   fflush(file);
 }
-
+#endif
 
 void TraceSetMaxLevel(trace_level tl)
 {
@@ -58,11 +59,13 @@ void TraceFunctionEntry(char const *name)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] = snprintf(entries[level-1],
                                    entry_length,
                                    "> #%lu %s ",
                                    level,
                                    name);
+#endif
 
   entryNames[level] = name;
 }
@@ -72,9 +75,11 @@ void TraceFunctionParamListEnd(void)
   if (level<=max_level)
     fprintf(stdout,"\n");
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "\n");
+#endif
 }
 
 void TraceFunctionExit(char const *name)
@@ -91,11 +96,13 @@ void TraceFunctionExit(char const *name)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "< #%lu %s",
                                     level,
                                     name);
+#endif
 
   --level;
 }
@@ -108,10 +115,12 @@ void TraceFunctionResultImpl(char const *format, size_t value)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
                                   entry_length-entry_cursor[level],
                                   format,
                                   value);
+#endif
 }
 
 void TraceFunctionResultEnd(void)
@@ -119,9 +128,11 @@ void TraceFunctionResultEnd(void)
   if (level<=max_level)
     fprintf(stdout,"\n");
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
                                   entry_length-entry_cursor[level],
                                   "\n");
+#endif
 }
 
 void TraceValueImpl(char const *format, size_t value)
@@ -132,10 +143,12 @@ void TraceValueImpl(char const *format, size_t value)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     format,
                                     value);
+#endif
 }
 
 void TracePointerValueImpl(char const *format, void const *value)
@@ -146,10 +159,12 @@ void TracePointerValueImpl(char const *format, void const *value)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     format,
                                     value);
+#endif
 }
 
 void TraceText(char const *text)
@@ -157,11 +172,13 @@ void TraceText(char const *text)
   if (level<=max_level)
     fprintf(stdout,"  #%lu %s",level,text);
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "  #%lu %s",
                                     level,
                                     text);
+#endif
 }
 
 void TraceEnumeratorImpl(char const *format,
@@ -171,11 +188,13 @@ void TraceEnumeratorImpl(char const *format,
   if (level<=max_level)
     fprintf(stdout,format,enumerator_name,value);
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     format,
                                     enumerator_name,
                                     value);
+#endif
 }
 
 void TraceSquareImpl(char const *prefix, square s)
@@ -191,6 +210,7 @@ void TraceSquareImpl(char const *prefix, square s)
     fflush(stdout);
   }
 
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "%s",
@@ -216,8 +236,10 @@ void TraceSquareImpl(char const *prefix, square s)
                                         "%c",
                                         '1' - nr_rows_on_board + s/onerow);
   }
+#endif
 }
 
+#if defined(DOTRACECALLSTACK)
 static void remember_regular_piece(PieNam pnam)
 {
   char const p1 = PieceTab[pnam][1];
@@ -232,9 +254,11 @@ static void remember_regular_piece(PieNam pnam)
                                       "%c",
                                       toupper(p1));
 }
+#endif
 
 void TracePieceImpl(char const *prefix, piece p)
 {
+#if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
                                     entry_length-entry_cursor[level-1],
                                     "%s",
@@ -264,6 +288,7 @@ void TracePieceImpl(char const *prefix, piece p)
       remember_regular_piece(abs(huntertypes[i].home));
     }
   }
+#endif
 
   if (level<=max_level)
   {
@@ -327,9 +352,9 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 static void Trace_link(char const *prefix, slice_index si, char const *suffix)
 {
   if (si==no_slice)
-    fprintf(stdout,"%s---%s ",prefix,suffix);
+    fprintf(stdout,"%s----%s ",prefix,suffix);
   else
-    fprintf(stdout,"%s%3u%s ",prefix,si,suffix);
+    fprintf(stdout,"%s%4u%s ",prefix,si,suffix);
 }
 
 static void Trace_slice(slice_index si)
@@ -356,7 +381,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
   {
     done_slices[si] = true;
 
-    fprintf(stdout,"[%3u] ",si);
+    fprintf(stdout,"[%4u] ",si);
     fprintf(stdout,"%-34s ",slice_type_names[slices[si].type]);
     fprintf(stdout,"%c ",Side_names[slices[si].starter][0]);
     switch (slices[si].type)
