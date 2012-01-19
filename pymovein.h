@@ -19,12 +19,6 @@ slice_index alloc_move_inverter_slice(void);
  */
 has_solution_type move_inverter_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type move_inverter_has_solution(slice_index si);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

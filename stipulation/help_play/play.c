@@ -368,14 +368,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = maxtime_guard_can_help(si,n);
       break;
 
-    case STMaxSolutionsGuard:
-      result = maxsolutions_guard_can_help(si,n);
-      break;
-
-    case STStopOnShortSolutionsFilter:
-      result = stoponshortsolutions_can_help(si,n);
-      break;
-
     case STCounterMateFilter:
       result = countermate_filter_can_help(si,n);
       break;
@@ -394,10 +386,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STPrerequisiteOptimiser:
       result = goal_prerequisite_optimiser_can_help(si,n);
-      break;
-
-    case STDummyMove:
-      result = dummy_move_help(si,n);
       break;
 
     case STFlightsquaresCounter:

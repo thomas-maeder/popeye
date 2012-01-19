@@ -284,10 +284,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = false_has_solution(si);
       break;
 
-    case STSetplayFork:
-      result = setplay_fork_has_solution(si);
-      break;
-
     case STGoalReachedTester:
       result = goal_reached_tester_has_solution(si);
       break;
@@ -393,14 +389,11 @@ has_solution_type slice_has_solution(slice_index si)
       result = help_adapter_has_solution(si);
       break;
 
-    case STMoveInverter:
-      result = move_inverter_has_solution(si);
-      break;
-
     case STSelfCheckGuard:
       result = selfcheck_guard_has_solution(si);
       break;
 
+      /* TODO */
     case STOutputPlaintextLineLineWriter:
       result = line_writer_has_solution(si);
       break;
@@ -413,16 +406,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = intelligent_nr_solutions_per_target_position_counter_has_solution(si);
       break;
 
-    case STMaxSolutionsGuard:
-      result = maxsolutions_guard_has_solution(si);
-      break;
-
     case STCheckDetector:
       result = check_detector_has_solution(si);
-      break;
-
-    case STOutputPlaintextLineEndOfIntroSeriesMarker:
-      result = output_plaintext_line_end_of_intro_series_marker_has_solution(si);
       break;
 
     case STPiecesParalysingMateFilter:

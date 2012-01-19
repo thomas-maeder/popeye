@@ -32,10 +32,4 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st);
  */
 has_solution_type setplay_fork_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type setplay_fork_has_solution(slice_index si);
-
 #endif

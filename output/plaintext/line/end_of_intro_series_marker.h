@@ -18,14 +18,6 @@ extern boolean is_end_of_intro_series[maxply+1];
  */
 slice_index alloc_output_plaintext_line_end_of_intro_series_marker_slice(void);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type
-output_plaintext_line_end_of_intro_series_marker_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

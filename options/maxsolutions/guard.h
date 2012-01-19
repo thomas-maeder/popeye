@@ -16,13 +16,6 @@
  */
 slice_index alloc_maxsolutions_guard_slice(void);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type maxsolutions_guard_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -52,16 +45,5 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n);
  *         n   solution found
  */
 stip_length_type maxsolutions_guard_help(slice_index si, stip_length_type n);
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type maxsolutions_guard_can_help(slice_index si, stip_length_type n);
 
 #endif

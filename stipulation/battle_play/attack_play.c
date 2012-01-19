@@ -75,16 +75,8 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STThreatEnforcer:
-      result = threat_enforcer_can_attack(si,n);
-      break;
-
     case STRefutationsCollector:
       result = refutations_collector_can_attack(si,n);
-      break;
-
-    case STNoShortVariations:
-      result = no_short_variations_can_attack(si,n);
       break;
 
     case STDeadEnd:

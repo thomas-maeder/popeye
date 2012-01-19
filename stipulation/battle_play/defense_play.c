@@ -289,14 +289,11 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STRefutationsAllocator:
-      result = refutations_allocator_can_defend(si,n);
-      break;
-
     case STTrySolver:
       result = try_solver_can_defend(si,n);
       break;
 
+      /* TODO */
     case STContinuationSolver:
       result = continuation_solver_can_defend(si,n);
       break;
@@ -305,17 +302,9 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = check_detector_can_defend(si,n);
       break;
 
-    case STThreatSolver:
-      result = threat_solver_can_defend(si,n);
-      break;
-
     case STDeadEnd:
     case STDeadEndGoal:
       result = dead_end_can_defend(si,n);
-      break;
-
-    case STThreatCollector:
-      result = threat_collector_can_defend(si,n);
       break;
 
     case STThreatDefeatedTester:

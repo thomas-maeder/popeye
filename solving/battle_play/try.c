@@ -144,34 +144,6 @@ stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-refutations_allocator_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.branch.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STTrySolver defender slice.
  * @return index of allocated slice
  */

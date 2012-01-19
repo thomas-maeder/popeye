@@ -53,33 +53,6 @@ static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-threat_enforcer_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_attack(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -189,33 +162,6 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
   if (threat_activities[nbply]==threat_solving
       && slack_length_battle<=result && result<=n)
     append_to_top_table();
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
-                         (incl. defense) needed
-           n+2 refuted - <=acceptable number of refutations found
-           n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type threat_collector_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -391,33 +337,6 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
     threat_lengths[threats_ply] = no_threats_found;
     threats[threats_ply] = table_nil;
   }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type threat_solver_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

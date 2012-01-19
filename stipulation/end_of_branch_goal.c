@@ -177,7 +177,7 @@ stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
   stip_length_type result;
   slice_index const fork = slices[si].u.fork.fork;
   slice_index const next = slices[si].u.fork.next;
-  has_solution_type avoided_sol;
+  has_solution_type fork_sol;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -186,10 +186,10 @@ stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  avoided_sol = (n<slack_length_help+2
-                 ? slice_solve(fork)
-                 : slice_has_solution(fork));
-  switch (avoided_sol)
+  fork_sol = (n<slack_length_help+2
+              ? slice_solve(fork)
+              : slice_has_solution(fork));
+  switch (fork_sol)
   {
     case opponent_self_check:
       result = n+4;
