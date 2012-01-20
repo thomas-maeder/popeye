@@ -19,4 +19,20 @@ Black Rh8 Rh7 Kd6 Pd5 Pb5 Pe4 Bf2 Pd2 Qe1
 Stipulation H#2
 Option Intelligent
 
+next
+
+title don't miss double checks with promoted front piece ...
+pieces white be8 pb7
+       black kb4 sa3 pa5b5
+option intelligent nowk
+stip h#2.5
+
+next
+
+title ... not even if it is a rider
+pieces white bf8 pd7
+       black kb3 qb4 rb2 bc7 sc2 pe4
+option intelligent nowk
+stip h#2.5
+
 end

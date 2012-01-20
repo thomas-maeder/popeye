@@ -115,6 +115,123 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
+static void front_check_by_promotee_rider(unsigned int index_of_checker,
+                                          piece promotee_type,
+                                          square via,
+                                          unsigned int vec_start,
+                                          unsigned int vec_end)
+{
+  Flags const checker_flags = white[index_of_checker].flags;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(via);
+  TraceFunctionParam("%u",vec_start);
+  TraceFunctionParam("%u",vec_end);
+  TraceFunctionParamListEnd();
+
+  for (i = vec_start; i<=vec_end; ++i)
+  {
+    numvec const dir = vec[i];
+    square to_square;
+    for (to_square = via+dir; e[to_square]==vide; to_square += dir)
+    {
+      int const check_dir = CheckDir[promotee_type][king_square[Black]-to_square];
+      if (check_dir!=0)
+      {
+        if (is_line_empty(to_square,king_square[Black],check_dir))
+        {
+          TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
+          SetPiece(promotee_type,to_square,checker_flags);
+          remember_to_keep_checking_line_open(to_square,king_square[Black],promotee_type,+1);
+          remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
+          intelligent_guard_flights();
+          remember_to_keep_checking_line_open(via,to_square,promotee_type,-1);
+          remember_to_keep_checking_line_open(to_square,king_square[Black],promotee_type,-1);
+          e[to_square] = vide;
+          spec[to_square] = EmptySpec;
+        }
+        break;
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void front_check_by_promotee_knight(unsigned int index_of_checker,
+                                           square via)
+{
+  Flags const checker_flags = white[index_of_checker].flags;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  for (i = vec_knight_start; i<=vec_knight_end; ++i)
+  {
+    square const to_square = via+vec[i];
+    if (e[to_square]==vide
+        && CheckDir[Knight][king_square[Black]-to_square]!=0)
+    {
+      TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
+      SetPiece(cb,to_square,checker_flags);
+      intelligent_guard_flights();
+      e[to_square] = vide;
+      spec[to_square] = EmptySpec;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void front_check_by_promotee(unsigned int index_of_checker, square via)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",index_of_checker);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  {
+    piece pp;
+    for (pp = getprompiece[vide]; pp!=vide; pp = getprompiece[pp])
+      if (pp!=db
+          && intelligent_reserve_front_check_by_promotee(white[index_of_checker].diagram_square,
+                                                         pp,
+                                                         via))
+      {
+        switch (pp)
+        {
+          case tb:
+            front_check_by_promotee_rider(index_of_checker,tb,via,vec_rook_start,vec_rook_end);
+            break;
+
+          case fb:
+            front_check_by_promotee_rider(index_of_checker,fb,via,vec_bishop_start,vec_bishop_end);
+            break;
+
+          case cb:
+            front_check_by_promotee_knight(index_of_checker,via);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+
+        intelligent_unreserve();
+      }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
                                            square via,
                                            int dir)
@@ -143,9 +260,9 @@ static void front_check_by_unpromoted_pawn(unsigned int index_of_checker,
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_checker,
-                                                         square via,
-                                                         int dir)
+static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_checker,
+                                                          square via,
+                                                          int dir)
 {
   square const check_from = via+dir;
 
@@ -178,9 +295,9 @@ static void front_check_by_promoted_pawn_without_capture(unsigned int index_of_c
   TraceFunctionResultEnd();
 }
 
-static void front_check_by_promoted_pawn_with_capture(unsigned int index_of_checker,
-                                                      square via,
-                                                      int dir)
+static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_checker,
+                                                       square via,
+                                                       int dir)
 {
   square const check_from = via+dir;
 
@@ -249,9 +366,9 @@ static void front_check_by_pawn(unsigned int index_of_checker, square via)
 
   if (square_a7<=via && via<=square_h7)
   {
-    front_check_by_promoted_pawn_without_capture(index_of_checker,via,dir_up);
-    front_check_by_promoted_pawn_with_capture(index_of_checker,via,dir_up+dir_left);
-    front_check_by_promoted_pawn_with_capture(index_of_checker,via,dir_up+dir_right);
+    front_check_by_pawn_promotion_without_capture(index_of_checker,via,dir_up);
+    front_check_by_pawn_promotion_with_capture(index_of_checker,via,dir_up+dir_left);
+    front_check_by_pawn_promotion_with_capture(index_of_checker,via,dir_up+dir_right);
   }
 
   TraceFunctionExit(__func__);
@@ -297,6 +414,7 @@ static void generate_front_check_via(square via, boolean diagonal)
 
         case pb:
           front_check_by_pawn(index,via);
+          front_check_by_promotee(index,via);
           break;
 
         default:

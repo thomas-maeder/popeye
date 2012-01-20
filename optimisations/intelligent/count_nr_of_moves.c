@@ -1368,6 +1368,52 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
   return result;
 }
 
+/* Tests if the front check of a double check can be given by pomotee
+ * @param from_square departure square of pawn
+ * @param promotee_type type of piece that the pawn promotes to
+ * @param via departure square of mating move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_promotee(square from_square,
+                                                    piece promotee_type,
+                                                    square via)
+{
+  boolean result;
+  unsigned int min_nr_of_moves = maxply+1;
+  unsigned int min_diffcol = nr_files_on_board;
+  square prom_square;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(from_square);
+  TracePiece(promotee_type);
+  TraceSquare(via);
+  TraceFunctionParamListEnd();
+
+  for (prom_square = square_a8; prom_square<=square_h8; prom_square += dir_right)
+  {
+    unsigned int nr_of_moves = white_pawn_no_promotion(from_square,prom_square);
+    if (prom_square!=via)
+      nr_of_moves += officer(promotee_type,prom_square,via);
+
+    if (nr_of_moves<min_nr_of_moves)
+      min_nr_of_moves = nr_of_moves;
+
+    if (nr_of_moves<=reserve[curr_reserve].nr_remaining_moves[White])
+    {
+      unsigned int const diffcol = abs(from_square%onerow - prom_square%onerow);
+      if (diffcol<min_diffcol)
+        min_diffcol = diffcol;
+    }
+  }
+
+  result = reserve_promoting_pawn_moves_from_to(White,min_nr_of_moves+1,min_diffcol);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Tests if a white pawn can be the front piece of a battery double check
  * using a specific route, where the last move is a capture
  * @param from_square from

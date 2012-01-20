@@ -27,7 +27,7 @@
               empile:       34220
             jouecoup:       35216
         orig_rbechec:        1650
-        orig_rnechec:       86495
+        orig_rnechec:       86567
 solution finished. 
 
 

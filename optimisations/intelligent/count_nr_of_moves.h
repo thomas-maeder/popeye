@@ -190,6 +190,16 @@ boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
 boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_square,
                                                                 square via);
 
+/* Tests if the front check of a double check can be given by pomotee
+ * @param from_square departure square of pawn
+ * @param promotee_type type of piece that the pawn promotes to
+ * @param via departure square of mating move
+ * @return true iff the move sequence is still possible
+ */
+boolean intelligent_reserve_front_check_by_promotee(square from_square,
+                                                    piece promotee_type,
+                                                    square via);
+
 /* Tests if a white pawn can be the front piece of a battery double check
  * using a specific route, where the last move is a capture
  * @param from_square from

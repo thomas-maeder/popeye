@@ -76,3 +76,69 @@ the one that would give check without it
 solution finished. 
 
 
+
+don't miss double checks with promoted front piece ...
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   B   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P  -P   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3  -S   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       2 + 4
+
+  1...b7-b8=S   2.Kb4-a4 Sb8-d7   3.b5-b4 Sd7-c5 # 
+
+              empile:        8608
+            jouecoup:        8825
+        orig_rbechec:           0
+        orig_rnechec:       32805
+solution finished. 
+
+
+
+      not even if it is a rider
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   B   .   .   8
+|                                   |
+7   .   .  -B   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -Q   .   .  -P   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .  -R  -S   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       2 + 6
+
+  1...d7-d8=R   2.Kb3-a3 Rd8-d6   3.Qb4-b3 Rd6-a6 # 
+
+              empile:       42224
+            jouecoup:       42159
+        orig_rbechec:           0
+        orig_rnechec:       41587
+solution finished. 
+
+
