@@ -114,7 +114,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const next = slices[slices[si].u.fork.fork].u.pipe.next;
+  slice_index const next = slices[slices[si].u.fork.tester].u.pipe.next;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const save_max_unsolvable = max_unsolvable;

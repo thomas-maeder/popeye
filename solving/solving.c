@@ -156,8 +156,8 @@ static void spin_off_testers_max_nr_non_trivial(slice_index si,
   state->spun_off[si] = copy_slice(si);
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.fork = state->spun_off[si];
-  slices[state->spun_off[si]].u.fork.fork = state->spun_off[si];
+  slices[si].u.fork.tester = state->spun_off[si];
+  slices[state->spun_off[si]].u.fork.tester = state->spun_off[si];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -274,7 +274,7 @@ static void connect_root_non_trivial_to_spin_off(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
 
-  slices[si].u.fork.fork = state->spun_off[slices[si].u.pipe.next];
+  slices[si].u.fork.tester = state->spun_off[slices[si].u.pipe.next];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
