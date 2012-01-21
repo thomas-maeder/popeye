@@ -41,14 +41,12 @@ static void spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spun_off[si]==no_slice)
+  state->spun_off[si] = copy_slice(si);
+
+  if (slices[si].u.pipe.next!=no_slice)
   {
-    state->spun_off[si] = copy_slice(si);
-    if (slices[si].u.pipe.next!=no_slice)
-    {
-      stip_traverse_structure_children(si,st);
-      link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-    }
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
   }
 
   TraceFunctionExit(__func__);
@@ -63,15 +61,12 @@ static void spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spun_off[si]==no_slice)
-  {
-    state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-    slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-    slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
-  }
+  state->spun_off[si] = copy_slice(si);
+  stip_traverse_structure_children(si,st);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+  slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+  slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -85,17 +80,14 @@ static void spin_off_testers_binary(slice_index si, stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spun_off[si]==no_slice)
-  {
-    state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].u.binary.op1]!=no_slice);
-    assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
-    slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
-    slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
-    slices[si].u.binary.tester = state->spun_off[si];
-    slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
-  }
+  state->spun_off[si] = copy_slice(si);
+  stip_traverse_structure_children(si,st);
+  assert(state->spun_off[slices[si].u.binary.op1]!=no_slice);
+  assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
+  slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
+  slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
+  slices[si].u.binary.tester = state->spun_off[si];
+  slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -109,8 +101,7 @@ static void spin_off_testers_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spun_off[si]==no_slice)
-    state->spun_off[si] = copy_slice(si);
+  state->spun_off[si] = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -143,14 +134,11 @@ static void spin_off_testers_max_threat_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->spun_off[si]==no_slice)
-  {
-    state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-    slices[state->spun_off[si]].u.fork.fork = slices[si].u.fork.fork;
-  }
+  state->spun_off[si] = copy_slice(si);
+  stip_traverse_structure_children(si,st);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+  slices[state->spun_off[si]].u.fork.fork = slices[si].u.fork.fork;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -269,7 +257,6 @@ static void connect_root_max_threat_length_to_spin_off(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
 
-  assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
   slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
@@ -287,7 +274,6 @@ static void connect_root_non_trivial_to_spin_off(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
 
-  assert(state->spun_off[slices[si].u.pipe.next]!=no_slice);
   slices[si].u.fork.fork = state->spun_off[slices[si].u.pipe.next];
 
   TraceFunctionExit(__func__);
