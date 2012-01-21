@@ -36,8 +36,8 @@ void stip_traverse_moves_continuation_solver(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  if (slices[si].u.fork.fork!=no_slice)
-    stip_traverse_moves(slices[si].u.fork.fork,st);
+  if (slices[si].u.fork.tester!=no_slice)
+    stip_traverse_moves(slices[si].u.fork.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -63,7 +63,7 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_defend(slices[si].u.fork.fork,n);
+  result = can_defend(slices[si].u.fork.tester,n);
   if (slack_length_battle<=result && result<n+4)
   {
     stip_length_type const n_next = n<result ? n : result;

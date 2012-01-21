@@ -222,14 +222,16 @@ pypipe.h:
 
 trace.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
- solving/trivial_end_filter.h pydata.h pypipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h trace.h
+ solving/trivial_end_filter.h pydata.h pypipe.h pybrafrk.h \
+ stipulation/branch.h stipulation/battle_play/branch.h trace.h
 
 solving/trivial_end_filter.h:
 
 pydata.h:
 
 pypipe.h:
+
+pybrafrk.h:
 
 stipulation/branch.h:
 

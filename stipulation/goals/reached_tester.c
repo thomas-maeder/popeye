@@ -20,6 +20,7 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
 
   result = alloc_pipe(STGoalReachedTester);
   slices[result].u.goal_tester.goal = goal;
+  slices[result].u.goal_tester.tester = no_slice;
 
   slices[result].u.goal_tester.fork = alloc_proxy_slice();
   pipe_link(slices[result].u.goal_tester.fork,tester);

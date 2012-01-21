@@ -68,7 +68,9 @@ static void spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
     slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+    slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
   }
 
   TraceFunctionExit(__func__);
@@ -126,7 +128,7 @@ static void spin_off_testers_continuation_solver(slice_index si,
   state->spun_off[si] = alloc_proxy_slice();
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.fork = state->spun_off[si];
+  slices[si].u.fork.tester = state->spun_off[si];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -239,6 +241,23 @@ static void start_spinning_off(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void start_spinning_off_next_branch(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  stip_traverse_structure(slices[si].u.fork.fork,&state->nested);
+  slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void connect_root_max_threat_length_to_spin_off(slice_index si,
                                                        stip_structure_traversal *st)
 {
@@ -300,6 +319,9 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STTrivialEndFilter,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STMaxThreatLength,&connect_root_max_threat_length_to_spin_off);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&connect_root_non_trivial_to_spin_off);
+  stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_off_next_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_off_next_branch);
+  stip_structure_traversal_override_single(&st,STIntelligentMateFilter,&start_spinning_off_next_branch);
 
   stip_structure_traversal_init(&state.nested,&state);
   for (type = 0; type!=nr_slice_structure_types; ++type)

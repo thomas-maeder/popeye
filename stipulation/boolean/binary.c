@@ -99,18 +99,18 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
  * @param fork root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_binary(slice_index fork,
+void stip_traverse_structure_binary(slice_index si,
                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",fork);
+  TraceFunctionParam("%u",si);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[fork].u.binary.op1,st);
-  stip_traverse_structure(slices[fork].u.binary.op2,st);
-  if (slices[fork].u.binary.tester!=no_slice)
-    stip_traverse_structure(slices[fork].u.binary.tester,st);
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].u.binary.op2,st);
+  if (slices[si].u.binary.tester!=no_slice)
+    stip_traverse_structure(slices[si].u.binary.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

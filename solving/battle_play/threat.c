@@ -256,6 +256,8 @@ void stip_traverse_structure_check_threat_solver(slice_index si,
   /* don't depend on generic order of traversal */
   stip_traverse_structure_pipe(si,st);
   stip_traverse_structure(slices[si].u.fork.fork,st);
+  if (slices[si].u.fork.tester!=no_slice)
+    stip_traverse_structure(slices[si].u.fork.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -153,6 +153,21 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch)
   return result;
 }
 
+static void insert_regular_writers_fork(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_next_branch(si,st);
+  /* don't instrument .tester! */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_end_of_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -170,7 +185,7 @@ static void instrument_end_of_branch(slice_index si,
     slices[si].u.fork.fork = marker;
   }
 
-  stip_traverse_structure_children(si,st);
+  insert_regular_writers_fork(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -197,17 +212,39 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_regular_writers_binary(slice_index binary,
+                                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",binary);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[binary].u.binary.op1,st);
+  stip_traverse_structure(slices[binary].u.binary.op2,st);
+  /* don't instrument .tester! */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors regular_inserters[] =
 {
   { STMoveInverter,               &insert_move_inversion_counter  },
-  { STEndOfBranch,                &instrument_end_of_branch       },
   { STConstraint,                 &stip_traverse_structure_pipe   },
   { STPlaySuppressor,             &instrument_suppressor          },
   { STGoalReachedTester,          &instrument_goal_reached_tester },
   { STAttackAdapter,              &instrument_root                },
   { STHelpAdapter,                &instrument_root                },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
-  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   }
+  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
+  { STContinuationSolver,         &stip_traverse_structure_pipe   },
+  { STEndOfBranch,                &instrument_end_of_branch       },
+  { STEndOfBranchForced,          &insert_regular_writers_fork    },
+  { STEndOfBranchGoal,            &insert_regular_writers_fork    },
+  { STEndOfBranchGoalImmobile,    &insert_regular_writers_fork    },
+  { STCheckZigzagJump,            &insert_regular_writers_fork    },
+  { STAnd,                        &insert_regular_writers_binary  }
 };
 
 enum
@@ -272,7 +309,14 @@ static structure_traversers_visitors constraint_inserters[] =
   { STConstraint,                 &instrument_constraint          },
   { STMove,                       &remember_move                  },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
-  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   }
+  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
+  { STContinuationSolver,         &stip_traverse_structure_pipe   },
+  { STEndOfBranch,                &insert_regular_writers_fork    },
+  { STEndOfBranchForced,          &insert_regular_writers_fork    },
+  { STEndOfBranchGoal,            &insert_regular_writers_fork    },
+  { STEndOfBranchGoalImmobile,    &insert_regular_writers_fork    },
+  { STCheckZigzagJump,            &insert_regular_writers_fork    },
+  { STAnd,                        &insert_regular_writers_binary  }
 };
 
 enum

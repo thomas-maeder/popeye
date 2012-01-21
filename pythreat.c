@@ -1,6 +1,6 @@
 #include "pythreat.h"
 #include "pydata.h"
-#include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -102,8 +102,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
   TraceFunctionParam("%u",to_attacker);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxThreatLength);
-  slices[result].u.fork.fork = to_attacker;
+  result = alloc_branch_fork(STMaxThreatLength,to_attacker);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

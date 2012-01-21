@@ -42,6 +42,8 @@ void stip_traverse_structure_end_of_branch(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
   stip_traverse_structure_next_branch(si,st);
+  if (slices[si].u.fork.tester!=no_slice)
+    stip_traverse_structure_next_tester(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -116,7 +118,7 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const tester = slices[si].u.fork.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -126,7 +128,7 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
   assert(n>=slack_length_battle);
 
   if (max_unsolvable<slack_length_battle
-      && slice_has_solution(fork)==has_solution)
+      && slice_has_solution(tester)==has_solution)
     result = slack_length_battle;
   else
     result = can_defend(next,n);

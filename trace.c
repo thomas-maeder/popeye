@@ -428,10 +428,12 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       {
         Trace_pipe(si);
         Trace_link("fork:",slices[si].u.immobility_tester.fork,"");
+        Trace_link("tester:",slices[si].u.immobility_tester.tester,"");
         TraceValue("%u",slices[si].u.immobility_tester.applies_to_who);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.immobility_tester.next,done_slices);
         TraceStipulationRecursive(slices[si].u.immobility_tester.fork,done_slices);
+        TraceStipulationRecursive(slices[si].u.immobility_tester.tester,done_slices);
         break;
       }
 
@@ -446,9 +448,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         Trace_pipe(si);
         fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
         Trace_link("fork:",slices[si].u.goal_tester.fork,"");
+        Trace_link("tester:",slices[si].u.goal_tester.tester,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_tester.tester,done_slices);
         break;
 
       default:
@@ -474,9 +478,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
           case slice_structure_fork:
             Trace_pipe(si);
             Trace_link("fork:",slices[si].u.fork.fork,"");
+            Trace_link("tester:",slices[si].u.fork.tester,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.fork.next,done_slices);
             TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
+            TraceStipulationRecursive(slices[si].u.fork.tester,done_slices);
             break;
 
           case slice_structure_binary:

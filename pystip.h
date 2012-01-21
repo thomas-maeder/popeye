@@ -59,6 +59,7 @@ typedef struct
         {
             slice_index next;
             slice_index fork;
+            slice_index tester;
             goal_applies_to_starter_or_adversary applies_to_who;
         } immobility_tester;
 
@@ -73,6 +74,7 @@ typedef struct
         {
             slice_index next;
             slice_index fork;
+            slice_index tester;
         } fork;
 
         struct
@@ -112,6 +114,7 @@ typedef struct
         {
             slice_index next;
             slice_index fork;
+            slice_index tester;
             Goal goal;
         } goal_tester;
 

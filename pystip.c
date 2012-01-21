@@ -1719,7 +1719,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STKeyWriter */
   &stip_traverse_structure_pipe,              /* STTryWriter */
   &stip_traverse_structure_pipe,              /* STZugzwangWriter */
-  &stip_traverse_structure_pipe,              /* STTrivialEndFilter */
+  &stip_traverse_structure_check_threat_solver, /* STTrivialEndFilter */
   &stip_traverse_structure_pipe,              /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,              /* STRefutationWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeCheckWriter */

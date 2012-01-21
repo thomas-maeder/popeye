@@ -34,4 +34,7 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
 void stip_traverse_structure_next_branch(slice_index branch_entry,
                                          stip_structure_traversal *st);
 
+void stip_traverse_structure_next_tester(slice_index branch_entry,
+                                         stip_structure_traversal *st);
+
 #endif

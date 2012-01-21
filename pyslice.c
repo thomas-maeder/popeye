@@ -393,11 +393,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = selfcheck_guard_has_solution(si);
       break;
 
-      /* TODO */
-    case STOutputPlaintextLineLineWriter:
-      result = line_writer_has_solution(si);
-      break;
-
     case STIntelligentDuplicateAvoider:
       result = intelligent_duplicate_avoider_has_solution(si);
       break;

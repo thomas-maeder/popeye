@@ -36,14 +36,13 @@ slice_index alloc_no_short_variations_slice(void)
 static boolean has_short_solution(slice_index si, stip_length_type n)
 {
   boolean result;
-  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_attack(fork,n)<=n;
+  result = can_attack(slices[si].u.fork.tester,n)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

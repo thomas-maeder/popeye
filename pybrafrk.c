@@ -25,6 +25,7 @@ slice_index alloc_branch_fork(slice_type type, slice_index fork)
 
   result = alloc_pipe(type);
   slices[result].u.fork.fork = fork;
+  slices[result].u.fork.tester = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,6 +49,12 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
   {
     stip_traverse_structure_next_branch(si,st);
     proxy_slice_resolve(&slices[si].u.fork.fork,st);
+  }
+
+  if (slices[si].u.fork.tester!=no_slice)
+  {
+    stip_traverse_structure_next_tester(si,st);
+    proxy_slice_resolve(&slices[si].u.fork.tester,st);
   }
 
   TraceFunctionExit(__func__);
@@ -100,6 +107,24 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
 
   st->context = stip_traversal_context_global;
   stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
+  st->context = save_context;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stip_traverse_structure_next_tester(slice_index branch_entry,
+                                         stip_structure_traversal *st)
+{
+  stip_traversal_context_type const save_context = st->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch_entry);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  st->context = stip_traversal_context_global;
+  stip_traverse_structure(slices[branch_entry].u.fork.tester,st);
   st->context = save_context;
 
   TraceFunctionExit(__func__);
