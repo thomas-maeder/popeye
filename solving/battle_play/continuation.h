@@ -31,17 +31,6 @@ void stip_traverse_moves_continuation_solver(slice_index si,
  */
 stip_length_type continuation_solver_defend(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type
-continuation_solver_can_defend(slice_index si, stip_length_type n);
-
 /* Instrument the stipulation structure with STContinuationSolver slices
  * @param root_slice root slice of the stipulation
  */
