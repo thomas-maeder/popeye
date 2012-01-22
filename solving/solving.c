@@ -59,7 +59,7 @@ static void spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
   state->spun_off[si] = copy_slice(si);
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
+  slices[si].u.fork.tester = alloc_proxy_slice();
   link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
   slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
   slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
@@ -82,7 +82,7 @@ static void spin_off_testers_binary(slice_index si, stip_structure_traversal *st
   assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
   slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
   slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
-  slices[si].u.binary.tester = alloc_pipe(STStartTesting);
+  slices[si].u.binary.tester = alloc_proxy_slice();
   link_to_branch(slices[si].u.binary.tester,state->spun_off[si]);
   slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
 
@@ -113,7 +113,7 @@ static void spin_off_testers_continuation_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->spun_off[si] = alloc_pipe(STStartTesting);
+  state->spun_off[si] = alloc_proxy_slice();
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   slices[si].u.fork.tester = state->spun_off[si];
@@ -134,7 +134,7 @@ static void spin_off_testers_max_nr_non_trivial(slice_index si,
   state->spun_off[si] = copy_slice(si);
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
+  slices[si].u.fork.tester = alloc_proxy_slice();
   link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.next]);
   slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.next];
 
@@ -151,7 +151,7 @@ static void spin_off_skip(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->spun_off[si] = alloc_proxy_slice();
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_pipe(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
 
   TraceFunctionExit(__func__);
@@ -221,7 +221,7 @@ static void start_spinning_off_next_branch(slice_index si, stip_structure_traver
 
   stip_traverse_structure_pipe(si,st);
   stip_traverse_structure(slices[si].u.fork.fork,&state->nested);
-  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
+  slices[si].u.fork.tester = alloc_proxy_slice();
   link_to_branch(slices[si].u.fork.tester,
                  state->spun_off[slices[si].u.fork.fork]);
 
@@ -304,15 +304,27 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&state.nested,STNoShortVariations,&spin_off_testers_continuation_solver);
   stip_structure_traversal_override_single(&state.nested,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&state.nested,STMaxThreatLength,&spin_off_testers_fork);
-  stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
-  stip_structure_traversal_override_single(&state.nested,STRefutationsSolver,&spin_off_skip);
-  stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
-  stip_structure_traversal_override_single(&state.nested,STIntelligentDuplicateAvoider,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STThreatEnforcer,&spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&state.nested,STThreatCollector,&spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&state.nested,STTemporaryHackFork,&stip_traverse_structure_pipe);
   stip_structure_traversal_override_single(&state.nested,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&state.nested,STHelpHashed,&spin_off_testers_help_hashed);
+
+  stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STRefutationsSolver,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STIntelligentDuplicateAvoider,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STMoveWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STKeyWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STOutputPlaintextTreeCheckWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STOutputPlaintextTreeDecorationWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STOutputPlaintextTreeGoalWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STRefutingVariationWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STTryWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STRefutationWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STOutputPlaintextLineLineWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STIllegalSelfcheckWriter,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STEndOfPhaseWriter,&spin_off_skip);
 
   stip_traverse_structure(si,&st);
 

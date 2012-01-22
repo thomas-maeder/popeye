@@ -181,8 +181,7 @@ static structure_traversers_visitors regular_writer_inserters[] =
   { STGoalReachedTester, &instrument_goal_tester             },
   { STConstraint,        &instrument_constraint              },
   { STDefenseAdapter,    &instrument_defense_adapter_regular },
-  { STHelpAdapter,       &stip_structure_visitor_noop        },
-  { STStartTesting,      &stip_structure_visitor_noop        }
+  { STHelpAdapter,       &stip_structure_visitor_noop        }
 };
 
 enum
@@ -288,12 +287,11 @@ static void stop_instrumenting_after_refutation(slice_index si,
 
 static structure_traversers_visitors try_writer_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_pipe        },
-  { STStartTesting,       &stip_structure_visitor_noop         },
-  { STTrySolver,          &instrument_try_solver               },
-  { STRefutationWriter,   &remember_refutation_writer          },
-  { STConstraint,         &instrument_constraint_try           },
-  { STReadyForAttack,     &stop_instrumenting_after_refutation }
+  { STSetplayFork,      &stip_traverse_structure_pipe        },
+  { STTrySolver,        &instrument_try_solver               },
+  { STRefutationWriter, &remember_refutation_writer          },
+  { STConstraint,       &instrument_constraint_try           },
+  { STReadyForAttack,   &stop_instrumenting_after_refutation }
 };
 
 enum

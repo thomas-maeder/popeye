@@ -223,7 +223,6 @@ static structure_traversers_visitors regular_inserters[] =
   { STHelpAdapter,                &instrument_root                },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
-  { STStartTesting,               &stip_structure_visitor_noop    },
   { STEndOfBranch,                &instrument_end_of_branch       },
   { STCheckZigzagJump,            &insert_regular_writers_fork    }
 };
@@ -291,7 +290,6 @@ static structure_traversers_visitors constraint_inserters[] =
   { STMove,                       &remember_move                  },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
-  { STStartTesting,               &stip_structure_visitor_noop    },
   { STCheckZigzagJump,            &insert_regular_writers_fork    }
 };
 
