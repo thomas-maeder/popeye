@@ -171,40 +171,22 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_regular_writers_fork(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure_next_branch(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors regular_writer_inserters[] =
 {
-  { STMoveInverter,            &insert_move_inversion_counter      },
-  { STThreatSolver,            &instrument_threat_solver           },
-  { STPlaySuppressor,          &stip_structure_visitor_noop        },
-  { STReadyForAttack,          &insert_continuation_writers        },
-  { STReadyForDefense,         &instrument_ready_for_defense       },
-  { STGoalReachedTester,       &instrument_goal_tester             },
-  { STConstraint,              &instrument_constraint              },
-  { STDefenseAdapter,          &instrument_defense_adapter_regular },
-  { STHelpAdapter,             &stip_structure_visitor_noop        },
-  { STStartTesting,            &stip_structure_visitor_noop        },
-  { STMaxFlightsquares,        &stip_traverse_structure_pipe       },
-  { STCounterMateFilter,       &stip_traverse_structure_pipe       },
-  { STMaxThreatLength,         &stip_traverse_structure_pipe       },
-  { STMaxNrNonTrivial,         &stip_traverse_structure_pipe       },
-  { STEndOfBranch,             &insert_regular_writers_fork        },
-  { STEndOfBranchForced,       &insert_regular_writers_fork        },
-  { STEndOfBranchGoal,         &insert_regular_writers_fork        },
-  { STEndOfBranchGoalImmobile, &insert_regular_writers_fork        }
+  { STMoveInverter,      &insert_move_inversion_counter      },
+  { STThreatSolver,      &instrument_threat_solver           },
+  { STPlaySuppressor,    &stip_structure_visitor_noop        },
+  { STReadyForAttack,    &insert_continuation_writers        },
+  { STReadyForDefense,   &instrument_ready_for_defense       },
+  { STGoalReachedTester, &instrument_goal_tester             },
+  { STConstraint,        &instrument_constraint              },
+  { STDefenseAdapter,    &instrument_defense_adapter_regular },
+  { STHelpAdapter,       &stip_structure_visitor_noop        },
+  { STStartTesting,      &stip_structure_visitor_noop        },
+  { STMaxFlightsquares,  &stip_traverse_structure_pipe       },
+  { STCounterMateFilter, &stip_traverse_structure_pipe       },
+  { STMaxThreatLength,   &stip_traverse_structure_pipe       },
+  { STMaxNrNonTrivial,   &stip_traverse_structure_pipe       }
 };
 
 enum
@@ -311,7 +293,7 @@ static void stop_instrumenting_after_refutation(slice_index si,
 static structure_traversers_visitors try_writer_inserters[] =
 {
   { STSetplayFork,        &stip_traverse_structure_pipe        },
-  { STContinuationSolver, &stip_traverse_structure_pipe        },
+  { STStartTesting,       &stip_structure_visitor_noop         },
   { STTrySolver,          &instrument_try_solver               },
   { STRefutationWriter,   &remember_refutation_writer          },
   { STConstraint,         &instrument_constraint_try           },

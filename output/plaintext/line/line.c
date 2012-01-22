@@ -186,7 +186,7 @@ static void instrument_end_of_branch(slice_index si,
     slices[si].u.fork.fork = marker;
   }
 
-  insert_regular_writers_fork(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -241,9 +241,6 @@ static structure_traversers_visitors regular_inserters[] =
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
   { STStartTesting,               &stip_structure_visitor_noop    },
   { STEndOfBranch,                &instrument_end_of_branch       },
-  { STEndOfBranchForced,          &insert_regular_writers_fork    },
-  { STEndOfBranchGoal,            &insert_regular_writers_fork    },
-  { STEndOfBranchGoalImmobile,    &insert_regular_writers_fork    },
   { STCheckZigzagJump,            &insert_regular_writers_fork    },
   { STAnd,                        &insert_regular_writers_binary  }
 };
@@ -311,11 +308,7 @@ static structure_traversers_visitors constraint_inserters[] =
   { STMove,                       &remember_move                  },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
-  { STContinuationSolver,         &stip_traverse_structure_pipe   },
-  { STEndOfBranch,                &insert_regular_writers_fork    },
-  { STEndOfBranchForced,          &insert_regular_writers_fork    },
-  { STEndOfBranchGoal,            &insert_regular_writers_fork    },
-  { STEndOfBranchGoalImmobile,    &insert_regular_writers_fork    },
+  { STStartTesting,               &stip_structure_visitor_noop    },
   { STCheckZigzagJump,            &insert_regular_writers_fork    },
   { STAnd,                        &insert_regular_writers_binary  }
 };

@@ -64,7 +64,8 @@ static void spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
   state->spun_off[si] = copy_slice(si);
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-  slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
+  link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
   slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
   slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
 
@@ -237,9 +238,14 @@ static void start_spinning_off_next_branch(slice_index si, stip_structure_traver
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* prevent si from being visited in the nested traversal */
+  state->nested.traversed[si] = slice_traversed;
+
   stip_traverse_structure_pipe(si,st);
   stip_traverse_structure(slices[si].u.fork.fork,&state->nested);
-  slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
+  link_to_branch(slices[si].u.fork.tester,
+                 state->spun_off[slices[si].u.fork.fork]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
