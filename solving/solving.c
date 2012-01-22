@@ -63,7 +63,7 @@ static void spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
 
   state->spun_off[si] = copy_slice(si);
   stip_traverse_structure_children(si,st);
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   slices[si].u.fork.tester = alloc_pipe(STStartTesting);
   link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
   slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
@@ -122,26 +122,6 @@ static void spin_off_testers_continuation_solver(slice_index si,
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   slices[si].u.fork.tester = state->spun_off[si];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void spin_off_testers_max_threat_length(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->spun_off[si] = copy_slice(si);
-  stip_traverse_structure_children(si,st);
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.tester = alloc_pipe(STStartTesting);
-  link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
-  slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -328,7 +308,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&state.nested,STTrivialEndFilter,&spin_off_testers_continuation_solver);
   stip_structure_traversal_override_single(&state.nested,STNoShortVariations,&spin_off_testers_continuation_solver);
   stip_structure_traversal_override_single(&state.nested,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
-  stip_structure_traversal_override_single(&state.nested,STMaxThreatLength,&spin_off_testers_max_threat_length);
+  stip_structure_traversal_override_single(&state.nested,STMaxThreatLength,&spin_off_testers_fork);
   stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STRefutationsSolver,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
