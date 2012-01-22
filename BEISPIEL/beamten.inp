@@ -1,119 +1,119 @@
 anfang
 
-protokoll	beamten.out
-latex		beamten.tex
+protokoll       beamten.out
+latex           beamten.tex
 
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		4216, feenschach 71, 11/1984
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          4216, feenschach 71, 11/1984
 
-forderung	h#4
+forderung       h#4
 
-bedingung	circe
+bedingung       circe
 
-steine	weiss		kd5
-	weiss	beamtet	ta6
-	schwarz	beamtet	kb8 sa8
-
-weiter
-
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		i, feenschach 71, 11/1984
-
-forderung	h#2
-
-steine	weiss	beamtet	kf3 tf6
-	schwarz		kf1
-	schwarz	beamtet	da6
+steine  weiss           kd5
+        weiss   beamtet ta6
+        schwarz beamtet kb8 sa8
 
 weiter
 
-autor		Achim Sch"oneberg
-quelle		ii, feenschach 71, 11/1984
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          i, feenschach 71, 11/1984
 
-forderung	h=2
+forderung       h#2
 
-steine	weiss		bb6
-	weiss	beamtet	kc8
-	schwarz		ka8
-	schwarz	beamtet	ba7
-
-weiter
-
-autor		J"org Kuhlmann
-titel		G"unter B"using gewidmet
-quelle		iv, feenschach 71, 11/1984
-
-forderung	h#3
-
-bedingung	beamtenschach
-
-steine	weiss	td3
-	schwarz	ka1 sb3d1
-
-option		ohnewk
+steine  weiss   beamtet kf3 tf6
+        schwarz         kf1
+        schwarz beamtet da6
 
 weiter
 
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		v, feenschach 71, 11/1984
+autor           Achim Sch"oneberg
+quelle          ii, feenschach 71, 11/1984
 
-forderung	h#2
+forderung       h=2
 
-steine	weiss		kh8 lc3 bb4
-	weiss	beamtet	ld3 sa5 be7
-	schwarz		kb5 ba6c6
-	schwarz	beamtet	tb6 be2
-
-zwilling	verse	a5 c5
+steine  weiss           bb6
+        weiss   beamtet kc8
+        schwarz         ka8
+        schwarz beamtet ba7
 
 weiter
 
-autor		Claus Wedekind
-quelle		234, harmonie 45, 16.12.1995
+autor           J"org Kuhlmann
+titel           G"unter B"using gewidmet
+quelle          iv, feenschach 71, 11/1984
 
-forderung	#2
+forderung       h#3
 
-bedingung	beamtenschach
+bedingung       beamtenschach
 
-steine	weiss	kg7 dc8 ta6f6 lg1h1 sb2g5 bf3f7g3
-	schwarz	ke5 da1 te7 ld2e2 sa3c3 ba2d5
+steine  weiss   td3
+        schwarz ka1 sb3d1
 
-option		vari
-
-weiter
-
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		vi, feenschach 71, 11/1984
-titel		Verbesserung 3/1999
-
-forderung	#7
-
-bedingung	circe
-
-steine	weiss		lg2
-	weiss	beamtet kc2 te5 le3 bb6b7
-	schwarz	beamtet	ka6 lb8 sg4 ba5
-
-option		vari zug ohnedroh maxflucht 1
+option          ohnewk
 
 weiter
 
-titel		G"unter B"using
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		iii, feenschach 71, 11/1984
-titel		Verbesserung Europa Rochade Wann?
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          v, feenschach 71, 11/1984
 
-forderung	h#11
-bedingung	beamtenschach
+forderung       h#2
 
-steine	weiss	ta1
-	schwarz	bg7 kh8 sa3
+steine  weiss           kh8 lc3 bb4
+        weiss   beamtet ld3 sa5 be7
+        schwarz         kb5 ba6c6
+        schwarz beamtet tb6 be2
 
-option		ohnewk zug
+zwilling        verse   a5 c5
+
+weiter
+
+autor           Claus Wedekind
+quelle          234, harmonie 45, 16.12.1995
+
+forderung       #2
+
+bedingung       beamtenschach
+
+steine  weiss   kg7 dc8 ta6f6 lg1h1 sb2g5 bf3f7g3
+        schwarz ke5 da1 te7 ld2e2 sa3c3 ba2d5
+
+option          vari
+
+weiter
+
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          vi, feenschach 71, 11/1984
+titel           Verbesserung 3/1999
+
+forderung       #7
+
+bedingung       circe
+
+steine  weiss           lg2
+        weiss   beamtet kc2 te5 le3 bb6b7
+        schwarz beamtet ka6 lb8 sg4 ba5
+
+option          vari zug ohnedroh maxflucht 1
+
+weiter
+
+titel           G"unter B"using
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          iii, feenschach 71, 11/1984
+titel           Verbesserung Europa Rochade Wann?
+
+forderung       h#11
+bedingung       beamtenschach
+
+steine  weiss   ta1
+        schwarz bg7 kh8 sa3
+
+option          ohnewk zug
 
 ende
