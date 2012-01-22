@@ -183,8 +183,6 @@ static structure_traversers_visitors regular_writer_inserters[] =
   { STDefenseAdapter,    &instrument_defense_adapter_regular },
   { STHelpAdapter,       &stip_structure_visitor_noop        },
   { STStartTesting,      &stip_structure_visitor_noop        },
-  { STCounterMateFilter, &stip_traverse_structure_pipe       },
-  { STMaxThreatLength,   &stip_traverse_structure_pipe       },
   { STMaxNrNonTrivial,   &stip_traverse_structure_pipe       }
 };
 
