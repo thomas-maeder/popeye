@@ -1,5 +1,5 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
- pybrafrk.h stipulation/proxy.h stipulation/branch.h \
+ pyhash.h pybrafrk.h stipulation/proxy.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/move_generator.h solving/play_suppressor.h \
  solving/find_shortest.h solving/find_by_increasing_length.h \
@@ -17,6 +17,8 @@ solving/solving.h:
 pydata.h:
 
 pypipe.h:
+
+pyhash.h:
 
 pybrafrk.h:
 

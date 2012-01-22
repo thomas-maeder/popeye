@@ -121,7 +121,7 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_can_attack(si,n);
       break;
 
-    case STAttackHashed:
+    case STAttackHashedTester:
       result = attack_hashed_can_attack(si,n);
       break;
 

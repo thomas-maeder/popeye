@@ -113,6 +113,9 @@ void resolve_proxies(slice_index *si)
                                                  slice_structure_pipe,
                                                  &pipe_resolve_proxies);
   stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_derived_pipe,
+                                                 &pipe_resolve_proxies);
+  stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &pipe_resolve_proxies);
   stip_structure_traversal_override_by_structure(&st,

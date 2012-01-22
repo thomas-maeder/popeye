@@ -123,7 +123,9 @@
     ENUMERATOR(STEnPassantFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
+    ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
+    ENUMERATOR(STHelpHashedTester),      /* help play with hash table */      \
     ENUMERATOR(STIntelligentMovesLeftInitialiser), /* count the moves left for both sides */ \
     ENUMERATOR(STIntelligentMateFilter), /* solve mate problems in intelligent mode */ \
     ENUMERATOR(STIntelligentStalemateFilter), /* solve stalemate problems in intelligent mode */ \

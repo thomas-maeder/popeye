@@ -1,6 +1,7 @@
 #include "solving/solving.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pyhash.h"
 #include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -26,12 +27,6 @@
 #include "trace.h"
 
 #include <assert.h>
-
-typedef struct
-{
-    slice_index spun_off[max_nr_slices];
-    stip_structure_traversal nested;
-} spin_off_tester_state_type;
 
 static void spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
 {
@@ -316,6 +311,8 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&state.nested,STThreatEnforcer,&spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&state.nested,STThreatCollector,&spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&state.nested,STTemporaryHackFork,&stip_traverse_structure_pipe);
+  stip_structure_traversal_override_single(&state.nested,STAttackHashed,&spin_off_testers_attack_hashed);
+  stip_structure_traversal_override_single(&state.nested,STHelpHashed,&spin_off_testers_help_hashed);
 
   stip_traverse_structure(si,&st);
 

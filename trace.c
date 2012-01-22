@@ -469,6 +469,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
             break;
 
+          case slice_structure_derived_pipe:
+            Trace_pipe(si);
+            Trace_link("base:",slices[si].u.derived_pipe.base,"");
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+            break;
+
           case slice_structure_branch:
             Trace_branch(si);
             fprintf(stdout,"\n");

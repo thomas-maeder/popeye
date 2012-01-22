@@ -328,7 +328,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = dead_end_can_help(si,n);
       break;
 
-    case STHelpHashed:
+    case STHelpHashedTester:
       result = help_hashed_can_help(si,n);
       break;
 

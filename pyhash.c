@@ -103,6 +103,7 @@
 #include "pystip.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/solving.h"
 #include "conditions/bgl.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
@@ -1722,6 +1723,48 @@ void closehash(void)
   }
 } /* closehash */
 
+/* Spin a tester slice off a STAttackHashedTester slice
+ * @param base_slice identifies the STAttackHashedTester slice
+ * @return id of allocated slice
+ */
+void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spun_off[si] = alloc_pipe(STAttackHashedTester);
+  slices[state->spun_off[si]].u.derived_pipe.base = si;
+  stip_traverse_structure_children(si,st);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Spin a tester slice off a STHelpHashed slice
+ * @param base_slice identifies the STHelpHashed slice
+ * @return id of allocated slice
+ */
+void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spun_off[si] = alloc_pipe(STHelpHashedTester);
+  slices[state->spun_off[si]].u.derived_pipe.base = si;
+  stip_traverse_structure_children(si,st);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -1955,11 +1998,12 @@ static void addtohash_battle_success(slice_index si,
 }
 
 static
-stip_length_type delegate_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type min_length_adjusted)
+stip_length_type delegate_can_attack_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type min_length_adjusted)
 {
   stip_length_type result;
+  slice_index const base = slices[si].u.derived_pipe.base;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1971,9 +2015,9 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   result = can_attack(next,n);
 
   if (result<=n)
-    addtohash_battle_success(si,result,min_length_adjusted);
+    addtohash_battle_success(base,result,min_length_adjusted);
   else
-    addtohash_battle_nosuccess(si,n,min_length_adjusted);
+    addtohash_battle_nosuccess(base,n,min_length_adjusted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1993,8 +2037,9 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   dhtElement const *he;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const played = slices[si].u.branch.length-n;
+  slice_index const base = slices[si].u.derived_pipe.base;
+  stip_length_type const min_length = slices[base].u.branch.min_length;
+  stip_length_type const played = slices[base].u.branch.length-n;
   stip_length_type const min_length_adjusted = (min_length<played+slack_length_battle-1
                                                 ? slack_length_battle-(min_length-slack_length_battle)%2
                                                 : min_length-played);
@@ -2006,14 +2051,14 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert((n-slices[si].u.branch.length)%2==0);
+  assert((n-slices[base].u.branch.length)%2==0);
 
   if (hashBufferValidity[nbply]!=validity_value)
     (*encode)(validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
-    result = delegate_has_solution_in_n(si,n,min_length_adjusted);
+    result = delegate_can_attack_in_n(si,n,min_length_adjusted);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
@@ -2021,13 +2066,13 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
-    hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,si);
+    hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,base);
     stip_length_type const n_nosuccess = 2*val_nosuccess + min_length_adjusted-parity;
     if (n_nosuccess>=n)
       result = n+2;
     else
     {
-      hash_value_type const val_success = get_value_attack_success(hue,si);
+      hash_value_type const val_success = get_value_attack_success(hue,base);
       stip_length_type const n_success = 2*val_success + min_length_adjusted+2-parity;
       if (n_success<=n)
         result = n_success;
@@ -2035,7 +2080,7 @@ stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
       {
         if (max_unsolvable<n_nosuccess)
           max_unsolvable = n_nosuccess;
-        result = delegate_has_solution_in_n(si,n,min_length_adjusted);
+        result = delegate_can_attack_in_n(si,n,min_length_adjusted);
       }
     }
   }
@@ -2195,6 +2240,7 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
 stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  slice_index const base = slices[si].u.derived_pipe.base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2203,15 +2249,15 @@ stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  if (inhash_help(si,n))
+  if (inhash_help(base,n))
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_help+1)
+    if (slices[base].u.branch.min_length>slack_length_help+1)
     {
-      slices[si].u.branch.min_length -= 2;
+      slices[base].u.branch.min_length -= 2;
       result = can_help(slices[si].u.pipe.next,n);
-      slices[si].u.branch.min_length += 2;
+      slices[base].u.branch.min_length += 2;
     }
     else
       result = can_help(slices[si].u.pipe.next,n);
@@ -2220,7 +2266,7 @@ stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
     assert(result<=n+2);
 
     if (result>n)
-      addtohash_help(si,n);
+      addtohash_help(base,n);
   }
 
   TraceFunctionExit(__func__);
