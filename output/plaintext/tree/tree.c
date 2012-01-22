@@ -182,8 +182,7 @@ static structure_traversers_visitors regular_writer_inserters[] =
   { STConstraint,        &instrument_constraint              },
   { STDefenseAdapter,    &instrument_defense_adapter_regular },
   { STHelpAdapter,       &stip_structure_visitor_noop        },
-  { STStartTesting,      &stip_structure_visitor_noop        },
-  { STMaxNrNonTrivial,   &stip_traverse_structure_pipe       }
+  { STStartTesting,      &stip_structure_visitor_noop        }
 };
 
 enum
