@@ -213,22 +213,6 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_regular_writers_binary(slice_index binary,
-                                          stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",binary);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[binary].u.binary.op1,st);
-  stip_traverse_structure(slices[binary].u.binary.op2,st);
-  /* don't instrument .tester! */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors regular_inserters[] =
 {
   { STMoveInverter,               &insert_move_inversion_counter  },
@@ -241,8 +225,7 @@ static structure_traversers_visitors regular_inserters[] =
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
   { STStartTesting,               &stip_structure_visitor_noop    },
   { STEndOfBranch,                &instrument_end_of_branch       },
-  { STCheckZigzagJump,            &insert_regular_writers_fork    },
-  { STAnd,                        &insert_regular_writers_binary  }
+  { STCheckZigzagJump,            &insert_regular_writers_fork    }
 };
 
 enum
@@ -309,8 +292,7 @@ static structure_traversers_visitors constraint_inserters[] =
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
   { STStartTesting,               &stip_structure_visitor_noop    },
-  { STCheckZigzagJump,            &insert_regular_writers_fork    },
-  { STAnd,                        &insert_regular_writers_binary  }
+  { STCheckZigzagJump,            &insert_regular_writers_fork    }
 };
 
 enum

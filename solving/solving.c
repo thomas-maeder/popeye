@@ -87,7 +87,8 @@ static void spin_off_testers_binary(slice_index si, stip_structure_traversal *st
   assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
   slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
   slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
-  slices[si].u.binary.tester = state->spun_off[si];
+  slices[si].u.binary.tester = alloc_pipe(STStartTesting);
+  link_to_branch(slices[si].u.binary.tester,state->spun_off[si]);
   slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
 
   TraceFunctionExit(__func__);

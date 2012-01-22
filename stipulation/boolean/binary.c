@@ -90,6 +90,8 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   proxy_slice_resolve(&slices[si].u.binary.op1,st);
   proxy_slice_resolve(&slices[si].u.binary.op2,st);
+  if (slices[si].u.binary.tester!=no_slice)
+    proxy_slice_resolve(&slices[si].u.binary.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
