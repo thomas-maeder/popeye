@@ -8,15 +8,15 @@ stei
 weis ke1 ta1h1
 schw kf3 da3 tc5g3 lg1 bb2c2d4g2
 weiter
-titel		G"unter B"using
-autor		J"org Kuhlmann
-autor		Achim Sch"oneberg
-quelle		iii, feenschach 71, 11/1984
-forderung	h#11
+titel           G"unter B"using
+autor           J"org Kuhlmann
+autor           Achim Sch"oneberg
+quelle          iii, feenschach 71, 11/1984
+forderung       h#11
 opti maxzeit 10 ohnewk
-steine	weiss	beamtet	ta1
-	schwarz		bg7
-	schwarz	beamtet kh8 sa3
+steine  weiss   beamtet ta1
+        schwarz         bg7
+        schwarz beamtet kh8 sa3
 weiter
 autor           Nils Bakke & Henry Tanner
 quelle          NG24, 1. NG-ST, Problemkiste 109, 2/1997
@@ -63,7 +63,7 @@ stei
 weis ka8 lh7 bh6
 schw kd5 sf6h1 bc3f7
 weiter
-auto Didier Innocenti	
+auto Didier Innocenti   
 quel Diagrammes, 1988/89
 ford #7
 bedi marscirce 
@@ -84,46 +84,46 @@ stei
 weis tg7 le4 bb7
 schw kb8
 weiter
-autor 		Torsten Lin"s
-quelle		??
-forderung 	#4
-bedingung 	gitterschach
-option	 	varianten
-		drohung	1
-		maxzeit 10
-steine 		weiss 	kg5 tf3 sa3c4
-		schw 	bd7c3g3a2e2 th5 kb3
+autor           Torsten Lin"s
+quelle          ??
+forderung       #4
+bedingung       gitterschach
+option          varianten
+                drohung 1
+                maxzeit 10
+steine          weiss   kg5 tf3 sa3c4
+                schw    bd7c3g3a2e2 th5 kb3
 weiteresproblem
-autor 		Hans Peter Rehm & Klaus Wenda
-quelle 		2. Preis, Vissermann-Memo 1978
-forderung 	#8
-bedingung 	circe
-option 		varianten
- 		drohung 1
-		maxzeit 10
-steine 	weiss 	sb1d3 ke1 be2b3g4 lg2
-	schwarz lc8f8 th6g6 bd5h5c3e3 kd4
+autor           Hans Peter Rehm & Klaus Wenda
+quelle          2. Preis, Vissermann-Memo 1978
+forderung       #8
+bedingung       circe
+option          varianten
+                drohung 1
+                maxzeit 10
+steine  weiss   sb1d3 ke1 be2b3g4 lg2
+        schwarz lc8f8 th6g6 bd5h5c3e3 kd4
 weiteresproblem
-autor 		Kjell Widlert
-quelle 		4. ehr. Erw., feenschach 1979
-forderung 	#5
-option 		varianten
-		drohung 1
-		maxzeit 10
-steine 		weiss 	kd7 bb3 sd3 lg1h1
-		schwarz ba6e5g5d4f4e3 kd5
-		neutral te4
+autor           Kjell Widlert
+quelle          4. ehr. Erw., feenschach 1979
+forderung       #5
+option          varianten
+                drohung 1
+                maxzeit 10
+steine          weiss   kd7 bb3 sd3 lg1h1
+                schwarz ba6e5g5d4f4e3 kd5
+                neutral te4
 weiteresproblem
-autor 		Kjell Widlert
-quelle 		1. Preis ea, Andernach 1987
-bemerkung	nebenloesig - eigentlich #6
-forderung 	#5
-bedingung	platzwechselcirce
-option 		varianten
- 		drohung 1
-		maxzeit 10
-steine 		weiss 	bb5a2 sc2 rod1 kf1
-		schwarz tb8 ba7a5c5e5g5d4c3f3 sb2e6 ka4 lb6
+autor           Kjell Widlert
+quelle          1. Preis ea, Andernach 1987
+bemerkung       nebenloesig - eigentlich #6
+forderung       #5
+bedingung       platzwechselcirce
+option          varianten
+                drohung 1
+                maxzeit 10
+steine          weiss   bb5a2 sc2 rod1 kf1
+                schwarz tb8 ba7a5c5e5g5d4c3f3 sb2e6 ka4 lb6
 weiter
 auto Theodor Steudel
 quel 4181, Problemkiste 107, 10/1996
@@ -175,13 +175,13 @@ stei
 weis kh8 be2
 schw Kd1 ba2c2d2
 weiter
-auto	Yuri Arefev
-quel	3175, Probleemblad 55/2, 3-3/1997
-ford	h#3
-opti	zugn
+auto    Yuri Arefev
+quel    3175, Probleemblad 55/2, 3-3/1997
+ford    h#3
+opti    zugn
 opti maxzeit 10
-bedi	ActuatedRevolvingBoard Circe
-stei	weis	ke4 sc1
-	schw	ka7 tb7c5 la3e8 bf3
-zwil	versetze a7 b1
+bedi    ActuatedRevolvingBoard Circe
+stei    weis    ke4 sc1
+        schw    ka7 tb7c5 la3e8 bf3
+zwil    versetze a7 b1
 ende
