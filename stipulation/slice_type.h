@@ -75,6 +75,7 @@
     ENUMERATOR(STMoveInverter),    /* inverts side to move */           \
     ENUMERATOR(STMinLengthGuard), /* make sure that the minimum length of a branch is respected */  \
     ENUMERATOR(STForkOnRemaining),     /* fork depending on the number of remaining moves */ \
+    ENUMERATOR(STStartTesting),     /* proxy slice between solving and testing for a solution */ \
     /* solver slices */                                                 \
     ENUMERATOR(STFindShortest), /* find the shortest continuation(s) */                                  \
     ENUMERATOR(STFindByIncreasingLength), /* find all solutions */      \

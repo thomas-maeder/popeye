@@ -116,7 +116,7 @@ static void spin_off_testers_continuation_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->spun_off[si] = alloc_proxy_slice();
+  state->spun_off[si] = alloc_pipe(STStartTesting);
   stip_traverse_structure_children(si,st);
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   slices[si].u.fork.tester = state->spun_off[si];
@@ -238,7 +238,6 @@ static void start_spinning_off_next_branch(slice_index si, stip_structure_traver
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-
   stip_traverse_structure(slices[si].u.fork.fork,&state->nested);
   slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
 
@@ -256,7 +255,6 @@ static void connect_root_max_threat_length_to_spin_off(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-
   slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
@@ -273,7 +271,6 @@ static void connect_root_non_trivial_to_spin_off(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-
   slices[si].u.fork.tester = state->spun_off[slices[si].u.pipe.next];
 
   TraceFunctionExit(__func__);
@@ -324,6 +321,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&state.nested,STThreatSolver,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STRefutationsSolver,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STPlaySuppressor,&spin_off_skip);
+  stip_structure_traversal_override_single(&state.nested,STIntelligentDuplicateAvoider,&spin_off_skip);
   stip_structure_traversal_override_single(&state.nested,STThreatEnforcer,&spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&state.nested,STThreatCollector,&spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&state.nested,STTemporaryHackFork,&stip_traverse_structure_pipe);

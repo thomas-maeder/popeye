@@ -168,27 +168,6 @@ slice_index alloc_intelligent_duplicate_avoider_slice(void)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type intelligent_duplicate_avoider_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

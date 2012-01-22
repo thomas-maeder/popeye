@@ -340,10 +340,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = keepmating_filter_can_help(si,n);
       break;
 
-    case STIntelligentLimitNrSolutionsPerTargetPos:
-      result = intelligent_limit_nr_solutions_per_target_position_can_help(si,n);
-      break;
-
     case STGoalReachableGuardFilterMate:
       result = goalreachable_guard_mate_can_help(si,n);
       break;
@@ -362,10 +358,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STSelfCheckGuard:
       result = selfcheck_guard_can_help(si,n);
-      break;
-
-    case STMaxTimeGuard:
-      result = maxtime_guard_can_help(si,n);
       break;
 
     case STCounterMateFilter:

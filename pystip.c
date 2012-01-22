@@ -153,6 +153,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverter */
   slice_structure_branch, /* STMinLengthGuard */
   slice_structure_binary, /* STForkOnRemaining */
+  slice_structure_pipe,   /* STStartTesting */
   slice_structure_pipe,   /* STFindShortest */
   slice_structure_branch, /* STFindByIncreasingLength */
   slice_structure_pipe,   /* STGeneratingMoves */
@@ -327,6 +328,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMoveInverter */
   slice_function_unspecified,    /* STMinLengthGuard */
   slice_function_unspecified,    /* STForkOnRemaining */
+  slice_function_unspecified,    /* STStartTesting */
   slice_function_unspecified,    /* STFindShortest */
   slice_function_unspecified,    /* STFindByIncreasingLength */
   slice_function_unspecified,    /* STGeneratingMoves */
@@ -1617,6 +1619,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMoveInverter */
   &stip_traverse_structure_pipe,              /* STMinLengthGuard */
   &stip_traverse_structure_fork_on_remaining, /* STForkOnRemaining */
+  stip_traverse_structure_pipe,               /* STStartTesting */
   &stip_traverse_structure_pipe,              /* STFindShortest */
   &stip_traverse_structure_pipe,              /* STFindByIncreasingLength */
   &stip_traverse_structure_pipe,              /* STGeneratingMoves */
@@ -1892,6 +1895,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STMoveInverter */
     &stip_traverse_moves_pipe,              /* STMinLengthGuard */
     &stip_traverse_moves_fork_on_remaining, /* STForkOnRemaining */
+    &stip_traverse_moves_pipe,              /* STStartTesting */
     &stip_traverse_moves_pipe,              /* STFindShortest */
     &stip_traverse_moves_pipe,              /* STFindByIncreasingLength */
     &stip_traverse_moves_pipe,              /* STGeneratingMoves */

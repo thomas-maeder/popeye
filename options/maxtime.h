@@ -43,18 +43,6 @@ stip_length_type maxtime_guard_can_defend(slice_index si, stip_length_type n);
  */
 stip_length_type maxtime_guard_help(slice_index si, stip_length_type n);
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type maxtime_guard_can_help(slice_index si, stip_length_type n);
-
 /* Instrument a stipulation with STMaxTimeGuard slices
  * @param si identifies slice where to start
  */

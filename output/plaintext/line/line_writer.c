@@ -1,7 +1,8 @@
 #include "output/plaintext/line/line_writer.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "pyoutput.h"
+#include "pydata.h"
+#include "pybrafrk.h"
 #include "trace.h"
 #include "pymsg.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -156,27 +157,6 @@ slice_index alloc_line_writer_slice(Goal goal)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type line_writer_has_solution(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.goal_handler.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -238,32 +218,6 @@ stip_length_type line_writer_defend(slice_index si, stip_length_type n)
     TraceValue("%u\n",output_plaintext_slice_determining_starter);
     write_line(initial_starter,goal.type);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type line_writer_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+4;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(slices[si].u.goal_handler.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

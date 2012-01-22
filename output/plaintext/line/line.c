@@ -1,5 +1,6 @@
 #include "output/plaintext/line/line.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
@@ -238,7 +239,7 @@ static structure_traversers_visitors regular_inserters[] =
   { STHelpAdapter,                &instrument_root                },
   { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
   { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
-  { STContinuationSolver,         &stip_traverse_structure_pipe   },
+  { STStartTesting,               &stip_structure_visitor_noop    },
   { STEndOfBranch,                &instrument_end_of_branch       },
   { STEndOfBranchForced,          &insert_regular_writers_fork    },
   { STEndOfBranchGoal,            &insert_regular_writers_fork    },

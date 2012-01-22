@@ -116,32 +116,6 @@ stip_length_type maxtime_guard_help(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type maxtime_guard_can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_help(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Insert a STMaxTimeGuard slice after a STHelpMove slice
  */
 static void insert_maxtime_help_guard(slice_index si,
@@ -182,8 +156,10 @@ static void insert_maxtime_defender_guard(slice_index si,
 
 static structure_traversers_visitors maxtime_guard_inserters[] =
 {
-  { STReadyForHelpMove, &insert_maxtime_help_guard     },
-  { STReadyForAttack,   &insert_maxtime_defender_guard }
+  { STReadyForHelpMove,  &insert_maxtime_help_guard     },
+  { STReadyForAttack,    &insert_maxtime_defender_guard },
+  { STGoalReachedTester, &stip_traverse_structure_pipe  },
+  { STTemporaryHackFork, &stip_traverse_structure_pipe  }
 };
 enum
 {

@@ -19,13 +19,6 @@ extern slice_index output_plaintext_slice_determining_starter;
  */
 slice_index alloc_line_writer_slice(Goal goal);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type line_writer_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -44,16 +37,5 @@ has_solution_type line_writer_solve(slice_index si);
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type line_writer_defend(slice_index si, stip_length_type n);
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type line_writer_can_defend(slice_index si, stip_length_type n);
 
 #endif

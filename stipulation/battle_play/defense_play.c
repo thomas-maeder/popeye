@@ -403,10 +403,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = dummy_move_can_defend(si,n);
       break;
 
-    case STOutputPlaintextLineLineWriter:
-      result = line_writer_can_defend(si,n);
-      break;
-
     case STBGLFilter:
       result = bgl_filter_can_defend(si,n);
       break;
