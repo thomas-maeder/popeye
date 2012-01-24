@@ -70,7 +70,7 @@ has_solution_type goal_countermate_reached_tester_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceValue("%u",nbply);
-  TraceValue("%u",parent_ply[nbply]);
+  TraceValue("%u\n",parent_ply[nbply]);
   if (TSTFLAG(goal_preprequisites_met[parent_ply[nbply]],goal_countermate))
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
