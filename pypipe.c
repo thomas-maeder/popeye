@@ -1,6 +1,7 @@
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -19,7 +20,6 @@ slice_index alloc_pipe(slice_type type)
 
   result = alloc_slice(type);
   slices[result].u.pipe.next = no_slice;
-  slices[result].prev = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -257,26 +257,6 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice has a solution
- * @param pipe slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type pipe_has_solution(slice_index pipe)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[pipe].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -284,15 +264,13 @@ has_solution_type pipe_has_solution(slice_index pipe)
 void stip_traverse_structure_pipe(slice_index pipe,
                                   stip_structure_traversal *st)
 {
-  slice_index const next = slices[pipe].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (next!=no_slice)
-    stip_traverse_structure(next,st);
+  if (slices[pipe].u.pipe.next!=no_slice)
+    stip_traverse_structure(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -312,6 +290,31 @@ void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st)
 
   assert(next!=no_slice);
   stip_traverse_moves(next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a pipe slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spun_off[si] = copy_slice(si);
+
+  if (slices[si].u.pipe.next!=no_slice)
+  {
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

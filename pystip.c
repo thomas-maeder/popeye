@@ -8,6 +8,8 @@
 #include "pyselfgd.h"
 #include "pydirctg.h"
 #include "pypipe.h"
+#include "pythreat.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
@@ -165,7 +167,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STTrySolver */
   slice_structure_pipe,         /* STRefutationsSolver */
   slice_structure_pipe,         /* STPlaySuppressor */
-  slice_structure_fork,         /* STContinuationSolver */
+  slice_structure_testing_pipe, /* STContinuationSolver */
   slice_structure_fork,         /* STThreatSolver */
   slice_structure_fork,         /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
@@ -179,7 +181,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STDoubleMateFilter */
   slice_structure_fork,         /* STCounterMateFilter */
   slice_structure_pipe,         /* STPrerequisiteOptimiser */
-  slice_structure_fork,         /* STNoShortVariations */
+  slice_structure_testing_pipe, /* STNoShortVariations */
   slice_structure_pipe,         /* STRestartGuard */
   slice_structure_pipe,         /* STRestartGuardIntelligent */
   slice_structure_pipe,         /* STIntelligentTargetCounter */
@@ -257,7 +259,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STKeyWriter */
   slice_structure_pipe,         /* STTryWriter */
   slice_structure_pipe,         /* STZugzwangWriter */
-  slice_structure_fork,         /* STTrivialEndFilter */
+  slice_structure_testing_pipe, /* STTrivialEndFilter */
   slice_structure_pipe,         /* STRefutingVariationWriter */
   slice_structure_pipe,         /* STRefutationWriter */
   slice_structure_pipe,         /* STOutputPlaintextTreeCheckWriter */
@@ -474,16 +476,20 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
       result = base==slice_structure_pipe;
       break;
 
+    case slice_structure_testing_pipe:
+      result = base==slice_structure_pipe || base==slice_structure_testing_pipe;
+      break;
+
     case slice_structure_derived_pipe:
       result = base==slice_structure_pipe || base==slice_structure_derived_pipe;
       break;
 
     case slice_structure_branch:
-      result = base==slice_structure_pipe || base==slice_structure_branch;
+      result = base==slice_structure_pipe || base==slice_structure_testing_pipe || base==slice_structure_branch;
       break;
 
     case slice_structure_fork:
-      result = base==slice_structure_pipe || base==slice_structure_fork;
+      result = base==slice_structure_pipe || base==slice_structure_testing_pipe || base==slice_structure_fork;
       break;
 
     default:
@@ -599,6 +605,7 @@ slice_index alloc_slice(slice_type type)
 
   slices[result].type = type;
   slices[result].starter = no_side;
+  slices[result].prev = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -974,6 +981,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         break;
 
       case slice_structure_pipe:
+      case slice_structure_testing_pipe:
       case slice_structure_branch:
       {
         slice_index const next = slices[si].u.pipe.next;
@@ -1360,6 +1368,9 @@ void stip_detect_starter(slice_index si)
                                                  slice_structure_pipe,
                                                  &pipe_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_testing_pipe,
+                                                 &pipe_detect_starter);
+  stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &pipe_detect_starter);
   stip_structure_traversal_override(&st,
@@ -1385,7 +1396,7 @@ static void default_impose_starter(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
+  TraceEnumerator(Side,*starter,"");
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
@@ -1471,6 +1482,9 @@ void stip_impose_starter(slice_index si, Side starter)
   stip_structure_traversal_override_single(&st,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_immobility_tester);
+  stip_structure_traversal_override_single(&st,
+                                           STMaxThreatLength,
+                                           &impose_starter_max_threat_length);
 
   stip_traverse_structure(si,&st);
 
@@ -1637,7 +1651,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STTrySolver */
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
-  &stip_traverse_structure_check_threat_solver, /* STContinuationSolver */
+  &stip_traverse_structure_testing_pipe,      /* STContinuationSolver */
   &stip_traverse_structure_check_threat_solver, /* STThreatSolver */
   &stip_traverse_structure_pipe,              /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
@@ -1651,7 +1665,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
   &stip_traverse_structure_end_of_branch,     /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
-  &stip_traverse_structure_check_threat_solver, /* STNoShortVariations */
+  &stip_traverse_structure_testing_pipe,      /* STNoShortVariations */
   &stip_traverse_structure_pipe,              /* STRestartGuard */
   &stip_traverse_structure_pipe,              /* STRestartGuardIntelligent */
   &stip_traverse_structure_pipe,              /* STIntelligentTargetCounter */
@@ -1729,7 +1743,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STKeyWriter */
   &stip_traverse_structure_pipe,              /* STTryWriter */
   &stip_traverse_structure_pipe,              /* STZugzwangWriter */
-  &stip_traverse_structure_check_threat_solver, /* STTrivialEndFilter */
+  &stip_traverse_structure_testing_pipe,      /* STTrivialEndFilter */
   &stip_traverse_structure_pipe,              /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,              /* STRefutationWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeCheckWriter */
@@ -1914,7 +1928,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STTrySolver */
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */
     &stip_traverse_moves_pipe,              /* STPlaySuppressor */
-    &stip_traverse_moves_continuation_solver, /* STContinuationSolver */
+    &stip_traverse_moves_pipe,              /* STContinuationSolver */
     &stip_traverse_moves_pipe,              /* STThreatSolver */
     &stip_traverse_moves_pipe,              /* STThreatEnforcer */
     &stip_traverse_moves_pipe,              /* STThreatStart */

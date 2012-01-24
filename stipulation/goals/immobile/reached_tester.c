@@ -79,7 +79,7 @@ void impose_starter_immobility_tester(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
+  TraceEnumerator(Side,*starter,"");
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
@@ -91,6 +91,8 @@ void impose_starter_immobility_tester(slice_index si,
                               ? slices[si].starter
                               : advers(slices[si].starter));
     *starter = immobilised;
+    if (slices[si].u.immobility_tester.tester!=no_slice)
+      stip_traverse_structure(slices[si].u.immobility_tester.tester,st);
     stip_traverse_structure(slices[si].u.immobility_tester.fork,st);
   }
 

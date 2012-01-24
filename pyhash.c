@@ -571,6 +571,9 @@ static void init_slice_properties(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                             slice_structure_pipe,
                                             &init_slice_properties_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_testing_pipe,
+                                                 &init_slice_properties_pipe);
   stip_structure_traversal_override(&st,
                                     slice_properties_initalisers,
                                     nr_slice_properties_initalisers);

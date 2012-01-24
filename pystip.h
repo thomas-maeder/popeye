@@ -43,23 +43,31 @@ typedef struct
             slice_index next;
         } pipe;
 
+        struct /* for testing pipe types */
+        {
+            slice_index next;
+            slice_index tester;
+        } testing_pipe;
+
         struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;
+            slice_index tester;
             square target;
         } goal_target_reached_tester;
 
         struct /* for goal filter types * */
         {
             slice_index next;
+            slice_index tester;
             goal_applies_to_starter_or_adversary applies_to_who;
         } goal_filter;
 
         struct /* for goal filter types * */
         {
             slice_index next;
-            slice_index fork;
             slice_index tester;
+            slice_index fork;
             goal_applies_to_starter_or_adversary applies_to_who;
         } immobility_tester;
 
@@ -73,8 +81,8 @@ typedef struct
         struct
         {
             slice_index next;
-            slice_index fork;
             slice_index tester;
+            slice_index fork;
         } fork;
 
         struct
@@ -88,12 +96,14 @@ typedef struct
         struct
         {
             slice_index next;
+            slice_index tester;
             unsigned int max_nr_refutations;
         } refutation_collector;
 
         struct /* for type==STKeepMatingGuard */
         {
             slice_index next;
+            slice_index tester;
             Side mating;
         } keepmating_guard;
 
@@ -107,26 +117,29 @@ typedef struct
         struct /* for slices dealing with a single goal */
         {
             slice_index next;
+            slice_index tester;
             Goal goal;
         } goal_handler;
 
         struct /* for slices dealing with a single goal */
         {
             slice_index next;
-            slice_index fork;
             slice_index tester;
+            slice_index fork;
             Goal goal;
         } goal_tester;
 
         struct
         {
             slice_index next;
+            slice_index tester;
             output_mode mode;
         } output_mode_selector;
 
         struct
         {
             slice_index next;
+            slice_index tester;
             slice_index base;
         } derived_pipe;
     } u;
@@ -184,6 +197,7 @@ typedef enum
   ENUMERATOR(slice_structure_leaf),                              \
     ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_pipe),                            \
+    ENUMERATOR(slice_structure_testing_pipe),                    \
     ENUMERATOR(slice_structure_derived_pipe),                    \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \

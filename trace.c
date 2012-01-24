@@ -368,6 +368,18 @@ static void Trace_pipe(slice_index si)
   Trace_link(">",slices[si].u.pipe.next,"");
 }
 
+static void Trace_testing_pipe(slice_index si)
+{
+  Trace_pipe(si);
+  Trace_link("?",slices[si].u.testing_pipe.tester,"");
+}
+
+static void Trace_fork(slice_index si)
+{
+  Trace_testing_pipe(si);
+  Trace_link("fork:",slices[si].u.goal_tester.fork,"");
+}
+
 static void Trace_branch(slice_index si)
 {
   Trace_pipe(si);
@@ -391,7 +403,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         fprintf(stdout,"threshold:%u ",slices[si].u.fork_on_remaining.threshold);
         Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
         Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
-        Trace_link("tester:",slices[si].u.fork_on_remaining.tester,"");
+        Trace_link("?",slices[si].u.fork_on_remaining.tester,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
         TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
@@ -428,7 +440,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       {
         Trace_pipe(si);
         Trace_link("fork:",slices[si].u.immobility_tester.fork,"");
-        Trace_link("tester:",slices[si].u.immobility_tester.tester,"");
         TraceValue("%u",slices[si].u.immobility_tester.applies_to_who);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.immobility_tester.next,done_slices);
@@ -445,14 +456,12 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STGoalReachedTester:
-        Trace_pipe(si);
+        Trace_fork(si);
         fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
-        Trace_link("fork:",slices[si].u.goal_tester.fork,"");
-        Trace_link("tester:",slices[si].u.goal_tester.tester,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
         TraceStipulationRecursive(slices[si].u.goal_tester.tester,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
         break;
 
       default:
@@ -469,9 +478,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
             break;
 
+          case slice_structure_testing_pipe:
+            Trace_testing_pipe(si);
+            fprintf(stdout,"\n");
+            TraceStipulationRecursive(slices[si].u.testing_pipe.next,done_slices);
+            TraceStipulationRecursive(slices[si].u.testing_pipe.tester,done_slices);
+            break;
+
           case slice_structure_derived_pipe:
             Trace_pipe(si);
-            Trace_link("base:",slices[si].u.derived_pipe.base,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
             break;
@@ -483,20 +498,18 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             break;
 
           case slice_structure_fork:
-            Trace_pipe(si);
-            Trace_link("fork:",slices[si].u.fork.fork,"");
-            Trace_link("tester:",slices[si].u.fork.tester,"");
+            Trace_fork(si);
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.fork.next,done_slices);
-            TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
             TraceStipulationRecursive(slices[si].u.fork.tester,done_slices);
+            TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
             break;
 
           case slice_structure_binary:
             Trace_slice(si);
             Trace_link("op1:",slices[si].u.binary.op1,"");
             Trace_link("op2:",slices[si].u.binary.op2,"");
-            Trace_link("tester:",slices[si].u.binary.tester,"");
+            Trace_link("?",slices[si].u.binary.tester,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
             TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);

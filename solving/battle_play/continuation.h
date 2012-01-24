@@ -12,13 +12,6 @@
  */
 slice_index alloc_continuation_solver_slice(void);
 
-/* Traversal of the moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_continuation_solver(slice_index si,
-                                             stip_moves_traversal *st);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

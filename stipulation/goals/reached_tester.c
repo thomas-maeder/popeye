@@ -1,6 +1,6 @@
 #include "stipulation/goals/reached_tester.h"
-#include "pypipe.h"
 #include "stipulation/proxy.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/boolean/true.h"
 #include "trace.h"
 
@@ -18,10 +18,8 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   TraceFunctionParam("%u",tester);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalReachedTester);
+  result = alloc_testing_pipe(STGoalReachedTester);
   slices[result].u.goal_tester.goal = goal;
-  slices[result].u.goal_tester.tester = no_slice;
-
   slices[result].u.goal_tester.fork = alloc_proxy_slice();
   pipe_link(slices[result].u.goal_tester.fork,tester);
 

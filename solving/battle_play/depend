@@ -1,12 +1,10 @@
 solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.c \
- solving/battle_play/continuation.h pybrafrk.h pypipe.h \
+ solving/battle_play/continuation.h stipulation/testing_pipe.h \
  stipulation/battle_play/branch.h trace.h
 
 solving/battle_play/continuation.h:
 
-pybrafrk.h:
-
-pypipe.h:
+stipulation/testing_pipe.h:
 
 stipulation/battle_play/branch.h:
 

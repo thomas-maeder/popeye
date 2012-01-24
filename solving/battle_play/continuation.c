@@ -1,6 +1,5 @@
 #include "solving/battle_play/continuation.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "trace.h"
 
@@ -16,31 +15,12 @@ slice_index alloc_continuation_solver_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STContinuationSolver,no_slice);
+  result = alloc_testing_pipe(STContinuationSolver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traversal of the moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_continuation_solver(slice_index si,
-                                             stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_pipe(si,st);
-  if (slices[si].u.fork.tester!=no_slice)
-    stip_traverse_moves(slices[si].u.fork.tester,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to defend after an attacking move
@@ -63,14 +43,14 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_defend(slices[si].u.fork.tester,n);
+  result = can_defend(slices[si].u.testing_pipe.tester,n);
   if (slack_length_battle<=result && result<n+4)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
     stip_length_type const defend_result =
 #endif
-    defend(slices[si].u.fork.next,n_next);
+    defend(slices[si].u.testing_pipe.next,n_next);
     assert(defend_result==result);
   }
 

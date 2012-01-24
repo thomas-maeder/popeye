@@ -80,12 +80,6 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st);
  */
 void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
-/* Determine whether a slice has a solution
- * @param pipe slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type pipe_has_solution(slice_index pipe);
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -98,5 +92,12 @@ void stip_traverse_structure_pipe(slice_index pipe,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st);
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a pipe slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st);
 
 #endif

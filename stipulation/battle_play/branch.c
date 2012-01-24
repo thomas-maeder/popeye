@@ -762,6 +762,9 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &move_to_postkey);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_testing_pipe,
+                                                 &move_to_postkey);
   stip_structure_traversal_override_single(&st,
                                            STAttackAdapter,
                                            &attack_adapter_make_postkeyplay);

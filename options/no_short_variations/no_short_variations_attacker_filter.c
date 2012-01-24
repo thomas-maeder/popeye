@@ -1,8 +1,7 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pybrafrk.h"
-#include "pypipe.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
@@ -19,7 +18,7 @@ slice_index alloc_no_short_variations_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STNoShortVariations,no_slice);
+  result = alloc_testing_pipe(STNoShortVariations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,7 +41,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_attack(slices[si].u.fork.tester,n)<=n;
+  result = can_attack(slices[si].u.testing_pipe.tester,n)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -61,7 +60,6 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
 stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,7 +71,7 @@ stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
       && has_short_solution(si,n-2))
     result = slack_length_battle;
   else
-    result = attack(next,n);
+    result = attack(slices[si].u.testing_pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

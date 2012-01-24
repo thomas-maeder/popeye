@@ -1258,8 +1258,9 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
  pydata.h stipulation/help_play/play.h pystip.h pymovein.h pykeepmt.h \
  stipulation/battle_play/defense_play.h pyselfcg.h pyselfgd.h pydirctg.h \
- pypipe.h stipulation/branch.h stipulation/setplay_fork.h pypipe.h \
- stipulation/dead_end.h stipulation/battle_play/attack_play.h \
+ pypipe.h pythreat.h stipulation/testing_pipe.h pypipe.h \
+ stipulation/branch.h stipulation/setplay_fork.h stipulation/dead_end.h \
+ stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/end_of_branch.h stipulation/goals/reached_tester.h \
  stipulation/goals/goals.h stipulation/boolean/or.h \
@@ -1342,11 +1343,15 @@ pydirctg.h:
 
 pypipe.h:
 
+pythreat.h:
+
+stipulation/testing_pipe.h:
+
+pypipe.h:
+
 stipulation/branch.h:
 
 stipulation/setplay_fork.h:
-
-pypipe.h:
 
 stipulation/dead_end.h:
 
@@ -1658,7 +1663,7 @@ output/plaintext/line/line_writer.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h stipulation/goals/goals.h boolean.h \
  py.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
  pylang.h stipulation/slice_type.h pyslice.h stipulation/proxy.h pypipe.h \
- stipulation/branch.h pystip.h pyslice.h trace.h
+ stipulation/branch.h pystip.h pyslice.h solving/solving.h trace.h
 
 pypipe.h:
 
@@ -1699,6 +1704,8 @@ stipulation/branch.h:
 pystip.h:
 
 pyslice.h:
+
+solving/solving.h:
 
 trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
@@ -2086,9 +2093,10 @@ trace.h:
 pythreat$(OBJ_SUFFIX): pythreat.c pythreat.h stipulation/battle_play/defense_play.h \
  pyslice.h pydata.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h \
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
- stipulation/goals/goals.h boolean.h py.h pybrafrk.h pyslice.h pystip.h \
- stipulation/slice_type.h stipulation/branch.h pystip.h \
- stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+ stipulation/goals/goals.h boolean.h py.h pypipe.h pystip.h \
+ stipulation/slice_type.h pyslice.h pybrafrk.h stipulation/branch.h \
+ pystip.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h \
  solving/battle_play/check_detector.h \
  stipulation/battle_play/defense_play.h trace.h
 
@@ -2128,13 +2136,15 @@ boolean.h:
 
 py.h:
 
-pybrafrk.h:
-
-pyslice.h:
+pypipe.h:
 
 pystip.h:
 
 stipulation/slice_type.h:
+
+pyslice.h:
+
+pybrafrk.h:
 
 stipulation/branch.h:
 

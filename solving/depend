@@ -1,12 +1,12 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
- pyhash.h pybrafrk.h stipulation/proxy.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/move_generator.h solving/play_suppressor.h \
- solving/find_shortest.h solving/find_by_increasing_length.h \
- solving/fork_on_remaining.h solving/battle_play/threat.h \
- solving/battle_play/continuation.h solving/battle_play/try.h \
- solving/battle_play/min_length_guard.h solving/battle_play/setplay.h \
- solving/single_piece_move_generator.h \
+ pyhash.h pybrafrk.h stipulation/proxy.h stipulation/testing_pipe.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/move_generator.h \
+ solving/play_suppressor.h solving/find_shortest.h \
+ solving/find_by_increasing_length.h solving/fork_on_remaining.h \
+ solving/battle_play/threat.h solving/battle_play/continuation.h \
+ solving/battle_play/try.h solving/battle_play/min_length_guard.h \
+ solving/battle_play/setplay.h solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/castling_intermediate_move_generator.h \
  solving/single_move_generator.h solving/king_move_generator.h \
@@ -23,6 +23,8 @@ pyhash.h:
 pybrafrk.h:
 
 stipulation/proxy.h:
+
+stipulation/testing_pipe.h:
 
 stipulation/branch.h:
 
@@ -224,16 +226,14 @@ pypipe.h:
 
 trace.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
- solving/trivial_end_filter.h pydata.h pypipe.h pybrafrk.h \
+ solving/trivial_end_filter.h pydata.h stipulation/testing_pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h trace.h
 
 solving/trivial_end_filter.h:
 
 pydata.h:
 
-pypipe.h:
-
-pybrafrk.h:
+stipulation/testing_pipe.h:
 
 stipulation/branch.h:
 

@@ -16,8 +16,9 @@ trace.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- pydata.h pyproc.h pybrafrk.h pypipe.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h trace.h
+ pydata.h pyproc.h stipulation/testing_pipe.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+ trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -25,9 +26,7 @@ pydata.h:
 
 pyproc.h:
 
-pybrafrk.h:
-
-pypipe.h:
+stipulation/testing_pipe.h:
 
 stipulation/battle_play/branch.h:
 

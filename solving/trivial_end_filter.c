@@ -1,7 +1,6 @@
 #include "solving/trivial_end_filter.h"
 #include "pydata.h"
-#include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "trace.h"
@@ -31,7 +30,7 @@ static slice_index alloc_trivial_end_filter_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STTrivialEndFilter,no_slice);
+  result = alloc_testing_pipe(STTrivialEndFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -57,10 +56,10 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (nbply==nil_ply || do_write_trivial_ends[parent_ply[nbply]])
-    result = attack(slices[si].u.fork.next,n);
+    result = attack(slices[si].u.testing_pipe.next,n);
   else
     /* variation is trivial - just determine the result */
-    result = can_attack(slices[si].u.fork.tester,n);
+    result = can_attack(slices[si].u.testing_pipe.tester,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
