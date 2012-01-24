@@ -209,10 +209,11 @@ typedef enum
 
 
 #define ENUMERATION_TYPENAME slice_functional_type
-#define ENUMERATORS                             \
+#define ENUMERATORS                                              \
   ENUMERATOR(slice_function_unspecified),                        \
-    ENUMERATOR(slice_function_move_generator),                   \
-    ENUMERATOR(nr_slice_functional_types)
+  ENUMERATOR(slice_function_move_generator),                     \
+  ENUMERATOR(slice_function_writer),                             \
+  ENUMERATOR(nr_slice_functional_types)
 
 #define ENUMERATION_DECLARE
 

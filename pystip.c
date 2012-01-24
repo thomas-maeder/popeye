@@ -428,20 +428,20 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STMaximummerCandidateMoveTester */
   slice_function_unspecified,    /* STBGLFilter */
   slice_function_unspecified,    /* STOutputModeSelector */
-  slice_function_unspecified,    /* STIllegalSelfcheckWriter */
-  slice_function_unspecified,    /* STEndOfPhaseWriter */
-  slice_function_unspecified,    /* STEndOfSolutionWriter */
-  slice_function_unspecified,    /* STMoveWriter */
-  slice_function_unspecified,    /* STKeyWriter */
-  slice_function_unspecified,    /* STTryWriter */
-  slice_function_unspecified,    /* STZugzwangWriter */
+  slice_function_writer,         /* STIllegalSelfcheckWriter */
+  slice_function_writer,         /* STEndOfPhaseWriter */
+  slice_function_writer,         /* STEndOfSolutionWriter */
+  slice_function_writer,         /* STMoveWriter */
+  slice_function_writer,         /* STKeyWriter */
+  slice_function_writer,         /* STTryWriter */
+  slice_function_writer,         /* STZugzwangWriter */
   slice_function_unspecified,    /* STTrivialEndFilter */
-  slice_function_unspecified,    /* STRefutingVariationWriter */
-  slice_function_unspecified,    /* STRefutationWriter */
-  slice_function_unspecified,    /* STOutputPlaintextTreeCheckWriter */
-  slice_function_unspecified,    /* STOutputPlaintextTreeDecorationWriter */
-  slice_function_unspecified,    /* STOutputPlaintextLineLineWriter */
-  slice_function_unspecified,    /* STOutputPlaintextTreeGoalWriter */
+  slice_function_writer,         /* STRefutingVariationWriter */
+  slice_function_writer,         /* STRefutationWriter */
+  slice_function_writer,         /* STOutputPlaintextTreeCheckWriter */
+  slice_function_writer,         /* STOutputPlaintextTreeDecorationWriter */
+  slice_function_writer,         /* STOutputPlaintextLineLineWriter */
+  slice_function_writer,         /* STOutputPlaintextTreeGoalWriter */
   slice_function_unspecified,    /* STOutputPlaintextMoveInversionCounter */
   slice_function_unspecified,    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
   slice_function_unspecified     /* STMoveTracer */
