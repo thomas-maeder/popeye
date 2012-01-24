@@ -508,7 +508,7 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u",side_at_move);
+  TraceEnumerator(Side,side_at_move,"");
   TraceFunctionParamListEnd();
 
   nextply(nbply);
