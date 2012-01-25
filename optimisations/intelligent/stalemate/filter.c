@@ -1,8 +1,8 @@
 #include "optimisations/intelligent/stalemate/filter.h"
 #include "pyint.h"
-#include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/immobile/reached_tester.h"
@@ -29,7 +29,7 @@ slice_index alloc_intelligent_stalemate_filter(void)
     help_branch_insert_slices(help,&proto,1);
     link_to_branch(proxy_branch,help);
 
-    result = alloc_branch_fork(STIntelligentStalemateFilter,proxy_branch);
+    result = alloc_conditional_pipe(STIntelligentStalemateFilter,proxy_branch);
   }
 
   TraceFunctionExit(__func__);
@@ -60,7 +60,7 @@ void impose_starter_intelligent_stalemate_filter(slice_index si,
    * Black's immobility.
    */
   *starter = Black;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

@@ -44,8 +44,13 @@ void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st)
   if (slices[si].u.pipe.next!=no_slice)
   {
     stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].u.pipe.next]!=no_slice);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    if (state->spun_off[slices[si].u.pipe.next]==no_slice)
+    {
+      dealloc_slice(state->spun_off[si]);
+      state->spun_off[si] = no_slice;
+    }
+    else
+      link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
   }
 
   TraceFunctionExit(__func__);

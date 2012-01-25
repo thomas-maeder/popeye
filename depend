@@ -1259,7 +1259,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h stipulation/goals/goals.h boolean.h py.h 
  pydata.h stipulation/help_play/play.h pystip.h pymovein.h pykeepmt.h \
  stipulation/battle_play/defense_play.h pyselfcg.h pyselfgd.h pydirctg.h \
  pypipe.h pythreat.h stipulation/testing_pipe.h pypipe.h \
- stipulation/branch.h stipulation/setplay_fork.h stipulation/dead_end.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/setplay_fork.h stipulation/dead_end.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
  stipulation/end_of_branch.h stipulation/goals/reached_tester.h \
@@ -1348,6 +1349,8 @@ pythreat.h:
 stipulation/testing_pipe.h:
 
 pypipe.h:
+
+stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 

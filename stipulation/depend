@@ -54,8 +54,8 @@ stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h pypipe.h \
- pybrafrk.h stipulation/testing_pipe.h stipulation/branch.h \
- stipulation/boolean/binary.h trace.h
+ pybrafrk.h stipulation/testing_pipe.h stipulation/conditional_pipe.h \
+ stipulation/branch.h stipulation/boolean/binary.h trace.h
 
 stipulation/proxy.h:
 
@@ -64,6 +64,8 @@ pypipe.h:
 pybrafrk.h:
 
 stipulation/testing_pipe.h:
+
+stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
@@ -237,9 +239,27 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 trace.h:
 stipulation/testing_pipe$(OBJ_SUFFIX): stipulation/testing_pipe.c \
- stipulation/testing_pipe.h solving/solving.h trace.h
+ stipulation/testing_pipe.h stipulation/proxy.h stipulation/branch.h \
+ solving/solving.h trace.h
 
 stipulation/testing_pipe.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+solving/solving.h:
+
+trace.h:
+stipulation/conditional_pipe$(OBJ_SUFFIX): stipulation/conditional_pipe.c \
+ stipulation/conditional_pipe.h stipulation/proxy.h stipulation/branch.h \
+ solving/solving.h trace.h
+
+stipulation/conditional_pipe.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
 
 solving/solving.h:
 

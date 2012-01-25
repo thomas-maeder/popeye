@@ -221,8 +221,6 @@ static structure_traversers_visitors regular_inserters[] =
   { STGoalReachedTester,          &instrument_goal_reached_tester },
   { STAttackAdapter,              &instrument_root                },
   { STHelpAdapter,                &instrument_root                },
-  { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
-  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
   { STEndOfBranch,                &instrument_end_of_branch       },
   { STCheckZigzagJump,            &insert_regular_writers_fork    }
 };
@@ -242,6 +240,9 @@ static void insert_regular_slices(slice_index si)
   output_plaintext_slice_determining_starter = no_slice;
 
   stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
   stip_traverse_structure(si,&st);
 
@@ -285,12 +286,10 @@ static void instrument_constraint(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors constraint_inserters[] =
 {
-  { STGoalReachedTester,          &instrument_goal_reached_tester },
-  { STConstraint,                 &instrument_constraint          },
-  { STMove,                       &remember_move                  },
-  { STIntelligentMateFilter,      &stip_traverse_structure_pipe   },
-  { STIntelligentStalemateFilter, &stip_traverse_structure_pipe   },
-  { STCheckZigzagJump,            &insert_regular_writers_fork    }
+  { STGoalReachedTester, &instrument_goal_reached_tester },
+  { STConstraint,        &instrument_constraint          },
+  { STMove,              &remember_move                  },
+  { STCheckZigzagJump,   &insert_regular_writers_fork    }
 };
 
 enum
@@ -307,6 +306,9 @@ static void instrument_constraints(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&move_slice);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,constraint_inserters,nr_constraint_inserters);
   stip_traverse_structure(si,&st);
 

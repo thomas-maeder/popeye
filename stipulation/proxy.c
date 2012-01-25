@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/testing_pipe.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/binary.h"
 #include "trace.h"
@@ -75,10 +76,14 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[*si].type,"\n");
+  TraceEnumerator(slice_type,slices[*si].type,"");
+  TraceValue("%u\n",is_proxy(*si));
   while (*si!=no_slice && is_proxy(*si))
   {
+    TraceValue("%u",*si);
+    TraceValue("%u",(*is_resolved_proxy)[*si]);
     (*is_resolved_proxy)[*si] = true;
+    TraceValue("%u\n",(*is_resolved_proxy)[*si]);
     *si = slices[*si].u.pipe.next;
   }
 
@@ -115,6 +120,9 @@ void resolve_proxies(slice_index *si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_testing_pipe,
                                                  &testing_pipe_resolve_proxies);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &conditional_pipe_resolve_proxies);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_derived_pipe,
                                                  &pipe_resolve_proxies);

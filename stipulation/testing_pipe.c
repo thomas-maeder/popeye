@@ -1,4 +1,6 @@
 #include "stipulation/testing_pipe.h"
+#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "solving/solving.h"
 #include "trace.h"
 
@@ -60,8 +62,13 @@ void stip_spin_off_testers_testing_pipe(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* don't fall back on stip_spin_off_testers_pipe - testing pipes are not
+   * needed in "testing mode", so just allocate a proxy placeholder */
+
   state->spun_off[si] = alloc_proxy_slice();
+
   stip_traverse_structure_children(si,st);
+
   link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.testing_pipe.next]);
   slices[si].u.testing_pipe.tester = state->spun_off[si];
 
@@ -79,10 +86,7 @@ void testing_pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  if (slices[si].u.pipe.next!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.next,st);
+  pipe_resolve_proxies(si,st);
 
   if (slices[si].u.testing_pipe.tester!=no_slice)
     proxy_slice_resolve(&slices[si].u.testing_pipe.tester,st);

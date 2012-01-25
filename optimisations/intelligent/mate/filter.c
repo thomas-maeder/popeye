@@ -1,7 +1,9 @@
 #include "optimisations/intelligent/mate/filter.h"
 #include "pyint.h"
-#include "pybrafrk.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
+#include "stipulation/conditional_pipe.h"
+#include "stipulation/branch.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 
@@ -19,7 +21,11 @@ slice_index alloc_intelligent_mate_filter(slice_index goal_tester_fork)
   TraceFunctionParam("%u",goal_tester_fork);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STIntelligentMateFilter,goal_tester_fork);
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    link_to_branch(proxy,stip_deep_copy(goal_tester_fork));
+    result = alloc_conditional_pipe(STIntelligentMateFilter,proxy);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,7 +55,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
    * Black.
    */
   *starter = Black;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

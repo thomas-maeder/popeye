@@ -10,6 +10,7 @@
 #include "pypipe.h"
 #include "pythreat.h"
 #include "stipulation/testing_pipe.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
@@ -178,8 +179,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STAnyMoveCounter */
   slice_structure_pipe,         /* STCaptureCounter */
   slice_structure_pipe,         /* STTestingPrerequisites */
-  slice_structure_fork,         /* STDoubleMateFilter */
-  slice_structure_fork,         /* STCounterMateFilter */
+  slice_structure_conditional_pipe, /* STDoubleMateFilter */
+  slice_structure_conditional_pipe, /* STCounterMateFilter */
   slice_structure_pipe,         /* STPrerequisiteOptimiser */
   slice_structure_testing_pipe, /* STNoShortVariations */
   slice_structure_pipe,         /* STRestartGuard */
@@ -202,8 +203,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch,       /* STHelpHashed */
   slice_structure_derived_pipe, /* STHelpHashedTester */
   slice_structure_pipe,         /* STIntelligentMovesLeftInitialiser */
-  slice_structure_fork,         /* STIntelligentMateFilter */
-  slice_structure_fork,         /* STIntelligentStalemateFilter */
+  slice_structure_conditional_pipe, /* STIntelligentMateFilter */
+  slice_structure_conditional_pipe, /* STIntelligentStalemateFilter */
   slice_structure_pipe,         /* STIntelligentProof */
   slice_structure_pipe,         /* STGoalReachableGuardFilterMate */
   slice_structure_pipe,         /* STGoalReachableGuardFilterStalemate */
@@ -480,6 +481,10 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
       result = base==slice_structure_pipe || base==slice_structure_testing_pipe;
       break;
 
+    case slice_structure_conditional_pipe:
+      result = base==slice_structure_pipe || base==slice_structure_conditional_pipe;
+      break;
+
     case slice_structure_derived_pipe:
       result = base==slice_structure_pipe || base==slice_structure_derived_pipe;
       break;
@@ -684,6 +689,8 @@ void dealloc_slices(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_traverse_structure(si,&st);
@@ -999,11 +1006,31 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case slice_structure_fork:
       {
         slice_index const fork = slices[si].u.fork.fork;
-        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next = slices[si].u.fork.next;
         if (fork!=no_slice)
         {
           slice_index const fork_copy = deep_copy_recursive(fork,copies);
           slices[result].u.fork.fork = fork_copy;
+        }
+        if (next!=no_slice)
+        {
+          slice_index const next_copy = deep_copy_recursive(next,copies);
+          if (slices[next].prev==si)
+            pipe_link(result,next_copy);
+          else
+            pipe_set_successor(result,next_copy);
+        }
+        break;
+      }
+
+      case slice_structure_conditional_pipe:
+      {
+        slice_index const condition = slices[si].u.conditional_pipe.condition;
+        slice_index const next = slices[si].u.conditional_pipe.next;
+        if (condition!=no_slice)
+        {
+          slice_index const condition_copy = deep_copy_recursive(condition,copies);
+          slices[result].u.conditional_pipe.condition = condition_copy;
         }
         if (next!=no_slice)
         {
@@ -1371,6 +1398,9 @@ void stip_detect_starter(slice_index si)
                                                  slice_structure_testing_pipe,
                                                  &pipe_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &pipe_detect_starter);
+  stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &pipe_detect_starter);
   stip_structure_traversal_override(&st,
@@ -1662,8 +1692,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STAnyMoveCounter */
   &stip_traverse_structure_pipe,              /* STCaptureCounter */
   &stip_traverse_structure_pipe,              /* STTestingPrerequisites */
-  &stip_traverse_structure_end_of_branch,     /* STDoubleMateFilter */
-  &stip_traverse_structure_end_of_branch,     /* STCounterMateFilter */
+  &stip_traverse_structure_conditional_pipe,  /* STDoubleMateFilter */
+  &stip_traverse_structure_conditional_pipe,  /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
   &stip_traverse_structure_testing_pipe,      /* STNoShortVariations */
   &stip_traverse_structure_pipe,              /* STRestartGuard */
@@ -1686,8 +1716,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STHelpHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashedTester */
   &stip_traverse_structure_pipe,              /* STIntelligentMovesLeftInitialiser */
-  &stip_traverse_structure_end_of_branch,     /* STIntelligentMateFilter */
-  &stip_traverse_structure_end_of_branch,     /* STIntelligentStalemateFilter */
+  &stip_traverse_structure_conditional_pipe,  /* STIntelligentMateFilter */
+  &stip_traverse_structure_conditional_pipe,  /* STIntelligentStalemateFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentProof */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterMate */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterStalemate */
@@ -1939,8 +1969,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STAnyMoveCounter */
     &stip_traverse_moves_pipe,              /* STCaptureCounter */
     &stip_traverse_moves_pipe,              /* STTestingPrerequisites */
-    &stip_traverse_moves_end_of_branch,     /* STDoubleMateFilter */
-    &stip_traverse_moves_end_of_branch,     /* STCounterMateFilter */
+    &stip_traverse_moves_pipe,              /* STDoubleMateFilter */
+    &stip_traverse_moves_pipe,              /* STCounterMateFilter */
     &stip_traverse_moves_pipe,              /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,              /* STNoShortVariations */
     &stip_traverse_moves_pipe,              /* STRestartGuard */
@@ -1963,8 +1993,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STHelpHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashedTester */
     &stip_traverse_moves_pipe,              /* STIntelligentMovesLeftInitialiser */
-    &stip_traverse_moves_end_of_branch,     /* STIntelligentMateFilter */
-    &stip_traverse_moves_end_of_branch,     /* STIntelligentStalemateFilter */
+    &stip_traverse_moves_pipe,              /* STIntelligentMateFilter */
+    &stip_traverse_moves_pipe,              /* STIntelligentStalemateFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentProof */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterMate */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterStalemate */

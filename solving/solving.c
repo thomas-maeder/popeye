@@ -5,6 +5,7 @@
 #include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "stipulation/testing_pipe.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -235,11 +236,12 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STTrivialEndFilter,&start_spinning_off);
   stip_structure_traversal_override_single(&st,STMaxThreatLength,&connect_root_max_threat_length_to_spin_off);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&connect_root_non_trivial_to_spin_off);
+
   stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_off_next_branch);
   stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_off_next_branch);
-  stip_structure_traversal_override_single(&st,STIntelligentMateFilter,&start_spinning_off_next_branch);
-  stip_structure_traversal_override_single(&st,STCounterMateFilter,&start_spinning_off_next_branch);
-  stip_structure_traversal_override_single(&st,STDoubleMateFilter,&start_spinning_off_next_branch);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
 
   stip_structure_traversal_init(&state.nested,&state);
   for (type = 0; type!=nr_slice_structure_types; ++type)
@@ -253,6 +255,9 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_by_structure(&state.nested,
                                                  slice_structure_fork,
                                                  &spin_off_testers_fork);
+  stip_structure_traversal_override_by_structure(&state.nested,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_spin_off_testers_conditional_pipe);
   stip_structure_traversal_override_by_structure(&state.nested,
                                                  slice_structure_leaf,
                                                  &spin_off_testers_leaf);
