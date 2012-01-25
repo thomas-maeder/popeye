@@ -218,7 +218,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STMaxFlightsquares */
   slice_structure_pipe,         /* STFlightsquaresCounter */
   slice_structure_pipe,         /* STDegenerateTree */
-  slice_structure_fork,         /* STMaxNrNonTrivial */
+  slice_structure_testing_pipe, /* STMaxNrNonTrivial */
   slice_structure_pipe,         /* STMaxNrNonTrivialCounter */
   slice_structure_fork,         /* STMaxThreatLength */
   slice_structure_pipe,         /* STMaxThreatLengthStart */
@@ -1731,7 +1731,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
-  &stip_traverse_structure_check_threat_solver, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_testing_pipe,      /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,              /* STMaxThreatLength */
   &stip_traverse_structure_pipe,              /* STMaxThreatLengthStart */
