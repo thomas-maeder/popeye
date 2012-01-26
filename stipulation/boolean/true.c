@@ -1,4 +1,5 @@
 #include "stipulation/boolean/true.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 /* This module provides functionality dealing with leaf slices
@@ -56,4 +57,24 @@ has_solution_type true_solve(slice_index si)
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a leaf slice
+ * @param si identifies the testing pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_leaf(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+    state->spun_off[si] = copy_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

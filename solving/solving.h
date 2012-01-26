@@ -11,8 +11,8 @@ void stip_insert_solvers(slice_index root_slice);
 /* state stip_spin_off_testers() traversal */
 typedef struct
 {
+    boolean spinning_off;
     slice_index spun_off[max_nr_slices];
-    stip_structure_traversal nested;
 } spin_off_tester_state_type;
 
 /* Spin off slices for testing whethere there is a solution

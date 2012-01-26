@@ -1,9 +1,12 @@
 stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
- stipulation/boolean/and.h stipulation/boolean/binary.h trace.h
+ stipulation/boolean/and.h stipulation/boolean/binary.h solving/solving.h \
+ trace.h
 
 stipulation/boolean/and.h:
 
 stipulation/boolean/binary.h:
+
+solving/solving.h:
 
 trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
@@ -18,11 +21,14 @@ stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/boolean/binary$(OBJ_SUFFIX): stipulation/boolean/binary.c \
- stipulation/boolean/binary.h stipulation/proxy.h trace.h
+ stipulation/boolean/binary.h stipulation/proxy.h solving/solving.h \
+ trace.h
 
 stipulation/boolean/binary.h:
 
 stipulation/proxy.h:
+
+solving/solving.h:
 
 trace.h:
 stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
@@ -40,9 +46,11 @@ pydata.h:
 
 trace.h:
 stipulation/boolean/true$(OBJ_SUFFIX): stipulation/boolean/true.c \
- stipulation/boolean/true.h trace.h
+ stipulation/boolean/true.h solving/solving.h trace.h
 
 stipulation/boolean/true.h:
+
+solving/solving.h:
 
 trace.h:
 stipulation/boolean/false$(OBJ_SUFFIX): stipulation/boolean/false.c \

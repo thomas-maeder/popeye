@@ -51,4 +51,11 @@ void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st);
  */
 void binary_detect_starter(slice_index si, stip_structure_traversal *st);
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a binary slice
+ * @param si identifies the testing pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st);
+
 #endif

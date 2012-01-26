@@ -1,5 +1,6 @@
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/binary.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -100,3 +101,24 @@ has_solution_type and_solve(slice_index si)
   return result;
 }
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a testing pipe slice
+ * @param si identifies the testing pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+  boolean const save_spinning_off = state->spinning_off;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spinning_off = true;
+  stip_spin_off_testers_binary(si,st);
+  state->spinning_off = save_spinning_off;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

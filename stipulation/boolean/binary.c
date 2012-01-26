@@ -1,5 +1,6 @@
 #include "stipulation/boolean/binary.h"
 #include "stipulation/proxy.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -195,6 +196,38 @@ void binary_detect_starter(slice_index si, stip_structure_traversal *st)
       slices[si].starter = slices[op1].starter;
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a binary slice
+ * @param si identifies the testing pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = copy_slice(si);
+    stip_traverse_structure_children(si,st);
+    assert(state->spun_off[slices[si].u.binary.op1]!=no_slice);
+    assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
+    slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
+    slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
+    slices[si].u.binary.tester = alloc_proxy_slice();
+    link_to_branch(slices[si].u.binary.tester,state->spun_off[si]);
+    slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

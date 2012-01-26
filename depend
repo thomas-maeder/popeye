@@ -1780,7 +1780,7 @@ pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h pyslice.h py.h boolean.h pyposit.h 
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h \
  stipulation/goals/goals.h boolean.h py.h stipulation/slice_type.h \
  stipulation/branch.h pystip.h pyslice.h stipulation/proxy.h pypipe.h \
- trace.h
+ solving/solving.h trace.h
 
 pybrafrk.h:
 
@@ -1821,6 +1821,8 @@ pyslice.h:
 stipulation/proxy.h:
 
 pypipe.h:
+
+solving/solving.h:
 
 trace.h:
 pykeepmt$(OBJ_SUFFIX): pykeepmt.c pykeepmt.h stipulation/battle_play/attack_play.h \

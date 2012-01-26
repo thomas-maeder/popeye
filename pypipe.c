@@ -312,13 +312,46 @@ void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->spun_off[si] = copy_slice(si);
-
-  if (slices[si].u.pipe.next!=no_slice)
+  if (state->spinning_off)
   {
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    state->spun_off[si] = copy_slice(si);
+
+    if (slices[si].u.pipe.next!=no_slice)
+    {
+      TraceValue("%u\n",state->spun_off[si]);
+      stip_traverse_structure_children(si,st);
+      TraceValue("%u\n",state->spun_off[si]);
+      link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    }
   }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a pipe slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_pipe_skip(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    assert(slices[si].u.pipe.next!=no_slice);
+    stip_traverse_structure_children(si,st);
+    state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -23,4 +23,11 @@ has_solution_type true_has_solution(slice_index si);
  */
 has_solution_type true_solve(slice_index si);
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a leaf slice
+ * @param si identifies the testing pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_leaf(slice_index si, stip_structure_traversal *st);
+
 #endif
