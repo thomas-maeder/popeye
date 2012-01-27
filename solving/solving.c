@@ -33,29 +33,6 @@
 
 #include <assert.h>
 
-static void spin_off_testers_threat_enforcer(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-  {
-    state->spun_off[si] = alloc_proxy_slice();
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-  }
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void spin_off_testers_threat_collector(slice_index si,
                                               stip_structure_traversal *st)
 {
@@ -159,6 +136,31 @@ static void start_spinning_off_next_branch(slice_index si, stip_structure_traver
 
   slices[si].u.fork.tester = alloc_proxy_slice();
   link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void spin_off_testers_threat_enforcer(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+    stip_spin_off_testers_pipe_skip(si,st);
+  else
+  {
+    /* trust in our descendants to start spinning off before the traversal
+     * reaches our tester */
+    stip_traverse_structure_pipe(si,st);
+    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+  }
+
+  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

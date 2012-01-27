@@ -170,7 +170,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STPlaySuppressor */
   slice_structure_testing_pipe, /* STContinuationSolver */
   slice_structure_fork,         /* STThreatSolver */
-  slice_structure_fork,         /* STThreatEnforcer */
+  slice_structure_testing_pipe, /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
   slice_structure_pipe,         /* STThreatCollector */
   slice_structure_pipe,         /* STThreatDefeatedTester */

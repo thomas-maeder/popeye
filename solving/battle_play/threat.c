@@ -2,7 +2,7 @@
 #include "pytable.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
@@ -45,7 +45,8 @@ static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
   TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STThreatEnforcer,threat_start);
+  result = alloc_testing_pipe(STThreatEnforcer);
+  slices[result].u.testing_pipe.tester = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,8 +65,8 @@ static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
 stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const threat_start = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const threat_start = slices[si].u.testing_pipe.tester;
   ply const threats_ply = nbply+1;
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
