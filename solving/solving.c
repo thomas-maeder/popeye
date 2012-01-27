@@ -46,7 +46,7 @@ static void spin_off_testers_threat_collector(slice_index si,
   {
     state->spun_off[si] = alloc_pipe(STThreatDefeatedTester);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
   }
   else
     stip_traverse_structure_children(si,st);
