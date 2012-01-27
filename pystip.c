@@ -220,7 +220,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STDegenerateTree */
   slice_structure_testing_pipe, /* STMaxNrNonTrivial */
   slice_structure_pipe,         /* STMaxNrNonTrivialCounter */
-  slice_structure_fork,         /* STMaxThreatLength */
+  slice_structure_testing_pipe, /* STMaxThreatLength */
   slice_structure_pipe,         /* STMaxThreatLengthStart */
   slice_structure_pipe,         /* STStopOnShortSolutionsInitialiser */
   slice_structure_branch,       /* STStopOnShortSolutionsFilter */
@@ -1361,7 +1361,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STDummyMove,         &move_played_detect_starter   },
   { STMoveInverter,      &move_inverter_detect_starter },
   { STThreatSolver,      &pipe_detect_starter          },
-  { STMaxThreatLength,   &pipe_detect_starter          },
   { STTemporaryHackFork, &pipe_detect_starter          }
 };
 

@@ -1,7 +1,7 @@
 #include "pythreat.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -71,7 +71,7 @@ static boolean is_threat_too_long(slice_index si,
                                   stip_length_type n_max)
 {
   boolean result;
-  slice_index const tester = slices[si].u.fork.tester;
+  slice_index const tester = slices[si].u.testing_pipe.tester;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
@@ -103,7 +103,8 @@ static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
   TraceFunctionParam("%u",to_attacker);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STMaxThreatLength,to_attacker);
+  result = alloc_testing_pipe(STMaxThreatLength);
+  slices[result].u.testing_pipe.tester = to_attacker;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -125,7 +126,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
  */
 stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.testing_pipe.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -177,7 +178,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
 stip_length_type
 maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.testing_pipe.next;
   unsigned int result;
 
   TraceFunctionEntry(__func__);
@@ -317,13 +318,11 @@ void impose_starter_max_threat_length(slice_index si,
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure(slices[si].u.testing_pipe.next,st);
 
   *starter = advers(*starter);
-  if (slices[si].u.immobility_tester.tester!=no_slice)
-    stip_traverse_structure(slices[si].u.immobility_tester.tester,st);
-  stip_traverse_structure(slices[si].u.immobility_tester.fork,st);
-
+  if (slices[si].u.testing_pipe.tester!=no_slice)
+    stip_traverse_structure(slices[si].u.testing_pipe.tester,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

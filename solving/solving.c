@@ -176,12 +176,17 @@ static void connect_root_max_threat_length_to_spin_off(slice_index si,
   if (state->spinning_off)
   {
     stip_spin_off_testers_pipe(si,st);
-    slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+    slices[state->spun_off[si]].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
   }
   else
+  {
+    /* trust in our descendants to start spinning off before the traversal
+     * reaches our tester */
     stip_traverse_structure_pipe(si,st);
+    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+  }
 
-  slices[si].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
