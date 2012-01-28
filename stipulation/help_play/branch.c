@@ -455,6 +455,130 @@ void help_branch_shorten(slice_index adapter)
   TraceFunctionResultEnd();
 }
 
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void and_immobility(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const goal_implies_immobility = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  if (*goal_implies_immobility)
+  {
+    *goal_implies_immobility = false;
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void or_immobility(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const goal_implies_immobility = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  if (!*goal_implies_immobility)
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether there are more moves after this branch
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void remember_immobility(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const goal_implies_immobility = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].u.immobility_tester.applies_to_who==goal_applies_to_starter)
+    *goal_implies_immobility = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Forget a remembered goal because it is to be reached by a move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void forget_immobility(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const goal_implies_immobility = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  *goal_implies_immobility = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const end_of_branch_goal_immobility_detectors[] =
+{
+  { STAttackAdapter,             &forget_immobility   },
+  { STDefenseAdapter,            &forget_immobility   },
+  { STHelpAdapter,               &forget_immobility   },
+  { STGoalImmobileReachedTester, &remember_immobility },
+  { STOr,                        &and_immobility      },
+  { STAnd,                       &or_immobility       }
+};
+
+enum
+{
+  nr_end_of_branch_goal_immobility_detectors = (sizeof end_of_branch_goal_immobility_detectors
+                                                / sizeof end_of_branch_goal_immobility_detectors[0])
+};
+
+/* Detect whether a goal implies immobility of the "goaled" side
+ * @param si identifies entry slice to the goal testing machinery
+ * @return true iff the goal implies immobility
+ */
+static boolean does_goal_imply_immobility(slice_index si)
+{
+  boolean result = false;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    end_of_branch_goal_immobility_detectors,
+                                    nr_end_of_branch_goal_immobility_detectors);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Find a STReadyMove slice with a specific parity
  * @param si identifies the entry slice of a help branch
  * @param parity indicates after which help move of the branch to insert
@@ -536,6 +660,8 @@ void help_branch_set_end_goal(slice_index si,
                               slice_index to_goal,
                               unsigned int parity)
 {
+  slice_index branch;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",to_goal);
@@ -545,7 +671,12 @@ void help_branch_set_end_goal(slice_index si,
   TraceStipulation(si);
   TraceStipulation(to_goal);
 
-  help_branch_insert_end_of_branch(si,alloc_end_of_branch_goal(to_goal),parity);
+  if (does_goal_imply_immobility(to_goal))
+    branch = alloc_end_of_branch_goal_immobile(to_goal);
+  else
+    branch = alloc_end_of_branch_goal(to_goal);
+
+  help_branch_insert_end_of_branch(si,branch,parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

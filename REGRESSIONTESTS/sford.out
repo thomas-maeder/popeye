@@ -491,10 +491,10 @@ zweimal eine Anzuginversion (-)
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
-              empile:       12424
-            jouecoup:        9006
-        orig_rbechec:        5814
-        orig_rnechec:        5858
+              empile:       12300
+            jouecoup:        8910
+        orig_rbechec:        5785
+        orig_rnechec:        5705
 Loesung beendet. 
 
 
@@ -1450,10 +1450,10 @@ Ziel nach den weissen Zuegen
   1.a2-a1=D Tg7-g1   2.Da1*g1 = 
   1.a2-a1=T Tg7-c7   2.Ta1-a3 Tc7-c4 # 
 
-              empile:       82453
-            jouecoup:       60855
-        orig_rbechec:       15810
-        orig_rnechec:       60034
+              empile:       82378
+            jouecoup:       60840
+        orig_rbechec:       15779
+        orig_rnechec:       60018
 Loesung beendet. 
 
 

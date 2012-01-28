@@ -14,6 +14,13 @@
  */
 slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal);
 
+/* Allocate a STEndOfBranchGoalImmobile slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal);
+
 /* Allocate a STEndOfBranchForced slice
  * @param proxy_to_goal identifies slice that leads towards goal from
  *                      the branch

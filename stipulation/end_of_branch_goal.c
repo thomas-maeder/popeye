@@ -19,15 +19,36 @@
  *                      the branch
  * @return index of allocated slice
  */
-slice_index alloc_end_of_branch_goal(slice_index proxy_to_avoided)
+slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STEndOfBranchGoal,proxy_to_avoided);
+  result = alloc_branch_fork(STEndOfBranchGoal,proxy_to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STEndOfBranchGoalImmobile slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STEndOfBranchGoalImmobile,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

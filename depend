@@ -427,8 +427,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  optimisations/goals/optimisation_guards.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/killer_move/killer_move.h \
- optimisations/killer_move/final_defense_move.h \
- optimisations/end_of_branch_goal_immobile.h options/maxtime.h \
+ optimisations/killer_move/final_defense_move.h options/maxtime.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
@@ -595,8 +594,6 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 optimisations/killer_move/killer_move.h:
 
 optimisations/killer_move/final_defense_move.h:
-
-optimisations/end_of_branch_goal_immobile.h:
 
 options/maxtime.h:
 
