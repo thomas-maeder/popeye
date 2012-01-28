@@ -112,15 +112,17 @@ stipulation/branch.h:
 trace.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
  stipulation/end_of_branch_goal.h stipulation/branch.h \
- stipulation/dead_end.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h pypipe.h pyslice.h pybrafrk.h pydata.h \
- stipulation/proxy.h trace.h
+ stipulation/dead_end.h stipulation/end_of_branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h pypipe.h \
+ pyslice.h pybrafrk.h pydata.h stipulation/proxy.h trace.h
 
 stipulation/end_of_branch_goal.h:
 
 stipulation/branch.h:
 
 stipulation/dead_end.h:
+
+stipulation/end_of_branch.h:
 
 stipulation/battle_play/branch.h:
 

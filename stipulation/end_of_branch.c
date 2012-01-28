@@ -267,7 +267,7 @@ stip_length_type end_of_branch_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
+  if (n<slack_length_help+2)
     switch (slice_solve(fork))
     {
       case has_solution:
@@ -312,13 +312,13 @@ stip_length_type end_of_branch_can_help(slice_index si, stip_length_type n)
   slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
+  if (n<slack_length_help+2)
     switch (slice_has_solution(fork))
     {
       case has_solution:

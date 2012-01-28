@@ -1,6 +1,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "pypipe.h"
@@ -67,10 +68,8 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
 stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const fork = slices[si].u.fork.fork;
   slice_index const tester = slices[si].u.fork.tester;
   slice_index const next = slices[si].u.fork.next;
-  has_solution_type fork_sol;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -79,28 +78,28 @@ stip_length_type end_of_branch_goal_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  fork_sol = (n<slack_length_help+2
-              ? slice_solve(fork)
-              : slice_has_solution(tester));
-  switch (fork_sol)
-  {
-    case opponent_self_check:
-      result = n+4;
-      break;
+  if (n<slack_length_help+2)
+    result = end_of_branch_help(si,n);
+  else
+    switch (slice_has_solution(tester))
+    {
+      case opponent_self_check:
+        result = n+4;
+        break;
 
-    case has_no_solution:
-      result = help(next,n);
-      break;
+      case has_no_solution:
+        result = help(next,n);
+        break;
 
-    case has_solution:
-      result = n;
-      break;
+      case has_solution:
+        result = n;
+        break;
 
-    default:
-      assert(0);
-      result = n+4;
-      break;
-  }
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -121,7 +120,7 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const tester = slices[si].u.fork.tester;
   slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
@@ -131,25 +130,28 @@ stip_length_type end_of_branch_goal_can_help(slice_index si,
 
   assert(n>=slack_length_help);
 
-  switch (slice_has_solution(fork))
-  {
-    case opponent_self_check:
-      result = n+4;
-      break;
+  if (n<slack_length_help+2)
+    result = end_of_branch_can_help(si,n);
+  else
+    switch (slice_has_solution(tester))
+    {
+      case opponent_self_check:
+        result = n+4;
+        break;
 
-    case has_no_solution:
-      result = can_help(next,n);
-      break;
+      case has_no_solution:
+        result = can_help(next,n);
+        break;
 
-    case has_solution:
-      result = n;
-      break;
+      case has_solution:
+        result = n;
+        break;
 
-    default:
-      assert(0);
-      result = n+4;
-      break;
-  }
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
