@@ -5,7 +5,6 @@
  * wrong side to reach the goal.
  */
 
-#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 
 /* Allocate a STEndOfBranchGoal slice
@@ -21,28 +20,6 @@ slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal);
  * @return index of allocated slice
  */
 slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-end_of_branch_goal_can_attack(slice_index si, stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-end_of_branch_goal_attack(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
