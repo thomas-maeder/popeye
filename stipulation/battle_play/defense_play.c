@@ -224,7 +224,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchForced:
     case STEndOfBranchGoal:
-    case STEndOfBranchGoalImmobile:
       result = end_of_branch_defend(si,n);
       break;
 
@@ -387,7 +386,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchForced:
     case STEndOfBranchGoal:
-    case STEndOfBranchGoalImmobile:
       result = end_of_branch_can_defend(si,n);
       break;
 

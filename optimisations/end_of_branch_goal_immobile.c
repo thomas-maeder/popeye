@@ -106,7 +106,8 @@ static void optimise(slice_index si, stip_moves_traversal *st)
   if (st->remaining==0)
   {
     stip_traverse_moves_branch(to_goal,st);
-    if (*goal_implies_immobility)
+    if (st->context==stip_traversal_context_help
+        && *goal_implies_immobility)
     {
       slice_index const substitute = alloc_branch_fork(STEndOfBranchGoalImmobile,
                                                        to_goal);

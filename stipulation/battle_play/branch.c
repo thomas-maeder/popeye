@@ -64,7 +64,6 @@ static slice_index const slice_rank_order[] =
   STKillerMoveCollector,
   STGoalReachedTester,
   STEndOfBranchGoal,
-  STEndOfBranchGoalImmobile,
   STDeadEndGoal,
   STSelfCheckGuard,
 
@@ -113,7 +112,6 @@ static slice_index const slice_rank_order[] =
   STEndOfRoot,
   STMinLengthGuard,
   STEndOfBranchGoal,
-  STEndOfBranchGoalImmobile,
   STSelfCheckGuard,
   STCheckZigzagLanding,
   STNoShortVariations,
@@ -324,9 +322,8 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const insertion_visitors[] =
 {
-  { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal },
-  { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal },
-  { STProxy,                   &insert_visit_proxy              }
+  { STEndOfBranchGoal, &insert_visit_end_of_branch_goal },
+  { STProxy,           &insert_visit_proxy              }
 };
 
 enum

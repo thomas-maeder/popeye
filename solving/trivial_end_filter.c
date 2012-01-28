@@ -133,10 +133,9 @@ static void trivial_varation_filter_insert_self(slice_index si,
 
 static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
-  { STOutputModeSelector,      &remember_output_mode                      },
-  { STConstraint,              &trivial_varation_filter_insert_constraint },
-  { STEndOfBranchGoal,         &trivial_varation_filter_insert_self       },
-  { STEndOfBranchGoalImmobile, &trivial_varation_filter_insert_self       }
+  { STOutputModeSelector, &remember_output_mode                      },
+  { STConstraint,         &trivial_varation_filter_insert_constraint },
+  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self       }
 };
 
 enum

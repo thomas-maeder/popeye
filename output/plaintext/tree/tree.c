@@ -396,15 +396,14 @@ static void instrument_root_constraint(slice_index si, stip_structure_traversal 
 
 static structure_traversers_visitors root_writer_inserters[] =
 {
-  { STSetplayFork,             &stip_traverse_structure_pipe },
-  { STAttackAdapter,           &instrument_attack_adapter    },
-  { STDefenseAdapter,          &instrument_defense_adapter   },
-  { STEndOfBranch,             &get_fork_of_my_own           },
-  { STEndOfBranchGoal,         &get_fork_of_my_own           },
-  { STEndOfBranchGoalImmobile, &get_fork_of_my_own           },
-  { STConstraint,              &instrument_root_constraint   },
-  { STReadyForDefense,         &stip_structure_visitor_noop  },
-  { STHelpAdapter,             &stip_structure_visitor_noop  }
+  { STSetplayFork,     &stip_traverse_structure_pipe },
+  { STAttackAdapter,   &instrument_attack_adapter    },
+  { STDefenseAdapter,  &instrument_defense_adapter   },
+  { STEndOfBranch,     &get_fork_of_my_own           },
+  { STEndOfBranchGoal, &get_fork_of_my_own           },
+  { STConstraint,      &instrument_root_constraint   },
+  { STReadyForDefense, &stip_structure_visitor_noop  },
+  { STHelpAdapter,     &stip_structure_visitor_noop  }
 };
 
 enum

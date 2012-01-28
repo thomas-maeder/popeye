@@ -127,7 +127,6 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchGoal:
-    case STEndOfBranchGoalImmobile:
       result = end_of_branch_can_attack(si,n);
       break;
 
@@ -328,7 +327,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchGoal:
-    case STEndOfBranchGoalImmobile:
       result = end_of_branch_attack(si,n);
       break;
 
