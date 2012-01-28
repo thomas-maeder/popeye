@@ -5,6 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "trace.h"
 
@@ -301,4 +302,37 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a max_threat_length slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_max_threat_length(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    stip_spin_off_testers_pipe(si,st);
+    slices[state->spun_off[si]].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+  }
+  else
+  {
+    /* trust in our descendants to start spinning off before the traversal
+     * reaches our tester */
+    stip_traverse_structure_pipe(si,st);
+    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+  }
+
+  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

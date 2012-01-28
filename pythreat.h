@@ -54,4 +54,12 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
 stip_length_type
 maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n);
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a max_threat_length slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_max_threat_length(slice_index si,
+                                             stip_structure_traversal *st);
+
 #endif

@@ -8,6 +8,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "trace.h"
 
@@ -118,6 +119,36 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a threat enforcer slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_threat_enforcer(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+    stip_spin_off_testers_pipe_skip(si,st);
+  else
+  {
+    /* trust in our descendants to start spinning off before the traversal
+     * reaches our tester */
+    stip_traverse_structure_pipe(si,st);
+    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+  }
+
+  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a STThreatCollector slice.
  * @return index of allocated slice
  */
@@ -168,6 +199,33 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
   TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a threat collector slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_threat_collector(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = alloc_pipe(STThreatDefeatedTester);
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether there are defenses after an attacking move
