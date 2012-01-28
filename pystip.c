@@ -1511,9 +1511,6 @@ void stip_impose_starter(slice_index si, Side starter)
   stip_structure_traversal_override_single(&st,
                                            STGoalImmobileReachedTester,
                                            &impose_starter_immobility_tester);
-  stip_structure_traversal_override_single(&st,
-                                           STMaxThreatLength,
-                                           &impose_starter_max_threat_length);
 
   stip_traverse_structure(si,&st);
 

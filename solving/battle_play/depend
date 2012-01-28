@@ -27,9 +27,10 @@ stipulation/battle_play/defense_play.h:
 
 trace.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
- solving/battle_play/threat.h pytable.h pydata.h pypipe.h pybrafrk.h \
- stipulation/branch.h stipulation/proxy.h \
- stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
+ solving/battle_play/threat.h pytable.h pydata.h pypipe.h \
+ stipulation/testing_pipe.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/boolean/binary.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h \
  solving/battle_play/check_detector.h trace.h
 
@@ -41,11 +42,13 @@ pydata.h:
 
 pypipe.h:
 
-pybrafrk.h:
+stipulation/testing_pipe.h:
 
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/boolean/binary.h:
 
 stipulation/battle_play/branch.h:
 

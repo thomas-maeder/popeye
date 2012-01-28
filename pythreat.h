@@ -54,11 +54,4 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
 stip_length_type
 maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n);
 
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-void impose_starter_max_threat_length(slice_index si,
-                                      stip_structure_traversal *st);
-
 #endif

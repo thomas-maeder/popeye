@@ -302,29 +302,3 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Impose the starting side on a stipulation.
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-void impose_starter_max_threat_length(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,*starter,"");
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  stip_traverse_structure(slices[si].u.testing_pipe.next,st);
-
-  *starter = advers(*starter);
-  if (slices[si].u.testing_pipe.tester!=no_slice)
-    stip_traverse_structure(slices[si].u.testing_pipe.tester,st);
-  *starter = slices[si].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
