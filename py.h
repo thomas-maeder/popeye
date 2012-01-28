@@ -65,6 +65,8 @@
 **
 ** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
 **
+** 2012/01/27 NG   AlphabeticChess now possible for white or black only.
+**
 **************************** End of List ******************************/
 
 #if !defined(PY_H)
@@ -809,7 +811,9 @@ typedef enum
   contraparrain,          /* 180 */
   kobulkings,             /* 181 */
   platzwechselrochade,    /* 182 */
-  CondCount               /* 183 */
+  whitealphabetic,	  /* 183 */
+  blackalphabetic,	  /* 184 */
+  CondCount               /* 185 */
 } Cond;
 
 /* Some remarks to the conditions:

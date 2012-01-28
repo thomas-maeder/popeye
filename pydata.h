@@ -61,7 +61,9 @@
 ** 2009/04/25 SE   New condition: Provacateurs
 **                 New piece type: Patrol pieces
 **
-** 2009/06/14 SE   New optiion: LastCapture
+** 2009/06/14 SE   New option: LastCapture
+**
+** 2012/01/27 NG   AlphabeticChess now possible for white or black only.
 **
 **************************** End of List ******************************/
 
@@ -1194,7 +1196,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*179*/ "Football",
     /*180*/ "ContraParrain",
     /*181*/ "KobulKings",
-    /*182*/ "EchangeRoque"
+    /*182*/ "EchangeRoque",
+	/*183*/ "BlancEchecsAlphabetiques",
+	/*184*/ "NoirEchecsAlphabetiques"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1379,7 +1383,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*179*/ "Fussball",
     /*180*/ "KontraParrain",
     /*181*/ "KobulKings",
-    /*182*/ "PlatzwechselRochade"
+    /*182*/ "PlatzwechselRochade",
+	/*183*/ "WeissesAlphabetischesSchach",
+	/*184*/ "SchwarzesAlphabetischesSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1564,7 +1570,9 @@ EXTERN boolean          kobulking[nr_sides];
     /*179*/ "Football",
     /*180*/ "ContraParrain",
     /*181*/ "KobulKings",
-    /*182*/ "ExchangeCastling"
+    /*182*/ "ExchangeCastling",
+	/*183*/ "WhiteAlphabeticChess",
+	/*184*/ "BlackAlphabeticChess"
     }
     };
 #endif

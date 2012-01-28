@@ -324,6 +324,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	GhostChess
 	CageCirce
 	Football
+	WhiteAlphabeticChess
+	BlackAlphabeticChess
 
 	After the conditions Imitator, MagicSquare, Hole,
 	FrischaufCirce, WhitePromSquares, BlackPromSquares or one of

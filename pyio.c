@@ -46,7 +46,9 @@
  **
  ** 2008/02/19 SE   New condition: AntiKoeko
  **
- ** 2009/06/14 SE   New optiion: LastCapture
+ ** 2009/06/14 SE   New option: LastCapture
+ **
+ ** 2012/01/27 NG   AlphabeticChess now possible for white or black only.
  **
  **************************** End of List ******************************/
 
@@ -4924,6 +4926,14 @@ static char *ParseCond(void) {
         white_length= len_whduell;
         black_length= len_blduell;
         flagmummer[White] = true;
+        flagmummer[Black] = true;
+        break;
+      case whitealphabetic:
+        white_length= len_alphabetic;
+        flagmummer[White] = true;
+        break;
+      case blackalphabetic:
+        black_length= len_alphabetic;
         flagmummer[Black] = true;
         break;
       case alphabetic:

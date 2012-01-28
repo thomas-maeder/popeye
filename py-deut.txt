@@ -283,7 +283,7 @@ Kommandos:
 	Schutzkoenige
 	StingSchach
 	WeisserOhneschlag
-	SchwarzerOhneSchlag
+	SchwarzerOhneschlag
 	AprilSchach
 	AlphabetischesSchach
 	LinienChamaeleonSchach
@@ -330,6 +330,8 @@ Kommandos:
 	Geisterschach
 	KaefigCirce
 	Fussball
+	WeissesAlphabetischesSchach
+	SchwarzesAlphabetischesSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	FrischaufCirce, UWFeldWeiss, UWFeldSchwarz oder irgendeines

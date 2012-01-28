@@ -65,6 +65,8 @@
  **
  **                 New piece type: Patrol pieces
  **
+ ** 2012/01/27 NG   AlphabeticChess now possible for white or black only.
+ **
  ***************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -1256,8 +1258,8 @@ static boolean verify_position(slice_index si)
          + (CondFlag[whforsqu] || CondFlag[whconforsqu])
          + CondFlag[whfollow]
          + CondFlag[duellist]
-         + CondFlag[alphabetic]
-         + CondFlag[whitesynchron]
+         + (CondFlag[alphabetic] || CondFlag[whitealphabetic])
+	 + CondFlag[whitesynchron]
          + CondFlag[whiteantisynchron]) > 1
        || (CondFlag[blmin]
            + CondFlag[blmax]
@@ -1265,7 +1267,7 @@ static boolean verify_position(slice_index si)
            + (CondFlag[blforsqu] || CondFlag[blconforsqu])
            + CondFlag[blfollow]
            + CondFlag[duellist]
-           + CondFlag[alphabetic]
+           + (CondFlag[alphabetic] || CondFlag[blackalphabetic])
            + CondFlag[blacksynchron]
            + CondFlag[blackantisynchron] > 1))
   {
