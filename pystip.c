@@ -169,7 +169,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STRefutationsSolver */
   slice_structure_pipe,         /* STPlaySuppressor */
   slice_structure_testing_pipe, /* STContinuationSolver */
-  slice_structure_fork,         /* STThreatSolver */
+  slice_structure_testing_pipe, /* STThreatSolver */
   slice_structure_testing_pipe, /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
   slice_structure_pipe,         /* STThreatCollector */
@@ -1360,7 +1360,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STMovePlayed,        &move_played_detect_starter   },
   { STDummyMove,         &move_played_detect_starter   },
   { STMoveInverter,      &move_inverter_detect_starter },
-  { STThreatSolver,      &pipe_detect_starter          },
   { STTemporaryHackFork, &pipe_detect_starter          }
 };
 
@@ -1678,7 +1677,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
   &stip_traverse_structure_testing_pipe,      /* STContinuationSolver */
-  &stip_traverse_structure_check_threat_solver, /* STThreatSolver */
+  &stip_traverse_structure_testing_pipe,      /* STThreatSolver */
   &stip_traverse_structure_pipe,              /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
   &stip_traverse_structure_pipe,              /* STThreatCollector */

@@ -53,13 +53,6 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n);
 stip_length_type threat_defeated_tester_can_defend(slice_index si,
                                                    stip_length_type n);
 
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_check_threat_solver(slice_index si,
-                                                 stip_structure_traversal *st);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

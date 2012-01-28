@@ -37,9 +37,9 @@ static void instrument_threat_solver(slice_index si,
 
   {
     slice_index const writer = alloc_zugzwang_writer_slice();
-    pipe_set_successor(writer,slices[si].u.fork.fork);
+    pipe_set_successor(writer,slices[si].u.testing_pipe.tester);
     slice_set_predecessor(writer,si);
-    slices[si].u.fork.fork = writer;
+    slices[si].u.testing_pipe.tester = writer;
   }
 
   TraceFunctionExit(__func__);

@@ -235,33 +235,13 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
   TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STThreatSolver,threat_start);
+  result = alloc_testing_pipe(STThreatSolver);
+  slices[result].u.testing_pipe.tester = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_check_threat_solver(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* don't depend on generic order of traversal */
-  stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-  if (slices[si].u.fork.tester!=no_slice)
-    stip_traverse_structure(slices[si].u.fork.tester,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Solve threats after an attacker's move
@@ -273,7 +253,7 @@ void stip_traverse_structure_check_threat_solver(slice_index si,
  */
 static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const enforcer = slices[si].u.fork.fork;
+  slice_index const tester = slices[si].u.testing_pipe.tester;
   stip_length_type result;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
@@ -286,7 +266,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 
   /* insert an empty ply for the virtual defense played before the threat */
   nextply(nbply);
-  result = attack(enforcer,n);
+  result = attack(tester,n);
   finply();
 
   max_unsolvable = save_max_unsolvable;
@@ -311,7 +291,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.testing_pipe.next;
   ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);
