@@ -438,6 +438,8 @@ void stip_insert_solvers(slice_index root_slice)
 
   insert_other_solvers(root_slice);
 
+  stip_insert_end_of_branch_forks(root_slice);
+
   stip_insert_trivial_varation_filters(root_slice);
 
   TraceStipulation(root_slice);

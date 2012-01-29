@@ -216,7 +216,6 @@ stip_length_type fork_on_remaining_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
   result = help(succ,n);
 
   TraceFunctionExit(__func__);
@@ -247,7 +246,6 @@ stip_length_type fork_on_remaining_can_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
   result = can_help(succ,n);
 
   TraceFunctionExit(__func__);

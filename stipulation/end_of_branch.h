@@ -29,6 +29,12 @@ void stip_traverse_structure_end_of_branch(slice_index si,
 void stip_traverse_moves_end_of_branch(slice_index si,
                                        stip_moves_traversal *st);
 
+/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with the
+ * necessary STForkOnRemaining slices
+ * @param root_slice identifes root slice of stipulation
+ */
+void stip_insert_end_of_branch_forks(slice_index root_slice);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached

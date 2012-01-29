@@ -1,7 +1,9 @@
 #include "stipulation/end_of_branch.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "solving/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -64,6 +66,63 @@ void stip_traverse_moves_end_of_branch(slice_index si,
     stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void end_of_branch_fork_inserter_end_of_branch(slice_index si,
+                                                      stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help)
+  {
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+    pipe_link(slices[si].prev,fork);
+    pipe_append(si,proxy1);
+    pipe_link(proxy2,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const end_of_branch_fork_inserters[] =
+{
+  { STEndOfBranch,             &end_of_branch_fork_inserter_end_of_branch },
+  { STEndOfBranchGoalImmobile, &end_of_branch_fork_inserter_end_of_branch }
+};
+
+enum
+{
+  nr_end_of_branch_fork_inserters = (sizeof end_of_branch_fork_inserters
+                                     / sizeof end_of_branch_fork_inserters[0])
+};
+
+/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with the
+ * necessary STForkOnRemaining slices
+ * @param root_slice identifes root slice of stipulation
+ */
+void stip_insert_end_of_branch_forks(slice_index root_slice)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    end_of_branch_fork_inserters,
+                                    nr_end_of_branch_fork_inserters);
+  stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -266,29 +325,27 @@ stip_length_type end_of_branch_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
+  assert(n<slack_length_help+2);
 
-  if (n<slack_length_help+2)
-    switch (slice_solve(fork))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (slice_solve(fork))
+  {
+    case has_solution:
+      result = n;
+      break;
 
-      case has_no_solution:
-        result = help(next,n);
-        break;
+    case has_no_solution:
+      result = help(next,n);
+      break;
 
-      case opponent_self_check:
-        result = n+4;
-        break;
+    case opponent_self_check:
+      result = n+4;
+      break;
 
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
-  else
-    result = help(next,n);
+    default:
+      assert(0);
+      result = n+4;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -317,29 +374,27 @@ stip_length_type end_of_branch_can_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_help);
+  assert(n<slack_length_help+2);
 
-  if (n<slack_length_help+2)
-    switch (slice_has_solution(fork))
-    {
-      case has_solution:
-        result = n;
-        break;
+  switch (slice_has_solution(fork))
+  {
+    case has_solution:
+      result = n;
+      break;
 
-      case has_no_solution:
-        result = can_help(next,n);
-        break;
+    case has_no_solution:
+      result = can_help(next,n);
+      break;
 
-      case opponent_self_check:
-        result = n+4;
-        break;
+    case opponent_self_check:
+      result = n+4;
+      break;
 
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
-  else
-    result = can_help(next,n);
+    default:
+      assert(0);
+      result = n+4;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
