@@ -28,6 +28,12 @@ slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal);
  */
 slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
 
+/* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
+ * necessary STForkOnRemaining slices
+ * @param root_slice identifes root slice of stipulation
+ */
+void stip_insert_end_of_branch_goal_forks(slice_index root_slice);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

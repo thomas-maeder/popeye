@@ -13,6 +13,8 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/binary.h"
+#include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "solving/move_generator.h"
 #include "solving/play_suppressor.h"
 #include "solving/find_shortest.h"
@@ -439,6 +441,7 @@ void stip_insert_solvers(slice_index root_slice)
   insert_other_solvers(root_slice);
 
   stip_insert_end_of_branch_forks(root_slice);
+  stip_insert_end_of_branch_goal_forks(root_slice);
 
   stip_insert_trivial_varation_filters(root_slice);
 

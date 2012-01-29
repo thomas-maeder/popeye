@@ -4,6 +4,7 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  stipulation/branch.h stipulation/boolean/and.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/binary.h \
+ stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  solving/move_generator.h solving/play_suppressor.h \
  solving/find_shortest.h solving/find_by_increasing_length.h \
  solving/fork_on_remaining.h solving/battle_play/threat.h \
@@ -44,6 +45,10 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 stipulation/boolean/binary.h:
+
+stipulation/end_of_branch.h:
+
+stipulation/end_of_branch_goal.h:
 
 solving/move_generator.h:
 
