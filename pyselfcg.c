@@ -483,7 +483,7 @@ static void avoid_unnecessary_check(slice_index si, stip_structure_traversal *st
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.fork.fork);
+                                                slices[si].u.conditional_pipe.condition);
     if (guard!=no_slice)
       pipe_remove(guard);
   }
@@ -494,16 +494,16 @@ static void avoid_unnecessary_check(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
-  { STReadyForAttack,    &insert_selfcheck_guard_battle_branch },
-  { STReadyForDefense,   &insert_selfcheck_guard_battle_branch },
-  { STReadyForHelpMove,  &insert_selfcheck_guard_help_branch   },
-  { STReadyForDummyMove, &insert_selfcheck_guard_help_branch   },
-  { STConstraint,        &insert_selfcheck_guard_constraint    },
-  { STGoalReachedTester, &insert_selfcheck_guard_goal          },
-  { STCheckZigzagJump,   &remove_selfcheck_guard_check_zigzag  },
-  { STCounterMateFilter, &stip_traverse_structure_pipe         },
-  { STIsardamDefenderFinder, &stip_traverse_structure_pipe     },
-  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_check }
+  { STReadyForAttack,                  &insert_selfcheck_guard_battle_branch },
+  { STReadyForDefense,                 &insert_selfcheck_guard_battle_branch },
+  { STReadyForHelpMove,                &insert_selfcheck_guard_help_branch   },
+  { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch   },
+  { STConstraint,                      &insert_selfcheck_guard_constraint    },
+  { STGoalReachedTester,               &insert_selfcheck_guard_goal          },
+  { STCheckZigzagJump,                 &remove_selfcheck_guard_check_zigzag  },
+  { STCounterMateFilter,               &stip_traverse_structure_pipe         },
+  { STIsardamDefenderFinder,           &stip_traverse_structure_pipe         },
+  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_check              }
 };
 
 enum

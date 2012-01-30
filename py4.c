@@ -207,7 +207,7 @@ static int count_opponent_moves(void)
                              move_generation_stack[nbcou].capture,
                              cmren[nbcou]);
 
-  slice_has_solution(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].u.fork.fork);
+  slice_has_solution(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].u.conditional_pipe.condition);
 
   result = fini_opponent_moves_counter();
 
@@ -700,7 +700,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           boolean is_this_move_legal;
           is_republican_suspended = true;
           init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
-          is_this_move_legal = slice_has_solution(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.fork.fork)==has_solution;
+          is_this_move_legal = slice_has_solution(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.conditional_pipe.condition)==has_solution;
           is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initneutre(save_neutcoul);
@@ -1500,7 +1500,7 @@ static void gkanglion(square sq_departure, Side camp) {
     if (hurdle!=obs) {
       finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
       if (hurdle!=obs) {
-        while (e[sq_arrival+= vec[k]] == vide) 
+        while (e[sq_arrival+= vec[k]] == vide)
           empile(sq_departure,sq_arrival,sq_arrival);
         if (rightcolor(e[sq_arrival],camp))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -3150,7 +3150,7 @@ void genrb(square sq_departure)
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
-  
+
   if (CondFlag[platzwechselrochade] && whpwr[nbply])
   {
     int i,j;

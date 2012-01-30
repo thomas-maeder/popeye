@@ -98,7 +98,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
+  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.conditional_pipe.condition);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
@@ -157,7 +157,7 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.fork.fork);
+                                                slices[si].u.conditional_pipe.condition);
     assert(guard!=no_slice);
     pipe_remove(guard);
   }

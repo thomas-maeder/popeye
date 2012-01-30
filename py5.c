@@ -726,7 +726,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
     castling_intermediate_move_generator_init_next(from,to);
-    result = slice_has_solution(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.fork.fork)==has_solution;
+    result = slice_has_solution(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.conditional_pipe.condition)==has_solution;
     flagmummer[side] = save_flagmummer;
   }
   else
@@ -876,7 +876,7 @@ void genrn(square sq_departure)
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
-  
+
   if (CondFlag[platzwechselrochade] && blpwr[nbply])
   {
     int i,j;
@@ -1831,7 +1831,7 @@ static boolean find_non_capturing_move(ply ply_id,
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_departure,p_moving);
-  result = slice_has_solution(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.fork.fork)==has_solution;
+  result = slice_has_solution(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.conditional_pipe.condition)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2940,7 +2940,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
   e[sq_arrival] = pi_arriving;
   spec[sq_arrival] = spec_pi_moving;
   jouearr[ply_id] = pi_arriving;
-	
+
   if (pi_departing!=pi_arriving)
   {
     nbpiece[pi_departing]--;
@@ -3985,7 +3985,7 @@ void repcoup(void)
     e[sq_arrival]=e[sq_departure];
     spec[sq_arrival]=spec[sq_departure];
   }
-  
+
   e[sq_departure]= pi_departing;
   spec[sq_departure] = spec_pi_moving;
   nbpiece[pi_departing]++;

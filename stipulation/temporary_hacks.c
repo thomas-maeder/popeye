@@ -1,10 +1,10 @@
 #include "stipulation/temporary_hacks.h"
-#include "pybrafrk.h"
 #include "pymovein.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/goals/reached_tester.h"
@@ -82,7 +82,7 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   link_to_branch(proxy_branch,help);
   help_branch_set_end_goal(help,proxy_to_goal,1);
   help_branch_insert_slices(help,&unsuspender_proto,1);
-  result = alloc_branch_fork(STExclusiveChessMatingMoveCounter,proxy_branch);
+  result = alloc_conditional_pipe(STExclusiveChessMatingMoveCounter,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }
@@ -105,7 +105,7 @@ static slice_index make_brunner_check_defense_finder(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_branch_fork(STBrunnerDefenderFinder,proxy_branch);
+  result = alloc_conditional_pipe(STBrunnerDefenderFinder,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }
@@ -121,7 +121,7 @@ static slice_index make_isardam_defense_finder(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_branch_fork(STIsardamDefenderFinder,proxy_branch);
+  result = alloc_conditional_pipe(STIsardamDefenderFinder,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }
@@ -143,7 +143,7 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
     slices[tester].u.goal_tester.goal.type = no_goal;
     help_branch_set_end_goal(help,proxy_goal,1);
     link_to_branch(proxy_branch,help);
-    result = alloc_branch_fork(STCageCirceNonCapturingMoveFinder,proxy_branch);
+    result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);
     stip_impose_starter(result,side);
   }
 
@@ -161,7 +161,7 @@ static slice_index make_castling_intermediate_move_legality_tester(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_branch_fork(STCastlingIntermediateMoveLegalityTester,proxy_branch);
+  result = alloc_conditional_pipe(STCastlingIntermediateMoveLegalityTester,proxy_branch);
   stip_impose_starter(result,side);
 
   return result;
@@ -178,7 +178,7 @@ static slice_index make_maximummer_candidate_move_tester(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_branch_fork(STMaximummerCandidateMoveTester,proxy_branch);
+  result = alloc_conditional_pipe(STMaximummerCandidateMoveTester,proxy_branch);
   stip_impose_starter(result,side);
 
   return result;
@@ -199,7 +199,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
   help_branch_insert_slices(ready,&legal_moves_counter_proto,1);
   help_branch_insert_slices(help,&opp_moves_counter_proto,1);
   link_to_branch(proxy,help);
-  result = alloc_branch_fork(STOpponentMovesCounterFork,proxy);
+  result = alloc_conditional_pipe(STOpponentMovesCounterFork,proxy);
   stip_impose_starter(result,side);
   return result;
 }
