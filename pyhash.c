@@ -1856,8 +1856,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
   { STMove,                      &remember_move                },
   { STConstraint,                &stip_traverse_structure_pipe },
   { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
-  { STMaxFlightsquares,          &stip_traverse_structure_pipe },
-  { STTemporaryHackFork,         &stip_traverse_structure_pipe }
+  { STMaxFlightsquares,          &stip_traverse_structure_pipe }
 };
 
 enum
@@ -1881,6 +1880,9 @@ void stip_insert_hash_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&previous_move_slice);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);

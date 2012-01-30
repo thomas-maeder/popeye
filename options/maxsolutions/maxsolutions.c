@@ -198,8 +198,7 @@ static structure_traversers_visitors maxsolutions_filter_inserters[] =
   { STMaxSolutionsGuard,  &stip_structure_visitor_noop              },
   { STReadyForHelpMove,   &insert_maxsolutions_help_filter          },
   { STAttackAdapter,      &insert_maxsolutions_root_defender_filter },
-  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      },
-  { STTemporaryHackFork,  &stip_traverse_structure_pipe             }
+  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      }
 };
 
 enum
@@ -235,6 +234,9 @@ void stip_insert_maxsolutions_filters(slice_index si)
   }
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     maxsolutions_filter_inserters,
                                     nr_maxsolutions_filter_inserters);

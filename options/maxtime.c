@@ -158,8 +158,7 @@ static structure_traversers_visitors maxtime_guard_inserters[] =
 {
   { STReadyForHelpMove,  &insert_maxtime_help_guard     },
   { STReadyForAttack,    &insert_maxtime_defender_guard },
-  { STGoalReachedTester, &stip_traverse_structure_pipe  },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe  }
+  { STGoalReachedTester, &stip_traverse_structure_pipe  }
 };
 enum
 {
@@ -181,6 +180,9 @@ void stip_insert_maxtime_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     maxtime_guard_inserters,
                                     nr_maxtime_guard_inserters);

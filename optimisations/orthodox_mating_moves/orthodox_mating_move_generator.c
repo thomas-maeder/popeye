@@ -271,20 +271,6 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
   TraceFunctionResultEnd();
 }
 
-static void optimise_final_moves_temporary_hack_fork(slice_index si,
-                                                     stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void optimise_final_moves_conditional_pipe(slice_index si,
                                                   stip_moves_traversal *st)
 {
@@ -308,7 +294,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STGoalReachedTester,               &optimise_final_moves_goal                   },
   { STNot,                             &optimise_final_moves_suppress               },
   { STExclusiveChessMatingMoveCounter, &optimise_final_moves_conditional_pipe       },
-  { STTemporaryHackFork,               &optimise_final_moves_temporary_hack_fork    }
+  { STTemporaryHackFork,               &optimise_final_moves_conditional_pipe       }
 };
 
 enum

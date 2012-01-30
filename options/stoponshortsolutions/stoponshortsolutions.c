@@ -113,8 +113,7 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
 {
   { STHelpAdapter,               &insert_filter    },
   /* the help branch for detecting immobility must not be considered */
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
-  { STTemporaryHackFork,         &stip_traverse_structure_pipe }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
 };
 
 enum
@@ -140,6 +139,9 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     stoponshortsolutions_filter_inserters,
                                     nr_stoponshortsolutions_filter_inserters);

@@ -575,8 +575,7 @@ static structure_traversers_visitors restricted_side_finders[] =
   { STReadyForDefense,           &find_restricted_side_defense },
   { STHelpAdapter,               &find_restricted_side_help    },
   /* the help branch for detecting immobility must not be considered */
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
-  { STTemporaryHackFork,         &stip_traverse_structure_pipe }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
 };
 
 enum
@@ -605,6 +604,9 @@ static Side findRestrictedSide(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&is_restricted);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     restricted_side_finders,
                                     nr_restricted_side_finders);

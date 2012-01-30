@@ -212,7 +212,7 @@ void insert_temporary_hacks(slice_index root_slice)
 
   {
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const entry_point = alloc_branch_fork(STTemporaryHackFork,proxy);
+    slice_index const entry_point = alloc_conditional_pipe(STTemporaryHackFork,proxy);
 
     slice_index const inverter = alloc_move_inverter_slice();
 

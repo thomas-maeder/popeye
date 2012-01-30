@@ -99,7 +99,7 @@ static boolean is_slice_index_free[max_nr_slices];
 static slice_structural_type highest_structural_type[nr_slice_types] =
 {
   slice_structure_pipe,         /* STProxy */
-  slice_structure_fork,         /* STTemporaryHackFork */
+  slice_structure_conditional_pipe, /* STTemporaryHackFork */
   slice_structure_branch,       /* STAttackAdapter */
   slice_structure_branch,       /* STDefenseAdapter */
   slice_structure_branch,       /* STReadyForAttack */
@@ -800,7 +800,7 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
   stip_traverse_structure_pipe(fork,st);
 
   st->level = structure_traversal_level_nested;
-  stip_traverse_structure(slices[fork].u.fork.fork,st);
+  stip_traverse_structure(slices[fork].u.conditional_pipe.condition,st);
   st->level = structure_traversal_level_root;
 
   TraceFunctionExit(__func__);
@@ -1204,9 +1204,9 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].u.conditional_pipe.next]);
 
-  state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
+  state->spun_off[si] = state->spun_off[slices[si].u.conditional_pipe.next];
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -1359,10 +1359,9 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STMovePlayed,        &move_played_detect_starter   },
-  { STDummyMove,         &move_played_detect_starter   },
-  { STMoveInverter,      &move_inverter_detect_starter },
-  { STTemporaryHackFork, &pipe_detect_starter          }
+  { STMovePlayed,   &move_played_detect_starter   },
+  { STDummyMove,    &move_played_detect_starter   },
+  { STMoveInverter, &move_inverter_detect_starter }
 };
 
 enum
@@ -1609,7 +1608,7 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,              /* STProxy */
-  &stip_traverse_structure_end_of_branch,     /* STTemporaryHackFork */
+  &stip_traverse_structure_conditional_pipe,  /* STTemporaryHackFork */
   &stip_traverse_structure_attack_adpater,    /* STAttackAdapter */
   &stip_traverse_structure_defense_adapter,   /* STDefenseAdapter */
   &stip_traverse_structure_ready_for_attack,  /* STReadyForAttack */
@@ -1887,7 +1886,7 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,              /* STProxy */
-    &stip_traverse_moves_end_of_branch,     /* STTemporaryHackFork */
+    &stip_traverse_moves_pipe,              /* STTemporaryHackFork */
     &stip_traverse_moves_attack_adapter,    /* STAttackAdapter */
     &stip_traverse_moves_defense_adapter,   /* STDefenseAdapter */
     &stip_traverse_moves_ready_for_attack,  /* STReadyForAttack */

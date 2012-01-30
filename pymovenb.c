@@ -260,8 +260,7 @@ static structure_traversers_visitors restart_guard_inserters[] =
   { STIntelligentStalemateFilter, &insert_guard_intelligent     },
   { STIntelligentProof,           &insert_guard_regular         },
   { STMove,                       &insert_guard_regular         },
-  { STConstraint,                 &stip_traverse_structure_pipe },
-  { STTemporaryHackFork,          &stip_traverse_structure_pipe }
+  { STConstraint,                 &stip_traverse_structure_pipe }
 };
 
 enum
@@ -283,6 +282,9 @@ void stip_insert_restart_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     restart_guard_inserters,
                                     nr_restart_guard_inserters);
