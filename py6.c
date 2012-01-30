@@ -128,6 +128,8 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "stipulation/branch.h"
+#include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
@@ -139,6 +141,8 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
+#include "solving/trivial_end_filter.h"
+#include "solving/avoid_unsolvable.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "conditions/amu/mate_filter.h"
@@ -2668,7 +2672,13 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_countnropponentmoves(root_slice);
       stip_optimise_with_killer_moves(root_slice);
 
+      stip_insert_trivial_varation_filters(root_slice);
+
       stip_insert_output_slices(root_slice);
+
+      stip_insert_end_of_branch_forks(root_slice);
+      stip_insert_end_of_branch_goal_forks(root_slice);
+      stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_testers(root_slice);
 

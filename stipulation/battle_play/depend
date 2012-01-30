@@ -58,14 +58,15 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
  stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch_goal.h stipulation/move.h \
- stipulation/move_played.h stipulation/boolean/or.h \
+ stipulation/end_of_branch_goal.h stipulation/end_of_branch.h \
+ stipulation/move.h stipulation/move_played.h stipulation/boolean/or.h \
  stipulation/battle_play/branch.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_shortest.h solving/move_generator.h \
- solving/play_suppressor.h solving/battle_play/threat.h \
- solving/battle_play/try.h solving/battle_play/min_length_guard.h \
+ solving/play_suppressor.h solving/avoid_unsolvable.h \
+ solving/battle_play/threat.h solving/battle_play/try.h \
+ solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/battle_play/continuation.h conditions/bgl.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
@@ -108,6 +109,8 @@ stipulation/dead_end.h:
 
 stipulation/end_of_branch_goal.h:
 
+stipulation/end_of_branch.h:
+
 stipulation/move.h:
 
 stipulation/move_played.h:
@@ -129,6 +132,8 @@ solving/find_shortest.h:
 solving/move_generator.h:
 
 solving/play_suppressor.h:
+
+solving/avoid_unsolvable.h:
 
 solving/battle_play/threat.h:
 
@@ -201,8 +206,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  solving/play_suppressor.h solving/battle_play/continuation.h \
  solving/battle_play/check_detector.h solving/battle_play/try.h \
  solving/battle_play/threat.h solving/find_by_increasing_length.h \
- solving/battle_play/min_length_guard.h conditions/bgl.h \
- optimisations/killer_move/move_generator.h \
+ solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
+ conditions/bgl.h optimisations/killer_move/move_generator.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
@@ -269,6 +274,8 @@ solving/battle_play/threat.h:
 solving/find_by_increasing_length.h:
 
 solving/battle_play/min_length_guard.h:
+
+solving/avoid_unsolvable.h:
 
 conditions/bgl.h:
 

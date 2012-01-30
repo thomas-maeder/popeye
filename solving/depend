@@ -4,7 +4,6 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  stipulation/branch.h stipulation/boolean/and.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/binary.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  solving/move_generator.h solving/play_suppressor.h \
  solving/find_shortest.h solving/find_by_increasing_length.h \
  solving/fork_on_remaining.h solving/battle_play/threat.h \
@@ -13,8 +12,7 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/castling_intermediate_move_generator.h \
- solving/single_move_generator.h solving/king_move_generator.h \
- solving/trivial_end_filter.h trace.h
+ solving/single_move_generator.h solving/king_move_generator.h trace.h
 
 solving/solving.h:
 
@@ -46,10 +44,6 @@ stipulation/help_play/branch.h:
 
 stipulation/boolean/binary.h:
 
-stipulation/end_of_branch.h:
-
-stipulation/end_of_branch_goal.h:
-
 solving/move_generator.h:
 
 solving/play_suppressor.h:
@@ -79,8 +73,6 @@ solving/castling_intermediate_move_generator.h:
 solving/single_move_generator.h:
 
 solving/king_move_generator.h:
-
-solving/trivial_end_filter.h:
 
 trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
@@ -256,5 +248,20 @@ stipulation/testing_pipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
+
+trace.h:
+solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
+ solving/avoid_unsolvable.h pypipe.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/boolean/binary.h trace.h
+
+solving/avoid_unsolvable.h:
+
+pypipe.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+stipulation/boolean/binary.h:
 
 trace.h:

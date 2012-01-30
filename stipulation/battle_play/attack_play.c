@@ -12,6 +12,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch_goal.h"
+#include "stipulation/end_of_branch.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/or.h"
@@ -23,6 +24,7 @@
 #include "solving/find_shortest.h"
 #include "solving/move_generator.h"
 #include "solving/play_suppressor.h"
+#include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -128,6 +130,10 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchGoal:
       result = end_of_branch_can_attack(si,n);
+      break;
+
+    case STAvoidUnsolvable:
+      result = avoid_unsolvable_can_attack(si,n);
       break;
 
     case STOr:
@@ -328,6 +334,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
     case STEndOfBranch:
     case STEndOfBranchGoal:
       result = end_of_branch_attack(si,n);
+      break;
+
+    case STAvoidUnsolvable:
+      result = avoid_unsolvable_attack(si,n);
       break;
 
     case STConstraint:

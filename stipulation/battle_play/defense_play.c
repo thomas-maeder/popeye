@@ -27,6 +27,7 @@
 #include "solving/battle_play/continuation.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/battle_play/min_length_guard.h"
+#include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/final_defense_move.h"
@@ -227,6 +228,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = end_of_branch_defend(si,n);
       break;
 
+    case STAvoidUnsolvable:
+      result = avoid_unsolvable_defend(si,n);
+      break;
+
     case STConstraint:
       result = constraint_defend(si,n);
       break;
@@ -387,6 +392,10 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
     case STEndOfBranchForced:
     case STEndOfBranchGoal:
       result = end_of_branch_can_defend(si,n);
+      break;
+
+    case STAvoidUnsolvable:
+      result = avoid_unsolvable_can_defend(si,n);
       break;
 
     case STConstraint:

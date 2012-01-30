@@ -148,32 +148,28 @@ stip_length_type end_of_branch_can_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
+  assert (max_unsolvable<slack_length_battle
+          || n<=max_unsolvable); /* exact refutation */
 
-  if (max_unsolvable<slack_length_battle
-      || n<=max_unsolvable) /* exact refutation */
+  switch (slice_has_solution(fork))
   {
-    switch (slice_has_solution(fork))
-    {
-      case has_solution:
-        result = slack_length_battle;
-        break;
+    case has_solution:
+      result = slack_length_battle;
+      break;
 
-      case has_no_solution:
-        result = can_attack(next,n);
-        break;
+    case has_no_solution:
+      result = can_attack(next,n);
+      break;
 
-      case opponent_self_check:
-        result = slack_length_battle-2;
-        break;
+    case opponent_self_check:
+      result = slack_length_battle-2;
+      break;
 
-      default:
-        assert(0);
-        result = slack_length_battle-2;
-        break;
-    }
+    default:
+      assert(0);
+      result = slack_length_battle-2;
+      break;
   }
-  else
-    result = can_attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -201,32 +197,28 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
+  assert(max_unsolvable<slack_length_battle
+         || n<=max_unsolvable); /* exact refutation */
 
-  if (max_unsolvable<slack_length_battle
-      || n<=max_unsolvable) /* exact refutation */
+  switch (slice_solve(fork))
   {
-    switch (slice_solve(fork))
-    {
-      case has_solution:
-        result = slack_length_battle;
-        break;
+    case has_solution:
+      result = slack_length_battle;
+      break;
 
-      case has_no_solution:
-        result = attack(next,n);
-        break;
+    case has_no_solution:
+      result = attack(next,n);
+      break;
 
-      case opponent_self_check:
-        result = slack_length_battle-2;
-        break;
+    case opponent_self_check:
+      result = slack_length_battle-2;
+      break;
 
-      default:
-        assert(0);
-        result = slack_length_battle-2;
-        break;
-    }
+    default:
+      assert(0);
+      result = slack_length_battle-2;
+      break;
   }
-  else
-    result = attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -257,9 +249,9 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
+  assert(max_unsolvable<slack_length_battle);
 
-  if (max_unsolvable<slack_length_battle
-      && slice_solve(fork)==has_solution)
+  if (slice_solve(fork)==has_solution)
     result = slack_length_battle;
   else
     result = defend(next,n);
@@ -291,9 +283,9 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_battle);
+  assert(max_unsolvable<slack_length_battle);
 
-  if (max_unsolvable<slack_length_battle
-      && slice_has_solution(tester)==has_solution)
+  if (slice_has_solution(tester)==has_solution)
     result = slack_length_battle;
   else
     result = can_defend(next,n);

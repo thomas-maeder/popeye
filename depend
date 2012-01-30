@@ -413,13 +413,14 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
- stipulation/branch.h stipulation/dead_end.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/constraint.h \
- stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
- stipulation/temporary_hacks.h \
+ stipulation/branch.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_goal.h stipulation/dead_end.h \
+ stipulation/boolean/or.h stipulation/battle_play/branch.h \
+ stipulation/constraint.h stipulation/help_play/branch.h \
+ stipulation/goals/prerequisite_guards.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h solving/solving.h \
- solving/battle_play/check_detector.h \
- pieces/attributes/paralysing/paralysing.h \
+ solving/battle_play/check_detector.h solving/trivial_end_filter.h \
+ solving/avoid_unsolvable.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
  conditions/circe/circe.h conditions/anticirce/anticirce.h \
  conditions/ultraschachzwang/goal_filter.h \
@@ -553,6 +554,10 @@ platform/priority.h:
 
 stipulation/branch.h:
 
+stipulation/end_of_branch.h:
+
+stipulation/end_of_branch_goal.h:
+
 stipulation/dead_end.h:
 
 stipulation/boolean/or.h:
@@ -572,6 +577,10 @@ stipulation/goals/immobile/reached_tester.h:
 solving/solving.h:
 
 solving/battle_play/check_detector.h:
+
+solving/trivial_end_filter.h:
+
+solving/avoid_unsolvable.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
