@@ -216,7 +216,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,         /* STIntelligentImmobilisationCounter */
   slice_structure_pipe,         /* STKeepMatingFilter */
-  slice_structure_fork,         /* STMaxFlightsquares */
+  slice_structure_conditional_pipe, /* STMaxFlightsquares */
   slice_structure_pipe,         /* STFlightsquaresCounter */
   slice_structure_pipe,         /* STDegenerateTree */
   slice_structure_testing_pipe, /* STMaxNrNonTrivial */
@@ -1725,7 +1725,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,              /* STIntelligentImmobilisationCounter */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
-  &stip_traverse_structure_end_of_branch,     /* STMaxFlightsquares */
+  &stip_traverse_structure_conditional_pipe,  /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
   &stip_traverse_structure_testing_pipe,      /* STMaxNrNonTrivial */
@@ -2003,7 +2003,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,              /* STIntelligentImmobilisationCounter */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
-    &stip_traverse_moves_end_of_branch,     /* STMaxFlightsquares */
+    &stip_traverse_moves_pipe,              /* STMaxFlightsquares */
     &stip_traverse_moves_pipe,              /* STFlightsquaresCounter */
     &stip_traverse_moves_pipe,              /* STDegenerateTree */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivial */

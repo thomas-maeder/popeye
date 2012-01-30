@@ -36,4 +36,11 @@ void conditional_pipe_resolve_proxies(slice_index si,
 void stip_spin_off_testers_conditional_pipe(slice_index si,
                                             stip_structure_traversal *st);
 
+/* Spin a copy off a conditional pipe to add it to the root or set play branch
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void conditional_pipe_spin_off_copy(slice_index si,
+                                    stip_structure_traversal *st);
+
 #endif

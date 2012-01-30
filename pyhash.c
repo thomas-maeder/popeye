@@ -1855,8 +1855,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
   { STReadyForHelpMove,          &insert_hash_element_help     },
   { STMove,                      &remember_move                },
   { STConstraint,                &stip_traverse_structure_pipe },
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe },
-  { STMaxFlightsquares,          &stip_traverse_structure_pipe }
+  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
 };
 
 enum

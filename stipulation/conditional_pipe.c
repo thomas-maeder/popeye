@@ -91,3 +91,32 @@ void stip_spin_off_testers_conditional_pipe(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Spin a copy off a conditional pipe to add it to the root or set play branch
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void conditional_pipe_spin_off_copy(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spun_off[si] = copy_slice(si);
+
+  stip_traverse_structure_pipe(si,st);
+
+  if (state->spun_off[slices[si].u.pipe.next]==no_slice)
+  {
+    dealloc_slice(state->spun_off[si]);
+    state->spun_off[si] = no_slice;
+  }
+  else
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

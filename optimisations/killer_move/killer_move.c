@@ -155,9 +155,8 @@ static void substitute_killermove_machinery(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,      &stip_traverse_structure_pipe    },
-  { STMoveGenerator,    &substitute_killermove_machinery },
-  { STMaxFlightsquares, &stip_traverse_structure_pipe    }
+  { STSetplayFork,   &stip_traverse_structure_pipe    },
+  { STMoveGenerator, &substitute_killermove_machinery }
 };
 
 enum
@@ -178,6 +177,9 @@ static void optimise_move_generators(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_conditional_pipe,
+                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     killer_move_collector_inserters,
                                     nr_killer_move_collector_inserters);

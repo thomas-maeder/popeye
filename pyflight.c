@@ -1,7 +1,7 @@
 #include "pyflight.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "trace.h"
@@ -71,7 +71,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = slice_has_solution(slices[si].u.fork.tester)==has_solution;
+  result = slice_has_solution(slices[si].u.conditional_pipe.condition)==has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -98,7 +98,7 @@ static slice_index alloc_maxflight_guard_slice(void)
                                                   slack_length_help+1);
     slice_index const prototype = alloc_pipe(STFlightsquaresCounter);
     help_branch_insert_slices(counter,&prototype,1);
-    result = alloc_branch_fork(STMaxFlightsquares,counter);
+    result = alloc_conditional_pipe(STMaxFlightsquares,counter);
   }
 
   TraceFunctionExit(__func__);
@@ -124,7 +124,7 @@ static slice_index alloc_maxflight_guard_slice(void)
  */
 stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.fork.next;
+  slice_index const next = slices[si].u.conditional_pipe.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -154,8 +154,8 @@ stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
  */
 stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.fork.next;
-  unsigned int result;
+  slice_index const next = slices[si].u.conditional_pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

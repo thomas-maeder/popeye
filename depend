@@ -1980,8 +1980,9 @@ pyflight$(OBJ_SUFFIX): pyflight.c pyflight.h stipulation/battle_play/defense_pla
  pyslice.h pydata.h stipulation/help_play/play.h pystip.h pydata.h \
  pyproc.h py4.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h stipulation/goals/goals.h boolean.h py.h pypipe.h \
- pystip.h stipulation/slice_type.h pyslice.h pybrafrk.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+ pystip.h stipulation/slice_type.h pyslice.h \
+ stipulation/conditional_pipe.h pypipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h trace.h
 
 pyflight.h:
 
@@ -2031,7 +2032,9 @@ stipulation/slice_type.h:
 
 pyslice.h:
 
-pybrafrk.h:
+stipulation/conditional_pipe.h:
+
+pypipe.h:
 
 stipulation/battle_play/branch.h:
 
