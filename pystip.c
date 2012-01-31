@@ -144,7 +144,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STGoalProofgameReachedTester */
   slice_structure_pipe,         /* STGoalAToBReachedTester */
   slice_structure_pipe,         /* STGoalMateOrStalemateReachedTester */
-  slice_structure_fork,         /* STGoalImmobileReachedTester */
+  slice_structure_conditional_pipe, /* STGoalImmobileReachedTester */
   slice_structure_pipe,         /* STGoalNotCheckReachedTester */
   slice_structure_leaf,         /* STTrue */
   slice_structure_leaf,         /* STFalse */
@@ -1653,7 +1653,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateOrStalemateReachedTester */
-  &stip_traverse_structure_end_of_branch,     /* STGoalImmobileReachedTester */
+  &stip_traverse_structure_conditional_pipe,  /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalNotCheckReachedTester */
   &stip_structure_visitor_noop,               /* STTrue */
   &stip_structure_visitor_noop,               /* STFalse */
@@ -1931,7 +1931,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateOrStalemateReachedTester */
-    &stip_traverse_moves_end_of_branch,     /* STGoalImmobileReachedTester */
+    &stip_traverse_moves_pipe,              /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_noop,              /* STTrue */
     &stip_traverse_moves_noop,              /* STFalse */

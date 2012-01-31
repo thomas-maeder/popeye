@@ -103,7 +103,7 @@ static boolean ohneschach_immobile(Side side)
   if (nbply>maxply-2)
     FtlMsg(ChecklessUndecidable);
 
-  result = slice_has_solution(slices[temporary_hack_immobility_tester[side]].u.fork.fork)==has_solution;
+  result = slice_has_solution(slices[temporary_hack_immobility_tester[side]].u.conditional_pipe.condition)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

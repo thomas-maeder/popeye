@@ -513,7 +513,7 @@ static void remember_immobility(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.immobility_tester.applies_to_who==goal_applies_to_starter)
+  if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_starter)
     *goal_implies_immobility = true;
 
   TraceFunctionExit(__func__);

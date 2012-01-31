@@ -50,11 +50,11 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
   {
     slice_index const proxy = alloc_proxy_slice();
     slice_index const tester = alloc_pipe(STImmobilityTester);
-    result = alloc_branch_fork(STGoalImmobileReachedTester,proxy);
+    result = alloc_conditional_pipe(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
     link_to_branch(tester,
                    alloc_help_branch(slack_length_help+1,slack_length_help+1));
-    slices[result].u.immobility_tester.applies_to_who = starter_or_adversary;
+    slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
 
     {
       slice_index const prototype = alloc_legal_move_counter_slice();
@@ -86,14 +86,12 @@ void impose_starter_immobility_tester(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   {
-    Side const immobilised = (slices[si].u.immobility_tester.applies_to_who
+    Side const immobilised = (slices[si].u.goal_filter.applies_to_who
                               ==goal_applies_to_starter
                               ? slices[si].starter
                               : advers(slices[si].starter));
     *starter = immobilised;
-    if (slices[si].u.immobility_tester.tester!=no_slice)
-      stip_traverse_structure(slices[si].u.immobility_tester.tester,st);
-    stip_traverse_structure(slices[si].u.immobility_tester.fork,st);
+    stip_traverse_structure(slices[si].u.goal_filter.tester,st);
   }
 
   *starter = slices[si].starter;
@@ -147,8 +145,8 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_has_solution(slices[si].u.immobility_tester.fork)==has_solution)
-    result = slice_has_solution(slices[si].u.immobility_tester.next);
+  if (slice_has_solution(slices[si].u.goal_filter.tester)==has_solution)
+    result = slice_has_solution(slices[si].u.goal_filter.next);
   else
     result = has_no_solution;
 

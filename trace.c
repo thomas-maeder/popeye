@@ -439,12 +439,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalImmobileReachedTester:
       {
         Trace_pipe(si);
-        Trace_link("fork:",slices[si].u.immobility_tester.fork,"");
-        TraceValue("%u",slices[si].u.immobility_tester.applies_to_who);
+        Trace_link("?",slices[si].u.goal_filter.tester,"");
+        TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.immobility_tester.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.immobility_tester.fork,done_slices);
-        TraceStipulationRecursive(slices[si].u.immobility_tester.tester,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_filter.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_filter.tester,done_slices);
         break;
       }
 

@@ -109,20 +109,6 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
-{
-  { STHelpAdapter,               &insert_filter    },
-  /* the help branch for detecting immobility must not be considered */
-  { STGoalImmobileReachedTester, &stip_traverse_structure_pipe }
-};
-
-enum
-{
-  nr_stoponshortsolutions_filter_inserters =
-      (sizeof stoponshortsolutions_filter_inserters
-       / sizeof stoponshortsolutions_filter_inserters[0])
-};
-
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
  * @param si identifies slice where to start
  * @return true iff the option stoponshort applies
@@ -142,9 +128,7 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_conditional_pipe,
                                                  &stip_traverse_structure_pipe);
-  stip_structure_traversal_override(&st,
-                                    stoponshortsolutions_filter_inserters,
-                                    nr_stoponshortsolutions_filter_inserters);
+  stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
   stip_traverse_structure(si,&st);
 
   if (result)

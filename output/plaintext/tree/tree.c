@@ -529,8 +529,7 @@ static structure_traversers_visitors goal_writer_slice_inserters[] =
   { STKeyWriter,                      &remember_key_writer                  },
   { STMoveWriter,                     &remove_continuation_writer_if_unused },
   { STCheckDetector,                  &remove_check_handler_if_unused       },
-  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       },
-  { STGoalImmobileReachedTester,      &stip_traverse_structure_pipe         }
+  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };
 
 enum
@@ -552,6 +551,9 @@ static void optimise_leaf_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_structure_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     goal_writer_slice_inserters,
                                     nr_goal_writer_slice_inserters);
