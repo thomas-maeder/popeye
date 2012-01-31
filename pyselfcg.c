@@ -409,7 +409,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   boolean const * const in_constraint = st->param;
-  slice_index const fork = slices[si].u.goal_tester.fork;
+  slice_index const tester = slices[si].u.goal_tester.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -417,9 +417,9 @@ static void insert_selfcheck_guard_goal(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (!does_goal_ignore_selfcheck(fork))
+  if (!does_goal_ignore_selfcheck(tester))
   {
-    slice_index const not_slice = branch_find_slice(STNot,fork);
+    slice_index const not_slice = branch_find_slice(STNot,tester);
     if (not_slice==no_slice || *in_constraint)
     {
       if (slices[si].u.goal_tester.goal.type==goal_dblstale)
@@ -427,7 +427,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
       else
       {
         slice_index const prototype = alloc_selfcheck_guard_slice();
-        goal_branch_insert_slices(fork,&prototype,1);
+        goal_branch_insert_slices(tester,&prototype,1);
       }
     }
     else

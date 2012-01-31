@@ -374,10 +374,16 @@ static void Trace_testing_pipe(slice_index si)
   Trace_link("?",slices[si].u.testing_pipe.tester,"");
 }
 
+static void Trace_conditional_pipe(slice_index si)
+{
+  Trace_pipe(si);
+  Trace_link("?",slices[si].u.conditional_pipe.condition,"");
+}
+
 static void Trace_fork(slice_index si)
 {
   Trace_testing_pipe(si);
-  Trace_link("fork:",slices[si].u.goal_tester.fork,"");
+  Trace_link("fork:",slices[si].u.fork.fork,"");
 }
 
 static void Trace_branch(slice_index si)
@@ -455,12 +461,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STGoalReachedTester:
-        Trace_fork(si);
+        Trace_conditional_pipe(si);
         fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_tester.next,done_slices);
         TraceStipulationRecursive(slices[si].u.goal_tester.tester,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_tester.fork,done_slices);
         break;
 
       default:

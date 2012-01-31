@@ -3917,7 +3917,7 @@ static char *ParseStructuredStip_not(char *tok,
     {
       slice_index const tester = branch_find_slice(STGoalReachedTester,proxy);
       assert(tester!=no_slice);
-      pipe_append(slices[tester].u.goal_tester.fork,alloc_not_slice());
+      pipe_append(slices[tester].u.goal_tester.tester,alloc_not_slice());
       slices[tester].u.goal_tester.goal.type = no_goal;
     }
     else

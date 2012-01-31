@@ -123,7 +123,6 @@ typedef struct
         {
             slice_index next;
             slice_index tester;
-            slice_index fork;
             Goal goal;
         } goal_tester;
 

@@ -69,7 +69,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
+            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.conditional_pipe.condition)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
