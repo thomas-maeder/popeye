@@ -1886,7 +1886,7 @@ static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,              /* STProxy */
-    &stip_traverse_moves_pipe,              /* STTemporaryHackFork */
+    &stip_traverse_moves_conditional_pipe,  /* STTemporaryHackFork */
     &stip_traverse_moves_attack_adapter,    /* STAttackAdapter */
     &stip_traverse_moves_defense_adapter,   /* STDefenseAdapter */
     &stip_traverse_moves_ready_for_attack,  /* STReadyForAttack */
@@ -1910,7 +1910,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STShortSolutionsStart*/
     &stip_traverse_moves_binary,            /* STCheckZigzagJump */
     &stip_traverse_moves_pipe,              /* STCheckZigzagLanding */
-    &stip_traverse_moves_pipe,              /* STGoalReachedTester */
+    &stip_traverse_moves_conditional_pipe,  /* STGoalReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalStalemateReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalDoubleStalemateReachedTester */
@@ -1931,7 +1931,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateOrStalemateReachedTester */
-    &stip_traverse_moves_pipe,              /* STGoalImmobileReachedTester */
+    &stip_traverse_moves_conditional_pipe,  /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_noop,              /* STTrue */
     &stip_traverse_moves_noop,              /* STFalse */
@@ -1951,7 +1951,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STKingMoveGenerator */
     &stip_traverse_moves_pipe,              /* STNonKingMoveGenerator */
     &stip_traverse_moves_pipe,              /* STCastlingIntermediateMoveGenerator */
-    &stip_traverse_moves_pipe,              /* STCastlingIntermediateMoveLegalityTester */
+    &stip_traverse_moves_conditional_pipe,  /* STCastlingIntermediateMoveLegalityTester */
     &stip_traverse_moves_pipe,              /* STRefutationsAllocator */
     &stip_traverse_moves_pipe,              /* STTrySolver */
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */
@@ -1967,8 +1967,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STAnyMoveCounter */
     &stip_traverse_moves_pipe,              /* STCaptureCounter */
     &stip_traverse_moves_pipe,              /* STTestingPrerequisites */
-    &stip_traverse_moves_pipe,              /* STDoubleMateFilter */
-    &stip_traverse_moves_pipe,              /* STCounterMateFilter */
+    &stip_traverse_moves_conditional_pipe,  /* STDoubleMateFilter */
+    &stip_traverse_moves_conditional_pipe,  /* STCounterMateFilter */
     &stip_traverse_moves_pipe,              /* STPrerequisiteOptimiser */
     &stip_traverse_moves_pipe,              /* STNoShortVariations */
     &stip_traverse_moves_pipe,              /* STRestartGuard */
@@ -1991,8 +1991,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STHelpHashed */
     &stip_traverse_moves_pipe,              /* STHelpHashedTester */
     &stip_traverse_moves_pipe,              /* STIntelligentMovesLeftInitialiser */
-    &stip_traverse_moves_pipe,              /* STIntelligentMateFilter */
-    &stip_traverse_moves_pipe,              /* STIntelligentStalemateFilter */
+    &stip_traverse_moves_conditional_pipe,  /* STIntelligentMateFilter */
+    &stip_traverse_moves_conditional_pipe,  /* STIntelligentStalemateFilter */
     &stip_traverse_moves_pipe,              /* STIntelligentProof */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterMate */
     &stip_traverse_moves_pipe,              /* STGoalReachableGuardFilterStalemate */
@@ -2003,7 +2003,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STIntelligentDuplicateAvoider */
     &stip_traverse_moves_pipe,              /* STIntelligentImmobilisationCounter */
     &stip_traverse_moves_pipe,              /* STKeepMatingFilter */
-    &stip_traverse_moves_pipe,              /* STMaxFlightsquares */
+    &stip_traverse_moves_conditional_pipe,  /* STMaxFlightsquares */
     &stip_traverse_moves_pipe,              /* STFlightsquaresCounter */
     &stip_traverse_moves_pipe,              /* STDegenerateTree */
     &stip_traverse_moves_pipe,              /* STMaxNrNonTrivial */
@@ -2025,20 +2025,20 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
-    &stip_traverse_moves_pipe,              /* STOpponentMovesCounterFork */
+    &stip_traverse_moves_conditional_pipe,  /* STOpponentMovesCounterFork */
     &stip_traverse_moves_pipe,              /* STOpponentMovesCounter */
     &stip_traverse_moves_pipe,              /* STOhneschachSuspender */
-    &stip_traverse_moves_pipe,              /* STExclusiveChessMatingMoveCounter */
+    &stip_traverse_moves_conditional_pipe,  /* STExclusiveChessMatingMoveCounter */
     &stip_traverse_moves_pipe,              /* STExclusiveChessUnsuspender */
     &stip_traverse_moves_pipe,              /* STMaffImmobilityTesterKing */
     &stip_traverse_moves_pipe,              /* STOWUImmobilityTesterKing */
     &stip_traverse_moves_pipe,              /* STSingleMoveGeneratorWithKingCapture */
-    &stip_traverse_moves_pipe,              /* STBrunnerDefenderFinder */
-    &stip_traverse_moves_pipe,              /* STIsardamDefenderFinder */
-    &stip_traverse_moves_pipe,              /* STCageCirceNonCapturingMoveFinder */
+    &stip_traverse_moves_conditional_pipe,  /* STBrunnerDefenderFinder */
+    &stip_traverse_moves_conditional_pipe,  /* STIsardamDefenderFinder */
+    &stip_traverse_moves_conditional_pipe,  /* STCageCirceNonCapturingMoveFinder */
     &stip_traverse_moves_pipe,              /* STSinglePieceMoveGenerator */
     &stip_traverse_moves_pipe,              /* STSingleMoveGenerator */
-    &stip_traverse_moves_pipe,              /* STMaximummerCandidateMoveTester */
+    &stip_traverse_moves_conditional_pipe,  /* STMaximummerCandidateMoveTester */
     &stip_traverse_moves_pipe,              /* STBGLFilter */
     &stip_traverse_moves_pipe,              /* STOutputModeSelector */
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */

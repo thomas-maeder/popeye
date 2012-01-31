@@ -182,6 +182,9 @@ void stip_optimise_dead_end_slices(slice_index si)
 
   stip_moves_traversal_init(&mt,&state);
   stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
+  stip_moves_traversal_override_by_structure(&mt,
+                                             slice_structure_conditional_pipe,
+                                             &stip_traverse_moves_pipe);
   stip_traverse_moves(si,&mt);
 
   TraceFunctionExit(__func__);

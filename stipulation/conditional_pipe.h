@@ -21,6 +21,13 @@ slice_index alloc_conditional_pipe(slice_type type, slice_index condition);
 void stip_traverse_structure_conditional_pipe(slice_index si,
                                               stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_conditional_pipe(slice_index si,
+                                          stip_moves_traversal *st);
+
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
  * @param st points at the structure holding the state of the traversal

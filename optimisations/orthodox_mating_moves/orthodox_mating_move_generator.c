@@ -5,6 +5,7 @@
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/proxy.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/goals/goals.h"
 #include "solving/fork_on_remaining.h"
@@ -271,20 +272,6 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
   TraceFunctionResultEnd();
 }
 
-static void optimise_final_moves_conditional_pipe(slice_index si,
-                                                  stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.conditional_pipe.condition,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STSetplayFork,                     &stip_traverse_moves_pipe                    },
@@ -293,8 +280,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STEndOfBranchForced,               &optimise_final_moves_end_of_branch_non_goal },
   { STGoalReachedTester,               &optimise_final_moves_goal                   },
   { STNot,                             &optimise_final_moves_suppress               },
-  { STExclusiveChessMatingMoveCounter, &optimise_final_moves_conditional_pipe       },
-  { STTemporaryHackFork,               &optimise_final_moves_conditional_pipe       }
+  { STTemporaryHackFork,               &stip_traverse_moves_conditional_pipe        },
+  { STExclusiveChessMatingMoveCounter, &stip_traverse_moves_conditional_pipe        }
 };
 
 enum
@@ -321,6 +308,9 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   stip_moves_traversal_override_by_function(&st,
                                             slice_function_move_generator,
                                             &generator_swallow_goal);
+  stip_moves_traversal_override_by_structure(&st,
+                                             slice_structure_conditional_pipe,
+                                             &stip_traverse_moves_pipe);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
