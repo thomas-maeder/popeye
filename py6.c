@@ -129,7 +129,7 @@
 #include "platform/priority.h"
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/end_of_branch_goal.h"
+#include "stipulation/end_of_branch_tester.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
@@ -2676,8 +2676,8 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_output_slices(root_slice);
 
-      stip_insert_end_of_branch_forks(root_slice);
-      stip_insert_end_of_branch_goal_forks(root_slice);
+      stip_insert_detours_around_end_of_branch(root_slice);
+      stip_insert_end_of_branch_testers(root_slice);
       stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_testers(root_slice);

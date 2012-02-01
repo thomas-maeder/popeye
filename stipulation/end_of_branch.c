@@ -8,9 +8,6 @@
 
 #include <assert.h>
 
-/* **************** Initialisation ***************
- */
-
 /* Allocate a STEndOfBranch slice.
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
@@ -31,6 +28,69 @@ slice_index alloc_end_of_branch_slice(slice_index to_goal)
   return result;
 }
 
+/* Allocate a STEndOfBranchGoal slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STEndOfBranchGoal,proxy_to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STEndOfBranchGoalImmobile slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STEndOfBranchGoalImmobile,proxy_to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STEndOfBranchForced slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STEndOfBranchForced,proxy_to_avoided);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Traverse a subtree
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -44,8 +104,6 @@ void stip_traverse_structure_end_of_branch(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
   stip_traverse_structure_next_branch(si,st);
-  if (slices[si].u.fork.tester!=no_slice)
-    stip_traverse_structure_next_tester(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -71,8 +129,8 @@ void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void end_of_branch_fork_inserter_end_of_branch(slice_index si,
-                                                      stip_structure_traversal *st)
+static void end_of_branch_detour_inserter_end_of_branch(slice_index si,
+                                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -94,23 +152,23 @@ static void end_of_branch_fork_inserter_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const end_of_branch_fork_inserters[] =
+static structure_traversers_visitors const end_of_branch_detour_inserters[] =
 {
-  { STEndOfBranch,             &end_of_branch_fork_inserter_end_of_branch },
-  { STEndOfBranchGoalImmobile, &end_of_branch_fork_inserter_end_of_branch }
+  { STEndOfBranch,             &end_of_branch_detour_inserter_end_of_branch },
+  { STEndOfBranchGoalImmobile, &end_of_branch_detour_inserter_end_of_branch }
 };
 
 enum
 {
-  nr_end_of_branch_fork_inserters = (sizeof end_of_branch_fork_inserters
-                                     / sizeof end_of_branch_fork_inserters[0])
+  nr_end_of_branch_detour_inserters = (sizeof end_of_branch_detour_inserters
+                                       / sizeof end_of_branch_detour_inserters[0])
 };
 
-/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with the
- * necessary STForkOnRemaining slices
+/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with detours
+ * that avoid testing if it would be unnecessary or disturbing
  * @param root_slice identifes root slice of stipulation
  */
-void stip_insert_end_of_branch_forks(slice_index root_slice)
+void stip_insert_detours_around_end_of_branch(slice_index root_slice)
 {
   stip_structure_traversal st;
 
@@ -120,8 +178,8 @@ void stip_insert_end_of_branch_forks(slice_index root_slice)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
-                                    end_of_branch_fork_inserters,
-                                    nr_end_of_branch_fork_inserters);
+                                    end_of_branch_detour_inserters,
+                                    nr_end_of_branch_detour_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -275,7 +333,7 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const tester = slices[si].u.fork.tester;
+  slice_index const fork = slices[si].u.fork.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -285,7 +343,7 @@ stip_length_type end_of_branch_can_defend(slice_index si, stip_length_type n)
   assert(n>=slack_length_battle);
   assert(max_unsolvable<slack_length_battle);
 
-  if (slice_has_solution(tester)==has_solution)
+  if (slice_has_solution(fork)==has_solution)
     result = slack_length_battle;
   else
     result = can_defend(next,n);

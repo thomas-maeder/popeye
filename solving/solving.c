@@ -88,7 +88,7 @@ static void start_spinning_off_end_of_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void start_spinning_off_next_branch(slice_index si, stip_structure_traversal *st)
+static void start_spinning_end_of_branch(slice_index si, stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
 
@@ -102,19 +102,39 @@ static void start_spinning_off_next_branch(slice_index si, stip_structure_traver
     stip_traverse_structure_children(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
     slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-    slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void start_spinning_end_of_branch_tester(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = copy_slice(si);
+    stip_traverse_structure_pipe(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.conditional_pipe.next]);
+    slices[state->spun_off[si]].u.conditional_pipe.condition = state->spun_off[slices[si].u.conditional_pipe.condition];
   }
   else
   {
     stip_traverse_structure_pipe(si,st);
 
     state->spinning_off = true;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
     state->spinning_off = false;
   }
 
-  slices[si].u.fork.tester = alloc_proxy_slice();
-  link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
+  slices[si].u.conditional_pipe.condition = state->spun_off[slices[si].u.conditional_pipe.condition];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -168,8 +188,9 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 
-  stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_off_next_branch);
-  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_off_next_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_end_of_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_end_of_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_end_of_branch_tester);
 
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);

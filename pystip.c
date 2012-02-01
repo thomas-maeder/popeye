@@ -111,7 +111,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STEndOfBranch */
   slice_structure_fork,         /* STEndOfBranchForced */
   slice_structure_fork,         /* STEndOfBranchGoal */
-  slice_structure_binary,       /* STAvoidUnsolvable */ \
+  slice_structure_conditional_pipe, /* STEndOfBranchTester */
+  slice_structure_binary,       /* STAvoidUnsolvable */
   slice_structure_fork,         /* STConstraint */
   slice_structure_pipe,         /* STEndOfRoot */
   slice_structure_pipe,         /* STEndOfIntro */
@@ -288,6 +289,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfBranch */
   slice_function_unspecified,    /* STEndOfBranchForced */
   slice_function_unspecified,    /* STEndOfBranchGoal */
+  slice_function_unspecified,    /* STEndOfBranchTester */
   slice_function_unspecified,    /* STAvoidUnsolvable */ \
   slice_function_unspecified,    /* STConstraint */
   slice_function_unspecified,    /* STEndOfRoot */
@@ -1620,7 +1622,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranch */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranchForced */
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranchGoal */
-  &stip_traverse_structure_binary,            /* STAvoidUnsolvable */ \
+  &stip_traverse_structure_conditional_pipe,  /* STEndOfBranchTester */
+  &stip_traverse_structure_binary,            /* STAvoidUnsolvable */
   &stip_traverse_structure_end_of_branch,     /* STConstraint */
   &stip_traverse_structure_pipe,              /* STEndOfRoot */
   &stip_traverse_structure_pipe,              /* STEndOfIntro */
@@ -1898,7 +1901,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranch */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchForced */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchGoal */
-    &stip_traverse_moves_binary,            /* STAvoidUnsolvable */ \
+    &stip_traverse_moves_conditional_pipe,  /* STEndOfBranchTester */
+    &stip_traverse_moves_binary,            /* STAvoidUnsolvable */
     &stip_traverse_moves_setplay_fork,      /* STConstraint */
     &stip_traverse_moves_pipe,              /* STEndOfRoot */
     &stip_traverse_moves_pipe,              /* STEndOfIntro */

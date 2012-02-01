@@ -11,7 +11,6 @@
 #include "pynontrv.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"

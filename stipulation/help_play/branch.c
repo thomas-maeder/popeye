@@ -5,7 +5,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
@@ -33,6 +32,7 @@ static slice_index const slice_rank_order[] =
   STIntelligentTargetCounter,
   STEndOfBranch,
   STEndOfBranchForced,
+  STEndOfBranchTester,
   STDeadEnd,
   STEndOfIntro,
 
@@ -76,6 +76,7 @@ static slice_index const slice_rank_order[] =
 
   STEndOfBranchGoal,
   STEndOfBranchGoalImmobile,
+  STEndOfBranchTester,
   STDeadEndGoal,
   STSelfCheckGuard,
   STOhneschachCheckGuard,

@@ -8,7 +8,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/end_of_branch_goal.h"
+#include "stipulation/end_of_branch_tester.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
@@ -108,12 +108,13 @@ stip_length_type help(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
+    case STEndOfBranchForced:
+    case STEndOfBranchGoal:
       result = end_of_branch_help(si,n);
       break;
 
-    case STEndOfBranchForced:
-    case STEndOfBranchGoal:
-      result = end_of_branch_goal_help(si,n);
+    case STEndOfBranchTester:
+      result = end_of_branch_tester_help(si,n);
       break;
 
     case STDeadEnd:
@@ -315,12 +316,13 @@ stip_length_type can_help(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchGoalImmobile:
+    case STEndOfBranchForced:
+    case STEndOfBranchGoal:
       result = end_of_branch_can_help(si,n);
       break;
 
-    case STEndOfBranchForced:
-    case STEndOfBranchGoal:
-      result = end_of_branch_goal_can_help(si,n);
+    case STEndOfBranchTester:
+      result = end_of_branch_tester_can_help(si,n);
       break;
 
     case STDeadEnd:

@@ -1,8 +1,12 @@
 #if !defined(STIPULATION_END_OF_BRANCH_H)
 #define STIPULATION_END_OF_BRANCH_H
 
-/* Branch fork - branch decides that when to continue play in branch
- * and when to change to slice representing subsequent play
+/* End of branch slices - they decide that when to continue play in branch
+ * and when to change to slice representing subsequent play.
+ * There are 4 different slice types - there main difference is there position
+ * in the sequence of slices. E.g. we must not test for self-check before
+ * testing for having reached ## - but we must test for self-check before many
+ * other ends.
  */
 
 #include "stipulation/battle_play/attack_play.h"
@@ -14,6 +18,27 @@
  * @return index of allocated slice
  */
 slice_index alloc_end_of_branch_slice(slice_index to_goal);
+
+/* Allocate a STEndOfBranchGoal slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal);
+
+/* Allocate a STEndOfBranchGoalImmobile slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal);
+
+/* Allocate a STEndOfBranchForced slice
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @return index of allocated slice
+ */
+slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
 
 /* Traverse a subtree
  * @param si root slice of subtree
@@ -29,11 +54,11 @@ void stip_traverse_structure_end_of_branch(slice_index si,
 void stip_traverse_moves_end_of_branch(slice_index si,
                                        stip_moves_traversal *st);
 
-/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with the
- * necessary STForkOnRemaining slices
+/* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with detours
+ * that avoid testing if it would be unnecessary or disturbing
  * @param root_slice identifes root slice of stipulation
  */
-void stip_insert_end_of_branch_forks(slice_index root_slice);
+void stip_insert_detours_around_end_of_branch(slice_index root_slice);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
