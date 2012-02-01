@@ -2,10 +2,31 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
+#include "stipulation/conditional_pipe.h"
 #include "solving/fork_on_remaining.h"
 #include "trace.h"
 
 #include <assert.h>
+
+/* Allocate a STEndOfBranchTester slice.
+ * @param to_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index alloc_end_of_branch_tester_slice(slice_index to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_conditional_pipe(STEndOfBranchTester,to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
                                                         stip_structure_traversal *st)
@@ -21,8 +42,7 @@ static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const end_of_branch = alloc_conditional_pipe(STEndOfBranchTester,
-                                                             slices[si].u.fork.fork);
+    slice_index const end_of_branch = alloc_end_of_branch_tester_slice(slices[si].u.fork.fork);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
     pipe_link(slices[si].prev,fork);
     pipe_append(si,proxy3);
