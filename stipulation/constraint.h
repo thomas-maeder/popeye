@@ -8,11 +8,32 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 
-/* Allocate a STConstraint slice
+/* Allocate a STConstraintSolver slice
  * @param proxy_to_condition prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_slice(slice_index proxy_to_condition);
+slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition);
+
+/* Allocate a STConstraintTester slice
+ * @param proxy_to_condition prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+slice_index alloc_constraint_tester_slice(slice_index proxy_to_condition);
+
+/* Spin a STContraintSolver slice off a STContraintTester slice to add it to the
+ * root or set play branch
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a constraint solver slice
+ * @param si identifies the pipe slice
+ * @param st address of structure representing traversal
+ */
+void stip_spin_off_testers_constraint_solver(slice_index si,
+                                             stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -67,7 +88,7 @@ stip_length_type constraint_can_defend(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type constraint_help(slice_index si, stip_length_type n);
+stip_length_type constraint_solver_help(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -79,6 +100,27 @@ stip_length_type constraint_help(slice_index si, stip_length_type n);
  *         n   solution found
  */
 stip_length_type constraint_can_help(slice_index si, stip_length_type n);
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type constraint_tester_attack(slice_index si, stip_length_type n);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type constraint_tester_help(slice_index si, stip_length_type n);
 
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation

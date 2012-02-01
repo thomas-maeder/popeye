@@ -35,7 +35,8 @@ static slice_index const slice_rank_order[] =
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
   STThreatStart,
-  STConstraint,
+  STConstraintSolver,
+  STConstraintTester,
   STMinLengthOptimiser,
   STTestingPrerequisites,
   STCastlingFilter,
@@ -85,7 +86,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeDecorationWriter,
   STPlaySuppressor,
   STReadyForDefense,
-  STConstraint,
+  STConstraintTester,
   STEndOfBranchForced,
   STMaxFlightsquares,
   STMaxThreatLength,
@@ -839,6 +840,9 @@ void battle_branch_make_root_slices(slice_index adapter,
                                                    slice_structure_conditional_pipe,
                                                    &conditional_pipe_spin_off_copy);
     stip_structure_traversal_override_single(&st,
+                                             STConstraintTester,
+                                             &constraint_tester_make_root);
+    stip_structure_traversal_override_single(&st,
                                              STEndOfRoot,
                                              &serve_as_root_hook);
     stip_traverse_structure(adapter,&st);
@@ -942,7 +946,7 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a battle branch with STConstraint slices (typically for a reflex
+/* Instrument a battle branch with STConstraint* slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
@@ -960,7 +964,7 @@ void battle_branch_insert_attack_constraint(slice_index si,
 
   {
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
-    slice_index const prototype = alloc_constraint_slice(constraint);
+    slice_index const prototype = alloc_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);
   }
@@ -969,7 +973,7 @@ void battle_branch_insert_attack_constraint(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a battle branch with STConstraint slices (typically for a reflex
+/* Instrument a battle branch with STConstraint* slices (typically for a reflex
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
@@ -987,7 +991,7 @@ void battle_branch_insert_defense_constraint(slice_index si,
 
   {
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
-    slice_index const prototype = alloc_constraint_slice(constraint);
+    slice_index const prototype = alloc_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
     battle_branch_insert_slices(ready,&prototype,1);
   }

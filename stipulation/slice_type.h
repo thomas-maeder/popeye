@@ -30,7 +30,8 @@
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfBranchTester), /* test for end of branch only */ \
     ENUMERATOR(STAvoidUnsolvable), /* avoid solving branches that we know are unsolvable */ \
-    ENUMERATOR(STConstraint),  /* stop unless some condition is met */ \
+    ENUMERATOR(STConstraintSolver),  /* stop unless some condition is met */ \
+    ENUMERATOR(STConstraintTester),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \

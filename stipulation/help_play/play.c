@@ -126,8 +126,12 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = help_hashed_help(si,n);
       break;
 
-    case STConstraint:
-      result = constraint_help(si,n);
+    case STConstraintSolver:
+      result = constraint_solver_help(si,n);
+      break;
+
+    case STConstraintTester:
+      result = constraint_tester_help(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -334,7 +338,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = help_hashed_can_help(si,n);
       break;
 
-    case STConstraint:
+    case STConstraintTester:
       result = constraint_can_help(si,n);
       break;
 

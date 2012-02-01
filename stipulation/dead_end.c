@@ -1,5 +1,6 @@
 #include "stipulation/dead_end.h"
 #include "pypipe.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -150,14 +151,15 @@ static void raise_nr_deadend_users(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const dead_end_optimisers[] =
 {
-  { STReadyForAttack,          &optimise_deadend_ready  },
-  { STReadyForHelpMove,        &optimise_deadend_ready  },
-  { STPrerequisiteOptimiser,   &raise_nr_deadend_users  },
-  { STEndOfBranchGoal,         &substitute_deadend_goal },
-  { STEndOfBranchGoalImmobile, &substitute_deadend_goal },
-  { STEndOfBranch,             &forget_deadend          },
-  { STEndOfBranchForced,       &forget_deadend          },
-  { STDeadEnd,                 &remember_deadend        }
+  { STReadyForAttack,          &optimise_deadend_ready               },
+  { STReadyForHelpMove,        &optimise_deadend_ready               },
+  { STPrerequisiteOptimiser,   &raise_nr_deadend_users               },
+  { STEndOfBranchGoal,         &substitute_deadend_goal              },
+  { STEndOfBranchGoalImmobile, &substitute_deadend_goal              },
+  { STEndOfBranch,             &forget_deadend                       },
+  { STEndOfBranchForced,       &forget_deadend                       },
+  { STDeadEnd,                 &remember_deadend                     },
+  { STConstraintTester,        &stip_traverse_moves_conditional_pipe }
 };
 
 enum
@@ -181,10 +183,10 @@ void stip_optimise_dead_end_slices(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&mt,&state);
-  stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
   stip_moves_traversal_override_by_structure(&mt,
                                              slice_structure_conditional_pipe,
                                              &stip_traverse_moves_pipe);
+  stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
   stip_traverse_moves(si,&mt);
 
   TraceFunctionExit(__func__);

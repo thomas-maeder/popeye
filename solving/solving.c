@@ -7,6 +7,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/conditional_pipe.h"
+#include "stipulation/constraint.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
@@ -188,6 +189,7 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 
+  stip_structure_traversal_override_single(&st,STConstraintSolver,&stip_spin_off_testers_constraint_solver);
   stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_off_end_of_branch);
   stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_off_end_of_branch);
   stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);

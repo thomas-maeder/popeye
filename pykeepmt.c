@@ -417,7 +417,8 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STEndOfBranch,       &keepmating_filter_inserter_end_of_branch },
   { STEndOfBranchGoal,   &keepmating_filter_inserter_end_of_branch },
   { STEndOfBranchForced, &keepmating_filter_inserter_end_of_branch },
-  { STConstraint,        &keepmating_filter_inserter_end_of_branch },
+  { STConstraintSolver,  &keepmating_filter_inserter_end_of_branch },
+  { STConstraintTester,  &keepmating_filter_inserter_end_of_branch },
   { STGoalReachedTester, &keepmating_filter_inserter_goal          }
 };
 

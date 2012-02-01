@@ -113,7 +113,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STEndOfBranchGoal */
   slice_structure_conditional_pipe, /* STEndOfBranchTester */
   slice_structure_binary,       /* STAvoidUnsolvable */
-  slice_structure_fork,         /* STConstraint */
+  slice_structure_fork,         /* STConstraintSolver */
+  slice_structure_conditional_pipe, /* STConstraintTester */
   slice_structure_pipe,         /* STEndOfRoot */
   slice_structure_pipe,         /* STEndOfIntro */
   slice_structure_pipe,         /* STDeadEnd */
@@ -291,7 +292,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,    /* STEndOfBranchGoal */
   slice_function_unspecified,    /* STEndOfBranchTester */
   slice_function_unspecified,    /* STAvoidUnsolvable */ \
-  slice_function_unspecified,    /* STConstraint */
+  slice_function_unspecified,    /* STConstraintSolver */
+  slice_function_unspecified,    /* STConstraintTester */
   slice_function_unspecified,    /* STEndOfRoot */
   slice_function_unspecified,    /* STEndOfIntro */
   slice_function_unspecified,    /* STDeadEnd */
@@ -1219,7 +1221,7 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 static structure_traversers_visitors setplay_appliers[] =
 {
   { STMoveInverter,      &pipe_spin_off_copy           },
-  { STConstraint,        &stip_traverse_structure_pipe },
+  { STConstraintSolver,  &stip_traverse_structure_pipe },
   { STAttackAdapter,     &attack_adapter_apply_setplay },
   { STDefenseAdapter,    &stip_structure_visitor_noop  },
   { STHelpAdapter,       &help_adapter_apply_setplay   },
@@ -1624,7 +1626,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_end_of_branch,     /* STEndOfBranchGoal */
   &stip_traverse_structure_conditional_pipe,  /* STEndOfBranchTester */
   &stip_traverse_structure_binary,            /* STAvoidUnsolvable */
-  &stip_traverse_structure_end_of_branch,     /* STConstraint */
+  &stip_traverse_structure_end_of_branch,     /* STConstraintSolver */
+  &stip_traverse_structure_conditional_pipe,  /* STConstraintTester */
   &stip_traverse_structure_pipe,              /* STEndOfRoot */
   &stip_traverse_structure_pipe,              /* STEndOfIntro */
   &stip_traverse_structure_pipe,              /* STDeadEnd */
@@ -1903,7 +1906,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchGoal */
     &stip_traverse_moves_conditional_pipe,  /* STEndOfBranchTester */
     &stip_traverse_moves_binary,            /* STAvoidUnsolvable */
-    &stip_traverse_moves_setplay_fork,      /* STConstraint */
+    &stip_traverse_moves_setplay_fork,      /* STConstraintSolver */
+    &stip_traverse_moves_conditional_pipe,  /* STConstraintTester */
     &stip_traverse_moves_pipe,              /* STEndOfRoot */
     &stip_traverse_moves_pipe,              /* STEndOfIntro */
     &stip_traverse_moves_dead_end,          /* STDeadEnd */

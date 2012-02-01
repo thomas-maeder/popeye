@@ -56,7 +56,7 @@ void help_branch_set_end_forced(slice_index si,
                                 slice_index forced,
                                 unsigned int parity);
 
-/* Instrument a series branch with STConstraint slices (typically for a hr
+/* Instrument a series branch with STConstraint* slices (typically for a hr
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
@@ -131,7 +131,7 @@ slice_index alloc_series_branch(stip_length_type length,
 void series_branch_make_setplay(slice_index adapter,
                                 spin_off_state_type *state);
 
-/* Instrument a series branch with STConstraint slices (typically for a ser-r
+/* Instrument a series branch with STConstraint* slices (typically for a ser-r
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker

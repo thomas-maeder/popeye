@@ -884,7 +884,8 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STOr,                &intelligent_mode_support_detector_or },
   { STCheckZigzagJump,   &intelligent_mode_support_detector_or },
   { STNot,               &intelligent_mode_support_none        },
-  { STConstraint,        &intelligent_mode_support_none        },
+  { STConstraintSolver,  &intelligent_mode_support_none        },
+  { STConstraintTester,  &intelligent_mode_support_none        },
   { STReadyForDefense,   &intelligent_mode_support_none        },
   { STGoalReachedTester, &intelligent_mode_support_goal_tester },
   { STTemporaryHackFork, &stip_traverse_structure_pipe         }

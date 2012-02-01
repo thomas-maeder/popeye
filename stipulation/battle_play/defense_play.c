@@ -232,7 +232,7 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = avoid_unsolvable_defend(si,n);
       break;
 
-    case STConstraint:
+    case STConstraintTester:
       result = constraint_defend(si,n);
       break;
 
@@ -398,7 +398,7 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = avoid_unsolvable_can_defend(si,n);
       break;
 
-    case STConstraint:
+    case STConstraintTester:
       result = constraint_can_defend(si,n);
       break;
 

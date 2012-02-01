@@ -281,7 +281,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STGoalReachedTester,               &optimise_final_moves_goal                   },
   { STNot,                             &optimise_final_moves_suppress               },
   { STTemporaryHackFork,               &stip_traverse_moves_conditional_pipe        },
-  { STExclusiveChessMatingMoveCounter, &stip_traverse_moves_conditional_pipe        }
+  { STExclusiveChessMatingMoveCounter, &stip_traverse_moves_conditional_pipe        },
+  { STConstraintTester,                &stip_traverse_moves_conditional_pipe        }
 };
 
 enum

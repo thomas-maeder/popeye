@@ -216,7 +216,6 @@ static void insert_move_inversion_counter(slice_index si,
 static structure_traversers_visitors regular_inserters[] =
 {
   { STMoveInverter,               &insert_move_inversion_counter  },
-  { STConstraint,                 &stip_traverse_structure_pipe   },
   { STPlaySuppressor,             &instrument_suppressor          },
   { STGoalReachedTester,          &instrument_goal_reached_tester },
   { STAttackAdapter,              &instrument_root                },
@@ -230,12 +229,18 @@ enum
   nr_regular_inserters = sizeof regular_inserters / sizeof regular_inserters[0]
 };
 
-static void insert_regular_slices(slice_index si)
+/* Instrument the stipulation structure with slices that implement
+ * plaintext line mode output.
+ * @param si identifies slice where to start
+ */
+void stip_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   output_plaintext_slice_determining_starter = no_slice;
 
@@ -245,90 +250,6 @@ static void insert_regular_slices(slice_index si)
                                                  &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remember_move(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const move_slice = st->param;
-  slice_index const save_move_slice = *move_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *move_slice = si;
-  stip_traverse_structure_children(si,st);
-  *move_slice = save_move_slice;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_constraint(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const * const move_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*move_slice==no_slice)
-    stip_traverse_structure_children(si,st);
-  else
-    stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors constraint_inserters[] =
-{
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STConstraint,        &instrument_constraint          },
-  { STMove,              &remember_move                  },
-  { STCheckZigzagJump,   &insert_regular_writers_fork    }
-};
-
-enum
-{
-  nr_constraint_inserters = sizeof constraint_inserters / sizeof constraint_inserters[0]
-};
-
-static void instrument_constraints(slice_index si)
-{
-  stip_structure_traversal st;
-  slice_index move_slice = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&move_slice);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_conditional_pipe,
-                                                 &stip_traverse_structure_pipe);
-  stip_structure_traversal_override(&st,constraint_inserters,nr_constraint_inserters);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with slices that implement
- * plaintext line mode output.
- * @param si identifies slice where to start
- */
-void stip_insert_output_plaintext_line_slices(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  insert_regular_slices(si);
-  instrument_constraints(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

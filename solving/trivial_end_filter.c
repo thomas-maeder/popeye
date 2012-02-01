@@ -134,7 +134,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
 static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode                      },
-  { STConstraint,         &trivial_varation_filter_insert_constraint },
+  { STConstraintSolver,   &trivial_varation_filter_insert_constraint },
   { STEndOfBranchGoal,    &trivial_varation_filter_insert_self       }
 };
 
@@ -158,6 +158,9 @@ void stip_insert_trivial_varation_filters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_structure_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     trivial_varation_filter_inserters,
                                     nr_trivial_varation_filter_inserters);

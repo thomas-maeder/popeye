@@ -139,7 +139,7 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = or_can_attack(si,n);
       break;
 
-    case STConstraint:
+    case STConstraintTester:
       result = constraint_can_attack(si,n);
       break;
 
@@ -339,8 +339,12 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = avoid_unsolvable_attack(si,n);
       break;
 
-    case STConstraint:
+    case STConstraintSolver:
       result = constraint_attack(si,n);
+      break;
+
+    case STConstraintTester:
+      result = constraint_tester_attack(si,n);
       break;
 
     case STSelfCheckGuard:

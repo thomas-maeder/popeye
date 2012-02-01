@@ -20,7 +20,8 @@
 static slice_index const slice_rank_order[] =
 {
   STHelpAdapter,
-  STConstraint,
+  STConstraintSolver,
+  STConstraintTester,
   STFindByIncreasingLength,
   STFindShortest,
   STStopOnShortSolutionsFilter,
@@ -709,7 +710,7 @@ void help_branch_set_end_forced(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a series branch with STConstraint slices (typically for a hr
+/* Instrument a series branch with STConstraint* slices (typically for a hr
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
@@ -728,7 +729,7 @@ void help_branch_insert_constraint(slice_index si,
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  help_branch_insert_end_of_branch(si,alloc_constraint_slice(constraint),parity);
+  help_branch_insert_end_of_branch(si,alloc_constraint_tester_slice(constraint),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -858,6 +859,9 @@ void help_branch_make_root_slices(slice_index adapter,
     stip_structure_traversal_override_by_structure(&st,
                                                    slice_structure_conditional_pipe,
                                                    &conditional_pipe_spin_off_copy);
+    stip_structure_traversal_override_single(&st,
+                                             STConstraintTester,
+                                             &constraint_tester_make_root);
     stip_structure_traversal_override_single(&st,STEndOfRoot,&serve_as_root_hook);
     stip_traverse_structure(adapter,&st);
   }
@@ -926,6 +930,9 @@ void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
     stip_structure_traversal_override_by_structure(&st,
                                                    slice_structure_conditional_pipe,
                                                    &conditional_pipe_spin_off_copy);
+    stip_structure_traversal_override_single(&st,
+                                             STConstraintTester,
+                                             &constraint_tester_make_root);
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
     stip_traverse_structure(next,&st);
 
@@ -1073,7 +1080,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 }
 
-/* Instrument a series branch with STConstraint slices (typically for a ser-r
+/* Instrument a series branch with STConstraint* slices (typically for a ser-r
  * stipulation)
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
@@ -1091,7 +1098,7 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
   assert(slices[constraint].type==STProxy);
 
   {
-    slice_index const prototype = alloc_constraint_slice(constraint);
+    slice_index const prototype = alloc_constraint_tester_slice(constraint);
     branch_insert_slices(si,&prototype,1);
   }
 
