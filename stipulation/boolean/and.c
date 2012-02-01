@@ -117,6 +117,9 @@ void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
 
   state->spinning_off = true;
   stip_spin_off_testers_binary(si,st);
+  slices[si].u.binary.tester = alloc_proxy_slice();
+  link_to_branch(slices[si].u.binary.tester,state->spun_off[si]);
+  slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
   state->spinning_off = save_spinning_off;
 
   TraceFunctionExit(__func__);

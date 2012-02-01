@@ -21,14 +21,12 @@ stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/boolean/binary$(OBJ_SUFFIX): stipulation/boolean/binary.c \
- stipulation/boolean/binary.h stipulation/proxy.h stipulation/branch.h \
- solving/solving.h trace.h
+ stipulation/boolean/binary.h stipulation/proxy.h solving/solving.h \
+ trace.h
 
 stipulation/boolean/binary.h:
 
 stipulation/proxy.h:
-
-stipulation/branch.h:
 
 solving/solving.h:
 
