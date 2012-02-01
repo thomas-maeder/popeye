@@ -88,7 +88,7 @@ static void start_spinning_off_end_of_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void start_spinning_end_of_branch(slice_index si, stip_structure_traversal *st)
+static void start_spinning_off_end_of_branch(slice_index si, stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
 
@@ -110,7 +110,7 @@ static void start_spinning_end_of_branch(slice_index si, stip_structure_traversa
   TraceFunctionResultEnd();
 }
 
-static void start_spinning_end_of_branch_tester(slice_index si, stip_structure_traversal *st)
+static void start_spinning_off_end_of_branch_tester(slice_index si, stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
 
@@ -188,9 +188,9 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 
-  stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_end_of_branch);
-  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_end_of_branch);
-  stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_end_of_branch_tester);
+  stip_structure_traversal_override_single(&st,STEndOfBranchForced,&start_spinning_off_end_of_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&start_spinning_off_end_of_branch);
+  stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);
 
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);
