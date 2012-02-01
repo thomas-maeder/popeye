@@ -93,14 +93,12 @@ typedef struct
         struct
         {
             slice_index next;
-            slice_index tester;
             unsigned int max_nr_refutations;
         } refutation_collector;
 
         struct /* for type==STKeepMatingGuard */
         {
             slice_index next;
-            slice_index tester;
             Side mating;
         } keepmating_guard;
 
@@ -128,14 +126,12 @@ typedef struct
         struct
         {
             slice_index next;
-            slice_index tester;
             output_mode mode;
         } output_mode_selector;
 
         struct
         {
             slice_index next;
-            slice_index tester;
             slice_index base;
         } derived_pipe;
     } u;

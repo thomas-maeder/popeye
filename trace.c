@@ -382,7 +382,7 @@ static void Trace_conditional_pipe(slice_index si)
 
 static void Trace_fork(slice_index si)
 {
-  Trace_testing_pipe(si);
+  Trace_pipe(si);
   Trace_link("fork:",slices[si].u.fork.fork,"");
 }
 
@@ -391,6 +391,13 @@ static void Trace_branch(slice_index si)
   Trace_pipe(si);
   fprintf(stdout,"%2u/",slices[si].u.branch.length);
   fprintf(stdout,"%2u ",slices[si].u.branch.min_length);
+}
+
+static void Trace_binary(slice_index si)
+{
+  Trace_slice(si);
+  Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
+  Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
 }
 
 static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
@@ -405,15 +412,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     switch (slices[si].type)
     {
       case STForkOnRemaining:
-        Trace_slice(si);
-        fprintf(stdout,"threshold:%u ",slices[si].u.fork_on_remaining.threshold);
-        Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
-        Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
-        Trace_link("?",slices[si].u.fork_on_remaining.tester,"");
-        fprintf(stdout,"\n");
+        Trace_binary(si);
+        fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
         TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
         TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
-        TraceStipulationRecursive(slices[si].u.binary.tester,done_slices);
         break;
 
       case STKeepMatingFilter:
@@ -517,9 +519,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             break;
 
           case slice_structure_binary:
-            Trace_slice(si);
-            Trace_link("op1:",slices[si].u.binary.op1,"");
-            Trace_link("op2:",slices[si].u.binary.op2,"");
+            Trace_binary(si);
             Trace_link("?",slices[si].u.binary.tester,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);

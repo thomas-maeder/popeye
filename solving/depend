@@ -1,7 +1,7 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
  pyhash.h pybrafrk.h pythreat.h stipulation/proxy.h \
  stipulation/testing_pipe.h stipulation/conditional_pipe.h \
- stipulation/branch.h stipulation/boolean/and.h \
+ stipulation/constraint.h stipulation/branch.h stipulation/boolean/and.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/binary.h \
  solving/move_generator.h solving/play_suppressor.h \
@@ -31,6 +31,8 @@ stipulation/proxy.h:
 stipulation/testing_pipe.h:
 
 stipulation/conditional_pipe.h:
+
+stipulation/constraint.h:
 
 stipulation/branch.h:
 
