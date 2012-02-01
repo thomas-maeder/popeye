@@ -513,7 +513,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             Trace_fork(si);
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.fork.next,done_slices);
-            TraceStipulationRecursive(slices[si].u.fork.tester,done_slices);
             TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
             break;
 

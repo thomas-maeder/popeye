@@ -26,7 +26,6 @@ slice_index alloc_branch_fork(slice_type type, slice_index fork)
 
   result = alloc_pipe(type);
   slices[result].u.fork.fork = fork;
-  slices[result].u.fork.tester = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -50,12 +49,6 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
   {
     stip_traverse_structure_next_branch(si,st);
     proxy_slice_resolve(&slices[si].u.fork.fork,st);
-  }
-
-  if (slices[si].u.fork.tester!=no_slice)
-  {
-    stip_traverse_structure_next_tester(si,st);
-    proxy_slice_resolve(&slices[si].u.fork.tester,st);
   }
 
   TraceFunctionExit(__func__);
@@ -114,24 +107,6 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionResultEnd();
 }
 
-void stip_traverse_structure_next_tester(slice_index branch_entry,
-                                         stip_structure_traversal *st)
-{
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch_entry);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  st->context = stip_traversal_context_global;
-  stip_traverse_structure(slices[branch_entry].u.fork.tester,st);
-  st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice
  * @param si identifies the testing pipe slice
@@ -150,10 +125,7 @@ void stip_spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[si].u.fork.tester = alloc_proxy_slice();
-    link_to_branch(slices[si].u.fork.tester,state->spun_off[slices[si].u.fork.fork]);
     slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-    slices[state->spun_off[si]].u.fork.tester = state->spun_off[slices[si].u.fork.fork];
   }
   else
     stip_traverse_structure_children(si,st);

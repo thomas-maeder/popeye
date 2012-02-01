@@ -79,7 +79,6 @@ typedef struct
         struct
         {
             slice_index next;
-            slice_index tester;
             slice_index fork;
         } fork;
 

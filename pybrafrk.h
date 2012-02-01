@@ -34,9 +34,6 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
 void stip_traverse_structure_next_branch(slice_index branch_entry,
                                          stip_structure_traversal *st);
 
-void stip_traverse_structure_next_tester(slice_index branch_entry,
-                                         stip_structure_traversal *st);
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice
  * @param si identifies the testing pipe slice
