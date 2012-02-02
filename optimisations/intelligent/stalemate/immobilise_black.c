@@ -118,7 +118,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  slice_has_solution(slices[current_start_slice].u.conditional_pipe.condition);
+  slice_has_solution(slices[current_start_slice].u.fork.fork);
   next_trouble_maker();
   current_state = 0;
 

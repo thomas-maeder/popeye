@@ -327,7 +327,7 @@ static void insert_goal_prerequisite_guards_goal_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves(slices[si].u.conditional_pipe.condition,st);
+  stip_traverse_moves(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

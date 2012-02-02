@@ -101,8 +101,8 @@ void stip_insert_end_of_branch_testers(slice_index root_slice)
 stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const condition = slices[si].u.conditional_pipe.condition;
-  slice_index const next = slices[si].u.conditional_pipe.next;
+  slice_index const condition = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -150,8 +150,8 @@ stip_length_type end_of_branch_tester_can_help(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  slice_index const condition = slices[si].u.conditional_pipe.condition;
-  slice_index const next = slices[si].u.conditional_pipe.next;
+  slice_index const condition = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -22,33 +22,12 @@ slice_index alloc_conditional_pipe(slice_type type, slice_index condition)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.conditional_pipe.condition = condition;
+  slices[result].u.fork.fork = condition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_conditional_pipe(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  assert(slices[si].u.conditional_pipe.condition!=no_slice);
-  stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Traverse a subtree
@@ -64,26 +43,7 @@ void stip_traverse_moves_conditional_pipe(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.conditional_pipe.condition,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Substitute links to proxy slices by the proxy's target
- * @param si slice where to resolve proxies
- * @param st points at the structure holding the state of the traversal
- */
-void conditional_pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_resolve_proxies(si,st);
-
-  assert(slices[si].u.conditional_pipe.condition!=no_slice);
-  proxy_slice_resolve(&slices[si].u.conditional_pipe.condition,st);
+  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -107,7 +67,7 @@ void stip_spin_off_testers_conditional_pipe(slice_index si,
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   }
   else
     stip_traverse_structure_pipe(si,st);
@@ -133,13 +93,13 @@ void conditional_pipe_spin_off_copy(slice_index si,
 
   stip_traverse_structure_pipe(si,st);
 
-  if (state->spun_off[slices[si].u.pipe.next]==no_slice)
+  if (state->spun_off[slices[si].u.fork.next]==no_slice)
   {
     dealloc_slice(state->spun_off[si]);
     state->spun_off[si] = no_slice;
   }
   else
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

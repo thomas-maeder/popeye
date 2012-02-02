@@ -180,9 +180,9 @@ void stip_insert_maxtime_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     maxtime_guard_inserters,
                                     nr_maxtime_guard_inserters);

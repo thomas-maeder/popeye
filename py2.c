@@ -2733,7 +2733,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture)
   single_move_generator_with_king_capture_init_next(sq_departure,
                                                     sq_arrival,
                                                     sq_capture);
-  result = slice_has_solution(slices[temporary_hack_isardam_defense_finder[side]].u.conditional_pipe.condition)==has_solution;
+  result = slice_has_solution(slices[temporary_hack_isardam_defense_finder[side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2757,7 +2757,7 @@ boolean eval_brunner(square sq_departure, square sq_arrival, square sq_capture)
   single_move_generator_with_king_capture_init_next(sq_departure,
                                                     sq_arrival,
                                                     sq_capture);
-  result = slice_has_solution(slices[temporary_hack_brunner_check_defense_finder[side]].u.conditional_pipe.condition)==has_solution;
+  result = slice_has_solution(slices[temporary_hack_brunner_check_defense_finder[side]].u.fork.fork)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -60,7 +60,7 @@ void impose_starter_intelligent_stalemate_filter(slice_index si,
    * Black's immobility.
    */
   *starter = Black;
-  stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

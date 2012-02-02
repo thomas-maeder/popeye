@@ -107,6 +107,23 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_fork(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_next_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice
  * @param si identifies the testing pipe slice

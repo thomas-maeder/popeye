@@ -282,9 +282,9 @@ void stip_insert_restart_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     restart_guard_inserters,
                                     nr_restart_guard_inserters);

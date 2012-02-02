@@ -247,7 +247,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STTemporaryHackFork:
-      result = slice_solve(slices[si].u.conditional_pipe.next);
+      result = slice_solve(slices[si].u.fork.next);
       break;
 
     case STConstraintTester:

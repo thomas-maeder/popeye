@@ -483,7 +483,7 @@ static void avoid_unnecessary_check(slice_index si, stip_structure_traversal *st
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.conditional_pipe.condition);
+                                                slices[si].u.fork.fork);
     if (guard!=no_slice)
       pipe_remove(guard);
   }
@@ -539,7 +539,7 @@ static void instrument_immobile_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_in_branch_guards(slices[si].u.conditional_pipe.condition);
+  insert_in_branch_guards(slices[si].u.fork.fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

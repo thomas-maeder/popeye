@@ -123,19 +123,19 @@ static void start_spinning_off_end_of_branch_tester(slice_index si, stip_structu
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.conditional_pipe.next]);
-    slices[state->spun_off[si]].u.conditional_pipe.condition = state->spun_off[slices[si].u.conditional_pipe.condition];
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
   }
   else
   {
     stip_traverse_structure_pipe(si,st);
 
     state->spinning_off = true;
-    stip_traverse_structure(slices[si].u.conditional_pipe.condition,st);
+    stip_traverse_structure(slices[si].u.fork.fork,st);
     state->spinning_off = false;
   }
 
-  slices[si].u.conditional_pipe.condition = state->spun_off[slices[si].u.conditional_pipe.condition];
+  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -174,9 +174,9 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &stip_spin_off_testers_fork);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_spin_off_testers_conditional_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_spin_off_testers_conditional_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_leaf,
                                                  &stip_spin_off_testers_leaf);
@@ -322,7 +322,7 @@ void insert_single_move_generator_with_king_capture(slice_index si,
 
   {
     slice_index const proto = alloc_single_move_generator_with_king_capture_slice();
-    branch_insert_slices(slices[si].u.conditional_pipe.condition,&proto,1);
+    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -340,7 +340,7 @@ static void insert_single_piece_move_generator(slice_index si,
 
   {
     slice_index const proto = alloc_single_piece_move_generator_slice();
-    branch_insert_slices(slices[si].u.conditional_pipe.condition,&proto,1);
+    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -358,7 +358,7 @@ static void insert_castling_intermediate_move_generator(slice_index si,
 
   {
     slice_index const proto = alloc_castling_intermediate_move_generator_slice();
-    branch_insert_slices(slices[si].u.conditional_pipe.condition,&proto,1);
+    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -376,7 +376,7 @@ static void insert_single_move_generator(slice_index si,
 
   {
     slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].u.conditional_pipe.condition);
+                                                    slices[si].u.fork.fork);
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_single_move_generator_slice());
   }

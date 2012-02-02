@@ -1,6 +1,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "pydata.h"
 #include "pybrafrk.h"
+#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"

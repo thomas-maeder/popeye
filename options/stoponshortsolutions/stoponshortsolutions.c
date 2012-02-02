@@ -125,9 +125,9 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_filter);
   stip_traverse_structure(si,&st);
 

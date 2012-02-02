@@ -98,181 +98,181 @@ static boolean is_slice_index_free[max_nr_slices];
 
 static slice_structural_type highest_structural_type[nr_slice_types] =
 {
-  slice_structure_pipe,             /* STProxy */
-  slice_structure_conditional_pipe, /* STTemporaryHackFork */
-  slice_structure_branch,           /* STAttackAdapter */
-  slice_structure_branch,           /* STDefenseAdapter */
-  slice_structure_branch,           /* STReadyForAttack */
-  slice_structure_branch,           /* STReadyForDefense */
-  slice_structure_branch,           /* STMinLengthOptimiser */
-  slice_structure_branch,           /* STHelpAdapter */
-  slice_structure_branch,           /* STReadyForHelpMove */
-  slice_structure_fork,             /* STSetplayFork */
-  slice_structure_fork,             /* STEndOfBranch */
-  slice_structure_fork,             /* STEndOfBranchForced */
-  slice_structure_fork,             /* STEndOfBranchGoal */
-  slice_structure_conditional_pipe, /* STEndOfBranchTester */
-  slice_structure_binary,           /* STAvoidUnsolvable */
-  slice_structure_fork,             /* STConstraintSolver */
-  slice_structure_conditional_pipe, /* STConstraintTester */
-  slice_structure_pipe,             /* STEndOfRoot */
-  slice_structure_pipe,             /* STEndOfIntro */
-  slice_structure_pipe,             /* STDeadEnd */
-  slice_structure_pipe,             /* STMove */
-  slice_structure_pipe,             /* STMovePlayed */
-  slice_structure_pipe,             /* STDummyMove */
-  slice_structure_branch,           /* STReadyForDummyMove */
-  slice_structure_pipe,             /* STShortSolutionsStart*/
-  slice_structure_binary,           /* STCheckZigzagJump */
-  slice_structure_pipe,             /* STCheckZigzagLanding */
-  slice_structure_conditional_pipe, /* STGoalReachedTester */
-  slice_structure_pipe,             /* STGoalMateReachedTester */
-  slice_structure_pipe,             /* STGoalStalemateReachedTester */
-  slice_structure_pipe,             /* STGoalDoubleStalemateReachedTester */
-  slice_structure_pipe,             /* STGoalTargetReachedTester */
-  slice_structure_pipe,             /* STGoalCheckReachedTester */
-  slice_structure_pipe,             /* STGoalCaptureReachedTester */
-  slice_structure_pipe,             /* STGoalSteingewinnReachedTester */
-  slice_structure_pipe,             /* STGoalEnpassantReachedTester */
-  slice_structure_pipe,             /* STGoalDoubleMateReachedTester */
-  slice_structure_pipe,             /* STGoalCounterMateReachedTester */
-  slice_structure_pipe,             /* STGoalCastlingReachedTester */
-  slice_structure_pipe,             /* STGoalAutoStalemateReachedTester */
-  slice_structure_pipe,             /* STGoalCircuitReachedTester */
-  slice_structure_pipe,             /* STGoalExchangeReachedTester */
-  slice_structure_pipe,             /* STGoalCircuitByRebirthReachedTester */
-  slice_structure_pipe,             /* STGoalExchangeByRebirthReachedTester */
-  slice_structure_pipe,             /* STGoalAnyReachedTester */
-  slice_structure_pipe,             /* STGoalProofgameReachedTester */
-  slice_structure_pipe,             /* STGoalAToBReachedTester */
-  slice_structure_pipe,             /* STGoalMateOrStalemateReachedTester */
-  slice_structure_conditional_pipe, /* STGoalImmobileReachedTester */
-  slice_structure_pipe,             /* STGoalNotCheckReachedTester */
-  slice_structure_leaf,             /* STTrue */
-  slice_structure_leaf,             /* STFalse */
-  slice_structure_binary,           /* STAnd */
-  slice_structure_binary,           /* STOr */
-  slice_structure_pipe,             /* STCheckDetector */
-  slice_structure_pipe,             /* STNot */
-  slice_structure_pipe,             /* STSelfCheckGuard */
-  slice_structure_pipe,             /* STOhneschachCheckGuard */
-  slice_structure_pipe,             /* STMoveInverter */
-  slice_structure_branch,           /* STMinLengthGuard */
-  slice_structure_binary,           /* STForkOnRemaining */
-  slice_structure_pipe,             /* STFindShortest */
-  slice_structure_branch,           /* STFindByIncreasingLength */
-  slice_structure_pipe,             /* STGeneratingMoves */
-  slice_structure_pipe,             /* STMoveGenerator */
-  slice_structure_pipe,             /* STKingMoveGenerator */
-  slice_structure_pipe,             /* STNonKingMoveGenerator */
-  slice_structure_pipe,             /* STCastlingIntermediateMoveGenerator */
-  slice_structure_conditional_pipe, /* STCastlingIntermediateMoveLegalityTester */
-  slice_structure_pipe,             /* STRefutationsAllocator */
-  slice_structure_pipe,             /* STTrySolver */
-  slice_structure_pipe,             /* STRefutationsSolver */
-  slice_structure_pipe,             /* STPlaySuppressor */
-  slice_structure_testing_pipe,     /* STContinuationSolver */
-  slice_structure_testing_pipe,     /* STThreatSolver */
-  slice_structure_testing_pipe,     /* STThreatEnforcer */
-  slice_structure_pipe,             /* STThreatStart */
-  slice_structure_pipe,             /* STThreatCollector */
-  slice_structure_pipe,             /* STThreatDefeatedTester */
-  slice_structure_pipe,             /* STRefutationsCollector */
-  slice_structure_pipe,             /* STLegalMoveCounter */
-  slice_structure_pipe,             /* STAnyMoveCounter */
-  slice_structure_pipe,             /* STCaptureCounter */
-  slice_structure_pipe,             /* STTestingPrerequisites */
-  slice_structure_conditional_pipe, /* STDoubleMateFilter */
-  slice_structure_conditional_pipe, /* STCounterMateFilter */
-  slice_structure_pipe,             /* STPrerequisiteOptimiser */
-  slice_structure_testing_pipe,     /* STNoShortVariations */
-  slice_structure_pipe,             /* STRestartGuard */
-  slice_structure_pipe,             /* STRestartGuardIntelligent */
-  slice_structure_pipe,             /* STIntelligentTargetCounter */
-  slice_structure_pipe,             /* STMaxTimeGuard */
-  slice_structure_pipe,             /* STMaxSolutionsInitialiser */
-  slice_structure_pipe,             /* STMaxSolutionsGuard */
-  slice_structure_fork,             /* STEndOfBranchGoalImmobile */
-  slice_structure_pipe,             /* STDeadEndGoal */
-  slice_structure_pipe,             /* STOrthodoxMatingMoveGenerator */
-  slice_structure_pipe,             /* STKillerMoveCollector */
-  slice_structure_pipe,             /* STKillerMoveMoveGenerator */
-  slice_structure_pipe,             /* STKillerMoveFinalDefenseMove */
-  slice_structure_pipe,             /* STCountNrOpponentMovesMoveGenerator */
-  slice_structure_pipe,             /* STEnPassantFilter */
-  slice_structure_pipe,             /* STCastlingFilter */
-  slice_structure_branch,           /* STAttackHashed */
-  slice_structure_derived_pipe,     /* STAttackHashedTester */
-  slice_structure_branch,           /* STHelpHashed */
-  slice_structure_derived_pipe,     /* STHelpHashedTester */
-  slice_structure_pipe,             /* STIntelligentMovesLeftInitialiser */
-  slice_structure_conditional_pipe, /* STIntelligentMateFilter */
-  slice_structure_conditional_pipe, /* STIntelligentStalemateFilter */
-  slice_structure_pipe,             /* STIntelligentProof */
-  slice_structure_pipe,             /* STGoalReachableGuardFilterMate */
-  slice_structure_pipe,             /* STGoalReachableGuardFilterStalemate */
-  slice_structure_pipe,             /* STGoalReachableGuardFilterProof */
-  slice_structure_pipe,             /* STGoalReachableGuardFilterProofFairy */
-  slice_structure_pipe,             /* STIntelligentSolutionsPerTargetPosCounter */
-  slice_structure_pipe,             /* STIntelligentLimitNrSolutionsPerTargetPos */
-  slice_structure_pipe,             /* STIntelligentDuplicateAvoider */
-  slice_structure_pipe,             /* STIntelligentImmobilisationCounter */
-  slice_structure_pipe,             /* STKeepMatingFilter */
-  slice_structure_conditional_pipe, /* STMaxFlightsquares */
-  slice_structure_pipe,             /* STFlightsquaresCounter */
-  slice_structure_pipe,             /* STDegenerateTree */
-  slice_structure_testing_pipe,     /* STMaxNrNonTrivial */
-  slice_structure_pipe,             /* STMaxNrNonTrivialCounter */
-  slice_structure_testing_pipe,     /* STMaxThreatLength */
-  slice_structure_pipe,             /* STMaxThreatLengthStart */
-  slice_structure_pipe,             /* STStopOnShortSolutionsInitialiser */
-  slice_structure_branch,           /* STStopOnShortSolutionsFilter */
-  slice_structure_pipe,             /* STAmuMateFilter */
-  slice_structure_pipe,             /* STUltraschachzwangGoalFilter */
-  slice_structure_pipe,             /* STCirceSteingewinnFilter */
-  slice_structure_pipe,             /* STCirceCircuitSpecial */
-  slice_structure_pipe,             /* STCirceExchangeSpecial */
-  slice_structure_pipe,             /* STAnticirceTargetSquareFilter */
-  slice_structure_pipe,             /* STAnticirceCircuitSpecial */
-  slice_structure_pipe,             /* STAnticirceExchangeSpecial */
-  slice_structure_pipe,             /* STAnticirceExchangeFilter */
-  slice_structure_pipe,             /* STPiecesParalysingMateFilter */
-  slice_structure_pipe,             /* STPiecesParalysingStalemateSpecial */
-  slice_structure_pipe,             /* STPiecesKamikazeTargetSquareFilter */
-  slice_structure_pipe,             /* STImmobilityTester */
-  slice_structure_conditional_pipe, /* STOpponentMovesCounterFork */
-  slice_structure_pipe,             /* STOpponentMovesCounter */
-  slice_structure_pipe,             /* STOhneschachSuspender */
-  slice_structure_conditional_pipe, /* STExclusiveChessMatingMoveCounter */
-  slice_structure_pipe,             /* STExclusiveChessUnsuspender */
-  slice_structure_pipe,             /* STMaffImmobilityTesterKing */
-  slice_structure_pipe,             /* STOWUImmobilityTesterKing) */
-  slice_structure_pipe,             /* STSingleMoveGeneratorWithKingCapture */
-  slice_structure_conditional_pipe, /* STBrunnerDefenderFinder */
-  slice_structure_conditional_pipe, /* STIsardamDefenderFinder */
-  slice_structure_conditional_pipe, /* STCageCirceNonCapturingMoveFinder */
-  slice_structure_pipe,             /* STSinglePieceMoveGenerator */
-  slice_structure_pipe,             /* STSingleMoveGenerator */
-  slice_structure_conditional_pipe, /* STMaximummerCandidateMoveTester */
-  slice_structure_pipe,             /* STBGLFilter */
-  slice_structure_pipe,             /* STOutputModeSelector */
-  slice_structure_pipe,             /* STIllegalSelfcheckWriter */
-  slice_structure_pipe,             /* STEndOfPhaseWriter */
-  slice_structure_pipe,             /* STEndOfSolutionWriter */
-  slice_structure_pipe,             /* STMoveWriter */
-  slice_structure_pipe,             /* STKeyWriter */
-  slice_structure_pipe,             /* STTryWriter */
-  slice_structure_pipe,             /* STZugzwangWriter */
-  slice_structure_testing_pipe,     /* STTrivialEndFilter */
-  slice_structure_pipe,             /* STRefutingVariationWriter */
-  slice_structure_pipe,             /* STRefutationWriter */
-  slice_structure_pipe,             /* STOutputPlaintextTreeCheckWriter */
-  slice_structure_pipe,             /* STOutputPlaintextTreeDecorationWriter */
-  slice_structure_pipe,             /* STOutputPlaintextLineLineWriter */
-  slice_structure_pipe,             /* STOutputPlaintextTreeGoalWriter */
-  slice_structure_pipe,             /* STOutputPlaintextMoveInversionCounter */
-  slice_structure_pipe,             /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  slice_structure_pipe              /* STMoveTracer */
+  slice_structure_pipe,         /* STProxy */
+  slice_structure_fork,         /* STTemporaryHackFork */
+  slice_structure_branch,       /* STAttackAdapter */
+  slice_structure_branch,       /* STDefenseAdapter */
+  slice_structure_branch,       /* STReadyForAttack */
+  slice_structure_branch,       /* STReadyForDefense */
+  slice_structure_branch,       /* STMinLengthOptimiser */
+  slice_structure_branch,       /* STHelpAdapter */
+  slice_structure_branch,       /* STReadyForHelpMove */
+  slice_structure_fork,         /* STSetplayFork */
+  slice_structure_fork,         /* STEndOfBranch */
+  slice_structure_fork,         /* STEndOfBranchForced */
+  slice_structure_fork,         /* STEndOfBranchGoal */
+  slice_structure_fork,         /* STEndOfBranchTester */
+  slice_structure_binary,       /* STAvoidUnsolvable */
+  slice_structure_fork,         /* STConstraintSolver */
+  slice_structure_fork,         /* STConstraintTester */
+  slice_structure_pipe,         /* STEndOfRoot */
+  slice_structure_pipe,         /* STEndOfIntro */
+  slice_structure_pipe,         /* STDeadEnd */
+  slice_structure_pipe,         /* STMove */
+  slice_structure_pipe,         /* STMovePlayed */
+  slice_structure_pipe,         /* STDummyMove */
+  slice_structure_branch,       /* STReadyForDummyMove */
+  slice_structure_pipe,         /* STShortSolutionsStart*/
+  slice_structure_binary,       /* STCheckZigzagJump */
+  slice_structure_pipe,         /* STCheckZigzagLanding */
+  slice_structure_fork,         /* STGoalReachedTester */
+  slice_structure_pipe,         /* STGoalMateReachedTester */
+  slice_structure_pipe,         /* STGoalStalemateReachedTester */
+  slice_structure_pipe,         /* STGoalDoubleStalemateReachedTester */
+  slice_structure_pipe,         /* STGoalTargetReachedTester */
+  slice_structure_pipe,         /* STGoalCheckReachedTester */
+  slice_structure_pipe,         /* STGoalCaptureReachedTester */
+  slice_structure_pipe,         /* STGoalSteingewinnReachedTester */
+  slice_structure_pipe,         /* STGoalEnpassantReachedTester */
+  slice_structure_pipe,         /* STGoalDoubleMateReachedTester */
+  slice_structure_pipe,         /* STGoalCounterMateReachedTester */
+  slice_structure_pipe,         /* STGoalCastlingReachedTester */
+  slice_structure_pipe,         /* STGoalAutoStalemateReachedTester */
+  slice_structure_pipe,         /* STGoalCircuitReachedTester */
+  slice_structure_pipe,         /* STGoalExchangeReachedTester */
+  slice_structure_pipe,         /* STGoalCircuitByRebirthReachedTester */
+  slice_structure_pipe,         /* STGoalExchangeByRebirthReachedTester */
+  slice_structure_pipe,         /* STGoalAnyReachedTester */
+  slice_structure_pipe,         /* STGoalProofgameReachedTester */
+  slice_structure_pipe,         /* STGoalAToBReachedTester */
+  slice_structure_pipe,         /* STGoalMateOrStalemateReachedTester */
+  slice_structure_fork,         /* STGoalImmobileReachedTester */
+  slice_structure_pipe,         /* STGoalNotCheckReachedTester */
+  slice_structure_leaf,         /* STTrue */
+  slice_structure_leaf,         /* STFalse */
+  slice_structure_binary,       /* STAnd */
+  slice_structure_binary,       /* STOr */
+  slice_structure_pipe,         /* STCheckDetector */
+  slice_structure_pipe,         /* STNot */
+  slice_structure_pipe,         /* STSelfCheckGuard */
+  slice_structure_pipe,         /* STOhneschachCheckGuard */
+  slice_structure_pipe,         /* STMoveInverter */
+  slice_structure_branch,       /* STMinLengthGuard */
+  slice_structure_binary,       /* STForkOnRemaining */
+  slice_structure_pipe,         /* STFindShortest */
+  slice_structure_branch,       /* STFindByIncreasingLength */
+  slice_structure_pipe,         /* STGeneratingMoves */
+  slice_structure_pipe,         /* STMoveGenerator */
+  slice_structure_pipe,         /* STKingMoveGenerator */
+  slice_structure_pipe,         /* STNonKingMoveGenerator */
+  slice_structure_pipe,         /* STCastlingIntermediateMoveGenerator */
+  slice_structure_fork,         /* STCastlingIntermediateMoveLegalityTester */
+  slice_structure_pipe,         /* STRefutationsAllocator */
+  slice_structure_pipe,         /* STTrySolver */
+  slice_structure_pipe,         /* STRefutationsSolver */
+  slice_structure_pipe,         /* STPlaySuppressor */
+  slice_structure_testing_pipe, /* STContinuationSolver */
+  slice_structure_testing_pipe, /* STThreatSolver */
+  slice_structure_testing_pipe, /* STThreatEnforcer */
+  slice_structure_pipe,         /* STThreatStart */
+  slice_structure_pipe,         /* STThreatCollector */
+  slice_structure_pipe,         /* STThreatDefeatedTester */
+  slice_structure_pipe,         /* STRefutationsCollector */
+  slice_structure_pipe,         /* STLegalMoveCounter */
+  slice_structure_pipe,         /* STAnyMoveCounter */
+  slice_structure_pipe,         /* STCaptureCounter */
+  slice_structure_pipe,         /* STTestingPrerequisites */
+  slice_structure_fork,         /* STDoubleMateFilter */
+  slice_structure_fork,         /* STCounterMateFilter */
+  slice_structure_pipe,         /* STPrerequisiteOptimiser */
+  slice_structure_testing_pipe, /* STNoShortVariations */
+  slice_structure_pipe,         /* STRestartGuard */
+  slice_structure_pipe,         /* STRestartGuardIntelligent */
+  slice_structure_pipe,         /* STIntelligentTargetCounter */
+  slice_structure_pipe,         /* STMaxTimeGuard */
+  slice_structure_pipe,         /* STMaxSolutionsInitialiser */
+  slice_structure_pipe,         /* STMaxSolutionsGuard */
+  slice_structure_fork,         /* STEndOfBranchGoalImmobile */
+  slice_structure_pipe,         /* STDeadEndGoal */
+  slice_structure_pipe,         /* STOrthodoxMatingMoveGenerator */
+  slice_structure_pipe,         /* STKillerMoveCollector */
+  slice_structure_pipe,         /* STKillerMoveMoveGenerator */
+  slice_structure_pipe,         /* STKillerMoveFinalDefenseMove */
+  slice_structure_pipe,         /* STCountNrOpponentMovesMoveGenerator */
+  slice_structure_pipe,         /* STEnPassantFilter */
+  slice_structure_pipe,         /* STCastlingFilter */
+  slice_structure_branch,       /* STAttackHashed */
+  slice_structure_derived_pipe, /* STAttackHashedTester */
+  slice_structure_branch,       /* STHelpHashed */
+  slice_structure_derived_pipe, /* STHelpHashedTester */
+  slice_structure_pipe,         /* STIntelligentMovesLeftInitialiser */
+  slice_structure_fork,         /* STIntelligentMateFilter */
+  slice_structure_fork,         /* STIntelligentStalemateFilter */
+  slice_structure_pipe,         /* STIntelligentProof */
+  slice_structure_pipe,         /* STGoalReachableGuardFilterMate */
+  slice_structure_pipe,         /* STGoalReachableGuardFilterStalemate */
+  slice_structure_pipe,         /* STGoalReachableGuardFilterProof */
+  slice_structure_pipe,         /* STGoalReachableGuardFilterProofFairy */
+  slice_structure_pipe,         /* STIntelligentSolutionsPerTargetPosCounter */
+  slice_structure_pipe,         /* STIntelligentLimitNrSolutionsPerTargetPos */
+  slice_structure_pipe,         /* STIntelligentDuplicateAvoider */
+  slice_structure_pipe,         /* STIntelligentImmobilisationCounter */
+  slice_structure_pipe,         /* STKeepMatingFilter */
+  slice_structure_fork,         /* STMaxFlightsquares */
+  slice_structure_pipe,         /* STFlightsquaresCounter */
+  slice_structure_pipe,         /* STDegenerateTree */
+  slice_structure_testing_pipe, /* STMaxNrNonTrivial */
+  slice_structure_pipe,         /* STMaxNrNonTrivialCounter */
+  slice_structure_testing_pipe, /* STMaxThreatLength */
+  slice_structure_pipe,         /* STMaxThreatLengthStart */
+  slice_structure_pipe,         /* STStopOnShortSolutionsInitialiser */
+  slice_structure_branch,       /* STStopOnShortSolutionsFilter */
+  slice_structure_pipe,         /* STAmuMateFilter */
+  slice_structure_pipe,         /* STUltraschachzwangGoalFilter */
+  slice_structure_pipe,         /* STCirceSteingewinnFilter */
+  slice_structure_pipe,         /* STCirceCircuitSpecial */
+  slice_structure_pipe,         /* STCirceExchangeSpecial */
+  slice_structure_pipe,         /* STAnticirceTargetSquareFilter */
+  slice_structure_pipe,         /* STAnticirceCircuitSpecial */
+  slice_structure_pipe,         /* STAnticirceExchangeSpecial */
+  slice_structure_pipe,         /* STAnticirceExchangeFilter */
+  slice_structure_pipe,         /* STPiecesParalysingMateFilter */
+  slice_structure_pipe,         /* STPiecesParalysingStalemateSpecial */
+  slice_structure_pipe,         /* STPiecesKamikazeTargetSquareFilter */
+  slice_structure_pipe,         /* STImmobilityTester */
+  slice_structure_fork,         /* STOpponentMovesCounterFork */
+  slice_structure_pipe,         /* STOpponentMovesCounter */
+  slice_structure_pipe,         /* STOhneschachSuspender */
+  slice_structure_fork,         /* STExclusiveChessMatingMoveCounter */
+  slice_structure_pipe,         /* STExclusiveChessUnsuspender */
+  slice_structure_pipe,         /* STMaffImmobilityTesterKing */
+  slice_structure_pipe,         /* STOWUImmobilityTesterKing) */
+  slice_structure_pipe,         /* STSingleMoveGeneratorWithKingCapture */
+  slice_structure_fork,         /* STBrunnerDefenderFinder */
+  slice_structure_fork,         /* STIsardamDefenderFinder */
+  slice_structure_fork,         /* STCageCirceNonCapturingMoveFinder */
+  slice_structure_pipe,         /* STSinglePieceMoveGenerator */
+  slice_structure_pipe,         /* STSingleMoveGenerator */
+  slice_structure_fork,         /* STMaximummerCandidateMoveTester */
+  slice_structure_pipe,         /* STBGLFilter */
+  slice_structure_pipe,         /* STOutputModeSelector */
+  slice_structure_pipe,         /* STIllegalSelfcheckWriter */
+  slice_structure_pipe,         /* STEndOfPhaseWriter */
+  slice_structure_pipe,         /* STEndOfSolutionWriter */
+  slice_structure_pipe,         /* STMoveWriter */
+  slice_structure_pipe,         /* STKeyWriter */
+  slice_structure_pipe,         /* STTryWriter */
+  slice_structure_pipe,         /* STZugzwangWriter */
+  slice_structure_testing_pipe, /* STTrivialEndFilter */
+  slice_structure_pipe,         /* STRefutingVariationWriter */
+  slice_structure_pipe,         /* STRefutationWriter */
+  slice_structure_pipe,         /* STOutputPlaintextTreeCheckWriter */
+  slice_structure_pipe,         /* STOutputPlaintextTreeDecorationWriter */
+  slice_structure_pipe,         /* STOutputPlaintextLineLineWriter */
+  slice_structure_pipe,         /* STOutputPlaintextTreeGoalWriter */
+  slice_structure_pipe,         /* STOutputPlaintextMoveInversionCounter */
+  slice_structure_pipe,         /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_structure_pipe          /* STMoveTracer */
 };
 
 static slice_functional_type functional_type[nr_slice_types] =
@@ -485,10 +485,6 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
 
     case slice_structure_testing_pipe:
       result = base==slice_structure_pipe || base==slice_structure_testing_pipe;
-      break;
-
-    case slice_structure_conditional_pipe:
-      result = base==slice_structure_pipe || base==slice_structure_conditional_pipe;
       break;
 
     case slice_structure_derived_pipe:
@@ -804,7 +800,7 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
   stip_traverse_structure_pipe(fork,st);
 
   st->level = structure_traversal_level_nested;
-  stip_traverse_structure(slices[fork].u.conditional_pipe.condition,st);
+  stip_traverse_structure(slices[fork].u.fork.fork,st);
   st->level = structure_traversal_level_root;
 
   TraceFunctionExit(__func__);
@@ -1029,26 +1025,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         break;
       }
 
-      case slice_structure_conditional_pipe:
-      {
-        slice_index const condition = slices[si].u.conditional_pipe.condition;
-        slice_index const next = slices[si].u.conditional_pipe.next;
-        if (condition!=no_slice)
-        {
-          slice_index const condition_copy = deep_copy_recursive(condition,copies);
-          slices[result].u.conditional_pipe.condition = condition_copy;
-        }
-        if (next!=no_slice)
-        {
-          slice_index const next_copy = deep_copy_recursive(next,copies);
-          if (slices[next].prev==si)
-            pipe_link(result,next_copy);
-          else
-            pipe_set_successor(result,next_copy);
-        }
-        break;
-      }
-
       case slice_structure_binary:
       {
         slice_index const op1 = slices[si].u.binary.op1;
@@ -1208,9 +1184,9 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.conditional_pipe.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].u.fork.next]);
 
-  state->spun_off[si] = state->spun_off[slices[si].u.conditional_pipe.next];
+  state->spun_off[si] = state->spun_off[slices[si].u.fork.next];
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -1400,9 +1376,9 @@ void stip_detect_starter(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_testing_pipe,
                                                  &pipe_detect_starter);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &pipe_detect_starter);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &pipe_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &pipe_detect_starter);
@@ -1612,7 +1588,7 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
 static stip_structure_visitor structure_children_traversers[] =
 {
   &stip_traverse_structure_pipe,              /* STProxy */
-  &stip_traverse_structure_conditional_pipe,  /* STTemporaryHackFork */
+  &stip_traverse_structure_fork,              /* STTemporaryHackFork */
   &stip_traverse_structure_attack_adpater,    /* STAttackAdapter */
   &stip_traverse_structure_defense_adapter,   /* STDefenseAdapter */
   &stip_traverse_structure_ready_for_attack,  /* STReadyForAttack */
@@ -1621,13 +1597,13 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
   &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
-  &stip_traverse_structure_end_of_branch,     /* STEndOfBranch */
-  &stip_traverse_structure_end_of_branch,     /* STEndOfBranchForced */
-  &stip_traverse_structure_end_of_branch,     /* STEndOfBranchGoal */
-  &stip_traverse_structure_conditional_pipe,  /* STEndOfBranchTester */
+  &stip_traverse_structure_fork,              /* STEndOfBranch */
+  &stip_traverse_structure_fork,              /* STEndOfBranchForced */
+  &stip_traverse_structure_fork,              /* STEndOfBranchGoal */
+  &stip_traverse_structure_fork,              /* STEndOfBranchTester */
   &stip_traverse_structure_binary,            /* STAvoidUnsolvable */
-  &stip_traverse_structure_end_of_branch,     /* STConstraintSolver */
-  &stip_traverse_structure_conditional_pipe,  /* STConstraintTester */
+  &stip_traverse_structure_fork,              /* STConstraintSolver */
+  &stip_traverse_structure_fork,              /* STConstraintTester */
   &stip_traverse_structure_pipe,              /* STEndOfRoot */
   &stip_traverse_structure_pipe,              /* STEndOfIntro */
   &stip_traverse_structure_pipe,              /* STDeadEnd */
@@ -1638,7 +1614,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
   &stip_traverse_structure_binary,            /* STCheckZigzagJump */
   &stip_traverse_structure_pipe,              /* STCheckZigzagLanding */
-  &stip_traverse_structure_conditional_pipe,  /* STGoalReachedTester */
+  &stip_traverse_structure_fork,              /* STGoalReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalStalemateReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalDoubleStalemateReachedTester */
@@ -1659,7 +1635,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateOrStalemateReachedTester */
-  &stip_traverse_structure_conditional_pipe,  /* STGoalImmobileReachedTester */
+  &stip_traverse_structure_fork,              /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalNotCheckReachedTester */
   &stip_structure_visitor_noop,               /* STTrue */
   &stip_structure_visitor_noop,               /* STFalse */
@@ -1679,7 +1655,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STKingMoveGenerator */
   &stip_traverse_structure_pipe,              /* STNonKingMoveGenerator */
   &stip_traverse_structure_pipe,              /* STCastlingIntermediateMoveGenerator */
-  &stip_traverse_structure_conditional_pipe,  /* STCastlingIntermediateMoveLegalityTester */
+  &stip_traverse_structure_fork,              /* STCastlingIntermediateMoveLegalityTester */
   &stip_traverse_structure_pipe,              /* STRefutationsAllocator */
   &stip_traverse_structure_pipe,              /* STTrySolver */
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
@@ -1695,8 +1671,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STAnyMoveCounter */
   &stip_traverse_structure_pipe,              /* STCaptureCounter */
   &stip_traverse_structure_pipe,              /* STTestingPrerequisites */
-  &stip_traverse_structure_conditional_pipe,  /* STDoubleMateFilter */
-  &stip_traverse_structure_conditional_pipe,  /* STCounterMateFilter */
+  &stip_traverse_structure_fork,              /* STDoubleMateFilter */
+  &stip_traverse_structure_fork,              /* STCounterMateFilter */
   &stip_traverse_structure_pipe,              /* STPrerequisiteOptimiser */
   &stip_traverse_structure_testing_pipe,      /* STNoShortVariations */
   &stip_traverse_structure_pipe,              /* STRestartGuard */
@@ -1705,7 +1681,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMaxTimeGuard */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsInitialiser */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsGuard */
-  &stip_traverse_structure_end_of_branch,     /* STEndOfBranchGoalImmobile */
+  &stip_traverse_structure_fork,              /* STEndOfBranchGoalImmobile */
   &stip_traverse_structure_pipe,              /* STDeadEndGoal */
   &stip_traverse_structure_pipe,              /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,              /* STKillerMoveCollector */
@@ -1719,8 +1695,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STHelpHashed */
   &stip_traverse_structure_pipe,              /* STHelpHashedTester */
   &stip_traverse_structure_pipe,              /* STIntelligentMovesLeftInitialiser */
-  &stip_traverse_structure_conditional_pipe,  /* STIntelligentMateFilter */
-  &stip_traverse_structure_conditional_pipe,  /* STIntelligentStalemateFilter */
+  &stip_traverse_structure_fork,              /* STIntelligentMateFilter */
+  &stip_traverse_structure_fork,              /* STIntelligentStalemateFilter */
   &stip_traverse_structure_pipe,              /* STIntelligentProof */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterMate */
   &stip_traverse_structure_pipe,              /* STGoalReachableGuardFilterStalemate */
@@ -1731,7 +1707,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_pipe,              /* STIntelligentImmobilisationCounter */
   &stip_traverse_structure_pipe,              /* STKeepMatingFilter */
-  &stip_traverse_structure_conditional_pipe,  /* STMaxFlightsquares */
+  &stip_traverse_structure_fork,              /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,              /* STFlightsquaresCounter */
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
   &stip_traverse_structure_testing_pipe,      /* STMaxNrNonTrivial */
@@ -1753,20 +1729,20 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
-  &stip_traverse_structure_conditional_pipe,  /* STOpponentMovesCounterFork */
+  &stip_traverse_structure_fork,              /* STOpponentMovesCounterFork */
   &stip_traverse_structure_pipe,              /* STOpponentMovesCounter */
   &stip_traverse_structure_pipe,              /* STOhneschachSuspender */
-  &stip_traverse_structure_conditional_pipe,  /* STExclusiveChessMatingMoveCounter */
+  &stip_traverse_structure_fork,              /* STExclusiveChessMatingMoveCounter */
   &stip_traverse_structure_pipe,              /* STExclusiveChessUnsuspender */
   &stip_traverse_structure_pipe,              /* STMaffImmobilityTesterKing */
   &stip_traverse_structure_pipe,              /* STOWUImmobilityTesterKing */
   &stip_traverse_structure_pipe,              /* STSingleMoveGeneratorWithKingCapture */
-  &stip_traverse_structure_conditional_pipe,  /* STBrunnerDefenderFinder */
-  &stip_traverse_structure_conditional_pipe,  /* STIsardamDefenderFinder */
-  &stip_traverse_structure_conditional_pipe,  /* STCageCirceNonCapturingMoveFinder */
+  &stip_traverse_structure_fork,              /* STBrunnerDefenderFinder */
+  &stip_traverse_structure_fork,              /* STIsardamDefenderFinder */
+  &stip_traverse_structure_fork,              /* STCageCirceNonCapturingMoveFinder */
   &stip_traverse_structure_pipe,              /* STSinglePieceMoveGenerator */
   &stip_traverse_structure_pipe,              /* STSingleMoveGenerator */
-  &stip_traverse_structure_conditional_pipe,  /* STMaximummerCandidateMoveTester */
+  &stip_traverse_structure_fork,              /* STMaximummerCandidateMoveTester */
   &stip_traverse_structure_pipe,              /* STBGLFilter */
   &stip_traverse_structure_pipe,              /* STOutputModeSelector */
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */

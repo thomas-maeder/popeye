@@ -73,8 +73,8 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
 
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
   {
-    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.conditional_pipe.condition));
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.conditional_pipe.next]);
+    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.fork.fork));
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);

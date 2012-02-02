@@ -1865,9 +1865,9 @@ void stip_insert_hash_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&previous_move_slice);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);

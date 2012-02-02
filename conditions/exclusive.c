@@ -69,7 +69,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.conditional_pipe.condition)!=has_solution);
+            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,7 +98,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.conditional_pipe.condition);
+  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
@@ -157,7 +157,7 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.conditional_pipe.condition);
+                                                slices[si].u.fork.fork);
     assert(guard!=no_slice);
     pipe_remove(guard);
   }

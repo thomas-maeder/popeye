@@ -44,9 +44,9 @@ stip_length_type doublemate_filter_can_attack(slice_index si, stip_length_type n
   TraceFunctionParamListEnd();
 
   if (max_unsolvable<slack_length_battle+1
-      && slice_has_solution(slices[si].u.conditional_pipe.condition)==has_no_solution)
+      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = can_attack(slices[si].u.conditional_pipe.next,n);
+  result = can_attack(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -73,9 +73,9 @@ stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (max_unsolvable<slack_length_battle+1
-      && slice_has_solution(slices[si].u.conditional_pipe.condition)==has_no_solution)
+      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = attack(slices[si].u.conditional_pipe.next,n);
+  result = attack(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -104,9 +104,9 @@ stip_length_type doublemate_filter_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (slice_has_solution(slices[si].u.conditional_pipe.condition)==has_no_solution)
+  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = help(slices[si].u.conditional_pipe.next,slack_length_help+1);
+  result = help(slices[si].u.fork.next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
@@ -135,9 +135,9 @@ stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (slice_has_solution(slices[si].u.conditional_pipe.condition)==has_no_solution)
+  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = can_help(slices[si].u.conditional_pipe.next,slack_length_help+1);
+  result = can_help(slices[si].u.fork.next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);
