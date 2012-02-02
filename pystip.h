@@ -203,6 +203,7 @@ typedef enum
 #define ENUMERATORS                                              \
   ENUMERATOR(slice_function_unspecified),                        \
   ENUMERATOR(slice_function_move_generator),                     \
+  ENUMERATOR(slice_function_conditional_pipe),                   \
   ENUMERATOR(slice_function_writer),                             \
   ENUMERATOR(nr_slice_functional_types)
 

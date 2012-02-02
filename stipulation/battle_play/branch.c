@@ -836,9 +836,9 @@ void battle_branch_make_root_slices(slice_index adapter,
         stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_conditional_pipe,
-                                                   &conditional_pipe_spin_off_copy);
+    stip_moves_traversal_override_by_function(&st,
+                                              slice_function_conditional_pipe,
+                                              &conditional_pipe_spin_off_copy);
     stip_structure_traversal_override_single(&st,
                                              STConstraintTester,
                                              &constraint_tester_make_root);
@@ -904,9 +904,9 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
         stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
       else if (slice_structure_is_subclass(i,slice_structure_binary))
         stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_conditional_pipe,
-                                                   &conditional_pipe_spin_off_copy);
+    stip_moves_traversal_override_by_function(&st,
+                                              slice_function_conditional_pipe,
+                                              &conditional_pipe_spin_off_copy);
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
     stip_traverse_structure(next,&st);
 

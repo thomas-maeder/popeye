@@ -309,9 +309,9 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   stip_moves_traversal_override_by_function(&st,
                                             slice_function_move_generator,
                                             &generator_swallow_goal);
-  stip_moves_traversal_override_by_structure(&st,
-                                             slice_structure_conditional_pipe,
-                                             &stip_traverse_moves_pipe);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_conditional_pipe,
+                                            &stip_traverse_moves_pipe);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);

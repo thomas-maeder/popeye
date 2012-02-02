@@ -177,9 +177,9 @@ static void optimise_move_generators(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_conditional_pipe,
-                                                 &stip_traverse_structure_pipe);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_conditional_pipe,
+                                            &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     killer_move_collector_inserters,
                                     nr_killer_move_collector_inserters);

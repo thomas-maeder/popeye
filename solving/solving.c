@@ -174,9 +174,9 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &stip_spin_off_testers_fork);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_conditional_pipe,
-                                                 &stip_spin_off_testers_conditional_pipe);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_conditional_pipe,
+                                            &stip_spin_off_testers_conditional_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_leaf,
                                                  &stip_spin_off_testers_leaf);

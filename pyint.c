@@ -655,9 +655,9 @@ static void stip_insert_goalreachable_guards(slice_index si, goal_type goal)
   assert(goal!=no_goal);
 
   stip_structure_traversal_init(&st,&goal);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_conditional_pipe,
-                                                 &stip_traverse_structure_pipe);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_conditional_pipe,
+                                            &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     goalreachable_guards_inserters,
                                     nr_goalreachable_guards_inserters);
