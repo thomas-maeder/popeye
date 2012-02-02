@@ -171,9 +171,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STTrySolver */
   slice_structure_pipe,         /* STRefutationsSolver */
   slice_structure_pipe,         /* STPlaySuppressor */
-  slice_structure_testing_pipe, /* STContinuationSolver */
-  slice_structure_testing_pipe, /* STThreatSolver */
-  slice_structure_testing_pipe, /* STThreatEnforcer */
+  slice_structure_fork,         /* STContinuationSolver */
+  slice_structure_fork,         /* STThreatSolver */
+  slice_structure_fork,         /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
   slice_structure_pipe,         /* STThreatCollector */
   slice_structure_pipe,         /* STThreatDefeatedTester */
@@ -185,7 +185,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STDoubleMateFilter */
   slice_structure_fork,         /* STCounterMateFilter */
   slice_structure_pipe,         /* STPrerequisiteOptimiser */
-  slice_structure_testing_pipe, /* STNoShortVariations */
+  slice_structure_fork,         /* STNoShortVariations */
   slice_structure_pipe,         /* STRestartGuard */
   slice_structure_pipe,         /* STRestartGuardIntelligent */
   slice_structure_pipe,         /* STIntelligentTargetCounter */
@@ -221,9 +221,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STMaxFlightsquares */
   slice_structure_pipe,         /* STFlightsquaresCounter */
   slice_structure_pipe,         /* STDegenerateTree */
-  slice_structure_testing_pipe, /* STMaxNrNonTrivial */
+  slice_structure_fork,         /* STMaxNrNonTrivial */
   slice_structure_pipe,         /* STMaxNrNonTrivialCounter */
-  slice_structure_testing_pipe, /* STMaxThreatLength */
+  slice_structure_fork,         /* STMaxThreatLength */
   slice_structure_pipe,         /* STMaxThreatLengthStart */
   slice_structure_pipe,         /* STStopOnShortSolutionsInitialiser */
   slice_structure_branch,       /* STStopOnShortSolutionsFilter */
@@ -263,7 +263,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STKeyWriter */
   slice_structure_pipe,         /* STTryWriter */
   slice_structure_pipe,         /* STZugzwangWriter */
-  slice_structure_testing_pipe, /* STTrivialEndFilter */
+  slice_structure_fork,         /* STTrivialEndFilter */
   slice_structure_pipe,         /* STRefutingVariationWriter */
   slice_structure_pipe,         /* STRefutationWriter */
   slice_structure_pipe,         /* STOutputPlaintextTreeCheckWriter */
@@ -350,9 +350,9 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STTrySolver */
   slice_function_unspecified,      /* STRefutationsSolver */
   slice_function_unspecified,      /* STPlaySuppressor */
-  slice_function_unspecified,      /* STContinuationSolver */
-  slice_function_unspecified,      /* STThreatSolver */
-  slice_function_unspecified,      /* STThreatEnforcer */
+  slice_function_testing_pipe,     /* STContinuationSolver */
+  slice_function_testing_pipe,     /* STThreatSolver */
+  slice_function_testing_pipe,     /* STThreatEnforcer */
   slice_function_unspecified,      /* STThreatStart */
   slice_function_unspecified,      /* STThreatCollector */
   slice_function_unspecified,      /* STThreatDefeatedTester */
@@ -364,7 +364,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_conditional_pipe, /* STDoubleMateFilter */
   slice_function_conditional_pipe, /* STCounterMateFilter */
   slice_function_unspecified,      /* STPrerequisiteOptimiser */
-  slice_function_unspecified,      /* STNoShortVariations */
+  slice_function_testing_pipe,     /* STNoShortVariations */
   slice_function_unspecified,      /* STRestartGuard */
   slice_function_unspecified,      /* STRestartGuardIntelligent */
   slice_function_unspecified,      /* STIntelligentTargetCounter */
@@ -400,9 +400,9 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_conditional_pipe, /* STMaxFlightsquares */
   slice_function_unspecified,      /* STFlightsquaresCounter */
   slice_function_unspecified,      /* STDegenerateTree */
-  slice_function_unspecified,      /* STMaxNrNonTrivial */
+  slice_function_testing_pipe,     /* STMaxNrNonTrivial */
   slice_function_unspecified,      /* STMaxNrNonTrivialCounter */
-  slice_function_unspecified,      /* STMaxThreatLength */
+  slice_function_testing_pipe,     /* STMaxThreatLength */
   slice_function_unspecified,      /* STMaxThreatLengthStart */
   slice_function_unspecified,      /* STStopOnShortSolutionsInitialiser */
   slice_function_unspecified,      /* STStopOnShortSolutionsFilter */
@@ -442,7 +442,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_writer,           /* STKeyWriter */
   slice_function_writer,           /* STTryWriter */
   slice_function_writer,           /* STZugzwangWriter */
-  slice_function_unspecified,      /* STTrivialEndFilter */
+  slice_function_testing_pipe,     /* STTrivialEndFilter */
   slice_function_writer,           /* STRefutingVariationWriter */
   slice_function_writer,           /* STRefutationWriter */
   slice_function_writer,           /* STOutputPlaintextTreeCheckWriter */
@@ -483,20 +483,16 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
       result = base==slice_structure_pipe;
       break;
 
-    case slice_structure_testing_pipe:
-      result = base==slice_structure_pipe || base==slice_structure_testing_pipe;
-      break;
-
     case slice_structure_derived_pipe:
       result = base==slice_structure_pipe || base==slice_structure_derived_pipe;
       break;
 
     case slice_structure_branch:
-      result = base==slice_structure_pipe || base==slice_structure_testing_pipe || base==slice_structure_branch;
+      result = base==slice_structure_pipe || base==slice_structure_branch;
       break;
 
     case slice_structure_fork:
-      result = base==slice_structure_pipe || base==slice_structure_testing_pipe || base==slice_structure_fork;
+      result = base==slice_structure_pipe || base==slice_structure_fork;
       break;
 
     default:
@@ -990,7 +986,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         break;
 
       case slice_structure_pipe:
-      case slice_structure_testing_pipe:
       case slice_structure_branch:
       {
         slice_index const next = slices[si].u.pipe.next;
@@ -1373,9 +1368,9 @@ void stip_detect_starter(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &pipe_detect_starter);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_testing_pipe,
-                                                 &pipe_detect_starter);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &pipe_detect_starter);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &pipe_detect_starter);
@@ -1392,7 +1387,6 @@ void stip_detect_starter(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 
 /* Impose the starting side on a stipulation
  * @param si identifies slice
@@ -1482,6 +1476,9 @@ void stip_impose_starter(slice_index si, Side starter)
     stip_structure_traversal_override_single(&st,
                                              starter_inverters[i],
                                              &impose_inverted_starter);
+  stip_structure_traversal_override_single(&st,
+                                           STMaxThreatLength,
+                                           &impose_starter_maxthreatlength_guard);
   stip_structure_traversal_override_single(&st,
                                            STIntelligentMateFilter,
                                            &impose_starter_intelligent_mate_filter);
@@ -1662,7 +1659,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
   &stip_traverse_structure_testing_pipe,      /* STContinuationSolver */
   &stip_traverse_structure_testing_pipe,      /* STThreatSolver */
-  &stip_traverse_structure_pipe,              /* STThreatEnforcer */
+  &stip_traverse_structure_testing_pipe,      /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
   &stip_traverse_structure_pipe,              /* STThreatCollector */
   &stip_traverse_structure_pipe,              /* STThreatDefeatedTester */
@@ -1712,7 +1709,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STDegenerateTree */
   &stip_traverse_structure_testing_pipe,      /* STMaxNrNonTrivial */
   &stip_traverse_structure_pipe,              /* STMaxNrNonTrivialCounter */
-  &stip_traverse_structure_pipe,              /* STMaxThreatLength */
+  &stip_traverse_structure_testing_pipe,      /* STMaxThreatLength */
   &stip_traverse_structure_pipe,              /* STMaxThreatLengthStart */
   &stip_traverse_structure_pipe,              /* STStopOnShortSolutionsInitialiser */
   &stip_traverse_structure_pipe,              /* STStopOnShortSolutionsFilter */

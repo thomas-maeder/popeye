@@ -368,12 +368,6 @@ static void Trace_pipe(slice_index si)
   Trace_link(">",slices[si].u.pipe.next,"");
 }
 
-static void Trace_testing_pipe(slice_index si)
-{
-  Trace_pipe(si);
-  Trace_link("?",slices[si].u.testing_pipe.tester,"");
-}
-
 static void Trace_fork(slice_index si)
 {
   Trace_pipe(si);
@@ -476,13 +470,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             Trace_pipe(si);
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-            break;
-
-          case slice_structure_testing_pipe:
-            Trace_testing_pipe(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.testing_pipe.next,done_slices);
-            TraceStipulationRecursive(slices[si].u.testing_pipe.tester,done_slices);
             break;
 
           case slice_structure_derived_pipe:

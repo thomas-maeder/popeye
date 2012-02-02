@@ -54,16 +54,13 @@ stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h pypipe.h \
- pybrafrk.h stipulation/testing_pipe.h stipulation/branch.h \
- stipulation/boolean/binary.h trace.h
+ pybrafrk.h stipulation/branch.h stipulation/boolean/binary.h trace.h
 
 stipulation/proxy.h:
 
 pypipe.h:
 
 pybrafrk.h:
-
-stipulation/testing_pipe.h:
 
 stipulation/branch.h:
 

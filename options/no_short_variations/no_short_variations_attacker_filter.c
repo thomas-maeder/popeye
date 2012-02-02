@@ -41,7 +41,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_attack(slices[si].u.testing_pipe.tester,n)<=n;
+  result = can_attack(slices[si].u.fork.fork,n)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -71,7 +71,7 @@ stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
       && has_short_solution(si,n-2))
     result = slack_length_battle;
   else
-    result = attack(slices[si].u.testing_pipe.next,n);
+    result = attack(slices[si].u.fork.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -56,10 +56,10 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (nbply==nil_ply || do_write_trivial_ends[parent_ply[nbply]])
-    result = attack(slices[si].u.testing_pipe.next,n);
+    result = attack(slices[si].u.fork.next,n);
   else
     /* variation is trivial - just determine the result */
-    result = can_attack(slices[si].u.testing_pipe.tester,n);
+    result = can_attack(slices[si].u.fork.fork,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

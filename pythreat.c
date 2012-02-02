@@ -72,7 +72,7 @@ static boolean is_threat_too_long(slice_index si,
                                   stip_length_type n_max)
 {
   boolean result;
-  slice_index const tester = slices[si].u.testing_pipe.tester;
+  slice_index const tester = slices[si].u.fork.fork;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
@@ -105,7 +105,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STMaxThreatLength);
-  slices[result].u.testing_pipe.tester = to_attacker;
+  slices[result].u.fork.fork = to_attacker;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,7 +127,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
  */
 stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -179,7 +179,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
 stip_length_type
 maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   unsigned int result;
 
   TraceFunctionEntry(__func__);
@@ -304,6 +304,31 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   return result;
 }
 
+/* Impose the starting side on a stipulation
+ * @param si identifies slice
+ * @param st address of structure that holds the state of the traversal
+ */
+void impose_starter_maxthreatlength_guard(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,*starter,"");
+  TraceFunctionParamListEnd();
+
+  slices[si].starter = *starter;
+  stip_traverse_structure_pipe(si,st);
+
+  *starter = advers(*starter);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  *starter = advers(*starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a max_threat_length slice
  * @param si identifies the pipe slice
@@ -321,17 +346,17 @@ void stip_spin_off_testers_max_threat_length(slice_index si,
   if (state->spinning_off)
   {
     stip_spin_off_testers_pipe(si,st);
-    slices[state->spun_off[si]].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
   }
   else
   {
     /* trust in our descendants to start spinning off before the traversal
      * reaches our tester */
     stip_traverse_structure_pipe(si,st);
-    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+    assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
   }
 
-  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

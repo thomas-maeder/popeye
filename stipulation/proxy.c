@@ -1,7 +1,6 @@
 #include "stipulation/proxy.h"
 #include "pypipe.h"
 #include "pybrafrk.h"
-#include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/binary.h"
 #include "trace.h"
@@ -116,9 +115,6 @@ void resolve_proxies(slice_index *si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &pipe_resolve_proxies);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_testing_pipe,
-                                                 &testing_pipe_resolve_proxies);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_derived_pipe,
                                                  &pipe_resolve_proxies);

@@ -114,7 +114,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const tester = slices[si].u.testing_pipe.tester;
+  slice_index const tester = slices[si].u.fork.fork;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const save_max_unsolvable = max_unsolvable;
@@ -173,7 +173,7 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
 stip_length_type
 max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -216,7 +216,7 @@ max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
 stip_length_type
 max_nr_nontrivial_guard_can_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   unsigned int result;
 
   TraceFunctionEntry(__func__);

@@ -47,7 +47,7 @@ static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STThreatEnforcer);
-  slices[result].u.testing_pipe.tester = threat_start;
+  slices[result].u.fork.fork = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,8 +66,8 @@ static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
 stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.testing_pipe.next;
-  slice_index const threat_start = slices[si].u.testing_pipe.tester;
+  slice_index const next = slices[si].u.fork.next;
+  slice_index const threat_start = slices[si].u.fork.fork;
   ply const threats_ply = nbply+1;
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
@@ -140,10 +140,10 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
     /* trust in our descendants to start spinning off before the traversal
      * reaches our tester */
     stip_traverse_structure_pipe(si,st);
-    assert(state->spun_off[slices[si].u.testing_pipe.tester]!=no_slice);
+    assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
   }
 
-  slices[si].u.testing_pipe.tester = state->spun_off[slices[si].u.testing_pipe.tester];
+  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -294,7 +294,7 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STThreatSolver);
-  slices[result].u.testing_pipe.tester = threat_start;
+  slices[result].u.fork.fork = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -311,7 +311,7 @@ static slice_index alloc_threat_solver_slice(slice_index threat_start)
  */
 static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const tester = slices[si].u.testing_pipe.tester;
+  slice_index const tester = slices[si].u.fork.fork;
   stip_length_type result;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
@@ -349,7 +349,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.testing_pipe.next;
+  slice_index const next = slices[si].u.fork.next;
   ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);

@@ -19,7 +19,7 @@ slice_index alloc_testing_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.testing_pipe.tester = no_slice;
+  slices[result].u.fork.fork = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -41,8 +41,8 @@ void stip_traverse_structure_testing_pipe(slice_index testing_pipe,
 
   stip_traverse_structure_pipe(testing_pipe,st);
 
-  if (slices[testing_pipe].u.testing_pipe.tester!=no_slice)
-    stip_traverse_structure(slices[testing_pipe].u.testing_pipe.tester,st);
+  if (slices[testing_pipe].u.fork.fork!=no_slice)
+    stip_traverse_structure(slices[testing_pipe].u.fork.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -72,27 +72,8 @@ void stip_spin_off_testers_testing_pipe(slice_index si,
   stip_traverse_structure_children(si,st);
   state->spinning_off = save_spinning_off;
 
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.testing_pipe.next]);
-  slices[si].u.testing_pipe.tester = state->spun_off[si];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Substitute links to proxy slices by the proxy's target
- * @param si slice where to resolve proxies
- * @param st points at the structure holding the state of the traversal
- */
-void testing_pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_resolve_proxies(si,st);
-
-  if (slices[si].u.testing_pipe.tester!=no_slice)
-    proxy_slice_resolve(&slices[si].u.testing_pipe.tester,st);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+  slices[si].u.fork.fork = state->spun_off[si];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

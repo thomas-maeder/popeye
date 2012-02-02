@@ -43,12 +43,6 @@ typedef struct
             slice_index next;
         } pipe;
 
-        struct /* for testing pipe types */
-        {
-            slice_index next;
-            slice_index tester;
-        } testing_pipe;
-
         struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;
@@ -181,7 +175,6 @@ typedef enum
   ENUMERATOR(slice_structure_leaf),                              \
     ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_pipe),                            \
-    ENUMERATOR(slice_structure_testing_pipe),                    \
     ENUMERATOR(slice_structure_derived_pipe),                    \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \
@@ -196,6 +189,7 @@ typedef enum
 #define ENUMERATORS                                              \
   ENUMERATOR(slice_function_unspecified),                        \
   ENUMERATOR(slice_function_move_generator),                     \
+  ENUMERATOR(slice_function_testing_pipe),                       \
   ENUMERATOR(slice_function_conditional_pipe),                   \
   ENUMERATOR(slice_function_writer),                             \
   ENUMERATOR(nr_slice_functional_types)

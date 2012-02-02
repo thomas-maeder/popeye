@@ -29,10 +29,4 @@ void stip_traverse_structure_testing_pipe(slice_index pipe,
 void stip_spin_off_testers_testing_pipe(slice_index si,
                                         stip_structure_traversal *st);
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si slice where to resolve proxies
- * @param st points at the structure holding the state of the traversal
- */
-void testing_pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
-
 #endif

@@ -53,7 +53,7 @@ static void spin_off_testers_max_nr_non_trivial(slice_index si,
   {
     /* the testing machinery needs a STMaxNrTrivial slice of its own */
     state->spun_off[si] = copy_slice(si);
-    pipe_link(state->spun_off[si],slices[si].u.testing_pipe.tester);
+    pipe_link(state->spun_off[si],slices[si].u.fork.fork);
   }
 
   state->spinning_off = save_spinning_off;
@@ -169,20 +169,20 @@ void stip_spin_off_testers(slice_index si)
                                                      type,
                                                      &stip_spin_off_testers_pipe);
   stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_testing_pipe,
-                                                 &stip_spin_off_testers_testing_pipe);
-  stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &stip_spin_off_testers_fork);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_spin_off_testers_conditional_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_leaf,
                                                  &stip_spin_off_testers_leaf);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_binary,
                                                  &stip_spin_off_testers_binary);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_spin_off_testers_testing_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_spin_off_testers_conditional_pipe);
 
   stip_structure_traversal_override_single(&st,STEndOfRoot,&start_spinning_off_end_of_root);
   stip_structure_traversal_override_single(&st,STMaxThreatLength,&stip_spin_off_testers_max_threat_length);
