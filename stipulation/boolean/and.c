@@ -1,4 +1,6 @@
 #include "stipulation/boolean/and.h"
+#include "pypipe.h"
+#include "stipulation/constraint.h"
 #include "stipulation/boolean/binary.h"
 #include "solving/solving.h"
 #include "trace.h"
@@ -65,34 +67,14 @@ has_solution_type and_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[slices[si].u.binary.tester].type==STAnd);
-
-  switch (slice_has_solution(slices[slices[si].u.binary.tester].u.binary.op2))
+  result = slice_solve(op1);
+  if (result==has_solution)
   {
-    case has_solution:
-      result = slice_solve(op1);
-      if (result==has_solution)
-      {
 #if !defined(NDEBUG)
-        has_solution_type const result2 =
+    has_solution_type const result2 =
 #endif
-        slice_solve(op2);
-        assert(result2==has_solution);
-      }
-      break;
-
-    case opponent_self_check:
-      result = opponent_self_check;
-      break;
-
-    case has_no_solution:
-      result = has_no_solution;
-      break;
-
-    default:
-      assert(0);
-      result = opponent_self_check;
-      break;
+    slice_solve(op2);
+    assert(result2==has_solution);
   }
 
   TraceFunctionExit(__func__);
@@ -109,18 +91,24 @@ has_solution_type and_solve(slice_index si)
 void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
-  boolean const save_spinning_off = state->spinning_off;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->spinning_off = true;
-  stip_spin_off_testers_binary(si,st);
-  slices[si].u.binary.tester = alloc_proxy_slice();
-  link_to_branch(slices[si].u.binary.tester,state->spun_off[si]);
-  slices[state->spun_off[si]].u.binary.tester = state->spun_off[si];
-  state->spinning_off = save_spinning_off;
+  if (state->spinning_off)
+    stip_spin_off_testers_binary(si,st);
+  else
+  {
+    stip_traverse_structure(slices[si].u.binary.op1,st);
+    state->spinning_off = true;
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+    state->spinning_off = false;
+
+    assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
+    pipe_append(slices[si].u.binary.op1,
+                alloc_constraint_tester_slice(state->spun_off[slices[si].u.binary.op2]));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

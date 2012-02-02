@@ -1,8 +1,12 @@
 stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
- stipulation/boolean/and.h stipulation/boolean/binary.h solving/solving.h \
- trace.h
+ stipulation/boolean/and.h pypipe.h stipulation/constraint.h \
+ stipulation/boolean/binary.h solving/solving.h trace.h
 
 stipulation/boolean/and.h:
+
+pypipe.h:
+
+stipulation/constraint.h:
 
 stipulation/boolean/binary.h:
 

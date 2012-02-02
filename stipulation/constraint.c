@@ -391,6 +391,54 @@ stip_length_type constraint_can_help(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type constraint_tester_solve(slice_index si)
+{
+  has_solution_type result;
+  slice_index const condition = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_has_solution(condition);
+  if (result==has_solution)
+    result = slice_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type constraint_tester_has_solution(slice_index si)
+{
+  has_solution_type result = has_no_solution;
+  slice_index const condition = slices[si].u.fork.fork;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_has_solution(condition);
+  if (result==has_solution)
+    result = slice_has_solution(next);
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

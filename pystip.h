@@ -86,7 +86,6 @@ typedef struct
         {
             slice_index op1;
             slice_index op2;
-            slice_index tester;
             stip_length_type threshold; /* without slack */
         } fork_on_remaining;
 
@@ -106,7 +105,6 @@ typedef struct
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
-            slice_index tester;
         } binary;
 
         struct /* for slices dealing with a single goal */

@@ -520,11 +520,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
           case slice_structure_binary:
             Trace_binary(si);
-            Trace_link("?",slices[si].u.binary.tester,"");
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
             TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
-            TraceStipulationRecursive(slices[si].u.binary.tester,done_slices);
             break;
 
           default:

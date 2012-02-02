@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "trace.h"
 #include "stipulation/setplay_fork.h"
+#include "stipulation/constraint.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/false.h"
 #include "stipulation/boolean/or.h"
@@ -249,6 +250,10 @@ has_solution_type slice_solve(slice_index si)
       result = slice_solve(slices[si].u.conditional_pipe.next);
       break;
 
+    case STConstraintTester:
+      result = constraint_tester_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -443,6 +448,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STLegalMoveCounter:
       result = legal_move_counter_has_solution(si);
+      break;
+
+    case STConstraintTester:
+      result = constraint_tester_has_solution(si);
       break;
 
     default:

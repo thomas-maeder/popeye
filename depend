@@ -1433,14 +1433,14 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h \
  stipulation/goals/goals.h boolean.h py.h stipulation/slice_type.h \
  pydata.h pyproc.h py4.h trace.h stipulation/setplay_fork.h pypipe.h \
- pyslice.h stipulation/boolean/true.h stipulation/boolean/false.h \
+ pyslice.h stipulation/constraint.h stipulation/battle_play/attack_play.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/boolean/true.h stipulation/boolean/false.h \
  stipulation/boolean/or.h stipulation/boolean/and.h \
  stipulation/boolean/not.h stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h stipulation/help_play/adapter.h \
- stipulation/goals/reached_tester.h stipulation/goals/goals.h \
- stipulation/goals/target/reached_tester.h \
+ stipulation/help_play/adapter.h stipulation/goals/reached_tester.h \
+ stipulation/goals/goals.h stipulation/goals/target/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
  stipulation/goals/steingewinn/reached_tester.h \
@@ -1457,9 +1457,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/notcheck/reached_tester.h \
  stipulation/goals/any/reached_tester.h \
  solving/battle_play/check_detector.h solving/legal_move_counter.h \
- stipulation/help_play/play.h pymovein.h pyhash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h pydata.h \
- stipulation/help_play/play.h pystip.h pyselfgd.h pyselfcg.h \
+ pymovein.h pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
+ pydata.h stipulation/help_play/play.h pystip.h pyselfgd.h pyselfcg.h \
  stipulation/battle_play/defense_play.h pykeepmt.h pypipe.h \
  pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
@@ -1528,6 +1527,14 @@ pypipe.h:
 
 pyslice.h:
 
+stipulation/constraint.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
+
 stipulation/boolean/true.h:
 
 stipulation/boolean/false.h:
@@ -1540,11 +1547,7 @@ stipulation/boolean/not.h:
 
 stipulation/battle_play/attack_adapter.h:
 
-stipulation/battle_play/attack_play.h:
-
 stipulation/battle_play/defense_adapter.h:
-
-stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/adapter.h:
 
@@ -1587,8 +1590,6 @@ stipulation/goals/any/reached_tester.h:
 solving/battle_play/check_detector.h:
 
 solving/legal_move_counter.h:
-
-stipulation/help_play/play.h:
 
 pymovein.h:
 
@@ -1720,8 +1721,7 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
  pyslice.h pydata.h stipulation/branch.h pystip.h \
  stipulation/battle_play/defense_adapter.h \
- stipulation/battle_play/defense_play.h trace.h py.h boolean.h pyposit.h \
- pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h
+ stipulation/battle_play/defense_play.h trace.h
 
 pydirctg.h:
 
@@ -1740,22 +1740,6 @@ stipulation/battle_play/defense_adapter.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
-
-py.h:
-
-boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pystip.h stipulation/goals/goals.h \
  boolean.h py.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
  pyenum.h pylang.h stipulation/slice_type.h \
@@ -2364,18 +2348,18 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
- pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
- boolean.h py.h pydata.h pyhash.h DHT/dhtbcmem.h \
- stipulation/battle_play/attack_play.h pyslice.h pydata.h \
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+ pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
+ stipulation/goals/goals.h boolean.h py.h pydata.h pyhash.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pydata.h \
  stipulation/help_play/play.h pystip.h pystip.h stipulation/slice_type.h \
- output/plaintext/plaintext.h stipulation/goals/goals.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/move.h stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- pypipe.h pyslice.h
+ output/plaintext/plaintext.h stipulation/goals/goals.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2392,10 +2376,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 stipulation/goals/goals.h:
 
@@ -2426,22 +2406,6 @@ stipulation/slice_type.h:
 output/plaintext/plaintext.h:
 
 stipulation/goals/goals.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
-stipulation/move.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/help_play/play.h:
-
-pypipe.h:
-
-pyslice.h:
 pygmarr$(OBJ_SUFFIX): pygmarr.c pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h
 
 pyposit.h:

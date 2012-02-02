@@ -103,9 +103,14 @@ void stip_spin_off_testers_conditional_pipe(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_spin_off_testers_pipe(si,st);
-
-  slices[state->spun_off[si]].u.conditional_pipe.condition = state->spun_off[slices[si].u.conditional_pipe.condition];
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = copy_slice(si);
+    stip_traverse_structure_pipe(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  }
+  else
+    stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

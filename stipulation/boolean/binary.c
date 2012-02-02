@@ -31,8 +31,6 @@ slice_index alloc_binary_slice(slice_type type,
   slices[result].u.binary.op1 = op1;
   slices[result].u.binary.op2 = op2;
 
-  slices[result].u.binary.tester = no_slice;
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -91,8 +89,6 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   proxy_slice_resolve(&slices[si].u.binary.op1,st);
   proxy_slice_resolve(&slices[si].u.binary.op2,st);
-  if (slices[si].u.binary.tester!=no_slice)
-    proxy_slice_resolve(&slices[si].u.binary.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -112,8 +108,6 @@ void stip_traverse_structure_binary(slice_index si,
 
   stip_traverse_structure(slices[si].u.binary.op1,st);
   stip_traverse_structure(slices[si].u.binary.op2,st);
-  if (slices[si].u.binary.tester!=no_slice)
-    stip_traverse_structure(slices[si].u.binary.tester,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

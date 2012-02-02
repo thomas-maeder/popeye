@@ -101,6 +101,18 @@ stip_length_type constraint_solver_help(slice_index si, stip_length_type n);
  */
 stip_length_type constraint_can_help(slice_index si, stip_length_type n);
 
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type constraint_tester_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type constraint_tester_has_solution(slice_index si);
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
