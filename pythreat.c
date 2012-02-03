@@ -81,7 +81,7 @@ static boolean is_threat_too_long(slice_index si,
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length_battle-1;
-  result = n_max<can_attack(tester,n_max-1);
+  result = n_max<can_defend(tester,n_max);
   max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
@@ -94,18 +94,15 @@ static boolean is_threat_too_long(slice_index si,
  */
 
 /* Allocate a STMaxThreatLength slice
- * @param to_attacker identifies slice leading to attacker
  */
-static slice_index alloc_maxthreatlength_guard(slice_index to_attacker)
+static slice_index alloc_maxthreatlength_guard(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",to_attacker);
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STMaxThreatLength);
-  slices[result].u.fork.fork = to_attacker;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -244,15 +241,12 @@ static void maxthreatlength_guard_inserter(slice_index si,
     battle_branch_insert_slices(si,&checked_prototype,1);
 
     {
-      slice_index const
-        to_attacker = branch_find_slice(STMaxThreatLengthStart,si);
       slice_index const prototypes[] =
       {
           alloc_check_detector_slice(),
-          alloc_maxthreatlength_guard(to_attacker)
+          alloc_maxthreatlength_guard()
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      assert(to_attacker!=no_slice);
       battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
 
@@ -304,31 +298,6 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   return result;
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies slice
- * @param st address of structure that holds the state of the traversal
- */
-void impose_starter_maxthreatlength_guard(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,*starter,"");
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  stip_traverse_structure_pipe(si,st);
-
-  *starter = advers(*starter);
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-  *starter = advers(*starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a max_threat_length slice
  * @param si identifies the pipe slice
@@ -338,25 +307,32 @@ void stip_spin_off_testers_max_threat_length(slice_index si,
                                              stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
+  slice_index threat_start;
+  slice_index dummy;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  threat_start = branch_find_slice(STMaxThreatLengthStart,si);
+  assert(threat_start!=no_slice);
+
+  dummy = alloc_dummy_move_slice();
+
   if (state->spinning_off)
   {
     stip_spin_off_testers_pipe(si,st);
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+    slices[state->spun_off[si]].u.fork.fork = dummy;
   }
   else
-  {
     /* trust in our descendants to start spinning off before the traversal
-     * reaches our tester */
+     * reaches threat_start */
     stip_traverse_structure_pipe(si,st);
-    assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
-  }
 
-  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+  assert(state->spun_off[threat_start]!=no_slice);
+  link_to_branch(dummy,state->spun_off[threat_start]);
+
+  slices[si].u.fork.fork = dummy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1403,9 +1403,6 @@ void stip_impose_starter(slice_index si, Side starter)
                                              starter_inverters[i],
                                              &impose_inverted_starter);
   stip_structure_traversal_override_single(&st,
-                                           STMaxThreatLength,
-                                           &impose_starter_maxthreatlength_guard);
-  stip_structure_traversal_override_single(&st,
                                            STIntelligentMateFilter,
                                            &impose_starter_intelligent_mate_filter);
   stip_structure_traversal_override_single(&st,
