@@ -395,24 +395,21 @@ static void increase_min_length_branch(slice_index si, stip_structure_traversal 
 static void increase_min_length(slice_index si)
 {
   stip_structure_traversal st;
-  slice_structural_type structural_type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  for (structural_type = 0;
-       structural_type!=nr_slice_structure_types;
-       ++structural_type)
-    if (slice_structure_is_subclass(structural_type,slice_structure_branch))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &increase_min_length_branch);
-    else if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &increase_min_length_branch);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &stip_traverse_structure_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -844,18 +841,22 @@ void help_branch_make_root_slices(slice_index adapter,
 
   {
     stip_structure_traversal st;
-    slice_structural_type i;
 
     TraceStipulation(adapter);
 
     stip_structure_traversal_init(&st,state);
-    for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_fork))
-        stip_structure_traversal_override_by_structure(&st,i,&fork_make_root);
-      else if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
-      else if (slice_structure_is_subclass(i,slice_structure_binary))
-        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_pipe,
+                                                   &pipe_spin_off_copy);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_branch,
+                                                   &pipe_spin_off_copy);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_binary,
+                                                   &binary_make_root);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_fork,
+                                                   &fork_make_root);
     stip_structure_traversal_override_by_function(&st,
                                                   slice_function_conditional_pipe,
                                                   &conditional_pipe_spin_off_copy);
@@ -919,14 +920,20 @@ void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
   {
     slice_index const next = slices[adapter].u.pipe.next;
     stip_structure_traversal st;
-    slice_structural_type i;
 
     stip_structure_traversal_init(&st,state);
-    for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_copy);
-      else if (slice_structure_is_subclass(i,slice_structure_binary))
-        stip_structure_traversal_override_by_structure(&st,i,&binary_make_root);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_pipe,
+                                                   &pipe_spin_off_copy);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_branch,
+                                                   &pipe_spin_off_copy);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_fork,
+                                                   &pipe_spin_off_copy);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_binary,
+                                                   &binary_make_root);
     stip_structure_traversal_override_by_function(&st,
                                                   slice_function_conditional_pipe,
                                                   &conditional_pipe_spin_off_copy);

@@ -869,7 +869,6 @@ slice_index branch_find_slice(slice_type type, slice_index si)
 {
   branch_find_slice_state_type state = { type, no_slice };
   stip_structure_traversal st;
-  slice_structural_type structural_type;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(slice_type,type,"");
@@ -877,17 +876,18 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
-  for (structural_type = 0;
-       structural_type!=nr_slice_structure_types;
-       ++structural_type)
-    if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &branch_find_slice_pipe);
-    else if (slice_structure_is_subclass(structural_type,slice_structure_binary))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &branch_find_slice_binary);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &branch_find_slice_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &branch_find_slice_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &branch_find_slice_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &branch_find_slice_binary);
   stip_traverse_structure(slices[si].u.pipe.next,&st);
 
   TraceFunctionExit(__func__);
@@ -987,24 +987,21 @@ static void shorten_branch(slice_index si, stip_structure_traversal *st)
 void branch_shorten_slices(slice_index start, slice_type end_type)
 {
   stip_structure_traversal st;
-  slice_structural_type structural_type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&end_type);
-  for (structural_type = 0;
-       structural_type!=nr_slice_structure_types;
-       ++structural_type)
-    if (slice_structure_is_subclass(structural_type,slice_structure_branch))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &shorten_branch);
-    else if (slice_structure_is_subclass(structural_type,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     structural_type,
-                                                     &shorten_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &shorten_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &shorten_branch);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &shorten_pipe);
   stip_traverse_structure(start,&st);
 
   TraceFunctionExit(__func__);

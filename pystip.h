@@ -190,21 +190,6 @@ typedef enum
 
 #include "pyenum.h"
 
-/* Provide a subclass relationship between the values of slice_structural_type
- * @param derived
- * @param base
- * @return true iff derived is a subclass of base
- */
-boolean slice_structure_is_subclass(slice_structural_type derived,
-                                    slice_structural_type base);
-
-/* Determine whether a slice is of some structural type
- * @param si identifies slice
- * @param type identifies type
- * @return true iff slice si has (at least) structural type type
- */
-boolean slice_has_structure(slice_index si, slice_structural_type type);
-
 /* Retrieve the structural type of a slice
  * @param si identifies slice of which to retrieve structural type
  * @return structural type of slice si

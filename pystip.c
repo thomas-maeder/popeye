@@ -454,83 +454,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified       /* STMoveTracer */
 };
 
-/* Provide a subclass relationship between the values of slice_structural_type
- * @param derived
- * @param base
- * @return true iff derived is a subclass of base
- */
-boolean slice_structure_is_subclass(slice_structural_type derived,
-                                    slice_structural_type base)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_structural_type,derived,"");
-  TraceEnumerator(slice_structural_type,base,"");
-  TraceFunctionParamListEnd();
-
-  switch (derived)
-  {
-    case slice_structure_leaf:
-      result = base==slice_structure_leaf;
-      break;
-
-    case slice_structure_binary:
-      result = base==slice_structure_binary;
-      break;
-
-    case slice_structure_pipe:
-      result = base==slice_structure_pipe;
-      break;
-
-    case slice_structure_branch:
-      result = base==slice_structure_pipe || base==slice_structure_branch;
-      break;
-
-    case slice_structure_fork:
-      result = base==slice_structure_pipe || base==slice_structure_fork;
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice is of some structural type
- * @param si identifies slice
- * @param type identifies type
- * @return true iff slice si has (at least) structural type type
- */
-boolean slice_has_structure(slice_index si, slice_structural_type type)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_structural_type,type,"");
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"");
-  TraceEnumerator(slice_structural_type,
-                  highest_structural_type[slices[si].type],
-                  "\n");
-
-  result = slice_structure_is_subclass(highest_structural_type[slices[si].type],
-                                       type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Retrieve the structural type of a slice
  * @param si identifies slice of which to retrieve structural type
  * @return structural type of slice si
@@ -758,12 +681,15 @@ void stip_insert_root_slices(slice_index si)
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
-  {
-    slice_structural_type i;
-    for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&move_to_root);
-  }
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &move_to_root);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &move_to_root);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &move_to_root);
   stip_structure_traversal_override(&st,
                                     root_slice_inserters,
                                     nr_root_slice_inserters);
@@ -830,12 +756,15 @@ void stip_insert_intro_slices(slice_index si)
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
-  {
-    slice_structural_type i;
-    for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&link_to_intro);
-  }
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &link_to_intro);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &link_to_intro);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &link_to_intro);
   stip_structure_traversal_override(&st,
                                     intro_slice_inserters,
                                     nr_intro_slice_inserters);
@@ -1255,14 +1184,15 @@ boolean stip_apply_setplay(slice_index si)
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);
-
-  {
-    slice_structural_type i;
-    for (i = 0; i!=nr_slice_structure_types; ++i)
-      if (slice_structure_is_subclass(i,slice_structure_pipe))
-        stip_structure_traversal_override_by_structure(&st,i,&pipe_spin_off_skip);
-  }
-
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &pipe_spin_off_skip);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &pipe_spin_off_skip);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &pipe_spin_off_skip);
   stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
   stip_traverse_structure(si,&st);
 

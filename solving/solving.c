@@ -126,7 +126,6 @@ void stip_spin_off_testers(slice_index si)
   spin_off_tester_state_type state;
   stip_structure_traversal st;
   slice_index i;
-  slice_structural_type type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -140,11 +139,12 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_init(&st,&state);
 
-  for (type = 0; type!=nr_slice_structure_types; ++type)
-    if (slice_structure_is_subclass(type,slice_structure_pipe))
-      stip_structure_traversal_override_by_structure(&st,
-                                                     type,
-                                                     &stip_spin_off_testers_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &stip_spin_off_testers_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &stip_spin_off_testers_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &stip_spin_off_testers_fork);
