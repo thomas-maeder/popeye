@@ -6,6 +6,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -374,6 +375,38 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
                                            STReadyForAttack,
                                            &nontrivial_guard_inserter);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off an end of a STMaxNrNonTrivial slice
+ * @param si identifies the STMaxNrNonTrivial slice
+ * @param st address of structure representing traversal
+ */
+void spin_off_testers_max_nr_non_trivial(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+  boolean const save_spinning_off = state->spinning_off;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->spinning_off = true;
+
+  stip_spin_off_testers_testing_pipe(si,st);
+
+  if (state->spun_off[slices[si].prev]!=no_slice)
+  {
+    /* the testing machinery needs a STMaxNrTrivial slice of its own */
+    state->spun_off[si] = copy_slice(si);
+    pipe_link(state->spun_off[si],slices[si].u.fork.fork);
+  }
+
+  state->spinning_off = save_spinning_off;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

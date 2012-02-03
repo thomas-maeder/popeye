@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pyhash.h"
 #include "pybrafrk.h"
+#include "pynontrv.h"
 #include "pythreat.h"
 #include "stipulation/proxy.h"
 #include "stipulation/testing_pipe.h"
@@ -10,6 +11,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
+#include "stipulation/end_of_branch_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/binary.h"
@@ -34,33 +36,6 @@
 
 #include <assert.h>
 
-static void spin_off_testers_max_nr_non_trivial(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-  boolean const save_spinning_off = state->spinning_off;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->spinning_off = true;
-
-  stip_spin_off_testers_testing_pipe(si,st);
-
-  if (state->spun_off[slices[si].prev]!=no_slice)
-  {
-    /* the testing machinery needs a STMaxNrTrivial slice of its own */
-    state->spun_off[si] = copy_slice(si);
-    pipe_link(state->spun_off[si],slices[si].u.fork.fork);
-  }
-
-  state->spinning_off = save_spinning_off;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void start_spinning_off_end_of_root(slice_index si,
                                            stip_structure_traversal *st)
 {
@@ -83,36 +58,6 @@ static void start_spinning_off_end_of_root(slice_index si,
   }
   else
     stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void start_spinning_off_end_of_branch_tester(slice_index si, stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-  {
-    state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-  }
-  else
-  {
-    stip_traverse_structure_pipe(si,st);
-
-    state->spinning_off = true;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
-    state->spinning_off = false;
-  }
-
-  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

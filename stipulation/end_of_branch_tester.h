@@ -14,6 +14,14 @@
  */
 void stip_insert_end_of_branch_testers(slice_index root_slice);
 
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off an end of a branch tester slice
+ * @param si identifies the branch tester slice
+ * @param st address of structure representing traversal
+ */
+void start_spinning_off_end_of_branch_tester(slice_index si,
+                                             stip_structure_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
