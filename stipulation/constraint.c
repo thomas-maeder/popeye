@@ -20,7 +20,7 @@
  * @param proxy_to_condition prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
+static slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
 {
   slice_index result;
 
@@ -78,34 +78,6 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
   }
 
   TraceValue("%u\n",state->spun_off[si]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a constraint solver slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_constraint_solver(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-  {
-    state->spun_off[si] = alloc_constraint_tester_slice(slices[si].u.fork.fork);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
-  }
-  else
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

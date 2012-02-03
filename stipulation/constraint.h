@@ -8,12 +8,6 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 
-/* Allocate a STConstraintSolver slice
- * @param proxy_to_condition prototype of slice that must not be solvable
- * @return index of allocated slice
- */
-slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition);
-
 /* Allocate a STConstraintTester slice
  * @param proxy_to_condition prototype of slice that must not be solvable
  * @return index of allocated slice
@@ -26,14 +20,6 @@ slice_index alloc_constraint_tester_slice(slice_index proxy_to_condition);
  * @param st address of structure representing traversal
  */
 void constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a constraint solver slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_constraint_solver(slice_index si,
-                                             stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
