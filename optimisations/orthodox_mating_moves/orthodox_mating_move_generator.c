@@ -130,6 +130,8 @@ typedef struct
     boolean notNecessarilyFinalMove;
 } final_move_optimisation_state;
 
+static final_move_optimisation_state const init_state = { { no_goal, initsquare }, 0, false };
+
 /* Remember the goal imminent after a defense or attack move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -144,6 +146,8 @@ static void optimise_final_moves_move_generator(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  *state = init_state;
 
   stip_traverse_moves_children(si,st);
 
@@ -274,15 +278,13 @@ static void optimise_final_moves_suppress(slice_index si, stip_moves_traversal *
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STSetplayFork,                     &stip_traverse_moves_pipe                    },
-  { STMoveGenerator,                   &optimise_final_moves_move_generator         },
-  { STEndOfBranch,                     &optimise_final_moves_end_of_branch_non_goal },
-  { STEndOfBranchForced,               &optimise_final_moves_end_of_branch_non_goal },
-  { STGoalReachedTester,               &optimise_final_moves_goal                   },
-  { STNot,                             &optimise_final_moves_suppress               },
-  { STTemporaryHackFork,               &stip_traverse_moves_conditional_pipe        },
-  { STExclusiveChessMatingMoveCounter, &stip_traverse_moves_conditional_pipe        },
-  { STConstraintTester,                &stip_traverse_moves_conditional_pipe        }
+  { STSetplayFork,               &stip_traverse_moves_pipe                    },
+  { STMoveGenerator,             &optimise_final_moves_move_generator         },
+  { STEndOfBranch,               &optimise_final_moves_end_of_branch_non_goal },
+  { STEndOfBranchForced,         &optimise_final_moves_end_of_branch_non_goal },
+  { STGoalReachedTester,         &optimise_final_moves_goal                   },
+  { STNot,                       &optimise_final_moves_suppress               },
+  { STGoalImmobileReachedTester, &stip_traverse_moves_pipe                    }
 };
 
 enum
@@ -297,7 +299,7 @@ enum
 void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
 {
   stip_moves_traversal st;
-  final_move_optimisation_state state = { { no_goal, initsquare }, 0, false };
+  final_move_optimisation_state state = { { no_goal, initsquare }, 2, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -309,11 +311,9 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   stip_moves_traversal_override_by_function(&st,
                                             slice_function_move_generator,
                                             &generator_swallow_goal);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_moves_pipe);
   stip_moves_traversal_override(&st,
-                                final_move_optimisers,nr_final_move_optimisers);
+                                final_move_optimisers,
+                                nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
