@@ -458,6 +458,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.goal_handler.tester,done_slices);
         break;
 
+      case STAttackHashedTester:
+      case STHelpHashedTester:
+        Trace_pipe(si);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       default:
         switch (slice_get_structural_type(si))
         {
@@ -467,12 +474,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
             break;
 
           case slice_structure_pipe:
-            Trace_pipe(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-            break;
-
-          case slice_structure_derived_pipe:
             Trace_pipe(si);
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

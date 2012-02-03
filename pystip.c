@@ -202,9 +202,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STEnPassantFilter */
   slice_structure_pipe,         /* STCastlingFilter */
   slice_structure_branch,       /* STAttackHashed */
-  slice_structure_derived_pipe, /* STAttackHashedTester */
+  slice_structure_pipe,         /* STAttackHashedTester */
   slice_structure_branch,       /* STHelpHashed */
-  slice_structure_derived_pipe, /* STHelpHashedTester */
+  slice_structure_pipe,         /* STHelpHashedTester */
   slice_structure_pipe,         /* STIntelligentMovesLeftInitialiser */
   slice_structure_fork,         /* STIntelligentMateFilter */
   slice_structure_fork,         /* STIntelligentStalemateFilter */
@@ -481,10 +481,6 @@ boolean slice_structure_is_subclass(slice_structural_type derived,
 
     case slice_structure_pipe:
       result = base==slice_structure_pipe;
-      break;
-
-    case slice_structure_derived_pipe:
-      result = base==slice_structure_pipe || base==slice_structure_derived_pipe;
       break;
 
     case slice_structure_branch:

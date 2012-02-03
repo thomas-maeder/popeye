@@ -168,7 +168,6 @@ typedef enum
   ENUMERATOR(slice_structure_leaf),                              \
     ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_pipe),                            \
-    ENUMERATOR(slice_structure_derived_pipe),                    \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \
     ENUMERATOR(nr_slice_structure_types)
