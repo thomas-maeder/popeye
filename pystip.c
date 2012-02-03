@@ -908,7 +908,7 @@ static void find_unique_goal_goal(slice_index si,
                                   stip_structure_traversal *st)
 {
   find_unique_goal_state * const state = st->param;
-  goal_type const goal = slices[si].u.goal_tester.goal.type;
+  goal_type const goal = slices[si].u.goal_handler.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1293,7 +1293,7 @@ typedef struct
 static void ends_in_goal(slice_index si, stip_structure_traversal *st)
 {
   goal_search * const search = st->param;
-  goal_type const goal = slices[si].u.goal_tester.goal.type;
+  goal_type const goal = slices[si].u.goal_handler.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -19,8 +19,8 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   TraceFunctionParamListEnd();
 
   result = alloc_conditional_pipe(STGoalReachedTester,alloc_proxy_slice());
-  slices[result].u.goal_tester.goal = goal;
-  pipe_link(slices[result].u.goal_tester.tester,tester);
+  slices[result].u.goal_handler.goal = goal;
+  pipe_link(slices[result].u.goal_handler.tester,tester);
 
   pipe_link(result,alloc_true_slice());
 
@@ -42,9 +42,9 @@ has_solution_type goal_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.goal_tester.tester);
+  result = slice_has_solution(slices[si].u.goal_handler.tester);
   if (result==has_solution)
-    result = slice_solve(slices[si].u.goal_tester.next);
+    result = slice_solve(slices[si].u.goal_handler.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -64,9 +64,9 @@ has_solution_type goal_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.goal_tester.tester);
+  result = slice_has_solution(slices[si].u.goal_handler.tester);
   if (result==has_solution)
-    result = slice_has_solution(slices[si].u.goal_tester.next);
+    result = slice_has_solution(slices[si].u.goal_handler.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

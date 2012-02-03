@@ -40,7 +40,7 @@ static void instrument_goal_reached_tester(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    Goal const goal = slices[si].u.goal_tester.goal;
+    Goal const goal = slices[si].u.goal_handler.goal;
     slice_index const prototype = alloc_line_writer_slice(goal);
     leaf_branch_insert_slices(si,&prototype,1);
   }

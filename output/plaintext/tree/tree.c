@@ -126,11 +126,11 @@ static void instrument_goal_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.goal_tester.goal.type!=no_goal)
+  if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
     slice_index const prototypes[] =
     {
-      alloc_goal_writer_slice(slices[si].u.goal_tester.goal)
+      alloc_goal_writer_slice(slices[si].u.goal_handler.goal)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     leaf_branch_insert_slices(si,prototypes,nr_prototypes);
@@ -431,7 +431,7 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
   assert(state->goal.type==no_goal);
 
-  state->goal = slices[si].u.goal_tester.goal;
+  state->goal = slices[si].u.goal_handler.goal;
   stip_traverse_structure_children(si,st);
   state->goal.type = no_goal;
 

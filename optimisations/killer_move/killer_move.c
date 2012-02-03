@@ -85,7 +85,7 @@ static void optimise_final_defense_moves_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *goal = slices[si].u.goal_tester.goal;
+  *goal = slices[si].u.goal_handler.goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

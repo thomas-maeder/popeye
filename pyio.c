@@ -2669,7 +2669,7 @@ static char *ParsePlay(char *tok,
         slice_index const next = slices[proxy_to_goal].u.pipe.next;
         assert(next!=no_slice);
         if (slices[next].type==STGoalReachedTester
-            && slices[next].u.goal_tester.goal.type==goal_proofgame)
+            && slices[next].u.goal_handler.goal.type==goal_proofgame)
           stip_impose_starter(proxy_to_goal,White);
         else
           stip_impose_starter(proxy_to_goal,Black);
@@ -2803,7 +2803,7 @@ static char *ParsePlay(char *tok,
       help_branch_set_end_goal(nested,proxy_to_goal,1);
       help_branch_set_end(proxy,nested,1);
       if (slices[to_goal].type==STGoalReachedTester
-          && slices[to_goal].u.goal_tester.goal.type==goal_proofgame)
+          && slices[to_goal].u.goal_handler.goal.type==goal_proofgame)
         stip_impose_starter(proxy_to_goal,White);
       else
         stip_impose_starter(proxy_to_goal,Black);
@@ -3917,8 +3917,8 @@ static char *ParseStructuredStip_not(char *tok,
     {
       slice_index const tester = branch_find_slice(STGoalReachedTester,proxy);
       assert(tester!=no_slice);
-      pipe_append(slices[tester].u.goal_tester.tester,alloc_not_slice());
-      slices[tester].u.goal_tester.goal.type = no_goal;
+      pipe_append(slices[tester].u.goal_handler.tester,alloc_not_slice());
+      slices[tester].u.goal_handler.goal.type = no_goal;
     }
     else
       pipe_append(proxy,alloc_not_slice());

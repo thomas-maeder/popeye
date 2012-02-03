@@ -43,6 +43,25 @@ typedef struct
             slice_index next;
         } pipe;
 
+        struct
+        {
+            slice_index next;
+            slice_index fork;
+        } fork;
+
+        struct /* for type==STOr and type==STAnd */
+        {
+            slice_index op1; /* operand 1 */
+            slice_index op2; /* operand 2 */
+        } binary;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+        } branch;
+
         struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;
@@ -56,19 +75,6 @@ typedef struct
             slice_index tester;
             goal_applies_to_starter_or_adversary applies_to_who;
         } goal_filter;
-
-        struct
-        {
-            slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
-        } branch;
-
-        struct
-        {
-            slice_index next;
-            slice_index fork;
-        } fork;
 
         struct
         {
@@ -89,25 +95,12 @@ typedef struct
             Side mating;
         } keepmating_guard;
 
-        struct /* for type==STOr and type==STAnd */
-        {
-            slice_index op1; /* operand 1 */
-            slice_index op2; /* operand 2 */
-        } binary;
-
         struct /* for slices dealing with a single goal */
         {
             slice_index next;
             slice_index tester;
             Goal goal;
         } goal_handler;
-
-        struct /* for slices dealing with a single goal */
-        {
-            slice_index next;
-            slice_index tester;
-            Goal goal;
-        } goal_tester;
 
         struct
         {

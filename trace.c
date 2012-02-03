@@ -452,10 +452,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STGoalReachedTester:
         Trace_fork(si);
-        fprintf(stdout,"goal:%u ",slices[si].u.goal_tester.goal.type);
+        fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.goal_tester.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_tester.tester,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_handler.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_handler.tester,done_slices);
         break;
 
       default:

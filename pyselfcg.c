@@ -409,7 +409,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   boolean const * const in_constraint = st->param;
-  slice_index const tester = slices[si].u.goal_tester.tester;
+  slice_index const tester = slices[si].u.goal_handler.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -422,7 +422,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
     slice_index const not_slice = branch_find_slice(STNot,tester);
     if (not_slice==no_slice || *in_constraint)
     {
-      if (slices[si].u.goal_tester.goal.type==goal_dblstale)
+      if (slices[si].u.goal_handler.goal.type==goal_dblstale)
         goal_doublestalemate_insert_selfcheck_guard(si);
       else
       {
