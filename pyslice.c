@@ -398,10 +398,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = selfcheck_guard_has_solution(si);
       break;
 
-    case STCheckDetector:
-      result = check_detector_has_solution(si);
-      break;
-
     case STPiecesParalysingMateFilter:
       result = paralysing_mate_filter_has_solution(si);
       break;

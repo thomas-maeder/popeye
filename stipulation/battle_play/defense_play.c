@@ -298,10 +298,6 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = try_solver_can_defend(si,n);
       break;
 
-    case STCheckDetector:
-      result = check_detector_can_defend(si,n);
-      break;
-
     case STDeadEnd:
     case STDeadEndGoal:
       result = dead_end_can_defend(si,n);

@@ -98,29 +98,3 @@ stip_length_type check_detector_defend(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
-stip_length_type check_detector_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_defend(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
