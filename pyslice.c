@@ -398,8 +398,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = selfcheck_guard_has_solution(si);
       break;
 
-    case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_has_solution(si);
+    case STPiecesParalysingMateFilterTester:
+      result = paralysing_mate_filter_tester_has_solution(si);
       break;
 
     case STPiecesParalysingStalemateSpecial:

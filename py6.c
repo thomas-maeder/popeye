@@ -2606,9 +2606,6 @@ static Token iterate_twins(Token prev_token)
       if (CondFlag[BGL])
         stip_insert_bgl_filters(root_slice);
 
-      if (TSTFLAG(PieSpExFlags,Paralyse))
-        stip_insert_paralysing_goal_filters(root_slice);
-
       if (TSTFLAG(PieSpExFlags,Kamikaze))
         stip_insert_kamikaze_goal_filters(root_slice);
 
@@ -2681,6 +2678,9 @@ static Token iterate_twins(Token prev_token)
       stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,Paralyse))
+        stip_insert_paralysing_goal_filters(root_slice);
 
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);

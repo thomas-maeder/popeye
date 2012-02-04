@@ -422,6 +422,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STPiecesParalysingMateFilter:
+      case STPiecesParalysingMateFilterTester:
       case STPiecesParalysingStalemateSpecial:
       case STGoalCheckReachedTester:
       {
@@ -518,7 +519,6 @@ void TraceStipulation(slice_index si)
   }
 }
 
-#include "stipulation/move.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"

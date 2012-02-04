@@ -1,6 +1,7 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/or.h"
@@ -86,13 +87,18 @@ boolean paralysiert(square s)
 
 static void instrument_mate(slice_index si, stip_structure_traversal *st)
 {
+  boolean const * const testing = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
+  if (*testing)
+    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter));
+  else
+    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -159,6 +165,7 @@ static void prepend_stalemate_special_other(slice_index si,
 static void instrument_doublestalemate(slice_index si,
                                        stip_structure_traversal *st)
 {
+  boolean * const testing = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -166,7 +173,7 @@ static void instrument_doublestalemate(slice_index si,
 
   {
     stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_init(&st,testing);
     stip_structure_traversal_override_single(&st,
                                              STGoalNotCheckReachedTester,
                                              &prepend_stalemate_special_starter);
@@ -183,6 +190,7 @@ static void instrument_doublestalemate(slice_index si,
 static void instrument_half_doublemate(slice_index si,
                                        stip_structure_traversal *st)
 {
+  boolean const * const testing = st->param;
   goal_applies_to_starter_or_adversary const who = slices[si].u.goal_filter.applies_to_who;
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -190,7 +198,10 @@ static void instrument_half_doublemate(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(who));
+  if (*testing)
+    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(who));
+  else
+    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(who));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -198,6 +209,7 @@ static void instrument_half_doublemate(slice_index si,
 
 static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
 {
+  boolean * const testing = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -205,12 +217,31 @@ static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
 
   {
     stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_init(&st,testing);
     stip_structure_traversal_override_single(&st,
                                              STGoalCheckReachedTester,
                                              &instrument_half_doublemate);
     stip_traverse_structure(si,&st);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_testing(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *testing = true;
+  stip_traverse_structure_next_branch(si,st);
+  *testing = save_testing;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -238,6 +269,7 @@ enum
 void stip_insert_paralysing_goal_filters(slice_index si)
 {
   stip_structure_traversal st;
+  boolean testing = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -245,7 +277,13 @@ void stip_insert_paralysing_goal_filters(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&testing);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &remember_testing);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &remember_testing);
   stip_structure_traversal_override(&st,
                                     goal_filter_inserters,
                                     nr_goal_filter_inserters);

@@ -238,6 +238,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STAnticirceExchangeSpecial */
   slice_structure_pipe,         /* STAnticirceExchangeFilter */
   slice_structure_pipe,         /* STPiecesParalysingMateFilter */
+  slice_structure_pipe,         /* STPiecesParalysingMateFilterTester */
   slice_structure_pipe,         /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,         /* STPiecesKamikazeTargetSquareFilter */
   slice_structure_pipe,         /* STImmobilityTester */
@@ -419,6 +420,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STAnticirceExchangeSpecial */
   slice_function_unspecified,      /* STAnticirceExchangeFilter */
   slice_function_unspecified,      /* STPiecesParalysingMateFilter */
+  slice_function_unspecified,      /* STPiecesParalysingMateFilterTester */
   slice_function_unspecified,      /* STPiecesParalysingStalemateSpecial */
   slice_function_unspecified,      /* STPiecesKamikazeTargetSquareFilter */
   slice_function_unspecified,      /* STImmobilityTester */
@@ -1651,6 +1653,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STAnticirceExchangeSpecial */
   &stip_traverse_structure_pipe,              /* STAnticirceExchangeFilter */
   &stip_traverse_structure_pipe,              /* STPiecesParalysingMateFilter */
+  &stip_traverse_structure_pipe,              /* STPiecesParalysingMateFilterTester */
   &stip_traverse_structure_pipe,              /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,              /* STPiecesKamikazeTargetSquareFilter */
   &stip_traverse_structure_pipe,              /* STImmobilityTester */
@@ -1933,6 +1936,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STAnticirceExchangeSpecial */
     &stip_traverse_moves_pipe,              /* STAnticirceExchangeFilter */
     &stip_traverse_moves_pipe,              /* STPiecesParalysingMateFilter */
+    &stip_traverse_moves_pipe,              /* STPiecesParalysingMateFilterTester */
     &stip_traverse_moves_pipe,              /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,              /* STPiecesKamikazeTargetSquareFilter */
     &stip_traverse_moves_pipe,              /* STImmobilityTester */
