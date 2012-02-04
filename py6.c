@@ -140,6 +140,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/solving.h"
+#include "solving/for_each_move.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/avoid_unsolvable.h"
