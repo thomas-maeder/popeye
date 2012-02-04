@@ -236,25 +236,7 @@ stip_length_type help(slice_index si, stip_length_type n)
       break;
 
     default:
-      assert(n==slack_length_help);
-      switch (slice_solve(si))
-      {
-        case opponent_self_check:
-          result = slack_length_help+4;
-          break;
-
-        case has_no_solution:
-          result = slack_length_help+2;
-          break;
-
-        case has_solution:
-          result = slack_length_help;
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+      assert(0);
       break;
   }
 
@@ -311,10 +293,6 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_can_help(si,n);
       break;
 
-    case STFindByIncreasingLength:
-      result = find_by_increasing_length_can_help(si,n);
-      break;
-
     case STFindShortest:
       result = find_shortest_can_help(si,n);
       break;
@@ -340,7 +318,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       break;
 
     case STConstraintTester:
-      result = constraint_can_help(si,n);
+      result = constraint_tester_can_help(si,n);
       break;
 
     case STKeepMatingFilter:
@@ -449,25 +427,7 @@ stip_length_type can_help(slice_index si, stip_length_type n)
       break;
 
     default:
-      assert(n==slack_length_help);
-      switch (slice_has_solution(si))
-      {
-        case opponent_self_check:
-          result = slack_length_help+4;
-          break;
-
-        case has_no_solution:
-          result = slack_length_help+2;
-          break;
-
-        case has_solution:
-          result = slack_length_help;
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+      assert(0);
       break;
   }
 

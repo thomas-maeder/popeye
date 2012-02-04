@@ -85,7 +85,7 @@ stip_length_type constraint_solver_help(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type constraint_can_help(slice_index si, stip_length_type n);
+stip_length_type constraint_tester_can_help(slice_index si, stip_length_type n);
 
 /* Solve a slice
  * @param si slice index
