@@ -33,29 +33,34 @@ slice_index alloc_or_slice(slice_index op1, slice_index op2)
  */
 has_solution_type or_has_solution(slice_index si)
 {
+  has_solution_type result;
+  has_solution_type result1;
+  has_solution_type result2;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
-  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(op1))
+  result1 = slice_has_solution(op1);
+  result2 = slice_has_solution(op2);
+
+  switch (result1)
   {
     case opponent_self_check:
-      if (slice_has_solution(op2)==has_solution)
+      if (result2==has_solution)
         result = has_solution;
       else
         result = opponent_self_check;
       break;
 
     case has_no_solution:
-      result = slice_has_solution(op2);
+      result = result2;
       break;
 
     case has_solution:
-      switch (slice_has_solution(op2))
+      switch (result2)
       {
         case opponent_self_check:
           result = opponent_self_check;
@@ -76,35 +81,6 @@ has_solution_type or_has_solution(slice_index si)
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionParamListEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type or_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_attack(op1,n);
-  if (result<=slack_length_battle-2 || result>n)
-    result = can_attack(op2,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
   return result;
 }
 
@@ -152,6 +128,35 @@ has_solution_type or_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type or_can_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = can_attack(op1,n);
+  if (result<=slack_length_battle-2 || result>n)
+    result = can_attack(op2,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

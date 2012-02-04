@@ -186,7 +186,7 @@ has_solution_type help_adapter_solve(slice_index si)
  */
 has_solution_type help_adapter_has_solution(slice_index si)
 {
-  has_solution_type result = has_no_solution;
+  has_solution_type result;
   stip_length_type const full_length = slices[si].u.branch.length;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type nr_moves_needed;

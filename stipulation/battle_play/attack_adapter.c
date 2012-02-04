@@ -239,7 +239,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   max_unsolvable = min_length-1;
 
   nr_moves_needed = attack(next,length);
-  if (nr_moves_needed==slack_length_battle-2)
+  if (nr_moves_needed<slack_length_battle)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
     result = has_solution;

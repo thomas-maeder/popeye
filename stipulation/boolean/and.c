@@ -69,13 +69,7 @@ has_solution_type and_solve(slice_index si)
 
   result = slice_solve(op1);
   if (result==has_solution)
-  {
-#if !defined(NDEBUG)
-    has_solution_type const result2 =
-#endif
-    slice_solve(op2);
-    assert(result2==has_solution);
-  }
+    result = slice_solve(op2);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

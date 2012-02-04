@@ -2109,10 +2109,10 @@ pythreat$(OBJ_SUFFIX): pythreat.c pythreat.h stipulation/battle_play/defense_pla
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
  stipulation/goals/goals.h boolean.h py.h pypipe.h pystip.h \
  stipulation/slice_type.h pyslice.h stipulation/testing_pipe.h pypipe.h \
- stipulation/branch.h pystip.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h solving/solving.h \
- solving/battle_play/check_detector.h \
- stipulation/battle_play/defense_play.h trace.h
+ stipulation/branch.h pystip.h stipulation/dummy_move.h \
+ stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+ solving/solving.h solving/battle_play/check_detector.h trace.h
 
 pythreat.h:
 
@@ -2166,6 +2166,12 @@ stipulation/branch.h:
 
 pystip.h:
 
+stipulation/dummy_move.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
@@ -2173,8 +2179,6 @@ stipulation/battle_play/attack_play.h:
 solving/solving.h:
 
 solving/battle_play/check_detector.h:
-
-stipulation/battle_play/defense_play.h:
 
 trace.h:
 pydegent$(OBJ_SUFFIX): pydegent.c pydegent.h stipulation/battle_play/attack_play.h \
