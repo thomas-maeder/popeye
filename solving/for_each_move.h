@@ -14,14 +14,6 @@
  */
 slice_index alloc_for_each_move_slice(void);
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a STForEachMove slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_for_each_move(slice_index si,
-                                         stip_structure_traversal *st);
-
 /* Instrument the stipulation with move iterator slices
  * @param root_slice identifies root slice of stipulation
  */

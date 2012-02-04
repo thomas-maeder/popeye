@@ -197,7 +197,8 @@ pypipe.h:
 
 trace.h:
 solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_move.h \
- pydata.h pyproc.h pypipe.h stipulation/branch.h solving/solving.h \
+ pydata.h pyproc.h pypipe.h pybrafrk.h stipulation/branch.h \
+ stipulation/battle_play/branch.h solving/solving.h solving/find_move.h \
  trace.h
 
 solving/for_each_move.h:
@@ -208,9 +209,15 @@ pyproc.h:
 
 pypipe.h:
 
+pybrafrk.h:
+
 stipulation/branch.h:
 
+stipulation/battle_play/branch.h:
+
 solving/solving.h:
+
+solving/find_move.h:
 
 trace.h:
 solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h pypipe.h \

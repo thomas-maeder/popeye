@@ -2682,6 +2682,8 @@ static Token iterate_twins(Token prev_token)
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);
 
+      stip_insert_move_iterators(root_slice);
+
 #if defined(DOTRACE)
       stip_insert_move_tracers(root_slice);
 #endif

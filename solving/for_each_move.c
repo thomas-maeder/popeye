@@ -2,8 +2,11 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "solving/solving.h"
+#include "solving/find_move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -102,33 +105,6 @@ void stip_insert_move_iterators(slice_index root_slice)
                                     move_iterator_inserters,
                                     nr_move_iterator_inserters);
   stip_traverse_structure(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a STForEachMove slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_for_each_move(slice_index si,
-                                         stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-  {
-    state->spun_off[si] = alloc_pipe(STFindMove);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-  }
-  else
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
