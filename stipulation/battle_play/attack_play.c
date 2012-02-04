@@ -12,7 +12,6 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
@@ -22,6 +21,8 @@
 #include "solving/fork_on_remaining.h"
 #include "solving/find_shortest.h"
 #include "solving/move_generator.h"
+#include "solving/for_each_move.h"
+#include "solving/find_move.h"
 #include "solving/play_suppressor.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/threat.h"
@@ -104,8 +105,8 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       result = move_generator_can_attack(si,n);
       break;
 
-    case STMove:
-      result = move_can_attack(si,n);
+    case STFindMove:
+      result = find_move_can_attack(si,n);
       break;
 
     case STMovePlayed:
@@ -292,8 +293,8 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = move_generator_attack(si,n);
       break;
 
-    case STMove:
-      result = move_attack(si,n);
+    case STForEachMove:
+      result = for_each_move_attack(si,n);
       break;
 
     case STMovePlayed:

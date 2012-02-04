@@ -16,6 +16,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/binary.h"
 #include "solving/move_generator.h"
+#include "solving/for_each_move.h"
 #include "solving/play_suppressor.h"
 #include "solving/find_shortest.h"
 #include "solving/find_by_increasing_length.h"
@@ -119,6 +120,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
   stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);
+  stip_structure_traversal_override_single(&st,STForEachMove,&stip_spin_off_testers_for_each_move);
 
   stip_structure_traversal_override_single(&st,STThreatSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STRefutationsSolver,&stip_spin_off_testers_pipe_skip);
@@ -347,6 +349,8 @@ void stip_insert_solvers(slice_index root_slice)
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
+
+  stip_insert_move_iterators(root_slice);
 
   stip_insert_continuation_solvers(root_slice);
 

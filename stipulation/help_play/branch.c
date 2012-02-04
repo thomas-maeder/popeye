@@ -6,7 +6,6 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/dummy_move.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
@@ -57,6 +56,8 @@ static slice_index const slice_rank_order[] =
   STOhneschachSuspender,
   STExclusiveChessUnsuspender,
   STMove,
+  STForEachMove,
+  STFindMove,
   STBGLFilter,
   STMoveTracer,
   STMovePlayed,
@@ -754,13 +755,13 @@ slice_index alloc_help_branch(stip_length_type length,
                                             length,min_length);
     slice_index const testpre1 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating1 = alloc_pipe(STGeneratingMoves);
-    slice_index const move1 = alloc_move_slice();
+    slice_index const move1 = alloc_pipe(STMove);
     slice_index const played1 = alloc_move_played_slice();
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const testpre2 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating2 = alloc_pipe(STGeneratingMoves);
-    slice_index const move2 = alloc_move_slice();
+    slice_index const move2 = alloc_pipe(STMove);
     slice_index const played2 = alloc_move_played_slice();
 
     slice_index const deadend = alloc_dead_end_slice();
@@ -1023,7 +1024,7 @@ slice_index alloc_series_branch(stip_length_type length,
                                            length,min_length);
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const generating = alloc_pipe(STGeneratingMoves);
-    slice_index const move = alloc_move_slice();
+    slice_index const move = alloc_pipe(STMove);
     slice_index const played = alloc_move_played_slice();
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForDummyMove);

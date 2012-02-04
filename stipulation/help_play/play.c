@@ -9,7 +9,6 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_tester.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
@@ -21,6 +20,8 @@
 #include "solving/find_shortest.h"
 #include "solving/move_generator.h"
 #include "solving/king_move_generator.h"
+#include "solving/for_each_move.h"
+#include "solving/find_move.h"
 #include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
@@ -92,8 +93,8 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = orthodox_mating_move_generator_help(si,n);
       break;
 
-    case STMove:
-      result = move_help(si,n);
+    case STForEachMove:
+      result = for_each_move_help(si,n);
       break;
 
     case STMovePlayed:
@@ -284,8 +285,8 @@ stip_length_type can_help(slice_index si, stip_length_type n)
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STMove:
-      result = move_can_help(si,n);
+    case STFindMove:
+      result = find_move_can_help(si,n);
       break;
 
     case STMovePlayed:

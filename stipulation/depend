@@ -18,18 +18,6 @@ solving/fork_on_remaining.h:
 pypipe.h:
 
 trace.h:
-stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h pydata.h \
- pyproc.h pypipe.h trace.h
-
-stipulation/move.h:
-
-pydata.h:
-
-pyproc.h:
-
-pypipe.h:
-
-trace.h:
 stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
  stipulation/move_played.h pydata.h pyproc.h pypipe.h trace.h
 

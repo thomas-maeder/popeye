@@ -36,6 +36,8 @@
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
     ENUMERATOR(STMove),                                                \
+    ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
+    ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
     ENUMERATOR(STReadyForDummyMove),                                   \

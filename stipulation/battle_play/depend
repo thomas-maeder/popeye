@@ -2,7 +2,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/battle_play/branch.h pypipe.h pymovein.h \
  stipulation/conditional_pipe.h stipulation/constraint.h \
  stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/move.h stipulation/move_played.h \
+ stipulation/end_of_branch.h stipulation/move_played.h \
  stipulation/boolean/binary.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h trace.h
 
@@ -23,8 +23,6 @@ stipulation/branch.h:
 stipulation/dead_end.h:
 
 stipulation/end_of_branch.h:
-
-stipulation/move.h:
 
 stipulation/move_played.h:
 
@@ -57,13 +55,13 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
  stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/move.h stipulation/move_played.h \
+ stipulation/end_of_branch.h stipulation/move_played.h \
  stipulation/boolean/or.h stipulation/battle_play/branch.h \
  stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
- solving/find_shortest.h solving/move_generator.h \
- solving/play_suppressor.h solving/avoid_unsolvable.h \
+ solving/find_shortest.h solving/move_generator.h solving/for_each_move.h \
+ solving/find_move.h solving/play_suppressor.h solving/avoid_unsolvable.h \
  solving/battle_play/threat.h solving/battle_play/try.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
@@ -108,8 +106,6 @@ stipulation/dead_end.h:
 
 stipulation/end_of_branch.h:
 
-stipulation/move.h:
-
 stipulation/move_played.h:
 
 stipulation/boolean/or.h:
@@ -127,6 +123,10 @@ solving/fork_on_remaining.h:
 solving/find_shortest.h:
 
 solving/move_generator.h:
+
+solving/for_each_move.h:
+
+solving/find_move.h:
 
 solving/play_suppressor.h:
 
@@ -194,15 +194,16 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
  stipulation/battle_play/defense_play.h pyflight.h pykeepmt.h pymovenb.h \
  pynontrv.h pyselfcg.h pyselfgd.h pythreat.h stipulation/constraint.h \
- stipulation/dead_end.h stipulation/end_of_branch.h stipulation/move.h \
+ stipulation/dead_end.h stipulation/end_of_branch.h \
  stipulation/move_played.h stipulation/dummy_move.h \
  stipulation/check_zigzag_jump.h stipulation/battle_play/branch.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h stipulation/help_play/play.h \
  solving/fork_on_remaining.h solving/move_generator.h \
- solving/play_suppressor.h solving/battle_play/continuation.h \
- solving/battle_play/check_detector.h solving/battle_play/try.h \
- solving/battle_play/threat.h solving/find_by_increasing_length.h \
+ solving/for_each_move.h solving/find_move.h solving/play_suppressor.h \
+ solving/battle_play/continuation.h solving/battle_play/check_detector.h \
+ solving/battle_play/try.h solving/battle_play/threat.h \
+ solving/find_by_increasing_length.h \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
  conditions/bgl.h optimisations/killer_move/move_generator.h \
  optimisations/killer_move/final_defense_move.h \
@@ -238,8 +239,6 @@ stipulation/dead_end.h:
 
 stipulation/end_of_branch.h:
 
-stipulation/move.h:
-
 stipulation/move_played.h:
 
 stipulation/dummy_move.h:
@@ -257,6 +256,10 @@ stipulation/help_play/play.h:
 solving/fork_on_remaining.h:
 
 solving/move_generator.h:
+
+solving/for_each_move.h:
+
+solving/find_move.h:
 
 solving/play_suppressor.h:
 

@@ -112,7 +112,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/move.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/adapter.h"
 #include "solving/find_shortest.h"

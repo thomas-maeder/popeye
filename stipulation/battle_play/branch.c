@@ -7,7 +7,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
@@ -53,6 +52,8 @@ static slice_index const slice_rank_order[] =
   STKillerMoveMoveGenerator,
   STOrthodoxMatingMoveGenerator,
   STMove,
+  STForEachMove,
+  STFindMove,
   STBGLFilter,
   STMoveTracer,
   STMovePlayed,
@@ -102,6 +103,8 @@ static slice_index const slice_rank_order[] =
   STCountNrOpponentMovesMoveGenerator,
   STKillerMoveFinalDefenseMove,
   STMove,
+  STForEachMove,
+  STFindMove,
   STBGLFilter,
   STMoveTracer,
   STMovePlayed,
@@ -519,7 +522,7 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const generating = alloc_pipe(STGeneratingMoves);
-    slice_index const defense = alloc_move_slice();
+    slice_index const defense = alloc_pipe(STMove);
     slice_index const played = alloc_move_played_slice();
 
     pipe_link(adapter,ready);
@@ -563,14 +566,14 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const adeadend = alloc_dead_end_slice();
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
-    slice_index const attack = alloc_move_slice();
+    slice_index const attack = alloc_pipe(STMove);
     slice_index const aplayed = alloc_move_played_slice();
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
     slice_index const ddeadend = alloc_dead_end_slice();
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
-    slice_index const defense = alloc_move_slice();
+    slice_index const defense = alloc_pipe(STMove);
     slice_index const dplayed = alloc_move_played_slice();
 
     pipe_link(adapter,aready);
@@ -648,7 +651,6 @@ void battle_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
   {
     slice_index const start = branch_find_slice(STReadyForDefense,adapter);
     stip_structure_traversal st;
-    slice_structural_type type;
 
     slice_index const prototype = alloc_pipe(STEndOfRoot);
     battle_branch_insert_slices(adapter,&prototype,1);

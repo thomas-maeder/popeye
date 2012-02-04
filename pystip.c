@@ -26,7 +26,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
@@ -119,6 +118,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STEndOfIntro */
   slice_structure_pipe,         /* STDeadEnd */
   slice_structure_pipe,         /* STMove */
+  slice_structure_pipe,         /* STForEachMove */
+  slice_structure_pipe,         /* STFindMove */
   slice_structure_pipe,         /* STMovePlayed */
   slice_structure_pipe,         /* STDummyMove */
   slice_structure_branch,       /* STReadyForDummyMove */
@@ -298,6 +299,8 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STEndOfIntro */
   slice_function_unspecified,      /* STDeadEnd */
   slice_function_unspecified,      /* STMove */
+  slice_function_unspecified,      /* STForEachMove */
+  slice_function_unspecified,      /* STFindMove */
   slice_function_unspecified,      /* STMovePlayed */
   slice_function_unspecified,      /* STDummyMove */
   slice_function_unspecified,      /* STReadyForDummyMove */
@@ -1528,6 +1531,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STEndOfIntro */
   &stip_traverse_structure_pipe,              /* STDeadEnd */
   &stip_traverse_structure_pipe,              /* STMove */
+  &stip_traverse_structure_pipe,              /* STForEachMove */
+  &stip_traverse_structure_pipe,              /* STFindMove */
   &stip_traverse_structure_pipe,              /* STMovePlayed */
   &stip_traverse_structure_pipe,              /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForDummyMove */
@@ -1808,6 +1813,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STEndOfIntro */
     &stip_traverse_moves_dead_end,          /* STDeadEnd */
     &stip_traverse_moves_pipe,              /* STMove */
+    &stip_traverse_moves_pipe,              /* STForEachMove */
+    &stip_traverse_moves_pipe,              /* STFindMove */
     &stip_traverse_moves_move_played,       /* STMovePlayed */
     &stip_traverse_moves_move_played,       /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForDummyMove */

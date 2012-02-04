@@ -9,7 +9,6 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
-#include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
@@ -19,6 +18,8 @@
 #include "stipulation/help_play/play.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/move_generator.h"
+#include "solving/for_each_move.h"
+#include "solving/find_move.h"
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/check_detector.h"
@@ -124,8 +125,8 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = countnropponentmoves_move_generator_defend(si,n);
       break;
 
-    case STMove:
-      result = move_defend(si,n);
+    case STForEachMove:
+      result = for_each_move_defend(si,n);
       break;
 
     case STMovePlayed:
@@ -322,8 +323,8 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       result = countnropponentmoves_move_generator_can_defend(si,n);
       break;
 
-    case STMove:
-      result = move_can_defend(si,n);
+    case STFindMove:
+      result = find_move_can_defend(si,n);
       break;
 
     case STMovePlayed:
