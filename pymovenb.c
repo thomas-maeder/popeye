@@ -123,7 +123,7 @@ stip_length_type restart_guard_defend(slice_index si, stip_length_type n)
   IncrementMoveNbr(si);
 
   if (MoveNbr<=RestartNbr)
-    result = n+4;
+    result = n+2;
   else
     result = defend(next,n);
 

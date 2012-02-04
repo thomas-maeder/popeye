@@ -46,7 +46,7 @@ stip_length_type move_played_can_attack(slice_index si, stip_length_type n)
   assert(n>slack_length_battle);
   result = can_defend(slices[si].u.pipe.next,n-1)+1;
   if (result<=slack_length_battle) /* oops - unintentional stalemate! */
-    result = n+4;
+    result = n+2;
 
   ++max_unsolvable;
 
@@ -78,7 +78,7 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
   assert(n>slack_length_battle);
   result = defend(slices[si].u.pipe.next,n-1)+1;
   if (result<=slack_length_battle) /* oops - unintentional stalemate! */
-    result = n+4;
+    result = n+2;
 
   ++max_unsolvable;
 

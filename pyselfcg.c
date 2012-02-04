@@ -113,7 +113,7 @@ stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = n+4;
+    result = n+2;
   else
     result = defend(next,n);
 
@@ -143,7 +143,7 @@ stip_length_type selfcheck_guard_can_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = n+4;
+    result = n+2;
   else
     result = can_defend(next,n);
 

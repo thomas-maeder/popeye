@@ -142,14 +142,14 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
     if (attack_gives_check[nbply])
       result = defend(next,n);
     else if (max_len_threat==0)
-      result = n+4;
+      result = n+2;
     else
     {
       stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
       if (n>=n_max)
       {
         if (is_threat_too_long(si,n,n_max))
-          result = n+4;
+          result = n+2;
         else
           result = defend(next,n);
       }
@@ -192,7 +192,7 @@ maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n)
     if (echecc(nbply,slices[si].starter))
       result = can_defend(next,n);
     else
-      result = n+4;
+      result = n+2;
   }
   else
   {
@@ -202,7 +202,7 @@ maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n)
       if (echecc(nbply,slices[si].starter))
         result = can_defend(next,n);
       else if (is_threat_too_long(si,n,n_max))
-        result = n+4;
+        result = n+2;
       else
         result = can_defend(next,n);
     }

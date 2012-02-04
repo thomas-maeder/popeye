@@ -135,7 +135,7 @@ stip_length_type keepmating_filter_defend(slice_index si, stip_length_type n)
   if (is_a_mating_piece_left(mating))
     result = defend(next,n);
   else
-    result = n+4;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -168,7 +168,7 @@ stip_length_type keepmating_filter_can_defend(slice_index si, stip_length_type n
   if (is_a_mating_piece_left(mating))
     result = can_defend(next,n);
   else
-    result = n+4;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

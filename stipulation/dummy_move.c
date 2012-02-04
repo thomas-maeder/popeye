@@ -55,7 +55,7 @@ stip_length_type dummy_move_can_defend(slice_index si, stip_length_type n)
   }
 
   if (max_len_continuation>n) /* refuted */
-    result = n+4;
+    result = n+2;
   else
     result = max_len_continuation;
 
@@ -101,7 +101,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   }
 
   if (max_len_continuation>n) /* refuted */
-    result = n+4;
+    result = n+2;
   else
     result = max_len_continuation;
 

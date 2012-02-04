@@ -114,7 +114,7 @@ stip_length_type min_length_guard_can_defend(slice_index si, stip_length_type n)
 
   if (slack_length_battle<=result && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
-    result = n+4;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -149,7 +149,7 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
 
   if (slack_length_battle<=result && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
-    result = n+4;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -292,7 +292,7 @@ stip_length_type dead_end_defend(slice_index si, stip_length_type n)
 
   if (n==slack_length_battle
       /*|| n<=max_unsolvable*/) /* no dead end, we are solving refutations! */
-    result = n+4;
+    result = n+2;
   else
     result = defend(next,n);
 
@@ -328,7 +328,7 @@ stip_length_type dead_end_can_defend(slice_index si, stip_length_type n)
     max_unsolvable = slack_length_battle;
 
   if (n<=max_unsolvable)
-    result = n+4;
+    result = n+2;
   else
     result = can_defend(next,n);
 

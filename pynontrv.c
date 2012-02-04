@@ -194,7 +194,7 @@ max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
       --max_nr_nontrivial;
     }
     else
-      result = n+4;
+      result = n+2;
   }
   else
     result = defend(next,n);
@@ -237,7 +237,7 @@ max_nr_nontrivial_guard_can_defend(slice_index si, stip_length_type n)
       --max_nr_nontrivial;
     }
     else
-      result = n+4;
+      result = n+2;
   }
   else
     result = can_defend(next,n);

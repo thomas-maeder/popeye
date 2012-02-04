@@ -133,7 +133,7 @@ stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (n>slack_length_battle+3 && are_there_too_many_flights(si))
-    result = n+4;
+    result = n+2;
   else
     result = defend(next,n);
 
@@ -163,7 +163,7 @@ stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (n>slack_length_battle+3 && are_there_too_many_flights(si))
-    result = n+4;
+    result = n+2;
   else
     result = can_defend(next,n);
 
