@@ -169,7 +169,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STCastlingIntermediateMoveGenerator */
   slice_structure_fork,         /* STCastlingIntermediateMoveLegalityTester */
   slice_structure_pipe,         /* STRefutationsAllocator */
-  slice_structure_pipe,         /* STTrySolver */
   slice_structure_pipe,         /* STRefutationsSolver */
   slice_structure_pipe,         /* STPlaySuppressor */
   slice_structure_fork,         /* STContinuationSolver */
@@ -351,7 +350,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_move_generator,   /* STCastlingIntermediateMoveGenerator */
   slice_function_conditional_pipe, /* STCastlingIntermediateMoveLegalityTester */
   slice_function_unspecified,      /* STRefutationsAllocator */
-  slice_function_unspecified,      /* STTrySolver */
   slice_function_unspecified,      /* STRefutationsSolver */
   slice_function_unspecified,      /* STPlaySuppressor */
   slice_function_testing_pipe,     /* STContinuationSolver */
@@ -1584,7 +1582,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STCastlingIntermediateMoveGenerator */
   &stip_traverse_structure_fork,              /* STCastlingIntermediateMoveLegalityTester */
   &stip_traverse_structure_pipe,              /* STRefutationsAllocator */
-  &stip_traverse_structure_pipe,              /* STTrySolver */
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
   &stip_traverse_structure_testing_pipe,      /* STContinuationSolver */
@@ -1867,7 +1864,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STCastlingIntermediateMoveGenerator */
     &stip_traverse_moves_conditional_pipe,  /* STCastlingIntermediateMoveLegalityTester */
     &stip_traverse_moves_pipe,              /* STRefutationsAllocator */
-    &stip_traverse_moves_pipe,              /* STTrySolver */
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */
     &stip_traverse_moves_pipe,              /* STPlaySuppressor */
     &stip_traverse_moves_pipe,              /* STContinuationSolver */

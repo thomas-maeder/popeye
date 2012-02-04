@@ -22,10 +22,11 @@ void disable_countnropponentmoves_defense_move_optimisation(Side side);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
+ *         n+2 refuted - >acceptable number of refutations found
  */
 stip_length_type
 countnropponentmoves_move_generator_defend(slice_index si, stip_length_type n);
@@ -33,10 +34,11 @@ countnropponentmoves_move_generator_defend(slice_index si, stip_length_type n);
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
-                         (incl. defense) needed
-           n+2 refuted - <=acceptable number of refutations found
-           n+4 refuted - >acceptable number of refutations found
+ * @return <slack_length_battle - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
  */
 stip_length_type
 countnropponentmoves_move_generator_can_defend(slice_index si, stip_length_type n);

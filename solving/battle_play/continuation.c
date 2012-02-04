@@ -29,10 +29,10 @@ slice_index alloc_continuation_solver_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
+ *         n+2 refuted - >acceptable number of refutations found
  */
 stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
 {
@@ -44,7 +44,7 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = can_defend(slices[si].u.fork.fork,n);
-  if (slack_length_battle<=result && result<n+4)
+  if (slack_length_battle<=result && result<=n)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)

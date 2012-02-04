@@ -42,11 +42,10 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
+ *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type threat_collector_defend(slice_index si, stip_length_type n);
 
 /* Callback to stip_spin_off_testers
@@ -61,10 +60,10 @@ void stip_spin_off_testers_threat_collector(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
- *         <=n solved  - return value is maximum number of moves
-                         (incl. defense) needed
-           n+2 refuted - <=acceptable number of refutations found
-           n+4 refuted - >acceptable number of refutations found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
  */
 stip_length_type threat_defeated_tester_can_defend(slice_index si,
                                                    stip_length_type n);

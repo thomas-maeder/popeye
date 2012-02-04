@@ -198,7 +198,8 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
+static void instrument_refutations_solver(slice_index si,
+                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -257,10 +258,10 @@ static void stop_instrumenting_after_refutation(slice_index si,
 
 static structure_traversers_visitors try_writer_inserters[] =
 {
-  { STSetplayFork,      &stip_traverse_structure_pipe        },
-  { STTrySolver,        &instrument_try_solver               },
-  { STRefutationWriter, &remember_refutation_writer          },
-  { STReadyForAttack,   &stop_instrumenting_after_refutation }
+  { STSetplayFork,       &stip_traverse_structure_pipe        },
+  { STRefutationsSolver, &instrument_refutations_solver       },
+  { STRefutationWriter,  &remember_refutation_writer          },
+  { STReadyForAttack,    &stop_instrumenting_after_refutation }
 };
 
 enum

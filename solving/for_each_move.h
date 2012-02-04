@@ -34,11 +34,10 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
+ *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type for_each_move_defend(slice_index si, stip_length_type n);
 
 /* Determine and write the solution(s) in a help stipulation

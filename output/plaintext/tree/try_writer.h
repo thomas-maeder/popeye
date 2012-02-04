@@ -15,11 +15,10 @@ slice_index alloc_try_writer(void);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <=n solved  - return value is maximum number of moves
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=acceptable number of refutations found
- *         n+4 refuted - >acceptable number of refutations found
- */
+ *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type try_writer_defend(slice_index si, stip_length_type n);
 
 #endif
