@@ -1,6 +1,6 @@
 stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
- stipulation/goals/goals.h pystip.h pypipe.h stipulation/boolean/false.h \
- trace.h
+  stipulation/goals/goals.h pystip.h pypipe.h stipulation/boolean/false.h \
+  trace.h
 
 stipulation/goals/goals.h:
 
@@ -12,8 +12,8 @@ stipulation/boolean/false.h:
 
 trace.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
- stipulation/goals/reached_tester.h stipulation/proxy.h \
- stipulation/conditional_pipe.h stipulation/boolean/true.h trace.h
+  stipulation/goals/reached_tester.h stipulation/proxy.h \
+  stipulation/conditional_pipe.h stipulation/boolean/true.h trace.h
 
 stipulation/goals/reached_tester.h:
 
@@ -24,15 +24,15 @@ stipulation/conditional_pipe.h:
 stipulation/boolean/true.h:
 
 trace.h:
-stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
+stipulation/goals/prerequisite_guards$(OBJ_SUFFIX):  \
  stipulation/goals/prerequisite_guards.c \
- stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
- stipulation/branch.h stipulation/proxy.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/goals/prerequisite_optimiser.h \
- stipulation/goals/countermate/filter.h \
- stipulation/goals/doublemate/filter.h solving/fork_on_remaining.h \
- optimisations/goals/optimisation_guards.h trace.h
+  stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
+  stipulation/branch.h stipulation/proxy.h \
+  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+  stipulation/goals/prerequisite_optimiser.h \
+  stipulation/goals/countermate/filter.h \
+  stipulation/goals/doublemate/filter.h solving/fork_on_remaining.h \
+  optimisations/goals/optimisation_guards.h trace.h
 
 stipulation/goals/prerequisite_guards.h:
 
@@ -59,10 +59,10 @@ solving/fork_on_remaining.h:
 optimisations/goals/optimisation_guards.h:
 
 trace.h:
-stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
+stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX):  \
  stipulation/goals/prerequisite_optimiser.c \
- stipulation/goals/prerequisite_optimiser.h pypipe.h pydata.h \
- stipulation/branch.h stipulation/goals/prerequisite_guards.h trace.h
+  stipulation/goals/prerequisite_optimiser.h pypipe.h pydata.h \
+  stipulation/branch.h stipulation/goals/prerequisite_guards.h trace.h
 
 stipulation/goals/prerequisite_optimiser.h:
 
