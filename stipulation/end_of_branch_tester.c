@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/conditional_pipe.h"
 #include "solving/solving.h"
 #include "solving/fork_on_remaining.h"
