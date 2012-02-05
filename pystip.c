@@ -147,6 +147,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STGoalProofgameReachedTester */
   slice_structure_pipe,         /* STGoalAToBReachedTester */
   slice_structure_pipe,         /* STGoalMateOrStalemateReachedTester */
+  slice_structure_pipe,         /* STGoalChess81ReachedTester */
   slice_structure_fork,         /* STGoalImmobileReachedTester */
   slice_structure_pipe,         /* STGoalNotCheckReachedTester */
   slice_structure_leaf,         /* STTrue */
@@ -327,6 +328,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STGoalProofgameReachedTester */
   slice_function_unspecified,      /* STGoalAToBReachedTester */
   slice_function_unspecified,      /* STGoalMateOrStalemateReachedTester */
+  slice_function_unspecified,      /* STGoalChess81ReachedTester */
   slice_function_conditional_pipe, /* STGoalImmobileReachedTester */
   slice_function_unspecified,      /* STGoalNotCheckReachedTester */
   slice_function_unspecified,      /* STTrue */
@@ -1558,6 +1560,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalMateOrStalemateReachedTester */
+  &stip_traverse_structure_pipe,              /* STGoalChess81ReachedTester */
   &stip_traverse_structure_fork,              /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,              /* STGoalNotCheckReachedTester */
   &stip_structure_visitor_noop,               /* STTrue */
@@ -1839,6 +1842,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalMateOrStalemateReachedTester */
+    &stip_traverse_moves_pipe,              /* STGoalChess81ReachedTester */
     &stip_traverse_moves_conditional_pipe,  /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,              /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_noop,              /* STTrue */
