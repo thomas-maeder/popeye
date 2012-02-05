@@ -31,6 +31,7 @@ typedef enum
   goal_proofgame,
   goal_atob, /* TODO remove? is there a difference to goal_proofgame? */
   goal_mate_or_stale,
+  goal_chess81,
 
   nr_goals,
   no_goal = nr_goals

@@ -50,6 +50,8 @@
  **
  ** 2012/01/27 NG   AlphabeticChess now possible for white or black only.
  **
+ ** 2012/02/04 NG   New condition: Chess 8/1 (invented: Werner Keym, 5/2011)
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -110,6 +112,7 @@
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/atob/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/chess81/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/help_play/branch.h"
@@ -1868,6 +1871,7 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
   , { "~",    goal_any                 }
   , { "dia",  goal_proofgame           }
   , { "a=>b", goal_atob                }
+  , { "c81",  goal_chess81             }
 };
 
 typedef enum
@@ -2179,6 +2183,11 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
         break;
       }
+
+      case goal_chess81:
+	pipe_link(proxy,alloc_goal_chess81_reached_tester_system());
+	break;
+
 
       default:
         assert(0);

@@ -50,6 +50,8 @@
  **
  ** 2009/06/27 SE   Extended imitators/hurdlecolorchanging to moose etc.
  **
+ ** 2012/02/04 NG   New condition: Chess 8/1 (invented: Werner Keym, 5/2011)
+ **
  **************************** End of List ******************************/
 
 #if defined(macintosh)    /* is always defined on macintosh's  SB */
@@ -718,6 +720,12 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   {
     case goal_ep:
       if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
+        return true;
+      else
+        break;
+
+    case goal_chess81:
+      if (sq_arrival > square_h1 && sq_arrival < square_a8)
         return true;
       else
         break;
@@ -1500,7 +1508,7 @@ static void gkanglion(square sq_departure, Side camp) {
     if (hurdle!=obs) {
       finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
       if (hurdle!=obs) {
-        while (e[sq_arrival+= vec[k]] == vide)
+        while (e[sq_arrival+= vec[k]] == vide) 
           empile(sq_departure,sq_arrival,sq_arrival);
         if (rightcolor(e[sq_arrival],camp))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -3150,7 +3158,7 @@ void genrb(square sq_departure)
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
-
+  
   if (CondFlag[platzwechselrochade] && whpwr[nbply])
   {
     int i,j;

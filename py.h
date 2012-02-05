@@ -249,43 +249,52 @@ typedef struct {
   piece pc;
 } change_rec;
 
+/* some more comments about the elements of the structure below and what they are intended for are appreciated ... NG */
 typedef struct {
-	square          cdzz, cazz, cpzz;
-	square          sqren;
-	piece           pjzz, ppri, ren_parrain, norm_prom, cir_prom;
-
-	piece           pjazz;
-	square          renkam;
-	unsigned int    numi;
-	int             sum;
-	boolean         promi,
-			bool_senti,
-			bool_norm_cham_prom,
-			bool_cir_cham_prom;
-	Side		tr;
-	Flags           speci, ren_spec;
-	square		repub_k;
-	Flags           new_spec;
-	square		hurdle;
-	square		sb2where;
-	piece		sb2what;
-	square		sb3where;
-	piece		sb3what;
-	square		mren;
-	boolean		osc;
-    change_rec *push_bottom, *push_top;
-    square      roch_sq;
-    piece       roch_pc;
-    Flags       roch_sp;
-    piece       ghost_piece;
-    Flags       ghost_flags;
-  long int bgl_wh, bgl_bl;
+	square          cdzz,			/* departure square           */
+			cazz,			/* arrival square             */
+			cpzz;			/* capture square             */
+	square          sqren;			/* rebirth square (Circe ...) */
+	piece           pjzz,			/* piece moving               */
+			ppri,			/* piece captured             */
+			ren_parrain,		/*                            */
+			norm_prom,		/*                            */
+			cir_prom;		/*                            */
+	piece           pjazz;			/* piece arriving             */
+	square          renkam;			/*                            */
+	unsigned int    numi;			/*                            */
+	int             sum;			/*                            */
+	boolean         promi,			/*                            */
+			bool_senti,		/*                            */
+			bool_norm_cham_prom,	/*                            */
+			bool_cir_cham_prom;	/*                            */
+	Side		tr;			/*                            */
+	Flags           speci,			/*                            */
+			ren_spec;		/*                            */
+	square		repub_k;		/*                            */
+	Flags           new_spec;		/*                            */
+	square		hurdle;			/*                            */
+	square		sb2where;		/*                            */
+	piece		sb2what;		/*                            */
+	square		sb3where;		/*                            */
+	piece		sb3what;		/*                            */
+	square		mren;			/*                            */
+	boolean		osc;			/*                            */
+	change_rec	*push_bottom,		/*                            */
+			*push_top;		/*                            */
+	square		roch_sq;		/*                            */
+	piece		roch_pc;		/*                            */
+	Flags		roch_sp;		/*                            */
+	piece		ghost_piece;		/*                            */
+	Flags		ghost_flags;		/*                            */
+	long int	bgl_wh,			/*                            */
+			bgl_bl;			/*                            */
 } coup;
 
 typedef struct {
-	move_generation_elmt move;
-    square mren;
-	int                  nr_opponent_moves;
+	move_generation_elmt	move;
+	square			mren;
+	int			nr_opponent_moves;
 } empile_optimization_table_elmt;
 
 enum
