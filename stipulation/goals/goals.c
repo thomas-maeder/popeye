@@ -53,7 +53,7 @@ char const *goal_end_marker[nr_goals] =
   , " dia"
   , " a=>b"
   , " #="
-  , "c81"
+  , " c81"
 };
 
 /* Order in which the slice types dealing with goals appear
