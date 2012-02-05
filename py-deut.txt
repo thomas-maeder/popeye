@@ -551,6 +551,7 @@ Kommandos:
 						{<> }	    {<>  }
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
+						{c81}	    {c81 }
       
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n

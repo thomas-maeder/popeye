@@ -531,6 +531,7 @@ commands expect further parameters. Lets start with the simpler commands:
 						{<> }	    {<>  }
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
+						{c81}	    {c81 }
       
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n

@@ -1,0 +1,16 @@
+stipulation/goals/chess81/reached_tester$(OBJ_SUFFIX):  \
+ stipulation/goals/chess81/reached_tester.c \
+  stipulation/goals/chess81/reached_tester.h pypipe.h pydata.h \
+  stipulation/goals/reached_tester.h stipulation/boolean/true.h trace.h
+
+stipulation/goals/chess81/reached_tester.h:
+
+pypipe.h:
+
+pydata.h:
+
+stipulation/goals/reached_tester.h:
+
+stipulation/boolean/true.h:
+
+trace.h:
