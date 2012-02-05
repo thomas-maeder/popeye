@@ -88,9 +88,8 @@ stip_length_type check_detector_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* no need to detect check if we are solving refutations */
-  attack_gives_check[nbply] = (n>max_unsolvable
-                               && echecc(nbply,slices[si].starter));
+  attack_gives_check[nbply] = echecc(nbply,slices[si].starter);
+
   result = defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);

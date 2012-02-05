@@ -350,7 +350,7 @@ stip_length_type can_defend(slice_index si, stip_length_type n)
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_can_defend_in_n(si,n);
+      result = maxthreatlength_guard_can_defend(si,n);
       break;
 
     case STMaxNrNonTrivial:

@@ -123,7 +123,8 @@ static slice_index alloc_maxthreatlength_guard(void)
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n)
+stip_length_type maxthreatlength_guard_defend(slice_index si,
+                                              stip_length_type n)
 {
   slice_index const next = slices[si].u.fork.next;
   stip_length_type result;
@@ -133,31 +134,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable)
-    result = defend(next,n);
-  else
-  {
-    /* we already know whether the attack move has delivered check, so
-       let's deal with that first */
-    if (attack_gives_check[nbply])
-      result = defend(next,n);
-    else if (max_len_threat==0)
-      result = n+2;
-    else
-    {
-      stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
-      if (n>=n_max)
-      {
-        if (is_threat_too_long(si,n,n_max))
-          result = n+2;
-        else
-          result = defend(next,n);
-      }
-      else
-        /* remainder of play is too short for max_len_threat to apply */
-        result = defend(next,n);
-    }
-  }
+  result = defend(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -174,8 +151,8 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type
-maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n)
+stip_length_type maxthreatlength_guard_can_defend(slice_index si,
+                                                  stip_length_type n)
 {
   slice_index const next = slices[si].u.fork.next;
   unsigned int result;

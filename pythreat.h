@@ -40,7 +40,8 @@ boolean stip_insert_maxthreatlength_guards(slice_index si);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n);
+stip_length_type maxthreatlength_guard_defend(slice_index si,
+                                              stip_length_type n);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -49,8 +50,8 @@ stip_length_type maxthreatlength_guard_defend(slice_index si, stip_length_type n
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type
-maxthreatlength_guard_can_defend_in_n(slice_index si, stip_length_type n);
+stip_length_type maxthreatlength_guard_can_defend(slice_index si,
+                                                  stip_length_type n);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a max_threat_length slice
