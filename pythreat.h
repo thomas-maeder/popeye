@@ -31,18 +31,6 @@ stip_length_type get_max_threat_length(void);
  */
 boolean stip_insert_maxthreatlength_guards(slice_index si);
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type maxthreatlength_guard_defend(slice_index si,
-                                              stip_length_type n);
-
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -52,13 +40,5 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type maxthreatlength_guard_can_defend(slice_index si,
                                                   stip_length_type n);
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a max_threat_length slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_max_threat_length(slice_index si,
-                                             stip_structure_traversal *st);
 
 #endif

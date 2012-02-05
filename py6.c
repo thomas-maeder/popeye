@@ -2581,10 +2581,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solflights])
         stip_insert_maxflight_guards(root_slice);
 
-      if (OptFlag[solmenaces]
-          && !stip_insert_maxthreatlength_guards(root_slice))
-        Message(ThreatOptionAndExactStipulationIncompatible);
-
       if (dealWithMaxtime())
         stip_insert_maxtime_guards(root_slice);
 
@@ -2679,6 +2675,10 @@ static Token iterate_twins(Token prev_token)
       stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      if (OptFlag[solmenaces]
+          && !stip_insert_maxthreatlength_guards(root_slice))
+        Message(ThreatOptionAndExactStipulationIncompatible);
 
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);

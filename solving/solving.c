@@ -108,7 +108,6 @@ void stip_spin_off_testers(slice_index si)
                                                 &stip_spin_off_testers_conditional_pipe);
 
   stip_structure_traversal_override_single(&st,STEndOfRoot,&start_spinning_off_end_of_root);
-  stip_structure_traversal_override_single(&st,STMaxThreatLength,&stip_spin_off_testers_max_threat_length);
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 

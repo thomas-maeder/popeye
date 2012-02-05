@@ -154,10 +154,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = maxflight_guard_defend(si,n);
       break;
 
-    case STMaxThreatLength:
-      result = maxthreatlength_guard_defend(si,n);
-      break;
-
     case STMaxNrNonTrivial:
       result = max_nr_nontrivial_guard_defend(si,n);
       break;

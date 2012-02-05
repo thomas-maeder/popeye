@@ -352,7 +352,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STRefutationsSolver */
   slice_function_unspecified,      /* STPlaySuppressor */
   slice_function_testing_pipe,     /* STContinuationSolver */
-  slice_function_testing_pipe,     /* STThreatSolver */
+  slice_function_unspecified,      /* STThreatSolver */
   slice_function_testing_pipe,     /* STThreatEnforcer */
   slice_function_unspecified,      /* STThreatStart */
   slice_function_unspecified,      /* STThreatCollector */

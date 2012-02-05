@@ -96,45 +96,16 @@ static boolean is_threat_too_long(slice_index si,
 
 /* Allocate a STMaxThreatLength slice
  */
-static slice_index alloc_maxthreatlength_guard(void)
+static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STMaxThreatLength);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type maxthreatlength_guard_defend(slice_index si,
-                                              stip_length_type n)
-{
-  slice_index const next = slices[si].u.fork.next;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = defend(next,n);
+  slices[result].u.fork.fork = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -198,40 +169,65 @@ stip_length_type maxthreatlength_guard_can_defend(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STMaxThreatLength slice before each defender slice
- * @param si identifies defender slice
- * @param st address of struct representing the traversal
- */
+typedef struct
+{
+    boolean inserted;
+    boolean testing;
+} insertion_state;
+
 static void maxthreatlength_guard_inserter(slice_index si,
                                            stip_structure_traversal *st)
 {
+  insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (max_len_threat==0
-      || length>=2*(max_len_threat-1)+slack_length_battle+2)
+  if (state->testing
+      && (max_len_threat==0
+          || length>=2*(max_len_threat-1)+slack_length_battle+2))
   {
-    boolean * const inserted = st->param;
     slice_index const checked_prototype = alloc_pipe(STMaxThreatLengthStart);
     battle_branch_insert_slices(si,&checked_prototype,1);
 
     {
-      slice_index const prototypes[] =
-      {
-          alloc_check_detector_slice(),
-          alloc_maxthreatlength_guard()
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
+      slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,si);
+      slice_index const dummy = alloc_dummy_move_slice();
+      slice_index const prototype = alloc_maxthreatlength_guard(dummy);
+      assert(threat_start!=no_slice);
+      link_to_branch(dummy,threat_start);
+      battle_branch_insert_slices(si,&prototype,1);
     }
 
-    *inserted = true;
+    state->inserted = true;
   }
 
   stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void testing_only(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->testing)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    state->testing = true;
+    stip_traverse_structure(slices[si].u.fork.fork,st);
+    state->testing = false;
+
+    stip_traverse_structure_pipe(si,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -255,7 +251,7 @@ enum
  */
 boolean stip_insert_maxthreatlength_guards(slice_index si)
 {
-  boolean result = false;
+  insertion_state state = { false, false };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -264,54 +260,20 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &testing_only);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &testing_only);
   stip_structure_traversal_override(&st,
                                     maxthreatlength_guards_inserters,
                                     nr_maxthreatlength_guards_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",state.inserted);
   TraceFunctionResultEnd();
-  return result;
-}
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a max_threat_length slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_max_threat_length(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-  slice_index threat_start;
-  slice_index dummy;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  threat_start = branch_find_slice(STMaxThreatLengthStart,si);
-  assert(threat_start!=no_slice);
-
-  dummy = alloc_dummy_move_slice();
-
-  if (state->spinning_off)
-  {
-    stip_spin_off_testers_pipe(si,st);
-    slices[state->spun_off[si]].u.fork.fork = dummy;
-  }
-  else
-    /* trust in our descendants to start spinning off before the traversal
-     * reaches threat_start */
-    stip_traverse_structure_pipe(si,st);
-
-  assert(state->spun_off[threat_start]!=no_slice);
-  link_to_branch(dummy,state->spun_off[threat_start]);
-
-  slices[si].u.fork.fork = dummy;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  return state.inserted;
 }
