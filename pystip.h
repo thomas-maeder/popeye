@@ -153,15 +153,6 @@ enum
   slack_length_help = 2    /* half moves */
 };
 
-/* Characterisation of attacking moves:
- */
-typedef enum
-{
-  attack_key,
-  attack_try,
-  attack_regular
-} attack_type;
-
 
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                             \

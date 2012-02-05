@@ -38,7 +38,6 @@
 #include "options/maxsolutions/guard.h"
 #include "options/maxtime.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
@@ -185,10 +184,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_defend(si,n);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_defend(si,n);
       break;
 
     case STKeyWriter:

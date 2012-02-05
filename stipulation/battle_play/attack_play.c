@@ -39,7 +39,6 @@
 #include "optimisations/killer_move/collector.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -362,10 +361,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_attack(si,n);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = output_plaintext_tree_decoration_writer_attack(si,n);
       break;
 
     case STRefutationWriter:

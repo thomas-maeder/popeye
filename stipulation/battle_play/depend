@@ -73,7 +73,6 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h solving/trivial_end_filter.h \
  output/plaintext/tree/check_writer.h \
- output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/move_writer.h \
  output/plaintext/tree/refutation_writer.h \
@@ -160,8 +159,6 @@ solving/trivial_end_filter.h:
 
 output/plaintext/tree/check_writer.h:
 
-output/plaintext/tree/decoration_writer.h:
-
 output/plaintext/tree/zugzwang_writer.h:
 
 output/plaintext/tree/move_writer.h:
@@ -211,7 +208,6 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/goals/enpassant/filter.h options/maxsolutions/guard.h \
  options/maxtime.h output/plaintext/tree/check_writer.h \
- output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
@@ -294,8 +290,6 @@ options/maxsolutions/guard.h:
 options/maxtime.h:
 
 output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/decoration_writer.h:
 
 output/plaintext/tree/key_writer.h:
 

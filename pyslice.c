@@ -61,7 +61,6 @@
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
-#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/line/line_writer.h"
 
@@ -184,10 +183,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STOutputPlaintextTreeGoalWriter:
       result = goal_writer_solve(si);
-      break;
-
-    case STOutputPlaintextTreeDecorationWriter:
-      result = decoration_writer_solve(si);
       break;
 
     case STOutputPlaintextTreeCheckWriter:

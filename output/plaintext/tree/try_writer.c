@@ -5,7 +5,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "solving/battle_play/try.h"
 #include "solving/trivial_end_filter.h"
-#include "output/plaintext/tree/tree.h"
+#include "output/plaintext/tree/key_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -57,15 +57,18 @@ stip_length_type try_writer_defend(slice_index si, stip_length_type n)
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
+
+    result = defend(slices[si].u.pipe.next,n);
+
+    do_write_trivial_ends[nbply] = false;
   }
   else if (table_length(refutations)>0)
-    /* override the decoration attack_key just set by slice
-     * STKeyWriter */
-    output_plaintext_tree_remember_move_decoration(attack_try);
-
-  result = defend(slices[si].u.pipe.next,n);
-
-  do_write_trivial_ends[nbply] = false;
+  {
+    StdString(" ?");
+    result = defend(slices[si].u.pipe.next,n);
+  }
+  else
+	  result = key_writer_defend(si,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

@@ -13,7 +13,6 @@
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -21,7 +20,6 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
-#include "platform/beep.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -58,8 +56,7 @@ static void instrument_defense_adapter_regular(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_move_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
+      alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
@@ -82,8 +79,7 @@ static void instrument_ready_for_defense(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_move_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
+      alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
@@ -107,8 +103,7 @@ static void insert_continuation_writers(slice_index si,
     {
       alloc_move_writer_slice(),
       alloc_check_detector_slice(),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
+      alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
@@ -198,7 +193,7 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_refutations_solver(slice_index si,
+static void instrument_key_writer(slice_index si,
                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -208,15 +203,15 @@ static void instrument_refutations_solver(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_try_writer(),
-      alloc_refutation_writer_slice(),
       alloc_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
+      alloc_refutation_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
+
+  pipe_substitute(si,alloc_try_writer());
 
   stip_traverse_structure_children(si,st);
 
@@ -259,7 +254,7 @@ static void stop_instrumenting_after_refutation(slice_index si,
 static structure_traversers_visitors try_writer_inserters[] =
 {
   { STSetplayFork,       &stip_traverse_structure_pipe        },
-  { STRefutationsSolver, &instrument_refutations_solver       },
+  { STKeyWriter,         &instrument_key_writer               },
   { STRefutationWriter,  &remember_refutation_writer          },
   { STReadyForAttack,    &stop_instrumenting_after_refutation }
 };
@@ -323,14 +318,8 @@ static void instrument_key_move(slice_index si,
 
   if (st->context==stip_traversal_context_attack)
   {
-    slice_index const prototypes[] =
-    {
-      alloc_key_writer(),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_output_plaintext_tree_decoration_writer_slice()
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_key_writer();
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -558,57 +547,10 @@ void stip_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay
   TraceStipulation(si);
 
   insert_regular_writer_slices(si);
-  if (!is_setplay)
-    insert_try_writers(si);
   insert_root_writer_slices(si);
+  if (!is_setplay && OptFlag[soltout]) /* this includes OptFlag[solessais] */
+    insert_try_writers(si);
   optimise_leaf_slices(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
-static attack_type pending_decoration = attack_regular;
-
-/* Write a possibly pending move decoration
- */
-void output_plaintext_tree_write_pending_move_decoration(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  switch (pending_decoration)
-  {
-    case attack_try:
-      StdString(" ?");
-      break;
-
-    case attack_key:
-      StdString(" !");
-      if (OptFlag[beep])
-        produce_beep();
-      break;
-
-    default:
-      break;
-  }
-
-  pending_decoration = attack_regular;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the decoration (! or ?) for the first move if appropriate
- * @param type identifies decoration to be added
- */
-void output_plaintext_tree_remember_move_decoration(attack_type type)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParamListEnd();
-
-  pending_decoration = type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

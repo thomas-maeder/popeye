@@ -268,7 +268,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STRefutingVariationWriter */
   slice_structure_pipe,         /* STRefutationWriter */
   slice_structure_pipe,         /* STOutputPlaintextTreeCheckWriter */
-  slice_structure_pipe,         /* STOutputPlaintextTreeDecorationWriter */
   slice_structure_pipe,         /* STOutputPlaintextLineLineWriter */
   slice_structure_pipe,         /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,         /* STOutputPlaintextMoveInversionCounter */
@@ -449,7 +448,6 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_writer,           /* STRefutingVariationWriter */
   slice_function_writer,           /* STRefutationWriter */
   slice_function_writer,           /* STOutputPlaintextTreeCheckWriter */
-  slice_function_writer,           /* STOutputPlaintextTreeDecorationWriter */
   slice_function_writer,           /* STOutputPlaintextLineLineWriter */
   slice_function_writer,           /* STOutputPlaintextTreeGoalWriter */
   slice_function_unspecified,      /* STOutputPlaintextMoveInversionCounter */
@@ -1681,7 +1679,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,              /* STRefutationWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeCheckWriter */
-  &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeDecorationWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,              /* STOutputPlaintextMoveInversionCounter */
@@ -1963,7 +1960,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STRefutingVariationWriter */
     &stip_traverse_moves_pipe,              /* STRefutationWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextTreeCheckWriter */
-    &stip_traverse_moves_pipe,              /* STOutputPlaintextTreeDecorationWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextLineLineWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,              /* STOutputPlaintextMoveInversionCounter */

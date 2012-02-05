@@ -1,6 +1,6 @@
 #include "output/plaintext/tree/key_writer.h"
 #include "pypipe.h"
-#include "output/plaintext/tree/tree.h"
+#include "platform/beep.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -43,7 +43,10 @@ stip_length_type key_writer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  output_plaintext_tree_remember_move_decoration(attack_key);
+  StdString(" !");
+  if (OptFlag[beep])
+    produce_beep();
+
   result = defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
