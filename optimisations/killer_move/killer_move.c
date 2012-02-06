@@ -68,16 +68,19 @@ void optimise_final_defense_moves_move_generator(slice_index si,
                                                  stip_structure_traversal *st)
 {
   final_defense_moves_iteration_state const * const state = st->param;
+  Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(defender!=no_side);
+
   stip_traverse_structure_children(si,st);
 
   if (state->testing && !state->root
       && st->context==stip_traversal_context_defense
-      && enabled[slices[si].starter])
+      && enabled[defender])
   {
     stip_structure_traversal st_nested;
     Goal goal = { no_goal, initsquare };
@@ -189,6 +192,8 @@ static void substitute_killermove_machinery(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(slices[si].starter!=no_side);
 
   stip_traverse_structure_children(si,st);
 
