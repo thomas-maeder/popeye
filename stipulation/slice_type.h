@@ -25,6 +25,7 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STTestingForEndOfBranch), /* proxy slice marking the start of testing for end of branch */ \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
@@ -94,6 +95,7 @@
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
     ENUMERATOR(STPlaySuppressor), /* suppresses play */                 \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
+    ENUMERATOR(STSolvingContinuation), /* proxy slice representing STContinuationSolver in testing mode */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \

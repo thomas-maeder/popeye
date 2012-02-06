@@ -108,7 +108,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       break;
 
     case STMoveGenerator:
-    case STKillerMoveFinalDefenseMove:
       result = move_generator_defend(si,n);
       break;
 

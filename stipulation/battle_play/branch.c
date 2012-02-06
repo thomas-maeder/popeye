@@ -64,6 +64,7 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STThreatDefeatedTester,
   STKillerMoveCollector,
+  STTestingForEndOfBranch,
   STGoalReachedTester,
   STEndOfBranchGoal,
   STDeadEndGoal,
@@ -75,6 +76,7 @@ static slice_index const slice_rank_order[] =
   STEndOfBranch,
   STMaxNrNonTrivial,
   STRefutationsAllocator,
+  STSolvingContinuation,
   STContinuationSolver,
   STMoveWriter,
   STCheckDetector,
@@ -110,6 +112,7 @@ static slice_index const slice_rank_order[] =
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
   STKillerMoveCollector,
+  STTestingForEndOfBranch,
   STEndOfRoot,
   STMinLengthGuard,
   STEndOfBranchGoal,
@@ -204,7 +207,7 @@ static boolean insert_common(slice_index si,
   TraceFunctionParam("%u",state->base);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==slices[state->prototypes[0]].type)
+  if (slices[si].type==prototype_type)
   {
     next_insertion(si,prototype_rank,state);
     result = true;
@@ -521,6 +524,7 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const played = alloc_move_played_slice();
+    slice_index const end = alloc_pipe(STTestingForEndOfBranch);
 
     pipe_link(adapter,ready);
     pipe_link(ready,testpre);
@@ -528,7 +532,8 @@ slice_index alloc_defense_branch(slice_index next,
     pipe_link(deadend,generating);
     pipe_link(generating,defense);
     pipe_link(defense,played);
-    pipe_link(played,next);
+    pipe_link(played,end);
+    pipe_link(end,next);
 
     result = adapter;
   }
@@ -565,6 +570,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_pipe(STMove);
     slice_index const aplayed = alloc_move_played_slice();
+    slice_index const aend = alloc_pipe(STTestingForEndOfBranch);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
@@ -572,6 +578,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const dplayed = alloc_move_played_slice();
+    slice_index const dend = alloc_pipe(STTestingForEndOfBranch);
 
     pipe_link(adapter,aready);
     pipe_link(aready,atestpre);
@@ -579,13 +586,15 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
     pipe_link(attack,aplayed);
-    pipe_link(aplayed,dready);
+    pipe_link(aplayed,aend);
+    pipe_link(aend,dready);
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
     pipe_link(defense,dplayed);
-    pipe_link(dplayed,adapter);
+    pipe_link(dplayed,dend);
+    pipe_link(dend,adapter);
 
     result = adapter;
   }

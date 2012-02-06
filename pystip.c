@@ -107,6 +107,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch,       /* STHelpAdapter */
   slice_structure_branch,       /* STReadyForHelpMove */
   slice_structure_fork,         /* STSetplayFork */
+  slice_structure_pipe,         /* STTestingForEndOfBranch */
   slice_structure_fork,         /* STEndOfBranch */
   slice_structure_fork,         /* STEndOfBranchForced */
   slice_structure_fork,         /* STEndOfBranchGoal */
@@ -173,6 +174,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STRefutationsSolver */
   slice_structure_pipe,         /* STPlaySuppressor */
   slice_structure_fork,         /* STContinuationSolver */
+  slice_structure_pipe,         /* STSolvingContinuation */
   slice_structure_fork,         /* STThreatSolver */
   slice_structure_fork,         /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
@@ -288,6 +290,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STHelpAdapter */
   slice_function_unspecified,      /* STReadyForHelpMove */
   slice_function_unspecified,      /* STSetplayFork */
+  slice_function_unspecified,      /* STTestingForEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranchForced */
   slice_function_unspecified,      /* STEndOfBranchGoal */
@@ -354,6 +357,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STRefutationsSolver */
   slice_function_unspecified,      /* STPlaySuppressor */
   slice_function_testing_pipe,     /* STContinuationSolver */
+  slice_function_unspecified,      /* STSolvingContinuation */
   slice_function_unspecified,      /* STThreatSolver */
   slice_function_testing_pipe,     /* STThreatEnforcer */
   slice_function_unspecified,      /* STThreatStart */
@@ -1520,6 +1524,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
   &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
+  &stip_traverse_structure_pipe,              /* STTestingForEndOfBranch */
   &stip_traverse_structure_fork,              /* STEndOfBranch */
   &stip_traverse_structure_fork,              /* STEndOfBranchForced */
   &stip_traverse_structure_fork,              /* STEndOfBranchGoal */
@@ -1586,6 +1591,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STRefutationsSolver */
   &stip_traverse_structure_pipe,              /* STPlaySuppressor */
   &stip_traverse_structure_testing_pipe,      /* STContinuationSolver */
+  &stip_traverse_structure_pipe,              /* STSolvingContinuation */
   &stip_traverse_structure_testing_pipe,      /* STThreatSolver */
   &stip_traverse_structure_testing_pipe,      /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
@@ -1802,6 +1808,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_help_adapter,      /* STHelpAdapter */
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */
     &stip_traverse_moves_setplay_fork,      /* STSetplayFork */
+    &stip_traverse_moves_pipe,              /* STTestingForEndOfBranch */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranch */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchForced */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchGoal */
@@ -1868,6 +1875,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STRefutationsSolver */
     &stip_traverse_moves_pipe,              /* STPlaySuppressor */
     &stip_traverse_moves_pipe,              /* STContinuationSolver */
+    &stip_traverse_moves_pipe,              /* STSolvingContinuation */
     &stip_traverse_moves_pipe,              /* STThreatSolver */
     &stip_traverse_moves_pipe,              /* STThreatEnforcer */
     &stip_traverse_moves_pipe,              /* STThreatStart */

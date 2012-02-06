@@ -2664,7 +2664,6 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
       stip_optimise_with_countnropponentmoves(root_slice);
-      stip_optimise_with_killer_moves(root_slice);
 
       stip_insert_trivial_varation_filters(root_slice);
 
@@ -2675,6 +2674,8 @@ static Token iterate_twins(Token prev_token)
       stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      stip_optimise_with_killer_moves(root_slice);
 
       if (OptFlag[solmenaces]
           && !stip_insert_maxthreatlength_guards(root_slice))

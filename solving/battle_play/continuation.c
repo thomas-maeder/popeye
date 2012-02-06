@@ -94,8 +94,13 @@ static void insert_continuation_solvers_attack(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_continuation_solver_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STSolvingContinuation),
+        alloc_continuation_solver_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

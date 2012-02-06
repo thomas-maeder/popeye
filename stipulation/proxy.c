@@ -50,6 +50,8 @@ static boolean is_proxy(slice_index si)
     case STTestingPrerequisites:
     case STGeneratingMoves:
     case STMove:
+    case STSolvingContinuation:
+    case STTestingForEndOfBranch:
       result = true;
       break;
 

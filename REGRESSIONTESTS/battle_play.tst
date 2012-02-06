@@ -579,7 +579,7 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:          95
+              empile:         106
             jouecoup:          70
         orig_rbechec:          70
         orig_rnechec:          22
@@ -615,7 +615,7 @@ s#1 with incomplete set play (not given)
       1...b3-b2 #
 
 
-              empile:          87
+              empile:         104
             jouecoup:          68
         orig_rbechec:          66
         orig_rnechec:          26
@@ -652,7 +652,7 @@ solution finished.
       1...b3-b2 #
 
 
-              empile:         131
+              empile:         160
             jouecoup:         119
         orig_rbechec:         120
         orig_rnechec:          34
@@ -711,10 +711,10 @@ solution finished.
       1...b3-b2 !
 
 
-              empile:         223
-            jouecoup:         186
-        orig_rbechec:         162
-        orig_rnechec:         114
+              empile:         233
+            jouecoup:         190
+        orig_rbechec:         166
+        orig_rnechec:         118
 solution finished. 
 
 

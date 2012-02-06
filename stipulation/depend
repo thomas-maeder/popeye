@@ -101,7 +101,7 @@ solving/fork_on_remaining.h:
 trace.h:
 stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.c \
  stipulation/end_of_branch_tester.h pypipe.h pydata.h stipulation/proxy.h \
- stipulation/conditional_pipe.h solving/solving.h \
+ stipulation/branch.h stipulation/conditional_pipe.h solving/solving.h \
  solving/fork_on_remaining.h trace.h
 
 stipulation/end_of_branch_tester.h:
@@ -111,6 +111,8 @@ pypipe.h:
 pydata.h:
 
 stipulation/proxy.h:
+
+stipulation/branch.h:
 
 stipulation/conditional_pipe.h:
 
