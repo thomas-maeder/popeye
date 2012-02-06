@@ -1,67 +1,67 @@
 anfang
 
-protokoll	nontriv.out
-latex		nontriv.tex
-		n SU Nachtreiter
-		eq DL Equihopper
-		g DU Grash"upfer
+protokoll       nontriv.out
+latex           nontriv.tex
+                n SU Nachtreiter
+                eq DL Equihopper
+                g DU Grash"upfer
 
-autor		Sergej Smotrow
-quelle		springaren 76, 3/1999
-ausz		1. Preis, Herbert-Hultberg-GT 1998
+autor           Sergej Smotrow
+quelle          springaren 76, 3/1999
+ausz            1. Preis, Herbert-Hultberg-GT 1998
 
-forderung	s#24
-steine	weiss	ka2 ta3c1 lb2d5 nf7
-	schwarz	kb4 de1 tb8f1 lc8 ba6b6d2e2
+forderung       s#24
+steine  weiss   ka2 ta3c1 lb2d5 nf7
+        schwarz kb4 de1 tb8f1 lc8 ba6b6d2e2
 
-option		zug nichttr 1 0 halte ohnedroh vari
-
-weiter
-
-autor		Sergej Smotrow
-quelle		Die Schwalbe 1994
-ausz		1. Preis
-forderung	s#25
-steine	weiss	kf2 tc5 lb3e7 nd8g1
-	schwarz	kg4 ta7 la6 nb5 bc3d2d4e4h3
-option		zug nichttr 0 0 halte ohnedroh vari 
+option          zug nichttr 1 0 halte ohnedroh vari
 
 weiter
 
-autor		Sergej Smotrow
-quelle		10215, Die Schwalbe 1998
-forderung	s#23
-steine	weiss	kh2 tc1f4 na5c6
-	schwarz	ka3 da1 tb1g8 lc8 sg1 ba4b2
-option		vari halte ohnedroh zug nichttr 0 0 
+autor           Sergej Smotrow
+quelle          Die Schwalbe 1994
+ausz            1. Preis
+forderung       s#25
+steine  weiss   kf2 tc5 lb3e7 nd8g1
+        schwarz kg4 ta7 la6 nb5 bc3d2d4e4h3
+option          zug nichttr 0 0 halte ohnedroh vari 
 
 weiter
 
-autor		S. Smotrow
-quelle		Probleemblad 58/2, 3-4/2000
-ausz		6. ehrende Erw"ahnung, 153. Probleemblad-TT 2000
-forderung	s#21
-steine	weiss	ke8 tg5g7 lf5f8 eqf4
-	schwarz	kh8 dh1 ta7c6 ld1 sd7 bc5d5d6h4 eqb4d8
-option		vari halte ohnedroh zug nichttr 0 0
+autor           Sergej Smotrow
+quelle          10215, Die Schwalbe 1998
+forderung       s#23
+steine  weiss   kh2 tc1f4 na5c6
+        schwarz ka3 da1 tb1g8 lc8 sg1 ba4b2
+option          vari halte ohnedroh zug nichttr 0 0 
 
 weiter
 
-autor		S. Smotrow
-quelle		3505, diagrammes 122, 7-9/1997
-forderung	s#23
-steine	weiss	kd1 tg3 lc1e6 sd4e2 ge4
-	schwarz	kh4 da7 ta8 sa1h1 bh2h5 gh6
-option		vari halte ohnedroh zug nichttr 0 0 
+autor           S. Smotrow
+quelle          Probleemblad 58/2, 3-4/2000
+ausz            6. ehrende Erw"ahnung, 153. Probleemblad-TT 2000
+forderung       s#21
+steine  weiss   ke8 tg5g7 lf5f8 eqf4
+        schwarz kh8 dh1 ta7c6 ld1 sd7 bc5d5d6h4 eqb4d8
+option          vari halte ohnedroh zug nichttr 0 0
 
 weiter
 
-autor		S. Smotrow
-quelle		S1810, The Problemist 3/2000
-forderung	s#21
-steine	weiss	ke5 tb2f2 la2h6 sd5
-	schwarz	kd3 lc8d8 sb5h2 bc5
-option		vari halte ohnedroh zug nichttr 0 0 
+autor           S. Smotrow
+quelle          3505, diagrammes 122, 7-9/1997
+forderung       s#23
+steine  weiss   kd1 tg3 lc1e6 sd4e2 ge4
+        schwarz kh4 da7 ta8 sa1h1 bh2h5 gh6
+option          vari halte ohnedroh zug nichttr 0 0 
+
+weiter
+
+autor           S. Smotrow
+quelle          S1810, The Problemist 3/2000
+forderung       s#21
+steine  weiss   ke5 tb2f2 la2h6 sd5
+        schwarz kd3 lc8d8 sb5h2 bc5
+option          vari halte ohnedroh zug nichttr 0 0 
 
 weiter
 
