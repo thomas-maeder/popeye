@@ -1,0 +1,42 @@
+anfa
+prot chess81.tst
+auto Werner Keym
+quel A, feenschach 187, 7/2011
+ford c817
+opti vari
+stei
+weis ke4 te2
+schw kh5 lh4
+weit
+auto Werner Keym
+quel B, feenschach 187, 7/2011
+ford c813
+opti vari
+stei
+weis ke1 th1
+schw kg3 Lh4
+weit
+auto Werner Keym
+quel C, feenschach 187, 7/2011
+ford c813
+opti vari ohneweisserochade
+stei
+weis ke1 th1
+schw kg8 sd8h8 bh7
+weit
+auto Werner Keym
+quel D, feenschach 187, 7/2011
+ford sc813
+opti vari
+stei
+weis kd4 sd1
+schw ka2
+weit
+auto Werner Keym
+quel E, feenschach 187, 7/2011
+ford hc812
+opti vari
+stei
+weis kf5 bh6
+schw kh7 lh8
+ende
