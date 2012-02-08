@@ -443,37 +443,6 @@ static void append_check_detector(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_adapter(slice_index si)
-{
-  stip_structure_traversal st;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STReadyForDefense,
-                                           &append_threat_solver);
-  stip_structure_traversal_override_single(&st,
-                                           STReadyForAttack,
-                                           &append_check_detector);
-  stip_traverse_structure(si,&st);
-
-  for (i = 0; i<=maxply; ++i)
-  {
-    threat_lengths[i] = no_threats_found;
-    threats[i] = table_nil;
-    threat_activities[i] = threat_idle;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -487,30 +456,18 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_threat_solvers_adapter(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->level==structure_traversal_level_root)
-    instrument_adapter(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors const threat_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode            },
-  { STAttackAdapter,      &insert_threat_solvers_adapter },
-  { STDefenseAdapter,     &insert_threat_solvers_adapter }
+  { STOutputModeSelector, &filter_output_mode           },
+  { STSetplayFork,        &stip_traverse_structure_pipe },
+  { STReadyForAttack,     &append_check_detector        },
+  { STReadyForDefense,    &append_threat_solver         }
 };
 
 enum
 {
-  nr_threat_solver_inserters = sizeof threat_solver_inserters / sizeof threat_solver_inserters[0]
+  nr_threat_solver_inserters = (sizeof threat_solver_inserters
+                                / sizeof threat_solver_inserters[0])
 };
 
 /* Instrument the stipulation representation so that it can deal with
@@ -520,6 +477,7 @@ enum
 void stip_insert_threat_solvers(slice_index si)
 {
   stip_structure_traversal st;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -530,6 +488,13 @@ void stip_insert_threat_solvers(slice_index si)
                                     threat_solver_inserters,
                                     nr_threat_solver_inserters);
   stip_traverse_structure(si,&st);
+
+  for (i = 0; i<=maxply; ++i)
+  {
+    threat_lengths[i] = no_threats_found;
+    threats[i] = table_nil;
+    threat_activities[i] = threat_idle;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
