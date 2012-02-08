@@ -171,6 +171,7 @@ enum
 #define ENUMERATION_TYPENAME slice_functional_type
 #define ENUMERATORS                                              \
   ENUMERATOR(slice_function_unspecified),                        \
+  ENUMERATOR(slice_function_proxy),                              \
   ENUMERATOR(slice_function_move_generator),                     \
   ENUMERATOR(slice_function_testing_pipe),                       \
   ENUMERATOR(slice_function_conditional_pipe),                   \
@@ -186,6 +187,13 @@ enum
  * @return structural type of slice si
  */
 slice_structural_type slice_get_structural_type(slice_index si);
+
+
+/* Retrieve the functional type of a slice
+ * @param si identifies slice of which to retrieve structural type
+ * @return structural type of slice si
+ */
+slice_functional_type slice_get_functional_type(slice_index si);
 
 /* Initialize the slice allocation machinery. To be called once at
  * program start

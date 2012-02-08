@@ -278,19 +278,19 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe          /* STMoveTracer */
 };
 
-static slice_functional_type functional_type[nr_slice_types] =
+slice_functional_type functional_type[nr_slice_types] =
 {
-  slice_function_unspecified,      /* STProxy */
+  slice_function_proxy,            /* STProxy */
   slice_function_conditional_pipe, /* STTemporaryHackFork */
   slice_function_unspecified,      /* STAttackAdapter */
   slice_function_unspecified,      /* STDefenseAdapter */
-  slice_function_unspecified,      /* STReadyForAttack */
-  slice_function_unspecified,      /* STReadyForDefense */
+  slice_function_proxy,            /* STReadyForAttack */
+  slice_function_proxy,            /* STReadyForDefense */
   slice_function_unspecified,      /* STMinLengthOptimiser */
   slice_function_unspecified,      /* STHelpAdapter */
-  slice_function_unspecified,      /* STReadyForHelpMove */
+  slice_function_proxy,            /* STReadyForHelpMove */
   slice_function_unspecified,      /* STSetplayFork */
-  slice_function_unspecified,      /* STTestingForEndOfBranch */
+  slice_function_proxy,            /* STTestingForEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranchForced */
   slice_function_unspecified,      /* STEndOfBranchGoal */
@@ -298,22 +298,22 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STAvoidUnsolvable */ \
   slice_function_unspecified,      /* STConstraintSolver */
   slice_function_conditional_pipe, /* STConstraintTester */
-  slice_function_unspecified,      /* STEndOfRoot */
-  slice_function_unspecified,      /* STEndOfIntro */
+  slice_function_proxy,            /* STEndOfRoot */
+  slice_function_proxy,            /* STEndOfIntro */
   slice_function_unspecified,      /* STDeadEnd */
-  slice_function_unspecified,      /* STMove */
+  slice_function_proxy,            /* STMove */
   slice_function_unspecified,      /* STForEachMove */
   slice_function_unspecified,      /* STFindMove */
   slice_function_unspecified,      /* STMovePlayed */
   slice_function_unspecified,      /* STDummyMove */
-  slice_function_unspecified,      /* STReadyForDummyMove */
-  slice_function_unspecified,      /* STShortSolutionsStart*/
+  slice_function_proxy,            /* STReadyForDummyMove */
+  slice_function_proxy,            /* STShortSolutionsStart*/
   slice_function_unspecified,      /* STCheckZigzagJump */
-  slice_function_unspecified,      /* STCheckZigzagLanding */
+  slice_function_proxy,            /* STCheckZigzagLanding */
   slice_function_conditional_pipe, /* STGoalReachedTester */
-  slice_function_unspecified,      /* STGoalMateReachedTester */
-  slice_function_unspecified,      /* STGoalStalemateReachedTester */
-  slice_function_unspecified,      /* STGoalDoubleStalemateReachedTester */
+  slice_function_proxy,            /* STGoalMateReachedTester */
+  slice_function_proxy,            /* STGoalStalemateReachedTester */
+  slice_function_proxy,            /* STGoalDoubleStalemateReachedTester */
   slice_function_unspecified,      /* STGoalTargetReachedTester */
   slice_function_unspecified,      /* STGoalCheckReachedTester */
   slice_function_unspecified,      /* STGoalCaptureReachedTester */
@@ -322,7 +322,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STGoalDoubleMateReachedTester */
   slice_function_unspecified,      /* STGoalCounterMateReachedTester */
   slice_function_unspecified,      /* STGoalCastlingReachedTester */
-  slice_function_unspecified,      /* STGoalAutoStalemateReachedTester */
+  slice_function_proxy,            /* STGoalAutoStalemateReachedTester */
   slice_function_unspecified,      /* STGoalCircuitReachedTester */
   slice_function_unspecified,      /* STGoalExchangeReachedTester */
   slice_function_unspecified,      /* STGoalCircuitByRebirthReachedTester */
@@ -347,7 +347,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STForkOnRemaining */
   slice_function_unspecified,      /* STFindShortest */
   slice_function_unspecified,      /* STFindByIncreasingLength */
-  slice_function_unspecified,      /* STGeneratingMoves */
+  slice_function_proxy,            /* STGeneratingMoves */
   slice_function_move_generator,   /* STMoveGenerator */
   slice_function_move_generator,   /* STKingMoveGenerator */
   slice_function_move_generator,   /* STNonKingMoveGenerator */
@@ -357,17 +357,17 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STRefutationsSolver */
   slice_function_unspecified,      /* STPlaySuppressor */
   slice_function_testing_pipe,     /* STContinuationSolver */
-  slice_function_unspecified,      /* STSolvingContinuation */
+  slice_function_proxy,            /* STSolvingContinuation */
   slice_function_unspecified,      /* STThreatSolver */
   slice_function_testing_pipe,     /* STThreatEnforcer */
-  slice_function_unspecified,      /* STThreatStart */
+  slice_function_proxy,            /* STThreatStart */
   slice_function_unspecified,      /* STThreatCollector */
   slice_function_unspecified,      /* STThreatDefeatedTester */
   slice_function_unspecified,      /* STRefutationsCollector */
   slice_function_unspecified,      /* STLegalMoveCounter */
   slice_function_unspecified,      /* STAnyMoveCounter */
   slice_function_unspecified,      /* STCaptureCounter */
-  slice_function_unspecified,      /* STTestingPrerequisites */
+  slice_function_proxy,            /* STTestingPrerequisites */
   slice_function_conditional_pipe, /* STDoubleMateFilter */
   slice_function_conditional_pipe, /* STCounterMateFilter */
   slice_function_unspecified,      /* STPrerequisiteOptimiser */
@@ -410,7 +410,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_testing_pipe,     /* STMaxNrNonTrivial */
   slice_function_unspecified,      /* STMaxNrNonTrivialCounter */
   slice_function_testing_pipe,     /* STMaxThreatLength */
-  slice_function_unspecified,      /* STMaxThreatLengthStart */
+  slice_function_proxy,            /* STMaxThreatLengthStart */
   slice_function_unspecified,      /* STStopOnShortSolutionsInitialiser */
   slice_function_unspecified,      /* STStopOnShortSolutionsFilter */
   slice_function_unspecified,      /* STAmuMateFilter */
@@ -442,7 +442,7 @@ static slice_functional_type functional_type[nr_slice_types] =
   slice_function_move_generator,   /* STSingleMoveGenerator */
   slice_function_conditional_pipe, /* STMaximummerCandidateMoveTester */
   slice_function_unspecified,      /* STBGLFilter */
-  slice_function_unspecified,      /* STOutputModeSelector */
+  slice_function_proxy,            /* STOutputModeSelector */
   slice_function_writer,           /* STIllegalSelfcheckWriter */
   slice_function_writer,           /* STEndOfPhaseWriter */
   slice_function_writer,           /* STEndOfSolutionWriter */
@@ -468,7 +468,18 @@ static slice_functional_type functional_type[nr_slice_types] =
 slice_structural_type slice_get_structural_type(slice_index si)
 {
   /* no Trace instrumentation here - this is used by the Trace machinery! */
+  assert(slices[si].type<=nr_slice_types);
   return highest_structural_type[slices[si].type];
+}
+
+/* Retrieve the functional type of a slice
+ * @param si identifies slice of which to retrieve structural type
+ * @return structural type of slice si
+ */
+slice_functional_type slice_get_functional_type(slice_index si)
+{
+  assert(slices[si].type<=nr_slice_types);
+  return functional_type[slices[si].type];
 }
 
 /* Make sure that there are now allocated slices that are not

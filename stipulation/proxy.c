@@ -25,51 +25,12 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
-static boolean is_proxy(slice_index si)
-{
-  boolean result;
-
-  switch (slices[si].type)
-  {
-    case STProxy:
-    case STEndOfRoot:
-    case STEndOfIntro:
-    case STThreatStart:
-    case STReadyForAttack:
-    case STReadyForDefense:
-    case STMaxThreatLengthStart:
-    case STReadyForHelpMove:
-    case STReadyForDummyMove:
-    case STGoalAutoStalemateReachedTester:
-    case STGoalDoubleStalemateReachedTester:
-    case STGoalStalemateReachedTester:
-    case STGoalMateReachedTester:
-    case STOutputModeSelector:
-    case STShortSolutionsStart:
-    case STCheckZigzagLanding:
-    case STTestingPrerequisites:
-    case STGeneratingMoves:
-    case STMove:
-    case STSolvingContinuation:
-    case STTestingForEndOfBranch:
-      result = true;
-      break;
-
-    default:
-      result = false;
-      break;
-  }
-
-  return result;
-}
-
 /* Substitute a possible link to a proxy slice by the proxy's target
  * @param si address of slice index
  * @param st points at the structure holding the state of the traversal
  */
 void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 {
-  slice_index const prev = slices[*si].prev;
   boolean (* const is_resolved_proxy)[max_nr_slices] = st->param;
 
   TraceFunctionEntry(__func__);
@@ -77,19 +38,11 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[*si].type,"");
-  TraceValue("%u\n",is_proxy(*si));
-  while (*si!=no_slice && is_proxy(*si))
+  while (*si!=no_slice && slice_get_functional_type(*si)==slice_function_proxy)
   {
-    TraceValue("%u",*si);
-    TraceValue("%u",(*is_resolved_proxy)[*si]);
     (*is_resolved_proxy)[*si] = true;
-    TraceValue("%u\n",(*is_resolved_proxy)[*si]);
     *si = slices[*si].u.pipe.next;
   }
-
-  if (is_proxy(slices[*si].prev))
-    slices[*si].prev = prev;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
