@@ -246,6 +246,9 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
 
   stip_structure_traversal_init(&st,&output_plaintext_slice_determining_starter);
   stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
