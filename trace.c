@@ -522,6 +522,7 @@ void TraceStipulation(slice_index si)
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
