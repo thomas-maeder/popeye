@@ -35,19 +35,16 @@ threat_activity threat_activities[maxply+1];
 static unsigned int nr_threats_to_be_confirmed;
 
 /* Allocate a STThreatEnforcer slice.
- * @param threat_start identifies the slice where threat play starts
  * @return index of allocated slice
  */
-static slice_index alloc_threat_enforcer_slice(slice_index threat_start)
+static slice_index alloc_threat_enforcer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STThreatEnforcer);
-  slices[result].u.fork.fork = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -282,19 +279,16 @@ stip_length_type threat_defeated_tester_can_defend(slice_index si,
 }
 
 /* Allocate a STThreatSolver defender slice.
- * @param threat_start identifies the slice where threat play starts
  * @return index of allocated slice
  */
-static slice_index alloc_threat_solver_slice(slice_index threat_start)
+static slice_index alloc_threat_solver_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STThreatSolver);
-  slices[result].u.fork.fork = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -389,43 +383,35 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void append_threat_solver(slice_index si, stip_structure_traversal *st)
+static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
   if (slices[si].u.branch.length>slack_length_battle+1)
   {
+    slice_index const prototypes[] =
     {
-      slice_index const prototype = alloc_pipe(STThreatStart);
-      battle_branch_insert_slices(si,&prototype,1);
-    }
-
+      alloc_threat_solver_slice(),
+      alloc_threat_enforcer_slice(),
+      alloc_pipe(STThreatStart),
+      alloc_threat_collector_slice()
+    };
+    enum
     {
-      slice_index const start = branch_find_slice(STThreatStart,si);
-      slice_index const prototypes[] =
-      {
-        alloc_threat_solver_slice(start),
-        alloc_threat_enforcer_slice(start),
-        alloc_threat_collector_slice()
-      };
-      enum
-      {
-        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-      };
-      assert(start!=no_slice);
-      battle_branch_insert_slices(si,prototypes,nr_prototypes);
-    }
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void append_check_detector(slice_index si, stip_structure_traversal *st)
+static void connect_to_threat_start(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -433,10 +419,10 @@ static void append_check_detector(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length_battle+2)
   {
-    slice_index const prototype = alloc_check_detector_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    slice_index const start = branch_find_slice(STThreatStart,si);
+    assert(start!=no_slice);
+    slices[si].u.fork.fork = start;
   }
 
   TraceFunctionExit(__func__);
@@ -460,8 +446,9 @@ static structure_traversers_visitors const threat_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode           },
   { STSetplayFork,        &stip_traverse_structure_pipe },
-  { STReadyForAttack,     &append_check_detector        },
-  { STReadyForDefense,    &append_threat_solver         }
+  { STReadyForDefense,    &insert_threat_solvers        },
+  { STThreatSolver,       &connect_to_threat_start      },
+  { STThreatEnforcer,     &connect_to_threat_start      }
 };
 
 enum
@@ -477,7 +464,6 @@ enum
 void stip_insert_threat_solvers(slice_index si)
 {
   stip_structure_traversal st;
-  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -488,13 +474,6 @@ void stip_insert_threat_solvers(slice_index si)
                                     threat_solver_inserters,
                                     nr_threat_solver_inserters);
   stip_traverse_structure(si,&st);
-
-  for (i = 0; i<=maxply; ++i)
-  {
-    threat_lengths[i] = no_threats_found;
-    threats[i] = table_nil;
-    threat_activities[i] = threat_idle;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
