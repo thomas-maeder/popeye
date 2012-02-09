@@ -226,12 +226,9 @@ void stip_traverse_moves_ready_for_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",st->context);
-  assert(st->context!=stip_traversal_context_global);
+  assert(st->context==stip_traversal_context_defense);
 
-  st->context = stip_traversal_context_defense;
   stip_traverse_moves_pipe(si,st);
-  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

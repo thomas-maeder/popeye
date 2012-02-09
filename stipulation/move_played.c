@@ -229,6 +229,32 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static stip_traversal_context_type next_context(stip_traversal_context_type context)
+{
+  stip_traversal_context_type result;
+
+  switch (context)
+  {
+    case stip_traversal_context_attack:
+      result = stip_traversal_context_defense;
+      break;
+
+    case stip_traversal_context_defense:
+      result = stip_traversal_context_attack;
+      break;
+
+    case stip_traversal_context_help:
+      result = stip_traversal_context_help;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  return result;
+}
+
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -243,32 +269,9 @@ void stip_traverse_structure_move_played(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",st->context);
-
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      st->context = stip_traversal_context_defense;
-      break;
-
-    case stip_traversal_context_defense:
-      st->context = stip_traversal_context_attack;
-      break;
-
-    case stip_traversal_context_help:
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceValue("-> %u\n",st->context);
-
+  st->context = next_context(st->context);
   stip_traverse_structure_pipe(si,st);
-
   st->context = save_context;
-  TraceValue("-> %u\n",st->context);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -280,16 +283,20 @@ void stip_traverse_structure_move_played(slice_index si,
  */
 void stip_traverse_moves_move_played(slice_index si, stip_moves_traversal *st)
 {
+  stip_traversal_context_type const save_context = st->context;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(st->remaining>0);
 
+  st->context = next_context(st->context);
   --st->remaining;
   TraceValue("->%u\n",st->remaining);
   stip_traverse_moves_pipe(si,st);
   ++st->remaining;
+  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

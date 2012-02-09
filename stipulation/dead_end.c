@@ -77,7 +77,7 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
   stip_traverse_moves_children(si,st);
 
   if (state->optimisable_deadend!=no_slice
-      && st->context!=stip_traversal_context_defense)
+      && st->context!=stip_traversal_context_attack)
   {
     pipe_append(si,alloc_pipe(STDeadEndGoal));
     pipe_remove(state->optimisable_deadend);

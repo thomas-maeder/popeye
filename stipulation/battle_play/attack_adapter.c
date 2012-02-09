@@ -281,18 +281,13 @@ void stip_traverse_structure_ready_for_attack(slice_index si,
 void stip_traverse_moves_ready_for_attack(slice_index si,
                                           stip_moves_traversal *st)
 {
-  stip_traversal_context_type const save_context = st->context;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",st->context);
-  assert(st->context!=stip_traversal_context_global);
+  assert(st->context==stip_traversal_context_attack);
 
-  st->context = stip_traversal_context_attack;
   stip_traverse_moves_pipe(si,st);
-  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
