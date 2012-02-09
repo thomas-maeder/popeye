@@ -98,7 +98,8 @@ void optimise_final_defense_moves_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remember_testing(slice_index si, stip_structure_traversal *st)
+static void remember_testing_testing_pipe(slice_index si,
+                                          stip_structure_traversal *st)
 {
   final_defense_moves_iteration_state * const state = st->param;
 
@@ -117,6 +118,34 @@ static void remember_testing(slice_index si, stip_structure_traversal *st)
     {
       state->testing = true;
       stip_traverse_structure(slices[si].u.fork.fork,st);
+      state->testing = false;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_testing_conditional_pipe(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  final_defense_moves_iteration_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  if (state->testing)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    stip_traverse_structure_pipe(si,st);
+
+    if (slices[si].u.fork.fork!=no_slice)
+    {
+      state->testing = true;
+      stip_traverse_structure_next_branch(si,st);
       state->testing = false;
     }
   }
@@ -171,10 +200,10 @@ static void optimise_final_defense_move_with_killer_moves(slice_index si)
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &remember_testing);
+                                                &remember_testing_testing_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &remember_testing);
+                                                &remember_testing_conditional_pipe);
   stip_structure_traversal_override(&st,
                                     final_defense_move_optimisers,
                                     nr_final_defense_move_optimisers);

@@ -117,7 +117,7 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
     stip_traverse_structure_pipe(si,st);
 
     state->spinning_off = true;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure_next_branch(si,st);
     state->spinning_off = false;
   }
 

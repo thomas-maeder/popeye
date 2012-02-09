@@ -102,17 +102,18 @@ void stip_traverse_structure_help_adpater(slice_index si,
                                           stip_structure_traversal *st)
 {
   structure_traversal_level_type const save_level = st->level;
-  stip_traversal_context_type const save_context = st->context;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(st->context==stip_traversal_context_global);
+
   st->context = stip_traversal_context_help;
   st->level = structure_traversal_level_nested;
   stip_traverse_structure_pipe(si,st);
   st->level = save_level;
-  st->context = save_context;
+  st->context = stip_traversal_context_global;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

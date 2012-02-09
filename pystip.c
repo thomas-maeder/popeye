@@ -1046,6 +1046,40 @@ static void transform_to_quodlibet_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void replace_attack_adapter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_substitute(si,alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stip_convert_to_direct_goal_branch(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackAdapter,
+                                           &replace_attack_adapter);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_direct_guards(slice_index si,
                                  stip_structure_traversal *st)
 {
@@ -1061,7 +1095,7 @@ static void insert_direct_guards(slice_index si,
       && slices[si].u.branch.length>slack_length_battle
       && state->to_goal!=no_slice)
   {
-    stip_make_direct_goal_branch(state->to_goal);
+    stip_convert_to_direct_goal_branch(state->to_goal);
     battle_branch_insert_direct_end_of_branch_goal(si,state->to_goal);
   }
 

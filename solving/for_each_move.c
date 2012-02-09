@@ -64,6 +64,26 @@ static void insert_move_iterator_move_conditional_pipe(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   *testing = true;
+  stip_traverse_structure_next_branch(si,st);
+  *testing = save_testing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_move_iterator_move_testing_pipe(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *testing = true;
   stip_traverse_structure(slices[si].u.fork.fork,st);
   *testing = save_testing;
 
@@ -100,7 +120,7 @@ void stip_insert_move_iterators(slice_index root_slice)
                                                 insert_move_iterator_move_conditional_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                insert_move_iterator_move_conditional_pipe);
+                                                insert_move_iterator_move_testing_pipe);
   stip_structure_traversal_override(&st,
                                     move_iterator_inserters,
                                     nr_move_iterator_inserters);

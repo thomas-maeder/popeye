@@ -228,7 +228,26 @@ static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void remember_testing(slice_index si, stip_structure_traversal *st)
+static void remember_testing_testing_pipe(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+
+  *testing = true;
+  stip_traverse_structure_next_branch(si,st);
+  *testing = save_testing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_testing_conditional_pipe(slice_index si, stip_structure_traversal *st)
 {
   boolean * const testing = st->param;
   boolean const save_testing = *testing;
@@ -240,7 +259,7 @@ static void remember_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure_next_branch(si,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);
@@ -280,10 +299,10 @@ void stip_insert_paralysing_goal_filters(slice_index si)
   stip_structure_traversal_init(&st,&testing);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &remember_testing);
+                                                &remember_testing_conditional_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &remember_testing);
+                                                &remember_testing_testing_pipe);
   stip_structure_traversal_override(&st,
                                     goal_filter_inserters,
                                     nr_goal_filter_inserters);
