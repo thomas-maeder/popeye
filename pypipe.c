@@ -347,7 +347,7 @@ void stip_spin_off_testers_pipe_skip(slice_index si, stip_structure_traversal *s
   if (state->spinning_off)
   {
     assert(slices[si].u.pipe.next!=no_slice);
-    stip_traverse_structure_children(si,st);
+    stip_traverse_structure_pipe(si,st);
     state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
   }
   else

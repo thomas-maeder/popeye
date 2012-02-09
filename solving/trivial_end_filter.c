@@ -119,7 +119,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   if (*mode==output_mode_tree
-      && st->context==stip_traversal_context_defense)
+      && st->context==stip_traversal_context_attack)
   {
     slice_index const adapter = branch_find_slice(STAttackAdapter,
                                                   slices[si].u.fork.fork);

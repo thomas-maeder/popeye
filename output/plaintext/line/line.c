@@ -154,21 +154,6 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch)
   return result;
 }
 
-static void insert_regular_writers_fork(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  stip_traverse_structure_next_branch(si,st);
-  /* don't instrument .tester! */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_end_of_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -215,13 +200,12 @@ static void insert_move_inversion_counter(slice_index si,
 
 static structure_traversers_visitors regular_inserters[] =
 {
-  { STMoveInverter,               &insert_move_inversion_counter  },
-  { STPlaySuppressor,             &instrument_suppressor          },
-  { STGoalReachedTester,          &instrument_goal_reached_tester },
-  { STAttackAdapter,              &instrument_root                },
-  { STHelpAdapter,                &instrument_root                },
-  { STEndOfBranch,                &instrument_end_of_branch       },
-  { STCheckZigzagJump,            &insert_regular_writers_fork    }
+  { STMoveInverter,      &insert_move_inversion_counter  },
+  { STPlaySuppressor,    &instrument_suppressor          },
+  { STGoalReachedTester, &instrument_goal_reached_tester },
+  { STAttackAdapter,     &instrument_root                },
+  { STHelpAdapter,       &instrument_root                },
+  { STEndOfBranch,       &instrument_end_of_branch       }
 };
 
 enum

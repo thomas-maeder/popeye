@@ -1543,6 +1543,9 @@ static boolean is_proofgame(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
+  if (slices[si].type==STIntelligentStalemateFilter
+      || slices[si].type==STIntelligentMateFilter)
+    st.context = stip_traversal_context_help;
   stip_structure_traversal_override_single(&st,
                                            STGoalProofgameReachedTester,
                                            &proof_goal_found);

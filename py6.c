@@ -2285,7 +2285,7 @@ static void intelligent_init_duplex(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(si,advers(slices[si].starter));
+  stip_impose_starter_nested(si,advers(slices[si].starter),st);
   swapcolors();
   reflectboard();
   StorePosition();
@@ -2335,7 +2335,7 @@ static void intelligent_fini_duplex(slice_index si,
   {
     reflectboard();
     swapcolors();
-    stip_impose_starter(si,advers(slices[si].starter));
+    stip_impose_starter_nested(si,advers(slices[si].starter),st);
   }
 
   TraceFunctionExit(__func__);

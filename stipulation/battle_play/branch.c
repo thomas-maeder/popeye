@@ -33,6 +33,7 @@ static slice_index const slice_rank_order[] =
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
+  STZugzwangWriter,
   STThreatStart,
   STConstraintSolver,
   STConstraintTester,

@@ -34,10 +34,8 @@ static void instrument_threat_solver(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const writer = alloc_zugzwang_writer_slice();
-    pipe_set_successor(writer,slices[si].u.fork.fork);
-    slice_set_predecessor(writer,si);
-    slices[si].u.fork.fork = writer;
+    slice_index const prototype = alloc_zugzwang_writer_slice();
+    battle_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -48,7 +48,7 @@ static void start_spinning_off_end_of_root(slice_index si,
 
   if (state->spinning_off)
     stip_spin_off_testers_pipe(si,st);
-  else if (st->context==stip_traversal_context_defense)
+  else if (st->context==stip_traversal_context_attack)
   {
     /* we are solving something like #3 option postkey
      * start spinning off testers at the loop entry

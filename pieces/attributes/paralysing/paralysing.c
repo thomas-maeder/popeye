@@ -240,7 +240,7 @@ static void remember_testing(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure_next_branch(si,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);

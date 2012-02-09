@@ -200,17 +200,13 @@ has_solution_type defense_adapter_has_solution(slice_index si)
 void stip_traverse_structure_ready_for_defense(slice_index si,
                                                stip_structure_traversal *st)
 {
-  stip_traversal_context_type const save_context = st->context;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-//  assert(st->context!=stip_traversal_context_global);
+  assert(st->context==stip_traversal_context_defense);
 
-  st->context = stip_traversal_context_defense;
   stip_traverse_structure_pipe(si,st);
-  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

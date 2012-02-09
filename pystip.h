@@ -274,6 +274,8 @@ typedef enum
   leaf_decides_on_starter
 } who_decides_on_starter;
 
+struct stip_structure_traversal;
+
 /* Detect the starting side from the stipulation
  * @param si identifies slice whose starter to find
  */
@@ -285,8 +287,14 @@ void stip_detect_starter(slice_index si);
  */
 void stip_impose_starter(slice_index si, Side starter);
 
-
-struct stip_structure_traversal;
+/* Set the starting side of the stipulation from within an ongoing iteration
+ * @param si identifies slice where to start
+ * @param starter starting side at the root of the stipulation
+ * @param st address of structure representing ongoing iteration
+ */
+void stip_impose_starter_nested(slice_index si,
+                                Side starter,
+                                struct stip_structure_traversal *st);
 
 /* Type of callback for stipulation traversals
  */

@@ -82,6 +82,13 @@ stip_length_type move_played_can_help(slice_index si, stip_length_type n);
  */
 void move_played_detect_starter(slice_index si, stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_move_played(slice_index si,
+                                         stip_structure_traversal *st);
+
 /* Traversal of the moves of some branch slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

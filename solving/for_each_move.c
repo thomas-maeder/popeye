@@ -64,7 +64,7 @@ static void insert_move_iterator_move_conditional_pipe(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure_next_branch(si,st);
+  stip_traverse_structure(slices[si].u.fork.fork,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);

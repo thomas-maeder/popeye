@@ -219,11 +219,56 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].u.pipe.next;
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children(si,st);
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side
                           : advers(slices[next].starter));
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_move_played(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  stip_traversal_context_type const save_context = st->context;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",st->context);
+
+  switch (st->context)
+  {
+    case stip_traversal_context_attack:
+      st->context = stip_traversal_context_defense;
+      break;
+
+    case stip_traversal_context_defense:
+      st->context = stip_traversal_context_attack;
+      break;
+
+    case stip_traversal_context_help:
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceValue("-> %u\n",st->context);
+
+  stip_traverse_structure_pipe(si,st);
+
+  st->context = save_context;
+  TraceValue("-> %u\n",st->context);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

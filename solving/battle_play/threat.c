@@ -5,6 +5,7 @@
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/dummy_move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -136,7 +137,7 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
   {
     /* trust in our descendants to start spinning off before the traversal
      * reaches our tester */
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children(si,st);
     assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
   }
 
@@ -318,7 +319,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 
   /* insert an empty ply for the virtual defense played before the threat */
   nextply(nbply);
-  result = attack(tester,n);
+  result = defend(tester,n);
   finply();
 
   max_unsolvable = save_max_unsolvable;
@@ -361,7 +362,7 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
     if (!attack_gives_check[nbply])
     {
       threat_activities[threats_ply] = threat_solving;
-      threat_lengths[threats_ply] = solve_threats(si,n-1);
+      threat_lengths[threats_ply] = solve_threats(si,n)-1;
       threat_activities[threats_ply] = threat_idle;
     }
 
@@ -411,7 +412,29 @@ static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void connect_to_threat_start(slice_index si, stip_structure_traversal *st)
+static void connect_solver_to_threat_start(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const start = branch_find_slice(STThreatStart,si);
+    slice_index const dummy = alloc_dummy_move_slice();
+    assert(start!=no_slice);
+    slices[si].u.fork.fork = dummy;
+    link_to_branch(dummy,start);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void connect_enforcer_to_threat_start(slice_index si,
+                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -444,11 +467,11 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const threat_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode           },
-  { STSetplayFork,        &stip_traverse_structure_pipe },
-  { STReadyForDefense,    &insert_threat_solvers        },
-  { STThreatSolver,       &connect_to_threat_start      },
-  { STThreatEnforcer,     &connect_to_threat_start      }
+  { STOutputModeSelector, &filter_output_mode               },
+  { STSetplayFork,        &stip_traverse_structure_pipe     },
+  { STReadyForDefense,    &insert_threat_solvers            },
+  { STThreatSolver,       &connect_solver_to_threat_start   },
+  { STThreatEnforcer,     &connect_enforcer_to_threat_start }
 };
 
 enum

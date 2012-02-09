@@ -1392,6 +1392,43 @@ enum
                           / sizeof starter_inverters[0])
 };
 
+static void stip_impose_starter_impl(slice_index si,
+                                     Side starter,
+                                     stip_structure_traversal *st)
+{
+  unsigned int i;
+  slice_type type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,starter,"");
+  TraceFunctionParamListEnd();
+
+  for (type = 0; type!=nr_slice_types; ++type)
+    stip_structure_traversal_override_single(st,
+                                             type,
+                                             &default_impose_starter);
+
+  for (i = 0; i!=nr_starter_inverters; ++i)
+    stip_structure_traversal_override_single(st,
+                                             starter_inverters[i],
+                                             &impose_inverted_starter);
+  stip_structure_traversal_override_single(st,
+                                           STIntelligentMateFilter,
+                                           &impose_starter_intelligent_mate_filter);
+  stip_structure_traversal_override_single(st,
+                                           STIntelligentStalemateFilter,
+                                           &impose_starter_intelligent_stalemate_filter);
+  stip_structure_traversal_override_single(st,
+                                           STGoalImmobileReachedTester,
+                                           &impose_starter_immobility_tester);
+
+  stip_traverse_structure(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Set the starting side of the stipulation
  * @param si identifies slice where to start
  * @param starter starting side at the root of the stipulation
@@ -1399,8 +1436,6 @@ enum
 void stip_impose_starter(slice_index si, Side starter)
 {
   stip_structure_traversal st;
-  unsigned int i;
-  slice_type type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1410,27 +1445,35 @@ void stip_impose_starter(slice_index si, Side starter)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&starter);
-
-  for (type = 0; type!=nr_slice_types; ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &default_impose_starter);
-
-  for (i = 0; i!=nr_starter_inverters; ++i)
-    stip_structure_traversal_override_single(&st,
-                                             starter_inverters[i],
-                                             &impose_inverted_starter);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentMateFilter,
-                                           &impose_starter_intelligent_mate_filter);
-  stip_structure_traversal_override_single(&st,
-                                           STIntelligentStalemateFilter,
-                                           &impose_starter_intelligent_stalemate_filter);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalImmobileReachedTester,
-                                           &impose_starter_immobility_tester);
-
+  stip_impose_starter_impl(si,starter,&st);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Set the starting side of the stipulation from within an ongoing iteration
+ * @param si identifies slice where to start
+ * @param starter starting side at the root of the stipulation
+ * @param st address of structure representing ongoing iteration
+ */
+void stip_impose_starter_nested(slice_index si,
+                                Side starter,
+                                stip_structure_traversal *st)
+{
+  stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,starter,"");
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st_nested,&starter);
+  st_nested.context = st->context;
+  stip_impose_starter_impl(si,starter,&st_nested);
+  stip_traverse_structure(si,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1510,6 +1553,8 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",st->context);
+
   if (root!=no_slice)
     if (st->traversed[root]==slice_not_traversed)
     {
@@ -1518,6 +1563,8 @@ void stip_traverse_structure(slice_index root, stip_structure_traversal *st)
       stip_structure_visit_slice(root,&st->map.visitors,st);
       st->traversed[root] = slice_traversed;
     }
+
+  TraceValue("%u\n",st->context);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1549,8 +1596,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMove */
   &stip_traverse_structure_pipe,              /* STForEachMove */
   &stip_traverse_structure_pipe,              /* STFindMove */
-  &stip_traverse_structure_pipe,              /* STMovePlayed */
-  &stip_traverse_structure_pipe,              /* STDummyMove */
+  &stip_traverse_structure_move_played,       /* STMovePlayed */
+  &stip_traverse_structure_move_played,       /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForDummyMove */
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
   &stip_traverse_structure_binary,            /* STCheckZigzagJump */
