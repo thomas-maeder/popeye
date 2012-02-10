@@ -191,15 +191,11 @@ static void next_insertion(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean insert_common(slice_index si,
+static boolean insert_before(slice_index si,
                              unsigned int rank,
                              insertion_state_type *state)
 {
   boolean result = false;
-  slice_index const prototype = state->prototypes[0];
-  slice_type const prototype_type = slices[prototype].type;
-  unsigned int const prototype_rank = get_slice_rank(prototype_type,
-                                                     state->base);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -208,17 +204,23 @@ static boolean insert_common(slice_index si,
   TraceFunctionParam("%u",state->base);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==prototype_type)
   {
-    next_insertion(si,prototype_rank,state);
-    result = true;
-  }
-  else if (rank>prototype_rank)
-  {
-    slice_index const copy = copy_slice(prototype);
-    pipe_append(state->prev,copy);
-    next_insertion(copy,prototype_rank,state);
-    result = true;
+    slice_index const prototype = state->prototypes[0];
+    slice_type const prototype_type = slices[prototype].type;
+    unsigned int const prototype_rank = get_slice_rank(prototype_type,
+                                                       state->base);
+    if (slices[si].type==prototype_type)
+    {
+      next_insertion(si,prototype_rank,state);
+      result = true;
+    }
+    else if (rank!=no_slice_rank && rank>prototype_rank)
+    {
+      slice_index const copy = copy_slice(prototype);
+      pipe_append(state->prev,copy);
+      next_insertion(copy,prototype_rank,state);
+      result = true;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -240,11 +242,8 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
 
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    if (rank==no_slice_rank)
-      ; /* nothing - not for insertion into this branch */
-    else if (insert_common(si,rank,state))
-      ; /* nothing - work is done*/
-    else
+    assert(rank!=no_slice_rank);
+    if (!insert_before(si,rank,state))
     {
       state->base = rank;
       state->prev = si;
@@ -271,9 +270,7 @@ static void insert_visit_end_of_branch_goal(slice_index si,
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
     assert(rank!=no_slice_rank);
-    if (insert_common(si,rank,state))
-      ; /* nothing - work is done*/
-    else
+    if (!insert_before(si,rank,state))
     {
       branch_insert_slices_nested(slices[si].u.fork.fork,
                                   state->prototypes,state->nr_prototypes);
@@ -290,7 +287,6 @@ static void insert_visit_end_of_branch_goal(slice_index si,
 static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
-  insertion_state_type const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -299,9 +295,26 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",state->prev);
   TraceFunctionParamListEnd();
 
-  start_insertion_traversal(slices[si].u.binary.op1,state);
-  *state = save_state;
-  start_insertion_traversal(slices[si].u.binary.op2,state);
+  {
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    if (!insert_before(si,rank,state))
+    {
+      if (rank!=no_slice_rank)
+        state->base = rank;
+      if (slices[si].u.binary.op1!=no_slice)
+      {
+        insertion_state_type const save_state = *state;
+        state->prev = slices[si].u.binary.op1;
+        start_insertion_traversal(slices[si].u.binary.op1,state);
+        *state = save_state;
+      }
+      if (slices[si].u.binary.op2!=no_slice)
+      {
+        state->prev = slices[si].u.binary.op2;
+        start_insertion_traversal(slices[si].u.binary.op2,state);
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
