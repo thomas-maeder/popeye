@@ -139,7 +139,7 @@ slice_index alloc_refutations_solver(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_binary_slice(STRefutationsSolver,no_slice,no_slice);
+  result = alloc_pipe(STRefutationsSolver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -170,18 +170,18 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
   if (refutations!=table_nil && table_length(refutations)>0)
   {
-    defend(slices[si].u.binary.op1,n);
+    defend(slices[si].u.pipe.next,n);
 
     are_we_solving_refutations = true;
     max_unsolvable = n;
-    defend(slices[si].u.binary.op2,n);
+    defend(slices[si].u.pipe.next,n);
     max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 
     result = n;
   }
   else
-    result = defend(slices[si].u.binary.op1,n);
+    result = defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
