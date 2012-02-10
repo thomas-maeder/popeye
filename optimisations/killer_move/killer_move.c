@@ -1,5 +1,6 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"

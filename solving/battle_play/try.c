@@ -1,8 +1,12 @@
 #include "solving/battle_play/try.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "pymsg.h"
 #include "stipulation/branch.h"
+#include "stipulation/dead_end.h"
+#include "stipulation/proxy.h"
+#include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -73,29 +77,10 @@ void set_max_nr_refutations(unsigned int mnr)
   TraceFunctionResultEnd();
 }
 
-/* Retrieve the maximum number of refutations that the user is interested
- * to see to some value
- * @return maximum number of refutations that the user is interested to see
- */
-unsigned int get_max_nr_refutations(void)
-{
-  unsigned int result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = user_set_max_nr_refutations;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STRefutationsAllocator defender slice.
  * @return index of allocated slice
  */
-static slice_index alloc_refutations_allocator(void)
+slice_index alloc_refutations_allocator(void)
 {
   slice_index result;
 
@@ -154,7 +139,7 @@ slice_index alloc_refutations_solver(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRefutationsSolver);
+  result = alloc_binary_slice(STRefutationsSolver,no_slice,no_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -176,7 +161,6 @@ slice_index alloc_refutations_solver(void)
 stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch.next;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
@@ -186,18 +170,18 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
   if (refutations!=table_nil && table_length(refutations)>0)
   {
-    defend(next,n);
+    defend(slices[si].u.binary.op1,n);
 
     are_we_solving_refutations = true;
     max_unsolvable = n;
-    defend(next,n);
+    defend(slices[si].u.binary.op2,n);
     max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 
     result = n;
   }
   else
-    result = defend(next,n);
+    result = defend(slices[si].u.binary.op1,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -209,7 +193,6 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
  * @param max_nr_refutations maximum number of refutations to be allowed
  * @return index of allocated slice
  */
-static
 slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
 {
   slice_index result;
@@ -307,36 +290,6 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
   return result;
 }
 
-/* Instrument a branch with try solving slices
- * Note: after the instrumentation, the branch will still not solve refutations
- * @param adapter adapter slice leading into the branch
- * @param max_nr_refutations maximum number of refutations per try
- */
-void branch_insert_try_solvers(slice_index adapter,
-                               unsigned int max_nr_refutations)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_refutations_allocator(),
-      alloc_refutations_collector_slice(max_nr_refutations)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    battle_branch_insert_slices(adapter,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -350,26 +303,8 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_try_solvers_attack_adapter(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_insert_try_solvers(si,get_max_nr_refutations());
-
-  {
-    slice_index const prototype = alloc_refutations_solver();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_try_solvers_defense_adapter(slice_index si,
-                                               stip_structure_traversal *st)
+static void filter_postkey_play(slice_index si,
+                                 stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -382,11 +317,92 @@ static void insert_try_solvers_defense_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_try_solvers_attack_adapter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_refutations_allocator(),
+      alloc_refutations_solver(),
+      alloc_pipe(STEndOfRefutationSolvingBranch)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void slice_copy(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  if (*result!=no_slice)
+  {
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,*result);
+    *result = copy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void serve_as_hook(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(*result==no_slice);
+  *result = alloc_dead_end_slice();
+  slices[*result].u.pipe.next = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_try_solvers_refutations_solver(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_refutations_collector_slice(user_set_max_nr_refutations);
+    battle_branch_insert_slices(slices[si].u.fork.next,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const try_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode                 },
-  { STAttackAdapter,      &insert_try_solvers_attack_adapter  },
-  { STDefenseAdapter,     &insert_try_solvers_defense_adapter }
+  { STOutputModeSelector, &filter_output_mode                    },
+  { STDefenseAdapter,     &filter_postkey_play                   },
+  { STAttackAdapter,      &insert_try_solvers_attack_adapter     },
+  { STRefutationsSolver,  &insert_try_solvers_refutations_solver }
 };
 
 enum
@@ -408,6 +424,57 @@ void stip_insert_try_solvers(slice_index si)
 
   stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override(&st,try_solver_inserters,nr_try_solver_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void spin_off_from_refutations_solver(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  stip_structure_traversal st_nested;
+  slice_index spun_off = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st_nested,&spun_off);
+  stip_structure_traversal_override_by_structure(&st_nested,
+                                                 slice_structure_pipe,
+                                                 &slice_copy);
+  stip_structure_traversal_override_by_structure(&st_nested,
+                                                 slice_structure_branch,
+                                                 &slice_copy);
+  stip_structure_traversal_override_by_structure(&st_nested,
+                                                 slice_structure_fork,
+                                                 &slice_copy);
+  stip_structure_traversal_override_single(&st_nested,STThreatSolver,&stip_traverse_structure_pipe);
+  stip_structure_traversal_override_single(&st_nested,STEndOfRefutationSolvingBranch,&serve_as_hook);
+  stip_traverse_structure(slices[si].u.binary.op1,&st_nested);
+
+  assert(spun_off!=no_slice);
+  slices[si].u.binary.op2 = alloc_proxy_slice();
+  link_to_branch(slices[si].u.binary.op2,spun_off);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stip_spin_off_refutation_solver_slices(slice_index si)
+{
+  stip_structure_traversal st;
+  output_mode mode = output_mode_none;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override_single(&st,
+                                           STRefutationsSolver,
+                                           &spin_off_from_refutations_solver);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

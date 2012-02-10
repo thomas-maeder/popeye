@@ -1,14 +1,16 @@
 optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  optimisations/killer_move/killer_move.c \
- optimisations/killer_move/killer_move.h pypipe.h stipulation/proxy.h \
- stipulation/battle_play/branch.h solving/fork_on_remaining.h \
- optimisations/killer_move/move_generator.h \
+ optimisations/killer_move/killer_move.h pypipe.h pybrafrk.h \
+ stipulation/proxy.h stipulation/battle_play/branch.h \
+ solving/fork_on_remaining.h optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h \
  optimisations/killer_move/final_defense_move.h trace.h
 
 optimisations/killer_move/killer_move.h:
 
 pypipe.h:
+
+pybrafrk.h:
 
 stipulation/proxy.h:
 

@@ -1,5 +1,6 @@
 #include "stipulation/end_of_branch_tester.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

@@ -62,9 +62,11 @@ solving/battle_play/check_detector.h:
 
 trace.h:
 solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
- solving/battle_play/try.h pydata.h pypipe.h pymsg.h stipulation/branch.h \
- stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h trace.h
+ solving/battle_play/try.h pydata.h pypipe.h pybrafrk.h pymsg.h \
+ stipulation/branch.h stipulation/dead_end.h stipulation/proxy.h \
+ stipulation/boolean/binary.h stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+ trace.h
 
 solving/battle_play/try.h:
 
@@ -72,9 +74,17 @@ pydata.h:
 
 pypipe.h:
 
+pybrafrk.h:
+
 pymsg.h:
 
 stipulation/branch.h:
+
+stipulation/dead_end.h:
+
+stipulation/proxy.h:
+
+stipulation/boolean/binary.h:
 
 stipulation/battle_play/defense_play.h:
 
@@ -84,9 +94,12 @@ stipulation/battle_play/attack_play.h:
 
 trace.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
- solving/battle_play/setplay.h solving/battle_play/try.h trace.h
+ solving/battle_play/setplay.h stipulation/battle_play/branch.h \
+ solving/battle_play/try.h trace.h
 
 solving/battle_play/setplay.h:
+
+stipulation/battle_play/branch.h:
 
 solving/battle_play/try.h:
 

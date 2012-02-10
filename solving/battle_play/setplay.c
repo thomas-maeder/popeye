@@ -1,4 +1,5 @@
 #include "solving/battle_play/setplay.h"
+#include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/try.h"
 #include "trace.h"
 
@@ -16,7 +17,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 }
 
 static void insert_setplay_solvers_defense_adapter(slice_index si,
-                                               stip_structure_traversal *st)
+                                                   stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -26,7 +27,16 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
       && slices[si].u.branch.length>slack_length_battle)
   {
     unsigned int const max_nr_refutations = UINT_MAX;
-    branch_insert_try_solvers(si,max_nr_refutations);
+    slice_index const prototypes[] =
+    {
+      alloc_refutations_allocator(),
+      alloc_refutations_collector_slice(max_nr_refutations)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

@@ -29,11 +29,10 @@ boolean read_max_nr_refutations(char const *tok);
  */
 void set_max_nr_refutations(unsigned int mnr);
 
-/* Retrieve the maximum number of refutations that the user is interested
- * to see to some value
- * @return maximum number of refutations that the user is interested to see
+/* Allocate a STRefutationsAllocator defender slice.
+ * @return index of allocated slice
  */
-unsigned int get_max_nr_refutations(void);
+slice_index alloc_refutations_allocator(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -64,6 +63,12 @@ slice_index alloc_refutations_solver(void);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type refutations_solver_defend(slice_index si, stip_length_type n);
 
+/* Allocate a STRefutationsCollector slice.
+ * @param max_nr_refutations maximum number of refutations to be allowed
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves
@@ -85,16 +90,11 @@ refutations_collector_can_attack(slice_index si, stip_length_type n);
  */
 stip_length_type refutations_collector_attack(slice_index si, stip_length_type n);
 
-/* Instrument a branch with try solving slices
- * @param adapter adapter slice leading into the branch
- * @param max_nr_refutations maximum number of refutations per try
- */
-void branch_insert_try_solvers(slice_index adapter,
-                               unsigned int max_nr_refutations);
-
 /* Instrument the stipulation structure with slices solving tries
  * @param root_slice root slice of the stipulation
  */
 void stip_insert_try_solvers(slice_index si);
+
+void stip_spin_off_refutation_solver_slices(slice_index si);
 
 #endif
