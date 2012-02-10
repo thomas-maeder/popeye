@@ -220,8 +220,6 @@ void stip_traverse_structure_ready_for_defense(slice_index si,
 void stip_traverse_moves_ready_for_defense(slice_index si,
                                            stip_moves_traversal *st)
 {
-  stip_traversal_context_type const save_context = st->context;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
