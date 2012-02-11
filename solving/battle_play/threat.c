@@ -352,27 +352,22 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable)
-    result = defend(next,n);
-  else
+  TraceValue("%u\n",threats_ply);
+  threats[threats_ply] = allocate_table();
+
+  if (!attack_gives_check[nbply])
   {
-    TraceValue("%u\n",threats_ply);
-    threats[threats_ply] = allocate_table();
-
-    if (!attack_gives_check[nbply])
-    {
-      threat_activities[threats_ply] = threat_solving;
-      threat_lengths[threats_ply] = solve_threats(si,n)-1;
-      threat_activities[threats_ply] = threat_idle;
-    }
-
-    result = defend(next,n);
-
-    assert(get_top_table()==threats[threats_ply]);
-    free_table();
-    threat_lengths[threats_ply] = no_threats_found;
-    threats[threats_ply] = table_nil;
+    threat_activities[threats_ply] = threat_solving;
+    threat_lengths[threats_ply] = solve_threats(si,n)-1;
+    threat_activities[threats_ply] = threat_idle;
   }
+
+  result = defend(next,n);
+
+  assert(get_top_table()==threats[threats_ply]);
+  free_table();
+  threat_lengths[threats_ply] = no_threats_found;
+  threats[threats_ply] = table_nil;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
