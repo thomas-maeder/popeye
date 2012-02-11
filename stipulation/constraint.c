@@ -20,7 +20,7 @@
  * @param proxy_to_condition prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-static slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
+slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
 {
   slice_index result;
 

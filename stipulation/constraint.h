@@ -8,6 +8,12 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 
+/* Allocate a STConstraintSolver slice
+ * @param proxy_to_condition prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition);
+
 /* Allocate a STConstraintTester slice
  * @param proxy_to_condition prototype of slice that must not be solvable
  * @return index of allocated slice

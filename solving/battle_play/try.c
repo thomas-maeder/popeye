@@ -4,6 +4,7 @@
 #include "pybrafrk.h"
 #include "pymsg.h"
 #include "stipulation/branch.h"
+#include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/binary.h"
@@ -324,6 +325,7 @@ static void insert_try_solvers_attack_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->level==structure_traversal_level_root) /* i.e. not constraint */
   {
     slice_index const prototypes[] =
     {
@@ -360,22 +362,6 @@ static void slice_copy(slice_index si, stip_structure_traversal *st)
     link_to_branch(copy,*result);
     *result = copy;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void serve_as_hook(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(*result==no_slice);
-  *result = alloc_dead_end_slice();
-  slices[*result].u.pipe.next = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -431,10 +417,51 @@ void stip_insert_try_solvers(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void insert_constraint_solver(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  assert(*result!=no_slice);
+
+  {
+    slice_index const solver = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.fork.fork));
+    link_to_branch(solver,*result);
+    *result = solver;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void serve_as_hook(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(*result==no_slice);
+  *result = alloc_dead_end_slice();
+  slices[*result].u.pipe.next = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const to_refutation_branch_copiers[] =
 {
   { STThreatSolver,                 &stip_traverse_structure_pipe },
   { STEndOfBranchForced,            &stip_traverse_structure_pipe },
+  { STPlaySuppressor,               &stip_traverse_structure_pipe },
+  { STConstraintTester,             &insert_constraint_solver     },
   { STEndOfRefutationSolvingBranch, &serve_as_hook                }
 };
 
