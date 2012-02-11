@@ -135,7 +135,8 @@ static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode                      },
   { STConstraintSolver,   &trivial_varation_filter_insert_constraint },
-  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self       }
+  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self       },
+  { STRefutationsSolver,  &stip_traverse_structure_pipe              }
 };
 
 enum
@@ -148,7 +149,7 @@ enum
 /* Instrument a stipulation with trivial variation filters
  * @param si identifies the entry slice of the stipulation to be instrumented
  */
-void stip_insert_trivial_varation_filters(slice_index si)
+void stip_insert_trivial_variation_filters(slice_index si)
 {
   stip_structure_traversal st;
   output_mode mode = output_mode_none;
@@ -158,6 +159,9 @@ void stip_insert_trivial_varation_filters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_pipe);

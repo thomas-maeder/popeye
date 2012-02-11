@@ -23,6 +23,6 @@ trivial_end_filter_attack(slice_index si, stip_length_type n);
 /* Instrument a stipulation with trivial variation filters
  * @param si identifies the entry slice of the stipulation to be instrumented
  */
-void stip_insert_trivial_varation_filters(slice_index si);
+void stip_insert_trivial_variation_filters(slice_index si);
 
 #endif

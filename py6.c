@@ -2664,15 +2664,15 @@ static Token iterate_twins(Token prev_token)
 
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
-      stip_insert_trivial_varation_filters(root_slice);
-
       stip_insert_detours_around_end_of_branch(root_slice);
       stip_insert_end_of_branch_testers(root_slice);
       stip_insert_avoid_unsolvable_forks(root_slice);
 
-      stip_spin_off_testers(root_slice);
-
       stip_spin_off_refutation_solver_slices(root_slice);
+
+      stip_insert_trivial_variation_filters(root_slice);
+
+      stip_spin_off_testers(root_slice);
 
       stip_optimise_with_countnropponentmoves(root_slice);
 

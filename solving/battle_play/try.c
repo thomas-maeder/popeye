@@ -176,9 +176,6 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
     are_we_solving_refutations = true;
 
-    /* refutations are never trivial */
-    do_write_trivial_ends[nbply] = true;
-
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
@@ -186,7 +183,6 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
     defend(slices[si].u.binary.op2,n);
 
-    do_write_trivial_ends[nbply] = false;
     are_we_solving_refutations = false;
 
     result = n;
@@ -445,6 +441,29 @@ static void insert_constraint_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_deep_copy(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  assert(*result!=no_slice);
+
+  {
+    slice_index copy = copy_slice(si);
+    slices[copy].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+    link_to_branch(copy,*result);
+    *result = copy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
@@ -467,6 +486,7 @@ static structure_traversers_visitors const to_refutation_branch_copiers[] =
   { STPlaySuppressor,               &stip_traverse_structure_pipe },
   { STThreatSolver,                 &stip_traverse_structure_pipe },
   { STConstraintTester,             &insert_constraint_solver     },
+  { STEndOfBranchGoal,              &insert_deep_copy             },
   { STEndOfRefutationSolvingBranch, &stop_spinning_off            }
 };
 
