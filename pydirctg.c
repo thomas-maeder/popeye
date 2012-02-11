@@ -20,7 +20,8 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-      alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1)
+      alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1),
+      alloc_branch(STReadyForDefense,slack_length_battle,slack_length_battle-1)
     };
     enum {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]

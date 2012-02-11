@@ -308,19 +308,16 @@ static void instrument_attack_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_key_move(slice_index si,
-                                stip_structure_traversal *st)
+static void instrument_root_ready_for_defense(slice_index si,
+                                              stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  if (st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_key_writer();
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -334,6 +331,7 @@ static void instrument_defense_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->level==structure_traversal_level_root)
   {
     /* we are solving post key play */
     slice_index const prototypes[] =
@@ -346,6 +344,8 @@ static void instrument_defense_adapter(slice_index si,
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -366,15 +366,14 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_writer_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_pipe },
-  { STAttackAdapter,      &instrument_attack_adapter    },
-  { STDefenseAdapter,     &instrument_defense_adapter   },
-  { STEndOfBranch,        &get_fork_of_my_own           },
-  { STEndOfBranchGoal,    &get_fork_of_my_own           },
-  { STMove,               &instrument_key_move          },
-  { STConstraintSolver,   &stip_traverse_structure_pipe },
-  { STReadyForDefense,    &stip_structure_visitor_noop  },
-  { STHelpAdapter,        &stip_structure_visitor_noop  }
+  { STSetplayFork,        &stip_traverse_structure_pipe      },
+  { STAttackAdapter,      &instrument_attack_adapter         },
+  { STDefenseAdapter,     &instrument_defense_adapter        },
+  { STEndOfBranch,        &get_fork_of_my_own                },
+  { STEndOfBranchGoal,    &get_fork_of_my_own                },
+  { STReadyForDefense,    &instrument_root_ready_for_defense },
+  { STConstraintSolver,   &stip_traverse_structure_pipe      },
+  { STHelpAdapter,        &stip_structure_visitor_noop       }
 };
 
 enum
@@ -395,6 +394,12 @@ static void insert_root_writer_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_pipe);
   stip_structure_traversal_override(&st,
                                     root_writer_inserters,
                                     nr_root_writer_inserters);

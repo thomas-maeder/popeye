@@ -9,15 +9,21 @@
  * @param si identifies STTrue slice
  * @param st address of structure representing the traversal
  */
-static void instrument_leaf(slice_index si, stip_structure_traversal *st)
+static void instrument_tester(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_attack_adapter_slice(slack_length_battle,
-                                         slack_length_battle));
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_attack_adapter_slice(slack_length_battle,slack_length_battle),
+        alloc_branch(STReadyForAttack,slack_length_battle,slack_length_battle)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices(si,prototypes,nr_prototypes);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -25,8 +31,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors direct_leaf_instrumenters[] =
 {
-  { STGoalReachedTester, &stip_traverse_structure_pipe },
-  { STTrue,              &instrument_leaf              }
+  { STGoalReachedTester, &instrument_tester }
 };
 
 enum

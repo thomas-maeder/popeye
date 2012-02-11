@@ -84,10 +84,11 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STRefutationsSolver,
+  STReadyForDefense,
   STKeyWriter,
   STTryWriter,
+  STTrue,
   STPlaySuppressor,
-  STReadyForDefense,
   STConstraintTester,
   STEndOfBranchForced,
   STMaxFlightsquares,
@@ -209,7 +210,7 @@ static boolean insert_before(slice_index si,
     slice_type const prototype_type = slices[prototype].type;
     unsigned int const prototype_rank = get_slice_rank(prototype_type,
                                                        state->base);
-    if (slices[si].type==prototype_type)
+    if (slices[slices[state->prev].u.pipe.next].type==prototype_type)
     {
       next_insertion(si,prototype_rank,state);
       result = true;
@@ -299,19 +300,34 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
     if (!insert_before(si,rank,state))
     {
-      if (rank!=no_slice_rank)
-        state->base = rank;
-      if (slices[si].u.binary.op1!=no_slice)
+      insertion_state_type const save_state = *state;
+
+      if (rank==no_slice_rank)
       {
-        insertion_state_type const save_state = *state;
-        state->prev = slices[si].u.binary.op1;
-        start_insertion_traversal(slices[si].u.binary.op1,state);
+        if (slices[si].u.binary.op1!=no_slice)
+          start_insertion_traversal(slices[si].u.binary.op1,state);
         *state = save_state;
+        if (slices[si].u.binary.op2!=no_slice)
+          start_insertion_traversal(slices[si].u.binary.op2,state);
       }
-      if (slices[si].u.binary.op2!=no_slice)
+      else
       {
-        state->prev = slices[si].u.binary.op2;
-        start_insertion_traversal(slices[si].u.binary.op2,state);
+        state->base = rank;
+
+        if (slices[si].u.binary.op1!=no_slice)
+        {
+          state->prev = slices[si].u.binary.op1;
+          start_insertion_traversal(slices[si].u.binary.op1,state);
+        }
+
+        *state = save_state;
+        state->base = rank;
+
+        if (slices[si].u.binary.op2!=no_slice)
+        {
+          state->prev = slices[si].u.binary.op2;
+          start_insertion_traversal(slices[si].u.binary.op2,state);
+        }
       }
     }
   }
@@ -338,10 +354,31 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_visit_true(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    insert_before(si,rank,state);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const insertion_visitors[] =
 {
   { STEndOfBranchGoal, &insert_visit_end_of_branch_goal },
-  { STProxy,           &insert_visit_proxy              }
+  { STProxy,           &insert_visit_proxy              },
+  { STTrue,            &insert_visit_true               }
 };
 
 enum

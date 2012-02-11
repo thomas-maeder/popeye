@@ -60,10 +60,24 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+static void insert_continuation_solvers_avoid_goal_branches(slice_index si,
+                                                            stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.branch.length>slack_length_battle)
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* nested defense branch
  */
-static void insert_continuation_solvers_defense_adapter(slice_index si,
-                                                        stip_structure_traversal *st)
+static void insert_continuation_solvers_postktey_play(slice_index si,
+                                                      stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -109,8 +123,9 @@ static void insert_continuation_solvers_attack(slice_index si,
 
 static structure_traversers_visitors const continuation_solver_inserters[] =
 {
-  { STDefenseAdapter, &insert_continuation_solvers_defense_adapter },
-  { STReadyForAttack, &insert_continuation_solvers_attack          }
+  { STAttackAdapter,  &insert_continuation_solvers_avoid_goal_branches },
+  { STDefenseAdapter, &insert_continuation_solvers_postktey_play       },
+  { STReadyForAttack, &insert_continuation_solvers_attack              }
 };
 
 enum

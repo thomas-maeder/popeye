@@ -1062,6 +1062,20 @@ static void replace_attack_adapter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void replace_ready_for_attack(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_substitute(si,alloc_branch(STReadyForDefense,slack_length_battle,slack_length_battle-1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void stip_convert_to_direct_goal_branch(slice_index si)
 {
   stip_structure_traversal st;
@@ -1076,6 +1090,9 @@ void stip_convert_to_direct_goal_branch(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STAttackAdapter,
                                            &replace_attack_adapter);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &replace_ready_for_attack);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
