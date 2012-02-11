@@ -201,17 +201,6 @@ static void instrument_key_writer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prototypes[] =
-    {
-      alloc_move_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice(),
-      alloc_refutation_writer_slice()
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
-  }
-
   pipe_substitute(si,alloc_try_writer());
 
   stip_traverse_structure_children(si,st);
@@ -220,33 +209,19 @@ static void instrument_key_writer(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remember_refutation_writer(slice_index si, stip_structure_traversal *st)
+static void insert_refutation_writer(slice_index si,
+                                          stip_structure_traversal *st)
 {
-  slice_index * const refutation_writer_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *refutation_writer_slice = si;
+  {
+    slice_index const prototype = alloc_refutation_writer_slice();
+    defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+  }
+
   stip_traverse_structure_children(si,st);
-  *refutation_writer_slice = no_slice;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void stop_instrumenting_after_refutation(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  slice_index const * const refutation_writer_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*refutation_writer_slice==no_slice)
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -254,10 +229,9 @@ static void stop_instrumenting_after_refutation(slice_index si,
 
 static structure_traversers_visitors try_writer_inserters[] =
 {
-  { STSetplayFork,       &stip_traverse_structure_pipe        },
-  { STKeyWriter,         &instrument_key_writer               },
-  { STRefutationWriter,  &remember_refutation_writer          },
-  { STReadyForAttack,    &stop_instrumenting_after_refutation }
+  { STSetplayFork,       &stip_traverse_structure_pipe },
+  { STKeyWriter,         &instrument_key_writer        },
+  { STRefutationsSolver, &insert_refutation_writer     }
 };
 
 enum
@@ -268,14 +242,13 @@ enum
 
 static void insert_try_writers(slice_index si)
 {
-  slice_index refutation_writer_slice = no_slice;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&refutation_writer_slice);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     try_writer_inserters,
                                     nr_try_writer_inserters);
@@ -366,14 +339,15 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors root_writer_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_pipe      },
-  { STAttackAdapter,      &instrument_attack_adapter         },
-  { STDefenseAdapter,     &instrument_defense_adapter        },
-  { STEndOfBranch,        &get_fork_of_my_own                },
-  { STEndOfBranchGoal,    &get_fork_of_my_own                },
-  { STReadyForDefense,    &instrument_root_ready_for_defense },
-  { STConstraintSolver,   &stip_traverse_structure_pipe      },
-  { STHelpAdapter,        &stip_structure_visitor_noop       }
+  { STSetplayFork,       &stip_traverse_structure_pipe      },
+  { STAttackAdapter,     &instrument_attack_adapter         },
+  { STDefenseAdapter,    &instrument_defense_adapter        },
+  { STEndOfBranch,       &get_fork_of_my_own                },
+  { STEndOfBranchGoal,   &get_fork_of_my_own                },
+  { STReadyForDefense,   &instrument_root_ready_for_defense },
+  { STRefutationsSolver, &stip_traverse_structure_pipe      },
+  { STConstraintSolver,  &stip_traverse_structure_pipe      },
+  { STHelpAdapter,       &stip_structure_visitor_noop       }
 };
 
 enum

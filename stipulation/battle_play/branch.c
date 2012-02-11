@@ -534,7 +534,7 @@ void defense_branch_insert_slices(slice_index si,
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      ready_rank+1,
+      ready_rank,
       si
     };
     assert(state.base!=no_slice_rank);

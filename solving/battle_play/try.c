@@ -11,6 +11,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "solving/trivial_end_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -175,7 +176,17 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
     are_we_solving_refutations = true;
     max_unsolvable = n;
+    /* refutations are never trivial */
+    do_write_trivial_ends[nbply] = true;
+
+    Message(NewLine);
+    sprintf(GlobalStr,"%*c",4,blank);
+    StdString(GlobalStr);
+    Message(But);
+
     defend(slices[si].u.binary.op2,n);
+
+    do_write_trivial_ends[nbply] = false;
     max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 

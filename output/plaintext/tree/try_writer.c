@@ -48,21 +48,7 @@ stip_length_type try_writer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable)
-  {
-    /* refutations are never trivial */
-    do_write_trivial_ends[nbply] = true;
-
-    Message(NewLine);
-    sprintf(GlobalStr,"%*c",4,blank);
-    StdString(GlobalStr);
-    Message(But);
-
-    result = defend(slices[si].u.pipe.next,n);
-
-    do_write_trivial_ends[nbply] = false;
-  }
-  else if (table_length(refutations)>0)
+  if (table_length(refutations)>0)
   {
     StdString(" ?");
     result = defend(slices[si].u.pipe.next,n);
