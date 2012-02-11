@@ -105,9 +105,7 @@ stip_length_type move_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   output_plaintext_tree_write_move();
-  do_write_trivial_ends[nbply] = n==max_unsolvable;
   result = attack(slices[si].u.pipe.next,n);
-  do_write_trivial_ends[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
