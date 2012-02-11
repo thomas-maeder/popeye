@@ -49,7 +49,6 @@
 #include <assert.h>
 
 /* maximum number of half-moves that we know have no solution
- * (n==max_unsolvable in (can_)defend means that we are solving refutations)
  */
 stip_length_type max_unsolvable;
 

@@ -9,7 +9,6 @@
 #include "pydata.h"
 
 /* maximum number of half-moves that we know have no solution
- * (n==max_unsolvable means that we are solving refutations)
  */
 extern stip_length_type max_unsolvable;
 

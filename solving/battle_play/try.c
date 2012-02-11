@@ -7,6 +7,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/proxy.h"
+#include "stipulation/boolean/false.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
@@ -163,7 +164,6 @@ slice_index alloc_refutations_solver(void)
 stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -175,7 +175,7 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
     defend(slices[si].u.binary.op1,n);
 
     are_we_solving_refutations = true;
-    max_unsolvable = n;
+
     /* refutations are never trivial */
     do_write_trivial_ends[nbply] = true;
 
@@ -187,7 +187,6 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
     defend(slices[si].u.binary.op2,n);
 
     do_write_trivial_ends[nbply] = false;
-    max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 
     result = n;
@@ -270,7 +269,6 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
 {
   stip_length_type result;
   slice_index const next = slices[si].u.refutation_collector.next;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -280,11 +278,7 @@ stip_length_type refutations_collector_attack(slice_index si, stip_length_type n
   if (are_we_solving_refutations)
   {
     if (is_current_move_in_table(refutations))
-    {
-      max_unsolvable = n;
       attack(next,n);
-      max_unsolvable = save_max_unsolvable;
-    }
 
     result = n;
   }
@@ -451,7 +445,7 @@ static void insert_constraint_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void serve_as_hook(slice_index si, stip_structure_traversal *st)
+static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
 
@@ -460,8 +454,7 @@ static void serve_as_hook(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(*result==no_slice);
-  *result = alloc_dead_end_slice();
-  slices[*result].u.pipe.next = no_slice;
+  *result = alloc_false_slice();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -474,7 +467,7 @@ static structure_traversers_visitors const to_refutation_branch_copiers[] =
   { STPlaySuppressor,               &stip_traverse_structure_pipe },
   { STThreatSolver,                 &stip_traverse_structure_pipe },
   { STConstraintTester,             &insert_constraint_solver     },
-  { STEndOfRefutationSolvingBranch, &serve_as_hook                }
+  { STEndOfRefutationSolvingBranch, &stop_spinning_off            }
 };
 
 enum
