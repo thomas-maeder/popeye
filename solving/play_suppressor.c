@@ -35,17 +35,13 @@ slice_index alloc_play_suppressor_slice(void)
 stip_length_type play_suppressor_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==max_unsolvable) /* we are solving refutations */
-    result = defend(next,n);
-  else
-    result = n;
+  result = n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
