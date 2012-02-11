@@ -25,7 +25,6 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STTestingForEndOfBranch), /* proxy slice marking the start of testing for end of branch */ \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal) */ \
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \

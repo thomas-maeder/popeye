@@ -107,7 +107,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch,       /* STHelpAdapter */
   slice_structure_branch,       /* STReadyForHelpMove */
   slice_structure_fork,         /* STSetplayFork */
-  slice_structure_pipe,         /* STTestingForEndOfBranch */
   slice_structure_fork,         /* STEndOfBranch */
   slice_structure_fork,         /* STEndOfBranchForced */
   slice_structure_fork,         /* STEndOfBranchGoal */
@@ -291,7 +290,6 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STHelpAdapter */
   slice_function_proxy,            /* STReadyForHelpMove */
   slice_function_unspecified,      /* STSetplayFork */
-  slice_function_proxy,            /* STTestingForEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranch */
   slice_function_unspecified,      /* STEndOfBranchForced */
   slice_function_unspecified,      /* STEndOfBranchGoal */
@@ -1635,7 +1633,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
   &stip_traverse_structure_setplay_fork,      /* STSetplayFork */
-  &stip_traverse_structure_pipe,              /* STTestingForEndOfBranch */
   &stip_traverse_structure_fork,              /* STEndOfBranch */
   &stip_traverse_structure_fork,              /* STEndOfBranchForced */
   &stip_traverse_structure_fork,              /* STEndOfBranchGoal */
@@ -1920,7 +1917,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_help_adapter,      /* STHelpAdapter */
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */
     &stip_traverse_moves_setplay_fork,      /* STSetplayFork */
-    &stip_traverse_moves_pipe,              /* STTestingForEndOfBranch */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranch */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchForced */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchGoal */
