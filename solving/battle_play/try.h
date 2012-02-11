@@ -88,13 +88,18 @@ refutations_collector_can_attack(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_collector_attack(slice_index si, stip_length_type n);
+stip_length_type refutations_collector_attack(slice_index si,
+                                              stip_length_type n);
 
 /* Instrument the stipulation structure with slices solving tries
  * @param root_slice root slice of the stipulation
  */
 void stip_insert_try_solvers(slice_index si);
 
+/* Spin a separate branch for solving refutations off the STRefutationsSolver
+ * slice
+ * @param si identifies entry branch into stipulation
+ */
 void stip_spin_off_refutation_solver_slices(slice_index si);
 
 #endif

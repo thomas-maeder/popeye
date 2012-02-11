@@ -37,6 +37,7 @@ static slice_index const slice_rank_order[] =
   STThreatStart,
   STConstraintSolver,
   STConstraintTester,
+  STEndOfRefutationSolvingBranch,
   STMinLengthOptimiser,
   STTestingPrerequisites,
   STCastlingFilter,

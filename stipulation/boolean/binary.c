@@ -21,11 +21,8 @@ slice_index alloc_binary_slice(slice_type type,
   TraceFunctionParam("%u",op2);
   TraceFunctionParamListEnd();
 
-  assert(op1!=no_slice);
-  assert(slices[op1].type==STProxy);
-
-  assert(op2!=no_slice);
-  assert(slices[op2].type==STProxy);
+  assert(op1==no_slice || slices[op1].type==STProxy);
+  assert(op2==no_slice || slices[op2].type==STProxy);
 
   result = alloc_slice(type);
   slices[result].u.binary.op1 = op1;
@@ -124,8 +121,10 @@ void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves(slices[si].u.binary.op1,st);
-  stip_traverse_moves(slices[si].u.binary.op2,st);
+  if (slices[si].u.binary.op1!=no_slice)
+    stip_traverse_moves(slices[si].u.binary.op1,st);
+  if (slices[si].u.binary.op2!=no_slice)
+    stip_traverse_moves(slices[si].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

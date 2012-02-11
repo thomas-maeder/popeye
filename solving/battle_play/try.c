@@ -139,7 +139,7 @@ slice_index alloc_refutations_solver(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRefutationsSolver);
+  result = alloc_binary_slice(STRefutationsSolver,no_slice,no_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -170,18 +170,18 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
 
   if (refutations!=table_nil && table_length(refutations)>0)
   {
-    defend(slices[si].u.pipe.next,n);
+    defend(slices[si].u.binary.op1,n);
 
     are_we_solving_refutations = true;
     max_unsolvable = n;
-    defend(slices[si].u.pipe.next,n);
+    defend(slices[si].u.binary.op2,n);
     max_unsolvable = save_max_unsolvable;
     are_we_solving_refutations = false;
 
     result = n;
   }
   else
-    result = defend(slices[si].u.pipe.next,n);
+    result = defend(slices[si].u.binary.op1,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -407,7 +407,8 @@ static structure_traversers_visitors const try_solver_inserters[] =
 
 enum
 {
-  nr_try_solver_inserters = sizeof try_solver_inserters / sizeof try_solver_inserters[0]
+  nr_try_solver_inserters = (sizeof try_solver_inserters
+                             / sizeof try_solver_inserters[0])
 };
 
 /* Instrument the stipulation structure with slices solving tries
@@ -430,6 +431,19 @@ void stip_insert_try_solvers(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static structure_traversers_visitors const to_refutation_branch_copiers[] =
+{
+  { STThreatSolver,                 &stip_traverse_structure_pipe },
+  { STEndOfBranchForced,            &stip_traverse_structure_pipe },
+  { STEndOfRefutationSolvingBranch, &serve_as_hook                }
+};
+
+enum
+{
+  nr_to_refutation_branch_copiers = (sizeof to_refutation_branch_copiers
+                                     / sizeof to_refutation_branch_copiers[0])
+};
+
 static void spin_off_from_refutations_solver(slice_index si,
                                              stip_structure_traversal *st)
 {
@@ -450,8 +464,9 @@ static void spin_off_from_refutations_solver(slice_index si,
   stip_structure_traversal_override_by_structure(&st_nested,
                                                  slice_structure_fork,
                                                  &slice_copy);
-  stip_structure_traversal_override_single(&st_nested,STThreatSolver,&stip_traverse_structure_pipe);
-  stip_structure_traversal_override_single(&st_nested,STEndOfRefutationSolvingBranch,&serve_as_hook);
+  stip_structure_traversal_override(&st_nested,
+                                    to_refutation_branch_copiers,
+                                    nr_to_refutation_branch_copiers);
   stip_traverse_structure(slices[si].u.binary.op1,&st_nested);
 
   assert(spun_off!=no_slice);
@@ -462,6 +477,10 @@ static void spin_off_from_refutations_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Spin a separate branch for solving refutations off the STRefutationsSolver
+ * slice
+ * @param si identifies entry branch into stipulation
+ */
 void stip_spin_off_refutation_solver_slices(slice_index si)
 {
   stip_structure_traversal st;
@@ -470,6 +489,8 @@ void stip_spin_off_refutation_solver_slices(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override_single(&st,
