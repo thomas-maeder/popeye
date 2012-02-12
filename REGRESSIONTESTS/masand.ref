@@ -122,10 +122,10 @@ solution finished.
           2.Qg6-g5 [wQc1, wPd5, wPh5] #
 
 
-              empile:        5620
-            jouecoup:        4139
-        orig_rbechec:       22778
-        orig_rnechec:       13499
+              empile:        5603
+            jouecoup:        4113
+        orig_rbechec:       22754
+        orig_rnechec:       13419
 solution finished. 
 
 
@@ -243,10 +243,10 @@ solution finished.
       1...Re8*e4 !
 
 
-              empile:       15817
-            jouecoup:       13737
-        orig_rbechec:      104924
-        orig_rnechec:       42617
+              empile:       15493
+            jouecoup:       13401
+        orig_rbechec:      102235
+        orig_rnechec:       40789
 solution finished. 
 
 
@@ -289,8 +289,6 @@ solution finished.
 
    1.Rb6-b5 ! threat:
           2.Qg3-c7 [wPa7, wBb8] #
-      1...Bb8-d6
-          2.Qg3-a3 [bPa4, wBd6] #
       1...Sh4-f3 [bSg1] +
           2.Qg3-f4 [wSf3, wPe4, bPf5, wBb8] #
       1...Bb8*g3 [wSh4] +
@@ -299,6 +297,8 @@ solution finished.
           2.Qg3-e3 [bSg1, wPe4, wBf4, wPa7] #
       1...Bb8-e5
           2.Qg3-c3 [wBe5] #
+      1...Bb8-d6
+          2.Qg3-a3 [bPa4, wBd6] #
 
    1.Rb6*b8 ? threat:
           2.Qg3-a3 [bPa4] #
@@ -349,10 +349,10 @@ solution finished.
       1...Kc1*c2 !
 
 
-              empile:        9073
-            jouecoup:        5660
-        orig_rbechec:       14340
-        orig_rnechec:       28276
+              empile:        9110
+            jouecoup:        5700
+        orig_rbechec:       14411
+        orig_rnechec:       28422
 solution finished. 
 
 
@@ -390,10 +390,10 @@ solution finished.
           2.Qe4-e7 [wPf6] #
 
 
-              empile:        3685
-            jouecoup:        1271
-        orig_rbechec:        3241
-        orig_rnechec:        4791
+              empile:        3677
+            jouecoup:        1247
+        orig_rbechec:        3122
+        orig_rnechec:        4757
 solution finished. 
 
 
@@ -440,10 +440,10 @@ solution finished.
 
    1.Kd8-e7 ! threat:
           2.Qe2-e6 [wPg4, wPb6, bPf6, wPf7] #
-      1...Qa5-b4 [wSb2, wPc3, wPa4, wRc4, wPb6] +
-          2.Rc4*d4 [wQb4, wPg4] #
       1...d4-d3
           2.Qe2-e4 [wPd3, wRc4, wPg4] #
+      1...Qa5-b4 [wSb2, wPc3, wPa4, wRc4, wPb6] +
+          2.Rc4*d4 [wQb4, wPg4] #
       1...Qa5-c5 [wRc4, wPd4, wPb6, wPc7] +
           2.Rc4*c5 [wPc3, bPc7] #
       1...Qa5-b5
@@ -460,10 +460,10 @@ solution finished.
       1...f6*e5 !
 
 
-              empile:        9141
-            jouecoup:        6518
-        orig_rbechec:       30765
-        orig_rnechec:       28557
+              empile:        8998
+            jouecoup:        6377
+        orig_rbechec:       29546
+        orig_rnechec:       27918
 solution finished. 
 
 

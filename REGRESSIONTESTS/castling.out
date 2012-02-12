@@ -109,10 +109,10 @@ Loesung beendet.
                   3.0-0-0 #
 
 
-              empile:      151302
-            jouecoup:       60905
-        orig_rbechec:       24007
-        orig_rnechec:       55042
+              empile:      151739
+            jouecoup:       61048
+        orig_rbechec:       24062
+        orig_rnechec:       55155
 Loesung beendet. 
 
 
@@ -155,10 +155,10 @@ Loesung beendet.
                   3.Th3-b3 #
 
 
-              empile:       31699
-            jouecoup:       12811
-        orig_rbechec:        7264
-        orig_rnechec:        8222
+              empile:       31714
+            jouecoup:       12821
+        orig_rbechec:        7267
+        orig_rnechec:        8232
 Loesung beendet. 
 
 
@@ -268,10 +268,10 @@ Loesung beendet.
       1...Kc2-c3 !
 
 
-              empile:       60757
-            jouecoup:       25791
-        orig_rbechec:       10987
-        orig_rnechec:       21305
+              empile:       60780
+            jouecoup:       25801
+        orig_rbechec:       10989
+        orig_rnechec:       21316
 Loesung beendet. 
 
 
@@ -739,10 +739,10 @@ Loesung beendet.
                           4.0-0-0 #
 
 
-              empile:      545985
-            jouecoup:      351271
-        orig_rbechec:      276022
-        orig_rnechec:      106087
+              empile:      527502
+            jouecoup:      332991
+        orig_rbechec:      258646
+        orig_rnechec:      104687
 Loesung beendet. 
 
 
@@ -849,9 +849,9 @@ Loesung beendet.
                   3.Tb8*c8 #
       1...Sc8-e7
           2.Td7*e7 +
-              2...Ke8-d8
-                  3.Tb7-b8 #
               2...Ke8-f8
+                  3.Tb7-b8 #
+              2...Ke8-d8
                   3.Tb7-b8 #
           2.Tb7-b8 +
               2...Se7-c8
@@ -920,10 +920,10 @@ Loesung beendet.
       1...0-0 !
 
 
-              empile:     1099323
-            jouecoup:      800325
-        orig_rbechec:      604495
-        orig_rnechec:      243396
+              empile:     1099108
+            jouecoup:      800089
+        orig_rbechec:      604475
+        orig_rnechec:      243138
 Loesung beendet. 
 
 
@@ -967,10 +967,10 @@ Loesung beendet.
                   3.c7-c8=T #
 
 
-              empile:       14491
-            jouecoup:        7305
-        orig_rbechec:        4524
-        orig_rnechec:        3947
+              empile:       14464
+            jouecoup:        7275
+        orig_rbechec:        4521
+        orig_rnechec:        3918
 Loesung beendet. 
 
 
@@ -1138,10 +1138,10 @@ Loesung beendet.
  48  (Ta1-c1 )
  49  (Ta1-b1 )
 
-              empile:      558546
-            jouecoup:      488687
-        orig_rbechec:      360085
-        orig_rnechec:      171838
+              empile:      558520
+            jouecoup:      488669
+        orig_rbechec:      360079
+        orig_rnechec:      171820
 Loesung beendet. 
 
 
@@ -1286,10 +1286,10 @@ Loesung beendet.
  40  (Ta1-c1 )
  41  (Ta1-b1 )
 
-              empile:     1225472
-            jouecoup:      530988
-        orig_rbechec:      249674
-        orig_rnechec:      431165
+              empile:     1225458
+            jouecoup:      530978
+        orig_rbechec:      249670
+        orig_rnechec:      431153
 Loesung beendet. 
 
 
@@ -1508,10 +1508,10 @@ Loesung beendet.
                   3.De5-h8 #
 
 
-              empile:     1777735
-            jouecoup:     1368034
-        orig_rbechec:      958620
-        orig_rnechec:      486540
+              empile:     1778033
+            jouecoup:     1368058
+        orig_rbechec:      958658
+        orig_rnechec:      486509
 Loesung beendet. 
 
 
@@ -1649,10 +1649,10 @@ Loesung beendet.
       1...f5*e4 !
 
 
-              empile:      543623
-            jouecoup:      352678
-        orig_rbechec:      103834
-        orig_rnechec:      278060
+              empile:      544494
+            jouecoup:      353483
+        orig_rbechec:      103934
+        orig_rnechec:      278865
 Loesung beendet. 
 
 
@@ -2233,10 +2233,10 @@ Loesung beendet.
       1...Kf8-g8 !
 
 
-              empile:     1213721
-            jouecoup:      763095
-        orig_rbechec:      589286
-        orig_rnechec:      243220
+              empile:     1213990
+            jouecoup:      763201
+        orig_rbechec:      589317
+        orig_rnechec:      243305
 Loesung beendet. 
 
 
@@ -3299,10 +3299,10 @@ Loesung beendet.
  12  (Ke1-d2 )
  13  (Ke1-f2 )
 
-              empile:    13262724
-            jouecoup:     8021616
-        orig_rbechec:     7207966
-        orig_rnechec:      838565
+              empile:    13262845
+            jouecoup:     8021824
+        orig_rbechec:     7208173
+        orig_rnechec:      838569
 Loesung beendet. 
 
 
@@ -3408,12 +3408,12 @@ Loesung beendet.
   =2                         10 + 3
 
    1.0-0-0 ! Zugzwang.
-      1...d7*c6
-          2.c7-c8=L =
       1...d7-d5
           2.e5*d6 ep. =
       1...d7-d6
           2.e5*d6 =
+      1...d7*c6
+          2.c7-c8=L =
       1...d7*e6
           2.Td1-f1 =
 
@@ -3868,10 +3868,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.De4-c6 #
       1...c7-c6
           2.De4*c6 +
-              2...Ke8-d8
-                  3.Se5-f7 #
               2...Da7-d7
                   3.Dc6*d7 #
+              2...Ke8-d8
+                  3.Se5-f7 #
       1...Da7*a6
           2.De4-c6 +
               2...Ke8-d8
@@ -3962,11 +3962,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4-g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4-g6 #
               2...Da7-b7
                   3.De4-g6 #
               2...c7-c5
+                  3.De4-g6 #
+              2...c7-c6
                   3.De4-g6 #
               2...Ta8-d8
                   3.De4-g6 #
@@ -3982,11 +3982,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4*g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4*g6 #
               2...Da7-b7
                   3.De4*g6 #
               2...c7-c5
+                  3.De4*g6 #
+              2...c7-c6
                   3.De4*g6 #
               2...Ta8-d8
                   3.De4*g6 #
@@ -4027,11 +4027,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4-g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4-g6 #
               2...Da7-b7
                   3.De4-g6 #
               2...c7-c5
+                  3.De4-g6 #
+              2...c7-c6
                   3.De4-g6 #
               2...g7-g6
                   3.De4-c6 #
@@ -4080,10 +4080,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Dc6-d7 #
       1...c7-c6
           2.De4*c6 +
-              2...Ke8-d8
-                  3.Se5-f7 #
               2...Da7-d7
                   3.Dc6*d7 #
+              2...Ke8-d8
+                  3.Se5-f7 #
       1...Th8-f8
           2.De4-c6 +
               2...Ke8-d8
@@ -4133,11 +4133,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4-g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4-g6 #
               2...Da7-b7
                   3.De4-g6 #
               2...c7-c5
+                  3.De4-g6 #
+              2...c7-c6
                   3.De4-g6 #
               2...Ta8-d8
                   3.De4-g6 #
@@ -4166,11 +4166,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4*g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4*g6 #
               2...Da7-b7
                   3.De4*g6 #
               2...c7-c5
+                  3.De4*g6 #
+              2...c7-c6
                   3.De4*g6 #
               2...Ta8-d8
                   3.De4*g6 #
@@ -4224,11 +4224,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.Th1-f1 Drohung:
                   3.De4-g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4-g6 #
               2...Da7-b7
                   3.De4-g6 #
               2...c7-c5
+                  3.De4-g6 #
+              2...c7-c6
                   3.De4-g6 #
               2...g7-g6
                   3.De4-c6 #
@@ -4237,11 +4237,11 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
           2.0-0 Drohung:
                   3.De4-g6 #
                   3.De4-c6 #
-              2...c7-c6
-                  3.De4-g6 #
               2...Da7-b7
                   3.De4-g6 #
               2...c7-c5
+                  3.De4-g6 #
+              2...c7-c6
                   3.De4-g6 #
               2...g7-g6
                   3.De4-c6 #
@@ -4272,10 +4272,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...0-0 !
 
 
-              empile:      722774
-            jouecoup:      378146
-        orig_rbechec:      134705
-        orig_rnechec:      330669
+              empile:      723970
+            jouecoup:      377282
+        orig_rbechec:      134694
+        orig_rnechec:      329515
 Loesung beendet. 
 
 

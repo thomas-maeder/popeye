@@ -61,10 +61,10 @@ The Problemist 1998 and Sachova skladba 1997
           2.Ba1-e5 #
 
 
-              empile:       10006
-            jouecoup:        8281
-        orig_rbechec:         567
-        orig_rnechec:        8264
+              empile:        9918
+            jouecoup:        8181
+        orig_rbechec:         555
+        orig_rnechec:        8164
 solution finished. 
 
 
@@ -122,10 +122,10 @@ solution finished.
           2.Re7-d7 #
 
 
-              empile:       13475
-            jouecoup:       10482
-        orig_rbechec:         701
-        orig_rnechec:       10485
+              empile:       13337
+            jouecoup:       10338
+        orig_rbechec:         689
+        orig_rnechec:       10341
 solution finished. 
 
 
@@ -239,10 +239,10 @@ solution finished.
 
    1.Rb3-b6 ! threat:
           2.Sa4-c5 #
-      1...Qf3-h1
-          2.Qd6-e5 #
       1...Sd1-e3
           2.Sh3-g5 #
+      1...Qf3-h1
+          2.Qd6-e5 #
       1...Qf3-g2
           2.Qd6-e5 #
       1...Qf3-g4
@@ -269,10 +269,10 @@ solution finished.
           2.Qd6*d4 #
 
 
-              empile:       44501
-            jouecoup:       40584
-        orig_rbechec:        2774
-        orig_rnechec:       40392
+              empile:       43007
+            jouecoup:       38931
+        orig_rbechec:        2646
+        orig_rnechec:       38739
 solution finished. 
 
 

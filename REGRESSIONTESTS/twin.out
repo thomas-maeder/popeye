@@ -517,8 +517,6 @@ Loesung beendet.
 a) 
 
    1.Sg8-f6 !
-      1...Se5-c4
-          2.Df5*g4 #
       1...e3-e2
           2.Tg2-f2 #
       1...Te4-a4
@@ -531,6 +529,8 @@ a)
           2.Sf7*e5 #
       1...Tg4-h4
           2.Sf7*g5 #
+      1...Se5-c4
+          2.Df5*g4 #
       1...Se5-d3
           2.Df5*g4 #
       1...Se5-g6
@@ -558,10 +558,10 @@ a)
 b) Circe
 
    1.Sg8-f6 !
-      1...Te4-a4
-          2.Df5-e4 #
       1...e3-e2
           2.Tg2-f2 #
+      1...Te4-a4
+          2.Df5-e4 #
       1...Te4-b4
           2.Df5-e4 #
       1...Te4-c4
@@ -712,12 +712,12 @@ a)
 b) wBe5-->c5
 
    1.Sh1*f2 !
-      1...Kd4-e3
-          2.Sg3-f5 #
       1...Kd4*c5
           2.Dd8-b6 #
       1...Kd4-e5
           2.Dd8*d6 #
+      1...Kd4-e3
+          2.Sg3-f5 #
       1...Kd4-c3
           2.Dd8-f6 #
 
@@ -835,10 +835,10 @@ a)
           2.Nh7-f3 #
 
 
-              empile:       17604
-            jouecoup:       11466
-        orig_rbechec:         741
-        orig_rnechec:       11468
+              empile:       17571
+            jouecoup:       11425
+        orig_rbechec:         735
+        orig_rnechec:       11427
 b) Circe
 
    1.Gf8-d6 ! Drohung:
@@ -857,10 +857,10 @@ b) Circe
           2.Ng4-h2 #
 
 
-              empile:       16127
-            jouecoup:       10991
-        orig_rbechec:         747
-        orig_rnechec:       10993
+              empile:       16146
+            jouecoup:       11027
+        orig_rbechec:         746
+        orig_rnechec:       11029
 Loesung beendet. 
 
 
@@ -895,10 +895,10 @@ a)
    1.Ld5-b3 ! Drohung:
           2.Tg5-g4 #
           2.Tg5-d5 #
-      1...Ld8*g5 [+wTa1]
-          2.Ta1-a4 #
       1...Db8*d6 [+wLc1]
           2.Lc1-b2 #
+      1...Ld8*g5 [+wTa1]
+          2.Ta1-a4 #
 
 
               empile:        5898
@@ -917,10 +917,10 @@ b) ChamaeleonCirce
           2.Dd1-a4 #
 
 
-              empile:        5485
-            jouecoup:        4107
-        orig_rbechec:         331
-        orig_rnechec:        4109
+              empile:        5471
+            jouecoup:        4099
+        orig_rbechec:         329
+        orig_rnechec:        4101
 c) CirceClone
 
    1.Ld5-a2 ! Drohung:
@@ -932,10 +932,10 @@ c) CirceClone
           2.Lc1-b2 #
 
 
-              empile:        5790
-            jouecoup:        4507
+              empile:        5807
+            jouecoup:        4527
         orig_rbechec:         347
-        orig_rnechec:        4509
+        orig_rnechec:        4529
 Loesung beendet. 
 
 
@@ -980,10 +980,10 @@ a)
           2.Lf1-e2 #
 
 
-              empile:       10636
-            jouecoup:        7386
-        orig_rbechec:         427
-        orig_rnechec:        7388
+              empile:       10608
+            jouecoup:        7357
+        orig_rbechec:         426
+        orig_rnechec:        7359
 b) AndernachSchach
 
    1.Ld4-b6 ! Drohung:
@@ -998,10 +998,10 @@ b) AndernachSchach
           2.Th7-h3 #
 
 
-              empile:       10169
-            jouecoup:        6944
-        orig_rbechec:         396
-        orig_rnechec:        6946
+              empile:       10145
+            jouecoup:        6919
+        orig_rbechec:         395
+        orig_rnechec:        6921
 Loesung beendet. 
 
 
@@ -1047,10 +1047,10 @@ a)
           2.f2-f3 #
 
 
-              empile:        8662
-            jouecoup:        6811
-        orig_rbechec:         567
-        orig_rnechec:        6813
+              empile:        8636
+            jouecoup:        6784
+        orig_rbechec:         565
+        orig_rnechec:        6786
 b) CirceClone
 
    1.Td3-c3 ! Drohung:
@@ -1067,10 +1067,10 @@ b) CirceClone
           2.Lf1-d3 #
 
 
-              empile:        8315
-            jouecoup:        6524
-        orig_rbechec:         528
-        orig_rnechec:        6526
+              empile:        8281
+            jouecoup:        6482
+        orig_rbechec:         525
+        orig_rnechec:        6484
 Loesung beendet. 
 
 
@@ -1112,18 +1112,18 @@ a)
           2.Ta1-d1 #
 
 
-              empile:        8667
-            jouecoup:        6641
-        orig_rbechec:         486
-        orig_rnechec:        6643
+              empile:        8617
+            jouecoup:        6588
+        orig_rbechec:         483
+        orig_rnechec:        6590
 b) CirceClone
 
    1.Se3-f1 ! Drohung:
           2.Lg3-e5 #
-      1...Tb6*d6 [+wTa1]
-          2.Ta1-d1 #
       1...Sh1*g3 [+wSg1]
           2.Sg1-f3 #
+      1...Tb6*d6 [+wTa1]
+          2.Ta1-d1 #
       1...Ld8*e7 [+wLc1]
           2.Lc1-e3 #
 
@@ -1175,10 +1175,10 @@ a)
           2.Lf1-c4 #
 
 
-              empile:        3389
-            jouecoup:        2080
-        orig_rbechec:         253
-        orig_rnechec:        2082
+              empile:        3373
+            jouecoup:        2074
+        orig_rbechec:         251
+        orig_rnechec:        2076
 b) CirceClone
 
    1.Ld4-c5 ! Drohung:
@@ -1195,10 +1195,10 @@ b) CirceClone
           2.Sb1-c3 #
 
 
-              empile:        3740
-            jouecoup:        2505
-        orig_rbechec:         259
-        orig_rnechec:        2507
+              empile:        3680
+            jouecoup:        2454
+        orig_rbechec:         255
+        orig_rnechec:        2456
 Loesung beendet. 
 
 
@@ -1233,8 +1233,6 @@ a)
 
    1.Sd5-c7 ! Drohung:
           2.Lb3-d5 #
-      1...Td8*d7 [+wTh1]
-          2.Th1*h4 [+sDd8] #
       1...d3-d2
           2.Lb3-c2 #
       1...a4*b3 [+wLf1]
@@ -1243,12 +1241,14 @@ a)
           2.Sb1-d2 #
       1...h7*g6 [+wDd1]
           2.Dd1*d3 #
+      1...Td8*d7 [+wTh1]
+          2.Th1*h4 [+sDd8] #
 
 
-              empile:        9017
-            jouecoup:        7210
-        orig_rbechec:         369
-        orig_rnechec:        7212
+              empile:        8868
+            jouecoup:        7050
+        orig_rbechec:         358
+        orig_rnechec:        7052
 b) ChamaeleonCirce
 
    1.Sd5-b4 ! Drohung:
@@ -1263,10 +1263,10 @@ b) ChamaeleonCirce
           2.Dd1*d3 #
 
 
-              empile:        8431
-            jouecoup:        6690
-        orig_rbechec:         338
-        orig_rnechec:        6692
+              empile:        8344
+            jouecoup:        6599
+        orig_rbechec:         332
+        orig_rnechec:        6601
 Loesung beendet. 
 
 
@@ -1358,18 +1358,18 @@ a)
 
    1.Sc6-a7 ! Drohung:
           2.Ld7-c6 #
-      1...Te8*e6 [+wBe2] +
-          2.Ld7*e6 [+sTa8] #
       1...Sf6*d7 [+wLf1]
           2.Lf1*c4 [+sBc7] #
+      1...Te8*e6 [+wBe2] +
+          2.Ld7*e6 [+sTa8] #
       1...Te8*c8 [+wSb1]
           2.Sb1*c3 [+sBc7] #
 
 
-              empile:        3376
-            jouecoup:        2642
-        orig_rbechec:         212
-        orig_rnechec:        2644
+              empile:        3355
+            jouecoup:        2625
+        orig_rbechec:         210
+        orig_rnechec:        2627
 b) ChamaeleonCirce
 
    1.Sc6*a5 [+sTh8] ! Drohung:
@@ -1389,10 +1389,10 @@ b) ChamaeleonCirce
           2.Ld7-c6 #
 
 
-              empile:        4593
-            jouecoup:        3749
-        orig_rbechec:         248
-        orig_rnechec:        3751
+              empile:        4617
+            jouecoup:        3775
+        orig_rbechec:         249
+        orig_rnechec:        3777
 c) CirceClone
 
    1.Sc6-b8 ! Drohung:
@@ -1405,10 +1405,10 @@ c) CirceClone
           2.Th1-d1 #
 
 
-              empile:        3270
-            jouecoup:        2578
-        orig_rbechec:         200
-        orig_rnechec:        2580
+              empile:        3257
+            jouecoup:        2566
+        orig_rbechec:         198
+        orig_rnechec:        2568
 Loesung beendet. 
 
 
@@ -1452,29 +1452,29 @@ a)
           2.Se5*c4 #
 
 
-              empile:       10073
-            jouecoup:        6784
-        orig_rbechec:         772
-        orig_rnechec:        6786
+              empile:        9748
+            jouecoup:        6430
+        orig_rbechec:         737
+        orig_rnechec:        6432
 b) sTc4<-->sBd3
 
    1.Dc8-f5 ! Drohung:
           2.Se5-g4 #
-      1...Kd4-c5
-          2.Se5-d7 #
       1...Td3-e3
           2.Se5-f3 #
           2.Se5-c6 #
+      1...Kd4-c5
+          2.Se5-d7 #
       1...Kd4-e3
           2.Se5*c4 #
       1...Kd4*c3
           2.Se5*d3 #
 
 
-              empile:        9203
-            jouecoup:        6146
-        orig_rbechec:         711
-        orig_rnechec:        6148
+              empile:        8953
+            jouecoup:        5900
+        orig_rbechec:         678
+        orig_rnechec:        5902
 Loesung beendet. 
 
 
@@ -1519,28 +1519,28 @@ a)
           2.Sf6-g4 #
 
 
-              empile:        9473
-            jouecoup:        5935
-        orig_rbechec:         687
-        orig_rnechec:        5937
+              empile:        9606
+            jouecoup:        6033
+        orig_rbechec:         698
+        orig_rnechec:        6035
 b) wKg8-->e8
 
    1.Df1-g2 ! Drohung:
           2.Dg2-g4 #
-      1...Tf3-e3 +
-          2.Sf6-e4 #
       1...Td3-e3 +
           2.Sf6-e4 #
       1...Tf3*f2
           2.Sf6-g4 #
+      1...Tf3-e3 +
+          2.Sf6-e4 #
       1...Tf3-g3
           2.Dg2-e4 #
 
 
-              empile:        7879
-            jouecoup:        5038
-        orig_rbechec:         613
-        orig_rnechec:        5040
+              empile:        7579
+            jouecoup:        4759
+        orig_rbechec:         592
+        orig_rnechec:        4761
 Loesung beendet. 
 
 

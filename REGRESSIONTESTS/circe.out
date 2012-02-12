@@ -37,10 +37,10 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
           2.kLd3*e2 [+skBe7][wkLe2->f1] #
 
 
-              empile:       17593
-            jouecoup:       10202
-        orig_rbechec:         506
-        orig_rnechec:       10204
+              empile:       17516
+            jouecoup:       10090
+        orig_rbechec:         495
+        orig_rnechec:       10092
 Loesung beendet. 
 
 
@@ -189,10 +189,10 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
           2.kTh1*b1 [+skLc8][wkTb1->h1] #
 
 
-              empile:       14777
-            jouecoup:        9457
-        orig_rbechec:         356
-        orig_rnechec:        9410
+              empile:       14745
+            jouecoup:        9323
+        orig_rbechec:         353
+        orig_rnechec:        9276
 Loesung beendet. 
 
 
@@ -331,10 +331,10 @@ Loesung beendet.
                           4.De2*c2 [+sTa8] #
 
 
-              empile:      588037
-            jouecoup:      399210
-        orig_rbechec:      274669
-        orig_rnechec:      143865
+              empile:      588272
+            jouecoup:      399176
+        orig_rbechec:      274703
+        orig_rnechec:      143819
 Loesung beendet. 
 
 

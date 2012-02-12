@@ -42,10 +42,10 @@
           2.Sf5*d6[+wBf5] #
 
 
-              empile:        4640
-            jouecoup:        3239
-        orig_rbechec:         234
-        orig_rnechec:        3241
+              empile:        4607
+            jouecoup:        3175
+        orig_rbechec:         232
+        orig_rnechec:        3177
 Loesung beendet. 
 
 
@@ -171,20 +171,20 @@ Andernach TT 2000, 4. ehrende Erwähnung
 
    1.e3-e4 ! Drohung:
           2.Ta5-a6[+wBa5] #
-      1...Df3-e3[+sBf3]
-          2.Dd8-f6 #
       1...Df3*e4[+sBf3]
           2.Lg6-f7[+wBg6] #
+      1...Df3-e3[+sBf3]
+          2.Dd8-f6 #
       1...Sf8-d7
           2.Dd8*d7 #
       1...Sf8*g6
           2.Dd8-d7 #
 
 
-              empile:       36680
-            jouecoup:       24990
-        orig_rbechec:        1375
-        orig_rnechec:       24980
+              empile:       36322
+            jouecoup:       24651
+        orig_rbechec:        1345
+        orig_rnechec:       24641
 Loesung beendet. 
 
 

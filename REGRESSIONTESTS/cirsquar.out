@@ -140,10 +140,10 @@ a)
           2.Dg6*e4 #
 
 
-              empile:        9529
-            jouecoup:        6443
-        orig_rbechec:         752
-        orig_rnechec:        6445
+              empile:        9309
+            jouecoup:        6238
+        orig_rbechec:         732
+        orig_rnechec:        6240
 b) FileCirce
 
    1.Sb5*a3 [+sBa7] ! Drohung:
@@ -167,10 +167,10 @@ b) FileCirce
           2.Dg6-e4 #
 
 
-              empile:       11782
-            jouecoup:        8484
-        orig_rbechec:         901
-        orig_rnechec:        8487
+              empile:       11563
+            jouecoup:        8297
+        orig_rbechec:         877
+        orig_rnechec:        8300
 Loesung beendet. 
 
 
@@ -327,10 +327,10 @@ Loesung beendet.
           2.Kb5-b6 #
 
 
-              empile:        4790
-            jouecoup:        1334
-        orig_rbechec:        2085
-        orig_rnechec:        2790
+              empile:        4876
+            jouecoup:        1387
+        orig_rbechec:        2154
+        orig_rnechec:        2878
 Loesung beendet. 
 
 
@@ -766,8 +766,6 @@ Loesung beendet.
    1.LEd4-f2 ! Drohung:
           2.Sc4-e3 #
           2.Sc4-d6 #
-      1...Td3-e3
-          2.Ld1-f3 #
       1...Db1*d1 [+wLe8]
           2.Sc4-e3 #
       1...Td3*d1 [+wLe8]
@@ -778,6 +776,8 @@ Loesung beendet.
           2.Sc4-d6 #
       1...Td3-d4
           2.LEg4-f4 #
+      1...Td3-e3
+          2.Ld1-f3 #
       1...Lc5-e3
           2.Sh1-g3 #
       1...Lc5-d4
@@ -786,10 +786,10 @@ Loesung beendet.
           2.LEg8-c8 #
 
 
-              empile:       77640
-            jouecoup:       45554
-        orig_rbechec:        2280
-        orig_rnechec:       45556
+              empile:       77361
+            jouecoup:       45184
+        orig_rbechec:        2256
+        orig_rnechec:       45186
 Loesung beendet. 
 
 
@@ -835,10 +835,10 @@ Loesung beendet.
                   3.Dc7-h7 #
 
 
-              empile:       62661
-            jouecoup:       44806
-        orig_rbechec:       22721
-        orig_rnechec:       24178
+              empile:       62632
+            jouecoup:       44776
+        orig_rbechec:       22720
+        orig_rnechec:       24148
 Loesung beendet. 
 
 
@@ -870,8 +870,6 @@ Loesung beendet.
 
    1.Le4-d5 ! Drohung:
           2.Dc6-c5 #
-      1...Tc7*c6 [+wDf3] +
-          2.Sb4*c6 #
       1...Le6*d5 [+wLe4]
           2.Dc6*f6 [+sSc3] #
       1...Sf6*d5 [+wLe4]
@@ -880,14 +878,16 @@ Loesung beendet.
           2.Dc6-c3 #
       1...Da7-c5 +
           2.Lf8*c5 [+sDf4] #
+      1...Tc7*c6 [+wDf3] +
+          2.Sb4*c6 #
       1...Tc7-e7
           2.Dc6-c4 #
 
 
-              empile:       14260
-            jouecoup:       11869
-        orig_rbechec:         555
-        orig_rnechec:       11871
+              empile:       13866
+            jouecoup:       11507
+        orig_rbechec:         542
+        orig_rnechec:       11509
 Loesung beendet. 
 
 
@@ -931,10 +931,10 @@ Loesung beendet.
           2.Se5-c6 #
 
 
-              empile:        5420
-            jouecoup:        3625
-        orig_rbechec:         448
-        orig_rnechec:        3627
+              empile:        5282
+            jouecoup:        3486
+        orig_rbechec:         428
+        orig_rnechec:        3488
 Loesung beendet. 
 
 

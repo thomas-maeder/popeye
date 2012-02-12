@@ -136,8 +136,6 @@ Loesung beendet.
    1.Df3-c6 ! Drohung:
           2.Lb4-c3 #
           2.Te3-e4 #
-      1...Tc7*c6
-          2.Lb4-d2 [+wDe4] #
       1...Sd3-b2
           2.Lb4-c3 #
           2.Lb4-c5 #
@@ -162,16 +160,18 @@ Loesung beendet.
           2.Kh3-h4 [+wTe4] #
       1...Lb7*c6
           2.Te3-e1 [+wDc4] #
+      1...Tc7*c6
+          2.Lb4-d2 [+wDe4] #
       1...Dd7*c6
           2.Te7-d7 [+wDb6] #
       1...Dd7-d5
           2.Lb4-c3 #
 
 
-              empile:       17209
-            jouecoup:       12374
-        orig_rbechec:         873
-        orig_rnechec:       12376
+              empile:       16325
+            jouecoup:       11415
+        orig_rbechec:         817
+        orig_rnechec:       11417
 Loesung beendet. 
 
 
@@ -202,12 +202,12 @@ Loesung beendet.
              CirceParrain
 
    1.Th2-h8 ! Zugzwang.
-      1...Db8*a7
-          2.Th8-h2 [+wLa1] #
       1...f5*e4
           2.Th8-h7 [+wBe3] #
       1...d6*c5
           2.Th8-h6 [+wBc3] #
+      1...Db8*a7
+          2.Th8-h2 [+wLa1] #
       1...Db8*c7
           2.Th8-h5 [+wTc4] #
       1...Db8*b7
@@ -348,10 +348,10 @@ Loesung beendet.
       1...Sh5*g7 !
 
 
-              empile:       26942
-            jouecoup:       17227
-        orig_rbechec:         722
-        orig_rnechec:       17104
+              empile:       26935
+            jouecoup:       17162
+        orig_rbechec:         712
+        orig_rnechec:       17039
 Loesung beendet. 
 
 
@@ -395,10 +395,10 @@ Loesung beendet.
           2.Sg6-e7 [+wDb7] #
 
 
-              empile:       36222
-            jouecoup:       26150
-        orig_rbechec:        1265
-        orig_rnechec:       26152
+              empile:       34756
+            jouecoup:       24588
+        orig_rbechec:        1178
+        orig_rnechec:       24590
 Loesung beendet. 
 
 
@@ -460,10 +460,10 @@ Loesung beendet.
       1...Sh7-f8 !
 
 
-              empile:       22099
-            jouecoup:       14647
-        orig_rbechec:         979
-        orig_rnechec:       14591
+              empile:       21785
+            jouecoup:       14231
+        orig_rbechec:         944
+        orig_rnechec:       14175
 Loesung beendet. 
 
 

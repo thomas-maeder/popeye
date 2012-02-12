@@ -217,24 +217,24 @@ Loesung beendet.
 
    1.Lg1-a7 ! Drohung:
           2.f3-f4 #
-      1...Sc3-b1
-          2.Sb2-d3 #
       1...Sa3-b1
           2.Sb2-c4 #
       1...Sa3-c4
           2.Sb2*c4 #
       1...Sa3-b5
           2.Sb2-c4 #
+      1...Sc3-b1
+          2.Sb2-d3 #
       1...Sc3-d1
           2.Sb2-d3 #
       1...Sc3-b5
           2.Sb2-d3 #
 
 
-              empile:        9672
-            jouecoup:        3256
-        orig_rbechec:        6707
-        orig_rnechec:        8774
+              empile:        9253
+            jouecoup:        3003
+        orig_rbechec:        6538
+        orig_rnechec:        8102
 Loesung beendet. 
 
 

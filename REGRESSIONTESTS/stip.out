@@ -1151,9 +1151,9 @@ c) exact-#3
    1.d7-d8=L !
       1...c6-c5
           2.Ka7*b6
-              2...c5*d4
-                  3.Ld8-c7 #
               2...c5-c4
+                  3.Ld8-c7 #
+              2...c5*d4
                   3.Ld8-c7 #
 
 
@@ -1554,10 +1554,10 @@ Loesung beendet.
                   3.Sc8-d6 z
 
 
-              empile:       10443
-            jouecoup:        3757
-        orig_rbechec:        2558
-        orig_rnechec:        1207
+              empile:       10275
+            jouecoup:        3729
+        orig_rbechec:        2548
+        orig_rnechec:        1189
 Loesung beendet. 
 
 

@@ -35,11 +35,11 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
    1.Qa4-d7 ! threat:
           2.Qd7-c8[wK<>bK] #
           2.Qd7-a7[wK<>bK] #
-      1...Sa5-b7
-          2.Qd7*b7[wK<>bK] #
       1...Sa5-c6
           2.Qd7-c8[wK<>bK] #
           2.Qd7-b7[wK<>bK] #
+      1...Sa5-b7
+          2.Qd7*b7[wK<>bK] #
       1...Ka6-b6
           2.Qd7-a7[wK<>bK] #
           2.Qd7-d8[wK<>bK] #
@@ -64,10 +64,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
       1...h7-h6 !
 
 
-              empile:        4015
-            jouecoup:        2884
-        orig_rbechec:        1388
-        orig_rnechec:        4665
+              empile:        3987
+            jouecoup:        2826
+        orig_rbechec:        1358
+        orig_rnechec:        4573
 solution finished. 
 
 
@@ -344,10 +344,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
                   3.Qg6-g2[wK<>bK] #
 
 
-              empile:       32167
-            jouecoup:       22075
-        orig_rbechec:        8307
-        orig_rnechec:       37566
+              empile:       32196
+            jouecoup:       22104
+        orig_rbechec:        8326
+        orig_rnechec:       37607
 solution finished. 
 
 

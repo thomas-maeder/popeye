@@ -228,14 +228,13 @@ static void substitute_killermove_machinery(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (enabled[slices[si].starter])
+  if (enabled[slices[si].starter] && *testing)
   {
     if (context==stip_traversal_context_attack)
     {
       slice_index const prototype = alloc_killer_move_collector_slice();
       attack_branch_insert_slices(si,&prototype,1);
-      if (*testing)
-        pipe_substitute(si,alloc_killer_move_move_generator_slice());
+      pipe_substitute(si,alloc_killer_move_move_generator_slice());
     }
     else if (context==stip_traversal_context_defense)
     {
@@ -249,7 +248,7 @@ static void substitute_killermove_machinery(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remember_testing(slice_index si, stip_structure_traversal *st)
+static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
 {
   boolean * const testing = st->param;
   boolean const save_testing = *testing;
@@ -262,6 +261,26 @@ static void remember_testing(slice_index si, stip_structure_traversal *st)
 
   *testing = true;
   stip_traverse_structure(slices[si].u.fork.fork,st );
+  *testing = save_testing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_conditional_pipe(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *testing = true;
+  stip_traverse_structure_next_branch(si,st );
   *testing = save_testing;
 
   TraceFunctionExit(__func__);
@@ -296,7 +315,10 @@ static void optimise_move_generators(slice_index si)
   stip_structure_traversal_init(&st,&testing);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &remember_testing);
+                                                &remember_testing_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &remember_conditional_pipe);
   stip_structure_traversal_override(&st,
                                     killer_move_collector_inserters,
                                     nr_killer_move_collector_inserters);

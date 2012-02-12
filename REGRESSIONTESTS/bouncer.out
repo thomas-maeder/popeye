@@ -127,8 +127,6 @@ Loesung beendet.
       1...B1g5-g7 !
 
    1.Tg8-h8 ! Zugzwang.
-      1...B1g5-g7
-          2.B1f6-e5 #
       1...B1a3-b3
           2.B1b5-b7 #
       1...B1a3-a4
@@ -139,6 +137,8 @@ Loesung beendet.
           2.B1b5-b6 #
       1...B1g5-f5
           2.B1f6*f7 #
+      1...B1g5-g7
+          2.B1f6-e5 #
       1...B1g5-h4
           2.B1f6-d8 #
       1...e6-e5
@@ -182,9 +182,9 @@ Loesung beendet.
 
 
               empile:        9983
-            jouecoup:        7061
+            jouecoup:        7068
         orig_rbechec:         407
-        orig_rnechec:        6949
+        orig_rnechec:        6956
 Loesung beendet. 
 
 

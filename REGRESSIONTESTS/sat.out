@@ -200,10 +200,10 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
 
-              empile:    22526793
-            jouecoup:    18917108
-        orig_rbechec:    16164476
-        orig_rnechec:     5360581
+              empile:    22526630
+            jouecoup:    18916959
+        orig_rbechec:    16164345
+        orig_rnechec:     5360552
 Loesung beendet. 
 
 
@@ -368,8 +368,6 @@ Loesung beendet.
                  SAT
 
    1.Dg1-f2 ! Zugzwang.
-      1...Sd2-f1
-          2.Df2*c2 #
       1...Sd1*f2
           2.Te1*c1 #
       1...Sd1-e3
@@ -378,6 +376,8 @@ Loesung beendet.
           2.Te1*c1 #
       1...Sd1-b2
           2.Te1*c1 #
+      1...Sd2-f1
+          2.Df2*c2 #
       1...Sd2-f3
           2.Df2*c2 #
       1...Sd2-e4
@@ -388,8 +388,6 @@ Loesung beendet.
           2.Df2*c2 #
 
    1.Te1-e2 ! Zugzwang.
-      1...Sd2-f1
-          2.Te2*c2 #
       1...Sd1-f2
           2.Dg1*c1 #
       1...Sd1-e3
@@ -398,6 +396,8 @@ Loesung beendet.
           2.Dg1*c1 #
       1...Sd1-b2
           2.Dg1*c1 #
+      1...Sd2-f1
+          2.Te2*c2 #
       1...Sd2-f3
           2.Te2*c2 #
       1...Sd2-e4
@@ -669,10 +669,10 @@ Loesung beendet.
       1...Kd1-e1 !
 
 
-              empile:       55306
-            jouecoup:       39816
-        orig_rbechec:       28711
-        orig_rnechec:       15306
+              empile:       55808
+            jouecoup:       40199
+        orig_rbechec:       28986
+        orig_rnechec:       15455
 Loesung beendet. 
 
 

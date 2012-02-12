@@ -54,10 +54,10 @@
                           4.Tf8-h8 #
 
 
-              empile:       13090
-            jouecoup:        8005
-        orig_rbechec:        5099
-        orig_rnechec:        3448
+              empile:       13075
+            jouecoup:        7998
+        orig_rbechec:        5096
+        orig_rnechec:        3441
 Loesung beendet. 
 
 
@@ -115,29 +115,29 @@ Loesung beendet.
                   3.Kb2-c3
                       3...La8-h1
                           4.Kc3-d4
-                              4...Sa7-c8
-                                  5.Kd4-e5 #
                               4...Lh1-a8
+                                  5.Kd4-e5 #
+                              4...Sa7-c8
                                   5.Kd4-e5 #
                       3...Sa7-c8
                           4.Kc3-d4
-                              4...Sc8-a7
-                                  5.Kd4-e5 #
                               4...La8-h1
+                                  5.Kd4-e5 #
+                              4...Sc8-a7
                                   5.Kd4-e5 #
               2...La8-h1
                   3.Kb2-c3
                       3...Sc8-a7
                           4.Kc3-d4
-                              4...Sa7-c8
-                                  5.Kd4-e5 #
                               4...Lh1-a8
+                                  5.Kd4-e5 #
+                              4...Sa7-c8
                                   5.Kd4-e5 #
                       3...Lh1-a8
                           4.Kc3-d4
-                              4...Sc8-a7
-                                  5.Kd4-e5 #
                               4...La8-h1
+                                  5.Kd4-e5 #
+                              4...Sc8-a7
                                   5.Kd4-e5 #
 
 
@@ -542,10 +542,10 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-              empile:     2188854
-            jouecoup:      439511
-        orig_rbechec:      453544
-        orig_rnechec:      236406
+              empile:     2188915
+            jouecoup:      439518
+        orig_rbechec:      453553
+        orig_rnechec:      236413
 Loesung beendet. 
 
 

@@ -122,10 +122,10 @@ Loesung beendet.
           2.Dg6-g5 [wDc1, wBd5, wBh5] #
 
 
-              empile:        5620
-            jouecoup:        4139
-        orig_rbechec:       22778
-        orig_rnechec:       13499
+              empile:        5603
+            jouecoup:        4113
+        orig_rbechec:       22754
+        orig_rnechec:       13419
 Loesung beendet. 
 
 
@@ -243,10 +243,10 @@ Loesung beendet.
       1...Te8*e4 !
 
 
-              empile:       15817
-            jouecoup:       13737
-        orig_rbechec:      104924
-        orig_rnechec:       42617
+              empile:       15493
+            jouecoup:       13401
+        orig_rbechec:      102235
+        orig_rnechec:       40789
 Loesung beendet. 
 
 
@@ -289,8 +289,6 @@ Loesung beendet.
 
    1.Tb6-b5 ! Drohung:
           2.Dg3-c7 [wBa7, wLb8] #
-      1...Lb8-d6
-          2.Dg3-a3 [sBa4, wLd6] #
       1...Sh4-f3 [sSg1] +
           2.Dg3-f4 [wSf3, wBe4, sBf5, wLb8] #
       1...Lb8*g3 [wSh4] +
@@ -299,6 +297,8 @@ Loesung beendet.
           2.Dg3-e3 [sSg1, wBe4, wLf4, wBa7] #
       1...Lb8-e5
           2.Dg3-c3 [wLe5] #
+      1...Lb8-d6
+          2.Dg3-a3 [sBa4, wLd6] #
 
    1.Tb6*b8 ? Drohung:
           2.Dg3-a3 [sBa4] #
@@ -349,10 +349,10 @@ Loesung beendet.
       1...Kc1*c2 !
 
 
-              empile:        9073
-            jouecoup:        5660
-        orig_rbechec:       14340
-        orig_rnechec:       28276
+              empile:        9110
+            jouecoup:        5700
+        orig_rbechec:       14411
+        orig_rnechec:       28422
 Loesung beendet. 
 
 
@@ -390,10 +390,10 @@ Loesung beendet.
           2.De4-e7 [wBf6] #
 
 
-              empile:        3685
-            jouecoup:        1271
-        orig_rbechec:        3241
-        orig_rnechec:        4791
+              empile:        3677
+            jouecoup:        1247
+        orig_rbechec:        3122
+        orig_rnechec:        4757
 Loesung beendet. 
 
 
@@ -440,10 +440,10 @@ Loesung beendet.
 
    1.Kd8-e7 ! Drohung:
           2.De2-e6 [wBg4, wBb6, sBf6, wBf7] #
-      1...Da5-b4 [wSb2, wBc3, wBa4, wTc4, wBb6] +
-          2.Tc4*d4 [wDb4, wBg4] #
       1...d4-d3
           2.De2-e4 [wBd3, wTc4, wBg4] #
+      1...Da5-b4 [wSb2, wBc3, wBa4, wTc4, wBb6] +
+          2.Tc4*d4 [wDb4, wBg4] #
       1...Da5-c5 [wTc4, wBd4, wBb6, wBc7] +
           2.Tc4*c5 [wBc3, sBc7] #
       1...Da5-b5
@@ -460,10 +460,10 @@ Loesung beendet.
       1...f6*e5 !
 
 
-              empile:        9141
-            jouecoup:        6518
-        orig_rbechec:       30765
-        orig_rnechec:       28557
+              empile:        8998
+            jouecoup:        6377
+        orig_rbechec:       29546
+        orig_rnechec:       27918
 Loesung beendet. 
 
 

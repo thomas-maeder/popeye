@@ -116,10 +116,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = move_generator_defend(si,n);
       break;
 
-    case STKillerMoveMoveGenerator:
-      result = killer_move_move_generator_defend(si,n);
-      break;
-
     case STCountNrOpponentMovesMoveGenerator:
       result = countnropponentmoves_move_generator_defend(si,n);
       break;
@@ -200,10 +196,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STEnPassantFilter:
       result = enpassant_filter_defend(si,n);
-      break;
-
-    case STKillerMoveCollector:
-      result = killer_move_collector_defend(si,n);
       break;
 
     case STCounterMateFilter:

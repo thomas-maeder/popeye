@@ -40,9 +40,9 @@
 
 
               empile:       11062
-            jouecoup:        6172
+            jouecoup:        6165
         orig_rbechec:         354
-        orig_rnechec:        6174
+        orig_rnechec:        6167
 Loesung beendet. 
 
 
@@ -110,18 +110,18 @@ Loesung beendet.
 
    1.Le4-g6 ! Drohung:
           2.Tb5-h5 #
-      1...Sb4-d5
-          2.Tb5*d5 [+wSg8] #
       1...Ta4-a5
           2.Tb5*a5 [+wTh8] #
+      1...Sb4-d5
+          2.Tb5*d5 [+wSg8] #
       1...La7-c5
           2.Tb5*c5 [+wLf8] #
 
 
               empile:        4477
-            jouecoup:        2836
-        orig_rbechec:         226
-        orig_rnechec:        2838
+            jouecoup:        2817
+        orig_rbechec:         225
+        orig_rnechec:        2819
 Loesung beendet. 
 
 

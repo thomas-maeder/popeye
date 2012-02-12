@@ -79,10 +79,10 @@ Loesung beendet.
                       3...cDd4*f2=cS #
 
 
-              empile:      588281
-            jouecoup:      257135
-        orig_rbechec:      255842
-        orig_rnechec:      163594
+              empile:      587067
+            jouecoup:      256506
+        orig_rbechec:      255213
+        orig_rnechec:      163312
 Loesung beendet. 
 
 
@@ -162,10 +162,10 @@ Loesung beendet.
       1...Kd4*e3 !
 
 
-              empile:       27661
-            jouecoup:       19132
-        orig_rbechec:        1420
-        orig_rnechec:       18999
+              empile:       27168
+            jouecoup:       18522
+        orig_rbechec:        1374
+        orig_rnechec:       18389
 Loesung beendet. 
 
 
@@ -242,8 +242,6 @@ Loesung beendet.
 
    1.cTc6-c7=cD ! Drohung:
           2.cDc7-c4=cS #
-      1...ncSf4-d5=ncL
-          2.cSd6-e4=cL #
       1...ncSf4-d3=ncL
           2.cSd6-c4=cL #
       1...ncSf4-g2=ncL
@@ -252,12 +250,14 @@ Loesung beendet.
           2.cSd6-b7=cL #
       1...ncSf4-e6=ncL
           2.cSd6-f5=cL #
+      1...ncSf4-d5=ncL
+          2.cSd6-e4=cL #
 
 
-              empile:       10057
-            jouecoup:        5800
-        orig_rbechec:         496
-        orig_rnechec:        5802
+              empile:       10017
+            jouecoup:        5709
+        orig_rbechec:         491
+        orig_rnechec:        5711
 Loesung beendet. 
 
 
@@ -288,11 +288,11 @@ Loesung beendet.
             Chamaeleon b5
 
    1.ncLb5-e8=ncT ! Zugzwang.
-      1...Se7-f5
-          2.nBg7-g8=ncL #
       1...Se7-c6
           2.nBg7-g8=ncL #
       1...Se7-d5
+          2.nBg7-g8=ncL #
+      1...Se7-f5
           2.nBg7-g8=ncL #
       1...Se7-g6
           2.nBg7-g8=ncL #
@@ -353,10 +353,10 @@ Loesung beendet.
           2.cDc7*c5=cS #
 
 
-              empile:       12251
-            jouecoup:        7616
-        orig_rbechec:         607
-        orig_rnechec:        7618
+              empile:       12197
+            jouecoup:        7552
+        orig_rbechec:         604
+        orig_rnechec:        7554
 Loesung beendet. 
 
 
@@ -522,10 +522,10 @@ Loesung beendet.
                   3.Se4-g5 #
 
 
-              empile:      123588
-            jouecoup:       66040
-        orig_rbechec:        7176
-        orig_rnechec:       64442
+              empile:      122150
+            jouecoup:       65378
+        orig_rbechec:        7129
+        orig_rnechec:       63813
 Loesung beendet. 
 
 
@@ -620,10 +620,10 @@ Loesung beendet.
           2.cDd1*f3=cS [+sBf7] #
 
 
-              empile:        6262
-            jouecoup:        3634
-        orig_rbechec:         309
-        orig_rnechec:        3636
+              empile:        6137
+            jouecoup:        3403
+        orig_rbechec:         298
+        orig_rnechec:        3405
 Loesung beendet. 
 
 

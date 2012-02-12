@@ -380,10 +380,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = line_writer_attack(si,n);
       break;
 
-    case STKillerMoveCollector:
-      result = killer_move_collector_attack(si,n);
-      break;
-
     case STBGLFilter:
       result = bgl_filter_attack(si,n);
       break;

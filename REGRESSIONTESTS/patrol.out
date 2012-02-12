@@ -36,10 +36,10 @@
           2.Db6-c5 #
 
 
-              empile:       20224
-            jouecoup:        9354
-        orig_rbechec:        4682
-        orig_rnechec:       19756
+              empile:       20191
+            jouecoup:        9317
+        orig_rbechec:        4662
+        orig_rnechec:       19682
 Loesung beendet. 
 
 
@@ -70,9 +70,6 @@ F1291, The Problemist 14/1-2, 1-3/1992
            PatrouilleSchach
 
    1.a3*b4 ! Zugzwang.
-      1...Lb1-e4
-          2.Sc1-d3 #
-          2.Sc1-a2 #
       1...Ta1-a3
           2.Sc1-d3 #
           2.Sc1-a2 #
@@ -85,6 +82,9 @@ F1291, The Problemist 14/1-2, 1-3/1992
           2.Sc1-a2 #
       1...Lb1-f5
           2.Sc4-e3 #
+          2.Sc1-a2 #
+      1...Lb1-e4
+          2.Sc1-d3 #
           2.Sc1-a2 #
       1...Lb1-d3
           2.Sc1*d3 #
@@ -200,14 +200,14 @@ Loesung beendet.
            PatrouilleSchach
 
    1.Sf3-g5 + !
-      1...Ke4*f5
-          2.La8-e4 #
       1...Ke4*e5
           2.Sg5-e4 #
       1...Ke4-e3
           2.Ta4-e4 #
       1...Ke4-d5
           2.Dh1-e4 #
+      1...Ke4*f5
+          2.La8-e4 #
 
 
               empile:        4939

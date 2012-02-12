@@ -148,10 +148,10 @@ solution finished.
       1...b7*a6 !
 
 
-              empile:       16828
-            jouecoup:        6489
+              empile:       17086
+            jouecoup:        6563
         orig_rbechec:        3860
-        orig_rnechec:       16083
+        orig_rnechec:       16518
 solution finished. 
 
 
@@ -198,10 +198,10 @@ solution finished.
           2.Sc4-e3[+bKe6] #
 
 
-              empile:       48656
-            jouecoup:       13379
+              empile:       49041
+            jouecoup:       13457
         orig_rbechec:        8945
-        orig_rnechec:       34255
+        orig_rnechec:       34758
 solution finished. 
 
 
@@ -390,9 +390,6 @@ solution finished.
       1...cBd1-b3=cR !
 
    1.Rc7-b7 ! zugzwang.
-      1...cBd1-e2=cR
-          2.Re7-c7
-              2...cRe2-e8=cQ[+wKc8] #
       1...cBd1-h5=cR
           2.Rb7-b3
               2...cRh5-a5=cQ[+wKa3] #
@@ -402,6 +399,9 @@ solution finished.
       1...cBd1-f3=cR
           2.Re7-h7
               2...cRf3-f8=cQ[+wKh8] #
+      1...cBd1-e2=cR
+          2.Re7-c7
+              2...cRe2-e8=cQ[+wKc8] #
       1...cBd1-a4=cR
           2.Rb7-b3
               2...cRa4-a5=cQ[+wKa3] #

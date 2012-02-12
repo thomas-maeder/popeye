@@ -200,10 +200,10 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
 
-              empile:    22526793
-            jouecoup:    18917108
-        orig_rbechec:    16164476
-        orig_rnechec:     5360581
+              empile:    22526630
+            jouecoup:    18916959
+        orig_rbechec:    16164345
+        orig_rnechec:     5360552
 solution finished. 
 
 
@@ -368,8 +368,6 @@ solution finished.
                  SAT
 
    1.Qg1-f2 ! zugzwang.
-      1...Sd2-f1
-          2.Qf2*c2 #
       1...Sd1*f2
           2.Re1*c1 #
       1...Sd1-e3
@@ -378,6 +376,8 @@ solution finished.
           2.Re1*c1 #
       1...Sd1-b2
           2.Re1*c1 #
+      1...Sd2-f1
+          2.Qf2*c2 #
       1...Sd2-f3
           2.Qf2*c2 #
       1...Sd2-e4
@@ -388,8 +388,6 @@ solution finished.
           2.Qf2*c2 #
 
    1.Re1-e2 ! zugzwang.
-      1...Sd2-f1
-          2.Re2*c2 #
       1...Sd1-f2
           2.Qg1*c1 #
       1...Sd1-e3
@@ -398,6 +396,8 @@ solution finished.
           2.Qg1*c1 #
       1...Sd1-b2
           2.Qg1*c1 #
+      1...Sd2-f1
+          2.Re2*c2 #
       1...Sd2-f3
           2.Re2*c2 #
       1...Sd2-e4
@@ -669,10 +669,10 @@ solution finished.
       1...Kd1-e1 !
 
 
-              empile:       55306
-            jouecoup:       39816
-        orig_rbechec:       28711
-        orig_rnechec:       15306
+              empile:       55808
+            jouecoup:       40199
+        orig_rbechec:       28986
+        orig_rnechec:       15455
 solution finished. 
 
 

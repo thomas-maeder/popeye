@@ -88,15 +88,15 @@ Loesung beendet.
           2.c6*b7 #=
       1...Dc7*d7
           2.c6-c7 +
-              2...Kb8*c7 #=
               2...Dd7*c7 #=
               2...Kb8-c8 #=
+              2...Kb8*c7 #=
 
 
-              empile:        6357
-            jouecoup:        3134
-        orig_rbechec:        1688
-        orig_rnechec:        2113
+              empile:        5816
+            jouecoup:        2815
+        orig_rbechec:        1560
+        orig_rnechec:        1883
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
           2.Dh6-d2 #
 
 
-              empile:        8136
-            jouecoup:        4566
-        orig_rbechec:        4120
-        orig_rnechec:        3089
+              empile:        7981
+            jouecoup:        4438
+        orig_rbechec:        4026
+        orig_rnechec:        3011
 Loesung beendet. 
 
 

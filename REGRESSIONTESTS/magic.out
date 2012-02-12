@@ -590,9 +590,6 @@ Loesung beendet.
    1.La4-c2 ! Drohung:
           2.Tb5-a5
               2...Tc4*c8 #
-      1...Tc4-d4
-          2.f7-f8=sD
-              2...Df8*c8 #
       1...Ta2-a5
           2.f7-f8=sD
               2...Tc4*c8 #
@@ -669,6 +666,9 @@ Loesung beendet.
       1...Tc4*e4
           2.f7-f8=sS
               2...Sf8-d7 #
+      1...Tc4-d4
+          2.f7-f8=sD
+              2...Df8*c8 #
 
    1.La4-b3 ? Drohung:
           2.Tb5-a5
@@ -772,10 +772,10 @@ Loesung beendet.
       1...Sh2-g4=wS !
 
 
-              empile:      396754
-            jouecoup:      365554
-        orig_rbechec:      312468
-        orig_rnechec:       58592
+              empile:      397226
+            jouecoup:      366038
+        orig_rbechec:      312952
+        orig_rnechec:       58601
 Loesung beendet. 
 
 
@@ -932,14 +932,14 @@ Loesung beendet.
    1.Sd4-f3=sS !
       1...Sf3-d4
           2.c2-c3
-              2...Sd4-f5
-                  3.Tf4*f5 #
               2...Sd4-b3
                   3.Tf4-f5 #
               2...Sd4-c2
                   3.Tf4-f5 #
               2...Sd4-e2
                   3.Tf4-f5 #
+              2...Sd4-f5
+                  3.Tf4*f5 #
               2...Sd4-e6
                   3.Tf4-f5 #
               2...Sd4*c6
@@ -1000,10 +1000,10 @@ Loesung beendet.
                           4.Le1-c3 #
 
 
-              empile:      284761
-            jouecoup:      130454
-        orig_rbechec:       71584
-        orig_rnechec:       77343
+              empile:      284771
+            jouecoup:      130458
+        orig_rbechec:       71586
+        orig_rnechec:       77347
 Loesung beendet. 
 
 

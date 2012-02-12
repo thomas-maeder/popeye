@@ -1071,9 +1071,9 @@ solution finished.
               2...a3*b2 #
 
 
-              empile:        3898
-            jouecoup:        2082
-        orig_rbechec:        2069
+              empile:        3901
+            jouecoup:        2085
+        orig_rbechec:        2072
         orig_rnechec:         981
 solution finished. 
 

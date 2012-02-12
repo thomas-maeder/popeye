@@ -136,10 +136,10 @@ Loesung beendet.
  12  (Lc1-a3 )
  13  (Lc1-b2 )
 
-              empile:     6653013
-            jouecoup:     5340902
-        orig_rbechec:     3548826
-        orig_rnechec:     1908477
+              empile:     6657577
+            jouecoup:     5345223
+        orig_rbechec:     3552417
+        orig_rnechec:     1909263
 Loesung beendet. 
 
 
@@ -319,10 +319,10 @@ Loesung beendet.
                   3.Dc5-d5 #
 
 
-              empile:      504953
-            jouecoup:      363288
-        orig_rbechec:       98080
-        orig_rnechec:      275020
+              empile:      503650
+            jouecoup:      362418
+        orig_rbechec:       98032
+        orig_rnechec:      274178
 Loesung beendet. 
 
 
@@ -515,10 +515,10 @@ Loesung beendet.
               2...Dg2*f1 #
 
 
-              empile:       57605
-            jouecoup:       23834
-        orig_rbechec:       23840
-        orig_rnechec:       12630
+              empile:       57051
+            jouecoup:       23317
+        orig_rbechec:       23323
+        orig_rnechec:       12300
 Loesung beendet. 
 
 
@@ -1093,10 +1093,10 @@ Loesung beendet.
                   3.TJb8*f4 #
 
 
-              empile:     1796209
-            jouecoup:     1426145
-        orig_rbechec:      816938
-        orig_rnechec:      657445
+              empile:     1795980
+            jouecoup:     1425970
+        orig_rbechec:      816932
+        orig_rnechec:      657270
 Loesung beendet. 
 
 
@@ -1140,24 +1140,24 @@ Loesung beendet.
                           4.La2*c4 #
               2...LJb3-d5
                   3.LJb8-b2 +
-                      3...Kh8-g8
-                          4.La2*d5 #
                       3...LJd5-d4 +
                           4.LJb2*d4 #
+                      3...Kh8-g8
+                          4.La2*d5 #
               2...LJb3-e6
                   3.LJb8-b2 +
-                      3...Kh8-g8
-                          4.La2*e6 #
                       3...LJe6-e5
                           4.LJb2*e5 #
+                      3...Kh8-g8
+                          4.La2*e6 #
               2...LJb3-b2
                   3.LJb8*b2 #
               2...LJb3-f7
                   3.LJb8-b2 +
-                      3...Kh8-g8
-                          4.La2*f7 #
                       3...LJf7-f6
                           4.LJb2*f6 #
+                      3...Kh8-g8
+                          4.La2*f7 #
               2...LJb3-b1
                   3.LJb8-b2 #
               2...LJb3-a4
@@ -1191,10 +1191,10 @@ Loesung beendet.
                   3.LJb2*f6 #
 
 
-              empile:      376284
-            jouecoup:      274793
-        orig_rbechec:      122799
-        orig_rnechec:      161957
+              empile:      376282
+            jouecoup:      274782
+        orig_rbechec:      122798
+        orig_rnechec:      161946
 Loesung beendet. 
 
 

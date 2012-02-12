@@ -233,12 +233,12 @@ Loesung beendet.
             HalbNeutral c5
 
    1.Kh2-g2 ! Zugzwang.
-      1...hTc5-c3=nhT
-          2.Da2-a5 #
       1...hTc5-c1=nhT
           2.Da2-a3 #
       1...hTc5-c2=nhT +
           2.nhTc2-b2=whT #
+      1...hTc5-c3=nhT
+          2.Da2-a5 #
       1...hTc5-c8=nhT
           2.Da2-a3 #
       1...hTc5-c7=nhT
@@ -292,22 +292,22 @@ Loesung beendet.
 
    1.Se5-d3 ! Drohung:
           2.Dg7-d4 #
-      1...nhSd5-f6=shS
-          2.Dg7*e7 #
       1...b4-b3
           2.nhSd5-c3=whS #
       1...nhSd5-c3=shS
           2.Th5-h4 #
+      1...nhSd5-f6=shS
+          2.Dg7*e7 #
       1...e7-e5
           2.nhSd5-f6=whS #
       1...Sh8*g6 +
           2.Dg7*g6 #
 
 
-              empile:       12091
-            jouecoup:        6790
+              empile:       12087
+            jouecoup:        6780
         orig_rbechec:         429
-        orig_rnechec:        6792
+        orig_rnechec:        6782
 Loesung beendet. 
 
 
@@ -496,10 +496,10 @@ Loesung beendet.
       1...Kd5*d6 !
 
 
-              empile:       97629
-            jouecoup:       66803
-        orig_rbechec:        6938
-        orig_rnechec:       64874
+              empile:       98014
+            jouecoup:       66718
+        orig_rbechec:        6988
+        orig_rnechec:       64760
 Loesung beendet. 
 
 
@@ -805,10 +805,10 @@ Loesung beendet.
       1...Kd5*c4 !
 
 
-              empile:        8392
-            jouecoup:        4975
-        orig_rbechec:         820
-        orig_rnechec:        4910
+              empile:        8440
+            jouecoup:        5042
+        orig_rbechec:         829
+        orig_rnechec:        4977
 Loesung beendet. 
 
 

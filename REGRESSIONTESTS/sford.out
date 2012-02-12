@@ -1145,16 +1145,16 @@ eigentlich: sKg4 s#2 b) g4->e3
                       3...Lb8*f4 #
       1...Kf3-e3
           2.Th8-e8 Zugzwang.
-              2...Sc7*e6
-                  3.Tf2-f4
-                      3...Lb8*d6 #
-                      3...Lb8-c7 #
               2...Sc7*a6
                   3.Ld6-f4 +
                       3...Lb8*f4 #
               2...Sc7-b5
                   3.Ld6-f4 +
                       3...Lb8*f4 #
+              2...Sc7*e6
+                  3.Tf2-f4
+                      3...Lb8*d6 #
+                      3...Lb8-c7 #
               2...Sc7*e8
                   3.Ld6-f4 +
                       3...Lb8*f4 #
@@ -1249,10 +1249,10 @@ d) weiss 7:7a[#]d
                           4.Sd2-e4 #
 
 
-              empile:       43979
-            jouecoup:       26544
-        orig_rbechec:       17772
-        orig_rnechec:       10386
+              empile:       44130
+            jouecoup:       26616
+        orig_rbechec:       17797
+        orig_rnechec:       10441
 Loesung beendet. 
 
 
