@@ -12,6 +12,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "solving/solving.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -223,7 +224,6 @@ refutations_collector_can_attack(slice_index si, stip_length_type n)
   if (result>n)
   {
     assert(get_top_table()==refutations);
-    TraceValue("%u\n",get_top_table());
     append_to_top_table();
     if (table_length(get_top_table())<=max_nr_refutations)
       result = n;
@@ -235,6 +235,50 @@ refutations_collector_can_attack(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Allocate a STRefutationsAvoider slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_avoider_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRefutationsAvoider);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin a tester slice off a STHelpHashed slice
+ * @param base_slice identifies the STHelpHashed slice
+ * @return id of allocated slice
+ */
+void spin_off_testers_refutations_avoider(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = alloc_refutations_collector_slice(user_set_max_nr_refutations);
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -243,7 +287,7 @@ refutations_collector_can_attack(slice_index si, stip_length_type n)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_collector_attack(slice_index si, stip_length_type n)
+stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
 
@@ -393,8 +437,8 @@ static void insert_try_solvers_refutations_solver(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_refutations_collector_slice(user_set_max_nr_refutations);
-    battle_branch_insert_slices(slices[si].u.fork.next,&prototype,1);
+    slice_index const prototype = alloc_refutations_avoider_slice();
+    battle_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -521,7 +565,7 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const to_refutation_branch_copiers[] =
 {
   { STThreatSolver,                 &stip_traverse_structure_pipe  },
-  { STRefutationsCollector,         &substitute_refutations_filter },
+  { STRefutationsAvoider,           &substitute_refutations_filter },
   { STEndOfBranchForced,            &stip_traverse_structure_pipe  },
   { STPlaySuppressor,               &stip_traverse_structure_pipe  },
   { STThreatSolver,                 &stip_traverse_structure_pipe  },

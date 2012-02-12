@@ -258,7 +258,8 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STRefutationsCollector:
-      result = refutations_collector_attack(si,n);
+    case STRefutationsAvoider:
+      result = refutations_avoider_attack(si,n);
       break;
 
     case STRefutationsFilter:

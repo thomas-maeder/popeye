@@ -119,6 +119,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
   stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);
+  stip_structure_traversal_override_single(&st,STRefutationsAvoider,&spin_off_testers_refutations_avoider);
 
   stip_structure_traversal_override_single(&st,STThreatSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STRefutationsSolver,&stip_spin_off_testers_pipe_skip);

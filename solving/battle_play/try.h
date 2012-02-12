@@ -77,6 +77,18 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations);
 stip_length_type
 refutations_collector_can_attack(slice_index si, stip_length_type n);
 
+/* Allocate a STRefutationsAvoider slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_refutations_avoider_slice(void);
+
+/* Spin a tester slice off a STHelpHashed slice
+ * @param base_slice identifies the STHelpHashed slice
+ * @return id of allocated slice
+ */
+void spin_off_testers_refutations_avoider(slice_index si,
+                                          stip_structure_traversal *st);
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -85,8 +97,7 @@ refutations_collector_can_attack(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type refutations_collector_attack(slice_index si,
-                                              stip_length_type n);
+stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

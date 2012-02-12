@@ -114,6 +114,7 @@ static slice_index const slice_rank_order[] =
   STDummyMove,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
+  STRefutationsAvoider,
   STRefutationsFilter,
   STKillerMoveCollector,
   STEndOfRoot,
