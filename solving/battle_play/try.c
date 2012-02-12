@@ -166,21 +166,10 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (refutations!=table_nil && table_length(refutations)>0)
-  {
-    defend(slices[si].u.binary.op1,n);
+  result = defend(slices[si].u.binary.op1,n);
 
-    Message(NewLine);
-    sprintf(GlobalStr,"%*c",4,blank);
-    StdString(GlobalStr);
-    Message(But);
-
+  if (table_length(refutations)>0)
     defend(slices[si].u.binary.op2,n);
-
-    result = n;
-  }
-  else
-    result = defend(slices[si].u.binary.op1,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

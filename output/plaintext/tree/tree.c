@@ -217,8 +217,13 @@ static void insert_refutation_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_refutation_writer_slice();
-    defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    slice_index const prototypes[] =
+    {
+        alloc_refutations_intro_writer_slice(),
+        alloc_refutation_writer_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    defense_branch_insert_slices(slices[si].u.fork.fork,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);

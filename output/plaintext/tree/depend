@@ -151,7 +151,7 @@ output/plaintext/move_inversion_counter.h:
 trace.h:
 output/plaintext/tree/refutation_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/refutation_writer.c \
- output/plaintext/tree/refutation_writer.h pydata.h pypipe.h \
+ output/plaintext/tree/refutation_writer.h pydata.h pypipe.h pymsg.h \
  stipulation/battle_play/attack_play.h output/plaintext/tree/tree.h \
  output/plaintext/tree/check_writer.h trace.h
 
@@ -160,6 +160,8 @@ output/plaintext/tree/refutation_writer.h:
 pydata.h:
 
 pypipe.h:
+
+pymsg.h:
 
 stipulation/battle_play/attack_play.h:
 

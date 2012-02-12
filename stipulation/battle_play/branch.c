@@ -87,6 +87,7 @@ static slice_index const slice_rank_order[] =
   STReadyForDefense,
   STKeyWriter,
   STTryWriter,
+  STRefutationsIntroWriter,
   STTrue,
   STPlaySuppressor,
   STConstraintTester,

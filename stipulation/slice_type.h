@@ -196,6 +196,7 @@
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
+    ENUMERATOR(STRefutationsIntroWriter), /* write "But" */  \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \

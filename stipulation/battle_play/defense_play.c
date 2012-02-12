@@ -40,6 +40,7 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
+#include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
@@ -80,6 +81,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STRefutationsSolver:
       result = refutations_solver_defend(si,n);
+      break;
+
+    case STRefutationsIntroWriter:
+      result = refutations_intro_writer_defend(si,n);
       break;
 
     case STContinuationSolver:
