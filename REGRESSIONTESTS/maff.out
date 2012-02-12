@@ -353,8 +353,8 @@ Loesung beendet.
 
    1.Tf8-e8 + ?
     Aber
-      1...Ke7*f6 + !
       1...Ke7*e8 + !
+      1...Ke7*f6 + !
 
    1.Lh7-g6 ? Zugzwang.
       1...Sc4*a3
@@ -403,8 +403,8 @@ Loesung beendet.
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f6 + !
       1...Ke7*f8 + !
+      1...Ke7*f6 + !
 
    1.Lh7-g8 ? Zugzwang.
       1...Sc4*a3
@@ -473,8 +473,8 @@ Loesung beendet.
           2.Tf8-e8 #
           2.Tf6-e6 #
     Aber
-      1...Tf7*f8 !
       1...Ke7*f6 + !
+      1...Tf7*f8 !
 
    1.a7-a8=T ? Drohung:
           2.Tf8-e8 #
@@ -492,13 +492,13 @@ Loesung beendet.
           2.Tf8-e8 #
           2.Tf6-e6 #
     Aber
-      1...Tf7*f8 !
       1...Ke7*f6 + !
+      1...Tf7*f8 !
 
    1.Tf6-e6 + ?
     Aber
-      1...Ke7*f8 + !
       1...Ke7*e6 + !
+      1...Ke7*f8 + !
 
    1.Tf6*f7 + !
       1...Ke7-e6
@@ -513,8 +513,8 @@ Loesung beendet.
       1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 + !
       1...Sc4*a3 !
+      1...Ke7*f6 + !
 
    1.Sb4-c2 + ?
       1...Sc4-d6
@@ -527,8 +527,8 @@ Loesung beendet.
       1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 + !
       1...Sc4*a3 !
+      1...Ke7*f6 + !
 
    1.Sb4-a6 + ?
       1...Sc4-d6
@@ -557,8 +557,8 @@ Loesung beendet.
       1...Tf7-g7
           2.Tf8-e8 #
     Aber
-      1...Tf7*f6 !
       1...Ke7*f8 + !
+      1...Tf7*f6 !
 
 
               empile:       21675
