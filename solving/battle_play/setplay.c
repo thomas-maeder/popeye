@@ -30,7 +30,7 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_refutations_allocator(),
-      alloc_refutations_collector_slice(max_nr_refutations)
+      alloc_refutations_avoider_slice(max_nr_refutations)
     };
     enum
     {

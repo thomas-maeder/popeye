@@ -257,7 +257,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = zugzwang_writer_attack(si,n);
       break;
 
-    case STRefutationsCollector:
     case STRefutationsAvoider:
       result = refutations_avoider_attack(si,n);
       break;

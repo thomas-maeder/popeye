@@ -60,12 +60,6 @@ slice_index alloc_refutations_solver(void);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type refutations_solver_defend(slice_index si, stip_length_type n);
 
-/* Allocate a STRefutationsCollector slice.
- * @param max_nr_refutations maximum number of refutations to be allowed
- * @return index of allocated slice
- */
-slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves
@@ -78,9 +72,10 @@ stip_length_type
 refutations_collector_can_attack(slice_index si, stip_length_type n);
 
 /* Allocate a STRefutationsAvoider slice.
+ * @param max_nr_refutations maximum number of refutations to be allowed
  * @return index of allocated slice
  */
-slice_index alloc_refutations_avoider_slice(void);
+slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations);
 
 /* Spin a tester slice off a STHelpHashed slice
  * @param base_slice identifies the STHelpHashed slice

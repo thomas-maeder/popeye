@@ -182,6 +182,7 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
  * @param max_nr_refutations maximum number of refutations to be allowed
  * @return index of allocated slice
  */
+static
 slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
 {
   slice_index result;
@@ -236,9 +237,10 @@ refutations_collector_can_attack(slice_index si, stip_length_type n)
 }
 
 /* Allocate a STRefutationsAvoider slice.
+ * @param max_nr_refutations maximum number of refutations to be allowed
  * @return index of allocated slice
  */
-slice_index alloc_refutations_avoider_slice(void)
+slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
 {
   slice_index result;
 
@@ -246,6 +248,7 @@ slice_index alloc_refutations_avoider_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STRefutationsAvoider);
+  slices[result].u.refutation_collector.max_nr_refutations = max_nr_refutations;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -268,7 +271,8 @@ void spin_off_testers_refutations_avoider(slice_index si,
 
   if (state->spinning_off)
   {
-    state->spun_off[si] = alloc_refutations_collector_slice(user_set_max_nr_refutations);
+    unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
+    state->spun_off[si] = alloc_refutations_collector_slice(max_nr_refutations);
     stip_traverse_structure_children(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
   }
@@ -437,7 +441,7 @@ static void insert_try_solvers_refutations_solver(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_refutations_avoider_slice();
+    slice_index const prototype = alloc_refutations_avoider_slice(user_set_max_nr_refutations);
     battle_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
   }
 
