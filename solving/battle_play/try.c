@@ -26,9 +26,6 @@ table refutations;
  */
 static unsigned int user_set_max_nr_refutations;
 
-/* are we currently solving refutations? */
-static boolean are_we_solving_refutations;
-
 /* Read the maximum number of refutations that the user is interested
  * to see
  * @param tok input token from which to read the number
@@ -173,16 +170,12 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
   {
     defend(slices[si].u.binary.op1,n);
 
-    are_we_solving_refutations = true;
-
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
 
     defend(slices[si].u.binary.op2,n);
-
-    are_we_solving_refutations = false;
 
     result = n;
   }
@@ -204,6 +197,7 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STRefutationsCollector);
@@ -263,27 +257,62 @@ refutations_collector_can_attack(slice_index si, stip_length_type n)
 stip_length_type refutations_collector_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.refutation_collector.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations)
-  {
-    if (is_current_move_in_table(refutations))
-      attack(next,n);
-
+  if (is_current_move_in_table(refutations))
     result = n;
-  }
   else
-  {
-    if (is_current_move_in_table(refutations))
-      result = n;
-    else
-      result = attack(next,n);
-  }
+    result = attack(slices[si].u.refutation_collector.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STRefutationsFilter slice.
+ * @return index of allocated slice
+ */
+static slice_index alloc_refutations_filter_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRefutationsFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type refutations_filter_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (is_current_move_in_table(refutations))
+    result = attack(slices[si].u.pipe.next,n);
+  else
+    result = n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -417,6 +446,28 @@ void stip_insert_try_solvers(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void substitute_refutations_filter(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  assert(*result!=no_slice);
+
+  {
+    slice_index const filter = alloc_refutations_filter_slice();
+    link_to_branch(filter,*result);
+    *result = filter;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_constraint_solver(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -480,13 +531,14 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const to_refutation_branch_copiers[] =
 {
-  { STThreatSolver,                 &stip_traverse_structure_pipe },
-  { STEndOfBranchForced,            &stip_traverse_structure_pipe },
-  { STPlaySuppressor,               &stip_traverse_structure_pipe },
-  { STThreatSolver,                 &stip_traverse_structure_pipe },
-  { STConstraintTester,             &insert_constraint_solver     },
-  { STEndOfBranchGoal,              &insert_deep_copy             },
-  { STEndOfRefutationSolvingBranch, &stop_spinning_off            }
+  { STThreatSolver,                 &stip_traverse_structure_pipe  },
+  { STRefutationsCollector,         &substitute_refutations_filter },
+  { STEndOfBranchForced,            &stip_traverse_structure_pipe  },
+  { STPlaySuppressor,               &stip_traverse_structure_pipe  },
+  { STThreatSolver,                 &stip_traverse_structure_pipe  },
+  { STConstraintTester,             &insert_constraint_solver      },
+  { STEndOfBranchGoal,              &insert_deep_copy              },
+  { STEndOfRefutationSolvingBranch, &stop_spinning_off             }
 };
 
 enum

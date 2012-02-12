@@ -261,6 +261,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = refutations_collector_attack(si,n);
       break;
 
+    case STRefutationsFilter:
+      result = refutations_filter_attack(si,n);
+      break;
+
     case STMoveWriter:
       result = move_writer_attack(si,n);
       break;

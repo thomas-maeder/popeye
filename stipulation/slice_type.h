@@ -92,6 +92,7 @@
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STRefutationsAllocator), /* (de)allocate the table holding the refutations */ \
     ENUMERATOR(STRefutationsSolver), /* find battle play refutations */ \
+    ENUMERATOR(STRefutationsFilter), /* only consider refutations */ \
     ENUMERATOR(STEndOfRefutationSolvingBranch), /* end of special branch */ \
     ENUMERATOR(STPlaySuppressor), /* suppresses play */                 \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \

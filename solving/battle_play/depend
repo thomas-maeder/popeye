@@ -67,7 +67,7 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/proxy.h stipulation/boolean/false.h \
  stipulation/boolean/binary.h stipulation/battle_play/defense_play.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- solving/trivial_end_filter.h trace.h
+ trace.h
 
 solving/battle_play/try.h:
 
@@ -96,8 +96,6 @@ stipulation/battle_play/defense_play.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
-
-solving/trivial_end_filter.h:
 
 trace.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
