@@ -274,7 +274,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STMoveGenerator:
-    case STKillerMoveMoveGenerator:
       result = move_generator_attack(si,n);
       break;
 
