@@ -2,6 +2,7 @@
 #define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
 #include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality around STCheckDetector slices.
@@ -21,6 +22,16 @@ slice_index alloc_check_detector_slice(void);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type check_detector_solve(slice_index si);
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type check_detector_attack(slice_index si, stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

@@ -12,8 +12,7 @@ trace.h:
 solving/battle_play/check_detector$(OBJ_SUFFIX): \
  solving/battle_play/check_detector.c \
  solving/battle_play/check_detector.h pydata.h pypipe.h \
- stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
- trace.h
+ stipulation/battle_play/branch.h trace.h
 
 solving/battle_play/check_detector.h:
 
@@ -22,8 +21,6 @@ pydata.h:
 pypipe.h:
 
 stipulation/battle_play/branch.h:
-
-stipulation/battle_play/defense_play.h:
 
 trace.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \

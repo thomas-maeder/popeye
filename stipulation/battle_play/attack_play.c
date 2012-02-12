@@ -30,6 +30,7 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/continuation.h"
+#include "solving/battle_play/check_detector.h"
 #include "conditions/bgl.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
@@ -44,6 +45,7 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/line/line_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -195,25 +197,7 @@ stip_length_type can_attack(slice_index si, stip_length_type n)
       break;
 
     default:
-      switch (slice_has_solution(si))
-      {
-        case opponent_self_check:
-          result = slack_length_battle-2;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
+      assert(0);
       break;
   }
 
@@ -244,7 +228,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
@@ -394,6 +377,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = output_plaintext_tree_goal_writer_attack(si,n);
       break;
 
+    case STOutputPlaintextLineLineWriter:
+      result = line_writer_attack(si,n);
+      break;
+
     case STKillerMoveCollector:
       result = killer_move_collector_attack(si,n);
       break;
@@ -402,30 +389,20 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = bgl_filter_attack(si,n);
       break;
 
+    case STCheckDetector:
+      result = check_detector_attack(si,n);
+      break;
+
     case STTrue:
       result = n;
       break;
 
+    case STFalse:
+      result = n+2;
+      break;
+
     default:
-      switch (slice_solve(si))
-      {
-        case opponent_self_check:
-          result = slack_length_battle-2;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
+      assert(0);
       break;
   }
 

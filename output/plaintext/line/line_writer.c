@@ -5,7 +5,6 @@
 #include "pybrafrk.h"
 #include "trace.h"
 #include "pymsg.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -183,6 +182,41 @@ has_solution_type line_writer_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type line_writer_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = attack(slices[si].u.goal_handler.next,n);
+
+  if (slack_length_battle<=result && result<=n)
+  {
+    Goal const goal = slices[si].u.goal_handler.goal;
+    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
+    if (areColorsSwapped)
+      initial_starter = advers(initial_starter);
+    TraceValue("%u\n",output_plaintext_slice_determining_starter);
+    write_line(initial_starter,goal.type);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

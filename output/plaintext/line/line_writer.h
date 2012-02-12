@@ -2,6 +2,8 @@
 #define OUTPUT_PLAINTEXT_LINE_LINE_WRITER_H
 
 #include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides the STOutputPlaintextLineLineWriter slice type.
  * Slices of this type write lines in line mode.
@@ -24,6 +26,16 @@ slice_index alloc_line_writer_slice(Goal goal);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type line_writer_solve(slice_index si);
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type line_writer_attack(slice_index si, stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

@@ -65,7 +65,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  solving/battle_play/threat.h solving/battle_play/try.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
- solving/battle_play/continuation.h conditions/bgl.h \
+ solving/battle_play/continuation.h solving/battle_play/check_detector.h \
+ conditions/bgl.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
@@ -77,7 +78,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  output/plaintext/tree/move_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
- output/plaintext/tree/goal_writer.h trace.h
+ output/plaintext/tree/goal_writer.h output/plaintext/line/line_writer.h \
+ trace.h
 
 stipulation/battle_play/attack_play.h:
 
@@ -141,6 +143,8 @@ solving/battle_play/min_length_optimiser.h:
 
 solving/battle_play/continuation.h:
 
+solving/battle_play/check_detector.h:
+
 conditions/bgl.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
@@ -168,6 +172,8 @@ output/plaintext/tree/refutation_writer.h:
 output/plaintext/tree/refuting_variation_writer.h:
 
 output/plaintext/tree/goal_writer.h:
+
+output/plaintext/line/line_writer.h:
 
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
