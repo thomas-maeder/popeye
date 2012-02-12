@@ -27,7 +27,7 @@ table refutations;
 static unsigned int user_set_max_nr_refutations;
 
 /* are we currently solving refutations? */
-boolean are_we_solving_refutations;
+static boolean are_we_solving_refutations;
 
 /* Read the maximum number of refutations that the user is interested
  * to see
