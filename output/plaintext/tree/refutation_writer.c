@@ -36,17 +36,15 @@ slice_index alloc_refutation_writer_slice(void)
 stip_length_type refutation_writer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (are_we_solving_refutations)
-    StdString(" !");
+  StdString(" !");
 
-  result = attack(next,n);
+  result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
