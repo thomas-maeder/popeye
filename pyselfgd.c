@@ -1,4 +1,5 @@
 #include "pyselfgd.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "pypipe.h"
 #include "trace.h"
