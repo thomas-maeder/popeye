@@ -172,8 +172,6 @@ stip_length_type or_can_attack(slice_index si, stip_length_type n)
 stip_length_type or_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type result1;
-  stip_length_type result2;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
 
@@ -182,9 +180,9 @@ stip_length_type or_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result1 = attack(op1,n);
-  result2 = attack(op2,n);
-  result = result1<result2 ? result1 : result2;
+  result = attack(op1,n);
+  if (result<=slack_length_battle-2 || result>n)
+    result = attack(op2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
