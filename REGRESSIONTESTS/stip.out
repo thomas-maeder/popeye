@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-              empile:     1948441
-            jouecoup:      397226
-        orig_rbechec:      387295
-        orig_rnechec:       96930
+              empile:     1950074
+            jouecoup:      397249
+        orig_rbechec:      387354
+        orig_rnechec:       96984
 Loesung beendet. 
 
 
@@ -990,15 +990,19 @@ c) exact-#3
                   3.Lc1*f4 [+sBf7] #
 
 
-              empile:        3762
-            jouecoup:        1801
-        orig_rbechec:         798
-        orig_rnechec:        1230
+              empile:        3745
+            jouecoup:        1778
+        orig_rbechec:         781
+        orig_rnechec:        1224
 d) exact-#4
 
    1.d7-d8=S !
       1...Sb7*d8 [+wSg1]
           2.Sg1*f3 [+sBf7]
+              2...Sd8-b7
+                  3.Sf3-d2
+                      3...Sb7-d8
+                          4.Sd2-e4 #
               2...Sd8-e6
                   3.Sf3-d2
                       3...Se6-d4
@@ -1011,16 +1015,12 @@ d) exact-#4
                           4.Sd2-e4 #
                       3...Se6-d8
                           4.Sd2-e4 #
-              2...Sd8-b7
-                  3.Sf3-d2
-                      3...Sb7-d8
-                          4.Sd2-e4 #
 
 
-              empile:       40272
-            jouecoup:       24249
-        orig_rbechec:       16386
-        orig_rnechec:        9359
+              empile:       40265
+            jouecoup:       24210
+        orig_rbechec:       16341
+        orig_rnechec:        9372
 Loesung beendet. 
 
 
@@ -1079,10 +1079,10 @@ c) exact-#3
                   3.Tc6-e6 #
 
 
-              empile:       22234
-            jouecoup:        7916
-        orig_rbechec:        3588
-        orig_rnechec:        5931
+              empile:       22205
+            jouecoup:        7879
+        orig_rbechec:        3559
+        orig_rnechec:        5923
 d) exact-#4
 
    1.Sd4-e2 !
@@ -1094,10 +1094,10 @@ d) exact-#4
                           4.La8-e4 #
 
 
-              empile:      433852
-            jouecoup:      186608
-        orig_rbechec:      112020
-        orig_rnechec:       99224
+              empile:      433783
+            jouecoup:      186523
+        orig_rbechec:      111951
+        orig_rnechec:       99208
 Loesung beendet. 
 
 
@@ -1157,31 +1157,31 @@ c) exact-#3
                   3.Ld8-c7 #
 
 
-              empile:        6477
-            jouecoup:        3475
-        orig_rbechec:        1554
-        orig_rnechec:        2383
+              empile:        6456
+            jouecoup:        3446
+        orig_rbechec:        1533
+        orig_rnechec:        2375
 d) exact-#4
 
    1.d7-d8=S !
-      1...Kd6-c7
-          2.Sd8-f7
-              2...c6-c5
-                  3.d4-d5
-                      3...c5-c4
-                          4.d5-d6 #
       1...c6-c5
           2.Sd8-f7 +
               2...Kd6-c7
                   3.d4-d5
                       3...c5-c4
                           4.d5-d6 #
+      1...Kd6-c7
+          2.Sd8-f7
+              2...c6-c5
+                  3.d4-d5
+                      3...c5-c4
+                          4.d5-d6 #
 
 
-              empile:       77692
-            jouecoup:       42317
-        orig_rbechec:       23300
-        orig_rnechec:       23569
+              empile:       77606
+            jouecoup:       42205
+        orig_rbechec:       23208
+        orig_rnechec:       23550
 Loesung beendet. 
 
 
@@ -1216,35 +1216,11 @@ Loesung beendet.
           2.Ld5-g8
               2...b5-b4
                   3.Sd6-f7
-                      3...Tb3-e3
-                          4.Sf7*g5 +
-                              4...Te3-b3
-                                  5.Sg5-h3 z
-                              4...Te3-e6
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
                       3...Tb3-b2
                           4.Sf7*g5 +
                               4...Ka2-a3
                                   5.Sg5-h3 z
                               4...Tb2-b3
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
-                      3...Tb3-c3
-                          4.Sf7*g5 +
-                              4...Tc3-b3
-                                  5.Sg5-h3 z
-                              4...Tc3-c4
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
-                      3...Tb3-d3
-                          4.Sf7*g5 +
-                              4...Td3-b3
-                                  5.Sg5-h3 z
-                              4...Td3-d5
                                   5.Sg5-h3 z
                               4...b4-b3
                                   5.Sg5-h3 z
@@ -1262,12 +1238,36 @@ Loesung beendet.
                                   5.Sg5-h3 z
                               4...b4-b3
                                   5.Sg5-h3 z
+                      3...Tb3-e3
+                          4.Sf7*g5 +
+                              4...Te3-b3
+                                  5.Sg5-h3 z
+                              4...Te3-e6
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
+                      3...Tb3-d3
+                          4.Sf7*g5 +
+                              4...Td3-b3
+                                  5.Sg5-h3 z
+                              4...Td3-d5
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
+                      3...Tb3-c3
+                          4.Sf7*g5 +
+                              4...Tc3-b3
+                                  5.Sg5-h3 z
+                              4...Tc3-c4
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
 
 
-              empile:     5671803
-            jouecoup:     2772063
-        orig_rbechec:     2475245
-        orig_rnechec:      296870
+              empile:     5671672
+            jouecoup:     2771901
+        orig_rbechec:     2475114
+        orig_rnechec:      296839
 Loesung beendet. 
 
 
@@ -1554,10 +1554,10 @@ Loesung beendet.
                   3.Sc8-d6 z
 
 
-              empile:       10275
-            jouecoup:        3729
-        orig_rbechec:        2548
-        orig_rnechec:        1189
+              empile:       10179
+            jouecoup:        3607
+        orig_rbechec:        2437
+        orig_rnechec:        1178
 Loesung beendet. 
 
 

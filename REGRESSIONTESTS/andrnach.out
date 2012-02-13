@@ -421,10 +421,10 @@ Loesung beendet.
                       3...Sc6-b4 #
 
 
-              empile:      822635
-            jouecoup:      476691
-        orig_rbechec:      475005
-        orig_rnechec:      287650
+              empile:      821950
+            jouecoup:      475936
+        orig_rbechec:      474280
+        orig_rnechec:      287619
 Loesung beendet. 
 
 
@@ -459,14 +459,9 @@ Loesung beendet.
           2.Tb4-e4 +
               2...Lg6*e4=wL
                   3.Dh7-f5 #
-      1...Sg8*h6=wS +
-          2.Sh6-g8 Drohung:
-                  3.Dh7-h2 #
-              2...Lg6-h5
-                  3.Dh7-e4 #
-                  3.Dh7-f5 #
-                  3.Tb4-e4 #
-              2...Lg6*h7=wL
+      1...Lg6-e4
+          2.Dh7-f5 +
+              2...Le4*f5=wL
                   3.Tb4-e4 #
       1...Sg8*e7=wS +
           2.Se7-c8 Drohung:
@@ -481,16 +476,21 @@ Loesung beendet.
                   3.Dh7-g7 #
               2...Lg6*h7=wL
                   3.Tb4-e4 #
-      1...Lg6-e4
-          2.Dh7-f5 +
-              2...Le4*f5=wL
+      1...Sg8*h6=wS +
+          2.Sh6-g8 Drohung:
+                  3.Dh7-h2 #
+              2...Lg6-h5
+                  3.Dh7-e4 #
+                  3.Dh7-f5 #
+                  3.Tb4-e4 #
+              2...Lg6*h7=wL
                   3.Tb4-e4 #
 
 
-              empile:      112108
-            jouecoup:       79138
-        orig_rbechec:       41899
-        orig_rnechec:       38877
+              empile:      111145
+            jouecoup:       78144
+        orig_rbechec:       40936
+        orig_rnechec:       38846
 Loesung beendet. 
 
 
@@ -835,10 +835,10 @@ Loesung beendet.
                   3.Te8-e6 #
 
 
-              empile:       68706
-            jouecoup:       32983
-        orig_rbechec:       18089
-        orig_rnechec:       19077
+              empile:       72063
+            jouecoup:       34857
+        orig_rbechec:       18136
+        orig_rnechec:       21236
 Loesung beendet. 
 
 

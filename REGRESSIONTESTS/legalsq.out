@@ -26,38 +26,38 @@
          SchwarzerRandzueger
 
    1.Lg7-h6 !
-      1...Kh7*h6
-          2.f6-f7
-              2...Kh6-h5
-                  3.f7-f8=T
-                      3...Kh5-h6
-                          4.Tf8-h8 #
-              2...Kh6-h7
-                  3.f7-f8=T
-                      3...Kh7-h6
-                          4.Tf8-h8 #
-      1...Kh7-g8
-          2.f6-f7 +
-              2...Kg8-h7
-                  3.f7-f8=T
-                      3...Kh7*h6
-                          4.Tf8-h8 #
-              2...Kg8-h8
-                  3.f7-f8=D +
-                      3...Kh8-h7
-                          4.Df8-g7 #
       1...Kh7-h8
           2.f6-f7
               2...Kh8-h7
                   3.f7-f8=T
                       3...Kh7*h6
                           4.Tf8-h8 #
+      1...Kh7*h6
+          2.f6-f7
+              2...Kh6-h7
+                  3.f7-f8=T
+                      3...Kh7-h6
+                          4.Tf8-h8 #
+              2...Kh6-h5
+                  3.f7-f8=T
+                      3...Kh5-h6
+                          4.Tf8-h8 #
+      1...Kh7-g8
+          2.f6-f7 +
+              2...Kg8-h8
+                  3.f7-f8=D +
+                      3...Kh8-h7
+                          4.Df8-g7 #
+              2...Kg8-h7
+                  3.f7-f8=T
+                      3...Kh7*h6
+                          4.Tf8-h8 #
 
 
-              empile:       13075
-            jouecoup:        7998
-        orig_rbechec:        5096
-        orig_rnechec:        3441
+              empile:       12946
+            jouecoup:        7864
+        orig_rbechec:        4977
+        orig_rnechec:        3421
 Loesung beendet. 
 
 
@@ -89,8 +89,46 @@ Loesung beendet.
          SchwarzerRandzueger
 
    1.Lh7-g8 !
+      1...Sb6-c8
+          2.Ka1-b2
+              2...La8-h1
+                  3.Kb2-c3
+                      3...Lh1-a8
+                          4.Kc3-d4
+                              4...La8-h1
+                                  5.Kd4-e5 #
+                              4...Sc8-a7
+                                  5.Kd4-e5 #
+                      3...Sc8-a7
+                          4.Kc3-d4
+                              4...Lh1-a8
+                                  5.Kd4-e5 #
+                              4...Sa7-c8
+                                  5.Kd4-e5 #
+              2...Sc8-a7
+                  3.Kb2-c3
+                      3...Sa7-c8
+                          4.Kc3-d4
+                              4...La8-h1
+                                  5.Kd4-e5 #
+                              4...Sc8-a7
+                                  5.Kd4-e5 #
+                      3...La8-h1
+                          4.Kc3-d4
+                              4...Lh1-a8
+                                  5.Kd4-e5 #
+                              4...Sa7-c8
+                                  5.Kd4-e5 #
       1...La8-h1
           2.Lg8-d5
+              2...Sb6-c8
+                  3.Ka1-b2
+                      3...Sc8-a7
+                          4.Kb2-c3
+                              4...Sa7-c8
+                                  5.Kc3-d4
+                                      5...Sc8-a7
+                                          6.Kd4-e5 #
               2...Sb6-a8
                   3.Ld5*a8
                       3...Lh1*a8
@@ -101,50 +139,12 @@ Loesung beendet.
                                           6.Kc3-d4
                                               6...La8-h1
                                                   7.Kd4-e5 #
-              2...Sb6-c8
-                  3.Ka1-b2
-                      3...Sc8-a7
-                          4.Kb2-c3
-                              4...Sa7-c8
-                                  5.Kc3-d4
-                                      5...Sc8-a7
-                                          6.Kd4-e5 #
-      1...Sb6-c8
-          2.Ka1-b2
-              2...Sc8-a7
-                  3.Kb2-c3
-                      3...La8-h1
-                          4.Kc3-d4
-                              4...Lh1-a8
-                                  5.Kd4-e5 #
-                              4...Sa7-c8
-                                  5.Kd4-e5 #
-                      3...Sa7-c8
-                          4.Kc3-d4
-                              4...La8-h1
-                                  5.Kd4-e5 #
-                              4...Sc8-a7
-                                  5.Kd4-e5 #
-              2...La8-h1
-                  3.Kb2-c3
-                      3...Sc8-a7
-                          4.Kc3-d4
-                              4...Lh1-a8
-                                  5.Kd4-e5 #
-                              4...Sa7-c8
-                                  5.Kd4-e5 #
-                      3...Lh1-a8
-                          4.Kc3-d4
-                              4...La8-h1
-                                  5.Kd4-e5 #
-                              4...Sc8-a7
-                                  5.Kd4-e5 #
 
 
-              empile:       85781
-            jouecoup:       23634
-        orig_rbechec:       19219
-        orig_rnechec:        4480
+              empile:       85582
+            jouecoup:       23420
+        orig_rbechec:       19020
+        orig_rnechec:        4465
 Loesung beendet. 
 
 
@@ -186,10 +186,10 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-              empile:       15637
-            jouecoup:        5002
-        orig_rbechec:        2651
-        orig_rnechec:        2493
+              empile:       15613
+            jouecoup:        4975
+        orig_rbechec:        2627
+        orig_rnechec:        2490
 Loesung beendet. 
 
 
@@ -231,10 +231,10 @@ Loesung beendet.
                                   5.Ta8-a1 #
 
 
-              empile:     1143290
-            jouecoup:      571867
-        orig_rbechec:      450739
-        orig_rnechec:      148957
+              empile:     1143230
+            jouecoup:      571798
+        orig_rbechec:      450679
+        orig_rnechec:      148948
 Loesung beendet. 
 
 
@@ -283,14 +283,6 @@ Loesung beendet.
                                   5.Ta8-h8 #
 
    1.Kc1*c2 !
-      1...Le4-a8
-          2.Tg7-b7
-              2...Kh8-g8
-                  3.Tb7-b8 +
-                      3...Kg8-h7
-                          4.Tb8*a8
-                              4...Kh7-h6
-                                  5.Ta8-h8 #
       1...Le4-h1
           2.Tg7-g2
               2...Kh8-h7
@@ -299,12 +291,20 @@ Loesung beendet.
                           4.Th2*h1
                               4...Kg8-f8
                                   5.Th1-h8 #
+      1...Le4-a8
+          2.Tg7-b7
+              2...Kh8-g8
+                  3.Tb7-b8 +
+                      3...Kg8-h7
+                          4.Tb8*a8
+                              4...Kh7-h6
+                                  5.Ta8-h8 #
 
 
-              empile:     1234158
-            jouecoup:      580303
-        orig_rbechec:      464544
-        orig_rnechec:      136389
+              empile:     1233542
+            jouecoup:      579907
+        orig_rbechec:      464281
+        orig_rnechec:      136191
 Loesung beendet. 
 
 
@@ -542,10 +542,10 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-              empile:     2188915
-            jouecoup:      439518
-        orig_rbechec:      453553
-        orig_rnechec:      236413
+              empile:     2188565
+            jouecoup:      439423
+        orig_rbechec:      453468
+        orig_rnechec:      236397
 Loesung beendet. 
 
 

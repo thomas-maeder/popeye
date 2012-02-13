@@ -136,10 +136,10 @@ Loesung beendet.
  12  (Lc1-a3 )
  13  (Lc1-b2 )
 
-              empile:     6657577
-            jouecoup:     5345223
-        orig_rbechec:     3552417
-        orig_rnechec:     1909263
+              empile:     6657486
+            jouecoup:     5345067
+        orig_rbechec:     3552326
+        orig_rnechec:     1909198
 Loesung beendet. 
 
 
@@ -263,6 +263,32 @@ Loesung beendet.
           2.Dc5-e3 +
               2...Sc2*e3
                   3.f2*e3 #
+      1...ROg1-d4
+          2.Dc5*f5 +
+              2...ROd4*f5
+                  3.ROd8-e6 #
+      1...ROg1-e2
+          2.ROh1-h5 +
+              2...ROe2*h5
+                  3.ROd8-e6 #
+              2...Kf4*e4
+                  3.Dc5-d5 #
+      1...Sc2-d4
+          2.ROd8-e6 +
+              2...Sd4*e6
+                  3.Dc5-e3 #
+      1...ROa7-b5
+          2.ROh1-h5 +
+              2...ROb5*h5
+                  3.Dc5*f5 #
+      1...ROa7-d4
+          2.ROd8-e6 +
+              2...ROd4*e6
+                  3.Dc5*f5 #
+      1...ROe8-e2
+          2.ROd8-e6 +
+              2...ROe2*e6
+                  3.ROh1-h5 #
       1...ROe8-c3 +
           2.Dc5*c3 Drohung:
                   3.Dc3-g3 #
@@ -287,42 +313,16 @@ Loesung beendet.
           2.Te1*e4 +
               2...f5*e4
                   3.ROh1-h5 #
-      1...ROa7-d4
-          2.ROd8-e6 +
-              2...ROd4*e6
-                  3.Dc5*f5 #
-      1...ROg1-d4
-          2.Dc5*f5 +
-              2...ROd4*f5
-                  3.ROd8-e6 #
-      1...Sc2-d4
-          2.ROd8-e6 +
-              2...Sd4*e6
-                  3.Dc5-e3 #
-      1...ROe8-e2
-          2.ROd8-e6 +
-              2...ROe2*e6
-                  3.ROh1-h5 #
-      1...ROa7-b5
-          2.ROh1-h5 +
-              2...ROb5*h5
-                  3.Dc5*f5 #
       1...ROe8-b5
           2.Dc5*f5 +
               2...ROb5*f5
                   3.ROh1-h5 #
-      1...ROg1-e2
-          2.ROh1-h5 +
-              2...ROe2*h5
-                  3.ROd8-e6 #
-              2...Kf4*e4
-                  3.Dc5-d5 #
 
 
-              empile:      503650
-            jouecoup:      362418
-        orig_rbechec:       98032
-        orig_rnechec:      274178
+              empile:      520511
+            jouecoup:      373948
+        orig_rbechec:       96624
+        orig_rnechec:      287575
 Loesung beendet. 
 
 
@@ -999,10 +999,10 @@ Loesung beendet.
                                   5.LJc3-h8 #
 
 
-              empile:     1701400
-            jouecoup:     1227817
-        orig_rbechec:      477880
-        orig_rnechec:      822619
+              empile:     1701334
+            jouecoup:     1227736
+        orig_rbechec:      477814
+        orig_rnechec:      822604
 Loesung beendet. 
 
 
@@ -1033,70 +1033,70 @@ Loesung beendet.
 
    1.TJa6-b5 ! Drohung:
           2.TJb5-b8 #
-      1...TJa7-b6
-          2.Lc6-f3 Zugzwang.
-              2...TJb6-b7
-                  3.e2-e4 Zugzwang.
-                      3...TJb7-b8
-                          4.TJb5*b8 #
-                      3...TJb7-c6
-                          4.TJb5-b8 +
-                              4...TJc6-c7
-                                  5.TJb8*c7 #
-                      3...TJb7*e4
-                          4.TJb5-b8 +
-                              4...TJe4-e5
-                                  5.TJb8*e5 #
-                      3...TJb7-a6
-                          4.TJb5-b8 #
-                      3...TJb7-d5
-                          4.TJb5-b8 +
-                              4...TJd5-d6
-                                  5.TJb8*d6 #
-              2...TJb6-e3
-                  3.TJb5-b8 +
-                      3...TJe3-e5
-                          4.TJb8*e5 #
-              2...TJb6-g1
-                  3.TJb5-b8 +
-                      3...TJg1-g3
-                          4.TJb8*g3 #
-              2...TJb6-b8
-                  3.TJb5*b8 #
-              2...TJb6-c5
-                  3.TJb5-b8 +
-                      3...TJc5-c7
-                          4.TJb8*c7 #
-              2...TJb6-d4
-                  3.TJb5-b8 +
-                      3...TJd4-d6
-                          4.TJb8*d6 #
-              2...TJb6-f2
-                  3.TJb5-b8 #
-              2...TJb6-a5
-                  3.TJb5-b8 #
-      1...TJa7-e3
-          2.TJb5-b8 +
-              2...TJe3-e5
-                  3.TJb8*e5 #
       1...TJa7-g1
           2.TJb5-b8 +
               2...TJg1-g3
                   3.TJb8*g3 #
-      1...TJa7-d4
-          2.TJb5-b8 +
-              2...TJd4-d6
-                  3.TJb8*d6 #
       1...TJa7-f2
           2.TJb5-b8 +
               2...TJf2-f4
                   3.TJb8*f4 #
+      1...TJa7-e3
+          2.TJb5-b8 +
+              2...TJe3-e5
+                  3.TJb8*e5 #
+      1...TJa7-d4
+          2.TJb5-b8 +
+              2...TJd4-d6
+                  3.TJb8*d6 #
+      1...TJa7-b6
+          2.Lc6-f3 Zugzwang.
+              2...TJb6-a5
+                  3.TJb5-b8 #
+              2...TJb6-g1
+                  3.TJb5-b8 +
+                      3...TJg1-g3
+                          4.TJb8*g3 #
+              2...TJb6-f2
+                  3.TJb5-b8 #
+              2...TJb6-e3
+                  3.TJb5-b8 +
+                      3...TJe3-e5
+                          4.TJb8*e5 #
+              2...TJb6-d4
+                  3.TJb5-b8 +
+                      3...TJd4-d6
+                          4.TJb8*d6 #
+              2...TJb6-c5
+                  3.TJb5-b8 +
+                      3...TJc5-c7
+                          4.TJb8*c7 #
+              2...TJb6-b8
+                  3.TJb5*b8 #
+              2...TJb6-b7
+                  3.e2-e4 Zugzwang.
+                      3...TJb7-a6
+                          4.TJb5-b8 #
+                      3...TJb7*e4
+                          4.TJb5-b8 +
+                              4...TJe4-e5
+                                  5.TJb8*e5 #
+                      3...TJb7-d5
+                          4.TJb5-b8 +
+                              4...TJd5-d6
+                                  5.TJb8*d6 #
+                      3...TJb7-c6
+                          4.TJb5-b8 +
+                              4...TJc6-c7
+                                  5.TJb8*c7 #
+                      3...TJb7-b8
+                          4.TJb5*b8 #
 
 
-              empile:     1795980
-            jouecoup:     1425970
-        orig_rbechec:      816932
-        orig_rnechec:      657270
+              empile:     1795726
+            jouecoup:     1425570
+        orig_rbechec:      816454
+        orig_rnechec:      657353
 Loesung beendet. 
 
 
@@ -1126,75 +1126,75 @@ Loesung beendet.
   #4                          5 + 2
 
    1.Lf7-a2 ! Zugzwang.
+      1...LJb4-f8
+          2.LJb8-b2 +
+              2...LJf8-f6
+                  3.LJb2*f6 #
+      1...LJb4-e7
+          2.LJb8-b2 +
+              2...LJe7-e5
+                  3.LJb2*e5 #
+      1...LJb4-d6
+          2.LJb8-b2 +
+              2...LJd6-d4
+                  3.LJb2*d4 #
+      1...LJb4-c5
+          2.LJb8-b2 +
+              2...LJc5-c3
+                  3.LJb2*c3 #
+      1...LJb4-a5
+          2.LJb8-b2 #
+      1...LJb4-b1
+          2.LJb8-b2 #
+      1...LJb4-b2
+          2.LJb8*b2 #
       1...LJb4-b3
           2.Ka8-a7 Zugzwang.
-              2...Kh8-g8
-                  3.LJb8*b3 +
-                      3...Kg8-h8
-                          4.LJb3-b2 #
-              2...LJb3-c4
+              2...LJb3-g8
                   3.LJb8-b2 +
-                      3...LJc4-c3
-                          4.LJb2*c3 #
-                      3...Kh8-g8
-                          4.La2*c4 #
-              2...LJb3-d5
-                  3.LJb8-b2 +
-                      3...LJd5-d4 +
-                          4.LJb2*d4 #
-                      3...Kh8-g8
-                          4.La2*d5 #
-              2...LJb3-e6
-                  3.LJb8-b2 +
-                      3...LJe6-e5
-                          4.LJb2*e5 #
-                      3...Kh8-g8
-                          4.La2*e6 #
-              2...LJb3-b2
-                  3.LJb8*b2 #
+                      3...LJg8-g7
+                          4.Lh6*g7 #
+                          4.LJb2*g7 #
               2...LJb3-f7
                   3.LJb8-b2 +
                       3...LJf7-f6
                           4.LJb2*f6 #
                       3...Kh8-g8
                           4.La2*f7 #
-              2...LJb3-b1
-                  3.LJb8-b2 #
+              2...LJb3-e6
+                  3.LJb8-b2 +
+                      3...LJe6-e5
+                          4.LJb2*e5 #
+                      3...Kh8-g8
+                          4.La2*e6 #
+              2...LJb3-d5
+                  3.LJb8-b2 +
+                      3...LJd5-d4 +
+                          4.LJb2*d4 #
+                      3...Kh8-g8
+                          4.La2*d5 #
+              2...LJb3-c4
+                  3.LJb8-b2 +
+                      3...LJc4-c3
+                          4.LJb2*c3 #
+                      3...Kh8-g8
+                          4.La2*c4 #
               2...LJb3-a4
                   3.LJb8-b2 #
-              2...LJb3-g8
-                  3.LJb8-b2 +
-                      3...LJg8-g7
-                          4.Lh6*g7 #
-                          4.LJb2*g7 #
-      1...LJb4-b2
-          2.LJb8*b2 #
-      1...LJb4-c5
-          2.LJb8-b2 +
-              2...LJc5-c3
-                  3.LJb2*c3 #
-      1...LJb4-b1
-          2.LJb8-b2 #
-      1...LJb4-a5
-          2.LJb8-b2 #
-      1...LJb4-d6
-          2.LJb8-b2 +
-              2...LJd6-d4
-                  3.LJb2*d4 #
-      1...LJb4-e7
-          2.LJb8-b2 +
-              2...LJe7-e5
-                  3.LJb2*e5 #
-      1...LJb4-f8
-          2.LJb8-b2 +
-              2...LJf8-f6
-                  3.LJb2*f6 #
+              2...LJb3-b1
+                  3.LJb8-b2 #
+              2...LJb3-b2
+                  3.LJb8*b2 #
+              2...Kh8-g8
+                  3.LJb8*b3 +
+                      3...Kg8-h8
+                          4.LJb3-b2 #
 
 
-              empile:      376282
-            jouecoup:      274782
-        orig_rbechec:      122798
-        orig_rnechec:      161946
+              empile:      376143
+            jouecoup:      274615
+        orig_rbechec:      122406
+        orig_rnechec:      162179
 Loesung beendet. 
 
 

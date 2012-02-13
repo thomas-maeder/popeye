@@ -246,14 +246,6 @@ Loesung beendet.
           2.Dh1*e4 +
               2...d5*e4 [f8=D]
                   3.Df8-f5 #
-      1...d7*e6
-          2.Sd4-f3 +
-              2...e4*f3 [f8=S]
-                  3.Sf8-d7 #
-      1...f4-f3
-          2.Tg4*e4 +
-              2...d5*e4 [f8=T]
-                  3.Tf8-f5 #
       1...g3-g2
           2.Lh2*f4 +
               2...Lh6*f4 [f8=L]
@@ -262,6 +254,14 @@ Loesung beendet.
           2.Lf8*g7 +
               2...Lh6*g7
                   3.Tg4-g5 #
+      1...f4-f3
+          2.Tg4*e4 +
+              2...d5*e4 [f8=T]
+                  3.Tf8-f5 #
+      1...d7*e6
+          2.Sd4-f3 +
+              2...e4*f3 [f8=S]
+                  3.Sf8-d7 #
 
    1.Tg4-g5 + ?
     Aber
@@ -284,10 +284,10 @@ Loesung beendet.
       1...d5*e4 !
 
 
-              empile:      212534
-            jouecoup:      142224
-        orig_rbechec:       34138
-        orig_rnechec:      110930
+              empile:      213461
+            jouecoup:      142593
+        orig_rbechec:       33449
+        orig_rnechec:      112083
 Loesung beendet. 
 
 

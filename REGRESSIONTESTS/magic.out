@@ -100,20 +100,20 @@ Loesung beendet.
           MagischeFelder f7
 
    1.Kd5-d6 ! Zugzwang.
-      1...Sh8-f7=wS
-          2.Tc8-c1 Zugzwang.
-              2...Le8*f7=wL
-                  3.Lf7-c4 #
       1...Le8-f7=wL
           2.Te7-e1 Zugzwang.
               2...Sh8*f7=wS
                   3.Sf7-e5 #
+      1...Sh8-f7=wS
+          2.Tc8-c1 Zugzwang.
+              2...Le8*f7=wL
+                  3.Lf7-c4 #
 
 
-              empile:       40068
-            jouecoup:       16860
-        orig_rbechec:        8199
-        orig_rnechec:       11551
+              empile:       39992
+            jouecoup:       16774
+        orig_rbechec:        8123
+        orig_rnechec:       11541
 Loesung beendet. 
 
 
@@ -854,20 +854,20 @@ Loesung beendet.
           MagischeFelder f7
 
    1.Kd5-d6 ! Zugzwang.
-      1...Sh8-f7=wS
-          2.Tc8-c1 Zugzwang.
-              2...Le8*f7=wL
-                  3.Lf7-c4 #
       1...Le8-f7=wL
           2.Te7-e1 Zugzwang.
               2...Sh8*f7=wS
                   3.Sf7-e5 #
+      1...Sh8-f7=wS
+          2.Tc8-c1 Zugzwang.
+              2...Le8*f7=wL
+                  3.Lf7-c4 #
 
 
-              empile:       40068
-            jouecoup:       16860
-        orig_rbechec:        8199
-        orig_rnechec:       11551
+              empile:       39992
+            jouecoup:       16774
+        orig_rbechec:        8123
+        orig_rnechec:       11541
 Loesung beendet. 
 
 
@@ -900,25 +900,6 @@ Loesung beendet.
    1.Sg7-f5 !
       1...Ke5-f6
           2.Sf5-d6 +
-              2...Kf6-e5
-                  3.Sd6-f7 #
-              2...Kf6-g5
-                  3.Sd6-f7 +
-                      3...Kg5-h5
-                          4.Tf4-h4 #
-                  3.Sd4-e6 +
-                      3...Kg5-h5
-                          4.Tf4-h4 #
-                      3...Kg5-h6
-                          4.Tf4-h4 #
-              2...Kf6-g7
-                  3.Sd4-e6 +
-                      3...Kg7-g8
-                          4.Tf4-f8 #
-                      3...Kg7-h8
-                          4.Tf4-f8 #
-                      3...Kg7-h6
-                          4.Tf4-h4 #
               2...Kf6-e7
                   3.c6-c7
                       3...Ke7-d7
@@ -928,56 +909,27 @@ Loesung beendet.
                           4.Tf7-d7 #
                           4.c6-c7 #
                           4.Sd4-e6 #
+              2...Kf6-g7
+                  3.Sd4-e6 +
+                      3...Kg7-g8
+                          4.Tf4-f8 #
+                      3...Kg7-h8
+                          4.Tf4-f8 #
+                      3...Kg7-h6
+                          4.Tf4-h4 #
+              2...Kf6-g5
+                  3.Sd6-f7 +
+                      3...Kg5-h5
+                          4.Tf4-h4 #
+                  3.Sd4-e6 +
+                      3...Kg5-h5
+                          4.Tf4-h4 #
+                      3...Kg5-h6
+                          4.Tf4-h4 #
+              2...Kf6-e5
+                  3.Sd6-f7 #
 
    1.Sd4-f3=sS !
-      1...Sf3-d4
-          2.c2-c3
-              2...Sd4-b3
-                  3.Tf4-f5 #
-              2...Sd4-c2
-                  3.Tf4-f5 #
-              2...Sd4-e2
-                  3.Tf4-f5 #
-              2...Sd4-f5
-                  3.Tf4*f5 #
-              2...Sd4-e6
-                  3.Tf4-f5 #
-              2...Sd4*c6
-                  3.Tf4-f5 #
-              2...Sd4-b5
-                  3.Tf4-f5 #
-      1...Sf3-g5
-          2.c2-c3
-              2...Sg5-e4
-                  3.Tf4-f5 #
-              2...Sg5-h3
-                  3.Tf4-f5 #
-              2...Sg5-h7
-                  3.Tf4-f5 #
-              2...Sg5-f7
-                  3.Tf4-f5 #
-              2...Sg5-e6
-                  3.Tf4-f5 #
-      1...Sf3-h4
-          2.c2-c3
-              2...Sh4-g2
-                  3.Tf4-f5 #
-              2...Sh4-g6
-                  3.Tf4-f5 #
-              2...Sh4-f5
-                  3.Tf4*f5 #
-      1...Sf3-h2
-          2.c2-c3
-              2...Sh2-f1
-                  3.Tf4-f5 #
-              2...Sh2-g4
-                  3.Tf4-f5 #
-      1...Sf3-g1
-          2.c2-c3
-              2...Sg1-h3
-                  3.Tf4-f5 #
-              2...Sg1-e2
-                  3.Tf4-f5 #
       1...Sf3-d2
           2.c2-c3
               2...Sd2-b1
@@ -998,12 +950,60 @@ Loesung beendet.
                           4.Se1-d3 #
                       3...f2*e1=wL
                           4.Le1-c3 #
+      1...Sf3-g1
+          2.c2-c3
+              2...Sg1-h3
+                  3.Tf4-f5 #
+              2...Sg1-e2
+                  3.Tf4-f5 #
+      1...Sf3-h2
+          2.c2-c3
+              2...Sh2-f1
+                  3.Tf4-f5 #
+              2...Sh2-g4
+                  3.Tf4-f5 #
+      1...Sf3-h4
+          2.c2-c3
+              2...Sh4-g2
+                  3.Tf4-f5 #
+              2...Sh4-g6
+                  3.Tf4-f5 #
+              2...Sh4-f5
+                  3.Tf4*f5 #
+      1...Sf3-g5
+          2.c2-c3
+              2...Sg5-e4
+                  3.Tf4-f5 #
+              2...Sg5-h3
+                  3.Tf4-f5 #
+              2...Sg5-h7
+                  3.Tf4-f5 #
+              2...Sg5-f7
+                  3.Tf4-f5 #
+              2...Sg5-e6
+                  3.Tf4-f5 #
+      1...Sf3-d4
+          2.c2-c3
+              2...Sd4-b3
+                  3.Tf4-f5 #
+              2...Sd4-c2
+                  3.Tf4-f5 #
+              2...Sd4-e2
+                  3.Tf4-f5 #
+              2...Sd4-f5
+                  3.Tf4*f5 #
+              2...Sd4-e6
+                  3.Tf4-f5 #
+              2...Sd4*c6
+                  3.Tf4-f5 #
+              2...Sd4-b5
+                  3.Tf4-f5 #
 
 
-              empile:      284771
-            jouecoup:      130458
-        orig_rbechec:       71586
-        orig_rnechec:       77347
+              empile:      284397
+            jouecoup:      130044
+        orig_rbechec:       71212
+        orig_rnechec:       77307
 Loesung beendet. 
 
 

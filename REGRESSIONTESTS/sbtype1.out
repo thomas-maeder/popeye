@@ -168,62 +168,62 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
           2.Sg7-e6 +
               2...Kf4-e4
                   3.Dh3-f3 #
-      1...Lg8*f7
-          2.Dh3-f3 +
-              2...Kf4-g5
-                  3.Df3-g3 +
-                      3...Kg5-f6
-                          4.d4*e5 #
-      1...e5*d4
-          2.Dh3-f3 +
-              2...Kf4-g5
-                  3.Df3-f5 +
-                      3...Kg5-h4
-                          4.Df5-f4 #
-              2...Kf4-e5
-                  3.Df3-f5 +
-                      3...Ke5-d6
-                          4.Sg7-e8 #
-      1...Kf4-g5
-          2.f7*g8=T Drohung:
-                  3.Sg7-h5 #
-              2...Le7-f8
-                  3.Sg7-h5 +
-                      3...Lf8-g7
-                          4.Tg8*g7 #
-              2...h6-h5
-                  3.Sg7*h5 +
-                      3...Kg5-h6
-                          4.Sh5-f6 #
-              2...Kg5-f4
-                  3.Sg7-e6 +
-                      3...Kf4-e4
-                          4.Dh3-f3 #
-              2...Kg5-f6
-                  3.Dh3-f5 #
-              2...Kg5-g6
-                  3.Dh3-f5 #
-              2...Le7-f6
-                  3.Sg7-e6 #
-                  3.Dh3-g3 #
-          2.Dh3-f5 +
-              2...Kg5-h4
-                  3.Sg7-h5 Drohung:
-                          4.g2-g3 #
-                      3...Le7-g5
-                          4.Df5-h3 #
       1...Kf4-e4
           2.Dh3-f3 +
               2...Ke4*d4
                   3.Sg7-e6 +
                       3...Kd4-c4
                           4.Df3-b3 #
+      1...Kf4-g5
+          2.f7*g8=T Drohung:
+                  3.Sg7-h5 #
+              2...Kg5-g6
+                  3.Dh3-f5 #
+              2...Kg5-f6
+                  3.Dh3-f5 #
+              2...Kg5-f4
+                  3.Sg7-e6 +
+                      3...Kf4-e4
+                          4.Dh3-f3 #
+              2...h6-h5
+                  3.Sg7*h5 +
+                      3...Kg5-h6
+                          4.Sh5-f6 #
+              2...Le7-f6
+                  3.Sg7-e6 #
+                  3.Dh3-g3 #
+              2...Le7-f8
+                  3.Sg7-h5 +
+                      3...Lf8-g7
+                          4.Tg8*g7 #
+          2.Dh3-f5 +
+              2...Kg5-h4
+                  3.Sg7-h5 Drohung:
+                          4.g2-g3 #
+                      3...Le7-g5
+                          4.Df5-h3 #
+      1...e5*d4
+          2.Dh3-f3 +
+              2...Kf4-e5
+                  3.Df3-f5 +
+                      3...Ke5-d6
+                          4.Sg7-e8 #
+              2...Kf4-g5
+                  3.Df3-f5 +
+                      3...Kg5-h4
+                          4.Df5-f4 #
+      1...Lg8*f7
+          2.Dh3-f3 +
+              2...Kf4-g5
+                  3.Df3-g3 +
+                      3...Kg5-f6
+                          4.d4*e5 #
 
 
-              empile:     1622599
-            jouecoup:     1034739
-        orig_rbechec:      528312
-        orig_rnechec:      566248
+              empile:     1621295
+            jouecoup:     1033125
+        orig_rbechec:      527021
+        orig_rnechec:      565952
 Loesung beendet. 
 
 
@@ -272,6 +272,42 @@ Beispiel 1
                               4...b2-b1=S +
                                   5.Ka3-b2 Drohung:
                                           6.De5-g5 #
+              2...Th3-f3
+                  3.Db8-e5 Drohung:
+                          4.De5-g5 #
+                      3...Tf3-a3 +
+                          4.Ka4*a3 Drohung:
+                                  5.De5-f4 #
+                                  5.De5-g5 #
+                              4...b2-b1=S +
+                                  5.Ka3-b2 Drohung:
+                                          6.De5-f4 #
+                                          6.De5-g5 #
+                                      5...Kh4-g4
+                                          6.De5-g5 #
+                              4...Kh4-g4
+                                  5.De5-g5 #
+                      3...Tf3-f5
+                          4.De5-h2 +
+                              4...Kh4-g4
+                                  5.Dh2-h3 +
+                                      5...Kg4-f4
+                                          6.Dh3-f3 #
+                      3...Tf3-g3
+                          4.De5-f4 +
+                              4...Tg3-g4
+                                  5.Df4-h2 #
+                          4.De5-f6 +
+                              4...Tg3-g5
+                                  5.Df6*g5 #
+                              4...Kh4-g4
+                                  5.Df6-g5 #
+                          4.De5-e7 +
+                              4...Tg3-g5
+                                  5.De7*g5 #
+                              4...Kh4-g4
+                                  5.De7-g5 #
+                                  5.De7-e4 #
               2...Th3-g3
                   3.Db8-f4 +
                       3...Tg3-g4
@@ -290,48 +326,12 @@ Beispiel 1
                               4...b2-b1=S +
                                   5.Ka3-b2 Drohung:
                                           6.De5-g5 #
-              2...Th3-f3
-                  3.Db8-e5 Drohung:
-                          4.De5-g5 #
-                      3...Tf3-a3 +
-                          4.Ka4*a3 Drohung:
-                                  5.De5-f4 #
-                                  5.De5-g5 #
-                              4...b2-b1=S +
-                                  5.Ka3-b2 Drohung:
-                                          6.De5-f4 #
-                                          6.De5-g5 #
-                                      5...Kh4-g4
-                                          6.De5-g5 #
-                              4...Kh4-g4
-                                  5.De5-g5 #
-                      3...Tf3-g3
-                          4.De5-f4 +
-                              4...Tg3-g4
-                                  5.Df4-h2 #
-                          4.De5-f6 +
-                              4...Tg3-g5
-                                  5.Df6*g5 #
-                              4...Kh4-g4
-                                  5.Df6-g5 #
-                          4.De5-e7 +
-                              4...Tg3-g5
-                                  5.De7*g5 #
-                              4...Kh4-g4
-                                  5.De7-g5 #
-                                  5.De7-e4 #
-                      3...Tf3-f5
-                          4.De5-h2 +
-                              4...Kh4-g4
-                                  5.Dh2-h3 +
-                                      5...Kg4-f4
-                                          6.Dh3-f3 #
 
 
-              empile:     7510962
-            jouecoup:     6572272
-        orig_rbechec:     4949050
-        orig_rnechec:     1669428
+              empile:     7508810
+            jouecoup:     6569962
+        orig_rbechec:     4946997
+        orig_rnechec:     1669149
 Loesung beendet. 
 
 
@@ -366,10 +366,6 @@ Loesung beendet.
                   3.e7-e8=S #
               2...f5*e4
                   3.e7-e8=S #
-      1...Tf6-f8
-          2.Lb6*c7 +
-              2...Sa6*c7
-                  3.e7*f8=L #
       1...De2-g4
           2.Dh1-d1 +
               2...Dg4*d1
@@ -378,6 +374,10 @@ Loesung beendet.
           2.Te5-d5 +
               2...c6*d5
                   3.e7*d8=T #
+      1...Tf6-f8
+          2.Lb6*c7 +
+              2...Sa6*c7
+                  3.e7*f8=L #
 
    1.Lb6*c7 + ?
     Aber
@@ -388,10 +388,10 @@ Loesung beendet.
       1...c6*d5 !
 
 
-              empile:      753769
-            jouecoup:      482172
-        orig_rbechec:       80146
-        orig_rnechec:      430452
+              empile:      760262
+            jouecoup:      486025
+        orig_rbechec:       79271
+        orig_rnechec:      435492
 Loesung beendet. 
 
 

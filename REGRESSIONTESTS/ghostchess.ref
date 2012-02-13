@@ -1108,18 +1108,18 @@ solution finished.
    1.Se6-f8 !
       1...Kh8-g7
           2.h7-h8=Q +
-              2...Kg7*h8
-                  3.Sf8-g6 #
               2...Kg7-f7
                   3.Qh8-g7 +
                       3...Kf7*g7
                           4.Sf8-e6 #
+              2...Kg7*h8
+                  3.Sf8-g6 #
 
 
-              empile:       31667
-            jouecoup:       20965
-        orig_rbechec:       13058
-        orig_rnechec:        9692
+              empile:       31625
+            jouecoup:       20909
+        orig_rbechec:       13013
+        orig_rnechec:        9681
 solution finished. 
 
 

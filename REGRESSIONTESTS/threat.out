@@ -26,6 +26,8 @@
 
    1.Tf3-f6 ! Drohung:
           2.Tf6-b6 #
+      1...c3-c2
+          2.Tf6-f3 #
       1...d7-d6
           2.Tf6-f1 Drohung:
                   3.Tf1-b1 #
@@ -36,14 +38,12 @@
                           4.Tf5-b5 #
                       3...c3-c2
                           4.Tf5-f3 #
-      1...c3-c2
-          2.Tf6-f3 #
 
 
-              empile:       35530
-            jouecoup:       19491
-        orig_rbechec:        9720
-        orig_rnechec:       12578
+              empile:       34999
+            jouecoup:       19014
+        orig_rbechec:        9250
+        orig_rnechec:       12574
 Loesung beendet. 
 
 
@@ -76,58 +76,58 @@ Loesung beendet.
    1.Sb1-a3 ! Drohung:
           2.Sa3-c2 #
           2.Sa3-b5 #
+      1...c3-c2
+          2.Sa3-b5 #
+      1...Tg6-b6
+          2.Sa3-c2 #
+      1...Lc8-a6
+          2.Sa3-c2 #
+      1...Lc8-d7
+          2.Sa3-c2 #
       1...Lf8*a3 [+wSg1]
           2.Sg1-f3 +
               2...Kd4-e4
                   3.Sf3-g5 +
                       3...Ke4-d4
                           4.Sg5-e6 +
-                              4...Lc8*e6 [+wSb1]
-                                  5.Sb1*a3 [+sLf8] Drohung:
-                                          6.Sa3-c2 #
-                                          6.Sa3-b5 #
-                                      5...Lf8*a3 [+wSg1]
-                                          6.Sg1-f3 +
-                                              6...Kd4-e4
-                                                  7.Sf3-e5 +
-                                                      7...Ke4-d4
-                                                          8.Se5-c6 #
-                                      5...c3-c2
-                                          6.Sa3-b5 #
-                                      5...Le6-d7
-                                          6.Sa3-c2 #
                               4...Tg6*e6 [+wSb1]
                                   5.Sb1*a3 [+sLf8] Drohung:
                                           6.Sa3-c2 #
                                           6.Sa3-b5 #
+                                      5...c3-c2
+                                          6.Sa3-b5 #
+                                      5...Te6-b6
+                                          6.Sa3-c2 #
+                                      5...Lc8-a6
+                                          6.Sa3-c2 #
+                                      5...Lc8-d7
+                                          6.Sa3-c2 #
                                       5...Lf8*a3 [+wSg1]
                                           6.Sg1-f3 +
                                               6...Kd4-e4
                                                   7.Sf3-h4 +
                                                       7...Ke4-d4
                                                           8.Sh4-f5 #
+                              4...Lc8*e6 [+wSb1]
+                                  5.Sb1*a3 [+sLf8] Drohung:
+                                          6.Sa3-c2 #
+                                          6.Sa3-b5 #
                                       5...c3-c2
                                           6.Sa3-b5 #
-                                      5...Lc8-d7
+                                      5...Le6-d7
                                           6.Sa3-c2 #
-                                      5...Lc8-a6
-                                          6.Sa3-c2 #
-                                      5...Te6-b6
-                                          6.Sa3-c2 #
-      1...c3-c2
-          2.Sa3-b5 #
-      1...Lc8-d7
-          2.Sa3-c2 #
-      1...Lc8-a6
-          2.Sa3-c2 #
-      1...Tg6-b6
-          2.Sa3-c2 #
+                                      5...Lf8*a3 [+wSg1]
+                                          6.Sg1-f3 +
+                                              6...Kd4-e4
+                                                  7.Sf3-e5 +
+                                                      7...Ke4-d4
+                                                          8.Se5-c6 #
 
 
-              empile:       79874
-            jouecoup:       66314
-        orig_rbechec:       42393
-        orig_rnechec:       29260
+              empile:       77921
+            jouecoup:       64110
+        orig_rbechec:       40476
+        orig_rnechec:       28972
 Loesung beendet. 
 
 
@@ -207,6 +207,15 @@ nebenloesig - eigentlich #6
 
    1.ROd1-f6 ! Drohung:
           2.ROf6*b2 [+sSf6] #
+      1...Sb2-d1
+          2.ROf6*d1 [+sSf6] #
+      1...f3-f2
+          2.ROf6*c3 [+sBf6] +
+              2...d4*c3 [+wROd4]
+                  3.ROd4-g7 Drohung:
+                          4.ROg7*c3 [+sBg7] #
+                      3...Se6*g7 [+wROe6]
+                          4.ROe6*c5 [+sBe6] #
       1...g5-g4
           2.ROf6*c3 [+sBf6] +
               2...d4*c3 [+wROd4]
@@ -217,21 +226,12 @@ nebenloesig - eigentlich #6
                                   5.ROg3*c3 [+sBg3] #
                       3...Se6*g7 [+wROe6]
                           4.ROe6*c5 [+sBe6] #
-      1...Sb2-d1
-          2.ROf6*d1 [+sSf6] #
-      1...f3-f2
-          2.ROf6*c3 [+sBf6] +
-              2...d4*c3 [+wROd4]
-                  3.ROd4-g7 Drohung:
-                          4.ROg7*c3 [+sBg7] #
-                      3...Se6*g7 [+wROe6]
-                          4.ROe6*c5 [+sBe6] #
 
 
-              empile:      139332
-            jouecoup:      121319
-        orig_rbechec:       51534
-        orig_rnechec:       74332
+              empile:      138237
+            jouecoup:      120099
+        orig_rbechec:       50407
+        orig_rnechec:       74239
 Loesung beendet. 
 
 

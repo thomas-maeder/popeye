@@ -224,36 +224,16 @@ Loesung beendet.
 
    1.Sb3-a5 ! Drohung:
           2.Sa5*c4 [+sBc7] #
-      1...f4*g3 [+wDd1]
-          2.Dd1-d2 +
-              2...c3*d2 [+wDd1]
-                  3.Dd1*d2 [+sBd7] +
-                      3...Tc2*d2 [+wDd1]
-                          4.Dd1*d2 [+sTh8] #
-              2...Tc2*d2 [+wDd1]
-                  3.Dd1*d2 [+sTh8] +
-                      3...c3*d2 [+wDd1]
-                          4.Dd1*d2 [+sBd7] #
-      1...Tf3*g3 [+wDd1]
-          2.Dd1*d3 [+sBd7] +
-              2...c4*d3 [+wDd1]
-                  3.Dd1*d3 +
-                      3...Se1*d3 [+wDd1]
-                          4.Dd1*d3 [+sSg8] #
-              2...Se1*d3 [+wDd1]
-                  3.Dd1*d3 [+sSg8] +
-                      3...c4*d3 [+wDd1]
-                          4.Dd1*d3 #
       1...Lf2*g3 [+wDd1]
           2.Dd1*e2 [+sBe7] +
-              2...d3*e2 [+wDd1]
-                  3.Dd1*e2 +
-                      3...Tc2*e2 [+wDd1]
-                          4.Dd1*e2 [+sTa8] #
               2...Tc2*e2 [+wDd1]
                   3.Dd1*e2 [+sTa8] +
                       3...d3*e2 [+wDd1]
                           4.Dd1*e2 #
+              2...d3*e2 [+wDd1]
+                  3.Dd1*e2 +
+                      3...Tc2*e2 [+wDd1]
+                          4.Dd1*e2 [+sTa8] #
       1...d3-d2
           2.Sa5*c4 [+sBc7] +
               2...Ke3-d3
@@ -283,31 +263,6 @@ Loesung beendet.
                   3.Df2*e2 [+sBe7] +
                       3...Kd2-c1
                           4.De2*c2 [+sTa8] #
-              2...Tf3-g3
-                  3.Sa5-b3 +
-                      3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
-                  3.Sa5*c4 [+sBc7] +
-                      3...Kd2-d1
-                          4.Df2*e1 [+sSb8] #
-                      3...Kd2-c1
-                          4.Df2*e1 [+sSb8] #
-                  3.Df2*e2 [+sBe7] +
-                      3...Kd2-c1
-                          4.De2*c2 [+sTa8] #
-              2...Kd2-c1
-                  3.Df2*e1 [+sSb8] +
-                      3...Kc1-b2
-                          4.De1-a1 #
-              2...Tc2-b2
-                  3.Df2*e1 [+sSb8] +
-                      3...Kd2-c2
-                          4.De1-c1 #
-                      3...Kd2-e3
-                          4.Sa5*c4 [+sBc7] #
-                  3.Df2*e2 [+sBe7] +
-                      3...Kd2-c1
-                          4.De2-c2 #
               2...Tc2-a2
                   3.Df2*e1 [+sSb8] +
                       3...Kd2-c2
@@ -317,6 +272,19 @@ Loesung beendet.
                   3.Df2*e2 [+sBe7] +
                       3...Kd2-c1
                           4.De2-c2 #
+              2...Tc2-b2
+                  3.Df2*e1 [+sSb8] +
+                      3...Kd2-c2
+                          4.De1-c1 #
+                      3...Kd2-e3
+                          4.Sa5*c4 [+sBc7] #
+                  3.Df2*e2 [+sBe7] +
+                      3...Kd2-c1
+                          4.De2-c2 #
+              2...Kd2-c1
+                  3.Df2*e1 [+sSb8] +
+                      3...Kc1-b2
+                          4.De1-a1 #
               2...Tf3-h3
                   3.Sa5-b3 +
                       3...Kd2-d1
@@ -329,12 +297,44 @@ Loesung beendet.
                   3.Df2*e2 [+sBe7] +
                       3...Kd2-c1
                           4.De2*c2 [+sTa8] #
+              2...Tf3-g3
+                  3.Sa5-b3 +
+                      3...Kd2-d1
+                          4.Df2*e1 [+sSb8] #
+                  3.Sa5*c4 [+sBc7] +
+                      3...Kd2-d1
+                          4.Df2*e1 [+sSb8] #
+                      3...Kd2-c1
+                          4.Df2*e1 [+sSb8] #
+                  3.Df2*e2 [+sBe7] +
+                      3...Kd2-c1
+                          4.De2*c2 [+sTa8] #
+      1...Tf3*g3 [+wDd1]
+          2.Dd1*d3 [+sBd7] +
+              2...Se1*d3 [+wDd1]
+                  3.Dd1*d3 [+sSg8] +
+                      3...c4*d3 [+wDd1]
+                          4.Dd1*d3 #
+              2...c4*d3 [+wDd1]
+                  3.Dd1*d3 +
+                      3...Se1*d3 [+wDd1]
+                          4.Dd1*d3 [+sSg8] #
+      1...f4*g3 [+wDd1]
+          2.Dd1-d2 +
+              2...Tc2*d2 [+wDd1]
+                  3.Dd1*d2 [+sTh8] +
+                      3...c3*d2 [+wDd1]
+                          4.Dd1*d2 [+sBd7] #
+              2...c3*d2 [+wDd1]
+                  3.Dd1*d2 [+sBd7] +
+                      3...Tc2*d2 [+wDd1]
+                          4.Dd1*d2 [+sTh8] #
 
 
-              empile:      588272
-            jouecoup:      399176
-        orig_rbechec:      274703
-        orig_rnechec:      143819
+              empile:      587117
+            jouecoup:      398049
+        orig_rbechec:      273872
+        orig_rnechec:      143503
 Loesung beendet. 
 
 

@@ -168,62 +168,62 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
           2.Sg7-e6 +
               2...Kf4-e4
                   3.Qh3-f3 #
-      1...Bg8*f7
-          2.Qh3-f3 +
-              2...Kf4-g5
-                  3.Qf3-g3 +
-                      3...Kg5-f6
-                          4.d4*e5 #
-      1...e5*d4
-          2.Qh3-f3 +
-              2...Kf4-g5
-                  3.Qf3-f5 +
-                      3...Kg5-h4
-                          4.Qf5-f4 #
-              2...Kf4-e5
-                  3.Qf3-f5 +
-                      3...Ke5-d6
-                          4.Sg7-e8 #
-      1...Kf4-g5
-          2.f7*g8=R threat:
-                  3.Sg7-h5 #
-              2...Be7-f8
-                  3.Sg7-h5 +
-                      3...Bf8-g7
-                          4.Rg8*g7 #
-              2...h6-h5
-                  3.Sg7*h5 +
-                      3...Kg5-h6
-                          4.Sh5-f6 #
-              2...Kg5-f4
-                  3.Sg7-e6 +
-                      3...Kf4-e4
-                          4.Qh3-f3 #
-              2...Kg5-f6
-                  3.Qh3-f5 #
-              2...Kg5-g6
-                  3.Qh3-f5 #
-              2...Be7-f6
-                  3.Sg7-e6 #
-                  3.Qh3-g3 #
-          2.Qh3-f5 +
-              2...Kg5-h4
-                  3.Sg7-h5 threat:
-                          4.g2-g3 #
-                      3...Be7-g5
-                          4.Qf5-h3 #
       1...Kf4-e4
           2.Qh3-f3 +
               2...Ke4*d4
                   3.Sg7-e6 +
                       3...Kd4-c4
                           4.Qf3-b3 #
+      1...Kf4-g5
+          2.f7*g8=R threat:
+                  3.Sg7-h5 #
+              2...Kg5-g6
+                  3.Qh3-f5 #
+              2...Kg5-f6
+                  3.Qh3-f5 #
+              2...Kg5-f4
+                  3.Sg7-e6 +
+                      3...Kf4-e4
+                          4.Qh3-f3 #
+              2...h6-h5
+                  3.Sg7*h5 +
+                      3...Kg5-h6
+                          4.Sh5-f6 #
+              2...Be7-f6
+                  3.Sg7-e6 #
+                  3.Qh3-g3 #
+              2...Be7-f8
+                  3.Sg7-h5 +
+                      3...Bf8-g7
+                          4.Rg8*g7 #
+          2.Qh3-f5 +
+              2...Kg5-h4
+                  3.Sg7-h5 threat:
+                          4.g2-g3 #
+                      3...Be7-g5
+                          4.Qf5-h3 #
+      1...e5*d4
+          2.Qh3-f3 +
+              2...Kf4-e5
+                  3.Qf3-f5 +
+                      3...Ke5-d6
+                          4.Sg7-e8 #
+              2...Kf4-g5
+                  3.Qf3-f5 +
+                      3...Kg5-h4
+                          4.Qf5-f4 #
+      1...Bg8*f7
+          2.Qh3-f3 +
+              2...Kf4-g5
+                  3.Qf3-g3 +
+                      3...Kg5-f6
+                          4.d4*e5 #
 
 
-              empile:     1622599
-            jouecoup:     1034739
-        orig_rbechec:      528312
-        orig_rnechec:      566248
+              empile:     1621295
+            jouecoup:     1033125
+        orig_rbechec:      527021
+        orig_rnechec:      565952
 solution finished. 
 
 
@@ -272,6 +272,42 @@ Example 1
                               4...b2-b1=S +
                                   5.Ka3-b2 threat:
                                           6.Qe5-g5 #
+              2...Rh3-f3
+                  3.Qb8-e5 threat:
+                          4.Qe5-g5 #
+                      3...Rf3-a3 +
+                          4.Ka4*a3 threat:
+                                  5.Qe5-f4 #
+                                  5.Qe5-g5 #
+                              4...b2-b1=S +
+                                  5.Ka3-b2 threat:
+                                          6.Qe5-f4 #
+                                          6.Qe5-g5 #
+                                      5...Kh4-g4
+                                          6.Qe5-g5 #
+                              4...Kh4-g4
+                                  5.Qe5-g5 #
+                      3...Rf3-f5
+                          4.Qe5-h2 +
+                              4...Kh4-g4
+                                  5.Qh2-h3 +
+                                      5...Kg4-f4
+                                          6.Qh3-f3 #
+                      3...Rf3-g3
+                          4.Qe5-f4 +
+                              4...Rg3-g4
+                                  5.Qf4-h2 #
+                          4.Qe5-f6 +
+                              4...Rg3-g5
+                                  5.Qf6*g5 #
+                              4...Kh4-g4
+                                  5.Qf6-g5 #
+                          4.Qe5-e7 +
+                              4...Rg3-g5
+                                  5.Qe7*g5 #
+                              4...Kh4-g4
+                                  5.Qe7-g5 #
+                                  5.Qe7-e4 #
               2...Rh3-g3
                   3.Qb8-f4 +
                       3...Rg3-g4
@@ -290,48 +326,12 @@ Example 1
                               4...b2-b1=S +
                                   5.Ka3-b2 threat:
                                           6.Qe5-g5 #
-              2...Rh3-f3
-                  3.Qb8-e5 threat:
-                          4.Qe5-g5 #
-                      3...Rf3-a3 +
-                          4.Ka4*a3 threat:
-                                  5.Qe5-f4 #
-                                  5.Qe5-g5 #
-                              4...b2-b1=S +
-                                  5.Ka3-b2 threat:
-                                          6.Qe5-f4 #
-                                          6.Qe5-g5 #
-                                      5...Kh4-g4
-                                          6.Qe5-g5 #
-                              4...Kh4-g4
-                                  5.Qe5-g5 #
-                      3...Rf3-g3
-                          4.Qe5-f4 +
-                              4...Rg3-g4
-                                  5.Qf4-h2 #
-                          4.Qe5-f6 +
-                              4...Rg3-g5
-                                  5.Qf6*g5 #
-                              4...Kh4-g4
-                                  5.Qf6-g5 #
-                          4.Qe5-e7 +
-                              4...Rg3-g5
-                                  5.Qe7*g5 #
-                              4...Kh4-g4
-                                  5.Qe7-g5 #
-                                  5.Qe7-e4 #
-                      3...Rf3-f5
-                          4.Qe5-h2 +
-                              4...Kh4-g4
-                                  5.Qh2-h3 +
-                                      5...Kg4-f4
-                                          6.Qh3-f3 #
 
 
-              empile:     7510962
-            jouecoup:     6572272
-        orig_rbechec:     4949050
-        orig_rnechec:     1669428
+              empile:     7508810
+            jouecoup:     6569962
+        orig_rbechec:     4946997
+        orig_rnechec:     1669149
 solution finished. 
 
 
@@ -366,10 +366,6 @@ solution finished.
                   3.e7-e8=S #
               2...f5*e4
                   3.e7-e8=S #
-      1...Rf6-f8
-          2.Bb6*c7 +
-              2...Sa6*c7
-                  3.e7*f8=B #
       1...Qe2-g4
           2.Qh1-d1 +
               2...Qg4*d1
@@ -378,6 +374,10 @@ solution finished.
           2.Re5-d5 +
               2...c6*d5
                   3.e7*d8=R #
+      1...Rf6-f8
+          2.Bb6*c7 +
+              2...Sa6*c7
+                  3.e7*f8=B #
 
    1.Bb6*c7 + ?
     but
@@ -388,10 +388,10 @@ solution finished.
       1...c6*d5 !
 
 
-              empile:      753769
-            jouecoup:      482172
-        orig_rbechec:       80146
-        orig_rnechec:      430452
+              empile:      760262
+            jouecoup:      486025
+        orig_rbechec:       79271
+        orig_rnechec:      435492
 solution finished. 
 
 

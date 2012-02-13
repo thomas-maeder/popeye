@@ -151,10 +151,10 @@
  49  (Tc1*e1 )
  50  (Tc1-d1 )
 
-              empile:    29801514
-            jouecoup:    21625777
-        orig_rbechec:    18453150
-        orig_rnechec:    15865004
+              empile:    29799925
+            jouecoup:    21623003
+        orig_rbechec:    18451561
+        orig_rnechec:    15863819
 Loesung beendet. 
 
 
@@ -283,10 +283,10 @@ Loesung beendet.
  46  (Ng1*c3 )
  47  (Ng1-e2 )
 
-              empile:   147641525
-            jouecoup:   120525362
-        orig_rbechec:   107826761
-        orig_rnechec:    78647255
+              empile:   147640358
+            jouecoup:   120523581
+        orig_rbechec:   107825594
+        orig_rnechec:    78646641
 Loesung beendet. 
 
 
@@ -407,10 +407,10 @@ Loesung beendet.
  43  (Tc1-e1 )
  44  (Tc1-d1 )
 
-              empile:     1280582
-            jouecoup:     1093028
-        orig_rbechec:      922551
-        orig_rnechec:      746441
+              empile:     1279594
+            jouecoup:     1091400
+        orig_rbechec:      921563
+        orig_rnechec:      745801
 Loesung beendet. 
 
 
@@ -516,10 +516,10 @@ Loesung beendet.
  31  (EQf4-b8 )
  32  (EQf4-h6 )
 
-              empile:    14997443
-            jouecoup:    11118617
-        orig_rbechec:     8909113
-        orig_rnechec:     8259873
+              empile:    14996743
+            jouecoup:    11117118
+        orig_rbechec:     8908413
+        orig_rnechec:     8259074
 Loesung beendet. 
 
 
@@ -643,10 +643,10 @@ Loesung beendet.
  46  (Lc1-a3 )
  47  (Lc1-b2 )
 
-              empile:    11109676
-            jouecoup:     9879425
-        orig_rbechec:     8109104
-        orig_rnechec:     7200604
+              empile:    11108773
+            jouecoup:     9877688
+        orig_rbechec:     8108201
+        orig_rnechec:     7199770
 Loesung beendet. 
 
 
@@ -763,10 +763,10 @@ Loesung beendet.
  43  (La2-c4 + )
  44  (La2-b3 )
 
-              empile:     3816129
-            jouecoup:     2714458
-        orig_rbechec:     2368882
-        orig_rnechec:     1846473
+              empile:     3815374
+            jouecoup:     2713118
+        orig_rbechec:     2368127
+        orig_rnechec:     1845888
 Loesung beendet. 
 
 
@@ -821,9 +821,9 @@ Loesung beendet.
                                                   7.Ke3*f2
                                                       7...e4-e3 +
                                                           8.Kf2-e1
-                                                              8...e5-e4
+                                                              8...e3-e2
                                                                   9.g6-g7
-                                                                      9...e3-e2
+                                                                      9...e5-e4
                                                                          10.g7-g8=S
                                                                              10...e4-e3
                                                                                  11.Sg8-f6
@@ -835,9 +835,9 @@ Loesung beendet.
                                                                                                          14.Se8-d6
                                                                                                              14...f4-f3
                                                                                                                  15.Sd6-c8 #
-                                                              8...e3-e2
+                                                              8...e5-e4
                                                                   9.g6-g7
-                                                                      9...e5-e4
+                                                                      9...e3-e2
                                                                          10.g7-g8=S
                                                                              10...e4-e3
                                                                                  11.Sg8-f6
@@ -868,10 +868,10 @@ Loesung beendet.
  27  (b2-b4 )
  28  (b2-b3 )
 
-              empile:     4365179
-            jouecoup:     3059510
-        orig_rbechec:     1054678
-        orig_rnechec:     2449432
+              empile:     4364875
+            jouecoup:     3059082
+        orig_rbechec:     1054362
+        orig_rnechec:     2449320
 Loesung beendet. 
 
 

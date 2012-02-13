@@ -137,8 +137,6 @@ Loesung beendet.
                   3.Df7-e7 +
                       3...Ke5-d5
                           4.e2-e4 +
-                              4...f5*e4
-                                  5.De7*e4 #
                               4...f4*e3 ep.
                                   5.De7-f7 +
                                       5...Kd5-e5
@@ -146,19 +144,6 @@ Loesung beendet.
                                               6...g4*f3 ep.
                                                   7.g2-g4 Drohung:
                                                           8.Df7*f5 #
-                                                      7...d6-d5
-                                                          8.Df7-e7 #
-                                                      7...f5*g4
-                                                          8.Tc4-f4 Drohung:
-                                                                  9.Df7-f5 #
-                                                              8...d6-d5
-                                                                  9.Df7-f6 #
-                                                              8...Sf1-g3
-                                                                  9.h2*g3 Drohung:
-                                                                         10.Df7-f5 #
-                                                                      9...d6-d5
-                                                                         10.Df7-f6 #
-                                                                         10.Df7-e7 #
                                                       7...Sf1-g3
                                                           8.Df7-e7 +
                                                               8...Ke5-d5
@@ -168,25 +153,40 @@ Loesung beendet.
                                                                          10.De7-e4 #
                                                           8.h2*g3 Drohung:
                                                                   9.Df7*f5 #
-                                                              8...d6-d5
-                                                                  9.Df7-e7 #
                                                               8...f5*g4
                                                                   9.Tc4-f4 Drohung:
                                                                          10.Df7-f5 #
                                                                       9...d6-d5
                                                                          10.Df7-f6 #
                                                                          10.Df7-e7 #
+                                                              8...d6-d5
+                                                                  9.Df7-e7 #
                                                       7...h4*g3 ep.
                                                           8.Df7-e7 +
                                                               8...Ke5-d5
                                                                   9.De7-f6 Drohung:
                                                                          10.Df6*f5 #
+                                                      7...f5*g4
+                                                          8.Tc4-f4 Drohung:
+                                                                  9.Df7-f5 #
+                                                              8...Sf1-g3
+                                                                  9.h2*g3 Drohung:
+                                                                         10.Df7-f5 #
+                                                                      9...d6-d5
+                                                                         10.Df7-f6 #
+                                                                         10.Df7-e7 #
+                                                              8...d6-d5
+                                                                  9.Df7-f6 #
+                                                      7...d6-d5
+                                                          8.Df7-e7 #
+                              4...f5*e4
+                                  5.De7*e4 #
 
 
-              empile:     3574285
-            jouecoup:     2753883
-        orig_rbechec:     1268616
-        orig_rnechec:     1662942
+              empile:     3572107
+            jouecoup:     2751425
+        orig_rbechec:     1266438
+        orig_rnechec:     1662662
 Loesung beendet. 
 
 
@@ -736,10 +736,10 @@ N.Y. State Chess Association, 16.8.1894
  29  (c2-c4 )
  30  (c2-c3 )
 
-              empile:      209952
-            jouecoup:      147623
-        orig_rbechec:      114261
-        orig_rnechec:       42460
+              empile:      209885
+            jouecoup:      147506
+        orig_rbechec:      114182
+        orig_rnechec:       42422
 Loesung beendet. 
 
 
@@ -802,14 +802,14 @@ Loesung beendet.
                   3.Sd5-e3 +
                       3...Kc2*d2
                           4.Se3-g2 +
-                              4...Kd2-c3
-                                  5.Dg1-c5 +
-                                      5...Sa4*c5 #
                               4...Kd2-c2
                                   5.Lh5-g6 +
                                       5...Kc2-c3
                                           6.Dg1-c5 +
                                               6...Sa4*c5 #
+                              4...Kd2-c3
+                                  5.Dg1-c5 +
+                                      5...Sa4*c5 #
 
  28  (Sd5-b4 + )
  29  (Sd5-c3 )
@@ -833,10 +833,10 @@ Loesung beendet.
  47  (Td1-f1 )
  48  (Td1-e1 )
 
-              empile:    21295207
-            jouecoup:    11418108
-        orig_rbechec:    11247254
-        orig_rnechec:     3041319
+              empile:    21294950
+            jouecoup:    11417804
+        orig_rbechec:    11247025
+        orig_rnechec:     3041248
 Loesung beendet. 
 
 

@@ -82,8 +82,8 @@ solution finished.
                   3.kRb2*b3 [+bPb7][wkRb3->h1]
 
 
-              empile:        7180
-            jouecoup:        7154
+              empile:        7156
+            jouecoup:        7129
         orig_rbechec:           0
         orig_rnechec:           0
 solution finished. 
@@ -131,9 +131,9 @@ originally occupied by the other exchanger
                           4.kSh3*g1 [+bkBf8][wkSg1->g1]
 
 
-              empile:       48015
-            jouecoup:       47443
-        orig_rbechec:       11838
+              empile:       47971
+            jouecoup:       47397
+        orig_rbechec:       11794
         orig_rnechec:           0
 solution finished. 
 

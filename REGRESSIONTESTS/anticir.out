@@ -1568,10 +1568,10 @@ Loesung beendet.
                       3...Td7-d1 #
 
 
-              empile:      570460
-            jouecoup:      214313
-        orig_rbechec:      213780
-        orig_rnechec:      129611
+              empile:      570387
+            jouecoup:      214220
+        orig_rbechec:      213697
+        orig_rnechec:      129601
 Loesung beendet. 
 
 
@@ -1606,6 +1606,16 @@ Loesung beendet.
           2.Lc8-b7 +
               2...Kc6-d7
                   3.Lb7-c6 #
+      1...Ta2-b2
+          2.Se6-d8 +
+              2...Tb2-b1
+                  3.b4-b5 #
+              2...Kc6-b5
+                  3.Lc8-a6 #
+      1...Tb3-b2
+          2.b4-b5 +
+              2...Tb2-c2
+                  3.Se6-d8 #
       1...Sg6-e7
           2.Tf8-g8 Drohung:
                   3.Lc8-d7 #
@@ -1615,22 +1625,12 @@ Loesung beendet.
                   3.Ka8-b7 #
               2...Sf6-d7
                   3.Lc8-b7 #
-      1...Tb3-b2
-          2.b4-b5 +
-              2...Tb2-c2
-                  3.Se6-d8 #
-      1...Ta2-b2
-          2.Se6-d8 +
-              2...Tb2-b1
-                  3.b4-b5 #
-              2...Kc6-b5
-                  3.Lc8-a6 #
 
 
-              empile:      162824
-            jouecoup:      102968
-        orig_rbechec:       30485
-        orig_rnechec:       76379
+              empile:      162179
+            jouecoup:      102415
+        orig_rbechec:       29519
+        orig_rnechec:       76832
 Loesung beendet. 
 
 
@@ -1662,9 +1662,9 @@ Loesung beendet.
               AntiCirce
 
    1.c6-c7 ! Zugzwang.
-      1...a7-a6
-          2.c7-c8=L Drohung:
-                  3.Lc8*a6[wLa6->f1] #
+      1...c5*d4[sBd4->d7]
+          2.c7-c8=T Drohung:
+                  3.Tc8*c4[wTc4->h1] #
       1...d5*e4[sBe4->e7]
           2.c7-c8=S Drohung:
                   3.Sc8*a7[wSa7->g1] #
@@ -1675,19 +1675,19 @@ Loesung beendet.
                   3.Sc8*a7[wSa7->g1] #
               2...e7-e6
                   3.Sc8*a7[wSa7->g1] #
-      1...c5*d4[sBd4->d7]
-          2.c7-c8=T Drohung:
-                  3.Tc8*c4[wTc4->h1] #
+      1...a7-a6
+          2.c7-c8=L Drohung:
+                  3.Lc8*a6[wLa6->f1] #
       1...Sh8-g6
           2.f5*g6[wBg6->g2] +
               2...Kh3*g2[sKg2->e8]
                   3.c7-c8=D #
 
 
-              empile:       19863
-            jouecoup:       15263
-        orig_rbechec:        3423
-        orig_rnechec:       12133
+              empile:       19812
+            jouecoup:       15190
+        orig_rbechec:        3323
+        orig_rnechec:       12160
 Loesung beendet. 
 
 
@@ -1731,10 +1731,10 @@ Loesung beendet.
                       3...f2-f1=S #
 
 
-              empile:      109593
-            jouecoup:       97469
-        orig_rbechec:       85666
-        orig_rnechec:       20575
+              empile:      109547
+            jouecoup:       97400
+        orig_rbechec:       85610
+        orig_rnechec:       20562
 Loesung beendet. 
 
 
@@ -1766,52 +1766,52 @@ Loesung beendet.
               AntiCirce
 
    1.Sg5-f3 ! Zugzwang.
-      1...Se2-f4
-          2.d5*e6[wBe6->e2] +
-              2...Sf4*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
-      1...Se2-g1
-          2.d5*e6[wBe6->e2] +
-              2...Sg1*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
-      1...Se2-d4
-          2.d5*e6[wBe6->e2] +
-              2...Sd4*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
-      1...Se2-g3
-          2.d5*e6[wBe6->e2] +
-              2...Sg3*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
-      1...Se2-c1
-          2.d5*e6[wBe6->e2] +
-              2...Sc1*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
+      1...Lc2-b1
+          2.d5*c6[wBc6->c2] +
+              2...Lb1*c2[sLc2->c8]
+                  3.d7*c8=D[wDc8->d1] #
       1...Lc2-d1
           2.d5*c6[wBc6->c2] +
               2...Ld1*c2[sLc2->c8]
-                  3.d7*c8=D[wDc8->d1] #
-      1...Se2-c3
-          2.d5*e6[wBe6->e2] +
-              2...Sc3*e2[sSe2->g8]
-                  3.h7*g8=L[wLg8->f1] #
-      1...Lc2-b3
-          2.d5*c6[wBc6->c2] +
-              2...Lb3*c2[sLc2->c8]
                   3.d7*c8=D[wDc8->d1] #
       1...Lc2-a4
           2.d5*c6[wBc6->c2] +
               2...La4*c2[sLc2->c8]
                   3.d7*c8=D[wDc8->d1] #
-      1...Lc2-b1
+      1...Lc2-b3
           2.d5*c6[wBc6->c2] +
-              2...Lb1*c2[sLc2->c8]
+              2...Lb3*c2[sLc2->c8]
                   3.d7*c8=D[wDc8->d1] #
+      1...Se2-c1
+          2.d5*e6[wBe6->e2] +
+              2...Sc1*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
+      1...Se2-g1
+          2.d5*e6[wBe6->e2] +
+              2...Sg1*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
+      1...Se2-g3
+          2.d5*e6[wBe6->e2] +
+              2...Sg3*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
+      1...Se2-f4
+          2.d5*e6[wBe6->e2] +
+              2...Sf4*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
+      1...Se2-d4
+          2.d5*e6[wBe6->e2] +
+              2...Sd4*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
+      1...Se2-c3
+          2.d5*e6[wBe6->e2] +
+              2...Sc3*e2[sSe2->g8]
+                  3.h7*g8=L[wLg8->f1] #
 
 
-              empile:       91906
-            jouecoup:       67011
-        orig_rbechec:       15635
-        orig_rnechec:       55457
+              empile:       92414
+            jouecoup:       67433
+        orig_rbechec:       15321
+        orig_rnechec:       56266
 Loesung beendet. 
 
 
@@ -1965,28 +1965,28 @@ Loesung beendet.
           2.Df5-e4 Drohung:
                   3.De4-e1
                       3...Dd1-b3 #
-      1...Kh7-g8
-          2.Df5-e6 Drohung:
-                  3.De6-e1
-                      3...Dd1-b3 #
-      1...Kh7-h6
-          2.Df5-e6 Drohung:
-                  3.De6-e1
+      1...Kh7-h8
+          2.Df5-e5 Drohung:
+                  3.De5-e1
                       3...Dd1-b3 #
       1...Kh7-g7
           2.Df5-e5 Drohung:
                   3.De5-e1
                       3...Dd1-b3 #
-      1...Kh7-h8
-          2.Df5-e5 Drohung:
-                  3.De5-e1
+      1...Kh7-h6
+          2.Df5-e6 Drohung:
+                  3.De6-e1
+                      3...Dd1-b3 #
+      1...Kh7-g8
+          2.Df5-e6 Drohung:
+                  3.De6-e1
                       3...Dd1-b3 #
 
 
-              empile:      144420
-            jouecoup:       94754
-        orig_rbechec:       84258
-        orig_rnechec:       23320
+              empile:      146965
+            jouecoup:       96162
+        orig_rbechec:       85473
+        orig_rnechec:       23709
 Loesung beendet. 
 
 
@@ -2229,10 +2229,10 @@ Loesung beendet.
                   3.Th1-g1 #
 
 
-              empile:       38622
-            jouecoup:       29706
-        orig_rbechec:        5238
-        orig_rnechec:       25903
+              empile:       38592
+            jouecoup:       29673
+        orig_rbechec:        5208
+        orig_rnechec:       25900
 Loesung beendet. 
 
 
@@ -3191,9 +3191,9 @@ Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
                           4.Kd2*e1[wKe1->e1]
 
 
-              empile:       14802
-            jouecoup:       14701
-        orig_rbechec:        4722
+              empile:       14764
+            jouecoup:       14661
+        orig_rbechec:        4684
         orig_rnechec:           0
 Loesung beendet. 
 

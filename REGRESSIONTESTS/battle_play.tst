@@ -431,14 +431,6 @@ solution finished.
   #3                          4 + 3
 
  zugzwang.
-      1...Se8-c7 +
-          2.Se6*c7 #
-      1...Se8-g7
-          2.Se6-c7 #
-      1...Se8-f6
-          2.Se6-c7 #
-      1...Se8-d6
-          2.Se6-c7 #
       1...c6-c5
           2.c3-c4 zugzwang.
               2...Se8-c7 +
@@ -449,11 +441,19 @@ solution finished.
                   3.Se6-c7 #
               2...Se8-g7
                   3.Se6-c7 #
+      1...Se8-c7 +
+          2.Se6*c7 #
+      1...Se8-d6
+          2.Se6-c7 #
+      1...Se8-f6
+          2.Se6-c7 #
+      1...Se8-g7
+          2.Se6-c7 #
 
-              empile:         473
-            jouecoup:         315
-        orig_rbechec:         124
-        orig_rnechec:         226
+              empile:         408
+            jouecoup:         242
+        orig_rbechec:          59
+        orig_rnechec:         218
 solution finished. 
 
 
@@ -491,14 +491,6 @@ solution finished.
           2.Se6-c7 #
 
    1.b2*c3 ! zugzwang.
-      1...Se8-c7 +
-          2.Se6*c7 #
-      1...Se8-g7
-          2.Se6-c7 #
-      1...Se8-f6
-          2.Se6-c7 #
-      1...Se8-d6
-          2.Se6-c7 #
       1...c6-c5
           2.c3-c4 zugzwang.
               2...Se8-c7 +
@@ -509,12 +501,20 @@ solution finished.
                   3.Se6-c7 #
               2...Se8-g7
                   3.Se6-c7 #
+      1...Se8-c7 +
+          2.Se6*c7 #
+      1...Se8-d6
+          2.Se6-c7 #
+      1...Se8-f6
+          2.Se6-c7 #
+      1...Se8-g7
+          2.Se6-c7 #
 
 
-              empile:        3545
-            jouecoup:        2555
-        orig_rbechec:        1486
-        orig_rnechec:        1180
+              empile:        3480
+            jouecoup:        2482
+        orig_rbechec:        1421
+        orig_rnechec:        1172
 solution finished. 
 
 
@@ -1460,10 +1460,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        1052
-            jouecoup:         699
-        orig_rbechec:         615
-        orig_rnechec:         185
+              empile:        1038
+            jouecoup:         680
+        orig_rbechec:         601
+        orig_rnechec:         180
 solution finished. 
 
 
@@ -1515,10 +1515,10 @@ solution finished.
  15  (Ka1-a2 + )
  16  (Ka1-b2 + )
 
-              empile:        9363
-            jouecoup:        6035
-        orig_rbechec:        5365
-        orig_rnechec:        1275
+              empile:        9345
+            jouecoup:        6012
+        orig_rbechec:        5347
+        orig_rnechec:        1270
 solution finished. 
 
 
@@ -1797,15 +1797,6 @@ solution finished.
 
  threat:
           2.Rh5-h8 #
-      1...Ra4-e4 +
-          2.Sg3*e4 threat:
-                  3.Rh5-h8 #
-              2...f7-f6
-                  3.Rh5-h8 +
-                      3...Ke8-f7
-                          4.Rh8-f8 #
-                  3.Bf5-e6 threat:
-                          4.Rh5-h8 #
       1...Ra4-h4
           2.Rh5*h4 threat:
                   3.Rh4-h8 #
@@ -1815,15 +1806,24 @@ solution finished.
                   3.Rh4-h8 +
                       3...Ke8-f7
                           4.Rh8-f8 #
+      1...Ra4-e4 +
+          2.Sg3*e4 threat:
+                  3.Rh5-h8 #
+              2...f7-f6
+                  3.Rh5-h8 +
+                      3...Ke8-f7
+                          4.Rh8-f8 #
+                  3.Bf5-e6 threat:
+                          4.Rh5-h8 #
       1...f7-f6
           2.Rh5-h8 +
               2...Ke8-f7
                   3.Rh8-f8 #
 
-              empile:       23059
-            jouecoup:       20130
-        orig_rbechec:       11313
-        orig_rnechec:       10224
+              empile:       20443
+            jouecoup:       17483
+        orig_rbechec:        8705
+        orig_rnechec:       10186
 solution finished. 
 
 

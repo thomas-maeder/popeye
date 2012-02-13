@@ -59,15 +59,6 @@ Loesung beendet.
 
  Drohung:
           2.Th5-h8 #
-      1...Ta4-e4 +
-          2.Sg3*e4 Drohung:
-                  3.Th5-h8 #
-              2...f7-f6
-                  3.Th5-h8 +
-                      3...Ke8-f7
-                          4.Th8-f8 #
-                  3.Lf5-e6 Drohung:
-                          4.Th5-h8 #
       1...Ta4-h4
           2.Th5*h4 Drohung:
                   3.Th4-h8 #
@@ -77,15 +68,24 @@ Loesung beendet.
                   3.Th4-h8 +
                       3...Ke8-f7
                           4.Th8-f8 #
+      1...Ta4-e4 +
+          2.Sg3*e4 Drohung:
+                  3.Th5-h8 #
+              2...f7-f6
+                  3.Th5-h8 +
+                      3...Ke8-f7
+                          4.Th8-f8 #
+                  3.Lf5-e6 Drohung:
+                          4.Th5-h8 #
       1...f7-f6
           2.Th5-h8 +
               2...Ke8-f7
                   3.Th8-f8 #
 
-              empile:       23059
-            jouecoup:       20130
-        orig_rbechec:       11313
-        orig_rnechec:       10224
+              empile:       20443
+            jouecoup:       17483
+        orig_rbechec:        8705
+        orig_rnechec:       10186
 Loesung beendet. 
 
 
@@ -1126,6 +1126,21 @@ eigentlich: sKg4 s#2 b) g4->e3
 +---a---b---c---d---e---f---g---h---+
   weiss - 5d[#]a             11 + 7
  +
+      1...Kf3-e3
+          2.Th8-e8 Zugzwang.
+              2...Sc7*a6
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
+              2...Sc7-b5
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
+              2...Sc7*e6
+                  3.Tf2-f4
+                      3...Lb8*d6 #
+                      3...Lb8-c7 #
+              2...Sc7*e8
+                  3.Ld6-f4 +
+                      3...Lb8*f4 #
       1...Kf3-g4
           2.Ld6-h2 Zugzwang.
               2...Sc7*a6
@@ -1143,26 +1158,11 @@ eigentlich: sKg4 s#2 b) g4->e3
               2...Sc7-e8
                   3.Tf2-f4 +
                       3...Lb8*f4 #
-      1...Kf3-e3
-          2.Th8-e8 Zugzwang.
-              2...Sc7*a6
-                  3.Ld6-f4 +
-                      3...Lb8*f4 #
-              2...Sc7-b5
-                  3.Ld6-f4 +
-                      3...Lb8*f4 #
-              2...Sc7*e6
-                  3.Tf2-f4
-                      3...Lb8*d6 #
-                      3...Lb8-c7 #
-              2...Sc7*e8
-                  3.Ld6-f4 +
-                      3...Lb8*f4 #
 
-              empile:       58961
-            jouecoup:       31463
-        orig_rbechec:       31462
-        orig_rnechec:       18419
+              empile:       58773
+            jouecoup:       31285
+        orig_rbechec:       31296
+        orig_rnechec:       18362
 Loesung beendet. 
 
 
@@ -1221,10 +1221,10 @@ c) weiss 5:5a[#]d
                   3.Lc1*f4 [+sBf7] #
 
 
-              empile:        3990
-            jouecoup:        1923
-        orig_rbechec:         831
-        orig_rnechec:        1339
+              empile:        3973
+            jouecoup:        1900
+        orig_rbechec:         814
+        orig_rnechec:        1333
 d) weiss 7:7a[#]d 
 
    1.d7-d8=S ! Drohung:
@@ -1241,18 +1241,18 @@ d) weiss 7:7a[#]d
                           4.Se5*f7 #
                       3...Sd8-e6
                           4.Se5*f7 #
-              2...Sd8-e6
-                  3.Sf3-d2 Drohung:
-                          4.Sd2-e4 #
               2...Sd8-b7
                   3.Sf3-d2 Drohung:
                           4.Sd2-e4 #
+              2...Sd8-e6
+                  3.Sf3-d2 Drohung:
+                          4.Sd2-e4 #
 
 
-              empile:       44130
-            jouecoup:       26616
-        orig_rbechec:       17797
-        orig_rnechec:       10441
+              empile:       44060
+            jouecoup:       26527
+        orig_rbechec:       17727
+        orig_rnechec:       10422
 Loesung beendet. 
 
 

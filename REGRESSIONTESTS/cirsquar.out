@@ -823,22 +823,22 @@ Loesung beendet.
 
    1.Df5-f7 ! Drohung:
           2.Df7-h5 #
-      1...Tf8-h8
-          2.Df7-f2 #
-      1...Tf8*f7 [+wDc2]
-          2.Dc2-h7 +
-              2...Tf7*h7 [+wDa2]
-                  3.Da2-f2 #
       1...Td7*f7 [+wDc2]
           2.Dc2-f2 +
               2...Tf7*f2 [+wDc7]
                   3.Dc7-h7 #
+      1...Tf8*f7 [+wDc2]
+          2.Dc2-h7 +
+              2...Tf7*h7 [+wDa2]
+                  3.Da2-f2 #
+      1...Tf8-h8
+          2.Df7-f2 #
 
 
-              empile:       62632
-            jouecoup:       44776
-        orig_rbechec:       22720
-        orig_rnechec:       24148
+              empile:       61873
+            jouecoup:       44028
+        orig_rbechec:       22162
+        orig_rnechec:       23944
 Loesung beendet. 
 
 

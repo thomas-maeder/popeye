@@ -29,33 +29,33 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
           2.Qc3*d2 +
               2...Sc2-d4
                   3.Qd2*d4[+bSd2] #
-      1...Qa8*b8
-          2.Qc3-c6 +
-              2...Kd5*c6
-                  3.Sf7-d8 #
+      1...Sc2*e3
+          2.Qc3-d4 +
+              2...Kd5*d4
+                  3.Bb4-c3 #
+      1...Sd2*b3
+          2.Qc3-c4 +
+              2...Kd5*c4
+                  3.Sf7-d6 #
+      1...Rb5*b4
+          2.Qc3-c5 +
+              2...Kd5*c5
+                  3.Sb8-d7 #
       1...Rf5*f7
           2.Qc3-e5 +
               2...Kd5*e5
                   3.Sb8-d7 #
                   3.Bb4-d6 #
-      1...Rb5*b4
-          2.Qc3-c5 +
-              2...Kd5*c5
-                  3.Sb8-d7 #
-      1...Sd2*b3
-          2.Qc3-c4 +
-              2...Kd5*c4
-                  3.Sf7-d6 #
-      1...Sc2*e3
-          2.Qc3-d4 +
-              2...Kd5*d4
-                  3.Bb4-c3 #
+      1...Qa8*b8
+          2.Qc3-c6 +
+              2...Kd5*c6
+                  3.Sf7-d8 #
 
 
-              empile:      210424
-            jouecoup:      133206
-        orig_rbechec:       55691
-        orig_rnechec:       83554
+              empile:      210274
+            jouecoup:      134060
+        orig_rbechec:       54648
+        orig_rnechec:       85616
 solution finished. 
 
 
@@ -178,20 +178,20 @@ solution finished.
                   3.Sb2-c4 #
               2...Qa4*b4
                   3.Rb6-b5 #
-      1...Sb1-c3
-          2.Sd6-c4 +
-              2...Qa4*c4
-                  3.Bc5-b4 #
       1...Sb1-d2
           2.Bc5-b4 +
               2...Qa4*b4
                   3.Rb6-b5 #
+      1...Sb1-c3
+          2.Sd6-c4 +
+              2...Qa4*c4
+                  3.Bc5-b4 #
 
 
-              empile:      129184
-            jouecoup:       87130
-        orig_rbechec:       31851
-        orig_rnechec:       60562
+              empile:      128617
+            jouecoup:       86276
+        orig_rbechec:       31151
+        orig_rnechec:       60430
 solution finished. 
 
 
@@ -230,6 +230,10 @@ solution finished.
           2.Qe3-c5 +
               2...Bf8*c5
                   3.Rc6-d6 #
+      1...Qh1-h4
+          2.Qe3-d4 +
+              2...Kd5*d4
+                  3.Rc6-c4 #
       1...Bg6-e4
           2.Sc8-e7 +
               2...Bf8*e7
@@ -237,16 +241,12 @@ solution finished.
           2.Qe3-d2 +
               2...Be4-d3
                   3.Qd2*d3 #
-      1...Qh1-h4
-          2.Qe3-d4 +
-              2...Kd5*d4
-                  3.Rc6-c4 #
 
 
-              empile:      243216
-            jouecoup:      151890
-        orig_rbechec:       59475
-        orig_rnechec:      103619
+              empile:      242161
+            jouecoup:      151708
+        orig_rbechec:       58180
+        orig_rnechec:      104879
 solution finished. 
 
 

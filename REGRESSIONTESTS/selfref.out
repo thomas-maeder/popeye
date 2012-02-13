@@ -24,15 +24,15 @@
   s#3                        12 + 8
 
    1.f5-f6 ! Zugzwang.
-      1...e7*d6
-          2.Se5-f3 +
-              2...Kg5*f6
-                  3.Dh3*d7
-                      3...Sg8-e7 #
       1...e7-e6
           2.Dh3-g4 +
               2...Kg5*f6
                   3.Td6*d7
+                      3...Sg8-e7 #
+      1...e7*d6
+          2.Se5-f3 +
+              2...Kg5*f6
+                  3.Dh3*d7
                       3...Sg8-e7 #
       1...e7*f6
           2.Dh3-g3 +
@@ -41,10 +41,10 @@
                       3...Sg8-e7 #
 
 
-              empile:      236061
-            jouecoup:      100563
-        orig_rbechec:      100152
-        orig_rnechec:       53721
+              empile:      235924
+            jouecoup:      100404
+        orig_rbechec:      100004
+        orig_rnechec:       53711
 Loesung beendet. 
 
 
@@ -144,17 +144,17 @@ Loesung beendet.
                       3...La3*f8 #
 
    1.Db3-c2 ! Zugzwang.
-      1...Tb2*c2
-          2.Sg5-e4 +
-              2...Kf6-e6
-                  3.Se4-c5 +
-                      3...Tc2*c5 #
       1...Sa1*c2
           2.Td5-d6 +
               2...Kf6-f5
                   3.Sf1-e3 +
                       3...Sc2*e3 #
-      1...Ld1-f3
+      1...Sa1-b3
+          2.Ta7-a6 +
+              2...Kf6-e7
+                  3.Dc2-c5 +
+                      3...Sb3*c5 #
+      1...Ld1-h5
           2.Dc2-c3 +
               2...b4*c3
                   3.f7-f8=D +
@@ -168,6 +168,32 @@ Loesung beendet.
                       3...La3*f8 #
                   3.f7-f8=T +
                       3...La3*f8 #
+      1...Ld1-f3
+          2.Dc2-c3 +
+              2...b4*c3
+                  3.f7-f8=D +
+                      3...La3*f8 #
+                  3.f7-f8=T +
+                      3...La3*f8 #
+      1...Ld1-e2
+          2.Dc2-c3 +
+              2...b4*c3
+                  3.f7-f8=D +
+                      3...La3*f8 #
+                  3.f7-f8=T +
+                      3...La3*f8 #
+      1...Tb2-b3
+          2.Dc2-c3 +
+              2...b4*c3
+                  3.f7-f8=D +
+                      3...La3*f8 #
+                  3.f7-f8=T +
+                      3...La3*f8 #
+      1...Tb2*c2
+          2.Sg5-e4 +
+              2...Kf6-e6
+                  3.Se4-c5 +
+                      3...Tc2*c5 #
       1...b4-b3
           2.f7-f8=D +
               2...La3*f8 #
@@ -179,38 +205,12 @@ Loesung beendet.
               2...La3-d6 #
           2.Dc2-c3 +
               2...Sb1*c3 #
-      1...Ld1-e2
-          2.Dc2-c3 +
-              2...b4*c3
-                  3.f7-f8=D +
-                      3...La3*f8 #
-                  3.f7-f8=T +
-                      3...La3*f8 #
-      1...Ld1-h5
-          2.Dc2-c3 +
-              2...b4*c3
-                  3.f7-f8=D +
-                      3...La3*f8 #
-                  3.f7-f8=T +
-                      3...La3*f8 #
-      1...Sa1-b3
-          2.Ta7-a6 +
-              2...Kf6-e7
-                  3.Dc2-c5 +
-                      3...Sb3*c5 #
-      1...Tb2-b3
-          2.Dc2-c3 +
-              2...b4*c3
-                  3.f7-f8=D +
-                      3...La3*f8 #
-                  3.f7-f8=T +
-                      3...La3*f8 #
 
 
-              empile:      942585
-            jouecoup:      687745
-        orig_rbechec:      687101
-        orig_rnechec:      352381
+              empile:      942006
+            jouecoup:      687119
+        orig_rbechec:      686492
+        orig_rnechec:      352371
 Loesung beendet. 
 
 
@@ -418,21 +418,7 @@ Loesung beendet.
               2...d2-d1=L +
                   3.Kg2-h1
                       3...Ld1-f3 #
-      1...Kf7-g6
-          2.Kh3-g2 Drohung:
-                  3.Kg2-f1
-                      3...d2-d1=D #
-                      3...d2-d1=T #
-              2...d2-d1=D +
-                  3.Kg2-h3
-                      3...Dd1-g4 #
-              2...d2-d1=T +
-                  3.Kg2-f3
-                      3...Td1*d3 #
-              2...d2-d1=L +
-                  3.Kg2-h1
-                      3...Ld1-f3 #
-      1...Kf7-g8
+      1...Kf7-e7
           2.Kh3-g2 Drohung:
                   3.Kg2-f1
                       3...d2-d1=D #
@@ -460,7 +446,21 @@ Loesung beendet.
               2...d2-d1=L +
                   3.Kg2-h1
                       3...Ld1-f3 #
-      1...Kf7-e7
+      1...Kf7-g8
+          2.Kh3-g2 Drohung:
+                  3.Kg2-f1
+                      3...d2-d1=D #
+                      3...d2-d1=T #
+              2...d2-d1=D +
+                  3.Kg2-h3
+                      3...Dd1-g4 #
+              2...d2-d1=T +
+                  3.Kg2-f3
+                      3...Td1*d3 #
+              2...d2-d1=L +
+                  3.Kg2-h1
+                      3...Ld1-f3 #
+      1...Kf7-g6
           2.Kh3-g2 Drohung:
                   3.Kg2-f1
                       3...d2-d1=D #
@@ -476,10 +476,10 @@ Loesung beendet.
                       3...Ld1-f3 #
 
 
-              empile:      570774
-            jouecoup:      329009
-        orig_rbechec:      295227
-        orig_rnechec:       93229
+              empile:      570780
+            jouecoup:      328911
+        orig_rbechec:      295138
+        orig_rnechec:       93258
 Loesung beendet. 
 
 
@@ -516,13 +516,6 @@ Loesung beendet.
                       3...Lc6*d7
                           4.Td6-d5 +
                               4...e6*d5 #
-      1...Sh4-f5
-          2.Td6*e6 +
-              2...Ld5*e6
-                  3.Sc5-d7 +
-                      3...Le6*d7
-                          4.Db4-d6 +
-                              4...Sf5*d6 #
       1...Sh4*f3
           2.Sa5*c4 +
               2...Ld5*c4
@@ -530,12 +523,19 @@ Loesung beendet.
                       3...Lc4*e2
                           4.Db4-d4 +
                               4...Sf3*d4 #
+      1...Sh4-f5
+          2.Td6*e6 +
+              2...Ld5*e6
+                  3.Sc5-d7 +
+                      3...Le6*d7
+                          4.Db4-d6 +
+                              4...Sf5*d6 #
 
 
-              empile:     9721215
-            jouecoup:     5597027
-        orig_rbechec:     5571069
-        orig_rnechec:     3330606
+              empile:     9709908
+            jouecoup:     5586951
+        orig_rbechec:     5561351
+        orig_rnechec:     3329397
 Loesung beendet. 
 
 

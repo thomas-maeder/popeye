@@ -246,14 +246,6 @@ solution finished.
           2.Qh1*e4 +
               2...d5*e4 [f8=Q]
                   3.Qf8-f5 #
-      1...d7*e6
-          2.Sd4-f3 +
-              2...e4*f3 [f8=S]
-                  3.Sf8-d7 #
-      1...f4-f3
-          2.Rg4*e4 +
-              2...d5*e4 [f8=R]
-                  3.Rf8-f5 #
       1...g3-g2
           2.Bh2*f4 +
               2...Bh6*f4 [f8=B]
@@ -262,6 +254,14 @@ solution finished.
           2.Bf8*g7 +
               2...Bh6*g7
                   3.Rg4-g5 #
+      1...f4-f3
+          2.Rg4*e4 +
+              2...d5*e4 [f8=R]
+                  3.Rf8-f5 #
+      1...d7*e6
+          2.Sd4-f3 +
+              2...e4*f3 [f8=S]
+                  3.Sf8-d7 #
 
    1.Rg4-g5 + ?
     but
@@ -284,10 +284,10 @@ solution finished.
       1...d5*e4 !
 
 
-              empile:      212534
-            jouecoup:      142224
-        orig_rbechec:       34138
-        orig_rnechec:      110930
+              empile:      213461
+            jouecoup:      142593
+        orig_rbechec:       33449
+        orig_rnechec:      112083
 solution finished. 
 
 
