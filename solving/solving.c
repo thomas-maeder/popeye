@@ -64,6 +64,29 @@ static void start_spinning_off_end_of_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
+void spin_off_testers_move_pipe_to_testers(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+  {
+    state->spun_off[si] = copy_slice(si);
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    pipe_substitute(si,alloc_proxy_slice());
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */
@@ -114,6 +137,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);
 
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
+  stip_structure_traversal_override_single(&st,STMaxNrNonTrivialCounter,&spin_off_testers_move_pipe_to_testers);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&st,STThreatCollector,&stip_spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);

@@ -339,10 +339,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = keepmating_filter_attack(si,n);
       break;
 
-    case STMaxNrNonTrivialCounter:
-      result = max_nr_nontrivial_counter_attack(si,n);
-      break;
-
     case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_attack(si,n);
       break;
