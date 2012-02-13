@@ -110,8 +110,8 @@ Loesung beendet.
                                                           8.Sh4-f5 #
                               4...Lc8*e6 [+wSb1]
                                   5.Sb1*a3 [+sLf8] Drohung:
-                                          6.Sa3-c2 #
                                           6.Sa3-b5 #
+                                          6.Sa3-c2 #
                                       5...c3-c2
                                           6.Sa3-b5 #
                                       5...Le6-d7
@@ -228,7 +228,7 @@ nebenloesig - eigentlich #6
                           4.ROe6*c5 [+sBe6] #
 
 
-              empile:      138237
+              empile:      138240
             jouecoup:      120099
         orig_rbechec:       50407
         orig_rnechec:       74239

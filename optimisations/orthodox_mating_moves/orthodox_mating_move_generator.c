@@ -377,7 +377,7 @@ orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
 
   assert(n==slack_length_battle+1);
 
-  move_generation_mode = move_generation_not_optimized;
+  move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);
