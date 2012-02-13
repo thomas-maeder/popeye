@@ -2659,9 +2659,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_impose_starter(root_slice,slices[root_slice].starter);
 
-      if (OptFlag[degeneratetree])
-        stip_insert_degenerate_tree_guards(root_slice);
-
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
       stip_insert_detours_around_end_of_branch(root_slice);
@@ -2673,6 +2670,9 @@ static Token iterate_twins(Token prev_token)
       stip_insert_trivial_variation_filters(root_slice);
 
       stip_spin_off_testers(root_slice);
+
+      if (OptFlag[degeneratetree])
+        stip_insert_degenerate_tree_guards(root_slice);
 
       stip_optimise_with_countnropponentmoves(root_slice);
 

@@ -269,7 +269,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STFindShortest:
-    case STDegenerateTree:
       result = find_shortest_attack(si,n);
       break;
 

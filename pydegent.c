@@ -1,7 +1,7 @@
 #include "pydegent.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
@@ -144,11 +144,13 @@ stip_length_type degenerate_tree_can_attack(slice_index si, stip_length_type n)
 static void degenerate_tree_inserter_attack(slice_index si,
                                             stip_structure_traversal *st)
 {
+  boolean const * const testing = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>=slack_length_battle+2)
+  if (*testing && slices[si].u.branch.length>=slack_length_battle+2)
   {
     slice_index const finder = branch_find_slice(STFindShortest,si);
     if (finder!=no_slice) /* slice may already have been replaced */
@@ -161,12 +163,52 @@ static void degenerate_tree_inserter_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *testing = true;
+  stip_traverse_structure(slices[si].u.fork.fork,st );
+  *testing = save_testing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_conditional_pipe(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  boolean * const testing = st->param;
+  boolean const save_testing = *testing;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  *testing = true;
+  stip_traverse_structure_next_branch(si,st );
+  *testing = save_testing;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument stipulation with STDegenerateTree slices
  * @param si identifies slice where to start
  */
 void stip_insert_degenerate_tree_guards(slice_index si)
 {
   stip_structure_traversal st;
+  boolean testing = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -174,7 +216,13 @@ void stip_insert_degenerate_tree_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&testing);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &remember_testing_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &remember_conditional_pipe);
   stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
                                            &degenerate_tree_inserter_attack);
