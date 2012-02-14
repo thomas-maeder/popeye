@@ -302,10 +302,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = min_length_optimiser_attack(si,n);
       break;
 
-    case STMinLengthGuard:
-      result = min_length_guard_attack(si,n);
-      break;
-
     case STForkOnRemaining:
       result = fork_on_remaining_attack(si,n);
       break;

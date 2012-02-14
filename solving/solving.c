@@ -64,6 +64,11 @@ static void start_spinning_off_end_of_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Callback to stip_spin_off_testers
+ * Copy a slice to the testers, remove it from the solvers
+ * @param si identifies the slice
+ * @param st address of structure representing traversal
+ */
 void spin_off_testers_move_pipe_to_testers(slice_index si,
                                            stip_structure_traversal *st)
 {
@@ -136,6 +141,7 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);
 
+  stip_structure_traversal_override_single(&st,STMinLengthGuard,&spin_off_testers_min_length_guard);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivialCounter,&spin_off_testers_move_pipe_to_testers);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);

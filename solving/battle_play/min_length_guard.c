@@ -1,7 +1,9 @@
 #include "solving/battle_play/min_length_guard.h"
+#include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/solving.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "trace.h"
 
@@ -56,32 +58,6 @@ min_length_guard_can_attack(slice_index si, stip_length_type n)
   if (result>slack_length_battle-2 && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
     result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type min_length_guard_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -207,6 +183,26 @@ void stip_insert_min_length_solvers(slice_index si)
                                            STReadyForDefense,
                                            &insert_min_length_solvers_defense);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+/* Callback to stip_spin_off_testers
+ * Spin a tester slice off a STMinLengthGuard slice
+ * @param si identifies the STMinLengthGuard slice
+ * @param st address of structure representing traversal
+ */
+void spin_off_testers_min_length_guard(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->context==stip_traversal_context_attack)
+    spin_off_testers_move_pipe_to_testers(si,st);
+  else
+    stip_spin_off_testers_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

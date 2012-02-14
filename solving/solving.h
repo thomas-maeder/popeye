@@ -8,6 +8,14 @@
  */
 void stip_insert_solvers(slice_index root_slice);
 
+/* Callback to stip_spin_off_testers
+ * Copy a slice to the testers, remove it from the solvers
+ * @param si identifies the slice
+ * @param st address of structure representing traversal
+ */
+void spin_off_testers_move_pipe_to_testers(slice_index si,
+                                           stip_structure_traversal *st);
+
 /* state stip_spin_off_testers() traversal */
 typedef struct
 {
