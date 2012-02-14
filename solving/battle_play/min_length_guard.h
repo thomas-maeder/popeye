@@ -7,14 +7,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
-/* Allocate a STMinLengthGuard slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-slice_index alloc_min_length_guard(stip_length_type length,
-                                   stip_length_type min_length);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached

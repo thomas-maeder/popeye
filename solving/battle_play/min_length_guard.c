@@ -12,8 +12,8 @@
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_min_length_guard(stip_length_type length,
-                                   stip_length_type min_length)
+static slice_index alloc_min_length_guard(stip_length_type length,
+                                          stip_length_type min_length)
 {
   slice_index result;
 
@@ -157,57 +157,38 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-static void insert_min_length_solvers_adapter(slice_index si,
+static void insert_min_length_solvers_defense(slice_index si,
                                               stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if (min_length>slack_length_battle+1) /* >= #2 */
   {
-    slice_index const defense = branch_find_slice(STReadyForDefense,si);
-    if (defense!=no_slice)
+    slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+    defense_branch_insert_slices(si,&prototype,1);
+
+    if (min_length>slack_length_battle+2) /* >= s#2 (also postkey!) */
     {
-      stip_length_type const length = slices[defense].u.branch.length;
-      stip_length_type const min_length = slices[defense].u.branch.min_length;
-
-      if (min_length>slack_length_battle+1)
+      slice_index const prototypes[] =
       {
-        slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
-        battle_branch_insert_slices(defense,&prototype,1);
-
-        if (min_length>slack_length_battle+2)
-        {
-          slice_index const prototypes[] =
-          {
-            alloc_min_length_optimiser_slice(length-1,min_length-1),
-            alloc_min_length_guard(length-2,min_length-2)
-          };
-          enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-          slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-          assert(attack!=no_slice);
-          battle_branch_insert_slices(attack,prototypes,nr_prototypes);
-        }
-      }
+        alloc_min_length_optimiser_slice(length-1,min_length-1),
+        alloc_min_length_guard(length-2,min_length-2)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      defense_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors const min_length_solver_inserters[] =
-{
-  { STAttackAdapter,  &insert_min_length_solvers_adapter },
-  { STDefenseAdapter, &insert_min_length_solvers_adapter }
-};
-
-enum
-{
-  nr_min_length_solver_inserters = sizeof min_length_solver_inserters / sizeof min_length_solver_inserters[0]
-};
 
 /* Instrument the stipulation to be able to cope with minimum lengths
  * @param si identifies the root slice of the stipulation
@@ -222,9 +203,9 @@ void stip_insert_min_length_solvers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
-  stip_structure_traversal_override(&st,
-                                    min_length_solver_inserters,
-                                    nr_min_length_solver_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForDefense,
+                                           &insert_min_length_solvers_defense);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
