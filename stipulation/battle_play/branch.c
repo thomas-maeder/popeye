@@ -187,7 +187,7 @@ static void next_insertion(slice_index si,
     {
         state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, si
     };
-    start_insertion_traversal(si,&nested_state);
+    start_insertion_traversal(slices[si].u.pipe.next,&nested_state);
   }
 
   TraceFunctionExit(__func__);
@@ -307,28 +307,36 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
       if (rank==no_slice_rank)
       {
         if (slices[si].u.binary.op1!=no_slice)
-          start_insertion_traversal(slices[si].u.binary.op1,state);
+        {
+          assert(slices[slices[si].u.binary.op1].type==STProxy);
+          start_insertion_traversal(slices[slices[si].u.binary.op1].u.pipe.next,state);
+        }
         *state = save_state;
         if (slices[si].u.binary.op2!=no_slice)
-          start_insertion_traversal(slices[si].u.binary.op2,state);
+        {
+          assert(slices[slices[si].u.binary.op2].type==STProxy);
+          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state);
+        }
       }
       else
       {
-        state->base = rank;
+        state->base = rank+1;
 
         if (slices[si].u.binary.op1!=no_slice)
         {
           state->prev = slices[si].u.binary.op1;
-          start_insertion_traversal(slices[si].u.binary.op1,state);
+          assert(slices[state->prev].type==STProxy);
+          start_insertion_traversal(slices[slices[si].u.binary.op1].u.pipe.next,state);
         }
 
         *state = save_state;
-        state->base = rank;
+        state->base = rank+1;
 
         if (slices[si].u.binary.op2!=no_slice)
         {
           state->prev = slices[si].u.binary.op2;
-          start_insertion_traversal(slices[si].u.binary.op2,state);
+          assert(slices[state->prev].type==STProxy);
+          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state);
         }
       }
     }
@@ -409,7 +417,7 @@ static void start_insertion_traversal(slice_index si,
                                                  slice_structure_binary,
                                                  &insert_visit_binary);
   stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
-  stip_traverse_structure(slices[si].u.pipe.next,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -440,7 +448,7 @@ void battle_branch_insert_slices_nested(slice_index si,
       si
     };
     assert(state.base!=no_slice_rank);
-    start_insertion_traversal(si,&state);
+    start_insertion_traversal(slices[si].u.pipe.next,&state);
   }
 
   TraceFunctionExit(__func__);
@@ -495,15 +503,18 @@ void attack_branch_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const ready_rank = get_slice_rank(STReadyForAttack,0);
+    unsigned int const attack_played_rank = get_slice_rank(STMovePlayed,0);
+    unsigned int const defense_played_rank = get_slice_rank(STMovePlayed,
+                                                            attack_played_rank+1);
+    unsigned int const rank = get_slice_rank(slices[si].type,
+                                             defense_played_rank+1);
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      ready_rank+1,
+      rank+1,
       si
     };
-    assert(state.base!=no_slice_rank);
-    start_insertion_traversal(si,&state);
+    start_insertion_traversal(slices[si].u.pipe.next,&state);
   }
 
   for (i = 0; i!=nr_prototypes; ++i)
@@ -533,15 +544,15 @@ void defense_branch_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const ready_rank = get_slice_rank(STReadyForDefense,0);
+    unsigned int const played_rank = get_slice_rank(STMovePlayed,0);
+    unsigned int const rank = get_slice_rank(slices[si].type,played_rank+1);
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      ready_rank,
+      rank+1,
       si
     };
-    assert(state.base!=no_slice_rank);
-    start_insertion_traversal(si,&state);
+    start_insertion_traversal(slices[si].u.pipe.next,&state);
   }
 
   for (i = 0; i!=nr_prototypes; ++i)
