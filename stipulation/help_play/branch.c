@@ -598,8 +598,7 @@ slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
   {
     result = branch_find_slice(STReadyForHelpMove,result);
     assert(result!=no_slice);
-  } while ((slices[result].u.branch.length-slack_length_help)%2
-           !=(parity-slack_length_help)%2);
+  } while ((slices[result].u.branch.length-slack_length_help)%2!=parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
