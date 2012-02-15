@@ -50,7 +50,7 @@ has_solution_type maxsolutions_guard_solve(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -71,7 +71,7 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
   else
   {
     result = defend(next,n);
-    if (slack_length_battle<=result && result<=n)
+    if (slack_length<=result && result<=n)
       increase_nr_found_solutions();
   }
 

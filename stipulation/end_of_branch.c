@@ -172,7 +172,7 @@ void stip_insert_detours_around_end_of_branch(slice_index root_slice)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -187,14 +187,14 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_battle);
-  assert(max_unsolvable<slack_length_battle
+  assert(n>=slack_length);
+  assert(max_unsolvable<slack_length
          || n<=max_unsolvable); /* exact refutation */
 
   switch (slice_solve(fork))
   {
     case has_solution:
-      result = slack_length_battle;
+      result = slack_length;
       break;
 
     case has_no_solution:
@@ -202,12 +202,12 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
       break;
 
     case opponent_self_check:
-      result = slack_length_battle-2;
+      result = slack_length-2;
       break;
 
     default:
       assert(0);
-      result = slack_length_battle-2;
+      result = slack_length-2;
       break;
   }
 
@@ -222,7 +222,7 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -239,11 +239,11 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_battle);
-  assert(max_unsolvable<slack_length_battle);
+  assert(n>=slack_length);
+  assert(max_unsolvable<slack_length);
 
   if (slice_solve(fork)==has_solution)
-    result = slack_length_battle;
+    result = slack_length;
   else
     result = defend(next,n);
 
@@ -273,8 +273,8 @@ stip_length_type end_of_branch_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_help);
-  assert(n<slack_length_help+2);
+  assert(n>=slack_length);
+  assert(n<slack_length+2);
 
   switch (slice_solve(fork))
   {

@@ -29,7 +29,7 @@ slice_index alloc_goal_prerequisite_optimiser_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -45,9 +45,9 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<=slack_length_battle
+  if (max_unsolvable<=slack_length
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable = slack_length_battle+1;
+    max_unsolvable = slack_length+1;
 
   result = attack(next,n);
 
@@ -64,7 +64,7 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -82,9 +82,9 @@ goal_prerequisite_optimiser_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<=slack_length_battle
+  if (max_unsolvable<=slack_length
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable = slack_length_battle+1;
+    max_unsolvable = slack_length+1;
 
   result = defend(next,n);
 

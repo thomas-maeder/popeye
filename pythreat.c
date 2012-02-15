@@ -81,7 +81,7 @@ static boolean is_threat_too_long(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length_battle-1;
+  max_unsolvable = slack_length-1;
   result = n_max<defend(tester,n_max);
   max_unsolvable = save_max_unsolvable;
 
@@ -118,7 +118,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -146,7 +146,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
   }
   else
   {
-    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
+    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length+2;
     if (n>=n_max)
     {
       if (echecc(nbply,slices[si].starter))
@@ -189,7 +189,7 @@ static void maxthreatlength_guard_inserter(slice_index si,
 
   if (state->testing
       && (max_len_threat==0
-          || length>=2*(max_len_threat-1)+slack_length_battle+2))
+          || length>=2*(max_len_threat-1)+slack_length+2))
   {
     slice_index const checked_prototype = alloc_pipe(STMaxThreatLengthStart);
     battle_branch_insert_slices(si,&checked_prototype,1);

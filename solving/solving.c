@@ -173,8 +173,8 @@ static slice_index find_ready_for_move_in_loop(slice_index ready_root)
   do
   {
     result = branch_find_slice(STReadyForHelpMove,result);
-  } while ((slices[result].u.branch.length-slack_length_help)%2
-           !=(slices[ready_root].u.branch.length-slack_length_help)%2);
+  } while ((slices[result].u.branch.length-slack_length)%2
+           !=(slices[ready_root].u.branch.length-slack_length)%2);
   return result;
 }
 
@@ -201,7 +201,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
     }
     else /* root or set play */
     {
-      if (length>=slack_length_help+2)
+      if (length>=slack_length+2)
       {
         {
           slice_index const prototype =
@@ -216,7 +216,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
           pipe_set_successor(proxy_loop,ready_loop);
           pipe_link(slices[ready_root].prev,
                     alloc_fork_on_remaining_slice(proxy_root,proxy_loop,
-                                                  length-1-slack_length_help));
+                                                  length-1-slack_length));
           pipe_link(proxy_root,ready_root);
         }
       }

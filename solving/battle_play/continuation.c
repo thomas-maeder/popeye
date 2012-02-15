@@ -28,7 +28,7 @@ slice_index alloc_continuation_solver_slice(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -44,7 +44,7 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = defend(slices[si].u.fork.fork,n);
-  if (slack_length_battle<=result && result<=n)
+  if (slack_length<=result && result<=n)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
@@ -67,7 +67,7 @@ static void insert_continuation_solvers_avoid_goal_branches(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length_battle)
+  if (slices[si].u.branch.length>slack_length)
     stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -86,7 +86,7 @@ static void insert_continuation_solvers_postktey_play(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (st->level!=structure_traversal_level_root
-      && slices[si].u.branch.length>slack_length_battle)
+      && slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
     battle_branch_insert_slices(si,&prototype,1);

@@ -36,7 +36,7 @@ static slice_index alloc_min_length_guard(stip_length_type length,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -54,7 +54,7 @@ stip_length_type min_length_guard_attack(slice_index si, stip_length_type n)
 
   result = attack(next,n);
 
-  if (result>slack_length_battle-2 && n+min_length>length+result)
+  if (result>slack_length-2 && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
     result = n+2;
 
@@ -69,7 +69,7 @@ stip_length_type min_length_guard_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -89,7 +89,7 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
 
   result = defend(next,n);
 
-  if (slack_length_battle<=result && n+min_length>length+result)
+  if (slack_length<=result && n+min_length>length+result)
     /* the defender has refuted by reaching the goal too early */
     result = n+2;
 
@@ -111,12 +111,12 @@ static void insert_min_length_solvers_defense(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (min_length>slack_length_battle+1) /* >= #2 */
+  if (min_length>slack_length+1) /* >= #2 */
   {
     slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
     defense_branch_insert_slices(si,&prototype,1);
 
-    if (min_length>slack_length_battle+2) /* >= s#2 (also postkey!) */
+    if (min_length>slack_length+2) /* >= s#2 (also postkey!) */
     {
       slice_index const prototypes[] =
       {

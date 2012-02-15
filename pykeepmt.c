@@ -130,7 +130,7 @@ stip_length_type keepmating_filter_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_help);
+  assert(n>=slack_length);
 
   if (is_a_mating_piece_left(mating))
     result = help(slices[si].u.pipe.next,n);

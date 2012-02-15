@@ -95,7 +95,7 @@ void stip_insert_avoid_unsolvable_forks(slice_index root_slice)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -108,9 +108,9 @@ stip_length_type avoid_unsolvable_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_battle);
+  assert(n>=slack_length);
 
-  if (max_unsolvable<slack_length_battle
+  if (max_unsolvable<slack_length
       || n<=max_unsolvable) /* exact refutation */
     result = attack(slices[si].u.binary.op1,n);
   else
@@ -127,7 +127,7 @@ stip_length_type avoid_unsolvable_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -142,9 +142,9 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_battle);
+  assert(n>=slack_length);
 
-  if (max_unsolvable<slack_length_battle)
+  if (max_unsolvable<slack_length)
     result = defend(slices[si].u.binary.op1,n);
   else
     result = defend(slices[si].u.binary.op2,n);

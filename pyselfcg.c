@@ -38,7 +38,7 @@ slice_index alloc_selfcheck_guard_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -52,7 +52,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = slack_length_battle-2;
+    result = slack_length-2;
   else
     result = attack(slices[si].u.pipe.next,n);
 
@@ -67,7 +67,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -154,7 +154,7 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length_battle)
+  if (slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     battle_branch_insert_slices(si,&prototype,1);

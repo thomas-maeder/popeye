@@ -148,7 +148,7 @@ stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_help+2);
+  assert(n>=slack_length+2);
 
   switch (slice_solve(condition))
   {

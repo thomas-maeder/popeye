@@ -29,7 +29,7 @@ void init_degenerate_tree(stip_length_type max_length_short)
   TraceFunctionParam("%u",max_length_short);
   TraceFunctionParamListEnd();
 
-  max_length_short_solutions = 2*max_length_short+slack_length_battle;
+  max_length_short_solutions = 2*max_length_short+slack_length;
   TraceValue("%u\n",max_length_short_solutions);
 
   TraceFunctionExit(__func__);
@@ -63,7 +63,7 @@ static slice_index alloc_degenerate_tree_guard_slice(void)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves to try
  * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -99,14 +99,14 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  stip_length_type const parity = (n-slack_length_battle)%2;
+  stip_length_type const parity = (n-slack_length)%2;
   stip_length_type const n_min = max_unsolvable+1;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
@@ -117,7 +117,7 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
 
   if (n>max_length_short_solutions)
   {
-    if (max_length_short_solutions>=slack_length_battle+2)
+    if (max_length_short_solutions>=slack_length+2)
     {
       stip_length_type const n_interm = max_length_short_solutions-parity;
       result = delegate_has_solution_in_n(si,n_interm,n_min);
@@ -150,7 +150,7 @@ static void degenerate_tree_inserter_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*testing && slices[si].u.branch.length>=slack_length_battle+2)
+  if (*testing && slices[si].u.branch.length>=slack_length+2)
   {
     slice_index const finder = branch_find_slice(STFindShortest,si);
     if (finder!=no_slice) /* slice may already have been replaced */

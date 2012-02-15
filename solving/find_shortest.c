@@ -28,7 +28,7 @@ slice_index alloc_find_shortest_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -36,8 +36,8 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (max_unsolvable<slack_length_battle
-                                  ? slack_length_battle+1
+  stip_length_type const n_min = (max_unsolvable<slack_length
+                                  ? slack_length+1
                                   : max_unsolvable+1);
   stip_length_type n_current;
   stip_length_type const save_max_unsolvable = max_unsolvable;
@@ -75,7 +75,7 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
  */
 stip_length_type find_shortest_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = slack_length_help+1;
+  stip_length_type result = slack_length+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

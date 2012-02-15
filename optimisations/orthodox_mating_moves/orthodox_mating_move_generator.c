@@ -325,7 +325,7 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -340,7 +340,7 @@ orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n==slack_length_battle+1);
+  assert(n==slack_length+1);
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
@@ -376,7 +376,7 @@ stip_length_type orthodox_mating_move_generator_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n==slack_length_help+1);
+  assert(n==slack_length+1);
 
   empile_for_goal = slices[si].u.goal_handler.goal;
   generate_move_reaching_goal(slices[si].starter);

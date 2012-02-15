@@ -66,7 +66,7 @@ static stip_length_type try_last_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = defend(next,slack_length_battle+1);
+  result = defend(next,slack_length+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -85,7 +85,7 @@ static stip_length_type iterate_non_killer(slice_index si,
                                            square killer_pos)
 {
   square const *selfbnp;
-  stip_length_type result = slack_length_battle-1;
+  stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -93,7 +93,7 @@ static stip_length_type iterate_non_killer(slice_index si,
   TraceSquare(killer_pos);
   TraceFunctionParamListEnd();
 
-  for (selfbnp = boardnum; result<=slack_length_battle+1 && *selfbnp!=initsquare; ++selfbnp)
+  for (selfbnp = boardnum; result<=slack_length+1 && *selfbnp!=initsquare; ++selfbnp)
     if (*selfbnp!=killer_pos)
     {
       piece p = e[*selfbnp];
@@ -140,7 +140,7 @@ static stip_length_type iterate_killer_first(slice_index si,
 {
   Side const defender = slices[si].starter;
   Side const attacker = advers(defender);
-  stip_length_type result = slack_length_battle-1;
+  stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -179,7 +179,7 @@ static stip_length_type iterate_killer_first(slice_index si,
     result = try_last_defenses(si);
   }
 
-  if (result<=slack_length_battle+1)
+  if (result<=slack_length+1)
   {
     stip_length_type const result2 = iterate_non_killer(si,defender,killer_pos);
     if (result2>result)
@@ -199,7 +199,7 @@ static stip_length_type iterate_killer_first(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -218,13 +218,13 @@ stip_length_type killer_move_final_defense_move_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n==slack_length_battle+1);
+  assert(n==slack_length+1);
 
   TraceSquare(killer_pos);
   TracePiece(killer);
   TraceText("\n");
 
-  max_unsolvable = slack_length_battle;
+  max_unsolvable = slack_length;
 
   result = iterate_killer_first(si,killer_pos,killer);
 

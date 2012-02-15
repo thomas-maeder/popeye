@@ -112,7 +112,7 @@ stip_length_type intelligent_moves_left_initialiser_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  init_moves_left(si,n-slack_length_help,n-slack_length_help);
+  init_moves_left(si,n-slack_length,n-slack_length);
 
   if (MovesLeft[White]+MovesLeft[Black]>0)
     result = help(slices[si].u.pipe.next,n);

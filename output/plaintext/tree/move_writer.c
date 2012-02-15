@@ -53,7 +53,7 @@ has_solution_type move_writer_solve(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -77,7 +77,7 @@ stip_length_type move_writer_defend(slice_index si, stip_length_type n)
   }
 
   output_plaintext_tree_write_move();
-  do_write_trivial_ends[nbply] = n<=slack_length_battle+1;
+  do_write_trivial_ends[nbply] = n<=slack_length+1;
   result = defend(next,n);
   do_write_trivial_ends[nbply] = false;
 
@@ -91,7 +91,7 @@ stip_length_type move_writer_defend(slice_index si, stip_length_type n)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */

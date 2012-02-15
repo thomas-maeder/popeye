@@ -24,8 +24,8 @@ slice_index alloc_intelligent_stalemate_filter(void)
 
   {
     slice_index const proxy_branch = alloc_proxy_slice();
-    slice_index const help = alloc_help_branch(slack_length_help+1,
-                                               slack_length_help+1);
+    slice_index const help = alloc_help_branch(slack_length+1,
+                                               slack_length+1);
     slice_index const proto = alloc_pipe(STIntelligentImmobilisationCounter);
     help_branch_insert_slices(help,&proto,1);
     link_to_branch(proxy_branch,help);

@@ -448,7 +448,7 @@ void help_branch_shorten(slice_index adapter)
   /* adjust the length and min_length members */
   --slices[adapter].u.branch.length;
   --slices[adapter].u.branch.min_length;
-  if (slices[adapter].u.branch.min_length<slack_length_help)
+  if (slices[adapter].u.branch.min_length<slack_length)
     increase_min_length(adapter);
   branch_shorten_slices(next,STHelpAdapter);
 
@@ -598,7 +598,7 @@ slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
   {
     result = branch_find_slice(STReadyForHelpMove,result);
     assert(result!=no_slice);
-  } while ((slices[result].u.branch.length-slack_length_help)%2!=parity%2);
+  } while ((slices[result].u.branch.length-slack_length)%2!=parity%2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -777,7 +777,7 @@ slice_index alloc_help_branch(stip_length_type length,
     pipe_link(move2,played2);
     pipe_link(played2,adapter);
 
-    if ((length-slack_length_help)%2==0)
+    if ((length-slack_length)%2==0)
       help_branch_insert_slices(adapter,&deadend,1);
     else
       help_branch_insert_slices(move1,&deadend,1);
@@ -970,10 +970,10 @@ void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
 
   assert(slices[adapter].type==STHelpAdapter);
 
-  if (min_length==slack_length_help)
+  if (min_length==slack_length)
     min_length += 2;
 
-  if (length>slack_length_help+1)
+  if (length>slack_length+1)
   {
     slice_index const next = slices[adapter].u.pipe.next;
     slice_index const prototypes[] =
@@ -1062,7 +1062,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     slice_index const next = slices[adapter].u.pipe.next;
     slice_index const prototypes[] =
     {
-      alloc_help_adapter_slice(slack_length_help,slack_length_help),
+      alloc_help_adapter_slice(slack_length,slack_length),
       alloc_pipe(STEndOfRoot)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

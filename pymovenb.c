@@ -151,7 +151,7 @@ stip_length_type restart_guard_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_help);
+  assert(n>=slack_length);
 
   IncrementMoveNbr(si);
 

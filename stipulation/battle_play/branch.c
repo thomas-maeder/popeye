@@ -610,8 +610,8 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_battle);
-  assert(min_length>=slack_length_battle);
+  assert(length>slack_length);
+  assert(min_length>=slack_length);
 
   {
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);

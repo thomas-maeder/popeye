@@ -70,7 +70,7 @@ void stip_traverse_moves_defense_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length_battle;
+    st->full_length = slices[si].u.branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_defense;
@@ -122,7 +122,7 @@ void defense_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length_battle)
+      && slices[adapter].u.branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     battle_spin_off_intro(adapter,state);
@@ -148,10 +148,10 @@ has_solution_type defense_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length_battle-1;
+  max_unsolvable = slack_length-1;
 
   defense_result = defend(next,length);
-  result = (slack_length_battle<=defense_result && defense_result<=length
+  result = (slack_length<=defense_result && defense_result<=length
             ? has_solution
             : has_no_solution);
 

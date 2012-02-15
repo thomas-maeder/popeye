@@ -54,7 +54,7 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
     result = alloc_conditional_pipe(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
     link_to_branch(tester,
-                   alloc_help_branch(slack_length_help+1,slack_length_help+1));
+                   alloc_help_branch(slack_length+1,slack_length+1));
     slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
 
     {

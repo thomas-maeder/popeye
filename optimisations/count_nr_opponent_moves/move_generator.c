@@ -65,7 +65,7 @@ static slice_index alloc_countnropponentmoves_move_generator_slice(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -135,7 +135,7 @@ static void optimise_defense_move_generator(slice_index si,
 
   if (st->context==stip_traversal_context_defense
       && enabled[defender]
-      && state->length>slack_length_battle+2
+      && state->length>slack_length+2
       && state->testing)
   {
     slice_index const proxy1 = alloc_proxy_slice();
@@ -219,7 +219,7 @@ enum
 void stip_optimise_with_countnropponentmoves(slice_index si)
 {
   stip_structure_traversal st;
-  optimisation_state_type state = { slack_length_battle, false };
+  optimisation_state_type state = { slack_length, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

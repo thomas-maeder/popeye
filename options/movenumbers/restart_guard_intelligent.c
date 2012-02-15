@@ -40,9 +40,9 @@ static boolean is_length_ruled_out_by_option_restart(stip_length_type n)
   if (OptFlag[restart])
   {
     stip_length_type min_length = 2*get_restart_number();
-    if ((n-slack_length_help)%2==1)
+    if ((n-slack_length)%2==1)
       --min_length;
-    result = n-slack_length_help<min_length;
+    result = n-slack_length<min_length;
   }
   else
     result = false;

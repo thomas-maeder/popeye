@@ -27,7 +27,7 @@ static boolean are_we_counting_nontrival[maxply+1] = { false };
 void reset_nontrivial_settings(void)
 {
   max_nr_nontrivial = UINT_MAX;
-  min_length_nontrivial = 2*maxply+slack_length_battle+1;
+  min_length_nontrivial = 2*maxply+slack_length+1;
 }
 
 /* Read the requested non-trivial optimisation settings from user input
@@ -81,7 +81,7 @@ boolean read_min_length_nontrivial(char const *tok)
   {
     result = true;
     min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
-                             +slack_length_battle+1);
+                             +slack_length+1);
     TraceValue("%u\n",min_length_nontrivial);
   }
   else
@@ -99,7 +99,7 @@ boolean read_min_length_nontrivial(char const *tok)
  */
 stip_length_type get_min_length_nontrivial(void)
 {
-  return (min_length_nontrivial-slack_length_battle-1)/2;
+  return (min_length_nontrivial-slack_length-1)/2;
 }
 
 
@@ -116,7 +116,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
 {
   unsigned int result;
   slice_index const tester = slices[si].u.fork.fork;
-  stip_length_type const parity = ((n-slack_length_battle-1)%2);
+  stip_length_type const parity = ((n-slack_length-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
@@ -125,7 +125,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length_battle-2+parity;
+  max_unsolvable = slack_length-2+parity;
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
   defend(tester,n_next);
@@ -165,7 +165,7 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -227,7 +227,7 @@ static slice_index alloc_max_nr_nontrivial_counter(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -267,7 +267,7 @@ static void nontrivial_guard_inserter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length_battle+1)
+  if (slices[si].u.branch.length>slack_length+1)
   {
     slice_index const prototypes[] =
     {

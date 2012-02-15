@@ -28,7 +28,7 @@ slice_index alloc_dummy_move_slice(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -38,7 +38,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type max_len_continuation = slack_length_battle-1;
+  stip_length_type max_len_continuation = slack_length-1;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
@@ -46,9 +46,9 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_battle);
+  assert(n>slack_length);
 
-  max_unsolvable = slack_length_battle-1;
+  max_unsolvable = slack_length-1;
 
   {
     stip_length_type const length_sol = attack(next,n-1)+1;

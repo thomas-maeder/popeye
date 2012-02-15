@@ -64,7 +64,7 @@ void attack_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length_battle)
+      && slices[adapter].u.branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     battle_spin_off_intro(adapter,state);
@@ -114,7 +114,7 @@ void stip_traverse_moves_attack_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length_battle;
+    st->full_length = slices[si].u.branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_attack;
@@ -147,7 +147,7 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle)
+  if (length>slack_length)
   {
     slice_index zigzag = branch_find_slice(STCheckZigzagJump,adapter);
     if (zigzag==no_slice)
@@ -163,8 +163,8 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
     else
     {
       /* set play of some pser stipulation */
-      slice_index const proto = alloc_defense_adapter_slice(slack_length_battle,
-                                                            slack_length_battle);
+      slice_index const proto = alloc_defense_adapter_slice(slack_length,
+                                                            slack_length);
       battle_branch_insert_slices(adapter,&proto,1);
 
       {
@@ -205,7 +205,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   max_unsolvable = min_length-1;
 
   nr_moves_needed = attack(next,length);
-  if (nr_moves_needed<slack_length_battle)
+  if (nr_moves_needed<slack_length)
     result = opponent_self_check;
   else if (nr_moves_needed<=length)
     result = has_solution;

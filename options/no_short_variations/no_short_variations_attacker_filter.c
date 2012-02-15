@@ -53,7 +53,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -66,10 +66,10 @@ stip_length_type no_short_variations_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle+1
+  if (n>slack_length+1
       && encore() /* otherwise we are solving threats */
       && has_short_solution(si,n-2))
-    result = slack_length_battle;
+    result = slack_length;
   else
     result = attack(slices[si].u.fork.next,n);
 

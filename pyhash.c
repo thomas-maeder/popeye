@@ -462,12 +462,12 @@ static void init_slice_properties_hashed_help(slice_index si,
     slice_index const sibling = branch_find_slice(STHelpHashed,si);
 
     stip_length_type const length = slices[si].u.branch.length;
-    unsigned int const width = bit_width((length-slack_length_help+1)/2);
+    unsigned int const width = bit_width((length-slack_length+1)/2);
 
     sis->valueOffset -= width;
 
     if (sibling!=no_slice
-        && slices[sibling].u.branch.length>slack_length_help
+        && slices[sibling].u.branch.length>slack_length
         && get_stip_structure_traversal_state(sibling,st)==slice_not_traversed)
     {
       assert(sibling!=si);
@@ -1075,11 +1075,11 @@ static unsigned int estimateNumberOfHoles(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result += (length-slack_length_battle)/2;
+        result += (length-slack_length)/2;
         break;
 
       case STHelpHashed:
-        result += (length-slack_length_help+1)/2;
+        result += (length-slack_length+1)/2;
         break;
 
       default:
@@ -1783,7 +1783,7 @@ static void insert_hash_element_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*previous_move_slice!=no_slice && length>slack_length_battle)
+  if (*previous_move_slice!=no_slice && length>slack_length)
   {
     slice_index const prototype = alloc_branch(STAttackHashed,length,min_length);
     battle_branch_insert_slices(si,&prototype,1);
@@ -1810,7 +1810,7 @@ static void insert_hash_element_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*previous_move_slice!=no_slice && length>slack_length_help)
+  if (*previous_move_slice!=no_slice && length>slack_length)
   {
     slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
     help_branch_insert_slices(si,&prototype,1);
@@ -1884,7 +1884,7 @@ void stip_insert_hash_slices(slice_index si)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -2032,7 +2032,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -2043,8 +2043,8 @@ stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
   slice_index const base = slices[si].u.derived_pipe.base;
   stip_length_type const min_length = slices[base].u.branch.min_length;
   stip_length_type const played = slices[base].u.branch.length-n;
-  stip_length_type const min_length_adjusted = (min_length<played+slack_length_battle-1
-                                                ? slack_length_battle-(min_length-slack_length_battle)%2
+  stip_length_type const min_length_adjusted = (min_length<played+slack_length-1
+                                                ? slack_length-(min_length-slack_length)%2
                                                 : min_length-played);
   stip_length_type const validity_value = min_length_adjusted/2+1;
   stip_length_type const save_max_unsolvable = max_unsolvable;
@@ -2109,7 +2109,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const validity_value = min_length/2+1;
+  stip_length_type const validity_value = (min_length+2-slack_length)/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2127,7 +2127,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    hash_value_type const val = (n-min_length)/2+1;
+    hash_value_type const val = (n-(min_length+2-slack_length))/2+1;
     hash_value_type const nosuccess = get_value_help(hue,si);
     TraceValue("%u",min_length);
     TraceValue("%u\n",val);
@@ -2155,7 +2155,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  hash_value_type const val = (n-min_length)/2+1;
+  hash_value_type const val = (n-(min_length+2-slack_length))/2+1;
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2203,13 +2203,13 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>slack_length);
 
   if (inhash_help(si,n))
     result = n+2;
   else
   {
-    if (slices[si].u.branch.min_length>slack_length_help+1)
+    if (slices[si].u.branch.min_length>slack_length+1)
     {
       slices[si].u.branch.min_length -= 2;
       result = help(slices[si].u.pipe.next,n);
@@ -2250,13 +2250,13 @@ stip_length_type help_hashed_tester_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>slack_length);
 
   if (inhash_help(base,n))
     result = n+2;
   else
   {
-    if (slices[base].u.branch.min_length>slack_length_help+1)
+    if (slices[base].u.branch.min_length>slack_length+1)
     {
       slices[base].u.branch.min_length -= 2;
       result = help(slices[si].u.pipe.next,n);

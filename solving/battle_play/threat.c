@@ -57,7 +57,7 @@ static slice_index alloc_threat_enforcer_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -76,7 +76,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 
   TraceValue("%u\n",len_threat);
 
-  if (len_threat<=slack_length_battle)
+  if (len_threat<=slack_length)
     /* the attack has something stronger than threats (typically, it
      * delivers check)
      */
@@ -170,7 +170,7 @@ static slice_index alloc_threat_collector_slice(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -190,7 +190,7 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
 
   TraceValue("%u\n",nbply);
   if (threat_activities[nbply]==threat_solving
-      && slack_length_battle<=result && result<=n)
+      && slack_length<=result && result<=n)
     append_to_top_table();
 
   TraceFunctionExit(__func__);
@@ -231,7 +231,7 @@ void stip_spin_off_testers_threat_collector(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -255,7 +255,7 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
   {
     if (is_current_move_in_table(threats[nbply]))
     {
-      if (slack_length_battle<=result && result<=n)
+      if (slack_length<=result && result<=n)
       {
         --nr_threats_to_be_confirmed;
         if (nr_threats_to_be_confirmed>0)
@@ -302,7 +302,7 @@ static slice_index alloc_threat_solver_slice(void)
 /* Solve threats after an attacker's move
  * @param si slice index
  * @return length of threats
- *         <slack_length_battle if the attacker has something stronger
+ *         <slack_length if the attacker has something stronger
  *             than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -317,7 +317,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length_battle;
+  max_unsolvable = slack_length;
 
   /* insert an empty ply for the virtual defense played before the threat */
   nextply(nbply);
@@ -337,7 +337,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -387,7 +387,7 @@ static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length_battle+1)
+  if (slices[si].u.branch.length>slack_length+1)
   {
     slice_index const prototypes[] =
     {

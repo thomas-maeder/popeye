@@ -136,7 +136,7 @@ stip_length_type goalreachable_guard_stalemate_help(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_help);
+  assert(n>=slack_length);
 
   --MovesLeft[just_moved];
   TraceEnumerator(Side,slices[si].starter,"");

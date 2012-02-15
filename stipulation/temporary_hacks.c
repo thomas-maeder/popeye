@@ -73,8 +73,8 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   Goal const goal = { goal_mate, initsquare };
   slice_index const tester_system = alloc_goal_mate_reached_tester_system();
   slice_index const tester_slice = alloc_goal_reached_tester_slice(goal,tester_system);
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const counter_proto = alloc_legal_move_counter_slice();
   slice_index const unsuspender_proto = alloc_pipe(STExclusiveChessUnsuspender);
   leaf_branch_insert_slices(tester_slice,&counter_proto,1);
@@ -98,8 +98,8 @@ static slice_index make_brunner_check_defense_finder(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_any_reached_tester_system();
   link_to_branch(proxy_goal,system);
@@ -114,8 +114,8 @@ static slice_index make_isardam_defense_finder(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_any_reached_tester_system();
   link_to_branch(proxy_goal,system);
@@ -130,8 +130,8 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_capture_reached_tester_system();
   link_to_branch(proxy_goal,system);
@@ -154,8 +154,8 @@ static slice_index make_castling_intermediate_move_legality_tester(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_any_reached_tester_system();
   link_to_branch(proxy_goal,system);
@@ -171,8 +171,8 @@ static slice_index make_maximummer_candidate_move_tester(Side side)
 {
   slice_index result;
   slice_index const proxy_branch = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+1,
-                                             slack_length_help+1);
+  slice_index const help = alloc_help_branch(slack_length+1,
+                                             slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
   slice_index const system = alloc_goal_any_reached_tester_system();
   link_to_branch(proxy_goal,system);
@@ -188,14 +188,14 @@ static slice_index make_opponent_moves_counter_fork(Side side)
 {
   slice_index result;
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const help = alloc_help_branch(slack_length_help+2,
-                                             slack_length_help+2);
+  slice_index const help = alloc_help_branch(slack_length+2,
+                                             slack_length+2);
   slice_index const legal_moves_counter_proto = alloc_legal_move_counter_slice();
   slice_index const opp_moves_counter_proto = alloc_pipe(STOpponentMovesCounter);
   slice_index ready = help;
   do {
     ready = branch_find_slice(STReadyForHelpMove,ready);
-  } while (slices[ready].u.branch.length!=slack_length_help+1);
+  } while (slices[ready].u.branch.length!=slack_length+1);
   help_branch_insert_slices(ready,&legal_moves_counter_proto,1);
   help_branch_insert_slices(help,&opp_moves_counter_proto,1);
   link_to_branch(proxy,help);

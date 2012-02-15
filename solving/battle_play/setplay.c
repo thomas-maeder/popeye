@@ -24,7 +24,7 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->level==structure_traversal_level_setplay
-      && slices[si].u.branch.length>slack_length_battle)
+      && slices[si].u.branch.length>slack_length)
   {
     unsigned int const max_nr_refutations = UINT_MAX;
     slice_index const prototypes[] =

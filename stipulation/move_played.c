@@ -28,7 +28,7 @@ slice_index alloc_move_played_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -43,9 +43,9 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
 
   --max_unsolvable;
 
-  assert(n>slack_length_battle);
+  assert(n>slack_length);
   result = defend(slices[si].u.pipe.next,n-1)+1;
-  if (result<=slack_length_battle) /* oops - unintentional stalemate! */
+  if (result<=slack_length) /* oops - unintentional stalemate! */
     result = n+2;
 
   ++max_unsolvable;
@@ -61,7 +61,7 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -77,9 +77,9 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_battle);
+  assert(n>slack_length);
 
-  max_unsolvable = slack_length_battle-1;
+  max_unsolvable = slack_length-1;
   result = attack(slices[si].u.pipe.next,n-1)+1;
   max_unsolvable = save_max_unsolvable;
 
@@ -107,7 +107,7 @@ stip_length_type move_played_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_help);
+  assert(n>slack_length);
   result = help(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);

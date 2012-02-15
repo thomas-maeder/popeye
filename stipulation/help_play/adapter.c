@@ -62,7 +62,7 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
   stip_traverse_structure_children(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length_help)
+      && slices[adapter].u.branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     help_spin_off_intro(adapter,state);
@@ -134,7 +134,7 @@ void stip_traverse_moves_help_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length_help;
+    st->full_length = slices[si].u.branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_help;

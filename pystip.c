@@ -1060,7 +1060,7 @@ static void replace_attack_adapter(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  pipe_substitute(si,alloc_defense_adapter_slice(slack_length_battle,slack_length_battle-1));
+  pipe_substitute(si,alloc_defense_adapter_slice(slack_length,slack_length-1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1074,7 +1074,7 @@ static void replace_ready_for_attack(slice_index si, stip_structure_traversal *s
 
   stip_traverse_structure_children(si,st);
 
-  pipe_substitute(si,alloc_branch(STReadyForDefense,slack_length_battle,slack_length_battle-1));
+  pipe_substitute(si,alloc_branch(STReadyForDefense,slack_length,slack_length-1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1115,7 +1115,7 @@ static void insert_direct_guards(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (st->level==structure_traversal_level_root
-      && slices[si].u.branch.length>slack_length_battle
+      && slices[si].u.branch.length>slack_length
       && state->to_goal!=no_slice)
   {
     stip_convert_to_direct_goal_branch(state->to_goal);

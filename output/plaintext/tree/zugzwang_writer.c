@@ -28,7 +28,7 @@ slice_index alloc_zugzwang_writer_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -52,7 +52,7 @@ stip_length_type zugzwang_writer_attack(slice_index si, stip_length_type n)
 
   /* We don't signal "Zugzwang" after the last attacking move of a
    * self play variation */
-  if (n>slack_length_battle && result==n+2)
+  if (n>slack_length && result==n+2)
   {
     StdChar(blank);
     Message(Zugzwang);
