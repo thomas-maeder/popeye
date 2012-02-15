@@ -2015,7 +2015,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  result = can_attack(next,n);
+  result = attack(next,n);
 
   if (result<=n)
     addtohash_battle_success(base,result,min_length_adjusted);
@@ -2028,15 +2028,15 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_can_attack(slice_index si, stip_length_type n)
+stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   dhtElement const *he;
@@ -2231,8 +2231,8 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
+/* Solve in a number of half-moves
+ * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
@@ -2240,7 +2240,7 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
+stip_length_type help_hashed_tester_help(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const base = slices[si].u.derived_pipe.base;
@@ -2259,11 +2259,11 @@ stip_length_type help_hashed_can_help(slice_index si, stip_length_type n)
     if (slices[base].u.branch.min_length>slack_length_help+1)
     {
       slices[base].u.branch.min_length -= 2;
-      result = can_help(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
       slices[base].u.branch.min_length += 2;
     }
     else
-      result = can_help(slices[si].u.pipe.next,n);
+      result = help(slices[si].u.pipe.next,n);
 
     /* self check test should be over when we arrive here */
     assert(result<=n+2);

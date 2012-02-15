@@ -62,37 +62,3 @@ has_solution_type not_solve(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type not_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (slice_has_solution(slices[si].u.pipe.next))
-  {
-    case opponent_self_check:
-      result = opponent_self_check;
-      break;
-
-    case has_no_solution:
-      result = has_solution;
-      break;
-
-    case has_solution:
-      result = has_no_solution;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

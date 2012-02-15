@@ -92,7 +92,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
     nr_threats_to_be_confirmed = table_length(threats_table);
 
     threat_activities[threats_ply] = threat_enforcing;
-    len_test_threats = can_attack(threat_start,len_threat);
+    len_test_threats = attack(threat_start,len_threat);
     threat_activities[threats_ply] = threat_idle;
 
     if (len_test_threats>len_threat)
@@ -226,7 +226,9 @@ void stip_spin_off_testers_threat_collector(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there are defenses after an attacking move
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
@@ -235,8 +237,8 @@ void stip_spin_off_testers_threat_collector(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type threat_defeated_tester_can_defend(slice_index si,
-                                                   stip_length_type n)
+stip_length_type threat_defeated_tester_defend(slice_index si,
+                                               stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -246,7 +248,7 @@ stip_length_type threat_defeated_tester_can_defend(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_defend(next,n);
+  result = defend(next,n);
 
   if (threat_activities[nbply]==threat_enforcing
       && n>=threat_lengths[nbply]-2)

@@ -81,12 +81,11 @@ void maff_replace_immobility_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type maff_immobility_tester_king_has_solution(slice_index si)
+has_solution_type maff_immobility_tester_king_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -100,7 +99,7 @@ has_solution_type maff_immobility_tester_king_has_solution(slice_index si)
   /* stop counting once we have >1 legal king moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  slice_has_solution(slices[si].u.pipe.next);
+  slice_solve(slices[si].u.pipe.next);
 
   /* apply the MAFF rule */
   result = legal_move_counter_count[nbply+1]==1 ? has_solution : has_no_solution;

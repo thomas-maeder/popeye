@@ -321,41 +321,6 @@ void stip_optimise_with_orthodox_mating_move_generators(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-orthodox_mating_move_generator_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n==slack_length_battle+1);
-
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[si].u.goal_handler.goal;
-  generate_move_reaching_goal(slices[si].starter);
-  empile_for_goal.type = no_goal;
-  result = can_attack(next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -418,41 +383,6 @@ stip_length_type orthodox_mating_move_generator_help(slice_index si,
   empile_for_goal.type = no_goal;
 
   result = help(next,n);
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type orthodox_mating_move_generator_can_help(slice_index si,
-                                                         stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n==slack_length_help+1);
-
-  empile_for_goal = slices[si].u.goal_handler.goal;
-  generate_move_reaching_goal(slices[si].starter);
-  empile_for_goal.type = no_goal;
-
-  result = can_help(next,n);
 
   finply();
 

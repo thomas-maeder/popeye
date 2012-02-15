@@ -118,7 +118,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  slice_has_solution(slices[current_start_slice].u.fork.fork);
+  slice_solve(slices[current_start_slice].u.fork.fork);
   next_trouble_maker();
   current_state = 0;
 
@@ -228,8 +228,8 @@ static void update_pawn_requirement(void)
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
-                                                             stip_length_type n)
+stip_length_type intelligent_immobilisation_counter_help(slice_index si,
+                                                         stip_length_type n)
 {
   stip_length_type result;
 

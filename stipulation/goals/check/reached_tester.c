@@ -53,12 +53,11 @@ slice_index alloc_goal_check_reached_tester_slice(goal_applies_to_starter_or_adv
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_check_reached_tester_has_solution(slice_index si)
+has_solution_type goal_check_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
   Side const in_check = (slices[si].u.goal_filter.applies_to_who
@@ -71,7 +70,7 @@ has_solution_type goal_check_reached_tester_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,in_check))
-    result = slice_has_solution(slices[si].u.pipe.next);
+    result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 

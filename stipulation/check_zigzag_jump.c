@@ -62,36 +62,6 @@ stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type check_zigzag_jump_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index succ;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
-  result = can_defend(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -115,36 +85,6 @@ stip_length_type check_zigzag_jump_help(slice_index si, stip_length_type n)
 
   succ = echecc(nbply,slices[si].starter) ? op1 : op2;
   result = help(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type check_zigzag_jump_can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index succ;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
-  result = can_help(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

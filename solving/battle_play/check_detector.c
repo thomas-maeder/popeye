@@ -49,7 +49,7 @@ has_solution_type check_detector_solve(slice_index si)
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @param n_min minimum number of half-moves of interesting variations
+ * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found

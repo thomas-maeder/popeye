@@ -52,12 +52,11 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type paralysing_mate_filter_tester_has_solution(slice_index si)
+has_solution_type paralysing_mate_filter_tester_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -70,7 +69,7 @@ has_solution_type paralysing_mate_filter_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(next);
+  result = slice_solve(next);
   if (result==has_solution && suffocated_by_paralysis(mated))
     result = has_no_solution;
 

@@ -69,37 +69,6 @@ void stip_traverse_moves_fork_on_remaining(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-fork_on_remaining_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const op1 = slices[si].u.fork_on_remaining.op1;
-  slice_index const op2 = slices[si].u.fork_on_remaining.op2;
-  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
-  slice_index const succ = n<=slack_length_battle+threshold ? op2 : op1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_battle);
-  result = can_attack(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -163,37 +132,6 @@ stip_length_type fork_on_remaining_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type fork_on_remaining_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const op1 = slices[si].u.fork_on_remaining.op1;
-  slice_index const op2 = slices[si].u.fork_on_remaining.op2;
-  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
-  slice_index const succ = n<=slack_length_battle+threshold ? op2 : op1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_battle);
-  result = can_defend(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -217,36 +155,6 @@ stip_length_type fork_on_remaining_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   result = help(succ,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type fork_on_remaining_can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const op1 = slices[si].u.fork_on_remaining.op1;
-  slice_index const op2 = slices[si].u.fork_on_remaining.op2;
-  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
-  slice_index const succ = n<=slack_length_help+threshold ? op2 : op1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = can_help(succ,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

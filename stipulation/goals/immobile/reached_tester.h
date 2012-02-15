@@ -27,19 +27,17 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
 void impose_starter_immobility_tester(slice_index si,
                                       stip_structure_traversal *st);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_immobile_reached_tester_has_solution(slice_index si);
+has_solution_type goal_immobile_reached_tester_solve(slice_index si);
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type immobility_tester_has_solution(slice_index si);
+has_solution_type immobility_tester_solve(slice_index si);
 
 /* Replace immobility tester slices' type
  * @param si where to start (entry slice into stipulation)

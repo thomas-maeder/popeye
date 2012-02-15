@@ -91,37 +91,6 @@ void stip_insert_avoid_unsolvable_forks(slice_index root_slice)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type avoid_unsolvable_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_battle);
-
-  if (max_unsolvable<slack_length_battle
-      || n<=max_unsolvable) /* exact refutation */
-    result = can_attack(slices[si].u.binary.op1,n);
-  else
-    result = can_attack(slices[si].u.binary.op2,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -179,37 +148,6 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
     result = defend(slices[si].u.binary.op1,n);
   else
     result = defend(slices[si].u.binary.op2,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type avoid_unsolvable_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_battle);
-
-  if (max_unsolvable<slack_length_battle)
-    result = can_defend(slices[si].u.binary.op1,n);
-  else
-    result = can_defend(slices[si].u.binary.op2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

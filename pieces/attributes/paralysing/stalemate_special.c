@@ -31,41 +31,6 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type paralysing_stalemate_special_has_solution(slice_index si)
-{
-  has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  goal_applies_to_starter_or_adversary const
-    applies_to_who = slices[si].u.goal_filter.applies_to_who;
-  Side const starter = slices[si].starter;
-  Side const stalemated = (applies_to_who==goal_applies_to_starter
-                           ? starter
-                           : advers(starter));
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* only flag selfcheck if the side that has just moved is not the one to be
-   * stalemated (i.e. if the stipulation is not auto-stalemate) */
-  if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
-    result = opponent_self_check;
-  else if (suffocated_by_paralysis(stalemated))
-    result = has_solution;
-  else
-    result = slice_has_solution(next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

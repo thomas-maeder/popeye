@@ -2061,43 +2061,6 @@ stip_length_type goalreachable_guard_proofgame_help(slice_index si,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_proofgame_can_help(slice_index si,
-                                                        stip_length_type n)
-{
-  stip_length_type result;
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  --MovesLeft[just_moved];
-
-  if (ProofImpossible())
-    result = n+2;
-  else
-    result = can_help(slices[si].u.pipe.next,n);
-
-  ++MovesLeft[just_moved];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -2134,43 +2097,6 @@ stip_length_type goalreachable_guard_proofgame_fairy_help(slice_index si,
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[slices[si].starter]);
   TraceValue("%u\n",MovesLeft[just_moved]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_proofgame_fairy_can_help(slice_index si,
-                                                              stip_length_type n)
-{
-  stip_length_type result;
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  --MovesLeft[just_moved];
-
-  if (ProofFairyImpossible())
-    result = n+2;
-  else
-    result = can_help(slices[si].u.pipe.next,n);
-
-  ++MovesLeft[just_moved];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

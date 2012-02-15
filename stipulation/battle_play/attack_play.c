@@ -54,164 +54,9 @@
  */
 stip_length_type max_unsolvable;
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-#if !defined(NDEBUG)
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-#endif
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STRefutationsCollector:
-      result = refutations_collector_can_attack(si,n);
-      break;
-
-    case STDeadEnd:
-      result = dead_end_can_attack(si,n);
-      break;
-
-    case STMinLengthOptimiser:
-      result = min_length_optimiser_can_attack(si,n);
-      break;
-
-    case STMinLengthGuard:
-      result = min_length_guard_can_attack(si,n);
-      break;
-
-    case STForkOnRemaining:
-      result = fork_on_remaining_can_attack(si,n);
-      break;
-
-    case STFindShortest:
-      result = find_shortest_can_attack(si,n);
-      break;
-
-    case STMoveGenerator:
-      result = move_generator_can_attack(si,n);
-      break;
-
-    case STFindMove:
-      result = find_move_can_attack(si,n);
-      break;
-
-    case STMovePlayed:
-      result = move_played_can_attack(si,n);
-      break;
-
-#if defined(DOTRACE)
-    case STMoveTracer:
-      result = move_tracer_can_attack(si,n);
-      break;
-#endif
-
-    case STOrthodoxMatingMoveGenerator:
-      result = orthodox_mating_move_generator_can_attack(si,n);
-      break;
-
-    case STAttackHashedTester:
-      result = attack_hashed_can_attack(si,n);
-      break;
-
-    case STEndOfBranch:
-    case STEndOfBranchGoal:
-      result = end_of_branch_can_attack(si,n);
-      break;
-
-    case STAvoidUnsolvable:
-      result = avoid_unsolvable_can_attack(si,n);
-      break;
-
-    case STOr:
-      result = or_can_attack(si,n);
-      break;
-
-    case STConstraintTester:
-      result = constraint_can_attack(si,n);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_can_attack(si,n);
-      break;
-
-    case STKeepMatingFilter:
-      result = keepmating_filter_can_attack(si,n);
-      break;
-
-    case STDegenerateTree:
-      result = degenerate_tree_can_attack(si,n);
-      break;
-
-    case STMaxNrNonTrivialCounter:
-      result = max_nr_nontrivial_counter_can_attack(si,n);
-      break;
-
-    case STDoubleMateFilter:
-      result = doublemate_filter_can_attack(si,n);
-      break;
-
-    case STCounterMateFilter:
-      result = countermate_filter_can_attack(si,n);
-      break;
-
-    case STEnPassantFilter:
-      result = enpassant_filter_can_attack(si,n);
-      break;
-
-    case STCastlingFilter:
-      result = castling_filter_can_attack(si,n);
-      break;
-
-    case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_can_attack(si,n);
-      break;
-
-    case STKillerMoveMoveGenerator:
-      result = killer_move_move_generator_can_attack(si,n);
-      break;
-
-    case STKillerMoveCollector:
-      result = killer_move_collector_can_attack(si,n);
-      break;
-
-    case STBGLFilter:
-      result = bgl_filter_can_attack(si,n);
-      break;
-
-    case STTrue:
-      result = n;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  assert(save_max_unsolvable==max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @param n_min minimum number of half-moves of interesting variations
+ * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
@@ -377,6 +222,38 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCheckDetector:
       result = check_detector_attack(si,n);
+      break;
+
+    case STRefutationsCollector:
+      result = refutations_collector_attack(si,n);
+      break;
+
+    case STMinLengthGuard:
+      result = min_length_guard_attack(si,n);
+      break;
+
+    case STFindMove:
+      result = find_move_attack(si,n);
+      break;
+
+    case STAttackHashedTester:
+      result = attack_hashed_tester_attack(si,n);
+      break;
+
+    case STDegenerateTree:
+      result = degenerate_tree_attack(si,n);
+      break;
+
+    case STMaxNrNonTrivialCounter:
+      result = max_nr_nontrivial_counter_attack(si,n);
+      break;
+
+    case STKillerMoveMoveGenerator:
+      result = killer_move_move_generator_attack(si,n);
+      break;
+
+    case STKillerMoveCollector:
+      result = killer_move_collector_attack(si,n);
       break;
 
     case STTrue:

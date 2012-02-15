@@ -34,8 +34,8 @@ boolean exclusive_pos_legal(void);
  */
 void optimise_away_unnecessary_selfcheckguards(slice_index si);
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
+/* Solve in a number of half-moves
+ * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
@@ -43,7 +43,7 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type exclusive_chess_unsuspender_can_help(slice_index si,
-                                                      stip_length_type n);
+stip_length_type exclusive_chess_unsuspender_help(slice_index si,
+                                                  stip_length_type n);
 
 #endif

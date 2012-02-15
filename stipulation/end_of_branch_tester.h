@@ -33,16 +33,4 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
  */
 stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n);
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type end_of_branch_tester_can_help(slice_index si,
-                                               stip_length_type n);
-
 #endif

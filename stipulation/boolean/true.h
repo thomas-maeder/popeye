@@ -11,12 +11,6 @@
  */
 slice_index alloc_true_slice(void);
 
-/* Determine whether a slice has a solution
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type true_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

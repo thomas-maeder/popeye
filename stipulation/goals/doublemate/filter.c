@@ -26,35 +26,6 @@ slice_index alloc_doublemate_filter_slice(void)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type doublemate_filter_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (max_unsolvable<slack_length_battle+1
-      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
-    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = can_attack(slices[si].u.fork.next,n);
-  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -73,7 +44,7 @@ stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (max_unsolvable<slack_length_battle+1
-      && slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
+      && slice_solve(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = attack(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
@@ -104,40 +75,9 @@ stip_length_type doublemate_filter_help(slice_index si, stip_length_type n)
 
   assert(n==slack_length_help+1);
 
-  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
+  if (slice_solve(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
   result = help(slices[si].u.fork.next,slack_length_help+1);
-  CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type doublemate_filter_can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n==slack_length_help+1);
-
-  if (slice_has_solution(slices[si].u.fork.fork)==has_no_solution)
-    SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = can_help(slices[si].u.fork.next,slack_length_help+1);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);

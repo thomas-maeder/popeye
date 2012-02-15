@@ -26,35 +26,6 @@ static slice_index alloc_ultraschachzwang_goal_filter_slice(void)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type ultraschachzwang_goal_filter_has_solution(slice_index si)
-{
-  has_solution_type result;
-  Side const starter = slices[si].starter;
-  Cond const cond = (starter==White
-                     ? whiteultraschachzwang
-                     : blackultraschachzwang);
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(CondFlag[cond]);
-  CondFlag[cond] = false;
-  result = slice_has_solution(next);
-  CondFlag[cond] = true;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

@@ -14,34 +14,39 @@
  */
 slice_index alloc_find_move_slice(void);
 
-/* Determine whether there is a solution in n half moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @param n maximal number of moves
- * @return length of solution found, i.e.:
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type find_move_can_attack(slice_index si, stip_length_type n);
+stip_length_type find_move_attack(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length_battle - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type find_move_can_defend(slice_index si, stip_length_type n);
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type find_move_defend(slice_index si, stip_length_type n);
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type find_move_can_help(slice_index si, stip_length_type n);
+
+stip_length_type find_move_help(slice_index si, stip_length_type n);
 
 #endif

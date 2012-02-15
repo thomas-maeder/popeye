@@ -3,7 +3,7 @@
 
 #include "pystip.h"
 
-/* Determine whether a pice is paralysed
+/* Determine whether a piece is paralysed
  * @param s position of piece
  * @return true iff the piece on square s is paralysed
  */

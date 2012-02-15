@@ -20,10 +20,4 @@ slice_index alloc_not_slice(void);
  */
 has_solution_type not_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type not_has_solution(slice_index si);
-
 #endif

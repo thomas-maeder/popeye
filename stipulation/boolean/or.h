@@ -13,22 +13,6 @@
  */
 slice_index alloc_or_slice(slice_index op1, slice_index op2);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type or_has_solution(slice_index si);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type or_can_attack(slice_index si, stip_length_type n);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

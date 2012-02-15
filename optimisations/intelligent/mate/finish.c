@@ -73,7 +73,7 @@ static boolean exists_redundant_white_piece(void)
         e[sq] = vide;
         spec[sq] = EmptySpec;
 
-        result = slice_has_solution(slices[current_start_slice].u.fork.fork)==has_solution;
+        result = slice_solve(slices[current_start_slice].u.fork.fork)==has_solution;
 
         /* restore piece */
         e[sq] = p;

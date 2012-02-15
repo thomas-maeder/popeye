@@ -54,18 +54,17 @@ void single_move_generator_with_king_capture_init_next(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-single_move_generator_with_king_capture_can_help(slice_index si,
-                                                 stip_length_type n)
+stip_length_type single_move_generator_with_king_capture_help(slice_index si,
+                                                              stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -83,7 +82,7 @@ single_move_generator_with_king_capture_can_help(slice_index si,
   empile(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
   k_cap = false;
   finish_move_generation_optimizer();
-  result = can_help(next,n);
+  result = help(next,n);
   finply();
 
   square_departure[nbply+1] = initsquare;

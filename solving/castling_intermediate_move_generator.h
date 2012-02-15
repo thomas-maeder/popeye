@@ -19,17 +19,16 @@ slice_index alloc_castling_intermediate_move_generator_slice(void);
 void castling_intermediate_move_generator_init_next(square sq_departure,
                                                     square sq_arrival);
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type
-castling_intermediate_move_generator_can_help(slice_index si,
-                                              stip_length_type n);
+stip_length_type castling_intermediate_move_generator_help(slice_index si,
+                                                           stip_length_type n);
 
 #endif

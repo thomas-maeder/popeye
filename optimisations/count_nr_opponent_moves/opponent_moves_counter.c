@@ -67,17 +67,17 @@ int fini_opponent_moves_counter()
 }
 
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type opponent_moves_counter_can_help(slice_index si,
-                                                 stip_length_type n)
+stip_length_type opponent_moves_counter_help(slice_index si,
+                                             stip_length_type n)
 {
   stip_length_type result;
 
@@ -89,7 +89,7 @@ stip_length_type opponent_moves_counter_can_help(slice_index si,
   /* make sure that the iteration stops when there is no self check */
   assert(opponent_moves_counter_count==count_for_selfcheck);
 
-  result = can_help(slices[si].u.pipe.next,n);
+  result = help(slices[si].u.pipe.next,n);
   if (result<n+4)
   {
     opponent_moves_counter_count = legal_move_counter_count[nbply+1];

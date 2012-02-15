@@ -101,12 +101,11 @@ void impose_starter_immobility_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type immobility_tester_has_solution(slice_index si)
+has_solution_type immobility_tester_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -120,7 +119,7 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   /* stop counting once we have >1 legal king moves */
   legal_move_counter_interesting[nbply+1] = 0;
 
-  slice_has_solution(slices[si].u.pipe.next);
+  slice_solve(slices[si].u.pipe.next);
 
   result = legal_move_counter_count[nbply+1]==0 ? has_solution : has_no_solution;
 
@@ -133,12 +132,11 @@ has_solution_type immobility_tester_has_solution(slice_index si)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
+has_solution_type goal_immobile_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -146,8 +144,8 @@ has_solution_type goal_immobile_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_has_solution(slices[si].u.goal_filter.tester)==has_solution)
-    result = slice_has_solution(slices[si].u.goal_filter.next);
+  if (slice_solve(slices[si].u.goal_filter.tester)==has_solution)
+    result = slice_solve(slices[si].u.goal_filter.next);
   else
     result = has_no_solution;
 

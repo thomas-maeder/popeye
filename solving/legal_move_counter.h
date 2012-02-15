@@ -24,21 +24,21 @@ slice_index alloc_legal_move_counter_slice(void);
  */
 slice_index alloc_any_move_counter_slice(void);
 
-/* Determine whether a slice has a solution
+/* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type legal_move_counter_has_solution(slice_index si);
+has_solution_type legal_move_counter_solve(slice_index si);
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type legal_move_counter_can_help(slice_index si, stip_length_type n);
+stip_length_type legal_move_counter_help(slice_index si, stip_length_type n);
 
 #endif

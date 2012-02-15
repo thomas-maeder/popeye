@@ -250,208 +250,98 @@ has_solution_type slice_solve(slice_index si)
       result = constraint_tester_solve(si);
       break;
 
-    default:
-      assert(0);
-      result = has_no_solution;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type slice_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STTrue:
-      result = true_has_solution(si);
-      break;
-
-    case STFalse:
-      result = false_has_solution(si);
-      break;
-
-    case STGoalReachedTester:
-      result = goal_reached_tester_has_solution(si);
-      break;
-
     case STGoalTargetReachedTester:
-      result = goal_target_reached_tester_has_solution(si);
+      result = goal_target_reached_tester_solve(si);
       break;
 
     case STGoalCheckReachedTester:
-      result = goal_check_reached_tester_has_solution(si);
+      result = goal_check_reached_tester_solve(si);
       break;
 
     case STGoalCaptureReachedTester:
-      result = goal_capture_reached_tester_has_solution(si);
+      result = goal_capture_reached_tester_solve(si);
       break;
 
     case STGoalSteingewinnReachedTester:
-      result = goal_steingewinn_reached_tester_has_solution(si);
+      result = goal_steingewinn_reached_tester_solve(si);
       break;
 
     case STGoalEnpassantReachedTester:
-      result = goal_enpassant_reached_tester_has_solution(si);
+      result = goal_enpassant_reached_tester_solve(si);
       break;
 
     case STGoalDoubleMateReachedTester:
-      result = goal_doublemate_reached_tester_has_solution(si);
+      result = goal_doublemate_reached_tester_solve(si);
       break;
 
     case STGoalCounterMateReachedTester:
-      result = goal_countermate_reached_tester_has_solution(si);
+      result = goal_countermate_reached_tester_solve(si);
       break;
 
     case STGoalCastlingReachedTester:
-      result = goal_castling_reached_tester_has_solution(si);
+      result = goal_castling_reached_tester_solve(si);
       break;
 
     case STGoalCircuitReachedTester:
-      result = goal_circuit_reached_tester_has_solution(si);
+      result = goal_circuit_reached_tester_solve(si);
       break;
 
     case STGoalExchangeReachedTester:
-      result = goal_exchange_reached_tester_has_solution(si);
+      result = goal_exchange_reached_tester_solve(si);
       break;
 
     case STGoalCircuitByRebirthReachedTester:
-      result = goal_circuit_by_rebirth_reached_tester_has_solution(si);
+      result = goal_circuit_by_rebirth_reached_tester_solve(si);
       break;
 
     case STGoalExchangeByRebirthReachedTester:
-      result = goal_exchange_by_rebirth_reached_tester_has_solution(si);
+      result = goal_exchange_by_rebirth_reached_tester_solve(si);
       break;
 
     case STGoalProofgameReachedTester:
     case STGoalAToBReachedTester:
-      result = goal_proofgame_reached_tester_has_solution(si);
+      result = goal_proofgame_reached_tester_solve(si);
       break;
 
     case STGoalImmobileReachedTester:
-      result = goal_immobile_reached_tester_has_solution(si);
+      result = goal_immobile_reached_tester_solve(si);
       break;
 
     case STImmobilityTester:
-      result = immobility_tester_has_solution(si);
+      result = immobility_tester_solve(si);
       break;
 
     case STMaffImmobilityTesterKing:
-      result = maff_immobility_tester_king_has_solution(si);
+      result = maff_immobility_tester_king_solve(si);
       break;
 
     case STOWUImmobilityTesterKing:
-      result = owu_immobility_tester_king_has_solution(si);
+      result = owu_immobility_tester_king_solve(si);
       break;
 
     case STGoalNotCheckReachedTester:
-      result = goal_notcheck_reached_tester_has_solution(si);
+      result = goal_notcheck_reached_tester_solve(si);
       break;
 
     case STGoalAnyReachedTester:
-      result = goal_any_reached_tester_has_solution(si);
+      result = goal_any_reached_tester_solve(si);
       break;
 
     case STGoalChess81ReachedTester:
-      result = goal_chess81_reached_tester_has_solution(si);
-      break;
-
-    case STOr:
-      result = or_has_solution(si);
-      break;
-
-    case STAnd:
-      result = and_has_solution(si);
-      break;
-
-    case STNot:
-      result = not_has_solution(si);
-      break;
-
-    case STAttackAdapter:
-      result = attack_adapter_has_solution(si);
-      break;
-
-    case STDefenseAdapter:
-      result = defense_adapter_has_solution(si);
-      break;
-
-    case STHelpAdapter:
-      result = help_adapter_has_solution(si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_has_solution(si);
+      result = goal_chess81_reached_tester_solve(si);
       break;
 
     case STPiecesParalysingMateFilterTester:
-      result = paralysing_mate_filter_tester_has_solution(si);
-      break;
-
-    case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_has_solution(si);
-      break;
-
-    case STAmuMateFilter:
-      result = amu_mate_filter_has_solution(si);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_has_solution(si);
-      break;
-
-    case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_has_solution(si);
-      break;
-
-    case STCirceCircuitSpecial:
-      result = circe_circuit_special_has_solution(si);
-      break;
-
-    case STCirceExchangeSpecial:
-      result = circe_exchange_special_has_solution(si);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_has_solution(si);
-      break;
-
-    case STAnticirceCircuitSpecial:
-      result = anticirce_circuit_special_has_solution(si);
-      break;
-
-    case STAnticirceExchangeSpecial:
-      result = anticirce_exchange_special_has_solution(si);
-      break;
-
-    case STAnticirceExchangeFilter:
-      result = anticirce_exchange_filter_has_solution(si);
+      result = paralysing_mate_filter_tester_solve(si);
       break;
 
     case STLegalMoveCounter:
-      result = legal_move_counter_has_solution(si);
-      break;
-
-    case STConstraintTester:
-      result = constraint_tester_has_solution(si);
+      result = legal_move_counter_solve(si);
       break;
 
     default:
       assert(0);
+      result = has_no_solution;
       break;
   }
 

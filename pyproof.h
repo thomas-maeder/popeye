@@ -77,19 +77,7 @@ slice_type proof_make_goal_reachable_type(void);
  *         n   solution found
  */
 stip_length_type goalreachable_guard_proofgame_help(slice_index si,
-                                               stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_proofgame_can_help(slice_index si,
-                                                        stip_length_type n);
+                                                    stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -101,19 +89,7 @@ stip_length_type goalreachable_guard_proofgame_can_help(slice_index si,
  *         n   solution found
  */
 stip_length_type goalreachable_guard_proofgame_fairy_help(slice_index si,
-                                                     stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type goalreachable_guard_proofgame_fairy_can_help(slice_index si,
-                                                              stip_length_type n);
+                                                          stip_length_type n);
 
 extern int const ProofKnightMoves[];
 

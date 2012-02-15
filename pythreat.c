@@ -82,7 +82,7 @@ static boolean is_threat_too_long(slice_index si,
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length_battle-1;
-  result = n_max<can_defend(tester,n_max);
+  result = n_max<defend(tester,n_max);
   max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
@@ -113,7 +113,9 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
@@ -122,8 +124,8 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type maxthreatlength_guard_can_defend(slice_index si,
-                                                  stip_length_type n)
+stip_length_type maxthreatlength_guard_defend(slice_index si,
+                                              stip_length_type n)
 {
   slice_index const next = slices[si].u.fork.next;
   unsigned int result;
@@ -138,7 +140,7 @@ stip_length_type maxthreatlength_guard_can_defend(slice_index si,
   if (max_len_threat==0)
   {
     if (echecc(nbply,slices[si].starter))
-      result = can_defend(next,n);
+      result = defend(next,n);
     else
       result = n+2;
   }
@@ -148,15 +150,15 @@ stip_length_type maxthreatlength_guard_can_defend(slice_index si,
     if (n>=n_max)
     {
       if (echecc(nbply,slices[si].starter))
-        result = can_defend(next,n);
+        result = defend(next,n);
       else if (is_threat_too_long(si,n,n_max))
         result = n+2;
       else
-        result = can_defend(next,n);
+        result = defend(next,n);
     }
     else
       /* remainder of play is too short for max_len_threat to apply */
-      result = can_defend(next,n);
+      result = defend(next,n);
   }
 
   TraceFunctionExit(__func__);

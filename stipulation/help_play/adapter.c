@@ -180,32 +180,3 @@ has_solution_type help_adapter_solve(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type help_adapter_has_solution(slice_index si)
-{
-  has_solution_type result;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type nr_moves_needed;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nr_moves_needed = can_help(next,full_length);
-  if (nr_moves_needed<=full_length)
-    result = has_solution;
-  else if (nr_moves_needed<=full_length+2)
-    result = has_no_solution;
-  else
-    result = opponent_self_check;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

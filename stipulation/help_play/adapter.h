@@ -56,10 +56,4 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
  */
 has_solution_type help_adapter_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type help_adapter_has_solution(slice_index si);
-
 #endif

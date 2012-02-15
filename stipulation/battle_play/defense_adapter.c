@@ -163,37 +163,6 @@ has_solution_type defense_adapter_solve(slice_index si)
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type defense_adapter_has_solution(slice_index si)
-{
-  has_solution_type result;
-  slice_index const next = slices[si].u.branch.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-  stip_length_type defense_result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  max_unsolvable = slack_length_battle-1;
-
-  defense_result = can_defend(next,length);
-  result = (slack_length_battle<=defense_result && defense_result<=length
-            ? has_solution
-            : has_no_solution);
-
-  max_unsolvable = save_max_unsolvable;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Traverse a subtree
  * @param si root slice of subtree
  * @param st address of structure defining traversal

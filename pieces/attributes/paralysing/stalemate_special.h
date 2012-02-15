@@ -15,13 +15,6 @@
 slice_index
 alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary starter_or_adversary);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type paralysing_stalemate_special_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

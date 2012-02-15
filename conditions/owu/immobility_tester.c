@@ -85,12 +85,11 @@ void owu_replace_immobility_testers(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type owu_immobility_tester_king_has_solution(slice_index si)
+has_solution_type owu_immobility_tester_king_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -108,7 +107,7 @@ has_solution_type owu_immobility_tester_king_has_solution(slice_index si)
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
 
-  slice_has_solution(slices[si].u.pipe.next);
+  slice_solve(slices[si].u.pipe.next);
 
   result = (legal_move_counter_count[nbply+1]==0 && capture_counter_count==1
             ? has_solution

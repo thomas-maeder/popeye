@@ -15,17 +15,6 @@
 slice_index alloc_min_length_optimiser_slice(stip_length_type length,
                                              stip_length_type min_length);
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximal number of moves
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-min_length_optimiser_can_attack(slice_index si, stip_length_type n);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -34,6 +23,7 @@ min_length_optimiser_can_attack(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type min_length_optimiser_attack(slice_index si, stip_length_type n);
+stip_length_type
+min_length_optimiser_attack(slice_index si, stip_length_type n);
 
 #endif

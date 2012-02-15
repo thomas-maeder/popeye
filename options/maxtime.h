@@ -21,15 +21,6 @@
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type maxtime_guard_defend(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type maxtime_guard_can_defend(slice_index si, stip_length_type n);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

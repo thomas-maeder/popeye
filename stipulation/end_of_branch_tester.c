@@ -150,7 +150,7 @@ stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help+2);
 
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = n+4;
@@ -158,55 +158,6 @@ stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n)
 
     case has_no_solution:
       result = help(next,n);
-      break;
-
-    case has_solution:
-      result = n;
-      break;
-
-    default:
-      assert(0);
-      result = n+4;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type end_of_branch_tester_can_help(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.fork.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help+2);
-
-  switch (slice_has_solution(condition))
-  {
-    case opponent_self_check:
-      result = n+4;
-      break;
-
-    case has_no_solution:
-      result = can_help(next,n);
       break;
 
     case has_solution:

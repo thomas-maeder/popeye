@@ -23,50 +23,6 @@ slice_index alloc_dummy_move_slice(void)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type dummy_move_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type max_len_continuation = slack_length_battle-1;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_battle);
-
-  max_unsolvable = slack_length_battle-1;
-
-  {
-    stip_length_type const length_sol = can_attack(next,n-1)+1;
-    if (max_len_continuation<length_sol)
-      max_len_continuation = length_sol;
-  }
-
-  if (max_len_continuation>n) /* refuted */
-    result = n+2;
-  else
-    result = max_len_continuation;
-
-  max_unsolvable = save_max_unsolvable;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

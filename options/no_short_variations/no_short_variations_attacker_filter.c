@@ -41,7 +41,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_attack(slices[si].u.fork.fork,n)<=n;
+  result = attack(slices[si].u.fork.fork,n)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

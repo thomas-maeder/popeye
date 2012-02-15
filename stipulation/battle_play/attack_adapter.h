@@ -49,12 +49,6 @@ void stip_traverse_moves_attack_adapter(slice_index si,
  */
 void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
 
-/* Determine whether a slice has a solution - adapter for direct slices
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type attack_adapter_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

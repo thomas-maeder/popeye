@@ -6,13 +6,6 @@
 /* This module provides slice type STAmuMateFilter
  */
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type amu_mate_filter_has_solution(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

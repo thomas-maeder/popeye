@@ -16,7 +16,7 @@ boolean intelligent_stalemate_immobilise_black(void);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type intelligent_immobilisation_counter_can_help(slice_index si,
-                                                             stip_length_type n);
+stip_length_type intelligent_immobilisation_counter_help(slice_index si,
+                                                         stip_length_type n);
 
 #endif

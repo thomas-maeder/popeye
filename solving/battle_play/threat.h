@@ -56,7 +56,9 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n);
 void stip_spin_off_testers_threat_collector(slice_index si,
                                             stip_structure_traversal *st);
 
-/* Determine whether there are defenses after an attacking move
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
@@ -65,8 +67,8 @@ void stip_spin_off_testers_threat_collector(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type threat_defeated_tester_can_defend(slice_index si,
-                                                   stip_length_type n);
+stip_length_type threat_defeated_tester_defend(slice_index si,
+                                               stip_length_type n);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

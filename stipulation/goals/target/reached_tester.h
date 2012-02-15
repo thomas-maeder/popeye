@@ -13,11 +13,10 @@
  */
 slice_index alloc_goal_target_reached_tester_system(square target);
 
-/* Determine whether a slice has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_target_reached_tester_has_solution(slice_index si);
+has_solution_type goal_target_reached_tester_solve(slice_index si);
 
 #endif

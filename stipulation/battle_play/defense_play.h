@@ -23,13 +23,4 @@ extern stip_length_type max_unsolvable;
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type defend(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type can_defend(slice_index si, stip_length_type n);
-
 #endif

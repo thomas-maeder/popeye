@@ -15,16 +15,6 @@
  */
 slice_index alloc_castling_filter_slice(void);
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index
- * @param n maximal number of moves
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type castling_filter_can_attack(slice_index si, stip_length_type n);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -45,16 +35,5 @@ stip_length_type castling_filter_attack(slice_index si, stip_length_type n);
  *         n   solution found
  */
 stip_length_type castling_filter_help(slice_index si, stip_length_type n);
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type castling_filter_can_help(slice_index si, stip_length_type n);
 
 #endif

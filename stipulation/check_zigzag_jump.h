@@ -21,17 +21,6 @@
  */
 stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type check_zigzag_jump_can_defend(slice_index si, stip_length_type n);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -42,17 +31,6 @@ stip_length_type check_zigzag_jump_can_defend(slice_index si, stip_length_type n
  *         n   solution found
  */
 stip_length_type check_zigzag_jump_help(slice_index si, stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type check_zigzag_jump_can_help(slice_index si, stip_length_type n);
 
 /* Instrument a battle branch with a STCheckZigzagJump slice providing a
  * shortcut for the defense moe

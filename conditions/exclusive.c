@@ -69,7 +69,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || slice_has_solution(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
+            || slice_solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,7 +98,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  slice_has_solution(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
+  slice_solve(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
@@ -114,8 +114,8 @@ void exclusive_init_genmove(Side side)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
+/* Solve in a number of half-moves
+ * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
@@ -123,8 +123,8 @@ void exclusive_init_genmove(Side side)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type exclusive_chess_unsuspender_can_help(slice_index si,
-                                                      stip_length_type n)
+stip_length_type exclusive_chess_unsuspender_help(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result;
 
@@ -136,7 +136,7 @@ stip_length_type exclusive_chess_unsuspender_can_help(slice_index si,
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
   is_reaching_goal_allowed[nbply] = true;
-  result = can_help(slices[si].u.pipe.next,n);
+  result = help(slices[si].u.pipe.next,n);
   is_reaching_goal_allowed[nbply] = false;
   CondFlag[exclusive] = false;
   remove_ortho_mating_moves_generation_obstacle();

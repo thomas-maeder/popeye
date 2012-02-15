@@ -235,195 +235,69 @@ stip_length_type help(slice_index si, stip_length_type n)
       result = bgl_filter_help(si,n);
       break;
 
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
     case STFindMove:
-      result = find_move_can_help(si,n);
-      break;
-
-    case STMovePlayed:
-      result = move_played_can_help(si,n);
-      break;
-
-#if defined(DOTRACE)
-    case STMoveTracer:
-      result = move_tracer_can_help(si,n);
-      break;
-#endif
-
-    case STForkOnRemaining:
-      result = fork_on_remaining_can_help(si,n);
-      break;
-
-    case STMoveGenerator:
-      result = move_generator_can_help(si,n);
-      break;
-
-    case STOrthodoxMatingMoveGenerator:
-      result = orthodox_mating_move_generator_can_help(si,n);
-      break;
-
-    case STFindShortest:
-      result = find_shortest_can_help(si,n);
-      break;
-
-    case STEndOfBranch:
-    case STEndOfBranchGoalImmobile:
-    case STEndOfBranchForced:
-    case STEndOfBranchGoal:
-      result = end_of_branch_can_help(si,n);
-      break;
-
-    case STEndOfBranchTester:
-      result = end_of_branch_tester_can_help(si,n);
-      break;
-
-    case STDeadEnd:
-    case STDeadEndGoal:
-      result = dead_end_can_help(si,n);
+      result = find_move_help(si,n);
       break;
 
     case STHelpHashedTester:
-      result = help_hashed_can_help(si,n);
-      break;
-
-    case STConstraintTester:
-      result = constraint_tester_can_help(si,n);
-      break;
-
-    case STKeepMatingFilter:
-      result = keepmating_filter_can_help(si,n);
-      break;
-
-    case STGoalReachableGuardFilterMate:
-      result = goalreachable_guard_mate_can_help(si,n);
-      break;
-
-    case STGoalReachableGuardFilterStalemate:
-      result = goalreachable_guard_stalemate_can_help(si,n);
-      break;
-
-    case STGoalReachableGuardFilterProof:
-      result = goalreachable_guard_proofgame_can_help(si,n);
-      break;
-
-    case STGoalReachableGuardFilterProofFairy:
-      result = goalreachable_guard_proofgame_fairy_can_help(si,n);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_can_help(si,n);
-      break;
-
-    case STCounterMateFilter:
-      result = countermate_filter_can_help(si,n);
-      break;
-
-    case STDoubleMateFilter:
-      result = doublemate_filter_can_help(si,n);
-      break;
-
-    case STEnPassantFilter:
-      result = enpassant_filter_can_help(si,n);
-      break;
-
-    case STCastlingFilter:
-      result = castling_filter_can_help(si,n);
-      break;
-
-    case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_can_help(si,n);
+      result = help_hashed_tester_help(si,n);
       break;
 
     case STFlightsquaresCounter:
-      result = flightsquares_counter_can_help(si,n);
+      result = flightsquares_counter_help(si,n);
       break;
 
     case STKingMoveGenerator:
-      result = king_move_generator_can_help(si,n);
+      result = king_move_generator_help(si,n);
       break;
 
     case STNonKingMoveGenerator:
-      result = non_king_move_generator_can_help(si,n);
+      result = non_king_move_generator_help(si,n);
       break;
 
     case STLegalMoveCounter:
     case STAnyMoveCounter:
-      result = legal_move_counter_can_help(si,n);
+      result = legal_move_counter_help(si,n);
       break;
 
     case STCaptureCounter:
-      result = capture_counter_can_help(si,n);
+      result = capture_counter_help(si,n);
       break;
 
     case STOhneschachSuspender:
-      result = ohneschach_suspender_can_help(si,n);
+      result = ohneschach_suspender_help(si,n);
       break;
 
     case STOhneschachCheckGuard:
-      result = ohneschach_check_guard_can_help(si,n);
+      result = ohneschach_check_guard_help(si,n);
       break;
 
     case STExclusiveChessUnsuspender:
-      result = exclusive_chess_unsuspender_can_help(si,n);
+      result = exclusive_chess_unsuspender_help(si,n);
       break;
 
     case STSingleMoveGeneratorWithKingCapture:
-      result = single_move_generator_with_king_capture_can_help(si,n);
+      result = single_move_generator_with_king_capture_help(si,n);
       break;
 
     case STSinglePieceMoveGenerator:
-      result = single_piece_move_generator_can_help(si,n);
+      result = single_piece_move_generator_help(si,n);
       break;
 
     case STCastlingIntermediateMoveGenerator:
-      result = castling_intermediate_move_generator_can_help(si,n);
+      result = castling_intermediate_move_generator_help(si,n);
       break;
 
     case STSingleMoveGenerator:
-      result = single_move_generator_can_help(si,n);
+      result = single_move_generator_help(si,n);
       break;
 
     case STOpponentMovesCounter:
-      result = opponent_moves_counter_can_help(si,n);
+      result = opponent_moves_counter_help(si,n);
       break;
 
     case STIntelligentImmobilisationCounter:
-      result = intelligent_immobilisation_counter_can_help(si,n);
-      break;
-
-    case STBGLFilter:
-      result = bgl_filter_can_help(si,n);
+      result = intelligent_immobilisation_counter_help(si,n);
       break;
 
     default:

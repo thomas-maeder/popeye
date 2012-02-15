@@ -42,17 +42,8 @@ void stip_insert_maxflight_guards(slice_index si);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n);
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n);
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
+/* Solve in a number of half-moves
+ * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
@@ -60,7 +51,6 @@ stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n);
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type flightsquares_counter_can_help(slice_index si,
-                                                stip_length_type n);
+stip_length_type flightsquares_counter_help(slice_index si, stip_length_type n);
 
 #endif

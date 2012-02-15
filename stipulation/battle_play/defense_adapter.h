@@ -48,12 +48,6 @@ void defense_adapter_make_intro(slice_index adapter,
  */
 has_solution_type defense_adapter_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type defense_adapter_has_solution(slice_index si);
-
 /* Traverse a subtree
  * @param si root slice of subtree
  * @param st address of structure defining traversal

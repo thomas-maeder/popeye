@@ -71,7 +71,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = slice_has_solution(slices[si].u.fork.fork)==has_solution;
+  result = slice_solve(slices[si].u.fork.fork)==has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -143,38 +143,8 @@ stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n)
-{
-  slice_index const next = slices[si].u.fork.next;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n>slack_length_battle+3 && are_there_too_many_flights(si))
-    result = n+2;
-  else
-    result = can_defend(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
+/* Solve in a number of half-moves
+ * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
  *         n+4 the move leading to the current position has turned out
@@ -182,8 +152,7 @@ stip_length_type maxflight_guard_can_defend(slice_index si, stip_length_type n)
  *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type flightsquares_counter_can_help(slice_index si,
-                                                stip_length_type n)
+stip_length_type flightsquares_counter_help(slice_index si, stip_length_type n)
 {
   unsigned int result = n+2;
   Side const fleeing = advers(slices[si].starter);

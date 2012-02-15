@@ -59,7 +59,7 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
     result = attack(slices[si].u.fork.next,n);
   else
     /* variation is trivial - just determine the result */
-    result = can_attack(slices[si].u.fork.fork,n);
+    result = attack(slices[si].u.fork.fork,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

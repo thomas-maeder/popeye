@@ -66,7 +66,7 @@ static stip_length_type try_last_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = can_defend(next,slack_length_battle+1);
+  result = defend(next,slack_length_battle+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -194,7 +194,9 @@ static stip_length_type iterate_killer_first(slice_index si,
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return <slack_length_battle - no legal defense found
@@ -203,8 +205,8 @@ static stip_length_type iterate_killer_first(slice_index si,
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type
-killer_move_final_defense_move_can_defend(slice_index si, stip_length_type n)
+stip_length_type killer_move_final_defense_move_defend(slice_index si,
+                                                       stip_length_type n)
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];

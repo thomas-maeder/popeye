@@ -83,51 +83,6 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type constraint_can_attack(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  switch (slice_has_solution(condition))
-  {
-    case opponent_self_check:
-      result = slack_length_battle-2;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = can_attack(next,n);
-      break;
-
-    default:
-      assert(0);
-      result = n+2;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -173,52 +128,6 @@ stip_length_type constraint_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type constraint_can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  switch (slice_has_solution(condition))
-  {
-    case opponent_self_check:
-      result = slack_length_battle-2;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = can_defend(next,n);
-      break;
-
-    default:
-      assert(0);
-      result = n+2;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -241,7 +150,7 @@ stip_length_type constraint_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = slack_length_battle-2;
@@ -329,33 +238,9 @@ has_solution_type constraint_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(condition);
+  result = slice_solve(condition);
   if (result==has_solution)
     result = slice_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_tester_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(condition);
-  if (result==has_solution)
-    result = slice_has_solution(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -382,7 +267,7 @@ stip_length_type constraint_tester_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = slack_length_battle-2;
@@ -430,7 +315,7 @@ stip_length_type constraint_tester_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  switch (slice_has_solution(condition))
+  switch (slice_solve(condition))
   {
     case opponent_self_check:
       result = n+4;
@@ -442,54 +327,6 @@ stip_length_type constraint_tester_help(slice_index si, stip_length_type n)
 
     case has_solution:
       result = help(next,n);
-      break;
-
-    default:
-      assert(0);
-      result = n+4;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
- */
-stip_length_type constraint_tester_can_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  switch (slice_has_solution(condition))
-  {
-    case opponent_self_check:
-      result = n+4;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = can_help(next,n);
       break;
 
     default:

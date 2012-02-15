@@ -128,7 +128,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   max_unsolvable = slack_length_battle-2+parity;
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
-  can_defend(tester,n_next);
+  defend(tester,n_next);
   are_we_counting_nontrival[nbply+1] = false;
   result = non_trivial_count[nbply+1];
   max_unsolvable = save_max_unsolvable;
@@ -205,49 +205,6 @@ max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type
-max_nr_nontrivial_guard_can_defend(slice_index si, stip_length_type n)
-{
-  slice_index const next = slices[si].u.fork.next;
-  unsigned int result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n>min_length_nontrivial)
-  {
-    unsigned int const nr_nontrivial = count_nontrivial_defenses(si,n);
-    if (max_nr_nontrivial+1>=nr_nontrivial)
-    {
-      ++max_nr_nontrivial;
-      max_nr_nontrivial -= nr_nontrivial;
-      result = can_defend(next,n);
-      max_nr_nontrivial += nr_nontrivial;
-      --max_nr_nontrivial;
-    }
-    else
-      result = n+2;
-  }
-  else
-    result = can_defend(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STMaxNrNonTrivialCounter slice
  * @return identifier of allocated slice
  */
@@ -266,16 +223,16 @@ static slice_index alloc_max_nr_nontrivial_counter(void)
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
  *            slack_length_battle-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type
-max_nr_nontrivial_counter_can_attack(slice_index si, stip_length_type n)
+stip_length_type max_nr_nontrivial_counter_attack(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
@@ -285,7 +242,7 @@ max_nr_nontrivial_counter_can_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = can_attack(next,n);
+  result = attack(next,n);
 
   if (result>n && are_we_counting_nontrival[nbply])
   {

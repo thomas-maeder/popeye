@@ -59,12 +59,11 @@ slice_index alloc_doublemate_mate_reached_tester_system(void)
   return result;
 }
 
-/* Determine whether a slice.has just been solved with the move
- * by the non-starter
- * @param si slice identifier
+/* Solve a slice
+ * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
+has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
 
@@ -78,7 +77,7 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
   {
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && king_square[White]!=initsquare && TSTFLAG(spec[king_square[White]],Neutral);
-    result = slice_has_solution(slices[si].u.pipe.next);
+    result = slice_solve(slices[si].u.pipe.next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
   }
   else

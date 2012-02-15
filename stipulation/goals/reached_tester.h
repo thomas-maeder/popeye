@@ -17,10 +17,4 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester);
  */
 has_solution_type goal_reached_tester_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_reached_tester_has_solution(slice_index si);
-
 #endif

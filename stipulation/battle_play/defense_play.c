@@ -236,158 +236,28 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = bgl_filter_defend(si,n);
       break;
 
-    case STTrue:
-      result = n;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  assert(save_max_unsolvable==max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are defenses after an attacking move
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type can_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+4;
-#if !defined(NDEBUG)
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-#endif
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STDeadEnd:
-    case STDeadEndGoal:
-      result = dead_end_can_defend(si,n);
-      break;
-
     case STThreatDefeatedTester:
-      result = threat_defeated_tester_can_defend(si,n);
-      break;
-
-    case STMoveGenerator:
-      result = move_generator_can_defend(si,n);
+      result = threat_defeated_tester_defend(si,n);
       break;
 
     case STKillerMoveMoveGenerator:
-      result = killer_move_move_generator_can_defend(si,n);
-      break;
-
-    case STCountNrOpponentMovesMoveGenerator:
-      result = countnropponentmoves_move_generator_can_defend(si,n);
+      result = killer_move_move_generator_defend(si,n);
       break;
 
     case STFindMove:
-      result = find_move_can_defend(si,n);
+      result = find_move_defend(si,n);
       break;
-
-    case STMovePlayed:
-      result = move_played_can_defend(si,n);
-      break;
-
-#if defined(DOTRACE)
-    case STMoveTracer:
-      result = move_tracer_can_defend(si,n);
-      break;
-#endif
 
     case STKillerMoveFinalDefenseMove:
-      result = killer_move_final_defense_move_can_defend(si,n);
-      break;
-
-    case STForkOnRemaining:
-      result = fork_on_remaining_can_defend(si,n);
-      break;
-
-    case STMinLengthGuard:
-      result = min_length_guard_can_defend(si,n);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_can_defend(si,n);
-      break;
-
-    case STKeepMatingFilter:
-      result = keepmating_filter_can_defend(si,n);
-      break;
-
-    case STMaxFlightsquares:
-      result = maxflight_guard_can_defend(si,n);
+      result = killer_move_final_defense_move_defend(si,n);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_can_defend(si,n);
-      break;
-
-    case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_can_defend(si,n);
-      break;
-
-    case STMaxTimeGuard:
-      result = maxtime_guard_can_defend(si,n);
-      break;
-
-    case STEnPassantFilter:
-      result = enpassant_filter_can_defend(si,n);
+      result = maxthreatlength_guard_defend(si,n);
       break;
 
     case STKillerMoveCollector:
-      result = killer_move_collector_can_defend(si,n);
-      break;
-
-    case STCounterMateFilter:
-      result = countermate_filter_can_defend(si,n);
-      break;
-
-    case STPrerequisiteOptimiser:
-      result = goal_prerequisite_optimiser_can_defend(si,n);
-      break;
-
-    case STEndOfBranch:
-    case STEndOfBranchForced:
-    case STEndOfBranchGoal:
-      result = end_of_branch_can_defend(si,n);
-      break;
-
-    case STAvoidUnsolvable:
-      result = avoid_unsolvable_can_defend(si,n);
-      break;
-
-    case STConstraintTester:
-      result = constraint_can_defend(si,n);
-      break;
-
-    case STCheckZigzagJump:
-      result = check_zigzag_jump_can_defend(si,n);
-      break;
-
-    case STDummyMove:
-      result = dummy_move_can_defend(si,n);
-      break;
-
-    case STBGLFilter:
-      result = bgl_filter_can_defend(si,n);
+      result = killer_move_collector_defend(si,n);
       break;
 
     case STTrue:

@@ -185,41 +185,6 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type attack_adapter_has_solution(slice_index si)
-{
-  has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type nr_moves_needed;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  max_unsolvable = min_length-1;
-
-  nr_moves_needed = can_attack(next,length);
-  if (nr_moves_needed<slack_length_battle)
-    result = opponent_self_check;
-  else if (nr_moves_needed<=length)
-    result = has_solution;
-  else
-    result = has_no_solution;
-
-  max_unsolvable = save_max_unsolvable;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

@@ -72,17 +72,17 @@ static boolean advance_departure_square(Side side,
   return false;
 }
 
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
-stip_length_type non_king_move_generator_can_help(slice_index si,
-                                                  stip_length_type n)
+stip_length_type non_king_move_generator_help(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result = n+1;
   Side const side_at_move = slices[si].starter;
@@ -99,7 +99,7 @@ stip_length_type non_king_move_generator_can_help(slice_index si,
 
   while (result>n
          && advance_departure_square(side_at_move,&next_square_to_try))
-    result = can_help(slices[si].u.pipe.next,n);
+    result = help(slices[si].u.pipe.next,n);
 
   finply();
 
