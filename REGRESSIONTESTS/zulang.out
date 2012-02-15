@@ -1579,10 +1579,10 @@ Loesung beendet.
                                                   7.Tc1-c3 #
 
 
-              empile:  6399934238
-            jouecoup:  2085889872
-        orig_rbechec:   160332234
-        orig_rnechec:  1944124886
+              empile:  6395095805
+            jouecoup:  2083449867
+        orig_rbechec:   160403701
+        orig_rnechec:  1941546087
 Loesung beendet. 
 
 
@@ -1632,10 +1632,10 @@ Loesung beendet.
                           4.Lc6-b7 =
 
 
-              empile:  2407924812
-            jouecoup:   387838975
+              empile:  2407620855
+            jouecoup:   387806133
         orig_rbechec:           0
-        orig_rnechec:   320424676
+        orig_rnechec:   320394410
 Loesung beendet. 
 
 
@@ -2084,10 +2084,10 @@ a)
  17  (Sb4-a6[If8] )
  18  (Tg2-g1[Ig5] + )
 
-              empile:   148954050
-            jouecoup:    60288308
-        orig_rbechec:    59937251
-        orig_rnechec:    29320359
+              empile:   148961053
+            jouecoup:    60268814
+        orig_rbechec:    59917785
+        orig_rnechec:    29302126
 b) sBc4-->c3
 
  19  (g7-g8=D[Ig7] )
@@ -2123,10 +2123,10 @@ b) sBc4-->c3
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
 
-              empile:   172077407
-            jouecoup:    69534434
-        orig_rbechec:    69143996
-        orig_rnechec:    33898172
+              empile:   172077309
+            jouecoup:    69534345
+        orig_rbechec:    69143936
+        orig_rnechec:    33898143
 c) sBb3-->c3
 
  38  (g7-g8=D[Ig7] )
@@ -2161,10 +2161,10 @@ c) sBb3-->c3
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
 
-              empile:   159304683
-            jouecoup:    64132270
-        orig_rbechec:    63808425
-        orig_rnechec:    31745222
+              empile:   159304578
+            jouecoup:    64132179
+        orig_rbechec:    63808358
+        orig_rnechec:    31745198
 Loesung beendet. 
 
 
@@ -2334,7 +2334,7 @@ dauert 13 min mit Athlon 2400 / 200MB
               empile:    89448571
             jouecoup:    58246350
         orig_rbechec:    58585887
-        orig_rnechec:    10800225
+        orig_rnechec:    10800221
 Loesung beendet. 
 
 
@@ -2733,10 +2733,10 @@ Initial (Weiss ->):
                                           6.Kc2-b1 a=>b
 
 
-              empile:  8570193524
-            jouecoup:  7209580869
-        orig_rbechec:  3963016491
-        orig_rnechec:   372807650
+              empile:  8570053344
+            jouecoup:  7209331976
+        orig_rbechec:  3963103566
+        orig_rnechec:   372671112
 Loesung beendet. 
 
 
