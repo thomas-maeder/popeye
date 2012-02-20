@@ -1,6 +1,7 @@
 #include "pythreat.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/dummy_move.h"
@@ -190,16 +191,14 @@ static void insert_maxthreatlength_guard(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (state->testing
-      && (max_len_threat==0 || length>=2*(max_len_threat-1)+slack_length+2))
+      && length>=2*max_len_threat+slack_length)
   {
-    {
-      slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,si);
-      slice_index const dummy = alloc_dummy_move_slice();
-      slice_index const prototype = alloc_maxthreatlength_guard(dummy);
-      assert(threat_start!=no_slice);
-      link_to_branch(dummy,threat_start);
-      battle_branch_insert_slices(si,&prototype,1);
-    }
+    slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,si);
+    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const prototype = alloc_maxthreatlength_guard(dummy);
+    assert(threat_start!=no_slice);
+    link_to_branch(dummy,threat_start);
+    battle_branch_insert_slices(si,&prototype,1);
 
     state->inserted = true;
   }
