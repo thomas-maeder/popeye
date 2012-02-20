@@ -118,13 +118,9 @@ static void insert_min_length_solvers_defense(slice_index si,
 
     if (min_length>slack_length+2) /* >= s#2 (also postkey!) */
     {
-      slice_index const prototypes[] =
-      {
-        alloc_min_length_optimiser_slice(length-1,min_length-1),
-        alloc_min_length_guard(length-2,min_length-2)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      defense_branch_insert_slices(si,prototypes,nr_prototypes);
+      slice_index const prototype = alloc_min_length_optimiser_slice(length-1,
+                                                                     min_length-1);
+      defense_branch_insert_slices(si,&prototype,1);
     }
   }
 

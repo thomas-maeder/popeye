@@ -154,7 +154,7 @@ static moves_traversers_visitors const dead_end_optimisers[] =
   { STReadyForAttack,          &optimise_deadend_ready               },
   { STReadyForHelpMove,        &optimise_deadend_ready               },
   { STPrerequisiteOptimiser,   &raise_nr_deadend_users               },
-  { STEndOfBranchGoal,         &substitute_deadend_goal              },
+  { STNotEndOfBranchGoal,      &substitute_deadend_goal              },
   { STEndOfBranchGoalImmobile, &substitute_deadend_goal              },
   { STEndOfBranch,             &forget_deadend                       },
   { STEndOfBranchForced,       &forget_deadend                       },

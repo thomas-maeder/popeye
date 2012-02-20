@@ -177,8 +177,8 @@ typedef struct
     boolean testing;
 } insertion_state;
 
-static void maxthreatlength_guard_inserter(slice_index si,
-                                           stip_structure_traversal *st)
+static void insert_maxthreatlength_guard(slice_index si,
+                                         stip_structure_traversal *st)
 {
   insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -187,13 +187,11 @@ static void maxthreatlength_guard_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->testing
-      && (max_len_threat==0
-          || length>=2*(max_len_threat-1)+slack_length+2))
-  {
-    slice_index const checked_prototype = alloc_pipe(STMaxThreatLengthStart);
-    battle_branch_insert_slices(si,&checked_prototype,1);
+  stip_traverse_structure_children(si,st);
 
+  if (state->testing
+      && (max_len_threat==0 || length>=2*(max_len_threat-1)+slack_length+2))
+  {
     {
       slice_index const threat_start = branch_find_slice(STMaxThreatLengthStart,si);
       slice_index const dummy = alloc_dummy_move_slice();
@@ -206,13 +204,33 @@ static void maxthreatlength_guard_inserter(slice_index si,
     state->inserted = true;
   }
 
-  stip_traverse_structure_children(si,st);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_max_threat_length_start(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  insertion_state const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->testing
+      && st->context==stip_traversal_context_attack)
+  {
+    slice_index const prototype = alloc_pipe(STMaxThreatLengthStart);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void testing_only(slice_index si, stip_structure_traversal *st)
+static void testing_only_testing(slice_index si, stip_structure_traversal *st)
 {
   insertion_state * const state = st->param;
 
@@ -235,10 +253,35 @@ static void testing_only(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void testing_only_conditional(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->testing)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    state->testing = true;
+    stip_traverse_structure_next_branch(si,st);
+    state->testing = false;
+
+    stip_traverse_structure_pipe(si,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors maxthreatlength_guards_inserters[] =
 {
-  { STDefenseAdapter,  &maxthreatlength_guard_inserter },
-  { STReadyForDefense, &maxthreatlength_guard_inserter }
+  { STDefenseAdapter,  &insert_maxthreatlength_guard   },
+  { STReadyForDefense, &insert_maxthreatlength_guard   },
+  { STNotEndOfBranch,  &insert_max_threat_length_start }
 };
 
 enum
@@ -265,10 +308,10 @@ boolean stip_insert_maxthreatlength_guards(slice_index si)
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &testing_only);
+                                                &testing_only_conditional);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &testing_only);
+                                                &testing_only_testing);
   stip_structure_traversal_override(&st,
                                     maxthreatlength_guards_inserters,
                                     nr_maxthreatlength_guards_inserters);

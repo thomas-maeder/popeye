@@ -267,7 +267,7 @@ static void nontrivial_guard_inserter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length>slack_length+1)
+  if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototypes[] =
     {
@@ -278,7 +278,7 @@ static void nontrivial_guard_inserter(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -300,7 +300,7 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STReadyForAttack,
+                                           STNotEndOfBranch,
                                            &nontrivial_guard_inserter);
   stip_traverse_structure(si,&st);
 

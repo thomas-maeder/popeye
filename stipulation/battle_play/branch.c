@@ -26,10 +26,11 @@ static slice_index const slice_rank_order[] =
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriter,
   STRefutationWriter,
+  STKeepMatingFilter,
   STEndOfBranch,
+  STNotEndOfBranch,
   STTrivialEndFilter,
   STEndOfIntro,
-  STKeepMatingFilter,
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
@@ -68,6 +69,7 @@ static slice_index const slice_rank_order[] =
   STKillerMoveCollector,
   STGoalReachedTester,
   STEndOfBranchGoal,
+  STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,
 
@@ -75,6 +77,7 @@ static slice_index const slice_rank_order[] =
   STEndOfIntro,
   STKeepMatingFilter,
   STEndOfBranch,
+  STNotEndOfBranch,
   STMaxNrNonTrivial,
   STRefutationsAllocator,
   STSolvingContinuation,
@@ -120,6 +123,7 @@ static slice_index const slice_rank_order[] =
   STEndOfRoot,
   STMinLengthGuard,
   STEndOfBranchGoal,
+  STNotEndOfBranchGoal,
   STSelfCheckGuard,
   STCheckZigzagLanding,
   STNoShortVariations,
@@ -588,6 +592,8 @@ slice_index alloc_defense_branch(slice_index next,
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const played = alloc_move_played_slice();
+    slice_index const notgoal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const notend = alloc_pipe(STNotEndOfBranch);
 
     pipe_link(adapter,ready);
     pipe_link(ready,testpre);
@@ -595,7 +601,9 @@ slice_index alloc_defense_branch(slice_index next,
     pipe_link(deadend,generating);
     pipe_link(generating,defense);
     pipe_link(defense,played);
-    pipe_link(played,next);
+    pipe_link(played,notgoal);
+    pipe_link(notgoal,notend);
+    pipe_link(notend,next);
 
     result = adapter;
   }
@@ -632,6 +640,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const attack = alloc_pipe(STMove);
     slice_index const aplayed = alloc_move_played_slice();
+    slice_index const anotgoal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const anotend = alloc_pipe(STNotEndOfBranch);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
@@ -639,6 +649,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const defense = alloc_pipe(STMove);
     slice_index const dplayed = alloc_move_played_slice();
+    slice_index const dnotgoal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const dnotend = alloc_pipe(STNotEndOfBranch);
 
     pipe_link(adapter,aready);
     pipe_link(aready,atestpre);
@@ -646,13 +658,17 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(adeadend,agenerating);
     pipe_link(agenerating,attack);
     pipe_link(attack,aplayed);
-    pipe_link(aplayed,dready);
+    pipe_link(aplayed,anotgoal);
+    pipe_link(anotgoal,anotend);
+    pipe_link(anotend,dready);
     pipe_link(dready,dtestpre);
     pipe_link(dtestpre,ddeadend);
     pipe_link(ddeadend,dgenerating);
     pipe_link(dgenerating,defense);
     pipe_link(defense,dplayed);
-    pipe_link(dplayed,adapter);
+    pipe_link(dplayed,dnotgoal);
+    pipe_link(dnotgoal,dnotend);
+    pipe_link(dnotend,adapter);
 
     result = adapter;
   }
@@ -716,8 +732,10 @@ void battle_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     slice_index const start = branch_find_slice(STReadyForDefense,adapter);
     stip_structure_traversal st;
 
+    slice_index const notend = branch_find_slice(STNotEndOfBranchGoal,adapter);
     slice_index const prototype = alloc_pipe(STEndOfRoot);
-    battle_branch_insert_slices(adapter,&prototype,1);
+    assert(notend!=no_slice);
+    defense_branch_insert_slices(notend,&prototype,1);
 
     assert(start!=no_slice);
 
@@ -760,13 +778,15 @@ slice_index battle_branch_make_postkeyplay(slice_index adapter)
   assert(slices[adapter].type==STAttackAdapter);
 
   {
+    slice_index const notend = branch_find_slice(STNotEndOfBranchGoal,adapter);
     stip_length_type const length = slices[adapter].u.branch.length;
     stip_length_type const min_length = slices[adapter].u.branch.min_length;
     slice_index const proto = alloc_defense_adapter_slice(length-1,
                                                           min_length-1);
-    battle_branch_insert_slices(adapter,&proto,1);
+    assert(notend!=no_slice);
+    defense_branch_insert_slices(notend,&proto,1);
 
-    result = branch_find_slice(STDefenseAdapter,adapter);
+    result = branch_find_slice(STDefenseAdapter,notend);
     assert(result!=no_slice);
 
     branch_shorten_slices(adapter,STDefenseAdapter);
@@ -882,6 +902,24 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void ready_for_defense_make_root(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STEndOfRoot);
+    defense_branch_insert_slices(si,&prototype,1);
+  }
+
+  pipe_spin_off_copy(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Create the root slices of a battle branch
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @param state address of structure holding state
@@ -895,9 +933,6 @@ void battle_branch_make_root_slices(slice_index adapter,
 
   {
     stip_structure_traversal st;
-
-    slice_index const prototype = alloc_pipe(STEndOfRoot);
-    battle_branch_insert_slices(adapter,&prototype,1);
 
     stip_structure_traversal_init(&st,state);
     stip_structure_traversal_override_by_structure(&st,
@@ -918,6 +953,9 @@ void battle_branch_make_root_slices(slice_index adapter,
     stip_structure_traversal_override_single(&st,
                                              STConstraintTester,
                                              &constraint_tester_make_root);
+    stip_structure_traversal_override_single(&st,
+                                             STReadyForDefense,
+                                             &ready_for_defense_make_root);
     stip_structure_traversal_override_single(&st,
                                              STEndOfRoot,
                                              &serve_as_root_hook);

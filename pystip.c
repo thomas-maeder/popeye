@@ -103,6 +103,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch,       /* STDefenseAdapter */
   slice_structure_branch,       /* STReadyForAttack */
   slice_structure_branch,       /* STReadyForDefense */
+  slice_structure_pipe,         /* STNotEndOfBranchGoal */
+  slice_structure_pipe,         /* STNotEndOfBranch */
   slice_structure_branch,       /* STMinLengthOptimiser */
   slice_structure_branch,       /* STHelpAdapter */
   slice_structure_branch,       /* STReadyForHelpMove */
@@ -289,6 +291,8 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STDefenseAdapter */
   slice_function_proxy,            /* STReadyForAttack */
   slice_function_proxy,            /* STReadyForDefense */
+  slice_function_proxy,            /* STNotEndOfBranchGoal */
+  slice_function_proxy,            /* STNotEndOfBranch */
   slice_function_unspecified,      /* STMinLengthOptimiser */
   slice_function_unspecified,      /* STHelpAdapter */
   slice_function_proxy,            /* STReadyForHelpMove */
@@ -1635,6 +1639,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_defense_adapter,   /* STDefenseAdapter */
   &stip_traverse_structure_ready_for_attack,  /* STReadyForAttack */
   &stip_traverse_structure_ready_for_defense, /* STReadyForDefense */
+  &stip_traverse_structure_pipe,              /* STNotEndOfBranchGoal */
+  &stip_traverse_structure_pipe,              /* STNotEndOfBranch */
   &stip_traverse_structure_pipe,              /* STMinLengthOptimiser */
   &stip_traverse_structure_help_adpater,      /* STHelpAdapter */
   &stip_traverse_structure_pipe,              /* STReadyForHelpMove */
@@ -1922,6 +1928,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_defense_adapter,   /* STDefenseAdapter */
     &stip_traverse_moves_ready_for_attack,  /* STReadyForAttack */
     &stip_traverse_moves_ready_for_defense, /* STReadyForDefense */
+    &stip_traverse_moves_pipe,              /* STNotEndOfBranchGoal */
+    &stip_traverse_moves_pipe,              /* STNotEndOfBranch */
     &stip_traverse_moves_pipe,              /* STMinLengthOptimiser */
     &stip_traverse_moves_help_adapter,      /* STHelpAdapter */
     &stip_traverse_moves_pipe,              /* STReadyForHelpMove */

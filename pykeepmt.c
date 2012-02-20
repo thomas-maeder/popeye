@@ -277,7 +277,10 @@ static void keepmating_filter_inserter_battle_move(slice_index si,
     if (prototype!=no_slice)
     {
       slices[prototype].starter = slices[si].starter;
-      battle_branch_insert_slices(si,&prototype,1);
+      if (st->context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
     }
   }
 
@@ -311,18 +314,16 @@ static void keepmating_filter_inserter_help_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STReadyForAttack,    &keepmating_filter_inserter_battle_move   },
-  { STDefenseAdapter ,   &keepmating_filter_inserter_battle_move   },
-  { STReadyForDefense,   &keepmating_filter_inserter_battle_move   },
-  { STReadyForHelpMove,  &keepmating_filter_inserter_help_move     },
-  { STAnd,               &keepmating_filter_inserter_reciprocal    },
-  { STOr,                &keepmating_filter_inserter_quodlibet     },
-  { STEndOfBranch,       &keepmating_filter_inserter_end_of_branch },
-  { STEndOfBranchGoal,   &keepmating_filter_inserter_end_of_branch },
-  { STEndOfBranchForced, &keepmating_filter_inserter_end_of_branch },
-  { STConstraintSolver,  &keepmating_filter_inserter_end_of_branch },
-  { STConstraintTester,  &keepmating_filter_inserter_end_of_branch },
-  { STGoalReachedTester, &keepmating_filter_inserter_goal          }
+  { STNotEndOfBranchGoal, &keepmating_filter_inserter_battle_move   },
+  { STReadyForHelpMove,   &keepmating_filter_inserter_help_move     },
+  { STAnd,                &keepmating_filter_inserter_reciprocal    },
+  { STOr,                 &keepmating_filter_inserter_quodlibet     },
+  { STEndOfBranch,        &keepmating_filter_inserter_end_of_branch },
+  { STEndOfBranchGoal,    &keepmating_filter_inserter_end_of_branch },
+  { STEndOfBranchForced,  &keepmating_filter_inserter_end_of_branch },
+  { STConstraintSolver,   &keepmating_filter_inserter_end_of_branch },
+  { STConstraintTester,   &keepmating_filter_inserter_end_of_branch },
+  { STGoalReachedTester,  &keepmating_filter_inserter_goal          }
 };
 
 enum

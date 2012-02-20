@@ -76,8 +76,8 @@ static void insert_continuation_solvers_avoid_goal_branches(slice_index si,
 
 /* nested defense branch
  */
-static void insert_continuation_solvers_postktey_play(slice_index si,
-                                                      stip_structure_traversal *st)
+static void insert_continuation_solvers_postkey_play(slice_index si,
+                                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -89,24 +89,43 @@ static void insert_continuation_solvers_postktey_play(slice_index si,
       && slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* attack branch
- */
+static void insert_continuation_solvers_remember_attack(slice_index si,
+                                                        stip_structure_traversal *st)
+{
+  boolean * const attack_played = st->param;
+  boolean const save_attack_played = *attack_played;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *attack_played = true;
+  stip_traverse_structure_children(si,st);
+  *attack_played = save_attack_played;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_continuation_solvers_attack(slice_index si,
                                                stip_structure_traversal *st)
 {
+  boolean const * const attack_played = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if (*attack_played && st->context==stip_traversal_context_defense)
   {
     slice_index const prototypes[] =
     {
@@ -114,7 +133,7 @@ static void insert_continuation_solvers_attack(slice_index si,
         alloc_continuation_solver_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -124,8 +143,9 @@ static void insert_continuation_solvers_attack(slice_index si,
 static structure_traversers_visitors const continuation_solver_inserters[] =
 {
   { STAttackAdapter,  &insert_continuation_solvers_avoid_goal_branches },
-  { STDefenseAdapter, &insert_continuation_solvers_postktey_play       },
-  { STReadyForAttack, &insert_continuation_solvers_attack              }
+  { STReadyForAttack, &insert_continuation_solvers_remember_attack     },
+  { STDefenseAdapter, &insert_continuation_solvers_postkey_play        },
+  { STNotEndOfBranch, &insert_continuation_solvers_attack              }
 };
 
 enum
@@ -139,12 +159,13 @@ enum
 void stip_insert_continuation_solvers(slice_index si)
 {
   stip_structure_traversal st;
+  boolean attack_played = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&attack_played);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_pipe);

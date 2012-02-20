@@ -377,11 +377,7 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Prepend a threat writer slice to a defense move slice
- * @param si identifies slice around which to insert threat handlers
- * @param st address of structure defining traversal
- */
-static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
+static void insert_threat_solver(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -389,9 +385,26 @@ static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.branch.length>slack_length+1)
   {
+    slice_index const prototype = alloc_threat_solver_slice();
+    defense_branch_insert_slices(si,&prototype,1);
+
+    stip_traverse_structure_children(si,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_threat_enforcer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->context==stip_traversal_context_attack)
+  {
     slice_index const prototypes[] =
     {
-      alloc_threat_solver_slice(),
       alloc_threat_enforcer_slice(),
       alloc_pipe(STThreatStart),
       alloc_threat_collector_slice()
@@ -400,7 +413,7 @@ static void insert_threat_solvers(slice_index si, stip_structure_traversal *st)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    attack_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
@@ -466,8 +479,9 @@ static structure_traversers_visitors const threat_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode               },
   { STSetplayFork,        &stip_traverse_structure_pipe     },
-  { STReadyForDefense,    &insert_threat_solvers            },
+  { STReadyForDefense,    &insert_threat_solver             },
   { STThreatSolver,       &connect_solver_to_threat_start   },
+  { STNotEndOfBranchGoal, &insert_threat_enforcer           },
   { STThreatEnforcer,     &connect_enforcer_to_threat_start }
 };
 

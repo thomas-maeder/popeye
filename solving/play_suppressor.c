@@ -62,17 +62,17 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_play_suppressors_attack_adapter(slice_index si,
-                                                   stip_structure_traversal *st)
+static void insert_play_suppressors(slice_index si,
+                                    stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->level==structure_traversal_level_root)
+  if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_play_suppressor_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -81,8 +81,8 @@ static void insert_play_suppressors_attack_adapter(slice_index si,
 
 static structure_traversers_visitors const play_suppressors_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode                     },
-  { STAttackAdapter,      &insert_play_suppressors_attack_adapter }
+  { STOutputModeSelector, &filter_output_mode      },
+  { STNotEndOfBranch,     &insert_play_suppressors }
 };
 
 enum

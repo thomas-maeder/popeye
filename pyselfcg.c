@@ -154,10 +154,12 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    if (st->context==stip_traversal_context_attack)
+      attack_branch_insert_slices(si,&prototype,1);
+    else
+      defense_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
@@ -347,6 +349,7 @@ static void remove_selfcheck_guard_check_zigzag(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->context==stip_traversal_context_help)
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
                                                 slices[si].u.binary.op2);
@@ -381,8 +384,7 @@ static void avoid_unnecessary_check(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
-  { STReadyForAttack,                  &insert_selfcheck_guard_battle_branch },
-  { STReadyForDefense,                 &insert_selfcheck_guard_battle_branch },
+  { STNotEndOfBranchGoal,              &insert_selfcheck_guard_battle_branch },
   { STReadyForHelpMove,                &insert_selfcheck_guard_help_branch   },
   { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch   },
   { STConstraintSolver,                &insert_selfcheck_guard_constraint    },

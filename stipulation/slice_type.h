@@ -19,6 +19,8 @@
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
+    ENUMERATOR(STNotEndOfBranchGoal),     /* proxy mark after testing whether the branch is ended because it reached a goal */ \
+    ENUMERATOR(STNotEndOfBranch),     /* proxy mark after testing whether the branch is ended */ \
     ENUMERATOR(STMinLengthOptimiser), /* don't even try attacks in less than min_length moves */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpAdapter), /* switch from generic play to help play */ \

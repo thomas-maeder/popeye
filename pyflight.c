@@ -192,9 +192,10 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 
   stip_traverse_structure_children(si,st);
 
+  if (slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_maxflight_guard_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -216,7 +217,7 @@ void stip_insert_maxflight_guards(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STReadyForAttack,
+                                           STReadyForDefense,
                                            &maxflight_guard_inserter);
   stip_traverse_structure(si,&st);
 
