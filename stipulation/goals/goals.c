@@ -54,6 +54,7 @@ char const *goal_end_marker[nr_goals] =
   , " a=>b"
   , " #="
   , " c81"
+  , ""
 };
 
 /* Order in which the slice types dealing with goals appear

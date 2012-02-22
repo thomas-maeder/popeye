@@ -33,6 +33,8 @@ typedef enum
   goal_mate_or_stale,
   goal_chess81,
 
+  goal_negated,
+
   nr_goals,
   no_goal = nr_goals
 } goal_type;
