@@ -108,8 +108,7 @@ output/plaintext/tree/key_writer.h:
 trace.h:
 output/plaintext/tree/move_writer$(OBJ_SUFFIX): output/plaintext/tree/move_writer.c \
  output/plaintext/tree/move_writer.h pydata.h pypipe.h pytable.h pymsg.h \
- solving/battle_play/threat.h solving/trivial_end_filter.h \
- output/plaintext/tree/tree.h trace.h
+ solving/battle_play/threat.h output/plaintext/tree/tree.h trace.h
 
 output/plaintext/tree/move_writer.h:
 
@@ -122,8 +121,6 @@ pytable.h:
 pymsg.h:
 
 solving/battle_play/threat.h:
-
-solving/trivial_end_filter.h:
 
 output/plaintext/tree/tree.h:
 

@@ -42,7 +42,7 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply==nil_ply || n<=slack_length+1)
+  if (nbply==nil_ply || n==slack_length)
     result = attack(slices[si].u.fork.next,n);
   else
     /* variation is trivial - just determine the result */
