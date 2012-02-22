@@ -71,29 +71,6 @@ static void remember_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void trivial_varation_filter_insert_constraint(slice_index si,
-                                                      stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,
-                                                  slices[si].u.fork.fork);
-    if (adapter!=no_slice)
-    {
-      slice_index const prototype = alloc_trivial_end_filter_slice();
-      battle_branch_insert_slices(adapter,&prototype,1);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void trivial_varation_filter_insert_self(slice_index si,
                                                 stip_structure_traversal *st)
 {
@@ -118,10 +95,9 @@ static void trivial_varation_filter_insert_self(slice_index si,
 
 static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
-  { STOutputModeSelector, &remember_output_mode                      },
-  { STConstraintSolver,   &trivial_varation_filter_insert_constraint },
-  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self       },
-  { STRefutationsSolver,  &stip_traverse_structure_pipe              }
+  { STOutputModeSelector, &remember_output_mode                },
+  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self },
+  { STRefutationsSolver,  &stip_traverse_structure_pipe        }
 };
 
 enum
