@@ -154,6 +154,8 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->context==stip_traversal_context_attack
+      || st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     if (st->context==stip_traversal_context_attack)
@@ -168,13 +170,23 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+  boolean in_constraint;
+  goal_type in_goal_tester;
+  boolean is_branch_instrumented;
+} in_branch_insertion_state_type;
+
 static void insert_selfcheck_guard_help_branch(slice_index si,
                                                stip_structure_traversal *st)
 {
+  in_branch_insertion_state_type const * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (!state->is_branch_instrumented)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     help_branch_insert_slices(si,&prototype,1);
@@ -185,13 +197,6 @@ static void insert_selfcheck_guard_help_branch(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-typedef struct
-{
-  boolean in_constraint;
-  goal_type in_goal_tester;
-  boolean is_goal_tester_instrumented;
-} in_branch_insertion_state_type;
 
 static void insert_selfcheck_guard_constraint(slice_index si,
                                               stip_structure_traversal *st)
@@ -265,13 +270,12 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
+  boolean const save_is_instrumented = state->is_branch_instrumented;
   slice_index const tester = slices[si].u.goal_handler.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  assert(!state->is_goal_tester_instrumented);
 
   if (state->in_constraint)
   {
@@ -281,16 +285,20 @@ static void insert_selfcheck_guard_goal(slice_index si,
   else
   {
     state->in_goal_tester = slices[si].u.goal_handler.goal.type;
-    stip_traverse_structure_children(si,st);
-    state->in_goal_tester = no_goal;
+    state->is_branch_instrumented = false;
 
-    if (state->is_goal_tester_instrumented)
-      state->is_goal_tester_instrumented = false;
-    else
+    stip_traverse_structure_next_branch(si,st);
+
+    if (!state->is_branch_instrumented)
     {
       slice_index const prototype = alloc_selfcheck_guard_slice();
       goal_branch_insert_slices(tester,&prototype,1);
     }
+
+    state->is_branch_instrumented = save_is_instrumented;
+    state->in_goal_tester = no_goal;
+
+    stip_traverse_structure_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -323,7 +331,7 @@ static void instrument_negated_tester(slice_index si,
     pipe_link(proxy_selfcheck,guard);
     pipe_link(guard,leaf_selfcheck);
 
-    state->is_goal_tester_instrumented = true;
+    state->is_branch_instrumented = true;
   }
   else
     stip_traverse_structure_children(si,st);
@@ -349,7 +357,7 @@ static void instrument_doublestalemate_tester(slice_index si,
     /* no need to instrument the operand that tests for stalemate of the
      * starting side */
     goal_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
-    state->is_goal_tester_instrumented = true;
+    state->is_branch_instrumented = true;
   }
 
   TraceFunctionExit(__func__);
@@ -377,25 +385,6 @@ static void remove_selfcheck_guard_check_zigzag(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void avoid_unnecessary_test(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.fork.fork);
-    if (guard!=no_slice)
-      pipe_remove(guard);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void dont_instrument_selfcheck_ignoring_goals(slice_index si,
                                                      stip_structure_traversal *st)
 {
@@ -406,9 +395,29 @@ static void dont_instrument_selfcheck_ignoring_goals(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_adversary)
-    state->is_goal_tester_instrumented = true;
+    state->is_branch_instrumented = true;
   else
     stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void suspend_insertion(slice_index si, stip_structure_traversal *st)
+{
+  in_branch_insertion_state_type * const state = st->param;
+  boolean const save_is_instrumented = state->is_branch_instrumented;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* prevent instrumentation of next branch */
+  state->is_branch_instrumented = true;
+  stip_traverse_structure_next_branch(si,st);
+  state->is_branch_instrumented = save_is_instrumented;
+
+  stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -425,8 +434,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STCheckZigzagJump,                 &remove_selfcheck_guard_check_zigzag  },
   { STCounterMateFilter,               &stip_traverse_structure_pipe         },
   { STIsardamDefenderFinder,           &stip_traverse_structure_pipe         },
-  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_test               },
-  { STEndOfBranchGoal,                 &avoid_unnecessary_test               },
+  { STCageCirceNonCapturingMoveFinder, &suspend_insertion                    },
   { STAnd,                             &instrument_doublestalemate_tester    },
   { STNot,                             &instrument_negated_tester            },
   { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals }
