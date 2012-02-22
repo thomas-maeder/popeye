@@ -129,7 +129,7 @@ a)
 
               empile:         675
             jouecoup:         428
-        orig_rbechec:         111
+        orig_rbechec:         109
         orig_rnechec:         430
 b) h#2
 
@@ -594,7 +594,7 @@ b) Circe
 
               empile:        5587
             jouecoup:        3973
-        orig_rbechec:         801
+        orig_rbechec:         797
         orig_rnechec:        3975
 Loesung beendet. 
 
@@ -982,7 +982,7 @@ a)
 
               empile:       10608
             jouecoup:        7357
-        orig_rbechec:         426
+        orig_rbechec:         424
         orig_rnechec:        7359
 b) AndernachSchach
 
@@ -1000,7 +1000,7 @@ b) AndernachSchach
 
               empile:       10145
             jouecoup:        6919
-        orig_rbechec:         395
+        orig_rbechec:         393
         orig_rnechec:        6921
 Loesung beendet. 
 
@@ -1049,7 +1049,7 @@ a)
 
               empile:        8636
             jouecoup:        6784
-        orig_rbechec:         565
+        orig_rbechec:         564
         orig_rnechec:        6786
 b) CirceClone
 
@@ -1069,7 +1069,7 @@ b) CirceClone
 
               empile:        8281
             jouecoup:        6482
-        orig_rbechec:         525
+        orig_rbechec:         524
         orig_rnechec:        6484
 Loesung beendet. 
 
@@ -1177,7 +1177,7 @@ a)
 
               empile:        3373
             jouecoup:        2074
-        orig_rbechec:         251
+        orig_rbechec:         250
         orig_rnechec:        2076
 b) CirceClone
 
@@ -1197,7 +1197,7 @@ b) CirceClone
 
               empile:        3680
             jouecoup:        2454
-        orig_rbechec:         255
+        orig_rbechec:         254
         orig_rnechec:        2456
 Loesung beendet. 
 

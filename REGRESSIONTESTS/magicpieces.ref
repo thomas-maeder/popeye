@@ -78,7 +78,7 @@
 
               empile:       21655
             jouecoup:       12536
-        orig_rbechec:        1100
+        orig_rbechec:        1096
         orig_rnechec:       12525
 solution finished. 
 
@@ -442,7 +442,7 @@ a)
 
               empile:       29391
             jouecoup:       20337
-        orig_rbechec:         761
+        orig_rbechec:         760
         orig_rnechec:       20341
 b) wPe6 
 
@@ -476,7 +476,7 @@ b) wPe6
 
               empile:       29898
             jouecoup:       20601
-        orig_rbechec:         774
+        orig_rbechec:         773
         orig_rnechec:       20605
 +c) wSg6 
 
@@ -510,7 +510,7 @@ b) wPe6
 
               empile:       30157
             jouecoup:       20787
-        orig_rbechec:         761
+        orig_rbechec:         760
         orig_rnechec:       20791
 +d) bPe6 
 
@@ -544,7 +544,7 @@ b) wPe6
 
               empile:       29816
             jouecoup:       20681
-        orig_rbechec:         756
+        orig_rbechec:         755
         orig_rnechec:       20685
 solution finished. 
 
@@ -623,7 +623,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
 
               empile:       41202
             jouecoup:       30450
-        orig_rbechec:        1390
+        orig_rbechec:        1389
         orig_rnechec:       30327
 solution finished. 
 

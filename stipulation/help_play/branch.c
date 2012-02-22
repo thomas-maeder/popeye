@@ -4,6 +4,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"

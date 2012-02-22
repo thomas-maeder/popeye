@@ -140,7 +140,7 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
     slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
     assert(tester!=no_slice);
     pipe_append(slices[tester].u.goal_handler.tester,alloc_not_slice());
-    slices[tester].u.goal_handler.goal.type = no_goal;
+    slices[tester].u.goal_handler.goal.type = goal_negated;
     help_branch_set_end_goal(help,proxy_goal,1);
     link_to_branch(proxy_branch,help);
     result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);

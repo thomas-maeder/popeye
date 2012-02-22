@@ -12,9 +12,11 @@
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/or.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
@@ -156,8 +158,15 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STEndOfBranch:
-    case STEndOfBranchGoal:
       result = end_of_branch_attack(si,n);
+      break;
+
+    case STEndOfBranchGoal:
+      result = end_of_branch_goal_attack(si,n);
+      break;
+
+    case STGoalReachedTester:
+      result = goal_reached_tester_attack(si,n);
       break;
 
     case STAvoidUnsolvable:
@@ -257,7 +266,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STTrue:
-      result = n;
+      result = slack_length;
       break;
 
     case STFalse:

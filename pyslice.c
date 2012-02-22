@@ -33,7 +33,6 @@
 #include "solving/legal_move_counter.h"
 #include "pymovein.h"
 #include "pyhash.h"
-#include "pyselfgd.h"
 #include "pyselfcg.h"
 #include "pykeepmt.h"
 #include "pypipe.h"

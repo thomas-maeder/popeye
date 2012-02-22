@@ -121,10 +121,8 @@ static void trivial_varation_filter_insert_self(slice_index si,
   if (*mode==output_mode_tree
       && st->context==stip_traversal_context_attack)
   {
-    slice_index const adapter = branch_find_slice(STAttackAdapter,
-                                                  slices[si].u.fork.fork);
-    assert(adapter!=no_slice);
-    pipe_append(adapter,alloc_trivial_end_filter_slice());
+    slice_index const prototype = alloc_trivial_end_filter_slice();
+    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

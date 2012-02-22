@@ -42,7 +42,7 @@ a)
 
               empile:       11998
             jouecoup:        9536
-        orig_rbechec:         494
+        orig_rbechec:         492
         orig_rnechec:        9538
 b) ChamaeleonCirce    S->L->T->D->S
 
@@ -62,7 +62,7 @@ b) ChamaeleonCirce    S->L->T->D->S
 
               empile:       12256
             jouecoup:        9756
-        orig_rbechec:         510
+        orig_rbechec:         508
         orig_rnechec:        9758
 c) CirceClone
 
@@ -82,7 +82,7 @@ c) CirceClone
 
               empile:       11866
             jouecoup:        9393
-        orig_rbechec:         486
+        orig_rbechec:         484
         orig_rnechec:        9395
 d) ChamaeleonCirce    S->D->T->L->S
 
@@ -102,7 +102,7 @@ d) ChamaeleonCirce    S->D->T->L->S
 
               empile:       12648
             jouecoup:       10103
-        orig_rbechec:         522
+        orig_rbechec:         520
         orig_rnechec:       10105
 Loesung beendet. 
 

@@ -4,15 +4,16 @@
 #include "pymovenb.h"
 #include "pynontrv.h"
 #include "pyselfcg.h"
-#include "pyselfgd.h"
 #include "pythreat.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
 #include "stipulation/help_play/play.h"
@@ -208,8 +209,11 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchForced:
-    case STEndOfBranchGoal:
       result = end_of_branch_defend(si,n);
+      break;
+
+    case STEndOfBranchGoal:
+      result = end_of_branch_goal_defend(si,n);
       break;
 
     case STAvoidUnsolvable:
@@ -260,8 +264,12 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = killer_move_collector_defend(si,n);
       break;
 
+    case STGoalReachedTester:
+      result = goal_reached_tester_defend(si,n);
+      break;
+
     case STTrue:
-      result = n;
+      result = slack_length;
       break;
 
     default:

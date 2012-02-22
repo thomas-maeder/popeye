@@ -78,8 +78,6 @@
 #include "pyflight.h"
 #include "pynontrv.h"
 #include "pythreat.h"
-#include "pydirctg.h"
-#include "pyselfgd.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -2510,7 +2508,6 @@ slice_index MakeEndOfSelfPlay(slice_index proxy_to_goal)
     result = alloc_defense_branch(aready,
                                   slack_length+1,slack_length+1);
     pipe_link(aready,deadend);
-    slice_make_self_goal_branch(proxy_to_goal);
     battle_branch_insert_self_end_of_branch_goal(result,proxy_to_goal);
   }
 
@@ -2761,7 +2758,6 @@ static char *ParsePlay(char *tok,
                        play_length,shorten);
     if (result!=0)
     {
-      stip_make_direct_goal_branch(proxy_to_goal);
       help_branch_set_end_goal(proxy,proxy_to_goal,1);
       help_branch_insert_check_zigzag(proxy);
       stip_impose_starter(proxy_to_goal,Black);
@@ -2863,7 +2859,6 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       select_output_mode(proxy,output_mode_line);
-      stip_make_direct_goal_branch(proxy_to_goal);
       battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
       battle_branch_insert_defense_check_zigzag(proxy);
     }
@@ -2995,7 +2990,6 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       select_output_mode(proxy,output_mode_tree);
-      slice_make_self_goal_branch(proxy_to_goal);
       battle_branch_insert_self_end_of_branch_goal(proxy,proxy_to_goal);
     }
   }
@@ -3025,7 +3019,6 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       select_output_mode(proxy,output_mode_tree);
-      stip_make_direct_goal_branch(proxy_to_goal);
       battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
     }
   }
@@ -3229,7 +3222,6 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
         switch (nested_type)
         {
           case nested_branch_type_goal:
-            stip_make_direct_goal_branch(proxy_operand);
             battle_branch_insert_direct_end_of_branch_goal(branch,proxy_operand);
             break;
 
@@ -3301,7 +3293,6 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
         switch (nested_type)
         {
           case nested_branch_type_goal:
-            slice_make_self_goal_branch(proxy_operand);
             battle_branch_insert_self_end_of_branch_goal(branch,proxy_operand);
             break;
 

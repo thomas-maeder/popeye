@@ -7,6 +7,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
+#include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/attack_adapter.h"
@@ -22,9 +23,12 @@
 static slice_index const slice_rank_order[] =
 {
   STAttackAdapter,
+  STGoalReachedTester,
+  STTrivialEndFilter,
   STMoveWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriter,
+  STOutputPlaintextTreeGoalWriter,
   STRefutationWriter,
   STKeepMatingFilter,
   STEndOfBranch,
@@ -67,8 +71,8 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STThreatDefeatedTester,
   STKillerMoveCollector,
-  STGoalReachedTester,
   STEndOfBranchGoal,
+  STGoalReachedTester,
   STNotEndOfBranchGoal,
   STDeadEndGoal,
   STSelfCheckGuard,
@@ -262,35 +266,6 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_visit_end_of_branch_goal(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParamListEnd();
-
-  {
-    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    assert(rank!=no_slice_rank);
-    if (!insert_before(si,rank,state))
-    {
-      branch_insert_slices_nested(slices[si].u.fork.fork,
-                                  state->prototypes,state->nr_prototypes);
-      state->base = rank;
-      state->prev = si;
-      stip_traverse_structure_pipe(si,st);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
@@ -390,9 +365,9 @@ static void insert_visit_true(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const insertion_visitors[] =
 {
-  { STEndOfBranchGoal, &insert_visit_end_of_branch_goal },
-  { STProxy,           &insert_visit_proxy              },
-  { STTrue,            &insert_visit_true               }
+  { STEndOfBranchGoal, &insert_visit_binary },
+  { STProxy,           &insert_visit_proxy  },
+  { STTrue,            &insert_visit_true   }
 };
 
 enum
@@ -950,6 +925,9 @@ void battle_branch_make_root_slices(slice_index adapter,
     stip_structure_traversal_override_by_function(&st,
                                                   slice_function_conditional_pipe,
                                                   &conditional_pipe_spin_off_copy);
+    stip_structure_traversal_override_single(&st,
+                                             STReadyForDefense,
+                                             &ready_for_defense_make_root);
     stip_structure_traversal_override_single(&st,
                                              STConstraintTester,
                                              &constraint_tester_make_root);
