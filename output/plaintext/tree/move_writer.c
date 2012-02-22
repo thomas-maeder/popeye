@@ -4,7 +4,6 @@
 #include "pytable.h"
 #include "pymsg.h"
 #include "solving/battle_play/threat.h"
-#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
@@ -77,9 +76,8 @@ stip_length_type move_writer_defend(slice_index si, stip_length_type n)
   }
 
   output_plaintext_tree_write_move();
-  do_write_trivial_ends[nbply] = n<=slack_length+1;
+
   result = defend(next,n);
-  do_write_trivial_ends[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

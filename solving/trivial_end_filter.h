@@ -3,12 +3,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 
-/* Used to inform STTrivialEndFilter about when to filter out trivial
- * variations (e.g. short mates in self stipulations if there are defenses that
- * don't deliver mate).
- */
-extern boolean do_write_trivial_ends[maxply+1];
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

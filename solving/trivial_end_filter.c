@@ -7,19 +7,6 @@
 
 #include <assert.h>
 
-/* Used to inform STTrivialEndFilter about when to filter out trivial
- * variations (e.g. short mates in self stipulations if there are defenses that
- * don't deliver mate).
- *
- * Initialise element 1 to true to cause immediate mates in set and postkey only
- * play in self stipulations.
- *
- * This causes some superfluous moves and check tests to be performed in ser-r
- * stipulations, but any "correct" implementation would be significantly more
- * complex.
- */
-boolean do_write_trivial_ends[maxply+1] = { false, true };
-
 /* Allocate a STTrivialEndFilter slice.
  * @return index of allocated slice
  */
@@ -55,7 +42,7 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply==nil_ply || do_write_trivial_ends[parent_ply[nbply]])
+  if (nbply==nil_ply || n<=slack_length+1)
     result = attack(slices[si].u.fork.next,n);
   else
     /* variation is trivial - just determine the result */
