@@ -383,7 +383,7 @@ static void insert_refuting_variation_writer(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void make_key_branch(slice_index si, stip_structure_traversal *st)
+static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -392,7 +392,6 @@ static void make_key_branch(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_key_writer();
-    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
     defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
   }
 
@@ -424,7 +423,7 @@ static structure_traversers_visitors const root_writer_inserters[] =
   { STHelpAdapter,        &stip_structure_visitor_noop      },
   { STAttackAdapter,      &insert_end_of_solution_writer    },
   { STDefenseAdapter,     &remember_postkey_play            },
-  { STEndOfBranchGoal,    &make_key_branch                  },
+  { STEndOfBranchGoal,    &insert_key_writer_goal           },
   { STNotEndOfBranchGoal, &insert_refuting_variation_writer },
   { STEndOfBranch,        &get_fork_of_my_own               },
   { STNotEndOfBranch,     &insert_postkey_writers           },

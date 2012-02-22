@@ -270,33 +270,38 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
-  boolean const save_is_instrumented = state->is_branch_instrumented;
   slice_index const tester = slices[si].u.goal_handler.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->in_constraint)
+  /* consider instrumenting tester if it hasn't been visited before */
+  if (get_stip_structure_traversal_state(tester,st)==slice_not_traversed)
   {
-    slice_index const prototype = alloc_selfcheck_guard_slice();
-    goal_branch_insert_slices(tester,&prototype,1);
-  }
-  else
-  {
-    state->in_goal_tester = slices[si].u.goal_handler.goal.type;
-    state->is_branch_instrumented = false;
-
-    stip_traverse_structure_next_branch(si,st);
-
-    if (!state->is_branch_instrumented)
+    if (state->in_constraint)
     {
       slice_index const prototype = alloc_selfcheck_guard_slice();
       goal_branch_insert_slices(tester,&prototype,1);
     }
+    else
+    {
+      boolean const save_is_instrumented = state->is_branch_instrumented;
 
-    state->is_branch_instrumented = save_is_instrumented;
-    state->in_goal_tester = no_goal;
+      state->in_goal_tester = slices[si].u.goal_handler.goal.type;
+      state->is_branch_instrumented = false;
+
+      stip_traverse_structure_next_branch(si,st);
+
+      if (!state->is_branch_instrumented)
+      {
+        slice_index const prototype = alloc_selfcheck_guard_slice();
+        goal_branch_insert_slices(tester,&prototype,1);
+      }
+
+      state->is_branch_instrumented = save_is_instrumented;
+      state->in_goal_tester = no_goal;
+    }
 
     stip_traverse_structure_pipe(si,st);
   }

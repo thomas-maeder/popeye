@@ -10,6 +10,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
+#include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "trace.h"
@@ -365,9 +366,8 @@ static void insert_visit_true(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const insertion_visitors[] =
 {
-  { STEndOfBranchGoal, &insert_visit_binary },
-  { STProxy,           &insert_visit_proxy  },
-  { STTrue,            &insert_visit_true   }
+  { STProxy, &insert_visit_proxy },
+  { STTrue,  &insert_visit_true  }
 };
 
 enum
@@ -910,6 +910,9 @@ void battle_branch_make_root_slices(slice_index adapter,
     stip_structure_traversal st;
 
     stip_structure_traversal_init(&st,state);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_leaf,
+                                                   &leaf_spin_off_copy);
     stip_structure_traversal_override_by_structure(&st,
                                                    slice_structure_pipe,
                                                    &pipe_spin_off_copy);

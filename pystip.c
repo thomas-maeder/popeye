@@ -109,7 +109,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STSetplayFork */
   slice_structure_fork,         /* STEndOfBranch */
   slice_structure_fork,         /* STEndOfBranchForced */
-  slice_structure_fork,         /* STEndOfBranchGoal */
+  slice_structure_binary,       /* STEndOfBranchGoal */
   slice_structure_fork,         /* STEndOfBranchTester */
   slice_structure_binary,       /* STAvoidUnsolvable */
   slice_structure_fork,         /* STConstraintSolver */
