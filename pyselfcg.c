@@ -226,18 +226,24 @@ static boolean does_goal_ignore_selfcheck(slice_index goal_reached_tester)
   return result;
 }
 
+typedef struct
+{
+  boolean in_constraint;
+  goal_type in_goal_tester;
+} in_branch_insertion_state_type;
+
 static void insert_selfcheck_guard_constraint(slice_index si,
                                               stip_structure_traversal *st)
 {
-  boolean * const in_constraint = st->param;
+  in_branch_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *in_constraint = true;
+  state->in_constraint = true;
   stip_traverse_structure_next_branch(si,st);
-  *in_constraint = false;
+  state->in_constraint = false;
 
   stip_traverse_structure_pipe(si,st);
 
@@ -297,23 +303,23 @@ static boolean is_goal_move_oriented(slice_index goal_reached_tester)
 static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
-  boolean const * const in_constraint = st->param;
+  in_branch_insertion_state_type * const state = st->param;
   slice_index const tester = slices[si].u.goal_handler.tester;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  state->in_goal_tester = slices[si].u.goal_handler.goal.type;
   stip_traverse_structure_children(si,st);
+  state->in_goal_tester = no_goal;
 
   if (!does_goal_ignore_selfcheck(tester))
   {
     slice_index const not_slice = branch_find_slice(STNot,tester);
-    if (not_slice==no_slice || *in_constraint)
+    if (not_slice==no_slice || state->in_constraint)
     {
-      if (slices[si].u.goal_handler.goal.type==goal_dblstale)
-        goal_doublestalemate_insert_selfcheck_guard(si);
-      else
+      if (slices[si].u.goal_handler.goal.type!=goal_dblstale)
       {
         slice_index const prototype = alloc_selfcheck_guard_slice();
         goal_branch_insert_slices(tester,&prototype,1);
@@ -336,6 +342,29 @@ static void insert_selfcheck_guard_goal(slice_index si,
       pipe_link(proxy_selfcheck,guard);
       pipe_link(guard,leaf_selfcheck);
     }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_doublestalemate_tester(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  in_branch_insertion_state_type const * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (state->in_goal_tester==goal_dblstale)
+  {
+    slice_index const prototype = alloc_selfcheck_guard_slice();
+    /* no need to instrument the operand that tests for stalemate of the
+     * starting side */
+    goal_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -393,7 +422,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STCheckZigzagJump,                 &remove_selfcheck_guard_check_zigzag  },
   { STCounterMateFilter,               &stip_traverse_structure_pipe         },
   { STIsardamDefenderFinder,           &stip_traverse_structure_pipe         },
-  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_check              }
+  { STCageCirceNonCapturingMoveFinder, &avoid_unnecessary_check              },
+  { STAnd,                             &instrument_doublestalemate_tester    }
 };
 
 enum
@@ -405,13 +435,13 @@ enum
 static void insert_in_branch_guards(slice_index si)
 {
   stip_structure_traversal st;
-  boolean in_constraint = false;
+  in_branch_insertion_state_type state = { false, no_goal };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&in_constraint);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     in_branch_guards_inserters,
                                     nr_in_branch_guards_inserters);
