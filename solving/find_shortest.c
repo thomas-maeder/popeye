@@ -7,16 +7,21 @@
 #include <assert.h>
 
 /* Allocate a STFindShortest slice.
+ * @param length maximum number of half moves until end of slice
+ * @param min_length minimum number of half moves until end of slice
  * @return index of allocated slice
  */
-slice_index alloc_find_shortest_slice(void)
+slice_index alloc_find_shortest_slice(stip_length_type length,
+                                      stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STFindShortest);
+  result = alloc_branch(STFindShortest,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -75,14 +80,12 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
  */
 stip_length_type find_shortest_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = slack_length+1;
+  stip_length_type result = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  result += (n-result)%2;
 
   while (result<=n)
     if (help(slices[si].u.pipe.next,result)==result)
@@ -109,7 +112,7 @@ static void battle_insert_find_shortest(slice_index si)
   {
     slice_index const defense = branch_find_slice(STReadyForDefense,si);
     slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-    slice_index const proto = alloc_find_shortest_slice();
+    slice_index const proto = alloc_find_shortest_slice(length,min_length);
     assert(defense!=no_slice);
     assert(attack!=no_slice);
     battle_branch_insert_slices(attack,&proto,1);

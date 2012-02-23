@@ -9,9 +9,12 @@
  */
 
 /* Allocate a STFindShortest slice.
+ * @param length maximum number of half moves until end of slice
+ * @param min_length minimum number of half moves until end of slice
  * @return index of allocated slice
  */
-slice_index alloc_find_shortest_slice(void);
+slice_index alloc_find_shortest_slice(stip_length_type length,
+                                      stip_length_type min_length);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
