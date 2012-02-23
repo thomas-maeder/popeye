@@ -99,6 +99,29 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+static void insert_min_length_solvers_attack(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (min_length>slack_length+1)
+  {
+    slice_index const prototype = alloc_min_length_optimiser_slice(length,
+                                                                   min_length);
+    attack_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_min_length_solvers_defense(slice_index si,
                                               stip_structure_traversal *st)
 {
@@ -111,17 +134,10 @@ static void insert_min_length_solvers_defense(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (min_length>slack_length+1) /* >= #2 */
+  if (min_length>slack_length+1)
   {
     slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
     defense_branch_insert_slices(si,&prototype,1);
-
-    if (min_length>slack_length+2) /* >= s#2 (also postkey!) */
-    {
-      slice_index const prototype = alloc_min_length_optimiser_slice(length-1,
-                                                                     min_length-1);
-      defense_branch_insert_slices(si,&prototype,1);
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -141,6 +157,9 @@ void stip_insert_min_length_solvers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForAttack,
+                                           &insert_min_length_solvers_attack);
   stip_structure_traversal_override_single(&st,
                                            STReadyForDefense,
                                            &insert_min_length_solvers_defense);

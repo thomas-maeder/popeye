@@ -194,7 +194,6 @@ has_solution_type attack_adapter_solve(slice_index si)
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type nr_moves_needed;
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
@@ -202,7 +201,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = min_length-1;
+  max_unsolvable = slack_length-1;
 
   nr_moves_needed = attack(next,length);
   if (nr_moves_needed<slack_length)
