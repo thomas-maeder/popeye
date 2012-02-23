@@ -310,21 +310,16 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
   slice_index const tester = slices[si].u.fork.fork;
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length;
-
-  /* insert an empty ply for the virtual defense played before the threat */
+  /* insert an empty ply for the dummy defense played before the threat */
   nextply(nbply);
   result = defend(tester,n);
   finply();
-
-  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
