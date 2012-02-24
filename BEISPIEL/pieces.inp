@@ -27,18 +27,18 @@ steine  weiss   koenig  fec1
 
 weiteresproblem
 
-autor		Hans Peter Rehm
-quelle		Die Schwalbe 168, 12/1997
-ausz		1. Preis, Peter Kniest Gedenkturnier
+autor           Hans Peter Rehm
+quelle          Die Schwalbe 168, 12/1997
+ausz            1. Preis, Peter Kniest Gedenkturnier
 
 forderung       r#9
 
-bedingung	circe
+bedingung       circe
 
 steine  weiss   kh4 ha4c6 lc1 hth7
-	schwarz kb5 hf3
+        schwarz kb5 hf3
 
-option		vari zug ohnedroh nichttr 1 1
+option          vari zug ohnedroh nichttr 1 1
 
 weiter
 
@@ -115,25 +115,25 @@ option          ohnewk
 
 weiteresproblem
 
-autor		Karl Pohlheim
-quelle		5705, feenschach 93, 11-12/1989
+autor           Karl Pohlheim
+quelle          5705, feenschach 93, 11-12/1989
 
-forderung	h#3
+forderung       h#3
 
-steine		weiss	ke3 drd4
-		schwarz kf6 se5 bd5d6
+steine          weiss   ke3 drd4
+                schwarz kf6 se5 bd5d6
 
 weiteresproblem
 
-autor		Fritz Hoffmann
-quelle		feenschach-5, IX/1971
+autor           Fritz Hoffmann
+quelle          feenschach-5, IX/1971
 
-forderung	s#2
+forderung       s#2
 
-option		varianten
+option          varianten
 
-steine		weiss	ka1 dh5 ba2d7e6h7 ge8f5 uua8
-		schwarz kg7 dg2 th8 ba3e4g3g5 ge2e7h2
+steine          weiss   ka1 dh5 ba2d7e6h7 ge8f5 uua8
+                schwarz kg7 dg2 th8 ba3e4g3g5 ge2e7h2
 
 weiteresproblem
 
@@ -242,62 +242,62 @@ steine  weiss   kb3 16b6
 
 weiteresproblem
 
-autor 		Thomas Maeder
-quelle 		1.Preis, 3. "harmonie"-TT 1990
+autor           Thomas Maeder
+quelle          1.Preis, 3. "harmonie"-TT 1990
 
-forderung 	h#2
+forderung       h#2
 
-steine 		weiss 	gd6a4g4 bg6 nb5h2 ke1
-		schwarz ke8 td7a2 de7 be5b4e4e3f3
-
-weiteresproblem
-
-autor 		Hans Peter Rehm
-quelle 		#32, "harmonie-31", 31.12.1990
-
-forderung 	#3
-
-steine 		weiss 	da7 be6 gg6 la3b3 sc3a2 ng3 gd1 ka1
-		schwarz sb8 td8g4 nh8h2 bc7a6f6d5 le7g2 kc6 gb4e2
+steine          weiss   gd6a4g4 bg6 nb5h2 ke1
+                schwarz ke8 td7a2 de7 be5b4e4e3f3
 
 weiteresproblem
 
-autor		Robert Schopf
-quelle		Original fuer Die Schwalbe
+autor           Hans Peter Rehm
+quelle          #32, "harmonie-31", 31.12.1990
 
-forderung	#5
+forderung       #3
 
-option		varianten
-		ohnedrohung
-
-steine		weiss		ke6 tjd4 ljc3
-		schwarz		ke8
+steine          weiss   da7 be6 gg6 la3b3 sc3a2 ng3 gd1 ka1
+                schwarz sb8 td8g4 nh8h2 bc7a6f6d5 le7g2 kc6 gb4e2
 
 weiteresproblem
 
-autor		Werner Speckmann
-quelle		Deutsche Schachzeitung, 1969
+autor           Robert Schopf
+quelle          Original fuer Die Schwalbe
 
-forderung	#5
+forderung       #5
 
-option		varianten
+option          varianten
+                ohnedrohung
+
+steine          weiss           ke6 tjd4 ljc3
+                schwarz         ke8
+
+weiteresproblem
+
+autor           Werner Speckmann
+quelle          Deutsche Schachzeitung, 1969
+
+forderung       #5
+
+option          varianten
 
 steine
-weiss			kh4 lc6 sh3 be2 tja6
-schwarz			kh2 tja7
+weiss                   kh4 lc6 sh3 be2 tja6
+schwarz                 kh2 tja7
 
 weiteresproblem
 
-autor		Werner Speckmann
-quelle		Die Schwalbe, 1989
+autor           Werner Speckmann
+quelle          Die Schwalbe, 1989
 
-forderung	#4
+forderung       #4
 
-option		varianten
+option          varianten
 
 steine
-weiss			ka8 lf7h6 sg5 ljb8
-schwarz			kh8 ljb4
+weiss                   ka8 lf7h6 sg5 ljb8
+schwarz                 kh8 ljb4
 
 weiter
 auto Petko A. Petkov
