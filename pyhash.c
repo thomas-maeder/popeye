@@ -1468,7 +1468,9 @@ static dhtElement *allocDHTelement(dhtConstValue hb)
     if (dhtKeyCount(pyhash)==nrKeysBeforeCompression)
     {
       dhtDestroy(pyhash);
+#if defined(FXF)
       fxfReset();
+#endif
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
       assert(pyhash!=0);
       result = dhtEnterElement(pyhash,hb,template_element.d.Data);
@@ -1661,7 +1663,9 @@ void inithash(slice_index si)
     fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
 
+#if defined(FXF)
     fxfReset();
+#endif
 
     pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
     assert(pyhash!=0);
