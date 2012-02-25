@@ -91,9 +91,16 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 
     nr_threats_to_be_confirmed = table_length(threats_table);
 
-    threat_activities[threats_ply] = threat_enforcing;
-    len_test_threats = attack(threat_start,len_threat);
-    threat_activities[threats_ply] = threat_idle;
+    {
+      /* until we have a separate branch for this, we have to remember
+       * that we are enforcing and reset max_unsolvable
+       */
+      stip_length_type const save_max_unsolvable = max_unsolvable;
+      threat_activities[threats_ply] = threat_enforcing;
+      len_test_threats = attack(threat_start,len_threat);
+      threat_activities[threats_ply] = threat_idle;
+      max_unsolvable = save_max_unsolvable;
+    }
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */

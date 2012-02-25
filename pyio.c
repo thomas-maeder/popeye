@@ -3351,7 +3351,7 @@ static slice_index ParseStructuredStip_make_branch_d(stip_length_type min_length
   TraceFunctionParamListEnd();
 
   max_length += slack_length+1;
-  min_length += slack_length;
+  min_length += slack_length+1;
 
   if (min_length>=max_length)
     min_length = max_length-1;

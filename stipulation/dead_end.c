@@ -46,7 +46,6 @@ void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
 typedef struct
 {
   slice_index optimisable_deadend;
-  stip_length_type nr_deadend_users;
 } optimisation_state;
 
 static void optimise_deadend_ready(slice_index si, stip_moves_traversal *st)
@@ -58,7 +57,6 @@ static void optimise_deadend_ready(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->nr_deadend_users = 0;
   stip_traverse_moves_children(si,st);
   *state = save_state;
 
@@ -97,22 +95,10 @@ static void remember_deadend(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (st->remaining)
-  {
-    case 0:
-      state->optimisable_deadend = si;
-      break;
-
-    case 1:
-      stip_traverse_moves_children(si,st);
-      if (state->nr_deadend_users==0)
-        pipe_remove(si);
-      break;
-
-    default:
-      stip_traverse_moves_children(si,st);
-      break;
-  }
+  if (st->remaining==0)
+    state->optimisable_deadend = si;
+  else
+    stip_traverse_moves_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -133,27 +119,10 @@ static void forget_deadend(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void raise_nr_deadend_users(slice_index si, stip_moves_traversal *st)
-{
-  optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->nr_deadend_users = 1;
-  stip_traverse_moves_children(si,st);
-  state->nr_deadend_users = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static moves_traversers_visitors const dead_end_optimisers[] =
 {
   { STReadyForAttack,          &optimise_deadend_ready               },
   { STReadyForHelpMove,        &optimise_deadend_ready               },
-  { STPrerequisiteOptimiser,   &raise_nr_deadend_users               },
   { STNotEndOfBranchGoal,      &substitute_deadend_goal              },
   { STEndOfBranchGoalImmobile, &substitute_deadend_goal              },
   { STEndOfBranch,             &forget_deadend                       },
@@ -174,7 +143,7 @@ enum
 void stip_optimise_dead_end_slices(slice_index si)
 {
   stip_moves_traversal mt;
-  optimisation_state state = { no_slice, 0 };
+  optimisation_state state = { no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -204,7 +173,6 @@ void stip_optimise_dead_end_slices(slice_index si)
 stip_length_type dead_end_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -213,15 +181,18 @@ stip_length_type dead_end_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
+  TraceValue("%u\n",max_unsolvable);
   if (max_unsolvable<slack_length)
     max_unsolvable = slack_length;
 
   if (n<=max_unsolvable)
     result = n+2;
   else
+  {
     result = attack(slices[si].u.pipe.next,n);
-
-  max_unsolvable = save_max_unsolvable;
+    if (result>n)
+      max_unsolvable = n;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

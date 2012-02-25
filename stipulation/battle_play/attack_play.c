@@ -67,9 +67,6 @@ stip_length_type max_unsolvable;
 stip_length_type attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-#if !defined(NDEBUG)
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-#endif
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -277,8 +274,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       assert(0);
       break;
   }
-
-  assert(save_max_unsolvable==max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

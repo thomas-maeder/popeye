@@ -40,28 +40,27 @@ slice_index alloc_find_shortest_slice(stip_length_type length,
 stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = (max_unsolvable<slack_length
-                                  ? slack_length+1
-                                  : max_unsolvable+1);
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_min = (min_length>=(length-n)+slack_length
+                                  ? min_length-(length-n)
+                                  : min_length);
   stip_length_type n_current;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  assert(length>=n);
+
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
     result = attack(next,n_current);
     if (result<=n_current)
       break;
-    else
-      max_unsolvable = n_current;
   }
-
-  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -69,13 +68,13 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index
- * @param n exact number of moves to reach the end state
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
  * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
+ *         n+4 the move leading to the current position has turned out
  *             to be illegal
- *         n+1 no solution found
+ *         n+2 no solution found
  *         n   solution found
  */
 stip_length_type find_shortest_help(slice_index si, stip_length_type n)
