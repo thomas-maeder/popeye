@@ -125,7 +125,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length-1;
+  max_unsolvable = slack_length+1;
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
   defend(tester,n_next);

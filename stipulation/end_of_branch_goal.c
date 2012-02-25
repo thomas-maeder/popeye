@@ -78,7 +78,7 @@ stip_length_type end_of_branch_goal_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length);
-  assert(max_unsolvable<slack_length);
+  assert(max_unsolvable<slack_length+2);
 
   result = defend(op2,n);
   if (result>n)

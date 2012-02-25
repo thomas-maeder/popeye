@@ -110,8 +110,8 @@ stip_length_type avoid_unsolvable_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  if (max_unsolvable<slack_length-1
-      || n<=max_unsolvable+1) /* exact refutation */
+  if (max_unsolvable<=slack_length
+      || n<=max_unsolvable+3) /* exact refutation */
     result = attack(slices[si].u.binary.op1,n);
   else
     result = attack(slices[si].u.binary.op2,n);
@@ -144,7 +144,7 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  if (max_unsolvable<slack_length)
+  if (max_unsolvable<slack_length+2)
     result = defend(slices[si].u.binary.op1,n);
   else
     result = defend(slices[si].u.binary.op2,n);

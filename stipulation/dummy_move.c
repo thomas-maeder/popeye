@@ -51,7 +51,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   /* insert an empty ply for the dummy defense */
   nextply(nbply);
 
-  max_unsolvable = slack_length-2;
+  max_unsolvable = slack_length;
 
   {
     stip_length_type const length_sol = attack(next,n-1)+1;

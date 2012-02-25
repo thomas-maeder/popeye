@@ -148,7 +148,7 @@ has_solution_type defense_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length-1;
+  max_unsolvable = slack_length+1;
 
   defense_result = defend(next,length);
   result = (slack_length<=defense_result && defense_result<=length

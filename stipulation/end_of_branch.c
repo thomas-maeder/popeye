@@ -167,8 +167,8 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length);
-  assert(max_unsolvable<slack_length-1
-         || n<=max_unsolvable+1); /* exact refutation */
+  assert(max_unsolvable<=slack_length
+         || n<=max_unsolvable-1); /* exact refutation */
 
   switch (slice_solve(fork))
   {
@@ -219,7 +219,7 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length);
-  assert(max_unsolvable<slack_length);
+  assert(max_unsolvable<slack_length+2);
 
   if (slice_solve(fork)==has_solution)
     result = slack_length;

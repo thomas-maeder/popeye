@@ -74,7 +74,7 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length);
 
-  max_unsolvable = slack_length-2;
+  max_unsolvable = slack_length;
   result = attack(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
