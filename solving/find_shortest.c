@@ -79,18 +79,28 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
  */
 stip_length_type find_shortest_help(slice_index si, stip_length_type n)
 {
-  stip_length_type result = slices[si].u.branch.min_length;
+  stip_length_type result = n+2;
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_min = (min_length>=(length-n)+slack_length
+                                  ? min_length-(length-n)
+                                  : min_length);
+  stip_length_type n_current;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  while (result<=n)
-    if (help(slices[si].u.pipe.next,result)==result)
+  assert(length>=n);
+
+  for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
+  {
+    result = help(next,n_current);
+    if (result<=n_current)
       break;
-    else
-      result += 2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
