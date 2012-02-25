@@ -201,7 +201,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length-1;
+  max_unsolvable = slack_length-2;
 
   nr_moves_needed = attack(next,length);
   if (nr_moves_needed<slack_length)

@@ -45,9 +45,9 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<=slack_length
+  if (max_unsolvable<slack_length
       && goal_preprequisites_met[nbply]==0)
-    max_unsolvable = slack_length+1;
+    max_unsolvable = slack_length;
 
   result = attack(next,n);
 

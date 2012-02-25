@@ -41,14 +41,10 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  --max_unsolvable;
-
   assert(n>slack_length);
   result = defend(slices[si].u.pipe.next,n-1)+1;
   if (result<=slack_length) /* oops - unintentional stalemate! */
     result = n+2;
-
-  ++max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -78,7 +74,7 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length);
 
-  max_unsolvable = slack_length-1;
+  max_unsolvable = slack_length-2;
   result = attack(slices[si].u.pipe.next,n-1)+1;
 
   TraceFunctionExit(__func__);
