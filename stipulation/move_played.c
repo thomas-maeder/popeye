@@ -70,7 +70,6 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
 stip_length_type move_played_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -81,7 +80,6 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 
   max_unsolvable = slack_length-1;
   result = attack(slices[si].u.pipe.next,n-1)+1;
-  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
