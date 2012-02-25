@@ -48,6 +48,9 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length);
 
+  /* insert an empty ply for the dummy defense */
+  nextply(nbply);
+
   max_unsolvable = slack_length-1;
 
   {
@@ -62,6 +65,8 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
     result = max_len_continuation;
 
   max_unsolvable = save_max_unsolvable;
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

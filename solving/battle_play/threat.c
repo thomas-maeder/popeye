@@ -299,34 +299,6 @@ static slice_index alloc_threat_solver_slice(void)
   return result;
 }
 
-/* Solve threats after an attacker's move
- * @param si slice index
- * @return length of threats
- *         <slack_length if the attacker has something stronger
- *             than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-static stip_length_type solve_threats(slice_index si, stip_length_type n)
-{
-  slice_index const tester = slices[si].u.fork.fork;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  /* insert an empty ply for the dummy defense played before the threat */
-  nextply(nbply);
-  result = defend(tester,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -355,7 +327,7 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   if (!attack_gives_check[nbply])
   {
     threat_activities[threats_ply] = threat_solving;
-    threat_lengths[threats_ply] = solve_threats(si,n)-1;
+    threat_lengths[threats_ply] = defend(slices[si].u.fork.fork,n)-1;
     threat_activities[threats_ply] = threat_idle;
   }
 

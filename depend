@@ -892,8 +892,8 @@ pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
  pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h pymsg.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h pyslice.h pydata.h \
- stipulation/help_play/play.h pystip.h pyint.h DHT/dhtvalue.h DHT/fxf.h \
- DHT/dht.h pyproof.h pystip.h stipulation/slice_type.h \
+ stipulation/help_play/play.h pystip.h pyint.h DHT/dhtvalue.h DHT/dht.h \
+ pyproof.h pystip.h stipulation/slice_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/solving.h conditions/bgl.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
@@ -947,8 +947,6 @@ pystip.h:
 pyint.h:
 
 DHT/dhtvalue.h:
-
-DHT/fxf.h:
 
 DHT/dht.h:
 

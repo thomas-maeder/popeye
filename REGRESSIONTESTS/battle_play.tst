@@ -1820,10 +1820,10 @@ solution finished.
               2...Ke8-f7
                   3.Rh8-f8 #
 
-              empile:       20443
-            jouecoup:       17483
-        orig_rbechec:        8705
-        orig_rnechec:       10186
+              empile:       19965
+            jouecoup:       16944
+        orig_rbechec:        8689
+        orig_rnechec:        9647
 solution finished. 
 
 

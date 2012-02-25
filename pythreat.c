@@ -63,31 +63,6 @@ stip_length_type get_max_threat_length(void)
 /* **************** Private helpers ***************
  */
 
-/* Determine whether the threat after the attacker's move just played
- * is too long respective to user input.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return true iff threat is too long
- */
-static boolean is_threat_too_long(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_max)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = n_max<defend(slices[si].u.fork.fork,n_max);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* **************** Initialisation ***************
  */
 
@@ -148,7 +123,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
     {
       if (echecc(nbply,slices[si].starter))
         result = defend(next,n);
-      else if (is_threat_too_long(si,n,n_max))
+      else if (n_max<defend(slices[si].u.fork.fork,n_max))
         result = n+2;
       else
         result = defend(next,n);
