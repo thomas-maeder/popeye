@@ -353,7 +353,7 @@ static void insert_postkey_writers(slice_index si, stip_structure_traversal *st)
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);

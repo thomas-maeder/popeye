@@ -160,15 +160,8 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototypes[] =
-    {
-      alloc_maxsolutions_guard_slice()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_maxsolutions_guard_slice();
+    attack_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

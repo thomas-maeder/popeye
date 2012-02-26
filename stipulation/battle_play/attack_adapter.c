@@ -165,7 +165,7 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
       /* set play of some pser stipulation */
       slice_index const proto = alloc_defense_adapter_slice(slack_length,
                                                             slack_length);
-      battle_branch_insert_slices(adapter,&proto,1);
+      attack_branch_insert_slices(adapter,&proto,1);
 
       {
         slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,

@@ -44,7 +44,10 @@ static void insert_move_iterator_move(slice_index si,
     slice_index const prototype = (*testing
                                    ? alloc_find_move_slice()
                                    : alloc_for_each_move_slice());
-    battle_branch_insert_slices(si,&prototype,1);
+    if (st->context==stip_traversal_context_attack)
+      attack_branch_insert_slices(si,&prototype,1);
+    else
+      defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

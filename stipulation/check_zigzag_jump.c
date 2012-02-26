@@ -113,7 +113,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
 
     assert(ready!=no_slice);
     assert(deadend!=no_slice);
-    battle_branch_insert_slices(ready,&landing_proto,1);
+    defense_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy1,slices[deadend].u.pipe.next);
     pipe_link(proxy2,dummy);
     pipe_link(deadend,jump);

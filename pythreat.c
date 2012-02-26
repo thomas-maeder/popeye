@@ -169,7 +169,7 @@ static void insert_maxthreatlength_guard(slice_index si,
     slice_index const prototype = alloc_maxthreatlength_guard(dummy);
     assert(threat_start!=no_slice);
     link_to_branch(dummy,threat_start);
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
 
     state->inserted = true;
   }
@@ -191,7 +191,7 @@ static void insert_max_threat_length_start(slice_index si,
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_pipe(STMaxThreatLengthStart);
-    battle_branch_insert_slices(si,&prototype,1);
+    attack_branch_insert_slices(si,&prototype,1);
   }
   else
     stip_traverse_structure_children(si,st);

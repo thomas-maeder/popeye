@@ -176,7 +176,7 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_restart_guard();
-    battle_branch_insert_slices(si,&prototype,1);
+    attack_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

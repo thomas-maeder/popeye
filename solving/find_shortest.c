@@ -124,7 +124,7 @@ static void battle_insert_find_shortest(slice_index si)
     slice_index const proto = alloc_find_shortest_slice(length,min_length);
     assert(defense!=no_slice);
     assert(attack!=no_slice);
-    battle_branch_insert_slices(attack,&proto,1);
+    attack_branch_insert_slices(attack,&proto,1);
   }
 
   TraceFunctionExit(__func__);

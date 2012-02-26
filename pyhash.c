@@ -1790,7 +1790,7 @@ static void insert_hash_element_attack(slice_index si,
   if (*previous_move_slice!=no_slice && length>slack_length)
   {
     slice_index const prototype = alloc_branch(STAttackHashed,length,min_length);
-    battle_branch_insert_slices(si,&prototype,1);
+    attack_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);

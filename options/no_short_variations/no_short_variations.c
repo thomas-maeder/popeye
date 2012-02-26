@@ -17,7 +17,7 @@ static void append_no_short_variations(slice_index si,
 
   {
     slice_index const prototype = alloc_no_short_variations_slice();
-    battle_branch_insert_slices(si,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

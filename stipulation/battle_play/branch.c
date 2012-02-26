@@ -1028,7 +1028,10 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
 
   {
     slice_index const prototype = alloc_pipe(STEndOfIntro);
-    battle_branch_insert_slices(adapter,&prototype,1);
+    if (slices[adapter].type==STAttackAdapter)
+      attack_branch_insert_slices(adapter,&prototype,1);
+    else
+      defense_branch_insert_slices(adapter,&prototype,1);
   }
 
   if (branch_find_slice(STEndOfIntro,adapter)!=no_slice)
@@ -1111,7 +1114,7 @@ void battle_branch_insert_attack_constraint(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    attack_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1138,7 +1141,7 @@ void battle_branch_insert_defense_constraint(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    defense_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1164,7 +1167,7 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_end_of_branch_goal(goal);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    attack_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1189,7 +1192,7 @@ void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_end_of_branch_slice(next);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    attack_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1214,7 +1217,7 @@ void battle_branch_insert_self_end_of_branch(slice_index si, slice_index goal)
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
     slice_index const prototype = alloc_end_of_branch_slice(goal);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    defense_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1241,7 +1244,7 @@ void battle_branch_insert_self_end_of_branch_goal(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
     slice_index const prototype = alloc_end_of_branch_goal(goal);
     assert(ready!=no_slice);
-    battle_branch_insert_slices(ready,&prototype,1);
+    defense_branch_insert_slices(ready,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
