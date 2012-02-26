@@ -37,17 +37,17 @@ slice_index alloc_countermate_filter_slice(void)
 stip_length_type countermate_filter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<slack_length+2
-      && slice_solve(slices[si].u.fork.fork)==has_solution)
+  assert(max_unsolvable<=slack_length);
+
+  if (slice_solve(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = attack(next,n);
+  result = attack(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);
@@ -70,17 +70,17 @@ stip_length_type countermate_filter_attack(slice_index si, stip_length_type n)
 stip_length_type countermate_filter_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<slack_length+3
-      && slice_solve(slices[si].u.fork.fork)==has_solution)
+  assert(max_unsolvable<=slack_length+1);
+
+  if (slice_solve(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = defend(next,n);
+  result = defend(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);

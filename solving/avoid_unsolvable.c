@@ -7,9 +7,6 @@
 
 #include <assert.h>
 
-/* **************** Initialisation ***************
- */
-
 /* Allocate a STEndOfBranch slice.
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
@@ -32,9 +29,7 @@ slice_index alloc_avoid_unsolvable_slice(slice_index proxy_op1,
   return result;
 }
 
-
-static void avoid_unusable_inserter_end_of_branch(slice_index si,
-                                                  stip_structure_traversal *st)
+static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -59,9 +54,12 @@ static void avoid_unusable_inserter_end_of_branch(slice_index si,
 
 static structure_traversers_visitors const avoid_unusable_inserters[] =
 {
-  { STEndOfBranch,       &avoid_unusable_inserter_end_of_branch },
-  { STEndOfBranchGoal,   &avoid_unusable_inserter_end_of_branch },
-  { STEndOfBranchForced, &avoid_unusable_inserter_end_of_branch }
+  { STEndOfBranch,           &insert_avoid_unusable },
+  { STEndOfBranchGoal,       &insert_avoid_unusable },
+  { STEndOfBranchForced,     &insert_avoid_unusable },
+  { STCounterMateFilter,     &insert_avoid_unusable },
+  { STDoubleMateFilter,      &insert_avoid_unusable },
+  { STPrerequisiteOptimiser, &insert_avoid_unusable }
 };
 
 enum
