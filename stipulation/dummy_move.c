@@ -52,6 +52,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   nextply(nbply);
 
   max_unsolvable = slack_length;
+  TraceValue("->%u\n",max_unsolvable);
 
   {
     stip_length_type const length_sol = attack(next,n-1)+1;
@@ -65,6 +66,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
     result = max_len_continuation;
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   finply();
 

@@ -182,16 +182,16 @@ stip_length_type dead_end_attack(slice_index si, stip_length_type n)
   assert(n>=slack_length);
 
   TraceValue("%u\n",max_unsolvable);
-  if (max_unsolvable<=slack_length)
-    max_unsolvable = slack_length+1;
-
-  if (n+1<=max_unsolvable)
+  if (n<=max_unsolvable)
     result = n+2;
   else
   {
     result = attack(slices[si].u.pipe.next,n);
     if (result>n)
-      max_unsolvable = n+1;
+    {
+      max_unsolvable = n;
+      TraceValue("->%u\n",max_unsolvable);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -222,15 +222,16 @@ stip_length_type dead_end_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (max_unsolvable<slack_length+2)
-    max_unsolvable = slack_length+2;
+  assert(n>=slack_length);
 
-  if (n+2<=max_unsolvable)
+  TraceValue("%u\n",max_unsolvable);
+  if (n<max_unsolvable || n==slack_length)
     result = n+2;
   else
     result = defend(next,n);
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

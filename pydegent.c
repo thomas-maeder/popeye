@@ -86,7 +86,10 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
     if (result<=n_current)
       break;
     else
-      max_unsolvable = n_current+1;
+    {
+      max_unsolvable = n_current;
+      TraceValue("->%u\n",max_unsolvable);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -123,7 +126,8 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
       result = delegate_has_solution_in_n(si,n_interm,n_min);
       if (result>n_interm)
       {
-        max_unsolvable = n_interm+1;
+        max_unsolvable = n_interm;
+        TraceValue("->%u\n",max_unsolvable);
         result = delegate_has_solution_in_n(si,n,n);
       }
     }
@@ -134,6 +138,7 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
     result = delegate_has_solution_in_n(si,n,n_min);
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

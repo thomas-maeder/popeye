@@ -100,6 +100,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
       len_test_threats = attack(threat_start,len_threat);
       threat_activities[threats_ply] = threat_idle;
       max_unsolvable = save_max_unsolvable;
+      TraceValue("->%u\n",max_unsolvable);
     }
 
     if (len_test_threats>len_threat)

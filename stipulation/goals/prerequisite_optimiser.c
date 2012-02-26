@@ -46,11 +46,17 @@ goal_prerequisite_optimiser_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(max_unsolvable<=slack_length);
-  
+
   if (goal_preprequisites_met[nbply]==0)
-    max_unsolvable = slack_length+2;
+  {
+    max_unsolvable = slack_length+1;
+    TraceValue("->%u\n",max_unsolvable);
+  }
+
   result = attack(next,n);
+
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -81,12 +87,18 @@ goal_prerequisite_optimiser_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(max_unsolvable<=slack_length+1);
+  assert(max_unsolvable<=slack_length);
 
   if (goal_preprequisites_met[nbply]==0)
-    max_unsolvable = slack_length+3;
+  {
+    max_unsolvable = slack_length+2;
+    TraceValue("->%u\n",max_unsolvable);
+  }
+
   result = defend(next,n);
+
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -202,6 +202,7 @@ has_solution_type attack_adapter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length;
+  TraceValue("->%u\n",max_unsolvable);
 
   nr_moves_needed = attack(next,length);
   if (nr_moves_needed<slack_length)
@@ -212,6 +213,7 @@ has_solution_type attack_adapter_solve(slice_index si)
     result = has_no_solution;
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

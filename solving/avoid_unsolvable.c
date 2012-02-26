@@ -141,7 +141,7 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  if (max_unsolvable<=slack_length+1)
+  if (max_unsolvable<=slack_length)
     result = defend(slices[si].u.binary.op1,n);
   else
     result = defend(slices[si].u.binary.op2,n);

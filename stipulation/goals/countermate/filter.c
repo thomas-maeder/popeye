@@ -76,7 +76,7 @@ stip_length_type countermate_filter_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(max_unsolvable<=slack_length+1);
+  assert(max_unsolvable<=slack_length);
 
   if (slice_solve(slices[si].u.fork.fork)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);

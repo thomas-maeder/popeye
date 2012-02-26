@@ -2085,14 +2085,18 @@ stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
         result = n_success;
       else
       {
-        if (max_unsolvable<=n_nosuccess)
-          max_unsolvable = n_nosuccess+1;
+        if (max_unsolvable<n_nosuccess)
+        {
+          max_unsolvable = n_nosuccess;
+          TraceValue("->%u\n",max_unsolvable);
+        }
         result = delegate_can_attack_in_n(si,n,min_length_adjusted);
       }
     }
   }
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -49,11 +49,15 @@ min_length_optimiser_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (max_unsolvable+length-min_length<n)
+  {
     max_unsolvable = n-(length-min_length);
+    TraceValue("->%u\n",max_unsolvable);
+  }
 
   result = attack(next,n);
 
   max_unsolvable = save_max_unsolvable;
+  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
