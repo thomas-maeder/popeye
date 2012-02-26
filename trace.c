@@ -604,8 +604,11 @@ static void insert_move_tracer(slice_index si, stip_structure_traversal *st)
     switch (st->context)
     {
       case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
       case stip_traversal_context_defense:
-        battle_branch_insert_slices(si,&prototype,1);
+        defense_branch_insert_slices(si,&prototype,1);
         break;
 
       case stip_traversal_context_help:
