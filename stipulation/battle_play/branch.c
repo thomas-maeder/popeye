@@ -434,34 +434,6 @@ void battle_branch_insert_slices_nested(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert slices into a battle branch.
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by battle_branch_insert_slices().
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void battle_branch_insert_slices(slice_index si,
-                                 slice_index const prototypes[],
-                                 unsigned int nr_prototypes)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",nr_prototypes);
-  TraceFunctionParamListEnd();
-
-  battle_branch_insert_slices_nested(si,prototypes,nr_prototypes);
-
-  for (i = 0; i!=nr_prototypes; ++i)
-    dealloc_slice(prototypes[i]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Insert slices into a battle branch, starting between defense and attack move
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by battle_branch_insert_slices().

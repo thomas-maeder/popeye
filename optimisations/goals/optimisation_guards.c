@@ -123,12 +123,16 @@ boolean is_goal_reaching_move_optimisable(goal_type goal)
 /* Insert a goal optimisation filter slice into a battle branch
  * @param si identifies entry slice into battle branch
  * @param goal goal to provide optimisation for
+ * @param context are we instrumenting for a defense or an attack?
  */
-void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal)
+void insert_goal_optimisation_battle_filter(slice_index si,
+                                            goal_type goal,
+                                            stip_traversal_context_type context)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   switch (goal)
@@ -136,14 +140,20 @@ void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal)
     case goal_ep:
     {
       slice_index const prototype = alloc_enpassant_filter_slice();
-      battle_branch_insert_slices(si,&prototype,1);
+      if (context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
       break;
     }
 
     case goal_castling:
     {
       slice_index const prototype = alloc_castling_filter_slice();
-      battle_branch_insert_slices(si,&prototype,1);
+      if (context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
       break;
     }
 

@@ -27,9 +27,11 @@ boolean is_goal_reaching_move_optimisable(goal_type goal);
 
 /* Insert a goal optimisation filter slice into a battle branch
  * @param si identifies entry slice into battle branch
- * @param goal goal to provide optimisation for
+ * @param context are we instrumenting for a defense or an attack?
  */
-void insert_goal_optimisation_battle_filter(slice_index si, goal_type goal);
+void insert_goal_optimisation_battle_filter(slice_index si,
+                                            goal_type goal,
+                                            stip_traversal_context_type context);
 
 /* Insert a goal optimisation filter slice into a help branch
  * @param si identifies entry slice into battle branch

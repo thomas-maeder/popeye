@@ -19,13 +19,15 @@
 unsigned int goal_preprequisites_met[maxply];
 
 boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
-                                                     goal_type goal)
+                                                     goal_type goal,
+                                                     stip_traversal_context_type context)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   switch (goal)
@@ -33,7 +35,10 @@ boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
     case goal_doublemate:
     {
       slice_index const prototype = alloc_doublemate_filter_slice();
-      battle_branch_insert_slices(si,&prototype,1);
+      if (context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
       result = true;
       break;
     }
@@ -41,7 +46,10 @@ boolean insert_goal_prerequisite_guard_battle_filter(slice_index si,
     case goal_countermate:
     {
       slice_index const prototype = alloc_countermate_filter_slice();
-      battle_branch_insert_slices(si,&prototype,1);
+      if (context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
       result = true;
       break;
     }
@@ -130,10 +138,12 @@ boolean insert_goal_prerequisite_guard_series(slice_index si, goal_type goal)
  * @param state address of structure representing insertion state
  */
 static void insert_goal_prerequisite_guards_battle(slice_index si,
-                                                   prerequisite_guards_insertion_state const * state)
+                                                   prerequisite_guards_insertion_state const * state,
+                                                   stip_traversal_context_type context)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   {
@@ -144,7 +154,7 @@ static void insert_goal_prerequisite_guards_battle(slice_index si,
     for (goal = 0; goal!=nr_goals; ++goal)
       if (state->imminent_goals[goal])
       {
-        if (insert_goal_prerequisite_guard_battle_filter(si,goal)
+        if (insert_goal_prerequisite_guard_battle_filter(si,goal,context)
             || is_goal_reaching_move_optimisable(goal))
           ++nr_optimisable;
         else
@@ -154,11 +164,14 @@ static void insert_goal_prerequisite_guards_battle(slice_index si,
     if (nr_optimisable>0 && nr_unoptimisable==0)
     {
       slice_index const prototype = alloc_goal_prerequisite_optimiser_slice();
-      battle_branch_insert_slices(si,&prototype,1);
+      if (context==stip_traversal_context_attack)
+        attack_branch_insert_slices(si,&prototype,1);
+      else
+        defense_branch_insert_slices(si,&prototype,1);
 
       for (goal = 0; goal!=nr_goals; ++goal)
         if (state->imminent_goals[goal])
-          insert_goal_optimisation_battle_filter(si,goal);
+          insert_goal_optimisation_battle_filter(si,goal,context);
     }
   }
 
@@ -246,7 +259,7 @@ static void insert_goal_prerequisite_guards(slice_index si,
     {
       case stip_traversal_context_attack:
       case stip_traversal_context_defense:
-        insert_goal_prerequisite_guards_battle(si,state);
+        insert_goal_prerequisite_guards_battle(si,state,st->context);
         break;
 
       case stip_traversal_context_help:
