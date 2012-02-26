@@ -392,7 +392,9 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_key_writer();
-    defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,
+                                              &prototype,1,
+                                              si);
   }
 
   stip_traverse_structure_children(si,st);

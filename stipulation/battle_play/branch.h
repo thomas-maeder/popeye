@@ -61,6 +61,15 @@ void defense_branch_insert_slices(slice_index si,
                                   slice_index const prototypes[],
                                   unsigned int nr_prototypes);
 
+/* Like defense_branch_insert_slices, but starting at a proxy slice
+ * @param base used instead of proxy for determining the current position in the
+ *             sequence of defense branches
+ */
+void defense_branch_insert_slices_behind_proxy(slice_index proxy,
+                                               slice_index const prototypes[],
+                                               unsigned int nr_prototypes,
+                                               slice_index base);
+
 /* Insert slices into a battle branch; the elements of
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).

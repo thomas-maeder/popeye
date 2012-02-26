@@ -541,6 +541,42 @@ void defense_branch_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Like defense_branch_insert_slices, but starting at a proxy slice
+ * @param base used instead of proxy for determining the current position in the
+ *             sequence of defense branches
+ */
+void defense_branch_insert_slices_behind_proxy(slice_index proxy,
+                                               slice_index const prototypes[],
+                                               unsigned int nr_prototypes,
+                                               slice_index base)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const played_rank = get_slice_rank(STMovePlayed,0);
+    unsigned int const rank = get_slice_rank(slices[base].type,played_rank+1);
+    insertion_state_type state =
+    {
+      prototypes, nr_prototypes,
+      rank+1,
+      proxy
+    };
+    start_insertion_traversal(slices[proxy].u.pipe.next,&state);
+  }
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a branch consisting mainly of an defense move
  * @param next identifies the slice that the defense branch lead sto
  * @param length maximum number of half-moves of slice (+ slack)
