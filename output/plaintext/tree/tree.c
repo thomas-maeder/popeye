@@ -215,7 +215,7 @@ static void insert_refutation_intro_writer(slice_index si,
 
   {
     slice_index const prototype = alloc_refutations_intro_writer_slice();
-    defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
   }
 
   stip_traverse_structure_children(si,st);

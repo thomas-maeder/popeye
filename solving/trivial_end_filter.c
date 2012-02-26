@@ -86,7 +86,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_trivial_end_filter_slice();
-    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    attack_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
   }
 
   TraceFunctionExit(__func__);
