@@ -125,8 +125,12 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length;
+  if (n_next<=max_unsolvable)
+    /* we may get here in solving mode when we know that there is now short
+     * solution */
+    max_unsolvable = n_next-1;
   TraceValue("->%u\n",max_unsolvable);
+
   non_trivial_count[nbply+1] = 0;
   are_we_counting_nontrival[nbply+1] = true;
 
@@ -134,6 +138,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
 
   are_we_counting_nontrival[nbply+1] = false;
   result = non_trivial_count[nbply+1];
+
   max_unsolvable = save_max_unsolvable;
   TraceValue("->%u\n",max_unsolvable);
 
