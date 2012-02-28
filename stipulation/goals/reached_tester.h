@@ -3,6 +3,7 @@
 
 #include "pyslice.h"
 #include "stipulation/goals/goals.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* Allocate a STGoalReachedTester slice
