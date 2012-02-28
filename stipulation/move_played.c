@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
+#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>

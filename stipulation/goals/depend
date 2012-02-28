@@ -62,7 +62,8 @@ trace.h:
 stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.c \
  stipulation/goals/prerequisite_optimiser.h pypipe.h pydata.h \
- stipulation/branch.h stipulation/goals/prerequisite_guards.h trace.h
+ stipulation/branch.h stipulation/goals/prerequisite_guards.h \
+ solving/avoid_unsolvable.h trace.h
 
 stipulation/goals/prerequisite_optimiser.h:
 
@@ -73,5 +74,7 @@ pydata.h:
 stipulation/branch.h:
 
 stipulation/goals/prerequisite_guards.h:
+
+solving/avoid_unsolvable.h:
 
 trace.h:

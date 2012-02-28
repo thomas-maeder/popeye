@@ -1,6 +1,6 @@
 #include "stipulation/dummy_move.h"
 #include "pypipe.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>

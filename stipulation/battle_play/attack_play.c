@@ -52,10 +52,6 @@
 
 #include <assert.h>
 
-/* maximum number of half-moves that we know have no solution
- */
-stip_length_type max_unsolvable;
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

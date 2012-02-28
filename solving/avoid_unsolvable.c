@@ -7,6 +7,10 @@
 
 #include <assert.h>
 
+/* maximum number of half-moves that we know have no solution
+ */
+stip_length_type max_unsolvable;
+
 /* Allocate a STEndOfBranch slice.
  * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice

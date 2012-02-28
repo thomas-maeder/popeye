@@ -104,6 +104,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/solving.h"
+#include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"

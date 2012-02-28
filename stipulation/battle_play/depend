@@ -42,7 +42,8 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_adapter.h pypipe.h trace.h
+ stipulation/battle_play/defense_adapter.h solving/avoid_unsolvable.h \
+ pypipe.h trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -51,6 +52,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_adapter.h:
+
+solving/avoid_unsolvable.h:
 
 pypipe.h:
 
@@ -190,7 +193,7 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
  stipulation/battle_play/defense_adapter.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- trace.h
+ solving/avoid_unsolvable.h trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -201,6 +204,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+solving/avoid_unsolvable.h:
 
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \

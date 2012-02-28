@@ -7,6 +7,10 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
+/* maximum number of half-moves that we know have no solution
+ */
+extern stip_length_type max_unsolvable;
+
 /* Instrument STEndOfBranch* slices with the necessary STAvoidUnusable slices
  * @param root_slice identifes root slice of stipulation
  */

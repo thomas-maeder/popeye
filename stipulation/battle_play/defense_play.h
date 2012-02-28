@@ -8,10 +8,6 @@
 #include "pyslice.h"
 #include "pydata.h"
 
-/* maximum number of half-moves that we know have no solution
- */
-extern stip_length_type max_unsolvable;
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

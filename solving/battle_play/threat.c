@@ -7,10 +7,9 @@
 #include "stipulation/proxy.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
+#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
