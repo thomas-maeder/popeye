@@ -39,7 +39,6 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type max_len_continuation = slack_length-1;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -64,9 +63,6 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
     result = n+2;
   else
     result = max_len_continuation;
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
 
   finply();
 

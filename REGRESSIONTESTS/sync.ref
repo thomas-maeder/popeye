@@ -37,10 +37,10 @@ a)
                                   5.Qb8-b3 =
 
 
-              empile:       40661
-            jouecoup:       26670
-        orig_rbechec:        7197
-        orig_rnechec:       24433
+              empile:       40656
+            jouecoup:       26664
+        orig_rbechec:        7194
+        orig_rnechec:       24424
 b) Circe
    BlackSynchronMover  =4
 
@@ -53,10 +53,10 @@ b) Circe
                           4.Sb8*a6 [+bPa7] =
 
 
-              empile:       10762
-            jouecoup:        7395
-        orig_rbechec:        2084
-        orig_rnechec:        6774
+              empile:       10757
+            jouecoup:        7389
+        orig_rbechec:        2081
+        orig_rnechec:        6765
 c) GlasgowChess
    BlackSynchronMover  =3
 
@@ -67,10 +67,10 @@ c) GlasgowChess
                   3.b6*a7=Q =
 
 
-              empile:        3868
-            jouecoup:        3819
-        orig_rbechec:         962
-        orig_rnechec:        3645
+              empile:        3847
+            jouecoup:        3796
+        orig_rbechec:         952
+        orig_rnechec:        3612
 d) AntiAndernachChess
    BlackSynchronMover  =2
 
@@ -79,10 +79,10 @@ d) AntiAndernachChess
           2.Kc7-c8 =
 
 
-              empile:         212
-            jouecoup:         202
-        orig_rbechec:          59
-        orig_rnechec:         192
+              empile:         204
+            jouecoup:         193
+        orig_rbechec:          56
+        orig_rnechec:         180
 solution finished. 
 
 
@@ -137,10 +137,10 @@ a)
                                       5...a5-a4 +
 
 
-              empile:       44179
-            jouecoup:       32254
-        orig_rbechec:       19217
-        orig_rnechec:       14212
+              empile:       44170
+            jouecoup:       32247
+        orig_rbechec:       19215
+        orig_rnechec:       14207
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -158,10 +158,10 @@ b) BlackSynchronMover
                                               6...a2-a1=S +
 
 
-              empile:        1393
-            jouecoup:         786
-        orig_rbechec:         401
-        orig_rnechec:         404
+              empile:        1381
+            jouecoup:         775
+        orig_rbechec:         397
+        orig_rnechec:         396
 solution finished. 
 
 

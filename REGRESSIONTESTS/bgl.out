@@ -94,7 +94,7 @@ Loesung beendet.
               empile:        2292
             jouecoup:        1616
         orig_rbechec:          82
-        orig_rnechec:        1070
+        orig_rnechec:        1068
 Loesung beendet. 
 
 
@@ -252,10 +252,10 @@ Loesung beendet.
           2.nSh6-f7 (-/2.21) #
 
 
-              empile:        4144
-            jouecoup:        2973
-        orig_rbechec:         226
-        orig_rnechec:        2733
+              empile:        4132
+            jouecoup:        2966
+        orig_rbechec:         224
+        orig_rnechec:        2700
 Loesung beendet. 
 
 
@@ -499,10 +499,10 @@ Loesung beendet.
           2.De8-c6 (3.17/1.76) #
 
 
-              empile:        7922
-            jouecoup:        4773
-        orig_rbechec:         453
-        orig_rnechec:        4018
+              empile:        7890
+            jouecoup:        4749
+        orig_rbechec:         449
+        orig_rnechec:        3959
 Loesung beendet. 
 
 
@@ -542,7 +542,7 @@ a)
               empile:         613
             jouecoup:         514
         orig_rbechec:          46
-        orig_rnechec:         345
+        orig_rnechec:         340
 b) BGL 8
 
    1.Kd7-c7 (7) ! Drohung:

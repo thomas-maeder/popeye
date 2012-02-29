@@ -326,7 +326,7 @@ solution finished.
               empile:          67
             jouecoup:          53
         orig_rbechec:          17
-        orig_rnechec:          55
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -362,10 +362,10 @@ solution finished.
           2.Rc5-c8 #
 
 
-              empile:         268
-            jouecoup:         131
-        orig_rbechec:          46
-        orig_rnechec:         132
+              empile:         258
+            jouecoup:         129
+        orig_rbechec:          44
+        orig_rnechec:         117
 solution finished. 
 
 
@@ -402,7 +402,7 @@ the side to play can capture the king
               empile:         108
             jouecoup:          48
         orig_rbechec:          25
-        orig_rnechec:          50
+        orig_rnechec:          37
 solution finished. 
 
 

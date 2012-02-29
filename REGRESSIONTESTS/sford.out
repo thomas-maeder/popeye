@@ -546,10 +546,10 @@ eigentlich semi-r#2
               2...Td8*d3 #
 
 
-              empile:      115837
-            jouecoup:      109083
-        orig_rbechec:       32648
-        orig_rnechec:        4566
+              empile:      115190
+            jouecoup:      108436
+        orig_rbechec:       32486
+        orig_rnechec:        4526
 Loesung beendet. 
 
 
@@ -602,9 +602,9 @@ und Einschraenkung kein wAngriff zum Matt
               2...Lf5*b1[sLb1->c8] #
 
 
-              empile:        8974
-            jouecoup:        7379
-        orig_rbechec:        6642
+              empile:        8874
+            jouecoup:        7303
+        orig_rbechec:        6566
         orig_rnechec:        1028
 Loesung beendet. 
 
@@ -1224,7 +1224,7 @@ c) weiss 5:5a[#]d
               empile:        3973
             jouecoup:        1900
         orig_rbechec:         814
-        orig_rnechec:        1333
+        orig_rnechec:        1341
 d) weiss 7:7a[#]d 
 
    1.d7-d8=S ! Drohung:
@@ -1249,10 +1249,10 @@ d) weiss 7:7a[#]d
                           4.Sd2-e4 #
 
 
-              empile:       44060
-            jouecoup:       26527
-        orig_rbechec:       17727
-        orig_rnechec:       10422
+              empile:       44066
+            jouecoup:       26533
+        orig_rbechec:       17728
+        orig_rnechec:       10438
 Loesung beendet. 
 
 
@@ -1532,10 +1532,10 @@ Loesung beendet.
           2.Lf1*e2 #=
 
 
-              empile:        9474
-            jouecoup:        3936
-        orig_rbechec:        2720
-        orig_rnechec:        2148
+              empile:        9471
+            jouecoup:        3933
+        orig_rbechec:        2719
+        orig_rnechec:        2145
 Loesung beendet. 
 
 
