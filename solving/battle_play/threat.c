@@ -458,18 +458,20 @@ static void insert_threat_enforcer(slice_index si, stip_structure_traversal *st)
 static void connect_solver_to_threat_start(slice_index si,
                                            stip_structure_traversal *st)
 {
+  slice_index const * const threat_start = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  assert(*threat_start!=no_slice);
+
   {
-    slice_index const start = branch_find_slice(STThreatStart,si);
     slice_index const dummy = alloc_dummy_move_slice();
-    assert(start!=no_slice);
     slices[si].u.fork.fork = dummy;
-    link_to_branch(dummy,start);
+    link_to_branch(dummy,*threat_start);
   }
 
   TraceFunctionExit(__func__);
@@ -479,17 +481,49 @@ static void connect_solver_to_threat_start(slice_index si,
 static void connect_enforcer_to_threat_start(slice_index si,
                                              stip_structure_traversal *st)
 {
+  slice_index const * const threat_start = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const start = branch_find_slice(STThreatStart,si);
-    assert(start!=no_slice);
-    slices[si].u.fork.fork = start;
-  }
+  assert(*threat_start!=no_slice);
+  slices[si].u.fork.fork = *threat_start;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_threat_start(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const threat_start = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *threat_start = si;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_threat_start(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const threat_start = st->param;
+  slice_index const save_threat_start = *threat_start;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  *threat_start = save_threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -515,7 +549,10 @@ static structure_traversers_visitors const threat_solver_inserters[] =
   { STReadyForDefense,    &insert_threat_solver             },
   { STThreatSolver,       &connect_solver_to_threat_start   },
   { STNotEndOfBranchGoal, &insert_threat_enforcer           },
-  { STThreatEnforcer,     &connect_enforcer_to_threat_start }
+  { STThreatEnforcer,     &connect_enforcer_to_threat_start },
+  { STThreatStart,        &remember_threat_start            },
+  { STAttackAdapter,      &forget_threat_start              },
+  { STDefenseAdapter,     &forget_threat_start              }
 };
 
 enum
@@ -531,12 +568,13 @@ enum
 void stip_insert_threat_solvers(slice_index si)
 {
   stip_structure_traversal st;
+  slice_index threat_start = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&threat_start);
   stip_structure_traversal_override(&st,
                                     threat_solver_inserters,
                                     nr_threat_solver_inserters);
