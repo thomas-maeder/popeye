@@ -904,92 +904,99 @@ Goal find_unique_goal(slice_index si)
   return result.unique_goal;
 }
 
-/* Auxiliary data structor for deep_copy: remembers slice copies
- * already made
+/* Auxiliary data structure for deep_copy: remembers slice copies already made
  */
-typedef slice_index copies_type[max_nr_slices];
+typedef slice_index stip_deep_copies_type[max_nr_slices];
 
-/* Recursive implementation of in-place deep copying a stipulation
- * sub-tree
- * @param si root of sub-tree
- * @param copies address of array remembering what copies have already
- *               been made
- */
-static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
+static void copy_and_remember(slice_index si, stip_deep_copies_type *copies)
 {
-  slice_index result = (*copies)[si];
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = copy_slice(si);
+  slices[(*copies)[si]].starter = no_side;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void deep_copy_leaf(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (result==no_slice)
-  {
-    result = copy_slice(si);
-    slices[result].starter = no_side;
-    (*copies)[si] = result;
-
-    TraceEnumerator(slice_type,slices[si].type,"\n");
-    switch (highest_structural_type[slices[si].type])
-    {
-      case slice_structure_leaf:
-        /* nothing */
-        break;
-
-      case slice_structure_pipe:
-      case slice_structure_branch:
-      {
-        slice_index const next = slices[si].u.pipe.next;
-        if (next!=no_slice)
-        {
-          slice_index const next_copy = deep_copy_recursive(next,copies);
-          if (slices[next].prev==si)
-            pipe_link(result,next_copy);
-          else
-            pipe_set_successor(result,next_copy);
-        }
-        break;
-      }
-
-      case slice_structure_fork:
-      {
-        slice_index const fork = slices[si].u.fork.fork;
-        slice_index const next = slices[si].u.fork.next;
-        if (fork!=no_slice)
-        {
-          slice_index const fork_copy = deep_copy_recursive(fork,copies);
-          slices[result].u.fork.fork = fork_copy;
-        }
-        if (next!=no_slice)
-        {
-          slice_index const next_copy = deep_copy_recursive(next,copies);
-          if (slices[next].prev==si)
-            pipe_link(result,next_copy);
-          else
-            pipe_set_successor(result,next_copy);
-        }
-        break;
-      }
-
-      case slice_structure_binary:
-      {
-        slice_index const op1 = slices[si].u.binary.op1;
-        slice_index const op2 = slices[si].u.binary.op2;
-        slices[result].u.binary.op1 = deep_copy_recursive(op1,copies);
-        slices[result].u.binary.op2 = deep_copy_recursive(op2,copies);
-        break;
-      }
-
-      default:
-        assert(0);
-        break;
-    }
-  }
+  copy_and_remember(si,copies);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+static void deep_copy_pipe(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  copy_and_remember(si,copies);
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].u.pipe.next!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void deep_copy_fork(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  copy_and_remember(si,copies);
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].u.fork.fork!=no_slice)
+    slices[(*copies)[si]].u.fork.fork = (*copies)[slices[si].u.fork.fork];
+
+  if (slices[si].u.fork.next!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].u.fork.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  copy_and_remember(si,copies);
+
+  stip_traverse_structure_children(si,st);
+
+  if (slices[si].u.binary.op1!=no_slice)
+    slices[(*copies)[si]].u.binary.op1 = (*copies)[slices[si].u.binary.op1];
+
+  if (slices[si].u.binary.op2!=no_slice)
+    slices[(*copies)[si]].u.binary.op2 = (*copies)[slices[si].u.binary.op2];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* in-place deep copying a stipulation sub-tree
@@ -998,9 +1005,9 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
  */
 slice_index stip_deep_copy(slice_index si)
 {
-  copies_type copies;
+  stip_deep_copies_type copies;
   slice_index i;
-  slice_index result;
+  stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1009,12 +1016,28 @@ slice_index stip_deep_copy(slice_index si)
   for (i = 0; i!=max_nr_slices; ++i)
     copies[i] = no_slice;
 
-  result = deep_copy_recursive(si,&copies);
+  stip_structure_traversal_init(&st,&copies);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_leaf,
+                                                 &deep_copy_leaf);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_pipe,
+                                                 &deep_copy_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &deep_copy_pipe);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_fork,
+                                                 &deep_copy_fork);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_binary,
+                                                 &deep_copy_binary);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",copies[si]);
   TraceFunctionResultEnd();
-  return result;
+  return copies[si];
 }
 
 typedef struct
