@@ -34,20 +34,136 @@ threat_activity threat_activities[maxply+1];
  */
 static unsigned int nr_threats_to_be_confirmed;
 
-/* Allocate a STThreatEnforcer slice.
- * @return index of allocated slice
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
  */
-static slice_index alloc_threat_enforcer_slice(void)
+stip_length_type threat_defeated_tester_defend(slice_index si,
+                                               stip_length_type n)
 {
-  slice_index result;
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = alloc_testing_pipe(STThreatEnforcer);
+  result = defend(next,n);
+
+  if (n>=threat_lengths[nbply]-2)
+  {
+    if (is_current_move_in_table(threats[nbply]))
+    {
+      if (slack_length<=result && result<=n)
+      {
+        --nr_threats_to_be_confirmed;
+        if (nr_threats_to_be_confirmed>0)
+          /* threats tried so far still work (perhaps shorter than
+           * before the current defense), but we haven't tried all
+           * threats yet -> don't stop the iteration over the
+           * attacking moves
+           */
+          result = n+2;
+      }
+      else if (n==threat_lengths[nbply]-1)
+        /* we have found a defeated threat -> stop the iteration */
+        result = n;
+    }
+    else
+      /* not a threat -> don't stop the iteration */
+      result = n+2;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = defend(next,n);
+
+  TraceValue("%u\n",nbply);
+  assert(threat_activities[nbply]==threat_solving);
+
+  if (slack_length<=result && result<=n)
+    append_to_top_table();
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.fork.next;
+  ply const threats_ply = nbply+2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",threats_ply);
+  threats[threats_ply] = allocate_table();
+
+  if (!attack_gives_check[nbply])
+  {
+    threat_activities[threats_ply] = threat_solving;
+    threat_lengths[threats_ply] = defend(slices[si].u.fork.fork,n)-1;
+    threat_activities[threats_ply] = threat_idle;
+  }
+
+  result = defend(next,n);
+
+  assert(get_top_table()==threats[threats_ply]);
+  free_table();
+  threat_lengths[threats_ply] = no_threats_found;
+  threats[threats_ply] = table_nil;
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -153,6 +269,11 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* End copying on the visited slice, by moving it to the copy and linking it
+ * to a proxy slice that takes its original place
+ * @param si visited slice
+ * @param st structure representing the copying traversal
+ */
 static void stop_copying(slice_index si, stip_structure_traversal *st)
 {
   stip_deep_copies_type * const copies = st->param;
@@ -170,6 +291,10 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Create a shallow copy of the visited fork slice
+ * @param si visited slice
+ * @param st structure representing the copying traversal
+ */
 static void copy_shallow(slice_index si, stip_structure_traversal *st)
 {
   stip_deep_copies_type * const copies = st->param;
@@ -190,6 +315,10 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Spin off the sequence of slices that enforce threats
+ * @param si threat enforcer slice
+ * @param st structure representing the traversal looking for entry points
+ */
 static void spin_off_from_threat_enforcer(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -199,6 +328,8 @@ static void spin_off_from_threat_enforcer(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
 
   {
     slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
@@ -221,7 +352,51 @@ static void spin_off_from_threat_enforcer(slice_index si,
   TraceFunctionResultEnd();
 }
 
-void stip_spin_off_threat_enforcer_slices(slice_index si)
+/* Spin off the sequence of slices that solve threats
+ * @param si threat solver slice
+ * @param st structure representing the traversal looking for entry points
+ */
+static void spin_off_from_threat_solver(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  stip_deep_copies_type copies;
+  stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STThreatCollector);
+    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+  }
+
+  init_deep_copy(&st_nested,&copies);
+  st_nested.context = st->context;
+  stip_structure_traversal_override_single(&st_nested,
+                                           STThreatCollector,
+                                           &stop_copying);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STConstraintTester,
+                                           &copy_shallow);
+  stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
+
+  {
+    slice_index const dummy = alloc_dummy_move_slice();
+    link_to_branch(dummy,copies[slices[si].u.fork.fork]);
+    slices[si].u.fork.fork = dummy;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Spin off sequences of slices that solve and enforce threats
+ * @param si threat solver slice
+ */
+void stip_spin_off_threat_handler_slices(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -235,179 +410,13 @@ void stip_spin_off_threat_enforcer_slices(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STThreatEnforcer,
                                            &spin_off_from_threat_enforcer);
+  stip_structure_traversal_override_single(&st,
+                                           STThreatSolver,
+                                           &spin_off_from_threat_solver);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Allocate a STThreatCollector slice.
- * @return index of allocated slice
- */
-static slice_index alloc_threat_collector_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STThreatCollector);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = defend(next,n);
-
-  TraceValue("%u\n",nbply);
-  if (threat_activities[nbply]==threat_solving
-      && slack_length<=result && result<=n)
-    append_to_top_table();
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type threat_defeated_tester_defend(slice_index si,
-                                               stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = defend(next,n);
-
-  if (n>=threat_lengths[nbply]-2)
-  {
-    if (is_current_move_in_table(threats[nbply]))
-    {
-      if (slack_length<=result && result<=n)
-      {
-        --nr_threats_to_be_confirmed;
-        if (nr_threats_to_be_confirmed>0)
-          /* threats tried so far still work (perhaps shorter than
-           * before the current defense), but we haven't tried all
-           * threats yet -> don't stop the iteration over the
-           * attacking moves
-           */
-          result = n+2;
-      }
-      else if (n==threat_lengths[nbply]-1)
-        /* we have found a defeated threat -> stop the iteration */
-        result = n;
-    }
-    else
-      /* not a threat -> don't stop the iteration */
-      result = n+2;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STThreatSolver defender slice.
- * @return index of allocated slice
- */
-static slice_index alloc_threat_solver_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_testing_pipe(STThreatSolver);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
-  ply const threats_ply = nbply+2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",threats_ply);
-  threats[threats_ply] = allocate_table();
-
-  if (!attack_gives_check[nbply])
-  {
-    threat_activities[threats_ply] = threat_solving;
-    threat_lengths[threats_ply] = defend(slices[si].u.fork.fork,n)-1;
-    threat_activities[threats_ply] = threat_idle;
-  }
-
-  result = defend(next,n);
-
-  assert(get_top_table()==threats[threats_ply]);
-  free_table();
-  threat_lengths[threats_ply] = no_threats_found;
-  threats[threats_ply] = table_nil;
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_threat_solver(slice_index si, stip_structure_traversal *st)
@@ -418,7 +427,7 @@ static void insert_threat_solver(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.branch.length>slack_length+1)
   {
-    slice_index const prototype = alloc_threat_solver_slice();
+    slice_index const prototype = alloc_testing_pipe(STThreatSolver);
     defense_branch_insert_slices(si,&prototype,1);
 
     stip_traverse_structure_children(si,st);
@@ -438,9 +447,8 @@ static void insert_threat_enforcer(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-      alloc_threat_enforcer_slice(),
-      alloc_pipe(STThreatStart),
-      alloc_threat_collector_slice()
+      alloc_testing_pipe(STThreatEnforcer),
+      alloc_pipe(STThreatStart)
     };
     enum
     {
@@ -467,12 +475,7 @@ static void connect_solver_to_threat_start(slice_index si,
   stip_traverse_structure_children(si,st);
 
   assert(*threat_start!=no_slice);
-
-  {
-    slice_index const dummy = alloc_dummy_move_slice();
-    slices[si].u.fork.fork = dummy;
-    link_to_branch(dummy,*threat_start);
-  }
+  slices[si].u.fork.fork =  *threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

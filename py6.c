@@ -2672,7 +2672,7 @@ static Token iterate_twins(Token prev_token)
 
       stip_spin_off_testers(root_slice);
 
-      stip_spin_off_threat_enforcer_slices(root_slice);
+      stip_spin_off_threat_handler_slices(root_slice);
 
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards(root_slice);
