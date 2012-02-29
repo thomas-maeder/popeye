@@ -96,9 +96,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
        */
       stip_length_type const save_max_unsolvable = max_unsolvable;
       max_unsolvable = slack_length;
-      threat_activities[threats_ply] = threat_enforcing;
       len_test_threats = attack(threat_start,len_threat);
-      threat_activities[threats_ply] = threat_idle;
       max_unsolvable = save_max_unsolvable;
       TraceValue("->%u\n",max_unsolvable);
     }
@@ -150,6 +148,89 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
   }
 
   slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stop_copying(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = copy_slice(si);
+  pipe_substitute(si,alloc_proxy_slice());
+  link_to_branch((*copies)[si],si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void copy_shallow(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = copy_slice(si);
+
+  stip_traverse_structure_pipe(si,st);
+
+  if (slices[si].u.pipe.next!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void spin_off_from_threat_enforcer(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  stip_deep_copies_type copies;
+  stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_deep_copy(&st_nested,&copies);
+  st_nested.context = st->context;
+  stip_structure_traversal_override_single(&st_nested,
+                                           STThreatDefeatedTester,
+                                           &stop_copying);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STConstraintTester,
+                                           &copy_shallow);
+  stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
+
+  slices[si].u.fork.fork = copies[slices[si].u.fork.fork];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stip_spin_off_threat_enforcer_slices(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STThreatEnforcer,
+                                           &spin_off_from_threat_enforcer);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -258,8 +339,7 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
 
   result = defend(next,n);
 
-  if (threat_activities[nbply]==threat_enforcing
-      && n>=threat_lengths[nbply]-2)
+  if (n>=threat_lengths[nbply]-2)
   {
     if (is_current_move_in_table(threats[nbply]))
     {

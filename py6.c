@@ -143,6 +143,7 @@
 #include "solving/for_each_move.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/battle_play/try.h"
+#include "solving/battle_play/threat.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/avoid_unsolvable.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -2671,9 +2672,12 @@ static Token iterate_twins(Token prev_token)
 
       stip_spin_off_testers(root_slice);
 
+      stip_spin_off_threat_enforcer_slices(root_slice);
+
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards(root_slice);
 
+      stip_impose_starter(root_slice,slices[root_slice].starter);
       stip_optimise_with_countnropponentmoves(root_slice);
 
       stip_insert_output_slices(root_slice);
