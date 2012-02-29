@@ -95,6 +95,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
        * that we are enforcing and reset max_unsolvable
        */
       stip_length_type const save_max_unsolvable = max_unsolvable;
+      max_unsolvable = slack_length;
       threat_activities[threats_ply] = threat_enforcing;
       len_test_threats = attack(threat_start,len_threat);
       threat_activities[threats_ply] = threat_idle;
@@ -111,7 +112,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
        */
       result = attack(next,n);
     else
-        /* variation is shorter than threat */
+      /* variation is shorter than threat */
       result = len_test_threats;
   }
   else
