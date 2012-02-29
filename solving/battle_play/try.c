@@ -598,7 +598,7 @@ static structure_traversers_visitors const to_refutation_branch_copiers[] =
   { STRefutationsAvoider,           &substitute_refutations_filter },
   { STEndOfBranchForced,            &stip_traverse_structure_pipe  },
   { STPlaySuppressor,               &stip_traverse_structure_pipe  },
-  { STThreatSolver,                 &stip_traverse_structure_pipe  },
+  { STThreatEnforcer,               &stip_traverse_structure_pipe  },
   { STSelfCheckGuard,               &stip_traverse_structure_pipe  },
   { STMinLengthGuard,               &stip_traverse_structure_pipe  },
   { STConstraintTester,             &insert_constraint_solver      },
