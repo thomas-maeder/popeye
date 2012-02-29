@@ -145,13 +145,13 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivialCounter,&spin_off_testers_move_pipe_to_testers);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);
-  stip_structure_traversal_override_single(&st,STThreatCollector,&stip_spin_off_testers_threat_collector);
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
   stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);
   stip_structure_traversal_override_single(&st,STRefutationsAvoider,&spin_off_testers_refutations_avoider);
 
   stip_structure_traversal_override_single(&st,STThreatSolver,&stip_spin_off_testers_pipe_skip);
+  stip_structure_traversal_override_single(&st,STThreatCollector,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STRefutationsSolver,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STPlaySuppressor,&stip_spin_off_testers_pipe_skip);
   stip_structure_traversal_override_single(&st,STIntelligentDuplicateAvoider,&stip_spin_off_testers_pipe_skip);

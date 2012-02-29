@@ -53,14 +53,6 @@ void stip_spin_off_threat_enforcer_slices(slice_index si);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type threat_collector_defend(slice_index si, stip_length_type n);
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a threat collector slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_threat_collector(slice_index si,
-                                            stip_structure_traversal *st);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

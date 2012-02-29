@@ -200,6 +200,11 @@ static void spin_off_from_threat_enforcer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  {
+    slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
+    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+  }
+
   init_deep_copy(&st_nested,&copies);
   st_nested.context = st->context;
   stip_structure_traversal_override_single(&st_nested,
@@ -286,33 +291,6 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
   TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a threat collector slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_threat_collector(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-  {
-    state->spun_off[si] = alloc_pipe(STThreatDefeatedTester);
-    stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
-  }
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to defend after an attacking move
