@@ -904,10 +904,6 @@ Goal find_unique_goal(slice_index si)
   return result.unique_goal;
 }
 
-/* Auxiliary data structure for deep_copy: remembers slice copies already made
- */
-typedef slice_index stip_deep_copies_type[max_nr_slices];
-
 static void copy_and_remember(slice_index si, stip_deep_copies_type *copies)
 {
   TraceFunctionEntry(__func__);
@@ -999,6 +995,45 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Initialise a structure traversal for a deep copy operation
+ * @param st address of the structure to be initialised
+ * @param copies address of an array mapping indices of originals
+ *        to indices of copies
+ * @note initialises all elements of *copies to no_slice
+ * @note after this initialisation, *st can be used for a deep copy operation;
+ *       or st can be further modified for some special copy operation
+ */
+void init_deep_copy(stip_structure_traversal *st, stip_deep_copies_type *copies)
+{
+  slice_index i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    (*copies)[i] = no_slice;
+
+  stip_structure_traversal_init(st,copies);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_leaf,
+                                                 &deep_copy_leaf);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_pipe,
+                                                 &deep_copy_pipe);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_branch,
+                                                 &deep_copy_pipe);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_fork,
+                                                 &deep_copy_fork);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_binary,
+                                                 &deep_copy_binary);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* in-place deep copying a stipulation sub-tree
  * @param si root of sub-tree
  * @return index of root of copy
@@ -1006,32 +1041,13 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
 slice_index stip_deep_copy(slice_index si)
 {
   stip_deep_copies_type copies;
-  slice_index i;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=max_nr_slices; ++i)
-    copies[i] = no_slice;
-
-  stip_structure_traversal_init(&st,&copies);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_leaf,
-                                                 &deep_copy_leaf);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_pipe,
-                                                 &deep_copy_pipe);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_branch,
-                                                 &deep_copy_pipe);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_fork,
-                                                 &deep_copy_fork);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &deep_copy_binary);
+  init_deep_copy(&st,&copies);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

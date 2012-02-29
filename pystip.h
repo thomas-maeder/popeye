@@ -227,12 +227,6 @@ slice_index copy_slice(slice_index original);
  */
 void slice_set_predecessor(slice_index slice, slice_index pred);
 
-/* in-place deep copying a stipulation sub-tree
- * @param si root of sub-tree
- * @return index of root of copy
- */
-slice_index stip_deep_copy(slice_index si);
-
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
@@ -536,6 +530,27 @@ void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st);
  */
 void stip_traverse_moves_children(slice_index si,
                                   stip_moves_traversal *st);
+
+/* in-place deep copying a stipulation sub-tree
+ * @param si root of sub-tree
+ * @return index of root of copy
+ */
+slice_index stip_deep_copy(slice_index si);
+
+/* Auxiliary data structure for deep_copy: remembers slice copies already made
+ */
+typedef slice_index stip_deep_copies_type[max_nr_slices];
+
+/* Initialise a structure traversal for a deep copy operation
+ * @param st address of the structure to be initialised
+ * @param copies address of an array mapping indices of originals
+ *        to indices of copies
+ * @note initialises all elements of *copies to no_slice
+ * @note after this initialisation, *st can be used for a deep copy operation;
+ *       or st can be further modified for some special copy operation
+ */
+void init_deep_copy(stip_structure_traversal *st,
+                    stip_deep_copies_type *copies);
 
 /* structure holding state in traversals for
  * stip_insert_root_slices()
