@@ -337,13 +337,13 @@ static void spin_off_from_threat_enforcer(slice_index si,
   }
 
   init_deep_copy(&st_nested,&copies);
-  st_nested.context = st->context;
+  st_nested.context = stip_traversal_context_attack;
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatDefeatedTester,
                                            &stop_copying);
-  stip_structure_traversal_override_single(&st_nested,
-                                           STConstraintTester,
-                                           &copy_shallow);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_conditional_pipe,
+                                                &copy_shallow);
   stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
 
   slices[si].u.fork.fork = copies[slices[si].u.fork.fork];
@@ -374,13 +374,13 @@ static void spin_off_from_threat_solver(slice_index si,
   }
 
   init_deep_copy(&st_nested,&copies);
-  st_nested.context = st->context;
+  st_nested.context = stip_traversal_context_attack;
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatCollector,
                                            &stop_copying);
-  stip_structure_traversal_override_single(&st_nested,
-                                           STConstraintTester,
-                                           &copy_shallow);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_conditional_pipe,
+                                                &copy_shallow);
   stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
 
   {
