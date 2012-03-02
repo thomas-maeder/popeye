@@ -197,9 +197,7 @@ output/plaintext/tree/check_writer.h:
 trace.h:
 output/plaintext/tree/goal_writer$(OBJ_SUFFIX): output/plaintext/tree/goal_writer.c \
  output/plaintext/tree/goal_writer.h pyproc.h pypipe.h \
- stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
- trace.h
+ output/plaintext/tree/tree.h trace.h
 
 output/plaintext/tree/goal_writer.h:
 
@@ -207,19 +205,13 @@ pyproc.h:
 
 pypipe.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
 output/plaintext/tree/tree.h:
 
 trace.h:
 output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/check_writer.c \
  output/plaintext/tree/check_writer.h pypipe.h \
- solving/battle_play/check_detector.h \
- stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
+ solving/battle_play/check_detector.h output/plaintext/tree/tree.h \
  trace.h
 
 output/plaintext/tree/check_writer.h:
@@ -227,10 +219,6 @@ output/plaintext/tree/check_writer.h:
 pypipe.h:
 
 solving/battle_play/check_detector.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
 
 output/plaintext/tree/tree.h:
 

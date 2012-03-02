@@ -895,8 +895,8 @@ pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
  pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
  boolean.h py.h pydata.h pymsg.h pyhash.h DHT/dhtbcmem.h \
  stipulation/battle_play/attack_play.h pyslice.h pydata.h \
- stipulation/help_play/play.h pystip.h pyint.h DHT/dhtvalue.h DHT/dht.h \
- pyproof.h pystip.h stipulation/slice_type.h \
+ stipulation/help_play/play.h pystip.h pyint.h DHT/dhtvalue.h DHT/fxf.h \
+ DHT/dht.h pyproof.h pystip.h stipulation/slice_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/solving.h solving/avoid_unsolvable.h \
  stipulation/battle_play/attack_play.h \
@@ -952,6 +952,8 @@ pystip.h:
 pyint.h:
 
 DHT/dhtvalue.h:
+
+DHT/fxf.h:
 
 DHT/dht.h:
 
@@ -1481,8 +1483,6 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/move_inversion_counter.h \
- output/plaintext/tree/move_writer.h output/plaintext/tree/check_writer.h \
- output/plaintext/tree/goal_writer.h \
  output/plaintext/line/end_of_intro_series_marker.h \
  output/plaintext/line/line_writer.h
 
@@ -1659,12 +1659,6 @@ output/plaintext/illegal_selfcheck_writer.h:
 output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/move_inversion_counter.h:
-
-output/plaintext/tree/move_writer.h:
-
-output/plaintext/tree/check_writer.h:
-
-output/plaintext/tree/goal_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 

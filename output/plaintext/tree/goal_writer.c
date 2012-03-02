@@ -1,8 +1,6 @@
 #include "output/plaintext/tree/goal_writer.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
@@ -30,29 +28,6 @@ slice_index alloc_goal_writer_slice(Goal goal)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_writer_solve(slice_index si)
-{
-  has_solution_type result;
-  Goal const goal = slices[si].u.goal_handler.goal;
-  slice_index const next = slices[si].u.goal_handler.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  StdString(goal_end_marker[goal.type]);
-  result = slice_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

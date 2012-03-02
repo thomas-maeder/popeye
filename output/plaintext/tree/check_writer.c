@@ -1,8 +1,6 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "pypipe.h"
 #include "solving/battle_play/check_detector.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
@@ -21,28 +19,6 @@ alloc_output_plaintext_tree_check_writer_slice(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type output_plaintext_tree_check_writer_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (attack_gives_check[nbply])
-    StdString(" +");
-  result = slice_solve(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
