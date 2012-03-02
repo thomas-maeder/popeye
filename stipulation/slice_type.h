@@ -102,6 +102,7 @@
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatStart), /* proxy slice marking where to start solving threats */ \
+    ENUMERATOR(STThreatEnd), /* proxy slice marking where to end solving threats */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STThreatDefeatedTester), /* detect whether threats have been defeated  */ \
     ENUMERATOR(STRefutationsCollector), /* collects refutations */      \
@@ -193,6 +194,7 @@
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
+    ENUMERATOR(STThreatWriter), /* writes "threat:" */ \
     ENUMERATOR(STMoveWriter), /* writes moves */ \
     ENUMERATOR(STKeyWriter), /* write battle play keys */               \
     ENUMERATOR(STTryWriter), /* write "but" */                          \

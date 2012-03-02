@@ -179,6 +179,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STThreatSolver */
   slice_structure_fork,         /* STThreatEnforcer */
   slice_structure_pipe,         /* STThreatStart */
+  slice_structure_pipe,         /* STThreatEnd */
   slice_structure_pipe,         /* STThreatCollector */
   slice_structure_pipe,         /* STThreatDefeatedTester */
   slice_structure_pipe,         /* STRefutationsCollector */
@@ -265,6 +266,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STIllegalSelfcheckWriter */
   slice_structure_pipe,         /* STEndOfPhaseWriter */
   slice_structure_pipe,         /* STEndOfSolutionWriter */
+  slice_structure_pipe,         /* STThreatWriter */
   slice_structure_pipe,         /* STMoveWriter */
   slice_structure_pipe,         /* STKeyWriter */
   slice_structure_pipe,         /* STTryWriter */
@@ -367,6 +369,7 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STThreatSolver */
   slice_function_testing_pipe,     /* STThreatEnforcer */
   slice_function_proxy,            /* STThreatStart */
+  slice_function_proxy,            /* STThreatEnd */
   slice_function_unspecified,      /* STThreatCollector */
   slice_function_unspecified,      /* STThreatDefeatedTester */
   slice_function_unspecified,      /* STRefutationsCollector */
@@ -453,6 +456,7 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_writer,           /* STIllegalSelfcheckWriter */
   slice_function_writer,           /* STEndOfPhaseWriter */
   slice_function_writer,           /* STEndOfSolutionWriter */
+  slice_function_writer,           /* STThreatWriter */
   slice_function_writer,           /* STMoveWriter */
   slice_function_writer,           /* STKeyWriter */
   slice_function_writer,           /* STTryWriter */
@@ -1702,6 +1706,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_testing_pipe,      /* STThreatSolver */
   &stip_traverse_structure_testing_pipe,      /* STThreatEnforcer */
   &stip_traverse_structure_pipe,              /* STThreatStart */
+  &stip_traverse_structure_pipe,              /* STThreatEnd */
   &stip_traverse_structure_pipe,              /* STThreatCollector */
   &stip_traverse_structure_pipe,              /* STThreatDefeatedTester */
   &stip_traverse_structure_pipe,              /* STRefutationsCollector */
@@ -1788,6 +1793,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STIllegalSelfcheckWriter */
   &stip_traverse_structure_pipe,              /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,              /* STEndOfSolutionWriter */
+  &stip_traverse_structure_pipe,              /* STThreatWriter */
   &stip_traverse_structure_pipe,              /* STMoveWriter */
   &stip_traverse_structure_pipe,              /* STKeyWriter */
   &stip_traverse_structure_pipe,              /* STTryWriter */
@@ -1991,6 +1997,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STThreatSolver */
     &stip_traverse_moves_pipe,              /* STThreatEnforcer */
     &stip_traverse_moves_pipe,              /* STThreatStart */
+    &stip_traverse_moves_pipe,              /* STThreatEnd */
     &stip_traverse_moves_pipe,              /* STThreatCollector */
     &stip_traverse_moves_pipe,              /* STThreatDefeatedTester */
     &stip_traverse_moves_pipe,              /* STRefutationsCollector */
@@ -2077,6 +2084,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STIllegalSelfcheckWriter */
     &stip_traverse_moves_pipe,              /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,              /* STEndOfSolutionWriter */
+    &stip_traverse_moves_pipe,              /* STThreatWriter */
     &stip_traverse_moves_pipe,              /* STMoveWriter */
     &stip_traverse_moves_pipe,              /* STKeyWriter */
     &stip_traverse_moves_pipe,              /* STTryWriter */

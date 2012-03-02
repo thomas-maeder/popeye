@@ -7,18 +7,6 @@
 /* This module provides functionality dealing with threats
  */
 
-/* Represent the current threat related activity in a ply
- */
-typedef enum
-{
-  threat_idle,
-  threat_solving,
-  threat_enforcing
-} threat_activity;
-
-/* Exposed for read access only */
-extern threat_activity threat_activities[maxply+1];
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

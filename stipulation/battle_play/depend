@@ -230,7 +230,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/goals/enpassant/filter.h options/maxsolutions/guard.h \
  options/maxtime.h output/plaintext/tree/check_writer.h \
- output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
+ output/plaintext/tree/key_writer.h output/plaintext/tree/threat_writer.h \
+ output/plaintext/tree/try_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
@@ -317,6 +318,8 @@ options/maxtime.h:
 output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/key_writer.h:
+
+output/plaintext/tree/threat_writer.h:
 
 output/plaintext/tree/try_writer.h:
 

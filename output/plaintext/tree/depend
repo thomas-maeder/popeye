@@ -6,7 +6,9 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/move_inversion_counter.h solving/trivial_end_filter.h \
  output/plaintext/tree/end_of_solution_writer.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/move_writer.h \
+ output/plaintext/tree/check_writer.h \
+ output/plaintext/tree/threat_writer.h \
+ output/plaintext/tree/move_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
@@ -42,6 +44,8 @@ solving/trivial_end_filter.h:
 output/plaintext/tree/end_of_solution_writer.h:
 
 output/plaintext/tree/check_writer.h:
+
+output/plaintext/tree/threat_writer.h:
 
 output/plaintext/tree/move_writer.h:
 
@@ -107,20 +111,12 @@ output/plaintext/tree/key_writer.h:
 
 trace.h:
 output/plaintext/tree/move_writer$(OBJ_SUFFIX): output/plaintext/tree/move_writer.c \
- output/plaintext/tree/move_writer.h pydata.h pypipe.h pytable.h pymsg.h \
- solving/battle_play/threat.h output/plaintext/tree/tree.h trace.h
+ output/plaintext/tree/move_writer.h pypipe.h \
+ output/plaintext/tree/tree.h trace.h
 
 output/plaintext/tree/move_writer.h:
 
-pydata.h:
-
 pypipe.h:
-
-pytable.h:
-
-pymsg.h:
-
-solving/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
 
@@ -165,6 +161,19 @@ stipulation/battle_play/attack_play.h:
 output/plaintext/tree/tree.h:
 
 output/plaintext/tree/check_writer.h:
+
+trace.h:
+output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
+ output/plaintext/tree/threat_writer.c \
+ output/plaintext/tree/threat_writer.h pypipe.h pytable.h pymsg.h trace.h
+
+output/plaintext/tree/threat_writer.h:
+
+pypipe.h:
+
+pytable.h:
+
+pymsg.h:
 
 trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \

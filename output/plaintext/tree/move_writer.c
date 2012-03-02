@@ -1,9 +1,5 @@
 #include "output/plaintext/tree/move_writer.h"
-#include "pydata.h"
 #include "pypipe.h"
-#include "pytable.h"
-#include "pymsg.h"
-#include "solving/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
@@ -47,7 +43,7 @@ has_solution_type move_writer_solve(slice_index si)
   return result;
 }
 
-  /* Try to defend after an attacking move
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -68,15 +64,7 @@ stip_length_type move_writer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (threat_activities[nbply]==threat_solving
-      && table_length(get_top_table())==0)
-  {
-    StdChar(blank);
-    Message(Threat);
-  }
-
   output_plaintext_tree_write_move();
-
   result = defend(next,n);
 
   TraceFunctionExit(__func__);
@@ -96,6 +84,7 @@ stip_length_type move_writer_defend(slice_index si, stip_length_type n)
 stip_length_type move_writer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -103,7 +92,7 @@ stip_length_type move_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   output_plaintext_tree_write_move();
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

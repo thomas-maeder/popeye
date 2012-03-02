@@ -40,6 +40,7 @@
 #include "options/maxtime.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/key_writer.h"
+#include "output/plaintext/tree/threat_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
@@ -166,6 +167,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STRestartGuard:
       result = restart_guard_defend(si,n);
+      break;
+
+    case STThreatWriter:
+      result = threat_writer_defend(si,n);
       break;
 
     case STMoveWriter:

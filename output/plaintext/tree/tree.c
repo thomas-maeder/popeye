@@ -13,6 +13,7 @@
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/tree/threat_writer.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -33,8 +34,14 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_zugzwang_writer_slice();
-    defense_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    slice_index const prototypes[] =
+    {
+      alloc_zugzwang_writer_slice(),
+      alloc_threat_writer_slice(),
+      alloc_move_writer_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    defense_branch_insert_slices(slices[si].u.fork.fork,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
