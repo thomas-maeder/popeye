@@ -481,10 +481,9 @@ static void insert_threat_end(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_pipe(STThreatEnd);
-    defense_branch_insert_slices(si,&prototype,1);
+    attack_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
@@ -582,7 +581,7 @@ static structure_traversers_visitors const threat_solver_inserters[] =
   { STReadyForDefense,    &insert_threat_solver             },
   { STThreatSolver,       &connect_solver_to_threat_start   },
   { STNotEndOfBranchGoal, &insert_threat_enforcer           },
-  { STNotEndOfBranch,     &insert_threat_end                },
+  { STReadyForAttack,     &insert_threat_end               },
   { STThreatEnforcer,     &connect_enforcer_to_threat_start },
   { STThreatStart,        &remember_threat_start            },
   { STAttackAdapter,      &forget_threat_start              },

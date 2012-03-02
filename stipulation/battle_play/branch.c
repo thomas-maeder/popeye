@@ -306,9 +306,8 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 
         if (slices[si].u.binary.op1!=no_slice)
         {
-          state->prev = slices[si].u.binary.op1;
-          assert(slices[state->prev].type==STProxy);
-          start_insertion_traversal(slices[slices[si].u.binary.op1].u.pipe.next,state);
+          state->prev = si;
+          start_insertion_traversal(slices[si].u.pipe.next,state);
         }
 
         *state = save_state;
