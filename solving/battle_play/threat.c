@@ -390,6 +390,7 @@ static void spin_off_from_threat_solver(slice_index si,
                                                 &copy_shallow);
   stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
 
+  /* only now or the dummy move slice is copied and leaked */
   {
     slice_index const dummy = alloc_dummy_move_slice();
     link_to_branch(dummy,copies[slices[si].u.fork.fork]);
@@ -581,7 +582,7 @@ static structure_traversers_visitors const threat_solver_inserters[] =
   { STReadyForDefense,    &insert_threat_solver             },
   { STThreatSolver,       &connect_solver_to_threat_start   },
   { STNotEndOfBranchGoal, &insert_threat_enforcer           },
-  { STReadyForAttack,     &insert_threat_end               },
+  { STReadyForAttack,     &insert_threat_end                },
   { STThreatEnforcer,     &connect_enforcer_to_threat_start },
   { STThreatStart,        &remember_threat_start            },
   { STAttackAdapter,      &forget_threat_start              },
