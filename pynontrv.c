@@ -271,16 +271,8 @@ static void nontrivial_guard_inserter(slice_index si,
 
   if (st->context==stip_traversal_context_defense)
   {
-    slice_index const prototypes[] =
-    {
-      alloc_max_nr_nontrivial_guard(),
-      alloc_max_nr_nontrivial_counter()
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    defense_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_max_nr_nontrivial_guard();
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -358,6 +350,11 @@ static void switch_to_testing(slice_index si, stip_structure_traversal *st)
   assert((*copies)[si]==no_slice);
   (*copies)[si] = alloc_proxy_slice();
 
+  {
+    slice_index const prototype = alloc_max_nr_nontrivial_counter();
+    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
+  }
+
   stip_traverse_structure(slices[si].u.fork.fork,st);
   link_to_branch((*copies)[si],(*copies)[slices[si].u.fork.fork]);
 
@@ -412,6 +409,10 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    {
+      slice_index const prototype = alloc_max_nr_nontrivial_counter();
+      defense_branch_insert_slices(state->spun_off[slices[si].u.fork.next],&prototype,1);
+    }
     slices[si].u.fork.fork = spin_off_counting_slices(state->spun_off[slices[si].u.fork.next]);
     slices[state->spun_off[si]].u.fork.fork = slices[si].u.fork.fork;
   }
