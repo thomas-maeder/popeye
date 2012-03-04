@@ -42,8 +42,7 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_adapter.h solving/avoid_unsolvable.h \
- pypipe.h trace.h
+ stipulation/battle_play/defense_adapter.h pypipe.h trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -52,8 +51,6 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_adapter.h:
-
-solving/avoid_unsolvable.h:
 
 pypipe.h:
 
@@ -71,8 +68,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_shortest.h solving/move_generator.h solving/for_each_move.h \
  solving/find_move.h solving/play_suppressor.h solving/avoid_unsolvable.h \
- solving/battle_play/threat.h solving/battle_play/try.h \
- solving/battle_play/min_length_guard.h \
+ solving/trivial_end_filter.h solving/battle_play/threat.h \
+ solving/battle_play/try.h solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/battle_play/continuation.h solving/battle_play/check_detector.h \
  conditions/bgl.h \
@@ -81,7 +78,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/killer_move/move_generator.h \
- optimisations/killer_move/collector.h solving/trivial_end_filter.h \
+ optimisations/killer_move/collector.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/move_writer.h \
@@ -146,6 +143,8 @@ solving/play_suppressor.h:
 
 solving/avoid_unsolvable.h:
 
+solving/trivial_end_filter.h:
+
 solving/battle_play/threat.h:
 
 solving/battle_play/try.h:
@@ -172,8 +171,6 @@ optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/collector.h:
 
-solving/trivial_end_filter.h:
-
 output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
@@ -193,7 +190,7 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
  stipulation/battle_play/defense_adapter.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- solving/avoid_unsolvable.h trace.h
+ trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -204,8 +201,6 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
-
-solving/avoid_unsolvable.h:
 
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \

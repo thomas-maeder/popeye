@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -142,23 +141,16 @@ has_solution_type defense_adapter_solve(slice_index si)
   has_solution_type result;
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
   stip_length_type defense_result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  max_unsolvable = slack_length;
-  TraceValue("->%u\n",max_unsolvable);
-
   defense_result = defend(next,length);
   result = (slack_length<=defense_result && defense_result<=length
             ? has_solution
             : has_no_solution);
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

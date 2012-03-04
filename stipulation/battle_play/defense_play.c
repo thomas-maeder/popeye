@@ -222,6 +222,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = avoid_unsolvable_defend(si,n);
       break;
 
+    case STResetUnsolvable:
+      result = reset_unsolvable_defend(si,n);
+      break;
+
     case STConstraintTester:
       result = constraint_defend(si,n);
       break;

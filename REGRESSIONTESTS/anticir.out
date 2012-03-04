@@ -596,9 +596,9 @@ Loesung beendet.
               2...Lf5*b1[sLb1->c8] #
 
 
-              empile:        8874
-            jouecoup:        7303
-        orig_rbechec:        6566
+              empile:        8974
+            jouecoup:        7379
+        orig_rbechec:        6642
         orig_rnechec:        1028
 Loesung beendet. 
 
@@ -1441,10 +1441,10 @@ Loesung beendet.
       1...Tc5-c7 !
 
 
-              empile:        8141
-            jouecoup:        5711
-        orig_rbechec:         451
-        orig_rnechec:        5618
+              empile:        8149
+            jouecoup:        5717
+        orig_rbechec:         453
+        orig_rnechec:        5645
 Loesung beendet. 
 
 
@@ -1627,10 +1627,10 @@ Loesung beendet.
                   3.Lc8-b7 #
 
 
-              empile:      162143
-            jouecoup:      102393
-        orig_rbechec:       29516
-        orig_rnechec:       76788
+              empile:      162179
+            jouecoup:      102415
+        orig_rbechec:       29518
+        orig_rnechec:       76832
 Loesung beendet. 
 
 
@@ -1687,7 +1687,7 @@ Loesung beendet.
               empile:       19812
             jouecoup:       15190
         orig_rbechec:        3323
-        orig_rnechec:       12137
+        orig_rnechec:       12160
 Loesung beendet. 
 
 
@@ -1811,7 +1811,7 @@ Loesung beendet.
               empile:       92414
             jouecoup:       67433
         orig_rbechec:       15319
-        orig_rnechec:       56250
+        orig_rnechec:       56266
 Loesung beendet. 
 
 
@@ -1858,7 +1858,7 @@ Loesung beendet.
               empile:        2730
             jouecoup:        2254
         orig_rbechec:         277
-        orig_rnechec:        2254
+        orig_rnechec:        2256
 Loesung beendet. 
 
 
@@ -2232,7 +2232,7 @@ Loesung beendet.
               empile:       38592
             jouecoup:       29673
         orig_rbechec:        5208
-        orig_rnechec:       25893
+        orig_rnechec:       25900
 Loesung beendet. 
 
 
@@ -2604,10 +2604,10 @@ Loesung beendet.
       1...Sb1*c3[sSc3->b8] !
 
 
-              empile:       25131
-            jouecoup:       19299
-        orig_rbechec:        1166
-        orig_rnechec:       18776
+              empile:       25236
+            jouecoup:       19365
+        orig_rbechec:        1172
+        orig_rnechec:       18883
 Loesung beendet. 
 
 

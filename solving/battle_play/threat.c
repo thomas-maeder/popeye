@@ -197,16 +197,7 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 
     nr_threats_to_be_confirmed = table_length(threats_table);
 
-    {
-      /* until we have a separate branch for this, we have to remember
-       * that we are enforcing and reset max_unsolvable
-       */
-      stip_length_type const save_max_unsolvable = max_unsolvable;
-      max_unsolvable = slack_length;
-      len_test_threats = attack(threat_start,len_threat);
-      max_unsolvable = save_max_unsolvable;
-      TraceValue("->%u\n",max_unsolvable);
-    }
+    len_test_threats = attack(threat_start,len_threat);
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
@@ -341,6 +332,13 @@ static void spin_off_from_threat_enforcer(slice_index si,
   stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
 
   slices[si].u.fork.fork = copies[slices[si].u.fork.fork];
+
+  {
+    /* if the threats are short, max_unsolvable might interfere with enforcing
+     * them */
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

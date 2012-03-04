@@ -33,6 +33,43 @@ slice_index alloc_avoid_unsolvable_slice(slice_index proxy_op1,
   return result;
 }
 
+static void insert_reset_unusable_attack(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    attack_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_reset_unusable_defense(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_defense)
+  {
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    defense_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -58,12 +95,16 @@ static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const avoid_unusable_inserters[] =
 {
-  { STEndOfBranch,           &insert_avoid_unusable },
-  { STEndOfBranchGoal,       &insert_avoid_unusable },
-  { STEndOfBranchForced,     &insert_avoid_unusable },
-  { STCounterMateFilter,     &insert_avoid_unusable },
-  { STDoubleMateFilter,      &insert_avoid_unusable },
-  { STPrerequisiteOptimiser, &insert_avoid_unusable }
+  { STAttackAdapter,         &insert_reset_unusable_attack  },
+  { STDefenseAdapter,        &insert_reset_unusable_defense  },
+  { STMovePlayed,            &insert_reset_unusable_defense },
+  { STDummyMove,             &insert_reset_unusable_defense },
+  { STEndOfBranch,           &insert_avoid_unusable         },
+  { STEndOfBranchGoal,       &insert_avoid_unusable         },
+  { STEndOfBranchForced,     &insert_avoid_unusable         },
+  { STCounterMateFilter,     &insert_avoid_unusable         },
+  { STDoubleMateFilter,      &insert_avoid_unusable         },
+  { STPrerequisiteOptimiser, &insert_avoid_unusable         }
 };
 
 enum
@@ -149,6 +190,83 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
     result = defend(slices[si].u.binary.op1,n);
   else
     result = defend(slices[si].u.binary.op2,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STResetUnsolvable slice
+ * @return allocated slice
+ */
+slice_index alloc_reset_unsolvable_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STResetUnsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type reset_unsolvable_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  stip_length_type const save_max_unsolvable = max_unsolvable;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  max_unsolvable = slack_length;
+  result = attack(slices[si].u.pipe.next,n);
+  max_unsolvable = save_max_unsolvable;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type reset_unsolvable_defend(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  stip_length_type const save_max_unsolvable = max_unsolvable;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  max_unsolvable = slack_length;
+  result = defend(slices[si].u.pipe.next,n);
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

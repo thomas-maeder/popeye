@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -74,9 +73,6 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>slack_length);
-
-  max_unsolvable = slack_length;
-  TraceValue("->%u\n",max_unsolvable);
 
   result = attack(slices[si].u.pipe.next,n-1)+1;
 

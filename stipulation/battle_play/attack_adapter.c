@@ -2,7 +2,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "solving/avoid_unsolvable.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -196,14 +195,10 @@ has_solution_type attack_adapter_solve(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type nr_moves_needed;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  max_unsolvable = slack_length;
-  TraceValue("->%u\n",max_unsolvable);
 
   nr_moves_needed = attack(next,length);
   if (nr_moves_needed<slack_length)
@@ -212,9 +207,6 @@ has_solution_type attack_adapter_solve(slice_index si)
     result = has_solution;
   else
     result = has_no_solution;
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

@@ -2664,7 +2664,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_detours_around_end_of_branch(root_slice);
       stip_insert_end_of_branch_testers(root_slice);
-      stip_insert_avoid_unsolvable_forks(root_slice);
 
       stip_spin_off_refutation_solver_slices(root_slice);
 
@@ -2687,6 +2686,8 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solmenaces]
           && !stip_insert_maxthreatlength_guards(root_slice))
         Message(ThreatOptionAndExactStipulationIncompatible);
+
+      stip_insert_avoid_unsolvable_forks(root_slice);
 
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);

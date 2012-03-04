@@ -27,6 +27,7 @@
 #include "solving/find_move.h"
 #include "solving/play_suppressor.h"
 #include "solving/avoid_unsolvable.h"
+#include "solving/trivial_end_filter.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/try.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -40,7 +41,6 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
-#include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/move_writer.h"
@@ -164,6 +164,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STAvoidUnsolvable:
       result = avoid_unsolvable_attack(si,n);
+      break;
+
+    case STResetUnsolvable:
+      result = reset_unsolvable_attack(si,n);
       break;
 
     case STConstraintSolver:

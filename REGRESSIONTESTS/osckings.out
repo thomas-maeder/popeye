@@ -43,7 +43,7 @@ a)
               empile:        2305
             jouecoup:        1476
         orig_rbechec:         183
-        orig_rnechec:        1650
+        orig_rnechec:        1654
 b) WeisseOszillierendeKoenige    TypB
 
    1.Sf2-d1[wK<>sK] ! Zugzwang.
@@ -51,10 +51,10 @@ b) WeisseOszillierendeKoenige    TypB
           2.Sd1-e3[wK<>sK] #
 
 
-              empile:        2279
-            jouecoup:        1297
-        orig_rbechec:        1082
-        orig_rnechec:        1180
+              empile:        2287
+            jouecoup:        1298
+        orig_rbechec:        1083
+        orig_rnechec:        1184
 c) WeisseOszillierendeKoenige    TypB
    SchwarzeOszillierendeKoenige
 
@@ -144,10 +144,10 @@ Loesung beendet.
           2.Dc1-c6 #
 
 
-              empile:        1944
-            jouecoup:        1263
-        orig_rbechec:         173
-        orig_rnechec:        1245
+              empile:        2014
+            jouecoup:        1286
+        orig_rbechec:         182
+        orig_rnechec:        1288
 Loesung beendet. 
 
 

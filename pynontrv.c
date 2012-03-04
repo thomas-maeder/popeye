@@ -115,25 +115,15 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   slice_index const tester = slices[si].u.fork.fork;
   stip_length_type const parity = ((n-slack_length-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n_next<=max_unsolvable)
-    /* we may get here in solving mode when we know that there is now short
-     * solution */
-    max_unsolvable = n_next-1;
-  TraceValue("->%u\n",max_unsolvable);
-
   non_trivial_count[nbply+1] = 0;
   defend(tester,n_next);
   result = non_trivial_count[nbply+1];
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -421,6 +411,13 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
     stip_traverse_structure_children(si,st);
     slices[si].u.fork.fork = alloc_proxy_slice();
     link_to_branch(slices[si].u.fork.fork,spin_off_counting_slices(slices[si].u.fork.next));
+  }
+
+  {
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,
+                                              &prototype,1,
+                                              si);
   }
 
   TraceFunctionExit(__func__);

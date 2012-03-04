@@ -109,10 +109,10 @@ Loesung beendet.
                   3.0-0-0 #
 
 
-              empile:      151670
-            jouecoup:       60984
-        orig_rbechec:       24008
-        orig_rnechec:       55096
+              empile:      151691
+            jouecoup:       60993
+        orig_rbechec:       24011
+        orig_rnechec:       55148
 Loesung beendet. 
 
 
@@ -268,10 +268,10 @@ Loesung beendet.
       1...Kc2-c3 !
 
 
-              empile:       60256
-            jouecoup:       25225
-        orig_rbechec:       10465
-        orig_rnechec:       21224
+              empile:       60280
+            jouecoup:       25233
+        orig_rbechec:       10468
+        orig_rnechec:       21248
 Loesung beendet. 
 
 
@@ -742,7 +742,7 @@ Loesung beendet.
               empile:      546571
             jouecoup:      350739
         orig_rbechec:      275193
-        orig_rnechec:      106654
+        orig_rnechec:      106661
 Loesung beendet. 
 
 
@@ -923,7 +923,7 @@ Loesung beendet.
               empile:     1097677
             jouecoup:      798370
         orig_rbechec:      602933
-        orig_rnechec:      242967
+        orig_rnechec:      242975
 Loesung beendet. 
 
 
@@ -967,10 +967,10 @@ Loesung beendet.
                   3.c7-c8=T #
 
 
-              empile:       14394
-            jouecoup:        7192
-        orig_rbechec:        4448
-        orig_rnechec:        3897
+              empile:       14402
+            jouecoup:        7193
+        orig_rbechec:        4449
+        orig_rnechec:        3907
 Loesung beendet. 
 
 
@@ -3302,7 +3302,7 @@ Loesung beendet.
               empile:    13259945
             jouecoup:     8018631
         orig_rbechec:     7205273
-        orig_rnechec:      838271
+        orig_rnechec:      838276
 Loesung beendet. 
 
 
@@ -3418,10 +3418,10 @@ Loesung beendet.
           2.Td1-f1 =
 
 
-              empile:        5399
-            jouecoup:        2884
-        orig_rbechec:        1012
-        orig_rnechec:        2846
+              empile:        5463
+            jouecoup:        2924
+        orig_rbechec:        1020
+        orig_rnechec:        2894
 Loesung beendet. 
 
 
@@ -4272,10 +4272,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...0-0 !
 
 
-              empile:      707095
-            jouecoup:      368880
-        orig_rbechec:      128361
-        orig_rnechec:      326803
+              empile:      707099
+            jouecoup:      368881
+        orig_rbechec:      128362
+        orig_rnechec:      326835
 Loesung beendet. 
 
 

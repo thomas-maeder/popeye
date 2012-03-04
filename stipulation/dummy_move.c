@@ -1,6 +1,6 @@
 #include "stipulation/dummy_move.h"
 #include "pypipe.h"
-#include "solving/avoid_unsolvable.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -49,9 +49,6 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
 
   /* insert an empty ply for the dummy defense */
   nextply(nbply);
-
-  max_unsolvable = slack_length;
-  TraceValue("->%u\n",max_unsolvable);
 
   {
     stip_length_type const length_sol = attack(next,n-1)+1;
