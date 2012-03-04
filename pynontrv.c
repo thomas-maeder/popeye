@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/testing_pipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/solving.h"
@@ -17,9 +18,6 @@ unsigned int max_nr_nontrivial;
 /* Lengths of threats of the various move levels
  */
 static unsigned int non_trivial_count[maxply+1];
-
-/* Are we currently counting non-trivial defenses? */
-static boolean are_we_counting_nontrival[maxply+1] = { false };
 
 /* Reset the non-trivial optimisation setting to off
  */
@@ -131,11 +129,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
   TraceValue("->%u\n",max_unsolvable);
 
   non_trivial_count[nbply+1] = 0;
-  are_we_counting_nontrival[nbply+1] = true;
-
   defend(tester,n_next);
-
-  are_we_counting_nontrival[nbply+1] = false;
   result = non_trivial_count[nbply+1];
 
   max_unsolvable = save_max_unsolvable;
@@ -252,7 +246,7 @@ stip_length_type max_nr_nontrivial_counter_attack(slice_index si,
 
   result = attack(next,n);
 
-  if (result>n && are_we_counting_nontrival[nbply])
+  if (result>n)
   {
     ++non_trivial_count[nbply];
     if (non_trivial_count[nbply]<=max_nr_nontrivial+1)
@@ -316,6 +310,89 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void stop_copying(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = copy_slice(si);
+  pipe_substitute(si,alloc_proxy_slice());
+  link_to_branch((*copies)[si],si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void copy_shallow(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = copy_slice(si);
+
+  stip_traverse_structure_pipe(si,st);
+
+  if (slices[si].u.pipe.next!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void switch_to_testing(slice_index si, stip_structure_traversal *st)
+{
+  stip_deep_copies_type * const copies = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert((*copies)[si]==no_slice);
+  (*copies)[si] = alloc_proxy_slice();
+
+  stip_traverse_structure(slices[si].u.fork.fork,st);
+  link_to_branch((*copies)[si],(*copies)[slices[si].u.fork.fork]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static slice_index spin_off_counting_slices(slice_index si)
+{
+  stip_deep_copies_type copies;
+  stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  init_deep_copy(&st_nested,&copies);
+  st_nested.context = stip_traversal_context_defense;
+  stip_structure_traversal_override_single(&st_nested,
+                                           STMaxNrNonTrivialCounter,
+                                           &stop_copying);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_conditional_pipe,
+                                                &copy_shallow);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_testing_pipe,
+                                                &switch_to_testing);
+  stip_traverse_structure(si,&st_nested);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",copies[si]);
+  TraceFunctionResultEnd();
+  return copies[si];
+}
+
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off an end of a STMaxNrNonTrivial slice
  * @param si identifies the STMaxNrNonTrivial slice
@@ -325,24 +402,25 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
                                          stip_structure_traversal *st)
 {
   spin_off_tester_state_type * const state = st->param;
-  boolean const save_spinning_off = state->spinning_off;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->spinning_off = true;
-
-  stip_spin_off_testers_testing_pipe(si,st);
-
-  if (state->spun_off[slices[si].prev]!=no_slice)
+  if (state->spinning_off)
   {
-    /* the testing machinery needs a STMaxNrTrivial slice of its own */
     state->spun_off[si] = copy_slice(si);
-    pipe_link(state->spun_off[si],slices[si].u.fork.fork);
+    stip_traverse_structure_children(si,st);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    slices[si].u.fork.fork = spin_off_counting_slices(state->spun_off[slices[si].u.fork.next]);
+    slices[state->spun_off[si]].u.fork.fork = slices[si].u.fork.fork;
   }
-
-  state->spinning_off = save_spinning_off;
+  else
+  {
+    stip_traverse_structure_children(si,st);
+    slices[si].u.fork.fork = alloc_proxy_slice();
+    link_to_branch(slices[si].u.fork.fork,spin_off_counting_slices(slices[si].u.fork.next));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
