@@ -295,7 +295,8 @@ stipulation/battle_play/branch.h:
 trace.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  solving/avoid_unsolvable.h pypipe.h stipulation/proxy.h \
- stipulation/branch.h stipulation/boolean/binary.h trace.h
+ stipulation/branch.h stipulation/boolean/binary.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
 
 solving/avoid_unsolvable.h:
 
@@ -306,5 +307,9 @@ stipulation/proxy.h:
 stipulation/branch.h:
 
 stipulation/boolean/binary.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
 
 trace.h:

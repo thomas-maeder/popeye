@@ -219,6 +219,7 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
 
       pipe_append(slices[proxy_joint].prev,
                   alloc_goal_prerequisite_optimiser_slice());
+      pipe_append(slices[proxy_joint].prev,alloc_pipe(STDeadEnd));
     }
 
     if (nr_optimisable>0)

@@ -261,7 +261,7 @@ stip_length_type dead_end_help(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  if (n==slack_length)
+  if (n<=max_unsolvable)
     result = n+2;
   else
     result = help(next,n);

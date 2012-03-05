@@ -121,6 +121,7 @@ stip_length_type goal_prerequisite_optimiser_help(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -128,9 +129,14 @@ stip_length_type goal_prerequisite_optimiser_help(slice_index si,
   TraceFunctionParamListEnd();
 
   if (goal_preprequisites_met[nbply]==0)
-    result = n+2;
-  else
-    result = help(next,n);
+  {
+    max_unsolvable = slack_length+1;
+    TraceValue("->%u\n",max_unsolvable);
+  }
+
+  result = help(next,n);
+
+  max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

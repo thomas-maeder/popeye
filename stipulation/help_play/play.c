@@ -15,6 +15,7 @@
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/doublemate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
+#include "solving/avoid_unsolvable.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_shortest.h"
@@ -121,6 +122,10 @@ stip_length_type help(slice_index si, stip_length_type n)
     case STDeadEnd:
     case STDeadEndGoal:
       result = dead_end_help(si,n);
+      break;
+
+    case STResetUnsolvable:
+      result = reset_unsolvable_help(si,n);
       break;
 
     case STHelpHashed:

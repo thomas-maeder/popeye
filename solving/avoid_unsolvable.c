@@ -3,6 +3,8 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/binary.h"
+#include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -70,6 +72,24 @@ static void insert_reset_unusable_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_reset_unusable_help(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    help_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -96,7 +116,8 @@ static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const avoid_unusable_inserters[] =
 {
   { STAttackAdapter,         &insert_reset_unusable_attack  },
-  { STDefenseAdapter,        &insert_reset_unusable_defense  },
+  { STDefenseAdapter,        &insert_reset_unusable_defense },
+  { STHelpAdapter,           &insert_reset_unusable_help    },
   { STMovePlayed,            &insert_reset_unusable_defense },
   { STDummyMove,             &insert_reset_unusable_defense },
   { STEndOfBranch,           &insert_avoid_unusable         },
@@ -266,6 +287,36 @@ stip_length_type reset_unsolvable_defend(slice_index si, stip_length_type n)
 
   max_unsolvable = slack_length;
   result = defend(slices[si].u.pipe.next,n);
+  max_unsolvable = save_max_unsolvable;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ */
+stip_length_type reset_unsolvable_help(slice_index si, stip_length_type n)
+{
+  stip_length_type result = n+2;
+  stip_length_type const save_max_unsolvable = max_unsolvable;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+
+  max_unsolvable = slack_length;
+  result = help(slices[si].u.pipe.next,n);
   max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);

@@ -20,6 +20,7 @@
 static slice_index const slice_rank_order[] =
 {
   STHelpAdapter,
+  STResetUnsolvable,
   STConstraintSolver,
   STConstraintTester,
   STFindByIncreasingLength,
@@ -46,6 +47,7 @@ static slice_index const slice_rank_order[] =
   STEnPassantFilter,
   STCastlingFilter,
   STPrerequisiteOptimiser,
+  STDeadEnd,
   STGeneratingMoves,
   STMoveGenerator,
   STOrthodoxMatingMoveGenerator,
