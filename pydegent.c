@@ -85,11 +85,6 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
     result = attack(slices[si].u.pipe.next,n_current);
     if (result<=n_current)
       break;
-    else
-    {
-      max_unsolvable = n_current;
-      TraceValue("->%u\n",max_unsolvable);
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -111,7 +106,6 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
   stip_length_type result = n+2;
   stip_length_type const parity = (n-slack_length)%2;
   stip_length_type const n_min = max_unsolvable;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -125,20 +119,13 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
       stip_length_type const n_interm = max_length_short_solutions-parity;
       result = delegate_has_solution_in_n(si,n_interm,n_min);
       if (result>n_interm)
-      {
-        max_unsolvable = n_interm;
-        TraceValue("->%u\n",max_unsolvable);
         result = delegate_has_solution_in_n(si,n,n);
-      }
     }
     else
       result = delegate_has_solution_in_n(si,n,n);
   }
   else
     result = delegate_has_solution_in_n(si,n,n_min);
-
-  max_unsolvable = save_max_unsolvable;
-  TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

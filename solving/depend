@@ -83,7 +83,8 @@ solving/king_move_generator.h:
 
 trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
- pypipe.h stipulation/branch.h stipulation/battle_play/branch.h trace.h
+ pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+ solving/avoid_unsolvable.h trace.h
 
 solving/find_shortest.h:
 
@@ -92,6 +93,8 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
+
+solving/avoid_unsolvable.h:
 
 trace.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \

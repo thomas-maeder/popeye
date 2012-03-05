@@ -170,6 +170,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = reset_unsolvable_attack(si,n);
       break;
 
+    case STLearnUnsolvable:
+      result = learn_unsolvable_attack(si,n);
+      break;
+
     case STConstraintSolver:
       result = constraint_attack(si,n);
       break;

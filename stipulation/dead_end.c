@@ -186,14 +186,7 @@ stip_length_type dead_end_attack(slice_index si, stip_length_type n)
   if (n<=max_unsolvable)
     result = n+2;
   else
-  {
     result = attack(slices[si].u.pipe.next,n);
-    if (result>n)
-    {
-      max_unsolvable = n;
-      TraceValue("->%u\n",max_unsolvable);
-    }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

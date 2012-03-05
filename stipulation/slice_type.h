@@ -33,6 +33,7 @@
     ENUMERATOR(STEndOfBranchTester), /* test for end of branch only */ \
     ENUMERATOR(STAvoidUnsolvable), /* avoid solving branches that we know are unsolvable */ \
     ENUMERATOR(STResetUnsolvable), /* reset knowledge about unsolvability */ \
+    ENUMERATOR(STLearnUnsolvable), /* update knowledge about unsolvability */ \
     ENUMERATOR(STConstraintSolver),  /* stop unless some condition is met */ \
     ENUMERATOR(STConstraintTester),  /* stop unless some condition is met */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \

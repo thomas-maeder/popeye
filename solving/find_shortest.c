@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -121,10 +122,15 @@ static void battle_insert_find_shortest(slice_index si)
   {
     slice_index const defense = branch_find_slice(STReadyForDefense,si);
     slice_index const attack = branch_find_slice(STReadyForAttack,defense);
-    slice_index const proto = alloc_find_shortest_slice(length,min_length);
+    slice_index const prototypes[] =
+    {
+        alloc_find_shortest_slice(length,min_length),
+        alloc_learn_unsolvable_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     assert(defense!=no_slice);
     assert(attack!=no_slice);
-    attack_branch_insert_slices(attack,&proto,1);
+    attack_branch_insert_slices(attack,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

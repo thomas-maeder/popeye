@@ -55,6 +55,7 @@ static slice_index const slice_rank_order[] =
   STDegenerateTree,
   STFindShortest,
   STDeadEnd,
+  STLearnUnsolvable,
   STShortSolutionsStart,
   STGeneratingMoves,
   STMoveGenerator,
