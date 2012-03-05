@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/dead_end.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
@@ -219,7 +220,7 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
 
       pipe_append(slices[proxy_joint].prev,
                   alloc_goal_prerequisite_optimiser_slice());
-      pipe_append(slices[proxy_joint].prev,alloc_pipe(STDeadEnd));
+      pipe_append(slices[proxy_joint].prev,alloc_dead_end_slice());
     }
 
     if (nr_optimisable>0)

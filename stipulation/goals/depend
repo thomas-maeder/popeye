@@ -27,7 +27,7 @@ trace.h:
 stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_guards.c \
  stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
- stipulation/branch.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/dead_end.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_optimiser.h \
  stipulation/goals/countermate/filter.h \
@@ -43,6 +43,8 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/dead_end.h:
 
 stipulation/battle_play/branch.h:
 
