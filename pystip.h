@@ -68,6 +68,13 @@ typedef struct
             move_generation_mode_type mode;
         } move_generator;
 
+        struct
+        {
+            slice_index next;
+            Goal goal;
+            move_generation_mode_type mode;
+        } goal_reaching_move_generator;
+
         struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;
