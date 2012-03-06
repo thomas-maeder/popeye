@@ -227,7 +227,9 @@ static void substitute_killermove_machinery(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (enabled[slices[si].starter] && *testing)
+  if (enabled[slices[si].starter]
+      && *testing
+      && slices[si].u.move_generator.mode==move_generation_not_optimized)
   {
     if (context==stip_traversal_context_attack)
     {

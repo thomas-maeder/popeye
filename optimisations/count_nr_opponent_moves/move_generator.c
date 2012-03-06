@@ -40,60 +40,6 @@ void disable_countnropponentmoves_defense_move_optimisation(Side side)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STCountNrOpponentMovesMoveGenerator defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-static slice_index alloc_countnropponentmoves_move_generator_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STCountNrOpponentMovesMoveGenerator);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
- */
-stip_length_type
-countnropponentmoves_move_generator_defend(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  Side const defender = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_optimized_by_nr_opponent_moves;
-  genmove(defender);
-  result = defend(next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 typedef struct
 {
     stip_length_type length;
@@ -147,7 +93,7 @@ static void optimise_defense_move_generator(slice_index si,
     pipe_link(slices[si].prev,fork);
 
     pipe_link(proxy1,si);
-    pipe_substitute(si,alloc_countnropponentmoves_move_generator_slice());
+    slices[si].u.move_generator.mode = move_generation_optimized_by_nr_opponent_moves;
     pipe_append(si,proxy3);
 
     pipe_link(proxy2,copy);

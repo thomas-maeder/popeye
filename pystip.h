@@ -71,8 +71,8 @@ typedef struct
         struct
         {
             slice_index next;
-            Goal goal;
             move_generation_mode_type mode;
+            Goal goal;
         } goal_reaching_move_generator;
 
         struct /* for type==STGoalTargetReachedTester */

@@ -114,7 +114,6 @@ static slice_index const slice_rank_order[] =
   STDeadEnd,
   STGeneratingMoves,
   STMoveGenerator,
-  STCountNrOpponentMovesMoveGenerator,
   STKillerMoveFinalDefenseMove,
   STMove,
   STForEachMove,

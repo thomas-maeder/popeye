@@ -218,7 +218,6 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
  conditions/bgl.h optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
- optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/goals/enpassant/filter.h options/maxsolutions/guard.h \
  options/maxtime.h output/plaintext/tree/check_writer.h \
  output/plaintext/tree/key_writer.h output/plaintext/tree/threat_writer.h \
@@ -295,8 +294,6 @@ conditions/bgl.h:
 optimisations/killer_move/final_defense_move.h:
 
 optimisations/killer_move/collector.h:
-
-optimisations/count_nr_opponent_moves/move_generator.h:
 
 optimisations/goals/enpassant/filter.h:
 
