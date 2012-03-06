@@ -415,6 +415,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
+      case STMoveGenerator:
+        Trace_pipe(si);
+        fprintf(stdout,"mode:%u ",slices[si].u.move_generator.mode);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.move_generator.next,done_slices);
+        break;
+
       case STOutputModeSelector:
         Trace_pipe(si);
         TraceEnumerator(output_mode,slices[si].u.output_mode_selector.mode,"\n");

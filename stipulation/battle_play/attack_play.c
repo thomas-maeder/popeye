@@ -39,7 +39,6 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
-#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
@@ -256,10 +255,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STMaxNrNonTrivialCounter:
       result = max_nr_nontrivial_counter_attack(si,n);
-      break;
-
-    case STKillerMoveMoveGenerator:
-      result = killer_move_move_generator_attack(si,n);
       break;
 
     case STKillerMoveCollector:

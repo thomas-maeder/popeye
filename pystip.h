@@ -62,6 +62,12 @@ typedef struct
             stip_length_type min_length; /* half moves */
         } branch;
 
+        struct
+        {
+            slice_index next;
+            move_generation_mode_type mode;
+        } move_generator;
+
         struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;

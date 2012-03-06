@@ -77,7 +77,6 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
- optimisations/killer_move/move_generator.h \
  optimisations/killer_move/collector.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
@@ -167,8 +166,6 @@ optimisations/goals/castling/filter.h:
 
 optimisations/goals/enpassant/filter.h:
 
-optimisations/killer_move/move_generator.h:
-
 optimisations/killer_move/collector.h:
 
 output/plaintext/tree/check_writer.h:
@@ -219,8 +216,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  solving/battle_play/try.h solving/battle_play/threat.h \
  solving/find_by_increasing_length.h \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
- conditions/bgl.h optimisations/killer_move/move_generator.h \
- optimisations/killer_move/final_defense_move.h \
+ conditions/bgl.h optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/goals/enpassant/filter.h options/maxsolutions/guard.h \
@@ -295,8 +291,6 @@ solving/battle_play/min_length_guard.h:
 solving/avoid_unsolvable.h:
 
 conditions/bgl.h:
-
-optimisations/killer_move/move_generator.h:
 
 optimisations/killer_move/final_defense_move.h:
 

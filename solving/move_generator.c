@@ -17,6 +17,7 @@ slice_index alloc_move_generator_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STMoveGenerator);
+  slices[result].u.move_generator.mode = move_generation_not_optimized;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -35,17 +36,15 @@ slice_index alloc_move_generator_slice(void)
 stip_length_type move_generator_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  genmove(attacker);
-  result = attack(next,n);
+  move_generation_mode = slices[si].u.move_generator.mode;
+  genmove(slices[si].starter);
+  result = attack(slices[si].u.pipe.next,n);
   finply();
 
   TraceFunctionExit(__func__);
@@ -68,17 +67,15 @@ stip_length_type move_generator_attack(slice_index si, stip_length_type n)
 stip_length_type move_generator_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  Side const defender = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  genmove(defender);
-  result = defend(next,n);
+  move_generation_mode = slices[si].u.move_generator.mode;
+  genmove(slices[si].starter);
+  result = defend(slices[si].u.pipe.next,n);
   finply();
 
   TraceFunctionExit(__func__);
@@ -100,17 +97,15 @@ stip_length_type move_generator_help(slice_index si,
                                           stip_length_type n)
 {
   stip_length_type result;
-  Side const side_at_move = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  genmove(side_at_move);
-  result = help(next,n);
+  move_generation_mode = slices[si].u.move_generator.mode;
+  genmove(slices[si].starter);
+  result = help(slices[si].u.pipe.next,n);
   finply();
 
   TraceFunctionExit(__func__);

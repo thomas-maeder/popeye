@@ -204,7 +204,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STDeadEndGoal */
   slice_structure_pipe,         /* STOrthodoxMatingMoveGenerator */
   slice_structure_pipe,         /* STKillerMoveCollector */
-  slice_structure_pipe,         /* STKillerMoveMoveGenerator */
   slice_structure_pipe,         /* STKillerMoveFinalDefenseMove */
   slice_structure_pipe,         /* STCountNrOpponentMovesMoveGenerator */
   slice_structure_pipe,         /* STEnPassantFilter */
@@ -396,7 +395,6 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STDeadEndGoal */
   slice_function_move_generator,   /* STOrthodoxMatingMoveGenerator */
   slice_function_unspecified,      /* STKillerMoveCollector */
-  slice_function_move_generator,   /* STKillerMoveMoveGenerator */
   slice_function_move_generator,   /* STKillerMoveFinalDefenseMove */
   slice_function_move_generator,   /* STCountNrOpponentMovesMoveGenerator */
   slice_function_unspecified,      /* STEnPassantFilter */
@@ -1735,7 +1733,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STDeadEndGoal */
   &stip_traverse_structure_pipe,              /* STOrthodoxMatingMoveGenerator */
   &stip_traverse_structure_pipe,              /* STKillerMoveCollector */
-  &stip_traverse_structure_pipe,              /* STKillerMoveMoveGenerator */
   &stip_traverse_structure_pipe,              /* STKillerMoveFinalDefenseMove */
   &stip_traverse_structure_pipe,              /* STCountNrOpponentMovesMoveGenerator */
   &stip_traverse_structure_pipe,              /* STEnPassantFilter */
@@ -2028,7 +2025,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_dead_end,          /* STDeadEndGoal */
     &stip_traverse_moves_pipe,              /* STOrthodoxMatingMoveGenerator */
     &stip_traverse_moves_pipe,              /* STKillerMoveCollector */
-    &stip_traverse_moves_pipe,              /* STKillerMoveMoveGenerator */
     &stip_traverse_moves_pipe,              /* STKillerMoveFinalDefenseMove */
     &stip_traverse_moves_pipe,              /* STCountNrOpponentMovesMoveGenerator */
     &stip_traverse_moves_pipe,              /* STEnPassantFilter */

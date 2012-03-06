@@ -4,7 +4,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
-#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "trace.h"
@@ -234,13 +233,13 @@ static void substitute_killermove_machinery(slice_index si,
     {
       slice_index const prototype = alloc_killer_move_collector_slice();
       attack_branch_insert_slices(si,&prototype,1);
-      pipe_substitute(si,alloc_killer_move_move_generator_slice());
+      slices[si].u.move_generator.mode = move_generation_optimized_by_killer_move;
     }
     else if (context==stip_traversal_context_defense)
     {
       slice_index const prototype = alloc_killer_move_collector_slice();
       defense_branch_insert_slices(si,&prototype,1);
-      pipe_substitute(si,alloc_killer_move_move_generator_slice());
+      slices[si].u.move_generator.mode = move_generation_optimized_by_killer_move;
     }
   }
 

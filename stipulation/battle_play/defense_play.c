@@ -31,7 +31,6 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
-#include "optimisations/killer_move/move_generator.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
@@ -248,10 +247,6 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STThreatDefeatedTester:
       result = threat_defeated_tester_defend(si,n);
-      break;
-
-    case STKillerMoveMoveGenerator:
-      result = killer_move_move_generator_defend(si,n);
       break;
 
     case STFindMove:
