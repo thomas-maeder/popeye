@@ -228,7 +228,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STKeepMatingFilter */
   slice_structure_fork,         /* STMaxFlightsquares */
   slice_structure_pipe,         /* STFlightsquaresCounter */
-  slice_structure_pipe,         /* STDegenerateTree */
+  slice_structure_branch,       /* STDegenerateTree */
   slice_structure_fork,         /* STMaxNrNonTrivial */
   slice_structure_pipe,         /* STMaxNrNonTrivialCounter */
   slice_structure_fork,         /* STMaxThreatLength */

@@ -2137,10 +2137,7 @@ pydegent$(OBJ_SUFFIX): pydegent.c pydegent.h stipulation/battle_play/attack_play
  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
  stipulation/goals/goals.h boolean.h py.h pypipe.h pystip.h \
  stipulation/slice_type.h pyslice.h pybrafrk.h stipulation/branch.h \
- pystip.h solving/avoid_unsolvable.h \
- stipulation/battle_play/attack_play.h \
- stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
- trace.h
+ pystip.h trace.h
 
 pydegent.h:
 
@@ -2191,14 +2188,6 @@ pybrafrk.h:
 stipulation/branch.h:
 
 pystip.h:
-
-solving/avoid_unsolvable.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
-stipulation/help_play/play.h:
 
 trace.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pyposit.h pyboard.h \

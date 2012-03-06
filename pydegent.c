@@ -3,7 +3,6 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
-#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -42,14 +41,17 @@ void init_degenerate_tree(stip_length_type max_length_short)
 /* Allocate a STDegenerateTree slice
  * @return allocated slice
  */
-static slice_index alloc_degenerate_tree_guard_slice(void)
+static slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
+                                                     stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STDegenerateTree);
+  result = alloc_branch(STDegenerateTree,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -67,9 +69,9 @@ static slice_index alloc_degenerate_tree_guard_slice(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-static stip_length_type delegate_has_solution_in_n(slice_index si,
-                                                   stip_length_type n,
-                                                   stip_length_type n_min)
+static stip_length_type delegate_attack(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_min)
 {
   stip_length_type result = n+2;
   stip_length_type n_current;
@@ -103,9 +105,12 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
  */
 stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
 {
-  stip_length_type result = n+2;
-  stip_length_type const parity = (n-slack_length)%2;
-  stip_length_type const n_min = max_unsolvable;
+  stip_length_type result;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_min = (min_length>=(length-n)+slack_length
+                                  ? min_length-(length-n)
+                                  : min_length);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -116,16 +121,17 @@ stip_length_type degenerate_tree_attack(slice_index si, stip_length_type n)
   {
     if (max_length_short_solutions>=slack_length+2)
     {
+      stip_length_type const parity = (n-slack_length)%2;
       stip_length_type const n_interm = max_length_short_solutions-parity;
-      result = delegate_has_solution_in_n(si,n_interm,n_min);
+      result = delegate_attack(si,n_interm,n_min);
       if (result>n_interm)
-        result = delegate_has_solution_in_n(si,n,n);
+        result = delegate_attack(si,n,n);
     }
     else
-      result = delegate_has_solution_in_n(si,n,n);
+      result = delegate_attack(si,n,n);
   }
   else
-    result = delegate_has_solution_in_n(si,n,n_min);
+    result = delegate_attack(si,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -146,7 +152,11 @@ static void degenerate_tree_inserter_attack(slice_index si,
   {
     slice_index const finder = branch_find_slice(STFindShortest,si);
     if (finder!=no_slice) /* slice may already have been replaced */
-      pipe_substitute(finder,alloc_degenerate_tree_guard_slice());
+    {
+      stip_length_type const length = slices[finder].u.branch.length;
+      stip_length_type const min_length = slices[finder].u.branch.min_length;
+      pipe_substitute(finder,alloc_degenerate_tree_guard_slice(length,min_length));
+    }
   }
   else
     stip_traverse_structure_children(si,st);
