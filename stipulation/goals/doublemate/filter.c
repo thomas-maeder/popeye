@@ -3,7 +3,6 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/immobile/reached_tester.h"
-#include "solving/avoid_unsolvable.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -43,8 +42,6 @@ stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(max_unsolvable<=slack_length);
 
   if (slice_solve(slices[si].u.fork.fork)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
