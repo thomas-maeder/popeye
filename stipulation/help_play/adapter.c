@@ -168,12 +168,12 @@ has_solution_type help_adapter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = help(next,full_length);
-  if (nr_moves_needed<=full_length)
-    result = has_solution;
-  else if (nr_moves_needed<=full_length+2)
-    result = has_no_solution;
-  else
+  if (nr_moves_needed<slack_length)
     result = opponent_self_check;
+  else if (nr_moves_needed<=full_length)
+    result = has_solution;
+  else
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

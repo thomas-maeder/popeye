@@ -2195,13 +2195,13 @@ static void addtohash_help(slice_index si, stip_length_type n)
 }
 
 /* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move leading to the current position has
+ *                           turned out to be illegal
+ *            n   solution found
+ *            n+2 no solution found
  */
 stip_length_type help_hashed_help(slice_index si, stip_length_type n)
 {
@@ -2227,9 +2227,6 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
     else
       result = help(slices[si].u.pipe.next,n);
 
-    /* self check test should be over when we arrive here */
-    assert(result<=n+2);
-
     if (result==n+2)
       addtohash_help(si,n);
   }
@@ -2241,13 +2238,13 @@ stip_length_type help_hashed_help(slice_index si, stip_length_type n)
 }
 
 /* Solve in a number of half-moves
- * @param si identifies slice
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+4 the move leading to the current position has turned out
- *             to be illegal
- *         n+2 no solution found
- *         n   solution found
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 the move leading to the current position has
+ *                           turned out to be illegal
+ *            n   solution found
+ *            n+2 no solution found
  */
 stip_length_type help_hashed_tester_help(slice_index si, stip_length_type n)
 {
@@ -2273,9 +2270,6 @@ stip_length_type help_hashed_tester_help(slice_index si, stip_length_type n)
     }
     else
       result = help(slices[si].u.pipe.next,n);
-
-    /* self check test should be over when we arrive here */
-    assert(result<=n+2);
 
     if (result>n)
       addtohash_help(base,n);
