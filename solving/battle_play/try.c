@@ -100,7 +100,7 @@ slice_index alloc_refutations_allocator(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -152,7 +152,7 @@ slice_index alloc_refutations_solver(void)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
@@ -204,7 +204,7 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -287,7 +287,7 @@ void spin_off_testers_refutations_avoider(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
@@ -333,7 +333,7 @@ static slice_index alloc_refutations_filter_slice(void)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */

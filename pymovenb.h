@@ -35,7 +35,7 @@ void stip_insert_restart_guards(slice_index si);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length_battle - no legal defense found
+ * @return <slack_length - no legal defense found
  *         <=n solved  - <=acceptable number of refutations found
  *                       return value is maximum number of moves
  *                       (incl. defense) needed

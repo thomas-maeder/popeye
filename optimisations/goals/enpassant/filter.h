@@ -21,7 +21,7 @@ slice_index alloc_enpassant_filter_slice(void);
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */

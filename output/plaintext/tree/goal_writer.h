@@ -30,7 +30,7 @@ output_plaintext_tree_goal_writer_defend(slice_index si, stip_length_type n);
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length_battle-2 defense has turned out to be illegal
+ *            slack_length-2 defense has turned out to be illegal
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
