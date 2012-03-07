@@ -255,7 +255,7 @@ stip_length_type end_of_branch_help(slice_index si, stip_length_type n)
   switch (slice_solve(fork))
   {
     case has_solution:
-      result = n;
+      result = slack_length;
       break;
 
     case has_no_solution:
