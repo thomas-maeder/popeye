@@ -3,17 +3,17 @@
 #include "pypipe.h"
 #include "trace.h"
 
-/* Allocate a STMaxSolutionsGuard slice.
+/* Allocate a STMaxSolutionsCounter slice.
  * @return allocated slice
  */
-slice_index alloc_maxsolutions_guard_slice(void)
+slice_index alloc_maxsolutions_counter_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxSolutionsGuard);
+  result = alloc_pipe(STMaxSolutionsCounter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -25,16 +25,15 @@ slice_index alloc_maxsolutions_guard_slice(void)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type maxsolutions_guard_solve(slice_index si)
+has_solution_type maxsolutions_counter_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_solve(next);
+  result = slice_solve(slices[si].u.pipe.next);
 
   if (result==has_solution)
     increase_nr_found_solutions();
@@ -56,10 +55,58 @@ has_solution_type maxsolutions_guard_solve(slice_index si)
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
+stip_length_type maxsolutions_counter_defend(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = defend(slices[si].u.pipe.next,n);
+
+  if (slack_length<=result && result<=n)
+    increase_nr_found_solutions();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STMaxSolutionsGuard slice.
+ * @return allocated slice
+ */
+slice_index alloc_maxsolutions_guard_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMaxSolutionsGuard);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
 stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -69,11 +116,7 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
   if (max_nr_solutions_found_in_phase())
     result = n+2;
   else
-  {
-    result = defend(next,n);
-    if (slack_length<=result && result<=n)
-      increase_nr_found_solutions();
-  }
+    result = defend(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

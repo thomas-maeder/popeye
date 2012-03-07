@@ -159,6 +159,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
       result = maxsolutions_guard_defend(si,n);
       break;
 
+    case STMaxSolutionsCounter:
+      result = maxsolutions_counter_defend(si,n);
+      break;
+
     case STRestartGuard:
       result = restart_guard_defend(si,n);
       break;

@@ -200,6 +200,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STMaxTimeGuard */
   slice_structure_pipe,         /* STMaxSolutionsInitialiser */
   slice_structure_pipe,         /* STMaxSolutionsGuard */
+  slice_structure_pipe,         /* STMaxSolutionsCounter */
   slice_structure_fork,         /* STEndOfBranchGoalImmobile */
   slice_structure_pipe,         /* STDeadEndGoal */
   slice_structure_pipe,         /* STOrthodoxMatingMoveGenerator */
@@ -390,6 +391,7 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STMaxTimeGuard */
   slice_function_unspecified,      /* STMaxSolutionsInitialiser */
   slice_function_unspecified,      /* STMaxSolutionsGuard */
+  slice_function_unspecified,      /* STMaxSolutionsCounter */
   slice_function_unspecified,      /* STEndOfBranchGoalImmobile */
   slice_function_unspecified,      /* STDeadEndGoal */
   slice_function_move_generator,   /* STOrthodoxMatingMoveGenerator */
@@ -1727,6 +1729,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STMaxTimeGuard */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsInitialiser */
   &stip_traverse_structure_pipe,              /* STMaxSolutionsGuard */
+  &stip_traverse_structure_pipe,              /* STMaxSolutionsCounter */
   &stip_traverse_structure_fork,              /* STEndOfBranchGoalImmobile */
   &stip_traverse_structure_pipe,              /* STDeadEndGoal */
   &stip_traverse_structure_pipe,              /* STOrthodoxMatingMoveGenerator */
@@ -2018,6 +2021,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STMaxTimeGuard */
     &stip_traverse_moves_pipe,              /* STMaxSolutionsInitialiser */
     &stip_traverse_moves_pipe,              /* STMaxSolutionsGuard */
+    &stip_traverse_moves_pipe,              /* STMaxSolutionsCounter */
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchGoalImmobile */
     &stip_traverse_moves_dead_end,          /* STDeadEndGoal */
     &stip_traverse_moves_pipe,              /* STOrthodoxMatingMoveGenerator */

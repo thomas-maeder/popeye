@@ -152,16 +152,21 @@ static void insert_maxsolutions_help_filter(slice_index si,
 /* Insert STMaxSolutionsGuard slices
  */
 static
-void insert_maxsolutions_root_defender_filter(slice_index si,
-                                              stip_structure_traversal *st)
+void insert_maxsolutions_attack_adapter(slice_index si,
+                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_maxsolutions_guard_slice();
-    attack_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] =
+    {
+      alloc_maxsolutions_guard_slice(),
+      alloc_maxsolutions_counter_slice()
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    attack_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -178,7 +183,7 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_maxsolutions_guard_slice();
+    slice_index const prototype = alloc_maxsolutions_counter_slice();
     leaf_branch_insert_slices(si,&prototype,1);
   }
 
@@ -188,10 +193,10 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STMaxSolutionsGuard,  &stip_structure_visitor_noop              },
-  { STReadyForHelpMove,   &insert_maxsolutions_help_filter          },
-  { STAttackAdapter,      &insert_maxsolutions_root_defender_filter },
-  { STGoalReachedTester,  &insert_maxsolutions_solvable_filter      }
+  { STMaxSolutionsGuard, &stip_structure_visitor_noop         },
+  { STReadyForHelpMove,  &insert_maxsolutions_help_filter     },
+  { STAttackAdapter,     &insert_maxsolutions_attack_adapter  },
+  { STGoalReachedTester, &insert_maxsolutions_solvable_filter }
 };
 
 enum

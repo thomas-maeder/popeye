@@ -519,6 +519,7 @@ static slice_index const leaf_slice_rank_order[] =
   STRefutingVariationWriter,
   STCheckDetector,
   STMaxSolutionsGuard,
+  STMaxSolutionsCounter,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STReadyForDefense,

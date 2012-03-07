@@ -70,6 +70,7 @@ static slice_index const slice_rank_order[] =
   STOpponentMovesCounter,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
+  STMaxSolutionsCounter,
   STRestartGuard,
   STKeepMatingFilter,
   STIntelligentLimitNrSolutionsPerTargetPos,

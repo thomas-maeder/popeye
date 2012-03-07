@@ -68,6 +68,7 @@ static slice_index const slice_rank_order[] =
   STMovePlayed,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
+  STMaxSolutionsCounter,
   STRestartGuard,
   STEndOfSolutionWriter,
   STThreatCollector,

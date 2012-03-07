@@ -125,6 +125,7 @@
     ENUMERATOR(STMaxTimeGuard), /* deals with option maxtime */         \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsGuard), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsCounter), /* count solutions for option maxsolutions */  \
     /* slices implementing optimisations */                             \
     ENUMERATOR(STEndOfBranchGoalImmobile), /* end of branch leading to "immobile goal" (#, =, ...) */ \
     ENUMERATOR(STDeadEndGoal), /* like STDeadEnd, but all ends are goals */ \

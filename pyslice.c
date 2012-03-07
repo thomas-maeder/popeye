@@ -142,8 +142,8 @@ has_solution_type slice_solve(slice_index si)
       result = maxsolutions_initialiser_solve(si);
       break;
 
-    case STMaxSolutionsGuard:
-      result = maxsolutions_guard_solve(si);
+    case STMaxSolutionsCounter:
+      result = maxsolutions_counter_solve(si);
       break;
 
     case STStopOnShortSolutionsInitialiser:
