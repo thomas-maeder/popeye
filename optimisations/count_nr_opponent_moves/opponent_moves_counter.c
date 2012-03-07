@@ -90,7 +90,7 @@ stip_length_type opponent_moves_counter_help(slice_index si,
   assert(opponent_moves_counter_count==count_for_selfcheck);
 
   result = help(slices[si].u.pipe.next,n);
-  if (slack_length<=result && result<n+4)
+  if (slack_length<=result)
   {
     opponent_moves_counter_count = legal_move_counter_count[nbply+1];
     result = n;

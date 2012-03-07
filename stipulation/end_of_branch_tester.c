@@ -166,7 +166,7 @@ stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n)
 
     default:
       assert(0);
-      result = n+4;
+      result = slack_length-2;
       break;
   }
 

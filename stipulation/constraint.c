@@ -214,7 +214,7 @@ stip_length_type constraint_solver_help(slice_index si, stip_length_type n)
 
     default:
       assert(0);
-      result = n+4;
+      result = slack_length-2;
       break;
   }
 
@@ -331,7 +331,7 @@ stip_length_type constraint_tester_help(slice_index si, stip_length_type n)
 
     default:
       assert(0);
-      result = n+4;
+      result = slack_length-2;
       break;
   }
 
