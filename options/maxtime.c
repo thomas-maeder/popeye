@@ -47,7 +47,7 @@ stip_length_type maxtime_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (hasMaxtimeElapsed())
-    result = n+4;
+    result = n+2;
   else
     result = defend(next,n);
 

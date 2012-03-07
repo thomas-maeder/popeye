@@ -67,7 +67,7 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (max_nr_solutions_found_in_phase())
-    result = n+4;
+    result = n+2;
   else
   {
     result = defend(next,n);
