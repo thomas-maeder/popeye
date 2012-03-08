@@ -109,38 +109,3 @@ stip_length_type king_move_generator_defend(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type king_move_generator_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  Side const side_at_move = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
-  nextply(nbply);
-  trait[nbply] = side_at_move;
-  if (TSTFLAG(PieSpExFlags,Neutral))
-    initneutre(advers(side_at_move));
-  generate_king_moves(side_at_move);
-  result = help(next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

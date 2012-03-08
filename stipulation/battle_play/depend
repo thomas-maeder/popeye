@@ -59,25 +59,45 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
- stipulation/constraint.h stipulation/dead_end.h \
+ pyproof.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move_played.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/goals/reached_tester.h \
- stipulation/goals/doublemate/filter.h \
+ stipulation/end_of_branch_tester.h stipulation/dummy_move.h \
+ stipulation/move_played.h stipulation/check_zigzag_jump.h \
+ stipulation/boolean/or.h stipulation/battle_play/branch.h \
+ stipulation/goals/reached_tester.h stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
- solving/find_shortest.h solving/move_generator.h solving/for_each_move.h \
- solving/find_move.h solving/play_suppressor.h solving/avoid_unsolvable.h \
+ solving/find_shortest.h solving/move_generator.h \
+ solving/castling_intermediate_move_generator.h \
+ solving/single_move_generator.h \
+ solving/single_move_generator_with_king_capture.h \
+ solving/single_piece_move_generator.h solving/king_move_generator.h \
+ solving/non_king_move_generator.h solving/capture_counter.h \
+ solving/legal_move_counter.h solving/for_each_move.h \
+ solving/find_by_increasing_length.h solving/find_move.h \
+ solving/play_suppressor.h solving/avoid_unsolvable.h \
  solving/trivial_end_filter.h solving/battle_play/threat.h \
  solving/battle_play/try.h solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
  solving/battle_play/continuation.h solving/battle_play/check_detector.h \
- conditions/bgl.h \
+ conditions/bgl.h conditions/exclusive.h \
+ conditions/ohneschach/immobility_tester.h options/maxsolutions/guard.h \
+ options/stoponshortsolutions/filter.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
+ options/movenumbers/restart_guard_intelligent.h options/maxtime.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/intelligent/proof.h \
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/mate/goalreachable_guard.h \
+ optimisations/intelligent/stalemate/immobilise_black.h \
+ optimisations/intelligent/stalemate/goalreachable_guard.h \
+ optimisations/intelligent/stalemate/filter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/killer_move/collector.h \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  output/plaintext/tree/check_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/move_writer.h \
@@ -106,6 +126,8 @@ pythreat.h:
 
 pynontrv.h:
 
+pyproof.h:
+
 stipulation/constraint.h:
 
 stipulation/dead_end.h:
@@ -114,7 +136,13 @@ stipulation/end_of_branch.h:
 
 stipulation/end_of_branch_goal.h:
 
+stipulation/end_of_branch_tester.h:
+
+stipulation/dummy_move.h:
+
 stipulation/move_played.h:
+
+stipulation/check_zigzag_jump.h:
 
 stipulation/boolean/or.h:
 
@@ -134,7 +162,25 @@ solving/find_shortest.h:
 
 solving/move_generator.h:
 
+solving/castling_intermediate_move_generator.h:
+
+solving/single_move_generator.h:
+
+solving/single_move_generator_with_king_capture.h:
+
+solving/single_piece_move_generator.h:
+
+solving/king_move_generator.h:
+
+solving/non_king_move_generator.h:
+
+solving/capture_counter.h:
+
+solving/legal_move_counter.h:
+
 solving/for_each_move.h:
+
+solving/find_by_increasing_length.h:
 
 solving/find_move.h:
 
@@ -158,15 +204,45 @@ solving/battle_play/check_detector.h:
 
 conditions/bgl.h:
 
+conditions/exclusive.h:
+
+conditions/ohneschach/immobility_tester.h:
+
+options/maxsolutions/guard.h:
+
+options/stoponshortsolutions/filter.h:
+
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
+options/movenumbers/restart_guard_intelligent.h:
+
+options/maxtime.h:
+
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+optimisations/intelligent/moves_left.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+optimisations/intelligent/proof.h:
+
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/mate/goalreachable_guard.h:
+
+optimisations/intelligent/stalemate/immobilise_black.h:
+
+optimisations/intelligent/stalemate/goalreachable_guard.h:
+
+optimisations/intelligent/stalemate/filter.h:
 
 optimisations/goals/castling/filter.h:
 
 optimisations/goals/enpassant/filter.h:
 
 optimisations/killer_move/collector.h:
+
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 output/plaintext/tree/check_writer.h:
 
@@ -209,12 +285,12 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/dummy_move.h stipulation/check_zigzag_jump.h \
  stipulation/battle_play/branch.h stipulation/goals/reached_tester.h \
  stipulation/goals/countermate/filter.h \
- stipulation/goals/prerequisite_optimiser.h stipulation/help_play/play.h \
- solving/fork_on_remaining.h solving/move_generator.h \
- solving/for_each_move.h solving/find_move.h solving/play_suppressor.h \
- solving/battle_play/continuation.h solving/battle_play/check_detector.h \
- solving/battle_play/try.h solving/battle_play/threat.h \
- solving/find_by_increasing_length.h \
+ stipulation/goals/prerequisite_optimiser.h \
+ stipulation/battle_play/attack_play.h solving/fork_on_remaining.h \
+ solving/move_generator.h solving/for_each_move.h solving/find_move.h \
+ solving/play_suppressor.h solving/battle_play/continuation.h \
+ solving/battle_play/check_detector.h solving/battle_play/try.h \
+ solving/battle_play/threat.h solving/find_by_increasing_length.h \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
  conditions/bgl.h optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
@@ -263,7 +339,7 @@ stipulation/goals/countermate/filter.h:
 
 stipulation/goals/prerequisite_optimiser.h:
 
-stipulation/help_play/play.h:
+stipulation/battle_play/attack_play.h:
 
 solving/fork_on_remaining.h:
 

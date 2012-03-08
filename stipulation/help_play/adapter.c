@@ -1,7 +1,7 @@
 #include "stipulation/help_play/adapter.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "trace.h"
 
@@ -167,7 +167,7 @@ has_solution_type help_adapter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = help(next,full_length);
+  nr_moves_needed = attack(next,full_length);
   if (nr_moves_needed<slack_length)
     result = opponent_self_check;
   else if (nr_moves_needed<=full_length)

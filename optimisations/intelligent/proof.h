@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_PROOF_H)
 #define OPTIMISATIONS_INTELLIGENT_PROOF_H
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STIntelligentProof
  * stipulation slice type.
@@ -21,6 +21,6 @@ slice_index alloc_intelligent_proof(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_proof_help(slice_index si, stip_length_type n);
+stip_length_type intelligent_proof_attack(slice_index si, stip_length_type n);
 
 #endif

@@ -44,6 +44,34 @@ has_solution_type maxsolutions_counter_solve(slice_index si)
   return result;
 }
 
+/* Try to solve in n half-moves after a defense.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type maxsolutions_counter_attack(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = attack(slices[si].u.pipe.next,n);
+
+  if (slack_length<=result && result<=n)
+    increase_nr_found_solutions();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -124,16 +152,15 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type maxsolutions_guard_help(slice_index si,
+stip_length_type maxsolutions_guard_attack(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
@@ -146,7 +173,7 @@ stip_length_type maxsolutions_guard_help(slice_index si,
   if (max_nr_solutions_found_in_phase())
     result = n+2;
   else
-    result = help(slices[si].u.pipe.next,n);
+    result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

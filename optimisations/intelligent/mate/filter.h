@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H)
 #define OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STIntelligentMateFilter
  * stipulation slice type.
@@ -29,7 +29,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_mate_filter_help(slice_index si,
-                                              stip_length_type n);
+stip_length_type intelligent_mate_filter_attack(slice_index si,
+                                                stip_length_type n);
 
 #endif

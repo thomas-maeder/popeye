@@ -68,16 +68,16 @@ static void print_nr_potential_target_positions(void)
   }
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type n)
+stip_length_type restart_guard_intelligent_attack(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result;
 
@@ -91,7 +91,7 @@ stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type
   else
   {
     nr_potential_target_positions = 0;
-    result = help(slices[si].u.pipe.next,n);
+    result = attack(slices[si].u.pipe.next,n);
     if (!hasMaxtimeElapsed())
       print_nr_potential_target_positions();
   }
@@ -130,7 +130,8 @@ slice_index alloc_intelligent_target_counter(void)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_target_counter_help(slice_index si, stip_length_type n)
+stip_length_type intelligent_target_counter_attack(slice_index si,
+                                                   stip_length_type n)
 {
   stip_length_type result;
 
@@ -142,7 +143,7 @@ stip_length_type intelligent_target_counter_help(slice_index si, stip_length_typ
   ++nr_potential_target_positions;
   TraceValue("%u\n",nr_potential_target_positions);
 
-  result = help(slices[si].u.pipe.next,n);
+  result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

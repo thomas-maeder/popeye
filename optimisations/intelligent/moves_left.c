@@ -93,17 +93,16 @@ static void init_moves_left(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_moves_left_initialiser_help(slice_index si,
-                                                         stip_length_type n)
+stip_length_type intelligent_moves_left_initialiser_attack(slice_index si,
+                                                           stip_length_type n)
 {
   stip_length_type result;
 
@@ -115,7 +114,7 @@ stip_length_type intelligent_moves_left_initialiser_help(slice_index si,
   init_moves_left(si,n-slack_length,n-slack_length);
 
   if (MovesLeft[White]+MovesLeft[Black]>0)
-    result = help(slices[si].u.pipe.next,n);
+    result = attack(slices[si].u.pipe.next,n);
   else
     result = n+2;
 

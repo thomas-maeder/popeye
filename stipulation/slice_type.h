@@ -43,6 +43,7 @@
     ENUMERATOR(STForEachMove), /* iterate over each generated move */  \
     ENUMERATOR(STFindMove), /* find the first move to satisfy some condition */ \
     ENUMERATOR(STMovePlayed),                                          \
+    ENUMERATOR(STHelpMovePlayed),                                      \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
     ENUMERATOR(STReadyForDummyMove),                                   \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \

@@ -6,7 +6,7 @@
  * is immobile (e.g. branches that end in mate or stalemate).
  */
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
  * necessary STEndOfBranchTester slices
@@ -22,15 +22,14 @@ void stip_insert_end_of_branch_testers(slice_index root_slice);
 void start_spinning_off_end_of_branch_tester(slice_index si,
                                              stip_structure_traversal *st);
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type end_of_branch_tester_help(slice_index si, stip_length_type n);
+stip_length_type end_of_branch_tester_attack(slice_index si, stip_length_type n);
 
 #endif

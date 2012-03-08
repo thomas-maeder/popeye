@@ -10,7 +10,7 @@
 #define PYINT_H
 
 #include "pyposit.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 #define piece_usageENUMERATORS \
     ENUMERATOR(piece_is_unused), \

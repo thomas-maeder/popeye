@@ -11,7 +11,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
 
 /* Allocate a STEndOfBranch slice.
  * @param to_goal identifies slice leading towards goal
@@ -96,16 +95,5 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n);
  *         n+2 refuted - >acceptable number of refutations found
  */
 stip_length_type end_of_branch_goal_defend(slice_index si, stip_length_type n);
-
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type end_of_branch_help(slice_index si, stip_length_type n);
 
 #endif

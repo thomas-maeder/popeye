@@ -1,6 +1,7 @@
 stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
  stipulation/help_play/adapter.h pypipe.h stipulation/branch.h \
- stipulation/help_play/play.h stipulation/help_play/branch.h trace.h
+ stipulation/battle_play/attack_play.h stipulation/help_play/branch.h \
+ trace.h
 
 stipulation/help_play/adapter.h:
 
@@ -8,7 +9,7 @@ pypipe.h:
 
 stipulation/branch.h:
 
-stipulation/help_play/play.h:
+stipulation/battle_play/attack_play.h:
 
 stipulation/help_play/branch.h:
 
@@ -44,142 +45,5 @@ stipulation/move_played.h:
 stipulation/boolean/binary.h:
 
 stipulation/help_play/adapter.h:
-
-trace.h:
-stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
- stipulation/help_play/play.h pyhash.h pykeepmt.h pyselfcg.h pymovenb.h \
- pyflight.h pyproof.h stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
- stipulation/move_played.h stipulation/dummy_move.h \
- stipulation/check_zigzag_jump.h stipulation/goals/countermate/filter.h \
- stipulation/goals/doublemate/filter.h \
- stipulation/goals/prerequisite_optimiser.h solving/avoid_unsolvable.h \
- solving/fork_on_remaining.h solving/find_by_increasing_length.h \
- solving/find_shortest.h solving/move_generator.h \
- solving/king_move_generator.h solving/for_each_move.h \
- solving/find_move.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h solving/capture_counter.h \
- solving/single_move_generator_with_king_capture.h \
- solving/single_piece_move_generator.h \
- solving/castling_intermediate_move_generator.h \
- solving/single_move_generator.h conditions/bgl.h options/maxtime.h \
- options/maxsolutions/guard.h \
- options/movenumbers/restart_guard_intelligent.h \
- options/stoponshortsolutions/filter.h \
- optimisations/goals/enpassant/filter.h \
- optimisations/goals/castling/filter.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- optimisations/intelligent/moves_left.h \
- optimisations/intelligent/mate/filter.h \
- optimisations/intelligent/stalemate/filter.h \
- optimisations/intelligent/proof.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
- optimisations/intelligent/stalemate/immobilise_black.h \
- optimisations/intelligent/stalemate/goalreachable_guard.h \
- optimisations/intelligent/mate/goalreachable_guard.h \
- conditions/exclusive.h conditions/ohneschach/immobility_tester.h trace.h
-
-stipulation/help_play/play.h:
-
-pyhash.h:
-
-pykeepmt.h:
-
-pyselfcg.h:
-
-pymovenb.h:
-
-pyflight.h:
-
-pyproof.h:
-
-stipulation/constraint.h:
-
-stipulation/dead_end.h:
-
-stipulation/end_of_branch.h:
-
-stipulation/end_of_branch_tester.h:
-
-stipulation/move_played.h:
-
-stipulation/dummy_move.h:
-
-stipulation/check_zigzag_jump.h:
-
-stipulation/goals/countermate/filter.h:
-
-stipulation/goals/doublemate/filter.h:
-
-stipulation/goals/prerequisite_optimiser.h:
-
-solving/avoid_unsolvable.h:
-
-solving/fork_on_remaining.h:
-
-solving/find_by_increasing_length.h:
-
-solving/find_shortest.h:
-
-solving/move_generator.h:
-
-solving/king_move_generator.h:
-
-solving/for_each_move.h:
-
-solving/find_move.h:
-
-solving/non_king_move_generator.h:
-
-solving/legal_move_counter.h:
-
-solving/capture_counter.h:
-
-solving/single_move_generator_with_king_capture.h:
-
-solving/single_piece_move_generator.h:
-
-solving/castling_intermediate_move_generator.h:
-
-solving/single_move_generator.h:
-
-conditions/bgl.h:
-
-options/maxtime.h:
-
-options/maxsolutions/guard.h:
-
-options/movenumbers/restart_guard_intelligent.h:
-
-options/stoponshortsolutions/filter.h:
-
-optimisations/goals/enpassant/filter.h:
-
-optimisations/goals/castling/filter.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
-
-optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
-
-optimisations/intelligent/moves_left.h:
-
-optimisations/intelligent/mate/filter.h:
-
-optimisations/intelligent/stalemate/filter.h:
-
-optimisations/intelligent/proof.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-optimisations/intelligent/stalemate/immobilise_black.h:
-
-optimisations/intelligent/stalemate/goalreachable_guard.h:
-
-optimisations/intelligent/mate/goalreachable_guard.h:
-
-conditions/exclusive.h:
-
-conditions/ohneschach/immobility_tester.h:
 
 trace.h:

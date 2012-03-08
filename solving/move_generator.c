@@ -83,33 +83,3 @@ stip_length_type move_generator_defend(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index
- * @param n exact number of moves to reach the end state
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-stip_length_type move_generator_help(slice_index si,
-                                          stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = slices[si].u.move_generator.mode;
-  genmove(slices[si].starter);
-  result = help(slices[si].u.pipe.next,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

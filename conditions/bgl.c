@@ -82,7 +82,7 @@ stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
   if (BGL_values[trait[nbply]][nbply]>=0)
     result = attack(slices[si].u.pipe.next,n);
   else
-    result = n+2;
+    result = slack_length-2;
 
   if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
     BGL_values[White][nbply] += diff;
@@ -125,47 +125,6 @@ stip_length_type bgl_filter_defend(slice_index si, stip_length_type n)
 
   if (BGL_values[trait[nbply]][nbply]>=0)
     result = defend(slices[si].u.pipe.next,n);
-  else
-    result = slack_length-2;
-
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] += diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] += diff;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type bgl_filter_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+nbcou;
-  int const move_diff = move_gen_top->departure-move_gen_top->arrival;
-  long int const diff = BGL_move_diff_code[abs(move_diff)];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (BGL_values[White][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == White))
-    BGL_values[White][nbply] -= diff;
-  if (BGL_values[Black][nbply]!=BGL_infinity && (BGL_global || trait[nbply] == Black))
-    BGL_values[Black][nbply] -= diff;
-
-  if (BGL_values[trait[nbply]][nbply]>=0)
-    result = help(slices[si].u.pipe.next,n);
   else
     result = slack_length-2;
 

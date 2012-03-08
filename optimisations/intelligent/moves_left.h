@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_MOVES_LEFT_H)
 #define OPTIMISATIONS_INTELLIGENT_MOVES_LEFT_H
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 extern unsigned int MovesLeft[nr_sides];
 
@@ -23,7 +23,7 @@ slice_index alloc_intelligent_moves_left_initialiser(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_moves_left_initialiser_help(slice_index si,
-                                                         stip_length_type n);
+stip_length_type intelligent_moves_left_initialiser_attack(slice_index si,
+                                                           stip_length_type n);
 
 #endif

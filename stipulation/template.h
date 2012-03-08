@@ -3,7 +3,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
 
 /* This module serves as template for pipe slices */
 

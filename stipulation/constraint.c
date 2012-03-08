@@ -176,54 +176,6 @@ stip_length_type constraint_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type constraint_solver_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
-
-  switch (slice_solve(condition))
-  {
-    case opponent_self_check:
-      result = slack_length-2;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = help(next,n);
-      break;
-
-    default:
-      assert(0);
-      result = slack_length-2;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -284,54 +236,6 @@ stip_length_type constraint_tester_attack(slice_index si, stip_length_type n)
     default:
       assert(0);
       result = n+2;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type constraint_tester_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
-
-  switch (slice_solve(condition))
-  {
-    case opponent_self_check:
-      result = slack_length-2;
-      break;
-
-    case has_no_solution:
-      result = n+2;
-      break;
-
-    case has_solution:
-      result = help(next,n);
-      break;
-
-    default:
-      assert(0);
-      result = slack_length-2;
       break;
   }
 

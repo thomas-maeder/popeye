@@ -6,7 +6,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
 
 /* Allocate a STConstraintSolver slice
  * @param proxy_to_condition prototype of slice that must not be solvable
@@ -50,17 +49,6 @@ stip_length_type constraint_attack(slice_index si, stip_length_type n);
  */
 stip_length_type constraint_defend(slice_index si, stip_length_type n);
 
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type constraint_solver_help(slice_index si, stip_length_type n);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -76,17 +64,6 @@ has_solution_type constraint_tester_solve(slice_index si);
  *            n+2 no solution found
  */
 stip_length_type constraint_tester_attack(slice_index si, stip_length_type n);
-
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type constraint_tester_help(slice_index si, stip_length_type n);
 
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation

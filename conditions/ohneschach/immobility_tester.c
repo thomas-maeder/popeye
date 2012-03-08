@@ -6,7 +6,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/temporary_hacks.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -138,16 +138,16 @@ boolean ohneschach_pos_legal(Side just_moved)
   return result;
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_suspender_help(slice_index si, stip_length_type n)
+stip_length_type ohneschach_suspender_attack(slice_index si,
+                                             stip_length_type n)
 {
   has_solution_type result;
 
@@ -157,7 +157,7 @@ stip_length_type ohneschach_suspender_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   is_ohneschach_suspended = true;
-  result = help(slices[si].u.pipe.next,n);
+  result = attack(slices[si].u.pipe.next,n);
   is_ohneschach_suspended = false;
 
   TraceFunctionExit(__func__);
@@ -166,17 +166,16 @@ stip_length_type ohneschach_suspender_help(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type ohneschach_check_guard_help(slice_index si,
-                                             stip_length_type n)
+stip_length_type ohneschach_check_guard_attack(slice_index si,
+                                               stip_length_type n)
 {
   has_solution_type result;
 
@@ -188,7 +187,7 @@ stip_length_type ohneschach_check_guard_help(slice_index si,
   if (echecc(nbply,slices[si].starter))
     result = n+2;
   else
-    result = help(slices[si].u.pipe.next,n);
+    result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

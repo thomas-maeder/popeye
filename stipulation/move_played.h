@@ -3,7 +3,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMovePlayed stipulation slices.
@@ -35,6 +34,12 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n);
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type move_played_defend(slice_index si, stip_length_type n);
 
+
+/* Allocate a STHelpMovePlayed slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_help_move_played_slice(void);
+
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -43,7 +48,7 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type move_played_help(slice_index si, stip_length_type n);
+stip_length_type help_move_played_attack(slice_index si, stip_length_type n);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

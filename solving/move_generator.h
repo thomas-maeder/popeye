@@ -3,7 +3,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMoveGenerator stipulation slices.
@@ -34,17 +33,5 @@ stip_length_type move_generator_attack(slice_index si, stip_length_type n);
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type move_generator_defend(slice_index si, stip_length_type n);
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return length of solution found, i.e.:
- *         n+2 the move leading to the current position has turned out
- *             to be illegal
- *         n+1 no solution found
- *         n   solution found
- */
-
-stip_length_type move_generator_help(slice_index si, stip_length_type n);
 
 #endif

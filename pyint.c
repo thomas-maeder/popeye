@@ -271,7 +271,7 @@ void solve_target_position(void)
   closehash();
   inithash(current_start_slice);
 
-  if (help(slices[current_start_slice].u.pipe.next,nr_of_moves)<=nr_of_moves)
+  if (attack(slices[current_start_slice].u.pipe.next,nr_of_moves)<=nr_of_moves)
     solutions_found = true;
 
   /* reset the old mating position */

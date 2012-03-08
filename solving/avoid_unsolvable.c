@@ -295,36 +295,6 @@ stip_length_type reset_unsolvable_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve in a number of half-moves
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
- *            n+2 no solution found
- */
-stip_length_type reset_unsolvable_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-  stip_length_type const save_max_unsolvable = max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-
-  max_unsolvable = slack_length;
-  result = help(slices[si].u.pipe.next,n);
-  max_unsolvable = save_max_unsolvable;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STLearnUnsolvable slice
  * @return allocated slice
  */

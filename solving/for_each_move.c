@@ -44,10 +44,24 @@ static void insert_move_iterator_move(slice_index si,
     slice_index const prototype = (*testing
                                    ? alloc_find_move_slice()
                                    : alloc_for_each_move_slice());
-    if (st->context==stip_traversal_context_attack)
-      attack_branch_insert_slices(si,&prototype,1);
-    else
-      defense_branch_insert_slices(si,&prototype,1);
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -156,7 +170,7 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
     if (jouecoup(nbply,first_play))
     {
       stip_length_type const length_sol = attack(next,n);
-      if (length_sol<result)
+      if (slack_length<length_sol && length_sol<result)
         result = length_sol;
     }
 
@@ -174,11 +188,10 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return <slack_length - no legal defense found
- *         <=n solved  - <=acceptable number of refutations found
- *                       return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - >acceptable number of refutations found
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
 stip_length_type for_each_move_defend(slice_index si, stip_length_type n)
 {
@@ -198,38 +211,6 @@ stip_length_type for_each_move_defend(slice_index si, stip_length_type n)
       if (result<length_sol)
         result = length_sol;
     }
-
-    repcoup();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type for_each_move_help(slice_index si, stip_length_type n)
-{
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && help(next,n)==n)
-      result = n;
 
     repcoup();
   }

@@ -95,7 +95,7 @@ stip_length_type template_help(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help(slices[si].u.pipe.next,n);
+  result = attack(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

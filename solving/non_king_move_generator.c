@@ -72,17 +72,16 @@ static boolean advance_departure_square(Side side,
   return false;
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type non_king_move_generator_help(slice_index si,
-                                              stip_length_type n)
+stip_length_type non_king_move_generator_attack(slice_index si,
+                                                stip_length_type n)
 {
   stip_length_type result = n+1;
   Side const side_at_move = slices[si].starter;
@@ -99,7 +98,7 @@ stip_length_type non_king_move_generator_help(slice_index si,
 
   while (result>n
          && advance_departure_square(side_at_move,&next_square_to_try))
-    result = help(slices[si].u.pipe.next,n);
+    result = attack(slices[si].u.pipe.next,n);
 
   finply();
 

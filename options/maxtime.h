@@ -8,7 +8,7 @@
  */
 
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -29,7 +29,7 @@ stip_length_type maxtime_guard_defend(slice_index si, stip_length_type n);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type maxtime_guard_help(slice_index si, stip_length_type n);
+stip_length_type maxtime_guard_attack(slice_index si, stip_length_type n);
 
 /* Instrument a stipulation with STMaxTimeGuard slices
  * @param si identifies slice where to start

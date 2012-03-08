@@ -123,6 +123,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,         /* STForEachMove */
   slice_structure_pipe,         /* STFindMove */
   slice_structure_pipe,         /* STMovePlayed */
+  slice_structure_pipe,         /* STHelpMovePlayed */
   slice_structure_pipe,         /* STDummyMove */
   slice_structure_branch,       /* STReadyForDummyMove */
   slice_structure_pipe,         /* STShortSolutionsStart*/
@@ -314,6 +315,7 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STForEachMove */
   slice_function_unspecified,      /* STFindMove */
   slice_function_unspecified,      /* STMovePlayed */
+  slice_function_unspecified,      /* STHelpMovePlayed */
   slice_function_unspecified,      /* STDummyMove */
   slice_function_proxy,            /* STReadyForDummyMove */
   slice_function_proxy,            /* STShortSolutionsStart*/
@@ -1330,9 +1332,10 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STMovePlayed,   &move_played_detect_starter   },
-  { STDummyMove,    &move_played_detect_starter   },
-  { STMoveInverter, &move_inverter_detect_starter }
+  { STMovePlayed,     &move_played_detect_starter   },
+  { STHelpMovePlayed, &move_played_detect_starter   },
+  { STDummyMove,      &move_played_detect_starter   },
+  { STMoveInverter,   &move_inverter_detect_starter }
 };
 
 enum
@@ -1434,6 +1437,7 @@ static void impose_inverted_starter(slice_index si,
 static slice_type starter_inverters[] =
 {
   STMovePlayed,
+  STHelpMovePlayed,
   STDummyMove,
   STMoveInverter
 };
@@ -1652,6 +1656,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,              /* STForEachMove */
   &stip_traverse_structure_pipe,              /* STFindMove */
   &stip_traverse_structure_move_played,       /* STMovePlayed */
+  &stip_traverse_structure_move_played,       /* STHelpMovePlayed */
   &stip_traverse_structure_move_played,       /* STDummyMove */
   &stip_traverse_structure_pipe,              /* STReadyForDummyMove */
   &stip_traverse_structure_pipe,              /* STShortSolutionsStart*/
@@ -1944,6 +1949,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,              /* STForEachMove */
     &stip_traverse_moves_pipe,              /* STFindMove */
     &stip_traverse_moves_move_played,       /* STMovePlayed */
+    &stip_traverse_moves_move_played,       /* STHelpMovePlayed */
     &stip_traverse_moves_move_played,       /* STDummyMove */
     &stip_traverse_moves_pipe,              /* STReadyForDummyMove */
     &stip_traverse_moves_pipe,              /* STShortSolutionsStart*/

@@ -63,7 +63,7 @@ static slice_index const slice_rank_order[] =
   STFindMove,
   STBGLFilter,
   STMoveTracer,
-  STMovePlayed,
+  STHelpMovePlayed,
   STDummyMove,
   STCaptureCounter,
   STAnyMoveCounter,
@@ -760,14 +760,14 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const testpre1 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating1 = alloc_pipe(STGeneratingMoves);
     slice_index const move1 = alloc_pipe(STMove);
-    slice_index const played1 = alloc_move_played_slice();
+    slice_index const played1 = alloc_help_move_played_slice();
     slice_index const not_end_goal1 = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const testpre2 = alloc_pipe(STTestingPrerequisites);
     slice_index const generating2 = alloc_pipe(STGeneratingMoves);
     slice_index const move2 = alloc_pipe(STMove);
-    slice_index const played2 = alloc_move_played_slice();
+    slice_index const played2 = alloc_help_move_played_slice();
     slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
 
     slice_index const deadend = alloc_dead_end_slice();
@@ -1033,7 +1033,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const move = alloc_pipe(STMove);
-    slice_index const played = alloc_move_played_slice();
+    slice_index const played = alloc_help_move_played_slice();
     slice_index const not_end_goal = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForDummyMove);

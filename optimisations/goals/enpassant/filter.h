@@ -1,9 +1,8 @@
-#if !defined(OPTIMISATION_GOALS_ENPASSANT_ATTACKER_FILTER_H)
-#define OPTIMISATION_GOALS_ENPASSANT_ATTACKER_FILTER_H
+#if !defined(OPTIMISATION_GOALS_ENPASSANT_FILTER_H)
+#define OPTIMISATION_GOALS_ENPASSANT_FILTER_H
 
-#include "boolean.h"
-#include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STEnPassantFilter stipulation slices.
@@ -37,15 +36,5 @@ stip_length_type enpassant_filter_attack(slice_index si, stip_length_type n);
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type enpassant_filter_defend(slice_index si, stip_length_type n);
-
-/* Try to solve in n half-moves after a defense.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of solution found and written, i.e.:
- *            slack_length-2 defense has turned out to be illegal
- *            <=n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type enpassant_filter_help(slice_index si, stip_length_type n);
 
 #endif

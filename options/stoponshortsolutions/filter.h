@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_STOPONSHORTSOLUTIONS_FILTER_H)
 #define OPTIONS_STOPONSHORTSOLUTIONS_FILTER_H
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with
  * STStopOnShortSolutionsFilter stipulation slice type.
@@ -25,6 +25,6 @@ slice_index alloc_stoponshortsolutions_filter(stip_length_type length,
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type stoponshortsolutions_help(slice_index si, stip_length_type n);
+stip_length_type stoponshortsolutions_attack(slice_index si, stip_length_type n);
 
 #endif

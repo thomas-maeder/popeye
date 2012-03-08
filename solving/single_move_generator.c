@@ -7,7 +7,7 @@
 #include <assert.h>
 
 /* In conditions such as Ohneschach, there may recursive infocations of
- * single_move_generator_help in different plys */
+ * single_move_generator_attack in different plys */
 static square square_departure[maxply+1];
 static square square_arrival[maxply+1];
 static square square_capture[maxply+1];
@@ -61,16 +61,16 @@ void init_single_move_generator(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-/* Solve in a number of half-moves
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @return length of solution found and written, i.e.:
- *            slack_length-2 the move leading to the current position has
- *                           turned out to be illegal
- *            n   solution found
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type single_move_generator_help(slice_index si, stip_length_type n)
+stip_length_type single_move_generator_attack(slice_index si,
+                                              stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
@@ -87,7 +87,7 @@ stip_length_type single_move_generator_help(slice_index si, stip_length_type n)
                                square_arrival[nbply],
                                square_capture[nbply],
                                square_mars_rebirth[nbply]);
-  result = help(next,n);
+  result = attack(next,n);
   finply();
 
   square_departure[nbply+1] = initsquare;

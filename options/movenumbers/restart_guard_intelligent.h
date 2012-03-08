@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_MOVENUMBERS_RESTARTGUARD_INTELLIGENT_H)
 #define OPTIONS_MOVENUMBERS_RESTARTGUARD_INTELLIGENT_H
 
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STRestartGuardIntelligent
  * stipulation slice type.
@@ -21,7 +21,8 @@ slice_index alloc_restart_guard_intelligent(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type restart_guard_intelligent_help(slice_index si, stip_length_type n);
+stip_length_type restart_guard_intelligent_attack(slice_index si,
+                                                  stip_length_type n);
 
 /* Allocate a STIntelligentTargetCounter slice.
  * @return allocated slice
@@ -36,6 +37,7 @@ slice_index alloc_intelligent_target_counter(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type intelligent_target_counter_help(slice_index si, stip_length_type n);
+stip_length_type intelligent_target_counter_attack(slice_index si,
+                                                   stip_length_type n);
 
 #endif

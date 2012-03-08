@@ -16,7 +16,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/countermate/filter.h"
 #include "stipulation/goals/prerequisite_optimiser.h"
-#include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/move_generator.h"
 #include "solving/for_each_move.h"
