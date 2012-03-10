@@ -90,14 +90,13 @@ has_solution_type legal_move_counter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_solve(slices[si].u.pipe.next);
-  if (result==has_solution)
-  {
-    ++legal_move_counter_count[nbply];
-    if (legal_move_counter_count[nbply]<=legal_move_counter_interesting[nbply])
-      /* go on with the iteration */
-      result = has_no_solution;
-  }
+  ++legal_move_counter_count[nbply];
+
+  if (legal_move_counter_count[nbply]<=legal_move_counter_interesting[nbply])
+    result = has_no_solution;
+  else
+    /* stop the iteration */
+    result = has_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
