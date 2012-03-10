@@ -67,7 +67,7 @@ stip_length_type legal_move_counter_attack(slice_index si, stip_length_type n)
   ++legal_move_counter_count[nbply];
 
   if (legal_move_counter_count[nbply]<=legal_move_counter_interesting[nbply])
-    result = attack(slices[si].u.pipe.next,n);
+    result = n+2;
   else
     /* stop the iteration */
     result = n;
