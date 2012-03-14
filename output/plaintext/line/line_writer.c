@@ -156,36 +156,6 @@ slice_index alloc_line_writer_slice(Goal goal)
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type line_writer_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(slices[si].u.goal_handler.next);
-
-  if (result==has_solution)
-  {
-    Goal const goal = slices[si].u.goal_handler.goal;
-    Side initial_starter = slices[output_plaintext_slice_determining_starter].starter;
-    if (areColorsSwapped)
-      initial_starter = advers(initial_starter);
-    TraceValue("%u\n",output_plaintext_slice_determining_starter);
-    write_line(initial_starter,goal.type);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

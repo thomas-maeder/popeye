@@ -29,8 +29,6 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/chess81/reached_tester.h"
-#include "solving/battle_play/check_detector.h"
-#include "solving/legal_move_counter.h"
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyselfcg.h"
@@ -51,15 +49,11 @@
 #include "conditions/owu/immobility_tester.h"
 #include "conditions/ohneschach/immobility_tester.h"
 #include "options/maxsolutions/initialiser.h"
-#include "options/maxsolutions/guard.h"
 #include "options/stoponshortsolutions/initialiser.h"
-#include "optimisations/intelligent/duplicate_avoider.h"
-#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
-#include "output/plaintext/line/line_writer.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -142,10 +136,6 @@ has_solution_type slice_solve(slice_index si)
       result = maxsolutions_initialiser_solve(si);
       break;
 
-    case STMaxSolutionsCounter:
-      result = maxsolutions_counter_solve(si);
-      break;
-
     case STStopOnShortSolutionsInitialiser:
       result = stoponshortsolutions_initialiser_solve(si);
       break;
@@ -156,22 +146,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STEndOfPhaseWriter:
       result = end_of_phase_writer_solve(si);
-      break;
-
-    case STOutputPlaintextLineLineWriter:
-      result = line_writer_solve(si);
-      break;
-
-    case STIntelligentDuplicateAvoider:
-      result = intelligent_duplicate_avoider_solve(si);
-      break;
-
-    case STIntelligentSolutionsPerTargetPosCounter:
-      result = intelligent_nr_solutions_per_target_position_counter_solve(si);
-      break;
-
-    case STCheckDetector:
-      result = check_detector_solve(si);
       break;
 
     case STOutputPlaintextMoveInversionCounter:
@@ -317,10 +291,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STPiecesParalysingMateFilterTester:
       result = paralysing_mate_filter_tester_solve(si);
-      break;
-
-    case STLegalMoveCounter:
-      result = legal_move_counter_solve(si);
       break;
 
     default:

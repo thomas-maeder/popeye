@@ -77,29 +77,3 @@ stip_length_type legal_move_counter_attack(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type legal_move_counter_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++legal_move_counter_count[nbply];
-
-  if (legal_move_counter_count[nbply]<=legal_move_counter_interesting[nbply])
-    result = has_no_solution;
-  else
-    /* stop the iteration */
-    result = has_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

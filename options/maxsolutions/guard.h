@@ -1,7 +1,6 @@
 #if !defined(OPTIONS_MAXSOLUTIONS_GUARD_H)
 #define OPTIONS_MAXSOLUTIONS_GUARD_H
 
-#include "pyslice.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
 
@@ -15,12 +14,6 @@
  * @return allocated slice
  */
 slice_index alloc_maxsolutions_counter_slice(void);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type maxsolutions_counter_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

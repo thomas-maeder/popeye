@@ -50,11 +50,11 @@ py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
  boolean.h py.h pydata.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  stipulation/goals/goals.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h pyslice.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
  stipulation/battle_play/attack_play.h pystip.h stipulation/slice_type.h \
- pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pydata.h \
- pytable.h pymovenb.h stipulation/battle_play/defense_play.h pyflight.h \
- pynontrv.h pythreat.h trace.h platform/maxtime.h \
+ pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
+ pydata.h pytable.h pymovenb.h stipulation/battle_play/defense_play.h \
+ pyflight.h pynontrv.h pythreat.h trace.h platform/maxtime.h \
  solving/battle_play/try.h pytable.h \
  stipulation/battle_play/defense_play.h conditions/bgl.h
 
@@ -96,8 +96,6 @@ stipulation/goals/goals.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
-pyslice.h:
-
 stipulation/battle_play/attack_play.h:
 
 pystip.h:
@@ -109,6 +107,8 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 stipulation/battle_play/attack_play.h:
+
+pyslice.h:
 
 pydata.h:
 
@@ -1425,11 +1425,10 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/notcheck/reached_tester.h \
  stipulation/goals/any/reached_tester.h \
- stipulation/goals/chess81/reached_tester.h \
- solving/battle_play/check_detector.h solving/legal_move_counter.h \
- pymovein.h pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h \
- pydata.h pyselfcg.h stipulation/battle_play/defense_play.h pykeepmt.h \
- pypipe.h pieces/attributes/paralysing/mate_filter.h \
+ stipulation/goals/chess81/reached_tester.h pymovein.h pyhash.h \
+ DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pydata.h pyselfcg.h \
+ stipulation/battle_play/defense_play.h pykeepmt.h pypipe.h \
+ pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
  conditions/circe/circuit_by_rebirth_special.h \
@@ -1441,15 +1440,12 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
  conditions/ultraschachzwang/goal_filter.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
- options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
+ options/maxsolutions/initialiser.h \
  options/stoponshortsolutions/initialiser.h \
- optimisations/intelligent/duplicate_avoider.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
  output/plaintext/illegal_selfcheck_writer.h pystip.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/move_inversion_counter.h \
- output/plaintext/line/end_of_intro_series_marker.h \
- output/plaintext/line/line_writer.h
+ output/plaintext/line/end_of_intro_series_marker.h
 
 pyslice.h:
 
@@ -1553,10 +1549,6 @@ stipulation/goals/any/reached_tester.h:
 
 stipulation/goals/chess81/reached_tester.h:
 
-solving/battle_play/check_detector.h:
-
-solving/legal_move_counter.h:
-
 pymovein.h:
 
 pyhash.h:
@@ -1605,13 +1597,7 @@ conditions/ohneschach/immobility_tester.h:
 
 options/maxsolutions/initialiser.h:
 
-options/maxsolutions/guard.h:
-
 options/stoponshortsolutions/initialiser.h:
-
-optimisations/intelligent/duplicate_avoider.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -1622,8 +1608,6 @@ output/plaintext/end_of_phase_writer.h:
 output/plaintext/move_inversion_counter.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
-
-output/plaintext/line/line_writer.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h stipulation/goals/goals.h boolean.h \
  py.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
  pylang.h stipulation/slice_type.h pyslice.h stipulation/proxy.h pypipe.h \

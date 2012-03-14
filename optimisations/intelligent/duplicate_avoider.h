@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_DUPLICATE_AVOIDER_H)
 #define OPTIMISATION_INTELLIGENT_DUPLICATE_AVOIDER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides the slice type STIntelligentDuplicateAvoider
  * which avoids producing certain solutions twice in intelligent mode
@@ -20,10 +20,15 @@ void intelligent_duplicate_avoider_cleanup(void);
  */
 slice_index alloc_intelligent_duplicate_avoider_slice(void);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type intelligent_duplicate_avoider_solve(slice_index si);
+stip_length_type intelligent_duplicate_avoider_attack(slice_index si,
+                                                      stip_length_type n);
 
 #endif

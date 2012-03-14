@@ -1,7 +1,6 @@
 #if !defined(SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H)
 #define SOLVING_BATTLE_PLAY_CHECK_DETECTOR_H
 
-#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
@@ -16,12 +15,6 @@ extern boolean attack_gives_check[maxply+1];
  * @return index of allocated slice
  */
 slice_index alloc_check_detector_slice(void);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type check_detector_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

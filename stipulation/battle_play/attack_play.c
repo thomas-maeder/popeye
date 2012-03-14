@@ -59,6 +59,8 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/proof.h"
+#include "optimisations/intelligent/duplicate_avoider.h"
+#include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/goalreachable_guard.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
@@ -178,12 +180,12 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STEndOfBranch:
-    case STEndOfBranchGoalImmobile:
     case STEndOfBranchForced:
       result = end_of_branch_attack(si,n);
       break;
 
     case STEndOfBranchGoal:
+    case STEndOfBranchGoalImmobile:
       result = end_of_branch_goal_attack(si,n);
       break;
 
@@ -442,6 +444,14 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STIntelligentImmobilisationCounter:
       result = intelligent_immobilisation_counter_attack(si,n);
+      break;
+
+    case STIntelligentDuplicateAvoider:
+      result = intelligent_duplicate_avoider_attack(si,n);
+      break;
+
+    case STIntelligentSolutionsPerTargetPosCounter:
+      result = intelligent_nr_solutions_per_target_position_counter_attack(si,n);
       break;
 
     case STTrue:

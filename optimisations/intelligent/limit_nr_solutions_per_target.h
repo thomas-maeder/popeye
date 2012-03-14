@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATION_INTELLIGENT_LIMIT_NR_SOLUTIONS_PER_TARGET_POS_H)
 #define OPTIMISATION_INTELLIGENT_LIMIT_NR_SOLUTIONS_PER_TARGET_POS_H
 
-#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides the slice types that limit the number of solutions per
@@ -44,13 +43,17 @@ boolean is_max_nr_solutions_per_target_position_limited(void);
  */
 slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(void);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type
-intelligent_nr_solutions_per_target_position_counter_solve(slice_index si);
-
+stip_length_type
+intelligent_nr_solutions_per_target_position_counter_attack(slice_index si,
+                                                            stip_length_type n);
 
 /* Allocate a STIntelligentLimitNrSolutionsPerTargetPos slice.
  * @return index of allocated slice

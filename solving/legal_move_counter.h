@@ -2,7 +2,6 @@
 #define SOLVING_LEGAL_MOVE_COUNTER_H
 
 #include "stipulation/battle_play/attack_play.h"
-#include "pyslice.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STLegalMoveCounter stipulation slices.
@@ -23,12 +22,6 @@ slice_index alloc_legal_move_counter_slice(void);
  * @return index of allocated slice
  */
 slice_index alloc_any_move_counter_slice(void);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type legal_move_counter_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
