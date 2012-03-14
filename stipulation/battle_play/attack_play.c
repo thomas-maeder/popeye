@@ -46,7 +46,6 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/min_length_optimiser.h"
 #include "solving/battle_play/continuation.h"
-#include "solving/battle_play/check_detector.h"
 #include "conditions/bgl.h"
 #include "conditions/exclusive.h"
 #include "conditions/ohneschach/immobility_tester.h"
@@ -259,10 +258,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STBGLFilter:
       result = bgl_filter_attack(si,n);
-      break;
-
-    case STCheckDetector:
-      result = check_detector_attack(si,n);
       break;
 
     case STRefutationsCollector:

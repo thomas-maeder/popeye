@@ -79,10 +79,9 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  solving/trivial_end_filter.h solving/battle_play/threat.h \
  solving/battle_play/try.h solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h \
- solving/battle_play/continuation.h solving/battle_play/check_detector.h \
- conditions/bgl.h conditions/exclusive.h \
- conditions/ohneschach/immobility_tester.h options/maxsolutions/guard.h \
- options/stoponshortsolutions/filter.h \
+ solving/battle_play/continuation.h conditions/bgl.h \
+ conditions/exclusive.h conditions/ohneschach/immobility_tester.h \
+ options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/movenumbers/restart_guard_intelligent.h options/maxtime.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
@@ -200,8 +199,6 @@ solving/battle_play/min_length_guard.h:
 solving/battle_play/min_length_optimiser.h:
 
 solving/battle_play/continuation.h:
-
-solving/battle_play/check_detector.h:
 
 conditions/bgl.h:
 
