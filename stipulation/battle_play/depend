@@ -61,10 +61,10 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
  pyproof.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/end_of_branch_tester.h stipulation/dummy_move.h \
- stipulation/move_played.h stipulation/check_zigzag_jump.h \
- stipulation/boolean/or.h stipulation/battle_play/branch.h \
- stipulation/goals/reached_tester.h stipulation/goals/doublemate/filter.h \
+ stipulation/dummy_move.h stipulation/move_played.h \
+ stipulation/check_zigzag_jump.h stipulation/boolean/or.h \
+ stipulation/battle_play/branch.h stipulation/goals/reached_tester.h \
+ stipulation/goals/doublemate/filter.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
  solving/find_shortest.h solving/move_generator.h \
@@ -135,8 +135,6 @@ stipulation/dead_end.h:
 stipulation/end_of_branch.h:
 
 stipulation/end_of_branch_goal.h:
-
-stipulation/end_of_branch_tester.h:
 
 stipulation/dummy_move.h:
 

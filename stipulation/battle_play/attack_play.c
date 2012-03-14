@@ -14,7 +14,6 @@
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
-#include "stipulation/end_of_branch_tester.h"
 #include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/check_zigzag_jump.h"
@@ -180,6 +179,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STEndOfBranch:
     case STEndOfBranchForced:
+    case STEndOfBranchTester:
       result = end_of_branch_attack(si,n);
       break;
 
@@ -294,10 +294,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STHelpMovePlayed:
       result = help_move_played_attack(si,n);
-      break;
-
-    case STEndOfBranchTester:
-      result = end_of_branch_tester_attack(si,n);
       break;
 
     case STDeadEndGoal:
