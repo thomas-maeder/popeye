@@ -85,6 +85,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/movenumbers/restart_guard_intelligent.h options/maxtime.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ optimisations/intelligent/duplicate_avoider.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/intelligent/proof.h \
@@ -215,6 +216,8 @@ options/movenumbers/restart_guard_intelligent.h:
 options/maxtime.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+optimisations/intelligent/duplicate_avoider.h:
 
 optimisations/intelligent/moves_left.h:
 

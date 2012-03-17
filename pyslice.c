@@ -59,16 +59,6 @@
 #include <stdlib.h>
 
 
-#define ENUMERATION_TYPENAME has_solution_type
-#define ENUMERATORS                             \
-  ENUMERATOR(opponent_self_check),              \
-    ENUMERATOR(has_no_solution),                \
-    ENUMERATOR(has_solution)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "pyenum.h"
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -80,6 +70,8 @@ has_solution_type slice_solve(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(length_unspecified==has_solution);
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)

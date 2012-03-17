@@ -10,16 +10,6 @@
  * appropriate function of the slice type-specific module.
  */
 
-#define ENUMERATION_TYPENAME has_solution_type
-#define ENUMERATORS                             \
-  ENUMERATOR(opponent_self_check),              \
-    ENUMERATOR(has_no_solution),                \
-    ENUMERATOR(has_solution)                    \
-
-#define ENUMERATION_DECLARE
-
-#include "pyenum.h"
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
