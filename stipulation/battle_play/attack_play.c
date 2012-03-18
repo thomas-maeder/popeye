@@ -185,6 +185,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STEndOfBranchGoal:
     case STEndOfBranchGoalImmobile:
+    case STEndOfBranchGoalTester:
       result = end_of_branch_goal_attack(si,n);
       break;
 
@@ -205,11 +206,8 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STConstraintSolver:
-      result = constraint_attack(si,n);
-      break;
-
     case STConstraintTester:
-      result = constraint_tester_attack(si,n);
+      result = constraint_attack(si,n);
       break;
 
     case STSelfCheckGuard:

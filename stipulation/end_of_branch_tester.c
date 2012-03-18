@@ -31,6 +31,26 @@ static slice_index alloc_end_of_branch_tester_slice(slice_index to_goal)
   return result;
 }
 
+/* Allocate a STEndOfBranchGoalTester slice.
+ * @param to_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index alloc_end_of_branch_goal_tester_slice(slice_index to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_conditional_pipe(STEndOfBranchGoalTester,to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
                                                         stip_structure_traversal *st)
 {
@@ -58,10 +78,37 @@ static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
+                                                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help)
+  {
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const proxy3 = alloc_proxy_slice();
+    slice_index const end_of_branch = alloc_end_of_branch_goal_tester_slice(slices[si].u.fork.fork);
+    slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
+    pipe_link(slices[si].prev,fork);
+    pipe_append(si,proxy3);
+    pipe_link(proxy1,end_of_branch);
+    pipe_link(proxy2,si);
+    pipe_set_successor(end_of_branch,proxy3);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const end_of_branch_tester_inserters[] =
 {
-  { STEndOfBranchForced, &end_of_branch_tester_inserter_end_of_branch },
-  { STEndOfBranchGoal,   &end_of_branch_tester_inserter_end_of_branch }
+  { STEndOfBranchForced, &end_of_branch_tester_inserter_end_of_branch      },
+  { STEndOfBranchGoal,   &end_of_branch_tester_inserter_end_of_branch_goal }
 };
 
 enum

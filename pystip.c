@@ -125,6 +125,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,         /* STEndOfBranchForced */
   slice_structure_binary,       /* STEndOfBranchGoal */
   slice_structure_fork,         /* STEndOfBranchTester */
+  slice_structure_fork,         /* STEndOfBranchGoalTester */
   slice_structure_binary,       /* STAvoidUnsolvable */
   slice_structure_pipe,         /* STResetUnsolvable */
   slice_structure_pipe,         /* STLearnUnsolvable */
@@ -317,6 +318,7 @@ slice_functional_type functional_type[nr_slice_types] =
   slice_function_unspecified,      /* STEndOfBranchForced */
   slice_function_unspecified,      /* STEndOfBranchGoal */
   slice_function_conditional_pipe, /* STEndOfBranchTester */
+  slice_function_conditional_pipe, /* STEndOfBranchGoalTester */
   slice_function_unspecified,      /* STAvoidUnsolvable */
   slice_function_unspecified,      /* STResetUnsolvable */
   slice_function_unspecified,      /* STLearnUnsolvable */
@@ -1658,6 +1660,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_fork,              /* STEndOfBranchForced */
   &stip_traverse_structure_binary,            /* STEndOfBranchGoal */
   &stip_traverse_structure_fork,              /* STEndOfBranchTester */
+  &stip_traverse_structure_fork,              /* STEndOfBranchGoalTester */
   &stip_traverse_structure_binary,            /* STAvoidUnsolvable */
   &stip_traverse_structure_pipe,              /* STResetUnsolvable */
   &stip_traverse_structure_pipe,              /* STLearnUnsolvable */
@@ -1951,6 +1954,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_end_of_branch,     /* STEndOfBranchForced */
     &stip_traverse_moves_binary,            /* STEndOfBranchGoal */
     &stip_traverse_moves_conditional_pipe,  /* STEndOfBranchTester */
+    &stip_traverse_moves_conditional_pipe,  /* STEndOfBranchGoalTester */
     &stip_traverse_moves_binary,            /* STAvoidUnsolvable */
     &stip_traverse_moves_pipe,              /* STResetUnsolvable */
     &stip_traverse_moves_pipe,              /* STLearnUnsolvable */

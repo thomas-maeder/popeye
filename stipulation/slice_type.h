@@ -31,6 +31,7 @@
     ENUMERATOR(STEndOfBranchForced),  /* side at the move is forced to solve fork if possible */ \
     ENUMERATOR(STEndOfBranchGoal), /* end of branch leading to immediate goal */ \
     ENUMERATOR(STEndOfBranchTester), /* test for end of branch only */ \
+    ENUMERATOR(STEndOfBranchGoalTester), /* test for end of branch leading to immediate goal only */ \
     ENUMERATOR(STAvoidUnsolvable), /* avoid solving branches that we know are unsolvable */ \
     ENUMERATOR(STResetUnsolvable), /* reset knowledge about unsolvability */ \
     ENUMERATOR(STLearnUnsolvable), /* update knowledge about unsolvability */ \

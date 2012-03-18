@@ -140,6 +140,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 
   stip_structure_traversal_override_single(&st,STEndOfBranchTester,&start_spinning_off_end_of_branch_tester);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoalTester,&start_spinning_off_end_of_branch_tester);
 
   stip_structure_traversal_override_single(&st,STMinLengthGuard,&spin_off_testers_min_length_guard);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
