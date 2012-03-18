@@ -34,8 +34,6 @@ slice_index alloc_or_slice(slice_index op1, slice_index op2)
 has_solution_type or_solve(slice_index si)
 {
   has_solution_type result;
-  has_solution_type result1;
-  has_solution_type result2;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
 
@@ -43,31 +41,9 @@ has_solution_type or_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result1 = slice_solve(op1);
-  result2 = slice_solve(op2);
-
-  switch (result1)
-  {
-    case opponent_self_check:
-      if (result2==has_solution)
-        result = has_solution;
-      else
-        result = opponent_self_check;
-      break;
-
-    case has_no_solution:
-      result = result2;
-      break;
-
-    case has_solution:
-      result = has_solution;
-      break;
-
-    default:
-      assert(0);
-      result = opponent_self_check;
-      break;
-  }
+  result = slice_solve(op1);
+  if (result!=has_solution)
+    result = slice_solve(op2);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

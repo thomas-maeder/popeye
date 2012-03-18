@@ -449,7 +449,7 @@ Loesung beendet.
 Loesung beendet. 
 
 
-ODER-Verknuepfung statt Vierlinge
+AND-Verknuepfung statt Vierlinge
 da der Anzug zwischen den Teilen variiert, brauchen wir
 zweimal eine Anzuginversion (-)
 
@@ -475,7 +475,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[#]d | - 4hh[#] | 4ad[#] | - 4hh[=] 8 + 10
+  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=] 8 + 10
 
    1.e7-e8=S ! Drohung:
           2.Se8*c7 #
@@ -491,10 +491,10 @@ zweimal eine Anzuginversion (-)
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
-              empile:       12300
-            jouecoup:        8910
-        orig_rbechec:        5783
-        orig_rnechec:        5705
+              empile:       12426
+            jouecoup:        8893
+        orig_rbechec:        5741
+        orig_rnechec:        5740
 Loesung beendet. 
 
 

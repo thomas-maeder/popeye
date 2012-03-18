@@ -116,10 +116,10 @@ weiter
 autor           Matti Myllyniemi
 auszeichnung	1. Preis, O. Kaila JT 1967
 
-bemerkung       ODER-Verknuepfung statt Vierlinge
+bemerkung       AND-Verknuepfung statt Vierlinge
 bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
 bemerkung       zweimal eine Anzuginversion (-)
-sforderung      weiss 3a[#]d | - 4hh[#] | 4ad[#] | - 4hh[=]
+sforderung      weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=]
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
         schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
