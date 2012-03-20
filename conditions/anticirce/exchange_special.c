@@ -26,21 +26,26 @@ slice_index alloc_anticirce_exchange_special_slice(void)
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type anticirce_exchange_special_solve(slice_index si)
+stip_length_type anticirce_exchange_special_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   square const sq_rebirth = sq_rebirth_capturing[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (sq_rebirth==initsquare)
-    result = has_no_solution;
+    result = n+2;
   else
   {
     Side const just_moved = advers(slices[si].starter);
@@ -48,13 +53,13 @@ has_solution_type anticirce_exchange_special_solve(slice_index si)
     if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
         && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
         && sq_diagram!=sq_rebirth)
-      result = slice_solve(slices[si].u.pipe.next);
+      result = attack(slices[si].u.pipe.next,n);
     else
-      result = has_no_solution;
+      result = n+2;
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

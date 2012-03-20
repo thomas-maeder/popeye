@@ -26,13 +26,17 @@ static slice_index alloc_ultraschachzwang_goal_filter_slice(void)
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type ultraschachzwang_goal_filter_solve(slice_index si)
+stip_length_type ultraschachzwang_goal_filter_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   Side const starter = slices[si].starter;
   Cond const cond = (starter==White
                      ? whiteultraschachzwang
@@ -41,15 +45,16 @@ has_solution_type ultraschachzwang_goal_filter_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(CondFlag[cond]);
   CondFlag[cond] = false;
-  result = slice_solve(next);
+  result = attack(next,n);
   CondFlag[cond] = true;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

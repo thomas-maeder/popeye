@@ -5,7 +5,6 @@
  */
 
 #include "pystip.h"
-#include "pyslice.h"
 
 /* Allocate a new branch slice
  * @param type which slice type

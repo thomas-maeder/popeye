@@ -2,7 +2,7 @@
 #define OPTIONS_MAXSOLUTIONS_INITIALISER_H
 
 #include "py.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with
  * STMaxSolutionsInitialiser stipulation slice type.
@@ -15,10 +15,14 @@
  */
 slice_index alloc_maxsolutions_initialiser_slice(void);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type maxsolutions_initialiser_solve(slice_index si);
+stip_length_type maxsolutions_initialiser_attack(slice_index si, stip_length_type n);
 
 #endif

@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "platform/maxtime.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"

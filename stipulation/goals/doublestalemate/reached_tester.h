@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_DOUBLESTALEMATE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_DOUBLESTALEMATE_REACHED_TESTER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality that detects whether double stalemate goal
  * has been reached

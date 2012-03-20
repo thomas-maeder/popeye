@@ -5,7 +5,7 @@
  * and when to change to slice representing subsequent play
  */
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a new branch fork slice
  * @param type which slice type

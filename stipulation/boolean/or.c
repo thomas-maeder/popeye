@@ -1,6 +1,5 @@
 #include "stipulation/boolean/or.h"
 #include "stipulation/boolean/binary.h"
-#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -23,30 +22,6 @@ slice_index alloc_or_slice(slice_index op1, slice_index op2)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type or_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(op1);
-  if (result!=has_solution)
-    result = slice_solve(op2);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

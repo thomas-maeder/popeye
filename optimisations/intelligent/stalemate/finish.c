@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"

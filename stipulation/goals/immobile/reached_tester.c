@@ -101,16 +101,21 @@ void impose_starter_immobility_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type immobility_tester_solve(slice_index si)
+stip_length_type immobility_tester_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   /* avoid concurrent counts */
@@ -119,38 +124,43 @@ has_solution_type immobility_tester_solve(slice_index si)
   /* stop counting once we have >1 legal king moves */
   legal_move_counter_interesting[nbply+1] = 0;
 
-  slice_solve(slices[si].u.pipe.next);
+  attack(slices[si].u.pipe.next,n);
 
-  result = legal_move_counter_count[nbply+1]==0 ? has_solution : has_no_solution;
+  result = legal_move_counter_count[nbply+1]==0 ? n : n+2;
 
   /* clean up after ourselves */
   legal_move_counter_count[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type goal_immobile_reached_tester_solve(slice_index si)
+stip_length_type goal_immobile_reached_tester_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(slices[si].u.goal_filter.tester)==has_solution)
-    result = slice_solve(slices[si].u.goal_filter.next);
+  if (attack(slices[si].u.goal_filter.tester,length_unspecified)==has_solution)
+    result = attack(slices[si].u.goal_filter.next,length_unspecified);
   else
     result = has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

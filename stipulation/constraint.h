@@ -49,12 +49,6 @@ stip_length_type constraint_attack(slice_index si, stip_length_type n);
  */
 stip_length_type constraint_defend(slice_index si, stip_length_type n);
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_tester_solve(slice_index si);
-
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation
  */

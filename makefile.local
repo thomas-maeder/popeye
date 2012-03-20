@@ -10,7 +10,7 @@ INCLUDES =      pyenum.h \
 		pyint.h pyhash.h \
 		pytable.h \
 		pyoutput.h \
-		pystip.h pyslice.h \
+		pystip.h \
 		pypipe.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
 		pynontrv.h pythreat.h pydegent.h \
@@ -23,7 +23,7 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pytable.c \
 		pyoutput.c \
 		pyint.c \
-		pystip.c pyslice.c \
+		pystip.c \
 		pypipe.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
 		pynontrv.c pythreat.c pydegent.c \

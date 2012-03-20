@@ -17,7 +17,7 @@
 #include "pyhash.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "pybrafrk.h"
 #include "pyproof.h"

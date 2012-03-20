@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H
 
-#include "pyslice.h"
+#include "pystip.h"
 
 /* This module provides an optimisation for detecting whether a side is
  * immobile: king moves are attempted first

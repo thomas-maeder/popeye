@@ -1,6 +1,5 @@
 #include "stipulation/constraint.h"
 #include "pypipe.h"
-#include "pyslice.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "pydata.h"
@@ -102,7 +101,7 @@ stip_length_type constraint_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_solve(condition))
+  switch (attack(condition,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -150,7 +149,7 @@ stip_length_type constraint_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_solve(condition))
+  switch (attack(condition,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -172,30 +171,6 @@ stip_length_type constraint_defend(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type constraint_tester_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(condition);
-  if (result==has_solution)
-    result = slice_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

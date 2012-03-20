@@ -7,7 +7,7 @@
  */
 
 #include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a new non-proxy pipe
  * @param type which slice type

@@ -132,25 +132,28 @@ void defense_adapter_make_intro(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type defense_adapter_solve(slice_index si)
+stip_length_type defense_adapter_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   slice_index const next = slices[si].u.branch.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type defense_result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   defense_result = defend(next,length);
-  result = (slack_length<=defense_result && defense_result<=length
-            ? has_solution
-            : has_no_solution);
+  result = slack_length<=defense_result && defense_result<=length ? n : n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

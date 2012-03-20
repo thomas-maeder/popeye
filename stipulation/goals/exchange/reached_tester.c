@@ -33,19 +33,24 @@ slice_index alloc_goal_exchange_reached_tester_system(void)
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type goal_exchange_reached_tester_solve(slice_index si)
+stip_length_type goal_exchange_reached_tester_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
   square const sq_diagram = GetPositionInDiagram(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(nbcou!=nil_coup);
@@ -53,12 +58,12 @@ has_solution_type goal_exchange_reached_tester_solve(slice_index si)
   if (GetPositionInDiagram(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_arrival)
-    result = slice_solve(slices[si].u.pipe.next);
+    result = attack(slices[si].u.pipe.next,n);
   else
-    result = has_no_solution;
+    result = n+2;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

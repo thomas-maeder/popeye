@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_MOVE_INVERSION_COUNTER_H)
 #define OUTPUT_PLAINTEXT_MOVE_INVERSION_COUNTER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides the STOutputPlaintextMoveInversionCounter
  * slice type. Slices of this type count the move inversions occuring
@@ -19,11 +19,16 @@ extern unsigned int output_plaintext_nr_move_inversions;
  */
 slice_index alloc_output_plaintext_move_inversion_counter_slice(void);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type
-output_plaintext_move_inversion_counter_solve(slice_index si);
+stip_length_type
+output_plaintext_move_inversion_counter_attack(slice_index si,
+                                               stip_length_type n);
 
 #endif

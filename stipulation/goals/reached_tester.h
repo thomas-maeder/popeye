@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_GOALS_REACHED_TESTER_H)
 #define STIPULATION_GOALS_REACHED_TESTER_H
 
-#include "pyslice.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -12,12 +11,6 @@
  * @return identifier of the allocated slice
  */
 slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_reached_tester_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

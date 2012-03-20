@@ -5,7 +5,7 @@
  * depending on the slice type
  */
 
-#include "pyslice.h"
+#include "pystip.h"
 #include "pydata.h"
 
 /* Try to solve in n half-moves after a defense.

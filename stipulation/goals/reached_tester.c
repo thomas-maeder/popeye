@@ -32,28 +32,6 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type goal_reached_tester_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(slices[si].u.goal_handler.tester);
-  if (result==has_solution)
-    result = slice_solve(slices[si].u.goal_handler.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -71,7 +49,7 @@ stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_solve(slices[si].u.goal_handler.tester))
+  switch (attack(slices[si].u.goal_handler.tester,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -117,7 +95,7 @@ stip_length_type goal_reached_tester_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (slice_solve(slices[si].u.goal_handler.tester))
+  switch (attack(slices[si].u.goal_handler.tester,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;

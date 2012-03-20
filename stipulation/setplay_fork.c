@@ -66,23 +66,28 @@ void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type setplay_fork_solve(slice_index si)
+stip_length_type setplay_fork_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  slice_solve(slices[si].u.fork.fork);
-  result = slice_solve(slices[si].u.fork.next);
+  attack(slices[si].u.fork.fork,length_unspecified);
+  result = attack(slices[si].u.fork.next,n);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

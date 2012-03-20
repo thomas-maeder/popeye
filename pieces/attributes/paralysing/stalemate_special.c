@@ -31,13 +31,17 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type paralysing_stalemate_special_solve(slice_index si)
+stip_length_type paralysing_stalemate_special_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   goal_applies_to_starter_or_adversary const
     applies_to_who = slices[si].u.goal_filter.applies_to_who;
@@ -48,19 +52,20 @@ has_solution_type paralysing_stalemate_special_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   /* only flag selfcheck if the side that has just moved is not the one to be
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
   if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
-    result = opponent_self_check;
+    result = slack_length-2;
   else if (suffocated_by_paralysis(stalemated))
-    result = has_solution;
+    result = n;
   else
-    result = slice_solve(next);
+    result = attack(next,length_unspecified);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

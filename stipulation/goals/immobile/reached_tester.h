@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile
@@ -27,17 +27,25 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
 void impose_starter_immobility_tester(slice_index si,
                                       stip_structure_traversal *st);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type goal_immobile_reached_tester_solve(slice_index si);
+stip_length_type goal_immobile_reached_tester_attack(slice_index si, stip_length_type n);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type immobility_tester_solve(slice_index si);
+stip_length_type immobility_tester_attack(slice_index si, stip_length_type n);
 
 /* Replace immobility tester slices' type
  * @param si where to start (entry slice into stipulation)

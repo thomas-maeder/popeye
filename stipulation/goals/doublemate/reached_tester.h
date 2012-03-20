@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_DOUBLEMATE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_DOUBLEMATE_REACHED_TESTER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a double mate goal has just been reached
@@ -15,10 +15,14 @@ extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
  */
 slice_index alloc_doublemate_mate_reached_tester_system(void);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type goal_doublemate_reached_tester_solve(slice_index si);
+stip_length_type goal_doublemate_reached_tester_attack(slice_index si, stip_length_type n);
 
 #endif

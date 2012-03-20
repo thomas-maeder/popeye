@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "pyint.h"
 #include "pydata.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/stalemate/white_block.h"
@@ -118,7 +118,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  slice_solve(slices[current_start_slice].u.fork.fork);
+  attack(slices[current_start_slice].u.fork.fork,length_unspecified);
   next_trouble_maker();
   current_state = 0;
 

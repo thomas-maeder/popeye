@@ -1,6 +1,7 @@
 optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.c \
- optimisations/intelligent/stalemate/finish.h pyint.h pydata.h pyslice.h \
+ optimisations/intelligent/stalemate/finish.h pyint.h pydata.h \
+ stipulation/battle_play/attack_play.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
@@ -12,7 +13,7 @@ pyint.h:
 
 pydata.h:
 
-pyslice.h:
+stipulation/battle_play/attack_play.h:
 
 optimisations/intelligent/place_white_king.h:
 
@@ -55,7 +56,8 @@ trace.h:
 optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
  optimisations/intelligent/stalemate/immobilise_black.h pyint.h pydata.h \
- pyslice.h optimisations/intelligent/count_nr_of_moves.h \
+ stipulation/battle_play/attack_play.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
@@ -68,7 +70,7 @@ pyint.h:
 
 pydata.h:
 
-pyslice.h:
+stipulation/battle_play/attack_play.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -86,7 +88,7 @@ trace.h:
 optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.c \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h pyint.h \
- pydata.h pyslice.h platform/maxtime.h \
+ pydata.h stipulation/battle_play/attack_play.h platform/maxtime.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -99,7 +101,7 @@ pyint.h:
 
 pydata.h:
 
-pyslice.h:
+stipulation/battle_play/attack_play.h:
 
 platform/maxtime.h:
 

@@ -3,7 +3,7 @@
 
 #include "boolean.h"
 #include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a STEndOfSolutionWriter slice.
  * @return index of allocated slice

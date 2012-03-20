@@ -71,7 +71,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = slice_solve(slices[si].u.fork.fork)==has_solution;
+  result = attack(slices[si].u.fork.fork,length_unspecified)==has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);

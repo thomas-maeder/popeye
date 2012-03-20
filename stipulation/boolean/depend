@@ -14,14 +14,11 @@ solving/solving.h:
 
 trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
- stipulation/boolean/or.h stipulation/boolean/binary.h \
- stipulation/battle_play/attack_play.h trace.h
+ stipulation/boolean/or.h stipulation/boolean/binary.h trace.h
 
 stipulation/boolean/or.h:
 
 stipulation/boolean/binary.h:
-
-stipulation/battle_play/attack_play.h:
 
 trace.h:
 stipulation/boolean/binary$(OBJ_SUFFIX): stipulation/boolean/binary.c \
@@ -36,11 +33,12 @@ solving/solving.h:
 
 trace.h:
 stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
- stipulation/boolean/not.h pyslice.h pypipe.h pyproc.h pydata.h trace.h
+ stipulation/boolean/not.h stipulation/battle_play/attack_play.h pypipe.h \
+ pyproc.h pydata.h trace.h
 
 stipulation/boolean/not.h:
 
-pyslice.h:
+stipulation/battle_play/attack_play.h:
 
 pypipe.h:
 

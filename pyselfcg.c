@@ -94,29 +94,6 @@ stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve a slice at
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-has_solution_type selfcheck_guard_solve(slice_index si)
-{
-  has_solution_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,advers(slices[si].starter)))
-    result = opponent_self_check;
-  else
-    result = slice_solve(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static
 void insert_selfcheck_guard_battle_branch(slice_index si,
                                           stip_structure_traversal *st)

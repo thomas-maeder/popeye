@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.159 2012/02/05 14:50:43 popeye37 Exp $
+# CVS: $Id: makefile.unx,v 1.160 2012/03/20 06:12:52 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -197,13 +197,13 @@ PLATFORMS =     platform/other platform/windows32 platform/dos \
 		platform/unix platform/windows64
 
 NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
-		DHT conditions conditions/amu conditions/ultraschachzwang \
-		conditions/circe conditions/anticirce conditions/ohneschach \
-		conditions/owu conditions/maff \
+    DHT conditions conditions/amu conditions/ultraschachzwang \
+    conditions/circe conditions/anticirce conditions/ohneschach \
+    conditions/owu conditions/maff \
     optimisations \
-		stipulation stipulation/boolean \
-		stipulation/battle_play stipulation/help_play \
-		stipulation/goals \
+    stipulation stipulation/boolean \
+    stipulation/battle_play stipulation/help_play \
+    stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
     stipulation/goals/autostalemate stipulation/goals/any \
@@ -217,27 +217,26 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/chess81 \
     stipulation/goals/immobile stipulation/goals/notcheck \
     solving solving/battle_play \
-		pieces/attributes/paralysing pieces/attributes/kamikaze \
-		optimisations/orthodox_mating_moves \
-		optimisations/intelligent \
-		optimisations/intelligent/mate optimisations/intelligent/stalemate \
-		optimisations/goals \
-		optimisations/goals/castling optimisations/goals/enpassant \
-		optimisations/killer_move optimisations/count_nr_opponent_moves \
-		options options/no_short_variations \
+    pieces/attributes/paralysing pieces/attributes/kamikaze \
+    optimisations/orthodox_mating_moves \
+    optimisations/intelligent \
+    optimisations/intelligent/mate optimisations/intelligent/stalemate \
+    optimisations/goals \
+    optimisations/goals/castling optimisations/goals/enpassant \
+    optimisations/killer_move optimisations/count_nr_opponent_moves \
+    options options/no_short_variations \
     options/maxsolutions \
     options/stoponshortsolutions \
     options/movenumbers \
-		output/plaintext output/plaintext/tree output/plaintext/line
+    output/plaintext output/plaintext/tree output/plaintext/line
 
 NESTEDLIBDIRS = . DHT \
-		conditions conditions/amu conditions/ultraschachzwang \
+    conditions conditions/amu conditions/ultraschachzwang \
     conditions/circe conditions/anticirce conditions/ohneschach \
     conditions/owu conditions/maff \
     optimisations \
-		stipulation/boolean \
-		stipulation/battle_play stipulation/help_play \
-		stipulation/goals \
+    stipulation/battle_play stipulation/help_play \
+    stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
     stipulation/goals/autostalemate stipulation/goals/any \
@@ -252,24 +251,25 @@ NESTEDLIBDIRS = . DHT \
     stipulation/goals/immobile stipulation/goals/notcheck \
     stipulation \
     solving solving/battle_play \
-		pieces/attributes/paralysing pieces/attributes/kamikaze \
-		optimisations/orthodox_mating_moves \
-		optimisations/intelligent \
+    stipulation/boolean \
+    pieces/attributes/paralysing pieces/attributes/kamikaze \
+    optimisations/orthodox_mating_moves \
+    optimisations/intelligent \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
-		optimisations/intelligent \
-		optimisations/goals \
-		optimisations/goals/castling optimisations/goals/enpassant \
-		optimisations/killer_move optimisations/count_nr_opponent_moves \
-		options options/no_short_variations \
+    optimisations/intelligent \
+    optimisations/goals \
+    optimisations/goals/castling optimisations/goals/enpassant \
+    optimisations/killer_move optimisations/count_nr_opponent_moves \
+    options options/no_short_variations \
     options/maxsolutions \
     options/stoponshortsolutions \
     options/movenumbers \
-		output/plaintext/tree output/plaintext/line output/plaintext \
-		platform platform/$(PLATFORM)
+    output/plaintext/tree output/plaintext/line output/plaintext \
+    platform platform/$(PLATFORM)
 
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
-		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
+    	LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
 EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
 
@@ -285,7 +285,7 @@ all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
 # Target for creating the popeye executable with full dynamic hashing
 
 py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX): pymain$(OBJ_SUFFIX) $(OURLIBS)
-		$(LDTARGET) $(EXEFILE)$@ pymain$(OBJ_SUFFIX) $(OBJECTS) $(OURLIBS) $(LDFLAGS) $(TARGETLIBS) $(LIBRARIES)
+		$(LDTARGET)    $(EXEFILE)$@ pymain$(OBJ_SUFFIX) $(OBJECTS) $(OURLIBS) $(LDFLAGS) $(TARGETLIBS) $(LIBRARIES)
 		$(STRIPTARGET) $@
 
 # ===========================================================

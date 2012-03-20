@@ -57,197 +57,202 @@ pypipe.h:
 trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pykeepmt.h \
- pyselfcg.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
- pyproof.h stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/dummy_move.h stipulation/move_played.h \
- stipulation/check_zigzag_jump.h stipulation/boolean/or.h \
- stipulation/battle_play/branch.h stipulation/goals/reached_tester.h \
- stipulation/goals/doublemate/filter.h \
- stipulation/goals/countermate/filter.h \
- stipulation/goals/prerequisite_optimiser.h solving/fork_on_remaining.h \
- solving/find_shortest.h solving/move_generator.h \
- solving/castling_intermediate_move_generator.h \
- solving/single_move_generator.h \
- solving/single_move_generator_with_king_capture.h \
- solving/single_piece_move_generator.h solving/king_move_generator.h \
- solving/non_king_move_generator.h solving/capture_counter.h \
- solving/legal_move_counter.h solving/for_each_move.h \
- solving/find_by_increasing_length.h solving/find_move.h \
- solving/play_suppressor.h solving/avoid_unsolvable.h \
- solving/trivial_end_filter.h solving/battle_play/threat.h \
- solving/battle_play/try.h solving/battle_play/min_length_guard.h \
- solving/battle_play/min_length_optimiser.h \
- solving/battle_play/continuation.h conditions/bgl.h \
- conditions/exclusive.h conditions/ohneschach/immobility_tester.h \
- options/maxsolutions/guard.h options/stoponshortsolutions/filter.h \
- options/no_short_variations/no_short_variations_attacker_filter.h \
- options/movenumbers/restart_guard_intelligent.h options/maxtime.h \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- optimisations/intelligent/duplicate_avoider.h \
- optimisations/intelligent/moves_left.h \
- optimisations/intelligent/limit_nr_solutions_per_target.h \
- optimisations/intelligent/proof.h \
- optimisations/intelligent/duplicate_avoider.h \
- optimisations/intelligent/mate/filter.h \
- optimisations/intelligent/mate/goalreachable_guard.h \
- optimisations/intelligent/stalemate/immobilise_black.h \
- optimisations/intelligent/stalemate/goalreachable_guard.h \
- optimisations/intelligent/stalemate/filter.h \
+ stipulation/battle_play/attack_play.h pybrafrk.h pydegent.h pyflight.h \
+ pyhash.h pykeepmt.h pymovein.h pymovenb.h pynontrv.h pyproof.h \
+ pyselfcg.h pythreat.h conditions/amu/mate_filter.h \
+ conditions/anticirce/circuit_special.h \
+ conditions/anticirce/exchange_filter.h \
+ conditions/anticirce/exchange_special.h \
+ conditions/anticirce/target_square_filter.h conditions/bgl.h \
+ conditions/circe/circuit_by_rebirth_special.h \
+ conditions/circe/exchange_by_rebirth_special.h \
+ conditions/circe/steingewinn_filter.h conditions/exclusive.h \
+ conditions/maff/immobility_tester.h \
+ conditions/ohneschach/immobility_tester.h \
+ conditions/owu/immobility_tester.h \
+ conditions/ultraschachzwang/goal_filter.h \
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
+ optimisations/intelligent/duplicate_avoider.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/mate/goalreachable_guard.h \
+ optimisations/intelligent/moves_left.h optimisations/intelligent/proof.h \
+ optimisations/intelligent/stalemate/filter.h \
+ optimisations/intelligent/stalemate/goalreachable_guard.h \
+ optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/killer_move/collector.h \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- output/plaintext/tree/check_writer.h \
- output/plaintext/tree/zugzwang_writer.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
+ options/maxtime.h options/movenumbers/restart_guard_intelligent.h \
+ options/no_short_variations/no_short_variations_attacker_filter.h \
+ options/stoponshortsolutions/filter.h \
+ options/stoponshortsolutions/initialiser.h \
+ output/plaintext/end_of_phase_writer.h \
+ output/plaintext/illegal_selfcheck_writer.h \
+ output/plaintext/line/end_of_intro_series_marker.h \
+ output/plaintext/line/line_writer.h \
+ output/plaintext/move_inversion_counter.h \
+ output/plaintext/tree/check_writer.h output/plaintext/tree/goal_writer.h \
  output/plaintext/tree/move_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
- output/plaintext/tree/goal_writer.h output/plaintext/line/line_writer.h \
- trace.h
+ output/plaintext/tree/zugzwang_writer.h \
+ pieces/attributes/paralysing/mate_filter.h \
+ pieces/attributes/paralysing/stalemate_special.h \
+ solving/avoid_unsolvable.h solving/battle_play/continuation.h \
+ solving/battle_play/min_length_guard.h \
+ solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
+ solving/battle_play/try.h solving/capture_counter.h \
+ solving/castling_intermediate_move_generator.h \
+ solving/find_by_increasing_length.h solving/find_move.h \
+ solving/find_shortest.h solving/for_each_move.h \
+ solving/fork_on_remaining.h solving/king_move_generator.h \
+ solving/legal_move_counter.h solving/move_generator.h \
+ solving/non_king_move_generator.h solving/play_suppressor.h \
+ solving/single_move_generator.h \
+ solving/single_move_generator_with_king_capture.h \
+ solving/single_piece_move_generator.h solving/trivial_end_filter.h \
+ stipulation/battle_play/attack_adapter.h \
+ stipulation/battle_play/branch.h \
+ stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
+ stipulation/boolean/false.h stipulation/boolean/not.h \
+ stipulation/boolean/or.h stipulation/boolean/true.h \
+ stipulation/check_zigzag_jump.h stipulation/constraint.h \
+ stipulation/dead_end.h stipulation/dummy_move.h \
+ stipulation/end_of_branch_goal.h stipulation/end_of_branch.h \
+ stipulation/goals/any/reached_tester.h \
+ stipulation/goals/capture/reached_tester.h \
+ stipulation/goals/castling/reached_tester.h \
+ stipulation/goals/check/reached_tester.h \
+ stipulation/goals/chess81/reached_tester.h \
+ stipulation/goals/circuit_by_rebirth/reached_tester.h \
+ stipulation/goals/circuit/reached_tester.h \
+ stipulation/goals/countermate/filter.h \
+ stipulation/goals/countermate/reached_tester.h \
+ stipulation/goals/doublemate/filter.h \
+ stipulation/goals/doublemate/reached_tester.h \
+ stipulation/goals/enpassant/reached_tester.h \
+ stipulation/goals/exchange_by_rebirth/reached_tester.h \
+ stipulation/goals/exchange/reached_tester.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/goals/notcheck/reached_tester.h \
+ stipulation/goals/prerequisite_optimiser.h \
+ stipulation/goals/proofgame/reached_tester.h \
+ stipulation/goals/reached_tester.h \
+ stipulation/goals/steingewinn/reached_tester.h \
+ stipulation/goals/target/reached_tester.h \
+ stipulation/help_play/adapter.h stipulation/move_played.h \
+ stipulation/setplay_fork.h trace.h
 
 stipulation/battle_play/attack_play.h:
 
 pybrafrk.h:
 
+pydegent.h:
+
+pyflight.h:
+
 pyhash.h:
 
 pykeepmt.h:
 
-pyselfcg.h:
+pymovein.h:
 
 pymovenb.h:
-
-pyflight.h:
-
-pydegent.h:
-
-pythreat.h:
 
 pynontrv.h:
 
 pyproof.h:
 
-stipulation/constraint.h:
+pyselfcg.h:
 
-stipulation/dead_end.h:
+pythreat.h:
 
-stipulation/end_of_branch.h:
+conditions/amu/mate_filter.h:
 
-stipulation/end_of_branch_goal.h:
+conditions/anticirce/circuit_special.h:
 
-stipulation/dummy_move.h:
+conditions/anticirce/exchange_filter.h:
 
-stipulation/move_played.h:
+conditions/anticirce/exchange_special.h:
 
-stipulation/check_zigzag_jump.h:
-
-stipulation/boolean/or.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/goals/reached_tester.h:
-
-stipulation/goals/doublemate/filter.h:
-
-stipulation/goals/countermate/filter.h:
-
-stipulation/goals/prerequisite_optimiser.h:
-
-solving/fork_on_remaining.h:
-
-solving/find_shortest.h:
-
-solving/move_generator.h:
-
-solving/castling_intermediate_move_generator.h:
-
-solving/single_move_generator.h:
-
-solving/single_move_generator_with_king_capture.h:
-
-solving/single_piece_move_generator.h:
-
-solving/king_move_generator.h:
-
-solving/non_king_move_generator.h:
-
-solving/capture_counter.h:
-
-solving/legal_move_counter.h:
-
-solving/for_each_move.h:
-
-solving/find_by_increasing_length.h:
-
-solving/find_move.h:
-
-solving/play_suppressor.h:
-
-solving/avoid_unsolvable.h:
-
-solving/trivial_end_filter.h:
-
-solving/battle_play/threat.h:
-
-solving/battle_play/try.h:
-
-solving/battle_play/min_length_guard.h:
-
-solving/battle_play/min_length_optimiser.h:
-
-solving/battle_play/continuation.h:
+conditions/anticirce/target_square_filter.h:
 
 conditions/bgl.h:
 
+conditions/circe/circuit_by_rebirth_special.h:
+
+conditions/circe/exchange_by_rebirth_special.h:
+
+conditions/circe/steingewinn_filter.h:
+
 conditions/exclusive.h:
+
+conditions/maff/immobility_tester.h:
 
 conditions/ohneschach/immobility_tester.h:
 
-options/maxsolutions/guard.h:
+conditions/owu/immobility_tester.h:
 
-options/stoponshortsolutions/filter.h:
+conditions/ultraschachzwang/goal_filter.h:
 
-options/no_short_variations/no_short_variations_attacker_filter.h:
-
-options/movenumbers/restart_guard_intelligent.h:
-
-options/maxtime.h:
-
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
-
-optimisations/intelligent/duplicate_avoider.h:
-
-optimisations/intelligent/moves_left.h:
-
-optimisations/intelligent/limit_nr_solutions_per_target.h:
-
-optimisations/intelligent/proof.h:
-
-optimisations/intelligent/duplicate_avoider.h:
-
-optimisations/intelligent/mate/filter.h:
-
-optimisations/intelligent/mate/goalreachable_guard.h:
-
-optimisations/intelligent/stalemate/immobilise_black.h:
-
-optimisations/intelligent/stalemate/goalreachable_guard.h:
-
-optimisations/intelligent/stalemate/filter.h:
+optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
 optimisations/goals/castling/filter.h:
 
 optimisations/goals/enpassant/filter.h:
 
+optimisations/intelligent/duplicate_avoider.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/mate/goalreachable_guard.h:
+
+optimisations/intelligent/moves_left.h:
+
+optimisations/intelligent/proof.h:
+
+optimisations/intelligent/stalemate/filter.h:
+
+optimisations/intelligent/stalemate/goalreachable_guard.h:
+
+optimisations/intelligent/stalemate/immobilise_black.h:
+
 optimisations/killer_move/collector.h:
 
-optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+options/maxsolutions/guard.h:
+
+options/maxsolutions/initialiser.h:
+
+options/maxtime.h:
+
+options/movenumbers/restart_guard_intelligent.h:
+
+options/no_short_variations/no_short_variations_attacker_filter.h:
+
+options/stoponshortsolutions/filter.h:
+
+options/stoponshortsolutions/initialiser.h:
+
+output/plaintext/end_of_phase_writer.h:
+
+output/plaintext/illegal_selfcheck_writer.h:
+
+output/plaintext/line/end_of_intro_series_marker.h:
+
+output/plaintext/line/line_writer.h:
+
+output/plaintext/move_inversion_counter.h:
 
 output/plaintext/tree/check_writer.h:
 
-output/plaintext/tree/zugzwang_writer.h:
+output/plaintext/tree/goal_writer.h:
 
 output/plaintext/tree/move_writer.h:
 
@@ -255,9 +260,131 @@ output/plaintext/tree/refutation_writer.h:
 
 output/plaintext/tree/refuting_variation_writer.h:
 
-output/plaintext/tree/goal_writer.h:
+output/plaintext/tree/zugzwang_writer.h:
 
-output/plaintext/line/line_writer.h:
+pieces/attributes/paralysing/mate_filter.h:
+
+pieces/attributes/paralysing/stalemate_special.h:
+
+solving/avoid_unsolvable.h:
+
+solving/battle_play/continuation.h:
+
+solving/battle_play/min_length_guard.h:
+
+solving/battle_play/min_length_optimiser.h:
+
+solving/battle_play/threat.h:
+
+solving/battle_play/try.h:
+
+solving/capture_counter.h:
+
+solving/castling_intermediate_move_generator.h:
+
+solving/find_by_increasing_length.h:
+
+solving/find_move.h:
+
+solving/find_shortest.h:
+
+solving/for_each_move.h:
+
+solving/fork_on_remaining.h:
+
+solving/king_move_generator.h:
+
+solving/legal_move_counter.h:
+
+solving/move_generator.h:
+
+solving/non_king_move_generator.h:
+
+solving/play_suppressor.h:
+
+solving/single_move_generator.h:
+
+solving/single_move_generator_with_king_capture.h:
+
+solving/single_piece_move_generator.h:
+
+solving/trivial_end_filter.h:
+
+stipulation/battle_play/attack_adapter.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_adapter.h:
+
+stipulation/boolean/and.h:
+
+stipulation/boolean/false.h:
+
+stipulation/boolean/not.h:
+
+stipulation/boolean/or.h:
+
+stipulation/boolean/true.h:
+
+stipulation/check_zigzag_jump.h:
+
+stipulation/constraint.h:
+
+stipulation/dead_end.h:
+
+stipulation/dummy_move.h:
+
+stipulation/end_of_branch_goal.h:
+
+stipulation/end_of_branch.h:
+
+stipulation/goals/any/reached_tester.h:
+
+stipulation/goals/capture/reached_tester.h:
+
+stipulation/goals/castling/reached_tester.h:
+
+stipulation/goals/check/reached_tester.h:
+
+stipulation/goals/chess81/reached_tester.h:
+
+stipulation/goals/circuit_by_rebirth/reached_tester.h:
+
+stipulation/goals/circuit/reached_tester.h:
+
+stipulation/goals/countermate/filter.h:
+
+stipulation/goals/countermate/reached_tester.h:
+
+stipulation/goals/doublemate/filter.h:
+
+stipulation/goals/doublemate/reached_tester.h:
+
+stipulation/goals/enpassant/reached_tester.h:
+
+stipulation/goals/exchange_by_rebirth/reached_tester.h:
+
+stipulation/goals/exchange/reached_tester.h:
+
+stipulation/goals/immobile/reached_tester.h:
+
+stipulation/goals/notcheck/reached_tester.h:
+
+stipulation/goals/prerequisite_optimiser.h:
+
+stipulation/goals/proofgame/reached_tester.h:
+
+stipulation/goals/reached_tester.h:
+
+stipulation/goals/steingewinn/reached_tester.h:
+
+stipulation/goals/target/reached_tester.h:
+
+stipulation/help_play/adapter.h:
+
+stipulation/move_played.h:
+
+stipulation/setplay_fork.h:
 
 trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \

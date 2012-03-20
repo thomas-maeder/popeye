@@ -43,7 +43,7 @@ stip_length_type countermate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(slices[si].u.fork.fork)==has_solution)
+  if (attack(slices[si].u.fork.fork,length_unspecified)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = attack(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
@@ -74,7 +74,7 @@ stip_length_type countermate_filter_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(slices[si].u.fork.fork)==has_solution)
+  if (attack(slices[si].u.fork.fork,length_unspecified)==has_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
   result = defend(slices[si].u.fork.next,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);

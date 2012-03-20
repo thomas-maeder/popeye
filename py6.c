@@ -115,7 +115,7 @@
 #include "stipulation/proxy.h"
 #include "trace.h"
 #include "measure.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "pyoutput.h"
 #include "conditions/bgl.h"
 #include "conditions/exclusive.h"
@@ -2094,7 +2094,7 @@ static void reflectboard(void)
 static void solveHalfADuplex(slice_index si)
 {
   inithash(si);
-  slice_solve(si);
+  attack(si,length_unspecified);
   closehash();
 
 #ifdef _SE_DECORATE_SOLUTION_

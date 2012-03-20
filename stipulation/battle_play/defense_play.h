@@ -5,7 +5,7 @@
  * depending on the slice type
  */
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "pydata.h"
 
 /* Try to defend after an attacking move

@@ -7,7 +7,6 @@
 
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "pyslice.h"
 
 /* Instrument a stipulation with slices dealing with selfcheck detection
  * @param si root of branch to be instrumented
@@ -39,11 +38,5 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n);
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
 stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n);
-
-/* Solve a slice at
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-has_solution_type selfcheck_guard_solve(slice_index si);
 
 #endif

@@ -168,7 +168,7 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  switch (slice_solve(fork))
+  switch (attack(fork,length_unspecified))
   {
     case has_solution:
       result = slack_length;
@@ -218,7 +218,7 @@ stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  if (slice_solve(fork)==has_solution)
+  if (attack(fork,length_unspecified)==has_solution)
     result = slack_length;
   else
     result = defend(next,n);

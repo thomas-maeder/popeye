@@ -137,7 +137,7 @@ solving/fork_on_remaining.h:
 
 trace.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
- stipulation/constraint.h pypipe.h pyslice.h pybrafrk.h pydata.h \
+ stipulation/constraint.h pypipe.h pybrafrk.h pydata.h \
  stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/solving.h trace.h
@@ -145,8 +145,6 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
 stipulation/constraint.h:
 
 pypipe.h:
-
-pyslice.h:
 
 pybrafrk.h:
 

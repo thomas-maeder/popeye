@@ -98,15 +98,12 @@ solving/avoid_unsolvable.h:
 
 trace.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
- solving/find_by_increasing_length.h pydata.h pyslice.h \
- stipulation/branch.h pypipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h trace.h
+ solving/find_by_increasing_length.h pydata.h stipulation/branch.h \
+ pypipe.h stipulation/proxy.h stipulation/help_play/branch.h trace.h
 
 solving/find_by_increasing_length.h:
 
 pydata.h:
-
-pyslice.h:
 
 stipulation/branch.h:
 

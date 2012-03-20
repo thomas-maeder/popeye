@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_BOOLEAN_OR_H)
 #define STIPULATION_BOOLEAN_OR_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing logical OR stipulation slices.
  */
@@ -12,12 +12,6 @@
  * @return index of allocated slice
  */
 slice_index alloc_or_slice(slice_index op1, slice_index op2);
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type or_solve(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

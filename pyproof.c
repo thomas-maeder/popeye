@@ -28,7 +28,7 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pymsg.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 #include "trace.h"

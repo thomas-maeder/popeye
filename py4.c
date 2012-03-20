@@ -65,7 +65,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
@@ -209,7 +209,7 @@ static int count_opponent_moves(void)
                              move_generation_stack[nbcou].capture,
                              cmren[nbcou]);
 
-  slice_solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].u.fork.fork);
+  attack(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].u.fork.fork,length_unspecified);
 
   result = fini_opponent_moves_counter();
 
@@ -702,7 +702,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           boolean is_this_move_legal;
           is_republican_suspended = true;
           init_single_move_generator(sq_departure,sq_arrival,sq_capture,mren);
-          is_this_move_legal = slice_solve(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.fork.fork)==has_solution;
+          is_this_move_legal = attack(slices[temporary_hack_maximummer_candidate_move_tester[trait[nbply]]].u.fork.fork,length_unspecified)==has_solution;
           is_republican_suspended = save_is_republican_suspended;
            /* TODO what for, if we don't have neutrals? Does it matter? */
           initneutre(save_neutcoul);

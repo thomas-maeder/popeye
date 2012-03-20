@@ -4,7 +4,7 @@
 #include "pymsg.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
 #include "solving/legal_move_counter.h"
@@ -69,7 +69,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || slice_solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork)!=has_solution);
+            || attack(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork,length_unspecified)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,7 +98,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  slice_solve(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork);
+  attack(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork,length_unspecified);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);

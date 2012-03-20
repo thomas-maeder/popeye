@@ -52,13 +52,17 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type paralysing_mate_filter_tester_solve(slice_index si)
+stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
@@ -67,25 +71,30 @@ has_solution_type paralysing_mate_filter_tester_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = slice_solve(next);
-  if (result==has_solution && suffocated_by_paralysis(mated))
-    result = has_no_solution;
+  result = attack(next,n);
+  if (slack_length<=result && result<=n && suffocated_by_paralysis(mated))
+    result = n+2;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type paralysing_mate_filter_solve(slice_index si)
+stip_length_type paralysing_mate_filter_attack(slice_index si, stip_length_type n)
 {
-  has_solution_type result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
@@ -94,15 +103,16 @@ has_solution_type paralysing_mate_filter_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (suffocated_by_paralysis(mated))
     result = has_no_solution;
   else
-    result = slice_solve(next);
+    result = attack(next,length_unspecified);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

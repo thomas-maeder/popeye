@@ -67,7 +67,7 @@
 #include "pyhash.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_piece_move_generator.h"
@@ -726,7 +726,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
     castling_intermediate_move_generator_init_next(from,to);
-    result = slice_solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.fork.fork)==has_solution;
+    result = attack(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.fork.fork,length_unspecified)==has_solution;
     flagmummer[side] = save_flagmummer;
   }
   else
@@ -1831,7 +1831,7 @@ static boolean find_non_capturing_move(ply ply_id,
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_departure,p_moving);
-  result = slice_solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.fork.fork)==has_solution;
+  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.fork.fork,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

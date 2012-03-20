@@ -1,7 +1,7 @@
 #if !defined(PIECES_PARALYSING_STALEMATE_FILTER_H)
 #define PIECES_PARALYSING_STALEMATE_FILTER_H
 
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides slice type STPiecesParalysingStalemateSpecial - as a
  * consequence of the special mating rule, a side is stalemate if it is in check
@@ -15,10 +15,14 @@
 slice_index
 alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary starter_or_adversary);
 
-/* Solve a slice
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+ * @param n maximum number of half moves until goal
+ * @return length of solution found and written, i.e.:
+ *            slack_length-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
  */
-has_solution_type paralysing_stalemate_special_solve(slice_index si);
+stip_length_type paralysing_stalemate_special_attack(slice_index si, stip_length_type n);
 
 #endif

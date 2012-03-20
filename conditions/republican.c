@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pylang.h"
 #include "pystip.h"
-#include "pyslice.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/temporary_hacks.h"
@@ -36,7 +36,7 @@ static void find_mate_square(Side side)
     if (e[king_square[other_side]]==vide)
     {
       e[king_square[other_side]]= king_type;
-      if (slice_solve(slices[temporary_hack_mate_tester[other_side]].u.fork.fork)==has_solution)
+      if (attack(slices[temporary_hack_mate_tester[other_side]].u.fork.fork,length_unspecified)==has_solution)
         return;
       e[king_square[other_side]]= vide;
     }

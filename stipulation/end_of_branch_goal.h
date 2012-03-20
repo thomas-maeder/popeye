@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_END_OF_BRANCH_H)
-#define STIPULATION_END_OF_BRANCH_H
+#if !defined(STIPULATION_END_OF_BRANCH_GOAL_H)
+#define STIPULATION_END_OF_BRANCH_GOAL_H
 
 /* End of branch by reaching goal
  */

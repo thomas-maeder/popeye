@@ -23,24 +23,6 @@ slice_index alloc_true_slice(void)
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type true_solve(slice_index si)
-{
-  has_solution_type const result = has_solution;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin a copy off a pipe to add it to the root or set play branch
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
