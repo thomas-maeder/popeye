@@ -3297,10 +3297,10 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
             break;
 
           case nested_branch_type_attack:
+          case nested_branch_type_defense:
             battle_branch_insert_self_end_of_branch(branch,proxy_operand);
             break;
 
-          case nested_branch_type_defense:
           case nested_branch_type_forced:
             tok = 0;
             break;
