@@ -671,6 +671,10 @@ stip_length_type attack(slice_index si, stip_length_type n)
       result = paralysing_mate_filter_tester_attack(si,n);
       break;
 
+    case STPlaySuppressor:
+      result = play_suppressor_attack(si,n);
+      break;
+
     case STTrue:
       result = slack_length;
       break;
