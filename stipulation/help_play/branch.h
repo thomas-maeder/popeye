@@ -24,7 +24,7 @@ void help_branch_shorten(slice_index si);
 /* Find a STReadyMove slice with a specific parity
  * @param si identifies the entry slice of a help branch
  * @param parity indicates after which help move of the branch to insert
- * @return identifier of found STReadyMove slice
+ * @return identifier of found STReadyMove slice; no_slice if no such slice was found
  */
 slice_index help_branch_locate_ready(slice_index si, unsigned int parity);
 
@@ -61,10 +61,12 @@ void help_branch_set_end_forced(slice_index si,
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
  * @param parity indicates after which help move of the branch to insert
+ * @return true iff the constraint could be inserted
+ * @note deallocates the constraint if couldn't be inserted
  */
-void help_branch_insert_constraint(slice_index si,
-                                   slice_index constraint,
-                                   unsigned int parity);
+boolean help_branch_insert_constraint(slice_index si,
+                                      slice_index constraint,
+                                      unsigned int parity);
 
 /* Insert slices into a help branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

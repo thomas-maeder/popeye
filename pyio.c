@@ -2727,9 +2727,13 @@ static char *ParsePlay(char *tok,
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       help_branch_set_end_forced(proxy,proxy_semi,1);
-      help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0);
-      help_branch_insert_check_zigzag(proxy);
-      stip_impose_starter(proxy_to_goal,White);
+      if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
+      {
+        help_branch_insert_check_zigzag(proxy);
+        stip_impose_starter(proxy_to_goal,White);
+      }
+      else
+        result = 0;
     }
   }
 
@@ -2944,8 +2948,10 @@ static char *ParsePlay(char *tok,
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       help_branch_set_end_forced(proxy,proxy_semi,1);
-      help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0);
-      stip_impose_starter(proxy_to_goal,White);
+      if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
+        stip_impose_starter(proxy_to_goal,White);
+      else
+        result = 0;
     }
   }
 
@@ -3537,11 +3543,9 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
       slice_index const proxy_operand = alloc_proxy_slice();
       expression_type nested_type;
       tok = ParseStructuredStip_expression(tok+1,proxy_operand,&nested_type,level+1);
-      if (tok!=0 && tok[0]=='}')
-      {
+      if (tok!=0 && tok[0]=='}'
+          && help_branch_insert_constraint(branch,proxy_operand,parity))
         ++tok;
-        help_branch_insert_constraint(branch,proxy_operand,parity);
-      }
       else
         tok = 0;
     }

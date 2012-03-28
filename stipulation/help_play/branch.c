@@ -588,7 +588,7 @@ static boolean does_goal_imply_immobility(slice_index si)
 /* Find a STReadyMove slice with a specific parity
  * @param si identifies the entry slice of a help branch
  * @param parity indicates after which help move of the branch to insert
- * @return identifier of found STReadyMove slice
+ * @return identifier of found STReadyMove slice; no_slice if no such slice was found
  */
 slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
 {
@@ -599,11 +599,21 @@ slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  do
+  result = branch_find_slice(STReadyForHelpMove,result);
+  assert(result!=no_slice);
+
+  while ((slices[result].u.branch.length-slack_length)%2!=parity%2)
   {
-    result = branch_find_slice(STReadyForHelpMove,result);
-    assert(result!=no_slice);
-  } while ((slices[result].u.branch.length-slack_length)%2!=parity%2);
+    slice_index const next = branch_find_slice(STReadyForHelpMove,result);
+    assert(next!=no_slice);
+    if (result==next)
+    {
+      result = no_slice;
+      break;
+    }
+    else
+      result = next;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -615,21 +625,35 @@ slice_index help_branch_locate_ready(slice_index si, unsigned int parity)
  * @param si identifies the entry slice of a help branch
  * @param end_proto end of branch prototype slice
  * @param parity indicates after which help move of the branch to insert
+ * @return true iff the end could be inserted
  */
-static void help_branch_insert_end_of_branch(slice_index si,
-                                             slice_index end_proto,
-                                             unsigned int parity)
+static boolean help_branch_insert_end_of_branch(slice_index si,
+                                                slice_index end_proto,
+                                                unsigned int parity)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",end_proto);
   TraceFunctionParam("%u",parity);
   TraceFunctionParamListEnd();
 
-  help_branch_insert_slices(help_branch_locate_ready(si,parity),&end_proto,1);
+  {
+    slice_index const pos = help_branch_locate_ready(si,parity);
+    if (pos==no_slice)
+      result = false;
+    else
+    {
+      help_branch_insert_slices(pos,&end_proto,1);
+      result = true;
+    }
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Insert a fork to the next branch
@@ -681,7 +705,10 @@ void help_branch_set_end_goal(slice_index si,
   else
     branch = alloc_end_of_branch_goal(to_goal);
 
-  help_branch_insert_end_of_branch(si,branch,parity);
+  {
+    boolean const inserted = help_branch_insert_end_of_branch(si,branch,parity);
+    assert(inserted);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -706,7 +733,11 @@ void help_branch_set_end_forced(slice_index si,
   TraceStipulation(si);
   TraceStipulation(forced);
 
-  help_branch_insert_end_of_branch(si,alloc_end_of_branch_forced(forced),parity);
+  {
+    slice_index const fork = alloc_end_of_branch_forced(forced);
+    boolean const inserted = help_branch_insert_end_of_branch(si,fork,parity);
+    assert(inserted);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -717,11 +748,15 @@ void help_branch_set_end_forced(slice_index si,
  * @param si entry slice of branch to be instrumented
  * @param constraint identifies branch that constrains the attacker
  * @param parity indicates after which help move of the branch to insert
+ * @return true iff the constraint could be inserted
+ * @note deallocates the constraint if couldn't be inserted
  */
-void help_branch_insert_constraint(slice_index si,
-                                   slice_index constraint,
-                                   unsigned int parity)
+boolean help_branch_insert_constraint(slice_index si,
+                                      slice_index constraint,
+                                      unsigned int parity)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",constraint);
@@ -731,10 +766,21 @@ void help_branch_insert_constraint(slice_index si,
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  help_branch_insert_end_of_branch(si,alloc_constraint_tester_slice(constraint),parity);
+  {
+    slice_index const tester = alloc_constraint_tester_slice(constraint);
+    if (help_branch_insert_end_of_branch(si,tester,parity))
+      result = true;
+    else
+    {
+      result = false;
+      dealloc_slices(tester);
+    }
+  }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate a help branch.

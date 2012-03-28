@@ -94,8 +94,8 @@ static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *
         break;
 
       case stip_traversal_context_help:
-        help_branch_insert_constraint(si,make_goal_is_end_tester(fork),0);
-        state->inserted = true;
+        if (help_branch_insert_constraint(si,make_goal_is_end_tester(fork),0))
+          state->inserted = true;
         break;
 
       default:
