@@ -83,6 +83,11 @@ static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *
   if (state->current.nr_unique_goals_found==1)
     switch (st->context)
     {
+      case stip_traversal_context_attack:
+        battle_branch_insert_defense_constraint(si,make_goal_is_end_tester(fork));
+        state->inserted = true;
+        break;
+
       case stip_traversal_context_defense:
         battle_branch_insert_attack_constraint(si,make_goal_is_end_tester(fork));
         state->inserted = true;

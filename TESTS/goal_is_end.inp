@@ -6,4 +6,10 @@ pieces white ph2 black pa7
 stipulation hc815
 option nowk nobk goalisend
 
+next
+
+pieces white ph2 black pa6
+stip sc815
+option vari nowk nobk nothr goalisend
+
 end

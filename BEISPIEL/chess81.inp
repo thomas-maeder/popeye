@@ -5,7 +5,7 @@ protokoll chess81.out
 autor Werner Keym
 quelle A, feenschach 187, 7/2011
 forderung c817
-option vari zielistende
+option vari ZielIstEnde
 steine
 weiss ke4 te2
 schwarz kh5 lh4
@@ -15,7 +15,7 @@ weiter
 autor Werner Keym
 quelle B, feenschach 187, 7/2011
 forderung c813
-option vari zielistende
+option vari ZielIstEnde
 steine
 weiss ke1 th1
 schwarz kg3 Lh4
@@ -25,7 +25,7 @@ weiter
 autor Werner Keym
 quelle C, feenschach 187, 7/2011
 forderung c813
-option vari KeineRochade e1h1 zielistende
+option vari KeineRochade e1h1 ZielIstEnde
 steine
 weiss ke1 th1
 schwarz kg8 sd8h8 bh7
@@ -35,7 +35,7 @@ weiter
 autor Werner Keym
 quelle D, feenschach 187, 7/2011
 forderung sc813
-option vari
+option vari ZielIstEnde
 steine
 weiss kd4 sd1
 schwarz ka2
@@ -45,7 +45,7 @@ weiter
 autor Werner Keym
 quelle E, feenschach 187, 7/2011
 forderung hc812
-option vari
+option ZielIstEnde
 steine
 weiss kf5 bh6
 schwarz kh7 lh8

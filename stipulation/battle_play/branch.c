@@ -103,6 +103,7 @@ static slice_index const slice_rank_order[] =
   STRefutationsIntroWriter,
   STTrue,
   STPlaySuppressor,
+  STConstraintSolver,
   STConstraintTester,
   STEndOfBranchForced,
   STMaxFlightsquares,
