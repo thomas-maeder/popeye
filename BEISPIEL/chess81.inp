@@ -1,42 +1,53 @@
-anfa
-prot chess81.out
-auto Werner Keym
-quel A, feenschach 187, 7/2011
-ford c817
-opti vari zielistende
-stei
-weis ke4 te2
-schw kh5 lh4
-weit
-auto Werner Keym
-quel B, feenschach 187, 7/2011
-ford c813
-opti vari zielistende
-stei
-weis ke1 th1
-schw kg3 Lh4
-weit
-auto Werner Keym
-quel C, feenschach 187, 7/2011
-ford c813
-opti vari KeineRochade e1h1 zielistende
-stei
-weis ke1 th1
-schw kg8 sd8h8 bh7
-weit
-auto Werner Keym
-quel D, feenschach 187, 7/2011
-ford sc813
-opti vari
-stei
-weis kd4 sd1
-schw ka2
-weit
-auto Werner Keym
-quel E, feenschach 187, 7/2011
-ford hc812
-opti vari
-stei
-weis kf5 bh6
-schw kh7 lh8
+anfang
+
+protokoll chess81.out
+
+autor Werner Keym
+quelle A, feenschach 187, 7/2011
+forderung c817
+option vari zielistende
+steine
+weiss ke4 te2
+schwarz kh5 lh4
+
+weiter
+
+autor Werner Keym
+quelle B, feenschach 187, 7/2011
+forderung c813
+option vari zielistende
+steine
+weiss ke1 th1
+schwarz kg3 Lh4
+
+weiter
+
+autor Werner Keym
+quelle C, feenschach 187, 7/2011
+forderung c813
+option vari KeineRochade e1h1 zielistende
+steine
+weiss ke1 th1
+schwarz kg8 sd8h8 bh7
+
+weiter
+
+autor Werner Keym
+quelle D, feenschach 187, 7/2011
+forderung sc813
+option vari
+steine
+weiss kd4 sd1
+schwarz ka2
+
+weiter
+
+autor Werner Keym
+quelle E, feenschach 187, 7/2011
+forderung hc812
+option vari
+steine
+weiss kf5 bh6
+schwarz kh7 lh8
+
 ende
