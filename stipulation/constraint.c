@@ -215,12 +215,10 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
 
 static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
 {
-  { STConstraintTester,  &remove_constraint_if_irrelevant },
-  { STConstraintSolver,  &remove_constraint_if_irrelevant },
-  { STReadyForAttack,    &stip_structure_visitor_noop     },
-  { STReadyForDefense,   &stip_structure_visitor_noop     },
-  { STReadyForHelpMove,  &stip_structure_visitor_noop     },
-  { STReadyForDummyMove, &stip_structure_visitor_noop     }
+  { STConstraintTester, &remove_constraint_if_irrelevant },
+  { STConstraintSolver, &remove_constraint_if_irrelevant },
+  { STEndOfBranch,      &stip_traverse_structure_pipe    },
+  { STGeneratingMoves,  &stip_structure_visitor_noop     }
 };
 
 enum
