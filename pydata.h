@@ -927,7 +927,8 @@ EXTERN boolean          kobulking[nr_sides];
 	/*31*/  "AjouteGrille",
 	/*32*/  "DernierePrise",
     /*33*/  "RoquesMutuellementExclusifs",
-    /*34*/  "optionnonpubliee"
+    /*34*/  "ButEstFin",
+    /*35*/  "optionnonpubliee"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -964,7 +965,8 @@ EXTERN boolean          kobulking[nr_sides];
 	/*31*/  "ZeichneGitter",
 	/*32*/  "LetzterSchlag",
     /*33*/  "RochadenGegenseitigAusschliessend",
-    /*34*/  "nichtpublizierteoption"
+    /*34*/  "ZielIstEnde",
+    /*35*/  "nichtpublizierteoption"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -1001,7 +1003,8 @@ EXTERN boolean          kobulking[nr_sides];
 	/*31*/  "WriteGrid",
 	/*32*/  "LastCapture",
     /*33*/  "CastlingMutuallyExclusive",
-    /*34*/  "unpublishedoption"
+    /*34*/  "GoalIsEnd",
+    /*35*/  "unpublishedoption"
 	}
 };
 #endif

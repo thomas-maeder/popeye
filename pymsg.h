@@ -157,7 +157,9 @@ typedef enum
   SetPlayNotApplicable = 116,
   PostKeyPlayNotApplicable = 117,
   QuodlibetNotApplicable = 118,
-  CantDecideOnSideWhichConditionAppliesTo = 119,
+  GoalIsEndNotApplicable = 119,
+  GoalIsEndAndQuodlibetIncompatible = 120,
+  CantDecideOnSideWhichConditionAppliesTo = 121,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

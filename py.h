@@ -629,9 +629,10 @@ typedef enum
   writegrid,       /* 31 */
   lastcapture,     /* 32 */
   mutuallyexclusivecastling, /* 33 */
-  degeneratetree,  /* 34 */
+  goal_is_end,     /* 34 */
+  degeneratetree,  /* 35 */
 
-  OptCount         /* 35 */
+  OptCount         /* 36 */
 } Opt;
 
 /* Names for conditions */

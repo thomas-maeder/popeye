@@ -117,4 +117,6 @@
 116= SetPlay not applicable - ignored\n
 117= PostKeyPlay not applicable - ignored\n
 118= Quodlibet not applicable - ignored\n
-119= Can't decide whether condition applies to White or Black\n
+119= GoalIsEnd not applicable - ignored\n
+120= GoalIsEnd and Quodlibet are incompatible\n
+121= Can't decide whether condition applies to White or Black\n

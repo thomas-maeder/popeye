@@ -148,4 +148,6 @@
 116= Satzspiel nicht anwendbar - ignoriert\n
 117= NachSchluessel nicht anwendbar - ignoriert\n
 118= Quodlibet nicht anwendbar - ignoriert\n
-119= Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n
+119= ZielIstEnde nicht anwendbar - ignoriert\n
+120= ZielIstEnde und Quodlibet nicht kompatibel\n
+121= Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n

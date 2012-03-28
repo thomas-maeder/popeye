@@ -1,0 +1,301 @@
+
+             Werner Keym
+      A, feenschach 187, 7/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -K   5
+|                                   |
+4   .   .   .   .   K   .   .  -L   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   T   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  c817                        2 + 2
+
+   1.Te2-h2 ! Drohung:
+          2.Ke4-f4 Zugzwang.
+              2...Kh5-h6
+                  3.Th2*h4 +
+                      3...Kh6-g6
+                          4.Th4-h8 c81
+                      3...Kh6-g7
+                          4.Th4-h8 c81
+              2...Kh5-g6
+                  3.Th2*h4 Drohung:
+                          4.Th4-h8 c81
+          2.Ke4-f5 Zugzwang.
+              2...Kh5-h6
+                  3.Th2*h4 +
+                      3...Kh6-g7
+                          4.Th4-h8 c81
+      1...Kh5-g5
+          2.Th2-g2 +
+              2...Lh4-g3
+                  3.Tg2*g3 +
+                      3...Kg5-h5
+                          4.Tg3-g8 c81
+                      3...Kg5-f6
+                          4.Tg3-g8 c81
+                      3...Kg5-h6
+                          4.Tg3-g8 c81
+                      3...Kg5-h4
+                          4.Tg3-g8 c81
+              2...Kg5-h5
+                  3.Tg2-g8 c81
+              2...Kg5-f6
+                  3.Tg2-g8 c81
+              2...Kg5-h6
+                  3.Tg2-g8 c81
+      1...Kh5-g4
+          2.Th2-g2 +
+              2...Kg4-h5
+                  3.Tg2-g8 c81
+              2...Kg4-h3
+                  3.Tg2-g8 c81
+              2...Lh4-g3
+                  3.Tg2-g1 Zugzwang.
+                      3...Kg4-h4
+                          4.Tg1-h1 +
+                              4...Lg3-h2
+                                  5.Th1*h2 +
+                                      5...Kh4-g4
+                                          6.Th2-h8 c81
+                                      5...Kh4-g5
+                                          6.Th2-h8 c81
+                                      5...Kh4-g3
+                                          6.Th2-h8 c81
+                              4...Kh4-g4
+                                  5.Th1-h8 c81
+                              4...Kh4-g5
+                                  5.Th1-h8 c81
+                      3...Kg4-g5
+                          4.Tg1*g3 +
+                              4...Kg5-h5
+                                  5.Tg3-g8 c81
+                              4...Kg5-f6
+                                  5.Tg3-g8 c81
+                              4...Kg5-h6
+                                  5.Tg3-g8 c81
+                              4...Kg5-h4
+                                  5.Tg3-g8 c81
+                      3...Kg4-h5
+                          4.Tg1*g3 Drohung:
+                                  5.Tg3-g8 c81
+                      3...Kg4-h3
+                          4.Tg1-h1 +
+                              4...Lg3-h2
+                                  5.Ke4-f3 Zugzwang.
+                                      5...Kh3-h4
+                                          6.Th1*h2 +
+                                              6...Kh4-g5
+                                                  7.Th2-h8 c81
+                              4...Kh3-g4
+                                  5.Th1-h8 c81
+                              4...Kh3-g2
+                                  5.Th1-h8 c81
+
+
+              empile:     2714037
+            jouecoup:     1886321
+        orig_rbechec:     1657198
+        orig_rnechec:      217602
+Loesung beendet. 
+
+
+
+             Werner Keym
+      B, feenschach 187, 7/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -L   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  c813                        2 + 2
+
+   1.0-0 ! Zugzwang.
+      1...Kg3-h3
+          2.Tf1-f8 c81
+      1...Kg3-g4
+          2.Tf1-f8 c81
+      1...Lh4-d8
+          2.Tf1-f8 c81
+      1...Lh4-e7
+          2.Tf1-f8 c81
+      1...Lh4-f6
+          2.Tf1*f6 Drohung:
+                  3.Tf6-f8 c81
+      1...Lh4-g5
+          2.Tf1-f8 c81
+
+
+              empile:        3957
+            jouecoup:        1830
+        orig_rbechec:        1198
+        orig_rnechec:         398
+Loesung beendet. 
+
+
+
+             Werner Keym
+      C, feenschach 187, 7/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -S   .   .  -K  -S   8
+|                                   |
+7   .   .   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   T   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  c813                        2 + 4
+
+   1.Th1-h5 ! Drohung:
+          2.Th5-a5 Drohung:
+                  3.Ta5-a8 c81
+          2.Th5-d5 Drohung:
+                  3.Td5*d8 + c81
+      1...Sd8-b7
+          2.Th5-e5 Drohung:
+                  3.Te5-e8 + c81
+      1...Sd8-c6
+          2.Th5-b5 Drohung:
+                  3.Tb5-b8 + c81
+          2.Th5-d5 Drohung:
+                  3.Td5-d8 + c81
+      1...Sd8-f7
+          2.Th5-a5 Drohung:
+                  3.Ta5-a8 + c81
+          2.Th5-b5 Drohung:
+                  3.Tb5-b8 + c81
+          2.Th5-c5 Drohung:
+                  3.Tc5-c8 + c81
+      1...Sh8-f7
+          2.Th5-a5 Drohung:
+                  3.Ta5-a8 c81
+
+
+              empile:       37403
+            jouecoup:        7895
+        orig_rbechec:        3747
+        orig_rnechec:        2389
+Loesung beendet. 
+
+
+
+             Werner Keym
+      D, feenschach 187, 7/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   S   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  sc813                       2 + 1
+
+   1.Kd4-c3 ! Drohung:
+          2.Kc3-b4
+              2...Ka2-a1 c81
+              2...Ka2-b1 c81
+      1...Ka2-a3
+          2.Sd1-b2 Zugzwang.
+              2...Ka3-a2
+                  3.Sb2-c4
+                      3...Ka2-a1 c81
+                      3...Ka2-b1 c81
+
+
+              empile:       11884
+            jouecoup:        4080
+        orig_rbechec:        2254
+        orig_rnechec:        1837
+Loesung beendet. 
+
+
+
+             Werner Keym
+      E, feenschach 187, 7/2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -L   8
+|                                   |
+7   .   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   B   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hc812                       2 + 2
+
+  1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=D c81 
+  1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=S + c81 
+  1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=T c81 
+  1.Lh8-g7 h6*g7   2.Kh7-h6 g7-g8=L c81 
+
+              empile:        3467
+            jouecoup:         757
+        orig_rbechec:          87
+        orig_rnechec:         671
+Loesung beendet. 
+
+

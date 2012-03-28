@@ -157,6 +157,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
+#include "options/goal_is_end.h"
 #include "options/maxtime.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
@@ -2547,8 +2548,18 @@ static Token iterate_twins(Token prev_token)
 
     if (slices[template_slice_hook].starter==no_side)
     {
-      if (OptFlag[quodlibet] && !transform_to_quodlibet(template_slice_hook))
-        Message(QuodlibetNotApplicable);
+      if (OptFlag[quodlibet] && OptFlag[goal_is_end])
+        VerifieMsg(GoalIsEndAndQuodlibetIncompatible);
+      else if (OptFlag[quodlibet])
+      {
+        if (!transform_to_quodlibet(template_slice_hook))
+          Message(QuodlibetNotApplicable);
+      }
+      else if (OptFlag[goal_is_end])
+      {
+        if (!stip_insert_goal_is_end_testers(template_slice_hook))
+          Message(GoalIsEndNotApplicable);
+      }
 
       if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
         Message(WhiteToPlayNotApplicable);
