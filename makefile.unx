@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.160 2012/03/20 06:12:52 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.161 2012/03/28 11:39:50 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -269,7 +269,7 @@ NESTEDLIBDIRS = . DHT \
 
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
-    	LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
+	LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
 EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
 
@@ -316,6 +316,8 @@ endif
 %$(OBJ_SUFFIX) %$(LIB_SUFFIX) %/clean: FORCE
 	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
+pyallmsg.h: FORCE
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
 # ===========================================================
 # create hard links to files to be distributed
