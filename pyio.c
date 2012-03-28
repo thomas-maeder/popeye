@@ -2168,7 +2168,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
         ProofSaveStartPosition();
 
         {
-          /* InitBoard() does much more than the following: */
+          /* used to call InitBoard(), which does much more than the following: */
           int i;
           for (i = 0; i<nr_squares_on_board; i++)
           {
@@ -2183,9 +2183,8 @@ static char *ParseGoal(char *tok, slice_index proxy)
       }
 
       case goal_chess81:
-	pipe_link(proxy,alloc_goal_chess81_reached_tester_system());
-	break;
-
+        pipe_link(proxy,alloc_goal_chess81_reached_tester_system());
+        break;
 
       default:
         assert(0);
