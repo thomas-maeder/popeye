@@ -15,7 +15,7 @@ stipulation/help_play/branch.h:
 trace.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/proxy.h stipulation/boolean/not.h \
- stipulation/battle_play/branch.h trace.h
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
 
 options/goal_is_end.h:
 
@@ -24,5 +24,7 @@ stipulation/proxy.h:
 stipulation/boolean/not.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
 
 trace.h:

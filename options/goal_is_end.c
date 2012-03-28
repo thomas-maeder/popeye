@@ -2,18 +2,19 @@
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
 
 typedef struct
 {
-    goal_type the_goal;
+    Goal the_goal;
     boolean goal_found[nr_goals];
     unsigned int nr_unique_goals_found;
 } goal_is_end_one_insertion_state_type;
 
-static goal_is_end_one_insertion_state_type const nil_state = { no_goal, { false }, 0 };
+static goal_is_end_one_insertion_state_type const nil_state = { { no_goal, initsquare }, { false }, 0 };
 
 typedef struct
 {
@@ -24,7 +25,7 @@ typedef struct
 static void remember_goal(slice_index si, stip_structure_traversal *st)
 {
   goal_is_end_insertion_state_type * const state = st->param;
-  goal_type const type = slices[si].u.goal_handler.goal.type;
+  Goal const goal = slices[si].u.goal_handler.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -32,40 +33,70 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (type==goal_negated)
+  if (goal.type==goal_negated)
     state->current.nr_unique_goals_found = 2;
-  else if (!state->current.goal_found[type])
+  else if (!state->current.goal_found[goal.type])
   {
-    state->current.goal_found[type] = true;
+    state->current.goal_found[goal.type] = true;
     ++state->current.nr_unique_goals_found;
-    state->current.the_goal = type;
+    state->current.the_goal = goal;
   }
+  else if (goal.type==goal_target && goal.target!=state->current.the_goal.target)
+    state->current.nr_unique_goals_found = 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *st)
+static slice_index make_goal_is_end_tester(slice_index si)
 {
-  goal_is_end_insertion_state_type * const state = st->param;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-
-  if (st->context==stip_traversal_context_defense
-      && state->current.nr_unique_goals_found==1)
   {
-    slice_index const goal_branch_copy = stip_deep_copy(slices[si].u.fork.fork);
     slice_index const not = alloc_not_slice();
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,not);
-    pipe_link(not,goal_branch_copy);
-    battle_branch_insert_attack_constraint(si,proxy);
-    state->inserted = true;
+    result = alloc_proxy_slice();
+    pipe_link(result,not);
+    pipe_link(not,stip_deep_copy(si));
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *st)
+{
+  goal_is_end_insertion_state_type * const state = st->param;
+  slice_index const fork = slices[si].u.fork.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(fork,st);
+
+  if (state->current.nr_unique_goals_found==1)
+    switch (st->context)
+    {
+      case stip_traversal_context_defense:
+        battle_branch_insert_attack_constraint(si,make_goal_is_end_tester(fork));
+        state->inserted = true;
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_constraint(si,make_goal_is_end_tester(fork),0);
+        state->inserted = true;
+        break;
+
+      default:
+        /* nothing */
+        break;
+    }
 
   state->current = nil_state;
 
