@@ -50,7 +50,9 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
     state->nr_unique_goals_found = 2;
   }
   else
+  {
     TraceText("repeated goal\n");
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,38 +103,61 @@ typedef struct
     boolean inserted;
 } goal_is_end_tester_insertion_state_type;
 
-static void insert_goal_is_end_tester_battle(slice_index si, stip_structure_traversal *st)
+static void insert_goal_is_end_tester_battle(slice_index adapter,
+                                             Side attacker_side,
+                                             stip_structure_traversal *st)
 {
   goal_is_end_tester_insertion_state_type * const state = st->param;
+  Side const tester_side = slices[state->tester].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_children(adapter,st);
 
-  switch (st->context)
   {
-    case stip_traversal_context_attack:
-      battle_branch_insert_defense_constraint(si,make_goal_is_end_tester(state->tester));
-      state->inserted = true;
-      break;
-
-    case stip_traversal_context_defense:
-      battle_branch_insert_attack_constraint(si,make_goal_is_end_tester(state->tester));
-      state->inserted = true;
-      break;
-
-    default:
-      /* nothing */
-      break;
+    slice_index const tester = make_goal_is_end_tester(state->tester);
+    if (attacker_side==tester_side)
+      battle_branch_insert_defense_constraint(adapter,tester);
+    else
+      battle_branch_insert_attack_constraint(adapter,tester);
   }
+
+  state->inserted = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_is_end_tester_help(slice_index adapter, stip_structure_traversal *st)
+static void insert_goal_is_end_tester_attack(slice_index adapter,
+                                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  insert_goal_is_end_tester_battle(adapter,slices[adapter].starter,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_is_end_tester_defense(slice_index adapter,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  insert_goal_is_end_tester_battle(adapter,advers(slices[adapter].starter),st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_is_end_tester_help(slice_index adapter,
+                                           stip_structure_traversal *st)
 {
   goal_is_end_tester_insertion_state_type * const state = st->param;
   unsigned int const adapter_parity = (slices[adapter].u.branch.length-slack_length)%2;
@@ -170,7 +195,8 @@ static boolean insert_goal_is_end_testers(slice_index root_slice, slice_index te
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&insert_goal_is_end_tester_battle);
+  stip_structure_traversal_override_single(&st,STAttackAdapter,&insert_goal_is_end_tester_attack);
+  stip_structure_traversal_override_single(&st,STDefenseAdapter,&insert_goal_is_end_tester_defense);
   stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_goal_is_end_tester_help);
   stip_traverse_structure(root_slice,&st);
 
