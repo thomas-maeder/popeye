@@ -78,3 +78,39 @@ solution finished.
 solution finished. 
 
 
+not 1.g1~
+both sides need a kingboth sides need a king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .       8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -S   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -P   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-hc812                   1 + 2
+
+  1.Sh5-f6   2.Sf6-g8 h7*g8=Q c81 
+  1.Sh5-f6   2.Sf6-g8 h7*g8=S c81 
+  1.Sh5-f6   2.Sf6-g8 h7*g8=R c81 
+  1.Sh5-f6   2.Sf6-g8 h7*g8=B c81 
+
+              empile:          40
+            jouecoup:          73
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+

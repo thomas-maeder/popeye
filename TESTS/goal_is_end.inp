@@ -12,4 +12,12 @@ pieces white ph2 black pa6
 stip sc815
 option vari nowk nobk nothr goalisend
 
+next
+
+remark not 1.g1~
+pieces white ph7 black sh5 pg2
+stip ser-hc812
+option GoalIsEnd
+condition hole h8
+
 end

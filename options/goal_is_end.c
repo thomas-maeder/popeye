@@ -9,40 +9,66 @@
 
 typedef struct
 {
-    Goal the_goal;
+    slice_index tester;
     boolean goal_found[nr_goals];
     unsigned int nr_unique_goals_found;
-} goal_is_end_one_insertion_state_type;
-
-static goal_is_end_one_insertion_state_type const nil_state = { { no_goal, initsquare }, { false }, 0 };
-
-typedef struct
-{
-    boolean inserted;
-    goal_is_end_one_insertion_state_type current;
-} goal_is_end_insertion_state_type;
+} goal_is_end_one_search_state_type;
 
 static void remember_goal(slice_index si, stip_structure_traversal *st)
 {
-  goal_is_end_insertion_state_type * const state = st->param;
+  goal_is_end_one_search_state_type * const state = st->param;
   Goal const goal = slices[si].u.goal_handler.goal;
+  Side const side = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_pipe(si,st);
 
   if (goal.type==goal_negated)
-    state->current.nr_unique_goals_found = 2;
-  else if (!state->current.goal_found[goal.type])
   {
-    state->current.goal_found[goal.type] = true;
-    ++state->current.nr_unique_goals_found;
-    state->current.the_goal = goal;
+    TraceText("negated\n");
+    state->nr_unique_goals_found = 2;
   }
-  else if (goal.type==goal_target && goal.target!=state->current.the_goal.target)
-    state->current.nr_unique_goals_found = 2;
+  else if (!state->goal_found[goal.type])
+  {
+    TraceText("new goal\n");
+    state->goal_found[goal.type] = true;
+    ++state->nr_unique_goals_found;
+    state->tester = si;
+  }
+  else if (goal.type==goal_target
+           && goal.target!=slices[state->tester].u.goal_handler.goal.target)
+  {
+    TraceText("different target\n");
+    state->nr_unique_goals_found = 2;
+  }
+  else if (slices[state->tester].starter!=side)
+  {
+    TraceText("different sides\n");
+    state->nr_unique_goals_found = 2;
+  }
+  else
+    TraceText("repeated goal\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void find_ending_goal(slice_index root_slice,
+                             goal_is_end_one_search_state_type *state)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,state);
+  stip_structure_traversal_override_single(&st,STGoalReachedTester,&remember_goal);
+  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
+  stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -69,46 +95,89 @@ static slice_index make_goal_is_end_tester(slice_index si)
   return result;
 }
 
-static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *st)
+typedef struct
 {
-  goal_is_end_insertion_state_type * const state = st->param;
-  slice_index const fork = slices[si].u.fork.fork;
+    slice_index const tester;
+    boolean inserted;
+} goal_is_end_tester_insertion_state_type;
+
+static void insert_goal_is_end_tester_battle(slice_index si, stip_structure_traversal *st)
+{
+  goal_is_end_tester_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(fork,st);
+  stip_traverse_structure_children(si,st);
 
-  if (state->current.nr_unique_goals_found==1)
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        battle_branch_insert_defense_constraint(si,make_goal_is_end_tester(fork));
-        state->inserted = true;
-        break;
+  switch (st->context)
+  {
+    case stip_traversal_context_attack:
+      battle_branch_insert_defense_constraint(si,make_goal_is_end_tester(state->tester));
+      state->inserted = true;
+      break;
 
-      case stip_traversal_context_defense:
-        battle_branch_insert_attack_constraint(si,make_goal_is_end_tester(fork));
-        state->inserted = true;
-        break;
+    case stip_traversal_context_defense:
+      battle_branch_insert_attack_constraint(si,make_goal_is_end_tester(state->tester));
+      state->inserted = true;
+      break;
 
-      case stip_traversal_context_help:
-        if (help_branch_insert_constraint(si,make_goal_is_end_tester(fork),0))
-          state->inserted = true;
-        break;
-
-      default:
-        /* nothing */
-        break;
-    }
-
-  state->current = nil_state;
-
-  stip_traverse_structure_pipe(si,st);
+    default:
+      /* nothing */
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void insert_goal_is_end_tester_help(slice_index adapter, stip_structure_traversal *st)
+{
+  goal_is_end_tester_insertion_state_type * const state = st->param;
+  unsigned int const adapter_parity = (slices[adapter].u.branch.length-slack_length)%2;
+  Side const adapter_side = slices[adapter].starter;
+  Side const tester_side = slices[state->tester].starter;
+  unsigned int const parity = adapter_side==tester_side ? adapter_parity : 1-adapter_parity;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(adapter,st);
+
+  if (help_branch_insert_constraint(adapter,
+                                    make_goal_is_end_tester(state->tester),
+                                    parity))
+    state->inserted = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a stipulation for option GoalIsEnd
+ * @param root_slice identifies root slice of stipulation
+ * @param tester identifies goal tester slice
+ * @return true iff option GoalIsEnd is applicable
+ */
+static boolean insert_goal_is_end_testers(slice_index root_slice, slice_index tester)
+{
+  goal_is_end_tester_insertion_state_type state = { tester, false };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&insert_goal_is_end_tester_battle);
+  stip_structure_traversal_override_single(&st,STHelpAdapter,&insert_goal_is_end_tester_help);
+  stip_traverse_structure(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",state.inserted);
+  TraceFunctionResultEnd();
+  return state.inserted;
 }
 
 /* Instrument a stipulation for option GoalIsEnd
@@ -117,20 +186,26 @@ static void insert_goal_is_end_tester(slice_index si, stip_structure_traversal *
  */
 boolean stip_insert_goal_is_end_testers(slice_index root_slice)
 {
-  goal_is_end_insertion_state_type state = { false, nil_state };
-  stip_structure_traversal st;
+  goal_is_end_one_search_state_type state = { no_slice, { false }, 0 };
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,STGoalReachedTester,&remember_goal);
-  stip_structure_traversal_override_single(&st,STEndOfBranchGoal,&insert_goal_is_end_tester);
-  stip_traverse_structure(root_slice,&st);
+  stip_detect_starter(root_slice);
+  stip_impose_starter(root_slice,slices[root_slice].starter);
+
+  find_ending_goal(root_slice,&state);
+
+  if (state.nr_unique_goals_found>1
+      || slices[state.tester].u.goal_handler.goal.type==no_goal)
+    result = false;
+  else
+    result = insert_goal_is_end_testers(root_slice,state.tester);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",state.inserted);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return state.inserted;
+  return result;
 }
