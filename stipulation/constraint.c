@@ -16,18 +16,18 @@
 
 
 /* Allocate a STConstraintSolver slice
- * @param proxy_to_condition prototype of slice that must not be solvable
+ * @param proxy_to_constraint prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
+slice_index alloc_constraint_solver_slice(slice_index proxy_to_constraint)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_condition);
+  TraceFunctionParam("%u",proxy_to_constraint);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STConstraintSolver,proxy_to_condition);
+  result = alloc_branch_fork(STConstraintSolver,proxy_to_constraint);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,18 +36,38 @@ slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition)
 }
 
 /* Allocate a STConstraintTester slice
- * @param proxy_to_condition prototype of slice that must not be solvable
+ * @param proxy_to_constraint prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_tester_slice(slice_index proxy_to_condition)
+slice_index alloc_constraint_tester_slice(slice_index proxy_to_constraint)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_condition);
+  TraceFunctionParam("%u",proxy_to_constraint);
   TraceFunctionParamListEnd();
 
-  result = alloc_conditional_pipe(STConstraintTester,proxy_to_condition);
+  result = alloc_conditional_pipe(STConstraintTester,proxy_to_constraint);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STGoalConstraintTester slice
+ * @param proxy_to_constraint prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+slice_index alloc_goal_constraint_tester_slice(slice_index proxy_to_constraint)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_constraint);
+  TraceFunctionParamListEnd();
+
+  result = alloc_conditional_pipe(STGoalConstraintTester,proxy_to_constraint);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,6 +93,32 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
   {
     state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.fork.fork));
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+  }
+
+  TraceValue("%u\n",state->spun_off[si]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Copy a STGoalContraintTester slice to add it to the root or set play branch
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  {
+    state->spun_off[si] = alloc_goal_constraint_tester_slice(stip_deep_copy(slices[si].u.fork.fork));
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   }
 
@@ -215,10 +261,11 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
 
 static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
 {
-  { STConstraintTester, &remove_constraint_if_irrelevant },
-  { STConstraintSolver, &remove_constraint_if_irrelevant },
-  { STEndOfBranch,      &stip_traverse_structure_pipe    },
-  { STGeneratingMoves,  &stip_structure_visitor_noop     }
+  { STConstraintTester,     &remove_constraint_if_irrelevant },
+  { STGoalConstraintTester, &remove_constraint_if_irrelevant },
+  { STConstraintSolver,     &remove_constraint_if_irrelevant },
+  { STEndOfBranch,          &stip_traverse_structure_pipe    },
+  { STGeneratingMoves,      &stip_structure_visitor_noop     }
 };
 
 enum

@@ -114,3 +114,40 @@ both sides need a kingboth sides need a king
 solution finished. 
 
 
+post-key play
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   .  -K   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  c813                        2 + 2
+
+ threat:
+          2.Rf1-f8 c81
+      1...Bh4-f6
+          2.Rf1*f6 threat:
+                  3.Rf6-f8 c81
+
+              empile:         620
+            jouecoup:         122
+        orig_rbechec:          34
+        orig_rnechec:          58
+solution finished. 
+
+

@@ -20,4 +20,13 @@ stip ser-hc812
 option GoalIsEnd
 condition hole h8
 
+next
+
+remark post-key play
+stip c813
+option vari GoalIsEnd postkey
+pieces
+white kg1 rf1
+black kg3 bh4
+
 end

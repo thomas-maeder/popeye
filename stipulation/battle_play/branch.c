@@ -39,6 +39,7 @@ static slice_index const slice_rank_order[] =
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
+  STGoalConstraintTester,
   STZugzwangWriter,
   STThreatStart,
   STResetUnsolvable,
@@ -955,6 +956,9 @@ void battle_branch_make_root_slices(slice_index adapter,
                                              STConstraintTester,
                                              &constraint_tester_make_root);
     stip_structure_traversal_override_single(&st,
+                                             STGoalConstraintTester,
+                                             &goal_constraint_tester_make_root);
+    stip_structure_traversal_override_single(&st,
                                              STReadyForDefense,
                                              &ready_for_defense_make_root);
     stip_structure_traversal_override_single(&st,
@@ -1089,6 +1093,33 @@ void battle_branch_insert_attack_constraint(slice_index si,
   {
     slice_index const ready = branch_find_slice(STReadyForAttack,si);
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
+    assert(ready!=no_slice);
+    attack_branch_insert_slices(ready,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a battle branch with STConstraint* slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_attack_goal_constraint(slice_index si,
+                                                 slice_index constraint)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
+    slice_index const prototype = alloc_goal_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
     attack_branch_insert_slices(ready,&prototype,1);
   }

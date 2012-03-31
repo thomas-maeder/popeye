@@ -121,7 +121,7 @@ static void insert_goal_is_end_tester_battle(slice_index adapter,
     if (attacker_side==tester_side)
       battle_branch_insert_defense_constraint(adapter,tester);
     else
-      battle_branch_insert_attack_constraint(adapter,tester);
+      battle_branch_insert_attack_goal_constraint(adapter,tester);
   }
 
   state->inserted = true;

@@ -8,16 +8,22 @@
 #include "stipulation/battle_play/defense_play.h"
 
 /* Allocate a STConstraintSolver slice
- * @param proxy_to_condition prototype of slice that must not be solvable
+ * @param proxy_to_constraint prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_solver_slice(slice_index proxy_to_condition);
+slice_index alloc_constraint_solver_slice(slice_index proxy_to_constraint);
 
 /* Allocate a STConstraintTester slice
- * @param proxy_to_condition prototype of slice that must not be solvable
+ * @param proxy_to_constraint prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_constraint_tester_slice(slice_index proxy_to_condition);
+slice_index alloc_constraint_tester_slice(slice_index proxy_to_constraint);
+
+/* Allocate a STGoalConstraintTester slice
+ * @param proxy_to_constraint prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+slice_index alloc_goal_constraint_tester_slice(slice_index proxy_to_constraint);
 
 /* Spin a STContraintSolver slice off a STContraintTester slice to add it to the
  * root or set play branch
@@ -25,6 +31,12 @@ slice_index alloc_constraint_tester_slice(slice_index proxy_to_condition);
  * @param st address of structure representing traversal
  */
 void constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
+
+/* Copy a STGoalContraintTester slice to add it to the root or set play branch
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

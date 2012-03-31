@@ -250,6 +250,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STConstraintSolver:
     case STConstraintTester:
+    case STGoalConstraintTester:
       result = constraint_attack(si,n);
       break;
 

@@ -106,10 +106,10 @@
                                   5.Th1-h8 c81
 
 
-              empile:     2714037
-            jouecoup:     1886321
-        orig_rbechec:     1657198
-        orig_rnechec:      217602
+              empile:     2745961
+            jouecoup:     1911637
+        orig_rbechec:     1679737
+        orig_rnechec:      219916
 Loesung beendet. 
 
 
@@ -138,26 +138,17 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   c813                        2 + 2
 
-   1.0-0 ! Zugzwang.
-      1...Kg3-h3
-          2.Tf1-f8 c81
-      1...Kg3-g4
-          2.Tf1-f8 c81
-      1...Lh4-d8
-          2.Tf1-f8 c81
-      1...Lh4-e7
+   1.0-0 ! Drohung:
           2.Tf1-f8 c81
       1...Lh4-f6
           2.Tf1*f6 Drohung:
                   3.Tf6-f8 c81
-      1...Lh4-g5
-          2.Tf1-f8 c81
 
 
-              empile:        3957
-            jouecoup:        1830
-        orig_rbechec:        1198
-        orig_rnechec:         398
+              empile:        3987
+            jouecoup:        1813
+        orig_rbechec:        1194
+        orig_rnechec:         393
 Loesung beendet. 
 
 

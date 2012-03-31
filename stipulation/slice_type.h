@@ -37,6 +37,7 @@
     ENUMERATOR(STLearnUnsolvable), /* update knowledge about unsolvability */ \
     ENUMERATOR(STConstraintSolver),  /* stop unless some condition is met */ \
     ENUMERATOR(STConstraintTester),  /* stop unless some condition is met */ \
+    ENUMERATOR(STGoalConstraintTester),  /* stop unless some goal has (not) been reached */ \
     ENUMERATOR(STEndOfRoot), /* proxy slice marking the end of the root branch */ \
     ENUMERATOR(STEndOfIntro), /* proxy slice marking the end of the intro branch */ \
     ENUMERATOR(STDeadEnd), /* stop solving if there are no moves left to be played */ \
