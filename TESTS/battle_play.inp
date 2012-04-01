@@ -18,6 +18,13 @@ option vari
 
 next
 
+title option try in 1movers
+stip zc81
+pieces white ba6
+option nowk nobk try
+
+next
+
 title #1.5
 pieces white kb6 sd5 pa7
        black ka8 se8

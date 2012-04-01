@@ -254,7 +254,8 @@ static structure_traversers_visitors const try_writer_inserters[] =
   { STSetplayFork,            &stip_traverse_structure_pipe   },
   { STKeyWriter,              &substitute_try_writer          },
   { STRefutationsSolver,      &insert_refutation_intro_writer },
-  { STRefutationsIntroWriter, &insert_refutation_writer       }
+  { STRefutationsIntroWriter, &insert_refutation_writer       },
+  { STEndOfBranchGoal,        &stip_traverse_structure_pipe   }
 };
 
 enum

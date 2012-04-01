@@ -65,6 +65,40 @@ solution finished.
 
 
 
+        option try in 1movers
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   B   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zc81                        1 + 0
+
+   1.Ba6-c8 z !
+
+
+              empile:           7
+            jouecoup:           1
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
+
                  #1.5
 
 +---a---b---c---d---e---f---g---h---+
