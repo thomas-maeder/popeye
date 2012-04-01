@@ -508,6 +508,9 @@ simples:
 	DernierePrise	suivi par couleur, type de piece et case comme dans
 			la commande "pieces"; indique la prise de piece dans
 			le coup qui menait a la position de diagramme.
+	ButEstFin	applicable si le but ne mene pas a l'immobilite (p.ex.
+			z, x): le jeu se termine si le faux camp atteind au
+			but.
 
 
  - enonce: Popeye reconnait les enonces suivantes:

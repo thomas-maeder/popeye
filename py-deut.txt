@@ -527,6 +527,9 @@ Kommandos:
 	LetzterSchlag	gefolgt von Farbe, Steintyp und Feld wie im Befehl
 			"steine"; gibt den Schlagfall im Zug an, welcher zur
 			Diagrammstellung gefuehrt hat.
+	ZielIstEnde	anwendbar bei Zielen, welche nicht zur Immobilitaet
+			fuehren (z.B. z, x): das Spiel ist beendet, sobald
+			die falsche Seite das Ziel erreicht.
 
 
  - Forderung: Folgende Forderungen kennt Popeye:

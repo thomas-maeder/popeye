@@ -507,6 +507,9 @@ commands expect further parameters. Lets start with the simpler commands:
 	LastCapture	Follow by a colour, piece and square as in the piece
 			command. Specifies piece captured on move leading to 
 			the diagram.
+	GoalIsEnd	applicable if the goal doesn't lead to immobility
+			(e.g. z, x): the play ends if the wrong side reaches
+			the goal.
 
 
  - stipulation: popeye knows the following stipulations:
