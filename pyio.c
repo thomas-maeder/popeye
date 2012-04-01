@@ -3324,7 +3324,10 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
-        battle_branch_insert_attack_constraint(branch,proxy_operand);
+        if (nested_type==expression_type_goal)
+          battle_branch_insert_attack_goal_constraint(branch,proxy_operand);
+        else
+          battle_branch_insert_attack_constraint(branch,proxy_operand);
       }
       else
         tok = 0;
