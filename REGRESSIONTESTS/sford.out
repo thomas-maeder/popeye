@@ -793,6 +793,45 @@ wobei das Spiel mit dem weissen Schlag endet
 Loesung beendet. 
 
 
+3 Halbzuege s+w+sHilfszug mit Ziel
+wAngriffszug zum Schlag
+wobei das Spiel mit dem weissen Schlag endet
+und Schwarz nicht schlaegt
+(d.h. forderung hx2 option ZielIstEnde)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .  -B  -B   .   6
+|                                   |
+5   .   .   .   .   .   B   .  -B   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 3h[1a[x]d]{!x}h{!x} 3 + 4
+
+  1.g6-g5 h4*g5 x 
+  1.g6-g5 a3-a4   2.g7-g6 f5*g6 x 
+  1.g6-g5 a3-a4   2.g7-g6 h4*g5 x 
+
+              empile:          15
+            jouecoup:          22
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
 3 Halbzuege w+s+wHilfszug mit Ziel
 sAngriffszug zum Schlag
 wobei Weiss schlagen muss, wenn er kann
@@ -1091,10 +1130,10 @@ Loesung beendet.
 
   1.Ke7-d8   2.Tf2-f8   1.g2-g1=S   2.Dh1-b7   3.Sg1-f3 Kd8-c7 # 
 
-              empile:    11163433
-            jouecoup:     9804561
-        orig_rbechec:      499130
-        orig_rnechec:     9804161
+              empile:    11222898
+            jouecoup:     9856086
+        orig_rbechec:      500873
+        orig_rnechec:     9855686
 Loesung beendet. 
 
 
