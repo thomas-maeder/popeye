@@ -31,24 +31,6 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
   return result;
 }
 
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_fork_on_remaining(slice_index si,
-                                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.fork_on_remaining.op1,st);
-  stip_traverse_structure(slices[si].u.fork_on_remaining.op2,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traversal of the moves beyond an STForkOnRemaining slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
