@@ -265,8 +265,8 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_pipe(slice_index pipe,
-                                  stip_structure_traversal *st)
+void stip_traverse_structure_children_pipe(slice_index pipe,
+                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -347,7 +347,7 @@ void stip_spin_off_testers_pipe_skip(slice_index si, stip_structure_traversal *s
   if (state->spinning_off)
   {
     assert(slices[si].u.pipe.next!=no_slice);
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     state->spun_off[si] = state->spun_off[slices[si].u.pipe.next];
   }
   else

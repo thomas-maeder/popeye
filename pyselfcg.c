@@ -159,7 +159,7 @@ static void insert_selfcheck_guard_constraint(slice_index si,
   stip_traverse_structure_next_branch(si,st);
   state->in_constraint = false;
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -251,7 +251,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
       state->in_goal_tester = no_goal;
     }
 
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -370,7 +370,7 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_next_branch(si,st);
   state->is_branch_instrumented = save_is_instrumented;
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -385,8 +385,8 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STConstraintTester,                &insert_selfcheck_guard_constraint    },
   { STGoalReachedTester,               &insert_selfcheck_guard_goal          },
   { STCheckZigzagJump,                 &remove_selfcheck_guard_check_zigzag  },
-  { STCounterMateFilter,               &stip_traverse_structure_pipe         },
-  { STIsardamDefenderFinder,           &stip_traverse_structure_pipe         },
+  { STCounterMateFilter,               &stip_traverse_structure_children_pipe         },
+  { STIsardamDefenderFinder,           &stip_traverse_structure_children_pipe         },
   { STCageCirceNonCapturingMoveFinder, &suspend_insertion                    },
   { STAnd,                             &instrument_doublestalemate_tester    },
   { STNot,                             &instrument_negated_tester            },
@@ -521,7 +521,7 @@ static structure_traversers_visitors adapters_guards_inserters[] =
   { STHelpAdapter,       &insert_selfcheck_guard_adapter  },
   { STSelfCheckGuard,    &remember_checked_side           },
   { STMoveInverter,      &insert_selfcheck_guard_inverter },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe    }
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe    }
 };
 
 enum

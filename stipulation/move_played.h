@@ -60,8 +60,8 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st);
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_move_played(slice_index si,
-                                         stip_structure_traversal *st);
+void stip_traverse_structure_children_move_played(slice_index si,
+                                                  stip_structure_traversal *st);
 
 /* Traversal of the moves of some branch slice
  * @param si identifies root of subtree

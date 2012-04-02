@@ -112,7 +112,7 @@ static void remember_testing_testing_pipe(slice_index si,
     stip_traverse_structure_children(si,st);
   else
   {
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
     if (slices[si].u.fork.fork!=no_slice)
     {
@@ -140,7 +140,7 @@ static void remember_testing_conditional_pipe(slice_index si,
     stip_traverse_structure_children(si,st);
   else
   {
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
     if (slices[si].u.fork.fork!=no_slice)
     {
@@ -174,7 +174,7 @@ static void remember_end_of_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const final_defense_move_optimisers[] =
 {
-  { STSetplayFork,   &stip_traverse_structure_pipe                },
+  { STSetplayFork,   &stip_traverse_structure_children_pipe                },
   { STEndOfRoot,     &remember_end_of_root                        },
   { STMoveGenerator, &optimise_final_defense_moves_move_generator }
 };
@@ -258,7 +258,7 @@ static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
   stip_traverse_structure(slices[si].u.fork.fork,st );
@@ -278,7 +278,7 @@ static void remember_conditional_pipe(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
   stip_traverse_structure_next_branch(si,st );
@@ -290,8 +290,8 @@ static void remember_conditional_pipe(slice_index si,
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STSetplayFork,       &stip_traverse_structure_pipe    },
-  { STRefutationsSolver, &stip_traverse_structure_pipe    },
+  { STSetplayFork,       &stip_traverse_structure_children_pipe    },
+  { STRefutationsSolver, &stip_traverse_structure_children_pipe    },
   { STMoveGenerator,     &substitute_killermove_machinery }
 };
 

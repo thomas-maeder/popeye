@@ -66,11 +66,11 @@ void stip_spin_off_testers_conditional_pipe(slice_index si,
   if (state->spinning_off)
   {
     state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
   }
   else
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -91,7 +91,7 @@ void conditional_pipe_spin_off_copy(slice_index si,
 
   state->spun_off[si] = copy_slice(si);
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->spun_off[slices[si].u.fork.next]==no_slice)
   {

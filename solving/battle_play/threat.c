@@ -288,7 +288,7 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
   assert((*copies)[si]==no_slice);
   (*copies)[si] = copy_slice(si);
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (slices[si].u.pipe.next!=no_slice)
     link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
@@ -576,7 +576,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const threat_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode               },
-  { STSetplayFork,        &stip_traverse_structure_pipe     },
+  { STSetplayFork,        &stip_traverse_structure_children_pipe     },
   { STReadyForDefense,    &insert_threat_solver             },
   { STThreatSolver,       &connect_solver_to_threat_start   },
   { STNotEndOfBranchGoal, &insert_threat_enforcer           },

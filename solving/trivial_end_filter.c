@@ -80,7 +80,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (*mode==output_mode_tree
       && st->context==stip_traversal_context_attack)
@@ -97,7 +97,7 @@ static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
   { STOutputModeSelector, &remember_output_mode                },
   { STEndOfBranchGoal,    &trivial_varation_filter_insert_self },
-  { STRefutationsSolver,  &stip_traverse_structure_pipe        }
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe        }
 };
 
 enum
@@ -122,10 +122,10 @@ void stip_insert_trivial_variation_filters(slice_index si)
   stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     trivial_varation_filter_inserters,
                                     nr_trivial_varation_filter_inserters);

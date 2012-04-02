@@ -73,7 +73,7 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
   {
     if (slices[fork].starter==no_side)
     {
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
       slices[si].starter = slices[slices[si].u.pipe.next].starter;
     }
     else
@@ -111,13 +111,14 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_fork(slice_index si, stip_structure_traversal *st)
+void stip_traverse_structure_children_fork(slice_index si,
+                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (slices[si].u.fork.fork!=no_slice)
     stip_traverse_structure_next_branch(si,st);

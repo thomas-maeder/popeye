@@ -144,7 +144,7 @@ static void root_insert_visit_regular(slice_index si,
     {
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -173,7 +173,7 @@ static void root_insert_visit_setplay_fork(slice_index si,
     {
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
 
       state->base = rank;
       state->prev = si;
@@ -279,7 +279,7 @@ static void root_insert_visit_proxy(slice_index si,
   TraceFunctionParamListEnd();
 
   state->prev = si;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -653,7 +653,7 @@ static void leaf_insert_visit_regular(slice_index si,
     {
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -818,7 +818,7 @@ static void branch_find_slice_pipe(slice_index si, stip_structure_traversal *st)
   if (slices[si].type==state->to_be_found)
     state->result = si;
   else
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -956,7 +956,7 @@ static void shorten_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].type!=*end_type)
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -972,7 +972,7 @@ static void shorten_branch(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].type!=*end_type)
   {
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     slices[si].u.branch.length -= 2;
     slices[si].u.branch.min_length -= 2;
   }

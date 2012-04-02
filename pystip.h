@@ -222,11 +222,6 @@ slice_structural_type slice_get_structural_type(slice_index si);
  */
 slice_functional_type slice_get_functional_type(slice_index si);
 
-/* Initialize the slice allocation machinery. To be called once at
- * program start
- */
-void init_slice_allocator(void);
-
 /* Allocate a slice index
  * @param type which slice type
  * @return a so far unused slice index

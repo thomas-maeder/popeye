@@ -84,8 +84,8 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_pipe(slice_index pipe,
-                                  stip_structure_traversal *st);
+void stip_traverse_structure_children_pipe(slice_index pipe,
+                                           stip_structure_traversal *st);
 
 /* Traversal of the moves of some pipe slice
  * @param si identifies root of subtree

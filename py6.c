@@ -608,7 +608,7 @@ static Side findRestrictedSide(slice_index si)
   stip_structure_traversal_init(&st,&is_restricted);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     restricted_side_finders,
                                     nr_restricted_side_finders);

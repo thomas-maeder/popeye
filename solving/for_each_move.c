@@ -78,7 +78,7 @@ static void insert_move_iterator_move_conditional_pipe(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
   stip_traverse_structure_next_branch(si,st);
@@ -98,7 +98,7 @@ static void insert_move_iterator_move_testing_pipe(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
   stip_traverse_structure(slices[si].u.fork.fork,st);

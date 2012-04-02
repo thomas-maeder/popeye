@@ -84,7 +84,7 @@ void impose_starter_immobility_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     Side const immobilised = (slices[si].u.goal_filter.applies_to_who

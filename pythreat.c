@@ -216,7 +216,7 @@ static void testing_only_testing(slice_index si, stip_structure_traversal *st)
     stip_traverse_structure(slices[si].u.fork.fork,st);
     state->testing = false;
 
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -240,7 +240,7 @@ static void testing_only_conditional(slice_index si,
     stip_traverse_structure_next_branch(si,st);
     state->testing = false;
 
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
   }
 
   TraceFunctionExit(__func__);

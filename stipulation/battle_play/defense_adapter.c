@@ -34,8 +34,8 @@ slice_index alloc_defense_adapter_slice(stip_length_type length,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_defense_adapter(slice_index si,
-                                             stip_structure_traversal *st)
+void stip_traverse_structure_children_defense_adapter(slice_index si,
+                                                      stip_structure_traversal *st)
 {
   structure_traversal_level_type const save_level = st->level;
 
@@ -47,7 +47,7 @@ void stip_traverse_structure_defense_adapter(slice_index si,
 
   st->context = stip_traversal_context_defense;
   st->level = structure_traversal_level_nested;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   st->level = save_level;
   st->context = stip_traversal_context_global;
 
@@ -165,8 +165,8 @@ stip_length_type defense_adapter_attack(slice_index si, stip_length_type n)
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_ready_for_defense(slice_index si,
-                                               stip_structure_traversal *st)
+void stip_traverse_structure_children_ready_for_defense(slice_index si,
+                                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -174,7 +174,7 @@ void stip_traverse_structure_ready_for_defense(slice_index si,
 
   assert(st->context==stip_traversal_context_defense);
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

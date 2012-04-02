@@ -451,10 +451,10 @@ static void insert_refutations_avoider(slice_index si,
 static structure_traversers_visitors const try_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode               },
-  { STThreatSolver,       &stip_traverse_structure_pipe     },
+  { STThreatSolver,       &stip_traverse_structure_children_pipe     },
   { STDefenseAdapter,     &filter_postkey_play              },
-  { STConstraintSolver,   &stip_traverse_structure_pipe     },
-  { STEndOfBranchGoal,    &stip_traverse_structure_pipe     },
+  { STConstraintSolver,   &stip_traverse_structure_children_pipe     },
+  { STEndOfBranchGoal,    &stip_traverse_structure_children_pipe     },
   { STNotEndOfBranchGoal, &insert_refuting_variation_solver },
   { STNotEndOfBranch,     &insert_refutation_solver         },
   { STRefutationsSolver,  &insert_refutations_avoider       }
@@ -496,7 +496,7 @@ static void slice_copy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (*result!=no_slice)
   {
@@ -540,7 +540,7 @@ static void insert_constraint_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   assert(*result!=no_slice);
 
@@ -562,7 +562,7 @@ static void insert_deep_copy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   assert(*result!=no_slice);
 
@@ -594,13 +594,13 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const to_refutation_branch_copiers[] =
 {
-  { STThreatSolver,                 &stip_traverse_structure_pipe  },
+  { STThreatSolver,                 &stip_traverse_structure_children_pipe  },
   { STRefutationsAvoider,           &substitute_refutations_filter },
-  { STEndOfBranchForced,            &stip_traverse_structure_pipe  },
-  { STPlaySuppressor,               &stip_traverse_structure_pipe  },
-  { STThreatEnforcer,               &stip_traverse_structure_pipe  },
-  { STSelfCheckGuard,               &stip_traverse_structure_pipe  },
-  { STMinLengthGuard,               &stip_traverse_structure_pipe  },
+  { STEndOfBranchForced,            &stip_traverse_structure_children_pipe  },
+  { STPlaySuppressor,               &stip_traverse_structure_children_pipe  },
+  { STThreatEnforcer,               &stip_traverse_structure_children_pipe  },
+  { STSelfCheckGuard,               &stip_traverse_structure_children_pipe  },
+  { STMinLengthGuard,               &stip_traverse_structure_children_pipe  },
   { STConstraintTester,             &insert_constraint_solver      },
   { STEndOfBranchGoal,              &insert_deep_copy              },
   { STEndOfRefutationSolvingBranch, &stop_spinning_off             }

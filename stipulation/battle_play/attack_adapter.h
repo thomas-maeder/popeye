@@ -32,8 +32,8 @@ void attack_adapter_make_intro(slice_index adapter,
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_attack_adpater(slice_index si,
-                                            stip_structure_traversal *st);
+void stip_traverse_structure_children_attack_adpater(slice_index si,
+                                                     stip_structure_traversal *st);
 
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree
@@ -63,8 +63,8 @@ stip_length_type attack_adapter_attack(slice_index si, stip_length_type n);
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_ready_for_attack(slice_index si,
-                                              stip_structure_traversal *st);
+void stip_traverse_structure_children_ready_for_attack(slice_index si,
+                                                       stip_structure_traversal *st);
 
 /* Traversal of the moves of some adapter slice
  * @param si identifies root of subtree

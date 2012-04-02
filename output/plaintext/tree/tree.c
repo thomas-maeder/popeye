@@ -187,10 +187,10 @@ static void insert_regular_writer_slices(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     regular_writer_inserters,
                                     nr_regular_writer_inserters);
@@ -251,11 +251,11 @@ static void insert_refutation_writer(slice_index si,
 
 static structure_traversers_visitors const try_writer_inserters[] =
 {
-  { STSetplayFork,            &stip_traverse_structure_pipe   },
+  { STSetplayFork,            &stip_traverse_structure_children_pipe   },
   { STKeyWriter,              &substitute_try_writer          },
   { STRefutationsSolver,      &insert_refutation_intro_writer },
   { STRefutationsIntroWriter, &insert_refutation_writer       },
-  { STEndOfBranchGoal,        &stip_traverse_structure_pipe   }
+  { STEndOfBranchGoal,        &stip_traverse_structure_children_pipe   }
 };
 
 enum
@@ -275,10 +275,10 @@ static void insert_try_writers(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     try_writer_inserters,
                                     nr_try_writer_inserters);
@@ -428,8 +428,8 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const root_writer_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_pipe     },
-  { STThreatSolver,       &stip_traverse_structure_pipe     },
+  { STSetplayFork,        &stip_traverse_structure_children_pipe     },
+  { STThreatSolver,       &stip_traverse_structure_children_pipe     },
   { STHelpAdapter,        &stip_structure_visitor_noop      },
   { STAttackAdapter,      &insert_end_of_solution_writer    },
   { STDefenseAdapter,     &remember_postkey_play            },
@@ -437,9 +437,9 @@ static structure_traversers_visitors const root_writer_inserters[] =
   { STNotEndOfBranchGoal, &insert_refuting_variation_writer },
   { STEndOfBranch,        &get_fork_of_my_own               },
   { STNotEndOfBranch,     &insert_postkey_writers           },
-  { STConstraintSolver,   &stip_traverse_structure_pipe     },
-  { STEndOfBranchForced,  &stip_traverse_structure_pipe     },
-  { STRefutationsSolver,  &stip_traverse_structure_pipe     },
+  { STConstraintSolver,   &stip_traverse_structure_children_pipe     },
+  { STEndOfBranchForced,  &stip_traverse_structure_children_pipe     },
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe     },
   { STReadyForDefense,    &insert_key_writer                }
 };
 
@@ -464,10 +464,10 @@ static void insert_root_writer_slices(slice_index si)
   stip_structure_traversal_init(&st,&is_postkey_play);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     root_writer_inserters,
                                     nr_root_writer_inserters);
@@ -597,10 +597,10 @@ static void optimise_leaf_slices(slice_index si)
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     goal_writer_slice_inserters,
                                     nr_goal_writer_slice_inserters);

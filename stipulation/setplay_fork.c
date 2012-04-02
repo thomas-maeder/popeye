@@ -30,8 +30,8 @@ slice_index alloc_setplay_fork_slice(slice_index set)
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_setplay_fork(slice_index si,
-                                          stip_structure_traversal *st)
+void stip_traverse_structure_children_setplay_fork(slice_index si,
+                                                   stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -39,7 +39,7 @@ void stip_traverse_structure_setplay_fork(slice_index si,
 
   assert(st->level==structure_traversal_level_root);
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   st->level = structure_traversal_level_setplay;
   stip_traverse_structure_next_branch(si,st);

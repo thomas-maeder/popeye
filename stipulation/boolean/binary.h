@@ -30,8 +30,8 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
  * @param fork root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_binary(slice_index fork,
-                                    stip_structure_traversal *st);
+void stip_traverse_structure_children_binary(slice_index fork,
+                                             stip_structure_traversal *st);
 
 /* Traversal of the moves of a binary operator
  * @param si identifies root of subtree

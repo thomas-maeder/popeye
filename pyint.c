@@ -514,7 +514,7 @@ static goal_type determine_goal_to_be_reached(slice_index si)
                                            &goal_to_be_reached_goal);
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
-                                           &stip_traverse_structure_pipe);
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceValue("%u",goal_to_be_reached);
@@ -629,7 +629,7 @@ static structure_traversers_visitors goalreachable_guards_inserters[] =
 {
   { STReadyForHelpMove,  &goalreachable_guards_inserter_help_move         },
   { STGoalReachedTester, &goalreachable_guards_duplicate_avoider_inserter },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe                    }
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe                    }
 };
 
 enum
@@ -657,7 +657,7 @@ static void stip_insert_goalreachable_guards(slice_index si, goal_type goal)
   stip_structure_traversal_init(&st,&goal);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     goalreachable_guards_inserters,
                                     nr_goalreachable_guards_inserters);
@@ -743,7 +743,7 @@ static void intelligent_filter_inserter(slice_index si,
 static structure_traversers_visitors intelligent_filters_inserters[] =
 {
   { STHelpAdapter,       &intelligent_filter_inserter  },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe }
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -888,7 +888,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STConstraintTester,  &intelligent_mode_support_none        },
   { STReadyForDefense,   &intelligent_mode_support_none        },
   { STGoalReachedTester, &intelligent_mode_support_goal_tester },
-  { STTemporaryHackFork, &stip_traverse_structure_pipe         }
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe         }
 };
 
 enum

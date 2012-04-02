@@ -181,8 +181,8 @@ static stip_traversal_context_type next_context(stip_traversal_context_type cont
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_move_played(slice_index si,
-                                         stip_structure_traversal *st)
+void stip_traverse_structure_children_move_played(slice_index si,
+                                                  stip_structure_traversal *st)
 {
   stip_traversal_context_type const save_context = st->context;
 
@@ -192,7 +192,7 @@ void stip_traverse_structure_move_played(slice_index si,
   TraceFunctionParamListEnd();
 
   st->context = next_context(st->context);
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   st->context = save_context;
 
   TraceFunctionExit(__func__);

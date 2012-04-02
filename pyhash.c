@@ -269,7 +269,7 @@ static void init_slice_properties_pipe(slice_index pipe,
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(pipe,st);
+  stip_traverse_structure_children_pipe(pipe,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",pipe);
   TraceValue("%u\n",slice_properties[pipe].valueOffset);
@@ -1849,7 +1849,7 @@ static structure_traversers_visitors const hash_element_inserters[] =
   { STReadyForAttack,   &insert_hash_element_attack   },
   { STReadyForHelpMove, &insert_hash_element_help     },
   { STMove,             &remember_move                },
-  { STConstraintSolver, &stip_traverse_structure_pipe }
+  { STConstraintSolver, &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -1875,7 +1875,7 @@ void stip_insert_hash_slices(slice_index si)
   stip_structure_traversal_init(&st,&previous_move_slice);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);

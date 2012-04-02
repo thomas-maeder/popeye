@@ -256,7 +256,7 @@ static void remember_testing_conditional_pipe(slice_index si, stip_structure_tra
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
   stip_traverse_structure_next_branch(si,st);

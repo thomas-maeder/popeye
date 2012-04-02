@@ -145,7 +145,7 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_single(&st,STMinLengthGuard,&spin_off_testers_min_length_guard);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
   stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);
-  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
+  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);
   stip_structure_traversal_override_single(&st,STRefutationsAvoider,&spin_off_testers_refutations_avoider);
@@ -268,7 +268,7 @@ void insert_single_move_generator_with_king_capture(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const proto = alloc_single_move_generator_with_king_capture_slice();
@@ -286,7 +286,7 @@ static void insert_single_piece_move_generator(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const proto = alloc_single_piece_move_generator_slice();
@@ -304,7 +304,7 @@ static void insert_castling_intermediate_move_generator(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   {
     slice_index const proto = alloc_castling_intermediate_move_generator_slice();

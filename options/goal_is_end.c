@@ -24,7 +24,7 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (goal.type==goal_negated)
   {
@@ -69,7 +69,7 @@ static void find_ending_goal(slice_index root_slice,
 
   stip_structure_traversal_init(&st,state);
   stip_structure_traversal_override_single(&st,STGoalReachedTester,&remember_goal);
-  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_pipe);
+  stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_children_pipe);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

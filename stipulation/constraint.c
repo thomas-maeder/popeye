@@ -88,7 +88,7 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
   {
@@ -114,7 +114,7 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
   {
@@ -248,7 +248,7 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
 
   if (is_constraint_irrelevant(slices[si].u.fork.fork))
   {
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     dealloc_slices(slices[si].u.fork.fork);
     pipe_remove(si);
   }
@@ -264,7 +264,7 @@ static structure_traversers_visitors unsatisfiable_goal_checker_removers[] =
   { STConstraintTester,     &remove_constraint_if_irrelevant },
   { STGoalConstraintTester, &remove_constraint_if_irrelevant },
   { STConstraintSolver,     &remove_constraint_if_irrelevant },
-  { STEndOfBranch,          &stip_traverse_structure_pipe    },
+  { STEndOfBranch,          &stip_traverse_structure_children_pipe    },
   { STGeneratingMoves,      &stip_structure_visitor_noop     }
 };
 

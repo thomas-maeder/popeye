@@ -31,15 +31,15 @@ slice_index alloc_testing_pipe(slice_type type)
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_testing_pipe(slice_index testing_pipe,
-                                          stip_structure_traversal *st)
+void stip_traverse_structure_children_testing_pipe(slice_index testing_pipe,
+                                                   stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing_pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(testing_pipe,st);
+  stip_traverse_structure_children_pipe(testing_pipe,st);
 
   if (slices[testing_pipe].u.fork.fork!=no_slice)
     stip_traverse_structure(slices[testing_pipe].u.fork.fork,st);

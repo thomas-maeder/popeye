@@ -18,8 +18,8 @@ slice_index alloc_testing_pipe(slice_type type);
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_testing_pipe(slice_index pipe,
-                                          stip_structure_traversal *st);
+void stip_traverse_structure_children_testing_pipe(slice_index pipe,
+                                                   stip_structure_traversal *st);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a testing pipe slice

@@ -130,10 +130,10 @@ void stip_insert_output_slices(slice_index si)
                                            &select_output_mode);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
-                                                &stip_traverse_structure_pipe);
+                                                &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_binary,
                                                  &insert_output_slices_binary);

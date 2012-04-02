@@ -64,12 +64,12 @@ int main(int argc, char *argv[])
 
   set_nice_priority();
 
-  init_slice_allocator();
+  initialise_slice_properties();
 
   sprintf(versionString,
           "Popeye %s-%uBit v%.2f",
           OSTYPE,guessPlatformBitness(),VERSION);
-  
+
   MaxPositions = ULONG_MAX;
   LaTeXout = false;
   flag_regression = false;
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
   InitMsgTab(LanguageDefault);
 
   idx_end_of_options = parseCommandlineOptions(argc,argv);
-  
+
   OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : " ");
 
   initMaxtime();
@@ -108,6 +108,6 @@ int main(int argc, char *argv[])
 
   if (LaTeXout)
     LaTeXClose();
-  
+
   return 0;
 }

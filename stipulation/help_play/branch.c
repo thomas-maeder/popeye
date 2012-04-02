@@ -204,7 +204,7 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
     {
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -235,7 +235,7 @@ static void insert_visit_end_of_branch_goal(slice_index si,
                                   state->prototypes,state->nr_prototypes);
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -275,7 +275,7 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->prev = si;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -387,7 +387,7 @@ static void increase_min_length_branch(slice_index si, stip_structure_traversal 
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   slices[si].u.branch.min_length += 2;
 
   TraceFunctionExit(__func__);
@@ -409,13 +409,13 @@ static void increase_min_length(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
-                                                 &stip_traverse_structure_pipe);
+                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &increase_min_length_branch);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
-                                                 &stip_traverse_structure_pipe);
+                                                 &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -868,7 +868,7 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
 
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)

@@ -156,13 +156,13 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
   if (state->spinning_off)
   {
     state->spun_off[si] = copy_slice(si);
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
     link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
     slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
   }
   else
   {
-    stip_traverse_structure_pipe(si,st);
+    stip_traverse_structure_children_pipe(si,st);
 
     state->spinning_off = true;
     stip_traverse_structure_next_branch(si,st);

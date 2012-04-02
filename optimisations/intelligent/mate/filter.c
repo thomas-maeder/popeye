@@ -48,7 +48,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   /* in duplexes, the colors swapped when looking for the "black solutions".
    * we thus have to make sure that the legal move finder always tests for

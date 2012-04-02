@@ -265,7 +265,7 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
     {
       state->base = rank;
       state->prev = si;
-      stip_traverse_structure_pipe(si,st);
+      stip_traverse_structure_children_pipe(si,st);
     }
   }
 
@@ -343,7 +343,7 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   state->prev = si;
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -687,7 +687,7 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
 
   state->spun_off[si] = copy_slice(si);
@@ -818,7 +818,7 @@ static void move_to_postkey(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   link_to_branch(si,*root_slice);
   *root_slice = si;
@@ -884,7 +884,7 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
   TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
 
   if (state->spun_off[slices[si].u.pipe.next]!=no_slice)

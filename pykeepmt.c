@@ -223,7 +223,7 @@ void keepmating_filter_inserter_end_of_branch(slice_index si,
    * goal(s).
    */
   stip_traverse_structure_next_branch(si,st);
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
