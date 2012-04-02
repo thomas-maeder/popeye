@@ -183,9 +183,9 @@ enum
 
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                                              \
-  ENUMERATOR(slice_structure_leaf),                              \
-    ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_pipe),                            \
+    ENUMERATOR(slice_structure_leaf),                            \
+    ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \
     ENUMERATOR(nr_slice_structure_types)
