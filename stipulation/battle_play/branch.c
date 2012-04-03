@@ -39,6 +39,7 @@ static slice_index const slice_rank_order[] =
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
   STAttackHashed,
+  STAttackHashedTester,
   STGoalConstraintTester,
   STZugzwangWriter,
   STThreatStart,
@@ -186,14 +187,17 @@ typedef struct
 } insertion_state_type;
 
 static void start_insertion_traversal(slice_index si,
-                                      insertion_state_type *state);
+                                      insertion_state_type *state,
+                                      stip_traversal_context_type context);
 
 static void next_insertion(slice_index si,
                            unsigned int prototype_rank,
-                           insertion_state_type *state)
+                           insertion_state_type *state,
+                           stip_traversal_context_type context)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   if (state->nr_prototypes>1)
@@ -202,7 +206,7 @@ static void next_insertion(slice_index si,
     {
         state->prototypes+1, state->nr_prototypes-1, prototype_rank+1, si
     };
-    start_insertion_traversal(slices[si].u.pipe.next,&nested_state);
+    start_insertion_traversal(slices[si].u.pipe.next,&nested_state,context);
   }
 
   TraceFunctionExit(__func__);
@@ -211,7 +215,8 @@ static void next_insertion(slice_index si,
 
 static boolean insert_before(slice_index si,
                              unsigned int rank,
-                             insertion_state_type *state)
+                             insertion_state_type *state,
+                             stip_traversal_context_type context)
 {
   boolean result = false;
 
@@ -220,6 +225,7 @@ static boolean insert_before(slice_index si,
   TraceFunctionParam("%u",rank);
   TraceFunctionParam("%u",state->prev);
   TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   {
@@ -229,14 +235,14 @@ static boolean insert_before(slice_index si,
                                                        state->base);
     if (slices[slices[state->prev].u.pipe.next].type==prototype_type)
     {
-      next_insertion(si,prototype_rank,state);
+      next_insertion(si,prototype_rank,state,context);
       result = true;
     }
     else if (rank!=no_slice_rank && rank>prototype_rank)
     {
       slice_index const copy = copy_slice(prototype);
       pipe_append(state->prev,copy);
-      next_insertion(copy,prototype_rank,state);
+      next_insertion(copy,prototype_rank,state,context);
       result = true;
     }
   }
@@ -247,7 +253,7 @@ static boolean insert_before(slice_index si,
   return result;
 }
 
-static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
+static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
 
@@ -261,7 +267,33 @@ static void insert_visit_regular(slice_index si, stip_structure_traversal *st)
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
     assert(rank!=no_slice_rank);
-    if (!insert_before(si,rank,state))
+    if (!insert_before(si,rank,state,st->context))
+    {
+      state->base = rank;
+      state->prev = si;
+      stip_traverse_structure_children(si,st);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_visit_fork(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank = get_slice_rank(slices[si].type,state->base);
+    assert(rank!=no_slice_rank);
+    if (!insert_before(si,rank,state,st->context))
     {
       state->base = rank;
       state->prev = si;
@@ -286,7 +318,7 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    if (!insert_before(si,rank,state))
+    if (!insert_before(si,rank,state,st->context))
     {
       insertion_state_type const save_state = *state;
 
@@ -295,13 +327,13 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
         if (slices[si].u.binary.op1!=no_slice)
         {
           assert(slices[slices[si].u.binary.op1].type==STProxy);
-          start_insertion_traversal(slices[slices[si].u.binary.op1].u.pipe.next,state);
+          start_insertion_traversal(slices[slices[si].u.binary.op1].u.pipe.next,state,st->context);
         }
         *state = save_state;
         if (slices[si].u.binary.op2!=no_slice)
         {
           assert(slices[slices[si].u.binary.op2].type==STProxy);
-          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state);
+          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state,st->context);
         }
       }
       else
@@ -311,7 +343,7 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
         if (slices[si].u.binary.op1!=no_slice)
         {
           state->prev = si;
-          start_insertion_traversal(slices[si].u.pipe.next,state);
+          start_insertion_traversal(slices[si].u.pipe.next,state,st->context);
         }
 
         *state = save_state;
@@ -321,7 +353,7 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
         {
           state->prev = slices[si].u.binary.op2;
           assert(slices[state->prev].type==STProxy);
-          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state);
+          start_insertion_traversal(slices[slices[si].u.binary.op2].u.pipe.next,state,st->context);
         }
       }
     }
@@ -349,7 +381,7 @@ static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_visit_true(slice_index si, stip_structure_traversal *st)
+static void insert_visit_leaf(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
 
@@ -362,45 +394,34 @@ static void insert_visit_true(slice_index si, stip_structure_traversal *st)
 
   {
     unsigned int const rank = get_slice_rank(slices[si].type,state->base);
-    insert_before(si,rank,state);
+    insert_before(si,rank,state,st->context);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const insertion_visitors[] =
-{
-  { STProxy, &insert_visit_proxy },
-  { STTrue,  &insert_visit_true  }
-};
-
-enum
-{
-  nr_insertion_visitors = sizeof insertion_visitors / sizeof insertion_visitors[0]
-};
-
 static void start_insertion_traversal(slice_index si,
-                                      insertion_state_type *state)
+                                      insertion_state_type *state,
+                                      stip_traversal_context_type context)
 {
-  unsigned int i;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",state->base);
   TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,state);
-  for (i = 0; i!=nr_slice_rank_order_elmts; ++i)
-    stip_structure_traversal_override_single(&st,
-                                             slice_rank_order[i],
-                                             &insert_visit_regular);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &insert_visit_binary);
-  stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
+  st.context = context;
+  stip_structure_traversal_override_by_structure(&st,slice_structure_pipe,&insert_visit_pipe);
+  stip_structure_traversal_override_by_structure(&st,slice_structure_branch,&insert_visit_pipe);
+  stip_structure_traversal_override_by_structure(&st,slice_structure_fork,&insert_visit_fork);
+  stip_structure_traversal_override_by_structure(&st,slice_structure_binary,&insert_visit_binary);
+  stip_structure_traversal_override_by_structure(&st,slice_structure_leaf,&insert_visit_leaf);
+  stip_structure_traversal_override_single(&st,STProxy,&insert_visit_proxy);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -417,11 +438,13 @@ static void start_insertion_traversal(slice_index si,
  */
 void battle_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
-                                        unsigned int nr_prototypes)
+                                        unsigned int nr_prototypes,
+                                        stip_traversal_context_type context)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   {
@@ -432,7 +455,7 @@ void battle_branch_insert_slices_nested(slice_index si,
       si
     };
     assert(state.base!=no_slice_rank);
-    start_insertion_traversal(slices[si].u.pipe.next,&state);
+    start_insertion_traversal(slices[si].u.pipe.next,&state,context);
   }
 
   TraceFunctionExit(__func__);
@@ -491,8 +514,13 @@ void attack_branch_insert_slices_behind_proxy(slice_index si,
       rank+1,
       si
     };
+    stip_traversal_context_type context;
+    if (slices[si].type==STDummyMove || slices[si].type==STMovePlayed)
+      context = stip_traversal_context_defense;
+    else
+      context = stip_traversal_context_attack;
     assert(rank!=no_slice_rank);
-    start_insertion_traversal(slices[si].u.pipe.next,&state);
+    start_insertion_traversal(slices[si].u.pipe.next,&state,context);
   }
 
   for (i = 0; i!=nr_prototypes; ++i)
@@ -551,8 +579,13 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
       rank+1,
       proxy
     };
+    stip_traversal_context_type context;
+    if (slices[proxy].type==STDummyMove || slices[proxy].type==STMovePlayed)
+      context = stip_traversal_context_attack;
+    else
+      context = stip_traversal_context_defense;
     assert(rank!=no_slice_rank);
-    start_insertion_traversal(slices[proxy].u.pipe.next,&state);
+    start_insertion_traversal(slices[proxy].u.pipe.next,&state,context);
   }
 
   for (i = 0; i!=nr_prototypes; ++i)

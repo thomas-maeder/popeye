@@ -185,7 +185,7 @@ static void root_insert_visit_setplay_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void root_insert_visit_battle_adapter(slice_index si,
+static void root_insert_visit_attack_adapter(slice_index si,
                                              stip_structure_traversal *st)
 {
   root_insertion_state_type * const state = st->param;
@@ -205,7 +205,36 @@ static void root_insert_visit_battle_adapter(slice_index si,
     else
       battle_branch_insert_slices_nested(si,
                                          state->prototypes,
-                                         state->nr_prototypes);
+                                         state->nr_prototypes,
+                                         stip_traversal_context_attack);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void root_insert_visit_defense_adapter(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank = get_root_slice_rank(slices[si].type,state->base);
+    assert(rank!=no_root_slice_rank);
+    if (root_insert_common(si,rank,state))
+      ; /* nothing - work is done*/
+    else
+      battle_branch_insert_slices_nested(si,
+                                         state->prototypes,
+                                         state->nr_prototypes,
+                                         stip_traversal_context_defense);
   }
 
   TraceFunctionExit(__func__);
@@ -287,12 +316,12 @@ static void root_insert_visit_proxy(slice_index si,
 
 static structure_traversers_visitors const root_insertion_visitors[] =
 {
-  { STSetplayFork,       &root_insert_visit_setplay_fork   },
-  { STAttackAdapter,     &root_insert_visit_battle_adapter },
-  { STDefenseAdapter,    &root_insert_visit_battle_adapter },
-  { STHelpAdapter,       &root_insert_visit_help_adapter   },
-  { STGoalReachedTester, &root_insert_visit_goal_tester    },
-  { STProxy,             &root_insert_visit_proxy          }
+  { STSetplayFork,       &root_insert_visit_setplay_fork    },
+  { STAttackAdapter,     &root_insert_visit_attack_adapter  },
+  { STDefenseAdapter,    &root_insert_visit_defense_adapter },
+  { STHelpAdapter,       &root_insert_visit_help_adapter    },
+  { STGoalReachedTester, &root_insert_visit_goal_tester     },
+  { STProxy,             &root_insert_visit_proxy           }
 };
 
 enum
@@ -370,7 +399,7 @@ typedef struct
     unsigned int nr_prototypes;
 } branch_insertion_state_type;
 
-static void branch_insert_visit_battle_adapter(slice_index si,
+static void branch_insert_visit_attack_adapter(slice_index si,
                                                stip_structure_traversal *st)
 {
   branch_insertion_state_type * const state = st->param;
@@ -382,7 +411,27 @@ static void branch_insert_visit_battle_adapter(slice_index si,
 
   battle_branch_insert_slices_nested(si,
                                      state->prototypes,
-                                     state->nr_prototypes);
+                                     state->nr_prototypes,
+                                     stip_traversal_context_attack);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void branch_insert_visit_defense_adapter(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  branch_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  battle_branch_insert_slices_nested(si,
+                                     state->prototypes,
+                                     state->nr_prototypes,
+                                     stip_traversal_context_defense);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -426,8 +475,8 @@ static void branch_insert_visit_goal_tester(slice_index si,
 
 static structure_traversers_visitors const branch_insertion_visitors[] =
 {
-  { STAttackAdapter,     &branch_insert_visit_battle_adapter },
-  { STDefenseAdapter,    &branch_insert_visit_battle_adapter },
+  { STAttackAdapter,     &branch_insert_visit_attack_adapter },
+  { STDefenseAdapter,    &branch_insert_visit_defense_adapter },
   { STHelpAdapter,       &branch_insert_visit_help_adapter   },
   { STGoalReachedTester, &branch_insert_visit_goal_tester    }
 };

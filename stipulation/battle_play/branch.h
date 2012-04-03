@@ -77,7 +77,8 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
  */
 void battle_branch_insert_slices_nested(slice_index si,
                                         slice_index const prototypes[],
-                                        unsigned int nr_prototypes);
+                                        unsigned int nr_prototypes,
+                                        stip_traversal_context_type context);
 
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the
