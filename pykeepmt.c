@@ -229,18 +229,18 @@ void keepmating_filter_inserter_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_filter_inserter_battle_move(slice_index si,
-                                                   stip_structure_traversal *st)
+static void keepmating_filter_inserter_battle(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  insertion_state_type const * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if (st->context!=stip_traversal_context_help)
   {
+    insertion_state_type const * const state = st->param;
     slice_index const prototype = alloc_appropriate_filter(state);
     if (prototype!=no_slice)
     {
@@ -256,8 +256,8 @@ static void keepmating_filter_inserter_battle_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_filter_inserter_help_move(slice_index si,
-                                                 stip_structure_traversal *st)
+static void keepmating_filter_inserter_help(slice_index si,
+                                            stip_structure_traversal *st)
 {
   insertion_state_type const * const state = st->param;
 
@@ -282,8 +282,8 @@ static void keepmating_filter_inserter_help_move(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STNotEndOfBranchGoal, &keepmating_filter_inserter_battle_move   },
-  { STReadyForHelpMove,   &keepmating_filter_inserter_help_move     },
+  { STNotEndOfBranchGoal, &keepmating_filter_inserter_battle        },
+  { STReadyForHelpMove,   &keepmating_filter_inserter_help          },
   { STAnd,                &keepmating_filter_inserter_reciprocal    },
   { STOr,                 &keepmating_filter_inserter_quodlibet     },
   { STEndOfBranch,        &keepmating_filter_inserter_end_of_branch },
