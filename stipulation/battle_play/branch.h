@@ -71,11 +71,11 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
  * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
+ * @param adapter identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void battle_branch_insert_slices_nested(slice_index si,
+void battle_branch_insert_slices_nested(slice_index adapter,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes,
                                         stip_traversal_context_type context);

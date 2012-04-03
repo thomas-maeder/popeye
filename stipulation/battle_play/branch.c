@@ -432,17 +432,17 @@ static void start_insertion_traversal(slice_index si,
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
  * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
+ * @param adapter identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void battle_branch_insert_slices_nested(slice_index si,
+void battle_branch_insert_slices_nested(slice_index adapter,
                                         slice_index const prototypes[],
                                         unsigned int nr_prototypes,
                                         stip_traversal_context_type context)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",adapter);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
@@ -451,11 +451,11 @@ void battle_branch_insert_slices_nested(slice_index si,
     insertion_state_type state =
     {
       prototypes, nr_prototypes,
-      get_slice_rank(slices[si].type,0),
-      si
+      get_slice_rank(slices[adapter].type,0),
+      adapter
     };
     assert(state.base!=no_slice_rank);
-    start_insertion_traversal(slices[si].u.pipe.next,&state,context);
+    start_insertion_traversal(slices[adapter].u.pipe.next,&state,context);
   }
 
   TraceFunctionExit(__func__);
