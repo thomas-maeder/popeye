@@ -183,6 +183,24 @@ static boolean insert_common(slice_index si,
   return result;
 }
 
+static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",state->nr_prototypes);
+  TraceFunctionParam("%u",state->base);
+  TraceFunctionParam("%u",state->prev);
+  TraceFunctionParamListEnd();
+
+  state->prev = si;
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
@@ -280,11 +298,24 @@ static void insert_visit_end_of_branch_goal(slice_index si,
       ; /* nothing - work is done*/
     else
     {
-      branch_insert_slices_nested(slices[si].u.fork.fork,
-                                  state->prototypes,state->nr_prototypes);
-      state->base = rank;
-      state->prev = si;
-      stip_traverse_structure_children_pipe(si,st);
+      insertion_state_type const save_state = *state;
+
+      state->base = rank+1;
+
+      if (slices[si].u.fork.next!=no_slice)
+      {
+        state->prev = si;
+        stip_traverse_structure_children_pipe(si,st);
+      }
+
+      *state = save_state;
+      state->base = rank+1;
+
+      if (slices[si].u.fork.fork!=no_slice)
+      {
+        assert(slices[slices[si].u.fork.fork].type==STProxy);
+        insert_visit_proxy(slices[si].u.fork.fork,st);
+      }
     }
   }
 
@@ -307,24 +338,6 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
   start_insertion_traversal(slices[si].u.binary.op1,state);
   *state = save_state;
   start_insertion_traversal(slices[si].u.binary.op2,state);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_visit_proxy(slice_index si, stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParamListEnd();
-
-  state->prev = si;
-  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

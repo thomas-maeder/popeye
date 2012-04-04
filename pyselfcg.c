@@ -94,22 +94,44 @@ stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+typedef struct
+{
+  boolean in_constraint;
+  goal_type in_goal_tester;
+  boolean is_branch_instrumented;
+} in_branch_insertion_state_type;
+
 static
-void insert_selfcheck_guard_battle_branch(slice_index si,
+void insert_selfcheck_guard_any_branch(slice_index si,
                                           stip_structure_traversal *st)
 {
+  in_branch_insertion_state_type const * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==stip_traversal_context_attack
-      || st->context==stip_traversal_context_defense)
+  if (!state->is_branch_instrumented)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    if (st->context==stip_traversal_context_attack)
-      attack_branch_insert_slices(si,&prototype,1);
-    else
-      defense_branch_insert_slices(si,&prototype,1);
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
 
   stip_traverse_structure_children(si,st);
@@ -117,13 +139,6 @@ void insert_selfcheck_guard_battle_branch(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-typedef struct
-{
-  boolean in_constraint;
-  goal_type in_goal_tester;
-  boolean is_branch_instrumented;
-} in_branch_insertion_state_type;
 
 static void insert_selfcheck_guard_help_branch(slice_index si,
                                                stip_structure_traversal *st)
@@ -317,27 +332,6 @@ static void instrument_doublestalemate_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remove_selfcheck_guard_check_zigzag(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->context==stip_traversal_context_help)
-  {
-    slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.binary.op2);
-    if (guard!=no_slice)
-      pipe_remove(guard);
-  }
-
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void dont_instrument_selfcheck_ignoring_goals(slice_index si,
                                                      stip_structure_traversal *st)
 {
@@ -378,18 +372,16 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
-  { STNotEndOfBranchGoal,              &insert_selfcheck_guard_battle_branch },
-  { STReadyForHelpMove,                &insert_selfcheck_guard_help_branch   },
-  { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch   },
-  { STConstraintSolver,                &insert_selfcheck_guard_constraint    },
-  { STConstraintTester,                &insert_selfcheck_guard_constraint    },
-  { STGoalReachedTester,               &insert_selfcheck_guard_goal          },
-  { STCheckZigzagJump,                 &remove_selfcheck_guard_check_zigzag  },
-  { STCounterMateFilter,               &stip_traverse_structure_children_pipe         },
-  { STIsardamDefenderFinder,           &stip_traverse_structure_children_pipe         },
-  { STCageCirceNonCapturingMoveFinder, &suspend_insertion                    },
-  { STAnd,                             &instrument_doublestalemate_tester    },
-  { STNot,                             &instrument_negated_tester            },
+  { STNotEndOfBranchGoal,              &insert_selfcheck_guard_any_branch        },
+  { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch       },
+  { STConstraintSolver,                &insert_selfcheck_guard_constraint        },
+  { STConstraintTester,                &insert_selfcheck_guard_constraint        },
+  { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
+  { STCounterMateFilter,               &stip_traverse_structure_children_pipe    },
+  { STIsardamDefenderFinder,           &stip_traverse_structure_children_pipe    },
+  { STCageCirceNonCapturingMoveFinder, &suspend_insertion                        },
+  { STAnd,                             &instrument_doublestalemate_tester        },
+  { STNot,                             &instrument_negated_tester                },
   { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals }
 };
 
