@@ -41,6 +41,7 @@ static slice_index const slice_rank_order[] =
   STReadyForHelpMove,
   STReadyForDummyMove,
   STHelpHashed,
+  STCheckZigzagJump,
   STTestingPrerequisites,
   STDoubleMateFilter,
   STCounterMateFilter,
@@ -347,6 +348,7 @@ static structure_traversers_visitors const insertion_visitors[] =
 {
   { STEndOfBranchGoal,         &insert_visit_end_of_branch_goal },
   { STEndOfBranchGoalImmobile, &insert_visit_end_of_branch_goal },
+  { STCheckZigzagJump,         &insert_visit_end_of_branch_goal },
   { STProxy,                   &insert_visit_proxy              }
 };
 
