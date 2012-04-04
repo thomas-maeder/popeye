@@ -84,11 +84,11 @@ void help_branch_insert_slices(slice_index si,
  * prototypes are *not* deallocated by help_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
  * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
+ * @param adapter identifies starting point of insertion (of type STHelpAdapter)
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void help_branch_insert_slices_nested(slice_index si,
+void help_branch_insert_slices_nested(slice_index adapter,
                                       slice_index const prototypes[],
                                       unsigned int nr_prototypes);
 

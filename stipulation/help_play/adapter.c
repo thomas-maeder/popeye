@@ -102,18 +102,22 @@ void stip_traverse_structure_children_help_adpater(slice_index si,
                                                    stip_structure_traversal *st)
 {
   structure_traversal_level_type const save_level = st->level;
+  stip_traversal_context_type const save_context = st->context;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(st->context==stip_traversal_context_global);
+  /* STHelpAdaper slices are part of the loop in the beginning,
+   * i.e. we may already be in help context when we arrive here */
+  assert(st->context==stip_traversal_context_global
+         || st->context==stip_traversal_context_help);
 
   st->context = stip_traversal_context_help;
   st->level = structure_traversal_level_nested;
   stip_traverse_structure_children_pipe(si,st);
   st->level = save_level;
-  st->context = stip_traversal_context_global;
+  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
