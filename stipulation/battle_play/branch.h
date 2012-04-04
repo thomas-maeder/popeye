@@ -71,14 +71,14 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
  * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param adapter identifies starting point of insertion
+ * @param adapter identifies starting point of insertion (of type STAttackAdapter
+ *                or STDefenseAdapter)
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
 void battle_branch_insert_slices_nested(slice_index adapter,
                                         slice_index const prototypes[],
-                                        unsigned int nr_prototypes,
-                                        stip_traversal_context_type context);
+                                        unsigned int nr_prototypes);
 
 /* Produce slices representing set play.
  * @param si identifies the successor of the slice representing the
