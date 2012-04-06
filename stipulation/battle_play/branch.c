@@ -223,9 +223,6 @@ static boolean insert_before(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",rank);
-  TraceFunctionParam("%u",state->prev);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",st->context);
   TraceFunctionParamListEnd();
 
   {
@@ -328,9 +325,6 @@ static void insert_visit_binary_operands(slice_index si, stip_structure_traversa
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
   TraceFunctionParamListEnd();
 
   {
@@ -357,9 +351,6 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
   TraceFunctionParamListEnd();
 
   {
@@ -384,9 +375,6 @@ static void insert_visit_leaf(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",state->nr_prototypes);
-  TraceFunctionParam("%u",state->base);
-  TraceFunctionParam("%u",state->prev);
   TraceFunctionParamListEnd();
 
   {
