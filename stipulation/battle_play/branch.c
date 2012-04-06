@@ -105,6 +105,7 @@ static slice_index const slice_rank_order[] =
   STRefutationsIntroWriter,
   STTrue,
   STPlaySuppressor,
+  STGoalConstraintTester,
   STConstraintSolver,
   STConstraintTester,
   STEndOfBranchForced,
@@ -1172,6 +1173,33 @@ void battle_branch_insert_defense_constraint(slice_index si,
   {
     slice_index const ready = branch_find_slice(STReadyForDefense,si);
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
+    assert(ready!=no_slice);
+    defense_branch_insert_slices(ready,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument a battle branch with STConstraint* slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_defense_goal_constraint(slice_index si,
+                                                  slice_index constraint)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",constraint);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  TraceStipulation(constraint);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForDefense,si);
+    slice_index const prototype = alloc_goal_constraint_tester_slice(constraint);
     assert(ready!=no_slice);
     defense_branch_insert_slices(ready,&prototype,1);
   }

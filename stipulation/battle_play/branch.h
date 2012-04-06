@@ -186,4 +186,12 @@ void battle_branch_insert_attack_goal_constraint(slice_index si,
 void battle_branch_insert_defense_constraint(slice_index si,
                                              slice_index constraint);
 
+/* Instrument a battle branch with STConstraint* slices (typically for a reflex
+ * stipulation)
+ * @param si entry slice of branch to be instrumented
+ * @param constraint identifies branch that constrains the attacker
+ */
+void battle_branch_insert_defense_goal_constraint(slice_index si,
+                                                  slice_index constraint);
+
 #endif

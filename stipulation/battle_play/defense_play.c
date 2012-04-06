@@ -226,6 +226,7 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STConstraintSolver:
     case STConstraintTester:
+    case STGoalConstraintTester:
       result = constraint_defend(si,n);
       break;
 

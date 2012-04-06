@@ -127,12 +127,25 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
-    slice_index const prototypes[] =
+    slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
+    switch (st->context)
     {
-      alloc_goal_writer_slice(slices[si].u.goal_handler.goal)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    leaf_branch_insert_slices(si,prototypes,nr_prototypes);
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
 
   stip_traverse_structure_children(si,st);

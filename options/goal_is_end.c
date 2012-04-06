@@ -119,7 +119,7 @@ static void insert_goal_is_end_tester_battle(slice_index adapter,
   {
     slice_index const tester = make_goal_is_end_tester(state->tester);
     if (attacker_side==tester_side)
-      battle_branch_insert_defense_constraint(adapter,tester);
+      battle_branch_insert_defense_goal_constraint(adapter,tester);
     else
       battle_branch_insert_attack_goal_constraint(adapter,tester);
   }
