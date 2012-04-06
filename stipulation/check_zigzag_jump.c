@@ -107,6 +107,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const played = alloc_move_played_slice();
     slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
@@ -115,12 +116,13 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     defense_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy1,slices[deadend].u.pipe.next);
     pipe_link(proxy2,dummy);
+    pipe_link(dummy,played);
     pipe_link(deadend,jump);
 
     {
       slice_index const landing = branch_find_slice(STCheckZigzagLanding,deadend);
       assert(landing!=no_slice);
-      link_to_branch(dummy,landing);
+      link_to_branch(played,landing);
     }
   }
 
@@ -142,20 +144,20 @@ void help_branch_insert_check_zigzag(slice_index adapter)
     slice_index const ready = help_branch_locate_ready(adapter,parity);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const played = alloc_help_move_played_slice();
     slice_index const jump = alloc_check_zigzag_jump_slice(proxy1,proxy2);
     slice_index const landing_proto = alloc_pipe(STCheckZigzagLanding);
 
     assert(ready!=no_slice);
     help_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy1,slices[ready].u.pipe.next);
-    pipe_link(proxy2,dummy);
+    pipe_link(proxy2,played);
     pipe_link(ready,jump);
 
     {
       slice_index const landing = branch_find_slice(STCheckZigzagLanding,ready);
       assert(landing!=no_slice);
-      link_to_branch(dummy,landing);
+      link_to_branch(played,landing);
     }
   }
 

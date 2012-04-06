@@ -391,7 +391,9 @@ static void spin_off_from_threat_solver(slice_index si,
   /* only now or the dummy move slice is copied and leaked */
   {
     slice_index const dummy = alloc_dummy_move_slice();
-    link_to_branch(dummy,copies[slices[si].u.fork.fork]);
+    slice_index const played = alloc_move_played_slice();
+    pipe_link(dummy,played);
+    link_to_branch(played,copies[slices[si].u.fork.fork]);
     slices[si].u.fork.fork = dummy;
   }
 

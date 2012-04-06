@@ -125,8 +125,8 @@ static slice_index const slice_rank_order[] =
   STFindMove,
   STBGLFilter,
   STMoveTracer,
-  STMovePlayed,
   STDummyMove,
+  STMovePlayed,
   STResetUnsolvable,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
@@ -507,11 +507,9 @@ void attack_branch_insert_slices_behind_proxy(slice_index si,
       rank+1,
       si
     };
-    stip_traversal_context_type context;
-    if (slices[si].type==STDummyMove || slices[si].type==STMovePlayed)
-      context = stip_traversal_context_defense;
-    else
-      context = stip_traversal_context_attack;
+    stip_traversal_context_type const context = (slices[si].type==STMovePlayed
+                                                 ? stip_traversal_context_defense
+                                                 : stip_traversal_context_attack);
     assert(rank!=no_slice_rank);
     start_insertion_traversal(si,&state,context);
   }
@@ -572,11 +570,9 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
       rank+1,
       proxy
     };
-    stip_traversal_context_type context;
-    if (slices[proxy].type==STDummyMove || slices[proxy].type==STMovePlayed)
-      context = stip_traversal_context_attack;
-    else
-      context = stip_traversal_context_defense;
+    stip_traversal_context_type const context = (slices[proxy].type==STMovePlayed
+                                                 ? stip_traversal_context_attack
+                                                 : stip_traversal_context_defense);
     assert(rank!=no_slice_rank);
     start_insertion_traversal(proxy,&state,context);
   }

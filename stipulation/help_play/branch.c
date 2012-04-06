@@ -6,7 +6,6 @@
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
@@ -65,7 +64,6 @@ static slice_index const slice_rank_order[] =
   STBGLFilter,
   STMoveTracer,
   STHelpMovePlayed,
-  STDummyMove,
   STCaptureCounter,
   STAnyMoveCounter,
   STOpponentMovesCounter,
@@ -1157,11 +1155,11 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const testpre = alloc_pipe(STTestingPrerequisites);
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const move = alloc_pipe(STMove);
-    slice_index const played = alloc_help_move_played_slice();
+    slice_index const played1 = alloc_help_move_played_slice();
     slice_index const not_end_goal = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const deadend = alloc_dead_end_slice();
     slice_index const ready2 = alloc_pipe(STReadyForDummyMove);
-    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const played2 = alloc_help_move_played_slice();
 
     result = adapter;
 
@@ -1169,12 +1167,12 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(ready,testpre);
     pipe_link(testpre,generating);
     pipe_link(generating,move);
-    pipe_link(move,played);
-    pipe_link(played,not_end_goal);
+    pipe_link(move,played1);
+    pipe_link(played1,not_end_goal);
     pipe_link(not_end_goal,deadend);
     pipe_link(deadend,ready2);
-    pipe_link(ready2,dummy);
-    pipe_link(dummy,adapter);
+    pipe_link(ready2,played2);
+    pipe_link(played2,adapter);
   }
 
   TraceFunctionExit(__func__);

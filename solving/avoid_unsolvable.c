@@ -119,7 +119,6 @@ static structure_traversers_visitors const avoid_unusable_inserters[] =
   { STDefenseAdapter,        &insert_reset_unusable_defense },
   { STHelpAdapter,           &insert_reset_unusable_help    },
   { STMovePlayed,            &insert_reset_unusable_defense },
-  { STDummyMove,             &insert_reset_unusable_defense },
   { STEndOfBranch,           &insert_avoid_unusable         },
   { STEndOfBranchGoal,       &insert_avoid_unusable         },
   { STEndOfBranchForced,     &insert_avoid_unusable         },

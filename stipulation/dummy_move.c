@@ -48,7 +48,7 @@ stip_length_type dummy_move_defend(slice_index si, stip_length_type n)
   /* insert an empty ply for the dummy defense */
   nextply(nbply);
 
-  result = attack(slices[si].u.pipe.next,n-1)+1;
+  result = defend(slices[si].u.pipe.next,n);
 
   finply();
 

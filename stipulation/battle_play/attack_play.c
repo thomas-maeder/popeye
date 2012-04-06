@@ -334,7 +334,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STHelpMovePlayed:
-    case STDummyMove:
       result = help_move_played_attack(si,n);
       break;
 

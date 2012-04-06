@@ -1189,7 +1189,6 @@ static structure_traversers_visitors starter_detectors[] =
 {
   { STMovePlayed,     &move_played_detect_starter   },
   { STHelpMovePlayed, &move_played_detect_starter   },
-  { STDummyMove,      &move_played_detect_starter   },
   { STMoveInverter,   &move_inverter_detect_starter }
 };
 
@@ -1293,7 +1292,6 @@ static slice_type starter_inverters[] =
 {
   STMovePlayed,
   STHelpMovePlayed,
-  STDummyMove,
   STMoveInverter
 };
 
@@ -1490,7 +1488,6 @@ static structure_traversers_visitors const special_children_traversers[] =
    { STHelpAdapter,     &stip_traverse_structure_children_help_adpater      },
    { STSetplayFork,     &stip_traverse_structure_children_setplay_fork      },
    { STMovePlayed,      &stip_traverse_structure_children_move_played       },
-   { STDummyMove,       &stip_traverse_structure_children_move_played       },
    { STThreatSolver,    &stip_traverse_structure_children_binary            }
 };
 
@@ -1713,7 +1710,6 @@ static moves_traversers_visitors const special_moves_children_traversers[] =
    { STConstraintSolver, &stip_traverse_moves_setplay_fork      },
    { STMovePlayed,       &stip_traverse_moves_move_played       },
    { STHelpMovePlayed,   &stip_traverse_moves_move_played       },
-   { STDummyMove,        &stip_traverse_moves_move_played       },
    { STForkOnRemaining,  &stip_traverse_moves_fork_on_remaining },
    { STDeadEnd,          &stip_traverse_moves_dead_end          },
    { STDeadEndGoal,      &stip_traverse_moves_dead_end          }
