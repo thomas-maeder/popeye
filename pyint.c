@@ -612,12 +612,12 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
       || slices[si].u.goal_handler.goal.type==goal_stale)
   {
     slice_index const prototype = alloc_intelligent_duplicate_avoider_slice();
-    leaf_branch_insert_slices(si,&prototype,1);
+    help_branch_insert_slices(si,&prototype,1);
 
     if (is_max_nr_solutions_per_target_position_limited())
     {
       slice_index const prototype = alloc_intelligent_nr_solutions_per_target_position_counter_slice();
-      leaf_branch_insert_slices(si,&prototype,1);
+      help_branch_insert_slices(si,&prototype,1);
     }
   }
 
