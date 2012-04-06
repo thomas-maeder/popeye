@@ -42,7 +42,7 @@ static void instrument_goal_reached_tester(slice_index si,
   {
     Goal const goal = slices[si].u.goal_handler.goal;
     slice_index const prototype = alloc_line_writer_slice(goal);
-    leaf_branch_insert_slices(si,&prototype,1);
+    help_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

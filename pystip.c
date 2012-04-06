@@ -106,6 +106,7 @@ static slice_type const leaf_slice_types[] =
 static slice_type const binary_slice_types[] =
 {
     STEndOfBranchGoal,
+    STEndOfBranchGoalImmobile,
     STAvoidUnsolvable,
     STCheckZigzagJump,
     STAnd,
@@ -153,7 +154,6 @@ static slice_type const fork_slice_types[] =
     STDoubleMateFilter,
     STCounterMateFilter,
     STNoShortVariations,
-    STEndOfBranchGoalImmobile,
     STIntelligentMateFilter,
     STIntelligentStalemateFilter,
     STMaxFlightsquares,

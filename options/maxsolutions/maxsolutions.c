@@ -184,7 +184,24 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    leaf_branch_insert_slices(si,&prototype,1);
+    switch (st->context)
+    {
+      case stip_traversal_context_attack:
+        attack_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_defense:
+        defense_branch_insert_slices(si,&prototype,1);
+        break;
+
+      case stip_traversal_context_help:
+        help_branch_insert_slices(si,&prototype,1);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   }
 
   TraceFunctionExit(__func__);
