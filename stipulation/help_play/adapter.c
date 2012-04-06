@@ -72,6 +72,56 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void count_move_slice(slice_index si, stip_structure_traversal *st)
+{
+  unsigned int * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++*result;
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void pretend_no_check(slice_index si, stip_structure_traversal *st)
+{
+  unsigned int * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.binary.op2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static unsigned int count_move_slices(slice_index si)
+{
+  unsigned int result = 0;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_by_structure(&st,slice_structure_fork,&stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,STMove,&count_move_slice);
+  stip_structure_traversal_override_single(&st,STCheckZigzagJump,&pretend_no_check);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
  * @param si identifies the root from which to apply set play
@@ -85,7 +135,7 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (branch_find_slice(STDummyMove,si)==no_slice)
+  if (count_move_slices(si)==3)
     help_branch_make_setplay(si,state);
   else
     series_branch_make_setplay(si,state);
