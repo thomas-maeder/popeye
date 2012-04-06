@@ -77,7 +77,7 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
                                              slack_length+1);
   slice_index const counter_proto = alloc_legal_move_counter_slice();
   slice_index const unsuspender_proto = alloc_pipe(STExclusiveChessUnsuspender);
-  leaf_branch_insert_slices(tester_slice,&counter_proto,1);
+  help_branch_insert_slices(tester_slice,&counter_proto,1);
   link_to_branch(proxy_to_goal,tester_slice);
   link_to_branch(proxy_branch,help);
   help_branch_set_end_goal(help,proxy_to_goal,1);
