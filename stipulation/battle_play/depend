@@ -120,9 +120,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/boolean/false.h stipulation/boolean/not.h \
  stipulation/boolean/or.h stipulation/boolean/true.h \
  stipulation/check_zigzag_jump.h stipulation/constraint.h \
- stipulation/dead_end.h stipulation/dummy_move.h \
- stipulation/end_of_branch_goal.h stipulation/end_of_branch.h \
- stipulation/goals/any/reached_tester.h \
+ stipulation/dead_end.h stipulation/end_of_branch_goal.h \
+ stipulation/end_of_branch.h stipulation/goals/any/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
  stipulation/goals/castling/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
@@ -331,8 +330,6 @@ stipulation/check_zigzag_jump.h:
 stipulation/constraint.h:
 
 stipulation/dead_end.h:
-
-stipulation/dummy_move.h:
 
 stipulation/end_of_branch_goal.h:
 

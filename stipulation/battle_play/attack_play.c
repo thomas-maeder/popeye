@@ -91,7 +91,6 @@
 #include "stipulation/check_zigzag_jump.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
-#include "stipulation/dummy_move.h"
 #include "stipulation/end_of_branch_goal.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/goals/any/reached_tester.h"
@@ -335,6 +334,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STHelpMovePlayed:
+    case STDummyMove:
       result = help_move_played_attack(si,n);
       break;
 
@@ -412,10 +412,6 @@ stip_length_type attack(slice_index si, stip_length_type n)
 
     case STCheckZigzagJump:
       result = check_zigzag_jump_attack(si,n);
-      break;
-
-    case STDummyMove:
-      result = dummy_move_attack(si,n);
       break;
 
     case STHelpHashedTester:
