@@ -79,28 +79,4 @@ void branch_insert_slices(slice_index si,
                           slice_index const prototypes[],
                           unsigned int nr_prototypes);
 
-/* Insert slices into a leaf branch.
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by leaf_branch_insert_slices().
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void leaf_branch_insert_slices(slice_index si,
-                               slice_index const prototypes[],
-                               unsigned int nr_prototypes);
-
-/* Insert slices into a leaf branch; the elements of
- * prototypes are *not* deallocated by leaf_branch_insert_slices_nested().
- * The inserted slices are copies of the elements of prototypes).
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void leaf_branch_insert_slices_nested(slice_index si,
-                                      slice_index const prototypes[],
-                                      unsigned int nr_prototypes);
-
 #endif
