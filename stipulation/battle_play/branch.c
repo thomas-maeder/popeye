@@ -179,6 +179,22 @@ static unsigned int get_slice_rank(slice_type type, unsigned int base)
   return result;
 }
 
+static void deallocate_prototypes(slice_index const prototypes[],
+                                  unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 typedef struct
 {
     slice_index const *prototypes;
@@ -482,18 +498,18 @@ void attack_branch_insert_slices(slice_index si,
  * @param base used instead of proxy for determining the current position in the
  *             sequence of defense branches
  */
-void attack_branch_insert_slices_behind_proxy(slice_index si,
+void attack_branch_insert_slices_behind_proxy(slice_index proxy,
                                               slice_index const prototypes[],
                                               unsigned int nr_prototypes,
                                               slice_index base)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
+
+  assert(slices[proxy].type!=STMovePlayed);
 
   {
     unsigned int const attack_played_rank = get_slice_rank(STMovePlayed,0);
@@ -505,17 +521,13 @@ void attack_branch_insert_slices_behind_proxy(slice_index si,
     {
       prototypes, nr_prototypes,
       rank+1,
-      si
+      proxy
     };
-    stip_traversal_context_type const context = (slices[si].type==STMovePlayed
-                                                 ? stip_traversal_context_defense
-                                                 : stip_traversal_context_attack);
     assert(rank!=no_slice_rank);
-    start_insertion_traversal(si,&state,context);
+    start_insertion_traversal(proxy,&state,stip_traversal_context_attack);
   }
 
-  for (i = 0; i!=nr_prototypes; ++i)
-    dealloc_slice(prototypes[i]);
+  deallocate_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -553,13 +565,13 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
                                                unsigned int nr_prototypes,
                                                slice_index base)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
+
+  assert(slices[proxy].type!=STMovePlayed);
 
   {
     unsigned int const played_rank = get_slice_rank(STMovePlayed,0);
@@ -570,15 +582,11 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
       rank+1,
       proxy
     };
-    stip_traversal_context_type const context = (slices[proxy].type==STMovePlayed
-                                                 ? stip_traversal_context_attack
-                                                 : stip_traversal_context_defense);
     assert(rank!=no_slice_rank);
-    start_insertion_traversal(proxy,&state,context);
+    start_insertion_traversal(proxy,&state,stip_traversal_context_defense);
   }
 
-  for (i = 0; i!=nr_prototypes; ++i)
-    dealloc_slice(prototypes[i]);
+  deallocate_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

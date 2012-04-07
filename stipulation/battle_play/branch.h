@@ -39,7 +39,7 @@ void attack_branch_insert_slices(slice_index si,
 
 /* Like attack_branch_insert_slices, but starting at a proxy slice
  * @param base used instead of proxy for determining the current position in the
- *             sequence of defense branches
+ *             sequence of slices
  */
 void attack_branch_insert_slices_behind_proxy(slice_index si,
                                               slice_index const prototypes[],
@@ -60,7 +60,7 @@ void defense_branch_insert_slices(slice_index si,
 
 /* Like defense_branch_insert_slices, but starting at a proxy slice
  * @param base used instead of proxy for determining the current position in the
- *             sequence of defense branches
+ *             sequence of slices
  */
 void defense_branch_insert_slices_behind_proxy(slice_index proxy,
                                                slice_index const prototypes[],

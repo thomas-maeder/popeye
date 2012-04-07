@@ -116,9 +116,9 @@ static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const avoid_unusable_inserters[] =
 {
   { STAttackAdapter,         &insert_reset_unusable_attack  },
-  { STDefenseAdapter,        &insert_reset_unusable_defense },
   { STHelpAdapter,           &insert_reset_unusable_help    },
-  { STMovePlayed,            &insert_reset_unusable_defense },
+  { STMove,                  &insert_reset_unusable_defense },
+  { STDummyMove,             &insert_reset_unusable_defense },
   { STEndOfBranch,           &insert_avoid_unusable         },
   { STEndOfBranchGoal,       &insert_avoid_unusable         },
   { STEndOfBranchForced,     &insert_avoid_unusable         },
