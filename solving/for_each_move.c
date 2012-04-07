@@ -5,6 +5,7 @@
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "solving/solving.h"
 #include "solving/find_move.h"
 #include "trace.h"

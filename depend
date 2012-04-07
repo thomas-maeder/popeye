@@ -1720,8 +1720,8 @@ pythreat$(OBJ_SUFFIX): pythreat.c pythreat.h stipulation/battle_play/defense_pla
  stipulation/slice_type.h stipulation/battle_play/attack_play.h pystip.h \
  pybrafrk.h stipulation/testing_pipe.h pypipe.h stipulation/branch.h \
  stipulation/dummy_move.h stipulation/battle_play/defense_play.h \
- stipulation/battle_play/branch.h solving/solving.h \
- solving/battle_play/check_detector.h trace.h
+ stipulation/move_played.h stipulation/battle_play/branch.h \
+ solving/solving.h solving/battle_play/check_detector.h trace.h
 
 pythreat.h:
 
@@ -1780,6 +1780,8 @@ stipulation/branch.h:
 stipulation/dummy_move.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/move_played.h:
 
 stipulation/battle_play/branch.h:
 

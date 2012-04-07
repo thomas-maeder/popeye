@@ -5,6 +5,7 @@
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "solving/battle_play/check_detector.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"

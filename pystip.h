@@ -602,4 +602,7 @@ void stip_insert_intro_slices(slice_index si);
  */
 boolean stip_apply_setplay(slice_index si);
 
+/* Initialise slice properties at start of program */
+void initialise_slice_properties(void);
+
 #endif

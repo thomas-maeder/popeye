@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/dummy_move.h"
+#include "stipulation/move_played.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/battle_play/branch.h"

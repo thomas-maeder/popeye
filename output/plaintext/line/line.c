@@ -3,6 +3,7 @@
 #include "pybrafrk.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/move_inversion_counter.h"

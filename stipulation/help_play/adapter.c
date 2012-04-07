@@ -89,8 +89,6 @@ static void count_move_slice(slice_index si, stip_structure_traversal *st)
 
 static void pretend_no_check(slice_index si, stip_structure_traversal *st)
 {
-  unsigned int * const result = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
