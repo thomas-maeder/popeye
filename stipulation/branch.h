@@ -43,6 +43,37 @@ void link_to_branch(slice_index pipe, slice_index entry);
  */
 void branch_shorten_slices(slice_index start, slice_type end_type);
 
+enum
+{
+  no_slice_rank = INT_MAX
+};
+
+typedef struct
+{
+    slice_index const *prototypes;
+    unsigned int nr_prototypes;
+    slice_index const *slice_rank_order;
+    unsigned int nr_slice_rank_order_elmts;
+    unsigned int base_rank;
+    slice_index prev;
+} branch_slice_insertion_state_type;
+
+/* Initialise a structure traversal for inserting slices into a branch
+ * @param st address of structure representing the traversal
+ * @param state address of structure representing the insertion
+ * @param context initial context of traversal
+ */
+void init_slice_insertion_traversal(stip_structure_traversal *st,
+                                    branch_slice_insertion_state_type *state,
+                                    stip_traversal_context_type context);
+
+/* Deallocate an array of slice insertion prototypes
+ * @param prototypes array of prototypes
+ * @param nr_prototypes size of prototypes
+ */
+void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
+                                           unsigned int nr_prototypes);
+
 /* Insert slices into a root branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by root_branch_insert_slices().
