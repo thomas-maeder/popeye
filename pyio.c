@@ -2338,7 +2338,7 @@ static void attach_help_branch(stip_length_type length,
 static void select_output_mode(slice_index si, output_mode mode)
 {
   slice_index const prototype = alloc_output_mode_selector(mode);
-  root_branch_insert_slices(si,&prototype,1);
+  branch_insert_slices(si,&prototype,1);
 }
 
 static char *ParseBattle(char *tok,
@@ -3959,7 +3959,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
     if (tok!=0 && operand!=no_slice)
     {
       slice_index const prototype = alloc_move_inverter_slice();
-      root_branch_insert_slices(proxy,&prototype,1);
+      branch_insert_slices(proxy,&prototype,1);
     }
   }
 

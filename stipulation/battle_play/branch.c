@@ -265,7 +265,6 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",nr_prototypes);
-  TraceFunctionParam("%u",base_rank);
   TraceFunctionParamListEnd();
 
   assert(slices[proxy].type!=STMovePlayed);
@@ -327,7 +326,6 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",nr_prototypes);
-  TraceFunctionParam("%u",base_rank);
   TraceFunctionParamListEnd();
 
   assert(slices[proxy].type!=STMovePlayed);
@@ -646,7 +644,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 
     {
       slice_index const prototype = alloc_move_inverter_slice();
-      root_branch_insert_slices(root_proxy,&prototype,1);
+      branch_insert_slices(root_proxy,&prototype,1);
     }
 
     result = true;

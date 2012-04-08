@@ -464,7 +464,7 @@ static void insert_selfcheck_guard_inverter(slice_index si,
   if (state->guard_needed)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    root_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
     state->guard_needed = false;
   }
 
@@ -539,7 +539,7 @@ static void insert_selfcheck_guard_adapters(slice_index si)
 
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    root_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

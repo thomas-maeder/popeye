@@ -83,7 +83,7 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
+    branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

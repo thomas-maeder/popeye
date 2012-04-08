@@ -2164,7 +2164,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       if (meaning==whitetoplay_means_shorten)
       {
         slice_index const prototype = alloc_move_inverter_slice();
-        root_branch_insert_slices(proxy,&prototype,1);
+        branch_insert_slices(proxy,&prototype,1);
         help_branch_shorten(next);
       }
       else

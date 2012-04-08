@@ -245,7 +245,7 @@ void stip_insert_maxsolutions_filters(slice_index si)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    root_branch_insert_slices(si,prototypes,nr_prototypes);
+    branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   stip_structure_traversal_init(&st,0);

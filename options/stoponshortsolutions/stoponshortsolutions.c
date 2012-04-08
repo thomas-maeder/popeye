@@ -134,7 +134,7 @@ boolean stip_insert_stoponshortsolutions_filters(slice_index si)
   if (result)
   {
     slice_index const prototype = alloc_stoponshortsolutions_initialiser_slice();
-    root_branch_insert_slices(si,&prototype,1);
+    branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

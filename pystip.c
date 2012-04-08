@@ -1085,7 +1085,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 
   {
     slice_index const set_fork = alloc_setplay_fork_slice(proxy);
-    root_branch_insert_slices(si,&set_fork,1);
+    branch_insert_slices(si,&set_fork,1);
   }
 
   pipe_append(proxy,alloc_move_inverter_slice());
