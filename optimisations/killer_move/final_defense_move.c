@@ -8,6 +8,7 @@
 #include "trace.h"
 
 #include <assert.h>
+#include <stdlib.h>
 
 /* Allocate a STKillerMoveFinalDefenseMove defender slice.
  * @return index of allocated slice
@@ -102,17 +103,19 @@ static stip_length_type iterate_non_killer(slice_index si,
         move_generation_mode = move_generation_not_optimized;
         TraceValue("->%u\n",move_generation_mode);
 
-        if (TSTFLAG(spec[*selfbnp],Neutral))
-          p = -p;
         if (defender==White)
         {
           if (p>obs)
             gen_wh_piece(*selfbnp,p);
+          else if (TSTFLAG(spec[*selfbnp],Neutral))
+            gen_wh_piece(*selfbnp,abs(p));
         }
         else
         {
           if (p<vide)
             gen_bl_piece(*selfbnp,p);
+          else if (TSTFLAG(spec[*selfbnp],Neutral))
+            gen_bl_piece(*selfbnp,-abs(p));
         }
 
         {

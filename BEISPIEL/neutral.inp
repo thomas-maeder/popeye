@@ -153,4 +153,13 @@ steine  weiss   kd1 se2
 zwilling versetze e3 f6
 zwilling versetze d5 g6
 
+weiter
+
+autor ??
+quelle Pat a Mat 2009
+steine neutral kc2
+forderung hs=5.5
+bedingung Sentinelles PionAdvers MaximumWeiss 3 Maximumschwarz 2
+opt ohnewk ohnesk satz
+
 endeproblem

@@ -28,10 +28,10 @@ last 2 moves only < 1 min on Athlon 2400
 
   1.hBe4*h7=nhB[nhBh7->b5] Rc3-c1   2.nhRc6*d6=whR[whRd6->f7] + Bf1*b5[bBb5->e7] # 
 
-              empile:    43409221
-            jouecoup:    16502775
-        orig_rbechec:    16434763
-        orig_rnechec:     8559529
+              empile:    43329345
+            jouecoup:    16465742
+        orig_rbechec:    16397857
+        orig_rnechec:     8546790
 solution finished. 
 
 

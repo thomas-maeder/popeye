@@ -455,3 +455,42 @@ c) sKd5-->g6
 Loesung beendet. 
 
 
+
+                  ??
+            Pat a Mat 2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .  =K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs=5.5                 0 + 0 + 1n
+     Sentinelles  PionAdvers 3/2
+
+  1...  ...  2.nKc2-b2[+sBc2] c2-c1=S   3.nKb2-c2[+sBb2] Sc1-a2   4.nKc2*b2[+sBc2] nKb2-b3[+wBb2]   5.nKb3-a4[+sBb3] c2-c1=T   6.nKa4-a3[+sBa4] + nKa3*b2[+wBa3] = 
+  1...  ...  2.nKc2-b3[+sBc2] nKb3-b4[+wBb3]   3.nKb4-b5[+sBb4] c2-c1=S   4.nKb5*b4[+sBb5] Sc1-a2 +   5.nKb4*b5[+sBb4] Sa2-c3[+wBa2] +   6.nKb5*b4[+sBb5] nKb4-a3[+wBb4] = 
+
+  1...nKc2-b2[+wBc2]   2.nKb2-a3[+sBb2] b2-b1=D   3.c2-c3 Db1-b7   4.nKa3-a2[+sBa3] Db7-c8[+wBb7]   5.b7-b8=D Dc8*c3   6.Db8-b1 + nKa2*b1[+wBa2] = 
+  1...nKc2-b1[+wBc2]   2.nKb1-a2 nKa2-b2[+wBa2]   3.nKb2-b3[+sBb2] + nKb3-b4[+wBb3]   4.nKb4-b5[+sBb4] b2-b1=S   5.c2-c3 Sb1*c3 +   6.nKb5*b4[+sBb5] nKb4-a3[+wBb4] = 
+
+              empile:  1109850532
+            jouecoup:   382059898
+        orig_rbechec:   288871828
+        orig_rnechec:   254719092
+Loesung beendet. 
+
+
