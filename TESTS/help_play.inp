@@ -77,4 +77,11 @@ stip hr#1
 pieces white ka6 qf6
        black kb8 rg4h5
 
+next
+
+title ignore option postkeyplay in help play
+stip h#2
+opt postk nobk nowk 
+twin stip hs#2
+
 end

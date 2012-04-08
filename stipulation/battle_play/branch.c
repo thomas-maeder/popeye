@@ -590,23 +590,6 @@ static void attack_adapter_make_postkeyplay(slice_index adapter,
   TraceFunctionParamListEnd();
 }
 
-static void move_to_postkey_pipe(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  link_to_branch(si,*root_slice);
-  *root_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void move_to_postkey(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root_slice = st->param;
@@ -617,8 +600,11 @@ static void move_to_postkey(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  link_to_branch(si,*root_slice);
-  *root_slice = si;
+  if (*root_slice!=no_slice)
+  {
+    link_to_branch(si,*root_slice);
+    *root_slice = si;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -644,13 +630,16 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   stip_structure_traversal_init(&st,&postkey_slice);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
-                                                 &move_to_postkey_pipe);
+                                                 &move_to_postkey);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &move_to_postkey);
   stip_structure_traversal_override_single(&st,
                                            STAttackAdapter,
                                            &attack_adapter_make_postkeyplay);
+  stip_structure_traversal_override_single(&st,
+                                           STHelpAdapter,
+                                           &stip_structure_visitor_noop);
   stip_traverse_structure(slices[root_proxy].u.pipe.next,&st);
 
   if (postkey_slice==no_slice)

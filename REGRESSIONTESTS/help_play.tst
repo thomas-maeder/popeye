@@ -361,3 +361,46 @@ solution finished.
 solution finished. 
 
 
+PostKeyPlay not applicable - ignored
+
+ignore option postkeyplay in help play
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         0 + 0
+
+a) 
+
+
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
+b) hs#2
+PostKeyPlay not applicable - ignored
+
+
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+
