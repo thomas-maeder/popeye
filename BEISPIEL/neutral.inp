@@ -153,10 +153,10 @@ steine  weiss   kd1 se2
 zwilling versetze e3 f6
 zwilling versetze d5 g6
 
-weiter
+weiteresproblem
 
-autor ??
-quelle Pat a Mat 2009
+autor Geoff Foster
+quelle Pat a Mat 2009, Lob
 steine neutral kc2
 forderung hs=5.5
 bedingung Sentinelles PionAdvers MaximumWeiss 3 Maximumschwarz 2
