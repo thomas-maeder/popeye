@@ -5,7 +5,7 @@
 
 INCLUDES =      pyenum.h \
 		pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
-		py.h py1.h py4.h pyproc.h pymsg.h \
+		py.h py1.h py4.h py6.h pyproc.h pymsg.h \
 		pymac.h pylang.h pyproof.h \
 		pyint.h pyhash.h \
 		pytable.h \
@@ -30,7 +30,7 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \
-		pygmarr.c
+		gengmarr.c pygmarr.c
 ALLCFILES  =    $(CFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
