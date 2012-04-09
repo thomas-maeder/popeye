@@ -53,3 +53,36 @@ stip_length_type castling_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type castling_filter_defend(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.branch.next;
+  Side const starter = slices[si].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (TSTCASTLINGFLAGMASK(nbply,starter,castlings)>k_cancastle)
+    SETFLAG(goal_preprequisites_met[nbply],goal_castling);
+  result = defend(next,slack_length+1);
+  CLRFLAG(goal_preprequisites_met[nbply],goal_castling);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

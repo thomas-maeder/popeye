@@ -4279,3 +4279,37 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
 Loesung beendet. 
 
 
+
+                  ??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .  -T   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   K   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s009                    2 + 2
+        SchwarzerLaengstzueger
+
+  1.a2-a4   2.a4-a5   3.a5-a6   4.a6-a7   5.a7-a8=S   6.Sa8-b6   7.Sb6-d5   8.Sd5-f4   9.Sf4-h5 0-0 
+
+              empile:      304609
+            jouecoup:      175372
+        orig_rbechec:       20100
+        orig_rnechec:      203471
+Loesung beendet. 
+
+

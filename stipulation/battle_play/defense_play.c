@@ -34,6 +34,7 @@
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/goals/enpassant/filter.h"
+#include "optimisations/goals/castling/filter.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxtime.h"
 #include "output/plaintext/tree/check_writer.h"
@@ -197,6 +198,10 @@ stip_length_type defend(slice_index si, stip_length_type n)
 
     case STEnPassantFilter:
       result = enpassant_filter_defend(si,n);
+      break;
+
+    case STCastlingFilter:
+      result = castling_filter_defend(si,n);
       break;
 
     case STCounterMateFilter:

@@ -24,4 +24,17 @@ slice_index alloc_castling_filter_slice(void);
  */
 stip_length_type castling_filter_attack(slice_index si, stip_length_type n);
 
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return <slack_length - no legal defense found
+ *         <=n solved  - <=acceptable number of refutations found
+ *                       return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - >acceptable number of refutations found
+ */
+stip_length_type castling_filter_defend(slice_index si, stip_length_type n);
+
 #endif
