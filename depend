@@ -2012,6 +2012,17 @@ stipulation/slice_type.h:
 output/plaintext/plaintext.h:
 
 stipulation/goals/goals.h:
+gengmarr$(OBJ_SUFFIX): gengmarr.c pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h
+
+pyposit.h:
+
+pyboard.h:
+
+pybitmsk.h:
+
+pypiece.h:
+
+pyenum.h:
 pygmarr$(OBJ_SUFFIX): pygmarr.c pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h
 
 pyposit.h:

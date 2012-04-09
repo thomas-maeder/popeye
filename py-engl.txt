@@ -149,7 +149,8 @@ commands expect further parameters. Lets start with the simpler commands:
         for example: Circe  and  Immunchess  results in  StrictCirce
         The following conditions are implemented:
 
-	RexInclusiv
+	RexInclusive
+	RexExclusive
 	Circe
 	MirrorCirce
 	Madrasi

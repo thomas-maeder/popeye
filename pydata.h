@@ -1391,7 +1391,7 @@ EXTERN boolean          kobulking[nr_sides];
 	/*184*/ "SchwarzesAlphabetischesSchach"
   },{
 	/* English Condition Names */
-	/* 0*/  "RexInclusiv",
+	/* 0*/  "RexInclusive",
 	/* 1*/  "Circe",
 	/* 2*/  "MirrorCirce",
 	/* 3*/  "Madrasi",
@@ -1483,7 +1483,7 @@ EXTERN boolean          kobulking[nr_sides];
 	/*89*/  "DiametralCirce",
 	/*90*/  "PromOnly",
 	/*91*/  "RankCirce",
-	/*92*/  "ExclusivChess",
+	/*92*/  "ExclusiveChess",
 	/*93*/  "MarsCirce",
 	/*94*/  "MarsMirrorCirce",
 	/*95*/  "PhantomChess",
@@ -1508,7 +1508,7 @@ EXTERN boolean          kobulking[nr_sides];
 	/*114*/ "BiWoozles",
 	/*115*/ "Heffalumps",
 	/*116*/ "BiHeffalumps",
-	/*117*/ "RexExclusiv",
+	/*117*/ "RexExclusive",
 	/*118*/ "WhitePromSquares",
 	/*119*/ "BlackPromSquares",
 	/*120*/ "NoWhitePromotion",
