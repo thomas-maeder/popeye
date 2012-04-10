@@ -1500,10 +1500,6 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
 {
   stip_structure_visitor result;
 
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
-
   switch (highest_structural_type[type])
   {
     case slice_structure_pipe:
@@ -1531,16 +1527,11 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
       break;
   }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
   return result;
 }
 
 static void init_structure_children_visitors(void)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
   {
     slice_type i;
     for (i = 0; i!=nr_slice_types; ++i)
@@ -1552,9 +1543,6 @@ static void init_structure_children_visitors(void)
     for (i = 0; i!=nr_special_children_traversers; ++i)
       structure_children_traversers[special_children_traversers[i].type] = special_children_traversers[i].visitor;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Initialise a structure traversal structure with default visitors
@@ -1663,10 +1651,6 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
 {
   stip_moves_visitor result;
 
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
-
   switch (highest_structural_type[type])
   {
     case slice_structure_pipe:
@@ -1694,8 +1678,6 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
       break;
   }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
   return result;
 }
 
