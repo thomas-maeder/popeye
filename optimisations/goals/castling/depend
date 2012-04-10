@@ -1,7 +1,7 @@
-optimisations/goals/castling/filter$(OBJ_SUFFIX): \
+optimisations/goals/castling/filter$(OBJ_SUFFIX):  \
  optimisations/goals/castling/filter.c \
- optimisations/goals/castling/filter.h pydata.h pypipe.h \
- stipulation/goals/prerequisite_guards.h trace.h
+  optimisations/goals/castling/filter.h pydata.h pypipe.h \
+  stipulation/goals/prerequisite_guards.h trace.h
 
 optimisations/goals/castling/filter.h:
 
