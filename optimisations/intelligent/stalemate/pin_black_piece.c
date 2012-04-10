@@ -22,7 +22,7 @@ void intelligent_stalemate_pin_black_piece(square position_of_trouble_maker)
 
   if (dir!=0
       && pinned_type!=dn /* queens cannot be pinned */
-      /* bishops can only be pined on rook lines and vice versa */
+      /* bishops can only be pinned on rook lines and vice versa */
       && !(CheckDir[Bishop][dir]!=0 && pinned_type==fn)
       && !(CheckDir[Rook][dir]!=0 && pinned_type==tn))
     intelligent_pin_pinnable_black_piece(position_of_trouble_maker,
