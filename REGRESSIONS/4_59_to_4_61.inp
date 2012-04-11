@@ -35,4 +35,16 @@ pieces white bf8 pd7
 option intelligent nowk
 stip h#2.5
 
+next
+
+title Ultramaximummer bug since 4.59
+author Peter Harris
+origin feenschach 188 2011, 10340
+pieces white kd8 qh2 black qc4 pc7
+stip hs#2
+option nobk
+condition whitemaximummer ultra blackmaxi ultra
+condition sentin PionAdvers supercirce
+twin move c4 g5
+
 end

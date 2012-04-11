@@ -301,7 +301,8 @@ EXTERN  Flags           spec[maxsquare+4];
 EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
 
 EXTERN  boolean         we_generate_exact, there_are_consmoves,
-			wh_exact, bl_exact, wh_ultra, bl_ultra;
+			wh_exact, bl_exact;
+EXTERN boolean ultra_mummer[nr_sides];
 
 EXTERN  unsigned int   inum[maxply + 1];       /* aktuelle Anzahl Imitatoren */
 

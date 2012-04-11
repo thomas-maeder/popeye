@@ -835,7 +835,7 @@ static boolean verify_position(slice_index si)
     {
       CondFlag[blmax] = true;
       CondFlag[whmax] = false;
-      bl_ultra = CondFlag[ultra];
+      ultra_mummer[Black] = CondFlag[ultra];
       bl_exact = CondFlag[exact];
       black_length = len_max;
       flagmummer[Black] = true;
@@ -845,7 +845,7 @@ static boolean verify_position(slice_index si)
     {
       CondFlag[blmax] = false;
       CondFlag[whmax] = true;
-      wh_ultra = CondFlag[ultra];
+      ultra_mummer[White] = CondFlag[ultra];
       wh_exact = CondFlag[exact];
       white_length = len_max;
       flagmummer[White] = true;
@@ -1234,7 +1234,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (wh_ultra && !CondFlag[whcapt]) {
+  if (ultra_mummer[White] && !CondFlag[whcapt]) {
     eval_2 = eval_white;
     eval_black = rnultraech;
     if (TSTFLAG(PieSpExFlags, Neutral))
@@ -1243,7 +1243,7 @@ static boolean verify_position(slice_index si)
       return false;
     }
   }
-  if (bl_ultra && !CondFlag[blcapt]) {
+  if (ultra_mummer[Black] && !CondFlag[blcapt]) {
     eval_2 = eval_white;
     eval_white = rbultraech;
     if (TSTFLAG(PieSpExFlags, Neutral))

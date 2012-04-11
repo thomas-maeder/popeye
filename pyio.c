@@ -817,9 +817,9 @@ static void WriteConditions(int alignment)
     case blmax:
     case blmin:
     case blcapt:
-      if (bl_ultra || bl_exact) {
+      if (ultra_mummer[Black] || bl_exact) {
         strcat(CondLine, "  ");
-        if (bl_ultra)
+        if (ultra_mummer[Black])
           strcat(CondLine, CondTab[ultra]);
         else
           strcat(CondLine, CondTab[exact]);
@@ -828,9 +828,9 @@ static void WriteConditions(int alignment)
     case whmax:
     case whmin:
     case whcapt:
-      if (wh_ultra || wh_exact) {
+      if (ultra_mummer[White] || wh_exact) {
         strcat(CondLine, "  ");
-        if (wh_ultra)
+        if (ultra_mummer[White])
           strcat(CondLine, CondTab[ultra]);
         else
           strcat(CondLine, CondTab[exact]);
@@ -5039,14 +5039,14 @@ static char *ParseCond(void) {
         break;
       case whconforsqu:
         ReadSquares(WhConsForcedSq);
-        wh_ultra=
+        ultra_mummer[White]=
             wh_exact= true;
         white_length= len_whforcedsquare;
         flagmummer[White] = true;
         break;
       case blconforsqu:
         ReadSquares(BlConsForcedSq);
-        bl_ultra=
+        ultra_mummer[Black]=
             bl_exact= true;
         black_length= len_blforcedsquare;
         flagmummer[Black] = true;
@@ -5359,22 +5359,22 @@ static char *ParseCond(void) {
 
         /*****  exact-maxis  *****/
       case blmax:
-        tok = ParseExact(&bl_exact, &bl_ultra);
+        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
         break;
       case blmin:
-        tok = ParseExact(&bl_exact, &bl_ultra);
+        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
         break;
       case blcapt:
-        tok = ParseExact(&bl_exact, &bl_ultra);
+        tok = ParseExact(&bl_exact, &ultra_mummer[Black]);
         break;
       case whmax:
-        tok = ParseExact(&wh_exact, &wh_ultra);
+        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
         break;
       case whmin:
-        tok = ParseExact(&wh_exact, &wh_ultra);
+        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
         break;
       case whcapt:
-        tok = ParseExact(&wh_exact, &wh_ultra);
+        tok = ParseExact(&wh_exact, &ultra_mummer[White]);
         break;
 
         /*****  anticirce type    *****/
