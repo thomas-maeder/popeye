@@ -222,6 +222,25 @@ static piece_usage find_piece_usage(PieceIdType id)
 
 void solve_target_position(void)
 {
+#if (defined(_WIN32) && !defined(_MSC_VER))|| defined(__CYGWIN__)
+  /* Windows executables generated with gcc (both cross-compiling from Linux and
+   * using cygwin) appear to have an optimiser error which may cause the value
+   * of the expression save_king_square[Black] (but not the underlying memory!!)
+   * to be modified from here to the end of the function (where
+   * the value of king_square[Black] is to be restored).
+   *
+   * This error doesn't manifest itself if save_king_square is volatile.
+   *
+   * Cf. bug report 3489394, which gives this problem as an example:
+   * AnfangProblem
+   * Steine Weiss  kh1 lh3 bh2
+   * Steine Schwarz  ka2 dh8 ta1h6 la5f1 sg7a8 bc2e2f2b3c3a4h4h5
+   * Forderung H=8
+   * Option Intelligent
+   * EndeProblem
+   */
+  volatile
+#endif
   square const save_king_square[nr_sides] = { king_square[White],
                                               king_square[Black] };
 
