@@ -33,4 +33,4 @@ OSTYPE=Windows
 # Selector for platform-specific files
 # ====================================
 
-PLATFORM=windows32
+PLATFORM=unix
