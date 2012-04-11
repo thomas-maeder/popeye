@@ -191,3 +191,37 @@ b) bQc4-->g5
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -K   .   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zb21                        1 + 1
+              AntiCirce
+
+   1.Kc1-b2 z !
+
+
+              empile:           5
+            jouecoup:           1
+        orig_rbechec:           1
+        orig_rnechec:           2
+solution finished. 
+
+

@@ -42,13 +42,7 @@ static boolean is_mover_removed_from_target(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (e[target]==vide)
-    result = true;
-  else if (sq_rebirth_capturing[nbply]==target)
-    result = false;
-  else
-    result = true;
-
+  result = pprise[nbply]!=vide && sq_rebirth_capturing[nbply]!=target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

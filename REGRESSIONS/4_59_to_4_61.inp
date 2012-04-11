@@ -47,4 +47,10 @@ condition whitemaximummer ultra blackmaxi ultra
 condition sentin PionAdvers supercirce
 twin move c4 g5
 
+next
+
+pieces white Kc1 black Ke2
+stipulation Zb21
+condition AntiCirce
+
 end
