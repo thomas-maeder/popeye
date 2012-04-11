@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES =   solving.c \
+SRC_CFILES =   solving.c \
            find_shortest.c find_by_increasing_length.c fork_on_remaining.c \
            play_suppressor.c move_generator.c \
            king_move_generator.c non_king_move_generator.c \

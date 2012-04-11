@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = restart_guard_intelligent.c
+SRC_CFILES = restart_guard_intelligent.c
 
 INCLUDES = restart_guard_intelligent.h
 

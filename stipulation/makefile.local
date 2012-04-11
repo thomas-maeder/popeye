@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c move_played.c dummy_move.c proxy.c setplay_fork.c dead_end.c \
+SRC_CFILES = branch.c move_played.c dummy_move.c proxy.c setplay_fork.c dead_end.c \
          end_of_branch.c end_of_branch_goal.c end_of_branch_tester.c constraint.c check_zigzag_jump.c \
          temporary_hacks.c testing_pipe.c conditional_pipe.c
 INCLUDES = slice_type.h branch.h  move_played.h dummy_move.h proxy.h setplay_fork.h \

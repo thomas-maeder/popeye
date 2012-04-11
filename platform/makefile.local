@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = maxmem.c maxtime.c beep.c
+SRC_CFILES = maxmem.c maxtime.c beep.c
 INCLUDES = maxmem.h maxtime.h maxtime_impl.h priority.h pytime.h \
 	beep.h beep_impl.h
 

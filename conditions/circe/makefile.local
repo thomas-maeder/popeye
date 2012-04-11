@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES =   circe.c \
+SRC_CFILES =   circe.c \
            steingewinn_filter.c \
            circuit_by_rebirth_special.c exchange_by_rebirth_special.c
 INCLUDES = circe.h \

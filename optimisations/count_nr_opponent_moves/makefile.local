@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = move_generator.c opponent_moves_counter.c
+SRC_CFILES = move_generator.c opponent_moves_counter.c
 INCLUDES =  move_generator.h opponent_moves_counter.h
 
 include makefile.rules $(CURRPWD)depend

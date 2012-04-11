@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = maxsolutions.c initialiser.c guard.c
+SRC_CFILES = maxsolutions.c initialiser.c guard.c
 
 INCLUDES = maxsolutions.h initialiser.h guard.h
 

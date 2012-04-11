@@ -2023,14 +2023,3 @@ pybitmsk.h:
 pypiece.h:
 
 pyenum.h:
-pygmarr$(OBJ_SUFFIX): pygmarr.c pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:

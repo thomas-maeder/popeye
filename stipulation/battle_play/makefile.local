@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 
-CFILES = branch.c attack_adapter.c attack_play.c \
+SRC_CFILES = branch.c attack_adapter.c attack_play.c \
          defense_adapter.c defense_play.c
 
 INCLUDES = branch.h attack_adapter.h attack_play.h \

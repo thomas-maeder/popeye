@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = immobility_tester_king_first.c
+SRC_CFILES = immobility_tester_king_first.c
 
 INCLUDES = immobility_tester_king_first.h
 

@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = maxtime.c goal_is_end.c
+SRC_CFILES = maxtime.c goal_is_end.c
 
 INCLUDES = maxtime.h goal_is_end.h
 

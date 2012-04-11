@@ -3,6 +3,8 @@
 
 # This file contains make rules valid in all source directories
 
+CFILES = $(SRC_CFILES) $(GENERATED_CFILES)
+
 # derive object files from C files
 OBJECTS = $(CFILES:%.c=$(CURRPWD)%$(OBJ_SUFFIX))
 
@@ -25,7 +27,7 @@ $(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS) $(CURRPWD)makefile.local
 
 # clean up after ourselves
 clean:	$(NESTED:%=%/clean)
-	rm -f $(OBJECTS) $(CURRPWD)library.$(LIB_SUFFIX) $(CURRPWD)core $(CURRPWD)*~
+	rm -f $(OBJECTS) $(HOSTFILES) $(CURRPWD)library.$(LIB_SUFFIX) $(CURRPWD)core $(CURRPWD)*~
 
 # clean up after ourselves in a nested directory
 %/clean: FORCE
@@ -35,10 +37,10 @@ clean:	$(NESTED:%=%/clean)
 depend:
 
 ifdef DEPEND
-$(CURRPWD)depend: $(CFILES:%=$(CURRPWD)%) $(INCLUDES:%=$(CURRPWD)%) $(CURRPWD)makefile.local
+$(CURRPWD)depend: $(SRC_CFILES:%=$(CURRPWD)%) $(INCLUDES:%=$(CURRPWD)%) $(CURRPWD)makefile.local
 	touch $@
 	chmod u+w $@
-	-for f in $(CFILES:%=$(CURRPWD)%); \
+	-for f in $(SRC_CFILES:%=$(CURRPWD)%); \
 	do \
 		$(MAKEDEPEND) \
 			-MG -MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \

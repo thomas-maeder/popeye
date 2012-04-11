@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = stoponshortsolutions.c \
+SRC_CFILES = stoponshortsolutions.c \
 	initialiser.c filter.c
 
 INCLUDES = stoponshortsolutions.h \

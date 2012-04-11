@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = orthodox_mating_moves_generation.c orthodox_mating_move_generator.c
+SRC_CFILES = orthodox_mating_moves_generation.c orthodox_mating_move_generator.c
 
 INCLUDES = orthodox_mating_moves_generation.h orthodox_mating_move_generator.h
 

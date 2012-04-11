@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 
-CFILES = tree.c end_of_solution_writer.c \
+SRC_CFILES = tree.c end_of_solution_writer.c \
 	key_writer.c try_writer.c move_writer.c \
 	refuting_variation_writer.c \
 	refutation_writer.c \

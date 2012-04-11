@@ -17,7 +17,7 @@ INCLUDES =      pyenum.h \
 		pymovein.h \
 		pymovenb.h \
 		boolean.h trace.h
-CFILES =	pydata.c pyboard.c pyposit.c \
+SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pytable.c \
@@ -30,14 +30,19 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \
-		gengmarr.c pygmarr.c
-ALLCFILES  =    $(CFILES) DHT/*.c
+		gengmarr.c
+GENERATED_CFILES = pygmarr.c
+ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt license.txt *.mod
 DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
 SPECIALCFILES = pymain.c measure.h
+HOSTFILES     = genpystr$(OBJ_SUFFIX) \
+		pylang-host$(OBJ_SUFFIX) pyposit-host$(OBJ_SUFFIX) \
+		pyboard-host$(OBJ_SUFFIX) \
+		gengmarr$(EXE_SUFFIX) genpystr$(EXE_SUFFIX)
 
 include makefile.rules $(CURRPWD)/depend
 

@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = moves_left.c proof.c duplicate_avoider.c limit_nr_solutions_per_target.c \
+SRC_CFILES = moves_left.c proof.c duplicate_avoider.c limit_nr_solutions_per_target.c \
          place_white_piece.c place_white_king.c place_black_piece.c \
          block_flights.c guard_flights.c intercept_check_from_guard.c \
          intercept_check_by_black.c intercept_guard_by_white.c \

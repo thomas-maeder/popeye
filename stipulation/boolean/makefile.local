@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = and.c or.c binary.c  not.c true.c false.c
+SRC_CFILES = and.c or.c binary.c  not.c true.c false.c
 INCLUDES = and.h or.h binary.h not.h true.h false.h
 
 include makefile.rules $(CURRPWD)depend

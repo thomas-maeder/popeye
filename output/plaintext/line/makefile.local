@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 
-CFILES = line.c line_writer.c end_of_intro_series_marker.c
+SRC_CFILES = line.c line_writer.c end_of_intro_series_marker.c
 
 INCLUDES = line.h line_writer.h end_of_intro_series_marker.h
 

@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = goals.c reached_tester.c prerequisite_guards.c prerequisite_optimiser.c
+SRC_CFILES = goals.c reached_tester.c prerequisite_guards.c prerequisite_optimiser.c
 INCLUDES = goals.h reached_tester.h prerequisite_guards.h prerequisite_optimiser.h
 
 include makefile.rules $(CURRPWD)depend
