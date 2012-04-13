@@ -1446,7 +1446,7 @@ get_stip_structure_traversal_state(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",st->traversed[si]);
+  TraceFunctionResult("%u",st->remaining_watermark[si]);
   TraceFunctionResultEnd();
   return st->traversed[si];
 }
@@ -1753,6 +1753,9 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
+  for (unsigned int i = 0; i!=max_nr_slices; ++i)
+    st->remaining_watermark[i] = 0;
+
   st->context = stip_traversal_context_global;
   st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
   st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
@@ -1886,10 +1889,12 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
   TraceEnumerator(slice_type,slices[root].type,"\n");
   assert(slices[root].type<=nr_slice_types);
 
+  if (st->remaining_watermark[root]<=st->remaining)
   {
     stip_moves_visitor const operation = st->map.visitors[slices[root].type];
     assert(operation!=0);
     (*operation)(root,st);
+    st->remaining_watermark[root] = st->remaining+1;
   }
 
   TraceFunctionExit(__func__);

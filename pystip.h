@@ -454,6 +454,7 @@ typedef struct
 typedef struct stip_moves_traversal
 {
     moves_visitor_map_type map;
+    unsigned int remaining_watermark[max_nr_slices];
     stip_traversal_context_type context;
     stip_length_type full_length;
     stip_length_type remaining;
