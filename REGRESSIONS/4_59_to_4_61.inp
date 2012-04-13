@@ -53,4 +53,12 @@ pieces white Kc1 black Ke2
 stipulation Zb21
 condition AntiCirce
 
+next
+
+title 4.59 got in an infinite loop when testing this
+fors K7/4k3/3p4/8/8/8/8/b7
+stip pser-a=>b28
+fors 7K/8/5k2/8/8/8/3p4/8
+Condition VogtlaenderChess
+
 end
