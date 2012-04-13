@@ -1,7 +1,7 @@
 beg
 
-latex grids.tex
-prot grids.ref
+latex grid.tex
+prot grid.ref
 
 auth S.Emmerson
 orig Unpublished
