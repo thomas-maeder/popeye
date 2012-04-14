@@ -1446,7 +1446,7 @@ get_stip_structure_traversal_state(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",st->remaining_watermark[si]);
+  TraceFunctionResult("%u",st->traversed[si]);
   TraceFunctionResultEnd();
   return st->traversed[si];
 }
