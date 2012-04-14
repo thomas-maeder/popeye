@@ -89,6 +89,9 @@ Commandline parameters:
 	of memory with
 		 -maxmem 40960    resp.    -maxmem 40M
 	to speed up solving.
+	Popeye uses this memory to avoid testing the same intermediate
+	positions repeatedly. You can indicate -maxmem 0 to turn off this
+	optimisation.
 
 -maxtime
 	Indicate the maximum number of seconds that Popeye may spend

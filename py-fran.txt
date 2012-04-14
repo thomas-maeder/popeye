@@ -83,6 +83,9 @@ parametre de ligne de commande:
 	de la facon suivante
 		-maxmem 40960   resp. -maxmem 40M
 	pour accelerer la resolution.
+	Popeye utilise cette memoire pour eviter de verifier des positions
+	intermediaires plusiers fois. Vous pouvez indiquer -maxmem 0 pour
+	desactiver cette optimisation.
 
 -maxtime
 	Inidication du nombre maximal de secondes que Popeye investit

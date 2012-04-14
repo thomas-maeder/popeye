@@ -1419,7 +1419,8 @@ solving/solving.h:
 trace.h:
 pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h stipulation/battle_play/attack_play.h \
  pystip.h pydata.h stipulation/branch.h stipulation/proxy.h pypipe.h \
- solving/solving.h trace.h
+ solving/solving.h trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+ pypiece.h pyenum.h pylang.h
 
 pybrafrk.h:
 
@@ -1438,6 +1439,22 @@ pypipe.h:
 solving/solving.h:
 
 trace.h:
+
+py.h:
+
+boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+pybitmsk.h:
+
+pypiece.h:
+
+pyenum.h:
+
+pylang.h:
 pykeepmt$(OBJ_SUFFIX): pykeepmt.c pykeepmt.h stipulation/battle_play/attack_play.h \
  pystip.h pydata.h stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
@@ -1958,18 +1975,16 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
- pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
- stipulation/goals/goals.h boolean.h py.h pydata.h pyhash.h \
- DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pystip.h pydata.h \
- pystip.h stipulation/slice_type.h output/plaintext/plaintext.h \
- stipulation/goals/goals.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+ pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
+ boolean.h py.h pydata.h pyhash.h DHT/dhtbcmem.h \
+ stipulation/battle_play/attack_play.h pystip.h pydata.h pystip.h \
+ stipulation/slice_type.h output/plaintext/plaintext.h \
+ stipulation/goals/goals.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/battle_play/attack_play.h \
+ pypipe.h stipulation/battle_play/defense_play.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -1986,6 +2001,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 stipulation/goals/goals.h:
 
@@ -2012,6 +2031,16 @@ stipulation/slice_type.h:
 output/plaintext/plaintext.h:
 
 stipulation/goals/goals.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+pypipe.h:
+
+stipulation/battle_play/defense_play.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h
 
 pyposit.h:

@@ -90,6 +90,9 @@ Kommandozeilenparameter:
 		-maxmem 40960   bzw.   -maxmem 40M
 	Popeye 40960 Kilobyte (bzw. 40 Megabyte) Speicher zur
 	Beschleunigung des Loesungsprozesses zur Verfuegung stellen.
+	Popeye verwendet diesen Speicher, um die wiederholte Pruefung der
+	selben Zwischenstellung zu vermeiden. Mit der Angabe -maxmem 0
+	kann diese Optimierung ausgeschaltet werden.
 
 -maxtime
 	Angabe der maximalen Anzahl Sekunden, welche Popeye fuer die

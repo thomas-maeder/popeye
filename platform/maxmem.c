@@ -1,6 +1,7 @@
 #include "maxmem.h"
 #include "pyhash.h"
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,8 +12,10 @@ static maxmem_kilos_type const one_giga = 1<<20;
 
 /* Singular value indiciating that the user made no request for a
  * maximal amount of memory to be allocated for the hash table.
+ * We don't use 0 because the user may indicate -maxmem 0 to prevent a hash
+ * table from being used at all.
  */
-static maxmem_kilos_type const nothing_requested = 0;
+static maxmem_kilos_type const nothing_requested = ULONG_MAX;
 
 /* Amount of memory requested by the user
  */
@@ -86,7 +89,7 @@ boolean dimensionHashtable(void)
     amountMemoryAllocated = allochash(amountMemoryRequested);
     result = amountMemoryAllocated>=amountMemoryRequested;
   }
-  
+
   initMaxMemoryString(amountMemoryAllocated);
 
   return result;
