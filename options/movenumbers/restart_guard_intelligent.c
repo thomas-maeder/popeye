@@ -1,9 +1,9 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "pydata.h"
-#include "pymovenb.h"
 #include "pypipe.h"
 #include "pymsg.h"
 #include "trace.h"
+#include "options/movenumbers.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 

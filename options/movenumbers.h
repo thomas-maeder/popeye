@@ -1,11 +1,11 @@
-#if !defined(PYMOVENB_H)
-#define PYMOVENB_H
+#if !defined(OPTION_MOVENUMBER_H)
+#define OPTION_MOVENUMBER_H
 
 /* Implementation of everything related to move number output and the
  * restart option
  * This includes the STRestartGuard slice - stops solutions that start
  * with key moves with numbers lower than the restart number entered
- * by the user
+ * by the user, and writes move numbers
  */
 
 #include "stipulation/battle_play/defense_play.h"
@@ -19,8 +19,8 @@ void reset_restart_number(void);
  */
 unsigned int get_restart_number(void);
 
-/* Interpret maxmem command line parameter value
- * @param commandLineValue value of -maxmem command line parameter
+/* Interpret restart option
+ * @param optionValue value of option restart
  * @return true iff optionValue points to a valid value
  */
 boolean read_restart_number(char const *optionValue);

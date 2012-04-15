@@ -14,7 +14,6 @@ INCLUDES =      pyenum.h \
 		pypipe.h \
 		pybrafrk.h pyselfcg.h pyflight.h \
 		pymovein.h \
-		pymovenb.h \
 		boolean.h trace.h
 SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
@@ -26,7 +25,6 @@ SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		pypipe.c \
 		pybrafrk.c pyselfcg.c pyflight.c \
 		pymovein.c \
-		pymovenb.c \
 		trace.c \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c

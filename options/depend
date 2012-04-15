@@ -99,3 +99,30 @@ solving/solving.h:
 solving/battle_play/check_detector.h:
 
 trace.h:
+options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
+ pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h \
+ options/movenumbers/restart_guard_intelligent.h \
+ output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h trace.h
+
+options/movenumbers.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+options/movenumbers/restart_guard_intelligent.h:
+
+output/plaintext/plaintext.h:
+
+pyproc.h:
+
+pydata.h:
+
+pymsg.h:
+
+trace.h:

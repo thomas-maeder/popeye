@@ -58,7 +58,7 @@ trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyflight.h pyhash.h \
- optimisations/keepmating.h pymovein.h pymovenb.h pyproof.h pyselfcg.h \
+ pymovein.h options/movenumbers.h pyproof.h pyselfcg.h \
  conditions/amu/mate_filter.h conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
@@ -69,7 +69,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  conditions/maff/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
- conditions/ultraschachzwang/goal_filter.h \
+ conditions/ultraschachzwang/goal_filter.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -154,11 +154,9 @@ pyflight.h:
 
 pyhash.h:
 
-optimisations/keepmating.h:
-
 pymovein.h:
 
-pymovenb.h:
+options/movenumbers.h:
 
 pyproof.h:
 
@@ -191,6 +189,8 @@ conditions/ohneschach/immobility_tester.h:
 conditions/owu/immobility_tester.h:
 
 conditions/ultraschachzwang/goal_filter.h:
+
+optimisations/keepmating.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
@@ -404,9 +404,8 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
- stipulation/battle_play/defense_play.h pyflight.h \
- optimisations/keepmating.h pymovenb.h pyselfcg.h \
- stipulation/constraint.h stipulation/dead_end.h \
+ stipulation/battle_play/defense_play.h pyflight.h options/movenumbers.h \
+ pyselfcg.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/dummy_move.h \
  stipulation/check_zigzag_jump.h stipulation/battle_play/branch.h \
@@ -419,7 +418,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  solving/battle_play/check_detector.h solving/battle_play/try.h \
  solving/battle_play/threat.h solving/find_by_increasing_length.h \
  solving/battle_play/min_length_guard.h solving/avoid_unsolvable.h \
- conditions/bgl.h optimisations/killer_move/final_defense_move.h \
+ conditions/bgl.h optimisations/keepmating.h \
+ optimisations/killer_move/final_defense_move.h \
  optimisations/killer_move/collector.h \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h options/maxsolutions/guard.h \
@@ -435,9 +435,7 @@ stipulation/battle_play/defense_play.h:
 
 pyflight.h:
 
-optimisations/keepmating.h:
-
-pymovenb.h:
+options/movenumbers.h:
 
 pyselfcg.h:
 
@@ -490,6 +488,8 @@ solving/battle_play/min_length_guard.h:
 solving/avoid_unsolvable.h:
 
 conditions/bgl.h:
+
+optimisations/keepmating.h:
 
 optimisations/killer_move/final_defense_move.h:
 
