@@ -173,4 +173,21 @@ steine  weiss   kb1 lc3 sc1
         schwarz ka3 ba4
 option vari ohnedrohung
 
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/11
+sforderung schwarz 8hh[/2da[#]{!+}]
+steine weiss ke8 tg8
+       schwarz ka8 tf7h7 lg1 sb6h4 bb7c6
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/14
+sforderung schwarz 8hh[/2da[#]{!+}]
+steine weiss kb3 bb4f2g3h4h5
+       schwarz kc1 le4 se5f6 ba2b7g2
+zwilling hinzuf schwarz be5
+
 ende

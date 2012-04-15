@@ -1,0 +1,106 @@
+anfang
+
+prot undeckbar.out
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/1
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss ke8 lb2
+       schwarz kh8 sg6h7 be6f6g7
+option satz
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/2
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss kb2 be7
+       schwarz kd5 bb4
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/3
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss ke3 bf7
+       schwarz kd5 bd3
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/4
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss kc4 ba5
+       schwarz kc6 bb7
+option satz
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/5
+sforderung schwarz 8hh[/2da[#]{!+}]
+steine weiss ke3 bh5
+       schwarz kc3 bd2
+zwilling versetze h5 f4 sforderung schwarz 10hh[/2da[#]{!+}]
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/6
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss ke1 ta1h6 bb6
+       schwarz kg1 tg6h8 ba7 se7 ba2b2c3h2
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/7
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss ke1 th1 ba5b7e4
+       schwarz kd3 ta4 bf4g3
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/8
+sforderung schwarz 2hh[/2da[#]{!+}]
+steine weiss ka5 dd4 bc5f3
+       schwarz kc2 sa4 ba2b2c6f4
+zwilling sforderung schwarz 4:4hh[/2da[#]{!+}]
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/9
+sforderung schwarz 4hh[/2da[#]{!+}]
+steine weiss ke1 ta1h1 lg7 be5
+       schwarz ke8 th8 lc6 bb4d5e3e6e7f7
+option satz
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/10
+sforderung schwarz 4hh[/2da[#]{!+}]
+steine weiss kb6 ta4c7 bf5
+       schwarz ke8 ta8 ld7 ba2a6b7f6f7h2
+zwilling versetze a8 h8
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/12
+sforderung schwarz 8hh[/2da[#]{!+}]
+steine weiss kh4 dh7 bf4
+       schwarz ke8 tg8h8 bf5f6
+zwilling entferne f6 sforderung schwarz 6hh[/2da[#]{!+}]
+
+weiter
+
+autor Jochen Lehmensick
+quelle feenschach 191, 2012, UM/13
+sforderung schwarz 6hh[/2da[#]{!+}]
+steine weiss ka3 lc1 bc5
+       schwarz ka1 lb1 ba2a4b5c2c4c6
+
+ende
