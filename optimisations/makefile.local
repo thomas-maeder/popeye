@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = immobility_tester_king_first.c
+SRC_CFILES = immobility_tester_king_first.c keepmating.c
 
-INCLUDES = immobility_tester_king_first.h
+INCLUDES = immobility_tester_king_first.h keepmating.h
 
 include makefile.rules $(CURRPWD)depend

@@ -58,7 +58,7 @@ trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pyflight.h pyhash.h \
- pykeepmt.h pymovein.h pymovenb.h pyproof.h pyselfcg.h \
+ optimisations/keepmating.h pymovein.h pymovenb.h pyproof.h pyselfcg.h \
  conditions/amu/mate_filter.h conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
@@ -154,7 +154,7 @@ pyflight.h:
 
 pyhash.h:
 
-pykeepmt.h:
+optimisations/keepmating.h:
 
 pymovein.h:
 
@@ -404,8 +404,9 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
- stipulation/battle_play/defense_play.h pyflight.h pykeepmt.h pymovenb.h \
- pyselfcg.h stipulation/constraint.h stipulation/dead_end.h \
+ stipulation/battle_play/defense_play.h pyflight.h \
+ optimisations/keepmating.h pymovenb.h pyselfcg.h \
+ stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/dummy_move.h \
  stipulation/check_zigzag_jump.h stipulation/battle_play/branch.h \
@@ -434,7 +435,7 @@ stipulation/battle_play/defense_play.h:
 
 pyflight.h:
 
-pykeepmt.h:
+optimisations/keepmating.h:
 
 pymovenb.h:
 

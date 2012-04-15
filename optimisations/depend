@@ -17,3 +17,20 @@ solving/king_move_generator.h:
 solving/non_king_move_generator.h:
 
 trace.h:
+optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
+ optimisations/keepmating.h pydata.h pybrafrk.h pypipe.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+
+optimisations/keepmating.h:
+
+pydata.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+trace.h:

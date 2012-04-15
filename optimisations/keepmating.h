@@ -1,5 +1,5 @@
-#if !defined(PYKEEPMT_H)
-#define PYKEEPMT_H
+#if !defined(OPTIMISATIONS_KEEPMATING_H)
+#define OPTIMISATIONS_KEEPMATING_H
 
 /* Implementation of the "keep mating piece" optimisation:
  * Solving stops once the last piece of the mating side that could
