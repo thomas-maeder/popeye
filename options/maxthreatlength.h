@@ -1,5 +1,5 @@
-#if !defined(PYTHREAT_H)
-#define PYTHREAT_H
+#if !defined(OPTIONS_MAXTHREATLENGTH_H)
+#define OPTIONS_MAXTHREATLENGTH_H
 
 /* Implementation of the "max threat length" optimisation: Solving
  * stops if an attacker's move does not reach the goal nor delivers

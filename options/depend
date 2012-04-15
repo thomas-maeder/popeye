@@ -28,3 +28,74 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 trace.h:
+options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
+ options/degenerate_tree.h pydata.h pypipe.h pybrafrk.h \
+ stipulation/branch.h trace.h
+
+options/degenerate_tree.h:
+
+pydata.h:
+
+pypipe.h:
+
+pybrafrk.h:
+
+stipulation/branch.h:
+
+trace.h:
+options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h pydata.h \
+ pypipe.h stipulation/testing_pipe.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/battle_play/branch.h solving/solving.h \
+ solving/avoid_unsolvable.h trace.h
+
+options/nontrivial.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/testing_pipe.h:
+
+stipulation/proxy.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+solving/solving.h:
+
+solving/avoid_unsolvable.h:
+
+trace.h:
+options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
+ options/maxthreatlength.h pydata.h pypipe.h pybrafrk.h \
+ stipulation/testing_pipe.h stipulation/branch.h stipulation/dummy_move.h \
+ stipulation/move_played.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h solving/solving.h \
+ solving/battle_play/check_detector.h trace.h
+
+options/maxthreatlength.h:
+
+pydata.h:
+
+pypipe.h:
+
+pybrafrk.h:
+
+stipulation/testing_pipe.h:
+
+stipulation/branch.h:
+
+stipulation/dummy_move.h:
+
+stipulation/move_played.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+solving/solving.h:
+
+solving/battle_play/check_detector.h:
+
+trace.h:

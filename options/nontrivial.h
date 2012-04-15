@@ -1,9 +1,7 @@
-#if !defined(PYNONTRV_H)
-#define PYNONTRV_H
+#if !defined(OPTIONS_NONTRIVIAL_H)
+#define OPTIONS_NONTRIVIAL_H
 
-/* Implementation of the "max threat length" optimisation: Solving
- * stops if an attacker's move does not reach the goal nor delivers
- * check nor threatens to reach the goal in a maximum number of moves
+/* Implementation of the "nontrivial" optimisation
  */
 
 #include "stipulation/battle_play/attack_play.h"

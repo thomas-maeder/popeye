@@ -106,7 +106,7 @@
 #include "solving/solving.h"
 #include "solving/avoid_unsolvable.h"
 #include "conditions/bgl.h"
-#include "pynontrv.h"
+#include "options/nontrivial.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
 #include "platform/maxtime.h"

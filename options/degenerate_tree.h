@@ -1,5 +1,5 @@
-#if !defined(PYDEGENT_H)
-#define PYDEGENT_H
+#if !defined(OPTIONS_DEGENERATE_TREE_H)
+#define OPTIONS_DEGENERATE_TREE_H
 
 /* Implementation of the "degenerate tree" optimisation: if due to
  * options or conditions the tree of played moves degenerates to a

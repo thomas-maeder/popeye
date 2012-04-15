@@ -1,4 +1,4 @@
-#include "pynontrv.h"
+#include "options/nontrivial.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/testing_pipe.h"
