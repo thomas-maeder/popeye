@@ -487,10 +487,10 @@ Loesung beendet.
   1...nKc2-b2[+wBc2]   2.nKb2-a3[+sBb2] b2-b1=D   3.c2-c3 Db1-b7   4.nKa3-a2[+sBa3] Db7-c8[+wBb7]   5.b7-b8=D Dc8*c3   6.Db8-b1 + nKa2*b1[+wBa2] = 
   1...nKc2-b1[+wBc2]   2.nKb1-a2 nKa2-b2[+wBa2]   3.nKb2-b3[+sBb2] + nKb3-b4[+wBb3]   4.nKb4-b5[+sBb4] b2-b1=S   5.c2-c3 Sb1*c3 +   6.nKb5*b4[+sBb5] nKb4-a3[+wBb4] = 
 
-              empile:  1109850532
-            jouecoup:   382059898
-        orig_rbechec:   288871828
-        orig_rnechec:   254719092
+              empile:   700092481
+            jouecoup:   239642928
+        orig_rbechec:   182357228
+        orig_rnechec:   160479752
 Loesung beendet. 
 
 
