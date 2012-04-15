@@ -705,7 +705,7 @@ Loesung beendet.
 |                                   |
 4  -S   .   .   D   .  -B   .   .   4
 |                                   |
-3   .   .   .   .   .   B   .   .   3
+3   .   S   .   .   .   B   .   .   3
 |                                   |
 2  -B  -B  -K   .   .   .   .   .   2
 |                                   |
@@ -716,24 +716,35 @@ Loesung beendet.
 
 a) 
 
+  1.b2-b1=L Ka5-b4 
 
-              empile:       10684
-            jouecoup:        3399
-        orig_rbechec:        1701
-        orig_rnechec:        3365
+              empile:       14557
+            jouecoup:        5755
+        orig_rbechec:        2175
+        orig_rnechec:        5724
 b) schwarz 4:4hh[/2da[#]{!+}] 
 
-  1.Kc2-b1 Ka5*a4   2.Kb1-a1 Ka4-b4 
-  1.Kc2-b1 Ka5*a4   2.Kb1-a1 Ka4-a5 
-  1.Kc2-b1 Ka5*a4   2.Kb1-a1 Ka4-a3 
-  1.Kc2-b1 Ka5*a4   2.Kb1-a1 Ka4-b3 
-  1.Kc2-b1 Ka5-b4   2.Kb1-a1 Kb4*a4 
-  1.Kc2-b1 Dd4*a4   2.Kb1-a1 Da4-d4 
+  1.a2-a1=L Ka5*a4   2.Kc2-b1 Dd4-c4 
+  1.a2-a1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4 
+  1.a2-a1=L Dd4*a4   2.Kc2-b1 Sb3-d4 
+  1.a2-a1=L Dd4-c4 +   2.Kc2-b1 Ka5*a4 
+  1.b2-b1=S Dd4-f2 +   2.Kc2-d3 Ka5-b4 
+  1.b2-b1=L Dd4-b2 +   2.Kc2-d1 Db2-f2 
+  1.b2-b1=L Dd4-f2 +   2.Kc2-d3 Ka5-b4 
+  1.b2-b1=L Dd4-f2 +   2.Kc2-d1 Ka5-b4 
+  1.b2-b1=L Dd4-e3   2.Kc2-d1 De3-f2 
+  1.Kc2-b1 Ka5*a4   2.a2-a1=L Dd4-c4 
+  1.Kc2-b1 Dd4*a4   2.a2-a1=L Sb3-d4 
+  1.Kc2-b1 Dd4-c4   2.a2-a1=L Ka5*a4 
+  1.Kc2-b1 Dd4-c4   2.Sa4-b6 Ka5*b6 
+  1.Kc2-b1 Sb3-a1   2.Kb1*a1 Ka5*a4 
+  1.Sa4-b6 Ka5*b6   2.Kc2-b1 Dd4-c4 
+  1.Sa4-b6 Dd4-c4 +   2.Kc2-b1 Ka5*b6 
 
-              empile:     1369660
-            jouecoup:      342142
-        orig_rbechec:      179807
-        orig_rnechec:      329008
+              empile:     1935096
+            jouecoup:      596049
+        orig_rbechec:      243428
+        orig_rnechec:      583671
 Loesung beendet. 
 
 
