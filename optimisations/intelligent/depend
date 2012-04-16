@@ -1,8 +1,8 @@
 optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
- optimisations/intelligent/intelligent.c py.h pyproc.h pyhash.h \
- optimisations/intelligent/intelligent.h pydata.h \
+ optimisations/intelligent/intelligent.c \
+ optimisations/intelligent/intelligent.h py.h pyproc.h pydata.h \
  stipulation/battle_play/attack_play.h stipulation/help_play/branch.h \
- pybrafrk.h pyproof.h pypipe.h \
+ pybrafrk.h pyproof.h pypipe.h optimisations/hash.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
@@ -17,13 +17,11 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  stipulation/branch.h stipulation/temporary_hacks.h platform/maxtime.h \
  trace.h pyenum.h
 
+optimisations/intelligent/intelligent.h:
+
 py.h:
 
 pyproc.h:
-
-pyhash.h:
-
-optimisations/intelligent/intelligent.h:
 
 pydata.h:
 
@@ -36,6 +34,8 @@ pybrafrk.h:
 pyproof.h:
 
 pypipe.h:
+
+optimisations/hash.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 

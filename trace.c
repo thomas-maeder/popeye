@@ -1,8 +1,8 @@
 #include "trace.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "pyhash.h"
 #include "pystip.h"
+#include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
 
 #include <assert.h>

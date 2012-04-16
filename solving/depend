@@ -1,6 +1,6 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
- pyhash.h pybrafrk.h options/nontrivial.h options/maxthreatlength.h \
- stipulation/proxy.h stipulation/testing_pipe.h \
+ pybrafrk.h optimisations/hash.h options/nontrivial.h \
+ options/maxthreatlength.h stipulation/proxy.h stipulation/testing_pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/end_of_branch_tester.h stipulation/battle_play/branch.h \
@@ -21,9 +21,9 @@ pydata.h:
 
 pypipe.h:
 
-pyhash.h:
-
 pybrafrk.h:
+
+optimisations/hash.h:
 
 options/nontrivial.h:
 

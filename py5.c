@@ -64,7 +64,6 @@
 
 #include "py.h"
 #include "pyproc.h"
-#include "pyhash.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -76,6 +75,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "optimisations/hash.h"
 #include "trace.h"
 #include "measure.h"
 

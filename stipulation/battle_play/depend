@@ -57,8 +57,8 @@ pypipe.h:
 trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pymovein.h \
- pyproof.h pyselfcg.h conditions/amu/mate_filter.h \
+ stipulation/battle_play/attack_play.h pybrafrk.h pymovein.h pyproof.h \
+ pyselfcg.h conditions/amu/mate_filter.h \
  conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
@@ -69,7 +69,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  conditions/maff/immobility_tester.h \
  conditions/ohneschach/immobility_tester.h \
  conditions/owu/immobility_tester.h \
- conditions/ultraschachzwang/goal_filter.h optimisations/keepmating.h \
+ conditions/ultraschachzwang/goal_filter.h optimisations/hash.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -151,8 +152,6 @@ stipulation/battle_play/attack_play.h:
 
 pybrafrk.h:
 
-pyhash.h:
-
 pymovein.h:
 
 pyproof.h:
@@ -186,6 +185,8 @@ conditions/ohneschach/immobility_tester.h:
 conditions/owu/immobility_tester.h:
 
 conditions/ultraschachzwang/goal_filter.h:
+
+optimisations/hash.h:
 
 optimisations/keepmating.h:
 

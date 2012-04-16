@@ -9,7 +9,7 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
-#include "pyhash.h"
+#include "pystip.h"
 
 /* Encode the hash key for the current position
  */

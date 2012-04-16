@@ -95,7 +95,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pyhash.h"
+#include "optimisations/hash.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pyproof.h"

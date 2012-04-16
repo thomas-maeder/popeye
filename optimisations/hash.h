@@ -6,8 +6,8 @@
 **
 **************************** End of List ******************************/
 
-#if !defined(PYHASH_H)
-#define PYHASH_H
+#if !defined(OPTIMISATIONS_HASH_H)
+#define OPTIMISATIONS_HASH_H
 
 #include "DHT/dhtbcmem.h"
 #include "py.h"

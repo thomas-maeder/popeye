@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include "py.h"
 #include "pydata.h"
-#include "pyhash.h"
+#include "optimisations/hash.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)

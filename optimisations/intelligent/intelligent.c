@@ -8,20 +8,17 @@
  **
  **************************** End of List ******************************/
 
-#include <assert.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "optimisations/intelligent/intelligent.h"
 
 #include "py.h"
 #include "pyproc.h"
-#include "pyhash.h"
-#include "optimisations/intelligent/intelligent.h"
 #include "pydata.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pypipe.h"
+#include "optimisations/hash.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -37,6 +34,10 @@
 #include "stipulation/temporary_hacks.h"
 #include "platform/maxtime.h"
 #include "trace.h"
+
+#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef unsigned int index_type;
 
