@@ -96,7 +96,6 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyhash.h"
-#include "pyint.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pyproof.h"

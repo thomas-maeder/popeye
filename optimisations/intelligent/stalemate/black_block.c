@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/stalemate/black_block.h"
-#include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/stalemate/finish.h"

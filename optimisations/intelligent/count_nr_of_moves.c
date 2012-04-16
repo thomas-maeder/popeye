@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "pydata.h"
-#include "pyint.h"
 #include "pyproof.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "trace.h"
 

@@ -7,7 +7,7 @@ INCLUDES =      pyenum.h \
 		pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
 		py.h py1.h py4.h py6.h pyproc.h pymsg.h \
 		pymac.h pylang.h pyproof.h \
-		pyint.h pyhash.h \
+		pyhash.h \
 		pytable.h \
 		pyoutput.h \
 		pystip.h \
@@ -20,7 +20,6 @@ SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pytable.c \
 		pyoutput.c \
-		pyint.c \
 		pystip.c \
 		pypipe.c \
 		pybrafrk.c pyselfcg.c \

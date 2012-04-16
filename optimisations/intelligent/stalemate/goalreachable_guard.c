@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
 #include "pydata.h"
-#include "pyint.h"
 #include "pystip.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "trace.h"

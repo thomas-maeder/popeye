@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pyint.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "trace.h"
 
 #include <assert.h>

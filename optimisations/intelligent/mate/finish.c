@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/mate/finish.h"
-#include "pyint.h"
 #include "pydata.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/place_white_king.h"

@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/place_white_piece.h"
-#include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/intercept_guard_by_white.h"

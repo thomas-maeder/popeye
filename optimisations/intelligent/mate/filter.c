@@ -1,9 +1,9 @@
 #include "optimisations/intelligent/mate/filter.h"
-#include "pyint.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 

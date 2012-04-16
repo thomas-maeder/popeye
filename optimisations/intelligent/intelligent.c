@@ -15,7 +15,7 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pyhash.h"
-#include "pyint.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "pydata.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"

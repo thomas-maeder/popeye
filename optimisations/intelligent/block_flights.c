@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/block_flights.h"
 #include "pydata.h"
-#include "pyint.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"

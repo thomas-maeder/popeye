@@ -1,6 +1,6 @@
 #include "optimisations/intelligent/place_white_king.h"
-#include "pyint.h"
 #include "pydata.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "trace.h"

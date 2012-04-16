@@ -1,18 +1,19 @@
 optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.c \
- optimisations/intelligent/mate/finish.h pyint.h pydata.h \
+ optimisations/intelligent/mate/finish.h pydata.h \
  stipulation/battle_play/attack_play.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h trace.h
 
 optimisations/intelligent/mate/finish.h:
 
-pyint.h:
-
 pydata.h:
 
 stipulation/battle_play/attack_play.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -23,13 +24,12 @@ optimisations/intelligent/place_white_king.h:
 trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
- optimisations/intelligent/mate/filter.h pyint.h pypipe.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ optimisations/intelligent/mate/filter.h pypipe.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/duplicate_avoider.h trace.h
 
 optimisations/intelligent/mate/filter.h:
-
-pyint.h:
 
 pypipe.h:
 
@@ -39,20 +39,23 @@ stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
+optimisations/intelligent/intelligent.h:
+
 optimisations/intelligent/duplicate_avoider.h:
 
 trace.h:
 optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_checking_moves.c \
- optimisations/intelligent/mate/generate_checking_moves.h pyint.h \
- pydata.h optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/mate/generate_checking_moves.h pydata.h \
+ optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h trace.h
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -61,16 +64,17 @@ optimisations/intelligent/guard_flights.h:
 trace.h:
 optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_doublechecking_moves.c \
- optimisations/intelligent/mate/generate_doublechecking_moves.h pyint.h \
- pydata.h optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/mate/generate_doublechecking_moves.h pydata.h \
+ optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/mate/generate_checking_moves.h trace.h
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -81,17 +85,18 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/goalreachable_guard.c \
- optimisations/intelligent/mate/goalreachable_guard.h pydata.h pyint.h \
- pystip.h optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/mate/goalreachable_guard.h pydata.h pystip.h \
+ optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h trace.h
 
 optimisations/intelligent/mate/goalreachable_guard.h:
 
 pydata.h:
 
-pyint.h:
-
 pystip.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/moves_left.h:
 

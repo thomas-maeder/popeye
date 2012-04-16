@@ -1,3 +1,73 @@
+optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
+ optimisations/intelligent/intelligent.c py.h pyproc.h pyhash.h \
+ optimisations/intelligent/intelligent.h pydata.h \
+ stipulation/battle_play/attack_play.h stipulation/help_play/branch.h \
+ pybrafrk.h pyproof.h pypipe.h \
+ optimisations/intelligent/count_nr_of_moves.h \
+ optimisations/intelligent/guard_flights.h \
+ optimisations/intelligent/moves_left.h \
+ optimisations/intelligent/stalemate/filter.h \
+ optimisations/intelligent/proof.h \
+ optimisations/intelligent/duplicate_avoider.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/intelligent/place_black_piece.h \
+ optimisations/intelligent/mate/filter.h \
+ optimisations/intelligent/mate/generate_checking_moves.h \
+ optimisations/intelligent/mate/generate_doublechecking_moves.h \
+ stipulation/branch.h stipulation/temporary_hacks.h platform/maxtime.h \
+ trace.h pyenum.h
+
+py.h:
+
+pyproc.h:
+
+pyhash.h:
+
+optimisations/intelligent/intelligent.h:
+
+pydata.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/help_play/branch.h:
+
+pybrafrk.h:
+
+pyproof.h:
+
+pypipe.h:
+
+optimisations/intelligent/count_nr_of_moves.h:
+
+optimisations/intelligent/guard_flights.h:
+
+optimisations/intelligent/moves_left.h:
+
+optimisations/intelligent/stalemate/filter.h:
+
+optimisations/intelligent/proof.h:
+
+optimisations/intelligent/duplicate_avoider.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+optimisations/intelligent/place_black_piece.h:
+
+optimisations/intelligent/mate/filter.h:
+
+optimisations/intelligent/mate/generate_checking_moves.h:
+
+optimisations/intelligent/mate/generate_doublechecking_moves.h:
+
+stipulation/branch.h:
+
+stipulation/temporary_hacks.h:
+
+platform/maxtime.h:
+
+trace.h:
+
+pyenum.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
  optimisations/intelligent/moves_left.h pypipe.h trace.h
@@ -19,8 +89,8 @@ pypipe.h:
 trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  optimisations/intelligent/duplicate_avoider.c \
- optimisations/intelligent/duplicate_avoider.h pydata.h pypipe.h pyint.h \
- trace.h
+ optimisations/intelligent/duplicate_avoider.h pydata.h pypipe.h \
+ optimisations/intelligent/intelligent.h trace.h
 
 optimisations/intelligent/duplicate_avoider.h:
 
@@ -28,7 +98,7 @@ pydata.h:
 
 pypipe.h:
 
-pyint.h:
+optimisations/intelligent/intelligent.h:
 
 trace.h:
 optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
@@ -43,16 +113,17 @@ pypipe.h:
 trace.h:
 optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.c \
- optimisations/intelligent/place_white_piece.h pyint.h pydata.h \
+ optimisations/intelligent/place_white_piece.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/intercept_guard_by_white.h trace.h
 
 optimisations/intelligent/place_white_piece.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -63,15 +134,16 @@ optimisations/intelligent/intercept_guard_by_white.h:
 trace.h:
 optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.c \
- optimisations/intelligent/place_white_king.h pyint.h pydata.h \
+ optimisations/intelligent/place_white_king.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intercept_check_by_black.h trace.h
 
 optimisations/intelligent/place_white_king.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -80,7 +152,8 @@ optimisations/intelligent/intercept_check_by_black.h:
 trace.h:
 optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_black_piece.c \
- optimisations/intelligent/place_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/place_black_piece.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/pin_black_piece.h \
@@ -89,9 +162,9 @@ optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \
 
 optimisations/intelligent/place_black_piece.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/intercept_check_by_black.h:
 
@@ -106,7 +179,8 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 trace.h:
 optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/block_flights.c \
- optimisations/intelligent/block_flights.h pydata.h pyint.h \
+ optimisations/intelligent/block_flights.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/intercept_check_by_black.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -119,7 +193,7 @@ optimisations/intelligent/block_flights.h:
 
 pydata.h:
 
-pyint.h:
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/intercept_check_by_black.h:
 
@@ -138,7 +212,8 @@ options/maxsolutions/maxsolutions.h:
 trace.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.c \
- optimisations/intelligent/guard_flights.h pydata.h pyint.h \
+ optimisations/intelligent/guard_flights.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/block_flights.h \
  optimisations/intelligent/place_white_king.h \
@@ -149,7 +224,7 @@ optimisations/intelligent/guard_flights.h:
 
 pydata.h:
 
-pyint.h:
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -166,7 +241,8 @@ platform/maxtime.h:
 trace.h:
 optimisations/intelligent/intercept_check_from_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_from_guard.c \
- optimisations/intelligent/intercept_check_from_guard.h pydata.h pyint.h \
+ optimisations/intelligent/intercept_check_from_guard.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h trace.h
@@ -175,7 +251,7 @@ optimisations/intelligent/intercept_check_from_guard.h:
 
 pydata.h:
 
-pyint.h:
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/guard_flights.h:
 
@@ -186,7 +262,8 @@ optimisations/intelligent/place_black_piece.h:
 trace.h:
 optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_check_by_black.c \
- optimisations/intelligent/intercept_check_by_black.h pyint.h pydata.h \
+ optimisations/intelligent/intercept_check_by_black.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -194,9 +271,9 @@ optimisations/intelligent/intercept_check_by_black$(OBJ_SUFFIX): \
 
 optimisations/intelligent/intercept_check_by_black.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/place_white_piece.h:
 
@@ -209,7 +286,8 @@ optimisations/intelligent/intercept_guard_by_white.h:
 trace.h:
 optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_guard_by_white.c \
- optimisations/intelligent/intercept_guard_by_white.h pyint.h pydata.h \
+ optimisations/intelligent/intercept_guard_by_white.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -217,9 +295,9 @@ optimisations/intelligent/intercept_guard_by_white$(OBJ_SUFFIX): \
 
 optimisations/intelligent/intercept_guard_by_white.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/place_white_piece.h:
 
@@ -232,16 +310,17 @@ optimisations/intelligent/place_white_king.h:
 trace.h:
 optimisations/intelligent/intercept_black_move$(OBJ_SUFFIX): \
  optimisations/intelligent/intercept_black_move.c \
- optimisations/intelligent/intercept_black_move.h pyint.h pydata.h \
+ optimisations/intelligent/intercept_black_move.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/count_nr_of_moves.h trace.h
 
 optimisations/intelligent/intercept_black_move.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/place_white_piece.h:
 
@@ -252,30 +331,32 @@ optimisations/intelligent/count_nr_of_moves.h:
 trace.h:
 optimisations/intelligent/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/pin_black_piece.c \
- optimisations/intelligent/pin_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/pin_black_piece.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h trace.h
 
 optimisations/intelligent/pin_black_piece.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
 trace.h:
 optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.c \
- optimisations/intelligent/count_nr_of_moves.h pydata.h pyint.h pyproof.h \
+ optimisations/intelligent/count_nr_of_moves.h pydata.h pyproof.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h trace.h
 
 optimisations/intelligent/count_nr_of_moves.h:
 
 pydata.h:
 
-pyint.h:
-
 pyproof.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/moves_left.h:
 

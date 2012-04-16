@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/filter.h"
-#include "pyint.h"
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/proxy.h"
@@ -7,6 +6,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "trace.h"
 

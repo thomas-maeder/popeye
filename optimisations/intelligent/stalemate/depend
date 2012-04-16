@@ -1,7 +1,8 @@
 optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.c \
- optimisations/intelligent/stalemate/finish.h pyint.h pydata.h \
+ optimisations/intelligent/stalemate/finish.h pydata.h \
  stipulation/battle_play/attack_play.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
@@ -9,11 +10,11 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/finish.h:
 
-pyint.h:
-
 pydata.h:
 
 stipulation/battle_play/attack_play.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/place_white_king.h:
 
@@ -26,15 +27,14 @@ options/maxsolutions/maxsolutions.h:
 trace.h:
 optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/filter.c \
- optimisations/intelligent/stalemate/filter.h pyint.h pypipe.h pybrafrk.h \
+ optimisations/intelligent/stalemate/filter.h pypipe.h pybrafrk.h \
  stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/help_play/branch.h \
  stipulation/goals/immobile/reached_tester.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/duplicate_avoider.h trace.h
 
 optimisations/intelligent/stalemate/filter.h:
-
-pyint.h:
 
 pypipe.h:
 
@@ -50,13 +50,16 @@ stipulation/help_play/branch.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
+optimisations/intelligent/intelligent.h:
+
 optimisations/intelligent/duplicate_avoider.h:
 
 trace.h:
 optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
- optimisations/intelligent/stalemate/immobilise_black.h pyint.h pydata.h \
+ optimisations/intelligent/stalemate/immobilise_black.h pydata.h \
  stipulation/battle_play/attack_play.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/white_block.h \
@@ -66,11 +69,11 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
-pyint.h:
-
 pydata.h:
 
 stipulation/battle_play/attack_play.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -87,8 +90,9 @@ stipulation/temporary_hacks.h:
 trace.h:
 optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.c \
- optimisations/intelligent/stalemate/deal_with_unused_pieces.h pyint.h \
- pydata.h stipulation/battle_play/attack_play.h platform/maxtime.h \
+ optimisations/intelligent/stalemate/deal_with_unused_pieces.h pydata.h \
+ stipulation/battle_play/attack_play.h platform/maxtime.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -97,13 +101,13 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
-pyint.h:
-
 pydata.h:
 
 stipulation/battle_play/attack_play.h:
 
 platform/maxtime.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/moves_left.h:
 
@@ -118,7 +122,8 @@ optimisations/intelligent/stalemate/finish.h:
 trace.h:
 optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.c \
- optimisations/intelligent/stalemate/white_block.h pyint.h pydata.h \
+ optimisations/intelligent/stalemate/white_block.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_white_king.h \
@@ -126,9 +131,9 @@ optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/white_block.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/place_white_piece.h:
 
@@ -141,7 +146,8 @@ optimisations/intelligent/stalemate/finish.h:
 trace.h:
 optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/black_block.c \
- optimisations/intelligent/stalemate/black_block.h pyint.h pydata.h \
+ optimisations/intelligent/stalemate/black_block.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/finish.h \
@@ -149,9 +155,9 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
 
 optimisations/intelligent/stalemate/black_block.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 
@@ -164,15 +170,16 @@ optimisations/intelligent/intercept_check_by_black.h:
 trace.h:
 optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/pin_black_piece.c \
- optimisations/intelligent/stalemate/pin_black_piece.h pyint.h pydata.h \
+ optimisations/intelligent/stalemate/pin_black_piece.h pydata.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/pin_black_piece.h \
  optimisations/intelligent/stalemate/finish.h trace.h
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
 
-pyint.h:
-
 pydata.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/pin_black_piece.h:
 
@@ -182,16 +189,17 @@ trace.h:
 optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/goalreachable_guard.c \
  optimisations/intelligent/stalemate/goalreachable_guard.h pydata.h \
- pyint.h pystip.h optimisations/intelligent/moves_left.h \
+ pystip.h optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h trace.h
 
 optimisations/intelligent/stalemate/goalreachable_guard.h:
 
 pydata.h:
 
-pyint.h:
-
 pystip.h:
+
+optimisations/intelligent/intelligent.h:
 
 optimisations/intelligent/moves_left.h:
 
