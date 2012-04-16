@@ -150,6 +150,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/killer_move/final_defense_move.h"
+#include "options/quodlibet.h"
 #include "options/goal_is_end.h"
 #include "options/maxtime.h"
 #include "options/degenerate_tree.h"

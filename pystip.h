@@ -262,13 +262,6 @@ void assert_no_leaked_slices(void);
  */
 stip_length_type get_max_nr_moves(slice_index si);
 
-/* Transform a stipulation tree to "traditional quodlibet form",
- * i.e. a logical OR of direct and self goal.
- * @param si identifies slice where to start
- * @return true iff quodlibet could be applied
- */
-boolean transform_to_quodlibet(slice_index si);
-
 /* Does the current stipulation end in a specific goal?
  * @param si identifies slice where to start
  * @param goal identifies the goal

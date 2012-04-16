@@ -145,3 +145,11 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
+ stipulation/battle_play/branch.h debugging/trace.h
+
+options/quodlibet.h:
+
+stipulation/battle_play/branch.h:
+
+debugging/trace.h:
