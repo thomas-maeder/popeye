@@ -1,6 +1,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "pypipe.h"
-#include "pymovein.h"
+#include "stipulation/move_inverter.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/proxy.h"

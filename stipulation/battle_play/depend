@@ -1,5 +1,5 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
- stipulation/battle_play/branch.h pypipe.h pymovein.h \
+ stipulation/battle_play/branch.h pypipe.h stipulation/move_inverter.h \
  stipulation/conditional_pipe.h stipulation/constraint.h \
  stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
@@ -11,7 +11,7 @@ stipulation/battle_play/branch.h:
 
 pypipe.h:
 
-pymovein.h:
+stipulation/move_inverter.h:
 
 stipulation/conditional_pipe.h:
 
@@ -57,9 +57,8 @@ pypipe.h:
 debugging/trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h pybrafrk.h pymovein.h pyproof.h \
- pyselfcg.h conditions/amu/mate_filter.h \
- conditions/anticirce/circuit_special.h \
+ stipulation/battle_play/attack_play.h pybrafrk.h pyproof.h pyselfcg.h \
+ conditions/amu/mate_filter.h conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h conditions/bgl.h \
@@ -117,7 +116,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  solving/single_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h solving/trivial_end_filter.h \
- stipulation/battle_play/attack_adapter.h \
+ stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -151,8 +150,6 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
 stipulation/battle_play/attack_play.h:
 
 pybrafrk.h:
-
-pymovein.h:
 
 pyproof.h:
 
@@ -311,6 +308,8 @@ solving/single_move_generator_with_king_capture.h:
 solving/single_piece_move_generator.h:
 
 solving/trivial_end_filter.h:
+
+stipulation/move_inverter.h:
 
 stipulation/battle_play/attack_adapter.h:
 

@@ -195,10 +195,11 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
- stipulation/temporary_hacks.h pymovein.h pypipe.h stipulation/branch.h \
+ stipulation/temporary_hacks.h pypipe.h stipulation/branch.h \
  stipulation/proxy.h stipulation/end_of_branch.h \
- stipulation/conditional_pipe.h stipulation/boolean/true.h \
- stipulation/boolean/not.h stipulation/goals/reached_tester.h \
+ stipulation/conditional_pipe.h stipulation/move_inverter.h \
+ stipulation/boolean/true.h stipulation/boolean/not.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/mate/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/any/reached_tester.h \
@@ -209,8 +210,6 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
 
 stipulation/temporary_hacks.h:
 
-pymovein.h:
-
 pypipe.h:
 
 stipulation/branch.h:
@@ -220,6 +219,8 @@ stipulation/proxy.h:
 stipulation/end_of_branch.h:
 
 stipulation/conditional_pipe.h:
+
+stipulation/move_inverter.h:
 
 stipulation/boolean/true.h:
 
@@ -266,5 +267,16 @@ stipulation/proxy.h:
 stipulation/branch.h:
 
 solving/solving.h:
+
+debugging/trace.h:
+stipulation/move_inverter$(OBJ_SUFFIX): stipulation/move_inverter.c \
+ stipulation/move_inverter.h stipulation/battle_play/attack_play.h \
+ pypipe.h debugging/trace.h
+
+stipulation/move_inverter.h:
+
+stipulation/battle_play/attack_play.h:
+
+pypipe.h:
 
 debugging/trace.h:

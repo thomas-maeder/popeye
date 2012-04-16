@@ -9,8 +9,7 @@ INCLUDES = pydata.h pyboard.h pypiece.h pyposit.h \
 		pyoutput.h \
 		pystip.h \
 		pypipe.h \
-		pybrafrk.h pyselfcg.h \
-		pymovein.h
+		pybrafrk.h pyselfcg.h
 SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyproof.c	       \
@@ -18,7 +17,6 @@ SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		pystip.c \
 		pypipe.c \
 		pybrafrk.c pyselfcg.c \
-		pymovein.c \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c

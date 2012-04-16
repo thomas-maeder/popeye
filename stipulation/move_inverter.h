@@ -1,10 +1,9 @@
-#if !defined(PYMOVEIN_H)
-#define PYMOVEIN_H
+#if !defined(STIPULATION_MOVE_INVERTER_H)
+#define STIPULATION_MOVE_INVERTER_H
 
-#include "py.h"
 #include "stipulation/battle_play/attack_play.h"
 
-/* This module provides functionality dealing with move inverter slice
+/* This module provides functionality dealing with move inverter slices
  */
 
 /* Allocate a STMoveInverter slice.
