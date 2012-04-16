@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = maxtime.c goal_is_end.c degenerate_tree.c nontrivial.c maxthreatlength.c movenumbers.c
+SRC_CFILES = maxtime.c goal_is_end.c degenerate_tree.c nontrivial.c maxthreatlength.c movenumbers.c maxflightsquares.c
 
-INCLUDES = maxtime.h goal_is_end.h degenerate_tree.h nontrivial.h maxthreatlength.h movenumbers.h
+INCLUDES = maxtime.h goal_is_end.h degenerate_tree.h nontrivial.h maxthreatlength.h movenumbers.h maxflightsquares.h
 
 include makefile.rules $(CURRPWD)depend

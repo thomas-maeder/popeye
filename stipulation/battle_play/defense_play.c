@@ -1,5 +1,4 @@
 #include "stipulation/battle_play/defense_play.h"
-#include "pyflight.h"
 #include "pyselfcg.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
@@ -36,6 +35,7 @@
 #include "options/maxtime.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
+#include "options/maxflightsquares.h"
 #include "options/movenumbers.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/key_writer.h"

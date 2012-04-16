@@ -1,5 +1,5 @@
-#if !defined(PYFLIGHT_H)
-#define PYFLIGHT_H
+#if !defined(OPTIONS_MAXFLIGHTSQUARES_H)
+#define OPTIONS_MAXFLIGHTSQUARES_H
 
 /* Implementation of the "max flight squares" optimisation: Solving
  * stops if an attacker's move grants the defender too many flight

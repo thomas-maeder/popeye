@@ -57,8 +57,8 @@ pypipe.h:
 trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
- stipulation/battle_play/attack_play.h pybrafrk.h pyflight.h pyhash.h \
- pymovein.h options/movenumbers.h pyproof.h pyselfcg.h \
+ stipulation/battle_play/attack_play.h pybrafrk.h \
+ options/maxflightsquares.h pyhash.h pymovein.h pyproof.h pyselfcg.h \
  conditions/amu/mate_filter.h conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
@@ -84,8 +84,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  options/maxsolutions/guard.h options/maxsolutions/initialiser.h \
- options/maxtime.h options/degenerate_tree.h options/nontrivial.h \
- options/maxthreatlength.h \
+ options/maxtime.h options/movenumbers.h options/degenerate_tree.h \
+ options/nontrivial.h options/maxthreatlength.h \
  options/movenumbers/restart_guard_intelligent.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  options/stoponshortsolutions/filter.h \
@@ -150,13 +150,11 @@ stipulation/battle_play/attack_play.h:
 
 pybrafrk.h:
 
-pyflight.h:
+options/maxflightsquares.h:
 
 pyhash.h:
 
 pymovein.h:
-
-options/movenumbers.h:
 
 pyproof.h:
 
@@ -225,6 +223,8 @@ options/maxsolutions/guard.h:
 options/maxsolutions/initialiser.h:
 
 options/maxtime.h:
+
+options/movenumbers.h:
 
 options/degenerate_tree.h:
 
@@ -404,7 +404,7 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
- stipulation/battle_play/defense_play.h pyflight.h options/movenumbers.h \
+ stipulation/battle_play/defense_play.h options/maxflightsquares.h \
  pyselfcg.h stipulation/constraint.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/dummy_move.h \
@@ -424,8 +424,9 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.h \
  optimisations/goals/castling/filter.h options/maxsolutions/guard.h \
  options/maxtime.h options/nontrivial.h options/maxthreatlength.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/key_writer.h \
- output/plaintext/tree/threat_writer.h output/plaintext/tree/try_writer.h \
+ options/movenumbers.h output/plaintext/tree/check_writer.h \
+ output/plaintext/tree/key_writer.h output/plaintext/tree/threat_writer.h \
+ output/plaintext/tree/try_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
@@ -433,9 +434,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
 
 stipulation/battle_play/defense_play.h:
 
-pyflight.h:
-
-options/movenumbers.h:
+options/maxflightsquares.h:
 
 pyselfcg.h:
 
@@ -506,6 +505,8 @@ options/maxtime.h:
 options/nontrivial.h:
 
 options/maxthreatlength.h:
+
+options/movenumbers.h:
 
 output/plaintext/tree/check_writer.h:
 

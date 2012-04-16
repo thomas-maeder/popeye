@@ -126,3 +126,21 @@ pydata.h:
 pymsg.h:
 
 trace.h:
+options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
+ options/maxflightsquares.h pydata.h pypipe.h \
+ stipulation/conditional_pipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h trace.h
+
+options/maxflightsquares.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/conditional_pipe.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+trace.h:

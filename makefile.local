@@ -12,7 +12,7 @@ INCLUDES =      pyenum.h \
 		pyoutput.h \
 		pystip.h \
 		pypipe.h \
-		pybrafrk.h pyselfcg.h pyflight.h \
+		pybrafrk.h pyselfcg.h \
 		pymovein.h \
 		boolean.h trace.h
 SRC_CFILES =	pydata.c pyboard.c pyposit.c \
@@ -23,7 +23,7 @@ SRC_CFILES =	pydata.c pyboard.c pyposit.c \
 		pyint.c \
 		pystip.c \
 		pypipe.c \
-		pybrafrk.c pyselfcg.c pyflight.c \
+		pybrafrk.c pyselfcg.c \
 		pymovein.c \
 		trace.c \
 		gengmarr.c

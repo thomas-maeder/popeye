@@ -1,4 +1,4 @@
-#include "pyflight.h"
+#include "options/maxflightsquares.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/conditional_pipe.h"
