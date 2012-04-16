@@ -2740,6 +2740,7 @@ Initial (Weiss ->):
 Loesung beendet. 
 
 
+
           Jochen Lehmensick
      feenschach 191, 2012, UM/11
 
@@ -2764,57 +2765,25 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   schwarz 8hh[/2da[#]{!+}]    2 + 8
 
-  1  (Lg1-h2 )
-  2  (Lg1-c5 )
-  3  (Lg1-d4 )
-  4  (Lg1-e3 )
-  5  (Lg1-f2 )
-  6  (Sh4-f3 )
-  7  (Sh4-g2 )
-  8  (Sh4-g6 )
-  9  (Sh4-f5 )
- 10  (Sb6-a4 )
- 11  (Sb6-c4 )
- 12  (Sb6-d5 )
   1.Sb6-d5 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
- 13  (Sb6-d7 )
- 14  (Sb6-c8 )
   1.Sb6-c8 Tg8*g1   2.Tf7-f1 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
- 15  (c6-c5 )
- 16  (Tf7-f1 )
   1.Tf7-f1 Tg8*g1   2.Sb6-d5 Tg1*f1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
   1.Tf7-f1 Tg8*g1   2.Sb6-c8 Tg1*f1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
   1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7 
   1.Tf7-f1 Tg8*g1   2.Th7-d7 Tg1*f1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8 
- 17  (Tf7-f2 )
- 18  (Tf7-f3 )
- 19  (Tf7-f4 )
- 20  (Tf7-f5 )
- 21  (Tf7-f6 )
- 22  (Tf7-c7 )
- 23  (Tf7-d7 )
   1.Tf7-d7 Tg8*g1   2.Td7-d8 + Ke8*d8   3.Sb6-c8 Kd8*c8   4.Th7-c7 + Kc8*c7 
- 24  (Tf7-e7 + )
- 25  (Tf7-f8 + )
- 26  (Tf7-g7 )
   1.Tf7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Th7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
   1.Tf7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Th7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
- 27  (Th7-h5 )
- 28  (Th7-h6 )
- 29  (Th7-g7 )
   1.Th7-g7 Tg8*g7   2.Sb6-d5 Tg7*g1   3.Tf7-d7 Ke8*d7   4.Sd5-c7 Kd7*c7 
   1.Th7-g7 Tg8*g7   2.Sb6-c8 Tg7*g1   3.Tf7-d7 Ke8*d7   4.b7-b6 Kd7*c8 
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-d5 Ke8*d7   4.Sd5-c7 Kd7*c7 
   1.Th7-g7 Tg8*g7   2.Tf7-d7 Tg7*g1   3.Sb6-c8 Ke8*d7   4.b7-b6 Kd7*c8 
- 30  (Th7-h8 )
   1.Th7-h8 Ke8-d8   2.Tf7-f8 + Kd8-c7   3.Tf8-b8 Tg8*g1   4.Th8-c8 + Kc7*b6 
- 31  (Ka8-b8 )
- 32  (Ka8-a7 )
 
-              empile:  7489175626
-            jouecoup:   721762320
-        orig_rbechec:   378582125
-        orig_rnechec:   605383336
+              empile: 25071167319
+            jouecoup:  2405219333
+        orig_rbechec:  1257277583
+        orig_rnechec:  2060076809
 Loesung beendet. 
 
 
@@ -2845,98 +2814,28 @@ Loesung beendet.
 
 a) 
 
-  1  (Kc1-d1 )
-  2  (Kc1-c2 + )
-  3  (Kc1-b1 )
-  4  (Kc1-b2 + )
-  5  (Kc1-d2 )
-  6  (a2-a1=D )
-  7  (a2-a1=S + )
-  8  (a2-a1=T )
-  9  (a2-a1=L )
- 10  (g2-g1=D )
- 11  (g2-g1=S )
- 12  (g2-g1=T )
- 13  (g2-g1=L )
- 14  (Le4-b1 )
- 15  (Le4-c2 + )
- 16  (Le4-d3 )
- 17  (Le4-f3 )
- 18  (Le4-h7 )
- 19  (Le4-g6 )
   1.Le4-g6 h5*g6   2.Se5-f7 g6*f7   3.Sf6-e8 f7*e8=D   4.a2-a1=L De8-e2 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
- 20  (Le4-f5 )
- 21  (Le4-c6 )
- 22  (Le4-d5 + )
- 23  (Se5-c4 )
- 24  (Se5-d3 )
- 25  (Se5-f3 )
- 26  (Se5-g4 )
- 27  (Se5-g6 )
- 28  (Se5-f7 )
- 29  (Se5-d7 )
- 30  (Se5-c6 )
- 31  (Sf6-d5 )
- 32  (Sf6-g4 )
- 33  (Sf6*h5 )
- 34  (Sf6-h7 )
- 35  (Sf6-g8 )
- 36  (Sf6-e8 )
- 37  (Sf6-d7 )
- 38  (b7-b5 )
- 39  (b7-b6 )
 
-              empile:  4518994403
-            jouecoup:   419291326
-        orig_rbechec:   219104252
-        orig_rnechec:   334468716
+              empile:  9296912569
+            jouecoup:   825638466
+        orig_rbechec:   442119939
+        orig_rnechec:   669684653
 b) sBe5 
 
- 40  (Kc1-d1 )
- 41  (Kc1-c2 + )
- 42  (Kc1-b1 )
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=D 
   1.Kc1-b1 h5-h6   2.Kb1-a1 h6-h7   3.Le4-c2 + Kb3*c2   4.e5-e4 h7-h8=L 
- 43  (Kc1-b2 + )
- 44  (Kc1-d2 )
- 45  (a2-a1=D )
- 46  (a2-a1=S + )
- 47  (a2-a1=T )
- 48  (a2-a1=L )
- 49  (g2-g1=D )
- 50  (g2-g1=S )
- 51  (g2-g1=T )
- 52  (g2-g1=L )
- 53  (Le4-b1 )
- 54  (Le4-c2 + )
- 55  (Le4-d3 )
- 56  (Le4-f3 )
- 57  (Le4-h7 )
- 58  (Le4-g6 )
   1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.Kb1-a1 g7-g8=D   4.g2-g1=L Dg8-c4 
   1.Le4-g6 h5*g6   2.Kc1-b1 g6-g7   3.g2-g1=L g7-g8=D   4.Kb1-a1 Dg8-c4 
   1.Le4-g6 h5*g6   2.g2-g1=L g6-g7   3.Kc1-b1 g7-g8=D   4.Kb1-a1 Dg8-c4 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=D   4.Kb1-a1 Kb3-c2 
   1.Le4-g6 h5*g6   2.Sf6-h7 g6*h7   3.Kc1-b1 h7-h8=L   4.Kb1-a1 Kb3-c2 
- 59  (Le4-f5 )
- 60  (Le4-c6 )
- 61  (Le4-d5 + )
- 62  (Sf6-d5 )
- 63  (Sf6-g4 )
- 64  (Sf6*h5 )
- 65  (Sf6-h7 )
- 66  (Sf6-g8 )
- 67  (Sf6-e8 )
- 68  (Sf6-d7 )
- 69  (b7-b5 )
- 70  (b7-b6 )
 
-              empile:  2095299153
-            jouecoup:   218783730
-        orig_rbechec:   115300957
-        orig_rnechec:   173316638
+              empile:  3442465232
+            jouecoup:   346824142
+        orig_rbechec:   186257323
+        orig_rnechec:   278449621
 Loesung beendet. 
 
 
