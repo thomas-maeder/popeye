@@ -1,5 +1,5 @@
-#if !defined(PYTABLE_H)
-#define PYTABLE_H
+#if !defined(UTILITIES_TABLE_H)
+#define UTILITIES_TABLE_H
 
 #include "utilities/boolean.h"
 #include "py.h"

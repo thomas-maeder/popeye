@@ -1,5 +1,5 @@
-#if !defined(TRACE_H)
-#define TRACE_H
+#if !defined(DEBUGGING_TRACE_H)
+#define DEBUGGING_TRACE_H
 
 /* some trace functions
  * - write useful trace output to standard out

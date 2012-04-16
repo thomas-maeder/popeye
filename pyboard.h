@@ -1,7 +1,7 @@
 #if !defined(PYBOARD_H)
 #define PYBOARD_H
 
-#include "pybitmsk.h"
+#include "utilities/bitmask.h"
 
 /* Declarations of types and functions related to the chess board
  */

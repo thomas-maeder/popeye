@@ -1,5 +1,5 @@
-#if !defined(PYBITMASK_H)
-#define PYBITMASK_H
+#if !defined(UTILITIES_BITMASK_H)
+#define UTILITIES_BITMASK_H
 
 /* Functionality for bitmask fiddling
  */
