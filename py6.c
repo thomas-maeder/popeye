@@ -105,8 +105,6 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
-#include "debugging/trace.h"
-#include "debugging/measure.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "pyoutput.h"
 #include "conditions/bgl.h"
@@ -164,6 +162,8 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "debugging/trace.h"
+#include "debugging/measure.h"
 #ifdef _SE_
 #include "se.h"
 #endif

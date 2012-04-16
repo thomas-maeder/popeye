@@ -1,0 +1,10 @@
+utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h pydata.h pymsg.h \
+ debugging/trace.h
+
+utilities/table.h:
+
+pydata.h:
+
+pymsg.h:
+
+debugging/trace.h:

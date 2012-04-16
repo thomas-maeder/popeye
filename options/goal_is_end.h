@@ -4,7 +4,7 @@
 /* This module implements option GoalIsEnd
  */
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "pystip.h"
 
 /* Instrument a stipulation for option GoalIsEnd

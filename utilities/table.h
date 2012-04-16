@@ -1,7 +1,7 @@
 #if !defined(PYTABLE_H)
 #define PYTABLE_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "py.h"
 
 /* This module implements a stack of tables of moves.  "Stack" because

@@ -39,9 +39,9 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
-#include "pieces/attributes/paralysing/paralysing.h"
 
 boolean rubiech(square  intermediate_square,
                 square  sq_king,

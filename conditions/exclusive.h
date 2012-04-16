@@ -4,7 +4,7 @@
 /* This module implements Exclusive Chess
  */
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "pyposit.h"
 #include "pystip.h"
 

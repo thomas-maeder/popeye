@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOALS_GOALS_H)
 #define STIPULATION_GOALS_GOALS_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "py.h"
 
 /* A goal describes a property

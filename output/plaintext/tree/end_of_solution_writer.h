@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_END_OF_SOLUTION_WRITER_H)
 #define OUTPUT_PLAINTEXT_END_OF_SOLUTION_WRITER_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "pystip.h"
 #include "stipulation/battle_play/attack_play.h"
 

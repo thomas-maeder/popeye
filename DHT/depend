@@ -1,7 +1,7 @@
-DHT/dht$(OBJ_SUFFIX): DHT/dht.c boolean.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
- debugging/trace.h
+DHT/dht$(OBJ_SUFFIX): DHT/dht.c utilities/boolean.h DHT/dhtvalue.h DHT/fxf.h \
+ DHT/dht.h debugging/trace.h
 
-boolean.h:
+utilities/boolean.h:
 
 DHT/dhtvalue.h:
 

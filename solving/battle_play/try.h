@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_TRY_H)
 #define SOLVING_BATTLE_PLAY_TRY_H
 
-#include "pytable.h"
+#include "utilities/table.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.

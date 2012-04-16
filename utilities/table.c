@@ -1,4 +1,4 @@
-#include "pytable.h"
+#include "utilities/table.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "debugging/trace.h"

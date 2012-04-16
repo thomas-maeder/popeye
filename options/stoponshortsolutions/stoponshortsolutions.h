@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H)
 #define OPTIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "pystip.h"
 
 /* This module provides functionality dealing with the filter slices

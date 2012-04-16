@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATION_H)
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATION_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "stipulation/goals/goals.h"
 #include "py.h"
 

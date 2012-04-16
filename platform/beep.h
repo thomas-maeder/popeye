@@ -1,7 +1,7 @@
 #if !defined(PLATFORM_BEEP_H)
 #define PLATFORM_BEEP_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 
 /* Interpret beep command line parameter value
  * @param optionValue value of option beep

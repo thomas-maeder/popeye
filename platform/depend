@@ -1,9 +1,9 @@
-platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h boolean.h \
- optimisations/hash.h
+platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
+ utilities/boolean.h optimisations/hash.h
 
 platform/maxmem.h:
 
-boolean.h:
+utilities/boolean.h:
 
 optimisations/hash.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \

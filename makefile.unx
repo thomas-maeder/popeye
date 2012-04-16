@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.163 2012/04/16 16:44:34 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.164 2012/04/16 18:27:35 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -229,7 +229,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     options/stoponshortsolutions \
     options/movenumbers \
     output/plaintext output/plaintext/tree output/plaintext/line \
-    debugging
+    utilities debugging
 
 NESTEDLIBDIRS = . \
     conditions conditions/amu conditions/ultraschachzwang \
@@ -267,7 +267,7 @@ NESTEDLIBDIRS = . \
     options/movenumbers \
     output/plaintext/tree output/plaintext/line output/plaintext \
     platform platform/$(PLATFORM) \
-    debugging
+    utilities debugging
 
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \

@@ -5,7 +5,7 @@
 
 #include "stipulation/goals/goals.h"
 #include "py.h"
-#include "boolean.h"
+#include "utilities/boolean.h"
 
 /* This module provides generic declarations and functionality about
  * stipulations */

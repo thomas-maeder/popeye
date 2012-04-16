@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/threat_writer.h"
 #include "pypipe.h"
-#include "pytable.h"
 #include "pymsg.h"
+#include "utilities/table.h"
 #include "debugging/trace.h"
 
 /* Allocate a STThreatWriter defender slice.

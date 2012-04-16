@@ -1,7 +1,7 @@
 #if !defined(MAXMEM_H)
 #define MAXMEM_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 
 /* Initialize maxmem module.
  * To be called before any other function of this module.

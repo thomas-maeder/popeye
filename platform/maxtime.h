@@ -1,7 +1,7 @@
 #if !defined(MAXTIME_H)
 #define MAXTIME_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 
 typedef unsigned int maxtime_type;
 

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
-#include "boolean.h"
+#include "utilities/boolean.h"
 
 #if defined(__unix__)
 #include <unistd.h>

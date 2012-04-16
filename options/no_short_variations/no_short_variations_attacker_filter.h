@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_ATTACKER_FILTER_H)
 #define OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_ATTACKER_FILTER_H
 
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with the attacking side

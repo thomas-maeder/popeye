@@ -1,5 +1,4 @@
 #include "solving/battle_play/threat.h"
-#include "pytable.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/testing_pipe.h"
@@ -11,6 +10,7 @@
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/avoid_unsolvable.h"
+#include "utilities/table.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

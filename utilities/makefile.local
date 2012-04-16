@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = table.c
+
+INCLUDES = boolean.h table.h
+
+include makefile.rules $(CURRPWD)depend

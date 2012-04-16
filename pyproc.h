@@ -45,7 +45,7 @@
 
 #include "py4.h"
 #include "stipulation/goals/goals.h"
-#include "boolean.h"
+#include "utilities/boolean.h"
 #include <stdio.h>
 
 void    OpenInput(char *s);

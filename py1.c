@@ -60,11 +60,11 @@
 #include "options/movenumbers.h"
 #include "options/maxflightsquares.h"
 #include "pystip.h"
-#include "pytable.h"
-#include "debugging/trace.h"
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"
+#include "utilities/table.h"
+#include "debugging/trace.h"
 
 static numvec ortho_opt[4][2*(square_h8-square_a1)+1];
 

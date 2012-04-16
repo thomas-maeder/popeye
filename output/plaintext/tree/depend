@@ -169,16 +169,16 @@ output/plaintext/tree/check_writer.h:
 debugging/trace.h:
 output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/threat_writer.c \
- output/plaintext/tree/threat_writer.h pypipe.h pytable.h pymsg.h \
+ output/plaintext/tree/threat_writer.h pypipe.h pymsg.h utilities/table.h \
  debugging/trace.h
 
 output/plaintext/tree/threat_writer.h:
 
 pypipe.h:
 
-pytable.h:
-
 pymsg.h:
+
+utilities/table.h:
 
 debugging/trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \
