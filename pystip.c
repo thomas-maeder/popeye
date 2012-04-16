@@ -47,7 +47,7 @@
 
 #include "stipulation/slice_type.h"
 #define ENUMERATION_MAKESTRINGS
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 #define ENUMERATION_TYPENAME branch_level
@@ -57,7 +57,7 @@
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                                              \
@@ -71,7 +71,7 @@
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 Slice slices[max_nr_slices];
@@ -93,7 +93,7 @@ static boolean is_slice_index_free[max_nr_slices];
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 static slice_structural_type highest_structural_type[nr_slice_types];
 
@@ -222,7 +222,7 @@ slice_structural_type slice_get_structural_type(slice_index si)
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 static slice_functional_type functional_type[nr_slice_types];
 

@@ -4,10 +4,10 @@
 /* To deal with the complexity of stipulations used in chess problems,
  * their representation in Popeye splits them up into "slices".
  *
- * This head is used in conjunction with pyenum.h, e.g.
+ * This head is used in conjunction with utilities/enumeration.h, e.g.
 #include "stipulation/slice_type.h"
 #define ENUMERATION_DECLARE
-#include "pyenum.h"
+#include "utilities/enumeration.h"
  */
 
 #define ENUMERATION_TYPENAME slice_type

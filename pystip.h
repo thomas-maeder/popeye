@@ -12,7 +12,7 @@
 
 #include "stipulation/slice_type.h"
 #define ENUMERATION_DECLARE
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 typedef enum
 {
@@ -28,7 +28,7 @@ typedef enum
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 typedef struct
 {
@@ -137,7 +137,7 @@ typedef struct
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 /* slice identification */
@@ -178,7 +178,7 @@ enum
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 #define ENUMERATION_TYPENAME slice_structural_type
@@ -192,7 +192,7 @@ enum
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 #define ENUMERATION_TYPENAME slice_functional_type
@@ -207,7 +207,7 @@ enum
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 /* Retrieve the structural type of a slice
  * @param si identifies slice of which to retrieve structural type

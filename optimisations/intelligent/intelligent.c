@@ -55,7 +55,7 @@ typedef unsigned int index_type;
 #define ENUMERATORS piece_usageENUMERATORS
 #define ENUMERATION_TYPENAME piece_usage
 #define ENUMERATION_MAKESTRINGS
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 #undef piece_usageENUMERATORS
 
 

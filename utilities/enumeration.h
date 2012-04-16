@@ -17,7 +17,7 @@
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
  * generates the following definition:
 
@@ -40,7 +40,7 @@ extern char const *enum_type_names[];
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
   * the following:
 

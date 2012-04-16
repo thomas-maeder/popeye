@@ -33,7 +33,7 @@ typedef unsigned long Flags;
 
 #define ENUMERATION_DECLARE
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 
 enum

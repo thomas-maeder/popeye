@@ -111,7 +111,7 @@ void TraceFunctionResultEnd(void);
 
 /* Trace an enumerator value in both string and numerical form
  * The enumeration type defining type_name must have been generated
- * using pyenum.h
+ * using utilities/enumeration.h
  */
 #define TraceEnumerator(type_name,name,suffix) \
   TraceEnumeratorImpl(" " #name ":%s(%u)" suffix, \

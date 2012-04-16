@@ -15,7 +15,7 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
  stipulation/branch.h stipulation/temporary_hacks.h platform/maxtime.h \
- debugging/trace.h pyenum.h
+ debugging/trace.h utilities/enumeration.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -67,7 +67,7 @@ platform/maxtime.h:
 
 debugging/trace.h:
 
-pyenum.h:
+utilities/enumeration.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
  optimisations/intelligent/moves_left.h pypipe.h debugging/trace.h

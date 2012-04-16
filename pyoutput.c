@@ -20,7 +20,7 @@
 
 #define ENUMERATION_MAKESTRINGS
 
-#include "pyenum.h"
+#include "utilities/enumeration.h"
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

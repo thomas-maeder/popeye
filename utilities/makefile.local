@@ -2,6 +2,6 @@
 #
 SRC_CFILES = table.c
 
-INCLUDES = boolean.h table.h
+INCLUDES = boolean.h table.h enumeration.h
 
 include makefile.rules $(CURRPWD)depend
