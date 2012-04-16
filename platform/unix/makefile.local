@@ -3,4 +3,6 @@
 
 SRC_CFILES = maxmem.c maxtime.c pytime.c priority.c beep.c
 
+INCLUDES = mac.h
+
 include makefile.rules $(CURRPWD)depend

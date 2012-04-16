@@ -201,7 +201,7 @@ long StopTimer(void) {
 #if defined(macintosh)	/* is always defined on macintosh's  SB */
 
 #	define SEGMIO
-#	include "pymac.h"
+#	include "platform/unix/mac.h"
 #	include <Time.h>
 
 #	if !defined(NULL)

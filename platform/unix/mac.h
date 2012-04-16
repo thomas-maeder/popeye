@@ -1,10 +1,13 @@
-/******************** MODIFICATIONS to pymac.h **************************
+#if !defined(PLATFORM_UNIX_MAX_H)
+#define PLATFORM_UNIX_MAX_H
+
+/******************** MODIFICATIONS to platform/unix/mac.h **************************
 **
 ** Date       Who  What
-** 
+**
 ** 1991       SB   Original
-** 
-**************************** End of List ******************************/ 
+**
+**************************** End of List ******************************/
 
 /*
  * This include file is only valid
@@ -23,4 +26,6 @@
 
 #if defined(SEGMIO)
 #       pragma segment segio
+#endif
+
 #endif

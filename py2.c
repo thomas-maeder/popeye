@@ -52,7 +52,7 @@
 
 #if defined(macintosh)  /* is always defined on macintosh's  SB */
 #  define SEGM1
-#  include "pymac.h"
+#  include "platform/unix/mac.h"
 #endif
 
 #include "py.h"

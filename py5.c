@@ -46,7 +46,7 @@
 
 #if defined(macintosh) /* is always defined on macintosh's  SB */
 # define SEGM2
-# include "pymac.h"
+# include "platform/unix/mac.h"
 #endif
 
 #include <assert.h>

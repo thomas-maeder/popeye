@@ -5,7 +5,7 @@
 
 INCLUDES = pydata.h pyboard.h pypiece.h pyposit.h \
 		py.h py1.h py4.h py6.h pyproc.h pymsg.h \
-		pymac.h pylang.h pyproof.h \
+		pylang.h pyproof.h \
 		pyoutput.h \
 		pystip.h \
 		pypipe.h \
