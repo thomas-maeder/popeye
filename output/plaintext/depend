@@ -1,5 +1,5 @@
 output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
- output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h trace.h \
+ output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h debugging/trace.h \
  conditions/republican.h conditions/bgl.h
 
 output/plaintext/plaintext.h:
@@ -10,14 +10,15 @@ pydata.h:
 
 pymsg.h:
 
-trace.h:
+debugging/trace.h:
 
 conditions/republican.h:
 
 conditions/bgl.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
- output/plaintext/end_of_phase_writer.h pymsg.h pypipe.h trace.h
+ output/plaintext/end_of_phase_writer.h pymsg.h pypipe.h \
+ debugging/trace.h
 
 output/plaintext/end_of_phase_writer.h:
 
@@ -25,10 +26,11 @@ pymsg.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
- output/plaintext/illegal_selfcheck_writer.h pymsg.h pypipe.h trace.h
+ output/plaintext/illegal_selfcheck_writer.h pymsg.h pypipe.h \
+ debugging/trace.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -36,13 +38,13 @@ pymsg.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
- output/plaintext/move_inversion_counter.h pypipe.h trace.h
+ output/plaintext/move_inversion_counter.h pypipe.h debugging/trace.h
 
 output/plaintext/move_inversion_counter.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:

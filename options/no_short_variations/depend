@@ -2,7 +2,7 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations.c \
  options/no_short_variations/no_short_variations.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- stipulation/battle_play/branch.h pypipe.h trace.h
+ stipulation/battle_play/branch.h pypipe.h debugging/trace.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -12,13 +12,13 @@ stipulation/battle_play/branch.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  pydata.h pyproc.h stipulation/testing_pipe.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- trace.h
+ debugging/trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -32,4 +32,4 @@ stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
-trace.h:
+debugging/trace.h:

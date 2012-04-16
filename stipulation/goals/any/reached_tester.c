@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether an any goal has just been reached

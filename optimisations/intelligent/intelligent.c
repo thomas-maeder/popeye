@@ -33,7 +33,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"
 #include "platform/maxtime.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

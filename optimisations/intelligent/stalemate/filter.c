@@ -8,7 +8,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

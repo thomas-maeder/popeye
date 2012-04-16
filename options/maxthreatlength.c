@@ -10,7 +10,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

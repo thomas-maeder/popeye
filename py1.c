@@ -61,7 +61,7 @@
 #include "options/maxflightsquares.h"
 #include "pystip.h"
 #include "pytable.h"
-#include "trace.h"
+#include "debugging/trace.h"
 #include "platform/maxtime.h"
 #include "solving/battle_play/try.h"
 #include "conditions/bgl.h"

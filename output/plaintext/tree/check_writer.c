@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "solving/battle_play/check_detector.h"
 #include "output/plaintext/tree/tree.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @return index of allocated slice

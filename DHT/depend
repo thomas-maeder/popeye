@@ -1,4 +1,5 @@
-DHT/dht$(OBJ_SUFFIX): DHT/dht.c boolean.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h trace.h
+DHT/dht$(OBJ_SUFFIX): DHT/dht.c boolean.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
+ debugging/trace.h
 
 boolean.h:
 
@@ -8,7 +9,7 @@ DHT/fxf.h:
 
 DHT/dht.h:
 
-trace.h:
+debugging/trace.h:
 DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
  DHT/dht.h
 

@@ -9,7 +9,7 @@
 #include "stipulation/move_played.h"
 #include "stipulation/boolean/binary.h"
 #include "stipulation/help_play/adapter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <limits.h>

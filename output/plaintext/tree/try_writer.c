@@ -6,7 +6,7 @@
 #include "solving/battle_play/try.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/key_writer.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

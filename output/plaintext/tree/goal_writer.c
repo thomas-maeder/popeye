@@ -2,7 +2,7 @@
 #include "pyproc.h"
 #include "pypipe.h"
 #include "output/plaintext/tree/tree.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

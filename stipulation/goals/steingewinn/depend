@@ -1,7 +1,8 @@
 stipulation/goals/steingewinn/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/steingewinn/reached_tester.c \
  stipulation/goals/steingewinn/reached_tester.h pypipe.h pydata.h \
- stipulation/goals/reached_tester.h stipulation/boolean/true.h trace.h
+ stipulation/goals/reached_tester.h stipulation/boolean/true.h \
+ debugging/trace.h
 
 stipulation/goals/steingewinn/reached_tester.h:
 
@@ -13,4 +14,4 @@ stipulation/goals/reached_tester.h:
 
 stipulation/boolean/true.h:
 
-trace.h:
+debugging/trace.h:

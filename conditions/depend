@@ -3,7 +3,7 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  pymsg.h pydata.h pypipe.h stipulation/battle_play/attack_play.h \
  stipulation/temporary_hacks.h stipulation/branch.h \
- solving/legal_move_counter.h trace.h
+ solving/legal_move_counter.h debugging/trace.h
 
 conditions/exclusive.h:
 
@@ -25,7 +25,7 @@ stipulation/branch.h:
 
 solving/legal_move_counter.h:
 
-trace.h:
+debugging/trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \
  pyproc.h pydata.h pylang.h pystip.h \
  stipulation/battle_play/attack_play.h pymsg.h \
@@ -50,7 +50,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/temporary_hacks.h:
 conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h pypipe.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 conditions/bgl.h:
 
@@ -60,4 +61,4 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:

@@ -1,6 +1,6 @@
 #include "solving/fork_on_remaining.h"
 #include "stipulation/boolean/binary.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

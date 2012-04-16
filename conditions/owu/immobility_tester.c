@@ -7,7 +7,7 @@
 #include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -1,6 +1,6 @@
 options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h pypipe.h \
  platform/maxtime.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h trace.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 options/maxtime.h:
 
@@ -12,10 +12,11 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/proxy.h stipulation/boolean/not.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 options/goal_is_end.h:
 
@@ -27,10 +28,10 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
  options/degenerate_tree.h pydata.h pypipe.h pybrafrk.h \
- stipulation/branch.h trace.h
+ stipulation/branch.h debugging/trace.h
 
 options/degenerate_tree.h:
 
@@ -42,11 +43,11 @@ pybrafrk.h:
 
 stipulation/branch.h:
 
-trace.h:
+debugging/trace.h:
 options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h pydata.h \
  pypipe.h stipulation/testing_pipe.h stipulation/proxy.h \
  stipulation/branch.h stipulation/battle_play/branch.h solving/solving.h \
- solving/avoid_unsolvable.h trace.h
+ solving/avoid_unsolvable.h debugging/trace.h
 
 options/nontrivial.h:
 
@@ -66,13 +67,13 @@ solving/solving.h:
 
 solving/avoid_unsolvable.h:
 
-trace.h:
+debugging/trace.h:
 options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  options/maxthreatlength.h pydata.h pypipe.h pybrafrk.h \
  stipulation/testing_pipe.h stipulation/branch.h stipulation/dummy_move.h \
  stipulation/move_played.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_play.h solving/solving.h \
- solving/battle_play/check_detector.h trace.h
+ solving/battle_play/check_detector.h debugging/trace.h
 
 options/maxthreatlength.h:
 
@@ -98,12 +99,12 @@ solving/solving.h:
 
 solving/battle_play/check_detector.h:
 
-trace.h:
+debugging/trace.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h \
  options/movenumbers/restart_guard_intelligent.h \
- output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h trace.h
+ output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h debugging/trace.h
 
 options/movenumbers.h:
 
@@ -125,11 +126,11 @@ pydata.h:
 
 pymsg.h:
 
-trace.h:
+debugging/trace.h:
 options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
  options/maxflightsquares.h pydata.h pypipe.h \
  stipulation/conditional_pipe.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h trace.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 options/maxflightsquares.h:
 
@@ -143,4 +144,4 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:

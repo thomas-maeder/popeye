@@ -4,7 +4,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_special.h \
- conditions/anticirce/exchange_filter.h trace.h
+ conditions/anticirce/exchange_filter.h debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -26,10 +26,11 @@ conditions/anticirce/exchange_special.h:
 
 conditions/anticirce/exchange_filter.h:
 
-trace.h:
+debugging/trace.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.c \
- conditions/anticirce/target_square_filter.h pypipe.h pydata.h trace.h
+ conditions/anticirce/target_square_filter.h pypipe.h pydata.h \
+ debugging/trace.h
 
 conditions/anticirce/target_square_filter.h:
 
@@ -37,10 +38,11 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:
 conditions/anticirce/circuit_special$(OBJ_SUFFIX): \
  conditions/anticirce/circuit_special.c \
- conditions/anticirce/circuit_special.h pypipe.h pydata.h trace.h
+ conditions/anticirce/circuit_special.h pypipe.h pydata.h \
+ debugging/trace.h
 
 conditions/anticirce/circuit_special.h:
 
@@ -48,10 +50,11 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:
 conditions/anticirce/exchange_special$(OBJ_SUFFIX): \
  conditions/anticirce/exchange_special.c \
- conditions/anticirce/exchange_special.h pypipe.h pydata.h trace.h
+ conditions/anticirce/exchange_special.h pypipe.h pydata.h \
+ debugging/trace.h
 
 conditions/anticirce/exchange_special.h:
 
@@ -59,10 +62,11 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:
 conditions/anticirce/exchange_filter$(OBJ_SUFFIX): \
  conditions/anticirce/exchange_filter.c \
- conditions/anticirce/exchange_filter.h pypipe.h pydata.h trace.h
+ conditions/anticirce/exchange_filter.h pypipe.h pydata.h \
+ debugging/trace.h
 
 conditions/anticirce/exchange_filter.h:
 
@@ -70,4 +74,4 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:

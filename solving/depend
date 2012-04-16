@@ -13,7 +13,8 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
  solving/battle_play/setplay.h solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/castling_intermediate_move_generator.h \
- solving/single_move_generator.h solving/king_move_generator.h trace.h
+ solving/single_move_generator.h solving/king_move_generator.h \
+ debugging/trace.h
 
 solving/solving.h:
 
@@ -81,10 +82,10 @@ solving/single_move_generator.h:
 
 solving/king_move_generator.h:
 
-trace.h:
+debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
  pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- solving/avoid_unsolvable.h trace.h
+ solving/avoid_unsolvable.h debugging/trace.h
 
 solving/find_shortest.h:
 
@@ -96,10 +97,11 @@ stipulation/battle_play/branch.h:
 
 solving/avoid_unsolvable.h:
 
-trace.h:
+debugging/trace.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
  solving/find_by_increasing_length.h pydata.h stipulation/branch.h \
- pypipe.h stipulation/proxy.h stipulation/help_play/branch.h trace.h
+ pypipe.h stipulation/proxy.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 solving/find_by_increasing_length.h:
 
@@ -113,18 +115,19 @@ stipulation/proxy.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
- solving/fork_on_remaining.h stipulation/boolean/binary.h trace.h
+ solving/fork_on_remaining.h stipulation/boolean/binary.h \
+ debugging/trace.h
 
 solving/fork_on_remaining.h:
 
 stipulation/boolean/binary.h:
 
-trace.h:
+debugging/trace.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  solving/play_suppressor.h pypipe.h stipulation/battle_play/branch.h \
- trace.h
+ debugging/trace.h
 
 solving/play_suppressor.h:
 
@@ -132,9 +135,9 @@ pypipe.h:
 
 stipulation/battle_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
- solving/move_generator.h pydata.h pyproc.h pypipe.h trace.h
+ solving/move_generator.h pydata.h pyproc.h pypipe.h debugging/trace.h
 
 solving/move_generator.h:
 
@@ -144,9 +147,10 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
- solving/king_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+ solving/king_move_generator.h pydata.h pyproc.h pypipe.h \
+ debugging/trace.h
 
 solving/king_move_generator.h:
 
@@ -156,9 +160,10 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c \
- solving/non_king_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+ solving/non_king_move_generator.h pydata.h pyproc.h pypipe.h \
+ debugging/trace.h
 
 solving/non_king_move_generator.h:
 
@@ -168,10 +173,11 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/single_piece_move_generator$(OBJ_SUFFIX): \
  solving/single_piece_move_generator.c \
- solving/single_piece_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+ solving/single_piece_move_generator.h pydata.h pyproc.h pypipe.h \
+ debugging/trace.h
 
 solving/single_piece_move_generator.h:
 
@@ -181,11 +187,11 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/single_move_generator_with_king_capture$(OBJ_SUFFIX): \
  solving/single_move_generator_with_king_capture.c \
  solving/single_move_generator_with_king_capture.h pydata.h pyproc.h \
- pypipe.h trace.h
+ pypipe.h debugging/trace.h
 
 solving/single_move_generator_with_king_capture.h:
 
@@ -195,11 +201,11 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_move.h \
  pydata.h pyproc.h pypipe.h pybrafrk.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/solving.h solving/find_move.h trace.h
+ solving/solving.h solving/find_move.h debugging/trace.h
 
 solving/for_each_move.h:
 
@@ -221,9 +227,9 @@ solving/solving.h:
 
 solving/find_move.h:
 
-trace.h:
+debugging/trace.h:
 solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h pypipe.h \
- pydata.h pyproc.h trace.h
+ pydata.h pyproc.h debugging/trace.h
 
 solving/find_move.h:
 
@@ -233,9 +239,9 @@ pydata.h:
 
 pyproc.h:
 
-trace.h:
+debugging/trace.h:
 solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
- solving/legal_move_counter.h pypipe.h pydata.h trace.h
+ solving/legal_move_counter.h pypipe.h pydata.h debugging/trace.h
 
 solving/legal_move_counter.h:
 
@@ -243,9 +249,9 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:
 solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
- solving/capture_counter.h pypipe.h pydata.h trace.h
+ solving/capture_counter.h pypipe.h pydata.h debugging/trace.h
 
 solving/capture_counter.h:
 
@@ -253,11 +259,11 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:
 solving/castling_intermediate_move_generator$(OBJ_SUFFIX): \
  solving/castling_intermediate_move_generator.c \
  solving/castling_intermediate_move_generator.h pydata.h pyproc.h \
- pypipe.h trace.h
+ pypipe.h debugging/trace.h
 
 solving/castling_intermediate_move_generator.h:
 
@@ -267,9 +273,10 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/single_move_generator$(OBJ_SUFFIX): solving/single_move_generator.c \
- solving/single_move_generator.h pydata.h pyproc.h pypipe.h trace.h
+ solving/single_move_generator.h pydata.h pyproc.h pypipe.h \
+ debugging/trace.h
 
 solving/single_move_generator.h:
 
@@ -279,10 +286,10 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  solving/trivial_end_filter.h pydata.h stipulation/testing_pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h trace.h
+ stipulation/branch.h stipulation/battle_play/branch.h debugging/trace.h
 
 solving/trivial_end_filter.h:
 
@@ -294,11 +301,12 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  solving/avoid_unsolvable.h pypipe.h stipulation/proxy.h \
  stipulation/branch.h stipulation/boolean/binary.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h trace.h
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 solving/avoid_unsolvable.h:
 
@@ -314,4 +322,4 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:

@@ -76,8 +76,8 @@
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "optimisations/hash.h"
-#include "trace.h"
-#include "measure.h"
+#include "debugging/trace.h"
+#include "debugging/measure.h"
 
 static piece linechampiece(piece p, square sq)
 {

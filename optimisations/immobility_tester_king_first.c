@@ -4,7 +4,7 @@
 #include "stipulation/boolean/and.h"
 #include "solving/king_move_generator.h"
 #include "solving/non_king_move_generator.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

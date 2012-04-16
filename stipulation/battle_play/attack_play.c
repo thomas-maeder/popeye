@@ -117,7 +117,7 @@
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/move_played.h"
 #include "stipulation/setplay_fork.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -4,7 +4,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/boolean/true.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality that detects whether stalemate goal has
  * been reached

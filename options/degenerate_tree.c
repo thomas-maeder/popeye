@@ -3,7 +3,7 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

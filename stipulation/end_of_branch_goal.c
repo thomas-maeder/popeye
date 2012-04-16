@@ -1,7 +1,7 @@
 #include "stipulation/end_of_branch_goal.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

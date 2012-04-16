@@ -22,7 +22,7 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

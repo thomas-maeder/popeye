@@ -6,7 +6,7 @@
 #include "solving/fork_on_remaining.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/killer_move/final_defense_move.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

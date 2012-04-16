@@ -8,7 +8,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/solving.h"
 #include "solving/find_move.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

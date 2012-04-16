@@ -5,7 +5,7 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/line/line_writer.h \
- output/plaintext/line/end_of_intro_series_marker.h trace.h
+ output/plaintext/line/end_of_intro_series_marker.h debugging/trace.h
 
 output/plaintext/line/line.h:
 
@@ -31,10 +31,10 @@ output/plaintext/line/line_writer.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
-trace.h:
+debugging/trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
- output/plaintext/line/line_writer.h pypipe.h pydata.h pybrafrk.h trace.h \
- pymsg.h output/plaintext/plaintext.h \
+ output/plaintext/line/line_writer.h pypipe.h pydata.h pybrafrk.h \
+ debugging/trace.h pymsg.h output/plaintext/plaintext.h \
  output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h platform/beep.h
 
@@ -46,7 +46,7 @@ pydata.h:
 
 pybrafrk.h:
 
-trace.h:
+debugging/trace.h:
 
 pymsg.h:
 
@@ -60,7 +60,7 @@ platform/beep.h:
 output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  output/plaintext/line/end_of_intro_series_marker.c \
  output/plaintext/line/end_of_intro_series_marker.h pydata.h pypipe.h \
- trace.h
+ debugging/trace.h
 
 output/plaintext/line/end_of_intro_series_marker.h:
 
@@ -68,4 +68,4 @@ pydata.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:

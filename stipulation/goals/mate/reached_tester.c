@@ -3,7 +3,7 @@
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/true.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality that detects whether mate goal has
  * been reached

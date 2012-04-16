@@ -64,7 +64,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "solving/single_move_generator_with_king_capture.h"
 #include "stipulation/temporary_hacks.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdio.h>

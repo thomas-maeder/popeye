@@ -11,7 +11,7 @@
 #include "solving/solving.h"
 #include "solving/battle_play/check_detector.h"
 #include "solving/avoid_unsolvable.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

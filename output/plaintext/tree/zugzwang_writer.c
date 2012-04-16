@@ -4,7 +4,7 @@
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "output/plaintext/tree/check_writer.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STZugzwangWriter slice.
  * @return index of allocated slice

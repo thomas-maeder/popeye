@@ -1,4 +1,4 @@
-#include "trace.h"
+#include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pystip.h"
@@ -530,7 +530,7 @@ void TraceStipulation(slice_index si)
 #include "pyproc.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

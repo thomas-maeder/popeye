@@ -1,5 +1,5 @@
-#if !defined(MEASURE_H)
-#define MEASURE_H
+#if !defined(DEBUGGING_MEASURE_H)
+#define DEBUGGING_MEASURE_H
 
 /* some functions for very simple measurements
  * - write useful output to standard out

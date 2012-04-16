@@ -2,7 +2,7 @@ conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_teste
  conditions/maff/immobility_tester.h pydata.h pypipe.h \
  stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
  solving/king_move_generator.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h trace.h
+ solving/legal_move_counter.h debugging/trace.h
 
 conditions/maff/immobility_tester.h:
 
@@ -22,4 +22,4 @@ solving/non_king_move_generator.h:
 
 solving/legal_move_counter.h:
 
-trace.h:
+debugging/trace.h:

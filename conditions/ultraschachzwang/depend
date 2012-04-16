@@ -1,6 +1,7 @@
 conditions/ultraschachzwang/goal_filter$(OBJ_SUFFIX): \
  conditions/ultraschachzwang/goal_filter.c \
- conditions/ultraschachzwang/goal_filter.h pypipe.h pydata.h trace.h
+ conditions/ultraschachzwang/goal_filter.h pypipe.h pydata.h \
+ debugging/trace.h
 
 conditions/ultraschachzwang/goal_filter.h:
 
@@ -8,4 +9,4 @@ pypipe.h:
 
 pydata.h:
 
-trace.h:
+debugging/trace.h:

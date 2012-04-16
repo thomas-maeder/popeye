@@ -4,7 +4,7 @@ optimisations/goals/optimisation_guards$(OBJ_SUFFIX): \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
  optimisations/goals/enpassant/filter.h \
- optimisations/goals/castling/filter.h trace.h
+ optimisations/goals/castling/filter.h debugging/trace.h
 
 optimisations/goals/optimisation_guards.h:
 
@@ -24,4 +24,4 @@ optimisations/goals/enpassant/filter.h:
 
 optimisations/goals/castling/filter.h:
 
-trace.h:
+debugging/trace.h:

@@ -5,7 +5,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/move_played.h stipulation/boolean/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/defense_adapter.h trace.h
+ stipulation/battle_play/defense_adapter.h debugging/trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -37,12 +37,12 @@ stipulation/battle_play/attack_adapter.h:
 
 stipulation/battle_play/defense_adapter.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
- stipulation/battle_play/defense_adapter.h pypipe.h trace.h
+ stipulation/battle_play/defense_adapter.h pypipe.h debugging/trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -54,7 +54,7 @@ stipulation/battle_play/defense_adapter.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_play.c \
  stipulation/battle_play/attack_play.h pybrafrk.h pymovein.h pyproof.h \
@@ -146,7 +146,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  stipulation/goals/steingewinn/reached_tester.h \
  stipulation/goals/target/reached_tester.h \
  stipulation/help_play/adapter.h stipulation/move_played.h \
- stipulation/setplay_fork.h trace.h
+ stipulation/setplay_fork.h debugging/trace.h
 
 stipulation/battle_play/attack_play.h:
 
@@ -386,12 +386,12 @@ stipulation/move_played.h:
 
 stipulation/setplay_fork.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
  stipulation/battle_play/defense_adapter.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- trace.h
+ debugging/trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -403,7 +403,7 @@ stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
  stipulation/battle_play/defense_play.h pyselfcg.h \
@@ -432,7 +432,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/goal_writer.h \
- output/plaintext/line/line_writer.h trace.h
+ output/plaintext/line/line_writer.h debugging/trace.h
 
 stipulation/battle_play/defense_play.h:
 
@@ -528,4 +528,4 @@ output/plaintext/tree/goal_writer.h:
 
 output/plaintext/line/line_writer.h:
 
-trace.h:
+debugging/trace.h:

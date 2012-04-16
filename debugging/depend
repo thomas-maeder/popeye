@@ -1,0 +1,14 @@
+debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h pydata.h \
+ pystip.h optimisations/hash.h output/plaintext/plaintext.h
+
+debugging/trace.h:
+
+pyproc.h:
+
+pydata.h:
+
+pystip.h:
+
+optimisations/hash.h:
+
+output/plaintext/plaintext.h:

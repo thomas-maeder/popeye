@@ -1,7 +1,7 @@
 #include "solving/battle_play/continuation.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

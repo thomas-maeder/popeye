@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/move_writer.h"
 #include "pypipe.h"
 #include "output/plaintext/tree/tree.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STMoveWriter defender slice.
  * @return index of allocated slice

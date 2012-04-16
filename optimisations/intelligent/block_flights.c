@@ -8,7 +8,7 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

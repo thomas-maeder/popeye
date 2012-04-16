@@ -3,7 +3,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/mate/reached_tester.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

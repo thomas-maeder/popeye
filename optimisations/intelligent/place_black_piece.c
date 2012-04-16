@@ -6,7 +6,7 @@
 #include "optimisations/intelligent/pin_black_piece.h"
 #include "optimisations/intelligent/intercept_black_move.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

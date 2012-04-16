@@ -10,7 +10,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/solving.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

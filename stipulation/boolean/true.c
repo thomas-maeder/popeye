@@ -1,6 +1,6 @@
 #include "stipulation/boolean/true.h"
 #include "solving/solving.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality dealing with leaf slices
  */

@@ -4,7 +4,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
- conditions/anticirce/exchange_filter.h trace.h
+ conditions/anticirce/exchange_filter.h debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -24,4 +24,4 @@ conditions/anticirce/exchange_special.h:
 
 conditions/anticirce/exchange_filter.h:
 
-trace.h:
+debugging/trace.h:

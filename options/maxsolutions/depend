@@ -1,7 +1,8 @@
 options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolutions.c \
  options/maxsolutions/maxsolutions.h pypipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- options/maxsolutions/initialiser.h options/maxsolutions/guard.h trace.h
+ options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
+ debugging/trace.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -17,10 +18,10 @@ options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
 
-trace.h:
+debugging/trace.h:
 options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \
  options/maxsolutions/initialiser.h options/maxsolutions/maxsolutions.h \
- pypipe.h trace.h
+ pypipe.h debugging/trace.h
 
 options/maxsolutions/initialiser.h:
 
@@ -28,10 +29,10 @@ options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
  options/maxsolutions/guard.h options/maxsolutions/maxsolutions.h \
- pypipe.h trace.h
+ pypipe.h debugging/trace.h
 
 options/maxsolutions/guard.h:
 
@@ -39,4 +40,4 @@ options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:

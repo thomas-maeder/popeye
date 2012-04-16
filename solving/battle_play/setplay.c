@@ -1,7 +1,7 @@
 #include "solving/battle_play/setplay.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/try.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {

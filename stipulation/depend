@@ -1,7 +1,7 @@
 stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/proxy.h stipulation/check_zigzag_jump.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/fork_on_remaining.h pypipe.h trace.h
+ solving/fork_on_remaining.h pypipe.h debugging/trace.h
 
 stipulation/branch.h:
 
@@ -17,9 +17,9 @@ solving/fork_on_remaining.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
- stipulation/move_played.h pydata.h pyproc.h pypipe.h trace.h
+ stipulation/move_played.h pydata.h pyproc.h pypipe.h debugging/trace.h
 
 stipulation/move_played.h:
 
@@ -29,10 +29,10 @@ pyproc.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
  stipulation/dummy_move.h pypipe.h stipulation/battle_play/attack_play.h \
- trace.h
+ debugging/trace.h
 
 stipulation/dummy_move.h:
 
@@ -40,9 +40,10 @@ pypipe.h:
 
 stipulation/battle_play/attack_play.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h pypipe.h \
- pybrafrk.h stipulation/branch.h stipulation/boolean/binary.h trace.h
+ pybrafrk.h stipulation/branch.h stipulation/boolean/binary.h \
+ debugging/trace.h
 
 stipulation/proxy.h:
 
@@ -54,9 +55,10 @@ stipulation/branch.h:
 
 stipulation/boolean/binary.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
- stipulation/setplay_fork.h pybrafrk.h stipulation/branch.h trace.h
+ stipulation/setplay_fork.h pybrafrk.h stipulation/branch.h \
+ debugging/trace.h
 
 stipulation/setplay_fork.h:
 
@@ -64,11 +66,11 @@ pybrafrk.h:
 
 stipulation/branch.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
  pypipe.h stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/avoid_unsolvable.h trace.h
+ solving/avoid_unsolvable.h debugging/trace.h
 
 stipulation/dead_end.h:
 
@@ -84,10 +86,10 @@ stipulation/help_play/branch.h:
 
 solving/avoid_unsolvable.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/end_of_branch$(OBJ_SUFFIX): stipulation/end_of_branch.c \
  stipulation/end_of_branch.h pybrafrk.h pypipe.h stipulation/proxy.h \
- stipulation/branch.h solving/fork_on_remaining.h trace.h
+ stipulation/branch.h solving/fork_on_remaining.h debugging/trace.h
 
 stipulation/end_of_branch.h:
 
@@ -101,9 +103,9 @@ stipulation/branch.h:
 
 solving/fork_on_remaining.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
- stipulation/end_of_branch_goal.h pybrafrk.h pypipe.h trace.h
+ stipulation/end_of_branch_goal.h pybrafrk.h pypipe.h debugging/trace.h
 
 stipulation/end_of_branch_goal.h:
 
@@ -111,11 +113,11 @@ pybrafrk.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.c \
  stipulation/end_of_branch_tester.h pypipe.h pybrafrk.h pydata.h \
  stipulation/proxy.h stipulation/branch.h stipulation/conditional_pipe.h \
- solving/solving.h solving/fork_on_remaining.h trace.h
+ solving/solving.h solving/fork_on_remaining.h debugging/trace.h
 
 stipulation/end_of_branch_tester.h:
 
@@ -135,12 +137,12 @@ solving/solving.h:
 
 solving/fork_on_remaining.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/constraint.h pypipe.h pybrafrk.h pydata.h \
  stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/solving.h trace.h
+ stipulation/help_play/branch.h solving/solving.h debugging/trace.h
 
 stipulation/constraint.h:
 
@@ -164,12 +166,12 @@ stipulation/help_play/branch.h:
 
 solving/solving.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/check_zigzag_jump$(OBJ_SUFFIX): stipulation/check_zigzag_jump.c \
  stipulation/check_zigzag_jump.h pydata.h pypipe.h stipulation/branch.h \
  stipulation/dummy_move.h stipulation/move_played.h stipulation/proxy.h \
  stipulation/boolean/binary.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h trace.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 stipulation/check_zigzag_jump.h:
 
@@ -191,7 +193,7 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/temporary_hacks.h pymovein.h pypipe.h stipulation/branch.h \
  stipulation/proxy.h stipulation/end_of_branch.h \
@@ -202,7 +204,8 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/goals/any/reached_tester.h \
  stipulation/goals/capture/reached_tester.h \
  stipulation/help_play/branch.h solving/legal_move_counter.h \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h trace.h
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ debugging/trace.h
 
 stipulation/temporary_hacks.h:
 
@@ -238,10 +241,10 @@ solving/legal_move_counter.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/testing_pipe$(OBJ_SUFFIX): stipulation/testing_pipe.c \
  stipulation/testing_pipe.h stipulation/proxy.h stipulation/branch.h \
- solving/solving.h trace.h
+ solving/solving.h debugging/trace.h
 
 stipulation/testing_pipe.h:
 
@@ -251,10 +254,10 @@ stipulation/branch.h:
 
 solving/solving.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/conditional_pipe$(OBJ_SUFFIX): stipulation/conditional_pipe.c \
  stipulation/conditional_pipe.h stipulation/proxy.h stipulation/branch.h \
- solving/solving.h trace.h
+ solving/solving.h debugging/trace.h
 
 stipulation/conditional_pipe.h:
 
@@ -264,4 +267,4 @@ stipulation/branch.h:
 
 solving/solving.h:
 
-trace.h:
+debugging/trace.h:

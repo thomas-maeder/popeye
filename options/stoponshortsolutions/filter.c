@@ -1,7 +1,7 @@
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "stipulation/branch.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

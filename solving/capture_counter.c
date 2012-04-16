@@ -1,7 +1,7 @@
 #include "solving/capture_counter.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

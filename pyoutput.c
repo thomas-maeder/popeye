@@ -6,7 +6,7 @@
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/line/line.h"
 
-#include "trace.h"
+#include "debugging/trace.h"
 
 #ifdef _SE_
 #include "se.h"

@@ -7,7 +7,7 @@
 #include "optimisations/intelligent/intercept_check_from_guard.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

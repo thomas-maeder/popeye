@@ -1,7 +1,7 @@
 #include "pytable.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

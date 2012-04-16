@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/key_writer.h"
 #include "pypipe.h"
 #include "platform/beep.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

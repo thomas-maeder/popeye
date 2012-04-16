@@ -1,7 +1,7 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "stipulation/branch.h"
 #include "solving/avoid_unsolvable.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -3,7 +3,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STEndOfSolutionWriter slice.
  * @return index of allocated slice

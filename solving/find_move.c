@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

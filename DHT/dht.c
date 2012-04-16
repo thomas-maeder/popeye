@@ -30,7 +30,7 @@
 
 #include "dhtvalue.h"
 #include "dht.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #if defined(DEBUG_DHT)
 int dhtDebug= 0;

@@ -3,7 +3,7 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/stoponshortsolutions.h \
  options/stoponshortsolutions/initialiser.h \
  options/stoponshortsolutions/filter.h pystip.h pypipe.h \
- stipulation/branch.h stipulation/help_play/branch.h trace.h
+ stipulation/branch.h stipulation/help_play/branch.h debugging/trace.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -19,11 +19,12 @@ stipulation/branch.h:
 
 stipulation/help_play/branch.h:
 
-trace.h:
+debugging/trace.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
  options/stoponshortsolutions/initialiser.c \
  options/stoponshortsolutions/initialiser.h \
- options/stoponshortsolutions/stoponshortsolutions.h pypipe.h trace.h
+ options/stoponshortsolutions/stoponshortsolutions.h pypipe.h \
+ debugging/trace.h
 
 options/stoponshortsolutions/initialiser.h:
 
@@ -31,12 +32,12 @@ options/stoponshortsolutions/stoponshortsolutions.h:
 
 pypipe.h:
 
-trace.h:
+debugging/trace.h:
 options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
  options/stoponshortsolutions/filter.h \
  options/stoponshortsolutions/stoponshortsolutions.h stipulation/branch.h \
- trace.h
+ debugging/trace.h
 
 options/stoponshortsolutions/filter.h:
 
@@ -44,4 +45,4 @@ options/stoponshortsolutions/stoponshortsolutions.h:
 
 stipulation/branch.h:
 
-trace.h:
+debugging/trace.h:

@@ -8,7 +8,7 @@
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/guard.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <limits.h>

@@ -127,7 +127,7 @@
 #include "platform/beep.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This is pyio.c
 ** It comprises a new io-Module for popeye.

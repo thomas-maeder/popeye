@@ -1,7 +1,7 @@
 #include "solving/play_suppressor.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/branch.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STPlaySuppressor defender slice.
  * @return index of allocated slice

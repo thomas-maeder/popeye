@@ -8,7 +8,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/and.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

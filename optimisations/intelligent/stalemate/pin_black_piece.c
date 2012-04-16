@@ -3,7 +3,7 @@
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/pin_black_piece.h"
 #include "optimisations/intelligent/stalemate/finish.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

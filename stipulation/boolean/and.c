@@ -3,7 +3,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/boolean/binary.h"
 #include "solving/solving.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

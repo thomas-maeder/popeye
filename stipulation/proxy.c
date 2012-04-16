@@ -3,7 +3,7 @@
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/binary.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/proof.h"
 #include "pyproof.h"
 #include "pypipe.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STIntelligentProof slice.
  * @return allocated slice

@@ -6,7 +6,7 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

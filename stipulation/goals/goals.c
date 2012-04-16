@@ -2,7 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/boolean/false.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "pytable.h"
 #include "pymsg.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STThreatWriter defender slice.
  * @return index of allocated slice

@@ -4,7 +4,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/boolean/true.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a auto-stalemate goal has just been reached

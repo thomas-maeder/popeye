@@ -7,7 +7,7 @@
 #include "stipulation/boolean/or.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

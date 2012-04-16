@@ -1,7 +1,7 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pypipe.h"
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

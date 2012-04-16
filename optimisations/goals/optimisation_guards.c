@@ -11,7 +11,7 @@
 #include "optimisations/goals/castling/filter.h"
 #include "optimisations/goals/castling/filter.h"
 
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

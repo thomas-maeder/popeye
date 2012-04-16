@@ -7,7 +7,7 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

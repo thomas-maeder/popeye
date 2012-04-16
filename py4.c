@@ -72,8 +72,8 @@
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "conditions/republican.h"
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "trace.h"
-#include "measure.h"
+#include "debugging/trace.h"
+#include "debugging/measure.h"
 
 #include <assert.h>
 #include <stdio.h>

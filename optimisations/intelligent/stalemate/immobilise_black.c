@@ -8,7 +8,7 @@
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
 #include "stipulation/temporary_hacks.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

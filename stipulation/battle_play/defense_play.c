@@ -46,7 +46,7 @@
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/line/line_writer.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -13,7 +13,7 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <limits.h>

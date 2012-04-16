@@ -7,7 +7,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "solving/solving.h"
 #include "solving/fork_on_remaining.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

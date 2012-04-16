@@ -11,7 +11,7 @@
 #include "stipulation/help_play/branch.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

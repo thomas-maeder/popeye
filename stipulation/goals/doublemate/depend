@@ -2,7 +2,7 @@ stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.c \
  stipulation/goals/doublemate/filter.h pydata.h \
  stipulation/conditional_pipe.h stipulation/goals/prerequisite_guards.h \
- stipulation/goals/immobile/reached_tester.h trace.h
+ stipulation/goals/immobile/reached_tester.h debugging/trace.h
 
 stipulation/goals/doublemate/filter.h:
 
@@ -14,7 +14,7 @@ stipulation/goals/prerequisite_guards.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
-trace.h:
+debugging/trace.h:
 stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.c \
  stipulation/goals/doublemate/reached_tester.h pypipe.h pydata.h \
@@ -22,7 +22,7 @@ stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
- stipulation/boolean/and.h trace.h
+ stipulation/boolean/and.h debugging/trace.h
 
 stipulation/goals/doublemate/reached_tester.h:
 
@@ -44,4 +44,4 @@ stipulation/boolean/true.h:
 
 stipulation/boolean/and.h:
 
-trace.h:
+debugging/trace.h:

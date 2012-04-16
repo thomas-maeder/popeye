@@ -7,7 +7,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/exchange_filter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

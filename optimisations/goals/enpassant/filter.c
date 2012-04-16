@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/goals/prerequisite_guards.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

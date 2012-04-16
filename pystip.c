@@ -40,7 +40,7 @@
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/stalemate/filter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

@@ -8,7 +8,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
 #include "solving/legal_move_counter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -5,7 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "output/plaintext/move_inversion_counter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STRefutingVariationWriter slice.
  * @return index of allocated slice

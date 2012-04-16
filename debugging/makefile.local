@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = trace.c
+
+INCLUDES = measure.h trace.h
+
+include makefile.rules $(CURRPWD)depend

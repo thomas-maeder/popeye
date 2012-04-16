@@ -5,7 +5,7 @@
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_guard_by_white.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <stdlib.h>

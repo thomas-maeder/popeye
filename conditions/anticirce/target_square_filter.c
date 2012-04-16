@@ -1,7 +1,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

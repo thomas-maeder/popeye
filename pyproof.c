@@ -31,7 +31,7 @@
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
-#include "trace.h"
+#include "debugging/trace.h"
 #include "pyposit.h"
 
 

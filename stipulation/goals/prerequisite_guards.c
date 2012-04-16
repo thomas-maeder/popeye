@@ -12,7 +12,7 @@
 #include "solving/fork_on_remaining.h"
 #include "optimisations/goals/optimisation_guards.h"
 
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

@@ -15,7 +15,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

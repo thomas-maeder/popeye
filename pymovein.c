@@ -1,7 +1,7 @@
 #include "pymovein.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "pypipe.h"
-#include "trace.h"
+#include "debugging/trace.h"
 #ifdef _SE_
 #include "se.h"
 #endif

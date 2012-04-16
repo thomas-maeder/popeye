@@ -1,7 +1,7 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "pymsg.h"
 #include "pypipe.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STIllegalSelfcheckWriter slice.
  * @return index of allocated slice

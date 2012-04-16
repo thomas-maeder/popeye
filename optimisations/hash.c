@@ -110,7 +110,7 @@
 #include "pypipe.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 typedef unsigned int hash_value_type;
 

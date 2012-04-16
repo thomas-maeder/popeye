@@ -10,7 +10,7 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 #include <limits.h>

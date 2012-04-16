@@ -33,7 +33,7 @@
 #include "solving/castling_intermediate_move_generator.h"
 #include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 #include <assert.h>
 

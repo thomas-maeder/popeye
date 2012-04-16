@@ -1,7 +1,7 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "pymsg.h"
 #include "pypipe.h"
-#include "trace.h"
+#include "debugging/trace.h"
 
 /* Allocate a STEndOfPhaseWriter slice.
  * @return index of allocated slice

@@ -3,7 +3,7 @@
 #include "pydata.h"
 #include "pydata.h"
 #include "pybrafrk.h"
-#include "trace.h"
+#include "debugging/trace.h"
 #include "pymsg.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"

@@ -2,7 +2,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "trace.h"
+#include "debugging/trace.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 
