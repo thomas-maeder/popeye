@@ -1,9 +1,9 @@
 conditions/ohneschach/immobility_tester$(OBJ_SUFFIX): \
  conditions/ohneschach/immobility_tester.c \
  conditions/ohneschach/immobility_tester.h pydata.h pyproc.h pymsg.h \
- stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
- stipulation/temporary_hacks.h stipulation/battle_play/attack_play.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
+ stipulation/boolean/and.h stipulation/temporary_hacks.h \
+ stipulation/battle_play/attack_play.h debugging/trace.h
 
 conditions/ohneschach/immobility_tester.h:
 
@@ -12,6 +12,8 @@ pydata.h:
 pyproc.h:
 
 pymsg.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 

@@ -67,7 +67,8 @@ debugging/trace.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/end_of_solution_writer.c \
  output/plaintext/tree/end_of_solution_writer.h pypipe.h pydata.h pymsg.h \
- stipulation/battle_play/defense_play.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/battle_play/defense_play.h \
+ debugging/trace.h
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -76,6 +77,8 @@ pypipe.h:
 pydata.h:
 
 pymsg.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/defense_play.h:
 
@@ -184,7 +187,7 @@ debugging/trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/zugzwang_writer.c \
  output/plaintext/tree/zugzwang_writer.h pydata.h pymsg.h pypipe.h \
- stipulation/battle_play/attack_play.h \
+ stipulation/has_solution_type.h stipulation/battle_play/attack_play.h \
  output/plaintext/tree/check_writer.h debugging/trace.h
 
 output/plaintext/tree/zugzwang_writer.h:
@@ -194,6 +197,8 @@ pydata.h:
 pymsg.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/attack_play.h:
 

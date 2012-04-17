@@ -1,6 +1,7 @@
 solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
  pybrafrk.h optimisations/hash.h options/nontrivial.h \
- options/maxthreatlength.h stipulation/proxy.h stipulation/testing_pipe.h \
+ options/maxthreatlength.h stipulation/proxy.h \
+ stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/end_of_branch_tester.h stipulation/battle_play/branch.h \
@@ -31,6 +32,8 @@ options/nontrivial.h:
 options/maxthreatlength.h:
 
 stipulation/proxy.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -84,12 +87,15 @@ solving/king_move_generator.h:
 
 debugging/trace.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
- pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- solving/avoid_unsolvable.h debugging/trace.h
+ pypipe.h stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
+ debugging/trace.h
 
 solving/find_shortest.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -117,10 +123,12 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
- solving/fork_on_remaining.h stipulation/boolean/binary.h \
- debugging/trace.h
+ solving/fork_on_remaining.h stipulation/has_solution_type.h \
+ stipulation/boolean/binary.h debugging/trace.h
 
 solving/fork_on_remaining.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/boolean/binary.h:
 
@@ -203,9 +211,10 @@ pypipe.h:
 
 debugging/trace.h:
 solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_move.h \
- pydata.h pyproc.h pypipe.h pybrafrk.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/solving.h solving/find_move.h debugging/trace.h
+ pydata.h pyproc.h pypipe.h pybrafrk.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/solving.h solving/find_move.h \
+ debugging/trace.h
 
 solving/for_each_move.h:
 
@@ -216,6 +225,8 @@ pyproc.h:
 pypipe.h:
 
 pybrafrk.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -229,7 +240,7 @@ solving/find_move.h:
 
 debugging/trace.h:
 solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h pypipe.h \
- pydata.h pyproc.h debugging/trace.h
+ pydata.h pyproc.h stipulation/has_solution_type.h debugging/trace.h
 
 solving/find_move.h:
 
@@ -238,6 +249,8 @@ pypipe.h:
 pydata.h:
 
 pyproc.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:
 solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
@@ -288,12 +301,15 @@ pypipe.h:
 
 debugging/trace.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
- solving/trivial_end_filter.h pydata.h stipulation/testing_pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h debugging/trace.h
+ solving/trivial_end_filter.h pydata.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/branch.h \
+ stipulation/battle_play/branch.h debugging/trace.h
 
 solving/trivial_end_filter.h:
 
 pydata.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -303,14 +319,16 @@ stipulation/battle_play/branch.h:
 
 debugging/trace.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
- solving/avoid_unsolvable.h pypipe.h stipulation/proxy.h \
- stipulation/branch.h stipulation/boolean/binary.h \
+ solving/avoid_unsolvable.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/branch.h stipulation/boolean/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  debugging/trace.h
 
 solving/avoid_unsolvable.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 

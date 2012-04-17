@@ -1,6 +1,7 @@
 #include "options/nontrivial.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "optimisations/intelligent/intelligent.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

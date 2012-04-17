@@ -18,6 +18,7 @@ slice_index alloc_illegal_selfcheck_writer_slice(void);
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type illegal_selfcheck_writer_attack(slice_index si, stip_length_type n);
+stip_length_type illegal_selfcheck_writer_attack(slice_index si,
+                                                 stip_length_type n);
 
 #endif

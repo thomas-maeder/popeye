@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_MAXSOLUTIONS_MAXSOLUTIONS_H)
 #define OPTIMISATIONS_MAXSOLUTIONS_MAXSOLUTIONS_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the maxsolutions option
@@ -31,7 +31,7 @@ void reset_nr_found_solutions_per_phase(void);
 void increase_nr_found_solutions(void);
 
 /* Have we found the maximum allowed number of solutions since the
- * last invokation of reset_nr_found_solutions()? 
+ * last invokation of reset_nr_found_solutions()?
  * @return true iff the allowed maximum number of solutions have been found
  */
 boolean max_nr_solutions_found_in_phase(void);

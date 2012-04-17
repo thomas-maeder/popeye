@@ -1,4 +1,5 @@
 #include "solving/fork_on_remaining.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/boolean/binary.h"
 #include "debugging/trace.h"
 

@@ -1,7 +1,7 @@
 #if !defined(PIECES_PARALYSING_H)
 #define PIECES_PARALYSING_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Determine whether a piece is paralysed
  * @param s position of piece

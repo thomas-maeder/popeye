@@ -30,13 +30,15 @@ debugging/trace.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h pymsg.h pypipe.h \
- debugging/trace.h
+ stipulation/has_solution_type.h debugging/trace.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
 pymsg.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \

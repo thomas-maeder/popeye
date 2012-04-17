@@ -1,5 +1,6 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

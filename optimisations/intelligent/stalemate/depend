@@ -28,7 +28,8 @@ debugging/trace.h:
 optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/filter.c \
  optimisations/intelligent/stalemate/filter.h pypipe.h pybrafrk.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/help_play/branch.h \
  stipulation/goals/immobile/reached_tester.h \
  optimisations/intelligent/intelligent.h \
@@ -39,6 +40,8 @@ optimisations/intelligent/stalemate/filter.h:
 pypipe.h:
 
 pybrafrk.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
@@ -65,7 +68,8 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.h \
  optimisations/intelligent/stalemate/black_block.h \
  optimisations/intelligent/stalemate/pin_black_piece.h \
- stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/temporary_hacks.h \
+ debugging/trace.h
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
@@ -84,6 +88,8 @@ optimisations/intelligent/stalemate/white_block.h:
 optimisations/intelligent/stalemate/black_block.h:
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/temporary_hacks.h:
 

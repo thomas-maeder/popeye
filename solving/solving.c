@@ -6,6 +6,7 @@
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
 #include "stipulation/proxy.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"

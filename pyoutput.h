@@ -1,7 +1,8 @@
 #if !defined(PYOUTPUT_H)
 #define PYOUTPUT_H
 
-#include "pystip.h"
+#include "output/mode.h"
+#include "stipulation/slice.h"
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

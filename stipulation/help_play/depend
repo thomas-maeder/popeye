@@ -1,11 +1,13 @@
 stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
- stipulation/help_play/adapter.h pypipe.h stipulation/branch.h \
- stipulation/battle_play/attack_play.h stipulation/help_play/branch.h \
- debugging/trace.h
+ stipulation/help_play/adapter.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/battle_play/attack_play.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 stipulation/help_play/adapter.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -15,16 +17,18 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
- stipulation/help_play/branch.h pypipe.h stipulation/conditional_pipe.h \
- stipulation/constraint.h stipulation/branch.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/dead_end.h stipulation/move_played.h \
- stipulation/boolean/binary.h stipulation/help_play/adapter.h \
- debugging/trace.h
+ stipulation/help_play/branch.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/conditional_pipe.h stipulation/constraint.h \
+ stipulation/branch.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_goal.h stipulation/dead_end.h \
+ stipulation/move_played.h stipulation/boolean/binary.h \
+ stipulation/help_play/adapter.h debugging/trace.h
 
 stipulation/help_play/branch.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 

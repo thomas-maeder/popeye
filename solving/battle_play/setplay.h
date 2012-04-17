@@ -1,7 +1,7 @@
 #if !defined(SOLVING_BATTLE_PLAY_SETPLAY_H)
 #define SOLVING_BATTLE_PLAY_SETPLAY_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with writing set play.
  */

@@ -1,5 +1,6 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
- stipulation/battle_play/branch.h pypipe.h stipulation/move_inverter.h \
+ stipulation/battle_play/branch.h pypipe.h \
+ stipulation/has_solution_type.h stipulation/move_inverter.h \
  stipulation/conditional_pipe.h stipulation/constraint.h \
  stipulation/proxy.h stipulation/branch.h stipulation/dead_end.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
@@ -10,6 +11,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
 stipulation/battle_play/branch.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/move_inverter.h:
 
@@ -40,11 +43,13 @@ stipulation/battle_play/defense_adapter.h:
 debugging/trace.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
- stipulation/battle_play/attack_adapter.h stipulation/branch.h \
- stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_adapter.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h pypipe.h debugging/trace.h
 
 stipulation/battle_play/attack_adapter.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -116,7 +121,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  solving/single_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/single_piece_move_generator.h solving/trivial_end_filter.h \
- stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
+ stipulation/has_solution_type.h stipulation/move_inverter.h \
+ stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -309,6 +315,8 @@ solving/single_piece_move_generator.h:
 
 solving/trivial_end_filter.h:
 
+stipulation/has_solution_type.h:
+
 stipulation/move_inverter.h:
 
 stipulation/battle_play/attack_adapter.h:
@@ -388,13 +396,16 @@ stipulation/setplay_fork.h:
 debugging/trace.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
- stipulation/battle_play/defense_adapter.h pypipe.h stipulation/branch.h \
+ stipulation/battle_play/defense_adapter.h pypipe.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
  debugging/trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -406,11 +417,11 @@ debugging/trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_play.c \
  stipulation/battle_play/defense_play.h pyselfcg.h \
- stipulation/constraint.h stipulation/dead_end.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
- stipulation/move_played.h stipulation/dummy_move.h \
- stipulation/check_zigzag_jump.h stipulation/battle_play/branch.h \
- stipulation/goals/reached_tester.h \
+ stipulation/has_solution_type.h stipulation/constraint.h \
+ stipulation/dead_end.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_goal.h stipulation/move_played.h \
+ stipulation/dummy_move.h stipulation/check_zigzag_jump.h \
+ stipulation/battle_play/branch.h stipulation/goals/reached_tester.h \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/prerequisite_optimiser.h \
  stipulation/battle_play/attack_play.h solving/fork_on_remaining.h \
@@ -436,6 +447,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
 stipulation/battle_play/defense_play.h:
 
 pyselfcg.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/constraint.h:
 

@@ -1,4 +1,5 @@
 #include "options/goal_is_end.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/battle_play/branch.h"

@@ -1,6 +1,7 @@
 #include "conditions/maff/immobility_tester.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"

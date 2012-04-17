@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pymsg.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 #include "options/movenumbers.h"
 #include "optimisations/intelligent/moves_left.h"

@@ -1,7 +1,7 @@
 #if !defined(PIECES_KAMIKAZE_H)
 #define PIECES_KAMIKAZE_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented

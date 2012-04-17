@@ -1,5 +1,6 @@
 #include "stipulation/dead_end.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"

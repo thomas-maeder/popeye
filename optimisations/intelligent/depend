@@ -70,11 +70,14 @@ debugging/trace.h:
 utilities/enumeration.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
- optimisations/intelligent/moves_left.h pypipe.h debugging/trace.h
+ optimisations/intelligent/moves_left.h pypipe.h \
+ stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/intelligent/moves_left.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:
 optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \
@@ -90,7 +93,8 @@ debugging/trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  optimisations/intelligent/duplicate_avoider.c \
  optimisations/intelligent/duplicate_avoider.h pydata.h pypipe.h \
- optimisations/intelligent/intelligent.h debugging/trace.h
+ optimisations/intelligent/intelligent.h stipulation/has_solution_type.h \
+ debugging/trace.h
 
 optimisations/intelligent/duplicate_avoider.h:
 
@@ -100,15 +104,19 @@ pypipe.h:
 
 optimisations/intelligent/intelligent.h:
 
+stipulation/has_solution_type.h:
+
 debugging/trace.h:
 optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
  optimisations/intelligent/limit_nr_solutions_per_target.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h pypipe.h \
- debugging/trace.h
+ stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:
 optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \

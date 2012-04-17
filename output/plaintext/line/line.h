@@ -1,7 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_LINE_H)
 #define OUTPUT_PLAINTEXT_LINE_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Instrument the stipulation structure with slices that implement
  * plaintext line mode output.

@@ -1,5 +1,6 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/branch.h"

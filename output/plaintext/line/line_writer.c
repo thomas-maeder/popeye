@@ -9,6 +9,7 @@
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/plaintext.h"
+#include "stipulation/has_solution_type.h"
 #include "platform/beep.h"
 #ifdef _SE_
 #include "se.h"

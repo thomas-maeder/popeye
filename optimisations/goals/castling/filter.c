@@ -1,6 +1,7 @@
 #include "optimisations/goals/castling/filter.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "debugging/trace.h"
 

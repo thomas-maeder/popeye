@@ -1,6 +1,7 @@
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 /* Allocate a STMaxSolutionsCounter slice.

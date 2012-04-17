@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "pyselfcg.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/constraint.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"

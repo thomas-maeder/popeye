@@ -1,5 +1,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/end_of_branch.h"

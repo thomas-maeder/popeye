@@ -79,6 +79,7 @@
 #include "solving/single_move_generator_with_king_capture.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/trivial_end_filter.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/branch.h"

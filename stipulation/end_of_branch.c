@@ -1,6 +1,7 @@
 #include "stipulation/end_of_branch.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "solving/fork_on_remaining.h"

@@ -25,13 +25,16 @@ debugging/trace.h:
 optimisations/killer_move/collector$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.c \
  optimisations/killer_move/collector.h pydata.h pypipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/battle_play/branch.h debugging/trace.h
 
 optimisations/killer_move/collector.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -41,15 +44,17 @@ debugging/trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h pydata.h pypipe.h \
- stipulation/proxy.h stipulation/dead_end.h \
- stipulation/battle_play/branch.h solving/fork_on_remaining.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/dead_end.h stipulation/battle_play/branch.h \
+ solving/fork_on_remaining.h debugging/trace.h
 
 optimisations/killer_move/final_defense_move.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 

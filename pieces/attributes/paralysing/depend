@@ -27,11 +27,14 @@ debugging/trace.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
  pieces/attributes/paralysing/mate_filter.h pypipe.h \
+ stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
 pieces/attributes/paralysing/mate_filter.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -39,6 +42,7 @@ debugging/trace.h:
 pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/stalemate_special.c \
  pieces/attributes/paralysing/stalemate_special.h pydata.h pypipe.h \
+ stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
 pieces/attributes/paralysing/stalemate_special.h:
@@ -46,6 +50,8 @@ pieces/attributes/paralysing/stalemate_special.h:
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 pieces/attributes/paralysing/paralysing.h:
 

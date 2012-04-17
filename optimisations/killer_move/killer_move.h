@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_KILLER_MOVE_H)
 #define OPTIMISATION_KILLER_MOVE_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Reset the enabled state of the optimisation
  */

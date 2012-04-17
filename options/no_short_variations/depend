@@ -16,15 +16,17 @@ debugging/trace.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- pydata.h pyproc.h stipulation/testing_pipe.h \
- stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- debugging/trace.h
+ pydata.h pyproc.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h debugging/trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
 pydata.h:
 
 pyproc.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 

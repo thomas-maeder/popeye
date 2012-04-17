@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

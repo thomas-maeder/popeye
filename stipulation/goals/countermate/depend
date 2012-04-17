@@ -1,12 +1,15 @@
 stipulation/goals/countermate/filter$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.c \
  stipulation/goals/countermate/filter.h pydata.h \
- stipulation/conditional_pipe.h stipulation/goals/prerequisite_guards.h \
+ stipulation/has_solution_type.h stipulation/conditional_pipe.h \
+ stipulation/goals/prerequisite_guards.h \
  stipulation/goals/mate/reached_tester.h debugging/trace.h
 
 stipulation/goals/countermate/filter.h:
 
 pydata.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 

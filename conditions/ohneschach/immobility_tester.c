@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/and.h"

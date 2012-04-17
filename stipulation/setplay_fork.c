@@ -1,5 +1,6 @@
 #include "stipulation/setplay_fork.h"
 #include "pybrafrk.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 
 #include "debugging/trace.h"

@@ -29,7 +29,8 @@ pypipe.h:
 
 debugging/trace.h:
 stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
- stipulation/move_played.h pydata.h pyproc.h pypipe.h debugging/trace.h
+ stipulation/move_played.h pydata.h pyproc.h pypipe.h \
+ stipulation/has_solution_type.h debugging/trace.h
 
 stipulation/move_played.h:
 
@@ -39,14 +40,18 @@ pyproc.h:
 
 pypipe.h:
 
+stipulation/has_solution_type.h:
+
 debugging/trace.h:
 stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
- stipulation/dummy_move.h pypipe.h stipulation/battle_play/attack_play.h \
- debugging/trace.h
+ stipulation/dummy_move.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/battle_play/attack_play.h debugging/trace.h
 
 stipulation/dummy_move.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -67,24 +72,29 @@ stipulation/boolean/binary.h:
 
 debugging/trace.h:
 stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
- stipulation/setplay_fork.h pybrafrk.h stipulation/branch.h \
- debugging/trace.h
+ stipulation/setplay_fork.h pybrafrk.h stipulation/has_solution_type.h \
+ stipulation/branch.h debugging/trace.h
 
 stipulation/setplay_fork.h:
 
 pybrafrk.h:
 
+stipulation/has_solution_type.h:
+
 stipulation/branch.h:
 
 debugging/trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
- pypipe.h stipulation/conditional_pipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/avoid_unsolvable.h debugging/trace.h
+ pypipe.h stipulation/has_solution_type.h stipulation/conditional_pipe.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/avoid_unsolvable.h \
+ debugging/trace.h
 
 stipulation/dead_end.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
@@ -98,14 +108,17 @@ solving/avoid_unsolvable.h:
 
 debugging/trace.h:
 stipulation/end_of_branch$(OBJ_SUFFIX): stipulation/end_of_branch.c \
- stipulation/end_of_branch.h pybrafrk.h pypipe.h stipulation/proxy.h \
- stipulation/branch.h solving/fork_on_remaining.h debugging/trace.h
+ stipulation/end_of_branch.h pybrafrk.h pypipe.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
+ solving/fork_on_remaining.h debugging/trace.h
 
 stipulation/end_of_branch.h:
 
 pybrafrk.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
@@ -115,13 +128,16 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
- stipulation/end_of_branch_goal.h pybrafrk.h pypipe.h debugging/trace.h
+ stipulation/end_of_branch_goal.h pybrafrk.h pypipe.h \
+ stipulation/has_solution_type.h debugging/trace.h
 
 stipulation/end_of_branch_goal.h:
 
 pybrafrk.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:
 stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.c \
@@ -150,7 +166,8 @@ solving/fork_on_remaining.h:
 debugging/trace.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/constraint.h pypipe.h pybrafrk.h pydata.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/solving.h debugging/trace.h
 
@@ -161,6 +178,8 @@ pypipe.h:
 pybrafrk.h:
 
 pydata.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
@@ -205,8 +224,8 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
- stipulation/temporary_hacks.h pypipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/end_of_branch.h \
+ stipulation/temporary_hacks.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/end_of_branch.h \
  stipulation/conditional_pipe.h stipulation/move_inverter.h \
  stipulation/boolean/true.h stipulation/boolean/not.h \
  stipulation/goals/reached_tester.h \
@@ -221,6 +240,8 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
 stipulation/temporary_hacks.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 

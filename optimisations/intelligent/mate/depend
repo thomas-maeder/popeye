@@ -1,7 +1,7 @@
 optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.c \
  optimisations/intelligent/mate/finish.h pydata.h \
- stipulation/battle_play/attack_play.h \
+ stipulation/has_solution_type.h stipulation/battle_play/attack_play.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
@@ -10,6 +10,8 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
 optimisations/intelligent/mate/finish.h:
 
 pydata.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/attack_play.h:
 

@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_QUODLIBET_H)
 #define OPTIONS_QUODLIBET_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Transform a stipulation tree to a quodlibet.
  * @param si identifies slice where to start

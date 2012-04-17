@@ -1,5 +1,6 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>

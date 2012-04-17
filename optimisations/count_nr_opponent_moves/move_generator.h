@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_COUNTNROPPONENTMOVES_MOVE_GENERATOR_H)
 #define OPTIMISATIONS_COUNTNROPPONENTMOVES_MOVE_GENERATOR_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with the defending side in
  * STMoveGenerator stipulation slices.

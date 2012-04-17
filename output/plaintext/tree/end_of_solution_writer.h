@@ -21,6 +21,7 @@ slice_index alloc_end_of_solution_writer_slice(void);
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found
  */
-stip_length_type end_of_solution_writer_defend(slice_index si, stip_length_type n);
+stip_length_type end_of_solution_writer_defend(slice_index si,
+                                               stip_length_type n);
 
 #endif

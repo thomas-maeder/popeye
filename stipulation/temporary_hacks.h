@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_TEMPORARY_HACKS_H)
 #define STIPULATION_TEMPORARY_HACKS_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* interface to some slices inserted as temporary hacks */
 

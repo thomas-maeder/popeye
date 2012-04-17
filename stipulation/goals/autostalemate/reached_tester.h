@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOAL_AUTOSTALEMATE_REACHED_TESTER_H)
 #define STIPULATION_GOAL_AUTOSTALEMATE_REACHED_TESTER_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a auto-stalemate goal has just been reached

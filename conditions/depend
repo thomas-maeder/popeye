@@ -49,12 +49,14 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/temporary_hacks.h:
 conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h pypipe.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 conditions/bgl.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/branch.h:
 

@@ -1,4 +1,5 @@
 #include "options/quodlibet.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "debugging/trace.h"
 

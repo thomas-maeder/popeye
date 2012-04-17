@@ -1,5 +1,6 @@
 #include "stipulation/goals/doublemate/filter.h"
 #include "pydata.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "stipulation/goals/immobile/reached_tester.h"

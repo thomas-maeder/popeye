@@ -1,6 +1,7 @@
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "pymsg.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
 /* Allocate a STIllegalSelfcheckWriter slice.

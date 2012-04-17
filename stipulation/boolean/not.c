@@ -1,4 +1,5 @@
 #include "stipulation/boolean/not.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "pypipe.h"
 #include "pyproc.h"

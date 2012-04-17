@@ -5,7 +5,7 @@
  */
 
 #include "utilities/boolean.h"
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Instrument a stipulation for option GoalIsEnd
  * @param root_slice identifies root slice of stipulation

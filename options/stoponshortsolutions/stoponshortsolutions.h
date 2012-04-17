@@ -2,7 +2,7 @@
 #define OPTIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H
 
 #include "utilities/boolean.h"
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the stoponshortsolutions option and command line parameter.

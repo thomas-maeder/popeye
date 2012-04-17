@@ -5,7 +5,7 @@ SRC_CFILES = slice_type.c has_solution_type.c branch.c move_played.c dummy_move.
          temporary_hacks.c testing_pipe.c conditional_pipe.c \
          move_inverter.c
          
-INCLUDES = slice_type.h has_solution_type.h branch.h move_played.h dummy_move.h proxy.h setplay_fork.h \
+INCLUDES = slice_type.h slice.h has_solution_type.h branch.h move_played.h dummy_move.h proxy.h setplay_fork.h \
            dead_end.h end_of_branch.h end_of_branch_goal.h end_of_branch_tester.h constraint.h \
            check_zigzag_jump.h temporary_hacks.h testing_pipe.h conditional_pipe.h \
            move_inverter.h

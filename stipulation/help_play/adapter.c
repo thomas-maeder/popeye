@@ -1,5 +1,6 @@
 #include "stipulation/help_play/adapter.h"
 #include "pypipe.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"

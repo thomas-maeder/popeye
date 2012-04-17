@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_BOOLEAN_FALSE_H)
 #define STIPULATION_BOOLEAN_FALSE_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* Allocate a STFalse slice.
  * @return index of allocated slice

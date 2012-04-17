@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "pyoutput.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"

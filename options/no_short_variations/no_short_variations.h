@@ -1,10 +1,10 @@
 #if !defined(OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_H)
 #define OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with the filter slices
- * implement the noshortvariations option 
+ * implement the noshortvariations option
  */
 
 /* Instrument a stipulation with STNoShortVariations slices

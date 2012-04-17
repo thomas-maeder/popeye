@@ -3,6 +3,7 @@
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "pydata.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"

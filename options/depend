@@ -14,11 +14,13 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
- stipulation/proxy.h stipulation/boolean/not.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/boolean/not.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h debugging/trace.h
 
 options/goal_is_end.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/proxy.h:
 
@@ -31,7 +33,7 @@ stipulation/help_play/branch.h:
 debugging/trace.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
  options/degenerate_tree.h pydata.h pypipe.h pybrafrk.h \
- stipulation/branch.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/branch.h debugging/trace.h
 
 options/degenerate_tree.h:
 
@@ -41,12 +43,15 @@ pypipe.h:
 
 pybrafrk.h:
 
+stipulation/has_solution_type.h:
+
 stipulation/branch.h:
 
 debugging/trace.h:
 options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h pydata.h \
- pypipe.h stipulation/testing_pipe.h stipulation/proxy.h \
- stipulation/branch.h stipulation/battle_play/branch.h solving/solving.h \
+ pypipe.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/proxy.h stipulation/branch.h \
+ stipulation/battle_play/branch.h solving/solving.h \
  solving/avoid_unsolvable.h debugging/trace.h
 
 options/nontrivial.h:
@@ -54,6 +59,8 @@ options/nontrivial.h:
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -70,10 +77,10 @@ solving/avoid_unsolvable.h:
 debugging/trace.h:
 options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  options/maxthreatlength.h pydata.h pypipe.h pybrafrk.h \
- stipulation/testing_pipe.h stipulation/branch.h stipulation/dummy_move.h \
- stipulation/move_played.h stipulation/battle_play/branch.h \
- stipulation/battle_play/attack_play.h solving/solving.h \
- solving/battle_play/check_detector.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/branch.h stipulation/dummy_move.h stipulation/move_played.h \
+ stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+ solving/solving.h solving/battle_play/check_detector.h debugging/trace.h
 
 options/maxthreatlength.h:
 
@@ -82,6 +89,8 @@ pydata.h:
 pypipe.h:
 
 pybrafrk.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -101,14 +110,16 @@ solving/battle_play/check_detector.h:
 
 debugging/trace.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
- pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h \
+ pypipe.h stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  options/movenumbers/restart_guard_intelligent.h \
  output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h debugging/trace.h
 
 options/movenumbers.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 
@@ -129,14 +140,17 @@ pymsg.h:
 debugging/trace.h:
 options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
  options/maxflightsquares.h pydata.h pypipe.h \
- stipulation/conditional_pipe.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/conditional_pipe.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 options/maxflightsquares.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
@@ -146,9 +160,12 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
- stipulation/battle_play/branch.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/battle_play/branch.h \
+ debugging/trace.h
 
 options/quodlibet.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/branch.h:
 

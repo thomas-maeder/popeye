@@ -1,7 +1,8 @@
 #if !defined(STIPULATION_GOALS_PREREQUISITE_GUARDS_H)
 #define STIPULATION_GOALS_PREREQUISITE_GUARDS_H
 
-#include "pystip.h"
+#include "stipulation/slice.h"
+#include "stipulation/goals/goals.h"
 
 /* remember if the prerequistes for the relvant goals are met */
 extern unsigned int goal_preprequisites_met[maxply];

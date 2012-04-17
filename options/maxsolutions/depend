@@ -32,12 +32,14 @@ pypipe.h:
 debugging/trace.h:
 options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
  options/maxsolutions/guard.h options/maxsolutions/maxsolutions.h \
- pypipe.h debugging/trace.h
+ pypipe.h stipulation/has_solution_type.h debugging/trace.h
 
 options/maxsolutions/guard.h:
 
 options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 debugging/trace.h:

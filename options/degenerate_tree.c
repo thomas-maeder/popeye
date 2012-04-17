@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pybrafrk.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 

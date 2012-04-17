@@ -1,10 +1,13 @@
 stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
- stipulation/boolean/and.h pypipe.h stipulation/constraint.h \
- stipulation/boolean/binary.h solving/solving.h debugging/trace.h
+ stipulation/boolean/and.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/constraint.h stipulation/boolean/binary.h solving/solving.h \
+ debugging/trace.h
 
 stipulation/boolean/and.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/constraint.h:
 
@@ -14,9 +17,12 @@ solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
- stipulation/boolean/or.h stipulation/boolean/binary.h debugging/trace.h
+ stipulation/boolean/or.h stipulation/has_solution_type.h \
+ stipulation/boolean/binary.h debugging/trace.h
 
 stipulation/boolean/or.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/boolean/binary.h:
 
@@ -33,10 +39,13 @@ solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
- stipulation/boolean/not.h stipulation/battle_play/attack_play.h pypipe.h \
- pyproc.h pydata.h debugging/trace.h
+ stipulation/boolean/not.h stipulation/has_solution_type.h \
+ stipulation/battle_play/attack_play.h pypipe.h pyproc.h pydata.h \
+ debugging/trace.h
 
 stipulation/boolean/not.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/attack_play.h:
 

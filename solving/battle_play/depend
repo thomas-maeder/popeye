@@ -1,8 +1,11 @@
 solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.c \
- solving/battle_play/continuation.h stipulation/testing_pipe.h \
- stipulation/battle_play/branch.h debugging/trace.h
+ solving/battle_play/continuation.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/battle_play/branch.h \
+ debugging/trace.h
 
 solving/battle_play/continuation.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -25,17 +28,19 @@ stipulation/battle_play/branch.h:
 debugging/trace.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/battle_play/threat.h pydata.h pypipe.h \
- stipulation/testing_pipe.h stipulation/branch.h stipulation/proxy.h \
- stipulation/dummy_move.h stipulation/move_played.h \
- stipulation/battle_play/branch.h solving/solving.h \
- solving/battle_play/check_detector.h solving/avoid_unsolvable.h \
- utilities/table.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/dummy_move.h \
+ stipulation/move_played.h stipulation/battle_play/branch.h \
+ solving/solving.h solving/battle_play/check_detector.h \
+ solving/avoid_unsolvable.h utilities/table.h debugging/trace.h
 
 solving/battle_play/threat.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/testing_pipe.h:
 
@@ -98,10 +103,13 @@ solving/solving.h:
 
 debugging/trace.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
- solving/battle_play/setplay.h stipulation/battle_play/branch.h \
- solving/battle_play/try.h debugging/trace.h
+ solving/battle_play/setplay.h stipulation/has_solution_type.h \
+ stipulation/battle_play/branch.h solving/battle_play/try.h \
+ debugging/trace.h
 
 solving/battle_play/setplay.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/branch.h:
 
@@ -122,7 +130,8 @@ solving/avoid_unsolvable.h:
 debugging/trace.h:
 solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  solving/battle_play/min_length_guard.c \
- solving/battle_play/min_length_guard.h pypipe.h stipulation/branch.h \
+ solving/battle_play/min_length_guard.h pypipe.h \
+ stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/attack_play.h stipulation/battle_play/branch.h \
  solving/solving.h solving/battle_play/min_length_optimiser.h \
  debugging/trace.h
@@ -130,6 +139,8 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
 solving/battle_play/min_length_guard.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/branch.h:
 

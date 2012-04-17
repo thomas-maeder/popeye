@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "debugging/trace.h"
 

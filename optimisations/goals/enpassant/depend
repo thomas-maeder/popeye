@@ -1,13 +1,16 @@
 optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.c \
  optimisations/goals/enpassant/filter.h pydata.h pypipe.h \
- stipulation/goals/prerequisite_guards.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
+ debugging/trace.h
 
 optimisations/goals/enpassant/filter.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/has_solution_type.h:
 
 stipulation/goals/prerequisite_guards.h:
 
