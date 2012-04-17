@@ -46,15 +46,6 @@
 #include <stdlib.h>
 
 
-#define ENUMERATION_TYPENAME branch_level
-#define ENUMERATORS \
-  ENUMERATOR(toplevel_branch),                  \
-    ENUMERATOR(nested_branch)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                                              \
     ENUMERATOR(has_solution_type_0),                             \

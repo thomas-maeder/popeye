@@ -118,16 +118,6 @@ typedef struct
 } Slice;
 
 
-#define ENUMERATION_TYPENAME branch_level
-#define ENUMERATORS \
-  ENUMERATOR(toplevel_branch),                  \
-    ENUMERATOR(nested_branch)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
-
-
 /* slice identification */
 enum
 {
