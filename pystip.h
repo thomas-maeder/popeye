@@ -4,6 +4,7 @@
 #include "py.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/slice_type.h"
+#include "output/mode.h"
 #include "utilities/boolean.h"
 
 #include <stddef.h>
@@ -16,16 +17,6 @@ typedef enum
   goal_applies_to_starter,
   goal_applies_to_adversary
 } goal_applies_to_starter_or_adversary;
-
-#define ENUMERATION_TYPENAME output_mode
-#define ENUMERATORS \
-  ENUMERATOR(output_mode_tree), \
-    ENUMERATOR(output_mode_line), \
-    ENUMERATOR(output_mode_none)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
 
 typedef struct
 {
