@@ -1,0 +1,5 @@
+output/mode$(OBJ_SUFFIX): output/mode.c output/mode.h utilities/enumeration.h
+
+output/mode.h:
+
+utilities/enumeration.h:

@@ -12,16 +12,6 @@
 #include "se.h"
 #endif
 
-#define ENUMERATION_TYPENAME output_mode
-#define ENUMERATORS \
-  ENUMERATOR(output_mode_tree), \
-    ENUMERATOR(output_mode_line), \
-    ENUMERATOR(output_mode_none)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice
  * @return identifier of the allocated slice

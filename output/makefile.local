@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = 
+SRC_CFILES = mode.c
 
 INCLUDES = mode.h
 
