@@ -74,6 +74,7 @@
 #include "pyproof.h"
 #include "pypipe.h"
 #include "pyoutput.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/dead_end.h"

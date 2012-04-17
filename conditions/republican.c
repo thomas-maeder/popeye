@@ -1,7 +1,7 @@
 #include "republican.h"
 #include "pydata.h"
 #include "pylang.h"
-#include "pystip.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"

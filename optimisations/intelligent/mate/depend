@@ -86,8 +86,8 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 debugging/trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/goalreachable_guard.c \
- optimisations/intelligent/mate/goalreachable_guard.h pydata.h pystip.h \
- optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/mate/goalreachable_guard.h pydata.h \
+ stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
@@ -95,7 +95,7 @@ optimisations/intelligent/mate/goalreachable_guard.h:
 
 pydata.h:
 
-pystip.h:
+stipulation/has_solution_type.h:
 
 optimisations/intelligent/intelligent.h:
 

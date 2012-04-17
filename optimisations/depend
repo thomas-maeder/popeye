@@ -37,11 +37,12 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c py.h pyproc.h pydata.h pymsg.h \
- optimisations/hash.h DHT/dhtvalue.h DHT/dht.h pyproof.h pystip.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/solving.h solving/avoid_unsolvable.h conditions/bgl.h \
- options/nontrivial.h stipulation/branch.h pypipe.h platform/maxtime.h \
- platform/maxmem.h debugging/trace.h
+ optimisations/hash.h DHT/dhtvalue.h DHT/dht.h pyproof.h \
+ stipulation/has_solution_type.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/solving.h \
+ solving/avoid_unsolvable.h conditions/bgl.h options/nontrivial.h \
+ stipulation/branch.h pypipe.h platform/maxtime.h platform/maxmem.h \
+ debugging/trace.h
 
 py.h:
 
@@ -59,7 +60,7 @@ DHT/dht.h:
 
 pyproof.h:
 
-pystip.h:
+stipulation/has_solution_type.h:
 
 stipulation/battle_play/branch.h:
 

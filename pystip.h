@@ -127,37 +127,6 @@ enum
 
 extern Slice slices[max_nr_slices];
 
-/* The length field of series and help branch slices thus gives the
- * number of half moves of the *human-readable* stipulation.
- *
- * This means that the recursion depth of solving the branch slice
- * never reaches the value of length. At (maximal) recursion depth
- * length-2 (help play) resp. length-1 (series play), solving the
- * next slice is started.
- *
- * The following symbols represent the difference of the length and
- * the maximal recursion level:
- */
-enum
-{
-  slack_length = 3    /* half moves */
-};
-
-
-#define ENUMERATION_TYPENAME has_solution_type
-#define ENUMERATORS                                              \
-    ENUMERATOR(has_solution_type_0),                             \
-    ENUMERATOR(opponent_self_check),                             \
-    ENUMERATOR(has_solution_type_2),                             \
-    ENUMERATOR(has_solution),                                    \
-    ENUMERATOR(has_solution_type_4),                             \
-    ENUMERATOR(has_no_solution),                                 \
-    ASSIGNED_ENUMERATOR(length_unspecified=slack_length)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
-
 
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                                              \

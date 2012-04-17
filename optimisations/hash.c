@@ -99,7 +99,7 @@
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pyproof.h"
-#include "pystip.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/solving.h"

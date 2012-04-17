@@ -116,6 +116,7 @@
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/end_of_branch.h"
 #include "stipulation/end_of_branch_tester.h"

@@ -64,7 +64,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pystip.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/single_move_generator.h"
@@ -1508,7 +1508,7 @@ static void gkanglion(square sq_departure, Side camp) {
     if (hurdle!=obs) {
       finligne(sq_hurdle,vec[k],hurdle,sq_arrival);
       if (hurdle!=obs) {
-        while (e[sq_arrival+= vec[k]] == vide) 
+        while (e[sq_arrival+= vec[k]] == vide)
           empile(sq_departure,sq_arrival,sq_arrival);
         if (rightcolor(e[sq_arrival],camp))
           empile(sq_departure,sq_arrival,sq_arrival);
@@ -3158,7 +3158,7 @@ void genrb(square sq_departure)
         empile(sq_departure,sq_arrival,maxsquare+sq_castler);
     }
   }
-  
+
   if (CondFlag[platzwechselrochade] && whpwr[nbply])
   {
     int i,j;
