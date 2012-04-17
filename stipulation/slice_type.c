@@ -1,11 +1,3 @@
-#if !defined(STIPULATION_SLICE_TYPE_H)
-#define STIPULATION_SLICE_TYPE_H
-
-/* To deal with the complexity of stipulations used in chess problems,
- * their representation in Popeye splits them up into "slices".
- * This enumeration identify the slice types.
- */
-
 #define ENUMERATION_TYPENAME slice_type
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
@@ -213,7 +205,5 @@
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
-#define ENUMERATION_DECLARE
+#define ENUMERATION_MAKESTRINGS
 #include "utilities/enumeration.h"
-
-#endif

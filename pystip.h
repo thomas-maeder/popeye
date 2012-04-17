@@ -1,18 +1,15 @@
 #if !defined(PYSTIP_H)
 #define PYSTIP_H
 
-#include <stddef.h>
-
-#include "stipulation/goals/goals.h"
 #include "py.h"
+#include "stipulation/goals/goals.h"
+#include "stipulation/slice_type.h"
 #include "utilities/boolean.h"
+
+#include <stddef.h>
 
 /* This module provides generic declarations and functionality about
  * stipulations */
-
-#include "stipulation/slice_type.h"
-#define ENUMERATION_DECLARE
-#include "utilities/enumeration.h"
 
 typedef enum
 {

@@ -45,10 +45,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "stipulation/slice_type.h"
-#define ENUMERATION_MAKESTRINGS
-#include "utilities/enumeration.h"
-
 
 #define ENUMERATION_TYPENAME branch_level
 #define ENUMERATORS \
