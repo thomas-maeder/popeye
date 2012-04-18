@@ -51,8 +51,6 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
   CapturedBishopc1, CapturedBishopf1, CapturedQueend1,
   CapturedBishopc8, CapturedBishopf8, CapturedQueend8;
 
-static goal_type goal_to_be_reached;
-
 stip_length_type current_length;
 
 static boolean ProofFairy;
@@ -636,19 +634,12 @@ void ProofRestoreTargetPosition(void)
 
 void ProofWriteStartPosition(slice_index start)
 {
-  if (goal_to_be_reached==goal_atob)
-  {
-    char InitialLine[40];
-    sprintf(InitialLine,
-            "\nInitial (%s ->):\n",
-            PieSpString[UserLanguage][slices[start].starter]);
-    StdString(InitialLine);
-    WritePosition();
-  }
-  else
-  {
-    /* nothing - we don't write the game array */
-  }
+  char InitialLine[40];
+  sprintf(InitialLine,
+          "\nInitial (%s ->):\n",
+          PieSpString[UserLanguage][slices[start].starter]);
+  StdString(InitialLine);
+  WritePosition();
 }
 
 static boolean compareProofPieces(void)
@@ -1949,45 +1940,34 @@ static void saveTargetPiecesAndSquares(void)
 
 void ProofInitialise(slice_index si)
 {
-  Goal unique_goal;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  unique_goal = find_unique_goal(si);
-  if (unique_goal.type==no_goal)
-    VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
-  else
-  {
-    saveTargetPiecesAndSquares();
+  saveTargetPiecesAndSquares();
 
-    goal_to_be_reached = unique_goal.type;
-    assert(goal_to_be_reached==goal_proofgame || goal_to_be_reached==goal_atob);
-
-    ProofFairy = (change_moving_piece
-                  || CondFlag[black_oscillatingKs]
-                  || CondFlag[white_oscillatingKs]
-                  || CondFlag[republican]
-                  || anycirce
-                  || CondFlag[sentinelles]
-                  || anyanticirce
-                  || CondFlag[singlebox]
-                  || CondFlag[blroyalsq]
-                  || CondFlag[whroyalsq]
-                  || TSTFLAG(PieSpExFlags, ColourChange)
-                  || CondFlag[actrevolving]
-                  || CondFlag[arc]
-                  || CondFlag[annan]
-                  || CondFlag[glasgow]
-                  || CondFlag[takemake]
-                  || CondFlag[circeassassin]
-                  || CondFlag[messigny]
-                  || CondFlag[mars]
-                  || CondFlag[castlingchess]
-                  || CondFlag[platzwechselrochade]
-                  || CondFlag[football]);
-  }
+  ProofFairy = (change_moving_piece
+                || CondFlag[black_oscillatingKs]
+                || CondFlag[white_oscillatingKs]
+                || CondFlag[republican]
+                || anycirce
+                || CondFlag[sentinelles]
+                || anyanticirce
+                || CondFlag[singlebox]
+                || CondFlag[blroyalsq]
+                || CondFlag[whroyalsq]
+                || TSTFLAG(PieSpExFlags, ColourChange)
+                || CondFlag[actrevolving]
+                || CondFlag[arc]
+                || CondFlag[annan]
+                || CondFlag[glasgow]
+                || CondFlag[takemake]
+                || CondFlag[circeassassin]
+                || CondFlag[messigny]
+                || CondFlag[mars]
+                || CondFlag[castlingchess]
+                || CondFlag[platzwechselrochade]
+                || CondFlag[football]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -2455,7 +2455,7 @@ static void fini_duplex(slice_index si)
 }
 
 /* Perform verifications and initialisations before solving a twin
- * (which can be the only twin of the problem)
+ * (which may be the only twin of the problem)
  * @param si identifies the root slice of the stipulation
  */
 static boolean initialise_verify_twin(slice_index si)
@@ -2470,34 +2470,42 @@ static boolean initialise_verify_twin(slice_index si)
 
   if (stip_ends_in(si,goal_proofgame) || stip_ends_in(si,goal_atob))
   {
-    countPieces();
-    if (locateRoyal())
+    Goal const unique_goal = find_unique_goal(si);
+    if (unique_goal.type==no_goal)
+      VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
+    else
     {
-      ProofSaveTargetPosition();
-
-      if (stip_ends_in(si,goal_proofgame))
-        ProofInitialiseStartPosition();
-
-      ProofRestoreStartPosition();
+      assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
 
       countPieces();
-      if (locateRoyal() && verify_position(si))
+      if (locateRoyal())
       {
-        ProofSaveStartPosition();
-        ProofRestoreTargetPosition();
+        ProofSaveTargetPosition();
 
-        ProofInitialise(si);
-
-        if (!OptFlag[noboard])
-          WritePosition();
-        initialise_piece_flags();
+        if (stip_ends_in(si,goal_proofgame))
+          ProofInitialiseStartPosition();
 
         ProofRestoreStartPosition();
-        if (!OptFlag[noboard])
-          ProofWriteStartPosition(si);
-        initialise_piece_flags();
 
-        result = true;
+        countPieces();
+        if (locateRoyal() && verify_position(si))
+        {
+          ProofSaveStartPosition();
+          ProofRestoreTargetPosition();
+
+          ProofInitialise(si);
+
+          if (!OptFlag[noboard])
+            WritePosition();
+          initialise_piece_flags();
+
+          ProofRestoreStartPosition();
+          if (unique_goal.type==goal_atob && !OptFlag[noboard])
+            ProofWriteStartPosition(si);
+          initialise_piece_flags();
+
+          result = true;
+        }
       }
     }
   }
