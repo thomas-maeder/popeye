@@ -1,7 +1,6 @@
 #include "stipulation/dead_end.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -79,7 +78,7 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
   if (state->optimisable_deadend!=no_slice
       && st->context!=stip_traversal_context_attack)
   {
-    pipe_append(si,alloc_pipe(STDeadEndGoal));
+    pipe_append(slices[si].u.pipe.next,alloc_pipe(STDeadEndGoal));
     pipe_remove(state->optimisable_deadend);
   }
 
@@ -123,14 +122,13 @@ static void forget_deadend(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const dead_end_optimisers[] =
 {
-  { STReadyForAttack,          &optimise_deadend_ready               },
-  { STReadyForHelpMove,        &optimise_deadend_ready               },
-  { STNotEndOfBranchGoal,      &substitute_deadend_goal              },
-  { STEndOfBranchGoalImmobile, &substitute_deadend_goal              },
-  { STEndOfBranch,             &forget_deadend                       },
-  { STEndOfBranchForced,       &forget_deadend                       },
-  { STDeadEnd,                 &remember_deadend                     },
-  { STConstraintTester,        &stip_traverse_moves_conditional_pipe }
+  { STReadyForAttack,          &optimise_deadend_ready  },
+  { STReadyForHelpMove,        &optimise_deadend_ready  },
+  { STEndOfBranchGoal,         &substitute_deadend_goal },
+  { STEndOfBranchGoalImmobile, &substitute_deadend_goal },
+  { STEndOfBranch,             &forget_deadend          },
+  { STEndOfBranchForced,       &forget_deadend          },
+  { STDeadEnd,                 &remember_deadend        }
 };
 
 enum
@@ -154,9 +152,6 @@ void stip_optimise_dead_end_slices(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&mt,&state);
-  stip_moves_traversal_override_by_function(&mt,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_moves_pipe);
   stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
   stip_traverse_moves(si,&mt);
 

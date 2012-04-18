@@ -93,18 +93,15 @@ stipulation/branch.h:
 
 debugging/trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
- pypipe.h stipulation/has_solution_type.h stipulation/conditional_pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/avoid_unsolvable.h \
- debugging/trace.h
+ pypipe.h stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/avoid_unsolvable.h debugging/trace.h
 
 stipulation/dead_end.h:
 
 pypipe.h:
 
 stipulation/has_solution_type.h:
-
-stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
