@@ -46,8 +46,11 @@ void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
 
 typedef struct
 {
-  slice_index optimisable_deadend;
+    slice_index end_of_branch_goal;
+    slice_index optimisable_deadend;
 } optimisation_state;
+
+static optimisation_state const null_optimisation_state = { no_slice, no_slice };
 
 static void optimise_deadend_ready(slice_index si, stip_moves_traversal *st)
 {
@@ -58,6 +61,7 @@ static void optimise_deadend_ready(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  *state = null_optimisation_state;
   stip_traverse_moves_children(si,st);
   *state = save_state;
 
@@ -76,13 +80,32 @@ static void substitute_deadend_goal(slice_index si, stip_moves_traversal *st)
   stip_traverse_moves_children(si,st);
 
   if (state->optimisable_deadend!=no_slice
+      && state->end_of_branch_goal!=no_slice
       && st->context!=stip_traversal_context_attack)
   {
-    pipe_append(slices[si].u.pipe.next,alloc_pipe(STDeadEndGoal));
+    slice_index const prototype = alloc_pipe(STDeadEndGoal);
+    defense_branch_insert_slices(si,&prototype,1);
     pipe_remove(state->optimisable_deadend);
   }
 
   state->optimisable_deadend = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_end_of_branch(slice_index si, stip_moves_traversal *st)
+{
+  optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+    state->end_of_branch_goal = si;
+
+  stip_traverse_moves_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -124,8 +147,9 @@ static moves_traversers_visitors const dead_end_optimisers[] =
 {
   { STReadyForAttack,          &optimise_deadend_ready  },
   { STReadyForHelpMove,        &optimise_deadend_ready  },
-  { STEndOfBranchGoal,         &substitute_deadend_goal },
-  { STEndOfBranchGoalImmobile, &substitute_deadend_goal },
+  { STEndOfBranchGoal,         &remember_end_of_branch  },
+  { STEndOfBranchGoalImmobile, &remember_end_of_branch  },
+  { STNotEndOfBranchGoal,      &substitute_deadend_goal },
   { STEndOfBranch,             &forget_deadend          },
   { STEndOfBranchForced,       &forget_deadend          },
   { STDeadEnd,                 &remember_deadend        }
@@ -143,7 +167,7 @@ enum
 void stip_optimise_dead_end_slices(slice_index si)
 {
   stip_moves_traversal mt;
-  optimisation_state state = { no_slice };
+  optimisation_state state = null_optimisation_state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
