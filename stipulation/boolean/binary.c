@@ -130,38 +130,6 @@ void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine contribution of slice subtree to maximum number of moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
-{
-  stip_length_type * const result = st->param;
-  stip_length_type const save_result = *result;
-  stip_length_type result1;
-  stip_length_type result2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves(slices[si].u.binary.op1,st);
-  result1 = *result;
-  TraceValue("%u\n",result1);
-
-  *result = save_result;
-  stip_traverse_moves(slices[si].u.binary.op2,st);
-  result2 = *result;
-  TraceValue("%u\n",result2);
-
-  if (result1>result2)
-    *result = result1;
-  TraceValue("%u\n",*result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

@@ -143,13 +143,6 @@ void dealloc_slices(slice_index si);
  */
 void slice_set_predecessor(slice_index slice, slice_index pred);
 
-/* Determine the maximally possible number of half-moves until the
- * goal has to be reached.
- * @param si root of subtree
- * @param maximally possible number of half-moves
- */
-stip_length_type get_max_nr_moves(slice_index si);
-
 /* Does the current stipulation end in a specific goal?
  * @param si identifies slice where to start
  * @param goal identifies the goal
@@ -452,7 +445,7 @@ typedef slice_index stip_deep_copies_type[max_nr_slices];
  *        to indices of copies
  * @note initialises all elements of *copies to no_slice
  * @note after this initialisation, *st can be used for a deep copy operation;
- *       or st can be further modified for some special copy operation
+ *       or *st can be further modified for some special copy operation
  */
 void init_deep_copy(stip_structure_traversal *st,
                     stip_deep_copies_type *copies);

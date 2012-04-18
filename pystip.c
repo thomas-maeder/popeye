@@ -294,55 +294,6 @@ void stip_insert_intro_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine contribution of slice subtree to maximum number of moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
-{
-  stip_length_type * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++*result;
-  TraceValue("%u\n",*result);
-
-  stip_traverse_moves_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine the maximally possible number of half-moves until the
- * goal has to be reached.
- * @param si root of subtree
- * @param maximally possible number of half-moves
- */
-stip_length_type get_max_nr_moves(slice_index si)
-{
-  stip_moves_traversal st;
-  stip_length_type result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-  stip_moves_traversal_init(&st,&result);
-  stip_moves_traversal_override_by_structure(&st,
-                                             slice_structure_binary,
-                                             &get_max_nr_moves_binary);
-  stip_moves_traversal_override_single(&st,STMove,&get_max_nr_moves_move);
-  stip_traverse_moves(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 typedef struct
 {
   Goal unique_goal;

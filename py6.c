@@ -629,6 +629,87 @@ static Side findRestrictedSide(slice_index si)
   return result;
 }
 
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
+{
+  stip_length_type * const result = st->param;
+  stip_length_type const save_result = *result;
+  stip_length_type result1;
+  stip_length_type result2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves(slices[si].u.binary.op1,st);
+  result1 = *result;
+  TraceValue("%u\n",result1);
+
+  *result = save_result;
+  stip_traverse_moves(slices[si].u.binary.op2,st);
+  result2 = *result;
+  TraceValue("%u\n",result2);
+
+  if (result1>result2)
+    *result = result1;
+  TraceValue("%u\n",*result);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
+{
+  stip_length_type * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++*result;
+  TraceValue("%u\n",*result);
+
+  stip_traverse_moves_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine the maximally possible number of half-moves until the
+ * goal has to be reached.
+ * @param si root of subtree
+ * @param maximally possible number of half-moves
+ */
+static stip_length_type get_max_nr_moves(slice_index si)
+{
+  stip_moves_traversal st;
+  stip_length_type result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  stip_moves_traversal_init(&st,&result);
+  stip_moves_traversal_override_by_structure(&st,
+                                             slice_structure_binary,
+                                             &get_max_nr_moves_binary);
+  stip_moves_traversal_override_single(&st,STMove,&get_max_nr_moves_move);
+  stip_traverse_moves(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Verify the user input and our interpretation of it
  * @param si identifies the root slice of the representation of the
  *           stipulation
