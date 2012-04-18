@@ -15,7 +15,7 @@ slice_index alloc_true_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(STTrue);
+  result = create_slice(STTrue);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

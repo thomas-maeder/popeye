@@ -426,7 +426,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h pyposit.h pyboard.h \
  stipulation/boolean/or.h stipulation/battle_play/branch.h \
  stipulation/constraint.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h stipulation/slice.h \
- stipulation/temporary_hacks.h \
+ stipulation/goals/goals.h stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h solving/solving.h \
  solving/for_each_move.h solving/battle_play/check_detector.h \
  solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
@@ -448,7 +448,6 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h pyposit.h pyboard.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/goals/goals.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  debugging/trace.h debugging/measure.h
 
@@ -568,6 +567,8 @@ stipulation/goals/prerequisite_guards.h:
 
 stipulation/slice.h:
 
+stipulation/goals/goals.h:
+
 stipulation/temporary_hacks.h:
 
 stipulation/goals/immobile/reached_tester.h:
@@ -641,8 +642,6 @@ options/stoponshortsolutions/stoponshortsolutions.h:
 optimisations/count_nr_opponent_moves/move_generator.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
-
-stipulation/goals/goals.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 

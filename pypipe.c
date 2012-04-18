@@ -18,7 +18,7 @@ slice_index alloc_pipe(slice_type type)
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(type);
+  result = create_slice(type);
   slices[result].u.pipe.next = no_slice;
 
   TraceFunctionExit(__func__);

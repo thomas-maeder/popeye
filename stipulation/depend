@@ -2,6 +2,14 @@ stipulation/slice_type$(OBJ_SUFFIX): stipulation/slice_type.c \
  utilities/enumeration.h
 
 utilities/enumeration.h:
+stipulation/slice$(OBJ_SUFFIX): stipulation/slice.c stipulation/slice.h \
+ debugging/trace.h utilities/enumeration.h
+
+stipulation/slice.h:
+
+debugging/trace.h:
+
+utilities/enumeration.h:
 stipulation/has_solution_type$(OBJ_SUFFIX): stipulation/has_solution_type.c \
  stipulation/has_solution_type.h utilities/enumeration.h
 

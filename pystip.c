@@ -7,7 +7,6 @@
 #include "stipulation/testing_pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
 #include "stipulation/dead_end.h"
 #include "stipulation/end_of_branch.h"
@@ -49,328 +48,11 @@
 Slice slices[max_nr_slices];
 
 
-/* Keep track of allocated slice indices
- */
-static boolean is_slice_index_free[max_nr_slices];
-
-
-#define ENUMERATION_TYPENAME slice_structural_type
-#define ENUMERATORS                             \
-    ENUMERATOR(slice_structure_pipe),                            \
-    ENUMERATOR(slice_structure_leaf),                            \
-    ENUMERATOR(slice_structure_binary),                          \
-    ENUMERATOR(slice_structure_branch),                          \
-    ENUMERATOR(slice_structure_fork),                            \
-    ENUMERATOR(nr_slice_structure_types)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
-static slice_structural_type highest_structural_type[nr_slice_types];
-
-static slice_type const leaf_slice_types[] =
-{
-    STFalse,
-    STTrue
-};
-
-static slice_type const binary_slice_types[] =
-{
-    STEndOfBranchGoal,
-    STEndOfBranchGoalImmobile,
-    STAvoidUnsolvable,
-    STCheckZigzagJump,
-    STAnd,
-    STOr,
-    STForkOnRemaining,
-    STRefutationsSolver
-};
-
-static slice_type const branch_slice_types[] =
-{
-    STAttackAdapter,
-    STDefenseAdapter,
-    STReadyForAttack,
-    STReadyForDefense,
-    STMinLengthOptimiser,
-    STHelpAdapter,
-    STReadyForHelpMove,
-    STReadyForDummyMove,
-    STMinLengthGuard,
-    STFindShortest,
-    STFindByIncreasingLength,
-    STAttackHashed,
-    STHelpHashed,
-    STDegenerateTree,
-    STStopOnShortSolutionsFilter
-};
-
-static slice_type const fork_slice_types[] =
-{
-    STTemporaryHackFork,
-    STSetplayFork,
-    STEndOfBranch,
-    STEndOfBranchForced,
-    STEndOfBranchTester,
-    STEndOfBranchGoalTester,
-    STConstraintSolver,
-    STConstraintTester,
-    STGoalConstraintTester,
-    STGoalReachedTester,
-    STGoalImmobileReachedTester,
-    STCastlingIntermediateMoveLegalityTester,
-    STContinuationSolver,
-    STThreatSolver,
-    STThreatEnforcer,
-    STDoubleMateFilter,
-    STCounterMateFilter,
-    STNoShortVariations,
-    STIntelligentMateFilter,
-    STIntelligentStalemateFilter,
-    STMaxFlightsquares,
-    STMaxNrNonTrivial,
-    STMaxThreatLength,
-    STOpponentMovesCounterFork,
-    STExclusiveChessMatingMoveCounter,
-    STBrunnerDefenderFinder,
-    STIsardamDefenderFinder,
-    STCageCirceNonCapturingMoveFinder,
-    STMaximummerCandidateMoveTester,
-    STTrivialEndFilter
-};
-
-static void init_one_highest_structural_type(slice_type const slice_types[],
-                                             unsigned int nr_slice_types,
-                                             slice_structural_type type)
-{
-  unsigned int i;
-
-  for (i = 0; i!=nr_slice_types; ++i)
-    highest_structural_type[slice_types[i]] = type;
-}
-
-static void init_highest_structural_type(void)
-{
-  /* no Trace instrumentation here - this is used by the Trace machinery! */
-  static boolean initialised = false;
-
-  if (!initialised)
-  {
-    initialised = true;
-
-    /* default value is slice_structure_pipe - override for other types */
-#define init_one_type(type) init_one_highest_structural_type(type##_slice_types, \
-                                                             sizeof type##_slice_types / sizeof type##_slice_types[0], \
-                                                             slice_structure_##type)
-    init_one_type(leaf);
-    init_one_type(binary);
-    init_one_type(branch);
-    init_one_type(fork);
-#undef init_one_type
-  }
-}
-
-/* Retrieve the structural type of a slice
- * @param si identifies slice of which to retrieve structural type
- * @return structural type of slice si
- */
-slice_structural_type slice_get_structural_type(slice_index si)
-{
-  /* no Trace instrumentation here - this is used by the Trace machinery! */
-  assert(slices[si].type<=nr_slice_types);
-  return highest_structural_type[slices[si].type];
-}
-
-#define ENUMERATION_TYPENAME slice_functional_type
-#define ENUMERATORS                             \
-    ENUMERATOR(slice_function_unspecified),                        \
-    ENUMERATOR(slice_function_proxy),                              \
-    ENUMERATOR(slice_function_move_generator),                     \
-    ENUMERATOR(slice_function_testing_pipe),                       \
-    ENUMERATOR(slice_function_conditional_pipe),                   \
-    ENUMERATOR(slice_function_writer),                             \
-    ENUMERATOR(nr_slice_functional_types)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
-static slice_functional_type functional_type[nr_slice_types];
-
-static slice_type const proxy_slice_types[] =
-{
-    STProxy,
-    STReadyForAttack,
-    STReadyForDefense,
-    STNotEndOfBranchGoal,
-    STNotEndOfBranch,
-    STReadyForHelpMove,
-    STEndOfRoot,
-    STEndOfIntro,
-    STMove,
-    STReadyForDummyMove,
-    STShortSolutionsStart,
-    STCheckZigzagLanding,
-    STGoalMateReachedTester,
-    STGoalStalemateReachedTester,
-    STGoalDoubleStalemateReachedTester,
-    STGoalAutoStalemateReachedTester,
-    STGeneratingMoves,
-    STEndOfRefutationSolvingBranch,
-    STSolvingContinuation,
-    STThreatStart,
-    STThreatEnd,
-    STTestingPrerequisites,
-    STMaxThreatLengthStart,
-    STOutputModeSelector
-};
-
-static slice_type const move_generator_slice_types[] =
-{
-    STMoveGenerator,
-    STKingMoveGenerator,
-    STNonKingMoveGenerator,
-    STCastlingIntermediateMoveGenerator,
-    STOrthodoxMatingMoveGenerator,
-    STKillerMoveFinalDefenseMove,
-    STSingleMoveGeneratorWithKingCapture,
-    STSingleMoveGenerator
-};
-
-static slice_type const testing_pipe_slice_types[] =
-{
-    STContinuationSolver,
-    STThreatEnforcer,
-    STNoShortVariations,
-    STMaxNrNonTrivial,
-    STMaxThreatLength,
-    STTrivialEndFilter
-};
-
-static slice_type const conditional_pipe_slice_types[] =
-{
-    STTemporaryHackFork,
-    STEndOfBranchTester,
-    STEndOfBranchGoalTester,
-    STConstraintTester,
-    STGoalConstraintTester,
-    STGoalReachedTester,
-    STGoalImmobileReachedTester,
-    STCastlingIntermediateMoveLegalityTester,
-    STDoubleMateFilter,
-    STCounterMateFilter,
-    STIntelligentMateFilter,
-    STIntelligentStalemateFilter,
-    STMaxFlightsquares,
-    STOpponentMovesCounterFork,
-    STExclusiveChessMatingMoveCounter,
-    STBrunnerDefenderFinder,
-    STIsardamDefenderFinder,
-    STCageCirceNonCapturingMoveFinder,
-    STMaximummerCandidateMoveTester
-};
-
-static slice_type const writer_slice_types[] =
-{
-    STIllegalSelfcheckWriter,
-    STEndOfPhaseWriter,
-    STEndOfSolutionWriter,
-    STThreatWriter,
-    STMoveWriter,
-    STKeyWriter,
-    STTryWriter,
-    STZugzwangWriter,
-    STRefutingVariationWriter,
-    STRefutationsIntroWriter,
-    STRefutationWriter,
-    STOutputPlaintextTreeCheckWriter,
-    STOutputPlaintextLineLineWriter,
-    STOutputPlaintextTreeGoalWriter
-};
-
-static void init_one_functional_type(slice_type const slice_types[],
-                                     unsigned int nr_slice_types,
-                                     slice_functional_type type)
-{
-  unsigned int i;
-
-  for (i = 0; i!=nr_slice_types; ++i)
-    functional_type[slice_types[i]] = type;
-}
-
-static void init_functional_type(void)
-{
-  /* no Trace instrumentation here - this is used by the Trace machinery! */
-
-  /* default value is slice_function_unspecified - override for other types */
-#define init_one_type(type) init_one_functional_type(type##_slice_types, \
-                                                     sizeof type##_slice_types / sizeof type##_slice_types[0], \
-                                                     slice_function_##type)
-  init_one_type(proxy);
-  init_one_type(move_generator);
-  init_one_type(testing_pipe);
-  init_one_type(conditional_pipe);
-  init_one_type(writer);
-#undef init_one_type
-}
-
-/* Retrieve the functional type of a slice
- * @param si identifies slice of which to retrieve structural type
- * @return structural type of slice si
- */
-slice_functional_type slice_get_functional_type(slice_index si)
-{
-  assert(slices[si].type<=nr_slice_types);
-  return functional_type[slices[si].type];
-}
-
-/* Make sure that there are now allocated slices that are not
- * reachable
- */
-void assert_no_leaked_slices(void)
-{
-  slice_index i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=max_nr_slices; ++i)
-  {
-    if (!is_slice_index_free[i])
-    {
-      TraceValue("leaked:%u",i);
-      TraceEnumerator(slice_type,slices[i].type,"\n");
-    }
-    assert(is_slice_index_free[i]);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Initialize the slice allocation machinery. To be called once at
- * program start
- */
-static void init_slice_allocator(void)
-{
-  slice_index si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (si = 0; si!=max_nr_slices; ++si)
-    is_slice_index_free[si] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Allocate a slice index
+/* Create a slice
  * @param type which type
- * @return a so far unused slice index
+ * @return index of created slice
  */
-slice_index alloc_slice(slice_type type)
+slice_index create_slice(slice_type type)
 {
   slice_index result;
 
@@ -378,13 +60,7 @@ slice_index alloc_slice(slice_type type)
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  for (result = 0; result!=max_nr_slices; ++result)
-    if (is_slice_index_free[result])
-      break;
-
-  assert(result<max_nr_slices);
-
-  is_slice_index_free[result] = false;
+  result = alloc_slice();
 
   slices[result].type = type;
   slices[result].starter = no_side;
@@ -394,23 +70,6 @@ slice_index alloc_slice(slice_type type)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Dellocate a slice index
- * @param si slice index deallocated
- */
-void dealloc_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  assert(!is_slice_index_free[si]);
-  is_slice_index_free[si] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Allocate a slice as copy of an existing slice
@@ -425,7 +84,7 @@ slice_index copy_slice(slice_index original)
   TraceFunctionParam("%u",original);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(slices[original].type);
+  result = create_slice(slices[original].type);
 
   slices[result] = slices[original];
   slice_set_predecessor(result,no_slice);
@@ -437,23 +96,6 @@ slice_index copy_slice(slice_index original)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Make a slice the predecessor of a slice
- * @param slice identifies the slice
- * @param pred identifies the slice to be made the predecessor of slice
- */
-void slice_set_predecessor(slice_index slice, slice_index pred)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",slice);
-  TraceFunctionParam("%u",pred);
-  TraceFunctionParamListEnd();
-
-  slices[slice].prev = pred;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Deallocate slices reachable from a slice
@@ -476,6 +118,23 @@ void dealloc_slices(slice_index si)
   for (i = 0; i!=max_nr_slices; ++i)
     if (st.traversed[i]==slice_traversed)
       dealloc_slice(i);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Make a slice the predecessor of a slice
+ * @param slice identifies the slice
+ * @param pred identifies the slice to be made the predecessor of slice
+ */
+void slice_set_predecessor(slice_index slice, slice_index pred)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",slice);
+  TraceFunctionParam("%u",pred);
+  TraceFunctionParamListEnd();
+
+  slices[slice].prev = pred;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1369,7 +1028,7 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
 {
   stip_structure_visitor result;
 
-  switch (highest_structural_type[type])
+  switch (slice_type_get_structural_type(type))
   {
     case slice_structure_pipe:
     case slice_structure_branch:
@@ -1385,7 +1044,7 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
       break;
 
     case slice_structure_fork:
-      if (functional_type[type]==slice_function_testing_pipe)
+      if (slice_type_get_functional_type(type)==slice_function_testing_pipe)
         result = &stip_traverse_structure_children_testing_pipe;
       else
         result = &stip_traverse_structure_children_fork;
@@ -1451,7 +1110,7 @@ void stip_structure_traversal_override_by_structure(stip_structure_traversal *st
 {
   slice_type i;
   for (i = 0; i!=nr_slice_types; ++i)
-    if (highest_structural_type[i]==type)
+    if (slice_type_get_structural_type(i)==type)
       st->map.visitors[i] = visitor;
 }
 
@@ -1466,7 +1125,7 @@ void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
 {
   slice_type i;
   for (i = 0; i!=nr_slice_types; ++i)
-    if (functional_type[i]==type)
+    if (slice_type_get_functional_type(i)==type)
       st->map.visitors[i] = visitor;
 }
 
@@ -1520,7 +1179,7 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
 {
   stip_moves_visitor result;
 
-  switch (highest_structural_type[type])
+  switch (slice_type_get_structural_type(type))
   {
     case slice_structure_pipe:
     case slice_structure_branch:
@@ -1536,7 +1195,7 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
       break;
 
     case slice_structure_fork:
-      if (functional_type[type]==slice_function_conditional_pipe)
+      if (slice_type_get_functional_type(type)==slice_function_conditional_pipe)
         result = &stip_traverse_moves_conditional_pipe;
       else
         result = &stip_traverse_moves_end_of_branch;
@@ -1695,7 +1354,7 @@ void stip_moves_traversal_override_by_structure(stip_moves_traversal *st,
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_slice_types; ++i)
-    if (highest_structural_type[i]==type)
+    if (slice_type_get_structural_type(i)==type)
       st->map.visitors[i] = visitor;
 
   TraceFunctionExit(__func__);
@@ -1717,7 +1376,7 @@ void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_slice_types; ++i)
-    if (functional_type[i]==type)
+    if (slice_type_get_functional_type(i)==type)
       st->map.visitors[i] = visitor;
 
   TraceFunctionExit(__func__);
@@ -1810,11 +1469,8 @@ void stip_traverse_moves_children(slice_index si,
 }
 
 /* Initialise slice properties at start of program */
-void initialise_slice_properties(void)
+void initialise_traversal_properties(void)
 {
-  init_highest_structural_type();
-  init_functional_type();
   init_structure_children_visitors();
   init_moves_children_visitors();
-  init_slice_allocator();
 }

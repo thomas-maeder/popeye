@@ -118,14 +118,30 @@ typedef struct
 } Slice;
 
 
-/* slice identification */
-enum
-{
-  max_nr_slices = 3000,
-  no_slice = max_nr_slices
-};
-
 extern Slice slices[max_nr_slices];
+
+/* Create a slice
+ * @param type which type
+ * @return index of created slice
+ */
+slice_index create_slice(slice_type type);
+
+/* Allocate a slice as copy of an existing slice
+ * @param index of original slice
+ * @return index of allocated slice
+ */
+slice_index copy_slice(slice_index original);
+
+/* Deallocate slices reachable from a slice
+ * @param si slice where to start deallocating
+ */
+void dealloc_slices(slice_index si);
+
+/* Make a slice the predecessor of a slice
+ * @param slice identifies the slice
+ * @param pred identifies the slice to be made the predecessor of slice
+ */
+void slice_set_predecessor(slice_index slice, slice_index pred);
 
 /* Determine the maximally possible number of half-moves until the
  * goal has to be reached.
@@ -468,7 +484,7 @@ void stip_insert_intro_slices(slice_index si);
  */
 boolean stip_apply_setplay(slice_index si);
 
-/* Initialise slice properties at start of program */
-void initialise_slice_properties(void);
+/* Initialise stipulation traversal properties at start of program */
+void initialise_traversal_properties(void);
 
 #endif

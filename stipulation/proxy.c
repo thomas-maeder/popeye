@@ -38,7 +38,7 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  while (*si!=no_slice && slice_get_functional_type(*si)==slice_function_proxy)
+  while (*si!=no_slice && slice_type_get_functional_type(slices[*si].type)==slice_function_proxy)
   {
     (*is_resolved_proxy)[*si] = true;
     *si = slices[*si].u.pipe.next;

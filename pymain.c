@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
   set_nice_priority();
 
   initialise_slice_properties();
+  initialise_traversal_properties();
 
   sprintf(versionString,
           "Popeye %s-%uBit v%.2f",

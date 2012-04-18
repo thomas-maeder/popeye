@@ -24,7 +24,7 @@ slice_index alloc_binary_slice(slice_type type,
   assert(op1==no_slice || slices[op1].type==STProxy);
   assert(op2==no_slice || slices[op2].type==STProxy);
 
-  result = alloc_slice(type);
+  result = create_slice(type);
   slices[result].u.binary.op1 = op1;
   slices[result].u.binary.op2 = op2;
 
