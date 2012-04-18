@@ -1277,7 +1277,7 @@ solving/solving.h:
 debugging/trace.h:
 pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h stipulation/battle_play/attack_play.h \
  pystip.h pydata.h stipulation/branch.h stipulation/proxy.h pypipe.h \
- solving/solving.h debugging/trace.h
+ solving/solving.h debugging/trace.h py.h
 
 pybrafrk.h:
 
@@ -1296,6 +1296,8 @@ pypipe.h:
 solving/solving.h:
 
 debugging/trace.h:
+
+py.h:
 pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play.h \
  pystip.h pydata.h stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h pypipe.h pystip.h py.h \

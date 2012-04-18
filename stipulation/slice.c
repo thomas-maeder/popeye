@@ -293,10 +293,7 @@ void assert_no_leaked_slices(void)
   for (i = 0; i!=max_nr_slices; ++i)
   {
     if (!is_slice_index_free[i])
-    {
       TraceValue("leaked:%u",i);
-      TraceEnumerator(slice_type,slices[i].type,"\n");
-    }
     assert(is_slice_index_free[i]);
   }
 
@@ -354,7 +351,6 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type,"\n");
   assert(!is_slice_index_free[si]);
   is_slice_index_free[si] = true;
 

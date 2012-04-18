@@ -1,5 +1,7 @@
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pyproc.h pydata.h \
- pystip.h optimisations/hash.h output/plaintext/plaintext.h
+ pystip.h optimisations/hash.h output/plaintext/plaintext.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h pypipe.h \
+ stipulation/battle_play/defense_play.h
 
 debugging/trace.h:
 
@@ -12,3 +14,11 @@ pystip.h:
 optimisations/hash.h:
 
 output/plaintext/plaintext.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
+pypipe.h:
+
+stipulation/battle_play/defense_play.h:
