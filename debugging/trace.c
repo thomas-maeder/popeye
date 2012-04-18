@@ -21,16 +21,17 @@ static unsigned long move_counter;
 
 trace_level max_level = ULONG_MAX;
 
-static char const *entryNames[1000];
-
 enum
 {
+  max_nesting_level = 10000,
   entry_length = 1000
 };
 
+static char const *entryNames[max_nesting_level];
+
 #if defined(DOTRACECALLSTACK)
-static char entries[1000][entry_length];
-static unsigned int entry_cursor[1000];
+static char entries[max_nesting_level][entry_length];
+static unsigned int entry_cursor[max_nesting_level];
 
 /* Write the call stack
  * @param file where to write the call stack
@@ -474,7 +475,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       default:
-        switch (slice_get_structural_type(si))
+        switch (slice_type_get_structural_type(slices[si].type))
         {
           case slice_structure_leaf:
             Trace_link("",slices[si].prev,"<");
