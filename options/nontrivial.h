@@ -4,6 +4,7 @@
 /* Implementation of the "nontrivial" optimisation
  */
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 

@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/check_writer.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "solving/battle_play/check_detector.h"
 #include "output/plaintext/tree/tree.h"

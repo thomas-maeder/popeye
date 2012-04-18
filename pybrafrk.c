@@ -1,4 +1,5 @@
 #include "pybrafrk.h"
+#include "pystip.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "solving/solving.h"
@@ -99,29 +100,9 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  st->context = stip_traversal_context_global;
+  st->context = stip_traversal_context_intro;
   stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
   st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_fork(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (slices[si].u.fork.fork!=no_slice)
-    stip_traverse_structure_next_branch(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

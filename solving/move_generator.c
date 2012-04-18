@@ -1,4 +1,5 @@
 #include "solving/move_generator.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"

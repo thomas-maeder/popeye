@@ -1,4 +1,5 @@
 #include "solving/single_move_generator_with_king_capture.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"

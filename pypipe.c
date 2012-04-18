@@ -1,4 +1,5 @@
 #include "pypipe.h"
+#include "pystip.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "solving/solving.h"
@@ -275,25 +276,6 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
 
   if (slices[pipe].u.pipe.next!=no_slice)
     stip_traverse_structure(slices[pipe].u.pipe.next,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of some pipe slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(next!=no_slice);
-  stip_traverse_moves(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

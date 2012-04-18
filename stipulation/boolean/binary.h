@@ -4,7 +4,7 @@
 /* Functionality related to "binary operator slices"
  */
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
 
 /* Allocate a binary slice.
  * @param op1 proxy to 1st operand
@@ -25,19 +25,6 @@ void binary_make_root(slice_index si, stip_structure_traversal *st);
  * @param st points at the structure holding the state of the traversal
  */
 void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
-
-/* Traverse a subtree
- * @param fork root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_binary(slice_index fork,
-                                             stip_structure_traversal *st);
-
-/* Traversal of the moves of a binary operator
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

@@ -322,40 +322,11 @@ void insert_goal_prerequisite_guards_countermate(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_goal_prerequisite_guards_zigzag(slice_index si,
-                                                   stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves(slices[si].u.binary.op1,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_goal_prerequisite_guards_goal_tester(slice_index si,
-                                                        stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
   { STTestingPrerequisites,         &insert_goal_prerequisite_guards             },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_doublemate  },
-  { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate },
-  { STCheckZigzagJump,              &insert_goal_prerequisite_guards_zigzag      },
-  { STGoalReachedTester,            &insert_goal_prerequisite_guards_goal_tester }
+  { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_countermate }
 };
 
 enum

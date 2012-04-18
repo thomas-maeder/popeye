@@ -13,19 +13,6 @@
  */
 slice_index alloc_setplay_fork_slice(slice_index set);
 
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_setplay_fork(slice_index si,
-                                                   stip_structure_traversal *st);
-
-/* Traversal of the moves of some pipe slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_setplay_fork(slice_index si, stip_moves_traversal *st);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

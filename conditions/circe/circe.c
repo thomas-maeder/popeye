@@ -1,4 +1,5 @@
 #include "conditions/circe/circe.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"

@@ -1,4 +1,5 @@
 #include "conditions/maff/immobility_tester.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"

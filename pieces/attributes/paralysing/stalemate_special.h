@@ -1,6 +1,7 @@
 #if !defined(PIECES_PARALYSING_STALEMATE_FILTER_H)
 #define PIECES_PARALYSING_STALEMATE_FILTER_H
 
+#include "pystip.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides slice type STPiecesParalysingStalemateSpecial - as a

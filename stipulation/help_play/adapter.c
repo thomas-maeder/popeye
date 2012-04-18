@@ -143,68 +143,6 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_help_adpater(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  structure_traversal_level_type const save_level = st->level;
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* STHelpAdaper slices are part of the loop in the beginning,
-   * i.e. we may already be in help context when we arrive here */
-  assert(st->context==stip_traversal_context_global
-         || st->context==stip_traversal_context_help);
-
-  st->context = stip_traversal_context_help;
-  st->level = structure_traversal_level_nested;
-  stip_traverse_structure_children_pipe(si,st);
-  st->level = save_level;
-  st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_help_adapter(slice_index si,
-                                      stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->context==stip_traversal_context_global)
-  {
-    assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length;
-    TraceValue("->%u\n",st->full_length);
-    st->remaining = st->full_length;
-    st->context = stip_traversal_context_help;
-
-    stip_traverse_moves_pipe(si,st);
-
-    st->context = stip_traversal_context_global;
-    st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-    st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  }
-  else
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

@@ -1,4 +1,5 @@
 #include "output/plaintext/end_of_phase_writer.h"
+#include "pystip.h"
 #include "pymsg.h"
 #include "pypipe.h"
 #include "debugging/trace.h"

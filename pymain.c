@@ -3,6 +3,8 @@
 #include "py1.h"
 #include "py6.h"
 #include "optimisations/hash.h"
+#include "stipulation/structure_traversal.h"
+#include "stipulation/moves_traversal.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -65,7 +67,8 @@ int main(int argc, char *argv[])
   set_nice_priority();
 
   initialise_slice_properties();
-  initialise_traversal_properties();
+  init_structure_children_visitors();
+  init_moves_children_visitors();
 
   sprintf(versionString,
           "Popeye %s-%uBit v%.2f",

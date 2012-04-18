@@ -440,7 +440,7 @@ void branch_insert_slices_nested(slice_index si,
 
   state.base_rank = get_slice_rank(slices[si].type,&state);
   assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_global);
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
   stip_structure_traversal_override(&st,insertion_visitors,nr_insertion_visitors);
   stip_traverse_structure(si,&st);
 
@@ -594,35 +594,6 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   TraceFunctionResult("%u",state.result);
   TraceFunctionResultEnd();
   return state.result;
-}
-
-/* Traversal of the moves of a branch
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
-{
-  stip_length_type const save_remaining = st->remaining;
-  stip_length_type const save_full_length = st->full_length;
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  st->context = stip_traversal_context_global;
-
-  stip_traverse_moves(si,st);
-
-  st->context = save_context;
-  st->full_length = save_full_length;
-  st->remaining = save_remaining;
-  TraceFunctionParam("->%u\n",st->remaining);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Link a pipe slice to the entry slice of a branch

@@ -1,10 +1,12 @@
 stipulation/goals/any/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/any/reached_tester.c \
- stipulation/goals/any/reached_tester.h pypipe.h \
+ stipulation/goals/any/reached_tester.h pystip.h pypipe.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
  debugging/trace.h
 
 stipulation/goals/any/reached_tester.h:
+
+pystip.h:
 
 pypipe.h:
 

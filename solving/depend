@@ -123,10 +123,12 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
- solving/fork_on_remaining.h stipulation/has_solution_type.h \
+ solving/fork_on_remaining.h pystip.h stipulation/has_solution_type.h \
  stipulation/boolean/binary.h debugging/trace.h
 
 solving/fork_on_remaining.h:
+
+pystip.h:
 
 stipulation/has_solution_type.h:
 
@@ -145,9 +147,12 @@ stipulation/battle_play/branch.h:
 
 debugging/trace.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
- solving/move_generator.h pydata.h pyproc.h pypipe.h debugging/trace.h
+ solving/move_generator.h pystip.h pydata.h pyproc.h pypipe.h \
+ debugging/trace.h
 
 solving/move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -157,10 +162,12 @@ pypipe.h:
 
 debugging/trace.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
- solving/king_move_generator.h pydata.h pyproc.h pypipe.h \
+ solving/king_move_generator.h pystip.h pydata.h pyproc.h pypipe.h \
  debugging/trace.h
 
 solving/king_move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -170,10 +177,12 @@ pypipe.h:
 
 debugging/trace.h:
 solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c \
- solving/non_king_move_generator.h pydata.h pyproc.h pypipe.h \
+ solving/non_king_move_generator.h pystip.h pydata.h pyproc.h pypipe.h \
  debugging/trace.h
 
 solving/non_king_move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -184,10 +193,12 @@ pypipe.h:
 debugging/trace.h:
 solving/single_piece_move_generator$(OBJ_SUFFIX): \
  solving/single_piece_move_generator.c \
- solving/single_piece_move_generator.h pydata.h pyproc.h pypipe.h \
- debugging/trace.h
+ solving/single_piece_move_generator.h pystip.h pydata.h pyproc.h \
+ pypipe.h debugging/trace.h
 
 solving/single_piece_move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -198,10 +209,12 @@ pypipe.h:
 debugging/trace.h:
 solving/single_move_generator_with_king_capture$(OBJ_SUFFIX): \
  solving/single_move_generator_with_king_capture.c \
- solving/single_move_generator_with_king_capture.h pydata.h pyproc.h \
- pypipe.h debugging/trace.h
+ solving/single_move_generator_with_king_capture.h pystip.h pydata.h \
+ pyproc.h pypipe.h debugging/trace.h
 
 solving/single_move_generator_with_king_capture.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -239,10 +252,13 @@ solving/solving.h:
 solving/find_move.h:
 
 debugging/trace.h:
-solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h pypipe.h \
- pydata.h pyproc.h stipulation/has_solution_type.h debugging/trace.h
+solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h pystip.h \
+ pypipe.h pydata.h pyproc.h stipulation/has_solution_type.h \
+ debugging/trace.h
 
 solving/find_move.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -264,9 +280,11 @@ pydata.h:
 
 debugging/trace.h:
 solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
- solving/capture_counter.h pypipe.h pydata.h debugging/trace.h
+ solving/capture_counter.h pystip.h pypipe.h pydata.h debugging/trace.h
 
 solving/capture_counter.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -275,10 +293,12 @@ pydata.h:
 debugging/trace.h:
 solving/castling_intermediate_move_generator$(OBJ_SUFFIX): \
  solving/castling_intermediate_move_generator.c \
- solving/castling_intermediate_move_generator.h pydata.h pyproc.h \
- pypipe.h debugging/trace.h
+ solving/castling_intermediate_move_generator.h pystip.h pydata.h \
+ pyproc.h pypipe.h debugging/trace.h
 
 solving/castling_intermediate_move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -288,10 +308,12 @@ pypipe.h:
 
 debugging/trace.h:
 solving/single_move_generator$(OBJ_SUFFIX): solving/single_move_generator.c \
- solving/single_move_generator.h pydata.h pyproc.h pypipe.h \
+ solving/single_move_generator.h pystip.h pydata.h pyproc.h pypipe.h \
  debugging/trace.h
 
 solving/single_move_generator.h:
+
+pystip.h:
 
 pydata.h:
 

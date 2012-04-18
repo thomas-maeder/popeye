@@ -1,6 +1,7 @@
 #if !defined(PYRECIPR_H)
 #define PYRECIPR_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing logical AND stipulation slices.

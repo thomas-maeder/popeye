@@ -1,7 +1,10 @@
 #if !defined(STIPULATION_BATTLE_PLAY_BRANCH_H)
 #define STIPULATION_BATTLE_PLAY_BRANCH_H
 
+#include "py.h"
 #include "pystip.h"
+#include "stipulation/slice.h"
+#include "stipulation/structure_traversal.h"
 
 /* This module provides functionality dealing with battle play
  * branches

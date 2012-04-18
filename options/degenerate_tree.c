@@ -1,4 +1,5 @@
 #include "options/degenerate_tree.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "pybrafrk.h"

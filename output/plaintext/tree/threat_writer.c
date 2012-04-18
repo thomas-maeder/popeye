@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/threat_writer.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pymsg.h"
 #include "utilities/table.h"

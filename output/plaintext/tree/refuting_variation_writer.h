@@ -1,8 +1,6 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H)
 #define OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H
 
-#include "utilities/boolean.h"
-#include "pystip.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a STRefutingVariationWriter slice.

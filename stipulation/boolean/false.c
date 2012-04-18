@@ -1,4 +1,5 @@
 #include "stipulation/boolean/false.h"
+#include "pystip.h"
 #include "debugging/trace.h"
 
 /* Allocate a STFalse slice.

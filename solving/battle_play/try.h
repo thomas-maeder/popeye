@@ -2,6 +2,7 @@
 #define SOLVING_BATTLE_PLAY_TRY_H
 
 #include "utilities/table.h"
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.

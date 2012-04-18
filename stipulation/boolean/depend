@@ -1,9 +1,11 @@
 stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
- stipulation/boolean/and.h pypipe.h stipulation/has_solution_type.h \
- stipulation/constraint.h stipulation/boolean/binary.h solving/solving.h \
- debugging/trace.h
+ stipulation/boolean/and.h pystip.h pypipe.h \
+ stipulation/has_solution_type.h stipulation/constraint.h \
+ stipulation/boolean/binary.h solving/solving.h debugging/trace.h
 
 stipulation/boolean/and.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -17,10 +19,12 @@ solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
- stipulation/boolean/or.h stipulation/has_solution_type.h \
+ stipulation/boolean/or.h pystip.h stipulation/has_solution_type.h \
  stipulation/boolean/binary.h debugging/trace.h
 
 stipulation/boolean/or.h:
+
+pystip.h:
 
 stipulation/has_solution_type.h:
 
@@ -28,10 +32,12 @@ stipulation/boolean/binary.h:
 
 debugging/trace.h:
 stipulation/boolean/binary$(OBJ_SUFFIX): stipulation/boolean/binary.c \
- stipulation/boolean/binary.h stipulation/proxy.h solving/solving.h \
- debugging/trace.h
+ stipulation/boolean/binary.h pystip.h stipulation/proxy.h \
+ solving/solving.h debugging/trace.h
 
 stipulation/boolean/binary.h:
+
+pystip.h:
 
 stipulation/proxy.h:
 
@@ -39,11 +45,13 @@ solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
- stipulation/boolean/not.h stipulation/has_solution_type.h \
+ stipulation/boolean/not.h pystip.h stipulation/has_solution_type.h \
  stipulation/battle_play/attack_play.h pypipe.h pyproc.h pydata.h \
  debugging/trace.h
 
 stipulation/boolean/not.h:
+
+pystip.h:
 
 stipulation/has_solution_type.h:
 
@@ -57,16 +65,20 @@ pydata.h:
 
 debugging/trace.h:
 stipulation/boolean/true$(OBJ_SUFFIX): stipulation/boolean/true.c \
- stipulation/boolean/true.h solving/solving.h debugging/trace.h
+ stipulation/boolean/true.h pystip.h solving/solving.h debugging/trace.h
 
 stipulation/boolean/true.h:
+
+pystip.h:
 
 solving/solving.h:
 
 debugging/trace.h:
 stipulation/boolean/false$(OBJ_SUFFIX): stipulation/boolean/false.c \
- stipulation/boolean/false.h debugging/trace.h
+ stipulation/boolean/false.h pystip.h debugging/trace.h
 
 stipulation/boolean/false.h:
+
+pystip.h:
 
 debugging/trace.h:

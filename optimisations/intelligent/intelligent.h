@@ -10,6 +10,7 @@
 #define PYINT_H
 
 #include "pyposit.h"
+#include "stipulation/goals/goals.h"
 #include "stipulation/battle_play/attack_play.h"
 
 #define piece_usageENUMERATORS \

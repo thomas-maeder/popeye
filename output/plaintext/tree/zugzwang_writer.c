@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"

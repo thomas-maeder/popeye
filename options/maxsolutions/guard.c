@@ -1,4 +1,5 @@
 #include "options/maxsolutions/guard.h"
+#include "pystip.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"

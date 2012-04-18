@@ -1,4 +1,5 @@
 #include "stipulation/boolean/or.h"
+#include "pystip.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/boolean/binary.h"
 #include "debugging/trace.h"

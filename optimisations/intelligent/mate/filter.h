@@ -1,6 +1,7 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H)
 #define OPTIMISATIONS_INTELLIGENT_MATE_FILTER_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STIntelligentMateFilter

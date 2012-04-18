@@ -1,4 +1,5 @@
 #include "stipulation/move_inverter.h"
+#include "pystip.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "pypipe.h"
 #include "debugging/trace.h"

@@ -1,4 +1,5 @@
 #include "optimisations/intelligent/proof.h"
+#include "pystip.h"
 #include "pyproof.h"
 #include "pypipe.h"
 #include "debugging/trace.h"

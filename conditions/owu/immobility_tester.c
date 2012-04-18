@@ -1,4 +1,5 @@
 #include "conditions/owu/immobility_tester.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"

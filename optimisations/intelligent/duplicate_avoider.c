@@ -1,4 +1,5 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "optimisations/intelligent/intelligent.h"

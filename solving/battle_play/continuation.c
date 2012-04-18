@@ -70,7 +70,7 @@ static void insert_continuation_solvers_postkey_play(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (st->level!=structure_traversal_level_root
+  if (st->level!=structure_traversal_level_top
       && slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();

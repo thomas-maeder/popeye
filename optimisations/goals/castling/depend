@@ -1,10 +1,12 @@
 optimisations/goals/castling/filter$(OBJ_SUFFIX): \
  optimisations/goals/castling/filter.c \
- optimisations/goals/castling/filter.h pydata.h pypipe.h \
+ optimisations/goals/castling/filter.h pystip.h pydata.h pypipe.h \
  stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
  debugging/trace.h
 
 optimisations/goals/castling/filter.h:
+
+pystip.h:
 
 pydata.h:
 

@@ -1,4 +1,5 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "optimisations/intelligent/intelligent.h"

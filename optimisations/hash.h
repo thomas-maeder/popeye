@@ -11,6 +11,7 @@
 
 #include "DHT/dhtbcmem.h"
 #include "py.h"
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* typedefs */

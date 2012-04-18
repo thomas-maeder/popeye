@@ -9,7 +9,8 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
-#include "pystip.h"
+#include "py.h"
+#include "stipulation/slice.h"
 
 /* Encode the hash key for the current position
  */

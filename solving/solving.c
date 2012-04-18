@@ -193,7 +193,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
   {
     if (st->level==structure_traversal_level_nested)
     {
-      if (st->context==stip_traversal_context_global)
+      if (st->context==stip_traversal_context_intro)
       {
         slice_index const prototype = alloc_find_shortest_slice(length,min_length);
         help_branch_insert_slices(si,&prototype,1);

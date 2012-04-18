@@ -1,4 +1,5 @@
 #include "pyoutput.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"

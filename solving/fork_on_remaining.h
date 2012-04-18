@@ -18,13 +18,6 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
                                           slice_index op2,
                                           stip_length_type threshold);
 
-/* Traversal of the moves beyond an STForkOnRemaining slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_fork_on_remaining(slice_index si,
-                                           stip_moves_traversal *st);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal

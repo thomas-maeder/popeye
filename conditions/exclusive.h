@@ -6,7 +6,7 @@
 
 #include "utilities/boolean.h"
 #include "pyposit.h"
-#include "pystip.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem

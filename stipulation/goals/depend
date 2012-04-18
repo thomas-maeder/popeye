@@ -1,8 +1,10 @@
 stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
- stipulation/goals/goals.h pypipe.h stipulation/slice.h \
+ stipulation/goals/goals.h pystip.h pypipe.h stipulation/slice.h \
  stipulation/boolean/false.h debugging/trace.h
 
 stipulation/goals/goals.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -12,11 +14,14 @@ stipulation/boolean/false.h:
 
 debugging/trace.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
- stipulation/goals/reached_tester.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/conditional_pipe.h \
- stipulation/boolean/true.h debugging/trace.h
+ stipulation/goals/reached_tester.h pystip.h \
+ stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/boolean/true.h \
+ debugging/trace.h
 
 stipulation/goals/reached_tester.h:
+
+pystip.h:
 
 stipulation/has_solution_type.h:
 
@@ -69,12 +74,14 @@ optimisations/goals/optimisation_guards.h:
 debugging/trace.h:
 stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.c \
- stipulation/goals/prerequisite_optimiser.h pypipe.h pydata.h \
+ stipulation/goals/prerequisite_optimiser.h pystip.h pypipe.h pydata.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/goals/prerequisite_guards.h solving/avoid_unsolvable.h \
  debugging/trace.h
 
 stipulation/goals/prerequisite_optimiser.h:
+
+pystip.h:
 
 pypipe.h:
 

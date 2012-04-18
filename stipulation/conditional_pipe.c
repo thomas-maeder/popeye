@@ -1,4 +1,5 @@
 #include "stipulation/conditional_pipe.h"
+#include "pystip.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "solving/solving.h"
@@ -28,25 +29,6 @@ slice_index alloc_conditional_pipe(slice_type type, slice_index condition)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_conditional_pipe(slice_index si,
-                                          stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Callback to stip_spin_off_testers

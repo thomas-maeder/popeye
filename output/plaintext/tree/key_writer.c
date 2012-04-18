@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/key_writer.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"

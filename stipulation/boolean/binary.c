@@ -1,4 +1,5 @@
 #include "stipulation/boolean/binary.h"
+#include "pystip.h"
 #include "stipulation/proxy.h"
 #include "solving/solving.h"
 #include "debugging/trace.h"
@@ -56,7 +57,7 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   root_op2 = state->spun_off[slices[si].u.binary.op2];
   TraceValue("%u\n",root_op2);
 
-  if (st->context==stip_traversal_context_global)
+  if (st->context==stip_traversal_context_intro)
   {
     state->spun_off[si] = si;
     pipe_unlink(slices[si].prev);
@@ -86,45 +87,6 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   proxy_slice_resolve(&slices[si].u.binary.op1,st);
   proxy_slice_resolve(&slices[si].u.binary.op2,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse a subtree
- * @param fork root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_binary(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  stip_traverse_structure(slices[si].u.binary.op2,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of a binary operator
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
-{
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.binary.op1!=no_slice)
-    stip_traverse_moves(slices[si].u.binary.op1,st);
-  if (slices[si].u.binary.op2!=no_slice)
-    stip_traverse_moves(slices[si].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

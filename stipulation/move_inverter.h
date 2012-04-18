@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_MOVE_INVERTER_H)
 #define STIPULATION_MOVE_INVERTER_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with move inverter slices

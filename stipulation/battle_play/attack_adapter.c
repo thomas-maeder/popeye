@@ -75,64 +75,6 @@ void attack_adapter_make_intro(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_attack_adpater(slice_index si,
-                                                     stip_structure_traversal *st)
-{
-  structure_traversal_level_type const save_level = st->level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_global);
-
-  st->context = stip_traversal_context_attack;
-  st->level = structure_traversal_level_nested;
-  stip_traverse_structure_children_pipe(si,st);
-  st->level = save_level;
-  st->context = stip_traversal_context_global;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_attack_adapter(slice_index si,
-                                        stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->context==stip_traversal_context_global)
-  {
-    assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length;
-    TraceValue("->%u\n",st->full_length);
-    st->remaining = st->full_length;
-    st->context = stip_traversal_context_attack;
-
-    stip_traverse_moves_pipe(si,st);
-
-    st->context = stip_traversal_context_global;
-    st->remaining = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-    st->full_length = STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED;
-  }
-  else
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
  * @param adapter identifies attack adapter slice
@@ -218,42 +160,4 @@ stip_length_type attack_adapter_attack(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_ready_for_attack(slice_index si,
-                                                       stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_attack);
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_attack(slice_index si,
-                                          stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->context==stip_traversal_context_attack);
-
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

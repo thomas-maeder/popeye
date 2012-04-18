@@ -1,4 +1,5 @@
 #include "solving/fork_on_remaining.h"
+#include "pystip.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/boolean/binary.h"
 #include "debugging/trace.h"
@@ -30,26 +31,6 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traversal of the moves beyond an STForkOnRemaining slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_fork_on_remaining(slice_index si,
-                                           stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining<=slices[si].u.fork_on_remaining.threshold)
-    stip_traverse_moves(slices[si].u.fork_on_remaining.op2,st);
-  else
-    stip_traverse_moves(slices[si].u.fork_on_remaining.op1,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves after a defense.

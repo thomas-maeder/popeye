@@ -1,4 +1,5 @@
 #include "options/stoponshortsolutions/filter.h"
+#include "pystip.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"

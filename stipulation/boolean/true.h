@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_LEAF_H)
 #define STIPULATION_LEAF_H
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
 
 /* This module provides functionality dealing with true slices
  */

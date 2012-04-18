@@ -1,4 +1,5 @@
 #include "stipulation/proxy.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"

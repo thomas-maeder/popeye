@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_HELP_PLAY_ADAPTER_H)
 #define STIPULATION_HELP_PLAY_ADAPTER_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with STHelpAdapter
@@ -28,20 +29,6 @@ void help_adapter_make_root(slice_index si, stip_structure_traversal *st);
  * @param st address of structure holding the traversal state
  */
 void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_help_adpater(slice_index si,
-                                                   stip_structure_traversal *st);
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_help_adapter(slice_index si,
-                                      stip_moves_traversal *st);
 
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)

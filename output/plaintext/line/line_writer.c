@@ -1,4 +1,5 @@
 #include "output/plaintext/line/line_writer.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "pydata.h"

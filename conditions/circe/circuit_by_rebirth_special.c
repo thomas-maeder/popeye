@@ -1,4 +1,5 @@
 #include "conditions/circe/circuit_by_rebirth_special.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "debugging/trace.h"

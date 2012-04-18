@@ -6,7 +6,7 @@
  * is immobile (e.g. branches that end in mate or stalemate).
  */
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
 
 /* Instrument STEndOfBranchGoal (and STEndOfBranchForced) slices with the
  * necessary STEndOfBranchTester slices

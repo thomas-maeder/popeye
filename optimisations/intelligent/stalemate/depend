@@ -60,7 +60,7 @@ optimisations/intelligent/duplicate_avoider.h:
 debugging/trace.h:
 optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
- optimisations/intelligent/stalemate/immobilise_black.h pydata.h \
+ optimisations/intelligent/stalemate/immobilise_black.h pystip.h pydata.h \
  stipulation/battle_play/attack_play.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -72,6 +72,8 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  debugging/trace.h
 
 optimisations/intelligent/stalemate/immobilise_black.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -194,12 +196,15 @@ optimisations/intelligent/stalemate/finish.h:
 debugging/trace.h:
 optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/goalreachable_guard.c \
- optimisations/intelligent/stalemate/goalreachable_guard.h pydata.h \
- stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
+ optimisations/intelligent/stalemate/goalreachable_guard.h pystip.h \
+ pydata.h stipulation/has_solution_type.h \
+ optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
 optimisations/intelligent/stalemate/goalreachable_guard.h:
+
+pystip.h:
 
 pydata.h:
 

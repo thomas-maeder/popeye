@@ -6,7 +6,7 @@
  * next slice.
  */
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a new non-proxy pipe
@@ -86,12 +86,6 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
  */
 void stip_traverse_structure_children_pipe(slice_index pipe,
                                            stip_structure_traversal *st);
-
-/* Traversal of the moves of some pipe slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a pipe slice

@@ -118,10 +118,12 @@ solving/battle_play/try.h:
 debugging/trace.h:
 solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
  solving/battle_play/min_length_optimiser.c \
- solving/battle_play/min_length_optimiser.h stipulation/branch.h \
+ solving/battle_play/min_length_optimiser.h pystip.h stipulation/branch.h \
  solving/avoid_unsolvable.h debugging/trace.h
 
 solving/battle_play/min_length_optimiser.h:
+
+pystip.h:
 
 stipulation/branch.h:
 

@@ -1,7 +1,6 @@
 #if !defined(OUTPUT_PLAINTEXT_END_OF_PHASE_WRITER_H)
 #define OUTPUT_PLAINTEXT_END_OF_PHASE_WRITER_H
 
-#include "pystip.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a STEndOfPhaseWriter slice.

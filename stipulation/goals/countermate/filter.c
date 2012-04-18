@@ -1,4 +1,5 @@
 #include "stipulation/goals/countermate/filter.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/conditional_pipe.h"

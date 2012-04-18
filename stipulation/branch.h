@@ -4,7 +4,7 @@
 /* Functionality related to "branches"; i.e. (chains of) pipe slices
  */
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
 
 /* Allocate a new branch slice
  * @param type which slice type
@@ -24,12 +24,6 @@ slice_index alloc_branch(slice_type type,
  * @return identifier for slice with type type; no_slice if none is found
  */
 slice_index branch_find_slice(slice_type type, slice_index si);
-
-/* Traversal of the moves of a branch
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st);
 
 /* Link a pipe slice to the entry slice of a branch
  * @param pipe identifies the pipe slice

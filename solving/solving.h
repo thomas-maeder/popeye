@@ -1,7 +1,8 @@
 #if !defined(SOLVING_H)
 #define SOLVING_H
 
-#include "pystip.h"
+#include "stipulation/structure_traversal.h"
+#include "utilities/boolean.h"
 
 /* Instrument the stipulation structure with solving slices
  * @param root_slice root slice of the stipulation

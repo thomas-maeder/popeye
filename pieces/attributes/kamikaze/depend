@@ -1,12 +1,14 @@
 pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.c \
- pieces/attributes/kamikaze/kamikaze.h pypipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
- conditions/anticirce/target_square_filter.h \
+ pieces/attributes/kamikaze/kamikaze.h pystip.h pypipe.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/boolean/or.h \
+ stipulation/boolean/true.h conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
+
+pystip.h:
 
 pypipe.h:
 

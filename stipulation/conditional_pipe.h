@@ -14,13 +14,6 @@
  */
 slice_index alloc_conditional_pipe(slice_type type, slice_index condition);
 
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_conditional_pipe(slice_index si,
-                                          stip_moves_traversal *st);
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a pipe slice
  * @param si identifies the pipe slice

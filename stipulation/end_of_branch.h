@@ -39,13 +39,6 @@ slice_index alloc_end_of_branch_goal_immobile(slice_index proxy_to_goal);
  */
 slice_index alloc_end_of_branch_forced(slice_index proxy_to_goal);
 
-/* Traversal of the moves beyond a help fork slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_end_of_branch(slice_index si,
-                                       stip_moves_traversal *st);
-
 /* Instrument STEndOfBranch (and STEndOfBranchGoalImmobile) slices with detours
  * that avoid testing if it would be unnecessary or disturbing
  * @param root_slice identifes root slice of stipulation

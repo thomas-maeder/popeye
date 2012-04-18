@@ -1,4 +1,5 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pyproc.h"
 #include "pydata.h"

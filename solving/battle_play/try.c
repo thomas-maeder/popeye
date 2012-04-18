@@ -377,7 +377,7 @@ static void filter_postkey_play(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->level==structure_traversal_level_root) /* i.e. not set play */
+  if (st->level==structure_traversal_level_top) /* i.e. not set play */
     Message(TryPlayNotApplicable);
 
   TraceFunctionExit(__func__);

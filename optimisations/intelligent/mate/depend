@@ -1,6 +1,6 @@
 optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/finish.c \
- optimisations/intelligent/mate/finish.h pydata.h \
+ optimisations/intelligent/mate/finish.h pystip.h pydata.h \
  stipulation/has_solution_type.h stipulation/battle_play/attack_play.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
@@ -8,6 +8,8 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.h debugging/trace.h
 
 optimisations/intelligent/mate/finish.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -26,12 +28,14 @@ optimisations/intelligent/place_white_king.h:
 debugging/trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
- optimisations/intelligent/mate/filter.h pypipe.h stipulation/proxy.h \
- stipulation/conditional_pipe.h stipulation/branch.h \
+ optimisations/intelligent/mate/filter.h pystip.h pypipe.h \
+ stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/duplicate_avoider.h debugging/trace.h
 
 optimisations/intelligent/mate/filter.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -88,12 +92,14 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 debugging/trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/goalreachable_guard.c \
- optimisations/intelligent/mate/goalreachable_guard.h pydata.h \
+ optimisations/intelligent/mate/goalreachable_guard.h pystip.h pydata.h \
  stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
 optimisations/intelligent/mate/goalreachable_guard.h:
+
+pystip.h:
 
 pydata.h:
 

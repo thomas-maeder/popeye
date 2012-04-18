@@ -1,4 +1,5 @@
 #include "stipulation/end_of_branch_goal.h"
+#include "pystip.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"

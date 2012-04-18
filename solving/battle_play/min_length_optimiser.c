@@ -1,4 +1,5 @@
 #include "solving/battle_play/min_length_optimiser.h"
+#include "pystip.h"
 #include "stipulation/branch.h"
 #include "solving/avoid_unsolvable.h"
 #include "debugging/trace.h"

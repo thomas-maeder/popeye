@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_BATTLE_PLAY_DEFENSE_ADAPTER_H)
 #define STIPULATION_BATTLE_PLAY_DEFENSE_ADAPTER_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* STDefenseAdapter slices switch from generic solving to defense solving.
@@ -13,20 +14,6 @@
  */
 slice_index alloc_defense_adapter_slice(stip_length_type length,
                                         stip_length_type min_length);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_defense_adapter(slice_index si,
-                                                      stip_structure_traversal *st);
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_defense_adapter(slice_index si,
-                                         stip_moves_traversal *st);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
@@ -51,19 +38,5 @@ void defense_adapter_make_intro(slice_index adapter,
  *            n+2 no solution found
  */
 stip_length_type defense_adapter_attack(slice_index si, stip_length_type n);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_ready_for_defense(slice_index si,
-                                                        stip_structure_traversal *st);
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_defense(slice_index si,
-                                           stip_moves_traversal *st);
 
 #endif

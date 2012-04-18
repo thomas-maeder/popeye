@@ -5,8 +5,8 @@
  * depending on the slice type
  */
 
-#include "pystip.h"
-#include "pydata.h"
+#include "py.h"
+#include "stipulation/slice.h"
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

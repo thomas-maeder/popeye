@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_MOVE_PLAYED_H)
 #define STIPULATION_MOVE_PLAYED_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
@@ -55,18 +56,5 @@ stip_length_type help_move_played_attack(slice_index si, stip_length_type n);
  * @param st status of traversal
  */
 void move_played_detect_starter(slice_index si, stip_structure_traversal *st);
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_move_played(slice_index si,
-                                                  stip_structure_traversal *st);
-
-/* Traversal of the moves of some branch slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_move_played(slice_index si, stip_moves_traversal *st);
 
 #endif

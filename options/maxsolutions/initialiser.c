@@ -1,4 +1,5 @@
 #include "options/maxsolutions/initialiser.h"
+#include "pystip.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "debugging/trace.h"

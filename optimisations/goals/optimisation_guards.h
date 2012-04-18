@@ -1,7 +1,8 @@
 #if !defined(OPTIMISATION_GOALS_OPTIMISATION_GUARDS_H)
 #define OPTIMISATION_GOALS_OPTIMISATION_GUARDS_H
 
-#include "pystip.h"
+#include "stipulation/moves_traversal.h"
+#include "stipulation/goals/goals.h"
 
 /* Instrument the stipulation structure with goal optimisation guards.
  * These guards stop solving if the following move has to reach a

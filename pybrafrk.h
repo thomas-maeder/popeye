@@ -5,6 +5,7 @@
  * and when to change to slice representing subsequent play
  */
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a new branch fork slice
@@ -33,13 +34,6 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
  */
 void stip_traverse_structure_next_branch(slice_index branch_entry,
                                          stip_structure_traversal *st);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_fork(slice_index si,
-                                           stip_structure_traversal *st);
 
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice

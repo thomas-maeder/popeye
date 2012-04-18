@@ -22,6 +22,7 @@
 # include <mem.h>
 #endif
 #include "py.h"
+#include "pystip.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "DHT/dhtbcmem.h"

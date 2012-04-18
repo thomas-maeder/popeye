@@ -1,4 +1,5 @@
 #include "solving/capture_counter.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "debugging/trace.h"

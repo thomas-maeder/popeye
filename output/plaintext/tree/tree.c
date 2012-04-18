@@ -311,7 +311,7 @@ static void insert_end_of_solution_writer(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (st->level==structure_traversal_level_root)
+  if (st->level==structure_traversal_level_top)
   {
     slice_index const prototype = alloc_end_of_solution_writer_slice();
     attack_branch_insert_slices(si,&prototype,1);
@@ -330,7 +330,7 @@ static void remember_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *is_postkey_play = st->level==structure_traversal_level_root;
+  *is_postkey_play = st->level==structure_traversal_level_top;
   stip_traverse_structure_children(si,st);
   *is_postkey_play = save_is_postkey_play;
 

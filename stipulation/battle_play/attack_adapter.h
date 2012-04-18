@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_BATTLE_PLAY_ATTACK_ADAPTER_H)
 #define STIPULATION_BATTLE_PLAY_ATTACK_ADAPTER_H
 
+#include "stipulation/structure_traversal.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* STAttackAdapter slices switch from generic solving to attack solving.
@@ -28,20 +29,6 @@ void attack_adapter_make_root(slice_index si, stip_structure_traversal *st);
 void attack_adapter_make_intro(slice_index adapter,
                                stip_structure_traversal *st);
 
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_attack_adpater(slice_index si,
-                                                     stip_structure_traversal *st);
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_attack_adapter(slice_index si,
-                                        stip_moves_traversal *st);
-
 /* Attempt to add set play to an attack stipulation (battle play, not
  * postkey only)
  * @param si identifies the root from which to apply set play
@@ -58,19 +45,5 @@ void attack_adapter_apply_setplay(slice_index si, stip_structure_traversal *st);
  *            n+2 no solution found
  */
 stip_length_type attack_adapter_attack(slice_index si, stip_length_type n);
-
-/* Traverse a subtree
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_ready_for_attack(slice_index si,
-                                                       stip_structure_traversal *st);
-
-/* Traversal of the moves of some adapter slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_ready_for_attack(slice_index si,
-                                          stip_moves_traversal *st);
 
 #endif

@@ -1,4 +1,5 @@
 #include "stipulation/end_of_branch.h"
+#include "pystip.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"
@@ -69,26 +70,6 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Traversal of the moves beyond a help fork slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_end_of_branch(slice_index si,
-                                       stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining<=1)
-    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
-
-  stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static void end_of_branch_detour_inserter_end_of_branch(slice_index si,

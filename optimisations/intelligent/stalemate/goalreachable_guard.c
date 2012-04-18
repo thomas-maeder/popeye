@@ -1,4 +1,5 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"

@@ -70,10 +70,12 @@ debugging/trace.h:
 utilities/enumeration.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
- optimisations/intelligent/moves_left.h pypipe.h \
+ optimisations/intelligent/moves_left.h pystip.h pypipe.h \
  stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/intelligent/moves_left.h:
+
+pystip.h:
 
 pypipe.h:
 
@@ -81,9 +83,12 @@ stipulation/has_solution_type.h:
 
 debugging/trace.h:
 optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \
- optimisations/intelligent/proof.h pyproof.h pypipe.h debugging/trace.h
+ optimisations/intelligent/proof.h pystip.h pyproof.h pypipe.h \
+ debugging/trace.h
 
 optimisations/intelligent/proof.h:
+
+pystip.h:
 
 pyproof.h:
 
@@ -92,11 +97,13 @@ pypipe.h:
 debugging/trace.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  optimisations/intelligent/duplicate_avoider.c \
- optimisations/intelligent/duplicate_avoider.h pydata.h pypipe.h \
+ optimisations/intelligent/duplicate_avoider.h pystip.h pydata.h pypipe.h \
  optimisations/intelligent/intelligent.h stipulation/has_solution_type.h \
  debugging/trace.h
 
 optimisations/intelligent/duplicate_avoider.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -109,10 +116,12 @@ stipulation/has_solution_type.h:
 debugging/trace.h:
 optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
  optimisations/intelligent/limit_nr_solutions_per_target.c \
- optimisations/intelligent/limit_nr_solutions_per_target.h pypipe.h \
- stipulation/has_solution_type.h debugging/trace.h
+ optimisations/intelligent/limit_nr_solutions_per_target.h pystip.h \
+ pypipe.h stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+pystip.h:
 
 pypipe.h:
 

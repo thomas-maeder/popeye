@@ -1,4 +1,5 @@
 #include "stipulation/goals/prerequisite_optimiser.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"

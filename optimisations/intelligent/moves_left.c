@@ -1,4 +1,5 @@
 #include "optimisations/intelligent/moves_left.h"
+#include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
@@ -80,9 +81,6 @@ static void init_moves_left(slice_index si,
   stip_moves_traversal_init(&st,&n);
   st.context = stip_traversal_context_help;
   stip_moves_traversal_set_remaining(&st,n,full_length);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_conditional_pipe,
-                                            &stip_traverse_moves_pipe);
   stip_moves_traversal_override_single(&st,STForEachMove,&moves_left_move);
   stip_moves_traversal_override_single(&st,STCheckZigzagJump,moves_left_zigzag);
   stip_traverse_moves(si,&st);

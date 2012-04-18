@@ -1,4 +1,5 @@
 #include "stipulation/move_played.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
@@ -147,79 +148,6 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
                           ? no_side
                           : advers(slices[next].starter));
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static stip_traversal_context_type next_context(stip_traversal_context_type context)
-{
-  stip_traversal_context_type result;
-
-  switch (context)
-  {
-    case stip_traversal_context_attack:
-      result = stip_traversal_context_defense;
-      break;
-
-    case stip_traversal_context_defense:
-      result = stip_traversal_context_attack;
-      break;
-
-    case stip_traversal_context_help:
-      result = stip_traversal_context_help;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  return result;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_move_played(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  st->context = next_context(st->context);
-  stip_traverse_structure_children_pipe(si,st);
-  st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traversal of the moves of some branch slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_move_played(slice_index si, stip_moves_traversal *st)
-{
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(st->remaining>0);
-
-  st->context = next_context(st->context);
-  --st->remaining;
-  TraceValue("->%u\n",st->remaining);
-  stip_traverse_moves_pipe(si,st);
-  ++st->remaining;
-  st->context = save_context;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

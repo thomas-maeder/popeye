@@ -1,9 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_END_OF_SOLUTION_WRITER_H)
 #define OUTPUT_PLAINTEXT_END_OF_SOLUTION_WRITER_H
 
-#include "utilities/boolean.h"
-#include "pystip.h"
-#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* Allocate a STEndOfSolutionWriter slice.
  * @return index of allocated slice

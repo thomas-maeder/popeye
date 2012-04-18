@@ -55,7 +55,7 @@ static void insert_direct_guards(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (st->level==structure_traversal_level_root
+  if (st->level==structure_traversal_level_top
       && slices[si].u.branch.length>slack_length
       && state->to_goal!=no_slice)
     battle_branch_insert_direct_end_of_branch_goal(si,state->to_goal);

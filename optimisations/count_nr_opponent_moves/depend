@@ -1,10 +1,12 @@
 optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.c \
- optimisations/count_nr_opponent_moves/move_generator.h pydata.h pypipe.h \
- pybrafrk.h stipulation/has_solution_type.h stipulation/proxy.h \
+ optimisations/count_nr_opponent_moves/move_generator.h pystip.h pydata.h \
+ pypipe.h pybrafrk.h stipulation/has_solution_type.h stipulation/proxy.h \
  solving/fork_on_remaining.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
+
+pystip.h:
 
 pydata.h:
 
@@ -21,11 +23,13 @@ solving/fork_on_remaining.h:
 debugging/trace.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
- optimisations/count_nr_opponent_moves/opponent_moves_counter.h pypipe.h \
- pydata.h solving/legal_move_counter.h stipulation/has_solution_type.h \
- debugging/trace.h
+ optimisations/count_nr_opponent_moves/opponent_moves_counter.h pystip.h \
+ pypipe.h pydata.h solving/legal_move_counter.h \
+ stipulation/has_solution_type.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+pystip.h:
 
 pypipe.h:
 

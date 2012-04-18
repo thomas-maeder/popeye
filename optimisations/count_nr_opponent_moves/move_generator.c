@@ -1,4 +1,5 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "pystip.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "pybrafrk.h"

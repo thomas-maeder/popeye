@@ -27,23 +27,6 @@ slice_index alloc_dead_end_slice(void)
   return result;
 }
 
-/* Traversal of the moves beyond a attack end slice
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-void stip_traverse_moves_dead_end(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->remaining>0)
-    stip_traverse_moves_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 typedef struct
 {
     slice_index end_of_branch_goal;
