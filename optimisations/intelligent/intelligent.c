@@ -762,7 +762,7 @@ static void intelligent_filter_inserter(slice_index si,
 
 static structure_traversers_visitors intelligent_filters_inserters[] =
 {
-  { STHelpAdapter,       &intelligent_filter_inserter  },
+  { STHelpAdapter,       &intelligent_filter_inserter           },
   { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
 
@@ -900,15 +900,14 @@ static void intelligent_mode_support_goal_tester(slice_index si,
 
 static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
-  { STAnd,               &intelligent_mode_support_none        },
-  { STOr,                &intelligent_mode_support_detector_or },
-  { STCheckZigzagJump,   &intelligent_mode_support_detector_or },
-  { STNot,               &intelligent_mode_support_none        },
-  { STConstraintSolver,  &intelligent_mode_support_none        },
-  { STConstraintTester,  &intelligent_mode_support_none        },
-  { STReadyForDefense,   &intelligent_mode_support_none        },
-  { STGoalReachedTester, &intelligent_mode_support_goal_tester },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe         }
+  { STAnd,               &intelligent_mode_support_none         },
+  { STOr,                &intelligent_mode_support_detector_or  },
+  { STNot,               &intelligent_mode_support_none         },
+  { STConstraintSolver,  &intelligent_mode_support_none         },
+  { STConstraintTester,  &intelligent_mode_support_none         },
+  { STReadyForDefense,   &intelligent_mode_support_none         },
+  { STGoalReachedTester, &intelligent_mode_support_goal_tester  },
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
 
 enum

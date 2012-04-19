@@ -579,16 +579,16 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const threat_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode               },
-  { STSetplayFork,        &stip_traverse_structure_children_pipe     },
-  { STReadyForDefense,    &insert_threat_solver             },
-  { STThreatSolver,       &connect_solver_to_threat_start   },
-  { STNotEndOfBranchGoal, &insert_threat_enforcer           },
-  { STReadyForAttack,     &insert_threat_end                },
-  { STThreatEnforcer,     &connect_enforcer_to_threat_start },
-  { STThreatStart,        &remember_threat_start            },
-  { STAttackAdapter,      &forget_threat_start              },
-  { STDefenseAdapter,     &forget_threat_start              }
+  { STOutputModeSelector, &filter_output_mode                    },
+  { STSetplayFork,        &stip_traverse_structure_children_pipe },
+  { STReadyForDefense,    &insert_threat_solver                  },
+  { STThreatSolver,       &connect_solver_to_threat_start        },
+  { STNotEndOfBranchGoal, &insert_threat_enforcer                },
+  { STReadyForAttack,     &insert_threat_end                     },
+  { STThreatEnforcer,     &connect_enforcer_to_threat_start      },
+  { STThreatStart,        &remember_threat_start                 },
+  { STAttackAdapter,      &forget_threat_start                   },
+  { STDefenseAdapter,     &forget_threat_start                   }
 };
 
 enum

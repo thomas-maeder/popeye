@@ -509,12 +509,12 @@ static void remember_checked_side(slice_index si,
 
 static structure_traversers_visitors adapters_guards_inserters[] =
 {
-  { STAttackAdapter,     &insert_selfcheck_guard_adapter  },
-  { STDefenseAdapter,    &insert_selfcheck_guard_adapter  },
-  { STHelpAdapter,       &insert_selfcheck_guard_adapter  },
-  { STSelfCheckGuard,    &remember_checked_side           },
-  { STMoveInverter,      &insert_selfcheck_guard_inverter },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe    }
+  { STAttackAdapter,     &insert_selfcheck_guard_adapter        },
+  { STDefenseAdapter,    &insert_selfcheck_guard_adapter        },
+  { STHelpAdapter,       &insert_selfcheck_guard_adapter        },
+  { STSelfCheckGuard,    &remember_checked_side                 },
+  { STMoveInverter,      &insert_selfcheck_guard_inverter       },
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
 };
 
 enum

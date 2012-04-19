@@ -265,11 +265,11 @@ static void insert_refutation_writer(slice_index si,
 
 static structure_traversers_visitors const try_writer_inserters[] =
 {
-  { STSetplayFork,            &stip_traverse_structure_children_pipe   },
-  { STKeyWriter,              &substitute_try_writer          },
-  { STRefutationsSolver,      &insert_refutation_intro_writer },
-  { STRefutationsIntroWriter, &insert_refutation_writer       },
-  { STEndOfBranchGoal,        &stip_traverse_structure_children_pipe   }
+  { STSetplayFork,            &stip_traverse_structure_children_pipe },
+  { STKeyWriter,              &substitute_try_writer                 },
+  { STRefutationsSolver,      &insert_refutation_intro_writer        },
+  { STRefutationsIntroWriter, &insert_refutation_writer              },
+  { STEndOfBranchGoal,        &stip_traverse_structure_children_pipe }
 };
 
 enum
@@ -442,19 +442,19 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const root_writer_inserters[] =
 {
-  { STSetplayFork,        &stip_traverse_structure_children_pipe     },
-  { STThreatSolver,       &stip_traverse_structure_children_pipe     },
-  { STHelpAdapter,        &stip_structure_visitor_noop      },
-  { STAttackAdapter,      &insert_end_of_solution_writer    },
-  { STDefenseAdapter,     &remember_postkey_play            },
-  { STEndOfBranchGoal,    &insert_key_writer_goal           },
-  { STNotEndOfBranchGoal, &insert_refuting_variation_writer },
-  { STEndOfBranch,        &get_fork_of_my_own               },
-  { STNotEndOfBranch,     &insert_postkey_writers           },
-  { STConstraintSolver,   &stip_traverse_structure_children_pipe     },
-  { STEndOfBranchForced,  &stip_traverse_structure_children_pipe     },
-  { STRefutationsSolver,  &stip_traverse_structure_children_pipe     },
-  { STReadyForDefense,    &insert_key_writer                }
+  { STSetplayFork,        &stip_traverse_structure_children_pipe },
+  { STThreatSolver,       &stip_traverse_structure_children_pipe },
+  { STHelpAdapter,        &stip_structure_visitor_noop           },
+  { STAttackAdapter,      &insert_end_of_solution_writer         },
+  { STDefenseAdapter,     &remember_postkey_play                 },
+  { STEndOfBranchGoal,    &insert_key_writer_goal                },
+  { STNotEndOfBranchGoal, &insert_refuting_variation_writer      },
+  { STEndOfBranch,        &get_fork_of_my_own                    },
+  { STNotEndOfBranch,     &insert_postkey_writers                },
+  { STConstraintSolver,   &stip_traverse_structure_children_pipe },
+  { STEndOfBranchForced,  &stip_traverse_structure_children_pipe },
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe },
+  { STReadyForDefense,    &insert_key_writer                     }
 };
 
 enum

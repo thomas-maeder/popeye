@@ -492,11 +492,11 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h pyposit.h pyboard.h \
  conditions/ohneschach/immobility_tester.h platform/maxmem.h \
  platform/maxtime.h platform/pytime.h platform/priority.h \
  stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/moves_traversal.h \
- stipulation/end_of_branch.h stipulation/end_of_branch_tester.h \
- stipulation/dead_end.h stipulation/move_inverter.h \
- stipulation/boolean/or.h stipulation/battle_play/branch.h pystip.h \
- stipulation/constraint.h stipulation/help_play/branch.h \
+ stipulation/structure_traversal.h stipulation/end_of_branch.h \
+ stipulation/end_of_branch_tester.h stipulation/dead_end.h \
+ stipulation/move_inverter.h stipulation/boolean/or.h \
+ stipulation/battle_play/branch.h pystip.h stipulation/constraint.h \
+ stipulation/moves_traversal.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
  stipulation/temporary_hacks.h \
  stipulation/goals/immobile/reached_tester.h solving/solving.h \
@@ -623,8 +623,6 @@ stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
-stipulation/moves_traversal.h:
-
 stipulation/end_of_branch.h:
 
 stipulation/end_of_branch_tester.h:
@@ -640,6 +638,8 @@ stipulation/battle_play/branch.h:
 pystip.h:
 
 stipulation/constraint.h:
+
+stipulation/moves_traversal.h:
 
 stipulation/help_play/branch.h:
 
@@ -735,8 +735,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h pyposit.h pyboard.h \
  stipulation/traversal.h pyoutput.h output/mode.h \
  stipulation/has_solution_type.h stipulation/proxy.h pypipe.h \
  stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/moves_traversal.h stipulation/dead_end.h \
- stipulation/battle_play/attack_play.h \
+ stipulation/dead_end.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h stipulation/move_inverter.h \
  stipulation/check_zigzag_jump.h stipulation/boolean/or.h \
  stipulation/boolean/and.h stipulation/boolean/not.h \
@@ -836,8 +835,6 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/structure_traversal.h:
-
-stipulation/moves_traversal.h:
 
 stipulation/dead_end.h:
 
@@ -1092,8 +1089,7 @@ pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h output/mode.h utilities/enumeration
  stipulation/moves_traversal.h stipulation/structure_traversal.h \
  stipulation/goals/goals.h output/mode.h utilities/boolean.h \
  stipulation/goals/goals.h pypipe.h stipulation/battle_play/attack_play.h \
- stipulation/branch.h stipulation/moves_traversal.h \
- output/plaintext/end_of_phase_writer.h \
+ stipulation/branch.h output/plaintext/end_of_phase_writer.h \
  stipulation/battle_play/attack_play.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
  output/plaintext/line/line.h debugging/trace.h
@@ -1152,8 +1148,6 @@ stipulation/battle_play/attack_play.h:
 
 stipulation/branch.h:
 
-stipulation/moves_traversal.h:
-
 output/plaintext/end_of_phase_writer.h:
 
 stipulation/battle_play/attack_play.h:
@@ -1175,8 +1169,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h py.h utilities/boolean.h pyposit.h pyboar
  stipulation/goals/goals.h output/mode.h pybrafrk.h \
  stipulation/battle_play/attack_play.h pypipe.h \
  stipulation/move_inverter.h stipulation/battle_play/attack_play.h \
- stipulation/branch.h stipulation/moves_traversal.h \
- stipulation/setplay_fork.h pypipe.h stipulation/goals/reached_tester.h \
+ stipulation/branch.h stipulation/setplay_fork.h pypipe.h \
+ stipulation/goals/reached_tester.h \
  stipulation/battle_play/defense_play.h stipulation/boolean/or.h \
  stipulation/boolean/and.h stipulation/boolean/not.h \
  stipulation/boolean/binary.h stipulation/boolean/true.h \
@@ -1246,8 +1240,6 @@ stipulation/battle_play/attack_play.h:
 
 stipulation/branch.h:
 
-stipulation/moves_traversal.h:
-
 stipulation/setplay_fork.h:
 
 pypipe.h:
@@ -1296,8 +1288,7 @@ pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h stipulation/structure_traversal.h \
  stipulation/moves_traversal.h stipulation/structure_traversal.h \
  stipulation/goals/goals.h output/mode.h utilities/boolean.h \
  stipulation/goals/goals.h output/mode.h stipulation/proxy.h pypipe.h \
- stipulation/branch.h stipulation/moves_traversal.h solving/solving.h \
- debugging/trace.h
+ stipulation/branch.h solving/solving.h debugging/trace.h
 
 pypipe.h:
 
@@ -1355,8 +1346,6 @@ pypipe.h:
 
 stipulation/branch.h:
 
-stipulation/moves_traversal.h:
-
 solving/solving.h:
 
 debugging/trace.h:
@@ -1369,8 +1358,7 @@ pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h stipulation/structure_traversal.h \
  stipulation/moves_traversal.h stipulation/structure_traversal.h \
  stipulation/goals/goals.h output/mode.h utilities/boolean.h \
  stipulation/goals/goals.h output/mode.h stipulation/branch.h \
- stipulation/moves_traversal.h stipulation/proxy.h pypipe.h \
- solving/solving.h debugging/trace.h
+ stipulation/proxy.h pypipe.h solving/solving.h debugging/trace.h
 
 pybrafrk.h:
 
@@ -1424,8 +1412,6 @@ output/mode.h:
 
 stipulation/branch.h:
 
-stipulation/moves_traversal.h:
-
 stipulation/proxy.h:
 
 pypipe.h:
@@ -1439,9 +1425,8 @@ pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play
  stipulation/structure_traversal.h stipulation/traversal.h pybrafrk.h \
  stipulation/has_solution_type.h utilities/enumeration.h \
  stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/moves_traversal.h stipulation/proxy.h pypipe.h \
- stipulation/boolean/and.h stipulation/boolean/true.h \
- stipulation/goals/goals.h utilities/boolean.h \
+ stipulation/proxy.h pypipe.h stipulation/boolean/and.h \
+ stipulation/boolean/true.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h pystip.h stipulation/help_play/branch.h \
  pyproc.h py4.h py.h utilities/boolean.h pyposit.h pyboard.h \
@@ -1477,8 +1462,6 @@ utilities/enumeration.h:
 stipulation/branch.h:
 
 stipulation/structure_traversal.h:
-
-stipulation/moves_traversal.h:
 
 stipulation/proxy.h:
 

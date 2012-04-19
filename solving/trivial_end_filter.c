@@ -96,9 +96,9 @@ static void trivial_varation_filter_insert_self(slice_index si,
 
 static structure_traversers_visitors trivial_varation_filter_inserters[] =
 {
-  { STOutputModeSelector, &remember_output_mode                },
-  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self },
-  { STRefutationsSolver,  &stip_traverse_structure_children_pipe        }
+  { STOutputModeSelector, &remember_output_mode                  },
+  { STEndOfBranchGoal,    &trivial_varation_filter_insert_self   },
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe }
 };
 
 enum
