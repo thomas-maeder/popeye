@@ -28,16 +28,14 @@ optimisations/intelligent/place_white_king.h:
 debugging/trace.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
- optimisations/intelligent/mate/filter.h pystip.h pypipe.h \
- stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ optimisations/intelligent/mate/filter.h pystip.h stipulation/proxy.h \
+ stipulation/conditional_pipe.h stipulation/branch.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/duplicate_avoider.h debugging/trace.h
 
 optimisations/intelligent/mate/filter.h:
 
 pystip.h:
-
-pypipe.h:
 
 stipulation/proxy.h:
 

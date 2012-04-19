@@ -109,6 +109,21 @@ get_stip_structure_traversal_state(slice_index si,
  */
 void stip_structure_visitor_noop(slice_index si, stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_children_pipe(slice_index pipe,
+                                           stip_structure_traversal *st);
+
+/* Continue a traversal at the start of a branch; this function is typically
+ * invoked by an end of branch slice
+ * @param branch_entry entry slice into branch
+ * @param st address of data structure holding parameters for the operation
+ */
+void stip_traverse_structure_next_branch(slice_index branch_entry,
+                                         stip_structure_traversal *st);
+
 /* (Approximately) depth-first traversal of the children of a slice
  * @param si slice whose children to traverse
  * @param st address of structure defining traversal

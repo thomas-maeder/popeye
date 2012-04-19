@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"

@@ -27,18 +27,16 @@ stipulation/battle_play/branch.h:
 
 debugging/trace.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
- solving/battle_play/threat.h pydata.h pypipe.h \
- stipulation/has_solution_type.h stipulation/testing_pipe.h \
- stipulation/branch.h stipulation/proxy.h stipulation/dummy_move.h \
- stipulation/move_played.h stipulation/battle_play/branch.h \
- solving/solving.h solving/battle_play/check_detector.h \
- solving/avoid_unsolvable.h utilities/table.h debugging/trace.h
+ solving/battle_play/threat.h pydata.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/dummy_move.h stipulation/move_played.h \
+ stipulation/battle_play/branch.h solving/solving.h \
+ solving/battle_play/check_detector.h solving/avoid_unsolvable.h \
+ utilities/table.h debugging/trace.h
 
 solving/battle_play/threat.h:
 
 pydata.h:
-
-pypipe.h:
 
 stipulation/has_solution_type.h:
 

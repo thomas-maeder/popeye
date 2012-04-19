@@ -27,14 +27,6 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st);
  */
 void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
 
-/* Continue a traversal at the start of a branch; this function is typically
- * invoked by an end of branch slice
- * @param branch_entry entry slice into branch
- * @param st address of data structure holding parameters for the operation
- */
-void stip_traverse_structure_next_branch(slice_index branch_entry,
-                                         stip_structure_traversal *st);
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice
  * @param si identifies the testing pipe slice

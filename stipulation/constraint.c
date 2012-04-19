@@ -1,5 +1,4 @@
 #include "stipulation/constraint.h"
-#include "pypipe.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "pydata.h"

@@ -1,6 +1,5 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"

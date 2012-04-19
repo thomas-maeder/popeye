@@ -32,7 +32,7 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
- options/degenerate_tree.h pystip.h pydata.h pypipe.h pybrafrk.h \
+ options/degenerate_tree.h pystip.h pydata.h pypipe.h \
  stipulation/has_solution_type.h stipulation/branch.h debugging/trace.h
 
 options/degenerate_tree.h:
@@ -42,8 +42,6 @@ pystip.h:
 pydata.h:
 
 pypipe.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 
@@ -78,19 +76,15 @@ solving/avoid_unsolvable.h:
 
 debugging/trace.h:
 options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
- options/maxthreatlength.h pydata.h pypipe.h pybrafrk.h \
- stipulation/has_solution_type.h stipulation/testing_pipe.h \
- stipulation/branch.h stipulation/dummy_move.h stipulation/move_played.h \
- stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
- solving/solving.h solving/battle_play/check_detector.h debugging/trace.h
+ options/maxthreatlength.h pydata.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/branch.h stipulation/dummy_move.h \
+ stipulation/move_played.h stipulation/battle_play/branch.h \
+ stipulation/battle_play/attack_play.h solving/solving.h \
+ solving/battle_play/check_detector.h debugging/trace.h
 
 options/maxthreatlength.h:
 
 pydata.h:
-
-pypipe.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 

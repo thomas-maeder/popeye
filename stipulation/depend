@@ -127,6 +127,7 @@ stipulation/has_solution_type.h:
 debugging/trace.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
  pypipe.h stipulation/has_solution_type.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/moves_traversal.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/avoid_unsolvable.h debugging/trace.h
 
@@ -137,6 +138,10 @@ pypipe.h:
 stipulation/has_solution_type.h:
 
 stipulation/branch.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/moves_traversal.h:
 
 stipulation/battle_play/branch.h:
 
@@ -183,17 +188,13 @@ stipulation/has_solution_type.h:
 
 debugging/trace.h:
 stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.c \
- stipulation/end_of_branch_tester.h pystip.h pypipe.h pybrafrk.h pydata.h \
- stipulation/proxy.h stipulation/branch.h stipulation/conditional_pipe.h \
- solving/solving.h solving/fork_on_remaining.h debugging/trace.h
+ stipulation/end_of_branch_tester.h pystip.h pydata.h stipulation/proxy.h \
+ stipulation/branch.h stipulation/conditional_pipe.h solving/solving.h \
+ solving/fork_on_remaining.h debugging/trace.h
 
 stipulation/end_of_branch_tester.h:
 
 pystip.h:
-
-pypipe.h:
-
-pybrafrk.h:
 
 pydata.h:
 
@@ -209,7 +210,7 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
- stipulation/constraint.h pypipe.h pybrafrk.h pydata.h \
+ stipulation/constraint.h pybrafrk.h pypipe.h pydata.h \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
@@ -217,9 +218,9 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
 
 stipulation/constraint.h:
 
-pypipe.h:
-
 pybrafrk.h:
+
+pypipe.h:
 
 pydata.h:
 

@@ -1,6 +1,5 @@
 #include "solving/solving.h"
 #include "pydata.h"
-#include "pypipe.h"
 #include "pybrafrk.h"
 #include "optimisations/hash.h"
 #include "options/nontrivial.h"

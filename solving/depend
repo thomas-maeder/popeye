@@ -1,4 +1,4 @@
-solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypipe.h \
+solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h \
  pybrafrk.h optimisations/hash.h options/nontrivial.h \
  options/maxthreatlength.h stipulation/proxy.h \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
@@ -20,8 +20,6 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h pydata.h pypip
 solving/solving.h:
 
 pydata.h:
-
-pypipe.h:
 
 pybrafrk.h:
 
@@ -224,7 +222,7 @@ pypipe.h:
 
 debugging/trace.h:
 solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_move.h \
- pydata.h pyproc.h pypipe.h pybrafrk.h stipulation/has_solution_type.h \
+ pydata.h pyproc.h pypipe.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/solving.h solving/find_move.h \
  debugging/trace.h
@@ -236,8 +234,6 @@ pydata.h:
 pyproc.h:
 
 pypipe.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 

@@ -1,6 +1,5 @@
 #include "optimisations/intelligent/mate/filter.h"
 #include "pystip.h"
-#include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"

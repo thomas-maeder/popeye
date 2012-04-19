@@ -1,8 +1,6 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "pystip.h"
 #include "pydata.h"
-#include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "solving/fork_on_remaining.h"

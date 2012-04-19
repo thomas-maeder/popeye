@@ -27,7 +27,7 @@ options/maxsolutions/maxsolutions.h:
 debugging/trace.h:
 optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/filter.c \
- optimisations/intelligent/stalemate/filter.h pypipe.h pybrafrk.h \
+ optimisations/intelligent/stalemate/filter.h \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/help_play/branch.h \
@@ -36,10 +36,6 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/duplicate_avoider.h debugging/trace.h
 
 optimisations/intelligent/stalemate/filter.h:
-
-pypipe.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 

@@ -1,5 +1,4 @@
 #include "options/maxsolutions/maxsolutions.h"
-#include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"

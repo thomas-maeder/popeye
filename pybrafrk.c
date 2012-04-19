@@ -85,29 +85,6 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Continue a traversal at the start of a branch; this function is typically
- * invoked by an end of branch slice
- * @param branch_entry entry slice into branch
- * @param st address of data structure holding parameters for the operation
- */
-void stip_traverse_structure_next_branch(slice_index branch_entry,
-                                         stip_structure_traversal *st)
-{
-  stip_traversal_context_type const save_context = st->context;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch_entry);
-  TraceFunctionParam("%p",st);
-  TraceFunctionParamListEnd();
-
-  st->context = stip_traversal_context_intro;
-  stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
-  st->context = save_context;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a fork slice
  * @param si identifies the testing pipe slice

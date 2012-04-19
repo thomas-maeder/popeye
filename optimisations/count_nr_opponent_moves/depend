@@ -1,7 +1,7 @@
 optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/move_generator.c \
  optimisations/count_nr_opponent_moves/move_generator.h pystip.h pydata.h \
- pypipe.h pybrafrk.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/has_solution_type.h stipulation/proxy.h \
  solving/fork_on_remaining.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
@@ -9,10 +9,6 @@ optimisations/count_nr_opponent_moves/move_generator.h:
 pystip.h:
 
 pydata.h:
-
-pypipe.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 

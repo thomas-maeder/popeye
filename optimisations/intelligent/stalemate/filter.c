@@ -1,6 +1,4 @@
 #include "optimisations/intelligent/stalemate/filter.h"
-#include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"

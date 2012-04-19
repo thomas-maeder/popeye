@@ -1,11 +1,9 @@
 stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
- stipulation/help_play/adapter.h pypipe.h stipulation/has_solution_type.h \
+ stipulation/help_play/adapter.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/battle_play/attack_play.h \
  stipulation/help_play/branch.h debugging/trace.h
 
 stipulation/help_play/adapter.h:
-
-pypipe.h:
 
 stipulation/has_solution_type.h:
 

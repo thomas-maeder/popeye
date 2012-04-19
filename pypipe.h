@@ -80,13 +80,6 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st);
  */
 void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_structure_children_pipe(slice_index pipe,
-                                           stip_structure_traversal *st);
-
 /* Callback to stip_spin_off_testers
  * Spin a tester slice off a pipe slice
  * @param si identifies the pipe slice

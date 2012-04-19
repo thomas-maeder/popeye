@@ -1360,7 +1360,7 @@ debugging/trace.h:
 pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play.h \
  py.h stipulation/slice.h stipulation/battle_play/defense_play.h \
  stipulation/battle_play/attack_play.h pydata.h pypipe.h \
- stipulation/structure_traversal.h stipulation/traversal.h pybrafrk.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/has_solution_type.h utilities/enumeration.h \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/proxy.h pypipe.h stipulation/boolean/and.h \
@@ -1390,8 +1390,6 @@ pypipe.h:
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
-
-pybrafrk.h:
 
 stipulation/has_solution_type.h:
 

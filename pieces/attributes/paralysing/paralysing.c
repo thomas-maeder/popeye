@@ -1,7 +1,5 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pydata.h"
-#include "pypipe.h"
-#include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/or.h"
