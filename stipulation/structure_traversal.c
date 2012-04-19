@@ -329,6 +329,23 @@ static void stip_traverse_structure_children_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void stip_traverse_structure_children_testing_pipe(slice_index testing_pipe,
+                                                          stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing_pipe);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(testing_pipe,st);
+
+  if (slices[testing_pipe].u.fork.fork!=no_slice)
+    stip_traverse_structure(slices[testing_pipe].u.fork.fork,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const special_children_traversers[] =
 {
    { STSetplayFork,     &stip_traverse_structure_children_setplay_fork      },

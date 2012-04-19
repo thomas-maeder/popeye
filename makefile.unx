@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.165 2012/04/17 17:39:01 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.166 2012/04/19 18:20:46 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -250,8 +250,8 @@ NESTEDLIBDIRS = . \
     stipulation/goals/proofgame stipulation/goals/atob \
     stipulation/goals/chess81 \
     stipulation/goals/immobile stipulation/goals/notcheck \
-    stipulation \
     solving solving/battle_play \
+    stipulation \
     stipulation/boolean \
     pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
