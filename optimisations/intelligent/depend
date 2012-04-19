@@ -71,7 +71,8 @@ utilities/enumeration.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
  optimisations/intelligent/moves_left.h pystip.h pypipe.h \
- stipulation/has_solution_type.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/moves_traversal.h \
+ debugging/trace.h
 
 optimisations/intelligent/moves_left.h:
 
@@ -80,6 +81,8 @@ pystip.h:
 pypipe.h:
 
 stipulation/has_solution_type.h:
+
+stipulation/moves_traversal.h:
 
 debugging/trace.h:
 optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \

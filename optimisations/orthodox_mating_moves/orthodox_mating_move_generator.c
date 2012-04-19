@@ -9,6 +9,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/goals/goals.h"
+#include "stipulation/moves_traversal.h"
 #include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 

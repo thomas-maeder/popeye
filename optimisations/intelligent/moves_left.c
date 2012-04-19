@@ -2,6 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/moves_traversal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

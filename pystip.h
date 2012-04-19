@@ -4,7 +4,6 @@
 #include "py.h"
 #include "stipulation/slice.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/moves_traversal.h"
 #include "stipulation/goals/goals.h"
 #include "output/mode.h"
 #include "utilities/boolean.h"
