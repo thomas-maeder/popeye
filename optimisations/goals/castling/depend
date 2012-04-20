@@ -1,19 +1,75 @@
 optimisations/goals/castling/filter$(OBJ_SUFFIX): \
  optimisations/goals/castling/filter.c \
- optimisations/goals/castling/filter.h pystip.h pydata.h pypipe.h \
- stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
+ optimisations/goals/castling/filter.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h pystip.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h output/mode.h pypipe.h \
+ stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
+ stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
  debugging/trace.h
 
 optimisations/goals/castling/filter.h:
 
-pystip.h:
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+stipulation/battle_play/defense_play.h:
 
 pydata.h:
 
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+pystip.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+output/mode.h:
+
 pypipe.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/goals/prerequisite_guards.h:
+
+stipulation/goals/goals.h:
 
 debugging/trace.h:

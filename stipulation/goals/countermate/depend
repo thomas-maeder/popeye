@@ -1,51 +1,169 @@
 stipulation/goals/countermate/filter$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.c \
- stipulation/goals/countermate/filter.h pystip.h pydata.h \
- stipulation/has_solution_type.h stipulation/conditional_pipe.h \
- stipulation/goals/prerequisite_guards.h \
+ stipulation/goals/countermate/filter.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/battle_play/defense_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h pystip.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/conditional_pipe.h pypipe.h \
+ stipulation/battle_play/attack_play.h \
+ stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
  stipulation/goals/mate/reached_tester.h debugging/trace.h
 
 stipulation/goals/countermate/filter.h:
 
-pystip.h:
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+stipulation/battle_play/defense_play.h:
 
 pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+pystip.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+output/mode.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
+pypipe.h:
+
+stipulation/battle_play/attack_play.h:
+
 stipulation/goals/prerequisite_guards.h:
+
+stipulation/goals/goals.h:
 
 stipulation/goals/mate/reached_tester.h:
 
 debugging/trace.h:
 stipulation/goals/countermate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/countermate/reached_tester.c \
- stipulation/goals/countermate/reached_tester.h pypipe.h pydata.h \
- stipulation/proxy.h stipulation/goals/prerequisite_guards.h \
+ stipulation/goals/countermate/reached_tester.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pypipe.h stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/battle_play/attack_play.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/proxy.h \
+ stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
  stipulation/goals/reached_tester.h \
- stipulation/goals/check/reached_tester.h \
- stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
+ stipulation/battle_play/defense_play.h \
+ stipulation/goals/check/reached_tester.h pystip.h stipulation/slice.h \
+ output/mode.h stipulation/goals/immobile/reached_tester.h \
+ stipulation/boolean/true.h stipulation/structure_traversal.h \
  stipulation/boolean/and.h debugging/trace.h
 
 stipulation/goals/countermate/reached_tester.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pypipe.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/battle_play/attack_play.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 stipulation/proxy.h:
 
 stipulation/goals/prerequisite_guards.h:
 
+stipulation/goals/goals.h:
+
 stipulation/goals/reached_tester.h:
 
+stipulation/battle_play/defense_play.h:
+
 stipulation/goals/check/reached_tester.h:
+
+pystip.h:
+
+stipulation/slice.h:
+
+output/mode.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
 stipulation/boolean/true.h:
+
+stipulation/structure_traversal.h:
 
 stipulation/boolean/and.h:
 

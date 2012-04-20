@@ -1,50 +1,187 @@
 options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/stoponshortsolutions.c \
- options/stoponshortsolutions/stoponshortsolutions.h \
+ options/stoponshortsolutions/stoponshortsolutions.h utilities/boolean.h \
+ stipulation/slice.h py.h utilities/boolean.h pyposit.h pyboard.h \
+ utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice_type.h utilities/enumeration.h \
  options/stoponshortsolutions/initialiser.h \
- options/stoponshortsolutions/filter.h pystip.h stipulation/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/battle_play/attack_play.h \
+ options/stoponshortsolutions/filter.h pystip.h py.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/help_play/branch.h \
+ debugging/trace.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
+utilities/boolean.h:
+
+stipulation/slice.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 options/stoponshortsolutions/initialiser.h:
+
+stipulation/battle_play/attack_play.h:
 
 options/stoponshortsolutions/filter.h:
 
 pystip.h:
 
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
 stipulation/branch.h:
+
+stipulation/structure_traversal.h:
 
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
  options/stoponshortsolutions/initialiser.c \
- options/stoponshortsolutions/initialiser.h pystip.h \
- options/stoponshortsolutions/stoponshortsolutions.h pypipe.h \
- debugging/trace.h
+ options/stoponshortsolutions/initialiser.h py.h utilities/boolean.h \
+ pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h stipulation/battle_play/attack_play.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h options/stoponshortsolutions/stoponshortsolutions.h \
+ pypipe.h stipulation/battle_play/attack_play.h debugging/trace.h
 
 options/stoponshortsolutions/initialiser.h:
 
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 debugging/trace.h:
 options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
- options/stoponshortsolutions/filter.h pystip.h \
- options/stoponshortsolutions/stoponshortsolutions.h stipulation/branch.h \
- debugging/trace.h
+ options/stoponshortsolutions/filter.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h options/stoponshortsolutions/stoponshortsolutions.h \
+ stipulation/branch.h stipulation/structure_traversal.h debugging/trace.h
 
 options/stoponshortsolutions/filter.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
 stipulation/branch.h:
+
+stipulation/structure_traversal.h:
 
 debugging/trace.h:

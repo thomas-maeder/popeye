@@ -1,9 +1,37 @@
-utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h pydata.h pymsg.h \
- debugging/trace.h
+utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
+ utilities/boolean.h py.h utilities/boolean.h pyposit.h pyboard.h \
+ utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h pydata.h \
+ pyproc.h py4.h py.h stipulation/goals/goals.h pymsg.h debugging/trace.h
 
 utilities/table.h:
 
+utilities/boolean.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
 
 pymsg.h:
 

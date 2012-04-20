@@ -1,34 +1,118 @@
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.c \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- pydata.h debugging/trace.h
+ utilities/boolean.h stipulation/goals/goals.h py.h utilities/boolean.h \
+ pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h pydata.h pyproc.h py4.h py.h \
+ stipulation/goals/goals.h debugging/trace.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
-pydata.h:
+utilities/boolean.h:
 
-debugging/trace.h:
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
- optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- pystip.h pydata.h pyproc.h pypipe.h \
- optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- stipulation/has_solution_type.h stipulation/proxy.h \
- stipulation/conditional_pipe.h stipulation/branch.h \
- stipulation/goals/goals.h stipulation/moves_traversal.h \
- solving/fork_on_remaining.h debugging/trace.h
+stipulation/goals/goals.h:
 
-optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+py.h:
 
-pystip.h:
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
 
 pydata.h:
 
 pyproc.h:
 
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+debugging/trace.h:
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
+ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h pydata.h pyproc.h py4.h pyproc.h pypipe.h \
+ stipulation/battle_play/attack_play.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+ stipulation/goals/goals.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/moves_traversal.h \
+ output/mode.h solving/fork_on_remaining.h \
+ stipulation/battle_play/defense_play.h debugging/trace.h
+
+optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
+
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+pyproc.h:
+
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/has_solution_type.h:
 
@@ -38,10 +122,14 @@ stipulation/conditional_pipe.h:
 
 stipulation/branch.h:
 
-stipulation/goals/goals.h:
+stipulation/structure_traversal.h:
 
 stipulation/moves_traversal.h:
 
+output/mode.h:
+
 solving/fork_on_remaining.h:
+
+stipulation/battle_play/defense_play.h:
 
 debugging/trace.h:

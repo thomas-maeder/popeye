@@ -1,47 +1,205 @@
 options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolutions.c \
- options/maxsolutions/maxsolutions.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
- debugging/trace.h
+ options/maxsolutions/maxsolutions.h stipulation/slice.h py.h \
+ utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ utilities/enumeration.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/battle_play/branch.h pystip.h py.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/goals/goals.h \
+ utilities/boolean.h output/mode.h stipulation/help_play/branch.h \
+ stipulation/battle_play/attack_play.h options/maxsolutions/initialiser.h \
+ options/maxsolutions/guard.h stipulation/battle_play/defense_play.h \
+ pydata.h pyproc.h py4.h debugging/trace.h
 
 options/maxsolutions/maxsolutions.h:
+
+stipulation/slice.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
 
 stipulation/branch.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
 stipulation/battle_play/branch.h:
+
+pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 stipulation/help_play/branch.h:
 
+stipulation/battle_play/attack_play.h:
+
 options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
+
+stipulation/battle_play/defense_play.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 debugging/trace.h:
 options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \
- options/maxsolutions/initialiser.h pystip.h \
- options/maxsolutions/maxsolutions.h pypipe.h debugging/trace.h
+ options/maxsolutions/initialiser.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/battle_play/attack_play.h stipulation/slice.h \
+ stipulation/slice_type.h utilities/enumeration.h pystip.h py.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h options/maxsolutions/maxsolutions.h pypipe.h \
+ stipulation/battle_play/attack_play.h debugging/trace.h
 
 options/maxsolutions/initialiser.h:
 
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
+
+stipulation/battle_play/attack_play.h:
 
 debugging/trace.h:
 options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
- options/maxsolutions/guard.h pystip.h \
+ options/maxsolutions/guard.h stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pydata.h pyproc.h py4.h py.h stipulation/goals/goals.h \
+ utilities/boolean.h pystip.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  options/maxsolutions/maxsolutions.h pypipe.h \
- stipulation/has_solution_type.h debugging/trace.h
+ stipulation/battle_play/attack_play.h stipulation/has_solution_type.h \
+ debugging/trace.h
 
 options/maxsolutions/guard.h:
 
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
 pystip.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+output/mode.h:
 
 options/maxsolutions/maxsolutions.h:
 
 pypipe.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/has_solution_type.h:
 

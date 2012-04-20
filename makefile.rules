@@ -43,7 +43,7 @@ $(CURRPWD)depend: $(SRC_CFILES:%=$(CURRPWD)%) $(INCLUDES:%=$(CURRPWD)%) $(CURRPW
 	-for f in $(SRC_CFILES:%=$(CURRPWD)%); \
 	do \
 		$(MAKEDEPEND) \
-			-MG -MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
+			-I. -MG -MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
 			$$f \
 		| sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/"; \
 	done > $@

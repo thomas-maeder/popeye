@@ -1,21 +1,86 @@
 platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
- utilities/boolean.h optimisations/hash.h
+ utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h py.h \
+ utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/traversal.h stipulation/battle_play/attack_play.h
 
 platform/maxmem.h:
 
 utilities/boolean.h:
 
 optimisations/hash.h:
+
+DHT/dhtbcmem.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+stipulation/traversal.h:
+
+stipulation/battle_play/attack_play.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h pydata.h
+ platform/maxtime.h utilities/boolean.h pydata.h pyproc.h py4.h py.h \
+ utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h stipulation/goals/goals.h py.h
 
 platform/maxtime_impl.h:
 
 platform/maxtime.h:
 
+utilities/boolean.h:
+
 pydata.h:
-platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h platform/beep_impl.h
+
+pyproc.h:
+
+py4.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h utilities/boolean.h \
+ platform/beep_impl.h
 
 platform/beep.h:
+
+utilities/boolean.h:
 
 platform/beep_impl.h:

@@ -1,22 +1,71 @@
 conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
- conditions/anticirce/anticirce.h pystip.h pypipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
- conditions/anticirce/target_square_filter.h \
+ conditions/anticirce/anticirce.h stipulation/slice.h py.h \
+ utilities/boolean.h pyposit.h pyboard.h utilities/bitmask.h pypiece.h \
+ utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ utilities/enumeration.h pystip.h py.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h utilities/boolean.h output/mode.h pypipe.h \
+ stipulation/battle_play/attack_play.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/proxy.h \
+ stipulation/boolean/or.h stipulation/battle_play/attack_play.h \
+ stipulation/boolean/true.h conditions/anticirce/target_square_filter.h \
  conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
+stipulation/slice.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 stipulation/branch.h:
+
+stipulation/structure_traversal.h:
 
 stipulation/proxy.h:
 
 stipulation/boolean/or.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/boolean/true.h:
 
@@ -31,57 +80,257 @@ conditions/anticirce/exchange_filter.h:
 debugging/trace.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.c \
- conditions/anticirce/target_square_filter.h pystip.h pypipe.h pydata.h \
- debugging/trace.h
+ conditions/anticirce/target_square_filter.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h pypipe.h stipulation/battle_play/attack_play.h pydata.h \
+ pyproc.h py4.h debugging/trace.h
 
 conditions/anticirce/target_square_filter.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 debugging/trace.h:
 conditions/anticirce/circuit_special$(OBJ_SUFFIX): \
  conditions/anticirce/circuit_special.c \
- conditions/anticirce/circuit_special.h pystip.h pypipe.h pydata.h \
- debugging/trace.h
+ conditions/anticirce/circuit_special.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h pypipe.h stipulation/battle_play/attack_play.h pydata.h \
+ pyproc.h py4.h debugging/trace.h
 
 conditions/anticirce/circuit_special.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 debugging/trace.h:
 conditions/anticirce/exchange_special$(OBJ_SUFFIX): \
  conditions/anticirce/exchange_special.c \
- conditions/anticirce/exchange_special.h pystip.h pypipe.h pydata.h \
- debugging/trace.h
+ conditions/anticirce/exchange_special.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h pypipe.h stipulation/battle_play/attack_play.h pydata.h \
+ pyproc.h py4.h debugging/trace.h
 
 conditions/anticirce/exchange_special.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 debugging/trace.h:
 conditions/anticirce/exchange_filter$(OBJ_SUFFIX): \
  conditions/anticirce/exchange_filter.c \
- conditions/anticirce/exchange_filter.h pystip.h pypipe.h pydata.h \
- debugging/trace.h
+ conditions/anticirce/exchange_filter.h \
+ stipulation/battle_play/attack_play.h py.h utilities/boolean.h pyposit.h \
+ pyboard.h utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h \
+ stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
+ pystip.h py.h stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h utilities/boolean.h \
+ output/mode.h pypipe.h stipulation/battle_play/attack_play.h pydata.h \
+ pyproc.h py4.h debugging/trace.h
 
 conditions/anticirce/exchange_filter.h:
 
+stipulation/battle_play/attack_play.h:
+
+py.h:
+
+utilities/boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+utilities/bitmask.h:
+
+pypiece.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
 pystip.h:
+
+py.h:
+
+stipulation/slice.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+output/mode.h:
 
 pypipe.h:
 
+stipulation/battle_play/attack_play.h:
+
 pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 debugging/trace.h:
