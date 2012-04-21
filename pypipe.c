@@ -80,19 +80,6 @@ void pipe_spin_off_skip(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-#if !defined(NDEBUG)
-/* Does a slice have a successor
- * @param si identifies slice
- * @return true iff si identifies a slice that has a .next1 member
- */
-static boolean has_successor_slot(slice_index si)
-{
-  return (slices[si].type!=STTrue
-          && slices[si].type!=STOr
-          && slices[si].type!=STAnd);
-}
-#endif
-
 /* Make a slice the successor of a pipe
  * @param pipe identifies the pipe
  * @param succ slice to be made the successor of pipe
@@ -104,7 +91,7 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  assert(has_successor_slot(pipe));
+  assert(slice_type_get_structural_type(slices[pipe].type)!=slice_structure_leaf);
   slices[pipe].next1 = succ;
 
   TraceFunctionExit(__func__);

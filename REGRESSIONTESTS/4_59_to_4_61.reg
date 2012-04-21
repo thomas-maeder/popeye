@@ -176,17 +176,17 @@ a)
 
   1.Qh2*c7 [+bPg1=bR][+bPh2] Rg1-g8   2.Qc7*h2 [+bPg3][+bPc7] Qc4-h4[+wPc4] # 
 
-              empile:      364402
-            jouecoup:       13136
-        orig_rbechec:       13049
+              empile:      389812
+            jouecoup:       13818
+        orig_rbechec:       13729
         orig_rnechec:           0
 b) bQc4-->g5
 
   1.Qh2*c7 [+bPe1=bS][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2 [+bPe5][+bPc7] Qa5-d2[+wPa5] # 
 
-              empile:      507599
-            jouecoup:       14526
-        orig_rbechec:       14317
+              empile:      532060
+            jouecoup:       15049
+        orig_rbechec:       14839
         orig_rnechec:           0
 solution finished. 
 
