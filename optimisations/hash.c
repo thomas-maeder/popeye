@@ -262,7 +262,7 @@ typedef struct
 static void init_slice_properties_pipe(slice_index pipe,
                                        stip_structure_traversal *st)
 {
-  slice_index const next = slices[pipe].u.pipe.next;
+  slice_index const next = slices[pipe].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -330,8 +330,8 @@ static void init_slice_properties_binary(slice_index fork,
 
   unsigned int const save_valueOffset = sis->valueOffset;
 
-  slice_index const op1 = slices[fork].u.binary.op1;
-  slice_index const op2 = slices[fork].u.binary.op2;
+  slice_index const op1 = slices[fork].next1;
+  slice_index const op2 = slices[fork].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
@@ -1737,7 +1737,7 @@ void spin_off_testers_attack_hashed(slice_index si, stip_structure_traversal *st
     state->spun_off[si] = alloc_pipe(STAttackHashedTester);
     slices[state->spun_off[si]].u.derived_pipe.base = si;
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
     stip_traverse_structure_children(si,st);
@@ -1763,7 +1763,7 @@ void spin_off_testers_help_hashed(slice_index si, stip_structure_traversal *st)
     state->spun_off[si] = alloc_pipe(STHelpHashedTester);
     slices[state->spun_off[si]].u.derived_pipe.base = si;
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
     stip_traverse_structure_children(si,st);
@@ -1902,7 +1902,7 @@ stip_length_type attack_hashed_attack(slice_index si, stip_length_type n)
 
   assert((slices[si].u.branch.length-n)%2==0);
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2010,7 +2010,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const base = slices[si].u.derived_pipe.base;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2218,11 +2218,11 @@ stip_length_type help_hashed_attack(slice_index si, stip_length_type n)
     if (slices[si].u.branch.min_length>slack_length+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = attack(slices[si].u.pipe.next,n);
+      result = attack(slices[si].next1,n);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = attack(slices[si].u.pipe.next,n);
+      result = attack(slices[si].next1,n);
 
     if (result==n+2)
       addtohash_help(si,n);
@@ -2261,11 +2261,11 @@ stip_length_type help_hashed_tester_attack(slice_index si, stip_length_type n)
     if (slices[base].u.branch.min_length>slack_length+1)
     {
       slices[base].u.branch.min_length -= 2;
-      result = attack(slices[si].u.pipe.next,n);
+      result = attack(slices[si].next1,n);
       slices[base].u.branch.min_length += 2;
     }
     else
-      result = attack(slices[si].u.pipe.next,n);
+      result = attack(slices[si].next1,n);
 
     if (result>n)
       addtohash_help(base,n);

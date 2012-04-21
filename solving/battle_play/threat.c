@@ -48,7 +48,7 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -101,7 +101,7 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
 stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -133,7 +133,7 @@ stip_length_type threat_collector_defend(slice_index si, stip_length_type n)
 stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
+  slice_index const next = slices[si].next1;
   ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);
@@ -145,7 +145,7 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
   threats[threats_ply] = allocate_table();
 
   if (!attack_gives_check[nbply])
-    threat_lengths[threats_ply] = defend(slices[si].u.fork.fork,n)-1;
+    threat_lengths[threats_ply] = defend(slices[si].next2,n)-1;
 
   result = defend(next,n);
 
@@ -171,8 +171,8 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n)
 stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const threat_start = slices[si].u.fork.fork;
+  slice_index const next = slices[si].next1;
+  slice_index const threat_start = slices[si].next2;
   ply const threats_ply = nbply+1;
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
@@ -243,10 +243,10 @@ void stip_spin_off_testers_threat_enforcer(slice_index si,
     /* trust in our descendants to start spinning off before the traversal
      * reaches our tester */
     stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].u.fork.fork]!=no_slice);
+    assert(state->spun_off[slices[si].next2]!=no_slice);
   }
 
-  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+  slices[si].next2 = state->spun_off[slices[si].next2];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -291,8 +291,8 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].u.pipe.next!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+  if (slices[si].next1!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -316,7 +316,7 @@ static void spin_off_from_threat_enforcer(slice_index si,
 
   {
     slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
-    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    attack_branch_insert_slices(slices[si].next2,&prototype,1);
   }
 
   init_deep_copy(&st_nested,&copies);
@@ -330,15 +330,15 @@ static void spin_off_from_threat_enforcer(slice_index si,
   stip_structure_traversal_override_by_function(&st_nested,
                                                 slice_function_testing_pipe,
                                                 &copy_shallow);
-  stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
+  stip_traverse_structure(slices[si].next2,&st_nested);
 
-  slices[si].u.fork.fork = copies[slices[si].u.fork.fork];
+  slices[si].next2 = copies[slices[si].next2];
 
   {
     /* if the threats are short, max_unsolvable might interfere with enforcing
      * them */
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    attack_branch_insert_slices(slices[si].next2,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -387,20 +387,20 @@ static void spin_off_from_threat_solver(slice_index si,
   stip_structure_traversal_override_by_function(&st_nested,
                                                 slice_function_testing_pipe,
                                                 &copy_shallow);
-  stip_traverse_structure(slices[si].u.fork.fork,&st_nested);
+  stip_traverse_structure(slices[si].next2,&st_nested);
 
   /* only now or the dummy move slice is copied and leaked */
   {
     slice_index const dummy = alloc_dummy_move_slice();
     slice_index const played = alloc_move_played_slice();
     pipe_link(dummy,played);
-    link_to_branch(played,copies[slices[si].u.fork.fork]);
-    slices[si].u.fork.fork = dummy;
+    link_to_branch(played,copies[slices[si].next2]);
+    slices[si].next2 = dummy;
   }
 
   {
     slice_index const prototype = alloc_pipe(STThreatCollector);
-    attack_branch_insert_slices(slices[si].u.fork.fork,&prototype,1);
+    attack_branch_insert_slices(slices[si].next2,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -506,7 +506,7 @@ static void connect_solver_to_threat_start(slice_index si,
   stip_traverse_structure_children(si,st);
 
   assert(*threat_start!=no_slice);
-  slices[si].u.fork.fork =  *threat_start;
+  slices[si].next2 =  *threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -524,7 +524,7 @@ static void connect_enforcer_to_threat_start(slice_index si,
   stip_traverse_structure_children(si,st);
 
   assert(*threat_start!=no_slice);
-  slices[si].u.fork.fork = *threat_start;
+  slices[si].next2 = *threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

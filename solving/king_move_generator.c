@@ -52,7 +52,7 @@ stip_length_type king_move_generator_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -89,7 +89,7 @@ stip_length_type king_move_generator_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -88,8 +88,8 @@ static void insert_output_slices_binary(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  stip_traverse_structure(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].next1,st);
+  stip_traverse_structure(slices[si].next2,st);
 
   /* don't traverse tester */
 

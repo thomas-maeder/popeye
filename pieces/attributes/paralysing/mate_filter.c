@@ -64,7 +64,7 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
 stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
                       ? slices[si].starter
@@ -96,7 +96,7 @@ stip_length_type paralysing_mate_filter_tester_attack(slice_index si, stip_lengt
 stip_length_type paralysing_mate_filter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
                       ? slices[si].starter

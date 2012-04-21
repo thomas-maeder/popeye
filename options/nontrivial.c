@@ -113,7 +113,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const tester = slices[si].u.fork.fork;
+  slice_index const tester = slices[si].next2;
   stip_length_type const parity = ((n-slack_length-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
 
@@ -167,7 +167,7 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
 stip_length_type
 max_nr_nontrivial_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.fork.next;
+  slice_index const next = slices[si].next1;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -228,7 +228,7 @@ stip_length_type max_nr_nontrivial_counter_attack(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -323,8 +323,8 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].u.pipe.next!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+  if (slices[si].next1!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -343,11 +343,11 @@ static void switch_to_testing(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_max_nr_nontrivial_counter();
-    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
 
-  stip_traverse_structure(slices[si].u.fork.fork,st);
-  link_to_branch((*copies)[si],(*copies)[slices[si].u.fork.fork]);
+  stip_traverse_structure(slices[si].next2,st);
+  link_to_branch((*copies)[si],(*copies)[slices[si].next2]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -399,24 +399,24 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
     {
       slice_index const prototype = alloc_max_nr_nontrivial_counter();
-      defense_branch_insert_slices(state->spun_off[slices[si].u.fork.next],&prototype,1);
+      defense_branch_insert_slices(state->spun_off[slices[si].next1],&prototype,1);
     }
-    slices[si].u.fork.fork = spin_off_counting_slices(state->spun_off[slices[si].u.fork.next]);
-    slices[state->spun_off[si]].u.fork.fork = slices[si].u.fork.fork;
+    slices[si].next2 = spin_off_counting_slices(state->spun_off[slices[si].next1]);
+    slices[state->spun_off[si]].next2 = slices[si].next2;
   }
   else
   {
     stip_traverse_structure_children(si,st);
-    slices[si].u.fork.fork = alloc_proxy_slice();
-    link_to_branch(slices[si].u.fork.fork,spin_off_counting_slices(slices[si].u.fork.next));
+    slices[si].next2 = alloc_proxy_slice();
+    link_to_branch(slices[si].next2,spin_off_counting_slices(slices[si].next1));
   }
 
   {
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,
                                               &prototype,1,
                                               si);
   }

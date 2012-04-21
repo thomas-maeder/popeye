@@ -70,7 +70,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || attack(slices[temporary_hack_mate_tester[advers(trait[nbply])]].u.fork.fork,length_unspecified)!=has_solution);
+            || attack(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,length_unspecified)!=has_solution);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -99,7 +99,7 @@ void exclusive_init_genmove(Side side)
   /* stop counting once we have found >1 mating moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  attack(slices[temporary_hack_exclusive_mating_move_counter[side]].u.fork.fork,length_unspecified);
+  attack(slices[temporary_hack_exclusive_mating_move_counter[side]].next2,length_unspecified);
 
   is_reaching_goal_allowed[nbply] = legal_move_counter_count[nbply+1]<2;
   TraceValue("%u",legal_move_counter_count[nbply+1]);
@@ -136,7 +136,7 @@ stip_length_type exclusive_chess_unsuspender_attack(slice_index si,
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
   is_reaching_goal_allowed[nbply] = true;
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   is_reaching_goal_allowed[nbply] = false;
   CondFlag[exclusive] = false;
   remove_ortho_mating_moves_generation_obstacle();
@@ -157,7 +157,7 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].u.fork.fork);
+                                                slices[si].next2);
     assert(guard!=no_slice);
     pipe_remove(guard);
   }

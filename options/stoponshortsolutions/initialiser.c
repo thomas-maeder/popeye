@@ -41,7 +41,7 @@ stip_length_type stoponshortsolutions_initialiser_attack(slice_index si, stip_le
 
   reset_short_solution_found_in_phase();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

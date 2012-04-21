@@ -102,7 +102,7 @@ static void insert_move_iterator_move_testing_pipe(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure(slices[si].next2,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);
@@ -159,7 +159,7 @@ void stip_insert_move_iterators(slice_index root_slice)
 stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -196,7 +196,7 @@ stip_length_type for_each_move_attack(slice_index si, stip_length_type n)
  */
 stip_length_type for_each_move_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   stip_length_type result = slack_length-1;
 
   TraceFunctionEntry(__func__);

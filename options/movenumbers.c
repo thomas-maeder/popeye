@@ -114,7 +114,7 @@ static slice_index alloc_restart_guard(void)
 stip_length_type restart_guard_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -160,7 +160,7 @@ stip_length_type restart_guard_attack(slice_index si, stip_length_type n)
   if (MoveNbr<=RestartNbr)
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

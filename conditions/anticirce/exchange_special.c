@@ -54,7 +54,7 @@ stip_length_type anticirce_exchange_special_attack(slice_index si, stip_length_t
     if (GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
         && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
         && sq_diagram!=sq_rebirth)
-      result = attack(slices[si].u.pipe.next,n);
+      result = attack(slices[si].next1,n);
     else
       result = n+2;
   }

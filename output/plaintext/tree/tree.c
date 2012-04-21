@@ -42,7 +42,7 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
       alloc_move_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices(slices[si].u.fork.fork,prototypes,nr_prototypes);
+    defense_branch_insert_slices(slices[si].next2,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -236,7 +236,7 @@ static void insert_refutation_intro_writer(slice_index si,
 
   {
     slice_index const prototype = alloc_refutations_intro_writer_slice();
-    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
 
   stip_traverse_structure_children(si,st);
@@ -414,7 +414,7 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_key_writer();
-    defense_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,
                                               &prototype,1,
                                               si);
   }
@@ -432,7 +432,7 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (st->context==stip_traversal_context_defense)
-    slices[si].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+    slices[si].next2 = stip_deep_copy(slices[si].next2);
 
   stip_traverse_structure_children(si,st);
 

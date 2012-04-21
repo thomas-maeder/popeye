@@ -54,7 +54,7 @@ stip_length_type goal_capture_reached_tester_attack(slice_index si, stip_length_
   assert(nbply!=nil_ply);
 
   if (pprise[nbply]!=vide)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

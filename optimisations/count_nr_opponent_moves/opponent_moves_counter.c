@@ -90,7 +90,7 @@ stip_length_type opponent_moves_counter_attack(slice_index si,
   /* make sure that the iteration stops when there is no self check */
   assert(opponent_moves_counter_count==count_for_selfcheck);
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   if (slack_length<=result)
   {
     opponent_moves_counter_count = legal_move_counter_count[nbply+1];

@@ -44,7 +44,7 @@ stip_length_type move_played_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>slack_length);
-  result = defend(slices[si].u.pipe.next,n-1)+1;
+  result = defend(slices[si].next1,n-1)+1;
   if (result<=slack_length) /* oops - unintentional stalemate! */
     result = n+2;
 
@@ -92,7 +92,7 @@ stip_length_type help_move_played_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   assert(n>slack_length);
-  result = attack(slices[si].u.pipe.next,n-1)+1;
+  result = attack(slices[si].next1,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -122,7 +122,7 @@ stip_length_type move_played_defend(slice_index si, stip_length_type n)
 
   assert(n>slack_length);
 
-  result = attack(slices[si].u.pipe.next,n-1)+1;
+  result = attack(slices[si].next1,n-1)+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -142,7 +142,7 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next = slices[si].next1;
     stip_traverse_structure_children(si,st);
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side

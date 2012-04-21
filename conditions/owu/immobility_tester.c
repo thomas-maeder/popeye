@@ -29,7 +29,7 @@ static void substitute_owu_specific_testers(slice_index si,
   {
     slice_index const proxy_king = alloc_proxy_slice();
     slice_index const proxy_non_king = alloc_proxy_slice();
-    slice_index const king_branch = slices[si].u.pipe.next;
+    slice_index const king_branch = slices[si].next1;
     slice_index const non_king_branch = stip_deep_copy(king_branch);
     slice_index const king_tester = alloc_pipe(STOWUImmobilityTesterKing);
     slice_index const non_king_tester = alloc_pipe(STImmobilityTester);
@@ -114,7 +114,7 @@ stip_length_type owu_immobility_tester_king_attack(slice_index si, stip_length_t
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
 
-  attack(slices[si].u.pipe.next,n);
+  attack(slices[si].next1,n);
 
   result = (legal_move_counter_count[nbply+1]==0 && capture_counter_count==1
             ? has_solution

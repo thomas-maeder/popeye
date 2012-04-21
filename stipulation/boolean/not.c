@@ -45,7 +45,7 @@ stip_length_type not_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  next_result = attack(slices[si].u.pipe.next,n);
+  next_result = attack(slices[si].next1,n);
   if (next_result>n)
     result = n;
   else if (next_result>=slack_length)

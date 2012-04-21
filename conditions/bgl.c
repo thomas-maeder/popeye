@@ -81,7 +81,7 @@ stip_length_type bgl_filter_attack(slice_index si, stip_length_type n)
     BGL_values[Black][nbply] -= diff;
 
   if (BGL_values[trait[nbply]][nbply]>=0)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = slack_length-2;
 
@@ -125,7 +125,7 @@ stip_length_type bgl_filter_defend(slice_index si, stip_length_type n)
     BGL_values[Black][nbply] -= diff;
 
   if (BGL_values[trait[nbply]][nbply]>=0)
-    result = defend(slices[si].u.pipe.next,n);
+    result = defend(slices[si].next1,n);
   else
     result = slack_length-2;
 

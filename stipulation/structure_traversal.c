@@ -108,8 +108,8 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (slices[pipe].u.pipe.next!=no_slice)
-    stip_traverse_structure(slices[pipe].u.pipe.next,st);
+  if (slices[pipe].next1!=no_slice)
+    stip_traverse_structure(slices[pipe].next1,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -131,7 +131,7 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionParamListEnd();
 
   st->context = stip_traversal_context_intro;
-  stip_traverse_structure(slices[branch_entry].u.fork.fork,st);
+  stip_traverse_structure(slices[branch_entry].next2,st);
   st->context = save_context;
 
   TraceFunctionExit(__func__);
@@ -306,8 +306,8 @@ static void stip_traverse_structure_children_binary(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  stip_traverse_structure(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].next1,st);
+  stip_traverse_structure(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -322,7 +322,7 @@ static void stip_traverse_structure_children_fork(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].u.fork.fork!=no_slice)
+  if (slices[si].next2!=no_slice)
     stip_traverse_structure_next_branch(si,st);
 
   TraceFunctionExit(__func__);
@@ -339,8 +339,8 @@ static void stip_traverse_structure_children_testing_pipe(slice_index testing_pi
 
   stip_traverse_structure_children_pipe(testing_pipe,st);
 
-  if (slices[testing_pipe].u.fork.fork!=no_slice)
-    stip_traverse_structure(slices[testing_pipe].u.fork.fork,st);
+  if (slices[testing_pipe].next2!=no_slice)
+    stip_traverse_structure(slices[testing_pipe].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

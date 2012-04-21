@@ -99,7 +99,7 @@ stip_length_type non_king_move_generator_attack(slice_index si,
 
   while (result>n
          && advance_departure_square(side_at_move,&next_square_to_try))
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   finply();
 

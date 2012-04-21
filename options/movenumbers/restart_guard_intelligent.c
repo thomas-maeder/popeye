@@ -93,7 +93,7 @@ stip_length_type restart_guard_intelligent_attack(slice_index si,
   else
   {
     nr_potential_target_positions = 0;
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
     if (!hasMaxtimeElapsed())
       print_nr_potential_target_positions();
   }
@@ -145,7 +145,7 @@ stip_length_type intelligent_target_counter_attack(slice_index si,
   ++nr_potential_target_positions;
   TraceValue("%u\n",nr_potential_target_positions);
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

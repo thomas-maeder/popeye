@@ -66,8 +66,8 @@ alloc_orthodox_mating_move_generator_slice(Goal goal,
   assert(goal.type!=no_goal);
 
   result = alloc_pipe(STOrthodoxMatingMoveGenerator);
-  slices[result].u.goal_reaching_move_generator.goal = goal;
-  slices[result].u.goal_reaching_move_generator.mode = mode;
+  slices[result].u.move_generator.goal = goal;
+  slices[result].u.move_generator.mode = mode;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -347,12 +347,12 @@ orthodox_mating_move_generator_attack(slice_index si, stip_length_type n)
 
   assert(n==slack_length+1);
 
-  move_generation_mode = slices[si].u.goal_reaching_move_generator.mode;
+  move_generation_mode = slices[si].u.move_generator.mode;
   TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[si].u.goal_reaching_move_generator.goal;
+  empile_for_goal = slices[si].u.move_generator.goal;
   generate_move_reaching_goal(slices[si].starter);
   empile_for_goal.type = no_goal;
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   finply();
 
   TraceFunctionExit(__func__);

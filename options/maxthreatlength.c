@@ -77,7 +77,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STMaxThreatLength);
-  slices[result].u.fork.fork = threat_start;
+  slices[result].next2 = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -99,7 +99,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
 stip_length_type maxthreatlength_guard_defend(slice_index si,
                                               stip_length_type n)
 {
-  slice_index const next = slices[si].u.fork.next;
+  slice_index const next = slices[si].next1;
   unsigned int result;
 
   TraceFunctionEntry(__func__);
@@ -123,7 +123,7 @@ stip_length_type maxthreatlength_guard_defend(slice_index si,
     {
       if (echecc(nbply,slices[si].starter))
         result = defend(next,n);
-      else if (n_max<defend(slices[si].u.fork.fork,n_max))
+      else if (n_max<defend(slices[si].next2,n_max))
         result = n+2;
       else
         result = defend(next,n);
@@ -215,7 +215,7 @@ static void testing_only_testing(slice_index si, stip_structure_traversal *st)
   else
   {
     state->testing = true;
-    stip_traverse_structure(slices[si].u.fork.fork,st);
+    stip_traverse_structure(slices[si].next2,st);
     state->testing = false;
 
     stip_traverse_structure_children_pipe(si,st);

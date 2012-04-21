@@ -42,7 +42,7 @@ stip_length_type ultraschachzwang_goal_filter_attack(slice_index si, stip_length
   Cond const cond = (starter==White
                      ? whiteultraschachzwang
                      : blackultraschachzwang);
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

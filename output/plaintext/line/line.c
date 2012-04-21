@@ -148,7 +148,7 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch)
   stip_structure_traversal_override(&st,
                                     min_distance_to_goal_finders,
                                     nr_min_distance_to_goal_finders);
-  stip_traverse_structure(slices[end_of_branch].u.fork.fork,&st);
+  stip_traverse_structure(slices[end_of_branch].next2,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,7 +159,7 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch)
 static void instrument_end_of_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -170,7 +170,7 @@ static void instrument_end_of_branch(slice_index si,
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
     pipe_link(marker,fork);
-    slices[si].u.fork.fork = marker;
+    slices[si].next2 = marker;
   }
 
   stip_traverse_structure_children(si,st);

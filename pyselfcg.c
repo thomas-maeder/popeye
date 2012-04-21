@@ -54,7 +54,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
   if (echecc(nbply,advers(slices[si].starter)))
     result = slack_length-2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,7 +76,7 @@ stip_length_type selfcheck_guard_attack(slice_index si, stip_length_type n)
 stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -233,7 +233,7 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
-  slice_index const tester = slices[si].u.goal_handler.tester;
+  slice_index const tester = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -291,7 +291,7 @@ static void instrument_negated_tester(slice_index si,
     slice_index const proxy_selfcheck = alloc_proxy_slice();
     slice_index const guard = alloc_selfcheck_guard_slice();
     slice_index const leaf_selfcheck = alloc_true_slice();
-    if (is_goal_move_oriented(slices[si].u.pipe.next))
+    if (is_goal_move_oriented(slices[si].next1))
       pipe_link(slices[si].prev,alloc_and_slice(proxy_not,proxy_selfcheck));
     else
       pipe_link(slices[si].prev,alloc_and_slice(proxy_selfcheck,proxy_not));
@@ -324,7 +324,7 @@ static void instrument_doublestalemate_tester(slice_index si,
     slice_index const prototype = alloc_selfcheck_guard_slice();
     /* no need to instrument the operand that tests for stalemate of the
      * starting side */
-    goal_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
+    goal_branch_insert_slices(slices[si].next1,&prototype,1);
     state->is_branch_instrumented = true;
   }
 
@@ -359,7 +359,7 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* prevent instrumentation of next branch */
+  /* prevent instrumentation of next1 branch */
   state->is_branch_instrumented = true;
   stip_traverse_structure_next_branch(si,st);
   state->is_branch_instrumented = save_is_instrumented;
@@ -417,7 +417,7 @@ static void instrument_immobile_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_in_branch_guards(slices[si].u.fork.fork);
+  insert_in_branch_guards(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

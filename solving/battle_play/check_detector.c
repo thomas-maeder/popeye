@@ -47,7 +47,7 @@ stip_length_type check_detector_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   attack_gives_check[nbply] = echecc(nbply,slices[si].starter);
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

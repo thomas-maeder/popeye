@@ -52,7 +52,7 @@ stip_length_type try_writer_defend(slice_index si, stip_length_type n)
   if (table_length(refutations)>0)
   {
     StdString(" ?");
-    result = defend(slices[si].u.pipe.next,n);
+    result = defend(slices[si].next1,n);
   }
   else
 	  result = key_writer_defend(si,n);

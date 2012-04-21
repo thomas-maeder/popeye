@@ -55,7 +55,7 @@ stip_length_type goal_circuit_reached_tester_attack(slice_index si, stip_length_
   assert(nbcou!=nil_coup);
 
   if (GetPositionInDiagram(spec[sq_arrival])==sq_arrival)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

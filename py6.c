@@ -18,7 +18,7 @@
  **
  ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2006/07/30 SE   Extended movenum option to also print time when solving h#/sh# at next ply
+ ** 2006/07/30 SE   Extended movenum option to also print time when solving h#/sh# at next1 ply
  **
  ** 2007/01/28 SE   New condition: Annan Chess
  **
@@ -644,12 +644,12 @@ static void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves(slices[si].u.binary.op1,st);
+  stip_traverse_moves(slices[si].next1,st);
   result1 = *result;
   TraceValue("%u\n",result1);
 
   *result = save_result;
-  stip_traverse_moves(slices[si].u.binary.op2,st);
+  stip_traverse_moves(slices[si].next2,st);
   result2 = *result;
   TraceValue("%u\n",result2);
 
@@ -2047,7 +2047,7 @@ void current(ply ply_id, coup *mov)
   mov->promi =  Iprom[ply_id];
   mov->numi =     inum[ply_id] - (mov->promi ? 1 : 0);
   /* Promoted imitator will be output 'normally'
-     from the next move on. */
+     from the next1 move on. */
   mov->sum = isquare[0] - im0;
   mov->speci = jouespec[ply_id];
 
@@ -2224,7 +2224,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
  */
 static boolean apply_whitetoplay(slice_index proxy)
 {
-  slice_index next = slices[proxy].u.pipe.next;
+  slice_index next = slices[proxy].next1;
   boolean result = false;
   meaning_of_whitetoplay meaning;
 
@@ -2237,7 +2237,7 @@ static boolean apply_whitetoplay(slice_index proxy)
   meaning = detect_meaning_of_whitetoplay(next);
 
   while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
-    next = slices[next].u.pipe.next;
+    next = slices[next].next1;
 
   TraceEnumerator(slice_type,slices[next].type,"\n");
   switch (slices[next].type)
@@ -2573,7 +2573,7 @@ static void solve_twin(slice_index si,
 
   if (OptFlag[halfduplex] || OptFlag[duplex])
   {
-    /* Set next side to calculate for duplex "twin" */
+    /* Set next1 side to calculate for duplex "twin" */
     stip_impose_starter(si,advers(slices[si].starter));
     temporary_hacks_swap_colors();
     TraceStipulation(si);
@@ -2667,13 +2667,13 @@ static Token iterate_twins(Token prev_token)
 
     TraceStipulation(template_slice_hook);
 
-    if (slices[slices[template_slice_hook].u.pipe.next].starter==no_side)
+    if (slices[slices[template_slice_hook].next1].starter==no_side)
       VerifieMsg(CantDecideWhoIsAtTheMove);
-    else if (initialise_verify_twin(slices[template_slice_hook].u.pipe.next))
+    else if (initialise_verify_twin(slices[template_slice_hook].next1))
     {
       slice_index root_slice = stip_deep_copy(template_slice_hook);
 
-      slice_index const template = slices[template_slice_hook].u.pipe.next;
+      slice_index const template = slices[template_slice_hook].next1;
       Side const starter = slices[template].starter;
       stip_impose_starter(root_slice,starter);
 
@@ -2807,7 +2807,7 @@ static Token iterate_twins(Token prev_token)
        * template_slice_hook's starter.
        */
       stip_impose_starter(root_slice,
-                          slices[slices[template_slice_hook].u.pipe.next].starter);
+                          slices[slices[template_slice_hook].next1].starter);
       TraceStipulation(root_slice);
 
       solve_twin(root_slice,twin_index,prev_token);

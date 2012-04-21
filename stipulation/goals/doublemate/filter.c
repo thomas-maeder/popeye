@@ -44,9 +44,9 @@ stip_length_type doublemate_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (attack(slices[si].u.fork.fork,length_unspecified)==has_no_solution)
+  if (attack(slices[si].next2,length_unspecified)==has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = attack(slices[si].u.fork.next,n);
+  result = attack(slices[si].next1,n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);

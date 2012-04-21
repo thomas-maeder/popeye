@@ -46,8 +46,8 @@ stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -75,8 +75,8 @@ stip_length_type check_zigzag_jump_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index succ;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,7 +115,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     assert(ready!=no_slice);
     assert(deadend!=no_slice);
     defense_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy1,slices[deadend].u.pipe.next);
+    pipe_link(proxy1,slices[deadend].next1);
     pipe_link(proxy2,dummy);
     pipe_link(dummy,played);
     pipe_link(deadend,jump);
@@ -151,7 +151,7 @@ void help_branch_insert_check_zigzag(slice_index adapter)
 
     assert(ready!=no_slice);
     help_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy1,slices[ready].u.pipe.next);
+    pipe_link(proxy1,slices[ready].next1);
     pipe_link(proxy2,played);
     pipe_link(ready,jump);
 

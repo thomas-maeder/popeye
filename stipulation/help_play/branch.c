@@ -155,7 +155,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   state.base_rank = get_slice_rank(slices[si].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
-  stip_traverse_structure(slices[si].u.pipe.next,&st);
+  stip_traverse_structure(slices[si].next1,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -255,7 +255,7 @@ static void increase_min_length(slice_index si)
  */
 void help_branch_shorten(slice_index adapter)
 {
-  slice_index const next = slices[adapter].u.pipe.next;
+  slice_index const next = slices[adapter].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
@@ -301,11 +301,11 @@ static void and_immobility(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].next1,st);
   if (*goal_implies_immobility)
   {
     *goal_implies_immobility = false;
-    stip_traverse_structure(slices[si].u.binary.op2,st);
+    stip_traverse_structure(slices[si].next2,st);
   }
 
   TraceFunctionExit(__func__);
@@ -324,9 +324,9 @@ static void or_immobility(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].next1,st);
   if (!*goal_implies_immobility)
-    stip_traverse_structure(slices[si].u.binary.op2,st);
+    stip_traverse_structure(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -484,9 +484,9 @@ static boolean help_branch_insert_end_of_branch(slice_index si,
   return result;
 }
 
-/* Insert a fork to the next branch
+/* Insert a fork to the next1 branch
  * @param si identifies the entry slice of a help branch
- * @param next identifies the entry slice of the next branch
+ * @param next1 identifies the entry slice of the next1 branch
  * @param parity indicates after which help move of the branch to insert
  */
 void help_branch_set_end(slice_index si,
@@ -510,7 +510,7 @@ void help_branch_set_end(slice_index si,
 
 /* Insert a fork to the goal branch
  * @param si identifies the entry slice of a help branch
- * @param next identifies the entry slice of the next branch
+ * @param next1 identifies the entry slice of the next1 branch
  * @param parity indicates after which help move of the branch to insert
  */
 void help_branch_set_end_goal(slice_index si,
@@ -697,12 +697,12 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].next1]);
 
-  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  if (state->spun_off[slices[si].next1]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -801,7 +801,7 @@ void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
   }
 
   {
-    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const next = slices[adapter].next1;
     stip_structure_traversal st;
 
     stip_structure_traversal_init(&st,state);
@@ -858,7 +858,7 @@ void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
 
   if (length>slack_length+1)
   {
-    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const next = slices[adapter].next1;
     slice_index const prototypes[] =
     {
       alloc_help_adapter_slice(length-1,min_length-1),
@@ -944,7 +944,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const next = slices[adapter].next1;
     slice_index const prototypes[] =
     {
       alloc_help_adapter_slice(slack_length,slack_length),
@@ -956,7 +956,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     {
       slice_index const set_adapter = branch_find_slice(STHelpAdapter,next);
       assert(set_adapter!=no_slice);
-      if (slices[slices[set_adapter].u.pipe.next].type==STDeadEnd)
+      if (slices[slices[set_adapter].next1].type==STDeadEnd)
         ; /* set play not applicable */
       else
         help_branch_make_root_slices(set_adapter,state);

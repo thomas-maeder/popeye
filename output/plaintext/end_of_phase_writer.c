@@ -39,7 +39,7 @@ stip_length_type end_of_phase_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   Message(NewLine);
 
   TraceFunctionExit(__func__);

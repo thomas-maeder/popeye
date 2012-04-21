@@ -26,7 +26,7 @@ slice_index alloc_branch_fork(slice_type type, slice_index fork)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.fork.fork = fork;
+  slices[result].next2 = fork;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,10 +46,10 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   pipe_resolve_proxies(si,st);
 
-  if (slices[si].u.fork.fork!=no_slice)
+  if (slices[si].next2!=no_slice)
   {
     stip_traverse_structure_next_branch(si,st);
-    proxy_slice_resolve(&slices[si].u.fork.fork,st);
+    proxy_slice_resolve(&slices[si].next2,st);
   }
 
   TraceFunctionExit(__func__);
@@ -62,7 +62,7 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
  */
 void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const fork = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -75,7 +75,7 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
     if (slices[fork].starter==no_side)
     {
       stip_traverse_structure_children_pipe(si,st);
-      slices[si].starter = slices[slices[si].u.pipe.next].starter;
+      slices[si].starter = slices[slices[si].next1].starter;
     }
     else
       slices[si].starter = slices[fork].starter;
@@ -102,8 +102,8 @@ void stip_spin_off_testers_fork(slice_index si, stip_structure_traversal *st)
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    slices[state->spun_off[si]].next2 = state->spun_off[slices[si].next2];
   }
   else
     stip_traverse_structure_children(si,st);

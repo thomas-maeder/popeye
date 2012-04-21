@@ -41,7 +41,7 @@ stip_length_type maxsolutions_initialiser_attack(slice_index si, stip_length_typ
 
   reset_nr_found_solutions_per_phase();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

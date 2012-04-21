@@ -39,8 +39,8 @@ slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal)
 stip_length_type end_of_branch_goal_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].u.fork.next;
-  slice_index const op2 = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -71,8 +71,8 @@ stip_length_type end_of_branch_goal_attack(slice_index si, stip_length_type n)
 stip_length_type end_of_branch_goal_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].u.fork.next;
-  slice_index const op2 = slices[si].u.fork.fork;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

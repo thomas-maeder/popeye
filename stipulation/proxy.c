@@ -42,7 +42,7 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   while (*si!=no_slice && slice_type_get_functional_type(slices[*si].type)==slice_function_proxy)
   {
     (*is_resolved_proxy)[*si] = true;
-    *si = slices[*si].u.pipe.next;
+    *si = slices[*si].next1;
   }
 
   TraceFunctionExit(__func__);

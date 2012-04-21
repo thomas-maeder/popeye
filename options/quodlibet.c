@@ -38,7 +38,7 @@ static void transform_to_quodlibet_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   if (state->has_attack_ended)
-    state->to_goal = stip_deep_copy(slices[si].u.fork.fork);
+    state->to_goal = stip_deep_copy(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

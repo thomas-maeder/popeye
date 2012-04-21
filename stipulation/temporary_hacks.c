@@ -61,7 +61,7 @@ static slice_index make_mate_tester_fork(Side side)
   Goal const mate_goal = { goal_mate, initsquare };
   slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
   slice_index const result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
-  dealloc_slice(slices[result].u.pipe.next);
+  dealloc_slice(slices[result].next1);
   stip_impose_starter(result,side);
   return result;
 }
@@ -140,7 +140,7 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
   {
     slice_index const tester = branch_find_slice(STGoalReachedTester,proxy_goal);
     assert(tester!=no_slice);
-    pipe_append(slices[tester].u.goal_handler.tester,alloc_not_slice());
+    pipe_append(slices[tester].next2,alloc_not_slice());
     slices[tester].u.goal_handler.goal.type = goal_negated;
     help_branch_set_end_goal(help,proxy_goal,1);
     link_to_branch(proxy_branch,help);

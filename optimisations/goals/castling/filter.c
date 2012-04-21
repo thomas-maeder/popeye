@@ -37,7 +37,7 @@ slice_index alloc_castling_filter_slice(void)
 stip_length_type castling_filter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -70,7 +70,7 @@ stip_length_type castling_filter_attack(slice_index si, stip_length_type n)
 stip_length_type castling_filter_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].next1;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);

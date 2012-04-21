@@ -44,7 +44,7 @@ output_plaintext_move_inversion_counter_attack(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -43,7 +43,7 @@ static slice_index alloc_min_length_guard(stip_length_type length,
  */
 stip_length_type min_length_guard_attack(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   slice_index const length = slices[si].u.branch.length;
   slice_index const min_length = slices[si].u.branch.min_length;
   stip_length_type result;
@@ -79,7 +79,7 @@ stip_length_type min_length_guard_attack(slice_index si, stip_length_type n)
 stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 

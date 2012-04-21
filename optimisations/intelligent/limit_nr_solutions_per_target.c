@@ -91,7 +91,7 @@ boolean is_max_nr_solutions_per_target_position_limited(void)
 }
 
 /* Attempt to read the maximum number of solutions per target position
- * @param tok next input token
+ * @param tok next1 input token
  * @return true iff the maximum number could be read from tok
  */
 boolean read_max_nr_solutions_per_target_position(char const *tok)
@@ -155,7 +155,7 @@ intelligent_nr_solutions_per_target_position_counter_attack(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   if (slack_length<=result && result<=n)
     ++nr_solutions_in_current_target_position;
 
@@ -209,7 +209,7 @@ intelligent_limit_nr_solutions_per_target_position_attack(slice_index si,
     result = n+2;
   }
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

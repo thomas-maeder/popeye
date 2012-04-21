@@ -90,10 +90,10 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  if (state->spun_off[slices[si].next1]!=no_slice)
   {
-    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.fork.fork));
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].next2));
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -116,10 +116,10 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  if (state->spun_off[slices[si].next1]!=no_slice)
   {
-    state->spun_off[si] = alloc_goal_constraint_tester_slice(stip_deep_copy(slices[si].u.fork.fork));
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
+    state->spun_off[si] = alloc_goal_constraint_tester_slice(stip_deep_copy(slices[si].next2));
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -139,8 +139,8 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
 stip_length_type constraint_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const condition = slices[si].next2;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -187,8 +187,8 @@ stip_length_type constraint_attack(slice_index si, stip_length_type n)
 stip_length_type constraint_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const condition = slices[si].u.fork.fork;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const condition = slices[si].next2;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -246,10 +246,10 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_constraint_irrelevant(slices[si].u.fork.fork))
+  if (is_constraint_irrelevant(slices[si].next2))
   {
     stip_traverse_structure_children_pipe(si,st);
-    dealloc_slices(slices[si].u.fork.fork);
+    dealloc_slices(slices[si].next2);
     pipe_remove(si);
   }
   else

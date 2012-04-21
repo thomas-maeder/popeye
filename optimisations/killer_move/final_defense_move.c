@@ -62,7 +62,7 @@ void killer_move_optimise_final_defense_move(slice_index si)
 static stip_length_type try_last_defenses(slice_index si)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

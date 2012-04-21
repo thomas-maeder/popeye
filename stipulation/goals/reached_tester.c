@@ -24,7 +24,7 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
 
   result = alloc_conditional_pipe(STGoalReachedTester,alloc_proxy_slice());
   slices[result].u.goal_handler.goal = goal;
-  pipe_link(slices[result].u.goal_handler.tester,tester);
+  pipe_link(slices[result].next2,tester);
 
   pipe_link(result,alloc_true_slice());
 
@@ -51,7 +51,7 @@ stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (attack(slices[si].u.goal_handler.tester,length_unspecified))
+  switch (attack(slices[si].next2,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -62,7 +62,7 @@ stip_length_type goal_reached_tester_attack(slice_index si, stip_length_type n)
       break;
 
     case has_solution:
-      result = attack(slices[si].u.goal_handler.next,n);
+      result = attack(slices[si].next1,n);
       break;
 
     default:
@@ -97,7 +97,7 @@ stip_length_type goal_reached_tester_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (attack(slices[si].u.goal_handler.tester,length_unspecified))
+  switch (attack(slices[si].next2,length_unspecified))
   {
     case opponent_self_check:
       result = slack_length-2;
@@ -108,7 +108,7 @@ stip_length_type goal_reached_tester_defend(slice_index si, stip_length_type n)
       break;
 
     case has_solution:
-      result = defend(slices[si].u.goal_handler.next,n);
+      result = defend(slices[si].next1,n);
       break;
 
     default:

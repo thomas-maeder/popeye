@@ -164,15 +164,15 @@ static void goal_branch_insert_slices_nested(slice_index si,
     else
       do
       {
-        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next = slices[si].next1;
         if (slices[next].type==STProxy)
           si = next;
         else if (slices[next].type==STOr
                  || slices[next].type==STAnd)
         {
-          goal_branch_insert_slices_nested(slices[next].u.binary.op1,
+          goal_branch_insert_slices_nested(slices[next].next1,
                                            prototypes,nr_prototypes);
-          goal_branch_insert_slices_nested(slices[next].u.binary.op2,
+          goal_branch_insert_slices_nested(slices[next].next2,
                                            prototypes,nr_prototypes);
           break;
         }

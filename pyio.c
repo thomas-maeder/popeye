@@ -1153,7 +1153,7 @@ static int PopInput() {
     return -1;
 }
 
-/* advance LastChar to the next input character */
+/* advance LastChar to the next1 input character */
 static void NextChar(void)
 {
   static boolean eof = false;
@@ -1173,7 +1173,7 @@ static void NextChar(void)
     LastChar = ch;
 }
 
-/* read into InputLine until the next end of line */
+/* read into InputLine until the next1 end of line */
 static void ReadToEndOfLine(void)
 {
   char *p = InputLine;
@@ -1439,7 +1439,7 @@ static square SquareNum(char a,char b)
     return initsquare;
 }
 
-/* All following Parse - Procedures return the next StringToken or
+/* All following Parse - Procedures return the next1 StringToken or
 ** the last token they couldn't interprete.
 */
 
@@ -1517,7 +1517,7 @@ static char *ParseSquareList(char *tok,
                              char echo)
 {
   /* We interprete the tokenString as SquareList
-     If we return always the next tokenstring
+     If we return always the next1 tokenstring
   */
   int SquareCnt= 0;
 
@@ -1652,7 +1652,7 @@ static char *PrsPieNam(char *tok, Flags Spec, char echo)
     if (Name >= King) {
       if (l >= 3 && !strchr("12345678",tok[1]))
         break;
-      /* We return here not the next tokenstring
+      /* We return here not the next1 tokenstring
       ** since this string is not a Men/Squarelist
       ** and therefore deserves processing by
       ** ParsePieSpec
@@ -2253,7 +2253,7 @@ static char *ParseReciGoal(char *tok,
           result = ParseGoal(tok+1,proxy_to_nonreci);
           if (result!=NULL)
           {
-            slice_index const nonreci = slices[proxy_to_nonreci].u.pipe.next;
+            slice_index const nonreci = slices[proxy_to_nonreci].next1;
             slices[nonreci].starter = Black;
             alloc_reci_end(proxy_nonreci,proxy_reci,
                            proxy_to_nonreci,proxy_to_reci);
@@ -2272,8 +2272,8 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,proxy_to_nonreci);
     if (result!=NULL)
     {
-      slice_index const nonreci_testing = slices[proxy_to_nonreci].u.pipe.next;
-      slice_index const nonreci_tester = slices[nonreci_testing].u.pipe.next;
+      slice_index const nonreci_testing = slices[proxy_to_nonreci].next1;
+      slice_index const nonreci_tester = slices[nonreci_testing].next1;
       slice_index const proxy_to_reci = stip_deep_copy(proxy_to_nonreci);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);
@@ -2301,7 +2301,7 @@ static char *ParseReciEnd(char *tok, slice_index proxy)
   op2 = alloc_proxy_slice();
 
   tok = ParseReciGoal(tok,op1,op2);
-  if (slices[op1].u.pipe.next!=no_slice && slices[op2].u.pipe.next!=no_slice)
+  if (slices[op1].next1!=no_slice && slices[op2].next1!=no_slice)
   {
     slice_index const reci = alloc_and_slice(op1,op2);
     pipe_link(proxy,reci);
@@ -2580,7 +2580,7 @@ static char *ParsePlay(char *tok,
     {
       slice_index const proxy_next = alloc_proxy_slice();
       result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next,play_length);
-      if (result!=0 && slices[proxy_next].u.pipe.next!=no_slice)
+      if (result!=0 && slices[proxy_next].next1!=no_slice)
       {
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length;
@@ -2603,7 +2603,7 @@ static char *ParsePlay(char *tok,
 
     /* skip over "ser-reci-h" */
     tok = ParseReciEnd(tok+10,proxy_next);
-    if (tok!=0 && slices[proxy_next].u.pipe.next!=no_slice)
+    if (tok!=0 && slices[proxy_next].next1!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
@@ -2612,7 +2612,7 @@ static char *ParsePlay(char *tok,
       {
         slice_index const mi = alloc_move_inverter_slice();
         slice_index const branch = alloc_series_branch(length-2,min_length);
-        pipe_link(mi,slices[proxy_next].u.pipe.next);
+        pipe_link(mi,slices[proxy_next].next1);
         pipe_link(proxy_next,mi);
         help_branch_set_end(branch,proxy_next,1);
         link_to_branch(proxy,branch);
@@ -2671,7 +2671,7 @@ static char *ParsePlay(char *tok,
       help_branch_set_end(proxy,help,1);
 
       {
-        slice_index const next = slices[proxy_to_goal].u.pipe.next;
+        slice_index const next = slices[proxy_to_goal].next1;
         assert(next!=no_slice);
         if (slices[next].type==STGoalReachedTester
             && slices[next].u.goal_handler.goal.type==goal_proofgame)
@@ -2804,7 +2804,7 @@ static char *ParsePlay(char *tok,
                        play_length,shorten);
     if (result!=0)
     {
-      slice_index const to_goal = slices[proxy_to_goal].u.pipe.next;
+      slice_index const to_goal = slices[proxy_to_goal].next1;
       slice_index const nested = alloc_help_branch(slack_length+1,
                                                    slack_length+1);
       help_branch_insert_check_zigzag(proxy);
@@ -2873,7 +2873,7 @@ static char *ParsePlay(char *tok,
     slice_index const proxy_next = alloc_proxy_slice();
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
                                      proxy_next);
-    if (tok2!=0 && slices[proxy_next].u.pipe.next!=no_slice)
+    if (tok2!=0 && slices[proxy_next].next1!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
@@ -2891,7 +2891,7 @@ static char *ParsePlay(char *tok,
         {
           if (length==slack_length+2)
           {
-            pipe_link(proxy,slices[proxy_next].u.pipe.next);
+            pipe_link(proxy,slices[proxy_next].next1);
             dealloc_slice(proxy_next);
           }
           else
@@ -3048,7 +3048,7 @@ static char *ParseStip(slice_index root_slice_hook)
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))
   {
-    if (slices[root_slice_hook].u.pipe.next!=no_slice
+    if (slices[root_slice_hook].next1!=no_slice
         && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
   }
@@ -3064,9 +3064,9 @@ static char *ParseStip(slice_index root_slice_hook)
   return tok;
 }
 
-/* Advance to next token while parsing a structured stipulation
+/* Advance to next1 token while parsing a structured stipulation
  * @param tok current position in current token
- * @return tok, if we are within the current token; next token otherwise
+ * @return tok, if we are within the current token; next1 token otherwise
  */
 static char *ParseStructuredStip_skip_whitespace(char *tok)
 {
@@ -3923,7 +3923,7 @@ static char *ParseStructuredStip_not(char *tok,
     {
       slice_index const tester = branch_find_slice(STGoalReachedTester,proxy);
       assert(tester!=no_slice);
-      pipe_append(slices[tester].u.goal_handler.tester,alloc_not_slice());
+      pipe_append(slices[tester].next2,alloc_not_slice());
       slices[tester].u.goal_handler.goal.type = goal_negated;
     }
     else
@@ -3956,7 +3956,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   tok = ParseStructuredStip_operand(tok+1,proxy,type,level);
 
   {
-    slice_index const operand = slices[proxy].u.pipe.next;
+    slice_index const operand = slices[proxy].next1;
     if (tok!=0 && operand!=no_slice)
     {
       slice_index const prototype = alloc_move_inverter_slice();
@@ -4025,7 +4025,7 @@ static char *ParseStructuredStip_expression(char *tok,
   {
     slice_index const operand1 = alloc_proxy_slice();
     tok = ParseStructuredStip_operand(tok,operand1,type,level);
-    if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
+    if (tok!=0 && slices[operand1].next1!=no_slice)
     {
       slice_type operator_type;
       tok = ParseStructuredStip_operator(tok,&operator_type);
@@ -4038,7 +4038,7 @@ static char *ParseStructuredStip_expression(char *tok,
           slice_index const operand2 = alloc_proxy_slice();
           expression_type type2;
           tok = ParseStructuredStip_expression(tok,operand2,&type2,level);
-          if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
+          if (tok!=0 && slices[operand2].next1!=no_slice)
           {
             if (*type==type2)
               switch (operator_type)
@@ -4068,10 +4068,10 @@ static char *ParseStructuredStip_expression(char *tok,
       }
       else
       {
-        if (slices[slices[operand1].u.pipe.next].prev==operand1)
-          pipe_link(proxy,slices[operand1].u.pipe.next);
+        if (slices[slices[operand1].next1].prev==operand1)
+          pipe_link(proxy,slices[operand1].next1);
         else
-          pipe_set_successor(proxy,slices[operand1].u.pipe.next);
+          pipe_set_successor(proxy,slices[operand1].next1);
 
         dealloc_slice(operand1);
       }
@@ -4195,7 +4195,7 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
     tok = ParseStructuredStip_expression(tok,root_slice_hook,&type,0);
     if (tok==0)
       tok = ReadNextTokStr();
-    else if (slices[root_slice_hook].u.pipe.next!=no_slice)
+    else if (slices[root_slice_hook].next1!=no_slice)
       stip_impose_starter(root_slice_hook,starter);
   }
 
@@ -5596,7 +5596,7 @@ static char *ParseOpt(slice_index root_slice_hook)
           break;
         else
           /* tok doesn't indicate the number of beeps - hopefully,
-           * it contains the next option
+           * it contains the next1 option
            */
           continue;
 
@@ -6005,7 +6005,7 @@ static char *ParseTwinningMove(int indexx)
     king_square[Black]= indexx == TwinningExchange ? sq1 : initsquare;
   }
 
-  /* read next token */
+  /* read next1 token */
   return ReadNextTokStr();
 
 } /* ParseTwinningMove */
@@ -6130,7 +6130,7 @@ static char *ParseTwinningShift(void) {
     }
   }
 
-  /* read next token */
+  /* read next1 token */
   return ReadNextTokStr();
 
 } /* ParseTwinningShift */
@@ -6386,7 +6386,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         break;
       case TwinningStip:
         {
-          slice_index const next = slices[root_slice_hook].u.pipe.next;
+          slice_index const next = slices[root_slice_hook].next1;
           pipe_unlink(root_slice_hook);
           dealloc_slices(next);
         }
@@ -6409,7 +6409,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         break;
       case TwinningStructStip:
         {
-          slice_index const next = slices[root_slice_hook].u.pipe.next;
+          slice_index const next = slices[root_slice_hook].next1;
           pipe_unlink(root_slice_hook);
           dealloc_slices(next);
         }
@@ -6550,7 +6550,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
         switch (tk)
         {
           case TwinProblem:
-            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+            if (slices[root_slice_hook].next1!=no_slice)
               return tk;
             else
             {
@@ -6605,7 +6605,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             if (TwinNumber==1)
               TwinStorePosition();
 
-            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+            if (slices[root_slice_hook].next1!=no_slice)
               return tk;
             else
             {
@@ -6616,7 +6616,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
 
           case NextProblem:
           case EndProblem:
-            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+            if (slices[root_slice_hook].next1!=no_slice)
               return tk;
             else
             {
@@ -6629,7 +6629,7 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             return tk;
 
           case StipToken:
-            if (slices[root_slice_hook].u.pipe.next==no_slice)
+            if (slices[root_slice_hook].next1==no_slice)
             {
               *AlphaStip='\0';
               tok = ParseStip(root_slice_hook);
@@ -6903,7 +6903,7 @@ void WritePosition() {
       }
       else
       {
-        char *n1 = HLine2 + (h1-HLine1); /* current position on next line */
+        char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
 
         unsigned int const hunterIndex = pp-Hunter0;
         assert(hunterIndex<maxnrhuntertypes);

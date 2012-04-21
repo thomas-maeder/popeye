@@ -116,7 +116,7 @@ static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   state->testing = true;
-  stip_traverse_structure(slices[si].u.fork.fork,st);
+  stip_traverse_structure(slices[si].next2,st);
   state->testing = save_testing;
 
   TraceFunctionExit(__func__);

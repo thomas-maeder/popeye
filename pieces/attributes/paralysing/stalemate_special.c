@@ -43,7 +43,7 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
 stip_length_type paralysing_stalemate_special_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   goal_applies_to_starter_or_adversary const
     applies_to_who = slices[si].u.goal_filter.applies_to_who;
   Side const starter = slices[si].starter;

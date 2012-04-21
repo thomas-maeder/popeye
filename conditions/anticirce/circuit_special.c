@@ -46,7 +46,7 @@ stip_length_type anticirce_circuit_special_attack(slice_index si, stip_length_ty
   TraceFunctionParamListEnd();
 
   if (sq_rebirth!=initsquare && GetPositionInDiagram(spec[sq_rebirth])==sq_rebirth)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

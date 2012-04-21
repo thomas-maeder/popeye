@@ -64,7 +64,7 @@ static void end_of_branch_tester_inserter_end_of_branch(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const end_of_branch = alloc_end_of_branch_tester_slice(slices[si].u.fork.fork);
+    slice_index const end_of_branch = alloc_end_of_branch_tester_slice(slices[si].next2);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
     pipe_link(slices[si].prev,fork);
     pipe_append(si,proxy3);
@@ -91,7 +91,7 @@ static void end_of_branch_tester_inserter_end_of_branch_goal(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const proxy3 = alloc_proxy_slice();
-    slice_index const end_of_branch = alloc_end_of_branch_goal_tester_slice(slices[si].u.fork.fork);
+    slice_index const end_of_branch = alloc_end_of_branch_goal_tester_slice(slices[si].next2);
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
     pipe_link(slices[si].prev,fork);
     pipe_append(si,proxy3);
@@ -156,8 +156,8 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-    slices[state->spun_off[si]].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    slices[state->spun_off[si]].next2 = state->spun_off[slices[si].next2];
   }
   else
   {
@@ -168,7 +168,7 @@ void start_spinning_off_end_of_branch_tester(slice_index si,
     state->spinning_off = false;
   }
 
-  slices[si].u.fork.fork = state->spun_off[slices[si].u.fork.fork];
+  slices[si].next2 = state->spun_off[slices[si].next2];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

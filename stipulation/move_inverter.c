@@ -42,7 +42,7 @@ stip_length_type move_inverter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
 #ifdef _SE_DECORATE_SOLUTION_
   se_end_set_play();
@@ -67,7 +67,7 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next = slices[si].next1;
     Side next_starter;
     stip_traverse_structure_children(si,st);
     next_starter = slices[next].starter;

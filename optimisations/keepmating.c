@@ -65,7 +65,7 @@ stip_length_type keepmating_filter_attack(slice_index si, stip_length_type n)
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 
@@ -89,7 +89,7 @@ stip_length_type keepmating_filter_attack(slice_index si, stip_length_type n)
 stip_length_type keepmating_filter_defend(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -169,10 +169,10 @@ static void keepmating_filter_inserter_quodlibet(slice_index si,
   TraceFunctionParamListEnd();
 
   st->param = &state1;
-  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].next1,st);
 
   st->param = &state2;
-  stip_traverse_structure(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].next2,st);
 
   state->for_side[White] = state1.for_side[White] && state2.for_side[White];
   state->for_side[Black] = state1.for_side[Black] && state2.for_side[Black];
@@ -195,10 +195,10 @@ static void keepmating_filter_inserter_reciprocal(slice_index si,
   TraceFunctionParamListEnd();
 
   st->param = &state1;
-  stip_traverse_structure(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].next1,st);
 
   st->param = &state2;
-  stip_traverse_structure(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].next2,st);
 
   state->for_side[White] = state1.for_side[White] || state2.for_side[White];
   state->for_side[Black] = state1.for_side[Black] || state2.for_side[Black];

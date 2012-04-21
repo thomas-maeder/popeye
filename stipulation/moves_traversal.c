@@ -11,7 +11,7 @@ static moves_visitor_map_type moves_children_traversers = { { 0 } };
 
 static void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -174,7 +174,7 @@ static void stip_traverse_moves_setplay_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
+  stip_traverse_moves_branch(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -236,9 +236,9 @@ static void stip_traverse_moves_fork_on_remaining(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining<=slices[si].u.fork_on_remaining.threshold)
-    stip_traverse_moves(slices[si].u.fork_on_remaining.op2,st);
+    stip_traverse_moves(slices[si].next2,st);
   else
-    stip_traverse_moves(slices[si].u.fork_on_remaining.op1,st);
+    stip_traverse_moves(slices[si].next1,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -266,7 +266,7 @@ static void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->remaining<=1)
-    stip_traverse_moves_branch(slices[si].u.fork.fork,st);
+    stip_traverse_moves_branch(slices[si].next2,st);
 
   stip_traverse_moves_pipe(si,st);
 
@@ -281,10 +281,10 @@ static void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.binary.op1!=no_slice)
-    stip_traverse_moves(slices[si].u.binary.op1,st);
-  if (slices[si].u.binary.op2!=no_slice)
-    stip_traverse_moves(slices[si].u.binary.op2,st);
+  if (slices[si].next1!=no_slice)
+    stip_traverse_moves(slices[si].next1,st);
+  if (slices[si].next2!=no_slice)
+    stip_traverse_moves(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -299,7 +299,7 @@ static void stip_traverse_moves_conditional_pipe(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].u.fork.fork,st);
+  stip_traverse_moves_branch(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

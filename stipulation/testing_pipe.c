@@ -20,7 +20,7 @@ slice_index alloc_testing_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.fork.fork = no_slice;
+  slices[result].next2 = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -52,8 +52,8 @@ void stip_spin_off_testers_testing_pipe(slice_index si,
   stip_traverse_structure_children(si,st);
   state->spinning_off = save_spinning_off;
 
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.fork.next]);
-  slices[si].u.fork.fork = state->spun_off[si];
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+  slices[si].next2 = state->spun_off[si];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

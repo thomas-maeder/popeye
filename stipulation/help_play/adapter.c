@@ -93,7 +93,7 @@ static void pretend_no_check(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -154,7 +154,7 @@ stip_length_type help_adapter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const full_length = slices[si].u.branch.length;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);

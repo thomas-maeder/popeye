@@ -37,7 +37,7 @@ static void find_mate_square(Side side)
     if (e[king_square[other_side]]==vide)
     {
       e[king_square[other_side]]= king_type;
-      if (attack(slices[temporary_hack_mate_tester[other_side]].u.fork.fork,length_unspecified)==has_solution)
+      if (attack(slices[temporary_hack_mate_tester[other_side]].next2,length_unspecified)==has_solution)
         return;
       e[king_square[other_side]]= vide;
     }

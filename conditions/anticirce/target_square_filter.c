@@ -21,7 +21,8 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STAnticirceTargetSquareFilter);
-  slices[result].u.goal_target_reached_tester.target = target;
+  slices[result].u.goal_handler.goal.type = goal_target;
+  slices[result].u.goal_handler.goal.target = target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -37,7 +38,7 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
 static boolean is_mover_removed_from_target(slice_index si)
 {
   boolean result;
-  square const target = slices[si].u.goal_target_reached_tester.target;
+  square const target = slices[si].u.goal_handler.goal.target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -71,7 +72,7 @@ stip_length_type anticirce_target_square_filter_attack(slice_index si, stip_leng
   if (is_mover_removed_from_target(si))
     result = n+2;
   else
-    result = attack(slices[si].u.goal_target_reached_tester.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

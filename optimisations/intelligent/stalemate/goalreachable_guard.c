@@ -145,7 +145,7 @@ stip_length_type goalreachable_guard_stalemate_attack(slice_index si,
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   if (stalemate_isGoalReachable())
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

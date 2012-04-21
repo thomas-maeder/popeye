@@ -53,7 +53,7 @@ stip_length_type goal_proofgame_reached_tester_attack(slice_index si, stip_lengt
   TraceFunctionParamListEnd();
 
   if (ProofIdentical())
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

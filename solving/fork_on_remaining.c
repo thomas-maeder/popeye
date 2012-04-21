@@ -44,8 +44,8 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
 stip_length_type fork_on_remaining_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].u.fork_on_remaining.op1;
-  slice_index const op2 = slices[si].u.fork_on_remaining.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
   stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
   slice_index const succ = n<=slack_length+threshold ? op2 : op1;
 
@@ -76,8 +76,8 @@ stip_length_type fork_on_remaining_attack(slice_index si, stip_length_type n)
 stip_length_type fork_on_remaining_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].u.fork_on_remaining.op1;
-  slice_index const op2 = slices[si].u.fork_on_remaining.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
   stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
   slice_index const succ = n<=slack_length+threshold ? op2 : op1;
 

@@ -24,95 +24,55 @@ typedef struct
     slice_type type;
     Side starter;
     slice_index prev;
+    slice_index next1;
+    slice_index next2;
 
     union
     {
-        struct /* for types with 1 principal subsequent slice */
-        {
-            slice_index next;
-        } pipe;
-
         struct
         {
-            slice_index next;
-            slice_index fork;
-        } fork;
-
-        struct /* for type==STOr and type==STAnd */
-        {
-            slice_index op1; /* operand 1 */
-            slice_index op2; /* operand 2 */
-        } binary;
-
-        struct
-        {
-            slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
         } branch;
 
         struct
         {
-            slice_index next;
-            move_generation_mode_type mode;
-        } move_generator;
-
-        struct
-        {
-            slice_index next;
             move_generation_mode_type mode;
             Goal goal;
-        } goal_reaching_move_generator;
-
-        struct /* for type==STGoalTargetReachedTester */
-        {
-            slice_index next;
-            slice_index tester;
-            square target;
-        } goal_target_reached_tester;
+        } move_generator;
 
         struct /* for goal filter types * */
         {
-            slice_index next;
-            slice_index tester;
             goal_applies_to_starter_or_adversary applies_to_who;
         } goal_filter;
 
         struct
         {
-            slice_index op1;
-            slice_index op2;
             stip_length_type threshold; /* without slack */
         } fork_on_remaining;
 
         struct
         {
-            slice_index next;
             unsigned int max_nr_refutations;
         } refutation_collector;
 
         struct /* for type==STKeepMatingGuard */
         {
-            slice_index next;
             Side mating;
         } keepmating_guard;
 
         struct /* for slices dealing with a single goal */
         {
-            slice_index next;
-            slice_index tester;
             Goal goal;
         } goal_handler;
 
         struct
         {
-            slice_index next;
             output_mode mode;
         } output_mode_selector;
 
         struct
         {
-            slice_index next;
             slice_index base;
         } derived_pipe;
     } u;

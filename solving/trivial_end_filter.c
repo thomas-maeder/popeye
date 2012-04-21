@@ -44,10 +44,10 @@ stip_length_type trivial_end_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (nbply==nil_ply || n==slack_length)
-    result = attack(slices[si].u.fork.next,n);
+    result = attack(slices[si].next1,n);
   else
     /* variation is trivial - just determine the result */
-    result = attack(slices[si].u.fork.fork,n);
+    result = attack(slices[si].next2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -87,7 +87,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_trivial_end_filter_slice();
-    attack_branch_insert_slices_behind_proxy(slices[si].u.fork.fork,&prototype,1,si);
+    attack_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
 
   TraceFunctionExit(__func__);

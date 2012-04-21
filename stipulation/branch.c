@@ -66,7 +66,7 @@ static void start_nested_insertion_traversal(slice_index si,
   st.context = outer->context;
   st.level = outer->level;
   st.map = outer->map;
-  stip_traverse_structure(slices[si].u.pipe.next,&st);
+  stip_traverse_structure(slices[si].next1,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -229,15 +229,15 @@ static void insert_visit_binary_operands(slice_index si, stip_structure_traversa
     branch_slice_insertion_state_type * const state = st->param;
     branch_slice_insertion_state_type const save_state = *state;
 
-    if (slices[si].u.binary.op1!=no_slice)
+    if (slices[si].next1!=no_slice)
       insert_beyond(si,st);
 
     *state = save_state;
 
-    if (slices[si].u.binary.op2!=no_slice)
+    if (slices[si].next2!=no_slice)
     {
-      assert(slices[slices[si].u.binary.op2].type==STProxy);
-      insert_beyond(slices[si].u.binary.op2,st);
+      assert(slices[slices[si].next2].type==STProxy);
+      insert_beyond(slices[si].next2,st);
     }
   }
 
@@ -288,7 +288,7 @@ static void insert_visit_setplay_fork(slice_index si,
 
       state->base_rank = rank;
       state->prev = si;
-      start_nested_insertion_traversal(slices[si].u.fork.fork,state,st);
+      start_nested_insertion_traversal(slices[si].next2,state,st);
     }
   }
 
@@ -538,11 +538,11 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
     slice_index result1;
     slice_index result2;
 
-    stip_traverse_structure(slices[si].u.binary.op1,st);
+    stip_traverse_structure(slices[si].next1,st);
     result1 = state->result;
     state->result = no_slice;
 
-    stip_traverse_structure(slices[si].u.binary.op2,st);
+    stip_traverse_structure(slices[si].next2,st);
     result2 = state->result;
 
     if (result1==no_slice)
@@ -560,7 +560,7 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
   TraceFunctionResultEnd();
 }
 
-/* Find the next slice with a specific type in a branch
+/* Find the next1 slice with a specific type in a branch
  * @param type type of slice to be found
  * @param si identifies the slice where to start searching
  * @return identifier for slice with type type; no_slice if none is found
@@ -588,7 +588,7 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_binary,
                                                  &branch_find_slice_binary);
-  stip_traverse_structure(slices[si].u.pipe.next,&st);
+  stip_traverse_structure(slices[si].next1,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",state.result);

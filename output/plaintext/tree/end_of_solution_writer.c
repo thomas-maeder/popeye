@@ -39,7 +39,7 @@ slice_index alloc_end_of_solution_writer_slice(void)
 stip_length_type end_of_solution_writer_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

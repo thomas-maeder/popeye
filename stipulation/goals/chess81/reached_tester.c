@@ -56,7 +56,7 @@ stip_length_type goal_chess81_reached_tester_attack(slice_index si, stip_length_
   assert(nbcou!=nil_coup);
 
   if (just_moved==White ? sq_arrival>=square_a8 : sq_arrival<=square_h1)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

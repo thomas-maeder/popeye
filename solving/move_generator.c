@@ -45,7 +45,7 @@ stip_length_type move_generator_attack(slice_index si, stip_length_type n)
 
   move_generation_mode = slices[si].u.move_generator.mode;
   genmove(slices[si].starter);
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   finply();
 
   TraceFunctionExit(__func__);
@@ -76,7 +76,7 @@ stip_length_type move_generator_defend(slice_index si, stip_length_type n)
 
   move_generation_mode = slices[si].u.move_generator.mode;
   genmove(slices[si].starter);
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
   finply();
 
   TraceFunctionExit(__func__);

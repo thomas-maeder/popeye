@@ -101,7 +101,7 @@ stip_length_type intelligent_moves_left_initialiser_attack(slice_index si,
   init_moves_left(si,n-slack_length,n-slack_length);
 
   if (MovesLeft[White]+MovesLeft[Black]>0)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

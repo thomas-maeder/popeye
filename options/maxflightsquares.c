@@ -72,7 +72,7 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = attack(slices[si].u.fork.fork,length_unspecified)==has_solution;
+  result = attack(slices[si].next2,length_unspecified)==has_solution;
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -125,7 +125,7 @@ static slice_index alloc_maxflight_guard_slice(void)
  */
 stip_length_type maxflight_guard_defend(slice_index si, stip_length_type n)
 {
-  slice_index const next = slices[si].u.fork.next;
+  slice_index const next = slices[si].next1;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

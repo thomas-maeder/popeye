@@ -40,7 +40,7 @@ stip_length_type maxsolutions_counter_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   if (slack_length<=result && result<=n)
     increase_nr_found_solutions();
@@ -71,7 +71,7 @@ stip_length_type maxsolutions_counter_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
 
   if (slack_length<=result && result<=n)
     increase_nr_found_solutions();
@@ -123,7 +123,7 @@ stip_length_type maxsolutions_guard_defend(slice_index si, stip_length_type n)
   if (max_nr_solutions_found_in_phase())
     result = n+2;
   else
-    result = defend(slices[si].u.pipe.next,n);
+    result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -152,7 +152,7 @@ stip_length_type maxsolutions_guard_attack(slice_index si,
   if (max_nr_solutions_found_in_phase())
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

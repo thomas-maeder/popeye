@@ -580,7 +580,7 @@ stip_length_type attack(slice_index si, stip_length_type n)
       break;
 
     case STTemporaryHackFork:
-      result = attack(slices[si].u.fork.next,length_unspecified);
+      result = attack(slices[si].next1,length_unspecified);
       break;
 
     case STGoalTargetReachedTester:

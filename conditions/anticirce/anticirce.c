@@ -23,7 +23,7 @@ static void instrument_goal_target_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    square const target = slices[si].u.goal_target_reached_tester.target;
+    square const target = slices[si].u.goal_handler.goal.target;
     slice_index const filter = alloc_anticirce_target_square_filter_slice(target);
     pipe_append(slices[si].prev,filter);
   }

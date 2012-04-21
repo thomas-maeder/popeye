@@ -175,9 +175,9 @@ stip_length_type avoid_unsolvable_attack(slice_index si, stip_length_type n)
   assert(n>=slack_length);
 
   if (max_unsolvable<=slack_length)
-    result = attack(slices[si].u.binary.op1,n);
+    result = attack(slices[si].next1,n);
   else
-    result = attack(slices[si].u.binary.op2,n);
+    result = attack(slices[si].next2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -208,9 +208,9 @@ stip_length_type avoid_unsolvable_defend(slice_index si, stip_length_type n)
   assert(n>=slack_length);
 
   if (max_unsolvable<=slack_length)
-    result = defend(slices[si].u.binary.op1,n);
+    result = defend(slices[si].next1,n);
   else
-    result = defend(slices[si].u.binary.op2,n);
+    result = defend(slices[si].next2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -255,7 +255,7 @@ stip_length_type reset_unsolvable_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length;
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
@@ -286,7 +286,7 @@ stip_length_type reset_unsolvable_defend(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   max_unsolvable = slack_length;
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
   max_unsolvable = save_max_unsolvable;
 
   TraceFunctionExit(__func__);
@@ -330,7 +330,7 @@ stip_length_type learn_unsolvable_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   if (result>n)
   {

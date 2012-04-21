@@ -54,7 +54,7 @@ stip_length_type capture_counter_attack(slice_index si, stip_length_type n)
   TraceValue("%u",capture_counter_count);
   TraceValue("%u\n",capture_counter_interesting);
   if (capture_counter_count<=capture_counter_interesting)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     /* stop the iteration */
     result = n;

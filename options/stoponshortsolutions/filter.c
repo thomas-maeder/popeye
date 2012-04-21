@@ -48,7 +48,7 @@ stip_length_type stoponshortsolutions_attack(slice_index si, stip_length_type n)
     result = n+2;
   else
   {
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
     if (result<=n && n<slices[si].u.branch.length)
       short_solution_found();
   }

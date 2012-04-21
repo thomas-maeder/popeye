@@ -39,7 +39,7 @@ stip_length_type
 min_length_optimiser_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   slice_index const length = slices[si].u.branch.length;
   slice_index const min_length = slices[si].u.branch.min_length;
   slice_index const save_max_unsolvable = max_unsolvable;

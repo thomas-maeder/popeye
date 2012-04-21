@@ -48,7 +48,7 @@ stip_length_type key_writer_defend(slice_index si, stip_length_type n)
   if (OptFlag[beep])
     produce_beep();
 
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

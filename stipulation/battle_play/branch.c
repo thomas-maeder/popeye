@@ -217,7 +217,7 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   state.base_rank = get_slice_rank(slices[adapter].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,context);
-  stip_traverse_structure(slices[adapter].u.pipe.next,&st);
+  stip_traverse_structure(slices[adapter].next1,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -276,7 +276,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   state.base_rank = get_slice_rank(slices[base].type,&state)+1;
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
-  stip_traverse_structure(slices[proxy].u.pipe.next,&st);
+  stip_traverse_structure(slices[proxy].next1,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -336,7 +336,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   state.base_rank = get_slice_rank(slices[base].type,&state)+1;
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
-  stip_traverse_structure(slices[proxy].u.pipe.next,&st);
+  stip_traverse_structure(slices[proxy].next1,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -345,7 +345,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
 }
 
 /* Allocate a branch consisting mainly of an defense move
- * @param next identifies the slice that the defense branch lead sto
+ * @param next1 identifies the slice that the defense branch lead sto
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice to allocated branch
@@ -470,10 +470,10 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].next1]);
 
   state->spun_off[si] = copy_slice(si);
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+  link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -642,7 +642,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   stip_structure_traversal_override_single(&st,
                                            STHelpAdapter,
                                            &stip_structure_visitor_noop);
-  stip_traverse_structure(slices[root_proxy].u.pipe.next,&st);
+  stip_traverse_structure(slices[root_proxy].next1,&st);
 
   if (postkey_slice==no_slice)
     result = false;
@@ -673,12 +673,12 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.pipe.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].next1]);
 
-  if (state->spun_off[slices[si].u.pipe.next]!=no_slice)
+  if (state->spun_off[slices[si].next1]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   TraceValue("%u\n",state->spun_off[si]);
 
@@ -804,7 +804,7 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
 
   if (branch_find_slice(STEndOfIntro,adapter)!=no_slice)
   {
-    slice_index const next = slices[adapter].u.pipe.next;
+    slice_index const next = slices[adapter].next1;
     stip_structure_traversal st;
 
     stip_structure_traversal_init(&st,state);
@@ -998,7 +998,7 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
 
 /* Instrument a branch with slices dealing with direct play
  * @param si root of branch to be instrumented
- * @param next identifies slice leading towards goal
+ * @param next1 identifies slice leading towards goal
  */
 void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
 {
@@ -1023,7 +1023,7 @@ void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
 
 /* Instrument a branch with slices dealing with self play
  * @param si root of branch to be instrumented
- * @param next identifies slice leading towards goal
+ * @param next1 identifies slice leading towards goal
  */
 void battle_branch_insert_self_end_of_branch(slice_index si, slice_index goal)
 {

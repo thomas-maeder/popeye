@@ -728,7 +728,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square from, square 
     boolean const save_flagmummer = flagmummer[side];
     flagmummer[side] = false;
     castling_intermediate_move_generator_init_next(from,to);
-    result = attack(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].u.fork.fork,length_unspecified)==has_solution;
+    result = attack(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==has_solution;
     flagmummer[side] = save_flagmummer;
   }
   else
@@ -1833,7 +1833,7 @@ static boolean find_non_capturing_move(ply ply_id,
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_departure,p_moving);
-  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].u.fork.fork,length_unspecified)==has_solution;
+  result = attack(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

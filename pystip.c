@@ -45,6 +45,8 @@ slice_index create_slice(slice_type type)
   slices[result].type = type;
   slices[result].starter = no_side;
   slices[result].prev = no_slice;
+  slices[result].next1 = no_slice;
+  slices[result].next2 = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -123,7 +125,7 @@ void slice_set_predecessor(slice_index slice, slice_index pred)
 static void move_to_root(slice_index si, stip_structure_traversal *st)
 {
   spin_off_state_type * const state = st->param;
-  slice_index const save_next = slices[si].u.pipe.next;
+  slice_index const save_next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -170,7 +172,7 @@ void stip_insert_root_slices(slice_index si)
 {
   stip_structure_traversal st;
   spin_off_state_type state;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -206,7 +208,7 @@ static void link_to_intro(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   /* make sure that the entry slices into the intro have a correct .prev value */
-  link_to_branch(si,slices[si].u.pipe.next);
+  link_to_branch(si,slices[si].next1);
 }
 
 void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
@@ -218,7 +220,7 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(fork,st);
 
   st->level = structure_traversal_level_nested;
-  stip_traverse_structure(slices[fork].u.fork.fork,st);
+  stip_traverse_structure(slices[fork].next2,st);
   st->level = structure_traversal_level_top;
 
   TraceFunctionExit(__func__);
@@ -369,8 +371,8 @@ static void deep_copy_pipe(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.pipe.next!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].u.pipe.next]);
+  if (slices[si].next1!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -388,11 +390,11 @@ static void deep_copy_fork(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.fork.fork!=no_slice)
-    slices[(*copies)[si]].u.fork.fork = (*copies)[slices[si].u.fork.fork];
+  if (slices[si].next2!=no_slice)
+    slices[(*copies)[si]].next2 = (*copies)[slices[si].next2];
 
-  if (slices[si].u.fork.next!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].u.fork.next]);
+  if (slices[si].next1!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -410,11 +412,11 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.binary.op1!=no_slice)
-    slices[(*copies)[si]].u.binary.op1 = (*copies)[slices[si].u.binary.op1];
+  if (slices[si].next1!=no_slice)
+    slices[(*copies)[si]].next1 = (*copies)[slices[si].next1];
 
-  if (slices[si].u.binary.op2!=no_slice)
-    slices[(*copies)[si]].u.binary.op2 = (*copies)[slices[si].u.binary.op2];
+  if (slices[si].next2!=no_slice)
+    slices[(*copies)[si]].next2 = (*copies)[slices[si].next2];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -490,9 +492,9 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].u.fork.next]);
+  TraceValue("%u\n",state->spun_off[slices[si].next1]);
 
-  state->spun_off[si] = state->spun_off[slices[si].u.fork.next];
+  state->spun_off[si] = state->spun_off[slices[si].next1];
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -522,7 +524,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 {
   slice_index proxy;
   slice_index regular;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

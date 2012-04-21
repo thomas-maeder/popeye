@@ -42,7 +42,7 @@ slice_index alloc_find_shortest_slice(stip_length_type length,
 stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result = n+2;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].next1;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const n_min = (min_length>=(length-n)+slack_length

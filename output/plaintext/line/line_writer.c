@@ -175,7 +175,7 @@ stip_length_type line_writer_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.goal_handler.next,n);
+  result = attack(slices[si].next1,n);
 
   if (slack_length<=result && result<=n)
   {
@@ -213,7 +213,7 @@ stip_length_type line_writer_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].u.goal_handler.next,n);
+  result = defend(slices[si].next1,n);
 
   if (result<=n+2)
   {

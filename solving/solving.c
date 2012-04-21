@@ -82,7 +82,7 @@ void spin_off_testers_move_pipe_to_testers(slice_index si,
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
     pipe_substitute(si,alloc_proxy_slice());
   }
   else
@@ -272,7 +272,7 @@ void insert_single_move_generator_with_king_capture(slice_index si,
 
   {
     slice_index const proto = alloc_single_move_generator_with_king_capture_slice();
-    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
+    branch_insert_slices(slices[si].next2,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -290,7 +290,7 @@ static void insert_single_piece_move_generator(slice_index si,
 
   {
     slice_index const proto = alloc_single_piece_move_generator_slice();
-    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
+    branch_insert_slices(slices[si].next2,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -308,7 +308,7 @@ static void insert_castling_intermediate_move_generator(slice_index si,
 
   {
     slice_index const proto = alloc_castling_intermediate_move_generator_slice();
-    branch_insert_slices(slices[si].u.fork.fork,&proto,1);
+    branch_insert_slices(slices[si].next2,&proto,1);
   }
 
   TraceFunctionExit(__func__);
@@ -326,7 +326,7 @@ static void insert_single_move_generator(slice_index si,
 
   {
     slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].u.fork.fork);
+                                                    slices[si].next2);
     assert(generator!=no_slice);
     pipe_substitute(generator,alloc_single_move_generator_slice());
   }

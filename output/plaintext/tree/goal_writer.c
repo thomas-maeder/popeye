@@ -49,7 +49,7 @@ output_plaintext_tree_goal_writer_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Goal const goal = slices[si].u.goal_handler.goal;
-  slice_index const next = slices[si].u.goal_handler.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,7 +78,7 @@ output_plaintext_tree_goal_writer_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Goal const goal = slices[si].u.goal_handler.goal;
-  slice_index const next = slices[si].u.goal_handler.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

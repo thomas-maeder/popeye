@@ -29,7 +29,7 @@ slice_index alloc_single_move_generator_with_king_capture_slice(void)
   return result;
 }
 
-/* Initialise the next move generation
+/* Initialise the next1 move generation
  * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  * @param sq_capture capture square of move to be generated
@@ -68,7 +68,7 @@ stip_length_type single_move_generator_with_king_capture_attack(slice_index si,
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

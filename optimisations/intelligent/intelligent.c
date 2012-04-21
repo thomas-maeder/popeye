@@ -291,7 +291,7 @@ void solve_target_position(void)
   closehash();
   inithash(current_start_slice);
 
-  if (attack(slices[current_start_slice].u.pipe.next,nr_of_moves)<=nr_of_moves)
+  if (attack(slices[current_start_slice].next1,nr_of_moves)<=nr_of_moves)
     solutions_found = true;
 
   /* reset the old mating position */
@@ -701,10 +701,10 @@ static slice_index find_goal_tester_fork(slice_index si)
     {
       slice_index const branch_goal = branch_find_slice(STEndOfBranch,si);
       assert(branch_goal!=no_slice);
-      result = find_goal_tester_fork(slices[branch_goal].u.fork.fork);
+      result = find_goal_tester_fork(slices[branch_goal].next2);
     }
     else
-      result = branch_find_slice(STGoalReachedTester,slices[branch_goal_fork].u.fork.fork);
+      result = branch_find_slice(STGoalReachedTester,slices[branch_goal_fork].next2);
   }
 
   TraceFunctionExit(__func__);
@@ -825,10 +825,10 @@ void intelligent_mode_support_detector_or(slice_index si,
 
   if (state->support!=intelligent_not_supported)
   {
-    stip_traverse_structure(slices[si].u.binary.op1,st);
+    stip_traverse_structure(slices[si].next1,st);
     support1 = state->support;
 
-    stip_traverse_structure(slices[si].u.binary.op2,st);
+    stip_traverse_structure(slices[si].next2,st);
     support2 = state->support;
 
     /* enumerators are ordered so that the weakest support has the

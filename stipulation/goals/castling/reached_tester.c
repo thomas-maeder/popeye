@@ -57,7 +57,7 @@ stip_length_type goal_castling_reached_tester_attack(slice_index si, stip_length
   /* castling means that both bits of a castling were cleared */
   if (diff==whk_castling || diff==whq_castling
       || diff==blk_castling || diff==blq_castling)
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n+2;
 

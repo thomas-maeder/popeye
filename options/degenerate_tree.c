@@ -60,7 +60,7 @@ static slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
   return result;
 }
 
-/* Delegate finding a solution to the next slice, gradually increasing
+/* Delegate finding a solution to the next1 slice, gradually increasing
  * the number of allowed half-moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -85,7 +85,7 @@ static stip_length_type delegate_attack(slice_index si,
 
   for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
   {
-    result = attack(slices[si].u.pipe.next,n_current);
+    result = attack(slices[si].next1,n_current);
     if (result<=n_current)
       break;
   }
@@ -178,7 +178,7 @@ static void remember_testing_pipe(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure(slices[si].u.fork.fork,st );
+  stip_traverse_structure(slices[si].next2,st );
   *testing = save_testing;
 
   TraceFunctionExit(__func__);

@@ -44,8 +44,8 @@ stip_length_type setplay_fork_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  attack(slices[si].u.fork.fork,length_unspecified);
-  result = attack(slices[si].u.fork.next,n);
+  attack(slices[si].next2,length_unspecified);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -120,7 +120,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   TraceFunctionParamListEnd();
 
   current_state = &immobilisation_state;
-  attack(slices[current_start_slice].u.fork.fork,length_unspecified);
+  attack(slices[current_start_slice].next2,length_unspecified);
   next_trouble_maker();
   current_state = 0;
 

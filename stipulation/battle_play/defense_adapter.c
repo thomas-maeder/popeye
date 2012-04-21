@@ -86,7 +86,7 @@ void defense_adapter_make_intro(slice_index adapter,
 stip_length_type defense_adapter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].next1;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type defense_result;
 

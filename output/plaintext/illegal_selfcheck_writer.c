@@ -40,7 +40,7 @@ stip_length_type illegal_selfcheck_writer_attack(slice_index si, stip_length_typ
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   if (result<slack_length)
     ErrorMsg(KingCapture);
 

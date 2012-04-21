@@ -56,7 +56,7 @@ stip_length_type goal_steingewinn_reached_tester_attack(slice_index si, stip_len
   if (pprise[nbply]==vide)
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

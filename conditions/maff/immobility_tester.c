@@ -29,7 +29,7 @@ static void substitute_maff_specific_testers(slice_index si,
   {
     slice_index const proxy_king = alloc_proxy_slice();
     slice_index const proxy_non_king = alloc_proxy_slice();
-    slice_index const king_branch = slices[si].u.pipe.next;
+    slice_index const king_branch = slices[si].next1;
     slice_index const non_king_branch = stip_deep_copy(king_branch);
     slice_index const king_tester = alloc_pipe(STMaffImmobilityTesterKing);
     slice_index const non_king_tester = alloc_pipe(STImmobilityTester);
@@ -106,7 +106,7 @@ stip_length_type maff_immobility_tester_king_attack(slice_index si, stip_length_
   /* stop counting once we have >1 legal king moves */
   legal_move_counter_interesting[nbply+1] = 1;
 
-  attack(slices[si].u.pipe.next,n);
+  attack(slices[si].next1,n);
 
   /* apply the MAFF rule */
   result = legal_move_counter_count[nbply+1]==1 ? has_solution : has_no_solution;

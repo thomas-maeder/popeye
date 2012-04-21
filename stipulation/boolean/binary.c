@@ -26,8 +26,8 @@ slice_index alloc_binary_slice(slice_type type,
   assert(op2==no_slice || slices[op2].type==STProxy);
 
   result = create_slice(type);
-  slices[result].u.binary.op1 = op1;
-  slices[result].u.binary.op2 = op2;
+  slices[result].next1 = op1;
+  slices[result].next2 = op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,12 +49,12 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  root_op1 = state->spun_off[slices[si].u.binary.op1];
+  stip_traverse_structure(slices[si].next1,st);
+  root_op1 = state->spun_off[slices[si].next1];
   TraceValue("%u\n",root_op1);
 
-  stip_traverse_structure(slices[si].u.binary.op2,st);
-  root_op2 = state->spun_off[slices[si].u.binary.op2];
+  stip_traverse_structure(slices[si].next2,st);
+  root_op2 = state->spun_off[slices[si].next2];
   TraceValue("%u\n",root_op2);
 
   if (st->context==stip_traversal_context_intro)
@@ -65,8 +65,8 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   else
     state->spun_off[si] = copy_slice(si);
 
-  slices[state->spun_off[si]].u.binary.op1 = root_op1;
-  slices[state->spun_off[si]].u.binary.op2 = root_op2;
+  slices[state->spun_off[si]].next1 = root_op1;
+  slices[state->spun_off[si]].next2 = root_op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -85,8 +85,8 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  proxy_slice_resolve(&slices[si].u.binary.op1,st);
-  proxy_slice_resolve(&slices[si].u.binary.op2,st);
+  proxy_slice_resolve(&slices[si].next1,st);
+  proxy_slice_resolve(&slices[si].next2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -98,8 +98,8 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
  */
 void binary_detect_starter(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -141,10 +141,10 @@ void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st)
   {
     state->spun_off[si] = copy_slice(si);
     stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].u.binary.op1]!=no_slice);
-    assert(state->spun_off[slices[si].u.binary.op2]!=no_slice);
-    slices[state->spun_off[si]].u.binary.op1 = state->spun_off[slices[si].u.binary.op1];
-    slices[state->spun_off[si]].u.binary.op2 = state->spun_off[slices[si].u.binary.op2];
+    assert(state->spun_off[slices[si].next1]!=no_slice);
+    assert(state->spun_off[slices[si].next2]!=no_slice);
+    slices[state->spun_off[si]].next1 = state->spun_off[slices[si].next1];
+    slices[state->spun_off[si]].next2 = state->spun_off[slices[si].next2];
   }
   else
     stip_traverse_structure_children(si,st);

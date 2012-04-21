@@ -227,7 +227,7 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
     if (nr_optimisable>0)
     {
       slice_set_predecessor(proxy_joint,no_slice);
-      pipe_link(proxy_joint,slices[si].u.pipe.next);
+      pipe_link(proxy_joint,slices[si].next1);
       pipe_link(si,alloc_fork_on_remaining_slice(proxy2,proxy1,1));
     }
     else

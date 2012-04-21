@@ -39,8 +39,8 @@ slice_index alloc_or_slice(slice_index op1, slice_index op2)
 stip_length_type or_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
+  slice_index const op1 = slices[si].next1;
+  slice_index const op2 = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

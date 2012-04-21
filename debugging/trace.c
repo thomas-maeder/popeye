@@ -366,13 +366,13 @@ static void Trace_slice(slice_index si)
 static void Trace_pipe(slice_index si)
 {
   Trace_slice(si);
-  Trace_link(">",slices[si].u.pipe.next,"");
+  Trace_link(">",slices[si].next1,"");
 }
 
 static void Trace_fork(slice_index si)
 {
   Trace_pipe(si);
-  Trace_link("fork:",slices[si].u.fork.fork,"");
+  Trace_link("fork:",slices[si].next2,"");
 }
 
 static void Trace_branch(slice_index si)
@@ -385,8 +385,8 @@ static void Trace_branch(slice_index si)
 static void Trace_binary(slice_index si)
 {
   Trace_slice(si);
-  Trace_link("op1:",slices[si].u.fork_on_remaining.op1,"");
-  Trace_link("op2:",slices[si].u.fork_on_remaining.op2,"");
+  Trace_link("op1:",slices[si].next1,"");
+  Trace_link("op2:",slices[si].next2,"");
 }
 
 static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
@@ -403,8 +403,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STForkOnRemaining:
         Trace_binary(si);
         fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
-        TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
-        TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
+        TraceStipulationRecursive(slices[si].next2,done_slices);
         break;
 
       case STKeepMatingFilter:
@@ -412,7 +412,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         fprintf(stdout,"mating:%s ",
                 Side_names[slices[si].u.keepmating_guard.mating]);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.keepmating_guard.next,
+        TraceStipulationRecursive(slices[si].next1,
                                   done_slices);
         break;
 
@@ -420,13 +420,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         Trace_pipe(si);
         fprintf(stdout,"mode:%u ",slices[si].u.move_generator.mode);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.move_generator.next,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
         break;
 
       case STOutputModeSelector:
         Trace_pipe(si);
         TraceEnumerator(output_mode,slices[si].u.output_mode_selector.mode,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
         break;
 
       case STPiecesParalysingMateFilter:
@@ -437,18 +437,18 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         Trace_pipe(si);
         TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.goal_filter.next,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
         break;
       }
 
       case STGoalImmobileReachedTester:
       {
         Trace_pipe(si);
-        Trace_link("?",slices[si].u.goal_filter.tester,"");
+        Trace_link("?",slices[si].next2,"");
         TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.goal_filter.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_filter.tester,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
+        TraceStipulationRecursive(slices[si].next2,done_slices);
         break;
       }
 
@@ -456,22 +456,22 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);
         fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
         break;
 
       case STGoalReachedTester:
         Trace_fork(si);
         fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.goal_handler.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.goal_handler.tester,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
+        TraceStipulationRecursive(slices[si].next2,done_slices);
         break;
 
       case STAttackHashedTester:
       case STHelpHashedTester:
         Trace_pipe(si);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].next1,done_slices);
         break;
 
       default:
@@ -485,27 +485,27 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
           case slice_structure_pipe:
             Trace_pipe(si);
             fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+            TraceStipulationRecursive(slices[si].next1,done_slices);
             break;
 
           case slice_structure_branch:
             Trace_branch(si);
             fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.branch.next,done_slices);
+            TraceStipulationRecursive(slices[si].next1,done_slices);
             break;
 
           case slice_structure_fork:
             Trace_fork(si);
             fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.fork.next,done_slices);
-            TraceStipulationRecursive(slices[si].u.fork.fork,done_slices);
+            TraceStipulationRecursive(slices[si].next1,done_slices);
+            TraceStipulationRecursive(slices[si].next2,done_slices);
             break;
 
           case slice_structure_binary:
             Trace_binary(si);
             fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].u.binary.op1,done_slices);
-            TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
+            TraceStipulationRecursive(slices[si].next1,done_slices);
+            TraceStipulationRecursive(slices[si].next2,done_slices);
             break;
 
           default:
@@ -564,7 +564,7 @@ static slice_index alloc_move_tracer_slice(void)
 stip_length_type move_tracer_attack(slice_index si, stip_length_type n)
 {
   TraceCurrentMove();
-  return attack(slices[si].u.pipe.next,n);
+  return attack(slices[si].next1,n);
 }
 
 /* Try to defend after an attacking move
@@ -581,7 +581,7 @@ stip_length_type move_tracer_attack(slice_index si, stip_length_type n)
 stip_length_type move_tracer_defend(slice_index si, stip_length_type n)
 {
   TraceCurrentMove();
-  return defend(slices[si].u.pipe.next,n);
+  return defend(slices[si].next1,n);
 }
 
 static void insert_move_tracer(slice_index si, stip_structure_traversal *st)

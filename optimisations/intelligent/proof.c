@@ -40,7 +40,7 @@ stip_length_type intelligent_proof_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   ProofInitialiseIntelligent(n);
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

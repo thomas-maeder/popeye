@@ -139,7 +139,7 @@ void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal 
 stip_length_type attack_adapter_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type nr_moves_needed;
 

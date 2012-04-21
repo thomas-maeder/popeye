@@ -28,7 +28,7 @@ static void substitute_optimiser(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy_nonchecking = alloc_proxy_slice();
     slice_index const proxy_any = alloc_proxy_slice();
-    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next = slices[si].next1;
     slice_index const tester_nonchecking = alloc_pipe(STImmobilityTester);
     slice_index const tester_any = alloc_pipe(STImmobilityTester);
 
@@ -105,7 +105,7 @@ static boolean ohneschach_immobile(Side side)
   if (nbply>maxply-2)
     FtlMsg(ChecklessUndecidable);
 
-  result = attack(slices[temporary_hack_immobility_tester[side]].u.fork.fork,length_unspecified)==has_solution;
+  result = attack(slices[temporary_hack_immobility_tester[side]].next2,length_unspecified)==has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,7 +159,7 @@ stip_length_type ohneschach_suspender_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   is_ohneschach_suspended = true;
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
   is_ohneschach_suspended = false;
 
   TraceFunctionExit(__func__);
@@ -189,7 +189,7 @@ stip_length_type ohneschach_check_guard_attack(slice_index si,
   if (echecc(nbply,slices[si].starter))
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

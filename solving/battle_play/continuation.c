@@ -44,14 +44,14 @@ stip_length_type continuation_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].u.fork.fork,n);
+  result = defend(slices[si].next2,n);
   if (slack_length<=result && result<=n)
   {
     stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
     stip_length_type const defend_result =
 #endif
-    defend(slices[si].u.fork.next,n_next);
+    defend(slices[si].next1,n_next);
     assert(defend_result==result);
   }
 

@@ -52,7 +52,7 @@ stip_length_type refutations_intro_writer_defend(slice_index si,
   StdString(GlobalStr);
   Message(But);
 
-  result = defend(slices[si].u.pipe.next,n);
+  result = defend(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -97,7 +97,7 @@ stip_length_type refutation_writer_attack(slice_index si, stip_length_type n)
 
   StdString(" !");
 
-  result = attack(slices[si].u.pipe.next,n);
+  result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

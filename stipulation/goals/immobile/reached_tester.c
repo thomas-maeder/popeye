@@ -93,7 +93,7 @@ void impose_starter_immobility_tester(slice_index si,
                               ? slices[si].starter
                               : advers(slices[si].starter));
     *starter = immobilised;
-    stip_traverse_structure(slices[si].u.goal_filter.tester,st);
+    stip_traverse_structure(slices[si].next2,st);
   }
 
   *starter = slices[si].starter;
@@ -125,7 +125,7 @@ stip_length_type immobility_tester_attack(slice_index si, stip_length_type n)
   /* stop counting once we have >1 legal king moves */
   legal_move_counter_interesting[nbply+1] = 0;
 
-  attack(slices[si].u.pipe.next,n);
+  attack(slices[si].next1,n);
 
   result = legal_move_counter_count[nbply+1]==0 ? n : n+2;
 
@@ -155,8 +155,8 @@ stip_length_type goal_immobile_reached_tester_attack(slice_index si, stip_length
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (attack(slices[si].u.goal_filter.tester,length_unspecified)==has_solution)
-    result = attack(slices[si].u.goal_filter.next,length_unspecified);
+  if (attack(slices[si].next2,length_unspecified)==has_solution)
+    result = attack(slices[si].next1,length_unspecified);
   else
     result = has_no_solution;
 

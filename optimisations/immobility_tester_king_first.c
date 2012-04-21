@@ -28,7 +28,7 @@ static void substitute_king_first(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const king_branch = slices[si].u.pipe.next;
+    slice_index const king_branch = slices[si].next1;
     slice_index const nonking_branch = stip_deep_copy(king_branch);
     slice_index const king_move_tester = alloc_pipe(STImmobilityTester);
     slice_index const nonking_move_tester = alloc_pipe(STImmobilityTester);

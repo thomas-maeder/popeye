@@ -2030,7 +2030,7 @@ stip_length_type goalreachable_guard_proofgame_attack(slice_index si,
   if (ProofImpossible())
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[slices[si].starter]);
@@ -2072,7 +2072,7 @@ stip_length_type goalreachable_guard_proofgame_fairy_attack(slice_index si,
   if (ProofFairyImpossible())
     result = n+2;
   else
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[slices[si].starter]);

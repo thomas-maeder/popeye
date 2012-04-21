@@ -109,7 +109,7 @@ slice_index alloc_refutations_allocator(void)
 stip_length_type refutations_allocator_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.branch.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -167,10 +167,10 @@ stip_length_type refutations_solver_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = defend(slices[si].u.binary.op1,n);
+  result = defend(slices[si].next1,n);
 
   if (table_length(refutations)>0)
-    defend(slices[si].u.binary.op2,n);
+    defend(slices[si].next2,n);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -212,7 +212,7 @@ stip_length_type refutations_collector_attack(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.refutation_collector.next;
+  slice_index const next = slices[si].next1;
   unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
 
   TraceFunctionEntry(__func__);
@@ -274,7 +274,7 @@ void spin_off_testers_refutations_avoider(slice_index si,
     unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
     state->spun_off[si] = alloc_refutations_collector_slice(max_nr_refutations);
     stip_traverse_structure_children(si,st);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].u.pipe.next]);
+    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
   }
   else
     stip_traverse_structure_children(si,st);
@@ -303,7 +303,7 @@ stip_length_type refutations_avoider_attack(slice_index si, stip_length_type n)
   if (is_current_move_in_table(refutations))
     result = n;
   else
-    result = attack(slices[si].u.refutation_collector.next,n);
+    result = attack(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -347,7 +347,7 @@ stip_length_type refutations_filter_attack(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (is_current_move_in_table(refutations))
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
   else
     result = n;
 
@@ -441,7 +441,7 @@ static void insert_refutations_avoider(slice_index si,
 
   {
     slice_index const prototype = alloc_refutations_avoider_slice(user_set_max_nr_refutations);
-    defense_branch_insert_slices(slices[si].u.binary.op1,&prototype,1);
+    defense_branch_insert_slices(slices[si].next1,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -545,7 +545,7 @@ static void insert_constraint_solver(slice_index si,
   assert(*result!=no_slice);
 
   {
-    slice_index const solver = alloc_constraint_solver_slice(stip_deep_copy(slices[si].u.fork.fork));
+    slice_index const solver = alloc_constraint_solver_slice(stip_deep_copy(slices[si].next2));
     link_to_branch(solver,*result);
     *result = solver;
   }
@@ -568,7 +568,7 @@ static void insert_deep_copy(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index copy = copy_slice(si);
-    slices[copy].u.fork.fork = stip_deep_copy(slices[si].u.fork.fork);
+    slices[copy].next2 = stip_deep_copy(slices[si].next2);
     link_to_branch(copy,*result);
     *result = copy;
   }
@@ -635,11 +635,11 @@ static void spin_off_from_refutations_solver(slice_index si,
   stip_structure_traversal_override(&st_nested,
                                     to_refutation_branch_copiers,
                                     nr_to_refutation_branch_copiers);
-  stip_traverse_structure(slices[si].u.binary.op1,&st_nested);
+  stip_traverse_structure(slices[si].next1,&st_nested);
 
   assert(spun_off!=no_slice);
-  slices[si].u.binary.op2 = alloc_proxy_slice();
-  link_to_branch(slices[si].u.binary.op2,spun_off);
+  slices[si].next2 = alloc_proxy_slice();
+  link_to_branch(slices[si].next2,spun_off);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

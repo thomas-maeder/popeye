@@ -28,7 +28,7 @@ slice_index alloc_castling_intermediate_move_generator_slice(void)
   return result;
 }
 
-/* Initialise the next move generation
+/* Initialise the next1 move generation
  * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  */
@@ -62,7 +62,7 @@ stip_length_type castling_intermediate_move_generator_attack(slice_index si,
                                                              stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
   numecoup const save_repere = repere[nbply];
 
   TraceFunctionEntry(__func__);

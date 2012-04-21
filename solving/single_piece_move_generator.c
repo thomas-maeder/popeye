@@ -56,7 +56,7 @@ stip_length_type single_piece_move_generator_attack(slice_index si,
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

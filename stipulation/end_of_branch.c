@@ -140,8 +140,8 @@ void stip_insert_detours_around_end_of_branch(slice_index root_slice)
 stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const next = slices[si].next1;
+  slice_index const fork = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -190,8 +190,8 @@ stip_length_type end_of_branch_attack(slice_index si, stip_length_type n)
 stip_length_type end_of_branch_defend(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.fork.next;
-  slice_index const fork = slices[si].u.fork.fork;
+  slice_index const next = slices[si].next1;
+  slice_index const fork = slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

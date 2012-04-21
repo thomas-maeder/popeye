@@ -53,7 +53,7 @@ stip_length_type find_by_increasing_length_attack(slice_index si,
 
   while (len<=n)
   {
-    if (attack(slices[si].u.pipe.next,len)==len && len<result)
+    if (attack(slices[si].next1,len)==len && len<result)
       result = len;
     len += 2;
   }

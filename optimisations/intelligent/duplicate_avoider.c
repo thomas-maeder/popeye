@@ -192,7 +192,7 @@ stip_length_type intelligent_duplicate_avoider_attack(slice_index si,
     result = n;
   else
   {
-    result = attack(slices[si].u.pipe.next,n);
+    result = attack(slices[si].next1,n);
     if (slack_length<=result && result<=n)
       store_solution();
   }
