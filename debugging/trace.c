@@ -382,13 +382,6 @@ static void Trace_branch(slice_index si)
   fprintf(stdout,"%2u ",slices[si].u.branch.min_length);
 }
 
-static void Trace_binary(slice_index si)
-{
-  Trace_slice(si);
-  Trace_link("op1:",slices[si].next1,"");
-  Trace_link("op2:",slices[si].next2,"");
-}
-
 static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 {
   if (si!=no_slice && !done_slices[si])
@@ -401,7 +394,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     switch (slices[si].type)
     {
       case STForkOnRemaining:
-        Trace_binary(si);
+        Trace_fork(si);
         fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
         TraceStipulationRecursive(slices[si].next1,done_slices);
         TraceStipulationRecursive(slices[si].next2,done_slices);
@@ -496,13 +489,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
           case slice_structure_fork:
             Trace_fork(si);
-            fprintf(stdout,"\n");
-            TraceStipulationRecursive(slices[si].next1,done_slices);
-            TraceStipulationRecursive(slices[si].next2,done_slices);
-            break;
-
-          case slice_structure_binary:
-            Trace_binary(si);
             fprintf(stdout,"\n");
             TraceStipulationRecursive(slices[si].next1,done_slices);
             TraceStipulationRecursive(slices[si].next2,done_slices);

@@ -698,9 +698,9 @@ static stip_length_type get_max_nr_moves(slice_index si)
 
   TraceStipulation(si);
   stip_moves_traversal_init(&st,&result);
-  stip_moves_traversal_override_by_structure(&st,
-                                             slice_structure_binary,
-                                             &get_max_nr_moves_binary);
+  stip_moves_traversal_override_by_function(&st,
+                                            slice_function_binary,
+                                            &get_max_nr_moves_binary);
   stip_moves_traversal_override_single(&st,STMove,&get_max_nr_moves_move);
   stip_traverse_moves(si,&st);
 

@@ -125,9 +125,9 @@ void stip_spin_off_testers(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_leaf,
                                                  &stip_spin_off_testers_leaf);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &stip_spin_off_testers_binary);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
+                                                &stip_spin_off_testers_binary);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_spin_off_testers_testing_pipe);

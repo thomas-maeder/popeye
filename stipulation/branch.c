@@ -362,9 +362,9 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
                                                  &insert_visit_fork);
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_binary,
-                                                 &insert_visit_binary);
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_binary,
+                                                &insert_visit_binary);
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
 
   TraceFunctionExit(__func__);
@@ -585,9 +585,9 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &branch_find_slice_pipe);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &branch_find_slice_binary);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
+                                                &branch_find_slice_binary);
   stip_traverse_structure(slices[si].next1,&st);
 
   TraceFunctionExit(__func__);

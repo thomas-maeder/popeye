@@ -378,15 +378,21 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
       result = &stip_structure_visitor_noop;
       break;
 
-    case slice_structure_binary:
-      result = &stip_traverse_structure_children_binary;
-      break;
-
     case slice_structure_fork:
-      if (slice_type_get_functional_type(type)==slice_function_testing_pipe)
-        result = &stip_traverse_structure_children_testing_pipe;
-      else
-        result = &stip_traverse_structure_children_fork;
+      switch (slice_type_get_functional_type(type))
+      {
+        case slice_function_testing_pipe:
+          result = &stip_traverse_structure_children_testing_pipe;
+          break;
+
+        case slice_function_binary:
+          result = &stip_traverse_structure_children_binary;
+          break;
+
+        default:
+          result = &stip_traverse_structure_children_fork;
+          break;
+      }
       break;
 
     default:

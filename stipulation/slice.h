@@ -8,7 +8,6 @@
 #define ENUMERATORS                                              \
     ENUMERATOR(slice_structure_pipe),                            \
     ENUMERATOR(slice_structure_leaf),                            \
-    ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \
     ENUMERATOR(nr_slice_structure_types)
@@ -23,6 +22,7 @@
   ENUMERATOR(slice_function_unspecified),                        \
   ENUMERATOR(slice_function_proxy),                              \
   ENUMERATOR(slice_function_move_generator),                     \
+  ENUMERATOR(slice_function_binary),                             \
   ENUMERATOR(slice_function_testing_pipe),                       \
   ENUMERATOR(slice_function_conditional_pipe),                   \
   ENUMERATOR(slice_function_writer),                             \

@@ -13,7 +13,6 @@ static boolean is_slice_index_free[max_nr_slices];
 #define ENUMERATORS                             \
     ENUMERATOR(slice_structure_pipe),                            \
     ENUMERATOR(slice_structure_leaf),                            \
-    ENUMERATOR(slice_structure_binary),                          \
     ENUMERATOR(slice_structure_branch),                          \
     ENUMERATOR(slice_structure_fork),                            \
     ENUMERATOR(nr_slice_structure_types)
@@ -63,6 +62,14 @@ static slice_type const branch_slice_types[] =
 
 static slice_type const fork_slice_types[] =
 {
+    STEndOfBranchGoal,
+    STEndOfBranchGoalImmobile,
+    STAvoidUnsolvable,
+    STCheckZigzagJump,
+    STAnd,
+    STOr,
+    STForkOnRemaining,
+    STRefutationsSolver,
     STTemporaryHackFork,
     STSetplayFork,
     STEndOfBranch,
@@ -119,7 +126,6 @@ static void init_highest_structural_type(void)
                                                              sizeof type##_slice_types / sizeof type##_slice_types[0], \
                                                              slice_structure_##type)
     init_one_type(leaf);
-    init_one_type(binary);
     init_one_type(branch);
     init_one_type(fork);
 #undef init_one_type
@@ -142,6 +148,7 @@ slice_structural_type slice_type_get_structural_type(slice_type type)
     ENUMERATOR(slice_function_unspecified),                        \
     ENUMERATOR(slice_function_proxy),                              \
     ENUMERATOR(slice_function_move_generator),                     \
+    ENUMERATOR(slice_function_binary),                             \
     ENUMERATOR(slice_function_testing_pipe),                       \
     ENUMERATOR(slice_function_conditional_pipe),                   \
     ENUMERATOR(slice_function_writer),                             \
@@ -264,6 +271,7 @@ static void init_functional_type(void)
                                                      slice_function_##type)
   init_one_type(proxy);
   init_one_type(move_generator);
+  init_one_type(binary);
   init_one_type(testing_pipe);
   init_one_type(conditional_pipe);
   init_one_type(writer);

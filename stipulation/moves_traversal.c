@@ -554,15 +554,21 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
       result = &stip_traverse_moves_noop;
       break;
 
-    case slice_structure_binary:
-      result = &stip_traverse_moves_binary;
-      break;
-
     case slice_structure_fork:
-      if (slice_type_get_functional_type(type)==slice_function_conditional_pipe)
-        result = &stip_traverse_moves_conditional_pipe;
-      else
-        result = &stip_traverse_moves_end_of_branch;
+      switch (slice_type_get_functional_type(type))
+      {
+        case slice_function_conditional_pipe:
+          result = &stip_traverse_moves_conditional_pipe;
+          break;
+
+        case slice_function_binary:
+          result = &stip_traverse_moves_binary;
+          break;
+
+        default:
+          result = &stip_traverse_moves_end_of_branch;
+          break;
+      }
       break;
 
     default:

@@ -453,9 +453,9 @@ void init_deep_copy(stip_structure_traversal *st, stip_deep_copies_type *copies)
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
                                                  &deep_copy_fork);
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_binary,
-                                                 &deep_copy_binary);
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_binary,
+                                                &deep_copy_binary);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -673,9 +673,9 @@ void stip_detect_starter(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,NULL);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_binary,
-                                                 &binary_detect_starter);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
+                                                &binary_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &branch_fork_detect_starter);
