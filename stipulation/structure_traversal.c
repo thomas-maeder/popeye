@@ -354,8 +354,7 @@ static structure_traversers_visitors const special_children_traversers[] =
    { STReadyForAttack,  &stip_traverse_structure_children_ready_for_attack  },
    { STReadyForDefense, &stip_traverse_structure_children_ready_for_defense },
    { STHelpAdapter,     &stip_traverse_structure_children_help_adpater      },
-   { STMovePlayed,      &stip_traverse_structure_children_move_played       },
-   { STThreatSolver,    &stip_traverse_structure_children_binary            }
+   { STMovePlayed,      &stip_traverse_structure_children_move_played       }
 };
 
 enum { nr_special_children_traversers = sizeof special_children_traversers

@@ -429,7 +429,6 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const root_writer_inserters[] =
 {
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
-  { STThreatSolver,       &stip_traverse_structure_children_pipe },
   { STHelpAdapter,        &stip_structure_visitor_noop           },
   { STAttackAdapter,      &insert_end_of_solution_writer         },
   { STDefenseAdapter,     &remember_postkey_play                 },
@@ -439,7 +438,6 @@ static structure_traversers_visitors const root_writer_inserters[] =
   { STNotEndOfBranch,     &insert_postkey_writers                },
   { STConstraintSolver,   &stip_traverse_structure_children_pipe },
   { STEndOfBranchForced,  &stip_traverse_structure_children_pipe },
-  { STRefutationsSolver,  &stip_traverse_structure_children_pipe },
   { STReadyForDefense,    &insert_key_writer                     }
 };
 
@@ -467,6 +465,9 @@ static void insert_root_writer_slices(slice_index si)
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     root_writer_inserters,
