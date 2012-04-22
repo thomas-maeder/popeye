@@ -2742,6 +2742,175 @@ Loesung beendet.
 
 
           Jochen Lehmensick
+      feenschach 191, 2012, UM/6
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -T   8
+|                                   |
+7  -B   .   .   .  -S   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .  -T   T   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   .   3
+|                                   |
+2  -B  -B   .   .   .   .   .  -B   2
+|                                   |
+1   T   .   .   .   K   .  -K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  schwarz 6hh[/2da[#]{!+}]    4 + 9
+
+  1.Kg1-h1 Th6*g6   2.b2-b1=S Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.b2-b1=S Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.b2-b1=L Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.b2-b1=L Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.b2*a1=L Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.b2*a1=L Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=S Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2-b1=L Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Tg6-e6   3.b2*a1=L Ke1-f2 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=S Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2-b1=L Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ke1-f2 +   3.b2*a1=L Tg6-e6 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L b6*a7 
+  1.Kg1-h1 Th6*g6   2.Se7-g8 Ta1-b1   3.a2-a1=L Ke1-d1 
+  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=D 
+  1.Kg1-h1 b6-b7   2.Tg6-g1 + Ke1-f2   3.Th8-a8 b7-b8=L 
+  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=D   3.Tg6-g1 + Ke1-f2 
+  1.Kg1-h1 b6-b7   2.Th8-a8 b7-b8=L   3.Tg6-g1 + Ke1-f2 
+  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=D 
+  1.Kg1-h1 b6-b7   2.Th8-a8 Ke1-f2 +   3.Tg6-g1 b7-b8=L 
+  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=D 
+  1.Kg1-h1 b6*a7   2.Tg6-g1 + Ke1-f2   3.Th8-b8 a7*b8=L 
+  1.Kg1-h1 b6*a7   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6 
+  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=D   3.Tg6-g1 + Ke1-f2 
+  1.Kg1-h1 b6*a7   2.Th8-b8 a7*b8=L   3.Tg6-g1 + Ke1-f2 
+  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=D 
+  1.Kg1-h1 b6*a7   2.Th8-b8 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
+  1.Kg1-h1 Ke1-d1   2.Se7-g8 Ta1-b1   3.a2-a1=L Th6*g6 
+  1.Kg1-h1 Ke1-f2 +   2.b2-b1=S Th6*g6   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Ke1-f2 +   2.b2-b1=L Th6*g6   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Ke1-f2 +   2.b2*a1=L Th6*g6   3.Se7-g8 Tg6-e6 
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=D 
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6-b7   3.Th8-a8 b7-b8=L 
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=D 
+  1.Kg1-h1 Ke1-f2 +   2.Tg6-g1 b6*a7   3.Th8-b8 a7*b8=L 
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 b6*a7 
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Th6*g6   3.Se7-g8 Ke1-d1 
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L b6*a7   3.Se7-g8 Th6*g6 
+  1.Kg1-h1 Ta1-b1   2.a2-a1=L Ke1-d1   3.Se7-g8 Th6*g6 
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L b6*a7 
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Th6*g6   3.a2-a1=L Ke1-d1 
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 b6*a7   3.a2-a1=L Th6*g6 
+  1.Kg1-h1 Ta1-b1   2.Se7-g8 Ke1-d1   3.a2-a1=L Th6*g6 
+  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.b2-b1=S Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.b2-b1=S b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.b2-b1=S b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2-b1=S b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.b2-b1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.b2-b1=L b6-b7   2.Lb1-e4 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Lb1-e4 Db8-f4 
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.b2-b1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.b2-b1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2-b1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Tg6-e6   3.Se7-g8 Ke1-f2 
+  1.b2*a1=L Th6*g6 +   2.Kg1-h1 Ke1-f2   3.Se7-g8 Tg6-e6 
+  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.b2*a1=L b6-b7   2.h2-h1=L b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.b2*a1=L b6-b7   2.Tg6-g8 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.b2*a1=L b6-b7   2.Tg6-g7 b7-b8=D   3.h2-h1=L Db8-f4 
+  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2-b1=S b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Lb1-e4 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2-b1=L b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g8 Db8-f4 
+  1.h2-h1=L b6-b7   2.b2*a1=L b7-b8=D   3.Tg6-g7 Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=S Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2-b1=L Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g8 b7-b8=D   3.b2*a1=L Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=S Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2-b1=L Db8-f4 
+  1.h2-h1=L b6-b7   2.Tg6-g7 b7-b8=D   3.b2*a1=L Db8-f4 
+  1.Tg6*b6 Th6*b6   2.Kg1-h1 Tb6*b2   3.Se7-g8 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.h2-h1=T Tb6*b2   3.Se7-g8 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.c3-c2 Tb6*b2   3.Se7-g8 Tb2*c2 
+  1.Tg6*b6 Th6*b6   2.a7-a5 Tb6*b2   3.Se7-g8 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.a7-a6 Tb6*b2   3.Se7-g8 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Sg6-f8 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g6 Tb6*b2   3.Th8-h6 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.Kg1-h1 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.h2-h1=T Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.c3-c2 Tb2*c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a5 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Se7-g8 Tb6*b2   3.a7-a6 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Th8-h6 Tb6*b2   3.Se7-g6 Tb2-c2 
+  1.Tg6*b6 Th6*b6   2.Th8-a8 Tb6*b2   3.Se7-c8 Tb2-c2 
+  1.Tg6-c6 Th6*c6   2.c3-c2 Tc6*c2   3.Se7-g8 Tc2*b2 
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=S Dc8-h3 
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2-b1=L Dc8-h3 
+  1.Tg6-c6 b6-b7   2.Tc6-c8 b7*c8=D   3.b2*a1=L Dc8-h3 
+  1.Tg6-g8 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g8 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g8 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4 
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4 
+  1.Tg6-g8 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4 
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=S Dc8-h3 
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2-b1=L Dc8-h3 
+  1.Tg6-g8 b6-b7   2.Tg8-c8 b7*c8=D   3.b2*a1=L Dc8-h3 
+  1.Tg6-g7 b6-b7   2.b2-b1=S b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g7 b6-b7   2.b2-b1=L b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g7 b6-b7   2.b2*a1=L b7-b8=D   3.h2-h1=L Db8-f4 
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=S Db8-f4 
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2-b1=L Db8-f4 
+  1.Tg6-g7 b6-b7   2.h2-h1=L b7-b8=D   3.b2*a1=L Db8-f4 
+  1.Se7-g8 Th6*h2   2.Tg6-h6 Th2*b2   3.Th6-h1 Tb2-c2 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=S Ke1-f2 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2-b1=L Ke1-f2 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Tg6-e6   3.b2*a1=L Ke1-f2 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=S Tg6-e6 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2-b1=L Tg6-e6 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ke1-f2 +   3.b2*a1=L Tg6-e6 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L b6*a7 
+  1.Se7-g8 Th6*g6 +   2.Kg1-h1 Ta1-b1   3.a2-a1=L Ke1-d1 
+  1.Se7-g8 b6*a7   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6 
+  1.Se7-g8 Ke1-d1   2.Kg1-h1 Ta1-b1   3.a2-a1=L Th6*g6 
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L b6*a7 
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Th6*g6   3.a2-a1=L Ke1-d1 
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 b6*a7   3.a2-a1=L Th6*g6 
+  1.Se7-g8 Ta1-b1   2.Kg1-h1 Ke1-d1   3.a2-a1=L Th6*g6 
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 b6*a7 
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Th6*g6 +   3.Kg1-h1 Ke1-d1 
+  1.Se7-g8 Ta1-b1   2.a2-a1=L b6*a7   3.Kg1-h1 Th6*g6 
+  1.Se7-g8 Ta1-b1   2.a2-a1=L Ke1-d1   3.Kg1-h1 Th6*g6 
+  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=D   3.Tg6-g1 + Ke1-f2 
+  1.Th8-a8 b6-b7   2.Kg1-h1 b7-b8=L   3.Tg6-g1 + Ke1-f2 
+  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=D 
+  1.Th8-a8 b6-b7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 b7-b8=L 
+  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=D   3.Tg6-g1 + Ke1-f2 
+  1.Th8-b8 b6*a7   2.Kg1-h1 a7*b8=L   3.Tg6-g1 + Ke1-f2 
+  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=D 
+  1.Th8-b8 b6*a7   2.Kg1-h1 Ke1-f2 +   3.Tg6-g1 a7*b8=L 
+
+              empile:  1647214115
+            jouecoup:   258157564
+        orig_rbechec:   122600746
+        orig_rnechec:   240710694
+Loesung beendet. 
+
+
+
+          Jochen Lehmensick
      feenschach 191, 2012, UM/11
 
 +---a---b---c---d---e---f---g---h---+
