@@ -17,14 +17,12 @@
 #include "stipulation/boolean/binary.h"
 #include "solving/move_generator.h"
 #include "solving/for_each_move.h"
-#include "solving/play_suppressor.h"
 #include "solving/find_shortest.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/battle_play/threat.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
-#include "solving/battle_play/threat.h"
 #include "solving/battle_play/min_length_guard.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/setplay.h"
@@ -382,14 +380,6 @@ void stip_insert_solvers(slice_index root_slice)
   stip_insert_continuation_solvers(root_slice);
 
   TraceStipulation(root_slice);
-
-  if (OptFlag[solvariantes])
-  {
-    if (!OptFlag[nothreat])
-      stip_insert_threat_solvers(root_slice);
-  }
-  else
-    stip_insert_play_suppressors(root_slice);
 
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
     stip_insert_try_solvers(root_slice);

@@ -482,7 +482,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h pyposit.h pyboard.h \
  solving/for_each_move.h solving/battle_play/check_detector.h \
  solving/battle_play/try.h utilities/table.h solving/battle_play/threat.h \
  solving/trivial_end_filter.h solving/avoid_unsolvable.h \
- pieces/attributes/paralysing/paralysing.h \
+ solving/play_suppressor.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
  conditions/circe/circe.h conditions/anticirce/anticirce.h \
  conditions/ultraschachzwang/goal_filter.h \
@@ -647,6 +647,8 @@ solving/battle_play/threat.h:
 solving/trivial_end_filter.h:
 
 solving/avoid_unsolvable.h:
+
+solving/play_suppressor.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
