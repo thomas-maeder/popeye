@@ -73,13 +73,13 @@ static void insert_writer_for_move_in_parent(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_writer_for_defense(slice_index si,
-                                     stip_structure_traversal *st)
+static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototypes[] =
     {
@@ -89,20 +89,7 @@ static void insert_writer_for_defense(slice_index si,
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices(si,prototypes,nr_prototypes);
   }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_writer_for_attack(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
+  else if (st->context==stip_traversal_context_attack)
   {
     slice_index const prototypes[] =
     {
@@ -174,10 +161,9 @@ static structure_traversers_visitors const regular_writer_inserters[] =
   { STDefenseAdapter,    &insert_writer_for_move_in_parent },
   { STHelpAdapter,       &stip_structure_visitor_noop      },
   { STMoveInverter,      &insert_move_inversion_counter    },
-  { STReadyForAttack,    &insert_writer_for_attack         },
   { STThreatSolver,      &insert_zugzwang_writer           },
   { STPlaySuppressor,    &stip_structure_visitor_noop      },
-  { STReadyForDefense,   &insert_writer_for_defense        },
+  { STMove,              &insert_move_writer               },
   { STGoalReachedTester, &insert_goal_writer               }
 };
 
