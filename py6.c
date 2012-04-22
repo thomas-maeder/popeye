@@ -137,6 +137,7 @@
 #include "solving/battle_play/threat.h"
 #include "solving/trivial_end_filter.h"
 #include "solving/avoid_unsolvable.h"
+#include "solving/play_suppressor.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "conditions/amu/mate_filter.h"
@@ -2765,6 +2766,17 @@ static Token iterate_twins(Token prev_token)
       stip_optimise_with_orthodox_mating_move_generators(root_slice);
 
       stip_insert_detours_around_end_of_branch(root_slice);
+
+      if (OptFlag[solvariantes])
+      {
+        if (!OptFlag[nothreat])
+          stip_insert_threat_solvers(root_slice);
+      }
+      else
+        stip_insert_play_suppressors(root_slice);
+
+      TraceStipulation(root_slice);
+
       stip_insert_end_of_branch_testers(root_slice);
 
       stip_spin_off_refutation_solver_slices(root_slice);
