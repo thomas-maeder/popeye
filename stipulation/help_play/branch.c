@@ -154,6 +154,8 @@ static void help_branch_insert_slices_impl(slice_index si,
 
   state.base_rank = get_slice_rank(slices[si].type,&state);
   assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
   stip_traverse_structure(slices[si].next1,&st);
 
