@@ -2767,21 +2767,20 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_detours_around_end_of_branch(root_slice);
 
+      stip_insert_end_of_branch_testers(root_slice);
+
+      if (!OptFlag[solvariantes])
+        stip_insert_play_suppressors(root_slice);
+
+      stip_spin_off_refutation_solver_slices(root_slice);
+
+      stip_insert_trivial_variation_filters(root_slice);
+
       if (OptFlag[solvariantes])
       {
         if (!OptFlag[nothreat])
           stip_insert_threat_solvers(root_slice);
       }
-      else
-        stip_insert_play_suppressors(root_slice);
-
-      TraceStipulation(root_slice);
-
-      stip_insert_end_of_branch_testers(root_slice);
-
-      stip_spin_off_refutation_solver_slices(root_slice);
-
-      stip_insert_trivial_variation_filters(root_slice);
 
       stip_spin_off_testers(root_slice);
 

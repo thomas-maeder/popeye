@@ -585,6 +585,7 @@ static structure_traversers_visitors const threat_solver_inserters[] =
   { STReadyForAttack,     &insert_threat_end                     },
   { STThreatEnforcer,     &connect_enforcer_to_threat_start      },
   { STThreatStart,        &remember_threat_start                 },
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe },
   { STAttackAdapter,      &forget_threat_start                   },
   { STDefenseAdapter,     &forget_threat_start                   }
 };
