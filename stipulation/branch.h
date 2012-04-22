@@ -52,6 +52,13 @@ typedef struct
     slice_index prev;
 } branch_slice_insertion_state_type;
 
+/* Determine the rank of a slice type
+ * @param type slice type
+ * @return rank of type; no_slice_rank if the rank can't be determined
+ */
+unsigned int get_slice_rank(slice_type type,
+                            branch_slice_insertion_state_type const *state);
+
 /* Initialise a structure traversal for inserting slices into a branch
  * @param st address of structure representing the traversal
  * @param state address of structure representing the insertion

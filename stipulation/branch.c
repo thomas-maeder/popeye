@@ -26,11 +26,11 @@ void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
 }
 
 /* Determine the rank of a slice type
- * @param type defense slice type
+ * @param type slice type
  * @return rank of type; no_slice_rank if the rank can't be determined
  */
-static unsigned int get_slice_rank(slice_type type,
-                                   branch_slice_insertion_state_type const *state)
+unsigned int get_slice_rank(slice_type type,
+                            branch_slice_insertion_state_type const *state)
 {
   unsigned int result = no_slice_rank;
   unsigned int i;

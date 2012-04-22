@@ -151,35 +151,6 @@ enum
                                / sizeof slice_rank_order[0])
 };
 
-/* Determine the rank of a defense slice type, relative to some base rank
- * @param type defense slice type
- * @param state state of insertion
- * @return rank of type (beyond state->base_rank)
- *         no_slice_rank if the rank can't be determined
- */
-static unsigned int get_slice_rank(slice_type type,
-                                   branch_slice_insertion_state_type const *state)
-{
-  unsigned int result = no_slice_rank;
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=state->nr_slice_rank_order_elmts; ++i)
-    if (state->slice_rank_order[(i+state->base_rank)%state->nr_slice_rank_order_elmts]==type)
-    {
-      result = i+state->base_rank;
-      break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Insert slices into a battle branch; the elements of
  * prototypes are *not* deallocated by battle_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
