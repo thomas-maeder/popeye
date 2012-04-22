@@ -29,18 +29,6 @@ static slice_type const leaf_slice_types[] =
     STTrue
 };
 
-static slice_type const binary_slice_types[] =
-{
-    STEndOfBranchGoal,
-    STEndOfBranchGoalImmobile,
-    STAvoidUnsolvable,
-    STCheckZigzagJump,
-    STAnd,
-    STOr,
-    STForkOnRemaining,
-    STRefutationsSolver
-};
-
 static slice_type const branch_slice_types[] =
 {
     STAttackAdapter,
@@ -200,6 +188,19 @@ static slice_type const move_generator_slice_types[] =
     STSingleMoveGenerator
 };
 
+static slice_type const binary_slice_types[] =
+{
+    STEndOfBranchGoal,
+    STEndOfBranchGoalImmobile,
+    STAvoidUnsolvable,
+    STCheckZigzagJump,
+    STAnd,
+    STOr,
+    STForkOnRemaining,
+    STRefutationsSolver,
+    STThreatSolver
+};
+
 static slice_type const testing_pipe_slice_types[] =
 {
     STContinuationSolver,
@@ -301,7 +302,9 @@ void assert_no_leaked_slices(void)
   for (i = 0; i!=max_nr_slices; ++i)
   {
     if (!is_slice_index_free[i])
+    {
       TraceValue("leaked:%u",i);
+    }
     assert(is_slice_index_free[i]);
   }
 

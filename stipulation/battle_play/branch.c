@@ -271,10 +271,18 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
 
   assert(slices[proxy].type!=STMovePlayed);
 
-  state.base_rank = get_slice_rank(STMovePlayed,&state)+1;
-  state.base_rank = get_slice_rank(STMovePlayed,&state)+1;
-  state.base_rank = get_slice_rank(slices[base].type,&state)+1;
+  state.base_rank = get_slice_rank(STMovePlayed,&state);
   assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
+  state.base_rank = get_slice_rank(STMovePlayed,&state);
+  assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
+  state.base_rank = get_slice_rank(slices[base].type,&state);
+  assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
   stip_traverse_structure(slices[proxy].next1,&st);
 
@@ -328,13 +336,19 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   assert(slices[proxy].type!=STMovePlayed);
 
-  state.base_rank = get_slice_rank(STMovePlayed,&state)+1;
-  state.base_rank = get_slice_rank(slices[base].type,&state)+1;
+  state.base_rank = get_slice_rank(STMovePlayed,&state);
   assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
+  state.base_rank = get_slice_rank(slices[base].type,&state);
+  assert(state.base_rank!=no_slice_rank);
+  ++state.base_rank;
+
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
   stip_traverse_structure(slices[proxy].next1,&st);
 

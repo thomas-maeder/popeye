@@ -439,9 +439,10 @@ static void insert_refutations_avoider(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
+  if (st->context==stip_traversal_context_defense)
   {
     slice_index const prototype = alloc_refutations_avoider_slice(user_set_max_nr_refutations);
-    defense_branch_insert_slices(slices[si].next1,&prototype,1);
+    defense_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -457,7 +458,7 @@ static structure_traversers_visitors const try_solver_inserters[] =
   { STEndOfBranchGoal,    &stip_traverse_structure_children_pipe },
   { STNotEndOfBranchGoal, &insert_refuting_variation_solver      },
   { STNotEndOfBranch,     &insert_refutation_solver              },
-  { STRefutationsSolver,  &insert_refutations_avoider            }
+  { STMove,               &insert_refutations_avoider            }
 };
 
 enum

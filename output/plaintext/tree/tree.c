@@ -42,7 +42,7 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
       alloc_move_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices(slices[si].next2,prototypes,nr_prototypes);
+    defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
   }
 
   TraceFunctionExit(__func__);

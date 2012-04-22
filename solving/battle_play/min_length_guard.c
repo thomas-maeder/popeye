@@ -100,6 +100,12 @@ stip_length_type min_length_guard_defend(slice_index si, stip_length_type n)
   return result;
 }
 
+typedef struct
+{
+    stip_length_type length;
+    stip_length_type min_length;
+} insertion_state_type;
+
 static void insert_min_length_solvers_attack(slice_index si,
                                              stip_structure_traversal *st)
 {
@@ -126,8 +132,7 @@ static void insert_min_length_solvers_attack(slice_index si,
 static void insert_min_length_solvers_defense(slice_index si,
                                               stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  insertion_state_type const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -135,11 +140,33 @@ static void insert_min_length_solvers_defense(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (min_length>slack_length+1)
+  if (st->context==stip_traversal_context_defense
+      && state->min_length>slack_length+1)
   {
-    slice_index const prototype = alloc_min_length_guard(length-1,min_length-1);
+    slice_index const prototype = alloc_min_length_guard(state->length-1,state->min_length-1);
     defense_branch_insert_slices(si,&prototype,1);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_length(slice_index si,
+                            stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+  insertion_state_type const save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->length = slices[si].u.branch.length;
+  state->min_length = slices[si].u.branch.min_length;
+
+  stip_traverse_structure_children(si,st);
+
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -151,18 +178,19 @@ static void insert_min_length_solvers_defense(slice_index si,
 void stip_insert_min_length_solvers(slice_index si)
 {
   stip_structure_traversal st;
-  output_mode mode = output_mode_none;
+  insertion_state_type state = { slack_length, slack_length };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&mode);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,
                                            STReadyForAttack,
                                            &insert_min_length_solvers_attack);
+  stip_structure_traversal_override_single(&st,STReadyForDefense,&remember_length);
   stip_structure_traversal_override_single(&st,
-                                           STReadyForDefense,
+                                           STMove,
                                            &insert_min_length_solvers_defense);
   stip_traverse_structure(si,&st);
 

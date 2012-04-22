@@ -377,7 +377,7 @@ static void spin_off_from_threat_solver(slice_index si,
   stip_traverse_structure_children(si,st);
 
   init_deep_copy(&st_nested,&copies);
-  st_nested.context = stip_traversal_context_attack;
+  st_nested.context = stip_traversal_context_defense;
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatEnd,
                                            &serve_as_end_of_copy);
@@ -391,16 +391,14 @@ static void spin_off_from_threat_solver(slice_index si,
 
   /* only now or the dummy move slice is copied and leaked */
   {
-    slice_index const dummy = alloc_dummy_move_slice();
-    slice_index const played = alloc_move_played_slice();
-    pipe_link(dummy,played);
-    link_to_branch(played,copies[slices[si].next2]);
-    slices[si].next2 = dummy;
-  }
-
-  {
-    slice_index const prototype = alloc_pipe(STThreatCollector);
-    attack_branch_insert_slices(slices[si].next2,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_dummy_move_slice(),
+        alloc_move_played_slice(),
+        alloc_pipe(STThreatCollector)
+    };
+    defense_branch_insert_slices_behind_proxy(copies[slices[si].next2],prototypes,3,si);
+    dealloc_slice(slices[si].next2);
+    slices[si].next2 = copies[slices[si].next2];
   }
 
   TraceFunctionExit(__func__);
@@ -506,7 +504,8 @@ static void connect_solver_to_threat_start(slice_index si,
   stip_traverse_structure_children(si,st);
 
   assert(*threat_start!=no_slice);
-  slices[si].next2 =  *threat_start;
+  slices[si].next2 = alloc_proxy_slice();
+  link_to_branch(slices[si].next2,*threat_start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
