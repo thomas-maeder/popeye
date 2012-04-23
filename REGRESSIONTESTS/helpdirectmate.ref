@@ -1,0 +1,313 @@
+correction by TM
+
+         F.H. von Meyenfeldt
+         11650v, BCM 99 1989
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .   P   7
+|                                   |
+6   .   .   .   .  -P  -S  -P   .   6
+|                                   |
+5   .   .   .   .   P  -P   .   .   5
+|                                   |
+4   .   .   .   .   .  -K   .  -P   4
+|                                   |
+3   .   .   .   P   .   .   .   P   3
+|                                   |
+2   .   .   .   .   .   K   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           5 + 7
+
+  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   1.e6-e5 Qf6*h4 # 
+  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   1.g6-g5 Qf6-d4 # 
+  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   1.e5-e4 Qh8-b8 # 
+  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   1.g5-g4 Qh8-h6 # 
+
+              empile:      155003
+            jouecoup:       39850
+        orig_rbechec:       15737
+        orig_rnechec:       30033
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+            A, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S  -S   .   .   .   .   .   .   8
+|                                   |
+7  -P  -K   .   .   .   .   .   .   7
+|                                   |
+6  -P   .  -P   B   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   P   B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   R   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           6 + 7
+
+a) 
+
+  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   1.Sb8-d7 Rb1-b8 # 
+  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   1.Kc8-d8 Rb1*b8 # 
+
+              empile:      470559
+            jouecoup:      137137
+        orig_rbechec:       51755
+        orig_rnechec:      109035
+b) wBe4-->h1
+
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Kb7-a8 Bh1*c6 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-b6 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-c5 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-e5 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-f6 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-f8 Re8*b8 # 
+
+              empile:      297910
+            jouecoup:       84531
+        orig_rbechec:       32051
+        orig_rnechec:       66097
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+            B, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   B   8
+|                                   |
+7   .   B   .   .   .   .   .   .   7
+|                                   |
+6   .  -P   .  -P   S   .   .   .   6
+|                                   |
+5   .   .   .  -P   .  -P   .   .   5
+|                                   |
+4   .   P   .   .  -K   .   .   P   4
+|                                   |
+3   .   K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   P   .   .   .   S   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           8 + 5
+
+a) 
+
+  1.Ke4-d3 Kb3-a4   2.Kd3-c4 Bb7-a6 +   1.b6-b5 + Ba6*b5 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.f5-f4 Se6*f4 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.b6-b5 Se6-f4 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.d6-d5 Se6-f4 # 
+  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   1.Ke4-d5 Ba6-b7 # 
+  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   1.Ke4-f5 Ba6-d3 # 
+
+              empile:      231306
+            jouecoup:       75403
+        orig_rbechec:       25826
+        orig_rnechec:       66002
+b) bPd6-->b5
+
+  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   1.d5-d4 Bc8-b7 # 
+  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   1.f5-f4 Se6-g5 # 
+  1.Ke4-d3 Kb3-a3   2.Kd3-c4 Se6-f4   1.d5-d4 Bb7-d5 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.f5-f4 Se6*f4 # 
+
+              empile:      139959
+            jouecoup:       44503
+        orig_rbechec:       16018
+        orig_rnechec:       38254
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+            C, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   K  -P   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   B   .   .   5
+|                                   |
+4   .   P  -P   P  -P   .   .   .   4
+|                                   |
+3   .   .   .  -K   .   .   P   .   3
+|                                   |
+2   .   .   S   .  -P   .   P   .   2
+|                                   |
+1   S   .   .   .   B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           9 + 7
+
+  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   1.Kd3-c4 Bg4*e2 # 
+  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   1.Kd3-e4 Bg4-f5 # 
+  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   1.c4-c3 Bd7*b5 # 
+  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   1.e4-e3 Bd7-f5 # 
+
+              empile:       91901
+            jouecoup:       30168
+        orig_rbechec:       10338
+        orig_rnechec:       25380
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+          11322, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   S   .   .   .   .   7
+|                                   |
+6   .   B  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   P   .   4
+|                                   |
+3   .   .  -K  -P   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           6 + 4
+
+a) 
+
+  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   1.Kc4-d4 Rb1-b4 # 
+  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   1.d5-d4 Sd7-e5 # 
+
+              empile:      466400
+            jouecoup:      137409
+        orig_rbechec:       71155
+        orig_rnechec:      106002
+b) bPd3-->e5
+
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.d5-d4 Ba8*c6 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.d5-d4 Sd7-f6 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.c6-c5 Sd7*c5 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.c6-c5 Sd7-f6 # 
+  1.Kc3-d3 Rh1-h3 +   2.Kd3-e4 Sd7-f6 +   1.Ke4-f4 Bb6-e3 # 
+  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   1.Kd4-e4 Rc1-c4 # 
+  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   1.e5-e4 Bb6*c5 # 
+
+              empile:      762783
+            jouecoup:      210829
+        orig_rbechec:       95235
+        orig_rnechec:      172362
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+          11383, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   S   .   .   .   S   .   5
+|                                   |
+4   .   .  -P   .   .   P  -P   .   4
+|                                   |
+3   .   .   P   .  -K  -R   P   .   3
+|                                   |
+2   .   .   .   .   .   .   P   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[2da[#]]           7 + 4
+
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f1 + Sd2*f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f2 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f3 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-d4 Sd2-f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-e4 Sd2-f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f8 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f7 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f6 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f5 Sd2*c4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d1 + Sf2*d1 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d2 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d3 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d8 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d7 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d6 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d5 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-f4 Sf2-d1 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-e4 Sf2-d1 # 
+
+              empile:      118721
+            jouecoup:       27698
+        orig_rbechec:       10869
+        orig_rnechec:       20789
+solution finished. 
+
+
+
+         F.H. von Meyenfeldt
+          11384, BCM 98 1988
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -B   .   .   .   K   .  -K   8
+|                                   |
+7  -P   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .  -P  -P   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -S   2
+|                                   |
+1   S  -B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 8hh[/2da[#]]         2 + 10
+
+  1.Sh2-f3 Sa1-c2   2.Sf3-d4 Sc2-e3   3.Sd4-b5 Se3-g4   4.Sb5-c7 Sg4-h6 
+
+              empile:   340530578
+            jouecoup:    35656103
+        orig_rbechec:    18634977
+        orig_rnechec:    17230125
+solution finished. 
+
+

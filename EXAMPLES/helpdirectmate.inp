@@ -1,0 +1,64 @@
+begin
+
+prot helpdirectmate.ref
+
+author F.H. von Meyenfeldt
+origin 11650v, BCM 99 1989
+remark correction by TM
+pieces white kf2 pd3e5h3h7
+       black kf4 sf6 pe6f5f7g6h4
+sstip black 4hh[2da[#]]
+
+next
+
+author F.H. von Meyenfeldt
+origin A, BCM 98 1988
+pieces white ka1 rd1 bd6e4 pa5d4
+       black kb7 sa8b8 pa2a6a7c6
+sstip black 4hh[2da[#]]
+twin move e4 h1
+
+next
+
+author F.H. von Meyenfeldt
+origin B, BCM 98 1988
+pieces white kb3 bb7h8 se6h2 pb4d2h4
+       black ke4 pb6d5d6f5
+sstip black 4hh[2da[#]]
+twin move d6 b5
+
+next
+
+author F.H. von Meyenfeldt
+origin C, BCM 98 1988
+pieces white kd7 be1f5 sa1c2 pb4d4g2g3
+       black kd3 pb5c4e2e4e6e7
+sstip black 4hh[2da[#]]
+
+next
+
+author F.H. von Meyenfeldt
+origin 11322, BCM 98 1988
+pieces white ke1 rh1 ba8b6 sd7 pg4
+       black kc3 pc6d3d5
+sstip black 4hh[2da[#]]
+twin move d3 e5 
+
+next
+
+author F.H. von Meyenfeldt
+origin 11383, BCM 98 1988
+pieces white ke1 sc5g5 pc3f4g2g3
+       black ke3 rf3 pc4g4
+sstip black 4hh[2da[#]]
+
+next
+
+author F.H. von Meyenfeldt
+origin 11384, BCM 98 1988
+pieces white kf8 sa1
+       black kh8 ra8 bb1b8 sh2 pa7e6f5f6h7
+sstip black 8hh[/2da[#]]
+
+end
+
