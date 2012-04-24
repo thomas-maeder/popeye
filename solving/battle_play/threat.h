@@ -26,11 +26,6 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n);
 void stip_spin_off_testers_threat_enforcer(slice_index si,
                                            stip_structure_traversal *st);
 
-/* Create a separate sequence of slices for solving and enforcing threats
- * @param si entry slice into stipulation
- */
-void stip_spin_off_threat_handler_slices(slice_index si);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -71,6 +66,12 @@ stip_length_type threat_solver_defend(slice_index si, stip_length_type n);
  * threats
  * @param si identifies slice where to start
  */
-void stip_insert_threat_solvers(slice_index si);
+void stip_insert_threat_handlers(slice_index si);
+
+/* Instrument the stipulation representation so that it can deal with
+ * threats
+ * @param si identifies slice where to start
+ */
+void stip_insert_threat_enforcers(slice_index si);
 
 #endif
