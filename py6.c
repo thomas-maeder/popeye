@@ -2777,7 +2777,7 @@ static Token iterate_twins(Token prev_token)
       stip_insert_trivial_variation_filters(root_slice);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_enforcers(root_slice);
+        stip_insert_threat_boundaries(root_slice);
 
       stip_spin_off_testers(root_slice);
 

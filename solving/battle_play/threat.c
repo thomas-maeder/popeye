@@ -222,42 +222,12 @@ stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a threat enforcer slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_threat_enforcer(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  spin_off_tester_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->spinning_off)
-    stip_spin_off_testers_pipe_skip(si,st);
-  else
-  {
-    /* trust in our descendants to start spinning off before the traversal
-     * reaches our tester */
-    stip_traverse_structure_children(si,st);
-    assert(state->spun_off[slices[si].next2]!=no_slice);
-  }
-
-  slices[si].next2 = state->spun_off[slices[si].next2];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* End copying on the visited slice, by moving it to the copy and linking it
  * to a proxy slice that takes its original place
  * @param si visited slice
  * @param st structure representing the copying traversal
  */
-static void stop_copying(slice_index si, stip_structure_traversal *st)
+static void move_and_stop_copying(slice_index si, stip_structure_traversal *st)
 {
   stip_deep_copies_type * const copies = st->param;
 
@@ -298,16 +268,8 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Spin off the sequence of slices that enforce threats
- * @param si threat enforcer slice
- * @param st structure representing the traversal looking for entry points
- */
-static void spin_off_from_threat_enforcer(slice_index si,
-                                          stip_structure_traversal *st)
+static void insert_enforcers(slice_index si, stip_structure_traversal *st)
 {
-  stip_deep_copies_type copies;
-  stip_structure_traversal st_nested;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -315,24 +277,35 @@ static void spin_off_from_threat_enforcer(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
-    attack_branch_insert_slices(slices[si].next2,&prototype,1);
+    stip_deep_copies_type copies;
+    stip_structure_traversal st_nested;
+
+    slice_index const * const threat_start = st->param;
+    slice_index const threat_start_tester = testers_state.spun_off[*threat_start];
+
+    assert(*threat_start!=no_slice);
+    assert(threat_start_tester!=no_slice);
+
+    {
+      slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
+      attack_branch_insert_slices(threat_start_tester,&prototype,1);
+    }
+
+    init_deep_copy(&st_nested,&copies);
+    st_nested.context = stip_traversal_context_attack;
+    stip_structure_traversal_override_single(&st_nested,
+                                             STThreatDefeatedTester,
+                                             &move_and_stop_copying);
+    stip_structure_traversal_override_by_function(&st_nested,
+                                                  slice_function_conditional_pipe,
+                                                  &copy_shallow);
+    stip_structure_traversal_override_by_function(&st_nested,
+                                                  slice_function_testing_pipe,
+                                                  &copy_shallow);
+    stip_traverse_structure(threat_start_tester,&st_nested);
+
+    slices[si].next2 = copies[threat_start_tester];
   }
-
-  init_deep_copy(&st_nested,&copies);
-  st_nested.context = stip_traversal_context_attack;
-  stip_structure_traversal_override_single(&st_nested,
-                                           STThreatDefeatedTester,
-                                           &stop_copying);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_conditional_pipe,
-                                                &copy_shallow);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_testing_pipe,
-                                                &copy_shallow);
-  stip_traverse_structure(slices[si].next2,&st_nested);
-
-  slices[si].next2 = copies[slices[si].next2];
 
   {
     /* if the threats are short, max_unsolvable might interfere with enforcing
@@ -345,7 +318,7 @@ static void spin_off_from_threat_enforcer(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void serve_as_end_of_copy(slice_index si, stip_structure_traversal *st)
+static void end_copying(slice_index si, stip_structure_traversal *st)
 {
   stip_deep_copies_type * const copies = st->param;
 
@@ -355,35 +328,6 @@ static void serve_as_end_of_copy(slice_index si, stip_structure_traversal *st)
 
   assert((*copies)[si]==no_slice);
   (*copies)[si] = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off sequences of slices that solve and enforce threats
- * @param si threat solver slice
- */
-static void spin_off_enforcers(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,
-                                           STThreatEnforcer,
-                                           &spin_off_from_threat_enforcer);
-  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -407,8 +351,7 @@ static void insert_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void connect_solver_to_threat_start(slice_index si,
-                                           stip_structure_traversal *st)
+static void insert_solvers(slice_index si, stip_structure_traversal *st)
 {
   slice_index const * const threat_start = st->param;
   stip_deep_copies_type copies;
@@ -424,7 +367,7 @@ static void connect_solver_to_threat_start(slice_index si,
   st_nested.context = stip_traversal_context_defense;
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatEnd,
-                                           &serve_as_end_of_copy);
+                                           &end_copying);
   stip_structure_traversal_override_by_function(&st_nested,
                                                 slice_function_conditional_pipe,
                                                 &copy_shallow);
@@ -495,13 +438,33 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors const threat_solver_inserters[] =
+static void insert_enforcer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->context==stip_traversal_context_attack)
+  {
+    slice_index const prototype = alloc_testing_pipe(STThreatEnforcer);
+    attack_branch_insert_slices(si,&prototype,1);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const threat_handler_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                    },
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
   { STReadyForDefense,    &insert_solver                         },
-  { STThreatSolver,       &connect_solver_to_threat_start        },
+  { STThreatSolver,       &insert_solvers                        },
   { STRefutationsSolver,  &stip_traverse_structure_children_pipe },
+  { STNotEndOfBranchGoal, &insert_enforcer                       },
+  { STThreatEnforcer,     &insert_enforcers                      },
   { STThreatStart,        &remember_threat_start                 },
   { STAttackAdapter,      &forget_threat_start                   },
   { STDefenseAdapter,     &forget_threat_start                   }
@@ -509,11 +472,15 @@ static structure_traversers_visitors const threat_solver_inserters[] =
 
 enum
 {
-  nr_threat_solver_inserters = (sizeof threat_solver_inserters
-                                / sizeof threat_solver_inserters[0])
+  nr_threat_handler_inserters = (sizeof threat_handler_inserters
+                                 / sizeof threat_handler_inserters[0])
 };
 
-static void insert_solvers(slice_index si)
+/* Instrument the stipulation representation so that it can solve and enforce
+ * threats
+ * @param si identifies slice where to start
+ */
+void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
   slice_index threat_start = no_slice;
@@ -530,26 +497,9 @@ static void insert_solvers(slice_index si)
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
-                                    threat_solver_inserters,
-                                    nr_threat_solver_inserters);
+                                    threat_handler_inserters,
+                                    nr_threat_handler_inserters);
   stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation representation so that it can deal with
- * threats
- * @param si identifies slice where to start
- */
-void stip_insert_threat_handlers(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  insert_solvers(si);
-  spin_off_enforcers(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -569,7 +519,7 @@ static void end_insertion_if_too_short(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_enforcer(slice_index si, stip_structure_traversal *st)
+static void insert_start(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -577,16 +527,8 @@ static void insert_enforcer(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_attack)
   {
-    slice_index const prototypes[] =
-    {
-      alloc_testing_pipe(STThreatEnforcer),
-      alloc_pipe(STThreatStart)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    attack_branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_index const prototype = alloc_pipe(STThreatStart);
+    attack_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
@@ -612,61 +554,38 @@ static void insert_end(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void connect_enforcer_to_threat_start(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  slice_index const * const threat_start = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  assert(*threat_start!=no_slice);
-  slices[si].next2 = *threat_start;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors const threat_enforcer_inserters[] =
+static structure_traversers_visitors const threat_boundaries_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode                    },
   { STSetplayFork,        &stip_traverse_structure_children_pipe },
   { STReadyForDefense,    &end_insertion_if_too_short            },
-  { STNotEndOfBranchGoal, &insert_enforcer                       },
+  { STNotEndOfBranchGoal, &insert_start                          },
   { STReadyForAttack,     &insert_end                            },
-  { STThreatEnforcer,     &connect_enforcer_to_threat_start      },
-  { STRefutationsSolver,  &stip_traverse_structure_children_pipe },
-  { STThreatStart,        &remember_threat_start                 },
-  { STAttackAdapter,      &forget_threat_start                   },
-  { STDefenseAdapter,     &forget_threat_start                   }
+  { STRefutationsSolver,  &stip_traverse_structure_children_pipe }
 };
 
 enum
 {
-  nr_threat_enforcer_inserters = (sizeof threat_enforcer_inserters
-                                  / sizeof threat_enforcer_inserters[0])
+  nr_threat_boundaries_inserters = (sizeof threat_boundaries_inserters
+                                    / sizeof threat_boundaries_inserters[0])
 };
 
-/* Instrument the stipulation representation so that it can deal with
- * threats
+/* Instrument the stipulation representation with proxy slices marking the
+ * beginning and end of the threat
  * @param si identifies slice where to start
  */
-void stip_insert_threat_enforcers(slice_index si)
+void stip_insert_threat_boundaries(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index threat_start = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&threat_start);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
-                                    threat_enforcer_inserters,
-                                    nr_threat_enforcer_inserters);
+                                    threat_boundaries_inserters,
+                                    nr_threat_boundaries_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -20,7 +20,6 @@
 #include "solving/find_shortest.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
-#include "solving/battle_play/threat.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
 #include "solving/battle_play/min_length_guard.h"
@@ -34,6 +33,8 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+
+spin_off_tester_state_type testers_state;
 
 static void start_spinning_off_end_of_root(slice_index si,
                                            stip_structure_traversal *st)
@@ -95,7 +96,6 @@ void spin_off_testers_move_pipe_to_testers(slice_index si,
  */
 void stip_spin_off_testers(slice_index si)
 {
-  spin_off_tester_state_type state;
   stip_structure_traversal st;
   slice_index i;
 
@@ -105,11 +105,11 @@ void stip_spin_off_testers(slice_index si)
 
   TraceStipulation(si);
 
-  state.spinning_off = false;
+  testers_state.spinning_off = false;
   for (i = 0; i!=max_nr_slices; ++i)
-    state.spun_off[i] = no_slice;
+    testers_state.spun_off[i] = no_slice;
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,&testers_state);
 
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
@@ -142,7 +142,6 @@ void stip_spin_off_testers(slice_index si)
 
   stip_structure_traversal_override_single(&st,STMinLengthGuard,&spin_off_testers_min_length_guard);
   stip_structure_traversal_override_single(&st,STMaxNrNonTrivial,&spin_off_testers_max_nr_non_trivial);
-  stip_structure_traversal_override_single(&st,STThreatEnforcer,&stip_spin_off_testers_threat_enforcer);
   stip_structure_traversal_override_single(&st,STTemporaryHackFork,&stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,STAttackHashed,&spin_off_testers_attack_hashed);
   stip_structure_traversal_override_single(&st,STHelpHashed,&spin_off_testers_help_hashed);

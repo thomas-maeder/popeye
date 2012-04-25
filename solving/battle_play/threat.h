@@ -18,14 +18,6 @@
  */
 stip_length_type threat_enforcer_attack(slice_index si, stip_length_type n);
 
-/* Callback to stip_spin_off_testers
- * Spin a tester slice off a threat enforcer slice
- * @param si identifies the pipe slice
- * @param st address of structure representing traversal
- */
-void stip_spin_off_testers_threat_enforcer(slice_index si,
-                                           stip_structure_traversal *st);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -62,16 +54,16 @@ stip_length_type threat_defeated_tester_defend(slice_index si,
  */
 stip_length_type threat_solver_defend(slice_index si, stip_length_type n);
 
-/* Instrument the stipulation representation so that it can deal with
+/* Instrument the stipulation representation so that it can solve and enforce
  * threats
  * @param si identifies slice where to start
  */
 void stip_insert_threat_handlers(slice_index si);
 
-/* Instrument the stipulation representation so that it can deal with
- * threats
+/* Instrument the stipulation representation with proxy slices marking the
+ * beginning and end of the threat
  * @param si identifies slice where to start
  */
-void stip_insert_threat_enforcers(slice_index si);
+void stip_insert_threat_boundaries(slice_index si);
 
 #endif

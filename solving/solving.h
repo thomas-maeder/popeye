@@ -24,6 +24,8 @@ typedef struct
     slice_index spun_off[max_nr_slices];
 } spin_off_tester_state_type;
 
+extern spin_off_tester_state_type testers_state;
+
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */

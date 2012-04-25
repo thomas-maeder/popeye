@@ -17,10 +17,9 @@ solving/solving$(OBJ_SUFFIX): solving/solving.c solving/solving.h \
  stipulation/boolean/binary.h solving/move_generator.h \
  solving/for_each_move.h solving/find_shortest.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- solving/battle_play/threat.h solving/battle_play/continuation.h \
- solving/battle_play/try.h utilities/table.h \
- solving/battle_play/min_length_guard.h solving/battle_play/setplay.h \
- solving/single_piece_move_generator.h \
+ solving/battle_play/continuation.h solving/battle_play/try.h \
+ utilities/table.h solving/battle_play/min_length_guard.h \
+ solving/battle_play/setplay.h solving/single_piece_move_generator.h \
  solving/single_move_generator_with_king_capture.h \
  solving/castling_intermediate_move_generator.h \
  solving/single_move_generator.h solving/king_move_generator.h \
@@ -123,8 +122,6 @@ solving/find_shortest.h:
 solving/find_by_increasing_length.h:
 
 solving/fork_on_remaining.h:
-
-solving/battle_play/threat.h:
 
 solving/battle_play/continuation.h:
 
