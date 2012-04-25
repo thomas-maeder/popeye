@@ -328,13 +328,11 @@ enum { nr_special_moves_children_traversers = sizeof special_moves_children_trav
  * of the following types have been inserted ... */
 static slice_type const dubiously_traversed_slice_types[] =
 {
-    STContinuationSolver,
-    STThreatSolver,
-    STThreatEnforcer,
-    STNoShortVariations,
+    STContinuationSolver,/**/
+    STThreatEnforcer,/**/
+    STNoShortVariations,/**/
     STMaxNrNonTrivial,
-    STMaxThreatLength,
-    STTrivialEndFilter
+    STMaxThreatLength
 };
 
 enum { nr_dubiously_traversed_slice_types = sizeof dubiously_traversed_slice_types
