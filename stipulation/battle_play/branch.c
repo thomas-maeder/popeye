@@ -35,7 +35,6 @@ static slice_index const slice_rank_order[] =
   STKeepMatingFilter,
   STEndOfBranch,
   STNotEndOfBranch,
-  STTrivialEndFilter,
   STEndOfIntro,
   STReadyForAttack,
   STMaxThreatLengthStart, /* separate from STThreatStart to enable hashing*/
