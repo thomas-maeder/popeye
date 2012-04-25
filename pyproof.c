@@ -56,7 +56,7 @@ stip_length_type current_length;
 
 static boolean ProofFairy;
 
-void ProofEncode(slice_index si, stip_length_type validity_value)
+void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte    *position= hb->cmv.Data;
@@ -93,7 +93,7 @@ void ProofEncode(slice_index si, stip_length_type validity_value)
     *bp++ = pieces+(15<<(CHAR_BIT/2));
 
   assert(validity_value<=(1<<CHAR_BIT));
-  if (slices[si].u.branch.min_length>slack_length)
+  if (min_length>slack_length)
     *bp++ = (byte)(validity_value);
 
   if (CondFlag[duellist]) {

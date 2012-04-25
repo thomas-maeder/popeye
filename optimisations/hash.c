@@ -179,7 +179,8 @@ enum
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
-static void (*encode)(slice_index si, stip_length_type validity_value);
+static void (*encode)(stip_length_type min_length,
+                      stip_length_type validity_value);
 
 typedef unsigned int data_type;
 
@@ -1207,7 +1208,9 @@ static unsigned int TellSmallEncodePosLeng(void)
   return result;
 } /* TellSmallEncodePosLeng */
 
-static byte *CommonEncode(byte *bp, slice_index si, stip_length_type validity_value)
+static byte *CommonEncode(byte *bp,
+                          stip_length_type min_length,
+                          stip_length_type validity_value)
 {
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
@@ -1262,9 +1265,7 @@ static byte *CommonEncode(byte *bp, slice_index si, stip_length_type validity_va
   }
 
   assert(validity_value<=(1<<CHAR_BIT));
-  if (slices[si].type==STAttackHashed
-      || slices[si].type==STAttackHashedTester
-      || slices[si].u.branch.min_length>slack_length+1)
+  if (min_length>slack_length+1)
     *bp++ = (byte)(validity_value);
 
   if (ep[nbply]!=initsquare)
@@ -1308,7 +1309,8 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
   return bp;
 }
 
-static void LargeEncode(slice_index si, stip_length_type validity_value)
+static void LargeEncode(stip_length_type min_length,
+                        stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
@@ -1350,7 +1352,7 @@ static void LargeEncode(slice_index si, stip_length_type validity_value)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp,si,validity_value);
+  bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
@@ -1382,7 +1384,8 @@ static byte *SmallEncodePiece(byte *bp,
   return bp;
 }
 
-static void SmallEncode(slice_index si, stip_length_type validity_value)
+static void SmallEncode(stip_length_type min_length,
+                        stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
@@ -1421,7 +1424,7 @@ static void SmallEncode(slice_index si, stip_length_type validity_value)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp,si,validity_value);
+  bp = CommonEncode(bp,min_length,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
@@ -2079,7 +2082,7 @@ stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
   assert((n-slices[base].u.branch.length)%2==0);
 
   if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(si,validity_value);
+    (*encode)(min_length,validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
@@ -2143,7 +2146,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(si,validity_value);
+    (*encode)(min_length,validity_value);
 
   ifHASHRATE(use_all++);
 
