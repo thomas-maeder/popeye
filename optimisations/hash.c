@@ -179,7 +179,7 @@ enum
   BitsForPly = 10      /* Up to 1023 ply possible */
 };
 
-static void (*encode)(stip_length_type validity_value);
+static void (*encode)(slice_index si, stip_length_type validity_value);
 
 typedef unsigned int data_type;
 
@@ -464,8 +464,6 @@ static void init_slice_properties_hashed_help(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     unsigned int const width = bit_width((length-slack_length+1)/2);
 
-    sis->valueOffset -= width;
-
     if (sibling!=no_slice
         && slices[sibling].u.branch.length>slack_length
         && get_stip_structure_traversal_state(sibling,st)==slice_not_traversed)
@@ -474,7 +472,7 @@ static void init_slice_properties_hashed_help(slice_index si,
 
       /* 1 bit more because we have two slices whose values are added
        * for computing the value of this branch */
-      --sis->valueOffset;
+      sis->valueOffset -= width+1;
 
       stip_traverse_structure(sibling,st);
     }
@@ -1152,6 +1150,10 @@ static unsigned int TellLargeEncodePosLeng(void)
   square const *bnp;
   unsigned int nbr_p = 0;
   unsigned int len = 8;
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   for (bnp= boardnum; *bnp; bnp++)
     if (e[*bnp] != vide)
@@ -1165,7 +1167,12 @@ static unsigned int TellLargeEncodePosLeng(void)
 
   len += nr_ghosts*bytes_per_piece;
 
-  return TellCommonEncodePosLeng(len, nbr_p);
+  result = TellCommonEncodePosLeng(len, nbr_p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 } /* TellLargeEncodePosLeng */
 
 static unsigned int TellSmallEncodePosLeng(void)
@@ -1173,6 +1180,10 @@ static unsigned int TellSmallEncodePosLeng(void)
   square const *bnp;
   unsigned int nbr_p = 0;
   unsigned int len = 0;
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   for (bnp= boardnum; *bnp; bnp++)
   {
@@ -1188,10 +1199,15 @@ static unsigned int TellSmallEncodePosLeng(void)
 
   len += nr_ghosts*bytes_per_piece;
 
-  return TellCommonEncodePosLeng(len, nbr_p);
+  result = TellCommonEncodePosLeng(len, nbr_p);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 } /* TellSmallEncodePosLeng */
 
-static byte *CommonEncode(byte *bp, stip_length_type validity_value)
+static byte *CommonEncode(byte *bp, slice_index si, stip_length_type validity_value)
 {
   if (CondFlag[messigny]) {
     if (move_generation_stack[nbcou].capture == messigny_exchange) {
@@ -1246,7 +1262,10 @@ static byte *CommonEncode(byte *bp, stip_length_type validity_value)
   }
 
   assert(validity_value<=(1<<CHAR_BIT));
-  *bp++ = (byte)(validity_value);
+  if (slices[si].type==STAttackHashed
+      || slices[si].type==STAttackHashedTester
+      || slices[si].u.branch.min_length>slack_length+1)
+    *bp++ = (byte)(validity_value);
 
   if (ep[nbply]!=initsquare)
     *bp++ = (byte)(ep[nbply] - square_a1);
@@ -1289,7 +1308,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
   return bp;
 }
 
-static void LargeEncode(stip_length_type validity_value)
+static void LargeEncode(slice_index si, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *position = hb->cmv.Data;
@@ -1331,7 +1350,7 @@ static void LargeEncode(stip_length_type validity_value)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp,validity_value);
+  bp = CommonEncode(bp,si,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
@@ -1363,7 +1382,7 @@ static byte *SmallEncodePiece(byte *bp,
   return bp;
 }
 
-static void SmallEncode(stip_length_type validity_value)
+static void SmallEncode(slice_index si, stip_length_type validity_value)
 {
   HashBuffer *hb = &hashBuffers[nbply];
   byte *bp = hb->cmv.Data;
@@ -1402,7 +1421,7 @@ static void SmallEncode(stip_length_type validity_value)
   }
 
   /* Now the rest of the party */
-  bp = CommonEncode(bp,validity_value);
+  bp = CommonEncode(bp,si,validity_value);
 
   assert(bp-hb->cmv.Data<=UCHAR_MAX);
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
@@ -2060,7 +2079,7 @@ stip_length_type attack_hashed_tester_attack(slice_index si, stip_length_type n)
   assert((n-slices[base].u.branch.length)%2==0);
 
   if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(validity_value);
+    (*encode)(si,validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
@@ -2124,7 +2143,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (hashBufferValidity[nbply]!=validity_value)
-    (*encode)(validity_value);
+    (*encode)(si,validity_value);
 
   ifHASHRATE(use_all++);
 

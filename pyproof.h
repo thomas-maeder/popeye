@@ -14,7 +14,7 @@
 
 /* Encode the hash key for the current position
  */
-void ProofEncode(stip_length_type min_length);
+void ProofEncode(slice_index si, stip_length_type min_length);
 
 /* Initialise the proof module for the current target position
  * @param si identifies start slice
