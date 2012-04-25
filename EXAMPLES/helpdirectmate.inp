@@ -60,5 +60,20 @@ pieces white kf8 sa1
        black kh8 ra8 bb1b8 sh2 pa7e6f5f6h7
 sstip black 8hh[/2da[#]]
 
-end
+next
 
+author Lubomir Ursta
+origin http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
+pieces white kf5 re6
+       black kh1 rb7 bf4 sf3 pc3c7d5h2
+sstip black 4hh[/2da[#]]
+
+next
+
+author Lubomir Ursta
+origin http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
+pieces white ka6 pd4
+       black ka8 rh2 bc7d7 pc5g2g7
+sstip black 6hh[/2da[#]]
+
+end

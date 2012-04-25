@@ -311,3 +311,74 @@ solution finished.
 solution finished. 
 
 
+
+            Lubomir Ursta
+http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -R  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   R   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   K   .   .   5
+|                                   |
+4   .   .   .   .   .  -B   .   .   4
+|                                   |
+3   .   .  -P   .   .  -S   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 4hh[/2da[#]]          2 + 8
+
+  1.Sf3-d4 + Kf5*f4   2.Sd4-b5 Kf4-g3 
+  1.Bf4-c1 Kf5-g4   2.Bc1-b2 Kg4*f3 
+  1.Rb7-b5 Kf5*f4   2.Rb5-c5 Kf4*f3 
+
+              empile:     3706655
+            jouecoup:      459672
+        orig_rbechec:      203706
+        orig_rnechec:      312328
+solution finished. 
+
+
+
+            Lubomir Ursta
+http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B  -B   .   .  -P   .   7
+|                                   |
+6   K   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -P   .   .   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -P  -R   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 6hh[/2da[#]]          2 + 7
+
+  1.Bc7-f4 d4*c5   2.Bf4-h6 c5-c6   3.g7-g5 c6*d7 
+  1.Bd7-f5 d4-d5   2.Bf5-h7 d5-d6   3.g7-g6 d6*c7 
+
+              empile:     9374100
+            jouecoup:     1430027
+        orig_rbechec:      491036
+        orig_rnechec:      964215
+solution finished. 
+
+
