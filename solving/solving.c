@@ -63,6 +63,32 @@ static void start_spinning_off_end_of_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void start_spinning_off_end_of_intro(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  spin_off_tester_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->spinning_off)
+    stip_spin_off_testers_pipe(si,st);
+  else if (st->context==stip_traversal_context_attack
+           || st->context==stip_traversal_context_defense)
+  {
+    /* we are solving a nested battle play branch */
+    state->spinning_off = true;
+    stip_spin_off_testers_pipe(si,st);
+    state->spinning_off = false;
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Callback to stip_spin_off_testers
  * Copy a slice to the testers, remove it from the solvers
  * @param si identifies the slice
@@ -134,6 +160,7 @@ void stip_spin_off_testers(slice_index si)
                                                 &stip_spin_off_testers_conditional_pipe);
 
   stip_structure_traversal_override_single(&st,STEndOfRoot,&start_spinning_off_end_of_root);
+  stip_structure_traversal_override_single(&st,STEndOfIntro,&start_spinning_off_end_of_intro);
 
   stip_structure_traversal_override_single(&st,STAnd,&stip_spin_off_testers_and);
 
