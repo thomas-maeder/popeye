@@ -1830,7 +1830,6 @@ static void insert_hash_element_help(slice_index si,
 {
   slice_index const * const previous_move_slice = st->param;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1838,6 +1837,9 @@ static void insert_hash_element_help(slice_index si,
 
   if (*previous_move_slice!=no_slice && length>slack_length)
   {
+    stip_length_type min_length = slices[si].u.branch.min_length;
+    if (min_length<slack_length)
+      min_length += 2;
     slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
     help_branch_insert_slices(si,&prototype,1);
   }
