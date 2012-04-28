@@ -76,4 +76,131 @@ pieces white ka6 pd4
        black ka8 rh2 bc7d7 pc5g2g7
 sstip black 6hh[/2da[#]]
 
+next
+
+author Rene J. Millour
+origin HDM TT 30.11.2004, Prize
+pieces white kc8 qh4 rg8 bb3e1 sd5f8 pb7c2c4c7e2e7f7
+       black ka6 ba8 pa3a7d3d6h5
+sstip black 3h[3a[>1a[#]d]d{!1a[#]d}]h
+condition anticirce
+twin move a8 b8
+
+next
+
+author Michel Caillaud
+origin HDM TT 30.11.2004, 1st-2nd HM
+pieces white kc1 qc3 bd3h6 sd2h8 pe5
+       black kh5 ra5 bh1 pa2c5d4e6f2f3h3h4
+sstip black 3h[3a[#]d]h
+
+next
+
+author Bernard Rothmann
+origin HDM TT 30.11.2004, 1st-2nd HM
+pieces white kd8 bc8 sd2 pc7d7e5e7 gf6g6
+       black ka3 bf5 sh6 pa2a4b2b3b4e3g4 gd1
+sstip black 3h[4ad[#]]h
+
+next
+
+author Dieter M"uller
+origin HDM TT 30.11.2004, 3rd HM
+pieces white kf8 qh8 sg7
+       black kd5 bh1 sb2 pg6h7
+sstip black 3h[7a[#]d]h
+
+next
+
+author Dejan Gli\vsi\'c
+origin HDM TT 30.11.2004, 1st Commendation
+pieces white kb4 sd3f3 pd7f2
+       black kd1 rf1 pa3b2b3d5e2f5g6
+sstip black 3h[3a[#]d]h
+twin move f1 e1
+
+next
+
+author Ivan Brjuchanov
+origin HDM TT 30.11.2004, Commendation
+pieces white kd1 sg7
+       black kd4 bh1 sc5h4 pa2g2h2
+sstip black 5h[3a[#]d]h
+
+next
+
+author Henryk Grudzi\'nski
+origin HDM TT 30.11.2004, Commendation
+pieces white kg1 sa6e6 pb2c3d2g6h3 rlb3b6d3d6
+       black kc6 qh8 pg3 rlg2h2
+sstip black 3h[3a[#]d]h
+twin move h8 h4 add black rh2
+
+next
+
+author Dieter M"uller
+origin HDM TT 30.11.2004, Commendation
+pieces white kc2 rg4 sd2 pf2
+       black kf6
+sstip black 3h[9a[#]d]h
+
+next
+
+author Michael Schreckenbach
+origin HDM TT 30.11.2004, Commendation
+pieces white kh7 ra4 bf6 pf3h2
+       black kf5 pe7h3h5
+sstip black 3h[3a[#]d]h
+
+next
+
+author Ivan Brjuchanov
+origin HDM TT 30.11.2004
+pieces white kf5 sa7
+       black ka3 pa2a4e2
+sstip black 5h[3a[#]d]h
+
+next
+
+author Oleg Paradzinskij
+origin HDM TT 30.11.2004
+pieces white kf3 ph3
+       black kd1 rc1 pf5h2
+sstip black 9h[3a[#]d]h
+twin move c1 c4
+
+next
+
+author Oleg Paradzinskij
+origin HDM TT 30.11.2004
+pieces white kc3 pa3
+       black kf3 ba2
+sstip black 9h[3a[#]d]h
+
+next
+
+author Michel Caillaud
+origin HDM TT 30.11.2004
+pieces white ka1 pg4h2
+       black kh4 pd2e2f2g2h5
+sstip black 7h[3a[#]d]h
+
+next
+
+author Michael Schreckenbach
+origin HDM TT 30.11.2004
+pieces white ke1 ra1h1 pd5e2e4f5
+       black ke8 ra8h8 be7 pa5c4d6d7e3f6f7g4
+sstip black 3h[3a[#]d]h
+twin move a1 b1
+
+next
+
+author Marcel Tancau
+origin HDM TT 30.11.2004
+pieces white kg1 rh2 pf2
+       black kh3 sh2 pf3f4
+sstip black 7h[1ad[#]]h
+condition blackmaxi
+
 end

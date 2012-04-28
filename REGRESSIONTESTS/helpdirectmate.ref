@@ -382,3 +382,857 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
 solution finished. 
 
 
+
+           Rene J. Millour
+       HDM TT 30.11.2004, Prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   K   .   .   S   R   .   8
+|                                   |
+7  -P   P   P   .   P   P   .   .   7
+|                                   |
+6  -K   .   .  -P   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .  -P   5
+|                                   |
+4   .   .   P   .   .   .   .   Q   4
+|                                   |
+3  -P   B   .  -P   .   .   .   .   3
+|                                   |
+2   .   .   P   .   P   .   .   .   2
+|                                   |
+1   .   .   .   .   B   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[>1a[#]d]d{!1a[#]d}]h 14 + 7
+              AntiCirce
+
+a) 
+
+  1.d3-d2 e7-e8=Q   2.d2-d1=B   1.Qe8-d7 a3-a2   2.b7*a8=S[wSa8->b1] a2*b1=R[bRb1->a8] # 
+
+              empile:    25633617
+            jouecoup:    23650915
+        orig_rbechec:    21921364
+        orig_rnechec:     2784890
+b) bBa8-->b8
+
+  1.a3-a2 e7-e8=R   2.a2-a1=S   1.Re8-e7 d3-d2   2.c7*b8=B[wBb8->c1] d2*c1=Q[bQc1->d8] # 
+
+              empile:    20725096
+            jouecoup:    18973861
+        orig_rbechec:    17571886
+        orig_rnechec:     2090080
+solution finished. 
+
+
+
+           Michel Caillaud
+    HDM TT 30.11.2004, 1st-2nd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   B   6
+|                                   |
+5  -R   .  -P   .   P   .   .  -K   5
+|                                   |
+4   .   .   .  -P   .   .   .  -P   4
+|                                   |
+3   .   .   Q   B   .  -P   .  -P   3
+|                                   |
+2  -P   .   .   S   .  -P   .   .   2
+|                                   |
+1   .   .   K   .   .   .   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[#]d]h          7 + 11
+
+  1.Bh1-g2 Bh6-f4   2.Bg2-f1   1.Bd3-g6 + Kh5-g4   2.Qc3*f3 # 
+  1.f2-f1=S Bh6-e3   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Be2*f3 # 
+  1.f2-f1=S Bh6-f4   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Qc3*f3 # 
+  1.f2-f1=S Bh6-f4   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Be2*f3 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sb1*d2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sb1-c3   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sb1-a3   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sf1-h2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sf1-g3   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sf1-e3   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Sf1*d2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Bh1-g2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 f3-f2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 h3-h2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a1   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a2   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a3   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a4   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a8   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a7   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-a6   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Ra5-b5   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 c5-c4   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Kh5*h6   2.Qd3-g6 # 
+  1.f2-f1=S Bd3-b1   2.a2*b1=S   1.Qc3-d3 Kh5-g4   2.Qd3-g6 # 
+  1.f2-f1=S Qc3-c2   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Qc2-g6 # 
+  1.f2-f1=S Qc3-c2   2.f3-f2   1.Bd3-e2 + Kh5*h6   2.Qc2-g6 # 
+  1.f2-f1=B Qc3-c2   2.f3-f2   1.Bd3-e2 + Bf1*e2   2.Qc2-g6 # 
+  1.f2-f1=B Qc3-c2   2.f3-f2   1.Bd3-e2 + Bh1-f3   2.Qc2-g6 # 
+  1.f2-f1=B Qc3-c2   2.f3-f2   1.Bd3-e2 + Kh5*h6   2.Qc2-g6 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bb1*d3   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bb1-c2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bb1-a2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bf1-g2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bf1*d3   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bf1-e2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Bh1-g2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 f3-f2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 h3-h2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a1   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a2   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a3   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a4   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a8   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a7   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-a6   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Ra5-b5   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 c5-c4   2.Qd2-g5 # 
+  1.f2-f1=B Sd2-b1   2.a2*b1=B   1.Qc3-d2 Kh5-g4   2.Qd2-g5 # 
+  1.c5-c4 Qc3*d4   2.Ra5*e5   1.Qd4*e5 + Kh5*h6   2.Sh8-f7 # 
+  1.c5-c4 Qc3*d4   2.Ra5*e5   1.Qd4*e5 + Kh5-g4   2.Qe5-g5 # 
+  1.Kh5-g4 Qc3*d4 +   2.Kg4-g3   1.Sd2-f1 + Kg3-g2   2.Qd4-g4 # 
+
+              empile:     9240031
+            jouecoup:     2088704
+        orig_rbechec:      775020
+        orig_rnechec:     1651725
+solution finished. 
+
+
+
+           Bernard Rothmann
+    HDM TT 30.11.2004, 1st-2nd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   B   K   .   .   .   .   8
+|                                   |
+7   .   .   P   P   P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   G   G  -S   6
+|                                   |
+5   .   .   .   .   P  -B   .   .   5
+|                                   |
+4  -P  -P   .   .   .   .  -P   .   4
+|                                   |
+3  -K  -P   .   .  -P   .   .   .   3
+|                                   |
+2  -P  -P   .   S   .   .   .   .   2
+|                                   |
+1   .   .   .  -G   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[4ad[#]]h          9 + 11
+
+  1.Bf5*g6 e5-e6   2.Sh6-f5   1.Gf6-d6 + Sf5*d6   2.Sd2-c4 + Sd6*c4 # 
+  1.Sh6-g8 Gg6-g3   2.Sg8*f6   1.Gg3-d3 + Gd1*d3 # 
+  1.Sh6-g8 Gg6-g3   2.Sg8*f6   1.Gg3-d3 + Bf5*d3   2.Sd2-c4 + Bd3*c4 # 
+
+              empile:     9231932
+            jouecoup:     4661481
+        orig_rbechec:     4653523
+        orig_rnechec:     2533787
+solution finished. 
+
+
+
+            Dieter M"uller
+      HDM TT 30.11.2004, 3rd HM
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   K   .   Q   8
+|                                   |
+7   .   .   .   .   .   .   S  -P   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -S   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[7a[#]d]h           3 + 5
+
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-a8   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-b7   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-c6   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-d5   2.Qd4-f6 + Ke6-d7   3.Qf6-d6 + Kd7-c8   4.Qd6-c7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-e4   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-f3   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Bh1-g2   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Sb2-d1   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Sb2-d3   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Sb2-c4   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Sb2-a4   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 g5-g4   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 Ke6-f5   2.Se8-g7 + Kf5-g6   3.Qd4-d6 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 h7-h5   2.Se8-g7 # 
+  1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 h7-h6   2.Se8-g7 # 
+
+              empile:   279654164
+            jouecoup:   170943294
+        orig_rbechec:   132926202
+        orig_rnechec:    49060794
+solution finished. 
+
+
+
+           Dejan Gli\vsi\'c
+ HDM TT 30.11.2004, 1st Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -P   .   6
+|                                   |
+5   .   .   .  -P   .  -P   .   .   5
+|                                   |
+4   .   K   .   .   .   .   .   .   4
+|                                   |
+3  -P  -P   .   S   .   S   .   .   3
+|                                   |
+2   .  -P   .   .  -P   P   .   .   2
+|                                   |
+1   .   .   .  -K   .  -R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[#]d]h           5 + 9
+
+a) 
+
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q Kd1-d2   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q Rf1-e1   2.Qe8*e1 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q Rf1*f2   2.Qe8-e1 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q Rf1-h1   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q Rf1-g1   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q b2-b1=Q   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q b2-b1=S   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q b2-b1=R   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q b2-b1=B   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q a3-a2   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q f5-f4   2.Qe8-e2 # 
+  1.e2-e1=R Sf3-d4   2.Re1-e8   1.d7*e8=Q g6-g5   2.Qe8-e2 # 
+
+              empile:     3680832
+            jouecoup:      836563
+        orig_rbechec:      298634
+        orig_rnechec:      664364
+b) bRf1-->e1
+
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Rb1-a1   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Rb1-c1   2.Sd3*e1 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Kd1-c2   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Re1-h1   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Re1-g1   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Re1-f1   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 a3-a2   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 f5-f4   2.Qd5-b3 # 
+  1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 g6-g5   2.Qd5-b3 # 
+
+              empile:     2202311
+            jouecoup:      544318
+        orig_rbechec:      188602
+        orig_rnechec:      435451
+solution finished. 
+
+
+
+           Ivan Brjuchanov
+   HDM TT 30.11.2004, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   S   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -S   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -K   .   .   .  -S   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .  -P  -P   2
+|                                   |
+1   .   .   .   K   .   .   .  -B   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 5h[3a[#]d]h           2 + 7
+
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=Q   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=S   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=R   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=B   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sh4-f3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sh4-g6   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sh4-f5   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-a4   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-b3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-d3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-e4   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-e6   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-d7   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-b7   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-f4   3.Kf2-g1   1.Kd1-e2 Sc5-a6   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 a2-a1=Q   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 a2-a1=S   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 a2-a1=R   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 a2-a1=B   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-f3   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-f3   2.Sg5*f3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-g6   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-g6   2.Sg5-f3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-f5   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sh4-f5   2.Sg5-f3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-a4   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-b3   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-d3   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-e4   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-e6   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-d7   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-b7   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-e6   2.Ke3-f2 Se6-g5   3.Kf2-g1   1.Kd1-e2 Sc5-a6   2.Sg5-h3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 a2-a1=Q   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 a2-a1=S   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 a2-a1=R   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 a2-a1=B   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-a4   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-b3   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-d3   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-e4   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-e6   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-d7   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-b7   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-f5 +   2.Ke3-f2 Sf5*h4   3.Kf2-g1   1.Kd1-e2 Sc5-a6   2.Sh4-f3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=Q   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=S   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=R   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 a2-a1=B   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sh4-f3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sh4-g6   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sh4-f5   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-a4   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-b3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-d3   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-e4   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-e6   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-d7   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-b7   2.Sf4-h3 # 
+  1.Kd4-e3 Sg7-h5   2.Ke3-f2 Sh5-f4   3.Kf2-g1   1.Kd1-e2 Sc5-a6   2.Sf4-h3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=Q   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=S   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=R   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 g2-g1=B   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 Sh4-f3   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 Sh4-g6   2.Sc5-b3 # 
+  1.Kd4-c3 Sg7-e6   2.Kc3-b2 Se6*c5   3.Kb2-a1   1.Kd1-c2 Sh4-f5   2.Sc5-b3 # 
+
+              empile:    62584256
+            jouecoup:     7445957
+        orig_rbechec:     3760770
+        orig_rnechec:     4438712
+solution finished. 
+
+
+
+         Henryk Grudzi\'nski
+   HDM TT 30.11.2004, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -Q   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   S  RL  -K  RL   S   .   P   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  RL   P  RL   .   .  -P   P   3
+|                                   |
+2   .   P   .   P   .   . -RL -RL   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[#]d]h          12 + 5
+
+a) 
+
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 g3-g2   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*c3   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*c3   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-d4 +   2.Se6*d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-e5   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-e5   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-f6   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-f6   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-g7   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-g7   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-g7   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*h3   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*h3   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*h3   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8*h3   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h4   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h5   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h5   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h5   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h5   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h6   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h6   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h6   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h6   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h7   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h7   2.Se6-d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h7   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-h7   2.Sa6-b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-a8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-a8   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-b8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-b8   2.Sa6*b8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-c8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-c8   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-d8   2.Se6*d8 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-d8   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-e8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-e8   2.Sa6-b4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-f8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-g8   2.Se6-d4 # 
+  1.RLh2*d2 RLd6*d2   2.RLg2*b2   1.RLb6*b2 Qh8-g8   2.Sa6-b4 # 
+  1.Kc6-d5 RLb3-b1   2.Qh8-e5   1.Se6-d4 + Kd5-e4   2.RLb1-b4 # 
+  1.Kc6-d5 RLb3-b1   2.Qh8-e5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+  1.Kc6-d5 RLb3-b8   2.Qh8-e5   1.Se6-d4 + Kd5-e4   2.RLb8-b4 # 
+  1.Kc6-d5 RLb3-b8   2.Qh8-e5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+  1.Kc6-d5 RLb3-b7   2.Qh8-e5   1.Se6-d4 + Kd5-e4   2.RLb7-b4 # 
+  1.Kc6-d5 RLb3-b7   2.Qh8-e5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+  1.Kc6-b5 RLb3-b1 +   2.Kb5-a5   1.b2-b4 + Ka5-a4   2.Se6-c5 # 
+  1.Kc6-b5 RLb3-b1 +   2.Kb5-a5   1.b2-b4 + Ka5-a4   2.Sa6-c5 # 
+  1.Kc6-b5 RLb3-b1 +   2.Kb5-a4   1.Se6-c5 + Ka4-a5   2.b2-b4 # 
+  1.Kc6-b5 RLb3-b1 +   2.Kb5-a4   1.Sa6-c5 + Ka4-a5   2.b2-b4 # 
+  1.Qh8-e5 RLb3-b1   2.Kc6-d5   1.Se6-d4 + Kd5-e4   2.RLb1-b4 # 
+  1.Qh8-e5 RLb3-b1   2.Kc6-d5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+  1.Qh8-e5 RLb3-b8   2.Kc6-d5   1.Se6-d4 + Kd5-e4   2.RLb8-b4 # 
+  1.Qh8-e5 RLb3-b8   2.Kc6-d5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+  1.Qh8-e5 RLb3-b7   2.Kc6-d5   1.Se6-d4 + Kd5-e4   2.RLb7-b4 # 
+  1.Qh8-e5 RLb3-b7   2.Kc6-d5   1.Se6-d4 + Kd5-c4   2.b2-b3 # 
+
+              empile:    23331850
+            jouecoup:     8461749
+        orig_rbechec:     1108897
+        orig_rnechec:     7974876
+b) bQh8-->h4  bRh2 
+
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 g3-g2   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-d8   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-d8   2.Se6*d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-e7   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-e7   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-f6   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-f6   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-g5   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-g5   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-g5   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4*h3   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4*h3   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4*h3   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4*h3   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-a4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-a4   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-b4   2.Sa6*b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-b4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-c4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-c4   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-d4 +   2.Se6*d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-e4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-e4   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-f4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-g4   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-g4   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h8   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h7   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h7   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h7   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h7   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h6   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h6   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h6   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h6   2.Sa6-b8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Sa6-b4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Se6-d4 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Se6-d8 # 
+  1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-h5   2.Sa6-b8 # 
+
+              empile:    11817028
+            jouecoup:     4438787
+        orig_rbechec:      610664
+        orig_rnechec:     4140727
+solution finished. 
+
+
+
+            Dieter M"uller
+   HDM TT 30.11.2004, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   R   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   K   S   .   P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[9a[#]d]h           4 + 1
+
+  1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3-d4   3.Sd2-f3 + Kd4-d3   4.Re5-e3 # 
+  1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-d1   4.Kb3-c3 Kd1-c1   5.Re3-e1 # 
+  1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3*d2   3.Re5-e3 Kd2-c1   4.Re3-d3 Kc1-b1   5.Rd3-d1 # 
+
+              empile:   200899708
+            jouecoup:   162818329
+        orig_rbechec:   145291884
+        orig_rnechec:    19842195
+solution finished. 
+
+
+
+        Michael Schreckenbach
+   HDM TT 30.11.2004, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   K   7
+|                                   |
+6   .   .   .   .   .   B   .   .   6
+|                                   |
+5   .   .   .   .   .  -K   .  -P   5
+|                                   |
+4   R   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   P   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   P   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[#]d]h           5 + 4
+
+  1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5-f5   2.Rh4*h5 # 
+  1.e7-e6 Bf6-e5   2.Kf5-g5   1.Ra4-h4 Kg5*h4   2.Be5-f6 # 
+
+              empile:      324062
+            jouecoup:       98182
+        orig_rbechec:       36037
+        orig_rnechec:       80121
+solution finished. 
+
+
+
+           Ivan Brjuchanov
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   S   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   K   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3  -K   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 5h[3a[#]d]h           2 + 4
+
+  1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-c2   2.Sa7-b5 # 
+  1.e2-e1=S Kf5-e4   2.Se1-c2 Ke4-d3   3.Sc2-a1   1.Kd3-c3 Sa1-b3   2.Sa7-b5 # 
+
+              empile:    24593040
+            jouecoup:     3239688
+        orig_rbechec:     1597414
+        orig_rnechec:     1847756
+solution finished. 
+
+
+
+          Oleg Paradzinskij
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   K   .   P   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .  -R  -K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 9h[3a[#]d]h           2 + 4
+
+a) 
+
+  1.Kd1-d2 h3-h4   2.Rc1-h1 h4-h5   3.Kd2-e1 h5-h6   4.Ke1-f1 h6-h7   5.Kf1-g1   1.h7-h8=Q Kg1-f1   2.Qh8-a1 # 
+  1.Kd1-d2 h3-h4   2.Rc1-h1 h4-h5   3.Kd2-e1 h5-h6   4.Ke1-f1 h6-h7   5.Kf1-g1   1.h7-h8=Q f5-f4   2.Qh8-a1 # 
+
+              empile:  3247063860
+            jouecoup:   303445878
+        orig_rbechec:   170493475
+        orig_rnechec:   133072571
+b) bRc1-->c4
+
+  1.Rc4-g4 h3*g4   2.Kd1-e1 g4-g5   3.Ke1-f1 g5-g6   4.Kf1-g1 g6-g7   5.Kg1-h1   1.g7-g8=Q f5-f4   2.Qg8-g2 # 
+
+              empile:  2710614789
+            jouecoup:   264803792
+        orig_rbechec:   149256674
+        orig_rnechec:   115687883
+solution finished. 
+
+
+
+          Oleg Paradzinskij
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   P   .   K   .   .  -K   .   .   3
+|                                   |
+2  -B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 9h[3a[#]d]h           2 + 2
+
+  1.Kf3-e2 a3-a4   2.Ke2-d1 a4-a5   3.Kd1-c1 a5-a6   4.Kc1-b1 a6-a7   5.Kb1-a1   1.a7-a8=Q Ka1-b1   2.Qa8-h1 # 
+
+              empile:   119453829
+            jouecoup:    18112257
+        orig_rbechec:     9261134
+        orig_rnechec:     8865490
+solution finished. 
+
+
+
+           Michel Caillaud
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   P  -K   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -P  -P  -P  -P   P   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 7h[3a[#]d]h           3 + 6
+
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-f2   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-e3   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-c3   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Sd1-b2   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Bf1-a6   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Bf1-b5   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Bf1-c4   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Bf1-d3   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Bf1-e2   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Rg1-h1   2.Qg8-g3 # 
+  1.d2-d1=S g4-g5   2.e2-e1=R g5-g6   3.Re1-g1 g6-g7   4.f2-f1=B   1.g7-g8=Q Kh4-h3   2.Qg8-g3 # 
+  1.d2-d1=B g4*h5   2.e2-e1=S h5-h6   3.Bd1-g4 h6-h7   4.Kh4-h3   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.d2-d1=B g4*h5   2.e2-e1=S h5-h6   3.Kh4-h3 h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.d2-d1=B g4*h5   2.e2-e1=B h5-h6   3.Bd1-g4 h6-h7   4.Kh4-h3   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.d2-d1=B g4*h5   2.e2-e1=B h5-h6   3.Kh4-h3 h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.d2-d1=B g4*h5   2.Kh4-h3 h5-h6   3.e2-e1=S h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.d2-d1=B g4*h5   2.Kh4-h3 h5-h6   3.e2-e1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=S g4*h5   2.d2-d1=B h5-h6   3.Bd1-g4 h6-h7   4.Kh4-h3   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=S g4*h5   2.d2-d1=B h5-h6   3.Kh4-h3 h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=S g4*h5   2.Kh4-h3 h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=B g4*h5   2.d2-d1=B h5-h6   3.Bd1-g4 h6-h7   4.Kh4-h3   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=B g4*h5   2.d2-d1=B h5-h6   3.Kh4-h3 h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.e2-e1=B g4*h5   2.Kh4-h3 h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.Kh4-h3 g4*h5   2.d2-d1=B h5-h6   3.e2-e1=S h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.Kh4-h3 g4*h5   2.d2-d1=B h5-h6   3.e2-e1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.Kh4-h3 g4*h5   2.e2-e1=S h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+  1.Kh4-h3 g4*h5   2.e2-e1=B h5-h6   3.d2-d1=B h6-h7   4.Bd1-g4   1.h7-h8=Q + Bg4-h5   2.Qh8*h5 # 
+
+              empile:   642384735
+            jouecoup:    70684963
+        orig_rbechec:    34696410
+        orig_rnechec:    37471560
+solution finished. 
+
+
+
+        Michael Schreckenbach
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .  -P  -B  -P   .   .   7
+|                                   |
+6   .   .   .  -P   .  -P   .   .   6
+|                                   |
+5  -P   .   .   P   .   P   .   .   5
+|                                   |
+4   .   .  -P   .   P   .  -P   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   P   .   .   .   2
+|                                   |
+1   R   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 3h[3a[#]d]h          7 + 12
+
+a) 
+
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 c4-c3   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 g4-g3   2.Rg1*g3 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 a5-a4   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Be7-d8   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-a8   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-b8   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-c8   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Re8-d8   2.Rg1*g4 # 
+  1.0-0 0-0-0   2.Ra8-e8   1.Rd1-g1 Kg8-g7   2.Rg1*g4 # 
+
+              empile:     3348231
+            jouecoup:      506810
+        orig_rbechec:      274188
+        orig_rnechec:      492080
+b) wRa1-->b1
+
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 c4-c3   2.Rc1*c3 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 g4-g3   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 a5-a4   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Be7-f8   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Kc8-c7   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-h8   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-g8   2.Rc1*c4 # 
+  1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 Re8-f8   2.Rc1*c4 # 
+
+              empile:     4056479
+            jouecoup:      741445
+        orig_rbechec:      305451
+        orig_rnechec:      731950
+solution finished. 
+
+
+h2 already occupied - old piece will be deleted.
+
+            Marcel Tancau
+          HDM TT 30.11.2004
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -P   .   .   4
+|                                   |
+3   .   .   .   .   .  -P   .  -K   3
+|                                   |
+2   .   .   .   .   .   P   .  -S   2
+|                                   |
+1   .   .   .   .   .   .   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  black 7h[1ad[#]]h           2 + 4
+           BlackMaximummer
+
+
+              empile:        5266
+            jouecoup:        4733
+        orig_rbechec:        3657
+        orig_rnechec:        1077
+solution finished. 
+
+
