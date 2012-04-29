@@ -222,6 +222,7 @@ typedef struct
         } d;
         struct
         {
+            unsigned int parity;
             unsigned int offsetNoSucc;
             unsigned int maskNoSucc;
         } h;
@@ -439,6 +440,7 @@ static void init_slice_property_help(slice_index si,
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
+  slice_properties[si].u.h.parity = 1-(length-slack_length)%2;
   slice_properties[si].u.h.offsetNoSucc = sis->nrBitsLeft;
   slice_properties[si].u.h.maskNoSucc = mask << sis->nrBitsLeft;
 
@@ -760,6 +762,7 @@ static hash_value_type own_value_of_data_attack(hashElement_union_t const *hue,
 static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
                                               slice_index si)
 {
+  unsigned int const parity = slice_properties[si].u.h.parity;
   hash_value_type result;
 
   TraceFunctionEntry(__func__);
@@ -767,7 +770,9 @@ static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = get_value_help(hue,si);
+  /* add parity so that the move not leading to the goal (i.e. played earlier)
+   * has a bit more value */
+  result = get_value_help(hue,si)+parity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
