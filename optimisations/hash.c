@@ -770,9 +770,9 @@ static hash_value_type own_value_of_data_help(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* add parity so that the move not leading to the goal (i.e. played earlier)
-   * has a bit more value */
-  result = get_value_help(hue,si)+parity;
+  /* double if parity so that the move not leading to the goal (i.e. played
+   * earlier) has more value */
+  result = get_value_help(hue,si) << parity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
