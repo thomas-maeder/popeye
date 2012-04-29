@@ -224,7 +224,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
     }
     else /* root or set play */
     {
-      if (length>=slack_length+2)
+      if (!OptFlag[restart] && length>=slack_length+2)
       {
         {
           slice_index const prototype =
