@@ -157,32 +157,6 @@ static void keepmating_filter_inserter_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_filter_inserter_or(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-  insertion_state_type state1 = { { false, false } };
-  insertion_state_type state2 = { { false, false } };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  st->param = &state1;
-  stip_traverse_structure(slices[si].next1,st);
-
-  st->param = &state2;
-  stip_traverse_structure(slices[si].next2,st);
-
-  state->for_side[White] = state1.for_side[White] && state2.for_side[White];
-  state->for_side[Black] = state1.for_side[Black] && state2.for_side[Black];
-
-  st->param = state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void keepmating_filter_inserter_and(slice_index si,
                                            stip_structure_traversal *st)
 {
