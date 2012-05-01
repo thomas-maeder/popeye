@@ -354,7 +354,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = moves_children_traversers.visitors[i];
 
-  for (unsigned int i = 0; i!=max_nr_slices; ++i)
+  for (i = 0; i!=max_nr_slices; ++i)
     st->remaining_watermark[i] = 0;
 
   st->context = stip_traversal_context_intro;
