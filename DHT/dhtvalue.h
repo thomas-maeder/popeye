@@ -4,14 +4,14 @@
 /* This is dhtvalue.h --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
  * and in place.
  */
 #include <stdio.h>
- 
+
 #if defined(FXF)
 #include "fxf.h"
 #else
@@ -74,9 +74,10 @@ DATA char *dhtValueTypeToString[dhtValueTypeCnt]
 
 typedef void *dhtValue;
 typedef void const *dhtConstValue;
+typedef unsigned long dhtHashValue;
 
 typedef struct {
-	unsigned long	(*Hash)(dhtConstValue);
+  dhtHashValue (*Hash)(dhtConstValue);
 	int		(*Equal)(dhtConstValue, dhtConstValue);
 	dhtValue	(*Dup)(dhtConstValue);
 	void		(*Free)(dhtValue);

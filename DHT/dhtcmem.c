@@ -1,7 +1,7 @@
 /* This is dhtcmem.c --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
@@ -22,11 +22,11 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static unsigned long  ConvertCompactMemoryValue(dhtConstValue m)
+static dhtHashValue  ConvertCompactMemoryValue(dhtConstValue m)
 {
-  uLong leng= ((CompactMemVal *)m)->Leng; 
+  uLong leng= ((CompactMemVal *)m)->Leng;
   uChar *s= ((CompactMemVal *)m)->Data;
-  unsigned long hash= 0;
+  dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
     hash+= s[i];

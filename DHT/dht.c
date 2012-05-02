@@ -1,7 +1,7 @@
 /* This is dht.c --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-1999
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is kept intact
@@ -86,7 +86,7 @@ typedef struct {
     int     level;      /* this is the topmost level */
     dht_index_t count;      /* total number of entries in table */
     level_descr ld[MAX_LEVEL];
-} dirTable; 
+} dirTable;
 
 typedef struct {
     dirTable *dt;
@@ -107,7 +107,7 @@ static InternHsElement EndOfTable;
 
 #define freeDir(t)  fxfFree(t, sizeof(ht_dir))
 
-typedef unsigned long   uLong;
+typedef unsigned long uLong;
 typedef unsigned char   uChar;
 typedef unsigned short  uShort;
 
@@ -357,7 +357,7 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
 typedef struct
 {
-    uLong       (*Hash)(dhtConstValue);
+    dhtHashValue (*Hash)(dhtConstValue);
     int     (*Equal)(dhtConstValue, dhtConstValue);
     dhtValue    (*DupKey)(dhtConstValue);
     dhtValue    (*DupData)(dhtConstValue);
@@ -369,11 +369,11 @@ typedef struct
 
 typedef struct dht {
     uLong       p;     /* Next bucket to split */
-    uLong       maxp;  /* Upper bound on p during this expansion */ 
+    uLong       maxp;  /* Upper bound on p during this expansion */
     uLong       KeyCount;       /* number keys stored in table */
     uShort      MinLoadFactor;  /* Lower bound on the load factor */
     uShort      MaxLoadFactor;  /* Upper bound on the load factor */
-    uLong       CurrentSize;    
+    uLong       CurrentSize;
     dirTable        DirTab;     /* The directory table */
     dirEnumerate    DirEnum;        /* stepping through the table */
     InternHsElement *NextStep;      /* the next element to deliver */
@@ -386,6 +386,7 @@ typedef struct dht {
 #endif
 #define NewHashTable        (HashTable *)fxfAlloc(sizeof(dht))
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
+#define OVERFLOW_SAVE
 #if defined(OVERFLOW_SAVE)
 #define ActualLoadFactor(h)                     \
   ( (h)->CurrentSize < 10000                    \
@@ -636,7 +637,7 @@ dhtElement *dhtGetNextElement(HashTable *ht)
   return dhtNilElement;
 }
 
-LOCAL uLong DynamicHash(uLong p, uLong maxp, uLong v)
+LOCAL uLong DynamicHash(uLong p, uLong maxp, dhtHashValue v)
 {
   uLong const h = v % maxp;
   uLong result;
@@ -685,7 +686,7 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
                                                             newp);
       InternHsElement **old = (InternHsElement **)accessAdr(&ht->DirTab,
                                                             oldp);
-    
+
       TraceValue("%lu ",oldp);
       TraceValue("%p\n",old);
       TraceValue("%lu ",newp);
@@ -695,17 +696,17 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
         InternHsElement const *oldElmt = *old;
         TraceValue("%p ",*old);
         {
-        uLong const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
-        TraceValue("%lu\n",hashVal);
-        if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
-        {
-          *new = *old;
-          *old = (*old)->Next;
-          new = &(*new)->Next;
-          *new = NilInternHsElement;
-        }
-        else
-          old= &(*old)->Next;
+          dhtHashValue const hashVal = (ht->procs.Hash)(oldElmt->HsEl.Key);
+          TraceValue("%lu\n",hashVal);
+          if (DynamicHash(ht->p,ht->maxp,hashVal)==newp)
+          {
+            *new = *old;
+            *old = (*old)->Next;
+            new = &(*new)->Next;
+            *new = NilInternHsElement;
+          }
+          else
+            old= &(*old)->Next;
         }
       }
     }
@@ -754,7 +755,7 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
 {
   uLong     h;
   InternHsElement **phe;
-    
+
   h= DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
   phe= (InternHsElement**)accessAdr(&ht->DirTab, h);
 
@@ -782,7 +783,7 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
     he= *phe;
     if (ht->NextStep == he)
       ht->NextStep= ht->NextStep->Next;
-        
+
     *phe= he->Next;
     (ht->procs.FreeData)(he->HsEl.Data);
     (ht->procs.FreeKey)(he->HsEl.Key);
@@ -919,32 +920,31 @@ dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
   return result;
 }
 
-int dhtBucketStat(HashTable *ht, int *counter, int n)
+int dhtBucketStat(HashTable *ht, unsigned int *counter, unsigned int n)
 {
-  int       BucketCount;
-  dhtElement    *he;
+  unsigned int BucketCount = 0;
+  dhtElement const *he = dhtGetFirstElement(ht);
 
   memset(counter, 0, n*sizeof(counter[0]));
-  BucketCount= 0;
-  he= dhtGetFirstElement(ht);
-  while (he != Nil(dhtElement))
+  while (he!=Nil(dhtElement))
   {
-    int len= 1;
-    InternHsElement *ihe= ((InternHsElement *)he)->Next;
-    while (ihe)
+    unsigned int len = 1;
+    InternHsElement *ihe = ((InternHsElement *)he)->Next;
+    while (ihe!=0)
     {
-      len++;
-      ht->NextStep= ihe;
-      ihe= ihe->Next;
+      ++len;
+      ht->NextStep = ihe;
+      ihe = ihe->Next;
     }
-    
-    BucketCount++;
-    if (len < n)
-      counter[len-1]++;
+
+    ++BucketCount;
+    if (len<n)
+      ++counter[len-1];
     else
-      counter[n-1]++;
-    
-    he= dhtGetNextElement(ht);
+      ++counter[n-1];
+
+    he = dhtGetNextElement(ht);
   }
+
   return BucketCount;
 }

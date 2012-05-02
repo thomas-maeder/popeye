@@ -225,7 +225,7 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h pyposit.h pyboard.h \
  py4.h stipulation/goals/goals.h utilities/boolean.h py.h pydata.h \
  pieces/attributes/paralysing/paralysing.h stipulation/slice.h \
  stipulation/slice_type.h utilities/enumeration.h debugging/trace.h \
- debugging/measure.h pyproc.h
+ debugging/measure.h
 
 py.h:
 
@@ -266,8 +266,6 @@ utilities/enumeration.h:
 debugging/trace.h:
 
 debugging/measure.h:
-
-pyproc.h:
 py4$(OBJ_SUFFIX): py4.c py.h utilities/boolean.h pyposit.h pyboard.h \
  utilities/bitmask.h pypiece.h utilities/enumeration.h pylang.h pystip.h \
  stipulation/slice.h py.h stipulation/slice_type.h \

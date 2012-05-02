@@ -112,6 +112,10 @@
 #include "platform/maxmem.h"
 #include "debugging/trace.h"
 
+#if defined(HASHRATE)
+#include "platform/pytime.h"
+#endif
+
 typedef unsigned int hash_value_type;
 
 static struct dht *pyhash;
@@ -847,18 +851,17 @@ static hash_value_type value_of_data(hashElement_union_t const *hue)
 }
 
 #if defined(TESTHASH)
-static unsigned long totalRemoveCount = 0;
+static unsigned long nrElementsRemovedInAllCompressions = 0;
 #endif
 
 static void compresshash (void)
 {
-  dhtElement const *he;
   unsigned long targetKeyCount;
+
 #if defined(TESTHASH)
-  unsigned long RemoveCnt = 0;
-  unsigned long initCnt;
-  unsigned long visitCnt;
-  unsigned long runCnt;
+  unsigned long nrElementsRemovedInCompression = 0;
+  unsigned long const nrElementsAtStartOfCompression = dhtKeyCount(pyhash);
+  unsigned long nrIterationsInCompression = 0;
 #endif
 
   TraceFunctionEntry(__func__);
@@ -868,33 +871,25 @@ static void compresshash (void)
   targetKeyCount -= targetKeyCount/16;
 
   TraceValue("%u",minimalElementValueAfterCompression);
-  TraceValue("%u",dhtKeyCount(pyhash));
-  TraceValue("%u\n",targetKeyCount);
-
-#if defined(TESTHASH)
-  printf("\nminimalElementValueAfterCompression: %08x\n",
-         minimalElementValueAfterCompression);
-  fflush(stdout);
-  initCnt= dhtKeyCount(pyhash);
-  runCnt= 0;
-#endif  /* TESTHASH */
+  TraceValue("%lu",dhtKeyCount(pyhash));
+  TraceValue("%lu\n",targetKeyCount);
 
   while (true)
   {
+    dhtElement const *he;
+
 #if defined(TESTHASH)
-    printf("minimalElementValueAfterCompression: %08x\n",
+    unsigned long nrElementsVisitedInIteration = 0;
+    printf("starting iteration: minimalElementValueAfterCompression: %u\n",
            minimalElementValueAfterCompression);
-    printf("RemoveCnt: %ld\n", RemoveCnt);
     fflush(stdout);
-    visitCnt= 0;
 #endif  /* TESTHASH */
 
 #if defined(TESTHASH)
     for (he = dhtGetFirstElement(pyhash);
          he!=0;
          he = dhtGetNextElement(pyhash))
-      printf("%08x\n",value_of_data(he));
-    exit (0);
+      printf("%u\n",value_of_data(he));
 #endif  /* TESTHASH */
 
     for (he = dhtGetFirstElement(pyhash);
@@ -905,69 +900,78 @@ static void compresshash (void)
       if (value_of_data(hue)<minimalElementValueAfterCompression)
       {
 #if defined(TESTHASH)
-        RemoveCnt++;
-        totalRemoveCount++;
+        ++nrElementsRemovedInCompression;
+        ++nrElementsRemovedInAllCompressions;
 #endif  /* TESTHASH */
 
         dhtRemoveElement(pyhash, hue->d.Key);
 
 #if defined(TESTHASH)
-        if (RemoveCnt + dhtKeyCount(pyhash) != initCnt)
+        if (nrElementsRemovedInCompression + dhtKeyCount(pyhash) != nrElementsAtStartOfCompression)
         {
           fprintf(stdout,
-                  "dhtRemove failed on %ld-th element of run %ld. "
-                  "This was the %ld-th call to dhtRemoveElement.\n"
-                  "RemoveCnt=%ld, dhtKeyCount=%ld, initCnt=%ld\n",
-                  visitCnt, runCnt, totalRemoveCount,
-                  RemoveCnt, dhtKeyCount(pyhash), initCnt);
+                  "dhtRemove failed on %lu-th element of iteration %lu. "
+                  "This was the %lu-th call to dhtRemoveElement.\n"
+                  "nrElementsRemovedInCompression=%lu "
+                  "dhtKeyCount=%lu "
+                  "nrElementsAtStartOfCompression=%lu\n",
+                  nrElementsVisitedInIteration,
+                  nrIterationsInCompression,
+                  nrElementsRemovedInAllCompressions,
+                  nrElementsRemovedInCompression,
+                  dhtKeyCount(pyhash),
+                  nrElementsAtStartOfCompression);
           exit(1);
         }
 #endif  /* TESTHASH */
       }
+#if defined(TESTHASH)
+      ++nrElementsVisitedInIteration;
+#endif  /* TESTHASH */
     }
 
 #if defined(TESTHASH)
-    visitCnt++;
-#endif  /* TESTHASH */
-#if defined(TESTHASH)
-    runCnt++;
-    printf("run=%ld, RemoveCnt: %ld, missed: %ld\n",
-           runCnt, RemoveCnt, initCnt-visitCnt);
+    ++nrIterationsInCompression;
+    assert(nrElementsAtStartOfCompression>=nrElementsVisitedInIteration);
+    printf("iteration=%lu, nrElementsRemovedInCompression:%lu, missed:%lu\n",
+           nrIterationsInCompression,
+           nrElementsRemovedInCompression,
+           nrElementsAtStartOfCompression-nrElementsVisitedInIteration);
     {
-      int l, counter[16];
-      int KeyCount=dhtKeyCount(pyhash);
-      dhtBucketStat(pyhash, counter, 16);
-      for (l=0; l< 16-1; l++)
-        fprintf(stdout, "%d %d %d\n", KeyCount, l+1, counter[l]);
-      printf("%d %d %d\n\n", KeyCount, l+1, counter[l]);
-      if (runCnt > 9)
-        printf("runCnt > 9 after %ld-th call to  dhtRemoveElement\n",
-               totalRemoveCount);
-      dhtDebug= runCnt == 9;
+      unsigned int i;
+      unsigned int counter[16];
+      unsigned long const KeyCount = dhtKeyCount(pyhash);
+      dhtBucketStat(pyhash,counter,16);
+      for (i=0; i<16; ++i)
+        fprintf(stdout, "%lu %u %u\n", KeyCount, i+1, counter[i]);
+      fprintf(stdout,"\n");
+      if (nrIterationsInCompression>9)
+        printf("nrIterationsInCompression > 9 after %lu-th call to  dhtRemoveElement\n",
+               nrElementsRemovedInAllCompressions);
+      dhtDebug = nrIterationsInCompression==9;
     }
     fflush(stdout);
 #endif  /* TESTHASH */
 
     if (dhtKeyCount(pyhash)<=targetKeyCount)
+    {
+      printf("end of compression\n");
       break;
+    }
     else
       ++minimalElementValueAfterCompression;
   }
 #if defined(TESTHASH)
-  printf("%ld;", dhtKeyCount(pyhash));
+  printf("%lu;",dhtKeyCount(pyhash));
 #if defined(HASHRATE)
-  printf(" usage: %ld", use_pos);
-  printf(" / %ld", use_all);
-  printf(" = %ld%%", (100 * use_pos) / use_all);
+  printf(" usage: %lu", use_pos);
+  printf(" / %lu", use_all);
+  printf(" = %.1f%%", (100.0 * use_pos) / use_all);
 #endif
 #if defined(FREEMAP) && defined(FXF)
   PrintFreeMap(stdout);
 #endif /*FREEMAP*/
-#if defined(__TURBOC__)
-  gotoxy(1, wherey());
-#else
   printf("\n");
-#endif /*__TURBOC__*/
 #if defined(FXF)
   printf("\n after compression:\n");
   fxfInfo(stdout);
@@ -1675,7 +1679,7 @@ void inithash(slice_index si)
     }
 
 #if defined(FXF)
-    ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
+    ifTESTHASH(printf("MaxPositions: %lu\n", MaxPositions));
     assert(hashtable_kilos/1024<UINT_MAX);
     ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
                       (unsigned int)(hashtable_kilos/1024)));
@@ -1717,7 +1721,7 @@ void closehash(void)
             use_pos, use_all);
     StdString(GlobalStr);
     if (use_all) {
-      sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
+      sprintf(GlobalStr, "Makes %.1f%%\n", (100.0 * use_pos) / use_all);
       StdString(GlobalStr);
     }
 #endif
@@ -1740,8 +1744,8 @@ void closehash(void)
       else
         sprintf(GlobalStr, "Nothing in hashtable\n");
       StdString(GlobalStr);
-#endif /*__unix*/
     }
+#endif /*__unix*/
 #endif /*TESTHASH*/
     invalidateHashBuffer();
   }
@@ -1845,8 +1849,11 @@ static void insert_hash_element_help(slice_index si,
     stip_length_type min_length = slices[si].u.branch.min_length;
     if (min_length<slack_length)
       min_length += 2;
-    slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
-    help_branch_insert_slices(si,&prototype,1);
+
+    {
+      slice_index const prototype = alloc_branch(STHelpHashed,length,min_length);
+      help_branch_insert_slices(si,&prototype,1);
+    }
   }
 
   stip_traverse_structure_children(si,st);

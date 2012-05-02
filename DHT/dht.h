@@ -3,7 +3,7 @@
 /* This is dht.h --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
@@ -27,7 +27,7 @@ struct dht;
 struct dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
                       dhtValueType DtaType, dhtValuePolicy DataPolicy);
 dhtElement *dhtEnterElement(struct dht *, dhtConstValue key, dhtValue data);
-int	      dhtBucketStat	(struct dht *, int *counter, int n);
+int	      dhtBucketStat	(struct dht *, unsigned int *counter, unsigned int n);
 void	      dhtDestroy	(struct dht *);
 void	      dhtDump		(struct dht *, FILE *);
 void	      dhtDumpIndented	(int i, struct dht *, FILE *);

@@ -1,7 +1,7 @@
 /* This is dhtbcmem.c --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
@@ -22,14 +22,14 @@
 #include "dhtbcmem.h"
 #include "dht.h"
 
-static unsigned long ConvertBCMemValue(dhtConstValue m)
+static dhtHashValue ConvertBCMemValue(dhtConstValue m)
 {
   BCMemValue const * const toBeConverted = (BCMemValue *)m;
-  unsigned long const leng = toBeConverted->Leng; 
+  unsigned int leng = toBeConverted->Leng;
   unsigned char const *s = toBeConverted->Data;
-  unsigned long hash = 0;
+  dhtHashValue hash = 0;
 
-  unsigned long i;
+  unsigned int i;
   for (i=0; i<leng; i++)
   {
     hash += s[i];

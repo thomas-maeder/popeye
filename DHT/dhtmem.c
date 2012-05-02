@@ -1,7 +1,7 @@
 /* This is dhtmem.c --  Version 1.5
  * This code is copyright by
  *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
+ *	Institut fuer Informatik, TU Muenchen, Germany
  *	bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
@@ -23,11 +23,11 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static unsigned long HashMemoryValue(dhtConstValue v)
+static dhtHashValue HashMemoryValue(dhtConstValue v)
 {
-  uLong leng= ((MemVal*)v)->Leng; 
+  uLong leng= ((MemVal*)v)->Leng;
   uChar *s= ((MemVal*)v)->Data;
-  uLong hash= 0;
+  dhtHashValue hash= 0;
   uLong i;
   for (i=0; i<leng; i++) {
 	hash+= s[i];
