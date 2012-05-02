@@ -212,7 +212,7 @@ static void insert_solvers_help_adapter(slice_index si, stip_structure_traversal
 
   stip_traverse_structure_children(si,st);
 
-  if (length-min_length>=2)
+  if (length+2>=min_length)
   {
     if (st->level==structure_traversal_level_nested)
     {
