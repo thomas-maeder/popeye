@@ -120,9 +120,7 @@ static structure_traversers_visitors const avoid_unusable_inserters[] =
   { STHelpAdapter,           &insert_reset_unusable_help    },
   { STMove,                  &insert_reset_unusable_defense },
   { STDummyMove,             &insert_reset_unusable_defense },
-  { STEndOfBranch,           &insert_avoid_unusable         },
   { STEndOfBranchGoal,       &insert_avoid_unusable         },
-  { STEndOfBranchForced,     &insert_avoid_unusable         },
   { STCounterMateFilter,     &insert_avoid_unusable         },
   { STDoubleMateFilter,      &insert_avoid_unusable         },
   { STPrerequisiteOptimiser, &insert_avoid_unusable         }
@@ -146,6 +144,9 @@ void stip_insert_avoid_unsolvable_forks(slice_index root_slice)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
+                                                &insert_avoid_unusable);
   stip_structure_traversal_override(&st,
                                     avoid_unusable_inserters,
                                     nr_avoid_unusable_inserters);

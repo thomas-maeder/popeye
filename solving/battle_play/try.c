@@ -451,12 +451,11 @@ static void insert_refutations_avoider(slice_index si,
 
 static structure_traversers_visitors const try_solver_inserters[] =
 {
-  { STOutputModeSelector, &filter_output_mode                    },
-  { STDefenseAdapter,     &filter_postkey_play                   },
-  { STConstraintSolver,   &stip_traverse_structure_children_pipe },
-  { STNotEndOfBranchGoal, &insert_refuting_variation_solver      },
-  { STNotEndOfBranch,     &insert_refutation_solver              },
-  { STMove,               &insert_refutations_avoider            }
+  { STOutputModeSelector, &filter_output_mode               },
+  { STDefenseAdapter,     &filter_postkey_play              },
+  { STNotEndOfBranchGoal, &insert_refuting_variation_solver },
+  { STNotEndOfBranch,     &insert_refutation_solver         },
+  { STMove,               &insert_refutations_avoider       }
 };
 
 enum
@@ -480,6 +479,9 @@ void stip_insert_try_solvers(slice_index si)
   stip_structure_traversal_init(&st,&mode);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_binary,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     try_solver_inserters,
@@ -597,9 +599,7 @@ static void stop_spinning_off(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const to_refutation_branch_copiers[] =
 {
   { STRefutationsAvoider,           &substitute_refutations_filter          },
-  { STEndOfBranchForced,            &stip_traverse_structure_children_pipe  },
   { STPlaySuppressor,               &stip_traverse_structure_children_pipe  },
-  { STThreatEnforcer,               &stip_traverse_structure_children_pipe  },
   { STSelfCheckGuard,               &stip_traverse_structure_children_pipe  },
   { STMinLengthGuard,               &stip_traverse_structure_children_pipe  },
   { STConstraintTester,             &insert_constraint_solver               },
@@ -635,6 +635,9 @@ static void spin_off_from_refutations_solver(slice_index si,
                                                  &slice_copy);
   stip_structure_traversal_override_by_function(&st_nested,
                                                 slice_function_binary,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_end_of_branch,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st_nested,
                                     to_refutation_branch_copiers,

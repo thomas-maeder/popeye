@@ -261,8 +261,6 @@ static structure_traversers_visitors keepmating_filter_inserters[] =
   { STOr,                      &keepmating_filter_inserter_end_of_branch },
   { STEndOfBranchGoal,         &keepmating_filter_inserter_end_of_branch },
   { STEndOfBranchGoalImmobile, &keepmating_filter_inserter_end_of_branch },
-  { STEndOfBranchForced,       &keepmating_filter_inserter_end_of_branch },
-  { STConstraintSolver,        &keepmating_filter_inserter_end_of_branch },
   { STConstraintTester,        &keepmating_filter_inserter_end_of_branch },
   { STGoalReachedTester,       &keepmating_filter_inserter_goal          }
 };
@@ -288,6 +286,9 @@ void stip_insert_keepmating_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
+                                                &keepmating_filter_inserter_end_of_branch);
   stip_structure_traversal_override(&st,
                                     keepmating_filter_inserters,
                                     nr_keepmating_filter_inserters);

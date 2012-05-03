@@ -139,6 +139,7 @@ slice_structural_type slice_type_get_structural_type(slice_type type)
     ENUMERATOR(slice_function_binary),                             \
     ENUMERATOR(slice_function_testing_pipe),                       \
     ENUMERATOR(slice_function_conditional_pipe),                   \
+    ENUMERATOR(slice_function_end_of_branch),                      \
     ENUMERATOR(slice_function_writer),                             \
     ENUMERATOR(nr_slice_functional_types)
 
@@ -234,6 +235,13 @@ static slice_type const conditional_pipe_slice_types[] =
     STMaximummerCandidateMoveTester
 };
 
+static slice_type const end_of_branch_slice_types[] =
+{
+    STEndOfBranch,
+    STEndOfBranchForced,
+    STConstraintSolver
+};
+
 static slice_type const writer_slice_types[] =
 {
     STIllegalSelfcheckWriter,
@@ -275,6 +283,7 @@ static void init_functional_type(void)
   init_one_type(binary);
   init_one_type(testing_pipe);
   init_one_type(conditional_pipe);
+  init_one_type(end_of_branch);
   init_one_type(writer);
 #undef init_one_type
 }

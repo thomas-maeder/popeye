@@ -265,9 +265,7 @@ static void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=1)
-    stip_traverse_moves_branch(slices[si].next2,st);
-
+  stip_traverse_moves_branch(slices[si].next2,st);
   stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -313,7 +311,6 @@ static moves_traversers_visitors const special_moves_children_traversers[] =
    { STReadyForDefense,  &stip_traverse_moves_ready_for_defense },
    { STHelpAdapter,      &stip_traverse_moves_help_adapter      },
    { STSetplayFork,      &stip_traverse_moves_setplay_fork      },
-   { STConstraintSolver, &stip_traverse_moves_setplay_fork      },
    { STMovePlayed,       &stip_traverse_moves_move_played       },
    { STHelpMovePlayed,   &stip_traverse_moves_move_played       },
    { STForkOnRemaining,  &stip_traverse_moves_fork_on_remaining },

@@ -206,8 +206,7 @@ static structure_traversers_visitors regular_inserters[] =
   { STPlaySuppressor,    &instrument_suppressor          },
   { STGoalReachedTester, &instrument_goal_reached_tester },
   { STAttackAdapter,     &instrument_root                },
-  { STHelpAdapter,       &instrument_root                },
-  { STEndOfBranch,       &instrument_end_of_branch       }
+  { STHelpAdapter,       &instrument_root                }
 };
 
 enum
@@ -237,6 +236,9 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
+                                                &instrument_end_of_branch);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
   stip_traverse_structure(si,&st);
 

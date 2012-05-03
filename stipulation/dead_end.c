@@ -135,8 +135,6 @@ static moves_traversers_visitors const dead_end_optimisers[] =
   { STEndOfBranchGoal,         &remember_end_of_branch  },
   { STEndOfBranchGoalImmobile, &remember_end_of_branch  },
   { STNotEndOfBranchGoal,      &substitute_deadend_goal },
-  { STEndOfBranch,             &forget_deadend          },
-  { STEndOfBranchForced,       &forget_deadend          },
   { STDeadEnd,                 &remember_deadend        }
 };
 
@@ -161,6 +159,9 @@ void stip_optimise_dead_end_slices(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&mt,&state);
+  stip_moves_traversal_override_by_function(&mt,
+                                            slice_function_end_of_branch,
+                                            &forget_deadend);
   stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
   stip_traverse_moves(si,&mt);
 

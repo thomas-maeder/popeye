@@ -434,10 +434,8 @@ static structure_traversers_visitors const root_writer_inserters[] =
   { STDefenseAdapter,     &remember_postkey_play                 },
   { STEndOfBranchGoal,    &insert_key_writer_goal                },
   { STNotEndOfBranchGoal, &insert_refuting_variation_writer      },
-  { STEndOfBranch,        &get_fork_of_my_own                    },
+  { STEndOfBranch,        &get_fork_of_my_own                    }, /* saves some moves in capzug stipulations*/
   { STNotEndOfBranch,     &insert_postkey_writers                },
-  { STConstraintSolver,   &stip_traverse_structure_children_pipe },
-  { STEndOfBranchForced,  &stip_traverse_structure_children_pipe },
   { STReadyForDefense,    &insert_key_writer                     }
 };
 
@@ -468,6 +466,9 @@ static void insert_root_writer_slices(slice_index si)
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_binary,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
                                                 &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     root_writer_inserters,

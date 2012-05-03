@@ -25,6 +25,7 @@
   ENUMERATOR(slice_function_binary),                             \
   ENUMERATOR(slice_function_testing_pipe),                       \
   ENUMERATOR(slice_function_conditional_pipe),                   \
+  ENUMERATOR(slice_function_end_of_branch),                      \
   ENUMERATOR(slice_function_writer),                             \
   ENUMERATOR(nr_slice_functional_types)
 
