@@ -70,7 +70,8 @@ stip_length_type find_shortest_attack(slice_index si, stip_length_type n)
   return result;
 }
 
-static void battle_insert_find_shortest(slice_index si)
+static void insert_find_shortest_battle_adapter(slice_index si,
+                                                stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -78,6 +79,8 @@ static void battle_insert_find_shortest(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
 
   if (length>=min_length+2)
   {
@@ -98,38 +101,10 @@ static void battle_insert_find_shortest(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_find_shortest_attack_adapter(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  battle_insert_find_shortest(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_find_shortest_defense_adapter(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  battle_insert_find_shortest(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors const find_shortest_inserters[] =
 {
-  { STAttackAdapter,  &insert_find_shortest_attack_adapter  },
-  { STDefenseAdapter, &insert_find_shortest_defense_adapter }
+  { STAttackAdapter,  &insert_find_shortest_battle_adapter },
+  { STDefenseAdapter, &insert_find_shortest_battle_adapter }
 };
 
 enum
