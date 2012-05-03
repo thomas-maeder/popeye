@@ -244,8 +244,11 @@ static void insert_selfcheck_guard_goal(slice_index si,
   {
     if (state->in_constraint)
     {
-      slice_index const prototype = alloc_selfcheck_guard_slice();
-      goal_branch_insert_slices(tester,&prototype,1);
+      if (slices[si].u.goal_handler.goal.type!=goal_negated)
+      {
+        slice_index const prototype = alloc_selfcheck_guard_slice();
+        goal_branch_insert_slices(tester,&prototype,1);
+      }
     }
     else
     {
