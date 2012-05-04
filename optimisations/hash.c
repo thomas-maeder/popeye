@@ -954,10 +954,7 @@ static void compresshash (void)
 #endif  /* TESTHASH */
 
     if (dhtKeyCount(pyhash)<=targetKeyCount)
-    {
-      printf("end of compression\n");
       break;
-    }
     else
       ++minimalElementValueAfterCompression;
   }
