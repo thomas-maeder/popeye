@@ -449,12 +449,12 @@ typedef struct
 {
   Side last_guarded_side;
   boolean guard_needed;
-} insertion_state_type_adapter;
+} move_inverter_instrumentation_state_type;
 
-static void insert_selfcheck_guard_inverter(slice_index si,
-                                            stip_structure_traversal *st)
+static void instrument_move_inverter(slice_index si,
+                                     stip_structure_traversal *st)
 {
-  insertion_state_type_adapter * const state = st->param;
+  move_inverter_instrumentation_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -475,10 +475,10 @@ static void insert_selfcheck_guard_inverter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_selfcheck_guard_adapter(slice_index si,
-                                           stip_structure_traversal *st)
+static void determine_need_for_move_inverter_instrumentation(slice_index si,
+                                                             stip_structure_traversal *st)
 {
-  insertion_state_type_adapter * const state = st->param;
+  move_inverter_instrumentation_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -511,12 +511,12 @@ static void remember_checked_side(slice_index si,
 
 static structure_traversers_visitors adapters_guards_inserters[] =
 {
-  { STAttackAdapter,     &insert_selfcheck_guard_adapter        },
-  { STDefenseAdapter,    &insert_selfcheck_guard_adapter        },
-  { STHelpAdapter,       &insert_selfcheck_guard_adapter        },
-  { STSelfCheckGuard,    &remember_checked_side                 },
-  { STMoveInverter,      &insert_selfcheck_guard_inverter       },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe }
+  { STAttackAdapter,     &determine_need_for_move_inverter_instrumentation },
+  { STDefenseAdapter,    &determine_need_for_move_inverter_instrumentation },
+  { STHelpAdapter,       &determine_need_for_move_inverter_instrumentation },
+  { STSelfCheckGuard,    &remember_checked_side                            },
+  { STMoveInverter,      &instrument_move_inverter                         },
+  { STTemporaryHackFork, &stip_traverse_structure_children_pipe            }
 };
 
 enum
@@ -525,10 +525,10 @@ enum
                                   / sizeof adapters_guards_inserters[0])
 };
 
-static void insert_selfcheck_guard_adapters(slice_index si)
+static void instrument_move_inverters(slice_index si)
 {
   stip_structure_traversal st;
-  insertion_state_type_adapter state = { no_side, false };
+  move_inverter_instrumentation_state_type state = { no_side, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -563,7 +563,7 @@ void stip_insert_selfcheck_guards(slice_index si)
   insert_in_branch_guards(si);
   insert_guards_in_immobility_testers(si);
   stip_impose_starter(si,slices[si].starter);
-  insert_selfcheck_guard_adapters(si);
+  instrument_move_inverters(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
