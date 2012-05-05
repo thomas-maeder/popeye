@@ -96,9 +96,9 @@ stip_length_type selfcheck_guard_defend(slice_index si, stip_length_type n)
 
 typedef struct
 {
-  boolean in_constraint;
   goal_type in_goal_tester;
   boolean is_branch_instrumented;
+  Side last_checked;
 } in_branch_insertion_state_type;
 
 static
@@ -114,6 +114,7 @@ void insert_selfcheck_guard_any_branch(slice_index si,
   if (!state->is_branch_instrumented)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
+    slices[prototype].starter = slices[si].starter;
     switch (st->context)
     {
       case stip_traversal_context_attack:
@@ -152,29 +153,11 @@ static void insert_selfcheck_guard_help_branch(slice_index si,
   if (!state->is_branch_instrumented)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
+    slices[prototype].starter = slices[si].starter;
     help_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_selfcheck_guard_constraint(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  in_branch_insertion_state_type * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->in_constraint = true;
-  stip_traverse_structure_next_branch(si,st);
-  state->in_constraint = false;
-
-  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -239,38 +222,27 @@ static void insert_selfcheck_guard_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* consider instrumenting tester if it hasn't been visited before */
-  if (get_stip_structure_traversal_state(tester,st)==slice_not_traversed)
+  if (state->last_checked!=slices[si].starter
+      && get_stip_structure_traversal_state(tester,st)==slice_not_traversed)
   {
-    if (state->in_constraint)
+    boolean const save_is_instrumented = state->is_branch_instrumented;
+
+    state->in_goal_tester = slices[si].u.goal_handler.goal.type;
+    state->is_branch_instrumented = false;
+
+    stip_traverse_structure_next_branch(si,st);
+
+    if (!state->is_branch_instrumented)
     {
-      if (slices[si].u.goal_handler.goal.type!=goal_negated)
-      {
-        slice_index const prototype = alloc_selfcheck_guard_slice();
-        goal_branch_insert_slices(tester,&prototype,1);
-      }
-    }
-    else
-    {
-      boolean const save_is_instrumented = state->is_branch_instrumented;
-
-      state->in_goal_tester = slices[si].u.goal_handler.goal.type;
-      state->is_branch_instrumented = false;
-
-      stip_traverse_structure_next_branch(si,st);
-
-      if (!state->is_branch_instrumented)
-      {
-        slice_index const prototype = alloc_selfcheck_guard_slice();
-        goal_branch_insert_slices(tester,&prototype,1);
-      }
-
-      state->is_branch_instrumented = save_is_instrumented;
-      state->in_goal_tester = no_goal;
+      slice_index const prototype = alloc_selfcheck_guard_slice();
+      goal_branch_insert_slices(tester,&prototype,1);
     }
 
-    stip_traverse_structure_children_pipe(si,st);
+    state->is_branch_instrumented = save_is_instrumented;
+    state->in_goal_tester = no_goal;
   }
+
+  stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -373,19 +345,55 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void remember_last_checked(slice_index si, stip_structure_traversal *st)
+{
+  in_branch_insertion_state_type * const state = st->param;
+  boolean const save_last_checked = state->last_checked;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].starter!=no_side);
+  state->last_checked = slices[si].starter;
+  stip_traverse_structure_children(si,st);
+  state->last_checked = save_last_checked;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void forget_last_checked(slice_index si, stip_structure_traversal *st)
+{
+  in_branch_insertion_state_type * const state = st->param;
+  boolean const save_last_checked = state->last_checked;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->last_checked = no_side;
+  stip_traverse_structure_children(si,st);
+  state->last_checked = save_last_checked;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
   { STNotEndOfBranchGoal,              &insert_selfcheck_guard_any_branch        },
   { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch       },
-  { STConstraintSolver,                &insert_selfcheck_guard_constraint        },
-  { STConstraintTester,                &insert_selfcheck_guard_constraint        },
   { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
   { STCounterMateFilter,               &stip_traverse_structure_children_pipe    },
   { STIsardamDefenderFinder,           &stip_traverse_structure_children_pipe    },
   { STCageCirceNonCapturingMoveFinder, &suspend_insertion                        },
   { STAnd,                             &instrument_doublestalemate_tester        },
   { STNot,                             &instrument_negated_tester                },
-  { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals }
+  { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals },
+  { STSelfCheckGuard,                  &remember_last_checked                    },
+  { STMovePlayed,                      &forget_last_checked                      },
+  { STHelpMovePlayed,                  &forget_last_checked                      }
 };
 
 enum
@@ -397,7 +405,7 @@ enum
 static void insert_in_branch_guards(slice_index si)
 {
   stip_structure_traversal st;
-  in_branch_insertion_state_type state = { false, no_goal, false };
+  in_branch_insertion_state_type state = { no_goal, false, no_side };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -560,6 +568,7 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   TraceStipulation(si);
 
+  stip_impose_starter(si,slices[si].starter);
   insert_in_branch_guards(si);
   insert_guards_in_immobility_testers(si);
   stip_impose_starter(si,slices[si].starter);

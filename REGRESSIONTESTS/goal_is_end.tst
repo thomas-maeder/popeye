@@ -147,7 +147,7 @@ post-key play
               empile:         620
             jouecoup:         122
         orig_rbechec:          34
-        orig_rnechec:          58
+        orig_rnechec:          51
 solution finished. 
 
 
