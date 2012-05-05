@@ -257,7 +257,7 @@ static void instrument_negated_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->in_goal_tester==goal_negated)
+  if (state->in_goal_tester!=no_goal)
   {
     /* make sure that not_slice doesn't convert has_no_solution into
      * has_solution if the last move caused a self-check
