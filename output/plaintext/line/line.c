@@ -165,7 +165,8 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_distance_to_goal(si)>1)
+  /* the value used here is a bit arbitrary */
+  if (min_distance_to_goal(si)>2)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();

@@ -24,10 +24,10 @@ correction by TM
 +---a---b---c---d---e---f---g---h---+
   black 4hh[2da[#]]           5 + 7
 
-  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   1.e6-e5 Qf6*h4 # 
-  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   1.g6-g5 Qf6-d4 # 
-  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   1.e5-e4 Qh8-b8 # 
-  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   1.g5-g4 Qh8-h6 # 
+  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.e6-e5 Qf6*h4 # 
+  1.Kf4*e5 h7-h8=Q   2.Ke5-f4 Qh8*f6   3.g6-g5 Qf6-d4 # 
+  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   3.e5-e4 Qh8-b8 # 
+  1.g6-g5 e5*f6   2.e6-e5 h7-h8=Q   3.g5-g4 Qh8-h6 # 
 
               empile:      155003
             jouecoup:       39850
@@ -63,8 +63,8 @@ solution finished.
 
 a) 
 
-  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   1.Sb8-d7 Rb1-b8 # 
-  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   1.Kc8-d8 Rb1*b8 # 
+  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   3.Sb8-d7 Rb1-b8 # 
+  1.Kb7-c8 Rd1-b1   2.c6-c5 Be4-f5 +   3.Kc8-d8 Rb1*b8 # 
 
               empile:      470559
             jouecoup:      137137
@@ -72,12 +72,12 @@ a)
         orig_rnechec:      109035
 b) wBe4-->h1
 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Kb7-a8 Bh1*c6 # 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-b6 Re8*b8 # 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-c5 Re8*b8 # 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-e5 Re8*b8 # 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-f6 Re8*b8 # 
-  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   1.Sd7-f8 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Kb7-a8 Bh1*c6 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-b6 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-c5 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-e5 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-f6 Re8*b8 # 
+  1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-f8 Re8*b8 # 
 
               empile:      297910
             jouecoup:       84531
@@ -113,12 +113,12 @@ solution finished.
 
 a) 
 
-  1.Ke4-d3 Kb3-a4   2.Kd3-c4 Bb7-a6 +   1.b6-b5 + Ba6*b5 # 
-  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.f5-f4 Se6*f4 # 
-  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.b6-b5 Se6-f4 # 
-  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.d6-d5 Se6-f4 # 
-  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   1.Ke4-d5 Ba6-b7 # 
-  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   1.Ke4-f5 Ba6-d3 # 
+  1.Ke4-d3 Kb3-a4   2.Kd3-c4 Bb7-a6 +   3.b6-b5 + Ba6*b5 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.f5-f4 Se6*f4 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.b6-b5 Se6-f4 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.d6-d5 Se6-f4 # 
+  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   3.Ke4-d5 Ba6-b7 # 
+  1.f5-f4 Bb7-a6   2.d5-d4 Se6-g5 +   3.Ke4-f5 Ba6-d3 # 
 
               empile:      231306
             jouecoup:       75403
@@ -126,10 +126,10 @@ a)
         orig_rnechec:       66002
 b) bPd6-->b5
 
-  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   1.d5-d4 Bc8-b7 # 
-  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   1.f5-f4 Se6-g5 # 
-  1.Ke4-d3 Kb3-a3   2.Kd3-c4 Se6-f4   1.d5-d4 Bb7-d5 # 
-  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   1.f5-f4 Se6*f4 # 
+  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   3.d5-d4 Bc8-b7 # 
+  1.Ke4-d3 Bb7-c8   2.Kd3-e4 Kb3-c2   3.f5-f4 Se6-g5 # 
+  1.Ke4-d3 Kb3-a3   2.Kd3-c4 Se6-f4   3.d5-d4 Bb7-d5 # 
+  1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.f5-f4 Se6*f4 # 
 
               empile:      139959
             jouecoup:       44503
@@ -163,10 +163,10 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   black 4hh[2da[#]]           9 + 7
 
-  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   1.Kd3-c4 Bg4*e2 # 
-  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   1.Kd3-e4 Bg4-f5 # 
-  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   1.c4-c3 Bd7*b5 # 
-  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   1.e4-e3 Bd7-f5 # 
+  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-c4 Bg4*e2 # 
+  1.c4-c3 Bf5-g4   2.e4-e3 Kd7*e6   3.Kd3-e4 Bg4-f5 # 
+  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   3.c4-c3 Bd7*b5 # 
+  1.e6-e5 Kd7*e7   2.e5*d4 Bf5-d7   3.e4-e3 Bd7-f5 # 
 
               empile:       91901
             jouecoup:       30168
@@ -202,8 +202,8 @@ solution finished.
 
 a) 
 
-  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   1.Kc4-d4 Rb1-b4 # 
-  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   1.d5-d4 Sd7-e5 # 
+  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   3.Kc4-d4 Rb1-b4 # 
+  1.Kc3-c4 Ke1-d2   2.c6-c5 Rh1-b1   3.d5-d4 Sd7-e5 # 
 
               empile:      466400
             jouecoup:      137409
@@ -211,13 +211,13 @@ a)
         orig_rnechec:      106002
 b) bPd3-->e5
 
-  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.d5-d4 Ba8*c6 # 
-  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.d5-d4 Sd7-f6 # 
-  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.c6-c5 Sd7*c5 # 
-  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   1.c6-c5 Sd7-f6 # 
-  1.Kc3-d3 Rh1-h3 +   2.Kd3-e4 Sd7-f6 +   1.Ke4-f4 Bb6-e3 # 
-  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   1.Kd4-e4 Rc1-c4 # 
-  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   1.e5-e4 Bb6*c5 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.d5-d4 Ba8*c6 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.d5-d4 Sd7-f6 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.c6-c5 Sd7*c5 # 
+  1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.c6-c5 Sd7-f6 # 
+  1.Kc3-d3 Rh1-h3 +   2.Kd3-e4 Sd7-f6 +   3.Ke4-f4 Bb6-e3 # 
+  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   3.Kd4-e4 Rc1-c4 # 
+  1.c6-c5 Ke1-e2   2.Kc3-d4 Rh1-c1   3.e5-e4 Bb6*c5 # 
 
               empile:      762783
             jouecoup:      210829
@@ -251,24 +251,24 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   black 4hh[2da[#]]           7 + 4
 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f1 + Sd2*f1 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f2 Sd2*c4 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f3 Sd2*c4 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-d4 Sd2-f1 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-e4 Sd2-f1 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f8 Sd2*c4 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f7 Sd2*c4 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f6 Sd2*c4 # 
-  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   1.Rf4-f5 Sd2*c4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d1 + Sf2*d1 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d2 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d3 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d8 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d7 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d6 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-d5 Sf2*g4 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-f4 Sf2-d1 # 
-  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   1.Rd4-e4 Sf2-d1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f1 + Sd2*f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f2 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f3 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-d4 Sd2-f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-e4 Sd2-f1 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f8 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f7 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f6 Sd2*c4 # 
+  1.Rf3-f2 Sg5-e4   2.Rf2*f4 Se4-d2   3.Rf4-f5 Sd2*c4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d1 + Sf2*d1 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d2 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d3 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d8 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d7 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d6 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-d5 Sf2*g4 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-f4 Sf2-d1 # 
+  1.Rf3*f4 Sg5-h3   2.Rf4-d4 Sh3-f2   3.Rd4-e4 Sf2-d1 # 
 
               empile:      118721
             jouecoup:       27698
@@ -1201,7 +1201,6 @@ b) wRa1-->b1
 solution finished. 
 
 
-h2 already occupied - old piece will be deleted.
 
             Marcel Tancau
           HDM TT 30.11.2004
@@ -1222,17 +1221,17 @@ h2 already occupied - old piece will be deleted.
 |                                   |
 2   .   .   .   .   .   P   .  -S   2
 |                                   |
-1   .   .   .   .   .   .   K   .   1
+1   .   .   .   .   .   .   K   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 7h[1ad[#]]h           2 + 4
+  black 7h[1ad[#]]h           3 + 4
            BlackMaximummer
 
 
-              empile:        5266
-            jouecoup:        4733
-        orig_rbechec:        3657
-        orig_rnechec:        1077
+              empile:       28092
+            jouecoup:       26741
+        orig_rbechec:       24081
+        orig_rnechec:        2661
 solution finished. 
 
 
