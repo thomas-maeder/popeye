@@ -1578,3 +1578,46 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+Beispiel fuer eine unnegierte Einschraenkung:
+       Kreuzschach in 2 Zuegen
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -G   8
+|                                   |
+7   .   .   .   .   .   .   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .  -B   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   T   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 2ad[1a[+]d{+}]        2 + 3
+
+   1.Ta2-h2 + !
+      1...Kh7-g7 +
+          2.Th2-h7 +
+      1...Kh7-g8 +
+          2.Th2*h8 +
+      1...Kh7-g6 +
+          2.Th2-h6 +
+      1...Gh8-h6 +
+          2.Th2*h6 +
+
+
+              empile:         260
+            jouecoup:         159
+        orig_rbechec:          54
+        orig_rnechec:         144
+Loesung beendet. 
+
+

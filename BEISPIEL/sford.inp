@@ -416,4 +416,12 @@ steine weiss   kh4 dc1 lf1 bf3h3f4g5
        schwarz kg1 th1 be2h2g3f5g6
 sforderung weiss 4a[#=]d[#=]
 
+weiter
+
+titel Beispiel fuer eine unnegierte Einschraenkung:
+titel Kreuzschach in 2 Zuegen
+steine weiss kh1 ta2 schwarz kh7 gh8 bg4
+sforderung weiss 2ad[1a[+]d{+}]
+option vari
+
 ende
