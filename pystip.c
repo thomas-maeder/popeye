@@ -424,13 +424,16 @@ static void deep_copy_binary(slice_index si, stip_structure_traversal *st)
 
 /* Initialise a structure traversal for a deep copy operation
  * @param st address of the structure to be initialised
+ * @param st_parent parent traversal (0 if there is none)
  * @param copies address of an array mapping indices of originals
  *        to indices of copies
  * @note initialises all elements of *copies to no_slice
  * @note after this initialisation, *st can be used for a deep copy operation;
  *       or st can be further modified for some special copy operation
  */
-void init_deep_copy(stip_structure_traversal *st, stip_deep_copies_type *copies)
+void init_deep_copy(stip_structure_traversal *st,
+                    stip_structure_traversal *st_parent,
+                    stip_deep_copies_type *copies)
 {
   slice_index i;
 
@@ -440,7 +443,11 @@ void init_deep_copy(stip_structure_traversal *st, stip_deep_copies_type *copies)
   for (i = 0; i!=max_nr_slices; ++i)
     (*copies)[i] = no_slice;
 
-  stip_structure_traversal_init(st,copies);
+  if (st_parent==0)
+    stip_structure_traversal_init(st,copies);
+  else
+    stip_structure_traversal_init_nested(st,st_parent,copies);
+
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_leaf,
                                                  &deep_copy_leaf);
@@ -474,7 +481,7 @@ slice_index stip_deep_copy(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_deep_copy(&st,&copies);
+  init_deep_copy(&st,0,&copies);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -291,8 +291,7 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
       attack_branch_insert_slices(threat_start_tester,&prototype,1);
     }
 
-    init_deep_copy(&st_nested,&copies);
-    st_nested.context = stip_traversal_context_attack;
+    init_deep_copy(&st_nested,st,&copies);
     stip_structure_traversal_override_single(&st_nested,
                                              STThreatDefeatedTester,
                                              &move_and_stop_copying);
@@ -363,8 +362,7 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  init_deep_copy(&st_nested,&copies);
-  st_nested.context = stip_traversal_context_defense;
+  init_deep_copy(&st_nested,st,&copies);
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatEnd,
                                            &end_copying);

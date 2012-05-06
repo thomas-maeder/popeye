@@ -353,7 +353,8 @@ static void switch_to_testing(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static slice_index spin_off_counting_slices(slice_index si)
+static slice_index spin_off_counting_slices(slice_index si,
+                                            stip_structure_traversal *st)
 {
   stip_deep_copies_type copies;
   stip_structure_traversal st_nested;
@@ -362,8 +363,7 @@ static slice_index spin_off_counting_slices(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_deep_copy(&st_nested,&copies);
-  st_nested.context = stip_traversal_context_defense;
+  init_deep_copy(&st_nested,st,&copies);
   stip_structure_traversal_override_single(&st_nested,
                                            STMaxNrNonTrivialCounter,
                                            &stop_copying);
@@ -404,14 +404,14 @@ void spin_off_testers_max_nr_non_trivial(slice_index si,
       slice_index const prototype = alloc_max_nr_nontrivial_counter();
       defense_branch_insert_slices(state->spun_off[slices[si].next1],&prototype,1);
     }
-    slices[si].next2 = spin_off_counting_slices(state->spun_off[slices[si].next1]);
+    slices[si].next2 = spin_off_counting_slices(state->spun_off[slices[si].next1],st);
     slices[state->spun_off[si]].next2 = slices[si].next2;
   }
   else
   {
     stip_traverse_structure_children(si,st);
     slices[si].next2 = alloc_proxy_slice();
-    link_to_branch(slices[si].next2,spin_off_counting_slices(slices[si].next1));
+    link_to_branch(slices[si].next2,spin_off_counting_slices(slices[si].next1,st));
   }
 
   {

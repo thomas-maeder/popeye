@@ -157,13 +157,15 @@ typedef slice_index stip_deep_copies_type[max_nr_slices];
 
 /* Initialise a structure traversal for a deep copy operation
  * @param st address of the structure to be initialised
+ * @param st_parent parent traversal (0 if there is none)
  * @param copies address of an array mapping indices of originals
  *        to indices of copies
  * @note initialises all elements of *copies to no_slice
  * @note after this initialisation, *st can be used for a deep copy operation;
- *       or *st can be further modified for some special copy operation
+ *       or st can be further modified for some special copy operation
  */
 void init_deep_copy(stip_structure_traversal *st,
+                    stip_structure_traversal *st_parent,
                     stip_deep_copies_type *copies);
 
 /* structure holding state in traversals for
