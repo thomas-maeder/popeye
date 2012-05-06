@@ -56,17 +56,15 @@ static void start_nested_insertion_traversal(slice_index si,
                                              branch_slice_insertion_state_type *state,
                                              stip_structure_traversal *outer)
 {
-  stip_structure_traversal st;
+  stip_structure_traversal st_nested;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,state);
-  st.context = outer->context;
-  st.level = outer->level;
-  st.map = outer->map;
-  stip_traverse_structure(slices[si].next1,&st);
+  stip_structure_traversal_init_nested(&st_nested,outer,state);
+  st_nested.map = outer->map;
+  stip_traverse_structure(slices[si].next1,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

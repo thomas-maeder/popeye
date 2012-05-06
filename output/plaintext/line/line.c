@@ -133,22 +133,24 @@ enum
 
 /* Determine minimum distance (in half moves) to goal
  * @param end_of_branch identifies end of branch slice
+ * @param st parent traversal
  * @return minimum distance
  */
-static stip_length_type min_distance_to_goal(slice_index end_of_branch)
+static stip_length_type min_distance_to_goal(slice_index end_of_branch,
+                                             stip_structure_traversal *st)
 {
   stip_length_type result = UINT_MAX;
-  stip_structure_traversal st;
+  stip_structure_traversal st_nested;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",end_of_branch);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,
+  stip_structure_traversal_init_nested(&st_nested,st,&result);
+  stip_structure_traversal_override(&st_nested,
                                     min_distance_to_goal_finders,
                                     nr_min_distance_to_goal_finders);
-  stip_traverse_structure(slices[end_of_branch].next2,&st);
+  stip_traverse_structure(slices[end_of_branch].next2,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -166,7 +168,7 @@ static void instrument_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   /* the value used here is a bit arbitrary */
-  if (min_distance_to_goal(si)>2)
+  if (min_distance_to_goal(si,st)>2)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();

@@ -311,17 +311,19 @@ static void slice_property_offset_shifter(slice_index si,
  * @param si identifies slice
  * @param delta indicates how much to shift the value offsets
  */
-static void shift_offsets(slice_index si, unsigned int delta)
+static void shift_offsets(slice_index si,
+                          stip_structure_traversal *st,
+                          unsigned int delta)
 {
   unsigned int i;
-  stip_structure_traversal st;
+  stip_structure_traversal st_nested;
 
-  stip_structure_traversal_init(&st,&delta);
+  stip_structure_traversal_init_nested(&st_nested,st,&delta);
   for (i = 0; i!=nr_slice_structure_types; ++i)
-    stip_structure_traversal_override_by_structure(&st,
+    stip_structure_traversal_override_by_structure(&st_nested,
                                                    i,
                                                    &slice_property_offset_shifter);
-  stip_traverse_structure(si,&st);
+  stip_traverse_structure(si,&st_nested);
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -360,13 +362,13 @@ static void init_slice_properties_binary(slice_index fork,
   {
     unsigned int const delta = (slice_properties[op1].valueOffset
                                 -slice_properties[op2].valueOffset);
-    shift_offsets(op1,delta);
+    shift_offsets(op1,st,delta);
   }
   else if (slice_properties[op2].valueOffset>slice_properties[op1].valueOffset)
   {
     unsigned int const delta = (slice_properties[op2].valueOffset
                                 -slice_properties[op1].valueOffset);
-    shift_offsets(op2,delta);
+    shift_offsets(op2,st,delta);
   }
 
   TraceFunctionExit(__func__);

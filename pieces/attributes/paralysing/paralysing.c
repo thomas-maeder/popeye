@@ -170,15 +170,15 @@ static void instrument_doublestalemate(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,testing);
-    stip_structure_traversal_override_single(&st,
+    stip_structure_traversal st_nested;
+    stip_structure_traversal_init_nested(&st_nested,st,testing);
+    stip_structure_traversal_override_single(&st_nested,
                                              STGoalNotCheckReachedTester,
                                              &prepend_stalemate_special_starter);
-    stip_structure_traversal_override_single(&st,
+    stip_structure_traversal_override_single(&st_nested,
                                              STGoalImmobileReachedTester,
                                              &prepend_stalemate_special_other);
-    stip_traverse_structure(si,&st);
+    stip_traverse_structure(si,&st_nested);
   }
 
   TraceFunctionExit(__func__);
@@ -214,12 +214,12 @@ static void instrument_doublemate(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,testing);
-    stip_structure_traversal_override_single(&st,
+    stip_structure_traversal st_nested;
+    stip_structure_traversal_init_nested(&st_nested,st,testing);
+    stip_structure_traversal_override_single(&st_nested,
                                              STGoalCheckReachedTester,
                                              &instrument_half_doublemate);
-    stip_traverse_structure(si,&st);
+    stip_traverse_structure(si,&st_nested);
   }
 
   TraceFunctionExit(__func__);

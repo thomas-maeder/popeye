@@ -623,7 +623,7 @@ static void spin_off_from_refutations_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st_nested,&spun_off);
+  stip_structure_traversal_init_nested(&st_nested,st,&spun_off);
   stip_structure_traversal_override_by_structure(&st_nested,
                                                  slice_structure_pipe,
                                                  &slice_copy);

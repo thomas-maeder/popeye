@@ -840,8 +840,7 @@ void stip_impose_starter_nested(slice_index si,
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st_nested,&starter);
-  st_nested.context = st->context;
+  stip_structure_traversal_init_nested(&st_nested,st,&starter);
   stip_impose_starter_impl(si,starter,&st_nested);
   stip_traverse_structure(si,&st_nested);
 

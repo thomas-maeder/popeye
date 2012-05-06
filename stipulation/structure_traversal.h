@@ -47,6 +47,16 @@ typedef struct stip_structure_traversal
  */
 void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
 
+/* Initialise a nested structure traversal structure with default visitors, but
+ * the level and context of a parent traversal
+ * @param st to be initialised
+ * @param parent parent traversal
+ * @param param parameter to be passed t operations
+ */
+void stip_structure_traversal_init_nested(stip_structure_traversal *st,
+                                          stip_structure_traversal *parent,
+                                          void *param);
+
 /* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor (note: subclasses of type

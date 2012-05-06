@@ -99,20 +99,20 @@ static void pretend_no_check(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static unsigned int count_move_slices(slice_index si)
+static unsigned int count_move_slices(slice_index si, stip_structure_traversal *st)
 {
   unsigned int result = 0;
-  stip_structure_traversal st;
+  stip_structure_traversal st_nested;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_by_structure(&st,slice_structure_fork,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STMove,&count_move_slice);
-  stip_structure_traversal_override_single(&st,STCheckZigzagJump,&pretend_no_check);
-  stip_traverse_structure(si,&st);
+  stip_structure_traversal_init_nested(&st_nested,st,&result);
+  stip_structure_traversal_override_by_structure(&st_nested,slice_structure_fork,&stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st_nested,STMove,&count_move_slice);
+  stip_structure_traversal_override_single(&st_nested,STCheckZigzagJump,&pretend_no_check);
+  stip_traverse_structure(si,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -133,7 +133,7 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (count_move_slices(si)==3)
+  if (count_move_slices(si,st)==3)
     help_branch_make_setplay(si,state);
   else
     series_branch_make_setplay(si,state);

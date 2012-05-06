@@ -426,6 +426,34 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
   st->param = param;
 }
 
+/* Initialise a nested structure traversal structure with default visitors, but
+ * the level and context of a parent traversal
+ * @param st to be initialised
+ * @param parent parent traversal
+ * @param param parameter to be passed t operations
+ */
+void stip_structure_traversal_init_nested(stip_structure_traversal *st,
+                                          stip_structure_traversal *parent,
+                                          void *param)
+{
+  {
+    unsigned int i;
+    for (i = 0; i!=max_nr_slices; ++i)
+      st->traversed[i] = slice_not_traversed;
+  }
+
+  {
+    slice_type i;
+    for (i = 0; i!=nr_slice_types; ++i)
+      st->map.visitors[i] = structure_children_traversers[i];
+  }
+
+  st->level = parent->level;
+  st->context = parent->context;
+
+  st->param = param;
+}
+
 /* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor (note: subclasses of type

@@ -83,9 +83,10 @@ void optimise_final_defense_moves_move_generator(slice_index si,
     stip_structure_traversal st_nested;
     Goal goal = { no_goal, initsquare };
 
-    stip_structure_traversal_init(&st_nested,&goal);
-    st_nested.context = st->context;
-    stip_structure_traversal_override_single(&st_nested,STGoalReachedTester,&remember_goal);
+    stip_structure_traversal_init_nested(&st_nested,st,&goal);
+    stip_structure_traversal_override_single(&st_nested,
+                                             STGoalReachedTester,
+                                             &remember_goal);
     stip_traverse_structure(si,&st_nested);
 
     if (goal.type!=no_goal)

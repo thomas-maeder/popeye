@@ -191,20 +191,21 @@ enum
                                    / sizeof goal_move_oriented_testers[0])
 };
 
-static boolean is_goal_move_oriented(slice_index goal_reached_tester)
+static boolean is_goal_move_oriented(slice_index goal_reached_tester,
+                                     stip_structure_traversal *st)
 {
   boolean result = true;
-  stip_structure_traversal st;
+  stip_structure_traversal st_nested;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal_reached_tester);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override(&st,
+  stip_structure_traversal_init_nested(&st_nested,st,&result);
+  stip_structure_traversal_override(&st_nested,
                                     goal_move_oriented_testers,
                                     nr_goal_move_oriented_testers);
-  stip_traverse_structure(goal_reached_tester,&st);
+  stip_traverse_structure(goal_reached_tester,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -266,7 +267,7 @@ static void instrument_negated_tester(slice_index si,
     slice_index const proxy_selfcheck = alloc_proxy_slice();
     slice_index const guard = alloc_selfcheck_guard_slice();
     slice_index const leaf_selfcheck = alloc_true_slice();
-    if (is_goal_move_oriented(slices[si].next1))
+    if (is_goal_move_oriented(slices[si].next1,st))
       pipe_link(slices[si].prev,alloc_and_slice(proxy_not,proxy_selfcheck));
     else
       pipe_link(slices[si].prev,alloc_and_slice(proxy_selfcheck,proxy_not));
