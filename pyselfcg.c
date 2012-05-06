@@ -348,7 +348,7 @@ static void suspend_insertion(slice_index si, stip_structure_traversal *st)
 static void remember_last_checked(slice_index si, stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
-  boolean const save_last_checked = state->last_checked;
+  Side const save_last_checked = state->last_checked;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -363,10 +363,31 @@ static void remember_last_checked(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void invert_last_checked(slice_index si, stip_structure_traversal *st)
+{
+  in_branch_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->last_checked==no_side)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    state->last_checked = advers(state->last_checked);
+    stip_traverse_structure_children(si,st);
+    state->last_checked = advers(state->last_checked);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void forget_last_checked(slice_index si, stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
-  boolean const save_last_checked = state->last_checked;
+  Side const save_last_checked = state->last_checked;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -392,6 +413,7 @@ static structure_traversers_visitors in_branch_guards_inserters[] =
   { STNot,                             &instrument_negated_tester                },
   { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals },
   { STSelfCheckGuard,                  &remember_last_checked                    },
+  { STMoveInverter,                    &invert_last_checked                      },
   { STMovePlayed,                      &forget_last_checked                      },
   { STHelpMovePlayed,                  &forget_last_checked                      }
 };
