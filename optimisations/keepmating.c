@@ -157,32 +157,6 @@ static void keepmating_filter_inserter_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_filter_inserter_and(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  insertion_state_type * const state = st->param;
-  insertion_state_type state1 = { { false, false } };
-  insertion_state_type state2 = { { false, false } };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  st->param = &state1;
-  stip_traverse_structure(slices[si].next1,st);
-
-  st->param = &state2;
-  stip_traverse_structure(slices[si].next2,st);
-
-  state->for_side[White] = state1.for_side[White] || state2.for_side[White];
-  state->for_side[Black] = state1.for_side[Black] || state2.for_side[Black];
-
-  st->param = state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static
 void keepmating_filter_inserter_end_of_branch(slice_index si,
                                               stip_structure_traversal *st)
@@ -197,6 +171,24 @@ void keepmating_filter_inserter_end_of_branch(slice_index si,
    */
   stip_traverse_structure_next_branch(si,st);
   stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void keepmating_filter_inserter_binary(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* we can't rely on the (arbitrary) order stip_traverse_structure_children()
+   * would use; instead make sure that we first traverse towards the
+   * goal(s).
+   */
+  stip_traverse_structure(slices[si].next2,st);
+  stip_traverse_structure(slices[si].next1,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -255,14 +247,10 @@ static void keepmating_filter_inserter_help(slice_index si,
 
 static structure_traversers_visitors keepmating_filter_inserters[] =
 {
-  { STNotEndOfBranchGoal,      &keepmating_filter_inserter_battle        },
-  { STReadyForHelpMove,        &keepmating_filter_inserter_help          },
-  { STAnd,                     &keepmating_filter_inserter_and           },
-  { STOr,                      &keepmating_filter_inserter_end_of_branch },
-  { STEndOfBranchGoal,         &keepmating_filter_inserter_end_of_branch },
-  { STEndOfBranchGoalImmobile, &keepmating_filter_inserter_end_of_branch },
-  { STConstraintTester,        &keepmating_filter_inserter_end_of_branch },
-  { STGoalReachedTester,       &keepmating_filter_inserter_goal          }
+  { STTemporaryHackFork,  &stip_traverse_structure_children_pipe },
+  { STNotEndOfBranchGoal, &keepmating_filter_inserter_battle     },
+  { STReadyForHelpMove,   &keepmating_filter_inserter_help       },
+  { STGoalReachedTester,  &keepmating_filter_inserter_goal       }
 };
 
 enum
@@ -289,6 +277,12 @@ void stip_insert_keepmating_filters(slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_end_of_branch,
                                                 &keepmating_filter_inserter_end_of_branch);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &keepmating_filter_inserter_end_of_branch);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
+                                                &keepmating_filter_inserter_binary);
   stip_structure_traversal_override(&st,
                                     keepmating_filter_inserters,
                                     nr_keepmating_filter_inserters);
