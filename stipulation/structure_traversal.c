@@ -329,6 +329,27 @@ static void stip_traverse_structure_children_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traverse the tester of a testing pipe
+ * @param testing_pipe identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
+                                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing_pipe);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  assert(slice_type_get_functional_type(slices[testing_pipe].type)
+         ==slice_function_testing_pipe);
+  if (slices[testing_pipe].next2!=no_slice)
+    stip_traverse_structure(slices[testing_pipe].next2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stip_traverse_structure_children_testing_pipe(slice_index testing_pipe,
                                                           stip_structure_traversal *st)
 {
@@ -338,9 +359,7 @@ static void stip_traverse_structure_children_testing_pipe(slice_index testing_pi
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(testing_pipe,st);
-
-  if (slices[testing_pipe].next2!=no_slice)
-    stip_traverse_structure(slices[testing_pipe].next2,st);
+  stip_traverse_structure_testing_pipe_tester(testing_pipe,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

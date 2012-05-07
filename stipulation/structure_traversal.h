@@ -126,6 +126,13 @@ void stip_structure_visitor_noop(slice_index si, stip_structure_traversal *st);
 void stip_traverse_structure_children_pipe(slice_index pipe,
                                            stip_structure_traversal *st);
 
+/* Traverse the tester of a testing pipe
+ * @param testing_pipe identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
+                                                 stip_structure_traversal *st);
+
 /* Continue a traversal at the start of a branch; this function is typically
  * invoked by an end of branch slice
  * @param branch_entry entry slice into branch

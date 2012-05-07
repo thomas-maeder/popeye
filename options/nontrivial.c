@@ -346,7 +346,7 @@ static void switch_to_testing(slice_index si, stip_structure_traversal *st)
     defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
 
-  stip_traverse_structure(slices[si].next2,st);
+  stip_traverse_structure_testing_pipe_tester(si,st);
   link_to_branch((*copies)[si],(*copies)[slices[si].next2]);
 
   TraceFunctionExit(__func__);

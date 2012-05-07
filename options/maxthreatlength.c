@@ -215,7 +215,7 @@ static void testing_only_testing(slice_index si, stip_structure_traversal *st)
   else
   {
     state->testing = true;
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_testing_pipe_tester(si,st);
     state->testing = false;
 
     stip_traverse_structure_children_pipe(si,st);

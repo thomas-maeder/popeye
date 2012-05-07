@@ -238,7 +238,7 @@ static void remember_testing_testing_pipe(slice_index si, stip_structure_travers
   stip_traverse_structure(slices[si].next2,st);
 
   *testing = true;
-  stip_traverse_structure_next_branch(si,st);
+  stip_traverse_structure_testing_pipe_tester(si,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);
