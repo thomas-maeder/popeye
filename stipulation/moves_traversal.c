@@ -288,6 +288,40 @@ static void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Traverse the tester of a testing pipe
+ * @param testing_pipe identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
+                                             stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing_pipe);
+  TraceFunctionParamListEnd();
+
+  assert(slice_type_get_functional_type(slices[testing_pipe].type)
+         ==slice_function_testing_pipe);
+  if (slices[testing_pipe].next2!=no_slice)
+    stip_traverse_moves_branch(slices[testing_pipe].next2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void stip_traverse_moves_testing_pipe(slice_index testing_pipe,
+                                             stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing_pipe);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_testing_pipe_tester(testing_pipe,st);
+  stip_traverse_moves_pipe(testing_pipe,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stip_traverse_moves_conditional_pipe(slice_index si,
                                                  stip_moves_traversal *st)
 {
@@ -325,9 +359,9 @@ enum { nr_special_moves_children_traversers = sizeof special_moves_children_trav
  * of the following types have been inserted ... */
 static slice_type const dubiously_traversed_slice_types[] =
 {
-    STContinuationSolver,/**/
-    STThreatEnforcer,/**/
-    STNoShortVariations,/**/
+    STContinuationSolver,
+    STThreatEnforcer,
+    STNoShortVariations,
     STMaxNrNonTrivial,
     STMaxThreatLength
 };
@@ -552,6 +586,10 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
     case slice_structure_fork:
       switch (slice_type_get_functional_type(type))
       {
+        case slice_function_testing_pipe:
+          result = &stip_traverse_moves_testing_pipe;
+          break;
+
         case slice_function_conditional_pipe:
           result = &stip_traverse_moves_conditional_pipe;
           break;

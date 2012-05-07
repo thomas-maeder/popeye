@@ -115,6 +115,13 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st);
  */
 void stip_traverse_moves_root(slice_index si, stip_moves_traversal *st);
 
+/* Traverse the tester of a testing pipe
+ * @param testing_pipe identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
+                                             stip_moves_traversal *st);
+
 /* (Approximately) depth-first traversl of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
