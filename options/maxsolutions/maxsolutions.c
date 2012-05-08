@@ -1,4 +1,5 @@
 #include "options/maxsolutions/maxsolutions.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -127,9 +128,6 @@ boolean max_nr_solutions_found_in_phase(void)
   return result;
 }
 
-
-/* Insert STMaxSolutionsGuard slices
- */
 static void insert_maxsolutions_help_filter(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -148,11 +146,7 @@ static void insert_maxsolutions_help_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert STMaxSolutionsGuard slices
- */
-static
-void insert_maxsolutions_attack_adapter(slice_index si,
-                                        stip_structure_traversal *st)
+static void insert_guard_and_counter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -172,35 +166,42 @@ void insert_maxsolutions_attack_adapter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert STMaxSolutionsGuard slices
- */
-static void insert_maxsolutions_solvable_filter(slice_index si,
-                                                stip_structure_traversal *st)
+static void insert_counter(slice_index si, stip_structure_traversal *st)
 {
+  boolean * const inserted = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    switch (st->context)
-    {
-      case stip_traversal_context_attack:
-        attack_branch_insert_slices(si,&prototype,1);
-        break;
+    branch_insert_slices(slices[si].next2,&prototype,1);
+    *inserted = true;
+  }
 
-      case stip_traversal_context_defense:
-        defense_branch_insert_slices(si,&prototype,1);
-        break;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-      case stip_traversal_context_help:
-        help_branch_insert_slices(si,&prototype,1);
-        break;
+static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const inserted = st->param;
 
-      default:
-        assert(0);
-        break;
-    }
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (st->context==stip_traversal_context_help && !*inserted)
+  {
+    slice_index const prototype = alloc_maxsolutions_counter_slice();
+    help_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+    *inserted = true;
   }
 
   TraceFunctionExit(__func__);
@@ -209,10 +210,13 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STMaxSolutionsGuard, &stip_structure_visitor_noop         },
-  { STReadyForHelpMove,  &insert_maxsolutions_help_filter     },
-  { STAttackAdapter,     &insert_maxsolutions_attack_adapter  },
-  { STGoalReachedTester, &insert_maxsolutions_solvable_filter }
+  { STMaxSolutionsGuard,       &stip_structure_visitor_noop     },
+  { STReadyForHelpMove,        &insert_maxsolutions_help_filter },
+  { STAttackAdapter,           &insert_guard_and_counter        },
+  { STDefenseAdapter,          &stip_structure_visitor_noop     },
+  { STEndOfBranch,             &insert_counter                  },
+  { STEndOfBranchGoal,         &insert_counter_at_goal          },
+  { STEndOfBranchGoalImmobile, &insert_counter_at_goal          }
 };
 
 enum
@@ -228,6 +232,7 @@ enum
 void stip_insert_maxsolutions_filters(slice_index si)
 {
   stip_structure_traversal st;
+  boolean inserted = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -247,7 +252,7 @@ void stip_insert_maxsolutions_filters(slice_index si)
     branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&inserted);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_conditional_pipe,
                                                 &stip_traverse_structure_children_pipe);

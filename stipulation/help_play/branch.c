@@ -70,7 +70,6 @@ static slice_index const slice_rank_order[] =
   STOpponentMovesCounter,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
-  STMaxSolutionsCounter,
   STRestartGuard,
   STKeepMatingFilter,
   STIntelligentLimitNrSolutionsPerTargetPos,
@@ -108,7 +107,8 @@ enum
 
 static void help_branch_insert_slices_impl(slice_index si,
                                            slice_index const prototypes[],
-                                           unsigned int nr_prototypes)
+                                           unsigned int nr_prototypes,
+                                           slice_index base)
 {
   stip_structure_traversal st;
   branch_slice_insertion_state_type state =
@@ -124,7 +124,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[si].type,&state);
+  state.base_rank = get_slice_rank(slices[base].type,&state);
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
@@ -153,7 +153,28 @@ void help_branch_insert_slices_nested(slice_index adapter,
   TraceFunctionParamListEnd();
 
   assert(slices[adapter].type==STHelpAdapter);
-  help_branch_insert_slices_impl(adapter,prototypes,nr_prototypes);
+  help_branch_insert_slices_impl(adapter,prototypes,nr_prototypes,adapter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Like help_branch_insert_slices, but starting at a proxy slice
+ * @param base used instead of si for determining the current position in the
+ *             sequence of defense branches
+ */
+void help_branch_insert_slices_behind_proxy(slice_index si,
+                                            slice_index const prototypes[],
+                                            unsigned int nr_prototypes,
+                                            slice_index base)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  help_branch_insert_slices_impl(si,prototypes,nr_prototypes,base);
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -176,7 +197,7 @@ void help_branch_insert_slices(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  help_branch_insert_slices_impl(si,prototypes,nr_prototypes);
+  help_branch_insert_slices_impl(si,prototypes,nr_prototypes,si);
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);

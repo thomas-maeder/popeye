@@ -388,6 +388,7 @@ static slice_index const slice_rank_order[] =
   STStopOnShortSolutionsInitialiser,
   STEndOfPhaseWriter,
   STImmobilityTester,
+  STMaxSolutionsCounter,
   STAttackAdapter,
   STDefenseAdapter,
   STHelpAdapter

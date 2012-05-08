@@ -80,6 +80,15 @@ void help_branch_insert_slices(slice_index si,
                                slice_index const prototypes[],
                                unsigned int nr_prototypes);
 
+/* Like help_branch_insert_slices, but starting at a proxy slice
+ * @param base used instead of si for determining the current position in the
+ *             sequence of defense branches
+ */
+void help_branch_insert_slices_behind_proxy(slice_index si,
+                                            slice_index const prototypes[],
+                                            unsigned int nr_prototypes,
+                                            slice_index base);
+
 /* Insert slices into a help branch; the elements of
  * prototypes are *not* deallocated by help_branch_insert_slices_nested().
  * The inserted slices are copies of the elements of prototypes).
