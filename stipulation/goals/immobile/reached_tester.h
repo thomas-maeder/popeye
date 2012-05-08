@@ -25,8 +25,8 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
  * @param si identifies slice
  * @param st address of structure that holds the state of the traversal
  */
-void impose_starter_immobility_tester(slice_index si,
-                                      stip_structure_traversal *st);
+void impose_starter_goal_immobile_tester(slice_index si,
+                                         stip_structure_traversal *st);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index

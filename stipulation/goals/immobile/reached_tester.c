@@ -74,8 +74,8 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
  * @param si identifies slice
  * @param st address of structure that holds the state of the traversal
  */
-void impose_starter_immobility_tester(slice_index si,
-                                      stip_structure_traversal *st)
+void impose_starter_goal_immobile_tester(slice_index si,
+                                         stip_structure_traversal *st)
 {
   Side * const starter = st->param;
 
@@ -93,7 +93,7 @@ void impose_starter_immobility_tester(slice_index si,
                               ? slices[si].starter
                               : advers(slices[si].starter));
     *starter = immobilised;
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_conditional_pipe_tester(si,st);
   }
 
   *starter = slices[si].starter;
