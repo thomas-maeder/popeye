@@ -102,7 +102,7 @@ static void insert_move_iterator_move_testing_pipe(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   *testing = true;
-  stip_traverse_structure(slices[si].next2,st);
+  stip_traverse_structure_testing_pipe_tester(si,st);
   *testing = save_testing;
 
   TraceFunctionExit(__func__);

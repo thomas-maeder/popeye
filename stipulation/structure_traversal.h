@@ -133,6 +133,34 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
 void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
                                                  stip_structure_traversal *st);
 
+/* Traverse the tester of a conditional pipe
+ * @param testing_pipe identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pipe,
+                                                     stip_structure_traversal *st);
+
+/* Traverse operand 1 of a binary slice
+ * @param binary_slice identifies the binary slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_binary_operand1(slice_index binary_slice,
+                                             stip_structure_traversal *st);
+
+/* Traverse operand 2 of a binary slice
+ * @param binary_slice identifies the binary slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_binary_operand2(slice_index binary_slice,
+                                             stip_structure_traversal *st);
+
+/* Traverse the next branch from an end of branch slice
+ * @param end_of_branch identifies the testing pipe
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_end_of_branch_next_branch(slice_index end_of_branch,
+                                                       stip_structure_traversal *st);
+
 /* Continue a traversal at the start of a branch; this function is typically
  * invoked by an end of branch slice
  * @param branch_entry entry slice into branch

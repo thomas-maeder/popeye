@@ -55,7 +55,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
    * Black.
    */
   *starter = Black;
-  stip_traverse_structure(slices[si].next2,st);
+  stip_traverse_structure_conditional_pipe_tester(si,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);

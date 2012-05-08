@@ -537,11 +537,11 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
     slice_index result1;
     slice_index result2;
 
-    stip_traverse_structure(slices[si].next1,st);
+    stip_traverse_structure_binary_operand1(si,st);
     result1 = state->result;
     state->result = no_slice;
 
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_binary_operand2(si,st);
     result2 = state->result;
 
     if (result1==no_slice)

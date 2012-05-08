@@ -77,9 +77,9 @@ void stip_spin_off_testers_and(slice_index si, stip_structure_traversal *st)
     stip_spin_off_testers_binary(si,st);
   else
   {
-    stip_traverse_structure(slices[si].next1,st);
+    stip_traverse_structure_binary_operand1(si,st);
     state->spinning_off = true;
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_binary_operand2(si,st);
     state->spinning_off = false;
 
     assert(state->spun_off[slices[si].next2]!=no_slice);

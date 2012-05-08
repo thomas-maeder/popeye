@@ -150,7 +150,7 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch,
   stip_structure_traversal_override(&st_nested,
                                     min_distance_to_goal_finders,
                                     nr_min_distance_to_goal_finders);
-  stip_traverse_structure(slices[end_of_branch].next2,&st_nested);
+  stip_traverse_structure_end_of_branch_next_branch(end_of_branch,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

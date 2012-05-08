@@ -296,11 +296,11 @@ static void and_immobility(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].next1,st);
+  stip_traverse_structure_binary_operand1(si,st);
   if (*goal_implies_immobility)
   {
     *goal_implies_immobility = false;
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_binary_operand2(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -319,9 +319,9 @@ static void or_immobility(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].next1,st);
+  stip_traverse_structure_binary_operand1(si,st);
   if (!*goal_implies_immobility)
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_binary_operand2(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -93,7 +93,7 @@ static void pretend_no_check(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].next2,st);
+  stip_traverse_structure_binary_operand2(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

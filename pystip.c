@@ -220,7 +220,7 @@ void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(fork,st);
 
   st->level = structure_traversal_level_nested;
-  stip_traverse_structure(slices[fork].next2,st);
+  stip_traverse_structure_conditional_pipe_tester(fork,st);
   st->level = structure_traversal_level_top;
 
   TraceFunctionExit(__func__);

@@ -187,8 +187,8 @@ static void keepmating_filter_inserter_binary(slice_index si,
    * would use; instead make sure that we first traverse towards the
    * goal(s).
    */
-  stip_traverse_structure(slices[si].next2,st);
-  stip_traverse_structure(slices[si].next1,st);
+  stip_traverse_structure_binary_operand2(si,st);
+  stip_traverse_structure_binary_operand1(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

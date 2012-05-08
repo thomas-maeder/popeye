@@ -825,10 +825,10 @@ void intelligent_mode_support_detector_or(slice_index si,
 
   if (state->support!=intelligent_not_supported)
   {
-    stip_traverse_structure(slices[si].next1,st);
+    stip_traverse_structure_binary_operand1(si,st);
     support1 = state->support;
 
-    stip_traverse_structure(slices[si].next2,st);
+    stip_traverse_structure_binary_operand2(si,st);
     support2 = state->support;
 
     /* enumerators are ordered so that the weakest support has the
