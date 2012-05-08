@@ -272,6 +272,44 @@ static void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traverse operand 1 of a binary slice
+ * @param binary_slice identifies the binary slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_binary_operand1(slice_index binary_slice,
+                                         stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",binary_slice);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  if (slices[binary_slice].next1!=no_slice)
+    stip_traverse_moves(slices[binary_slice].next1,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse operand 2 of a binary slice
+ * @param binary_slice identifies the binary slice
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_binary_operand2(slice_index binary_slice,
+                                         stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",binary_slice);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  if (slices[binary_slice].next2!=no_slice)
+    stip_traverse_moves(slices[binary_slice].next2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
 {
 
@@ -279,10 +317,8 @@ static void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].next1!=no_slice)
-    stip_traverse_moves(slices[si].next1,st);
-  if (slices[si].next2!=no_slice)
-    stip_traverse_moves(slices[si].next2,st);
+  stip_traverse_moves_binary_operand1(si,st);
+  stip_traverse_moves_binary_operand2(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
