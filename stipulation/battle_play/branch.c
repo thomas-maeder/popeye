@@ -218,7 +218,7 @@ void attack_branch_insert_slices(slice_index si,
 }
 
 /* Like attack_branch_insert_slices, but starting at a proxy slice
- * @param base_rank used instead of proxy for determining the current position in the
+ * @param base used instead of proxy for determining the current position in the
  *             sequence of defense branches
  */
 void attack_branch_insert_slices_behind_proxy(slice_index proxy,
