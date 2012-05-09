@@ -43,7 +43,6 @@
     ENUMERATOR(STMovePlayed),                                          \
     ENUMERATOR(STHelpMovePlayed),                                      \
     ENUMERATOR(STDummyMove),    /* dummy move */                       \
-    ENUMERATOR(STReadyForDummyMove),                                   \
     ENUMERATOR(STShortSolutionsStart), /* proxy slice marking where we start looking for short battle solutions in line mode */ \
     ENUMERATOR(STCheckZigzagJump),                                     \
     ENUMERATOR(STCheckZigzagLanding),                                  \

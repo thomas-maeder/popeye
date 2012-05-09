@@ -39,7 +39,6 @@ static slice_index const slice_rank_order[] =
   STEndOfIntro,
 
   STReadyForHelpMove,
-  STReadyForDummyMove,
   STHelpHashed,
   STCheckZigzagJump,
   STTestingPrerequisites,
@@ -903,10 +902,10 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const generating = alloc_pipe(STGeneratingMoves);
     slice_index const move = alloc_pipe(STMove);
     slice_index const played1 = alloc_help_move_played_slice();
-    slice_index const not_end_goal = alloc_pipe(STNotEndOfBranchGoal);
+    slice_index const not_end_goal1 = alloc_pipe(STNotEndOfBranchGoal);
     slice_index const deadend = alloc_dead_end_slice();
-    slice_index const ready2 = alloc_pipe(STReadyForDummyMove);
     slice_index const played2 = alloc_help_move_played_slice();
+    slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
 
     result = adapter;
 
@@ -915,11 +914,11 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(testpre,generating);
     pipe_link(generating,move);
     pipe_link(move,played1);
-    pipe_link(played1,not_end_goal);
-    pipe_link(not_end_goal,deadend);
-    pipe_link(deadend,ready2);
-    pipe_link(ready2,played2);
-    pipe_link(played2,adapter);
+    pipe_link(played1,not_end_goal1);
+    pipe_link(not_end_goal1,deadend);
+    pipe_link(deadend,played2);
+    pipe_link(played2,not_end_goal2);
+    pipe_link(not_end_goal2,adapter);
   }
 
   TraceFunctionExit(__func__);

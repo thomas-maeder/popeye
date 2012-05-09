@@ -101,8 +101,7 @@ typedef struct
   Side last_checked;
 } in_branch_insertion_state_type;
 
-static
-void insert_selfcheck_guard_any_branch(slice_index si,
+static void insert_selfcheck_guard_branch(slice_index si,
                                           stip_structure_traversal *st)
 {
   in_branch_insertion_state_type const * const state = st->param;
@@ -133,28 +132,6 @@ void insert_selfcheck_guard_any_branch(slice_index si,
         assert(0);
         break;
     }
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_selfcheck_guard_help_branch(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  in_branch_insertion_state_type const * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_branch_instrumented)
-  {
-    slice_index const prototype = alloc_selfcheck_guard_slice();
-    slices[prototype].starter = slices[si].starter;
-    help_branch_insert_slices(si,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
@@ -404,8 +381,7 @@ static void forget_last_checked(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors in_branch_guards_inserters[] =
 {
-  { STNotEndOfBranchGoal,              &insert_selfcheck_guard_any_branch        },
-  { STReadyForDummyMove,               &insert_selfcheck_guard_help_branch       },
+  { STNotEndOfBranchGoal,              &insert_selfcheck_guard_branch            },
   { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
   { STCounterMateFilter,               &stip_traverse_structure_children_pipe    },
   { STIsardamDefenderFinder,           &stip_traverse_structure_children_pipe    },
