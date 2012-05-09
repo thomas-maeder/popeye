@@ -310,8 +310,6 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy].type!=STMovePlayed);
-
   state.base_rank = get_slice_rank(STMovePlayed,&state);
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
