@@ -75,54 +75,148 @@ void attack_adapter_make_intro(slice_index adapter,
   TraceFunctionResultEnd();
 }
 
-/* Attempt to add set play to an attack stipulation (battle play, not
- * postkey only)
- * @param adapter identifies attack adapter slice
- * @param st address of structure representing traversal
+/* Apply setplay to a branch with alternate moves
+ * @param adapter STAttackAdapter slice
+ * @param st holds the setplay application traversal
  */
-void attack_adapter_apply_setplay(slice_index adapter, stip_structure_traversal *st)
+static void apply_setplay_alternate(slice_index adapter,
+                                    stip_structure_traversal *st)
 {
   spin_off_state_type * const state = st->param;
-  stip_length_type const length = slices[adapter].u.branch.length;
-  stip_length_type const min_length = slices[adapter].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length)
-  {
-    slice_index zigzag = branch_find_slice(STCheckZigzagJump,adapter);
-    if (zigzag==no_slice)
-    {
-      battle_branch_make_setplay(adapter,state);
-      if (state->spun_off[adapter]!=no_slice)
-      {
-        slice_index const nested = state->spun_off[adapter];
-        state->spun_off[adapter] = alloc_defense_adapter_slice(length-1,min_length-1);
-        link_to_branch(state->spun_off[adapter],nested);
-      }
-    }
-    else
-    {
-      /* set play of some pser stipulation */
-      slice_index const proto = alloc_defense_adapter_slice(slack_length,
-                                                            slack_length);
-      attack_branch_insert_slices(adapter,&proto,1);
+  battle_branch_make_setplay(adapter,state);
 
-      {
-        slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
-                                                              adapter);
-        assert(defense_adapter!=no_slice);
-        battle_branch_make_root_slices(defense_adapter,state);
-        assert(state->spun_off[defense_adapter]!=no_slice);
-        state->spun_off[adapter] = state->spun_off[defense_adapter];
-        pipe_remove(defense_adapter);
-      }
-    }
+  if (state->spun_off[adapter]!=no_slice)
+  {
+    stip_length_type const length = slices[adapter].u.branch.length;
+    stip_length_type const min_length = slices[adapter].u.branch.min_length;
+    slice_index const nested = state->spun_off[adapter];
+    state->spun_off[adapter] = alloc_defense_adapter_slice(length-1,
+                                                           min_length-1);
+    link_to_branch(state->spun_off[adapter],nested);
   }
 
-  TraceValue("%u\n",state->spun_off[adapter]);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Apply setplay to a series branch
+ * @param adapter STAttackAdapter slice
+ * @param st holds the setplay application traversal
+ */
+static void apply_setplay_series(slice_index adapter,
+                                 stip_structure_traversal *st)
+{
+  spin_off_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const proto = alloc_defense_adapter_slice(slack_length,
+                                                          slack_length);
+    attack_branch_insert_slices(adapter,&proto,1);
+  }
+
+  {
+    slice_index const defense_adapter = branch_find_slice(STDefenseAdapter,
+                                                          adapter);
+    assert(defense_adapter!=no_slice);
+    battle_branch_make_root_slices(defense_adapter,state);
+    assert(state->spun_off[defense_adapter]!=no_slice);
+    state->spun_off[adapter] = state->spun_off[defense_adapter];
+    pipe_remove(defense_adapter);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember a defense move in the normal path
+ * @param si STMove slice
+ * @st holds the defense move finding traversal
+ */
+static void remember_defense(slice_index si,
+                             stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->context==stip_traversal_context_defense)
+    *result = true;
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Is there a defense move in the "normal" path?
+ * @param adapter identifies STAttackAdapter slice
+ * @param st holds the setplay application traversal
+ * @return true iff there is a defense move on the normal path
+ */
+static boolean find_defense_in_normal_path(slice_index adapter,
+                                           stip_structure_traversal *st)
+{
+  boolean result = false;
+  stip_structure_traversal st_nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init_nested(&st_nested,st,&result);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_end_of_branch,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st_nested,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STCheckZigzagJump,
+                                           &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STMove,
+                                           &remember_defense);
+  stip_traverse_structure(adapter,&st_nested);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Attempt to add set play to an attack stipulation (battle play, not
+ * postkey only)
+ * @param adapter identifies attack adapter slice
+ * @param st address of structure representing traversal
+ */
+void attack_adapter_apply_setplay(slice_index adapter,
+                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",adapter);
+  TraceFunctionParamListEnd();
+
+  if (slices[adapter].u.branch.length>slack_length)
+  {
+    if (find_defense_in_normal_path(adapter,st))
+      apply_setplay_alternate(adapter,st);
+    else
+      apply_setplay_series(adapter,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
