@@ -68,11 +68,6 @@ static void insert_reset_unsolvable_defense(slice_index si,
     slice_index const prototype = alloc_reset_unsolvable_slice();
     defense_branch_insert_slices(si,&prototype,1);
   }
-  else if (st->context==stip_traversal_context_attack)
-  {
-    slice_index const prototype = alloc_reset_unsolvable_slice();
-    attack_branch_insert_slices(si,&prototype,1);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
