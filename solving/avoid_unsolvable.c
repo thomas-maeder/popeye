@@ -36,8 +36,8 @@ slice_index alloc_avoid_unsolvable_slice(slice_index proxy_op1,
   return result;
 }
 
-static void insert_reset_unusable_attack(slice_index si,
-                                         stip_structure_traversal *st)
+static void insert_reset_unsolvable_attack(slice_index si,
+                                           stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,8 +54,8 @@ static void insert_reset_unusable_attack(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_reset_unusable_defense(slice_index si,
-                                          stip_structure_traversal *st)
+static void insert_reset_unsolvable_defense(slice_index si,
+                                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -68,13 +68,18 @@ static void insert_reset_unusable_defense(slice_index si,
     slice_index const prototype = alloc_reset_unsolvable_slice();
     defense_branch_insert_slices(si,&prototype,1);
   }
+  else if (st->context==stip_traversal_context_attack)
+  {
+    slice_index const prototype = alloc_reset_unsolvable_slice();
+    attack_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void insert_reset_unusable_help(slice_index si,
-                                       stip_structure_traversal *st)
+static void insert_reset_unsolvable_help(slice_index si,
+                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -91,7 +96,7 @@ static void insert_reset_unusable_help(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
+static void insert_avoid_unsolvable(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -116,14 +121,13 @@ static void insert_avoid_unusable(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const avoid_unusable_inserters[] =
 {
-  { STAttackAdapter,         &insert_reset_unusable_attack  },
-  { STHelpAdapter,           &insert_reset_unusable_help    },
-  { STMove,                  &insert_reset_unusable_defense },
-  { STDummyMove,             &insert_reset_unusable_defense },
-  { STEndOfBranchGoal,       &insert_avoid_unusable         },
-  { STCounterMateFilter,     &insert_avoid_unusable         },
-  { STDoubleMateFilter,      &insert_avoid_unusable         },
-  { STPrerequisiteOptimiser, &insert_avoid_unusable         }
+  { STAttackAdapter,         &insert_reset_unsolvable_attack  },
+  { STHelpAdapter,           &insert_reset_unsolvable_help    },
+  { STMovePlayed,            &insert_reset_unsolvable_defense },
+  { STEndOfBranchGoal,       &insert_avoid_unsolvable         },
+  { STCounterMateFilter,     &insert_avoid_unsolvable         },
+  { STDoubleMateFilter,      &insert_avoid_unsolvable         },
+  { STPrerequisiteOptimiser, &insert_avoid_unsolvable         }
 };
 
 enum
@@ -146,7 +150,7 @@ void stip_insert_avoid_unsolvable_forks(slice_index root_slice)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_end_of_branch,
-                                                &insert_avoid_unusable);
+                                                &insert_avoid_unsolvable);
   stip_structure_traversal_override(&st,
                                     avoid_unusable_inserters,
                                     nr_avoid_unusable_inserters);
