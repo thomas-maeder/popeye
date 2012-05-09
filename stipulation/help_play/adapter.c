@@ -87,18 +87,6 @@ static void count_move_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void pretend_no_check(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_binary_operand2(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static unsigned int count_move_slices(slice_index si, stip_structure_traversal *st)
 {
   unsigned int result = 0;
@@ -109,9 +97,15 @@ static unsigned int count_move_slices(slice_index si, stip_structure_traversal *
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init_nested(&st_nested,st,&result);
-  stip_structure_traversal_override_by_structure(&st_nested,slice_structure_fork,&stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st_nested,STMove,&count_move_slice);
-  stip_structure_traversal_override_single(&st_nested,STCheckZigzagJump,&pretend_no_check);
+  stip_structure_traversal_override_by_structure(&st_nested,
+                                                 slice_structure_fork,
+                                                 &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STMove,
+                                           &count_move_slice);
+  stip_structure_traversal_override_single(&st_nested,
+                                           STCheckZigzagJump,
+                                           &stip_traverse_structure_binary_operand1);
   stip_traverse_structure(si,&st_nested);
 
   TraceFunctionExit(__func__);

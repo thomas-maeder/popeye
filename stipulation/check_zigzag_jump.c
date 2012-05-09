@@ -54,7 +54,7 @@ stip_length_type check_zigzag_jump_defend(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
+  succ = echecc(nbply,slices[si].starter) ? op2 : op1;
   result = defend(succ,n);
 
   TraceFunctionExit(__func__);
@@ -83,7 +83,7 @@ stip_length_type check_zigzag_jump_attack(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  succ = echecc(nbply,slices[si].starter) ? op1 : op2;
+  succ = echecc(nbply,slices[si].starter) ? op2 : op1;
   result = attack(succ,n);
 
   TraceFunctionExit(__func__);
@@ -115,8 +115,8 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     assert(ready!=no_slice);
     assert(deadend!=no_slice);
     defense_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy1,slices[deadend].next1);
-    pipe_link(proxy2,dummy);
+    pipe_link(proxy2,slices[deadend].next1);
+    pipe_link(proxy1,dummy);
     pipe_link(dummy,played);
     pipe_link(deadend,jump);
 
@@ -151,8 +151,8 @@ void help_branch_insert_check_zigzag(slice_index adapter)
 
     assert(ready!=no_slice);
     help_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy1,slices[ready].next1);
-    pipe_link(proxy2,played);
+    pipe_link(proxy2,slices[ready].next1);
+    pipe_link(proxy1,played);
     pipe_link(ready,jump);
 
     {
