@@ -116,6 +116,10 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     assert(deadend!=no_slice);
     defense_branch_insert_slices(ready,&landing_proto,1);
     pipe_link(proxy2,slices[deadend].next1);
+    /* the dummy move is needed to make sure that the killer move mechanism
+     * applies to the same play whether the attacker has delivered check or not
+     * TODO only insert the dummy move if the killer move optimisation is used
+     */
     pipe_link(proxy1,dummy);
     pipe_link(dummy,played);
     pipe_link(deadend,jump);
