@@ -175,21 +175,8 @@ static boolean find_defense_in_normal_path(slice_index adapter,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init_nested(&st_nested,st,&result);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_end_of_branch,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st_nested,
-                                           STCheckZigzagJump,
-                                           &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st_nested,
-                                           STMove,
-                                           &remember_defense);
+  branch_instrument_traversal_for_normal_path(&st_nested);
+  stip_structure_traversal_override_single(&st_nested,STMove,&remember_defense);
   stip_traverse_structure(adapter,&st_nested);
 
   TraceFunctionExit(__func__);

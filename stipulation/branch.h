@@ -99,4 +99,12 @@ void branch_insert_slices(slice_index si,
                           slice_index const prototypes[],
                           unsigned int nr_prototypes);
 
+/* Instrument a traversal for traversing the "normal path" through a branch.
+ * In particular, the traversal won't enter nested branches.
+ * @param st traversal to be instrumented
+ * @note The caller must already have invoked a stip_structure_traversal_init*
+ *       function on st
+ */
+void branch_instrument_traversal_for_normal_path(stip_structure_traversal *st);
+
 #endif

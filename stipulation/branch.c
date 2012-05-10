@@ -677,3 +677,32 @@ void branch_shorten_slices(slice_index start, slice_type end_type)
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
 }
+
+
+/* Instrument a traversal for traversing the "normal path" through a branch.
+ * In particular, the traversal won't enter nested branches.
+ * @param st traversal to be instrumented
+ * @note The caller must already have invoked a stip_structure_traversal_init*
+ *       function on st
+ */
+void branch_instrument_traversal_for_normal_path(stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_end_of_branch,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(st,
+                                           STCheckZigzagJump,
+                                           &stip_traverse_structure_children_pipe);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
