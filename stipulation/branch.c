@@ -64,7 +64,7 @@ static void start_nested_insertion_traversal(slice_index si,
 
   stip_structure_traversal_init_nested(&st_nested,outer,state);
   st_nested.map = outer->map;
-  stip_traverse_structure(slices[si].next1,&st_nested);
+  stip_traverse_structure_children_pipe(si,&st_nested);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -587,7 +587,7 @@ slice_index branch_find_slice(slice_type type, slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_binary,
                                                 &branch_find_slice_binary);
-  stip_traverse_structure(slices[si].next1,&st);
+  stip_traverse_structure_children_pipe(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",state.result);

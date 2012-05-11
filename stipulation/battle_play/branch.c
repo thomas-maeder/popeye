@@ -188,7 +188,7 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   state.base_rank = get_slice_rank(slices[adapter].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,context);
-  stip_traverse_structure(slices[adapter].next1,&st);
+  stip_traverse_structure_children_pipe(adapter,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -255,7 +255,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   ++state.base_rank;
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
-  stip_traverse_structure(slices[proxy].next1,&st);
+  stip_traverse_structure_children_pipe(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -319,7 +319,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   ++state.base_rank;
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
-  stip_traverse_structure(slices[proxy].next1,&st);
+  stip_traverse_structure_children_pipe(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -625,7 +625,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
   stip_structure_traversal_override_single(&st,
                                            STHelpAdapter,
                                            &stip_structure_visitor_noop);
-  stip_traverse_structure(slices[root_proxy].next1,&st);
+  stip_traverse_structure_children_pipe(root_proxy,&st);
 
   if (postkey_slice==no_slice)
     result = false;

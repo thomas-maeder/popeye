@@ -128,7 +128,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   ++state.base_rank;
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
-  stip_traverse_structure(slices[si].next1,&st);
+  stip_traverse_structure_children_pipe(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

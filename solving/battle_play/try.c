@@ -642,7 +642,7 @@ static void spin_off_from_refutations_solver(slice_index si,
   stip_structure_traversal_override(&st_nested,
                                     to_refutation_branch_copiers,
                                     nr_to_refutation_branch_copiers);
-  stip_traverse_structure(slices[si].next1,&st_nested);
+  stip_traverse_structure_children_pipe(si,&st_nested);
 
   assert(spun_off!=no_slice);
   slices[si].next2 = alloc_proxy_slice();
